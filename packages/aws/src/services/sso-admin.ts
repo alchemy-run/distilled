@@ -913,9 +913,11 @@ export interface ListCustomerManagedPolicyReferencesInPermissionSetResponse {
   CustomerManagedPolicyReferences?: CustomerManagedPolicyReference[] | undefined;
   NextToken?: string | undefined;
 }
+export type RegionScope = "CURRENT_REGION" | "ALL_REGIONS" | (string & {});
 export interface ListInstancesRequest {
   MaxResults?: number | undefined;
   NextToken?: string | undefined;
+  RegionScope?: RegionScope | undefined;
 }
 export interface InstanceMetadata {
   InstanceArn?: string | undefined;
@@ -3926,7 +3928,7 @@ export type UpdateInstanceError =
  *
  * - Enable permission sets for the instance by specifying `PermissionSetsEnabled`.
  *
- * A request that specifies both `EncryptionConfiguration` and `PermissionSetsEnabled` returns a `ValidationException`. To perform both operations, call `UpdateInstance` separately for each. The two calls can be made in parallel.
+ * If you specify both `EncryptionConfiguration` and `PermissionSetsEnabled` in a request, the request returns a `ValidationException`. To perform both operations, call `UpdateInstance` separately for each. You can make the two calls in parallel.
  */
 export const updateInstance: API.OperationMethod<
   UpdateInstanceRequest & RegionInput,
@@ -5180,9 +5182,11 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          RegionScope: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListInstancesRequest" });
     case 1:
       return S.suspend(() =>

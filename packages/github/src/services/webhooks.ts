@@ -216,6 +216,7 @@ export interface RepositoryWebhooksTemplateRepository {
   updated_at?: string | undefined;
   permissions?: RepositoryWebhooksTemplateRepositoryPermissions | undefined;
   allow_rebase_merge?: boolean | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | undefined;
   allow_squash_merge?: boolean | undefined;
   allow_auto_merge?: boolean | undefined;
@@ -348,6 +349,7 @@ export interface RepositoryWebhooks {
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
   template_repository?: RepositoryWebhooksTemplateRepository | null | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
@@ -805,6 +807,7 @@ export interface MinimalRepository {
   updated_at?: string | null | undefined;
   permissions?: RepositoryWebhooksTemplateRepositoryPermissions | undefined;
   role_name?: string | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | undefined;
   delete_branch_on_merge?: boolean | undefined;
   subscribers_count?: number | undefined;
@@ -2851,6 +2854,8 @@ export interface CustomProperty {
   allowed_values?: CustomPropertyAllowedValuesList | null | undefined;
   /** Who can edit the values of the property */
   values_editable_by?: CustomPropertyValuesEditableBy | null | undefined;
+  /** A regular expression (RE2 syntax) that values of the property must match. Only present for properties with a `value_type` of `string` that define a regular expression. */
+  regex?: string | null | undefined;
   /** Whether setting properties values is mandatory */
   require_explicit_values?: boolean | undefined;
 }
@@ -3049,6 +3054,18 @@ export type DependabotAlertReopenedEventAction = "reopened";
 export interface DependabotAlertReopenedEvent {
   action: DependabotAlertReopenedEventAction;
   alert: DependabotAlertInput;
+  installation?: SimpleInstallation | undefined;
+  organization?: OrganizationSimpleWebhooks | undefined;
+  enterprise?: EnterpriseWebhooks | undefined;
+  repository: RepositoryWebhooks;
+  sender: NullableSimpleUser;
+}
+export type DependabotAlertWithdrawnEventAction = "withdrawn";
+/** Identifiers for a withdrawn Dependabot alert, captured before deletion so that consumers can reconcile external records. This is not a full alert representation. */
+export interface DependabotAlertWithdrawnWebhookInput {}
+export interface DependabotAlertWithdrawnEvent {
+  action: DependabotAlertWithdrawnEventAction;
+  alert: DependabotAlertWithdrawnWebhookInput;
   installation?: SimpleInstallation | undefined;
   organization?: OrganizationSimpleWebhooks | undefined;
   enterprise?: EnterpriseWebhooks | undefined;
@@ -3859,6 +3876,7 @@ export interface Repository {
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
@@ -6296,6 +6314,8 @@ export type AppPermissionsOrganizationCustomProperties = "read" | "write" | "adm
 export type AppPermissionsOrganizationCopilotSeatManagement = "read" | "write";
 /** The level of permission to grant the access token to view and manage Copilot cloud agent settings for an organization. */
 export type AppPermissionsOrganizationCopilotAgentSettings = "read" | "write";
+/** The level of permission to grant the access token to make Copilot requests billed to the organization where the app is installed. This property is in public preview and is subject to change. */
+export type AppPermissionsOrganizationCopilotRequests = "read";
 /** The level of permission to grant the access token for managing external custom properties for repositories in an organization. */
 export type AppPermissionsOrganizationExternalPropertiesForRepos = "read" | "write" | "admin";
 /** The level of permission to grant the access token to view and manage announcement banners for an organization. */
@@ -6412,6 +6432,8 @@ export interface AppPermissions {
     | undefined;
   /** The level of permission to grant the access token to view and manage Copilot cloud agent settings for an organization. */
   organization_copilot_agent_settings?: AppPermissionsOrganizationCopilotAgentSettings | undefined;
+  /** The level of permission to grant the access token to make Copilot requests billed to the organization where the app is installed. This property is in public preview and is subject to change. */
+  organization_copilot_requests?: AppPermissionsOrganizationCopilotRequests | undefined;
   /** The level of permission to grant the access token for managing external custom properties for repositories in an organization. */
   organization_external_properties_for_repos?:
     | AppPermissionsOrganizationExternalPropertiesForRepos
@@ -9522,8 +9544,7 @@ export type WebhooksIssueAuthorAssociation =
   | "MEMBER"
   | "NONE"
   | "OWNER";
-export type WebhooksIssueLabelsItem = IssueCommentCreatedEventIssueLabelsItem;
-export type WebhooksIssueLabelsList = Array<IssueCommentCreatedEventIssueLabelsItem>;
+export type WebhooksIssueLabelsList = Array<WebhooksLabel>;
 export type WebhooksIssueMilestoneCreatorType = "Bot" | "User" | "Organization" | "Mannequin";
 export interface WebhooksIssueMilestoneCreator {
   avatar_url?: string | undefined;
@@ -9921,8 +9942,7 @@ export type IssuesClosedEventIssueAuthorAssociation =
   | "MEMBER"
   | "NONE"
   | "OWNER";
-export type IssuesClosedEventIssueLabelsItem = IssueCommentCreatedEventIssueLabelsItem;
-export type IssuesClosedEventIssueLabelsList = Array<IssueCommentCreatedEventIssueLabelsItem>;
+export type IssuesClosedEventIssueLabelsList = Array<WebhooksLabel>;
 export type IssuesClosedEventIssueMilestoneCreatorType =
   | "Bot"
   | "User"
@@ -11313,8 +11333,7 @@ export type IssuesEditedEventIssueAuthorAssociation =
   | "MEMBER"
   | "NONE"
   | "OWNER";
-export type IssuesEditedEventIssueLabelsItem = IssueCommentCreatedEventIssueLabelsItem;
-export type IssuesEditedEventIssueLabelsList = Array<IssueCommentCreatedEventIssueLabelsItem>;
+export type IssuesEditedEventIssueLabelsList = Array<WebhooksLabel>;
 export type IssuesEditedEventIssueMilestoneCreatorType =
   | "Bot"
   | "User"
@@ -14301,8 +14320,7 @@ export type WebhooksIssue2AuthorAssociation =
   | "MEMBER"
   | "NONE"
   | "OWNER";
-export type WebhooksIssue2LabelsItem = IssueCommentCreatedEventIssueLabelsItem;
-export type WebhooksIssue2LabelsList = Array<IssueCommentCreatedEventIssueLabelsItem>;
+export type WebhooksIssue2LabelsList = Array<WebhooksLabel>;
 export type WebhooksIssue2MilestoneCreatorType = "Bot" | "User" | "Organization";
 export interface WebhooksIssue2MilestoneCreator {
   avatar_url?: string | undefined;
@@ -14697,9 +14715,23 @@ export type IssuesReopenedEventIssueAuthorAssociation =
   | "MEMBER"
   | "NONE"
   | "OWNER";
-export type IssuesReopenedEventIssueLabelsItem = IssueCommentCreatedEventIssueLabelsItem;
-export type IssuesReopenedEventIssueLabelsList =
-  Array<IssueCommentCreatedEventIssueLabelsItem | null>;
+export interface IssuesReopenedEventIssueLabelsItem {
+  /** Timestamp indicating when the label was archived, or `null` if it has not been archived. */
+  archived_at?: string | null | undefined;
+  /** The user who archived the label, or `null` if it has not been archived. */
+  archived_by?: NullableSimpleUser | null | undefined;
+  /** 6-character hex code, without the leading #, identifying the color */
+  color: string;
+  default: boolean;
+  description: string | null;
+  id: number;
+  /** The name of the label. */
+  name: string;
+  node_id: string;
+  /** URL for the label */
+  url: string;
+}
+export type IssuesReopenedEventIssueLabelsList = Array<IssuesReopenedEventIssueLabelsItem | null>;
 export type IssuesReopenedEventIssueMilestoneCreatorType =
   | "Bot"
   | "User"
@@ -16989,6 +17021,7 @@ export interface NullableRepositoryWebhooksTemplateRepository {
   updated_at?: string | undefined;
   permissions?: RepositoryWebhooksTemplateRepositoryPermissions | undefined;
   allow_rebase_merge?: boolean | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | undefined;
   allow_squash_merge?: boolean | undefined;
   allow_auto_merge?: boolean | undefined;
@@ -17124,6 +17157,7 @@ export interface NullableRepositoryWebhooks {
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
   template_repository?: NullableRepositoryWebhooksTemplateRepository | null | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
@@ -43141,7 +43175,7 @@ export interface RepositoryRuleParamsRequiredReviewerConfiguration {
   minimum_approvals: number;
   reviewer: RepositoryRuleParamsReviewer;
 }
-/** > [!NOTE] > `required_reviewers` is in beta and subject to change. A collection of reviewers and associated file patterns. Each reviewer has a list of file patterns which determine the files that reviewer is required to review. */
+/** A collection of reviewers and associated file patterns. Each reviewer has a list of file patterns which determine the files that reviewer is required to review. */
 export type RepositoryRulePullRequestParametersRequiredReviewersList =
   Array<RepositoryRuleParamsRequiredReviewerConfiguration>;
 export interface RepositoryRulePullRequestParameters {
@@ -43152,13 +43186,15 @@ export interface RepositoryRulePullRequestParameters {
   dismissal_restriction?: RepositoryRuleParamsDismissalRestriction | undefined;
   /** Require an approving review in pull requests that modify files that have a designated code owner. */
   require_code_owner_review: boolean;
+  /** When Copilot opens a pull request without a human collaborator, require one more approving review if a non-zero approval count is required. */
+  require_extra_approval_for_unattributed_changes?: boolean | undefined;
   /** Whether the most recent reviewable push must be approved by someone other than the person who pushed it. */
   require_last_push_approval: boolean;
   /** The number of approving reviews that are required before a pull request can be merged. */
   required_approving_review_count: number;
   /** All conversations on code must be resolved before a pull request can be merged. */
   required_review_thread_resolution: boolean;
-  /** > [!NOTE] > `required_reviewers` is in beta and subject to change. A collection of reviewers and associated file patterns. Each reviewer has a list of file patterns which determine the files that reviewer is required to review. */
+  /** A collection of reviewers and associated file patterns. Each reviewer has a list of file patterns which determine the files that reviewer is required to review. */
   required_reviewers?: RepositoryRulePullRequestParametersRequiredReviewersList | undefined;
 }
 /** Require all commits be made to a non-target branch and submitted via a pull request before they can be merged. */
@@ -43385,7 +43421,7 @@ export interface RepositoryRuleCodeCoverageParameters {
   /** The absolute minimum line coverage percentage required. Pull requests with line coverage below this threshold will be blocked. */
   minimum_coverage?: number | undefined;
 }
-/** Enforce minimum line coverage thresholds on pull requests. When configured, uploaded coverage data must meet the specified criteria before changes can be merged. */
+/** Enforce minimum line coverage thresholds on pull requests. This rule evaluates uploaded coverage data but does not wait for coverage uploads. To ensure coverage is evaluated before merging, make each status check associated with a coverage upload a required status check. */
 export interface RepositoryRuleCodeCoverage {
   type: RepositoryRuleCodeCoverageType;
   parameters?: RepositoryRuleCodeCoverageParameters | undefined;
@@ -43397,7 +43433,7 @@ export interface RepositoryRuleCopilotCodeReviewParameters {
   /** Copilot automatically reviews each new push to the pull request. */
   review_on_push?: boolean | undefined;
 }
-/** Request Copilot code review for new pull requests automatically if the author has access to Copilot code review and their premium requests quota has not reached the limit. */
+/** Request Copilot code review for new pull requests automatically if the author has access to Copilot code review and AI credits. */
 export interface RepositoryRuleCopilotCodeReview {
   type: RepositoryRuleCopilotCodeReviewType;
   parameters?: RepositoryRuleCopilotCodeReviewParameters | undefined;
@@ -43408,9 +43444,13 @@ export interface RepositoryRuleLicenseComplianceScanning {
   type: RepositoryRuleLicenseComplianceScanningType;
 }
 export type RepositoryRuleFilePathRestrictionType = "file_path_restriction";
+/** Files matching these patterns are allowed even when they also match a restricted path. */
+export type RepositoryRuleFilePathRestrictionParametersIgnoredFilePathsList = Array<string>;
 /** The file paths that are restricted from being pushed to the commit graph. */
 export type RepositoryRuleFilePathRestrictionParametersRestrictedFilePathsList = Array<string>;
 export interface RepositoryRuleFilePathRestrictionParameters {
+  /** Files matching these patterns are allowed even when they also match a restricted path. */
+  ignored_file_paths?: RepositoryRuleFilePathRestrictionParametersIgnoredFilePathsList | undefined;
   /** The file paths that are restricted from being pushed to the commit graph. */
   restricted_file_paths: RepositoryRuleFilePathRestrictionParametersRestrictedFilePathsList;
 }
@@ -43443,7 +43483,11 @@ export interface RepositoryRuleFileExtensionRestriction {
   parameters?: RepositoryRuleFileExtensionRestrictionParameters | undefined;
 }
 export type RepositoryRuleMaxFileSizeType = "max_file_size";
+/** Files matching these patterns may exceed the maximum size. */
+export type RepositoryRuleMaxFileSizeParametersIgnoredFilePathsList = Array<string>;
 export interface RepositoryRuleMaxFileSizeParameters {
+  /** Files matching these patterns may exceed the maximum size. */
+  ignored_file_paths?: RepositoryRuleMaxFileSizeParametersIgnoredFilePathsList | undefined;
   /** The maximum file size allowed in megabytes. This limit does not apply to Git Large File Storage (Git LFS). */
   max_file_size: number;
 }
@@ -43947,7 +43991,8 @@ export type SecretScanningLocationType =
   | "pull_request_body"
   | "pull_request_comment"
   | "pull_request_review"
-  | "pull_request_review_comment";
+  | "pull_request_review_comment"
+  | "actions_log";
 /** Represents a 'commit' secret scanning location type. This location type shows that a secret was detected inside a commit to a repository. */
 export interface SecretScanningLocationCommit {
   /** The file path in the repository */
@@ -44063,6 +44108,19 @@ export interface SecretScanningLocationPullRequestReviewComment {
   /** The GitHub URL for the pull request review comment where the secret was detected. */
   html_url?: string | undefined;
 }
+/** Represents an 'actions_log' secret scanning location type. The path identifies the workflow definition, while line and column positions identify the secret in the raw job log, not in the workflow file. */
+export interface SecretScanningLocationActionsLog {
+  /** The workflow definition path. Dynamically generated workflows can have a synthetic path. */
+  path: string;
+  /** Line number at which the secret starts in the raw job log. */
+  start_line: number;
+  /** Line number at which the secret ends in the raw job log. */
+  end_line: number;
+  /** The one-based column at which the secret starts within the start line of the raw job log. */
+  start_column: number;
+  /** The one-based column at which the secret ends within the end line of the raw job log. */
+  end_column: number;
+}
 export type SecretScanningLocationDetails =
   | SecretScanningLocationCommit
   | SecretScanningLocationWikiCommit
@@ -44076,7 +44134,8 @@ export type SecretScanningLocationDetails =
   | SecretScanningLocationPullRequestBody
   | SecretScanningLocationPullRequestComment
   | SecretScanningLocationPullRequestReview
-  | SecretScanningLocationPullRequestReviewComment;
+  | SecretScanningLocationPullRequestReviewComment
+  | SecretScanningLocationActionsLog;
 export interface SecretScanningLocation {
   /** The location type. Because secrets may be found in different types of resources (ie. code, comments, issues, pull requests, discussions), this field identifies the type of resource where the secret was found. */
   type?: SecretScanningLocationType | undefined;
@@ -44451,6 +44510,7 @@ export interface NullableRepository {
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
@@ -44586,6 +44646,7 @@ export interface FullRepository {
   permissions?: FullRepositoryPermissions | undefined;
   allow_rebase_merge?: boolean | undefined;
   template_repository?: NullableRepository | null | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | null | undefined;
   allow_squash_merge?: boolean | undefined;
   allow_auto_merge?: boolean | undefined;
@@ -47171,7 +47232,8 @@ export interface WebhookEvents {
     | DependabotAlertDismissedEvent
     | DependabotAlertFixedEvent
     | DependabotAlertReintroducedEvent
-    | DependabotAlertReopenedEvent;
+    | DependabotAlertReopenedEvent
+    | DependabotAlertWithdrawnEvent;
   deploy_key: DeployKeyCreatedEvent | DeployKeyDeletedEvent;
   deployment: DeploymentCreatedEvent;
   deployment_protection_rule: DeploymentProtectionRuleRequestedEvent;

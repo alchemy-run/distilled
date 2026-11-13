@@ -1,7 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import { ConfigError, type InvalidInput } from "@distilled.cloud/core/errors";
 import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * S2Protocol -- the shared bearer-REST protocol instantiated for S2 (s2.dev).
@@ -88,11 +88,6 @@ export const S2Protocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestProto
     412: PreconditionFailed,
     416: RangeNotSatisfiable,
   },
-  unknownError: ({ code, message, body }) =>
-    new UnknownS2Error({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownS2Error(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new S2ParseError({ body, cause }),
 });

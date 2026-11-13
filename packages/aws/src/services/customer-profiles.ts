@@ -1696,6 +1696,9 @@ export interface GetProfileObjectTypeTemplateResponse {
   TemplateId?: string | undefined;
   SourceName?: string | undefined;
   SourceObject?: string | undefined;
+  DefaultMaxProfileObjectCount?: number | undefined;
+  DefaultMaxProfileObjectCountEffectiveAfter?: Date | undefined;
+  StoreOnly?: boolean | undefined;
   AllowProfileCreation?: boolean | undefined;
   SourceLastUpdatedTimestampFormat?: string | undefined;
   Fields?: { [key: string]: ObjectTypeField | undefined } | undefined;
@@ -9716,6 +9719,11 @@ function __c94(j: number): any {
           TemplateId: S.optional(S.String),
           SourceName: S.optional(S.String),
           SourceObject: S.optional(S.String),
+          DefaultMaxProfileObjectCount: S.optional(S.Number),
+          DefaultMaxProfileObjectCountEffectiveAfter: S.optional(
+            S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ),
+          StoreOnly: S.optional(S.Boolean),
           AllowProfileCreation: S.optional(S.Boolean),
           SourceLastUpdatedTimestampFormat: S.optional(S.String),
           Fields: S.optional(__S(801, __c50, 1)),

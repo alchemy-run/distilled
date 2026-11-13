@@ -459,6 +459,8 @@ export interface DatabasePropertyRelationConfigResponseDualProperty {
 export interface DatabasePropertyRelationConfigResponse {
   database_id: string;
   data_source_id: string;
+  /** The maximum number of pages each page can relate to, or null when there is no limit. Read-only. */
+  limit: number | null;
   /** Always `single_property` */
   type?: string | undefined;
   single_property?: unknown | undefined;
@@ -882,6 +884,96 @@ export interface ExternalPageCoverResponse {
   external: ExternalPageIconResponseExternal;
 }
 export type PageCoverResponse = FilePageCoverResponse | ExternalPageCoverResponse;
+export interface DataSourceObjectResponseSyncMetadataHealthCase0Checks {
+  sync_version_updated_at: string;
+  delta_synced_through_at?: string | undefined;
+  last_execution_succeeded_at?: string | undefined;
+}
+export type DataSourceObjectResponseSyncMetadataHealthCase0ErrorSeverity =
+  | "action_required"
+  | "degraded"
+  | "failing";
+export interface DataSourceObjectResponseSyncMetadataHealthCase0Error {
+  code: string;
+  severity: DataSourceObjectResponseSyncMetadataHealthCase0ErrorSeverity;
+}
+export type DataSourceObjectResponseSyncMetadataHealthCase0Stage =
+  | "backfilling"
+  | "initializing"
+  | "steady";
+export interface DataSourceObjectResponseSyncMetadataHealthCase0 {
+  checks: DataSourceObjectResponseSyncMetadataHealthCase0Checks;
+  error: DataSourceObjectResponseSyncMetadataHealthCase0Error;
+  ok: boolean;
+  paused: boolean;
+  stage: DataSourceObjectResponseSyncMetadataHealthCase0Stage;
+}
+export type DataSourceObjectResponseSyncMetadataHealthCase1Checks =
+  DataSourceObjectResponseSyncMetadataHealthCase0Checks;
+export type DataSourceObjectResponseSyncMetadataHealthCase1Stage =
+  | "backfilling"
+  | "initializing"
+  | "steady";
+export interface DataSourceObjectResponseSyncMetadataHealthCase1 {
+  checks: DataSourceObjectResponseSyncMetadataHealthCase0Checks;
+  ok: boolean;
+  paused: boolean;
+  stage: DataSourceObjectResponseSyncMetadataHealthCase1Stage;
+}
+export interface DataSourceObjectResponseSyncMetadataHealthCase2 {
+  paused: boolean;
+}
+/** Live collection sync health. Null means unavailable, not unhealthy. Missing timestamps are unknown. */
+export type DataSourceObjectResponseSyncMetadataHealth =
+  | DataSourceObjectResponseSyncMetadataHealthCase0
+  | DataSourceObjectResponseSyncMetadataHealthCase1
+  | DataSourceObjectResponseSyncMetadataHealthCase2;
+/** The sync provider: github (GitHub), jira (Jira), or salesforce (Salesforce). */
+export type DataSourceObjectResponseSyncMetadataExternalDatabaseSyncProvider =
+  | "github"
+  | "jira"
+  | "salesforce";
+/** Stored identity of an external database sync. */
+export interface DataSourceObjectResponseSyncMetadataExternalDatabaseSync {
+  /** The stored sync ID. This is not a credential. */
+  sync_id: string;
+  /** The sync provider: github (GitHub), jira (Jira), or salesforce (Salesforce). */
+  provider: DataSourceObjectResponseSyncMetadataExternalDatabaseSyncProvider;
+}
+/** The provider of a legacy synced data source: Jira or Salesforce. Values are case-sensitive. */
+export type DataSourceObjectResponseSyncMetadataExternalCollectionType = "Jira" | "Salesforce";
+/** Stored legacy sync state: true means syncing, false means not syncing, and row_limit_exceeded means the row limit stopped syncing. False does not guarantee a successful sync. */
+export type DataSourceObjectResponseSyncMetadataSyncStateSyncing = boolean | string;
+/** Stored state for a legacy synced data source. Missing or invalid timestamps are omitted. This is not a live health check. */
+export interface DataSourceObjectResponseSyncMetadataSyncState {
+  /** Stored legacy sync state: true means syncing, false means not syncing, and row_limit_exceeded means the row limit stopped syncing. False does not guarantee a successful sync. */
+  syncing: DataSourceObjectResponseSyncMetadataSyncStateSyncing;
+  /** Stored legacy sync update time in UTC ISO 8601 format. This does not guarantee that all source changes have been imported. */
+  last_synced_at?: string | undefined;
+  /** Stored legacy sync checkpoint time in UTC ISO 8601 format. */
+  last_sync_checkpoint_at?: string | undefined;
+  /** Stored legacy sync heartbeat time in UTC ISO 8601 format. */
+  last_sync_heartbeat_at?: string | undefined;
+}
+/** Sync identity and available health, included when listing or retrieving data sources. */
+export interface DataSourceObjectResponseSyncMetadata {
+  /** Live collection sync health. Null means unavailable, not unhealthy. Missing timestamps are unknown. */
+  health?: DataSourceObjectResponseSyncMetadataHealth | null | undefined;
+  /** Notion user who owns the sync credential, included when health is available. */
+  owner_user_id?: string | undefined;
+  /** Provider resource synced to this data source, when available. */
+  resource?: string | undefined;
+  /** Stored identity of an external database sync. */
+  external_database_sync?: DataSourceObjectResponseSyncMetadataExternalDatabaseSync | undefined;
+  /** The provider of a legacy synced data source: Jira or Salesforce. Values are case-sensitive. */
+  external_collection_type?: DataSourceObjectResponseSyncMetadataExternalCollectionType | undefined;
+  /** The stored sync ID when provider details are unavailable. This is not a credential. */
+  sync_id?: string | undefined;
+  /** Stored state for a legacy synced data source. Missing or invalid timestamps are omitted. This is not a live health check. */
+  sync_state?: DataSourceObjectResponseSyncMetadataSyncState | undefined;
+  /** Opaque, developer-defined collection key for a worker sync. It is not a globally unique ID or a credential. Worker status is not included. */
+  synced_collection_key?: string | undefined;
+}
 export interface DataSourceObjectResponse {
   /** The data source object type name. */
   object: string;
@@ -919,6 +1011,8 @@ export interface DataSourceObjectResponse {
   url: string;
   /** The public URL of the data source if it is publicly accessible. */
   public_url: string | null;
+  /** Sync identity and available health, included when listing or retrieving data sources. */
+  sync_metadata?: DataSourceObjectResponseSyncMetadata | undefined;
 }
 export type CreateDataSourceResponseBody =
   | PartialDataSourceObjectResponse
@@ -956,21 +1050,20 @@ export interface ListDataSourceTemplatesResponse {
 }
 /** Property names or IDs to include in each page's `properties` object. Other properties are left out. Repeat the parameter to pass more than one value, for example `filter_properties=title&filter_properties=Status`. Pages that aren't in a data source always return only `title`. */
 export type QueryDataSourceRequestFilterPropertiesList = Array<string>;
-export type QueryDataSourceRequestSortsItemCase0Direction = "ascending" | "descending";
-export interface QueryDataSourceRequestSortsItemCase0 {
+export type ViewSortRequestCase0Direction = "ascending" | "descending";
+export interface ViewSortRequestCase0 {
   property: string;
-  direction: QueryDataSourceRequestSortsItemCase0Direction | (string & {});
+  direction: ViewSortRequestCase0Direction | (string & {});
 }
-export type QueryDataSourceRequestSortsItemCase1Timestamp = "created_time" | "last_edited_time";
-export type QueryDataSourceRequestSortsItemCase1Direction = "ascending" | "descending";
-export interface QueryDataSourceRequestSortsItemCase1 {
-  timestamp: QueryDataSourceRequestSortsItemCase1Timestamp | (string & {});
-  direction: QueryDataSourceRequestSortsItemCase1Direction | (string & {});
+export type ViewSortRequestCase1Timestamp = "created_time" | "last_edited_time";
+export type ViewSortRequestCase1Direction = "ascending" | "descending";
+export interface ViewSortRequestCase1 {
+  timestamp: ViewSortRequestCase1Timestamp | (string & {});
+  direction: ViewSortRequestCase1Direction | (string & {});
 }
-export type QueryDataSourceRequestSortsItem =
-  | QueryDataSourceRequestSortsItemCase0
-  | QueryDataSourceRequestSortsItemCase1;
-export type QueryDataSourceRequestSortsList = Array<QueryDataSourceRequestSortsItem>;
+/** Sort by property name or ID, or by timestamp. */
+export type ViewSortRequest = ViewSortRequestCase0 | ViewSortRequestCase1;
+export type QueryDataSourceRequestSortsList = Array<ViewSortRequest>;
 export interface TextPropertyFilterCase0Case0 {
   equals: string;
 }
@@ -1384,26 +1477,22 @@ export type GroupFilterOperatorArrayItem =
   | PropertyOrTimestampFilter
   | GroupFilterOperatorArrayItemCase1;
 export type GroupFilterOperatorArray = Array<GroupFilterOperatorArrayItem>;
-export interface QueryDataSourceRequestFilterCase0Case0 {
+export interface ViewFilterRequestCase0Case0 {
   or: GroupFilterOperatorArray;
 }
-export interface QueryDataSourceRequestFilterCase0Case1 {
+export interface ViewFilterRequestCase0Case1 {
   and: GroupFilterOperatorArray;
 }
-export type QueryDataSourceRequestFilterCase0 =
-  | QueryDataSourceRequestFilterCase0Case0
-  | QueryDataSourceRequestFilterCase0Case1;
-export type QueryDataSourceRequestFilter =
-  | QueryDataSourceRequestFilterCase0
-  | PropertyFilter
-  | TimestampFilter;
+export type ViewFilterRequestCase0 = ViewFilterRequestCase0Case0 | ViewFilterRequestCase0Case1;
+/** A property filter, timestamp filter, or compound and/or filter. */
+export type ViewFilterRequest = ViewFilterRequestCase0 | PropertyFilter | TimestampFilter;
 /** Optionally filter the results to only include pages or data sources. Regular, non-wiki databases only support page children. The default behavior is no result type filtering, in other words, returning both pages and data sources for wikis. */
 export type QueryDataSourceRequestResultType = "page" | "data_source";
 export interface QueryDataSourceRequest {
   data_source_id: string;
   filter_properties?: QueryDataSourceRequestFilterPropertiesList | undefined;
   sorts?: QueryDataSourceRequestSortsList | undefined;
-  filter?: QueryDataSourceRequestFilter | undefined;
+  filter?: ViewFilterRequest | undefined;
   start_cursor?: string | undefined;
   page_size?: number | undefined;
   /** Whether to return archived pages. When omitted or false, returns non-archived pages. When true, returns archived pages. */
@@ -1765,30 +1854,32 @@ export interface PartialPageObjectResponse {
   /** The ID of the page. */
   id: string;
 }
-export type QueryDataSourceResponseResultsItemCase0 =
+export type PageOrDataSourceListResponseResultsItemCase0 =
   | PageObjectResponse
   | PartialPageObjectResponse;
-export type QueryDataSourceResponseResultsItemCase1 =
+export type PageOrDataSourceListResponseResultsItemCase1 =
   | PartialDataSourceObjectResponse
   | DataSourceObjectResponse;
-export type QueryDataSourceResponseResultsItem =
-  | QueryDataSourceResponseResultsItemCase0
-  | QueryDataSourceResponseResultsItemCase1;
-export type QueryDataSourceResponseResultsList = Array<QueryDataSourceResponseResultsItem>;
-export type QueryDataSourceResponseRequestStatusType = "complete" | "incomplete";
-export type QueryDataSourceResponseRequestStatusIncompleteReason = "query_result_limit_reached";
-export interface QueryDataSourceResponseRequestStatus {
-  type: QueryDataSourceResponseRequestStatusType;
-  incomplete_reason?: QueryDataSourceResponseRequestStatusIncompleteReason | undefined;
+export type PageOrDataSourceListResponseResultsItem =
+  | PageOrDataSourceListResponseResultsItemCase0
+  | PageOrDataSourceListResponseResultsItemCase1;
+export type PageOrDataSourceListResponseResultsList =
+  Array<PageOrDataSourceListResponseResultsItem>;
+export type PageOrDataSourceListResponseRequestStatusType = "complete" | "incomplete";
+export type PageOrDataSourceListResponseRequestStatusIncompleteReason =
+  "query_result_limit_reached";
+export interface PageOrDataSourceListResponseRequestStatus {
+  type: PageOrDataSourceListResponseRequestStatusType;
+  incomplete_reason?: PageOrDataSourceListResponseRequestStatusIncompleteReason | undefined;
 }
-export interface QueryDataSourceResponse {
+export interface PageOrDataSourceListResponse {
   type: string;
   page_or_data_source: unknown;
   object: string;
   next_cursor: string | null;
   has_more: boolean;
-  results: QueryDataSourceResponseResultsList;
-  request_status?: QueryDataSourceResponseRequestStatus | undefined;
+  results: PageOrDataSourceListResponseResultsList;
+  request_status?: PageOrDataSourceListResponseRequestStatus | undefined;
 }
 /** Title of data source as it appears in Notion. */
 export type UpdateDataSourceRequestTitleList = Array<RichTextItemRequest>;
@@ -1955,14 +2046,14 @@ export type QueryDataSourceError = NotionOpError;
 /** Query a data source */
 export const queryDataSource: API.PaginatedOperationMethod<
   QueryDataSourceRequest,
-  QueryDataSourceResponse,
+  PageOrDataSourceListResponse,
   QueryDataSourceError,
   NotionOpContext,
-  QueryDataSourceResponseResultsItem
+  PageOrDataSourceListResponseResultsItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(66, __c4, 2) as any as S.Schema<QueryDataSourceRequest>,
-    output: __S(69, __c4, 5) as any as S.Schema<QueryDataSourceResponse>,
+    output: __S(69, __c4, 5) as any as S.Schema<PageOrDataSourceListResponse>,
     errors: [UnknownNotionError],
     protocol: NotionProtocol,
     retry: Retry.Retry,
@@ -2254,7 +2345,7 @@ function __c4(j: number): any {
           type: S.String,
           incomplete_reason: S.optional(S.String),
         }),
-      ).annotate({ identifier: "QueryDataSourceResponseRequestStatus" });
+      ).annotate({ identifier: "PageOrDataSourceListResponseRequestStatus" });
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -2266,7 +2357,7 @@ function __c4(j: number): any {
           results: __S(67, __c4, 3),
           request_status: S.optional(__S(68, __c4, 4)),
         }),
-      ).annotate({ identifier: "QueryDataSourceResponse" });
+      ).annotate({ identifier: "PageOrDataSourceListResponse" });
   }
 }
 function __c5(j: number): any {

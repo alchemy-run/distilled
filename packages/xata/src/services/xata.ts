@@ -243,9 +243,9 @@ export interface ScaleToZeroConfiguration {
 }
 /** Details about the branch continuous backup configuration */
 export interface BackupConfiguration {
-  /** how long are we keeping the backups around for */
+  /** Number of days of point-in-time recovery to guarantee. You can restore the branch to any point within this many days. To provide this, the most recent full backup taken before the start of the window is always kept, along with all changes made after it. Because of this, restore points older than retentionPeriod are sometimes available, but how far back they go depends on the backup schedule and is not guaranteed. */
   retentionPeriod?: number | undefined;
-  /** time of day/week when we are taking a full backup */
+  /** When to take a full backup, in UTC, in the format D:HH:MM. D is * for every day, or 0-6 for one day of the week (0 is Sunday). If it is not set, a random time on Sunday between 02:00 and 05:59 is used. */
   backupTime?: string | undefined;
 }
 /** The mode used to discriminate between types of branches. */
@@ -729,11 +729,11 @@ export interface GetBackupRequest {
 export interface BackupMetadata {
   /** unique identifier for the backup */
   id: string;
-  /** the branchID the branch associated with the backup */
+  /** ID of the branch that the backup belongs to */
   branchID: string;
-  /** the earlies point in time available for restoring the branch */
+  /** The earliest point in time that the branch can be restored to. It is absent until the first backup of the branch completes. */
   earliestRestore?: string | undefined;
-  /** the latest point in time available for restoring the branch */
+  /** The latest point in time that the branch is known to be restorable to. It is updated from the archived WAL at most every five minutes, so it can be several minutes behind the current time. It is absent until the first backup of the branch completes. */
   latestRestore?: string | undefined;
   /** description of the backup */
   description: string;
@@ -1077,7 +1077,7 @@ export interface GetResourceRequest {
 }
 /** User-inputted metadata based on the registered metadata schema. */
 export type ResourceMetadataMap = { [key: string]: unknown | undefined };
-/** A provisioned Vercel Marketplace resource. Matches Vercel's Partner API "Get Resource" response. Secrets/connection info are returned by Provision Resource, not here. The optional billingPlan, protocolSettings, and notification fields are not yet populated. */
+/** A provisioned Vercel Marketplace resource. Matches Vercel's Partner API "Get Resource" response. Secrets/connection info are returned by Provision Resource, not here. */
 export interface Resource {
   /** The partner-specific resource id. */
   id: string;
@@ -1589,6 +1589,8 @@ export interface RestoreFromBackupRequest {
   scaleToZero?: ScaleToZeroConfiguration | undefined;
   backupConfiguration?: BackupConfiguration | undefined;
   configuration?: ClusterConfiguration | undefined;
+  /** Point in time to restore the source branch to. It must be in the recovery window that getBackup reports, from earliestRestore to latestRestore. If it is not set, the new branch is restored to the end of the archived WAL at the time the restore runs. */
+  targetTime?: string | undefined;
 }
 export interface RotateBranchCredentialsRequest {
   organizationID: string;
@@ -2806,7 +2808,7 @@ export const provisionResource: API.OperationMethod<
 }));
 
 export type QueryError = BadRequest | Forbidden | NotFound | Conflict | XataOpError;
-/** Execute SQL query Execute a single SQL query or a batch of queries against a PostgreSQL branch. **Authentication:** send the branch's PostgreSQL connection string in the `Connection-String` header. The control-plane API key (Bearer token) is **not** accepted on the gateway host. **Routing:** the target branch, region, and endpoint type are taken from the hostname embedded in the connection string, which must match the request host. See the `Connection-String` security scheme for the host format. **Single query:** provide `query` (and optional `params`) at the top level. **Batch:** provide `queries` as an array of query objects, or send the request body as a JSON array. Batch queries execute within a single transaction. */
+/** Execute SQL query Execute a single SQL query or a batch of queries against a PostgreSQL branch. **Authentication:** send the branch's PostgreSQL connection string in the `Connection-String` header. The control-plane API key (Bearer token) is **not** accepted on the gateway host. **Routing:** the target branch, region, and endpoint type are taken from the hostname embedded in the connection string, which must match the request host. See the `Connection-String` security scheme for the host format. **Single query:** provide `query` (and optional `params`) at the top level. **Batch:** provide `queries` as an array of query objects, or send the request body as a JSON array. Batch queries execute within a single transaction. **Errors:** PostgreSQL errors return 400 with their SQLSTATE in `code` and their diagnostic fields. A 503 means the gateway could not reach the database: `08001` when a connection cannot be established and `08006` when an established connection fails. A 503 does not guarantee that replaying a write is safe: a connection failure can leave its outcome unknown. */
 export const query: API.OperationMethod<QueryRequest, QueryResponse, QueryError, XataOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(1171, __c73, 3) as any as S.Schema<QueryRequest>,
@@ -2887,7 +2889,7 @@ export const resendOrganizationInvitation: API.OperationMethod<
 }));
 
 export type RestoreFromBackupError = BadRequest | NotFound | XataOpError;
-/** Create a new branch from a backup of another branch Creates a new backup branch within the specified project. */
+/** Create a new branch from a backup of another branch Creates a new branch from the continuous backup of the source branch. The source branch does not change. The new branch is created in the region and cell of the source branch, and its parentID is the source branch. */
 export const restoreFromBackup: API.OperationMethod<
   RestoreFromBackupRequest,
   BranchShortMetadata,
@@ -4976,6 +4978,7 @@ function __c78(j: number): any {
           scaleToZero: S.optional(__S(1568, __c98, 0)),
           backupConfiguration: S.optional(__S(1584, __c99, 0)),
           configuration: S.optional(__S(448, __c28, 0)),
+          targetTime: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

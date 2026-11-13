@@ -204,6 +204,7 @@ export const StackitProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer.su
 
           return yield* fail(
             new UnknownStackitError({
+              status,
               code:
                 typeof env.code === "string"
                   ? env.code

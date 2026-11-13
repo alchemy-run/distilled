@@ -244,6 +244,8 @@ export type ListLlmPromptsRequestOrderBy =
 export interface ListLlmPromptsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** Return archived prompts instead of active ones. Each archived prompt appears once, at its most recent version. */
+  archived?: boolean | undefined;
   /** Controls how much prompt content is included in the response. 'full' includes the full prompt, 'preview' includes a short prompt_preview, and 'none' omits prompt content entirely. The config field is only included with 'full'. The outline field is always included. * `full` - full * `preview` - preview * `none` - none */
   content?: ListLlmPromptsRequestContent | (string & {}) | undefined;
   /** Filter prompts by the ID of the user who created them. */
@@ -328,6 +330,11 @@ export interface LlmPromptsNameLabelsDestroyRequest {
   label_name: string;
 }
 export interface LlmPromptsNameLabelsDestroyResponse {}
+export interface LlmPromptsNameUnarchiveCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  prompt_name: string;
+}
 export interface UpdateLlmPromptsNameLabelRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -366,8 +373,8 @@ export const createLlmPrompt: API.OperationMethod<
   CreateLlmPromptError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<CreateLlmPromptRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<LLMPrompt>,
+  input: __S(16, __c2, 0) as any as S.Schema<CreateLlmPromptRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<LLMPrompt>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -382,8 +389,8 @@ export const getLlmPromptsName: API.OperationMethod<
   GetLlmPromptsNameError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<GetLlmPromptsNameRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<LLMPromptPublic>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetLlmPromptsNameRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<LLMPromptPublic>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -398,8 +405,8 @@ export const getLlmPromptsResolveName: API.OperationMethod<
   GetLlmPromptsResolveNameError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<GetLlmPromptsResolveNameRequest>,
-  output: __S(70, __c8, 6) as any as S.Schema<LLMPromptResolveResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<GetLlmPromptsResolveNameRequest>,
+  output: __S(78, __c9, 6) as any as S.Schema<LLMPromptResolveResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -414,8 +421,8 @@ export const listLlmPrompts: API.OperationMethod<
   ListLlmPromptsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<ListLlmPromptsRequest>,
-  output: __S(85, __c10, 5) as any as S.Schema<PaginatedLLMPromptListList>,
+  input: __S(88, __c11, 0) as any as S.Schema<ListLlmPromptsRequest>,
+  output: __S(93, __c11, 5) as any as S.Schema<PaginatedLLMPromptListList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -430,8 +437,8 @@ export const llmPromptsNameArchiveCreate: API.OperationMethod<
   LlmPromptsNameArchiveCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<LlmPromptsNameArchiveCreateRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<LlmPromptsNameArchiveCreateResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<LlmPromptsNameArchiveCreateRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<LlmPromptsNameArchiveCreateResponse>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -446,8 +453,8 @@ export const llmPromptsNameDuplicateCreate: API.OperationMethod<
   LlmPromptsNameDuplicateCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<LlmPromptsNameDuplicateCreateRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<LLMPrompt>,
+  input: __S(112, __c14, 0) as any as S.Schema<LlmPromptsNameDuplicateCreateRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<LLMPrompt>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -462,13 +469,29 @@ export const llmPromptsNameLabelsDestroy: API.OperationMethod<
   LlmPromptsNameLabelsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<LlmPromptsNameLabelsDestroyRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<LlmPromptsNameLabelsDestroyResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<LlmPromptsNameLabelsDestroyRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<LlmPromptsNameLabelsDestroyResponse>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LlmPromptsNameLabelsDestroy",
+}));
+
+export type LlmPromptsNameUnarchiveCreateError = Conflict | PosthogOpError;
+export const llmPromptsNameUnarchiveCreate: API.OperationMethod<
+  LlmPromptsNameUnarchiveCreateRequest,
+  LLMPrompt,
+  LlmPromptsNameUnarchiveCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c16, 0) as any as S.Schema<LlmPromptsNameUnarchiveCreateRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<LLMPrompt>,
+  errors: [Conflict],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LlmPromptsNameUnarchiveCreate",
 }));
 
 export type UpdateLlmPromptsNameLabelError = BadRequest | PosthogOpError;
@@ -478,8 +501,8 @@ export const updateLlmPromptsNameLabel: API.OperationMethod<
   UpdateLlmPromptsNameLabelError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<UpdateLlmPromptsNameLabelRequest>,
-  output: __S(72, __c9, 0) as any as S.Schema<LLMPromptLabel>,
+  input: __S(0, __c0, 0) as any as S.Schema<UpdateLlmPromptsNameLabelRequest>,
+  output: __S(80, __c10, 0) as any as S.Schema<LLMPromptLabel>,
   errors: [BadRequest],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -494,8 +517,8 @@ export const updateLlmPromptsNamePartial: API.OperationMethod<
   UpdateLlmPromptsNamePartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2, __c0, 2) as any as S.Schema<UpdateLlmPromptsNamePartialRequest>,
-  output: __S(40, __c5, 0) as any as S.Schema<LLMPrompt>,
+  input: __S(10, __c1, 2) as any as S.Schema<UpdateLlmPromptsNamePartialRequest>,
+  output: __S(48, __c6, 0) as any as S.Schema<LLMPrompt>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -509,19 +532,38 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          prompt_name: S.String.pipe(T.Label()),
+          label_name: S.String.pipe(T.Label()),
+          version: S.Number,
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/projects/{project_id}/llm_prompts/name/{prompt_name}/labels/{label_name}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateLlmPromptsNameLabelRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           old: S.optional(S.String),
           new: S.optional(S.String),
         }),
       ).annotate({ identifier: "LLMPromptEditOperation" });
     case 1:
-      return S.Array(__S(0, __c0, 0));
+      return S.Array(__S(8, __c1, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           prompt_name: S.String.pipe(T.Label()),
           prompt: S.optional(S.Unknown),
-          edits: S.optional(__S(1, __c0, 1)),
+          edits: S.optional(__S(9, __c1, 1)),
           config: S.optional(S.NullOr(S.Unknown)),
           base_version: S.optional(S.Number),
           version_description: S.optional(S.String),
@@ -535,7 +577,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "UpdateLlmPromptsNamePartialRequest" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -551,7 +593,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "CreateLlmPromptRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -561,13 +603,7 @@ function __c2(j: number): any {
         }),
       ).annotate({ identifier: "LLMPromptOutlineEntry" });
     case 1:
-      return S.Array(__S(16, __c2, 0));
-  }
-}
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
+      return S.Array(__S(24, __c3, 0));
   }
 }
 function __c4(j: number): any {
@@ -593,6 +629,12 @@ function __c4(j: number): any {
 function __c5(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -609,14 +651,14 @@ function __c5(j: number): any {
           latest_version: S.optional(S.Number),
           version_count: S.optional(S.Number),
           first_version_created_at: S.optional(S.String),
-          outline: S.optional(__S(17, __c2, 1)),
-          labels: S.optional(__S(24, __c3, 0)),
+          outline: S.optional(__S(25, __c3, 1)),
+          labels: S.optional(__S(40, __c5, 0)),
           activity_item_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "LLMPrompt" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -643,10 +685,10 @@ function __c6(j: number): any {
           prompt: S.optional(S.Unknown),
           config: S.optional(S.NullOr(S.Unknown)),
           prompt_preview: S.optional(S.String),
-          outline: S.optional(__S(17, __c2, 1)),
+          outline: S.optional(__S(25, __c3, 1)),
           version: S.optional(S.Number),
           label: S.optional(S.String),
-          resolved_references: S.optional(__S(57, __c7, 1)),
+          resolved_references: S.optional(__S(65, __c8, 1)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           deleted: S.optional(S.Boolean),
@@ -658,7 +700,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "LLMPromptPublic" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -669,10 +711,10 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "LLMPromptResolvedReference" });
     case 1:
-      return S.Array(__S(56, __c7, 0));
+      return S.Array(__S(64, __c8, 0));
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -701,13 +743,13 @@ function __c8(j: number): any {
           created_by: S.optional(S.NullOr(__S(33, __c4, 1))),
           created_at: S.optional(S.String),
           is_latest: S.optional(S.Boolean),
-          labels: S.optional(__S(24, __c3, 0)),
+          labels: S.optional(__S(40, __c5, 0)),
         }),
       ).annotate({ identifier: "LLMPromptVersionSummary" });
     case 2:
-      return S.Array(__S(65, __c8, 1));
+      return S.Array(__S(73, __c9, 1));
     case 3:
-      return S.Array(__S(72, __c9, 0));
+      return S.Array(__S(80, __c10, 0));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -717,20 +759,20 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "LLMPromptReferencedBy" });
     case 5:
-      return S.Array(__S(68, __c8, 4));
+      return S.Array(__S(76, __c9, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          prompt: S.optional(__S(40, __c5, 0)),
-          versions: S.optional(__S(66, __c8, 2)),
+          prompt: S.optional(__S(48, __c6, 0)),
+          versions: S.optional(__S(74, __c9, 2)),
           has_more: S.optional(S.Boolean),
-          labels: S.optional(__S(67, __c8, 3)),
-          referenced_by: S.optional(__S(69, __c8, 5)),
+          labels: S.optional(__S(75, __c9, 3)),
+          referenced_by: S.optional(__S(77, __c9, 5)),
         }),
       ).annotate({ identifier: "LLMPromptResolveResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -746,12 +788,13 @@ function __c9(j: number): any {
       ).annotate({ identifier: "LLMPromptLabel" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          archived: S.optional(S.Boolean.pipe(T.Query())),
           content: S.optional(S.String.pipe(T.Query())),
           created_by_id: S.optional(S.Number.pipe(T.Query())),
           label: S.optional(S.String.pipe(T.Query())),
@@ -772,7 +815,7 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "LLMPromptLabelSummary" });
     case 2:
-      return S.Array(__S(81, __c10, 1));
+      return S.Array(__S(89, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -790,29 +833,29 @@ function __c10(j: number): any {
           latest_version: S.optional(S.Number),
           version_count: S.optional(S.Number),
           first_version_created_at: S.optional(S.String),
-          outline: S.optional(__S(17, __c2, 1)),
-          labels: S.optional(__S(24, __c3, 0)),
+          outline: S.optional(__S(25, __c3, 1)),
+          labels: S.optional(__S(40, __c5, 0)),
           activity_item_id: S.optional(S.String),
           prompt_preview: S.optional(S.String),
           prompt_size_bytes: S.optional(S.Number),
-          all_labels: S.optional(__S(82, __c10, 2)),
-          resolved_references: S.optional(S.NullOr(__S(57, __c7, 1))),
+          all_labels: S.optional(__S(90, __c11, 2)),
+          resolved_references: S.optional(S.NullOr(__S(65, __c8, 1))),
         }),
       ).annotate({ identifier: "LLMPromptList" });
     case 4:
-      return S.Array(__S(83, __c10, 3));
+      return S.Array(__S(91, __c11, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(84, __c10, 4)),
+          results: S.optional(__S(92, __c11, 4)),
         }),
       ).annotate({ identifier: "PaginatedLLMPromptListList" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -829,7 +872,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "LlmPromptsNameArchiveCreateRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -837,7 +880,7 @@ function __c12(j: number): any {
       });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -855,7 +898,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "LlmPromptsNameDuplicateCreateRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -873,23 +916,21 @@ function __c14(j: number): any {
       ).annotate({ identifier: "LlmPromptsNameLabelsDestroyRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
           prompt_name: S.String.pipe(T.Label()),
-          label_name: S.String.pipe(T.Label()),
-          version: S.Number,
         }).pipe(
           T.Http({
-            method: "PUT",
-            uri: "/api/projects/{project_id}/llm_prompts/name/{prompt_name}/labels/{label_name}/",
+            method: "POST",
+            uri: "/api/projects/{project_id}/llm_prompts/name/{prompt_name}/unarchive/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "UpdateLlmPromptsNameLabelRequest" });
+      ).annotate({ identifier: "LlmPromptsNameUnarchiveCreateRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

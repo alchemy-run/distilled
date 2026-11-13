@@ -84,6 +84,15 @@ export class NotFound
   ) {}
 
 export type StringMap = { [key: string]: string | undefined };
+/** Deployment contains the deployment identification information. */
+export interface Deployment {
+  /** Labels identify the deployment within the user universe and same target. Validation regex for label names: `^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$`. Value for an individual label must be <= 512 bytes, the total size of all label names and values must be <= 1024 bytes. Label named "language" can be used to record the programming language of the profiled deployment. The standard choices for the value include "java", "go", "python", "ruby", "nodejs", "php", "dotnet". For deployments running on Google Cloud Platform, "zone" or "region" label should be present describing the deployment location. An example of a zone is "us-central1-a", an example of a region is "us-central1" or "us-central". */
+  labels?: StringMap | undefined;
+  /** Target is the service name used to group related deployments: * Service name for App Engine Flex / Standard. * Cluster and container name for GKE. * User-specified string for direct Compute Engine profiling (e.g. Java). * Job name for Dataflow. Validation regex: `^[a-z0-9]([-a-z0-9_.]{0,253}[a-z0-9])?$`. */
+  target?: string | undefined;
+  /** Project ID is the ID of a cloud project. Validation regex: `^a-z{4,61}[a-z0-9]$`. */
+  projectId?: string | undefined;
+}
 export type ProfileProfileTypeEnum =
   | "PROFILE_TYPE_UNSPECIFIED"
   | "CPU"
@@ -93,29 +102,20 @@ export type ProfileProfileTypeEnum =
   | "CONTENTION"
   | "PEAK_HEAP"
   | "HEAP_ALLOC";
-/** Deployment contains the deployment identification information. */
-export interface Deployment {
-  /** Project ID is the ID of a cloud project. Validation regex: `^a-z{4,61}[a-z0-9]$`. */
-  projectId?: string | undefined;
-  /** Target is the service name used to group related deployments: * Service name for App Engine Flex / Standard. * Cluster and container name for GKE. * User-specified string for direct Compute Engine profiling (e.g. Java). * Job name for Dataflow. Validation regex: `^[a-z0-9]([-a-z0-9_.]{0,253}[a-z0-9])?$`. */
-  target?: string | undefined;
-  /** Labels identify the deployment within the user universe and same target. Validation regex for label names: `^[a-z0-9]([a-z0-9-]{0,61}[a-z0-9])?$`. Value for an individual label must be <= 512 bytes, the total size of all label names and values must be <= 1024 bytes. Label named "language" can be used to record the programming language of the profiled deployment. The standard choices for the value include "java", "go", "python", "ruby", "nodejs", "php", "dotnet". For deployments running on Google Cloud Platform, "zone" or "region" label should be present describing the deployment location. An example of a zone is "us-central1-a", an example of a region is "us-central1" or "us-central". */
-  labels?: StringMap | undefined;
-}
 /** Profile resource. */
 export interface Profile {
-  /** Input only. Labels associated to this specific profile. These labels will get merged with the deployment labels for the final data set. See documentation on deployment labels for validation rules and limits. */
-  labels?: StringMap | undefined;
-  /** Type of profile. For offline mode, this must be specified when creating the profile. For online mode it is assigned and returned by the server. */
-  profileType?: ProfileProfileTypeEnum | (string & {}) | undefined;
-  /** Duration of the profiling session. Input (for the offline mode) or output (for the online mode). The field represents requested profiling duration. It may slightly differ from the effective profiling duration, which is recorded in the profile data, in case the profiling can't be stopped immediately (e.g. in case stopping the profiling is handled asynchronously). */
-  duration?: string | undefined;
-  /** Input only. Profile bytes, as a gzip compressed serialized proto, the format is https://github.com/google/pprof/blob/master/proto/profile.proto. */
-  profileBytes?: string | undefined;
   /** Output only. Start time for the profile. This output is only present in response from the ListProfiles method. */
   startTime?: string | undefined;
   /** Deployment this profile corresponds to. */
   deployment?: Deployment | undefined;
+  /** Input only. Labels associated to this specific profile. These labels will get merged with the deployment labels for the final data set. See documentation on deployment labels for validation rules and limits. */
+  labels?: StringMap | undefined;
+  /** Input only. Profile bytes, as a gzip compressed serialized proto, the format is https://github.com/google/pprof/blob/master/proto/profile.proto. */
+  profileBytes?: string | undefined;
+  /** Type of profile. For offline mode, this must be specified when creating the profile. For online mode it is assigned and returned by the server. */
+  profileType?: ProfileProfileTypeEnum | (string & {}) | undefined;
+  /** Duration of the profiling session. Input (for the offline mode) or output (for the online mode). The field represents requested profiling duration. It may slightly differ from the effective profiling duration, which is recorded in the profile data, in case the profiling can't be stopped immediately (e.g. in case stopping the profiling is handled asynchronously). */
+  duration?: string | undefined;
   /** Output only. Opaque, server-assigned, unique ID for this profile. */
   name?: string | undefined;
 }
@@ -151,22 +151,22 @@ export interface CreateProjectsProfilesRequest {
   body?: CreateProfileRequest | undefined;
 }
 export interface ListProjectsProfilesRequest {
-  /** Optional. The maximum number of items to return. Default page_size is 1000. Max limit is 1000. */
-  pageSize?: number | undefined;
-  /** Required. The parent, which owns this collection of profiles. Format: projects/{user_project_id} */
-  parent: string;
   /** Optional. The token to continue pagination and get profiles from a particular page. When paginating, all other parameters provided to `ListProfiles` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Required. The parent, which owns this collection of profiles. Format: projects/{user_project_id} */
+  parent: string;
+  /** Optional. The maximum number of items to return. Default page_size is 1000. Max limit is 1000. */
+  pageSize?: number | undefined;
 }
 export type ProfileList = Array<Profile>;
 /** ListProfileResponse contains the list of collected profiles for deployments in projects which the user has permissions to view. */
 export interface ListProfilesResponse {
-  /** List of profiles fetched. */
-  profiles?: ProfileList | undefined;
-  /** Token to receive the next page of results. This field maybe empty if there are no more profiles to fetch. */
-  nextPageToken?: string | undefined;
   /** Number of profiles that were skipped in the current page since they were not able to be fetched successfully. This should typically be zero. A non-zero value may indicate a transient failure, in which case if the number is too high for your use case, the call may be retried. */
   skippedProfiles?: number | undefined;
+  /** Token to receive the next page of results. This field maybe empty if there are no more profiles to fetch. */
+  nextPageToken?: string | undefined;
+  /** List of profiles fetched. */
+  profiles?: ProfileList | undefined;
 }
 export interface PatchProjectsProfilesRequest {
   /** Field mask used to specify the fields to be overwritten. Currently only profile_bytes and labels fields are supported by UpdateProfile, so only those fields can be specified in the mask. When no mask is provided, all fields are overwritten. */
@@ -276,20 +276,20 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.optional(S.String),
-          target: S.optional(S.String),
           labels: S.optional(__S(4, __c1, 0)),
+          target: S.optional(S.String),
+          projectId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Deployment" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(4, __c1, 0)),
-          profileType: S.optional(S.String),
-          duration: S.optional(S.String),
-          profileBytes: S.optional(S.String),
           startTime: S.optional(S.String),
           deployment: S.optional(__S(5, __c1, 1)),
+          labels: S.optional(__S(4, __c1, 0)),
+          profileBytes: S.optional(S.String),
+          profileType: S.optional(S.String),
+          duration: S.optional(S.String),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Profile" });
@@ -326,9 +326,9 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -342,9 +342,9 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          profiles: S.optional(__S(13, __c3, 1)),
-          nextPageToken: S.optional(S.String),
           skippedProfiles: S.optional(S.Number),
+          nextPageToken: S.optional(S.String),
+          profiles: S.optional(__S(13, __c3, 1)),
         }),
       ).annotate({ identifier: "ListProfilesResponse" });
   }

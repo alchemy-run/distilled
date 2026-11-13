@@ -34,6 +34,7 @@ export * as Services from "./services/index.ts";
 // same-named shared ones from ./errors.ts -- the ops actually raise the
 // service-local classes.
 export * from "./services/growthbook.ts";
-// GrowthBook's spec declares only 409 on top of 200, so Conflict is the one
-// typed error class the service emits; everything else rides GrowthBookOpError.
-export { Conflict } from "./services/growthbook.ts";
+// GrowthBook's spec declares only 409 and 422 on top of 200, so Conflict and
+// UnprocessableEntity are the typed error classes the service emits;
+// everything else rides GrowthBookOpError.
+export { Conflict, UnprocessableEntity } from "./services/growthbook.ts";

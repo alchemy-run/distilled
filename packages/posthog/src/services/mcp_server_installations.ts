@@ -58,6 +58,8 @@ export type MCPServerInstallationScopeEnum = "personal" | "shared";
 export interface MCPServerInstallation {
   id?: string | undefined;
   template_id?: string | null | undefined;
+  /** ID of the MCP server this connection belongs to. The MCP server page takes this ID, not the connection id. Null for older connections that are not linked to a server yet. */
+  gateway_server_id: string | null;
   name?: string | undefined;
   /** Deprecated: use icon_domain instead. Lowercase key from the linked template for clients that still render bundled icon assets. Empty if custom install (no template). */
   icon_key?: string | undefined;
@@ -839,6 +841,7 @@ function __c11(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           template_id: S.optional(S.NullOr(S.String)),
+          gateway_server_id: S.NullOr(S.String),
           name: S.optional(S.String),
           icon_key: S.optional(S.String),
           icon_domain: S.optional(S.String),

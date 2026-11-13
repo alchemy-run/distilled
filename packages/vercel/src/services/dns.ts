@@ -82,6 +82,17 @@ export type CreateRecordRequestType =
   | "SRV"
   | "TXT"
   | "NS";
+export interface CreateRecordRequestSrv {
+  priority: number | null;
+  weight: number | null;
+  port: number | null;
+  target: string;
+}
+export interface CreateRecordRequestHttps {
+  priority: number | null;
+  target: string;
+  params?: string | undefined;
+}
 export interface CreateRecordRequest {
   /** The domain used to create the DNS record. */
   domain: string;
@@ -91,6 +102,20 @@ export interface CreateRecordRequest {
   slug?: string | undefined;
   /** The type of record, it could be one of the valid DNS records. */
   type: CreateRecordRequestType | (string & {});
+  /** A subdomain name or an empty string for the root domain. */
+  name?: string | undefined;
+  /** The record value. Required for A, AAAA, ALIAS, CAA, MX and TXT records. */
+  value?: string | undefined;
+  /** The TTL value. Must be a number between 60 and 2147483647. Default value is 60. */
+  ttl?: number | undefined;
+  /** The MX priority value. Required for MX records. */
+  mxPriority?: number | undefined;
+  /** Required for SRV records. */
+  srv?: CreateRecordRequestSrv | undefined;
+  /** Required for HTTPS records. */
+  https?: CreateRecordRequestHttps | undefined;
+  /** A comment to add context on what this DNS record is for */
+  comment?: string | undefined;
 }
 export interface CreateRecordResponseBodyCase0 {
   uid?: string | undefined;
@@ -107,6 +132,10 @@ export type CreateRecordResponse = CreateRecordResponseBody;
 export interface GetDomainsRecordRequest {
   /** The unique ID of the DNS record */
   recordId: string;
+  /** The Team identifier to perform the request on behalf of. */
+  teamId?: string | undefined;
+  /** The Team slug to perform the request on behalf of. */
+  slug?: string | undefined;
 }
 export type GetDomainsRecordResponseRecordType =
   | "A"
@@ -333,8 +362,8 @@ export const createRecord: API.OperationMethod<
   CreateRecordError,
   VercelOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c1, 0) as any as S.Schema<CreateRecordRequest>,
-  output: __S(5, __c1, 1) as any as S.Schema<CreateRecordResponse>,
+  input: __S(6, __c1, 2) as any as S.Schema<CreateRecordRequest>,
+  output: __S(7, __c1, 3) as any as S.Schema<CreateRecordResponse>,
   errors: [BadRequest, PaymentRequired, Forbidden, NotFound, Conflict],
   protocol: VercelProtocol,
   retry: Retry.Retry,
@@ -479,13 +508,37 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          priority: S.NullOr(S.Number),
+          weight: S.NullOr(S.Number),
+          port: S.NullOr(S.Number),
+          target: S.String,
+        }),
+      ).annotate({ identifier: "CreateRecordRequestSrv" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          priority: S.NullOr(S.Number),
+          target: S.String,
+          params: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateRecordRequestHttps" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           domain: S.String.pipe(T.Label()),
           teamId: S.optional(S.String.pipe(T.Query())),
           slug: S.optional(S.String.pipe(T.Query())),
           type: S.String,
+          name: S.optional(S.String),
+          value: S.optional(S.String),
+          ttl: S.optional(S.Number),
+          mxPriority: S.optional(S.Number),
+          srv: S.optional(__S(4, __c1, 0)),
+          https: S.optional(__S(5, __c1, 1)),
+          comment: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/v2/domains/{domain}/records", code: 200 })),
       ).annotate({ identifier: "CreateRecordRequest" });
-    case 1:
+    case 3:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateRecordResponse",
       });
@@ -497,6 +550,8 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           recordId: S.String.pipe(T.Label()),
+          teamId: S.optional(S.String.pipe(T.Query())),
+          slug: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/domains/records/{recordId}", code: 200 })),
       ).annotate({ identifier: "GetDomainsRecordRequest" });
   }

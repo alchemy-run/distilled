@@ -76,6 +76,15 @@ export type EventSubTypeValues =
   | "TaxChanges"
   | "MeterIDChanges"
   | "UnauthorizedPartyAbuse";
+/** An API operation associated with an event. */
+export interface ApiOperationLink {
+  /** HTTP method to use. Resource Health returns GET for Advisor recommendations. */
+  httpMethod: string;
+  /** Opaque absolute ARM URL for the associated API operation. */
+  url: string;
+  /** Human-readable description of the operation. Clients must not parse this value. */
+  description?: string | undefined;
+}
 /** Source of event. */
 export type EventSourceValues = "ResourceHealth" | "ServiceHealth";
 /** Current status of event. */
@@ -205,6 +214,8 @@ export interface EventProperties {
   eventType?: EventTypeValues | undefined;
   /** Sub-type of event. */
   eventSubType?: EventSubTypeValues | undefined;
+  /** Operation for listing Advisor recommendations associated with this event's tracking ID in the response subscription. */
+  advisorRecommendations?: ApiOperationLink | undefined;
   /** Source of event. */
   eventSource?: EventSourceValues | undefined;
   /** Current status of event. */
@@ -936,9 +947,9 @@ export const EventFetchBilllingCommunicationDetailsBySubscriptionIdAndTrackingId
     0,
   ) as any as S.Schema<EventFetchBilllingCommunicationDetailsBySubscriptionIdAndTrackingIdRequest>,
   output: __S(
-    81,
+    82,
     __c2,
-    17,
+    18,
   ) as any as S.Schema<EventFetchBilllingCommunicationDetailsBySubscriptionIdAndTrackingIdResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -961,9 +972,9 @@ export const EventFetchDetailsBySubscriptionIdAndTrackingId: API.OperationMethod
     0,
   ) as any as S.Schema<EventFetchDetailsBySubscriptionIdAndTrackingIdRequest>,
   output: __S(
-    81,
+    82,
     __c2,
-    17,
+    18,
   ) as any as S.Schema<EventFetchDetailsBySubscriptionIdAndTrackingIdResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -981,7 +992,7 @@ export const EventFetchDetailsByTenantIdAndTrackingId: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<EventFetchDetailsByTenantIdAndTrackingIdRequest>,
-  output: __S(81, __c2, 17) as any as S.Schema<EventFetchDetailsByTenantIdAndTrackingIdResponse>,
+  output: __S(82, __c2, 18) as any as S.Schema<EventFetchDetailsByTenantIdAndTrackingIdResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -998,7 +1009,7 @@ export const EventGetBySubscriptionIdAndTrackingId: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<EventGetBySubscriptionIdAndTrackingIdRequest>,
-  output: __S(81, __c2, 17) as any as S.Schema<EventGetBySubscriptionIdAndTrackingIdResponse>,
+  output: __S(82, __c2, 18) as any as S.Schema<EventGetBySubscriptionIdAndTrackingIdResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1015,7 +1026,7 @@ export const EventGetByTenantIdAndTrackingId: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<EventGetByTenantIdAndTrackingIdRequest>,
-  output: __S(81, __c2, 17) as any as S.Schema<EventGetByTenantIdAndTrackingIdResponse>,
+  output: __S(82, __c2, 18) as any as S.Schema<EventGetByTenantIdAndTrackingIdResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -1435,7 +1446,7 @@ function __c0(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/fetchBillingCommunicationDetails",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({
@@ -1454,31 +1465,39 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          httpMethod: S.String,
+          url: S.String,
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApiOperationLink" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           articleContent: S.optional(S.String),
           articleId: S.optional(S.String),
           parameters: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "EventPropertiesArticle" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           value: S.optional(S.String),
           localizedValue: S.optional(S.String),
         }),
       ).annotate({ identifier: "LinkDisplayText" });
-    case 2:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          displayText: S.optional(__S(65, __c2, 1)),
+          displayText: S.optional(__S(66, __c2, 2)),
           extensionName: S.optional(S.String),
           bladeName: S.optional(S.String),
           parameters: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "Link" });
-    case 3:
-      return S.Array(__S(66, __c2, 2));
     case 4:
+      return S.Array(__S(67, __c2, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           summary: S.optional(S.String),
@@ -1486,9 +1505,9 @@ function __c2(j: number): any {
           eventTags: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "Update" });
-    case 5:
-      return S.Array(__S(68, __c2, 4));
     case 6:
+      return S.Array(__S(69, __c2, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           impactedRegion: S.optional(S.String),
@@ -1496,39 +1515,39 @@ function __c2(j: number): any {
           impactedSubscriptions: S.optional(__S(32, __c1, 0)),
           impactedTenants: S.optional(__S(32, __c1, 0)),
           lastUpdateTime: S.optional(S.String),
-          updates: S.optional(__S(69, __c2, 5)),
+          updates: S.optional(__S(70, __c2, 6)),
         }),
       ).annotate({ identifier: "ImpactedServiceRegion" });
-    case 7:
-      return S.Array(__S(70, __c2, 6));
     case 8:
+      return S.Array(__S(71, __c2, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           impactedService: S.optional(S.String),
           impactedServiceGuid: S.optional(S.String),
-          impactedRegions: S.optional(__S(71, __c2, 7)),
+          impactedRegions: S.optional(__S(72, __c2, 8)),
         }),
       ).annotate({ identifier: "Impact" });
-    case 9:
-      return S.Array(__S(72, __c2, 8));
     case 10:
+      return S.Array(__S(73, __c2, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           groupId: S.optional(S.Number),
           actionText: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventPropertiesRecommendedActionsActionsItem" });
-    case 11:
-      return S.Array(__S(74, __c2, 10));
     case 12:
+      return S.Array(__S(75, __c2, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
-          actions: S.optional(__S(75, __c2, 11)),
+          actions: S.optional(__S(76, __c2, 12)),
           localeCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventPropertiesRecommendedActions" });
-    case 13:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           question: S.optional(S.String),
@@ -1536,19 +1555,20 @@ function __c2(j: number): any {
           localeCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "Faq" });
-    case 14:
-      return S.Array(__S(77, __c2, 13));
     case 15:
+      return S.Array(__S(78, __c2, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventPropertiesAdditionalInformation" });
-    case 16:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           eventType: S.optional(S.String),
           eventSubType: S.optional(S.String),
+          advisorRecommendations: S.optional(__S(64, __c2, 0)),
           eventSource: S.optional(S.String),
           status: S.optional(S.String),
           title: S.optional(S.String),
@@ -1559,13 +1579,13 @@ function __c2(j: number): any {
           isEventSensitive: S.optional(S.Boolean),
           externalIncidentId: S.optional(S.String),
           reason: S.optional(S.String),
-          article: S.optional(__S(64, __c2, 0)),
-          links: S.optional(__S(67, __c2, 3)),
+          article: S.optional(__S(65, __c2, 1)),
+          links: S.optional(__S(68, __c2, 4)),
           impactStartTime: S.optional(S.String),
           impactMitigationTime: S.optional(S.String),
-          impact: S.optional(__S(73, __c2, 9)),
-          recommendedActions: S.optional(__S(76, __c2, 12)),
-          faqs: S.optional(__S(78, __c2, 14)),
+          impact: S.optional(__S(74, __c2, 10)),
+          recommendedActions: S.optional(__S(77, __c2, 13)),
+          faqs: S.optional(__S(79, __c2, 15)),
           isHIR: S.optional(S.Boolean),
           enableMicrosoftSupport: S.optional(S.Boolean),
           description: S.optional(S.String),
@@ -1574,7 +1594,7 @@ function __c2(j: number): any {
           priority: S.optional(S.Number),
           lastUpdateTime: S.optional(S.String),
           hirStage: S.optional(S.String),
-          additionalInformation: S.optional(__S(79, __c2, 15)),
+          additionalInformation: S.optional(__S(80, __c2, 16)),
           duration: S.optional(S.Number),
           impactType: S.optional(S.String),
           eventTags: S.optional(__S(32, __c1, 0)),
@@ -1584,14 +1604,14 @@ function __c2(j: number): any {
           billingId: S.optional(S.String),
         }),
       ).annotate({ identifier: "EventProperties" });
-    case 17:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(96, __c3, 0)),
-          properties: S.optional(__S(80, __c2, 16)),
+          properties: S.optional(__S(81, __c2, 17)),
         }),
       ).annotate({
         identifier: "EventFetchBilllingCommunicationDetailsBySubscriptionIdAndTrackingIdResponse",
@@ -1625,7 +1645,7 @@ function __c4(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/fetchEventDetails",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "EventFetchDetailsBySubscriptionIdAndTrackingIdRequest" });
@@ -1642,7 +1662,7 @@ function __c5(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.ResourceHealth/metadata/{name}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "GetMetadataEntityRequest" });
@@ -1699,7 +1719,7 @@ function __c7(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/impactedResources",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "ImpactedResourcesListBySubscriptionIdAndEventIdRequest" });
@@ -1730,7 +1750,7 @@ function __c9(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/impactedResources",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "ImpactedResourcesListByTenantIdAndEventIdRequest" });
@@ -1750,7 +1770,7 @@ function __c10(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ResourceHealth/availabilityStatuses",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "ListAvailabilityStatusByResourceGroupRequest" });
@@ -1782,7 +1802,7 @@ function __c12(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/availabilityStatuses",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "ListAvailabilityStatusBySubscriptionIdRequest" });
@@ -1801,7 +1821,7 @@ function __c13(j: number): any {
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/availabilityStatuses",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "ListAvailabilityStatusesRequest" });
@@ -1820,7 +1840,7 @@ function __c14(j: number): any {
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "ListChildAvailabilityStatusesRequest" });
@@ -1839,7 +1859,7 @@ function __c15(j: number): any {
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/childResources",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "ListChildResourcesRequest" });
@@ -1854,7 +1874,7 @@ function __c16(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.ResourceHealth/emergingIssues",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "ListEmergingIssuesRequest" });
@@ -1881,7 +1901,7 @@ function __c17(j: number): any {
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/events",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "ListEventBySingleResourceRequest" });
@@ -1890,7 +1910,7 @@ function __c17(j: number): any {
 function __c18(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(81, __c2, 17));
+      return S.Array(__S(82, __c2, 18));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -1911,7 +1931,7 @@ function __c19(j: number): any {
             method: "POST",
             uri: "/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/fetchEventDetails",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "EventFetchDetailsByTenantIdAndTrackingIdRequest" });
@@ -1930,7 +1950,7 @@ function __c20(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "ListEventBySubscriptionIdRequest" });
@@ -1948,7 +1968,7 @@ function __c21(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.ResourceHealth/events",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "ListEventByTenantIdRequest" });
@@ -1963,7 +1983,7 @@ function __c22(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.ResourceHealth/metadata",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "ListMetadataRequest" });
@@ -1987,7 +2007,7 @@ function __c23(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.ResourceHealth/operations",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2030,7 +2050,7 @@ function __c24(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/listSecurityAdvisoryImpactedResources",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({
@@ -2050,7 +2070,7 @@ function __c25(j: number): any {
             method: "POST",
             uri: "/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/listSecurityAdvisoryImpactedResources",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({
@@ -2072,7 +2092,7 @@ function __c26(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events/{eventTrackingId}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "EventGetBySubscriptionIdAndTrackingIdRequest" });
@@ -2091,7 +2111,7 @@ function __c27(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.ResourceHealth/events/{eventTrackingId}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "EventGetByTenantIdAndTrackingIdRequest" });
@@ -2110,7 +2130,7 @@ function __c28(j: number): any {
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/availabilityStatuses/current",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "GetAvailabilityStatusByResourceRequest" });
@@ -2214,7 +2234,7 @@ function __c30(j: number): any {
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.ResourceHealth/childAvailabilityStatuses/current",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "GetChildAvailabilityStatusByResourceRequest" });
@@ -2231,7 +2251,7 @@ function __c31(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.ResourceHealth/emergingIssues/{issueName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "GetEmergingIssueRequest" });
@@ -2319,7 +2339,7 @@ function __c33(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/impactedResources/{impactedResourceName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "GetImpactedResourceRequest" });
@@ -2369,7 +2389,7 @@ function __c35(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.ResourceHealth/events/{eventTrackingId}/impactedResources/{impactedResourceName}",
             code: 200,
-            apiVersion: "2025-05-01",
+            apiVersion: "2026-07-01",
           }),
         ),
       ).annotate({ identifier: "GetImpactedResourceByTenantIdRequest" });

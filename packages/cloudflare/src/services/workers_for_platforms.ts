@@ -1355,6 +1355,13 @@ export interface DispatchNamespacesScriptsBindingsGetResultItemVPCNetwork {
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
   tunnelId?: string | null | undefined;
 }
+export type DispatchNamespacesScriptsBindingsGetResultItemWorkerLoaderType = "worker_loader";
+export interface DispatchNamespacesScriptsBindingsGetResultItemWorkerLoader {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: DispatchNamespacesScriptsBindingsGetResultItemWorkerLoaderType;
+}
 export type DispatchNamespacesScriptsBindingsGetResultItem =
   | DispatchNamespacesScriptsBindingsGetResultItemAI
   | DispatchNamespacesScriptsBindingsGetResultItemAISearch
@@ -1393,7 +1400,8 @@ export type DispatchNamespacesScriptsBindingsGetResultItem =
   | DispatchNamespacesScriptsBindingsGetResultItemWorkflow
   | DispatchNamespacesScriptsBindingsGetResultItemWasmModule
   | DispatchNamespacesScriptsBindingsGetResultItemVPCService
-  | DispatchNamespacesScriptsBindingsGetResultItemVPCNetwork;
+  | DispatchNamespacesScriptsBindingsGetResultItemVPCNetwork
+  | DispatchNamespacesScriptsBindingsGetResultItemWorkerLoader;
 export type DispatchNamespacesScriptsBindingsGetResultList =
   Array<DispatchNamespacesScriptsBindingsGetResultItem>;
 export interface GetDispatchNamespaceScriptBindingResponse {
@@ -1923,6 +1931,14 @@ export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemVPCNetw
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
   tunnelId?: string | null | undefined;
 }
+export type DispatchNamespacesScriptsSettingsGetResponseBindingsItemWorkerLoaderType =
+  "worker_loader";
+export interface DispatchNamespacesScriptsSettingsGetResponseBindingsItemWorkerLoader {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: DispatchNamespacesScriptsSettingsGetResponseBindingsItemWorkerLoaderType;
+}
 export type DispatchNamespacesScriptsSettingsGetResponseBindingsItem =
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemAI
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemAISearch
@@ -1961,7 +1977,8 @@ export type DispatchNamespacesScriptsSettingsGetResponseBindingsItem =
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemWorkflow
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemWasmModule
   | DispatchNamespacesScriptsSettingsGetResponseBindingsItemVPCService
-  | DispatchNamespacesScriptsSettingsGetResponseBindingsItemVPCNetwork;
+  | DispatchNamespacesScriptsSettingsGetResponseBindingsItemVPCNetwork
+  | DispatchNamespacesScriptsSettingsGetResponseBindingsItemWorkerLoader;
 export type DispatchNamespacesScriptsSettingsGetResponseBindingsList =
   Array<DispatchNamespacesScriptsSettingsGetResponseBindingsItem>;
 export type DispatchNamespacesScriptsSettingsGetResponseCacheOptions =
@@ -3078,6 +3095,14 @@ export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsIte
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
   tunnelId?: string | undefined;
 }
+export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemWorkerLoaderType =
+  "worker_loader";
+export interface DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemWorkerLoader {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemWorkerLoaderType;
+}
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItem =
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemAI
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemAISearch
@@ -3116,7 +3141,8 @@ export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItem =
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemWorkflow
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemWasmModule
   | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemVPCService
-  | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemVPCNetwork;
+  | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemVPCNetwork
+  | DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItemWorkerLoader;
 export type DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsList =
   Array<DispatchNamespacesScriptsSettingsEditRequestSettingsBindingsItem>;
 export interface DispatchNamespacesScriptsSettingsEditRequestSettingsCacheOptions {
@@ -4107,6 +4133,14 @@ export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemVPCNet
   /** UUID of the Cloudflare Tunnel to bind to. Mutually exclusive with network_id. */
   tunnelId?: string | null | undefined;
 }
+export type DispatchNamespacesScriptsSettingsEditResponseBindingsItemWorkerLoaderType =
+  "worker_loader";
+export interface DispatchNamespacesScriptsSettingsEditResponseBindingsItemWorkerLoader {
+  /** A JavaScript variable name for the binding. */
+  name: string;
+  /** The kind of resource that the binding provides. */
+  type: DispatchNamespacesScriptsSettingsEditResponseBindingsItemWorkerLoaderType;
+}
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsItem =
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemAI
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemAISearch
@@ -4145,7 +4179,8 @@ export type DispatchNamespacesScriptsSettingsEditResponseBindingsItem =
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemWorkflow
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemWasmModule
   | DispatchNamespacesScriptsSettingsEditResponseBindingsItemVPCService
-  | DispatchNamespacesScriptsSettingsEditResponseBindingsItemVPCNetwork;
+  | DispatchNamespacesScriptsSettingsEditResponseBindingsItemVPCNetwork
+  | DispatchNamespacesScriptsSettingsEditResponseBindingsItemWorkerLoader;
 export type DispatchNamespacesScriptsSettingsEditResponseBindingsList =
   Array<DispatchNamespacesScriptsSettingsEditResponseBindingsItem>;
 export type DispatchNamespacesScriptsSettingsEditResponseCacheOptions =
@@ -6454,7 +6489,7 @@ export type PutDispatchNamespaceScriptError =
   | MtlsCertificateNotFound
   | UnknownWorkerEntrypoint
   | CloudflareOpError;
-/** Upload a Workers for Platforms script module to a dispatch namespace. You can find more about the multipart metadata on our docs: https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/. */
+/** Upload Worker code and configuration to a Workers for Platforms dispatch namespace. For ES module and other module-based Workers, use `multipart/form-data` with a JSON `metadata` part whose `main_module` field names the entrypoint file. Upload each module as a separate file part; JavaScript ES module parts use the `application/javascript+module` content type. Raw `application/javascript` and `text/javascript` request bodies accept only legacy service-worker syntax using `addEventListener`. They do not accept ES module syntax such as `export default`. To upload a module Worker, use the multipart request format instead. Learn more about multipart metadata in the [documentation](https://developers.cloudflare.com/workers/configuration/multipart-upload-metadata/). */
 export const putDispatchNamespaceScript: API.OperationMethod<
   PutDispatchNamespaceScriptRequest,
   PutDispatchNamespaceScriptResponse,
@@ -7027,6 +7062,7 @@ function __c15(j: number): any {
             ["name", "part", "type"],
             ["name", "serviceId", "type"],
             ["name", "type", "identity", "networkId", "tunnelId"],
+            ["name", "type"],
           ],
           {
             key: "type",
@@ -7069,6 +7105,7 @@ function __c15(j: number): any {
               "wasm_module",
               "vpc_service",
               "vpc_network",
+              "worker_loader",
             ],
           },
         ),
@@ -7218,6 +7255,7 @@ function __c18(j: number): any {
             ["name", "part", "type"],
             ["name", "serviceId", "type"],
             ["name", "type", "identity", "networkId", "tunnelId"],
+            ["name", "type"],
           ],
           {
             key: "type",
@@ -7260,6 +7298,7 @@ function __c18(j: number): any {
               "wasm_module",
               "vpc_service",
               "vpc_network",
+              "worker_loader",
             ],
           },
         ),
@@ -7592,6 +7631,7 @@ function __c24(j: number): any {
             ["name", "part", "type"],
             ["name", "serviceId", "type"],
             ["name", "type", "identity", "networkId", "tunnelId"],
+            ["name", "type"],
           ],
           {
             key: "type",
@@ -7634,6 +7674,7 @@ function __c24(j: number): any {
               "wasm_module",
               "vpc_service",
               "vpc_network",
+              "worker_loader",
             ],
           },
         ),
@@ -7875,6 +7916,7 @@ function __c24(j: number): any {
             ["name", "part", "type"],
             ["name", "serviceId", "type"],
             ["name", "type", "identity", "networkId", "tunnelId"],
+            ["name", "type"],
           ],
           {
             key: "type",
@@ -7917,6 +7959,7 @@ function __c24(j: number): any {
               "wasm_module",
               "vpc_service",
               "vpc_network",
+              "worker_loader",
             ],
           },
         ),

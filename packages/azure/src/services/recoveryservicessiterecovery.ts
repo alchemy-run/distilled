@@ -1821,12 +1821,16 @@ export interface CreateReplicationStorageClassificationMappingResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** The vault level policy controlling whether the A2A recovery network configuration is automatically kept in sync with the source virtual machine. */
+export type RecoveryNetworkConfigAutoSyncPolicy = "Disabled" | "Enabled";
 /** Input to create vault setting. */
 export interface VaultSettingCreationInputProperties {
   /** The migration solution Id. */
   migrationSolutionId?: string | undefined;
   /** VMware to Azure provider type. */
   vmwareToAzureProviderType?: string | undefined;
+  /** The vault level policy controlling whether the A2A recovery network configuration is automatically kept in sync with the source virtual machine. If the property is omitted from the request body, the policy is set to `Disabled`. */
+  recoveryNetworkConfigAutoSync?: RecoveryNetworkConfigAutoSyncPolicy | (string & {}) | undefined;
 }
 export interface CreateReplicationVaultSettingRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1846,6 +1850,8 @@ export interface VaultSettingProperties {
   migrationSolutionId?: string | undefined;
   /** VMware to Azure provider type. */
   vmwareToAzureProviderType?: string | undefined;
+  /** The vault level policy controlling whether the A2A recovery network configuration is automatically kept in sync with the source virtual machine. */
+  recoveryNetworkConfigAutoSync?: RecoveryNetworkConfigAutoSyncPolicy | undefined;
 }
 export interface CreateReplicationVaultSettingResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -9029,7 +9035,7 @@ function __c0(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/addDisks",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "AddReplicationProtectedItemDisksRequest" });
@@ -9215,7 +9221,7 @@ function __c9(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/applyRecoveryPoint",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ApplyReplicationProtectedItemRecoveryPointRequest" });
@@ -9236,7 +9242,7 @@ function __c10(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings/{alertSettingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateReplicationAlertSettingsRequest" });
@@ -9278,7 +9284,7 @@ function __c12(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultSettings",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationVaultSettingRequest" });
@@ -9307,7 +9313,7 @@ function __c13(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationvCenterByReplicationFabricsRequest" });
@@ -9339,7 +9345,7 @@ function __c15(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationvCenters",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationvCentersRequest" });
@@ -9361,7 +9367,7 @@ function __c16(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/targetComputeSizes",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListTargetComputeSizByReplicationProtectedItemsRequest" });
@@ -9423,7 +9429,7 @@ function __c17(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/migratetoaad",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "MigrateReplicationFabricToAadRequest" });
@@ -9446,7 +9452,7 @@ function __c18(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/migrate",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "MigrateReplicationMigrationItemRequest" });
@@ -9469,7 +9475,7 @@ function __c19(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/testMigrate",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "MigrateReplicationMigrationItemsTestRequest" });
@@ -9492,7 +9498,7 @@ function __c20(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/pauseReplication",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "PauseReplicationMigrationItemReplicationRequest" });
@@ -9512,7 +9518,7 @@ function __c21(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "PurgeReplicationFabricRequest" });
@@ -9534,7 +9540,7 @@ function __c22(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "PurgeReplicationProtectedItemRequest" });
@@ -9561,7 +9567,7 @@ function __c23(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateReplicationFabricRequest" });
@@ -9583,7 +9589,7 @@ function __c24(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "PurgeReplicationProtectionClusterRequest" });
@@ -9613,7 +9619,7 @@ function __c25(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "PurgeReplicationProtectionContainerMappingRequest" });
@@ -9634,7 +9640,7 @@ function __c26(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationRecoveryServicesProviders/{providerName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "PurgeReplicationRecoveryServicesProviderRequest" });
@@ -9655,7 +9661,7 @@ function __c27(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationRecoveryServicesProviders/{providerName}/refreshProvider",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "RefreshReplicationRecoveryServicesProviderProviderRequest" });
@@ -9674,7 +9680,7 @@ function __c28(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth/default/refresh",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "RefreshReplicationVaultHealthRequest" });
@@ -9707,7 +9713,7 @@ function __c29(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/removeInfra",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "RemoveReplicationFabricInfraRequest" });
@@ -9730,7 +9736,7 @@ function __c30(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/removeDisks",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "RemoveReplicationProtectedItemDisksRequest" });
@@ -9757,7 +9763,7 @@ function __c31(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/renewCertificate",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "RenewReplicationFabricCertificateRequest" });
@@ -9788,7 +9794,7 @@ function __c32(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/reassociateGateway",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationFabricsReassociateGatewayRequest" });
@@ -9811,7 +9817,7 @@ function __c33(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/resync",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationMigrationItemsResyncRequest" });
@@ -9841,7 +9847,7 @@ function __c34(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateReplicationMigrationItemRequest" });
@@ -9929,7 +9935,7 @@ function __c37(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/testMigrateCleanup",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationMigrationItemsTestMigrateCleanupRequest" });
@@ -9962,7 +9968,7 @@ function __c39(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/plannedFailover",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationProtectedItemsPlannedFailoverRequest" });
@@ -9996,7 +10002,7 @@ function __c41(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/reinstallMobilityService",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationProtectedItemsReinstallMobilityServiceRequest" });
@@ -10028,7 +10034,7 @@ function __c43(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/repairReplication",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationProtectedItemsRepairReplicationRequest" });
@@ -10051,7 +10057,7 @@ function __c44(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/reProtect",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationProtectedItemsReprotectRequest" });
@@ -10088,7 +10094,7 @@ function __c45(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/resolveHealthErrors",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationProtectedItemsResolveHealthErrorsRequest" });
@@ -10118,7 +10124,7 @@ function __c46(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/switchProvider",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationProtectedItemsSwitchProviderRequest" });
@@ -10154,7 +10160,7 @@ function __c47(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/unplannedFailover",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationProtectedItemsUnplannedFailoverRequest" });
@@ -10188,7 +10194,7 @@ function __c49(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}/repairReplication",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationProtectionClustersRepairReplicationRequest" });
@@ -10211,7 +10217,7 @@ function __c50(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}/unplannedFailover",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationProtectionClustersUnplannedFailoverRequest" });
@@ -10242,7 +10248,7 @@ function __c51(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings/{networkMappingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateReplicationNetworkMappingRequest" });
@@ -10307,7 +10313,7 @@ function __c54(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/discoverProtectableItem",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationProtectionContainersDiscoverProtectableItemRequest" });
@@ -10336,7 +10342,7 @@ function __c55(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/switchClusterProtection",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationProtectionContainersSwitchClusterProtectionRequest" });
@@ -10383,7 +10389,7 @@ function __c57(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/switchprotection",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationProtectionContainersSwitchProtectionRequest" });
@@ -10411,7 +10417,7 @@ function __c58(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/plannedFailover",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationRecoveryPlansPlannedFailoverRequest" });
@@ -10437,7 +10443,7 @@ function __c60(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/reProtect",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationRecoveryPlansReprotectRequest" });
@@ -10466,7 +10472,7 @@ function __c61(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/unplannedFailover",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ReplicationRecoveryPlansUnplannedFailoverRequest" });
@@ -10486,7 +10492,7 @@ function __c62(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/restart",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "RestartReplicationJobRequest" });
@@ -10507,7 +10513,7 @@ function __c63(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/resume",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ResumeReplicationJobRequest" });
@@ -10530,7 +10536,7 @@ function __c64(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/resumeReplication",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ResumeReplicationMigrationItemReplicationRequest" });
@@ -10562,7 +10568,7 @@ function __c65(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/testFailover",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "TestReplicationProtectedItemFailoverRequest" });
@@ -10583,7 +10589,7 @@ function __c66(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateReplicationPolicyRequest" });
@@ -10644,7 +10650,7 @@ function __c70(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/testFailoverCleanup",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "TestReplicationProtectedItemFailoverCleanupRequest" });
@@ -10676,7 +10682,7 @@ function __c71(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}/testFailover",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "TestReplicationProtectionClusterFailoverRequest" });
@@ -10699,7 +10705,7 @@ function __c72(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}/testFailoverCleanup",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "TestReplicationProtectionClusterFailoverCleanupRequest" });
@@ -10729,7 +10735,7 @@ function __c73(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/testFailover",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "TestReplicationRecoveryPlanFailoverRequest" });
@@ -10750,7 +10756,7 @@ function __c74(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/testFailoverCleanup",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "TestReplicationRecoveryPlanFailoverCleanupRequest" });
@@ -10773,7 +10779,7 @@ function __c75(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateReplicationMigrationItemRequest" });
@@ -10804,7 +10810,7 @@ function __c76(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings/{networkMappingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateReplicationNetworkMappingRequest" });
@@ -10831,7 +10837,7 @@ function __c77(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateReplicationPolicyRequest" });
@@ -10908,7 +10914,7 @@ function __c78(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateReplicationProtectedItemRequest" });
@@ -10938,7 +10944,7 @@ function __c79(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/updateAppliance",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateReplicationProtectedItemApplianceRequest" });
@@ -10969,7 +10975,7 @@ function __c80(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateReplicationProtectedItemRequest" });
@@ -10992,7 +10998,7 @@ function __c81(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/updateMobilityService",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateReplicationProtectedItemMobilityServiceRequest" });
@@ -11015,7 +11021,7 @@ function __c82(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateReplicationProtectionContainerMappingRequest" });
@@ -11042,7 +11048,7 @@ function __c83(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateReplicationRecoveryPlanRequest" });
@@ -11064,7 +11070,7 @@ function __c84(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vcenterName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "UpdateReplicationvCenterRequest" });
@@ -11121,7 +11127,7 @@ function __c85(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateReplicationProtectionClusterRequest" });
@@ -11143,7 +11149,7 @@ function __c86(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateReplicationProtectionContainerRequest" });
@@ -11207,7 +11213,7 @@ function __c89(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateReplicationProtectionContainerMappingRequest" });
@@ -11265,7 +11271,7 @@ function __c92(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionIntents/{intentObjectName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateReplicationProtectionIntentRequest" });
@@ -11332,7 +11338,7 @@ function __c95(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}/applyRecoveryPoint",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ApplyReplicationProtectionClusterRecoveryPointRequest" });
@@ -11443,7 +11449,7 @@ function __c98(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateReplicationRecoveryPlanRequest" });
@@ -11486,7 +11492,7 @@ function __c99(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationRecoveryServicesProviders/{providerName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateReplicationRecoveryServicesProviderRequest" });
@@ -11573,7 +11579,7 @@ function __c102(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}/replicationStorageClassificationMappings/{storageClassificationMappingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateReplicationStorageClassificationMappingRequest" });
@@ -11617,7 +11623,7 @@ function __c104(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultSettings/{vaultSettingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateReplicationVaultSettingRequest" });
@@ -11643,6 +11649,7 @@ function __c105(j: number): any {
         S.Struct({
           migrationSolutionId: S.optional(S.String),
           vmwareToAzureProviderType: S.optional(S.String),
+          recoveryNetworkConfigAutoSync: S.optional(S.String),
         }),
       ).annotate({ identifier: "VaultSettingCreationInputProperties" });
   }
@@ -11663,7 +11670,7 @@ function __c106(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vcenterName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CreateReplicationvCenterRequest" });
@@ -11730,7 +11737,7 @@ function __c109(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/remove",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteReplicationFabricRequest" });
@@ -11764,7 +11771,7 @@ function __c111(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteReplicationMigrationItemRequest" });
@@ -11786,7 +11793,7 @@ function __c112(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings/{networkMappingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteReplicationNetworkMappingRequest" });
@@ -11806,7 +11813,7 @@ function __c113(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteReplicationPolicyRequest" });
@@ -11836,7 +11843,7 @@ function __c114(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/remove",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteReplicationProtectedItemRequest" });
@@ -11856,7 +11863,7 @@ function __c115(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}/cancel",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CancelReplicationJobRequest" });
@@ -11986,7 +11993,7 @@ function __c118(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/remove",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteReplicationProtectionContainerRequest" });
@@ -12009,7 +12016,7 @@ function __c119(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}/remove",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteReplicationProtectionContainerMappingRequest" });
@@ -12029,7 +12036,7 @@ function __c120(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteReplicationRecoveryPlanRequest" });
@@ -12050,7 +12057,7 @@ function __c121(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationRecoveryServicesProviders/{providerName}/remove",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteReplicationRecoveryServicesProviderRequest" });
@@ -12072,7 +12079,7 @@ function __c122(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}/replicationStorageClassificationMappings/{storageClassificationMappingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteReplicationStorageClassificationMappingRequest" });
@@ -12093,7 +12100,7 @@ function __c123(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vcenterName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "DeleteReplicationvCenterRequest" });
@@ -12120,7 +12127,7 @@ function __c124(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/export",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ExportReplicationJobRequest" });
@@ -12143,7 +12150,7 @@ function __c125(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}/recoveryPoints/{recoveryPointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetClusterRecoveryPointRequest" });
@@ -12187,7 +12194,7 @@ function __c127(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/migrationRecoveryPoints/{migrationRecoveryPointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetMigrationRecoveryPointRequest" });
@@ -12232,7 +12239,7 @@ function __c129(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/recoveryPoints/{recoveryPointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetRecoveryPointRequest" });
@@ -12277,7 +12284,7 @@ function __c131(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/failoverCancel",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CancelReplicationProtectedItemsFailoverRequest" });
@@ -12297,7 +12304,7 @@ function __c132(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings/{alertSettingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationAlertSettingsRequest" });
@@ -12316,7 +12323,7 @@ function __c133(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/providers/Microsoft.RecoveryServices/replicationEligibilityResults/default",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationEligibilityResultRequest" });
@@ -12369,7 +12376,7 @@ function __c135(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents/{eventName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationEventRequest" });
@@ -12421,7 +12428,7 @@ function __c137(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationFabricRequest" });
@@ -12456,7 +12463,7 @@ function __c139(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs/{jobName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationJobRequest" });
@@ -12492,7 +12499,7 @@ function __c141(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationLogicalNetworks/{logicalNetworkName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationLogicalNetworkRequest" });
@@ -12538,7 +12545,7 @@ function __c143(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationMigrationItemRequest" });
@@ -12574,7 +12581,7 @@ function __c145(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationNetworkRequest" });
@@ -12630,7 +12637,7 @@ function __c147(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings/{networkMappingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationNetworkMappingRequest" });
@@ -12665,7 +12672,7 @@ function __c149(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies/{policyName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationPolicyRequest" });
@@ -12700,7 +12707,7 @@ function __c151(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/failoverCancel",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CancelReplicationRecoveryPlansFailoverRequest" });
@@ -12801,7 +12808,7 @@ function __c155(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectableItems/{protectableItemName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationProtectableItemRequest" });
@@ -12850,7 +12857,7 @@ function __c157(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationProtectedItemRequest" });
@@ -12887,7 +12894,7 @@ function __c159(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationProtectionClusterRequest" });
@@ -12924,7 +12931,7 @@ function __c161(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}/operationResults/{jobId}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationProtectionClusterOperationResultsRequest" });
@@ -12945,7 +12952,7 @@ function __c162(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationProtectionContainerRequest" });
@@ -12982,7 +12989,7 @@ function __c164(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings/{mappingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationProtectionContainerMappingRequest" });
@@ -13017,7 +13024,7 @@ function __c166(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionIntents/{intentObjectName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationProtectionIntentRequest" });
@@ -13037,7 +13044,7 @@ function __c167(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationRecoveryPlanRequest" });
@@ -13073,7 +13080,7 @@ function __c169(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationRecoveryServicesProviders/{providerName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationRecoveryServicesProviderRequest" });
@@ -13109,7 +13116,7 @@ function __c171(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationStorageClassificationRequest" });
@@ -13150,7 +13157,7 @@ function __c173(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/checkConsistency",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CheckReplicationFabricConsistencyRequest" });
@@ -13214,7 +13221,7 @@ function __c176(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}/replicationStorageClassificationMappings/{storageClassificationMappingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationStorageClassificationMappingRequest" });
@@ -13248,7 +13255,7 @@ function __c178(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultHealth",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationVaultHealthRequest" });
@@ -13316,7 +13323,7 @@ function __c180(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationVaultSettings/{vaultSettingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationVaultSettingRequest" });
@@ -13352,7 +13359,7 @@ function __c182(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationvCenters/{vcenterName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetReplicationvCenterRequest" });
@@ -13387,7 +13394,7 @@ function __c184(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationSupportedOperatingSystems",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "GetSupportedOperatingSystemRequest" });
@@ -13454,7 +13461,7 @@ function __c185(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}/recoveryPoints",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListClusterRecoveryPointByReplicationProtectionClusterRequest" });
@@ -13485,7 +13492,7 @@ function __c186(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems/{migrationItemName}/migrationRecoveryPoints",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListMigrationRecoveryPointByReplicationMigrationItemsRequest" });
@@ -13512,7 +13519,7 @@ function __c187(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/operations",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -13561,7 +13568,7 @@ function __c188(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/recoveryPoints",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListRecoveryPointByReplicationProtectedItemsRequest" });
@@ -13589,7 +13596,7 @@ function __c189(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAlertSettings",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationAlertSettingsRequest" });
@@ -13620,7 +13627,7 @@ function __c190(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems/{replicatedProtectedItemName}/failoverCommit",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CommitReplicationProtectedItemsFailoverRequest" });
@@ -13640,7 +13647,7 @@ function __c191(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationAppliances",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationAppliancesRequest" });
@@ -13674,7 +13681,7 @@ function __c192(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{virtualMachineName}/providers/Microsoft.RecoveryServices/replicationEligibilityResults",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationEligibilityResultsRequest" });
@@ -13702,7 +13709,7 @@ function __c193(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationEvents",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationEventsRequest" });
@@ -13730,7 +13737,7 @@ function __c194(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationFabricsRequest" });
@@ -13759,7 +13766,7 @@ function __c195(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationJobs",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationJobsRequest" });
@@ -13788,7 +13795,7 @@ function __c196(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationLogicalNetworks",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationLogicalNetworkByReplicationFabricsRequest" });
@@ -13821,7 +13828,7 @@ function __c197(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationMigrationItems",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({
@@ -13858,7 +13865,7 @@ function __c199(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationMigrationItems",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationMigrationItemsRequest" });
@@ -13878,7 +13885,7 @@ function __c200(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationNetworkByReplicationFabricsRequest" });
@@ -13912,7 +13919,7 @@ function __c202(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationNetworks/{networkName}/replicationNetworkMappings",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationNetworkMappingByReplicationNetworksRequest" });
@@ -13947,7 +13954,7 @@ function __c204(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters/{replicationProtectionClusterName}/failoverCommit",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CommitReplicationProtectionClustersFailoverRequest" });
@@ -13966,7 +13973,7 @@ function __c205(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationNetworkMappings",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationNetworkMappingsRequest" });
@@ -13985,7 +13992,7 @@ function __c206(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationNetworks",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationNetworksRequest" });
@@ -14004,7 +14011,7 @@ function __c207(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationPolicies",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationPoliciesRequest" });
@@ -14037,7 +14044,7 @@ function __c208(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectableItems",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({
@@ -14069,7 +14076,7 @@ function __c209(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectedItems",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({
@@ -14105,7 +14112,7 @@ function __c211(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectedItems",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationProtectedItemsRequest" });
@@ -14126,7 +14133,7 @@ function __c212(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionClusters",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({
@@ -14162,7 +14169,7 @@ function __c214(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionClusters",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationProtectionClustersRequest" });
@@ -14182,7 +14189,7 @@ function __c215(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationProtectionContainerByReplicationFabricsRequest" });
@@ -14216,7 +14223,7 @@ function __c217(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationProtectionContainers/{protectionContainerName}/replicationProtectionContainerMappings",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({
@@ -14252,7 +14259,7 @@ function __c219(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans/{recoveryPlanName}/failoverCommit",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "CommitReplicationRecoveryPlansFailoverRequest" });
@@ -14271,7 +14278,7 @@ function __c220(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionContainerMappings",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationProtectionContainerMappingsRequest" });
@@ -14290,7 +14297,7 @@ function __c221(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionContainers",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationProtectionContainersRequest" });
@@ -14311,7 +14318,7 @@ function __c222(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationProtectionIntents",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationProtectionIntentsRequest" });
@@ -14339,7 +14346,7 @@ function __c223(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryPlans",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationRecoveryPlansRequest" });
@@ -14368,7 +14375,7 @@ function __c224(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationRecoveryServicesProviders",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({
@@ -14402,7 +14409,7 @@ function __c226(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationRecoveryServicesProviders",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationRecoveryServicesProvidersRequest" });
@@ -14422,7 +14429,7 @@ function __c227(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationStorageClassificationByReplicationFabricsRequest" });
@@ -14456,7 +14463,7 @@ function __c229(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationFabrics/{fabricName}/replicationStorageClassifications/{storageClassificationName}/replicationStorageClassificationMappings",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({
@@ -14491,7 +14498,7 @@ function __c231(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationStorageClassificationMappings",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationStorageClassificationMappingsRequest" });
@@ -14510,7 +14517,7 @@ function __c232(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{resourceName}/replicationStorageClassifications",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-11-01",
           }),
         ),
       ).annotate({ identifier: "ListReplicationStorageClassificationsRequest" });

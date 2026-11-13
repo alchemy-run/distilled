@@ -223,7 +223,7 @@ export class ValidationException
         identifier: "ValidationExceptionReason",
       }),
       fieldList: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(417, __c26, 1)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(609, __c38, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
@@ -233,6 +233,13 @@ export class ValidationException
       /*@__PURE__*/ T.HttpError(400),
     ),
   ).pipe(C.withBadRequestError) {}
+export type ArnString = string;
+export type ContractDocumentId = string | redacted.Redacted<string>;
+export interface AssociateContractRequest {
+  contractArn: string;
+  contractDocumentId: string | redacted.Redacted<string>;
+}
+export interface AssociateContractResponse {}
 export type BillingViewArn = string;
 export type BillingViewSourceViewsList = string[];
 export interface AssociateSourceViewsRequest {
@@ -242,6 +249,14 @@ export interface AssociateSourceViewsRequest {
 export interface AssociateSourceViewsResponse {
   arn: string;
 }
+export type IdentifierString = string;
+export type CancellationReason = string;
+export interface CancelContractualInvestmentAttestationRequest {
+  attestationId: string;
+  contractArn: string;
+  reason: string;
+}
+export interface CancelContractualInvestmentAttestationResponse {}
 export type BillingViewName = string | redacted.Redacted<string>;
 export type BillingViewDescription = string | redacted.Redacted<string>;
 export type Dimension = "LINKED_ACCOUNT" | (string & {});
@@ -291,6 +306,56 @@ export interface CreateBillingViewResponse {
   arn: string;
   createdAt?: Date | undefined;
 }
+export type SensitiveString = string | redacted.Redacted<string>;
+export type SensitiveEmail = string | redacted.Redacted<string>;
+export interface ApproverDetails {
+  name: string | redacted.Redacted<string>;
+  title: string | redacted.Redacted<string>;
+  email: string | redacted.Redacted<string>;
+}
+export type CurrencyCode = string;
+export type CurrencyAmount = string;
+export interface Amount {
+  currencyCode: string;
+  currencyAmount: string;
+}
+export interface AttestationQuantity {
+  attestationVolume: string;
+  attestationUnit: string;
+}
+export type AttestationQuantities = AttestationQuantity[];
+export type AttestationValue =
+  | { attestationAmount: Amount; attestationQuantities?: undefined }
+  | { attestationAmount?: undefined; attestationQuantities: AttestationQuantity[] };
+export type AccountId = string;
+export interface InvestmentDistribution {
+  accountId: string;
+  investmentAmount: Amount;
+}
+export type InvestmentDistributions = InvestmentDistribution[];
+export interface AttestationDetails {
+  attestationValue: AttestationValue;
+  investmentDistributions?: InvestmentDistribution[] | undefined;
+}
+export interface AdditionalRecipient {
+  email: string | redacted.Redacted<string>;
+}
+export type AdditionalRecipients = AdditionalRecipient[];
+export type AttestationClientToken = string;
+export interface CreateContractualInvestmentAttestationRequest {
+  contractArn: string;
+  investmentSummaryId: string;
+  investmentId: string;
+  contractDocumentId: string | redacted.Redacted<string>;
+  approverDetails: ApproverDetails;
+  investmentDisbursedAt?: Date | undefined;
+  attestationDetails: AttestationDetails;
+  additionalRecipients?: AdditionalRecipient[] | undefined;
+  clientToken?: string | undefined;
+}
+export interface CreateContractualInvestmentAttestationResponse {
+  attestationId: string;
+}
 export interface DeleteBillingViewRequest {
   arn: string;
   force?: boolean | undefined;
@@ -298,6 +363,10 @@ export interface DeleteBillingViewRequest {
 export interface DeleteBillingViewResponse {
   arn: string;
 }
+export interface DisassociateContractRequest {
+  contractArn: string;
+}
+export interface DisassociateContractResponse {}
 export interface DisassociateSourceViewsRequest {
   arn: string;
   sourceViews: string[];
@@ -333,7 +402,6 @@ export interface GetBillingPreferencesRequest {
 export type PreferenceKey = string;
 export type PreferenceValue = "ENABLED" | "DISABLED" | (string & {});
 export type AccountName = string;
-export type AccountId = string;
 export type BillingYear = number;
 export type Month = number;
 export interface BillingPeriod {
@@ -397,6 +465,32 @@ export interface BillingViewElement {
 export interface GetBillingViewResponse {
   billingView: BillingViewElement;
 }
+export interface GetContractInformationRequest {
+  contractArn: string;
+}
+export interface Interval {
+  startDateInclusive: Date;
+  endDateInclusive: Date;
+}
+export type AccountList = string[];
+export interface LegalEntity {
+  legalEntityName: string | redacted.Redacted<string>;
+}
+export type LegalEntities = LegalEntity[];
+export type ContractRestriction = "ATTESTATION_SELF_SERVICE_BLOCKED" | (string & {});
+export type ContractRestrictions = ContractRestriction[];
+export interface PrivatePricingAddendum {
+  contractArn: string;
+  contractTerm: Interval;
+  eligiblePayerAccounts: string[];
+  investmentAccounts: string[];
+  legalEntities: LegalEntity[];
+  contractRestrictions?: ContractRestriction[] | undefined;
+}
+export type ContractDetails = { privatePricingAddendum: PrivatePricingAddendum };
+export interface GetContractInformationResponse {
+  contract: ContractDetails;
+}
 export interface GetCreditAllocationHistoryRequest {
   accountId: string;
   creditId?: number | undefined;
@@ -406,12 +500,6 @@ export interface GetCreditAllocationHistoryRequest {
   maxResults?: number | undefined;
 }
 export type CreditId = string;
-export type CurrencyCode = string;
-export type CurrencyAmount = string;
-export interface Amount {
-  currencyCode: string;
-  currencyAmount: string;
-}
 export type BillingMonth = string;
 export interface CreditAllocationHistoryEntry {
   creditId: string;
@@ -691,6 +779,115 @@ export interface ListBusinessSupportSubscriptionHistoryResponse {
   subscriptionContracts: BusinessSupportSubscriptionContract[];
   nextToken?: string | undefined;
 }
+export interface ListContractsRequest {
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export type ContractType = "Cross-Service" | "Service-Specific" | "Other" | (string & {});
+export type AssociationStatus = "ASSOCIATED" | "NOT_ASSOCIATED" | (string & {});
+export interface ContractSummary {
+  contractArn: string;
+  contractTerm: Interval;
+  contractType?: ContractType | undefined;
+  associationStatus: AssociationStatus;
+  lastUpdatedAt?: Date | undefined;
+}
+export type ContractSummaries = ContractSummary[];
+export interface ListContractsResponse {
+  items: ContractSummary[];
+  nextToken?: string | undefined;
+}
+export interface ListContractualInvestmentAttestationsRequest {
+  contractArn: string;
+  investmentSummaryId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export type InvestmentAttestationStatus =
+  | "PENDING_REVIEW"
+  | "PENDING_C_LEVEL_APPROVAL"
+  | "PENDING_CANCELLATION"
+  | "REJECTED"
+  | "CANCELLED"
+  | "DISBURSED"
+  | (string & {});
+export type RejectionReason = string;
+export type RejectionReasons = string[];
+export interface InvestmentAttestation {
+  attestationId: string;
+  investmentName: string;
+  outcomeDescription: string;
+  investmentSummaryId: string;
+  investmentId: string;
+  attestedAt: Date;
+  updatedAt: Date;
+  attestationStatus: InvestmentAttestationStatus;
+  investmentDisbursedAt?: Date | undefined;
+  attestedValue?: Amount | undefined;
+  investmentDistributions?: InvestmentDistribution[] | undefined;
+  rejectionReasons?: string[] | undefined;
+  isCancellable?: boolean | undefined;
+}
+export type InvestmentAttestations = InvestmentAttestation[];
+export interface ListContractualInvestmentAttestationsResponse {
+  items: InvestmentAttestation[];
+  nextToken?: string | undefined;
+}
+export interface ListContractualInvestmentsRequest {
+  contractArn: string;
+  investmentSummaryId: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export interface MilestoneBasedInvestment {
+  investmentId: string;
+  investmentValue: Amount;
+  investmentDisbursedAt: Date;
+}
+export interface InvestmentRestriction {
+  amount: Amount;
+}
+export type InvestmentRestrictions = InvestmentRestriction[];
+export type MultiplierType = "PERCENTAGE" | "CURRENCY_AMOUNT" | (string & {});
+export interface InvestmentMultiplier {
+  value: string;
+  investmentAttestationInputUnit: string;
+  multiplierType: MultiplierType;
+}
+export type InvestmentMultipliers = InvestmentMultiplier[];
+export interface OutcomeBasedInvestment {
+  investmentId: string;
+  outcomeDescription: string;
+  attestationWindow: Interval;
+  investmentRestrictions?: InvestmentRestriction[] | undefined;
+  investmentMultipliers?: InvestmentMultiplier[] | undefined;
+  disbursedValue: Amount;
+}
+export type Investment =
+  | { milestoneBasedInvestment: MilestoneBasedInvestment; outcomeBasedInvestment?: undefined }
+  | { milestoneBasedInvestment?: undefined; outcomeBasedInvestment: OutcomeBasedInvestment };
+export type Investments = Investment[];
+export interface ListContractualInvestmentsResponse {
+  items: Investment[];
+  nextToken?: string | undefined;
+}
+export interface ListContractualInvestmentSummariesRequest {
+  contractArn: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+}
+export type InvestmentType = "MILESTONE_BASED" | "OUTCOME_BASED" | (string & {});
+export interface InvestmentSummary {
+  investmentSummaryId: string;
+  investmentName: string;
+  investmentType: InvestmentType;
+  maxAllowedInvestmentDisbursementValue?: Amount | undefined;
+}
+export type InvestmentSummaries = InvestmentSummary[];
+export interface ListContractualInvestmentSummariesResponse {
+  items: InvestmentSummary[];
+  nextToken?: string | undefined;
+}
 export interface ListEnterpriseSupportLinkedAccountChargesRequest {
   billingMonth: string;
   accountId?: string | undefined;
@@ -780,8 +977,6 @@ export interface UpdateBillingViewResponse {
 export type ErrorMessage = string;
 export type ResourceId = string;
 export type ResourceType = string;
-export type ServiceCode = string;
-export type QuotaCode = string;
 export type ValidationExceptionReason =
   | "unknownOperation"
   | "cannotParse"
@@ -794,6 +989,42 @@ export interface ValidationExceptionField {
   message: string;
 }
 export type ValidationExceptionFieldList = ValidationExceptionField[];
+export type ServiceCode = string;
+export type QuotaCode = string;
+export type AssociateContractError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Private Pricing contracts let eligible payer accounts manage private pricing agreements with Amazon Web Services. This operation associates a private pricing contract with the caller's Amazon Web Services account. The caller must be a payer (management) account listed on the contract. This operation is idempotent, so retrying a request that already succeeded is safe.
+ */
+export const associateContract: API.OperationMethod<
+  AssociateContractRequest & RegionInput,
+  AssociateContractResponse,
+  AssociateContractError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(624, __c39, 0) as any as S.Schema<AssociateContractRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<AssociateContractResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "AssociateContract",
+  telemetry: TELEMETRY,
+  span: "AssociateContract",
+}));
+
 export type AssociateSourceViewsError =
   | AccessDeniedException
   | BillingViewHealthStatusException
@@ -813,8 +1044,8 @@ export const associateSourceViews: API.OperationMethod<
   AssociateSourceViewsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c27, 0) as any as S.Schema<AssociateSourceViewsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<AssociateSourceViewsResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<AssociateSourceViewsRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<AssociateSourceViewsResponse>,
   errors: [
     AccessDeniedException,
     BillingViewHealthStatusException,
@@ -830,6 +1061,40 @@ export const associateSourceViews: API.OperationMethod<
   operationName: "AssociateSourceViews",
   telemetry: TELEMETRY,
   span: "AssociateSourceViews",
+}));
+
+export type CancelContractualInvestmentAttestationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Cancels a contractual investment attestation. This operation is idempotent, so retrying is safe. You can cancel an attestation only while it is still pending (its `isCancellable` value is `true`).
+ */
+export const cancelContractualInvestmentAttestation: API.OperationMethod<
+  CancelContractualInvestmentAttestationRequest & RegionInput,
+  CancelContractualInvestmentAttestationResponse,
+  CancelContractualInvestmentAttestationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<CancelContractualInvestmentAttestationRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<CancelContractualInvestmentAttestationResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CancelContractualInvestmentAttestation",
+  telemetry: TELEMETRY,
+  span: "CancelContractualInvestmentAttestation",
 }));
 
 export type CreateBillingViewError =
@@ -851,8 +1116,8 @@ export const createBillingView: API.OperationMethod<
   CreateBillingViewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c30, 0) as any as S.Schema<CreateBillingViewRequest>,
-  output: __S(481, __c30, 1) as any as S.Schema<CreateBillingViewResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<CreateBillingViewRequest>,
+  output: __S(17, __c1, 1) as any as S.Schema<CreateBillingViewResponse>,
   errors: [
     AccessDeniedException,
     BillingViewHealthStatusException,
@@ -868,6 +1133,40 @@ export const createBillingView: API.OperationMethod<
   operationName: "CreateBillingView",
   telemetry: TELEMETRY,
   span: "CreateBillingView",
+}));
+
+export type CreateContractualInvestmentAttestationError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates an attestation that claims an investment award for a completed milestone or outcome within a private pricing contract. Supply a `clientToken` to make the request idempotent so a safe retry does not create a duplicate attestation. This operation starts an asynchronous review and returns an `attestationId` while the attestation is pending.
+ */
+export const createContractualInvestmentAttestation: API.OperationMethod<
+  CreateContractualInvestmentAttestationRequest & RegionInput,
+  CreateContractualInvestmentAttestationResponse,
+  CreateContractualInvestmentAttestationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(71, __c4, 7) as any as S.Schema<CreateContractualInvestmentAttestationRequest>,
+  output: __S(72, __c4, 8) as any as S.Schema<CreateContractualInvestmentAttestationResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateContractualInvestmentAttestation",
+  telemetry: TELEMETRY,
+  span: "CreateContractualInvestmentAttestation",
 }));
 
 export type DeleteBillingViewError =
@@ -886,8 +1185,8 @@ export const deleteBillingView: API.OperationMethod<
   DeleteBillingViewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<DeleteBillingViewRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<DeleteBillingViewResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<DeleteBillingViewRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<DeleteBillingViewResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -900,6 +1199,38 @@ export const deleteBillingView: API.OperationMethod<
   operationName: "DeleteBillingView",
   telemetry: TELEMETRY,
   span: "DeleteBillingView",
+}));
+
+export type DisassociateContractError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Removes the association between a private pricing contract and your Amazon Web Services account. The account must have been associated with the contract previously. This operation is idempotent, so retrying is safe.
+ */
+export const disassociateContract: API.OperationMethod<
+  DisassociateContractRequest & RegionInput,
+  DisassociateContractResponse,
+  DisassociateContractError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c8, 0) as any as S.Schema<DisassociateContractRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<DisassociateContractResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DisassociateContract",
+  telemetry: TELEMETRY,
+  span: "DisassociateContract",
 }));
 
 export type DisassociateSourceViewsError =
@@ -920,8 +1251,8 @@ export const disassociateSourceViews: API.OperationMethod<
   DisassociateSourceViewsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<DisassociateSourceViewsRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<DisassociateSourceViewsResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<DisassociateSourceViewsRequest>,
+  output: __S(688, __c43, 0) as any as S.Schema<DisassociateSourceViewsResponse>,
   errors: [
     AccessDeniedException,
     BillingViewHealthStatusException,
@@ -953,8 +1284,8 @@ export const getBillingPreferences: API.OperationMethod<
   GetBillingPreferencesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(34, __c2, 2) as any as S.Schema<GetBillingPreferencesRequest>,
-  output: __S(38, __c2, 6) as any as S.Schema<GetBillingPreferencesResponse>,
+  input: __S(162, __c10, 2) as any as S.Schema<GetBillingPreferencesRequest>,
+  output: __S(166, __c10, 6) as any as S.Schema<GetBillingPreferencesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -984,8 +1315,8 @@ export const getBillingView: API.OperationMethod<
   GetBillingViewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<GetBillingViewRequest>,
-  output: __S(66, __c4, 2) as any as S.Schema<GetBillingViewResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetBillingViewRequest>,
+  output: __S(194, __c12, 2) as any as S.Schema<GetBillingViewResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -998,6 +1329,38 @@ export const getBillingView: API.OperationMethod<
   operationName: "GetBillingView",
   telemetry: TELEMETRY,
   span: "GetBillingView",
+}));
+
+export type GetContractInformationError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Returns information about a specific private pricing contract, including its term (duration), eligible payer accounts, investment accounts, and legal entities. This operation is read-only.
+ */
+export const getContractInformation: API.OperationMethod<
+  GetContractInformationRequest & RegionInput,
+  GetContractInformationResponse,
+  GetContractInformationError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(224, __c14, 0) as any as S.Schema<GetContractInformationRequest>,
+  output: __S(229, __c14, 5) as any as S.Schema<GetContractInformationResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetContractInformation",
+  telemetry: TELEMETRY,
+  span: "GetContractInformation",
 }));
 
 export type GetCreditAllocationHistoryError =
@@ -1016,8 +1379,8 @@ export const getCreditAllocationHistory: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CreditAllocationHistoryEntry
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<GetCreditAllocationHistoryRequest>,
-  output: __S(99, __c6, 3) as any as S.Schema<GetCreditAllocationHistoryResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<GetCreditAllocationHistoryRequest>,
+  output: __S(259, __c16, 3) as any as S.Schema<GetCreditAllocationHistoryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1054,8 +1417,8 @@ export const getCredits: API.OperationMethod<
   GetCreditsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<GetCreditsRequest>,
-  output: __S(131, __c8, 3) as any as S.Schema<GetCreditsResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<GetCreditsRequest>,
+  output: __S(275, __c17, 3) as any as S.Schema<GetCreditsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1085,8 +1448,8 @@ export const getEnterpriseSupportChargeSummary: API.OperationMethod<
   GetEnterpriseSupportChargeSummaryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<GetEnterpriseSupportChargeSummaryRequest>,
-  output: __S(145, __c9, 1) as any as S.Schema<GetEnterpriseSupportChargeSummaryResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<GetEnterpriseSupportChargeSummaryRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<GetEnterpriseSupportChargeSummaryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1117,8 +1480,8 @@ export const getEnterpriseSupportContractDetails: API.OperationMethod<
   GetEnterpriseSupportContractDetailsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<GetEnterpriseSupportContractDetailsRequest>,
-  output: __S(184, __c11, 8) as any as S.Schema<GetEnterpriseSupportContractDetailsResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetEnterpriseSupportContractDetailsRequest>,
+  output: __S(328, __c20, 8) as any as S.Schema<GetEnterpriseSupportContractDetailsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1149,8 +1512,8 @@ export const getResourcePolicy: API.OperationMethod<
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<GetResourcePolicyRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<GetResourcePolicyResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetResourcePolicyRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<GetResourcePolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1183,8 +1546,8 @@ export const listBillingViews: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BillingViewListElement
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(211, __c13, 3) as any as S.Schema<ListBillingViewsRequest>,
-  output: __S(214, __c13, 6) as any as S.Schema<ListBillingViewsResponse>,
+  input: __S(355, __c22, 3) as any as S.Schema<ListBillingViewsRequest>,
+  output: __S(358, __c22, 6) as any as S.Schema<ListBillingViewsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1226,8 +1589,8 @@ export const listBillingViewSegments: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BillingViewSegmentsListElement
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(225, __c14, 1) as any as S.Schema<ListBillingViewSegmentsRequest>,
-  output: __S(228, __c14, 4) as any as S.Schema<ListBillingViewSegmentsResponse>,
+  input: __S(369, __c23, 1) as any as S.Schema<ListBillingViewSegmentsRequest>,
+  output: __S(372, __c23, 4) as any as S.Schema<ListBillingViewSegmentsResponse>,
   errors: [
     AccessDeniedException,
     BillingViewHealthStatusException,
@@ -1266,8 +1629,8 @@ export const listBusinessSupportAccountCharges: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BusinessSupportAccountCharge
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<ListBusinessSupportAccountChargesRequest>,
-  output: __S(248, __c15, 8) as any as S.Schema<ListBusinessSupportAccountChargesResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<ListBusinessSupportAccountChargesRequest>,
+  output: __S(392, __c24, 8) as any as S.Schema<ListBusinessSupportAccountChargesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1305,8 +1668,8 @@ export const listBusinessSupportSubscriptionHistory: API.PaginatedOperationMetho
   Credentials | HttpClient.HttpClient,
   BusinessSupportSubscriptionContract
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<ListBusinessSupportSubscriptionHistoryRequest>,
-  output: __S(259, __c16, 3) as any as S.Schema<ListBusinessSupportSubscriptionHistoryResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<ListBusinessSupportSubscriptionHistoryRequest>,
+  output: __S(403, __c25, 3) as any as S.Schema<ListBusinessSupportSubscriptionHistoryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1327,6 +1690,160 @@ export const listBusinessSupportSubscriptionHistory: API.PaginatedOperationMetho
   span: "ListBusinessSupportSubscriptionHistory",
 })) as any;
 
+export type ListContractsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the private pricing contracts that your Amazon Web Services account is an eligible payer account of. This operation is read-only and paginated.
+ */
+export const listContracts: API.PaginatedOperationMethod<
+  ListContractsRequest & RegionInput,
+  ListContractsResponse,
+  ListContractsError,
+  Credentials | HttpClient.HttpClient,
+  ContractSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(416, __c26, 0) as any as S.Schema<ListContractsRequest>,
+  output: __S(419, __c26, 3) as any as S.Schema<ListContractsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListContracts",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListContracts",
+})) as any;
+
+export type ListContractualInvestmentAttestationsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the investment attestations submitted under a specific private pricing contract. Use this operation to track attestation status, including the terminal statuses `DISBURSED`, `REJECTED`, and `CANCELLED`. This operation is read-only and paginated.
+ */
+export const listContractualInvestmentAttestations: API.PaginatedOperationMethod<
+  ListContractualInvestmentAttestationsRequest & RegionInput,
+  ListContractualInvestmentAttestationsResponse,
+  ListContractualInvestmentAttestationsError,
+  Credentials | HttpClient.HttpClient,
+  InvestmentAttestation
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(432, __c27, 0) as any as S.Schema<ListContractualInvestmentAttestationsRequest>,
+  output: __S(435, __c27, 3) as any as S.Schema<ListContractualInvestmentAttestationsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListContractualInvestmentAttestations",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListContractualInvestmentAttestations",
+})) as any;
+
+export type ListContractualInvestmentsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the investments within a specific investment summary. This operation is read-only and paginated.
+ */
+export const listContractualInvestments: API.PaginatedOperationMethod<
+  ListContractualInvestmentsRequest & RegionInput,
+  ListContractualInvestmentsResponse,
+  ListContractualInvestmentsError,
+  Credentials | HttpClient.HttpClient,
+  Investment
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(448, __c28, 0) as any as S.Schema<ListContractualInvestmentsRequest>,
+  output: __S(457, __c28, 9) as any as S.Schema<ListContractualInvestmentsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListContractualInvestments",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListContractualInvestments",
+})) as any;
+
+export type ListContractualInvestmentSummariesError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the investment summaries within a specific private pricing contract. This operation is read-only and paginated.
+ */
+export const listContractualInvestmentSummaries: API.PaginatedOperationMethod<
+  ListContractualInvestmentSummariesRequest & RegionInput,
+  ListContractualInvestmentSummariesResponse,
+  ListContractualInvestmentSummariesError,
+  Credentials | HttpClient.HttpClient,
+  InvestmentSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(464, __c29, 0) as any as S.Schema<ListContractualInvestmentSummariesRequest>,
+  output: __S(467, __c29, 3) as any as S.Schema<ListContractualInvestmentSummariesResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListContractualInvestmentSummaries",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListContractualInvestmentSummaries",
+})) as any;
+
 export type ListEnterpriseSupportLinkedAccountChargesError =
   | AccessDeniedException
   | InternalServerException
@@ -1344,8 +1861,8 @@ export const listEnterpriseSupportLinkedAccountCharges: API.PaginatedOperationMe
   Credentials | HttpClient.HttpClient,
   LinkedAccountCharge
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<ListEnterpriseSupportLinkedAccountChargesRequest>,
-  output: __S(279, __c17, 7) as any as S.Schema<ListEnterpriseSupportLinkedAccountChargesResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<ListEnterpriseSupportLinkedAccountChargesRequest>,
+  output: __S(487, __c30, 7) as any as S.Schema<ListEnterpriseSupportLinkedAccountChargesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1383,8 +1900,8 @@ export const listSourceViewsForBillingView: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   BillingViewArn
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<ListSourceViewsForBillingViewRequest>,
-  output: __S(289, __c18, 1) as any as S.Schema<ListSourceViewsForBillingViewResponse>,
+  input: __S(496, __c31, 0) as any as S.Schema<ListSourceViewsForBillingViewRequest>,
+  output: __S(497, __c31, 1) as any as S.Schema<ListSourceViewsForBillingViewResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1421,8 +1938,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(512, __c32, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(513, __c32, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1452,8 +1969,8 @@ export const redeemCredits: API.OperationMethod<
   RedeemCreditsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<RedeemCreditsRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<RedeemCreditsResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<RedeemCreditsRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<RedeemCreditsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1483,8 +2000,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c22, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(544, __c34, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1515,8 +2032,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1548,8 +2065,8 @@ export const updateBillingPreferences: API.OperationMethod<
   UpdateBillingPreferencesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(386, __c24, 2) as any as S.Schema<UpdateBillingPreferencesRequest>,
-  output: __S(336, __c21, 0) as any as S.Schema<UpdateBillingPreferencesResponse>,
+  input: __S(578, __c36, 2) as any as S.Schema<UpdateBillingPreferencesRequest>,
+  output: __S(640, __c40, 0) as any as S.Schema<UpdateBillingPreferencesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -1582,8 +2099,8 @@ export const updateBillingView: API.OperationMethod<
   UpdateBillingViewError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<UpdateBillingViewRequest>,
-  output: __S(401, __c25, 1) as any as S.Schema<UpdateBillingViewResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<UpdateBillingViewRequest>,
+  output: __S(593, __c37, 1) as any as S.Schema<UpdateBillingViewResponse>,
   errors: [
     AccessDeniedException,
     BillingViewHealthStatusException,
@@ -1606,37 +2123,188 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ arn: S.String, force: S.optional(S.Boolean) }).pipe(
+        S.Struct({ attestationId: S.String, contractArn: S.String, reason: S.String }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
-      ).annotate({ identifier: "DeleteBillingViewRequest" });
+      ).annotate({ identifier: "CancelContractualInvestmentAttestationRequest" });
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ arn: S.String, sourceViews: __S(464, __c29, 0) }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "DisassociateSourceViewsRequest" });
+        S.Struct({
+          name: SensitiveString,
+          description: S.optional(SensitiveString),
+          sourceViews: __S(672, __c42, 0),
+          dataFilterExpression: S.optional(__S(35, __c2, 3)),
+          clientToken: S.optional(S.String).pipe(
+            T.HttpHeader("X-Amzn-Client-Token"),
+            T.IdempotencyToken(),
+          ),
+          resourceTags: S.optional(__S(49, __c3, 1)),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateBillingViewRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          arn: S.String,
+          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "CreateBillingViewResponse" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({ key: S.String, values: __S(672, __c42, 0) })).annotate({
+        identifier: "DimensionValues",
+      });
+    case 1:
+      return S.suspend(() => S.Struct({ key: S.String, values: __S(672, __c42, 0) })).annotate({
+        identifier: "TagValues",
+      });
+    case 2:
       return S.suspend(() =>
-        S.Struct({ name: S.optional(S.String), value: S.optional(__S(464, __c29, 0)) }),
+        S.Struct({
+          beginDateInclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          endDateInclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "TimeRange" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          dimensions: S.optional(__S(32, __c2, 0)),
+          tags: S.optional(__S(33, __c2, 1)),
+          costCategories: S.optional(__S(33, __c2, 1)),
+          timeRange: S.optional(__S(34, __c2, 2)),
+        }),
+      ).annotate({ identifier: "Expression" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ key: S.String, value: S.optional(S.String) })).annotate({
+        identifier: "ResourceTag",
+      });
+    case 1:
+      return S.Array(__S(48, __c3, 0));
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ name: SensitiveString, title: SensitiveString, email: SensitiveString }),
+      ).annotate({ identifier: "ApproverDetails" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ attestationVolume: S.String, attestationUnit: S.String }),
+      ).annotate({ identifier: "AttestationQuantity" });
+    case 2:
+      return S.Array(__S(65, __c4, 1));
+    case 3:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ attestationAmount: __S(80, __c5, 0) }),
+        /*@__PURE__*/ S.Struct({ attestationQuantities: __S(66, __c4, 2) }),
+      ]);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          attestationValue: __S(67, __c4, 3),
+          investmentDistributions: S.optional(__S(97, __c6, 1)),
+        }),
+      ).annotate({ identifier: "AttestationDetails" });
+    case 5:
+      return S.suspend(() => S.Struct({ email: SensitiveString })).annotate({
+        identifier: "AdditionalRecipient",
+      });
+    case 6:
+      return S.Array(__S(69, __c4, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          contractArn: S.String,
+          investmentSummaryId: S.String,
+          investmentId: S.String,
+          contractDocumentId: SensitiveString,
+          approverDetails: __S(64, __c4, 0),
+          investmentDisbursedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          attestationDetails: __S(68, __c4, 4),
+          additionalRecipients: S.optional(__S(70, __c4, 6)),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateContractualInvestmentAttestationRequest" });
+    case 8:
+      return S.suspend(() => S.Struct({ attestationId: S.String })).annotate({
+        identifier: "CreateContractualInvestmentAttestationResponse",
+      });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ currencyCode: S.String, currencyAmount: S.String }),
+      ).annotate({ identifier: "Amount" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ accountId: S.String, investmentAmount: __S(80, __c5, 0) }),
+      ).annotate({ identifier: "InvestmentDistribution" });
+    case 1:
+      return S.Array(__S(96, __c6, 0));
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String, force: S.optional(S.Boolean) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DeleteBillingViewRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ contractArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DisassociateContractRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String, sourceViews: __S(672, __c42, 0) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "DisassociateSourceViewsRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ name: S.optional(S.String), value: S.optional(__S(672, __c42, 0)) }),
       ).annotate({ identifier: "BillingFeatureFilter" });
     case 1:
-      return S.Array(__S(32, __c2, 0));
+      return S.Array(__S(160, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
-          features: __S(48, __c3, 0),
-          filters: S.optional(__S(33, __c2, 1)),
+          features: __S(176, __c11, 0),
+          filters: S.optional(__S(161, __c10, 1)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetBillingPreferencesRequest" });
     case 3:
@@ -1651,24 +2319,24 @@ function __c2(j: number): any {
           value: S.String,
           accountName: S.optional(S.String),
           accountId: S.optional(S.String),
-          billingPeriod: S.optional(__S(35, __c2, 3)),
+          billingPeriod: S.optional(__S(163, __c10, 3)),
         }),
       ).annotate({ identifier: "BillingPreferenceSummary" });
     case 5:
-      return S.Array(__S(36, __c2, 4));
+      return S.Array(__S(164, __c10, 4));
     case 6:
       return S.suspend(() =>
-        S.Struct({ billingPreferences: __S(37, __c2, 5), nextToken: S.optional(S.String) }),
+        S.Struct({ billingPreferences: __S(165, __c10, 5), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "GetBillingPreferencesResponse" });
   }
 }
-function __c3(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c4(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1685,30 +2353,77 @@ function __c4(j: number): any {
           billingViewType: S.optional(S.String),
           ownerAccountId: S.optional(S.String),
           sourceAccountId: S.optional(S.String),
-          dataFilterExpression: S.optional(__S(499, __c31, 3)),
+          dataFilterExpression: S.optional(__S(35, __c2, 3)),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           derivedViewCount: S.optional(S.Number),
           sourceViewCount: S.optional(S.Number),
           viewDefinitionLastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          healthStatus: S.optional(__S(80, __c5, 0)),
+          healthStatus: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "BillingViewElement" });
     case 2:
-      return S.suspend(() => S.Struct({ billingView: __S(65, __c4, 1) })).annotate({
+      return S.suspend(() => S.Struct({ billingView: __S(193, __c12, 1) })).annotate({
         identifier: "GetBillingViewResponse",
       });
   }
 }
-function __c5(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ statusCode: S.optional(S.String), statusReasons: S.optional(__S(48, __c3, 0)) }),
+        S.Struct({
+          statusCode: S.optional(S.String),
+          statusReasons: S.optional(__S(176, __c11, 0)),
+        }),
       ).annotate({ identifier: "BillingViewHealthStatus" });
   }
 }
-function __c6(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ contractArn: S.String }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "GetContractInformationRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ legalEntityName: SensitiveString })).annotate({
+        identifier: "LegalEntity",
+      });
+    case 2:
+      return S.Array(__S(225, __c14, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          contractArn: S.String,
+          contractTerm: __S(240, __c15, 0),
+          eligiblePayerAccounts: __S(672, __c42, 0),
+          investmentAccounts: __S(672, __c42, 0),
+          legalEntities: __S(226, __c14, 2),
+          contractRestrictions: S.optional(__S(176, __c11, 0)),
+        }),
+      ).annotate({ identifier: "PrivatePricingAddendum" });
+    case 4:
+      return S.Union([/*@__PURE__*/ S.Struct({ privatePricingAddendum: __S(227, __c14, 3) })]);
+    case 5:
+      return S.suspend(() => S.Struct({ contract: __S(228, __c14, 4) })).annotate({
+        identifier: "GetContractInformationResponse",
+      });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          startDateInclusive: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          endDateInclusive: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "Interval" });
+  }
+}
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1725,7 +2440,7 @@ function __c6(j: number): any {
       return S.suspend(() =>
         S.Struct({
           creditId: S.String,
-          creditAmount: __S(112, __c7, 0),
+          creditAmount: __S(80, __c5, 0),
           description: S.optional(S.String),
           accountId: S.String,
           appliedServiceName: S.String,
@@ -1734,27 +2449,19 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "CreditAllocationHistoryEntry" });
     case 2:
-      return S.Array(__S(97, __c6, 1));
+      return S.Array(__S(257, __c16, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          creditAllocationHistoryList: S.optional(__S(98, __c6, 2)),
+          creditAllocationHistoryList: S.optional(__S(258, __c16, 2)),
           partialResults: S.Boolean,
-          failedMonths: S.optional(__S(464, __c29, 0)),
+          failedMonths: S.optional(__S(672, __c42, 0)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetCreditAllocationHistoryResponse" });
   }
 }
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ currencyCode: S.String, currencyAmount: S.String }),
-      ).annotate({ identifier: "Amount" });
-  }
-}
-function __c8(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1771,34 +2478,34 @@ function __c8(j: number): any {
           creditId: S.String,
           accountId: S.String,
           creditType: S.String,
-          initialAmount: __S(112, __c7, 0),
-          remainingAmount: __S(112, __c7, 0),
-          estimatedAmount: S.optional(__S(112, __c7, 0)),
-          applicableProductNames: S.optional(__S(464, __c29, 0)),
+          initialAmount: __S(80, __c5, 0),
+          remainingAmount: __S(80, __c5, 0),
+          estimatedAmount: S.optional(__S(80, __c5, 0)),
+          applicableProductNames: S.optional(__S(672, __c42, 0)),
           description: S.String,
           startDate: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           endDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           exhaustDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           applicationType: S.optional(S.String),
-          shareableAccounts: S.optional(__S(464, __c29, 0)),
+          shareableAccounts: S.optional(__S(672, __c42, 0)),
           accountHasCreditSharingEnabled: S.optional(S.Boolean),
           creditConsoleVisibility: S.optional(S.String),
           creditSharingType: S.optional(S.String),
           costCategoryArn: S.optional(S.String),
           ruleName: S.optional(S.String),
           creditStatus: S.optional(S.String),
-          purchaseTypeApplications: S.optional(__S(464, __c29, 0)),
+          purchaseTypeApplications: S.optional(__S(672, __c42, 0)),
         }),
       ).annotate({ identifier: "CreditData" });
     case 2:
-      return S.Array(__S(129, __c8, 1));
+      return S.Array(__S(273, __c17, 1));
     case 3:
-      return S.suspend(() => S.Struct({ credits: S.optional(__S(130, __c8, 2)) })).annotate({
+      return S.suspend(() => S.Struct({ credits: S.optional(__S(274, __c17, 2)) })).annotate({
         identifier: "GetCreditsResponse",
       });
   }
 }
-function __c9(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1823,12 +2530,12 @@ function __c9(j: number): any {
           totalSupportEligibleReservedInstanceSpend: S.String,
           totalSupportEligibleSavingsPlanSpend: S.String,
           supportChargePercentage: S.String,
-          supportEffectivePricingPlan: __S(162, __c10, 2),
+          supportEffectivePricingPlan: __S(306, __c19, 2),
         }),
       ).annotate({ identifier: "GetEnterpriseSupportChargeSummaryResponse" });
   }
 }
-function __c10(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1844,7 +2551,7 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "PricingPlanTier" });
     case 1:
-      return S.Array(__S(160, __c10, 0));
+      return S.Array(__S(304, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -1857,12 +2564,12 @@ function __c10(j: number): any {
           discountAppliesToMinimumCharge: S.optional(S.Boolean),
           minimumCharge: S.optional(S.String),
           tiered: S.optional(S.String),
-          tiers: __S(161, __c10, 1),
+          tiers: __S(305, __c19, 1),
         }),
       ).annotate({ identifier: "PricingPlan" });
   }
 }
-function __c11(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1875,13 +2582,13 @@ function __c11(j: number): any {
         identifier: "ContractAccount",
       });
     case 2:
-      return S.Array(__S(177, __c11, 1));
+      return S.Array(__S(321, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({ accountId: S.String, chargePercentage: S.String }),
       ).annotate({ identifier: "ChargeAccount" });
     case 4:
-      return S.Array(__S(179, __c11, 3));
+      return S.Array(__S(323, __c20, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1891,9 +2598,9 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "AdditionalCharge" });
     case 6:
-      return S.Array(__S(181, __c11, 5));
+      return S.Array(__S(325, __c20, 5));
     case 7:
-      return S.Array(__S(162, __c10, 2));
+      return S.Array(__S(306, __c19, 2));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -1908,16 +2615,16 @@ function __c11(j: number): any {
           ),
           supportSavingsPlansTreatmentMethod: S.optional(S.String),
           supportProrateStartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          contractPayerAccountIds: __S(178, __c11, 2),
-          chargedPayerAccountIds: __S(180, __c11, 4),
-          additionalSupportCharge: S.optional(__S(182, __c11, 6)),
-          additionalSupportEligibleUsageSpend: S.optional(__S(182, __c11, 6)),
-          pricingPlans: __S(183, __c11, 7),
+          contractPayerAccountIds: __S(322, __c20, 2),
+          chargedPayerAccountIds: __S(324, __c20, 4),
+          additionalSupportCharge: S.optional(__S(326, __c20, 6)),
+          additionalSupportEligibleUsageSpend: S.optional(__S(326, __c20, 6)),
+          pricingPlans: __S(327, __c20, 7),
         }),
       ).annotate({ identifier: "GetEnterpriseSupportContractDetailsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1931,7 +2638,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetResourcePolicyResponse" });
   }
 }
-function __c13(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1945,14 +2652,14 @@ function __c13(j: number): any {
         identifier: "StringSearch",
       });
     case 2:
-      return S.Array(__S(209, __c13, 1));
+      return S.Array(__S(353, __c22, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          activeTimeRange: S.optional(__S(208, __c13, 0)),
-          arns: S.optional(__S(464, __c29, 0)),
-          billingViewTypes: S.optional(__S(48, __c3, 0)),
-          names: S.optional(__S(210, __c13, 2)),
+          activeTimeRange: S.optional(__S(352, __c22, 0)),
+          arns: S.optional(__S(672, __c42, 0)),
+          billingViewTypes: S.optional(__S(176, __c11, 0)),
+          names: S.optional(__S(354, __c22, 2)),
           ownerAccountId: S.optional(S.String),
           sourceAccountId: S.optional(S.String),
           maxResults: S.optional(S.Number),
@@ -1968,18 +2675,18 @@ function __c13(j: number): any {
           ownerAccountId: S.optional(S.String),
           sourceAccountId: S.optional(S.String),
           billingViewType: S.optional(S.String),
-          healthStatus: S.optional(__S(80, __c5, 0)),
+          healthStatus: S.optional(__S(208, __c13, 0)),
         }),
       ).annotate({ identifier: "BillingViewListElement" });
     case 5:
-      return S.Array(__S(212, __c13, 4));
+      return S.Array(__S(356, __c22, 4));
     case 6:
       return S.suspend(() =>
-        S.Struct({ billingViews: __S(213, __c13, 5), nextToken: S.optional(S.String) }),
+        S.Struct({ billingViews: __S(357, __c22, 5), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListBillingViewsResponse" });
   }
 }
-function __c14(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1991,7 +2698,7 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          timeRange: S.optional(__S(224, __c14, 0)),
+          timeRange: S.optional(__S(368, __c23, 0)),
           arn: S.optional(S.String),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
@@ -2001,21 +2708,21 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           domain: S.optional(S.String),
-          timeRange: S.optional(__S(224, __c14, 0)),
+          timeRange: S.optional(__S(368, __c23, 0)),
           billingTransferAccountId: S.optional(S.String),
           managementAccountId: S.optional(S.String),
           billingGroupPrimaryAccountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "BillingViewSegmentsListElement" });
     case 3:
-      return S.Array(__S(226, __c14, 2));
+      return S.Array(__S(370, __c23, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ items: __S(227, __c14, 3), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(371, __c23, 3), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListBillingViewSegmentsResponse" });
   }
 }
-function __c15(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2038,7 +2745,7 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "BusinessSupportTierCharge" });
     case 2:
-      return S.Array(__S(241, __c15, 1));
+      return S.Array(__S(385, __c24, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2059,7 +2766,7 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "BusinessSupportServiceSpend" });
     case 5:
-      return S.Array(__S(244, __c15, 4));
+      return S.Array(__S(388, __c24, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -2067,13 +2774,13 @@ function __c15(j: number): any {
           supportPlanName: S.String,
           totalCharge: S.String,
           totalUsageBasis: S.String,
-          tierCharges: S.optional(__S(242, __c15, 2)),
-          supportDiscount: S.optional(__S(243, __c15, 3)),
-          supportEligibleSpendByService: S.optional(__S(245, __c15, 5)),
+          tierCharges: S.optional(__S(386, __c24, 2)),
+          supportDiscount: S.optional(__S(387, __c24, 3)),
+          supportEligibleSpendByService: S.optional(__S(389, __c24, 5)),
         }),
       ).annotate({ identifier: "BusinessSupportAccountCharge" });
     case 7:
-      return S.Array(__S(246, __c15, 6));
+      return S.Array(__S(390, __c24, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -2082,13 +2789,13 @@ function __c15(j: number): any {
           totalSupportCharge: S.String,
           totalSupportEligibleSpend: S.String,
           accountCount: S.Number,
-          accountCharges: __S(247, __c15, 7),
+          accountCharges: __S(391, __c24, 7),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListBusinessSupportAccountChargesResponse" });
   }
 }
-function __c16(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2111,14 +2818,163 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "BusinessSupportSubscriptionContract" });
     case 2:
-      return S.Array(__S(257, __c16, 1));
+      return S.Array(__S(401, __c25, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ subscriptionContracts: __S(258, __c16, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ subscriptionContracts: __S(402, __c25, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListBusinessSupportSubscriptionHistoryResponse" });
   }
 }
-function __c17(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ nextToken: S.optional(S.String), maxResults: S.optional(S.Number) }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListContractsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          contractArn: S.String,
+          contractTerm: __S(240, __c15, 0),
+          contractType: S.optional(S.String),
+          associationStatus: S.String,
+          lastUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "ContractSummary" });
+    case 2:
+      return S.Array(__S(417, __c26, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ items: __S(418, __c26, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListContractsResponse" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          contractArn: S.String,
+          investmentSummaryId: S.optional(S.String),
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListContractualInvestmentAttestationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          attestationId: S.String,
+          investmentName: S.String,
+          outcomeDescription: S.String,
+          investmentSummaryId: S.String,
+          investmentId: S.String,
+          attestedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          attestationStatus: S.String,
+          investmentDisbursedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          attestedValue: S.optional(__S(80, __c5, 0)),
+          investmentDistributions: S.optional(__S(97, __c6, 1)),
+          rejectionReasons: S.optional(__S(672, __c42, 0)),
+          isCancellable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "InvestmentAttestation" });
+    case 2:
+      return S.Array(__S(433, __c27, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ items: __S(434, __c27, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListContractualInvestmentAttestationsResponse" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          contractArn: S.String,
+          investmentSummaryId: S.String,
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListContractualInvestmentsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          investmentId: S.String,
+          investmentValue: __S(80, __c5, 0),
+          investmentDisbursedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "MilestoneBasedInvestment" });
+    case 2:
+      return S.suspend(() => S.Struct({ amount: __S(80, __c5, 0) })).annotate({
+        identifier: "InvestmentRestriction",
+      });
+    case 3:
+      return S.Array(__S(450, __c28, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.String,
+          investmentAttestationInputUnit: S.String,
+          multiplierType: S.String,
+        }),
+      ).annotate({ identifier: "InvestmentMultiplier" });
+    case 5:
+      return S.Array(__S(452, __c28, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          investmentId: S.String,
+          outcomeDescription: S.String,
+          attestationWindow: __S(240, __c15, 0),
+          investmentRestrictions: S.optional(__S(451, __c28, 3)),
+          investmentMultipliers: S.optional(__S(453, __c28, 5)),
+          disbursedValue: __S(80, __c5, 0),
+        }),
+      ).annotate({ identifier: "OutcomeBasedInvestment" });
+    case 7:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ milestoneBasedInvestment: __S(449, __c28, 1) }),
+        /*@__PURE__*/ S.Struct({ outcomeBasedInvestment: __S(454, __c28, 6) }),
+      ]);
+    case 8:
+      return S.Array(__S(455, __c28, 7));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({ items: __S(456, __c28, 8), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListContractualInvestmentsResponse" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          contractArn: S.String,
+          nextToken: S.optional(S.String),
+          maxResults: S.optional(S.Number),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "ListContractualInvestmentSummariesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          investmentSummaryId: S.String,
+          investmentName: S.String,
+          investmentType: S.String,
+          maxAllowedInvestmentDisbursementValue: S.optional(__S(80, __c5, 0)),
+        }),
+      ).annotate({ identifier: "InvestmentSummary" });
+    case 2:
+      return S.Array(__S(465, __c29, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ items: __S(466, __c29, 2), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListContractualInvestmentSummariesResponse" });
+  }
+}
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2137,7 +2993,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "EnterpriseSupportTimePeriod" });
     case 2:
-      return S.Array(__S(273, __c17, 1));
+      return S.Array(__S(481, __c30, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -2146,7 +3002,7 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "ServiceLevelAccountUsage" });
     case 4:
-      return S.Array(__S(275, __c17, 3));
+      return S.Array(__S(483, __c30, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -2157,22 +3013,22 @@ function __c17(j: number): any {
           totalSeconds: S.Number,
           totalSupportEligibleSpend: S.String,
           proratedTotalSupportEligibleSpend: S.String,
-          linkedTimePeriods: S.optional(__S(274, __c17, 2)),
-          subscriptionTimePeriods: S.optional(__S(274, __c17, 2)),
+          linkedTimePeriods: S.optional(__S(482, __c30, 2)),
+          subscriptionTimePeriods: S.optional(__S(482, __c30, 2)),
           totalSupportEligibleReservedInstanceSpend: S.optional(S.String),
           totalSupportEligibleSavingsPlanSpend: S.optional(S.String),
-          supportEligibleSpendByService: S.optional(__S(276, __c17, 4)),
+          supportEligibleSpendByService: S.optional(__S(484, __c30, 4)),
         }),
       ).annotate({ identifier: "LinkedAccountCharge" });
     case 6:
-      return S.Array(__S(277, __c17, 5));
+      return S.Array(__S(485, __c30, 5));
     case 7:
       return S.suspend(() =>
-        S.Struct({ linkedAccount: __S(278, __c17, 6), nextToken: S.optional(S.String) }),
+        S.Struct({ linkedAccount: __S(486, __c30, 6), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListEnterpriseSupportLinkedAccountChargesResponse" });
   }
 }
-function __c18(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2184,11 +3040,11 @@ function __c18(j: number): any {
       ).annotate({ identifier: "ListSourceViewsForBillingViewRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ sourceViews: __S(464, __c29, 0), nextToken: S.optional(S.String) }),
+        S.Struct({ sourceViews: __S(672, __c42, 0), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSourceViewsForBillingViewResponse" });
   }
 }
-function __c19(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2197,12 +3053,12 @@ function __c19(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ resourceTags: S.optional(__S(513, __c32, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ resourceTags: S.optional(__S(49, __c3, 1)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
 }
-function __c20(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2212,49 +3068,43 @@ function __c20(j: number): any {
       ).annotate({ identifier: "RedeemCreditsRequest" });
   }
 }
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "RedeemCreditsResponse" });
-  }
-}
-function __c22(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, resourceTags: __S(513, __c32, 1) }).pipe(
+        S.Struct({ resourceArn: S.String, resourceTags: __S(49, __c3, 1) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c23(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, resourceTagKeys: __S(464, __c29, 0) }).pipe(
+        S.Struct({ resourceArn: S.String, resourceTagKeys: __S(672, __c42, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c24(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ key: S.String, value: S.String })).annotate({
         identifier: "BillingPreferenceForKey",
       });
     case 1:
-      return S.Array(__S(384, __c24, 0));
+      return S.Array(__S(576, __c36, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ feature: S.String, billingPreferencesPerKey: __S(385, __c24, 1) }).pipe(
+        S.Struct({ feature: S.String, billingPreferencesPerKey: __S(577, __c36, 1) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UpdateBillingPreferencesRequest" });
   }
 }
-function __c25(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2262,7 +3112,7 @@ function __c25(j: number): any {
           arn: S.String,
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
-          dataFilterExpression: S.optional(__S(499, __c31, 3)),
+          dataFilterExpression: S.optional(__S(35, __c2, 3)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateBillingViewRequest" });
     case 1:
@@ -2274,101 +3124,54 @@ function __c25(j: number): any {
       ).annotate({ identifier: "UpdateBillingViewResponse" });
   }
 }
-function __c26(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
         identifier: "ValidationExceptionField",
       });
     case 1:
-      return S.Array(__S(416, __c26, 0));
+      return S.Array(__S(608, __c38, 0));
   }
 }
-function __c27(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ arn: S.String, sourceViews: __S(464, __c29, 0) }).pipe(
+        S.Struct({ contractArn: S.String, contractDocumentId: SensitiveString }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "AssociateContractRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "AssociateContractResponse" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ arn: S.String, sourceViews: __S(672, __c42, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "AssociateSourceViewsRequest" });
   }
 }
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ arn: S.String })).annotate({
-        identifier: "AssociateSourceViewsResponse",
-      });
-  }
-}
-function __c29(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c30(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: SensitiveString,
-          description: S.optional(SensitiveString),
-          sourceViews: __S(464, __c29, 0),
-          dataFilterExpression: S.optional(__S(499, __c31, 3)),
-          clientToken: S.optional(S.String).pipe(
-            T.HttpHeader("X-Amzn-Client-Token"),
-            T.IdempotencyToken(),
-          ),
-          resourceTags: S.optional(__S(513, __c32, 1)),
-        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "CreateBillingViewRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          arn: S.String,
-          createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-        }),
-      ).annotate({ identifier: "CreateBillingViewResponse" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ key: S.String, values: __S(464, __c29, 0) })).annotate({
-        identifier: "DimensionValues",
+      return S.suspend(() => S.Struct({ arn: S.String })).annotate({
+        identifier: "AssociateSourceViewsResponse",
       });
-    case 1:
-      return S.suspend(() => S.Struct({ key: S.String, values: __S(464, __c29, 0) })).annotate({
-        identifier: "TagValues",
-      });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          beginDateInclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          endDateInclusive: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-        }),
-      ).annotate({ identifier: "TimeRange" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          dimensions: S.optional(__S(496, __c31, 0)),
-          tags: S.optional(__S(497, __c31, 1)),
-          costCategories: S.optional(__S(497, __c31, 1)),
-          timeRange: S.optional(__S(498, __c31, 2)),
-        }),
-      ).annotate({ identifier: "Expression" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ key: S.String, value: S.optional(S.String) })).annotate({
-        identifier: "ResourceTag",
-      });
-    case 1:
-      return S.Array(__S(512, __c32, 0));
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

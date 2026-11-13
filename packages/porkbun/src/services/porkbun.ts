@@ -62,6 +62,30 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export interface AccountVerifyEmailConfirmRequest {
+  /** The verification code from the email, exactly as written. */
+  code: string;
+}
+export interface AccountVerifyEmailConfirmResponse {
+  status?: string | undefined;
+  verified?: boolean | undefined;
+  alreadyVerified?: boolean | undefined;
+  message?: string | undefined;
+  phoneVerified?: boolean | undefined;
+}
+export interface AccountVerifyEmailSendRequest {}
+export interface AccountVerifyEmailSendResponse {
+  status?: string | undefined;
+  sent?: boolean | undefined;
+  codeAlreadySent?: boolean | undefined;
+  alreadyVerified?: boolean | undefined;
+  /** The address, masked (`o***@example.com`). */
+  sentTo?: string | undefined;
+  expiresInMinutes?: number | undefined;
+  retryAfterSeconds?: number | undefined;
+  message?: string | undefined;
+  phoneVerified?: boolean | undefined;
+}
 export interface AccountVerifyPhoneConfirmRequest {
   /** The code the person received, exactly as texted. Case does not matter. */
   code: string;
@@ -94,6 +118,17 @@ export interface AccountVerifyPhoneSendResponse {
 }
 /** PKCE challenge method. Only S256 is supported. */
 export type ApikeyRequestRequestCodeChallengeMethod = "S256";
+export type ApikeyRequestRequestScopesItem =
+  | "read"
+  | "dns"
+  | "domains"
+  | "email"
+  | "hosting"
+  | "purchase"
+  | "funding"
+  | "account";
+/** Optional permissions for the new key; `read` is always included. Shown to the account holder on the approval page, and the key gets exactly these. Leave out for a full-access key. Ask for the least you need, e.g. ["dns"] for a DNS updater. The account holder may grant less than you ask for (never more), so check `/ping` (`scopes`) once you have the key. Sandbox keys (`sandbox: true`) get exactly the scopes asked for, echoed in the response as `scopes`, so you can test a restricted key before asking for a real one. */
+export type ApikeyRequestRequestScopesList = Array<ApikeyRequestRequestScopesItem | (string & {})>;
 export interface ApikeyRequestRequest {
   /** Human-readable name for the application/integration requesting access. Optional but strongly recommended: it is shown to the account holder on the approval screen so they know what they're granting access to. If omitted, the approval page shows "No application name was provided." */
   name?: string | undefined;
@@ -101,10 +136,12 @@ export interface ApikeyRequestRequest {
   codeChallenge?: string | undefined;
   /** PKCE challenge method. Only S256 is supported. */
   codeChallengeMethod?: ApikeyRequestRequestCodeChallengeMethod | (string & {}) | undefined;
-  /** If true, skip the approval flow and immediately return a throwaway SANDBOX key pair (public `pk1_sb_`, secret `sk1_sb_`) for a fresh test account seeded with $1000 fake credit. Use it as apikey/secretapikey against the same base URL to run the whole API in the isolated sandbox -- no real registry actions, DNS changes, or charges. Rate-limited (20/IP/hour). */
+  /** If true, skip the approval flow and immediately return a throwaway SANDBOX key pair (public `pk1_sb_`, secret `sk1_sb_`) for a fresh test account seeded with $1000 fake credit. Use it as apikey/secretapikey against the same base URL to run the whole API in the isolated sandbox -- no real registry actions, DNS changes, or charges. Pass `scopes` to get a restricted sandbox key. Rate-limited (20/IP/hour). */
   sandbox?: boolean | undefined;
   /** Optional app-return redirect for native/mobile apps. Requires codeChallenge (PKCE). Must be an HTTPS URL your app claims as a Universal Link / App Link (custom URI schemes are rejected -- another app could hijack them). After the account holder approves in the system browser, Porkbun redirects here with `?status=approved&requestToken=<token>` (or `status=denied`) so control returns to your app; it then calls /apikey/retrieve with its codeVerifier to receive the keys. The key is NEVER placed in the redirect -- only the request token and status. */
   returnUrl?: string | undefined;
+  /** Optional permissions for the new key; `read` is always included. Shown to the account holder on the approval page, and the key gets exactly these. Leave out for a full-access key. Ask for the least you need, e.g. ["dns"] for a DNS updater. The account holder may grant less than you ask for (never more), so check `/ping` (`scopes`) once you have the key. Sandbox keys (`sandbox: true`) get exactly the scopes asked for, echoed in the response as `scopes`, so you can test a restricted key before asking for a real one. */
+  scopes?: ApikeyRequestRequestScopesList | undefined;
 }
 /** Which delivery flow this request uses. 'pkce' when a codeChallenge was supplied (the secret is returned once via /apikey/retrieve to the verifier holder); 'legacy' otherwise (the secret is shown only in the browser). */
 export type ApikeyRequestResponseDeliveryMode = "legacy" | "pkce";
@@ -120,6 +157,52 @@ export interface ApikeyRequestResponse {
   deliveryMode?: ApikeyRequestResponseDeliveryMode | undefined;
   /** Human-readable instructions */
   message?: string | undefined;
+}
+export interface ApikeyRevokeShareRequest {
+  id: number;
+  dryRun?: boolean | undefined;
+}
+export interface ApikeyRevokeShareResponse {
+  status?: string | undefined;
+  id?: number | undefined;
+  message?: string | undefined;
+}
+export interface ApikeySharesRequest {}
+export type ApikeySharesResponseSharesItemStatus =
+  | "PENDING"
+  | "ACTIVE"
+  | "CLAIMED"
+  | "REVOKED"
+  | "EXPIRED";
+export interface ApikeySharesResponseSharesItem {
+  id?: number | undefined;
+  domain?: string | undefined;
+  sharedWith?: string | undefined;
+  permissions?: string | undefined;
+  status?: ApikeySharesResponseSharesItemStatus | undefined;
+  created?: string | undefined;
+  expires?: string | null | undefined;
+  approved?: string | null | undefined;
+  claimed?: string | null | undefined;
+  /** `api` (/apikey/claim) or `oauth` (share code at sign-in). */
+  claimedVia?: string | null | undefined;
+  /** The link to send the other person: https://porkbun.com/share/<token>. Opening it never claims anything. */
+  shareUrl?: string | undefined;
+  /** An SVG QR code of shareUrl. */
+  qrCodeUrl?: string | undefined;
+  /** Short code (e.g. `ABCD-2345`) for connecting the Claude app or ChatGPT: they add the Porkbun connector, choose Connect, then "I have a share code". */
+  shareCode?: string | undefined;
+  /** Plain-text prompt for the other person to paste into their AI agent: what was shared, the limits, and how to connect (including the share token for `/apikey/claim`). */
+  handoffPrompt?: string | undefined;
+  /** The access length set on the share, or null for until revoked. */
+  accessHours?: number | null | undefined;
+  /** When the access ends (set at claim when accessHours is set). */
+  accessUntil?: string | null | undefined;
+}
+export type ApikeySharesResponseSharesList = Array<ApikeySharesResponseSharesItem>;
+export interface ApikeySharesResponse {
+  status?: string | undefined;
+  shares?: ApikeySharesResponseSharesList | undefined;
 }
 /** Domains to check, e.g. ["example.com", "example.net"]. Duplicates are removed. */
 export type BulkDomainCheckDomainRequestDomainsList = Array<string>;
@@ -146,16 +229,35 @@ export interface BulkDomainCheckDomainResponse {
   /** Bulk budget usage; `countedIn` is "domains" */
   limits?: unknown | undefined;
 }
-/** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
-export type CloseoutBuyRequestPayWith = "usdc";
+export interface ClaimApikeyRequest {
+  /** The token from the share link (the part after /share/) or the handoff prompt. */
+  shareToken: string;
+}
+export interface ClaimApikeyResponse {
+  status?: string | undefined;
+  apikey?: string | Redacted.Redacted<string> | undefined;
+  /** Returned once. */
+  secretapikey?: string | undefined;
+  domain?: string | undefined;
+  permissions?: string | undefined;
+  /** `cloudWordPress`, `secureStaticHosting` or `managedLinks`. */
+  product?: string | undefined;
+  message?: string | undefined;
+  /** When this key stops working, if the share has an access length; null = until revoked. */
+  accessUntil?: string | null | undefined;
+}
+/** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402. `"card"` pays by card through a Stripe Link agent wallet over MPP instead, with a real hold: the 402 carries a single-use `payUrl` and a `cardPaymentId`; pay the link (it authorizes, not charges), then repeat with `cardPaymentId`; the hold is captured if the purchase succeeds and released if it fails. Guide: https://porkbun.com/llms/guides/pay-with-card-mpp */
+export type CloseoutBuyRequestPayWith = "usdc" | "card";
 export interface CloseoutBuyRequest {
   domain: string;
   /** Exact totalPrice in integer US cents, from /closeout/get/{domain}. Use 0 only with dryRun to request a quote. */
   cost: number;
-  /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
+  /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402. `"card"` pays by card through a Stripe Link agent wallet over MPP instead, with a real hold: the 402 carries a single-use `payUrl` and a `cardPaymentId`; pay the link (it authorizes, not charges), then repeat with `cardPaymentId`; the hold is captured if the purchase succeeds and released if it fails. Guide: https://porkbun.com/llms/guides/pay-with-card-mpp */
   payWith?: CloseoutBuyRequestPayWith | (string & {}) | undefined;
   /** With `payWith: "usdc"`: the `checkoutId` from an earlier `PAYMENT_REQUIRED`, once its `x402Url` or `payUrl` has been paid. Send it with otherwise the same request; the purchase completes if the checkout is paid and was opened for this purchase. */
   usdcCheckoutId?: string | undefined;
+  /** With `payWith: "card"`: the `cardPaymentId` from an earlier `PAYMENT_REQUIRED`, once its `payUrl` has been paid (the card is then held). Send it with otherwise the same request; the hold is captured if the purchase succeeds and released if not. */
+  cardPaymentId?: string | undefined;
   /** Validate and price without charging or claiming. */
   dryRun?: boolean | undefined;
 }
@@ -311,7 +413,8 @@ export type CreateDnsRequestType =
   | "CAA"
   | "SSHFP"
   | "HTTPS"
-  | "SVCB";
+  | "SVCB"
+  | "DS";
 export interface CreateDnsRequest {
   domain: string;
   /** Subdomain for the record (e.g. 'www', '*' for wildcard, blank for root). Do not include the domain name itself. */
@@ -333,26 +436,30 @@ export interface CreateDnsRequest {
 export type DnsWriteWarnings = Array<string>;
 export interface CreateDnsResponse {
   status?: string | undefined;
-  /** The numeric ID of the newly created record */
-  id?: string | undefined;
+  /** The ID of the newly created record, as a JSON number. `/dns/retrieve` and `existingId` carry record IDs as strings, so compare them as strings. */
+  id?: number | undefined;
   warnings?: DnsWriteWarnings | undefined;
 }
-/** Must be 'yes' or '1' to confirm agreement to the Domain Name Registration Agreement, Product Terms of Service, Privacy Policy, and automatic renewal terms. */
+/** Must be 'yes' or '1' to confirm agreement to the Domain Name Registration Agreement, Product Terms of Service, Data Processing Addendum, Privacy Policy, and automatic renewal terms. */
 export type CreateDomainRequestAgreeToTerms = "yes" | "1";
-/** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
-export type CreateDomainRequestPayWith = "usdc";
+/** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402. `"card"` pays by card through a Stripe Link agent wallet over MPP instead, with a real hold: the 402 carries a single-use `payUrl` and a `cardPaymentId`; pay the link (it authorizes, not charges), then repeat with `cardPaymentId`; the hold is captured if the purchase succeeds and released if it fails. Guide: https://porkbun.com/llms/guides/pay-with-card-mpp */
+export type CreateDomainRequestPayWith = "usdc" | "card";
 export interface CreateDomainRequest {
   domain: string;
   /** The registration cost in pennies (USD cents). Must exactly equal the total price for the domain at its minimum registration duration. Obtain this from /domain/checkDomain first. */
   cost: number;
-  /** Must be 'yes' or '1' to confirm agreement to the Domain Name Registration Agreement, Product Terms of Service, Privacy Policy, and automatic renewal terms. */
+  /** Must be 'yes' or '1' to confirm agreement to the Domain Name Registration Agreement, Product Terms of Service, Data Processing Addendum, Privacy Policy, and automatic renewal terms. */
   agreeToTerms: CreateDomainRequestAgreeToTerms | (string & {});
+  /** Required for an internationalized domain name (IDN) under a TLD whose registry needs its language: a code or language name from `idnLanguages`, as returned by /domain/checkDomain or by the IDN_LANGUAGE_REQUIRED error (any case). Ignored for plain ASCII names. */
+  idnLanguage?: string | undefined;
   /** Optional. Override WHOIS privacy for this registration. When omitted, the account-level default is used (set under Account Security Settings on porkbun.com/account -- defaults to enabled). Pass `true` to force-enable privacy or `false` to register with public contact info. Strings `"on"`/`"off"`, `"true"`/`"false"`, `"yes"`/`"no"`, `"1"`/`"0"` are also accepted. Has no effect on TLDs that don't support WHOIS privacy (privacy stays off regardless). */
   whoisPrivacy?: boolean | undefined;
-  /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
+  /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402. `"card"` pays by card through a Stripe Link agent wallet over MPP instead, with a real hold: the 402 carries a single-use `payUrl` and a `cardPaymentId`; pay the link (it authorizes, not charges), then repeat with `cardPaymentId`; the hold is captured if the purchase succeeds and released if it fails. Guide: https://porkbun.com/llms/guides/pay-with-card-mpp */
   payWith?: CreateDomainRequestPayWith | (string & {}) | undefined;
   /** With `payWith: "usdc"`: the `checkoutId` from an earlier `PAYMENT_REQUIRED`, once its `x402Url` or `payUrl` has been paid. Send it with otherwise the same request; the purchase completes if the checkout is paid and was opened for this purchase. */
   usdcCheckoutId?: string | undefined;
+  /** With `payWith: "card"`: the `cardPaymentId` from an earlier `PAYMENT_REQUIRED`, once its `payUrl` has been paid (the card is then held). Send it with otherwise the same request; the hold is captured if the purchase succeeds and released if not. */
+  cardPaymentId?: string | undefined;
   /** Optional. When true, runs all pre-flight validation (availability, pricing, cost match, eligibility, funds, monthly spend limit, including the $100 default when none is set) and returns a preview with `dryRun: true` and `wouldSucceed` WITHOUT creating an order or charging. Nothing is registered and the rate-limit budget is not consumed. Use it to safely confirm an operation before committing. */
   dryRun?: boolean | undefined;
 }
@@ -438,24 +545,26 @@ export interface DryRunPreviewResponse {
 }
 export type CreateDomainResponseBody = CreateDomainResponse | DryRunPreviewResponse;
 export type CreateDomainResponse2 = CreateDomainResponseBody;
-/** The hosting plan SKU to provision. Discover the provisionable SKUs (and each one's price/interval/trial) via GET /hosting/plans, then pass the row's `sku`. Currently Secure Static Hosting: PIXIESECURESTATICM2 ($3.00/mo) or PIXIESECURESTATICY2 ($30.00/yr). */
+/** The hosting plan SKU to provision. Discover the provisionable SKUs (and each one's price/interval/trial) via GET /hosting/plans, then pass the row's `sku`. Families: Secure Static Hosting `PIXIESECURESTATIC...`, Cloud for WordPress `CLOUDWORDPRESS...`, and paid Link in Bio `PIXIELINKSM1` ($3/month) or `PIXIELINKSY1` ($30/year). */
 export type CreateHostingRequestSku = "PIXIESECURESTATICM2" | "PIXIESECURESTATICY2";
 export type CreateHostingRequestAgreeToTerms = "yes";
-/** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
-export type CreateHostingRequestPayWith = "usdc";
+/** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402. `"card"` pays by card through a Stripe Link agent wallet over MPP instead, with a real hold: the 402 carries a single-use `payUrl` and a `cardPaymentId`; pay the link (it authorizes, not charges), then repeat with `cardPaymentId`; the hold is captured if the purchase succeeds and released if it fails. Guide: https://porkbun.com/llms/guides/pay-with-card-mpp */
+export type CreateHostingRequestPayWith = "usdc" | "card";
 export interface CreateHostingRequest {
   domain: string;
-  /** The hosting plan SKU to provision. Discover the provisionable SKUs (and each one's price/interval/trial) via GET /hosting/plans, then pass the row's `sku`. Currently Secure Static Hosting: PIXIESECURESTATICM2 ($3.00/mo) or PIXIESECURESTATICY2 ($30.00/yr). */
+  /** The hosting plan SKU to provision. Discover the provisionable SKUs (and each one's price/interval/trial) via GET /hosting/plans, then pass the row's `sku`. Families: Secure Static Hosting `PIXIESECURESTATIC...`, Cloud for WordPress `CLOUDWORDPRESS...`, and paid Link in Bio `PIXIELINKSM1` ($3/month) or `PIXIELINKSY1` ($30/year). */
   sku: CreateHostingRequestSku | (string & {});
-  /** Echo the plan price in cents (300 monthly / 3000 yearly) to confirm the account holder understands the auto-renew / charge. Mismatch returns COST_ACKNOWLEDGMENT_REQUIRED. */
+  /** The plan's `price` in cents, from the same `/hosting/plans` row as the `sku` (e.g. 300 for `PIXIELINKSM1` or `PIXIESECURESTATICM2`, 1200 for `CLOUDWORDPRESSM1`), to confirm the account holder understands the auto-renew / charge. Mismatch returns COST_ACKNOWLEDGMENT_REQUIRED. */
   acknowledgedCost: number;
   agreeToTerms: CreateHostingRequestAgreeToTerms | (string & {});
   /** Required (true) when the domain is not already on Porkbun nameservers -- provisioning will switch them. */
   agreeToNameserverChange?: boolean | undefined;
-  /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
+  /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402. `"card"` pays by card through a Stripe Link agent wallet over MPP instead, with a real hold: the 402 carries a single-use `payUrl` and a `cardPaymentId`; pay the link (it authorizes, not charges), then repeat with `cardPaymentId`; the hold is captured if the purchase succeeds and released if it fails. Guide: https://porkbun.com/llms/guides/pay-with-card-mpp */
   payWith?: CreateHostingRequestPayWith | (string & {}) | undefined;
   /** With `payWith: "usdc"`: the `checkoutId` from an earlier `PAYMENT_REQUIRED`, once its `x402Url` or `payUrl` has been paid. Send it with otherwise the same request; the purchase completes if the checkout is paid and was opened for this purchase. */
   usdcCheckoutId?: string | undefined;
+  /** With `payWith: "card"`: the `cardPaymentId` from an earlier `PAYMENT_REQUIRED`, once its `payUrl` has been paid (the card is then held). Send it with otherwise the same request; the hold is captured if the purchase succeeds and released if not. */
+  cardPaymentId?: string | undefined;
   /** Validate + preview without provisioning or charging. */
   dryRun?: boolean | undefined;
 }
@@ -485,6 +594,160 @@ export interface CreateHostingResponse {
   cost?: CreateHostingResponseCost | undefined;
   message?: string | undefined;
 }
+export interface CreateLinkInBioRequest {
+  domain: string;
+  /** Required when the domain is not on Porkbun nameservers. */
+  agreeToNameserverChange?: boolean | undefined;
+}
+/** `domain`: served on the domain. `l.ink`: the domain forwards to the l.ink address (the free plan that comes with new .com registrations). */
+export type LinkInBioDelivery = "domain" | "l.ink";
+export interface LinkInBioPlan {
+  /** PIXIELINKS2M1 / PIXIELINKS2M2 (free) or PIXIELINKSM1 / PIXIELINKSY1 (paid). */
+  sku?: string | undefined;
+  name?: string | undefined;
+  free?: boolean | undefined;
+  /** Cents per interval. */
+  price?: number | undefined;
+  /** month or year; null when free. */
+  interval?: string | null | undefined;
+}
+/** What the plan allows. Only the free on-domain plan (PIXIELINKS2M1) turns any of these off. */
+export interface LinkInBioFeatures {
+  /** 50 on PIXIELINKS2M1, 1000 otherwise. */
+  maxLinks?: number | undefined;
+  scheduling?: boolean | undefined;
+  animation?: boolean | undefined;
+  passcodeProtection?: boolean | undefined;
+  analyticsIds?: boolean | undefined;
+  utmParameters?: boolean | undefined;
+  /** Set up in the editor only. */
+  mailingList?: boolean | undefined;
+}
+export interface LinkInBioProfile {
+  title?: string | null | undefined;
+  bio?: string | null | undefined;
+  avatarUrl?: string | null | undefined;
+}
+/** `link`, `featured` (shown larger) or `category` (a heading with no URL). */
+export type LinkInBioLinkType = "link" | "featured" | "category";
+/** `pulse`, `bounce` or `shake`. Paid plans. */
+export type LinkInBioLinkAnimation = "pulse" | "bounce" | "shake";
+/** `code`: enter a passcode (paid plans). `birthday`: confirm a minimum age. `sensitive`: a content warning. */
+export type LinkInBioLinkProtectionType = "code" | "birthday" | "sensitive";
+/** What a visitor has to do before the link opens. */
+export interface LinkInBioLinkProtection {
+  /** `code`: enter a passcode (paid plans). `birthday`: confirm a minimum age. `sensitive`: a content warning. */
+  type?: LinkInBioLinkProtectionType | undefined;
+  /** The passcode for `code`; the minimum age (18, 21, 25) for `birthday`. */
+  value?: string | null | undefined;
+  /** Text shown to the visitor. */
+  explanation?: string | null | undefined;
+}
+/** One entry on the page, in display order. */
+export interface LinkInBioLink {
+  /** Pass to editLink / deleteLink / reorderLinks. */
+  id?: number | undefined;
+  /** `link`, `featured` (shown larger) or `category` (a heading with no URL). */
+  type?: LinkInBioLinkType | undefined;
+  /** Text shown on the button or heading. */
+  title?: string | undefined;
+  /** Where it goes; null for a category. */
+  url?: string | null | undefined;
+  /** False hides it without deleting it. */
+  enabled?: boolean | undefined;
+  /** 1 = first on the page. */
+  position?: number | undefined;
+  /** Shown only from this time (UTC, ISO 8601). Paid plans. */
+  startDate?: string | null | undefined;
+  /** Hidden after this time (UTC, ISO 8601). Paid plans. */
+  endDate?: string | null | undefined;
+  /** `pulse`, `bounce` or `shake`. Paid plans. */
+  animation?: LinkInBioLinkAnimation | null | undefined;
+  /** What a visitor has to do before the link opens. */
+  protection?: LinkInBioLinkProtection | null | undefined;
+  /** Thumbnail set in the editor, if any. */
+  imageUrl?: string | null | undefined;
+}
+export type LinkInBioLinksList = Array<LinkInBioLink>;
+export type LinkInBioSocialsLocation = "top" | "bottom";
+/** Social profile icons. Values are as entered: a handle or a full URL. */
+export interface LinkInBioSocials {
+  location?: LinkInBioSocialsLocation | undefined;
+  email?: string | null | undefined;
+  instagram?: string | null | undefined;
+  facebook?: string | null | undefined;
+  tiktok?: string | null | undefined;
+  youtube?: string | null | undefined;
+  twitter?: string | null | undefined;
+  linkedin?: string | null | undefined;
+}
+/** null means the editor default. */
+export interface LinkInBioAppearance {
+  preset?: string | null | undefined;
+  fontFamily?: string | null | undefined;
+  buttonStyle?: string | null | undefined;
+  radius?: number | null | undefined;
+  pageBackgroundMode?: string | null | undefined;
+  textAlign?: string | null | undefined;
+  /** Hex colour. */
+  pageBackgroundColor?: string | null | undefined;
+  /** Hex colour. */
+  pageBackgroundColor2?: string | null | undefined;
+  /** Hex colour. */
+  pageColor?: string | null | undefined;
+  /** Hex colour. */
+  boxBackgroundColor?: string | null | undefined;
+  /** Hex colour. */
+  borderColor?: string | null | undefined;
+}
+export interface LinkInBioSettingsAnalytics {
+  googleAnalyticsId?: string | null | undefined;
+  facebookPixelId?: string | null | undefined;
+  twitterPixelId?: string | null | undefined;
+  tikTokPixelId?: string | null | undefined;
+  utmSource?: string | null | undefined;
+  utmMedium?: string | null | undefined;
+}
+/** Whether a signup form is set up (in the editor). Its settings are never returned. */
+export interface LinkInBioSettingsMailingList {
+  enabled?: boolean | undefined;
+  provider?: string | null | undefined;
+}
+export interface LinkInBioSettings {
+  /** `generic` warning or an age check (18, 21, 25) shown before the page. */
+  sensitiveContent?: string | null | undefined;
+  analytics?: LinkInBioSettingsAnalytics | undefined;
+  /** Whether a signup form is set up (in the editor). Its settings are never returned. */
+  mailingList?: LinkInBioSettingsMailingList | undefined;
+}
+export interface LinkInBio {
+  domain?: string | undefined;
+  /** Public address of the page: the domain itself, or `<domain-with-dashes>.l.ink` for the free forwarded plan. */
+  url?: string | undefined;
+  /** `domain`: served on the domain. `l.ink`: the domain forwards to the l.ink address (the free plan that comes with new .com registrations). */
+  delivery?: LinkInBioDelivery | undefined;
+  plan?: LinkInBioPlan | undefined;
+  status?: string | undefined;
+  isTrial?: boolean | undefined;
+  /** Paid plans: when the current term ends. */
+  expireDate?: string | null | undefined;
+  /** What the plan allows. Only the free on-domain plan (PIXIELINKS2M1) turns any of these off. */
+  features?: LinkInBioFeatures | undefined;
+  linkCount?: number | undefined;
+  profile?: LinkInBioProfile | undefined;
+  links?: LinkInBioLinksList | undefined;
+  /** Social profile icons. Values are as entered: a handle or a full URL. */
+  socials?: LinkInBioSocials | undefined;
+  /** null means the editor default. */
+  appearance?: LinkInBioAppearance | undefined;
+  settings?: LinkInBioSettings | undefined;
+  /** Where the account holder edits the page on porkbun.com. */
+  editorUrl?: string | undefined;
+}
+export interface LinkInBioResponse {
+  status?: string | undefined;
+  linkInBio?: LinkInBio | undefined;
+}
 /** Event types to subscribe to. Omit, or pass ["*"], for all events. Prefix wildcards like "dns.*" are allowed. */
 export type CreateWebhookRequestEventsList = Array<string>;
 export interface CreateWebhookRequest {
@@ -502,7 +765,7 @@ export interface WebhookEndpoint {
   id?: number | undefined;
   /** Destination HTTPS URL. */
   url?: string | undefined;
-  /** Signing secret used to verify the X-Porkbun-Signature header (HMAC-SHA256 key). Returned only to the authenticated owner. */
+  /** Signing secret used to verify the X-Porkbun-Signature header (HMAC-SHA256 key). Returned on create and rotateSecret, and on list/get only to keys with full access or the account scope (omitted for read-only keys, since it can sign events to your endpoint). */
   secret?: string | Redacted.Redacted<string> | undefined;
   /** Subscribed event types, or ["*"] for all. */
   events?: WebhookEndpointEventsList | undefined;
@@ -851,6 +1114,13 @@ export type CheckDomainResponseResponseAvail = "yes" | "no";
 export type CheckDomainResponseResponseFirstYearPromo = "yes" | "no";
 /** Whether this is a premium domain */
 export type CheckDomainResponseResponsePremium = "yes" | "no";
+export interface CheckDomainResponseResponseIdnLanguagesItem {
+  name?: string | undefined;
+  code?: string | undefined;
+}
+/** Present for an internationalized domain name whose registry needs its language: the accepted languages. Send one as `idnLanguage` to /domain/create */
+export type CheckDomainResponseResponseIdnLanguagesList =
+  Array<CheckDomainResponseResponseIdnLanguagesItem>;
 export interface CheckDomainResponseResponseAdditionalRenewal {
   type?: string | undefined;
   price?: string | undefined;
@@ -878,6 +1148,14 @@ export interface CheckDomainResponseResponse {
   premium?: CheckDomainResponseResponsePremium | undefined;
   /** Minimum registration duration in years required by the registry */
   minDuration?: number | undefined;
+  /** Present for an internationalized domain name whose registry needs its language: the accepted languages. Send one as `idnLanguage` to /domain/create */
+  idnLanguages?: CheckDomainResponseResponseIdnLanguagesList | undefined;
+  /** Present and true when the domain is already in the caller's account. `price` is still the registration price; renewal is `additional.renewal.price` */
+  inYourAccount?: boolean | undefined;
+  /** Present when the domain is registered to someone else: the `/aftermarket/search` path that shows whether it is for sale, at what price, and where to buy it. */
+  aftermarketSearch?: string | undefined;
+  /** Present with inYourAccount (which price applies to renewing) or with aftermarketSearch (the name may be for sale) */
+  note?: string | undefined;
   /** Renewal and transfer pricing for this domain */
   additional?: CheckDomainResponseResponseAdditional | undefined;
 }
@@ -955,14 +1233,41 @@ export interface DomainGetContactsResponse {
 export interface DomainGetGlueRequest {
   domain: string;
 }
-/** Two-element array: [0] full hostname string, [1] IP addresses object */
-export type DomainGetGlueResponseHostsItemList = Array<unknown>;
-/** Array of [hostname, ipAddresses] tuples. Each element is a two-item array: index 0 is the full hostname (string), index 1 is an object with `v4` (array of IPv4 strings) and `v6` (array of IPv6 strings). Example: `["ns1.example.com", {"v4": ["1.2.3.4"], "v6": []}]` */
+/** IPv4 addresses */
+export type GlueAddressesV4List = Array<string>;
+/** IPv6 addresses */
+export type GlueAddressesV6List = Array<string>;
+export interface GlueAddresses {
+  /** IPv4 addresses */
+  v4: GlueAddressesV4List;
+  /** IPv6 addresses */
+  v6: GlueAddressesV6List;
+}
+export type DomainGetGlueResponseHostsItemItem = string | GlueAddresses;
+/** [0] the full hostname, [1] its addresses */
+export type DomainGetGlueResponseHostsItemList = Array<DomainGetGlueResponseHostsItemItem>;
+/** Glue hosts as two-item arrays: `[hostname, {"v4": [...], "v6": [...]}]`, e.g. `["ns1.example.com", {"v4": ["192.0.2.1"], "v6": []}]`. Always an array (empty with no glue); both `v4` and `v6` are always present. Kept for existing clients; new code should read `glue`, which has the same data as objects. */
 export type DomainGetGlueResponseHostsList = Array<DomainGetGlueResponseHostsItemList>;
+/** IPv4 addresses */
+export type DomainGetGlueResponseGlueItemV4List = Array<string>;
+/** IPv6 addresses */
+export type DomainGetGlueResponseGlueItemV6List = Array<string>;
+export interface DomainGetGlueResponseGlueItem {
+  /** Full hostname */
+  host: string;
+  /** IPv4 addresses */
+  v4: DomainGetGlueResponseGlueItemV4List;
+  /** IPv6 addresses */
+  v6: DomainGetGlueResponseGlueItemV6List;
+}
+/** The same glue hosts as objects (added in 3.72). Always an array. */
+export type DomainGetGlueResponseGlueList = Array<DomainGetGlueResponseGlueItem>;
 export interface DomainGetGlueResponse {
   status?: string | undefined;
-  /** Array of [hostname, ipAddresses] tuples. Each element is a two-item array: index 0 is the full hostname (string), index 1 is an object with `v4` (array of IPv4 strings) and `v6` (array of IPv6 strings). Example: `["ns1.example.com", {"v4": ["1.2.3.4"], "v6": []}]` */
+  /** Glue hosts as two-item arrays: `[hostname, {"v4": [...], "v6": [...]}]`, e.g. `["ns1.example.com", {"v4": ["192.0.2.1"], "v6": []}]`. Always an array (empty with no glue); both `v4` and `v6` are always present. Kept for existing clients; new code should read `glue`, which has the same data as objects. */
   hosts?: DomainGetGlueResponseHostsList | undefined;
+  /** The same glue hosts as objects (added in 3.72). Always an array. */
+  glue?: DomainGetGlueResponseGlueList | undefined;
 }
 export interface DomainGetNsRequest {
   domain: string;
@@ -1078,7 +1383,7 @@ export interface DomainUpdateAutoRenewResponse {
 }
 /** Any subset of roles to change; unspecified roles are left as-is. */
 export type DomainUpdateContactsRequestContacts = DomainGetContactsResponseContacts;
-/** Only for a registrant change on an address-validated TLD after an ADDRESS_VALIDATION_REQUIRED response. 'accept_suggestion' saves the standardized suggestedAddress; 'use_as_entered' keeps the submitted address (rejected if a real correction was offered). */
+/** Only for a registrant change on an address-validated TLD after an ADDRESS_VALIDATION_REQUIRED response. 'accept_suggestion' saves the standardized suggestedAddress; 'use_as_entered' keeps the submitted address. Either choice saves the edit. */
 export type DomainUpdateContactsRequestAddressValidationChoice =
   | "accept_suggestion"
   | "use_as_entered";
@@ -1090,7 +1395,7 @@ export interface DomainUpdateContactsRequest {
   contact?: DomainContact | undefined;
   /** Validate and report wouldSucceed without applying the change. */
   dryRun?: boolean | undefined;
-  /** Only for a registrant change on an address-validated TLD after an ADDRESS_VALIDATION_REQUIRED response. 'accept_suggestion' saves the standardized suggestedAddress; 'use_as_entered' keeps the submitted address (rejected if a real correction was offered). */
+  /** Only for a registrant change on an address-validated TLD after an ADDRESS_VALIDATION_REQUIRED response. 'accept_suggestion' saves the standardized suggestedAddress; 'use_as_entered' keeps the submitted address. Either choice saves the edit. */
   addressValidationChoice?:
     | DomainUpdateContactsRequestAddressValidationChoice
     | (string & {})
@@ -1144,7 +1449,8 @@ export type EditDnsRequestType =
   | "CAA"
   | "SSHFP"
   | "HTTPS"
-  | "SVCB";
+  | "SVCB"
+  | "DS";
 export interface EditDnsRequest {
   domain: string;
   /** Numeric DNS record ID */
@@ -1162,11 +1468,245 @@ export interface EditDnsRequest {
   /** Notes (optional). Pass empty string to clear notes; omit or pass null to leave unchanged. */
   notes?: string | undefined;
 }
+export interface EmailAddForwardRequest {
+  domain: string;
+  /** The address at the domain to forward: the part before the @ (`info`) or the whole address (`info@example.com`) */
+  address: string;
+  /** The mailbox to deliver to */
+  forwardTo: string;
+  /** Agree to the DNS changes a DNS_CHANGE_CONFIRMATION_REQUIRED response described */
+  confirmDnsChanges?: boolean | undefined;
+  dryRun?: boolean | undefined;
+}
+export interface EmailAddForwardResponseDnsChangesMxRecordsRemovedItem {
+  id?: string | undefined;
+  content?: string | undefined;
+  prio?: string | undefined;
+}
+/** Apex MX records that are not Porkbun forwarding and are (or would be) deleted */
+export type EmailAddForwardResponseDnsChangesMxRecordsRemovedList =
+  Array<EmailAddForwardResponseDnsChangesMxRecordsRemovedItem>;
+/** set: Porkbun's SPF record is put in place; merge: include:_spf.porkbun.com is added to the existing SPF record (spfBefore/spfAfter); unchanged: it is already there; unchanged_over_limits: adding it would exceed SPF limits, so the record is left alone and forwarded mail may fail SPF */
+export type EmailAddForwardResponseDnsChangesSpf =
+  | "set"
+  | "merge"
+  | "unchanged"
+  | "unchanged_over_limits";
+/** What setting up forwarding does to the zone apex */
+export interface EmailAddForwardResponseDnsChanges {
+  /** Apex MX records that are not Porkbun forwarding and are (or would be) deleted */
+  mxRecordsRemoved?: EmailAddForwardResponseDnsChangesMxRecordsRemovedList | undefined;
+  /** set: Porkbun's SPF record is put in place; merge: include:_spf.porkbun.com is added to the existing SPF record (spfBefore/spfAfter); unchanged: it is already there; unchanged_over_limits: adding it would exceed SPF limits, so the record is left alone and forwarded mail may fail SPF */
+  spf?: EmailAddForwardResponseDnsChangesSpf | undefined;
+  spfBefore?: string | undefined;
+  spfAfter?: string | undefined;
+}
+/** Forwards the domain has (`used`, including any Porkbun manages itself) and may have (`max`) */
+export interface EmailAddForwardResponseLimits {
+  used?: number | undefined;
+  max?: number | undefined;
+}
+export interface EmailAddForwardResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  address?: string | undefined;
+  forwardTo?: string | undefined;
+  /** What setting up forwarding does to the zone apex */
+  dnsChanges?: EmailAddForwardResponseDnsChanges | undefined;
+  /** Forwards the domain has (`used`, including any Porkbun manages itself) and may have (`max`) */
+  limits?: EmailAddForwardResponseLimits | undefined;
+}
+export type EmailCreateMailboxRequestAgreeToTerms = "yes";
+/** Pay directly instead of from account credit; see /domain/create */
+export type EmailCreateMailboxRequestPayWith = "card" | "usdc";
+export interface EmailCreateMailboxRequest {
+  domain: string;
+  /** The part before the @ (`me`) or the whole address. 1-30 characters: letters, digits and + . - _ */
+  address: string;
+  /** Optional. 12-72 bytes with an upper case letter, a lower case letter, a number and a special character. Leave out to have a strong one generated and returned once */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Agree to DNS changes a DNS_CHANGE_CONFIRMATION_REQUIRED response described */
+  confirmDnsChanges?: boolean | undefined;
+  dryRun?: boolean | undefined;
+  /** The price in cents, 3600 */
+  cost: number;
+  agreeToTerms: EmailCreateMailboxRequestAgreeToTerms | (string & {});
+  /** Pay directly instead of from account credit; see /domain/create */
+  payWith?: EmailCreateMailboxRequestPayWith | (string & {}) | undefined;
+  cardPaymentId?: string | undefined;
+  usdcCheckoutId?: string | undefined;
+}
+export type EmailCreateMailboxResponseMailboxStatus =
+  | "PENDINGSETUP"
+  | "ACTIVE"
+  | "SUSPENDED"
+  | "PAUSED";
+export interface EmailCreateMailboxResponseMailbox {
+  id?: number | undefined;
+  /** Null while the mailbox waits to be set up */
+  address?: string | null | undefined;
+  status?: EmailCreateMailboxResponseMailboxStatus | undefined;
+  /** The free trial that comes with a registration */
+  trial?: boolean | undefined;
+  expires?: string | undefined;
+  quota?: string | undefined;
+  /** Renews on its own when due (set-up mailboxes) */
+  autoRenews?: boolean | undefined;
+  /** A year's renewal in cents */
+  renewalPrice?: number | undefined;
+}
+export interface EmailCreateMailboxResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  mailbox?: EmailCreateMailboxResponseMailbox | undefined;
+  /** Only when the password was generated (no `password` in the request). Shown once; give it to the user */
+  password?: string | Redacted.Redacted<string> | undefined;
+  passwordGenerated?: boolean | undefined;
+  /** Same shape as /email/addForward's dnsChanges: mxRecordsRemoved and spf */
+  dnsChanges?: unknown | undefined;
+  /** Mail client settings: IMAP imap.porkbun.com:993 SSL/TLS, POP pop.porkbun.com:995, SMTP smtp.porkbun.com:587 STARTTLS (or 465 implicit TLS, 50587), webmail https://webmail.porkbun.com; the username is the full address */
+  clientSettings?: unknown | undefined;
+  /** createMailbox only */
+  orderId?: number | undefined;
+  /** createMailbox only, cents */
+  charged?: number | undefined;
+  message?: string | undefined;
+}
+export interface EmailDeleteForwardRequest {
+  domain: string;
+  address: string;
+  forwardTo: string;
+}
+export interface EmailDeleteForwardResponse {
+  status?: string | undefined;
+  address?: string | undefined;
+  forwardTo?: string | undefined;
+  dnsRecordsRemoved?: boolean | undefined;
+}
+export interface EmailGetForwardsRequest {
+  domain: string;
+}
+export interface EmailGetForwardsResponseForwardsItem {
+  address?: string | undefined;
+  forwardTo?: string | undefined;
+  created?: string | undefined;
+}
+export type EmailGetForwardsResponseForwardsList = Array<EmailGetForwardsResponseForwardsItem>;
+/** Forwards the domain has (`used`, including any Porkbun manages itself) and may have (`max`) */
+export type EmailGetForwardsResponseLimits = EmailAddForwardResponseLimits;
+export interface EmailGetForwardsResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  forwards?: EmailGetForwardsResponseForwardsList | undefined;
+  /** Forwards the domain has (`used`, including any Porkbun manages itself) and may have (`max`) */
+  limits?: EmailAddForwardResponseLimits | undefined;
+  dnsConfigured?: boolean | undefined;
+}
+export interface EmailGetMailboxesRequest {
+  domain: string;
+}
+export type EmailGetMailboxesResponseMailboxesItemStatus =
+  | "PENDINGSETUP"
+  | "ACTIVE"
+  | "SUSPENDED"
+  | "PAUSED";
+export interface EmailGetMailboxesResponseMailboxesItem {
+  id?: number | undefined;
+  /** Null while the mailbox waits to be set up */
+  address?: string | null | undefined;
+  status?: EmailGetMailboxesResponseMailboxesItemStatus | undefined;
+  /** The free trial that comes with a registration */
+  trial?: boolean | undefined;
+  expires?: string | undefined;
+  quota?: string | undefined;
+  /** Renews on its own when due (set-up mailboxes) */
+  autoRenews?: boolean | undefined;
+  /** A year's renewal in cents */
+  renewalPrice?: number | undefined;
+}
+export type EmailGetMailboxesResponseMailboxesList = Array<EmailGetMailboxesResponseMailboxesItem>;
+export type EmailGetMailboxesResponsePrice = CreateHostingResponseCost;
+export interface EmailGetMailboxesResponse {
+  status?: string | undefined;
+  mailboxes?: EmailGetMailboxesResponseMailboxesList | undefined;
+  price?: CreateHostingResponseCost | undefined;
+  /** Mail client settings: IMAP imap.porkbun.com:993 SSL/TLS, POP pop.porkbun.com:995, SMTP smtp.porkbun.com:587 STARTTLS (or 465 implicit TLS, 50587), webmail https://webmail.porkbun.com; the username is the full address */
+  clientSettings?: unknown | undefined;
+}
+export type EmailRenewMailboxRequestAgreeToTerms = "yes";
+export type EmailRenewMailboxRequestPayWith = "card" | "usdc";
+export interface EmailRenewMailboxRequest {
+  domain: string;
+  mailboxId?: number | undefined;
+  /** The mailbox address, or the part before the @ */
+  address?: string | undefined;
+  cost: number;
+  agreeToTerms: EmailRenewMailboxRequestAgreeToTerms | (string & {});
+  payWith?: EmailRenewMailboxRequestPayWith | (string & {}) | undefined;
+  cardPaymentId?: string | undefined;
+  usdcCheckoutId?: string | undefined;
+  dryRun?: boolean | undefined;
+}
+export interface EmailRenewMailboxResponse {
+  status?: string | undefined;
+  mailbox?: unknown | undefined;
+  orderId?: number | undefined;
+  charged?: number | undefined;
+  message?: string | undefined;
+}
 export interface EmailSetPasswordRequest {
   /** The full email address (e.g. user@example.com) */
   emailAddress: string;
   /** The new password. Must pass Porkbun password validation rules. */
   password: string | Redacted.Redacted<string>;
+}
+export interface EmailSetupMailboxRequest {
+  domain: string;
+  /** The part before the @ (`me`) or the whole address. 1-30 characters: letters, digits and + . - _ */
+  address: string;
+  /** Optional. 12-72 bytes with an upper case letter, a lower case letter, a number and a special character. Leave out to have a strong one generated and returned once */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Agree to DNS changes a DNS_CHANGE_CONFIRMATION_REQUIRED response described */
+  confirmDnsChanges?: boolean | undefined;
+  dryRun?: boolean | undefined;
+  /** Which waiting mailbox (from /email/getMailboxes) */
+  mailboxId?: number | undefined;
+}
+export type EmailSetupMailboxResponseMailboxStatus =
+  | "PENDINGSETUP"
+  | "ACTIVE"
+  | "SUSPENDED"
+  | "PAUSED";
+export interface EmailSetupMailboxResponseMailbox {
+  id?: number | undefined;
+  /** Null while the mailbox waits to be set up */
+  address?: string | null | undefined;
+  status?: EmailSetupMailboxResponseMailboxStatus | undefined;
+  /** The free trial that comes with a registration */
+  trial?: boolean | undefined;
+  expires?: string | undefined;
+  quota?: string | undefined;
+  /** Renews on its own when due (set-up mailboxes) */
+  autoRenews?: boolean | undefined;
+  /** A year's renewal in cents */
+  renewalPrice?: number | undefined;
+}
+export interface EmailSetupMailboxResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  mailbox?: EmailSetupMailboxResponseMailbox | undefined;
+  /** Only when the password was generated (no `password` in the request). Shown once; give it to the user */
+  password?: string | Redacted.Redacted<string> | undefined;
+  passwordGenerated?: boolean | undefined;
+  /** Same shape as /email/addForward's dnsChanges: mxRecordsRemoved and spf */
+  dnsChanges?: unknown | undefined;
+  /** Mail client settings: IMAP imap.porkbun.com:993 SSL/TLS, POP pop.porkbun.com:995, SMTP smtp.porkbun.com:587 STARTTLS (or 465 implicit TLS, 50587), webmail https://webmail.porkbun.com; the username is the full address */
+  clientSettings?: unknown | undefined;
+  /** createMailbox only */
+  orderId?: number | undefined;
+  /** createMailbox only, cents */
+  charged?: number | undefined;
+  message?: string | undefined;
 }
 export interface GetAccountInviteStatusRequest {
   /** The `inviteToken` returned by `/account/invite` */
@@ -1197,6 +1737,43 @@ export interface GetApikeyResponse {
   message?: string | undefined;
   /** Machine-readable error code. Present when status is ERROR. */
   code?: string | undefined;
+}
+export interface GetApikeyShareRequest {}
+export type GetApikeyShareResponseSharesItemStatus =
+  | "PENDING"
+  | "ACTIVE"
+  | "CLAIMED"
+  | "REVOKED"
+  | "EXPIRED";
+export interface GetApikeyShareResponseSharesItem {
+  id?: number | undefined;
+  domain?: string | undefined;
+  sharedWith?: string | undefined;
+  permissions?: string | undefined;
+  status?: GetApikeyShareResponseSharesItemStatus | undefined;
+  created?: string | undefined;
+  expires?: string | null | undefined;
+  approved?: string | null | undefined;
+  claimed?: string | null | undefined;
+  /** `api` (/apikey/claim) or `oauth` (share code at sign-in). */
+  claimedVia?: string | null | undefined;
+  /** The link to send the other person: https://porkbun.com/share/<token>. Opening it never claims anything. */
+  shareUrl?: string | undefined;
+  /** An SVG QR code of shareUrl. */
+  qrCodeUrl?: string | undefined;
+  /** Short code (e.g. `ABCD-2345`) for connecting the Claude app or ChatGPT: they add the Porkbun connector, choose Connect, then "I have a share code". */
+  shareCode?: string | undefined;
+  /** Plain-text prompt for the other person to paste into their AI agent: what was shared, the limits, and how to connect (including the share token for `/apikey/claim`). */
+  handoffPrompt?: string | undefined;
+  /** The access length set on the share, or null for until revoked. */
+  accessHours?: number | null | undefined;
+  /** When the access ends (set at claim when accessHours is set). */
+  accessUntil?: string | null | undefined;
+}
+export type GetApikeyShareResponseSharesList = Array<GetApikeyShareResponseSharesItem>;
+export interface GetApikeyShareResponse {
+  status?: string | undefined;
+  shares?: GetApikeyShareResponseSharesList | undefined;
 }
 export interface GetApiSettingsRequest {}
 export type ApiSettingsResponseStatus = "SUCCESS" | "ERROR";
@@ -1245,6 +1822,34 @@ export interface ApiSettingsResponse {
   topupLimit?: ApiSettingsResponseTopupLimit | undefined;
 }
 export interface GetAutoTopupRequest {}
+export type SavedCardRole = "primary" | "backup";
+/** `card`, or `link` for a Stripe Link wallet (no brand or digits). */
+export type SavedCardType = "card" | "link";
+/** `declined`: a hard decline (closed account, wrong number, lost card...). It is skipped until `retryAfter`, then tried after the other cards. */
+export type SavedCardStatus = "active" | "expired" | "declined";
+/** A payment method saved on the account. The first is the primary; the rest are backups, tried in this order when the primary is declined. */
+export interface SavedCard {
+  role?: SavedCardRole | undefined;
+  /** `card`, or `link` for a Stripe Link wallet (no brand or digits). */
+  type?: SavedCardType | undefined;
+  /** Card brand, or `link`. */
+  brand?: string | undefined;
+  last4?: string | null | undefined;
+  expMonth?: number | null | undefined;
+  expYear?: number | null | undefined;
+  /** The name the account holder gave the card on the website, if any. */
+  nickname?: string | null | undefined;
+  /** `declined`: a hard decline (closed account, wrong number, lost card...). It is skipped until `retryAfter`, then tried after the other cards. */
+  status?: SavedCardStatus | undefined;
+  /** The most recent decline code, kept even when a soft decline left the card `active`. */
+  lastDeclineCode?: string | null | undefined;
+  /** UTC date-time until which a `declined` card is skipped. */
+  retryAfter?: string | null | undefined;
+  /** Top-ups charge cards only, so a Link wallet is `false` (renewals can still use it). */
+  usedForTopups?: boolean | undefined;
+}
+/** Saved payment methods, primary first. A top-up charges the primary and, if it is declined, the backups in order, at most one card per top-up. Always empty with a sandbox key. Cards are added, removed and reordered on the website only. */
+export type AutoTopupResponseCardsList = Array<SavedCard>;
 /** Advisory. Present when the settings cannot do anything as they stand, e.g. no payment method is saved. */
 export type AutoTopupResponseWarningsList = Array<string>;
 export interface AutoTopupResponse {
@@ -1260,6 +1865,8 @@ export interface AutoTopupResponse {
   defaultAmount?: number | undefined;
   /** False means nothing can be charged and auto top-up cannot fire, whatever the settings say. */
   paymentMethodOnFile?: boolean | undefined;
+  /** Saved payment methods, primary first. A top-up charges the primary and, if it is declined, the backups in order, at most one card per top-up. Always empty with a sandbox key. Cards are added, removed and reordered on the website only. */
+  cards?: AutoTopupResponseCardsList | undefined;
   /** Current account credit, in cents. */
   balance?: number | undefined;
   chargesToday?: number | undefined;
@@ -1378,14 +1985,31 @@ export interface GetDomainResponse {
 export interface GetDomainGlueRequest {
   domain: string;
 }
-/** Two-element array: [0] full hostname string, [1] IP addresses object */
-export type GetDomainGlueResponseHostsItemList = Array<unknown>;
-/** Array of [hostname, ipAddresses] tuples. Each element is a two-item array: index 0 is the full hostname (string), index 1 is an object with `v4` (array of IPv4 strings) and `v6` (array of IPv6 strings). Example: `["ns1.example.com", {"v4": ["1.2.3.4"], "v6": []}]` */
+export type GetDomainGlueResponseHostsItemItem = string | GlueAddresses;
+/** [0] the full hostname, [1] its addresses */
+export type GetDomainGlueResponseHostsItemList = Array<GetDomainGlueResponseHostsItemItem>;
+/** Glue hosts as two-item arrays: `[hostname, {"v4": [...], "v6": [...]}]`, e.g. `["ns1.example.com", {"v4": ["192.0.2.1"], "v6": []}]`. Always an array (empty with no glue); both `v4` and `v6` are always present. Kept for existing clients; new code should read `glue`, which has the same data as objects. */
 export type GetDomainGlueResponseHostsList = Array<GetDomainGlueResponseHostsItemList>;
+/** IPv4 addresses */
+export type GetDomainGlueResponseGlueItemV4List = Array<string>;
+/** IPv6 addresses */
+export type GetDomainGlueResponseGlueItemV6List = Array<string>;
+export interface GetDomainGlueResponseGlueItem {
+  /** Full hostname */
+  host: string;
+  /** IPv4 addresses */
+  v4: GetDomainGlueResponseGlueItemV4List;
+  /** IPv6 addresses */
+  v6: GetDomainGlueResponseGlueItemV6List;
+}
+/** The same glue hosts as objects (added in 3.72). Always an array. */
+export type GetDomainGlueResponseGlueList = Array<GetDomainGlueResponseGlueItem>;
 export interface GetDomainGlueResponse {
   status?: string | undefined;
-  /** Array of [hostname, ipAddresses] tuples. Each element is a two-item array: index 0 is the full hostname (string), index 1 is an object with `v4` (array of IPv4 strings) and `v6` (array of IPv6 strings). Example: `["ns1.example.com", {"v4": ["1.2.3.4"], "v6": []}]` */
+  /** Glue hosts as two-item arrays: `[hostname, {"v4": [...], "v6": [...]}]`, e.g. `["ns1.example.com", {"v4": ["192.0.2.1"], "v6": []}]`. Always an array (empty with no glue); both `v4` and `v6` are always present. Kept for existing clients; new code should read `glue`, which has the same data as objects. */
   hosts?: GetDomainGlueResponseHostsList | undefined;
+  /** The same glue hosts as objects (added in 3.72). Always an array. */
+  glue?: GetDomainGlueResponseGlueList | undefined;
 }
 export interface GetDomainNsRequest {
   domain: string;
@@ -1399,7 +2023,12 @@ export type GetDomainsRequestIncludeLabels = "yes" | "no";
 export type GetDomainsRequestTldsList = Array<string>;
 export type GetDomainsRequestAutoRenew = "yes" | "no";
 export type GetDomainsRequestApiAccess = "yes" | "no";
-export type GetDomainsRequestSortName = "domain" | "tld" | "create_date" | "expire_date";
+export type GetDomainsRequestSortName =
+  | "domain"
+  | "tld"
+  | "create_date"
+  | "added_date"
+  | "expire_date";
 export type GetDomainsRequestSortDirection = "asc" | "desc";
 export interface GetDomainsRequest {
   /** Zero-based offset for pagination. Returns up to 1000 domains per call. */
@@ -1412,13 +2041,25 @@ export interface GetDomainsRequest {
   nameContains?: string | undefined;
   /** Filter to domains expiring within this many days. */
   expiringWithinDays?: number | undefined;
+  /** Only domains added to this account at Porkbun (registered or transferred in) at or after this date or date-time, UTC. Compare `addedDate` in the response. To sync only new domains, pass the newest `addedDate` you have seen. */
+  addedAfter?: string | undefined;
+  /** Only domains added to this account at Porkbun before this date or date-time, UTC. */
+  addedBefore?: string | undefined;
+  /** Only domains whose registry creation date (`createDate`) is at or after this date or date-time, UTC. A transferred-in domain keeps its original creation date, so use `addedAfter` for "new in my account". */
+  createdAfter?: string | undefined;
+  /** Only domains whose registry creation date is before this date or date-time, UTC. */
+  createdBefore?: string | undefined;
+  /** Only domains expiring at or after this date or date-time, UTC. */
+  expiresAfter?: string | undefined;
+  /** Only domains expiring before this date or date-time, UTC. */
+  expiresBefore?: string | undefined;
   /** Limit to these TLDs (no leading dot). Use bracket form: `?tlds[]=com&tlds[]=io`. */
   tlds?: GetDomainsRequestTldsList | undefined;
   /** Filter to domains with auto-renew on or off. */
   autoRenew?: GetDomainsRequestAutoRenew | (string & {}) | undefined;
   /** Filter to domains opted in to API access. */
   apiAccess?: GetDomainsRequestApiAccess | (string & {}) | undefined;
-  /** Field to sort by. Default: `expire_date` ascending. */
+  /** Field to sort by. Default: `expire_date` ascending. `added_date` sorts by `addedDate`. */
   sortName?: GetDomainsRequestSortName | (string & {}) | undefined;
   /** Sort direction. Default: asc. */
   sortDirection?: GetDomainsRequestSortDirection | (string & {}) | undefined;
@@ -1436,7 +2077,10 @@ export interface DomainListAllResponseDomainsItem {
   /** Domain registration status (e.g. ACTIVE) */
   status?: string | undefined;
   tld?: string | undefined;
+  /** Registry creation date, UTC. A transferred-in domain keeps its original one. */
   createDate?: string | undefined;
+  /** When the domain joined Porkbun, by registration or transfer, UTC. Filter with `addedAfter` / `addedBefore`. */
+  addedDate?: string | undefined;
   expireDate?: string | undefined;
   /** 1 if transfer lock is enabled, 0 otherwise */
   securityLock?: number | undefined;
@@ -1461,8 +2105,124 @@ export interface DomainListAllResponse {
 export interface GetDomainUrlForwardingRequest {
   domain: string;
 }
+export interface GetEmailForwardsRequest {
+  domain: string;
+}
+export type GetEmailForwardsResponseForwardsItem = EmailGetForwardsResponseForwardsItem;
+export type GetEmailForwardsResponseForwardsList = Array<EmailGetForwardsResponseForwardsItem>;
+/** Forwards the domain has (`used`, including any Porkbun manages itself) and may have (`max`) */
+export type GetEmailForwardsResponseLimits = EmailAddForwardResponseLimits;
+export interface GetEmailForwardsResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  forwards?: GetEmailForwardsResponseForwardsList | undefined;
+  /** Forwards the domain has (`used`, including any Porkbun manages itself) and may have (`max`) */
+  limits?: EmailAddForwardResponseLimits | undefined;
+  dnsConfigured?: boolean | undefined;
+}
+export interface GetEmailMailboxesRequest {
+  domain: string;
+}
+export type GetEmailMailboxesResponseMailboxesItemStatus =
+  | "PENDINGSETUP"
+  | "ACTIVE"
+  | "SUSPENDED"
+  | "PAUSED";
+export interface GetEmailMailboxesResponseMailboxesItem {
+  id?: number | undefined;
+  /** Null while the mailbox waits to be set up */
+  address?: string | null | undefined;
+  status?: GetEmailMailboxesResponseMailboxesItemStatus | undefined;
+  /** The free trial that comes with a registration */
+  trial?: boolean | undefined;
+  expires?: string | undefined;
+  quota?: string | undefined;
+  /** Renews on its own when due (set-up mailboxes) */
+  autoRenews?: boolean | undefined;
+  /** A year's renewal in cents */
+  renewalPrice?: number | undefined;
+}
+export type GetEmailMailboxesResponseMailboxesList = Array<GetEmailMailboxesResponseMailboxesItem>;
+export type GetEmailMailboxesResponsePrice = CreateHostingResponseCost;
+export interface GetEmailMailboxesResponse {
+  status?: string | undefined;
+  mailboxes?: GetEmailMailboxesResponseMailboxesList | undefined;
+  price?: CreateHostingResponseCost | undefined;
+  /** Mail client settings: IMAP imap.porkbun.com:993 SSL/TLS, POP pop.porkbun.com:995, SMTP smtp.porkbun.com:587 STARTTLS (or 465 implicit TLS, 50587), webmail https://webmail.porkbun.com; the username is the full address */
+  clientSettings?: unknown | undefined;
+}
 export interface GetHostingRequest {
   domain: string;
+}
+/** Values setPhpVersion accepts. */
+export type WordPressSiteAvailablePhpVersionsList = Array<string>;
+export interface WordPressSiteSsl {
+  /** A certificate is in place and not expired. */
+  issued?: boolean | undefined;
+  expiresAt?: string | null | undefined;
+}
+export interface WordPressSiteStorage {
+  usedBytes?: number | null | undefined;
+  quotaBytes?: number | null | undefined;
+  percentUsed?: number | null | undefined;
+  /** Usage is refreshed about every 12 hours. */
+  note?: string | undefined;
+}
+/** Last known setting; null until it has been set or checked on porkbun.com. */
+export interface WordPressSiteSearchVisibility {
+  visible?: boolean | null | undefined;
+  checkedAt?: string | null | undefined;
+}
+/** The staging copy, if there is one. */
+export interface WordPressSiteStaging {
+  url?: string | null | undefined;
+  status?: string | undefined;
+  operation?: string | null | undefined;
+  /** queued, running, done or failed. */
+  operationState?: string | null | undefined;
+}
+export type WordPressSiteOperationsItemType = "restore" | "factory_reset" | "copy_site";
+export type WordPressSiteOperationsItemState =
+  | "queued"
+  | "running"
+  | "done"
+  | "failed"
+  | "waiting_for_plan";
+export interface WordPressSiteOperationsItem {
+  id?: number | undefined;
+  type?: WordPressSiteOperationsItemType | undefined;
+  /** `live`, `staging`, or the destination domain of a copy. */
+  target?: string | undefined;
+  state?: WordPressSiteOperationsItemState | undefined;
+  createdAt?: string | undefined;
+  updatedAt?: string | null | undefined;
+  error?: string | null | undefined;
+}
+/** The latest background job of each kind in the last 30 days: restore, factory reset (each for live or staging) and site copy. Poll after restoreBackup. */
+export type WordPressSiteOperationsList = Array<WordPressSiteOperationsItem>;
+/** Live details of a Cloud for WordPress site, read from WP Cloud. Each part is null if WP Cloud did not answer. */
+export interface WordPressSite {
+  /** WP Cloud site id. */
+  siteId?: number | null | undefined;
+  phpVersion?: string | null | undefined;
+  /** Values setPhpVersion accepts. */
+  availablePhpVersions?: WordPressSiteAvailablePhpVersionsList | null | undefined;
+  /** The version setting: `latest`, `previous` (one major release back), or a pinned number on older sites. */
+  wordPressVersion?: string | null | undefined;
+  ssl?: WordPressSiteSsl | null | undefined;
+  storage?: WordPressSiteStorage | null | undefined;
+  /** Last known setting; null until it has been set or checked on porkbun.com. */
+  searchVisibility?: WordPressSiteSearchVisibility | null | undefined;
+  /** The staging copy, if there is one. */
+  staging?: WordPressSiteStaging | null | undefined;
+  /** The latest background job of each kind in the last 30 days: restore, factory reset (each for live or staging) and site copy. Poll after restoreBackup. */
+  operations?: WordPressSiteOperationsList | null | undefined;
+}
+/** Cloud for WordPress only. */
+export interface GetHostingResponseHostingWordpress {
+  restUrl?: string | undefined;
+  adminUrl?: string | undefined;
+  site?: WordPressSite | undefined;
 }
 export interface GetHostingResponseHosting {
   domain?: string | undefined;
@@ -1476,10 +2236,43 @@ export interface GetHostingResponseHosting {
   /** True when a deprovision (retire) is queued/underway. Poll this endpoint until hosting is null for teardown completion. */
   pendingRetire?: boolean | undefined;
   cost?: unknown | undefined;
+  /** Cloud for WordPress only. */
+  wordpress?: GetHostingResponseHostingWordpress | undefined;
 }
 export interface GetHostingResponse {
   status?: string | undefined;
   hosting?: GetHostingResponseHosting | null | undefined;
+}
+export type GetHostingBackupRequestType = "files" | "database";
+export interface GetHostingBackupRequest {
+  domain: string;
+  staging?: boolean | undefined;
+  limit?: number | undefined;
+  type?: GetHostingBackupRequestType | (string & {}) | undefined;
+}
+export type GetHostingBackupResponseTarget = "live" | "staging";
+export type GetHostingBackupResponseBackupsItemType = "files" | "database";
+export interface GetHostingBackupResponseBackupsItem {
+  /** Pass to restoreBackup (fsId / dbId) or deleteBackup. */
+  id?: string | undefined;
+  type?: GetHostingBackupResponseBackupsItemType | undefined;
+  /** On-demand backups can be deleted; automatic ones expire after 30 days. */
+  onDemand?: boolean | undefined;
+  /** UTC. */
+  createdAt?: string | undefined;
+  bytes?: number | null | undefined;
+}
+export type GetHostingBackupResponseBackupsList = Array<GetHostingBackupResponseBackupsItem>;
+export interface GetHostingBackupResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  target?: GetHostingBackupResponseTarget | undefined;
+  backups?: GetHostingBackupResponseBackupsList | undefined;
+  count?: number | undefined;
+  /** All backups (of `type`, if given). */
+  total?: number | undefined;
+  retention?: string | undefined;
+  message?: string | undefined;
 }
 export interface GetInvoiceRequest {
   /** Invoice (order) ID, from `GET /account/invoices`. */
@@ -1505,7 +2298,7 @@ export interface GetInvoiceResponseInvoiceItemsItem {
   product?: string | undefined;
   type?: string | undefined;
   years?: number | null | undefined;
-  /** Resulting domain expiry, on lines that buy a domain term. */
+  /** The domain expiry this line produced (YYYY-MM-DD), on lines that buy a domain term. Stays the same after later renewals. Null on older lines where it can no longer be determined. */
   expires?: string | null | undefined;
   status?: GetInvoiceResponseInvoiceItemsItemStatus | undefined;
   price_cents?: number | undefined;
@@ -1560,7 +2353,12 @@ export interface IpResponse {
   /** Raw value of the X-Forwarded-For header */
   xForwardedFor?: string | undefined;
 }
+export interface GetLinkInBioRequest {
+  domain: string;
+}
 export interface GetPingRequest {}
+/** The key's permission scopes, or ["full"] for full access. Present when valid credentials were supplied */
+export type GetPingResponseScopesList = Array<string>;
 export interface GetPingResponse {
   status: string;
   /** The caller's public IP address */
@@ -1569,6 +2367,10 @@ export interface GetPingResponse {
   xForwardedFor?: string | undefined;
   /** Present and true when valid credentials were supplied */
   credentialsValid?: boolean | undefined;
+  /** Username of the Porkbun account the key belongs to. Present when valid credentials were supplied */
+  account?: string | undefined;
+  /** The key's permission scopes, or ["full"] for full access. Present when valid credentials were supplied */
+  scopes?: GetPingResponseScopesList | undefined;
 }
 export type GetPricingRequestTldsCase0List = Array<string>;
 /** Optional TLDs to price: an array, or a comma-separated string. If neither `tld` nor `tlds` is given (or both are empty), all supported TLDs are returned. */
@@ -1589,7 +2391,7 @@ export interface GetPricingResponsePricingValueCouponsValue {
   type?: string | undefined;
   amount?: number | undefined;
 }
-/** Active coupon codes for this TLD, keyed by product type */
+/** Public coupon codes that work on this TLD right now, keyed by product type (`registration`, `transfer`). Empty when none applies. `amount` is USD off when `type` is `amount`; `max_per_user` is per account. */
 export type GetPricingResponsePricingValueCouponsMap = {
   [key: string]: GetPricingResponsePricingValueCouponsValue | undefined;
 };
@@ -1599,7 +2401,7 @@ export interface GetPricingResponsePricingValue {
   transfer?: string | undefined;
   /** Present only for special TLDs (e.g. 'handshake') */
   specialType?: string | undefined;
-  /** Active coupon codes for this TLD, keyed by product type */
+  /** Public coupon codes that work on this TLD right now, keyed by product type (`registration`, `transfer`). Empty when none applies. `amount` is USD off when `type` is `amount`; `max_per_user` is per account. */
   coupons?: GetPricingResponsePricingValueCouponsMap | undefined;
 }
 /** Object keyed by TLD string */
@@ -1629,7 +2431,7 @@ export interface GetPricingGetResponsePricingValueCouponsValue {
   type?: string | undefined;
   amount?: number | undefined;
 }
-/** Active coupon codes for this TLD, keyed by product type */
+/** Public coupon codes that work on this TLD right now, keyed by product type (`registration`, `transfer`). Empty when none applies. `amount` is USD off when `type` is `amount`; `max_per_user` is per account. */
 export type GetPricingGetResponsePricingValueCouponsMap = {
   [key: string]: GetPricingGetResponsePricingValueCouponsValue | undefined;
 };
@@ -1639,7 +2441,7 @@ export interface GetPricingGetResponsePricingValue {
   transfer?: string | undefined;
   /** Present only for special TLDs (e.g. 'handshake') */
   specialType?: string | undefined;
-  /** Active coupon codes for this TLD, keyed by product type */
+  /** Public coupon codes that work on this TLD right now, keyed by product type (`registration`, `transfer`). Empty when none applies. `amount` is USD off when `type` is `amount`; `max_per_user` is per account. */
   coupons?: GetPricingGetResponsePricingValueCouponsMap | undefined;
 }
 /** Object keyed by TLD string */
@@ -1704,6 +2506,99 @@ export interface GetTransferResponse {
 export interface GetWebhookRequest {
   id: number;
 }
+export type HostingBackupsRequestType = "files" | "database";
+export interface HostingBackupsRequest {
+  domain: string;
+  /** true: act on the site's staging copy instead of the live site. */
+  staging?: boolean | undefined;
+  /** Default 100. */
+  limit?: number | undefined;
+  type?: HostingBackupsRequestType | (string & {}) | undefined;
+}
+export type HostingBackupsResponseTarget = "live" | "staging";
+export type HostingBackupsResponseBackupsItemType = "files" | "database";
+export interface HostingBackupsResponseBackupsItem {
+  /** Pass to restoreBackup (fsId / dbId) or deleteBackup. */
+  id?: string | undefined;
+  type?: HostingBackupsResponseBackupsItemType | undefined;
+  /** On-demand backups can be deleted; automatic ones expire after 30 days. */
+  onDemand?: boolean | undefined;
+  /** UTC. */
+  createdAt?: string | undefined;
+  bytes?: number | null | undefined;
+}
+export type HostingBackupsResponseBackupsList = Array<HostingBackupsResponseBackupsItem>;
+export interface HostingBackupsResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  target?: HostingBackupsResponseTarget | undefined;
+  backups?: HostingBackupsResponseBackupsList | undefined;
+  count?: number | undefined;
+  /** All backups (of `type`, if given). */
+  total?: number | undefined;
+  retention?: string | undefined;
+  message?: string | undefined;
+}
+export interface HostingCreateBackupRequest {
+  domain: string;
+  /** true: act on the site's staging copy instead of the live site. */
+  staging?: boolean | undefined;
+}
+export interface HostingCreateBackupResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  /** What happens next, to relay to the user. */
+  message?: string | undefined;
+}
+export interface HostingCreateStagingRequest {
+  domain: string;
+  /** Optional: build from this files backup of the live site (with dbId). */
+  fsId?: string | undefined;
+  /** Optional: the database backup to go with fsId. */
+  dbId?: string | undefined;
+}
+export interface WordPressStagingBuiltFromBackup {
+  files?: string | undefined;
+  database?: string | undefined;
+}
+export interface WordPressStagingPasswordProtection {
+  /** Visitors must enter the password. */
+  enabled?: boolean | undefined;
+  /** The staging password. */
+  password?: string | Redacted.Redacted<string> | null | undefined;
+}
+export interface WordPressStagingOutbound {
+  guardInstalled?: boolean | undefined;
+  /** Outgoing email is swallowed. */
+  blockEmail?: boolean | null | undefined;
+  /** Outbound WordPress HTTP API requests are blocked. */
+  blockApiRequests?: boolean | null | undefined;
+}
+export interface WordPressStagingSsl {
+  issued?: boolean | undefined;
+}
+export interface WordPressStaging {
+  url?: string | null | undefined;
+  /** PROVISIONING while being built, ACTIVE when live. */
+  status?: string | undefined;
+  /** The latest job: CREATE, RESET, PUBLISH or DELETE. */
+  operation?: string | null | undefined;
+  /** queued, running, done or failed. */
+  operationState?: string | null | undefined;
+  builtFromBackup?: WordPressStagingBuiltFromBackup | null | undefined;
+  passwordProtection?: WordPressStagingPasswordProtection | undefined;
+  outbound?: WordPressStagingOutbound | undefined;
+  /** WP_ENVIRONMENT_TYPE: staging or production. */
+  environment?: string | undefined;
+  ssl?: WordPressStagingSsl | null | undefined;
+  createdAt?: string | undefined;
+}
+export interface HostingCreateStagingResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  staging?: WordPressStaging | undefined;
+  message?: string | undefined;
+}
 /** Least privilege by default. `editor` = content only (recommended for agents). `administrator` = full control incl. plugin install; requires acknowledgeFullAccess. */
 export type HostingCreateWpCredentialsRequestRole = "editor" | "administrator";
 export interface HostingCreateWpCredentialsRequest {
@@ -1731,6 +2626,18 @@ export interface HostingCreateWpCredentialsResponse {
   credentials?: HostingCreateWpCredentialsResponseCredentials | undefined;
   message?: string | undefined;
 }
+export interface HostingDeleteBackupRequest {
+  domain: string;
+  /** true: act on the site's staging copy instead of the live site. */
+  staging?: boolean | undefined;
+  id: string;
+}
+export interface HostingDeleteBackupResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  /** What happens next, to relay to the user. */
+  message?: string | undefined;
+}
 export interface HostingDeleteFileRequest {
   domain: string;
   path: string;
@@ -1740,6 +2647,20 @@ export interface HostingDeleteFileRequest {
 export interface HostingDeleteFileResponse {
   status?: string | undefined;
   deleted?: string | undefined;
+}
+export interface HostingDeleteStagingRequest {
+  domain: string;
+}
+export interface HostingDeleteStagingResponseOperation {
+  type?: string | undefined;
+  state?: string | undefined;
+}
+export interface HostingDeleteStagingResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  operation?: HostingDeleteStagingResponseOperation | undefined;
+  /** What happens next, to relay to the user. */
+  message?: string | undefined;
 }
 export interface HostingDeleteWpCredentialsRequest {
   domain: string;
@@ -1763,6 +2684,22 @@ export interface HostingFilesResponse {
   status?: string | undefined;
   path?: string | undefined;
   files?: HostingFilesResponseFilesList | undefined;
+}
+export interface HostingGetStagingRequest {
+  domain: string;
+}
+export interface HostingGetStagingResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  staging?: WordPressStaging | undefined;
+}
+export interface HostingGetStagingGetRequest {
+  domain: string;
+}
+export interface HostingGetStagingGetResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  staging?: WordPressStaging | undefined;
 }
 export interface HostingGetWpCredentialsRequest {
   domain: string;
@@ -1800,6 +2737,219 @@ export interface HostingPlansResponse {
   status?: string | undefined;
   plans?: HostingPlansResponsePlansList | undefined;
 }
+export interface HostingPublishStagingRequest {
+  domain: string;
+}
+export type HostingPublishStagingResponseOperation = HostingDeleteStagingResponseOperation;
+export interface HostingPublishStagingResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  operation?: HostingDeleteStagingResponseOperation | undefined;
+  /** What happens next, to relay to the user. */
+  message?: string | undefined;
+}
+export interface HostingReissueSslRequest {
+  domain: string;
+}
+export interface HostingReissueSslResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  /** What happens next, to relay to the user. */
+  message?: string | undefined;
+}
+export interface HostingResetStagingRequest {
+  domain: string;
+  /** Optional: build from this files backup of the live site (with dbId). */
+  fsId?: string | undefined;
+  /** Optional: the database backup to go with fsId. */
+  dbId?: string | undefined;
+}
+export type HostingResetStagingResponseOperation = HostingDeleteStagingResponseOperation;
+export interface HostingResetStagingResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  operation?: HostingDeleteStagingResponseOperation | undefined;
+  /** What happens next, to relay to the user. */
+  message?: string | undefined;
+}
+export interface HostingRestoreBackupRequest {
+  domain: string;
+  /** true: act on the site's staging copy instead of the live site. */
+  staging?: boolean | undefined;
+  /** A files backup id. */
+  fsId: string;
+  /** A database backup id. */
+  dbId: string;
+}
+export interface HostingRestoreBackupResponseOperation {
+  id?: number | undefined;
+  type?: string | undefined;
+  state?: string | undefined;
+}
+export interface HostingRestoreBackupResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  target?: string | undefined;
+  operation?: HostingRestoreBackupResponseOperation | undefined;
+  message?: string | undefined;
+}
+export interface HostingSetPhpVersionRequest {
+  domain: string;
+  version: string;
+}
+export interface HostingSetPhpVersionResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  /** What happens next, to relay to the user. */
+  message?: string | undefined;
+}
+export interface HostingSetSearchVisibilityRequest {
+  domain: string;
+  visible: boolean;
+}
+export interface HostingSetSearchVisibilityResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  /** What happens next, to relay to the user. */
+  message?: string | undefined;
+}
+export type HostingSetStagingEnvironmentRequestType = "staging" | "production";
+export interface HostingSetStagingEnvironmentRequest {
+  domain: string;
+  type: HostingSetStagingEnvironmentRequestType | (string & {});
+}
+export type HostingSetStagingEnvironmentResponseOperation = HostingDeleteStagingResponseOperation;
+export interface HostingSetStagingEnvironmentResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  operation?: HostingDeleteStagingResponseOperation | undefined;
+  /** What happens next, to relay to the user. */
+  message?: string | undefined;
+}
+export interface HostingSetStagingGateRequest {
+  domain: string;
+  enabled?: boolean | undefined;
+  /** 4-64 characters. */
+  password?: string | Redacted.Redacted<string> | undefined;
+}
+export interface HostingSetStagingGateResponsePasswordProtection {
+  enabled?: boolean | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
+}
+export interface HostingSetStagingGateResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  passwordProtection?: HostingSetStagingGateResponsePasswordProtection | undefined;
+  message?: string | undefined;
+}
+export interface HostingSetStagingGuardRequest {
+  domain: string;
+  blockEmail?: boolean | undefined;
+  blockApiRequests?: boolean | undefined;
+}
+export type HostingSetStagingGuardResponseOperation = HostingDeleteStagingResponseOperation;
+export interface HostingSetStagingGuardResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  operation?: HostingDeleteStagingResponseOperation | undefined;
+  /** What happens next, to relay to the user. */
+  message?: string | undefined;
+}
+export type HostingSetWordPressVersionRequestVersion = "latest" | "previous";
+export interface HostingSetWordPressVersionRequest {
+  domain: string;
+  version: HostingSetWordPressVersionRequestVersion | (string & {});
+}
+export interface HostingSetWordPressVersionResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  /** What happens next, to relay to the user. */
+  message?: string | undefined;
+}
+export interface HostingUpdateAutoRenewRequest {
+  domain: string;
+  /** true to renew automatically, false to let the plan end at expireDate. */
+  autoRenew: boolean;
+}
+export type HostingUpdateAutoRenewResponseCost = CreateHostingResponseCost;
+export interface HostingUpdateAutoRenewResponse {
+  status?: string | undefined;
+  domain?: string | undefined;
+  product?: string | undefined;
+  autoRenew?: boolean | undefined;
+  isTrial?: boolean | undefined;
+  /** When the current term (or trial) ends. */
+  expireDate?: string | undefined;
+  cost?: CreateHostingResponseCost | undefined;
+  /** What happens next, in words to relay to the user. */
+  message?: string | undefined;
+}
+export type HostingWpRequestRequestMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+/** Query parameters, e.g. `{"per_page": 10, "context": "edit", "_fields": "id,title"}`. */
+export type HostingWpRequestRequestQueryMap = { [key: string]: unknown | undefined };
+/** JSON body for POST/PUT/PATCH, up to 1 MB. */
+export type HostingWpRequestRequestBodyMap = { [key: string]: unknown | undefined };
+export interface HostingWpRequestRequest {
+  domain: string;
+  method?: HostingWpRequestRequestMethod | (string & {}) | undefined;
+  /** REST route without /wp-json, e.g. `/wp/v2/pages/12`. No query string. */
+  path: string;
+  /** Query parameters, e.g. `{"per_page": 10, "context": "edit", "_fields": "id,title"}`. */
+  query?: HostingWpRequestRequestQueryMap | undefined;
+  /** JSON body for POST/PUT/PATCH, up to 1 MB. */
+  body?: HostingWpRequestRequestBodyMap | undefined;
+  /** Include linked resources (`_embed`). */
+  embed?: boolean | undefined;
+  /** Act as the site's administrator instead of the `porkbun-agent` editor. Needed for site settings, plugins, themes and users. Requires acknowledgeFullAccess. */
+  asAdministrator?: boolean | undefined;
+  /** Confirms administrator-level changes were agreed. */
+  acknowledgeFullAccess?: boolean | undefined;
+  dryRun?: boolean | undefined;
+}
+export interface HostingWpRequestResponse {
+  status?: string | undefined;
+  httpStatus?: number | undefined;
+  /** The WordPress user it ran as. */
+  actsAs?: string | undefined;
+  /** WordPress's JSON response. */
+  data?: unknown | undefined;
+  total?: number | undefined;
+  totalPages?: number | undefined;
+  code?: string | undefined;
+  message?: string | undefined;
+}
+export interface HostingWpUploadMediaRequest {
+  domain: string;
+  /** Public https:// address of the file. Use this or data. */
+  url?: string | undefined;
+  /** The file as base64 (a data: URL works). Use this or url. */
+  data?: string | undefined;
+  /** With data: the file name with extension, e.g. `storefront.jpg`. */
+  filename?: string | undefined;
+  title?: string | undefined;
+  altText?: string | undefined;
+  caption?: string | undefined;
+  /** Attach to this post or page. */
+  postId?: number | undefined;
+  /** Act as the site's administrator instead of the `porkbun-agent` editor. Needed for site settings, plugins, themes and users. Requires acknowledgeFullAccess. */
+  asAdministrator?: boolean | undefined;
+  /** Confirms administrator-level changes were agreed. */
+  acknowledgeFullAccess?: boolean | undefined;
+  dryRun?: boolean | undefined;
+}
+export interface HostingWpUploadMediaResponseMedia {
+  id?: number | undefined;
+  url?: string | undefined;
+  mimeType?: string | undefined;
+  title?: string | undefined;
+  altText?: string | undefined;
+}
+export interface HostingWpUploadMediaResponse {
+  status?: string | undefined;
+  media?: HostingWpUploadMediaResponseMedia | undefined;
+  actsAs?: string | undefined;
+  message?: string | undefined;
+}
 /** Records to create. Omit to import what a scan discovers. NS and SOA entries are ignored -- they describe the delegation, not the zone contents. */
 export type ImportDnsRequestRecordsList = Array<DnsRecordInput>;
 export interface ImportDnsRequest {
@@ -1818,6 +2968,164 @@ export interface ImportDnsResponse {
   failures?: ImportDnsResponseFailuresList | undefined;
   warnings?: DnsWriteWarnings | undefined;
 }
+/** `link` (default), `featured` or `category` (a heading; no url). */
+export type LinkInBioAddLinkRequestType = "link" | "featured" | "category";
+/** `pulse`, `bounce`, `shake`, or null for none. Paid plans. */
+export type LinkInBioAddLinkRequestAnimation = "pulse" | "bounce" | "shake";
+export type LinkInBioAddLinkRequestProtectionType = "code" | "birthday" | "sensitive";
+/** null removes it. `code` (passcode; paid plans) needs value; `birthday` takes value 18, 21 or 25; `sensitive` shows a warning. */
+export interface LinkInBioAddLinkRequestProtection {
+  type?: LinkInBioAddLinkRequestProtectionType | (string & {}) | undefined;
+  value?: string | undefined;
+  /** Shown to the visitor, up to 255 characters. */
+  explanation?: string | undefined;
+}
+export type LinkInBioAddLinkRequestPosition = "bottom" | "top";
+export interface LinkInBioAddLinkRequest {
+  domain: string;
+  /** `link` (default), `featured` or `category` (a heading; no url). */
+  type?: LinkInBioAddLinkRequestType | (string & {}) | undefined;
+  /** Up to 255 characters. */
+  title: string;
+  /** http(s) address, up to 255 characters; a bare host gets https:// added. Not for a category. */
+  url?: string | undefined;
+  /** Default true. */
+  enabled?: boolean | undefined;
+  /** Show from this time: YYYY-MM-DD, or ISO 8601; UTC unless an offset is given. null clears it. Paid plans. */
+  startDate?: string | null | undefined;
+  /** Hide after this time; same format. Paid plans. */
+  endDate?: string | null | undefined;
+  /** `pulse`, `bounce`, `shake`, or null for none. Paid plans. */
+  animation?: LinkInBioAddLinkRequestAnimation | (string & {}) | null | undefined;
+  /** null removes it. `code` (passcode; paid plans) needs value; `birthday` takes value 18, 21 or 25; `sensitive` shows a warning. */
+  protection?: LinkInBioAddLinkRequestProtection | null | undefined;
+  position?: LinkInBioAddLinkRequestPosition | (string & {}) | undefined;
+}
+export interface LinkInBioLinkResponse {
+  status?: string | undefined;
+  link?: LinkInBioLink | undefined;
+  linkInBio?: LinkInBio | undefined;
+}
+export interface LinkInBioDeleteLinkRequest {
+  domain: string;
+  /** From `get`. */
+  id: number;
+}
+/** `link` (default), `featured` or `category` (a heading; no url). */
+export type LinkInBioEditLinkRequestType = "link" | "featured" | "category";
+/** `pulse`, `bounce`, `shake`, or null for none. Paid plans. */
+export type LinkInBioEditLinkRequestAnimation = "pulse" | "bounce" | "shake";
+export type LinkInBioEditLinkRequestProtectionType = "code" | "birthday" | "sensitive";
+/** null removes it. `code` (passcode; paid plans) needs value; `birthday` takes value 18, 21 or 25; `sensitive` shows a warning. */
+export interface LinkInBioEditLinkRequestProtection {
+  type?: LinkInBioEditLinkRequestProtectionType | (string & {}) | undefined;
+  value?: string | undefined;
+  /** Shown to the visitor, up to 255 characters. */
+  explanation?: string | undefined;
+}
+export interface LinkInBioEditLinkRequest {
+  domain: string;
+  /** `link` (default), `featured` or `category` (a heading; no url). */
+  type?: LinkInBioEditLinkRequestType | (string & {}) | undefined;
+  /** Up to 255 characters. */
+  title?: string | undefined;
+  /** http(s) address, up to 255 characters; a bare host gets https:// added. Not for a category. */
+  url?: string | undefined;
+  /** Default true. */
+  enabled?: boolean | undefined;
+  /** Show from this time: YYYY-MM-DD, or ISO 8601; UTC unless an offset is given. null clears it. Paid plans. */
+  startDate?: string | null | undefined;
+  /** Hide after this time; same format. Paid plans. */
+  endDate?: string | null | undefined;
+  /** `pulse`, `bounce`, `shake`, or null for none. Paid plans. */
+  animation?: LinkInBioEditLinkRequestAnimation | (string & {}) | null | undefined;
+  /** null removes it. `code` (passcode; paid plans) needs value; `birthday` takes value 18, 21 or 25; `sensitive` shows a warning. */
+  protection?: LinkInBioEditLinkRequestProtection | null | undefined;
+  /** From `get`. */
+  id: number;
+}
+export interface LinkInBioGetPostRequest {
+  domain: string;
+}
+/** Every link id, in display order. */
+export type LinkInBioReorderLinksRequestIdsList = Array<number>;
+export interface LinkInBioReorderLinksRequest {
+  domain: string;
+  /** Every link id, in display order. */
+  ids: LinkInBioReorderLinksRequestIdsList;
+}
+export type LinkInBioUpdateAppearanceRequestPreset =
+  | "classic"
+  | "ocean"
+  | "midnight"
+  | "paper"
+  | "forest"
+  | "sunset";
+export type LinkInBioUpdateAppearanceRequestFontFamily =
+  | "inter"
+  | "poppins"
+  | "lora"
+  | "mono"
+  | "serif";
+export type LinkInBioUpdateAppearanceRequestButtonStyle =
+  | "classic"
+  | "pill"
+  | "floating"
+  | "hardShadow";
+/** `gradient` blends pageBackgroundColor into pageBackgroundColor2. */
+export type LinkInBioUpdateAppearanceRequestPageBackgroundMode = "solid" | "gradient";
+export type LinkInBioUpdateAppearanceRequestTextAlign = "left" | "center" | "right";
+export interface LinkInBioUpdateAppearanceRequest {
+  domain: string;
+  preset?: LinkInBioUpdateAppearanceRequestPreset | (string & {}) | undefined;
+  fontFamily?: LinkInBioUpdateAppearanceRequestFontFamily | (string & {}) | undefined;
+  buttonStyle?: LinkInBioUpdateAppearanceRequestButtonStyle | (string & {}) | undefined;
+  /** Button corner radius in pixels, 0-50. */
+  radius?: number | undefined;
+  /** `gradient` blends pageBackgroundColor into pageBackgroundColor2. */
+  pageBackgroundMode?:
+    | LinkInBioUpdateAppearanceRequestPageBackgroundMode
+    | (string & {})
+    | undefined;
+  textAlign?: LinkInBioUpdateAppearanceRequestTextAlign | (string & {}) | undefined;
+  /** Hex colour, e.g. #1b5a8a. */
+  pageBackgroundColor?: string | undefined;
+  /** Hex colour, e.g. #1b5a8a. */
+  pageBackgroundColor2?: string | undefined;
+  /** Hex colour, e.g. #1b5a8a. */
+  pageColor?: string | undefined;
+  /** Hex colour, e.g. #1b5a8a. */
+  boxBackgroundColor?: string | undefined;
+  /** Hex colour, e.g. #1b5a8a. */
+  borderColor?: string | undefined;
+}
+export interface LinkInBioUpdateProfileRequest {
+  domain: string;
+  /** Up to 100 characters. */
+  title?: string | undefined;
+  /** Up to 500 characters. */
+  bio?: string | undefined;
+  /** Base64 JPEG or PNG, or null to remove. */
+  avatar?: string | null | undefined;
+}
+export type LinkInBioUpdateSettingsRequestSensitiveContent = "generic" | "18" | "21" | "25";
+export type LinkInBioUpdateSettingsRequestAnalyticsMap = { [key: string]: string | undefined };
+export interface LinkInBioUpdateSettingsRequest {
+  domain: string;
+  sensitiveContent?:
+    | LinkInBioUpdateSettingsRequestSensitiveContent
+    | (string & {})
+    | null
+    | undefined;
+  analytics?: LinkInBioUpdateSettingsRequestAnalyticsMap | undefined;
+}
+export type LinkInBioUpdateSocialsRequestLocation = "top" | "bottom";
+export type LinkInBioUpdateSocialsRequestSocialsMap = { [key: string]: string | null | undefined };
+export interface LinkInBioUpdateSocialsRequest {
+  domain: string;
+  location?: LinkInBioUpdateSocialsRequestLocation | (string & {}) | undefined;
+  socials?: LinkInBioUpdateSocialsRequestSocialsMap | undefined;
+}
 /** Return label metadata for each domain. Defaults to no. */
 export type ListDomainsRequestIncludeLabels = "yes" | "no";
 /** Limit to these TLDs (without leading dot). */
@@ -1826,8 +3134,13 @@ export type ListDomainsRequestTldsList = Array<string>;
 export type ListDomainsRequestAutoRenew = "yes" | "no";
 /** Filter to domains opted in to API access (yes) or not (no). Useful for finding domains an API key can actually operate on. */
 export type ListDomainsRequestApiAccess = "yes" | "no";
-/** Field to sort by. Default: `expire_date` ascending. */
-export type ListDomainsRequestSortName = "domain" | "tld" | "create_date" | "expire_date";
+/** Field to sort by. Default: `expire_date` ascending. `added_date` sorts by `addedDate`. */
+export type ListDomainsRequestSortName =
+  | "domain"
+  | "tld"
+  | "create_date"
+  | "added_date"
+  | "expire_date";
 /** Sort direction. Default: asc. */
 export type ListDomainsRequestSortDirection = "asc" | "desc";
 export interface ListDomainsRequest {
@@ -1841,13 +3154,25 @@ export interface ListDomainsRequest {
   nameContains?: string | undefined;
   /** Filter to domains expiring within this many days (relative to now). */
   expiringWithinDays?: number | undefined;
+  /** Only domains added to this account at Porkbun (registered or transferred in) at or after this date or date-time, UTC. Compare `addedDate` in the response. To sync only new domains, pass the newest `addedDate` you have seen. */
+  addedAfter?: string | undefined;
+  /** Only domains added to this account at Porkbun before this date or date-time, UTC. */
+  addedBefore?: string | undefined;
+  /** Only domains whose registry creation date (`createDate`) is at or after this date or date-time, UTC. A transferred-in domain keeps its original creation date, so use `addedAfter` for "new in my account". */
+  createdAfter?: string | undefined;
+  /** Only domains whose registry creation date is before this date or date-time, UTC. */
+  createdBefore?: string | undefined;
+  /** Only domains expiring at or after this date or date-time, UTC. */
+  expiresAfter?: string | undefined;
+  /** Only domains expiring before this date or date-time, UTC. */
+  expiresBefore?: string | undefined;
   /** Limit to these TLDs (without leading dot). */
   tlds?: ListDomainsRequestTldsList | undefined;
   /** Filter to domains with auto-renew on or off. */
   autoRenew?: ListDomainsRequestAutoRenew | (string & {}) | undefined;
   /** Filter to domains opted in to API access (yes) or not (no). Useful for finding domains an API key can actually operate on. */
   apiAccess?: ListDomainsRequestApiAccess | (string & {}) | undefined;
-  /** Field to sort by. Default: `expire_date` ascending. */
+  /** Field to sort by. Default: `expire_date` ascending. `added_date` sorts by `addedDate`. */
   sortName?: ListDomainsRequestSortName | (string & {}) | undefined;
   /** Sort direction. Default: asc. */
   sortDirection?: ListDomainsRequestSortDirection | (string & {}) | undefined;
@@ -1956,18 +3281,15 @@ export interface ListMarketplaceListingsGetRequest {
   /** Page size (unfiltered mode only). Default 1000, max 5000. */
   limit?: number | undefined;
 }
-export interface ListMarketplaceListingsGetResponseDomainsItem {
-  create_date?: string | undefined;
-  domain?: string | undefined;
-  tld?: string | undefined;
-  sld_length?: number | undefined;
-  price?: number | undefined;
-}
+export type ListMarketplaceListingsGetResponseDomainsItem =
+  ListMarketplaceListingsResponseDomainsItem;
 export type ListMarketplaceListingsGetResponseDomainsList =
-  Array<ListMarketplaceListingsGetResponseDomainsItem>;
+  Array<ListMarketplaceListingsResponseDomainsItem>;
 export interface ListMarketplaceListingsGetResponse {
   status?: string | undefined;
+  /** Number of domains returned in this response */
   count?: number | undefined;
+  /** True when one or more filter parameters were applied (query, tlds, sldLengthMin/Max, sortName). */
   filtered?: boolean | undefined;
   domains?: ListMarketplaceListingsGetResponseDomainsList | undefined;
 }
@@ -2022,6 +3344,8 @@ export interface MockEndpointRequest {
 }
 export type MockEndpointResponse = unknown;
 export interface PingRequest {}
+/** The key's permission scopes, or ["full"] for full access. Present when valid credentials were supplied */
+export type PingResponseScopesList = Array<string>;
 export interface PingResponse {
   status: string;
   /** The caller's public IP address */
@@ -2030,22 +3354,28 @@ export interface PingResponse {
   xForwardedFor?: string | undefined;
   /** Present and true when valid credentials were supplied */
   credentialsValid?: boolean | undefined;
+  /** Username of the Porkbun account the key belongs to. Present when valid credentials were supplied */
+  account?: string | undefined;
+  /** The key's permission scopes, or ["full"] for full access. Present when valid credentials were supplied */
+  scopes?: PingResponseScopesList | undefined;
 }
 export interface PostIpRequest {}
 export interface PreviewCloudflareRequest {
   domain: string;
 }
 export type PreviewCloudflareResponse = unknown;
-/** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
-export type RenewDomainRequestPayWith = "usdc";
+/** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402. `"card"` pays by card through a Stripe Link agent wallet over MPP instead, with a real hold: the 402 carries a single-use `payUrl` and a `cardPaymentId`; pay the link (it authorizes, not charges), then repeat with `cardPaymentId`; the hold is captured if the purchase succeeds and released if it fails. Guide: https://porkbun.com/llms/guides/pay-with-card-mpp */
+export type RenewDomainRequestPayWith = "usdc" | "card";
 export interface RenewDomainRequest {
   domain: string;
   /** The renewal cost in pennies (USD cents). Must exactly equal the total price for the domain at its minimum renewal duration. Obtain this from /domain/checkDomain first. */
   cost: number;
-  /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
+  /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402. `"card"` pays by card through a Stripe Link agent wallet over MPP instead, with a real hold: the 402 carries a single-use `payUrl` and a `cardPaymentId`; pay the link (it authorizes, not charges), then repeat with `cardPaymentId`; the hold is captured if the purchase succeeds and released if it fails. Guide: https://porkbun.com/llms/guides/pay-with-card-mpp */
   payWith?: RenewDomainRequestPayWith | (string & {}) | undefined;
   /** With `payWith: "usdc"`: the `checkoutId` from an earlier `PAYMENT_REQUIRED`, once its `x402Url` or `payUrl` has been paid. Send it with otherwise the same request; the purchase completes if the checkout is paid and was opened for this purchase. */
   usdcCheckoutId?: string | undefined;
+  /** With `payWith: "card"`: the `cardPaymentId` from an earlier `PAYMENT_REQUIRED`, once its `payUrl` has been paid (the card is then held). Send it with otherwise the same request; the hold is captured if the purchase succeeds and released if not. */
+  cardPaymentId?: string | undefined;
   /** Optional. When true, runs all pre-flight validation and returns a preview with `dryRun: true` and `wouldSucceed` WITHOUT renewing or charging. Nothing changes and the rate-limit budget is not consumed. */
   dryRun?: boolean | undefined;
 }
@@ -2158,6 +3488,24 @@ export interface RetryCloudflareRequest {
   domain: string;
 }
 export type RetryCloudflareResponse = unknown;
+/** Must be `revoke`. */
+export type RevokeApikeyRequestConfirm = "revoke";
+export interface RevokeApikeyRequest {
+  /** Must be `revoke`. */
+  confirm: RevokeApikeyRequestConfirm | (string & {});
+}
+export interface RevokeApikeyResponseRevoked {
+  title?: string | undefined;
+  /** The public key, shortened. */
+  apikey?: string | Redacted.Redacted<string> | undefined;
+  /** The key belongs to an app connected over OAuth (revoking it disconnects the app). */
+  connectedApp?: boolean | undefined;
+}
+export interface RevokeApikeyResponse {
+  status?: string | undefined;
+  revoked?: RevokeApikeyResponseRevoked | undefined;
+  message?: string | undefined;
+}
 export interface SandboxTopupRequest {
   /** Fake credit to add in US cents (default 100000; max 1000000). */
   amount?: number | undefined;
@@ -2191,6 +3539,54 @@ export interface SandboxTriggerWebhookResponse {
   endpointsRegistered?: number | undefined;
   message?: string | undefined;
   sandbox?: boolean | undefined;
+}
+export type SearchAftermarketRequestSaleType = "buy_now" | "make_offer" | "auction";
+export interface SearchAftermarketRequest {
+  /** A keyword or a full domain. */
+  query: string;
+  /** Only listings on this TLD, with or without the leading dot. */
+  tld?: string | undefined;
+  /** Only this kind of listing. */
+  saleType?: SearchAftermarketRequestSaleType | (string & {}) | undefined;
+  /** Minimum price, integer US cents. */
+  priceMin?: number | undefined;
+  /** Maximum price, integer US cents. */
+  priceMax?: number | undefined;
+  /** Listings to return (1-200, default 50). `total` says how many matched. */
+  limit?: number | undefined;
+}
+export type AftermarketListingPriceMeaning = "buy_now_price" | "minimum_offer" | "current_bid";
+export type AftermarketListingSaleType = "buy_now" | "make_offer" | "auction";
+export interface AftermarketListing {
+  domain?: string | undefined;
+  tld?: string | undefined;
+  /** Integer US cents. What it means depends on saleType: see priceMeaning. */
+  price?: number | undefined;
+  priceDisplay?: string | undefined;
+  priceMeaning?: AftermarketListingPriceMeaning | undefined;
+  saleType?: AftermarketListingSaleType | undefined;
+  /** afternic, sedo, atom, namebright, dax or marketplace (Porkbun Marketplace). */
+  source?: string | undefined;
+  /** The seller supports a fast transfer. */
+  fastTransfer?: boolean | undefined;
+  /** Where the user buys (or bids on) it on porkbun.com. */
+  buyUrl?: string | undefined;
+}
+export type SearchAftermarketResponseListingsList = Array<AftermarketListing>;
+/** Sources that could not be searched this time (partners, marketplace, daxauction). */
+export type SearchAftermarketResponseSourcesUnavailableList = Array<string>;
+export interface SearchAftermarketResponse {
+  status?: string | undefined;
+  query?: string | undefined;
+  /** The listing for the exact domain searched, or null. */
+  exactMatch?: AftermarketListing | null | undefined;
+  listings?: SearchAftermarketResponseListingsList | undefined;
+  count?: number | undefined;
+  /** Listings that matched before `limit`. */
+  total?: number | undefined;
+  /** Sources that could not be searched this time (partners, marketplace, daxauction). */
+  sourcesUnavailable?: SearchAftermarketResponseSourcesUnavailableList | undefined;
+  note?: string | undefined;
 }
 export interface SearchCloseoutRequest {
   /** Keyword match on the domain name. */
@@ -2236,6 +3632,29 @@ export interface SetAutoTopupRequest {
   /** Validate only; change nothing. */
   dryRun?: boolean | undefined;
 }
+export interface ShareApikeyRequest {
+  /** The domain whose website to share. */
+  domain: string;
+  /** Who it is for (1-60 characters), e.g. `Sarah`. Shown on the approval page and to the other person. */
+  sharedWith: string;
+  /** How long the link works once approved (the window to claim it). */
+  claimHours?: number | undefined;
+  /** Optional: how long the access itself lasts, in hours, counted from when they connect (claim). Leave out for access until it is revoked. When it runs out the key stops working and the share shows `EXPIRED`; calls get `SHARE_ACCESS_ENDED`. Shown to the account holder on the approval page. */
+  accessHours?: number | undefined;
+  dryRun?: boolean | undefined;
+}
+export interface ShareApikeyResponse {
+  status?: string | undefined;
+  shareId?: number | undefined;
+  domain?: string | undefined;
+  sharedWith?: string | undefined;
+  /** For the account holder to open and approve on porkbun.com. Only returned here. */
+  approveUrl?: string | undefined;
+  /** Approval deadline (24 hours). */
+  expires?: string | undefined;
+  message?: string | undefined;
+  accessHours?: number | null | undefined;
+}
 export interface TestWebhookRequest {
   /** Endpoint id. */
   id: number;
@@ -2252,6 +3671,38 @@ export interface TopupAccountCreditRequest {
   /** Preview the charge without making it. */
   dryRun?: boolean | undefined;
 }
+/** `card`, or `link` for a Stripe Link wallet (no brand or digits). */
+export type ChargedCardType = "card" | "link";
+/** The card a top-up charged. */
+export interface ChargedCard {
+  /** `card`, or `link` for a Stripe Link wallet (no brand or digits). */
+  type?: ChargedCardType | undefined;
+  /** Card brand, or `link`. */
+  brand?: string | undefined;
+  last4?: string | null | undefined;
+  expMonth?: number | null | undefined;
+  expYear?: number | null | undefined;
+  /** The name the account holder gave the card on the website, if any. */
+  nickname?: string | null | undefined;
+  /** True when the primary card was declined and a backup paid. */
+  usedBackup?: boolean | undefined;
+}
+/** `card`, or `link` for a Stripe Link wallet (no brand or digits). */
+export type DeclinedCardType = "card" | "link";
+export interface DeclinedCard {
+  /** `card`, or `link` for a Stripe Link wallet (no brand or digits). */
+  type?: DeclinedCardType | undefined;
+  /** Card brand, or `link`. */
+  brand?: string | undefined;
+  last4?: string | null | undefined;
+  expMonth?: number | null | undefined;
+  expYear?: number | null | undefined;
+  /** The name the account holder gave the card on the website, if any. */
+  nickname?: string | null | undefined;
+  declineCode?: string | undefined;
+}
+/** Cards tried and declined before `card` paid. Empty when the primary paid. */
+export type TopupAccountCreditResponseDeclinedFirstList = Array<DeclinedCard>;
 export interface TopupAccountCreditResponse {
   status?: string | undefined;
   /** Amount charged, in cents. */
@@ -2269,6 +3720,11 @@ export interface TopupAccountCreditResponse {
   /** Sandbox only: credit was granted without charging a card. */
   simulated?: boolean | undefined;
   message?: string | undefined;
+  card?: ChargedCard | undefined;
+  /** True when the primary card was declined and a backup paid. The declined card is in `declinedFirst`. */
+  usedBackup?: boolean | undefined;
+  /** Cards tried and declined before `card` paid. Empty when the primary paid. */
+  declinedFirst?: TopupAccountCreditResponseDeclinedFirstList | undefined;
 }
 export interface TopupCryptoRequest {
   /** Checkout amount in integer US cents, $1.00 to $500.00 (100 = $1.00). Credit is this less Coinbase's fee of about 1%. */
@@ -2328,8 +3784,8 @@ export interface TopupMppResponse {
   methods?: TopupMppResponseMethodsList | undefined;
   message?: string | undefined;
 }
-/** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
-export type TransferDomainRequestPayWith = "usdc";
+/** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402. `"card"` pays by card through a Stripe Link agent wallet over MPP instead, with a real hold: the 402 carries a single-use `payUrl` and a `cardPaymentId`; pay the link (it authorizes, not charges), then repeat with `cardPaymentId`; the hold is captured if the purchase succeeds and released if it fails. Guide: https://porkbun.com/llms/guides/pay-with-card-mpp */
+export type TransferDomainRequestPayWith = "usdc" | "card";
 export interface TransferDomainRequest {
   /** The domain name to transfer (e.g. `example.com`). */
   domain: string;
@@ -2339,10 +3795,12 @@ export interface TransferDomainRequest {
   cost: number;
   /** Charge the transfer but hold it at `PENDINGDNS` instead of releasing it to the registry, so the DNS zone can be built before the domain moves. This is the no-downtime path: hold, then `POST /domain/prepareTransfer/{domain}`, then load records with `/dns/import/{domain}`, then `POST /domain/startTransfer/{domain}`. Nothing releases a held transfer on a timer. Not available for .uk or Handshake TLDs, which return `TRANSFER_HOLD_NOT_AVAILABLE` and are not charged. */
   holdForDnsSetup?: boolean | undefined;
-  /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
+  /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402. `"card"` pays by card through a Stripe Link agent wallet over MPP instead, with a real hold: the 402 carries a single-use `payUrl` and a `cardPaymentId`; pay the link (it authorizes, not charges), then repeat with `cardPaymentId`; the hold is captured if the purchase succeeds and released if it fails. Guide: https://porkbun.com/llms/guides/pay-with-card-mpp */
   payWith?: TransferDomainRequestPayWith | (string & {}) | undefined;
   /** With `payWith: "usdc"`: the `checkoutId` from an earlier `PAYMENT_REQUIRED`, once its `x402Url` or `payUrl` has been paid. Send it with otherwise the same request; the purchase completes if the checkout is paid and was opened for this purchase. */
   usdcCheckoutId?: string | undefined;
+  /** With `payWith: "card"`: the `cardPaymentId` from an earlier `PAYMENT_REQUIRED`, once its `payUrl` has been paid (the card is then held). Send it with otherwise the same request; the hold is captured if the purchase succeeds and released if not. */
+  cardPaymentId?: string | undefined;
   /** Optional. When true, runs all pre-flight validation and returns a preview with `dryRun: true` and `wouldSucceed` WITHOUT initiating the transfer or charging. Nothing changes and the rate-limit budget is not consumed. */
   dryRun?: boolean | undefined;
 }
@@ -2435,16 +3893,50 @@ export interface WebhookRotateSecretRequest {
   /** Endpoint id. */
   id: number;
 }
+export type AccountVerifyEmailConfirmError = PorkbunOpError;
+/** Confirm the email verification code Marks the account's email address verified with the code from the verification email (`POST /account/verifyEmail/send`, or any verification email sent in the last 3 days). The code must belong to this account and to the address being verified. A wrong, expired or superseded code returns `EMAIL_CODE_INVALID`; 10 wrong codes in an hour lock it for the hour (`EMAIL_VERIFY_LIMIT`). The response says whether the phone is verified too, since purchases need both. Accounts subscribed to `account.verification.completed` get a webhook. */
+export const accountVerifyEmailConfirm: API.OperationMethod<
+  AccountVerifyEmailConfirmRequest,
+  AccountVerifyEmailConfirmResponse,
+  AccountVerifyEmailConfirmError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2160, __c135, 0) as any as S.Schema<AccountVerifyEmailConfirmRequest>,
+  output: __S(2161, __c135, 1) as any as S.Schema<AccountVerifyEmailConfirmResponse>,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountVerifyEmailConfirm",
+}));
+
+export type AccountVerifyEmailSendError = PorkbunOpError;
+/** Email a verification code to the account's address Purchases and top-ups need a verified email address and phone number (`VERIFICATION_REQUIRED`). This emails the usual verification message, a link plus a code, to the address on the account (or to a new address waiting for verification). Whoever reads that inbox, the person or an agent with access to it, passes the code to `POST /account/verifyEmail/confirm`; clicking the link works too. The address cannot be chosen or changed over the API, and the code is never returned by the API or in a webhook: it only proves anything because it arrives in that inbox. A second request within 10 minutes returns `codeAlreadySent` instead of emailing again; the earlier code stays valid for 3 days. Accounts subscribed to `account.verification.code_sent` get a webhook when the email goes out. Already verified: `alreadyVerified: true`. Not available on sandbox keys. */
+export const accountVerifyEmailSend: API.OperationMethod<
+  AccountVerifyEmailSendRequest,
+  AccountVerifyEmailSendResponse,
+  AccountVerifyEmailSendError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2384, __c149, 0) as any as S.Schema<AccountVerifyEmailSendRequest>,
+  output: __S(2385, __c149, 1) as any as S.Schema<AccountVerifyEmailSendResponse>,
+  errors: [UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "AccountVerifyEmailSend",
+}));
+
 export type AccountVerifyPhoneConfirmError = PorkbunOpError;
-/** Confirm the phone verification code Marks the account's phone number verified with the code from `POST /account/verifyPhone/send`. A wrong or expired code returns `PHONE_CODE_INVALID`; 10 wrong codes in an hour lock it for the hour (`PHONE_VERIFY_LIMIT`). The response says whether the email address is verified too, since purchases need both; the email is verified by the link in the verification email. */
+/** Confirm the phone verification code Marks the account's phone number verified with the code from `POST /account/verifyPhone/send`. A wrong or expired code returns `PHONE_CODE_INVALID`; 10 wrong codes in an hour lock it for the hour (`PHONE_VERIFY_LIMIT`). The response says whether the email address is verified too, since purchases need both; verify the email the same way with `POST /account/verifyEmail/send` and `/confirm`. */
 export const accountVerifyPhoneConfirm: API.OperationMethod<
   AccountVerifyPhoneConfirmRequest,
   AccountVerifyPhoneConfirmResponse,
   AccountVerifyPhoneConfirmError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(552, __c69, 0) as any as S.Schema<AccountVerifyPhoneConfirmRequest>,
-  output: __S(553, __c69, 1) as any as S.Schema<AccountVerifyPhoneConfirmResponse>,
+  input: __S(2608, __c163, 0) as any as S.Schema<AccountVerifyPhoneConfirmRequest>,
+  output: __S(2609, __c163, 1) as any as S.Schema<AccountVerifyPhoneConfirmResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2460,8 +3952,8 @@ export const accountVerifyPhoneSend: API.OperationMethod<
   AccountVerifyPhoneSendError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c82, 0) as any as S.Schema<AccountVerifyPhoneSendRequest>,
-  output: __S(657, __c82, 1) as any as S.Schema<AccountVerifyPhoneSendResponse>,
+  input: __S(2864, __c179, 0) as any as S.Schema<AccountVerifyPhoneSendRequest>,
+  output: __S(2865, __c179, 1) as any as S.Schema<AccountVerifyPhoneSendResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2477,13 +3969,47 @@ export const apikeyRequest: API.OperationMethod<
   ApikeyRequestError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c96, 0) as any as S.Schema<ApikeyRequestRequest>,
-  output: __S(769, __c96, 1) as any as S.Schema<ApikeyRequestResponse>,
+  input: __S(3073, __c192, 1) as any as S.Schema<ApikeyRequestRequest>,
+  output: __S(3074, __c192, 2) as any as S.Schema<ApikeyRequestResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ApikeyRequest",
+}));
+
+export type ApikeyRevokeShareError = BadRequest | PorkbunOpError;
+/** Revoke a site share Ends a site share by `id` (from `/apikey/shares`). An unclaimed link and code stop working; if the other person already connected, their key is disabled and their app or agent loses access within seconds. Supports `dryRun`. **Errors:** `NOT_FOUND`, `DOMAIN_NOT_ALLOWED`, `INSUFFICIENT_SCOPE`. */
+export const apikeyRevokeShare: API.OperationMethod<
+  ApikeyRevokeShareRequest,
+  ApikeyRevokeShareResponse,
+  ApikeyRevokeShareError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3280, __c205, 0) as any as S.Schema<ApikeyRevokeShareRequest>,
+  output: __S(3281, __c205, 1) as any as S.Schema<ApikeyRevokeShareResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApikeyRevokeShare",
+}));
+
+export type ApikeySharesError = BadRequest | PorkbunOpError;
+/** List site shares This account's site shares (`/apikey/share`), newest first: `status` is `PENDING` (waiting for the account holder's approval), `ACTIVE` (approved, link not used), `CLAIMED` (the other person connected), `REVOKED` or `EXPIRED`. For an `ACTIVE` share, keys with full access or the `account` permission also get `shareUrl`, `qrCodeUrl`, `shareCode` and `handoffPrompt` to pass on; other keys see the share without them. A domain-limited key sees only its domains' shares. Also available via GET. */
+export const apikeyShares: API.OperationMethod<
+  ApikeySharesRequest,
+  ApikeySharesResponse,
+  ApikeySharesError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<ApikeySharesRequest>,
+  output: __S(18, __c1, 2) as any as S.Schema<ApikeySharesResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ApikeyShares",
 }));
 
 export type BulkDomainCheckDomainError = BadRequest | PorkbunOpError;
@@ -2494,8 +4020,8 @@ export const bulkDomainCheckDomain: API.OperationMethod<
   BulkDomainCheckDomainError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(872, __c109, 0) as any as S.Schema<BulkDomainCheckDomainRequest>,
-  output: __S(874, __c109, 2) as any as S.Schema<BulkDomainCheckDomainResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<BulkDomainCheckDomainRequest>,
+  output: __S(273, __c17, 1) as any as S.Schema<BulkDomainCheckDomainResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2503,16 +4029,33 @@ export const bulkDomainCheckDomain: API.OperationMethod<
   span: "BulkDomainCheckDomain",
 }));
 
+export type ClaimApikeyError = BadRequest | PorkbunOpError;
+/** Claim a site share (no API key needed) Called by the agent of the person a website was shared with, using the `shareToken` from the share link or handoff prompt. **No API key needed.** Works once, while the share is approved and unexpired: it returns a new key pair, made on the sharing account, with the `site` permission alone and limited to the shared domain: the other person (and their AI agent) can run that one website: WordPress content (`/hosting/wpRequest`, `/hosting/wpUploadMedia`), static files, Link in Bio edits, backups and restores, staging, PHP and WordPress versions, SSL and search visibility. They cannot buy anything, cancel the hosting or change auto-renew, change DNS, turn on a Link in Bio page, or see the rest of the account (no other domains, balance or invoices). Store the secret immediately; it is not shown again. Then start with `GET /hosting/get/{domain}`. To give the access back later, the same key calls `/apikey/revoke` (the account holder is emailed). Calls outside that return `INSUFFICIENT_SCOPE` or `DOMAIN_NOT_ALLOWED`. People using the Claude app or ChatGPT don't call this: they enter the share code when connecting the Porkbun connector. Rate limited to 20 calls per IP per hour. **Errors:** `INVALID_INPUT`, `SHARE_NOT_FOUND` (used, revoked, expired or wrong; ask for a new one), `RATE_LIMIT_EXCEEDED`. */
+export const claimApikey: API.OperationMethod<
+  ClaimApikeyRequest,
+  ClaimApikeyResponse,
+  ClaimApikeyError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(544, __c34, 0) as any as S.Schema<ClaimApikeyRequest>,
+  output: __S(545, __c34, 1) as any as S.Schema<ClaimApikeyResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ClaimApikey",
+}));
+
 export type CloseoutBuyError = BadRequest | Forbidden | NotFound | Conflict | PorkbunOpError;
-/** Buy a closeout outright **Spends account credit, or pays directly in USDC with `"payWith": "usdc"` (HTTP 402, then repeat with `PAYMENT-SIGNATURE`; kept as account credit if the claim fails).** Counts toward the monthly API spend limit. Buys a closeout at its current price and claims the name with the provider in one call. Send `cost` as the exact `totalPrice` from `/closeout/get/{domain}`; any other value is refused with `COST_MISMATCH` so a caller can never be charged a price it did not name. `dryRun: true` with `cost: 0` returns a quote and charges nothing. Honours `Idempotency-Key`. **The domain does not arrive immediately.** Claiming reserves it; the provider then has to release it, which usually takes a few days. Poll `/domain/listAll` or subscribe to the `domain.registered` webhook rather than expecting it in your account when this returns. Every post-charge failure refunds automatically and says so via `refunded: true` -- including losing the race to another buyer (`CLOSEOUT_UNAVAILABLE`) and the price moving between quote and claim (`COST_MISMATCH`). Closeouts are first-come at a fixed price, so a lost race is not worth retrying on the same name. Not available with a sandbox key (`SANDBOX_UNSUPPORTED`): the inventory provider has no test environment, so a purchase cannot be rehearsed without claiming a real name. Use `dryRun` against a live key instead -- it validates and prices without charging. Eligibility is the same as registering a domain, plus verified email and phone. There is no account-age or prior-order requirement -- a first-time customer can buy a closeout, which matters because listings are first-come and often gone within minutes. An account that support has blocked from auctions and closeouts (past-due invoices, or an auction terms violation) returns `CLOSEOUT_NOT_ELIGIBLE`, which is not retryable. */
+/** Buy a closeout outright **Spends account credit, or pays directly in USDC with `"payWith": "usdc"` (HTTP 402, then repeat with `PAYMENT-SIGNATURE`; kept as account credit if the claim fails), or by card with `"payWith": "card"` (a hold, captured only if the claim succeeds).** Counts toward the monthly API spend limit. Buys a closeout at its current price and claims the name with the provider in one call. Send `cost` as the exact `totalPrice` from `/closeout/get/{domain}`; any other value is refused with `COST_MISMATCH` so a caller can never be charged a price it did not name. `dryRun: true` with `cost: 0` returns a quote and charges nothing. Honours `Idempotency-Key`. **The domain does not arrive immediately.** Claiming reserves it; the provider then has to release it, which usually takes a few days. Poll `/domain/listAll` or subscribe to the `domain.registered` webhook rather than expecting it in your account when this returns. Every post-charge failure refunds automatically and says so via `refunded: true` -- including losing the race to another buyer (`CLOSEOUT_UNAVAILABLE`) and the price moving between quote and claim (`COST_MISMATCH`). Closeouts are first-come at a fixed price, so a lost race is not worth retrying on the same name. Not available with a sandbox key (`SANDBOX_UNSUPPORTED`): the inventory provider has no test environment, so a purchase cannot be rehearsed without claiming a real name. Use `dryRun` against a live key instead -- it validates and prices without charging. Eligibility is the same as registering a domain, plus verified email and phone. There is no account-age or prior-order requirement -- a first-time customer can buy a closeout, which matters because listings are first-come and often gone within minutes. An account that support has blocked from auctions and closeouts (past-due invoices, or an auction terms violation) returns `CLOSEOUT_NOT_ELIGIBLE`, which is not retryable. */
 export const closeoutBuy: API.OperationMethod<
   CloseoutBuyRequest,
   CloseoutBuyResponse,
   CloseoutBuyError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(984, __c123, 0) as any as S.Schema<CloseoutBuyRequest>,
-  output: __S(985, __c123, 1) as any as S.Schema<CloseoutBuyResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<CloseoutBuyRequest>,
+  output: __S(721, __c45, 1) as any as S.Schema<CloseoutBuyResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2528,8 +4071,8 @@ export const cloudflareCreateRecord: API.OperationMethod<
   CloudflareCreateRecordError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1112, __c139, 0) as any as S.Schema<CloudflareCreateRecordRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<CloudflareCreateRecordResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<CloudflareCreateRecordRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<CloudflareCreateRecordResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2545,8 +4088,8 @@ export const cloudflareDeleteRecord: API.OperationMethod<
   CloudflareDeleteRecordError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CloudflareDeleteRecordRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<CloudflareDeleteRecordResponse>,
+  input: __S(1136, __c71, 0) as any as S.Schema<CloudflareDeleteRecordRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<CloudflareDeleteRecordResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2562,8 +4105,8 @@ export const cloudflareEditRecord: API.OperationMethod<
   CloudflareEditRecordError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<CloudflareEditRecordRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<CloudflareEditRecordResponse>,
+  input: __S(1328, __c83, 0) as any as S.Schema<CloudflareEditRecordRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<CloudflareEditRecordResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2579,8 +4122,8 @@ export const cloudflareGetConnection: API.OperationMethod<
   CloudflareGetConnectionError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<CloudflareGetConnectionRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<CloudflareGetConnectionResponse>,
+  input: __S(1504, __c94, 0) as any as S.Schema<CloudflareGetConnectionRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<CloudflareGetConnectionResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2596,8 +4139,8 @@ export const cloudflareGetQueue: API.OperationMethod<
   CloudflareGetQueueError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<CloudflareGetQueueRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<CloudflareGetQueueResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<CloudflareGetQueueRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<CloudflareGetQueueResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2613,8 +4156,8 @@ export const cloudflareGetRecords: API.OperationMethod<
   CloudflareGetRecordsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<CloudflareGetRecordsRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<CloudflareGetRecordsResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<CloudflareGetRecordsRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<CloudflareGetRecordsResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2630,8 +4173,8 @@ export const cloudflareGetZone: API.OperationMethod<
   CloudflareGetZoneError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<CloudflareGetZoneRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<CloudflareGetZoneResponse>,
+  input: __S(1728, __c108, 0) as any as S.Schema<CloudflareGetZoneRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<CloudflareGetZoneResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2647,8 +4190,8 @@ export const cloudflareGetZoneSettings: API.OperationMethod<
   CloudflareGetZoneSettingsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(312, __c39, 0) as any as S.Schema<CloudflareGetZoneSettingsRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<CloudflareGetZoneSettingsResponse>,
+  input: __S(1744, __c109, 0) as any as S.Schema<CloudflareGetZoneSettingsRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<CloudflareGetZoneSettingsResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2664,8 +4207,8 @@ export const cloudflareInventory: API.OperationMethod<
   CloudflareInventoryError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<CloudflareInventoryRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<CloudflareInventoryResponse>,
+  input: __S(1760, __c110, 0) as any as S.Schema<CloudflareInventoryRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<CloudflareInventoryResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2681,8 +4224,8 @@ export const cloudflareRollback: API.OperationMethod<
   CloudflareRollbackError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<CloudflareRollbackRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<CloudflareRollbackResponse>,
+  input: __S(1776, __c111, 0) as any as S.Schema<CloudflareRollbackRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<CloudflareRollbackResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2698,8 +4241,8 @@ export const cloudflareSetProxy: API.OperationMethod<
   CloudflareSetProxyError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<CloudflareSetProxyRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<CloudflareSetProxyResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<CloudflareSetProxyRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<CloudflareSetProxyResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2715,8 +4258,8 @@ export const cloudflareSetZoneSettings: API.OperationMethod<
   CloudflareSetZoneSettingsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<CloudflareSetZoneSettingsRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<CloudflareSetZoneSettingsResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<CloudflareSetZoneSettingsRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<CloudflareSetZoneSettingsResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2732,8 +4275,8 @@ export const connectCloudflare: API.OperationMethod<
   ConnectCloudflareError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<ConnectCloudflareRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<ConnectCloudflareResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<ConnectCloudflareRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<ConnectCloudflareResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2749,8 +4292,8 @@ export const createAccountInvite: API.OperationMethod<
   CreateAccountInviteError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<CreateAccountInviteRequest>,
-  output: __S(361, __c45, 1) as any as S.Schema<CreateAccountInviteResponse>,
+  input: __S(1840, __c115, 0) as any as S.Schema<CreateAccountInviteRequest>,
+  output: __S(1841, __c115, 1) as any as S.Schema<CreateAccountInviteResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2766,8 +4309,8 @@ export const createDns: API.OperationMethod<
   CreateDnsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<CreateDnsRequest>,
-  output: __S(369, __c46, 1) as any as S.Schema<CreateDnsResponse>,
+  input: __S(1856, __c116, 0) as any as S.Schema<CreateDnsRequest>,
+  output: __S(1857, __c116, 1) as any as S.Schema<CreateDnsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2776,15 +4319,15 @@ export const createDns: API.OperationMethod<
 }));
 
 export type CreateDomainError = BadRequest | PorkbunOpError;
-/** Register a domain Register a domain, paid from account credit or directly in USDC. Requirements: - Account email and phone must be verified - Enough **prepaid credit** to cover the price, or `"payWith": "usdc"` to pay directly (see "Paying for it" below) - `agreeToTerms` must be `'yes'` or `'1'` - `cost` must equal the current price for the domain's minimum registration duration (in pennies) - Premium domains cannot be registered via API, and a single order cannot exceed $100 (`ORDER_TOO_LARGE`) ## Paying for it Two ways: from prepaid account credit (the default), or directly in USDC. **From account credit.** No card on file is charged at purchase time - the thing most first-time callers get wrong, because having a card saved is not enough; the balance has to be there before the call. - Read the balance with `GET /account/balance` (cents, plus a display string). - Add to it: `POST /account/topup` charges a saved card now (with the account holder's OK); `POST /account/topupMpp` returns a link an agent pays with the user's card from a Stripe Link agent wallet; `POST /account/topupCrypto` opens a USDC checkout an agent's wallet can pay over x402; or the account holder adds credit at https://porkbun.com/account/credit. - Turn on **auto top-up** at https://porkbun.com/account/api so a saved card refills the balance when it drops below a threshold. The hands-off option for an agent that registers on its own. - Rehearse with `dryRun: true`, which reports `cost`, `balance`, `sufficientFunds` and, when short, `shortfall`. A purchase attempted without enough credit returns `INSUFFICIENT_FUNDS` carrying `cost`, `balance`, `shortfall`, `topUpAvailable` and `usdcAmountToCover` in cents, and a message naming them. **Directly in USDC (x402).** Add `"payWith": "usdc"`. After every check passes, the call answers HTTP 402 `PAYMENT_REQUIRED` with Coinbase's x402 terms in the `PAYMENT-REQUIRED` header and charges nothing. An x402 client pays them and repeats the same request with a `PAYMENT-SIGNATURE` header, and the registration completes in that call, with the receipt in `PAYMENT-RESPONSE`. No credit is needed. If the registration fails after payment, the payment is not sent back to the wallet: it stays on the account as credit (`payment.keptAsCredit` and `balance_cents` in the error), ready to retry from credit. Guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 **Monthly limit.** Either way, purchases count toward the account's monthly API spend limit, $100 a month until the account holder sets their own at https://porkbun.com/account/api (`MONTHLY_SPEND_LIMIT_EXCEEDED`). Guide: https://porkbun.com/llms/guides/spend-limits Registrations are always for the registry-minimum duration (usually 1 year). **WHOIS privacy.** WHOIS privacy is automatically enabled on new registrations (when the TLD supports it). Pass the optional `whoisPrivacy` field to override this on a per-registration basis, or change the account-level default under Account Security Settings on porkbun.com/account. **Rate limits (both apply):** - Attempt limit (default: 1 attempt per second per account) - Success limit (default: 1000 successful registrations per 86400 seconds per account) Both limits are configurable per API key and their current values are returned in the `limits` field of the response. ## Dry run Add `dryRun: true` to validate everything and preview the cost WITHOUT registering or charging -- nothing is created. Send `cost: 0` with it to be quoted rather than having to match a price you do not know yet, and note that a dry run is answered even when the balance is too low: `wouldSucceed` comes back false with `shortfall` saying by how much. Example response: ```json { "status": "SUCCESS", "dryRun": true, "wouldSucceed": true, "operation": "registration", "domain": "example.com", "tld": "com", "available": "available", "premium": false, "duration": 1, "cost": 973, "costDisplay": "$9.73", "balance": 5000, "sufficientFunds": true, "message": "Dry run: this registration would succeed and cost $9.73. No order was created and no charge was made.", "requestId": "019e04fa-258d-7d11-aa86-4d5795c3fe8f" } ``` */
+/** Register a domain Register a domain, paid from account credit, directly in USDC, or by card. Requirements: - Account email and phone must be verified - Enough **prepaid credit** to cover the price, or `"payWith": "usdc"` / `"card"` to pay directly (see "Paying for it" below) - `agreeToTerms` must be `'yes'` or `'1'` - `cost` must equal the current price for the domain's minimum registration duration (in pennies) - Premium domains cannot be registered via API, and a single order cannot exceed $100 (`ORDER_TOO_LARGE`) ## Paying for it Three ways: from prepaid account credit (the default), directly in USDC, or directly by card with a hold. **From account credit.** No card on file is charged at purchase time - the thing most first-time callers get wrong, because having a card saved is not enough; the balance has to be there before the call. - Read the balance with `GET /account/balance` (cents, plus a display string). - Add to it: `POST /account/topup` charges a saved card now (with the account holder's OK); `POST /account/topupMpp` returns a link an agent pays with the user's card from a Stripe Link agent wallet; `POST /account/topupCrypto` opens a USDC checkout an agent's wallet can pay over x402; or the account holder adds credit at https://porkbun.com/account/credit. - Turn on **auto top-up** at https://porkbun.com/account/api so a saved card refills the balance when it drops below a threshold. The hands-off option for an agent that registers on its own. - Rehearse with `dryRun: true`, which reports `cost`, `balance`, `sufficientFunds` and, when short, `shortfall`. A purchase attempted without enough credit returns `INSUFFICIENT_FUNDS` carrying `cost`, `balance`, `shortfall`, `topUpAvailable` and `usdcAmountToCover` in cents, and a message naming them. **Directly in USDC (x402).** Add `"payWith": "usdc"`. After every check passes, the call answers HTTP 402 `PAYMENT_REQUIRED` with Coinbase's x402 terms in the `PAYMENT-REQUIRED` header and charges nothing. An x402 client pays them and repeats the same request with a `PAYMENT-SIGNATURE` header, and the registration completes in that call, with the receipt in `PAYMENT-RESPONSE`. No credit is needed. If the registration fails after payment, the payment is not sent back to the wallet: it stays on the account as credit (`payment.keptAsCredit` and `balance_cents` in the error), ready to retry from credit. Guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 **Directly by card, with a hold (MPP).** Add `"payWith": "card"`. The call answers HTTP 402 `PAYMENT_REQUIRED` with `method: "card"`, a single-use `payUrl` and a `cardPaymentId`, and charges nothing. Pay the `payUrl` with a Stripe Link agent wallet over MPP (for example `link-cli mpp pay <payUrl> -X POST`; the person approves in Link): that only **authorizes** the card. Repeat the request with `"cardPaymentId"` and the registration runs: if it succeeds the hold is captured, and if it fails the hold is released and nothing is charged. Guide: https://porkbun.com/llms/guides/pay-with-card-mpp **Monthly limit.** Either way, purchases count toward the account's monthly API spend limit, $100 a month until the account holder sets their own at https://porkbun.com/account/api (`MONTHLY_SPEND_LIMIT_EXCEEDED`). Guide: https://porkbun.com/llms/guides/spend-limits Registrations are always for the registry-minimum duration (usually 1 year). **WHOIS privacy.** WHOIS privacy is automatically enabled on new registrations (when the TLD supports it). Pass the optional `whoisPrivacy` field to override this on a per-registration basis, or change the account-level default under Account Security Settings on porkbun.com/account. **Rate limits (both apply):** - Attempt limit (default: 1 attempt per second per account) - Success limit (default: 1000 successful registrations per 86400 seconds per account) Both limits are configurable per API key and their current values are returned in the `limits` field of the response. ## Dry run Add `dryRun: true` to validate everything and preview the cost WITHOUT registering or charging -- nothing is created. Send `cost: 0` with it to be quoted rather than having to match a price you do not know yet, and note that a dry run is answered even when the balance is too low: `wouldSucceed` comes back false with `shortfall` saying by how much. Example response: ```json { "status": "SUCCESS", "dryRun": true, "wouldSucceed": true, "operation": "registration", "domain": "example.com", "tld": "com", "available": "available", "premium": false, "duration": 1, "cost": 973, "costDisplay": "$9.73", "balance": 5000, "sufficientFunds": true, "message": "Dry run: this registration would succeed and cost $9.73. No order was created and no charge was made.", "requestId": "019e04fa-258d-7d11-aa86-4d5795c3fe8f" } ``` Every registration includes a free email hosting trial mailbox, waiting to be set up with /email/setupMailbox (see /email/getMailboxes). */
 export const createDomain: API.OperationMethod<
   CreateDomainRequest,
   CreateDomainResponse2,
   CreateDomainError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<CreateDomainRequest>,
-  output: __S(377, __c47, 1) as any as S.Schema<CreateDomainResponse2>,
+  input: __S(1872, __c117, 0) as any as S.Schema<CreateDomainRequest>,
+  output: __S(1873, __c117, 1) as any as S.Schema<CreateDomainResponse2>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2793,20 +4336,37 @@ export const createDomain: API.OperationMethod<
 }));
 
 export type CreateHostingError = BadRequest | PorkbunOpError;
-/** Provision hosting -- a static site or a WordPress site **Applies to:** Both products -- the `sku` decides which. Provision hosting (Secure Static Hosting or Cloud for WordPress) for a domain in the account. The FIRST provision for a domain starts a **15-day free trial** ($0 now) that **auto-renews** at the plan price when the trial ends; a re-provision after deprovision is charged immediately, to account credit or directly in USDC with `"payWith": "usdc"` (HTTP 402, then repeat with `PAYMENT-SIGNATURE`; kept as account credit if provisioning fails), and counts toward the monthly API spend limit (one free trial per domain). Provisioning **switches the domain to Porkbun nameservers** if it isn't already -- pass `agreeToNameserverChange: true` to allow that. Supports `dryRun`. Remote setup can be async: `status` may be `PENDING` -- poll `/hosting/get` until `ACTIVE` before deploying. **Cloud for WordPress:** pass a `CLOUDWORDPRESS...` sku to provision a managed WordPress site instead of static hosting. The file endpoints (deploy/files/deleteFile/makeDir) do not apply -- manage the site through WordPress, using `/hosting/createWpCredentials/{domain}` for REST API credentials. **Rate limit:** 10 provisions per account per hour (`dryRun` calls are free). */
+/** Buy a hosting plan (static, WordPress or paid Link in Bio) **Applies to:** Secure Static Hosting, Cloud for WordPress and paid Link in Bio. The `sku` decides which; list them with `/hosting/plans`. Buys a hosting plan for a domain in the account. Send the plan's `sku`, and its `price` from `/hosting/plans` as `acknowledgedCost`, which confirms the person was told the price. **Price and trial:** the first time a domain gets a product, it starts with a **15-day free trial** ($0 now) and then **auto-renews** at the plan price. One trial per domain per product: buying the same product again after cancelling is charged immediately, to account credit, in USDC with `"payWith": "usdc"` (HTTP 402, then repeat with `PAYMENT-SIGNATURE`; kept as account credit if provisioning fails), or by card with `"payWith": "card"` (a hold, captured only if provisioning succeeds). Charges count toward the monthly API spend limit. **Nameservers:** the domain is switched to Porkbun nameservers if it isn't on them already; send `agreeToNameserverChange: true` to allow that. **By product:** - **Secure Static Hosting** (`PIXIESECURESTATIC...`): setup can take a moment; if `status` is `PENDING`, poll `/hosting/get` until `ACTIVE`, then upload with `/hosting/deploy`. - **Cloud for WordPress** (`CLOUDWORDPRESS...`): a managed WordPress site. Edit its content with `/hosting/wpRequest` and `/hosting/wpUploadMedia` (no WordPress password needed), or mint REST API credentials with `/hosting/createWpCredentials` for your own code; the file endpoints don't apply. - **Link in Bio** (`PIXIELINKSM1` monthly, `PIXIELINKSY1` yearly): a paid page of links (1000 links and every feature). Over a free Link in Bio page (most .com domains registered at Porkbun have one) it upgrades the page and keeps its title, links and settings. For a free page, use `/linkinbio/create` instead. Edit the page with the `/linkinbio` endpoints. The free Link in Bio page and the free WordPress preview that come with a domain never block a purchase: the product you buy replaces them. Supports `dryRun`. **Rate limit:** 10 purchases per account per hour (`dryRun` calls are free). */
 export const createHosting: API.OperationMethod<
   CreateHostingRequest,
   CreateHostingResponse,
   CreateHostingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c48, 0) as any as S.Schema<CreateHostingRequest>,
-  output: __S(387, __c48, 3) as any as S.Schema<CreateHostingResponse>,
+  input: __S(1888, __c118, 0) as any as S.Schema<CreateHostingRequest>,
+  output: __S(1890, __c118, 2) as any as S.Schema<CreateHostingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateHosting",
+}));
+
+export type CreateLinkInBioError = BadRequest | PorkbunOpError;
+/** Turn on a free Link in Bio page Turns on a free page served on the domain itself (plan PIXIELINKS2M1: up to 50 links; no scheduling, animation, passcode protection or analytics IDs). Free, nothing is ordered. It starts with a placeholder title, bio and link: replace them with `updateProfile`, `editLink` and `addLink`. The domain is pointed at the page with DNS records, which needs Porkbun nameservers: if the domain uses other ones, send `agreeToNameserverChange: true` to switch them. A free WordPress preview on the domain is replaced; any other hosting is not (`HOSTING_ALREADY_EXISTS`). Many .com domains registered at Porkbun already have a free page, forwarded to `<domain>.l.ink`; check with `get` first. For a paid plan (1000 links, every feature), use `/hosting/create` with sku `PIXIELINKSM1` or `PIXIELINKSY1`: it upgrades an existing free page and keeps its content. Supports `dryRun`. Not available with sandbox keys. **Errors:** `LINKINBIO_ALREADY_EXISTS`, `HOSTING_ALREADY_EXISTS`, `NAMESERVER_CHANGE_REQUIRED`, `LINKINBIO_CREATE_FAILED`. */
+export const createLinkInBio: API.OperationMethod<
+  CreateLinkInBioRequest,
+  LinkInBioResponse,
+  CreateLinkInBioError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1920, __c120, 0) as any as S.Schema<CreateLinkInBioRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateLinkInBio",
 }));
 
 export type CreateWebhookError = BadRequest | PorkbunOpError;
@@ -2817,8 +4377,8 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(392, __c49, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(408, __c51, 0) as any as S.Schema<WebhookEndpointResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(2000, __c125, 0) as any as S.Schema<WebhookEndpointResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2834,8 +4394,8 @@ export const deleteDns: API.OperationMethod<
   DeleteDnsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<DeleteDnsRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2016, __c126, 0) as any as S.Schema<DeleteDnsRequest>,
+  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2844,15 +4404,15 @@ export const deleteDns: API.OperationMethod<
 }));
 
 export type DeleteHostingError = BadRequest | PorkbunOpError;
-/** Deprovision hosting (either product) **Applies to:** Both products. Deprovision (cancel) Secure Static Hosting for a domain; teardown is scheduled and completed by Porkbun. Note: the domain has already used its one free trial, so provisioning it again later will be charged (no second free trial). */
+/** Cancel a hosting plan **Applies to:** Secure Static Hosting, Cloud for WordPress and paid Link in Bio. Cancels the hosting on a domain now. To let a plan run to the end of its term instead, turn auto-renew off with `/hosting/updateAutoRenew`. **By product:** - **Secure Static Hosting and Cloud for WordPress:** the site is taken down (Porkbun schedules the teardown). The domain has used its free trial, so buying the same product again later is charged. - **Link in Bio:** a paid page is not taken down. It moves to the free plan (50 links, without scheduling, animation, passcode protection or analytics IDs) and keeps its content. A free page has nothing to cancel and returns `NOT_SUPPORTED_FOR_PRODUCT`; free pages can't be turned off through the API. **Errors:** `HOSTING_NOT_FOUND`, `NOT_SUPPORTED_FOR_PRODUCT`. */
 export const deleteHosting: API.OperationMethod<
   DeleteHostingRequest,
   BasicResponse,
   DeleteHostingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<DeleteHostingRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2048, __c128, 0) as any as S.Schema<DeleteHostingRequest>,
+  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2868,8 +4428,8 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(448, __c56, 0) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(2080, __c130, 0) as any as S.Schema<DeleteWebhookResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2878,15 +4438,15 @@ export const deleteWebhook: API.OperationMethod<
 }));
 
 export type DeployHostingError = BadRequest | PorkbunOpError;
-/** Upload site files (static hosting only) **Applies to:** Secure Static Hosting only -- a WordPress site returns `NOT_SUPPORTED_FOR_PRODUCT`; manage its content through WordPress instead. Upload static files to the domain's Secure Static Hosting space. Send `files` as an array of `{ path, content }` where `content` is base64. Total payload <= 10 MB per request (split larger sites across calls). Only static-web file types are accepted (html/css/js/images/fonts/...); server-executable types are rejected. Hosting must be ACTIVE. A file's `path` may include directories (e.g. `assets/css/style.css`); any missing parent directories are created automatically. Paths are sanitized (no traversal/control chars) and the filename extension must be an allowed static-web type. */
+/** Upload site files (static hosting only) **Applies to:** Secure Static Hosting only -- a WordPress site or Link in Bio page returns `NOT_SUPPORTED_FOR_PRODUCT`; manage its content through WordPress instead. Upload static files to the domain's Secure Static Hosting space. Send `files` as an array of `{ path, content }` where `content` is base64. Total payload <= 10 MB per request (split larger sites across calls). Only static-web file types are accepted (html/css/js/images/fonts/...); server-executable types are rejected. Hosting must be ACTIVE. A file's `path` may include directories (e.g. `assets/css/style.css`); any missing parent directories are created automatically. Paths are sanitized (no traversal/control chars) and the filename extension must be an allowed static-web type. */
 export const deployHosting: API.OperationMethod<
   DeployHostingRequest,
   DeployHostingResponse,
   DeployHostingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(458, __c57, 2) as any as S.Schema<DeployHostingRequest>,
-  output: __S(461, __c57, 5) as any as S.Schema<DeployHostingResponse>,
+  input: __S(2098, __c131, 2) as any as S.Schema<DeployHostingRequest>,
+  output: __S(2101, __c131, 5) as any as S.Schema<DeployHostingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2902,8 +4462,8 @@ export const disconnectCloudflare: API.OperationMethod<
   DisconnectCloudflareError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<DisconnectCloudflareRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<DisconnectCloudflareResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<DisconnectCloudflareRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<DisconnectCloudflareResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2919,8 +4479,8 @@ export const dnsCreateDnssecRecord: API.OperationMethod<
   DnsCreateDnssecRecordError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(472, __c59, 0) as any as S.Schema<DnsCreateDnssecRecordRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<DnsCreateDnssecRecordResponse>,
+  input: __S(2128, __c133, 0) as any as S.Schema<DnsCreateDnssecRecordRequest>,
+  output: __S(2032, __c127, 0) as any as S.Schema<DnsCreateDnssecRecordResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2936,8 +4496,8 @@ export const dnsDeleteByNameType: API.OperationMethod<
   DnsDeleteByNameTypeError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<DnsDeleteByNameTypeRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2144, __c134, 0) as any as S.Schema<DnsDeleteByNameTypeRequest>,
+  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2953,8 +4513,8 @@ export const dnsDeleteDnssecRecord: API.OperationMethod<
   DnsDeleteDnssecRecordError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c61, 0) as any as S.Schema<DnsDeleteDnssecRecordRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2176, __c136, 0) as any as S.Schema<DnsDeleteDnssecRecordRequest>,
+  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2970,8 +4530,8 @@ export const dnsDiff: API.OperationMethod<
   DnsDiffError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<DnsDiffRequest>,
-  output: __S(498, __c62, 2) as any as S.Schema<DnsDiffResponse>,
+  input: __S(2192, __c137, 0) as any as S.Schema<DnsDiffRequest>,
+  output: __S(2194, __c137, 2) as any as S.Schema<DnsDiffResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -2987,8 +4547,8 @@ export const dnsEditByNameType: API.OperationMethod<
   DnsEditByNameTypeError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<DnsEditByNameTypeRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2224, __c139, 0) as any as S.Schema<DnsEditByNameTypeRequest>,
+  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3004,8 +4564,8 @@ export const dnsGetDnssecRecords: API.OperationMethod<
   DnsGetDnssecRecordsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<DnsGetDnssecRecordsRequest>,
-  output: __S(530, __c66, 2) as any as S.Schema<DnsGetDnssecRecordsResponse>,
+  input: __S(2240, __c140, 0) as any as S.Schema<DnsGetDnssecRecordsRequest>,
+  output: __S(2258, __c141, 2) as any as S.Schema<DnsGetDnssecRecordsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3021,8 +4581,8 @@ export const dnsHistory: API.OperationMethod<
   DnsHistoryError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(536, __c67, 0) as any as S.Schema<DnsHistoryRequest>,
-  output: __S(539, __c67, 3) as any as S.Schema<DnsHistoryResponse>,
+  input: __S(2272, __c142, 0) as any as S.Schema<DnsHistoryRequest>,
+  output: __S(2275, __c142, 3) as any as S.Schema<DnsHistoryResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3038,8 +4598,8 @@ export const dnsPreflight: API.OperationMethod<
   DnsPreflightError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c68, 0) as any as S.Schema<DnsPreflightRequest>,
-  output: __S(547, __c68, 3) as any as S.Schema<DnsPreflightResponse>,
+  input: __S(2288, __c143, 0) as any as S.Schema<DnsPreflightRequest>,
+  output: __S(2291, __c143, 3) as any as S.Schema<DnsPreflightResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3055,8 +4615,8 @@ export const dnsRetrieveById: API.OperationMethod<
   DnsRetrieveByIdError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<DnsRetrieveByIdRequest>,
-  output: __S(570, __c71, 2) as any as S.Schema<DnsRecordsResponse>,
+  input: __S(2304, __c144, 0) as any as S.Schema<DnsRetrieveByIdRequest>,
+  output: __S(2322, __c145, 2) as any as S.Schema<DnsRecordsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3072,8 +4632,8 @@ export const dnsRetrieveByNameType: API.OperationMethod<
   DnsRetrieveByNameTypeError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c72, 0) as any as S.Schema<DnsRetrieveByNameTypeRequest>,
-  output: __S(570, __c71, 2) as any as S.Schema<DnsRecordsResponse>,
+  input: __S(2336, __c146, 0) as any as S.Schema<DnsRetrieveByNameTypeRequest>,
+  output: __S(2322, __c145, 2) as any as S.Schema<DnsRecordsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3089,8 +4649,8 @@ export const dnsScan: API.OperationMethod<
   DnsScanError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(584, __c73, 0) as any as S.Schema<DnsScanRequest>,
-  output: __S(585, __c73, 1) as any as S.Schema<DnsScanResponse>,
+  input: __S(2352, __c147, 0) as any as S.Schema<DnsScanRequest>,
+  output: __S(2353, __c147, 1) as any as S.Schema<DnsScanResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3106,8 +4666,8 @@ export const domainAddUrlForward: API.OperationMethod<
   DomainAddUrlForwardError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<DomainAddUrlForwardRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2368, __c148, 0) as any as S.Schema<DomainAddUrlForwardRequest>,
+  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3123,8 +4683,8 @@ export const domainCancelTransfer: API.OperationMethod<
   DomainCancelTransferError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(600, __c75, 0) as any as S.Schema<DomainCancelTransferRequest>,
-  output: __S(601, __c75, 1) as any as S.Schema<DomainCancelTransferResponse>,
+  input: __S(2400, __c150, 0) as any as S.Schema<DomainCancelTransferRequest>,
+  output: __S(2401, __c150, 1) as any as S.Schema<DomainCancelTransferResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3140,8 +4700,8 @@ export const domainCheckDomain: API.OperationMethod<
   DomainCheckDomainError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(609, __c76, 1) as any as S.Schema<DomainCheckDomainRequest>,
-  output: __S(613, __c76, 5) as any as S.Schema<CheckDomainResponse>,
+  input: __S(2417, __c151, 1) as any as S.Schema<DomainCheckDomainRequest>,
+  output: __S(2423, __c151, 7) as any as S.Schema<CheckDomainResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3157,8 +4717,8 @@ export const domainCreateGlue: API.OperationMethod<
   DomainCreateGlueError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(616, __c77, 0) as any as S.Schema<DomainCreateGlueRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2432, __c152, 0) as any as S.Schema<DomainCreateGlueRequest>,
+  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3174,8 +4734,8 @@ export const domainDeleteGlue: API.OperationMethod<
   DomainDeleteGlueError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c78, 0) as any as S.Schema<DomainDeleteGlueRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2448, __c153, 0) as any as S.Schema<DomainDeleteGlueRequest>,
+  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3191,8 +4751,8 @@ export const domainDeleteUrlForward: API.OperationMethod<
   DomainDeleteUrlForwardError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(632, __c79, 0) as any as S.Schema<DomainDeleteUrlForwardRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2464, __c154, 0) as any as S.Schema<DomainDeleteUrlForwardRequest>,
+  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3208,8 +4768,8 @@ export const domainGetContacts: API.OperationMethod<
   DomainGetContactsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c80, 0) as any as S.Schema<DomainGetContactsRequest>,
-  output: __S(641, __c80, 1) as any as S.Schema<DomainGetContactsResponse>,
+  input: __S(2480, __c155, 0) as any as S.Schema<DomainGetContactsRequest>,
+  output: __S(2481, __c155, 1) as any as S.Schema<DomainGetContactsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3218,15 +4778,15 @@ export const domainGetContacts: API.OperationMethod<
 }));
 
 export type DomainGetGlueError = BadRequest | PorkbunOpError;
-/** Get glue records Retrieve all glue records (host objects) registered under the domain. Supports both GET (with header auth) and POST (with body or header auth). */
+/** Get glue records Retrieve all glue records (host objects) registered under the domain. Supports both GET (with header auth) and POST (with body or header auth). Read `glue`: one `{host, v4, v6}` object per host, with both address lists always present (empty when none). `hosts` holds the same data as `[hostname, {v4, v6}]` pairs for older clients. Both are empty arrays when the domain has no glue. The sandbox returns the same shape. */
 export const domainGetGlue: API.OperationMethod<
   DomainGetGlueRequest,
   DomainGetGlueResponse,
   DomainGetGlueError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(664, __c83, 0) as any as S.Schema<DomainGetGlueRequest>,
-  output: __S(673, __c84, 1) as any as S.Schema<DomainGetGlueResponse>,
+  input: __S(2512, __c157, 0) as any as S.Schema<DomainGetGlueRequest>,
+  output: __S(2515, __c157, 3) as any as S.Schema<DomainGetGlueResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3242,8 +4802,8 @@ export const domainGetNs: API.OperationMethod<
   DomainGetNsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(680, __c85, 0) as any as S.Schema<DomainGetNsRequest>,
-  output: __S(688, __c86, 0) as any as S.Schema<DomainGetNsResponse>,
+  input: __S(2544, __c159, 0) as any as S.Schema<DomainGetNsRequest>,
+  output: __S(2560, __c160, 0) as any as S.Schema<DomainGetNsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3259,8 +4819,8 @@ export const domainGetRegistrationRequirements: API.OperationMethod<
   DomainGetRegistrationRequirementsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(696, __c87, 0) as any as S.Schema<DomainGetRegistrationRequirementsRequest>,
-  output: __S(697, __c87, 1) as any as S.Schema<DomainGetRegistrationRequirementsResponse>,
+  input: __S(2576, __c161, 0) as any as S.Schema<DomainGetRegistrationRequirementsRequest>,
+  output: __S(2577, __c161, 1) as any as S.Schema<DomainGetRegistrationRequirementsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3276,8 +4836,8 @@ export const domainGetTransferSetup: API.OperationMethod<
   DomainGetTransferSetupError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c88, 0) as any as S.Schema<DomainGetTransferSetupRequest>,
-  output: __S(705, __c88, 1) as any as S.Schema<DomainGetTransferSetupResponse>,
+  input: __S(2592, __c162, 0) as any as S.Schema<DomainGetTransferSetupRequest>,
+  output: __S(2593, __c162, 1) as any as S.Schema<DomainGetTransferSetupResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3293,8 +4853,8 @@ export const domainGetUrlForwarding: API.OperationMethod<
   DomainGetUrlForwardingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(712, __c89, 0) as any as S.Schema<DomainGetUrlForwardingRequest>,
-  output: __S(722, __c90, 2) as any as S.Schema<GetUrlForwardingResponse>,
+  input: __S(2624, __c164, 0) as any as S.Schema<DomainGetUrlForwardingRequest>,
+  output: __S(2642, __c165, 2) as any as S.Schema<GetUrlForwardingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3310,8 +4870,8 @@ export const domainStartTransfer: API.OperationMethod<
   DomainStartTransferError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(728, __c91, 0) as any as S.Schema<DomainStartTransferRequest>,
-  output: __S(729, __c91, 1) as any as S.Schema<DomainStartTransferResponse>,
+  input: __S(2656, __c166, 0) as any as S.Schema<DomainStartTransferRequest>,
+  output: __S(2672, __c167, 0) as any as S.Schema<DomainStartTransferResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3327,8 +4887,8 @@ export const domainUpdateAutoRenew: API.OperationMethod<
   DomainUpdateAutoRenewError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c92, 0) as any as S.Schema<DomainUpdateAutoRenewRequest>,
-  output: __S(738, __c92, 2) as any as S.Schema<DomainUpdateAutoRenewResponse>,
+  input: __S(2688, __c168, 0) as any as S.Schema<DomainUpdateAutoRenewRequest>,
+  output: __S(2690, __c168, 2) as any as S.Schema<DomainUpdateAutoRenewResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3337,15 +4897,15 @@ export const domainUpdateAutoRenew: API.OperationMethod<
 }));
 
 export type DomainUpdateContactsError = BadRequest | PorkbunOpError;
-/** Update domain contacts Edit the domain's contacts. Send a `contacts` object keyed by role (`registrant`, `admin`, `tech`, `billing`) containing ANY subset of roles -- unspecified roles keep their current values -- or a single `contact` object to apply to all four. Behaves like the website: on thick TLDs the change is pushed to the registry, and a **registrant** change (name/organization/email) triggers the same material-change record and new-owner notice/verification email (no 60-day transfer lock is imposed). Per-TLD extension data (e.g. .us nexus, .ca legalType) is preserved. Supports `dryRun`. **`state` is matched against the official list for the country**, the same list the website's dropdown is built from, so case, accents and short codes all work: `NEW JERSEY`, `new jersey` and `NJ` are all stored as `New Jersey`, and `MEXICO CITY` as `Mexico City`. This matters because some registries validate the field and compare it case sensitively -- .mx refuses `NEW JERSEY` and requires `Ciudad de México` for Mexico City, which Porkbun substitutes for you. For a TLD whose registry validates the field (currently the .mx family) a state that matches nothing is refused up front with `INVALID_STATE`, and the response lists every accepted value for that country in `validStates` -- better than the registry's own "Object does not exist". For every other TLD an unrecognised state is sent through unchanged rather than rewritten. If a registry then refuses it, the contact is NOT created and no contacts are changed; the error names the registry's complaint. **Address-validated TLDs.** On a **registrant** change for a TLD that requires a validated address (`.de`, `.nrw`, `.uk`/`.co.uk`/..., `.us`, `.ca`, `.nyc`, `.au`, `.eu`, `.in`/`.co.in`/..., `.nz`/`.co.nz`/...), the API runs Google Address Validation (per-account rate-limited + 24h cached). If the address needs correction the call returns `ADDRESS_VALIDATION_REQUIRED` with a `suggestedAddress` and `addressValidationStatus`; re-submit with `addressValidationChoice` = `accept_suggestion` (save the standardized address) or `use_as_entered` (keep yours -- stays blocked if a real correction was offered). For `.de`, DENIC registry verification is then attempted automatically (address-fingerprint / email); if it still needs a proof-of-address document upload, that is completed at porkbun.com. **Still not supported via API:** a registrant name/organization change on a `.au` domain is an auDA paid ownership trade and returns `REGISTRANT_CHANGE_NOT_SUPPORTED` (do it at porkbun.com). Admin/tech/billing edits are unaffected everywhere. */
+/** Update domain contacts Edit the domain's contacts. Send a `contacts` object keyed by role (`registrant`, `admin`, `tech`, `billing`) containing ANY subset of roles -- unspecified roles keep their current values -- or a single `contact` object to apply to all four. Behaves like the website: on thick TLDs the change is pushed to the registry, and a **registrant** change (name/organization/email) triggers the same material-change record and new-owner notice/verification email (no 60-day transfer lock is imposed). Per-TLD extension data (e.g. .us nexus, .ca legalType) is preserved. Supports `dryRun`. **`state` is matched against the official list for the country**, the same list the website's dropdown is built from, so case, accents and short codes all work: `NEW JERSEY`, `new jersey` and `NJ` are all stored as `New Jersey`, and `MEXICO CITY` as `Mexico City`. This matters because some registries validate the field and compare it case sensitively -- .mx refuses `NEW JERSEY` and requires `Ciudad de México` for Mexico City, which Porkbun substitutes for you. For a TLD whose registry validates the field (currently the .mx family) a state that matches nothing is refused up front with `INVALID_STATE`, and the response lists every accepted value for that country in `validStates` -- better than the registry's own "Object does not exist". For every other TLD an unrecognised state is sent through unchanged rather than rewritten. If a registry then refuses it, the contact is NOT created and no contacts are changed; the error names the registry's complaint. **Address-validated TLDs.** On a **registrant** change for a TLD where we check the address (`.de`, `.nrw`, `.uk`/`.co.uk`/..., `.us`, `.ca`, `.nyc`, `.au`, `.eu`, `.in`/`.co.in`/..., `.nz`/`.co.nz`/...), the API runs Google Address Validation (per-account rate-limited + 24h cached). If the address needs correction the call returns `ADDRESS_VALIDATION_REQUIRED` with a `suggestedAddress` and `addressValidationStatus`; re-submit with `addressValidationChoice` = `accept_suggestion` (save the standardized address) or `use_as_entered` (keep yours). Either choice saves; validation suggests, it never refuses. For `.de`, DENIC registry verification is then attempted automatically (address-fingerprint / email); if it still needs a proof-of-address document upload, that is completed at porkbun.com. **Still not supported via API:** a registrant name/organization change on a `.au` domain is an auDA paid ownership trade and returns `REGISTRANT_CHANGE_NOT_SUPPORTED` (do it at porkbun.com). Admin/tech/billing edits are unaffected everywhere. */
 export const domainUpdateContacts: API.OperationMethod<
   DomainUpdateContactsRequest,
   DomainUpdateContactsResponse,
   DomainUpdateContactsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(744, __c93, 0) as any as S.Schema<DomainUpdateContactsRequest>,
-  output: __S(745, __c93, 1) as any as S.Schema<DomainUpdateContactsResponse>,
+  input: __S(2704, __c169, 0) as any as S.Schema<DomainUpdateContactsRequest>,
+  output: __S(2705, __c169, 1) as any as S.Schema<DomainUpdateContactsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3361,8 +4921,8 @@ export const domainUpdateGlue: API.OperationMethod<
   DomainUpdateGlueError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c94, 0) as any as S.Schema<DomainUpdateGlueRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2720, __c170, 0) as any as S.Schema<DomainUpdateGlueRequest>,
+  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3378,8 +4938,8 @@ export const domainUpdateNs: API.OperationMethod<
   DomainUpdateNsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(760, __c95, 0) as any as S.Schema<DomainUpdateNsRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2736, __c171, 0) as any as S.Schema<DomainUpdateNsRequest>,
+  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3395,8 +4955,8 @@ export const domainUpdateTransferAuthCode: API.OperationMethod<
   DomainUpdateTransferAuthCodeError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(776, __c97, 0) as any as S.Schema<DomainUpdateTransferAuthCodeRequest>,
-  output: __S(777, __c97, 1) as any as S.Schema<DomainUpdateTransferAuthCodeResponse>,
+  input: __S(2752, __c172, 0) as any as S.Schema<DomainUpdateTransferAuthCodeRequest>,
+  output: __S(2753, __c172, 1) as any as S.Schema<DomainUpdateTransferAuthCodeResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3412,13 +4972,115 @@ export const editDns: API.OperationMethod<
   EditDnsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c98, 0) as any as S.Schema<EditDnsRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2768, __c173, 0) as any as S.Schema<EditDnsRequest>,
+  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EditDns",
+}));
+
+export type EmailAddForwardError = BadRequest | PorkbunOpError;
+/** Add an email forward Forward an address at the domain to another mailbox. Free, up to the domain's limit (20 by default). Forwarding needs Porkbun's MX records and SPF include at the zone apex, and this sets them up. **When that would delete other apex MX records (another mail service) or rewrite an existing SPF record, the call is refused with `DNS_CHANGE_CONFIRMATION_REQUIRED` and `dnsChanges` describing exactly what would change; tell the user, then resend with `confirmDnsChanges: true`.** `dryRun: true` previews it, including whether confirmation is needed. Catch-all/wildcard forwards are not supported. An address cannot be both a forward and an email hosting mailbox. */
+export const emailAddForward: API.OperationMethod<
+  EmailAddForwardRequest,
+  EmailAddForwardResponse,
+  EmailAddForwardError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2784, __c174, 0) as any as S.Schema<EmailAddForwardRequest>,
+  output: __S(2788, __c174, 4) as any as S.Schema<EmailAddForwardResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EmailAddForward",
+}));
+
+export type EmailCreateMailboxError = BadRequest | PorkbunOpError;
+/** Buy and set up a mailbox Buy one email hosting mailbox ($36.00 a year, renewing automatically; the current price is in /email/getMailboxes) and set it up in the same call. `cost` must equal the price in cents (`COST_MISMATCH` names it; `dryRun: true` with `cost: 0` quotes it). Paid from account credit by default, or directly with `payWith: "card"` / `"usdc"` as for domain purchases; counts toward the monthly API spend limit. Everything else is as /email/setupMailbox: generated password unless one is sent, DNS confirmation, verification. Accounts under 90 days old that have paid in crypto cannot buy it (`EMAIL_HOSTING_UNAVAILABLE`), as on the website. If the purchase succeeds but setup fails, the response says `setupComplete: false` with the `mailboxId` to finish with /email/setupMailbox. */
+export const emailCreateMailbox: API.OperationMethod<
+  EmailCreateMailboxRequest,
+  EmailCreateMailboxResponse,
+  EmailCreateMailboxError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2816, __c176, 0) as any as S.Schema<EmailCreateMailboxRequest>,
+  output: __S(2848, __c178, 0) as any as S.Schema<EmailCreateMailboxResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EmailCreateMailbox",
+}));
+
+export type EmailDeleteForwardError = BadRequest | PorkbunOpError;
+/** Delete an email forward Delete one forward, named by its `address` and `forwardTo` (an address can forward to several). When it was the domain's last forward and there are no email hosting mailboxes, Porkbun's forwarding MX and SPF records are removed too (`dnsRecordsRemoved: true`). */
+export const emailDeleteForward: API.OperationMethod<
+  EmailDeleteForwardRequest,
+  EmailDeleteForwardResponse,
+  EmailDeleteForwardError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2880, __c180, 0) as any as S.Schema<EmailDeleteForwardRequest>,
+  output: __S(2881, __c180, 1) as any as S.Schema<EmailDeleteForwardResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EmailDeleteForward",
+}));
+
+export type EmailGetForwardsError = BadRequest | PorkbunOpError;
+/** List email forwards The email forwards on a domain: each `address` at the domain and the `forwardTo` mailbox it is delivered to (an address can forward to several). `limits` gives how many the domain has and may have; `dnsConfigured` says whether the apex MX records in the Porkbun zone point at Porkbun forwarding (if the domain uses other nameservers, those decide). Supports GET with header auth. */
+export const emailGetForwards: API.OperationMethod<
+  EmailGetForwardsRequest,
+  EmailGetForwardsResponse,
+  EmailGetForwardsError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2896, __c181, 0) as any as S.Schema<EmailGetForwardsRequest>,
+  output: __S(2914, __c182, 2) as any as S.Schema<EmailGetForwardsResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EmailGetForwards",
+}));
+
+export type EmailGetMailboxesError = BadRequest | PorkbunOpError;
+/** List mailboxes The domain's email hosting mailboxes, including ones bought or included as a trial that are still waiting to be set up (`status: PENDINGSETUP`, `address: null`). Also returns the price of another mailbox and the mail client settings. Supports GET with header auth. */
+export const emailGetMailboxes: API.OperationMethod<
+  EmailGetMailboxesRequest,
+  EmailGetMailboxesResponse,
+  EmailGetMailboxesError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2928, __c183, 0) as any as S.Schema<EmailGetMailboxesRequest>,
+  output: __S(2945, __c184, 1) as any as S.Schema<EmailGetMailboxesResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EmailGetMailboxes",
+}));
+
+export type EmailRenewMailboxError = BadRequest | PorkbunOpError;
+/** Renew a mailbox for a year Add a year to a mailbox now, at its renewal price (`renewalPrice` in /email/getMailboxes; $36.00, or the legacy price for mailboxes that still qualify). A set-up mailbox also renews on its own when it is due (`autoRenews`), charged like any other renewal; this is for paying early, or for converting a trial to paid. Name the mailbox with `mailboxId` or `address`. `cost` must equal the price (`dryRun: true` with `cost: 0` quotes it and returns `expiresAfter`). Paid from account credit or with `payWith: "card"` / `"usdc"`, within the monthly API spend limit. The year is added to the current expiry date. While the domain is expired the mailbox can't be renewed, by this call or automatically: renew the domain first (`DOMAIN_EXPIRED`). */
+export const emailRenewMailbox: API.OperationMethod<
+  EmailRenewMailboxRequest,
+  EmailRenewMailboxResponse,
+  EmailRenewMailboxError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2960, __c185, 0) as any as S.Schema<EmailRenewMailboxRequest>,
+  output: __S(2961, __c185, 1) as any as S.Schema<EmailRenewMailboxResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EmailRenewMailbox",
 }));
 
 export type EmailSetPasswordError = BadRequest | PorkbunOpError;
@@ -3429,13 +5091,30 @@ export const emailSetPassword: API.OperationMethod<
   EmailSetPasswordError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(792, __c99, 0) as any as S.Schema<EmailSetPasswordRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<BasicResponse>,
+  input: __S(2976, __c186, 0) as any as S.Schema<EmailSetPasswordRequest>,
+  output: __S(2032, __c127, 0) as any as S.Schema<BasicResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EmailSetPassword",
+}));
+
+export type EmailSetupMailboxError = BadRequest | PorkbunOpError;
+/** Set up a waiting mailbox Give a mailbox that is already paid for, or the free trial mailbox that comes with a domain registration, its address and password. Free. `mailboxId` picks one; without it the first waiting mailbox is used (`NO_PENDING_MAILBOX` if there is none: buy one with /email/createMailbox). Without `password`, a strong one is generated and returned once in `password`. Puts Porkbun's MX and SPF in place, asking first (`DNS_CHANGE_CONFIRMATION_REQUIRED`) if that would replace another mail service's MX or rewrite the SPF record. Needs a verified email, and a verified phone or an approved ID check. DKIM and DMARC are set up on the website. */
+export const emailSetupMailbox: API.OperationMethod<
+  EmailSetupMailboxRequest,
+  EmailSetupMailboxResponse,
+  EmailSetupMailboxError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2992, __c187, 0) as any as S.Schema<EmailSetupMailboxRequest>,
+  output: __S(2848, __c178, 0) as any as S.Schema<EmailSetupMailboxResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "EmailSetupMailbox",
 }));
 
 export type GetAccountInviteStatusError = BadRequest | PorkbunOpError;
@@ -3446,8 +5125,8 @@ export const getAccountInviteStatus: API.OperationMethod<
   GetAccountInviteStatusError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c100, 0) as any as S.Schema<GetAccountInviteStatusRequest>,
-  output: __S(801, __c100, 1) as any as S.Schema<GetAccountInviteStatusResponse>,
+  input: __S(3008, __c188, 0) as any as S.Schema<GetAccountInviteStatusRequest>,
+  output: __S(3009, __c188, 1) as any as S.Schema<GetAccountInviteStatusResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3463,13 +5142,30 @@ export const getApikey: API.OperationMethod<
   GetApikeyError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(808, __c101, 0) as any as S.Schema<GetApikeyRequest>,
-  output: __S(809, __c101, 1) as any as S.Schema<GetApikeyResponse>,
+  input: __S(3024, __c189, 0) as any as S.Schema<GetApikeyRequest>,
+  output: __S(3025, __c189, 1) as any as S.Schema<GetApikeyResponse>,
   errors: [BadRequest, Forbidden, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetApikey",
+}));
+
+export type GetApikeyShareError = BadRequest | PorkbunOpError;
+/** List site shares This account's site shares (`/apikey/share`), newest first: `status` is `PENDING` (waiting for the account holder's approval), `ACTIVE` (approved, link not used), `CLAIMED` (the other person connected), `REVOKED` or `EXPIRED`. For an `ACTIVE` share, keys with full access or the `account` permission also get `shareUrl`, `qrCodeUrl`, `shareCode` and `handoffPrompt` to pass on; other keys see the share without them. A domain-limited key sees only its domains' shares. Also available via GET. */
+export const getApikeyShare: API.OperationMethod<
+  GetApikeyShareRequest,
+  GetApikeyShareResponse,
+  GetApikeyShareError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3040, __c190, 0) as any as S.Schema<GetApikeyShareRequest>,
+  output: __S(18, __c1, 2) as any as S.Schema<GetApikeyShareResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetApikeyShare",
 }));
 
 export type GetApiSettingsError = PorkbunOpError;
@@ -3480,8 +5176,8 @@ export const getApiSettings: API.OperationMethod<
   GetApiSettingsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c102, 0) as any as S.Schema<GetApiSettingsRequest>,
-  output: __S(820, __c102, 4) as any as S.Schema<ApiSettingsResponse>,
+  input: __S(3056, __c191, 0) as any as S.Schema<GetApiSettingsRequest>,
+  output: __S(3060, __c191, 4) as any as S.Schema<ApiSettingsResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3490,15 +5186,15 @@ export const getApiSettings: API.OperationMethod<
 }));
 
 export type GetAutoTopupError = PorkbunOpError;
-/** Read auto top-up settings What auto top-up is set to, whether a payment method is on file, and what `POST /account/topup` would charge right now (`effectiveAmount`). Auto top-up is how unattended work stops dead-ending on `INSUFFICIENT_FUNDS`: when an order drops the balance below `threshold`, Porkbun charges the saved payment method for `amount` and adds the credit. If `paymentMethodOnFile` is false the settings are inert and the response says so in `warnings` -- a card can only be saved on the website, never over the API. */
+/** Read auto top-up settings What auto top-up is set to, whether a payment method is on file, and what `POST /account/topup` would charge right now (`effectiveAmount`). Auto top-up is how unattended work stops dead-ending on `INSUFFICIENT_FUNDS`: when an order drops the balance below `threshold`, Porkbun charges the saved payment method for `amount` and adds the credit. `cards` lists the saved payment methods, primary first, with each one's `status`: a top-up charges the primary and falls back to the backups in that order. Use it to explain a decline, or to warn the account holder before a card stops working (`expired`, or `declined` with the decline code). If `paymentMethodOnFile` is false the settings are inert and the response says so in `warnings` -- a card can only be saved on the website, never over the API. Cards are also added, removed and reordered only on the website. When every card is expired or recently declined, `warnings` says a top-up will probably fail. */
 export const getAutoTopup: API.OperationMethod<
   GetAutoTopupRequest,
   AutoTopupResponse,
   GetAutoTopupError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(824, __c103, 0) as any as S.Schema<GetAutoTopupRequest>,
-  output: __S(832, __c104, 0) as any as S.Schema<AutoTopupResponse>,
+  input: __S(3088, __c193, 0) as any as S.Schema<GetAutoTopupRequest>,
+  output: __S(3106, __c194, 2) as any as S.Schema<AutoTopupResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3514,8 +5210,8 @@ export const getBalance: API.OperationMethod<
   GetBalanceError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(840, __c105, 0) as any as S.Schema<GetBalanceRequest>,
-  output: __S(841, __c105, 1) as any as S.Schema<BalanceResponse>,
+  input: __S(3120, __c195, 0) as any as S.Schema<GetBalanceRequest>,
+  output: __S(3121, __c195, 1) as any as S.Schema<BalanceResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3531,8 +5227,8 @@ export const getCloseout: API.OperationMethod<
   GetCloseoutError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c106, 0) as any as S.Schema<GetCloseoutRequest>,
-  output: __S(849, __c106, 1) as any as S.Schema<GetCloseoutResponse>,
+  input: __S(3136, __c196, 0) as any as S.Schema<GetCloseoutRequest>,
+  output: __S(3137, __c196, 1) as any as S.Schema<GetCloseoutResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3548,8 +5244,8 @@ export const getCloudflare: API.OperationMethod<
   GetCloudflareError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c108, 0) as any as S.Schema<GetCloudflareRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<GetCloudflareResponse>,
+  input: __S(3168, __c198, 0) as any as S.Schema<GetCloudflareRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<GetCloudflareResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3565,8 +5261,8 @@ export const getDns: API.OperationMethod<
   GetDnsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c112, 0) as any as S.Schema<GetDnsRequest>,
-  output: __S(570, __c71, 2) as any as S.Schema<DnsRecordsResponse>,
+  input: __S(3184, __c199, 0) as any as S.Schema<GetDnsRequest>,
+  output: __S(2322, __c145, 2) as any as S.Schema<DnsRecordsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3582,8 +5278,8 @@ export const getDnsRecordById: API.OperationMethod<
   GetDnsRecordByIdError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(904, __c113, 0) as any as S.Schema<GetDnsRecordByIdRequest>,
-  output: __S(570, __c71, 2) as any as S.Schema<DnsRecordsResponse>,
+  input: __S(3200, __c200, 0) as any as S.Schema<GetDnsRecordByIdRequest>,
+  output: __S(2322, __c145, 2) as any as S.Schema<DnsRecordsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3599,8 +5295,8 @@ export const getDnsRecords: API.OperationMethod<
   GetDnsRecordsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c114, 0) as any as S.Schema<GetDnsRecordsRequest>,
-  output: __S(570, __c71, 2) as any as S.Schema<DnsRecordsResponse>,
+  input: __S(3216, __c201, 0) as any as S.Schema<GetDnsRecordsRequest>,
+  output: __S(2322, __c145, 2) as any as S.Schema<DnsRecordsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3616,8 +5312,8 @@ export const getDnsRecordsByNameType: API.OperationMethod<
   GetDnsRecordsByNameTypeError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(920, __c115, 0) as any as S.Schema<GetDnsRecordsByNameTypeRequest>,
-  output: __S(570, __c71, 2) as any as S.Schema<DnsRecordsResponse>,
+  input: __S(3232, __c202, 0) as any as S.Schema<GetDnsRecordsByNameTypeRequest>,
+  output: __S(2322, __c145, 2) as any as S.Schema<DnsRecordsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3633,8 +5329,8 @@ export const getDnssecRecords: API.OperationMethod<
   GetDnssecRecordsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c116, 0) as any as S.Schema<GetDnssecRecordsRequest>,
-  output: __S(530, __c66, 2) as any as S.Schema<GetDnssecRecordsResponse>,
+  input: __S(3248, __c203, 0) as any as S.Schema<GetDnssecRecordsRequest>,
+  output: __S(2258, __c141, 2) as any as S.Schema<GetDnssecRecordsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3650,8 +5346,8 @@ export const getDomain: API.OperationMethod<
   GetDomainError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(936, __c117, 0) as any as S.Schema<GetDomainRequest>,
-  output: __S(938, __c117, 2) as any as S.Schema<GetDomainResponse>,
+  input: __S(3264, __c204, 0) as any as S.Schema<GetDomainRequest>,
+  output: __S(3266, __c204, 2) as any as S.Schema<GetDomainResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3660,15 +5356,15 @@ export const getDomain: API.OperationMethod<
 }));
 
 export type GetDomainGlueError = BadRequest | PorkbunOpError;
-/** Get glue records Retrieve all glue records (host objects) registered under the domain. Supports both GET (with header auth) and POST (with body or header auth). */
+/** Get glue records Retrieve all glue records (host objects) registered under the domain. Supports both GET (with header auth) and POST (with body or header auth). Read `glue`: one `{host, v4, v6}` object per host, with both address lists always present (empty when none). `hosts` holds the same data as `[hostname, {v4, v6}]` pairs for older clients. Both are empty arrays when the domain has no glue. The sandbox returns the same shape. */
 export const getDomainGlue: API.OperationMethod<
   GetDomainGlueRequest,
   GetDomainGlueResponse,
   GetDomainGlueError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c118, 0) as any as S.Schema<GetDomainGlueRequest>,
-  output: __S(673, __c84, 1) as any as S.Schema<GetDomainGlueResponse>,
+  input: __S(3296, __c206, 0) as any as S.Schema<GetDomainGlueRequest>,
+  output: __S(3299, __c206, 3) as any as S.Schema<GetDomainGlueResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3684,8 +5380,8 @@ export const getDomainNs: API.OperationMethod<
   GetDomainNsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(952, __c119, 0) as any as S.Schema<GetDomainNsRequest>,
-  output: __S(688, __c86, 0) as any as S.Schema<GetDomainNsResponse>,
+  input: __S(3312, __c207, 0) as any as S.Schema<GetDomainNsRequest>,
+  output: __S(2560, __c160, 0) as any as S.Schema<GetDomainNsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3694,15 +5390,15 @@ export const getDomainNs: API.OperationMethod<
 }));
 
 export type GetDomainsError = BadRequest | PorkbunOpError;
-/** List all domains Retrieve domains in the authenticated account. Results are returned in chunks of up to 1000 domains. Use `start` to paginate. **Filtering:** all filter parameters are optional. Combine them freely. - `domain` -- exact match (returns 0 or 1) - `nameContains` -- substring search - `tlds` -- limit to these TLDs - `expiringWithinDays` -- only domains expiring within N days - `autoRenew` -- `yes` / `no` - `apiAccess` -- `yes` / `no` (filter to domains the API key can operate on) - `sortName` -- `domain` / `tld` / `create_date` / `expire_date` - `sortDirection` -- `asc` / `desc` Supports both GET (with header auth) and POST (with body or header auth). For multi-value `tlds` on GET, use bracket syntax: `?tlds[]=com&tlds[]=io`. */
+/** List all domains Retrieve domains in the authenticated account. Results are returned in chunks of up to 1000 domains. Use `start` to paginate. **Filtering:** all filter parameters are optional. Combine them freely. - `domain` -- exact match (returns 0 or 1) - `nameContains` -- substring search - `tlds` -- limit to these TLDs - `expiringWithinDays` -- only domains expiring within N days - `addedAfter` / `addedBefore` -- when the domain joined this account at Porkbun, by registration or transfer (`addedDate`). Use `addedAfter` to fetch only what's new since your last sync - `createdAfter` / `createdBefore` -- the registry creation date (`createDate`); a transferred-in domain keeps its original one - `expiresAfter` / `expiresBefore` -- an expiry window by date - `autoRenew` -- `yes` / `no` - `apiAccess` -- `yes` / `no` (filter to domains the API key can operate on) - `sortName` -- `domain` / `tld` / `create_date` / `added_date` / `expire_date` Dates are `YYYY-MM-DD` or `YYYY-MM-DD HH:MM:SS`, in UTC like every date in the response. `...After` includes the moment given; `...Before` excludes it. - `sortDirection` -- `asc` / `desc` Supports both GET (with header auth) and POST (with body or header auth). For multi-value `tlds` on GET, use bracket syntax: `?tlds[]=com&tlds[]=io`. */
 export const getDomains: API.OperationMethod<
   GetDomainsRequest,
   DomainListAllResponse,
   GetDomainsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c120, 0) as any as S.Schema<GetDomainsRequest>,
-  output: __S(972, __c121, 4) as any as S.Schema<DomainListAllResponse>,
+  input: __S(3328, __c208, 0) as any as S.Schema<GetDomainsRequest>,
+  output: __S(3348, __c209, 4) as any as S.Schema<DomainListAllResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3718,8 +5414,8 @@ export const getDomainUrlForwarding: API.OperationMethod<
   GetDomainUrlForwardingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c122, 0) as any as S.Schema<GetDomainUrlForwardingRequest>,
-  output: __S(722, __c90, 2) as any as S.Schema<GetUrlForwardingResponse>,
+  input: __S(3360, __c210, 0) as any as S.Schema<GetDomainUrlForwardingRequest>,
+  output: __S(2642, __c165, 2) as any as S.Schema<GetUrlForwardingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3727,21 +5423,72 @@ export const getDomainUrlForwarding: API.OperationMethod<
   span: "GetDomainUrlForwarding",
 }));
 
+export type GetEmailForwardsError = BadRequest | PorkbunOpError;
+/** List email forwards The email forwards on a domain: each `address` at the domain and the `forwardTo` mailbox it is delivered to (an address can forward to several). `limits` gives how many the domain has and may have; `dnsConfigured` says whether the apex MX records in the Porkbun zone point at Porkbun forwarding (if the domain uses other nameservers, those decide). Supports GET with header auth. */
+export const getEmailForwards: API.OperationMethod<
+  GetEmailForwardsRequest,
+  GetEmailForwardsResponse,
+  GetEmailForwardsError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3376, __c211, 0) as any as S.Schema<GetEmailForwardsRequest>,
+  output: __S(2914, __c182, 2) as any as S.Schema<GetEmailForwardsResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailForwards",
+}));
+
+export type GetEmailMailboxesError = BadRequest | PorkbunOpError;
+/** List mailboxes The domain's email hosting mailboxes, including ones bought or included as a trial that are still waiting to be set up (`status: PENDINGSETUP`, `address: null`). Also returns the price of another mailbox and the mail client settings. Supports GET with header auth. */
+export const getEmailMailboxes: API.OperationMethod<
+  GetEmailMailboxesRequest,
+  GetEmailMailboxesResponse,
+  GetEmailMailboxesError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3392, __c212, 0) as any as S.Schema<GetEmailMailboxesRequest>,
+  output: __S(2945, __c184, 1) as any as S.Schema<GetEmailMailboxesResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetEmailMailboxes",
+}));
+
 export type GetHostingError = BadRequest | PorkbunOpError;
-/** Get hosting status (either product) **Applies to:** Both products. Return the Secure Static Hosting status for a domain (plan, server, trial, expiry, auto-renew), or `hosting: null` if none. Also available via POST. */
+/** Get the hosting on a domain **Applies to:** Secure Static Hosting, Cloud for WordPress and Link in Bio. Returns the hosting on a domain (`product`, plan, status, trial, expiry, auto-renew), or `hosting: null` if there is none. Also available via POST. For a live Cloud for WordPress site, `wordpress.site` adds what the hosting page on porkbun.com shows: PHP version (and the versions available), WordPress version setting, SSL, storage used, search visibility, staging, and the latest background jobs (restores, factory resets, site copies). Reading it takes a couple of seconds, because it asks WP Cloud. For a Link in Bio page's content, use `/linkinbio/get`. */
 export const getHosting: API.OperationMethod<
   GetHostingRequest,
   GetHostingResponse,
   GetHostingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c124, 0) as any as S.Schema<GetHostingRequest>,
-  output: __S(994, __c124, 2) as any as S.Schema<GetHostingResponse>,
+  input: __S(3408, __c213, 0) as any as S.Schema<GetHostingRequest>,
+  output: __S(3418, __c213, 10) as any as S.Schema<GetHostingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHosting",
+}));
+
+export type GetHostingBackupError = BadRequest | PorkbunOpError;
+/** List backups **Applies to:** Cloud for WordPress (not the free preview). The site's backups, newest first: automatic file backups daily and database backups hourly (when it changes), kept 30 days, plus up to one on-demand backup of each type. Returns the newest `limit` (default 100, max 1000; on-demand ones are always included) and `total`. `type` filters to `files` or `database`. **Errors:** `STAGING_NOT_FOUND`, `UPSTREAM_UNAVAILABLE`. */
+export const getHostingBackup: API.OperationMethod<
+  GetHostingBackupRequest,
+  GetHostingBackupResponse,
+  GetHostingBackupError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3424, __c214, 0) as any as S.Schema<GetHostingBackupRequest>,
+  output: __S(3442, __c215, 2) as any as S.Schema<GetHostingBackupResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetHostingBackup",
 }));
 
 export type GetInvoiceError = NotFound | PorkbunOpError;
@@ -3752,8 +5499,8 @@ export const getInvoice: API.OperationMethod<
   GetInvoiceError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1000, __c125, 0) as any as S.Schema<GetInvoiceRequest>,
-  output: __S(1005, __c125, 5) as any as S.Schema<GetInvoiceResponse>,
+  input: __S(3456, __c216, 0) as any as S.Schema<GetInvoiceRequest>,
+  output: __S(3461, __c216, 5) as any as S.Schema<GetInvoiceResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3769,8 +5516,8 @@ export const getInvoicePdf: API.OperationMethod<
   GetInvoicePdfError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c126, 0) as any as S.Schema<GetInvoicePdfRequest>,
-  output: __S(1009, __c126, 1) as any as S.Schema<GetInvoicePdfResponse>,
+  input: __S(3472, __c217, 0) as any as S.Schema<GetInvoicePdfRequest>,
+  output: __S(3473, __c217, 1) as any as S.Schema<GetInvoicePdfResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3782,14 +5529,31 @@ export type GetIpError = PorkbunOpError;
 /** Get caller IP address Returns the caller's public IP address. No credentials required. Use the `api-ipv4.porkbun.com` hostname if you need to force an IPv4 address. */
 export const getIp: API.OperationMethod<GetIpRequest, IpResponse, GetIpError, PorkbunOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1016, __c127, 0) as any as S.Schema<GetIpRequest>,
-    output: __S(1024, __c128, 0) as any as S.Schema<IpResponse>,
+    input: __S(32, __c2, 0) as any as S.Schema<GetIpRequest>,
+    output: __S(48, __c3, 0) as any as S.Schema<IpResponse>,
     errors: [UnknownPorkbunError],
     protocol: PorkbunProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetIp",
   }));
+
+export type GetLinkInBioError = BadRequest | PorkbunOpError;
+/** Get a Link in Bio page The page on a domain: its public URL, plan and what the plan allows, profile, links in display order (with ids), social icons, appearance and settings. Use it before editing, and to read link ids. **Errors:** `LINKINBIO_NOT_FOUND` (no page; the message says what the domain has instead). */
+export const getLinkInBio: API.OperationMethod<
+  GetLinkInBioRequest,
+  LinkInBioResponse,
+  GetLinkInBioError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c4, 0) as any as S.Schema<GetLinkInBioRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLinkInBio",
+}));
 
 export type GetPingError = BadRequest | PorkbunOpError;
 /** Test credentials and get caller IP Returns the caller's public IP address. Optionally validates API credentials. - **No credentials supplied** -- returns IP only. - **Valid credentials supplied** -- returns IP with `credentialsValid: true`. - **Invalid credentials supplied** -- returns an error. Useful for agents and clients to verify their API key is working before making other calls. */
@@ -3799,8 +5563,8 @@ export const getPing: API.OperationMethod<
   GetPingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1032, __c129, 0) as any as S.Schema<GetPingRequest>,
-  output: __S(1040, __c130, 0) as any as S.Schema<GetPingResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<GetPingRequest>,
+  output: __S(96, __c6, 0) as any as S.Schema<GetPingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3816,8 +5580,8 @@ export const getPricing: API.OperationMethod<
   GetPricingError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1048, __c131, 0) as any as S.Schema<GetPricingRequest>,
-  output: __S(1060, __c132, 4) as any as S.Schema<GetPricingResponse>,
+  input: __S(112, __c7, 0) as any as S.Schema<GetPricingRequest>,
+  output: __S(132, __c8, 4) as any as S.Schema<GetPricingResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3833,8 +5597,8 @@ export const getPricingGet: API.OperationMethod<
   GetPricingGetError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1064, __c133, 0) as any as S.Schema<GetPricingGetRequest>,
-  output: __S(1060, __c132, 4) as any as S.Schema<GetPricingGetResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<GetPricingGetRequest>,
+  output: __S(132, __c8, 4) as any as S.Schema<GetPricingGetResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3850,8 +5614,8 @@ export const getSsl: API.OperationMethod<
   GetSslError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c134, 0) as any as S.Schema<GetSslRequest>,
-  output: __S(1080, __c135, 0) as any as S.Schema<GetSslResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<GetSslRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<GetSslResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3867,8 +5631,8 @@ export const getSslRetrieve: API.OperationMethod<
   GetSslRetrieveError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c136, 0) as any as S.Schema<GetSslRetrieveRequest>,
-  output: __S(1080, __c135, 0) as any as S.Schema<GetSslRetrieveResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetSslRetrieveRequest>,
+  output: __S(176, __c11, 0) as any as S.Schema<GetSslRetrieveResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3884,8 +5648,8 @@ export const getTransferGet: API.OperationMethod<
   GetTransferGetError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1096, __c137, 0) as any as S.Schema<GetTransferGetRequest>,
-  output: __S(1097, __c137, 1) as any as S.Schema<GetTransferResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetTransferGetRequest>,
+  output: __S(209, __c13, 1) as any as S.Schema<GetTransferResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3894,15 +5658,15 @@ export const getTransferGet: API.OperationMethod<
 }));
 
 export type GetWebhookError = NotFound | PorkbunOpError;
-/** Get a webhook endpoint Fetch a single webhook endpoint by id, including its signing secret and delivery health. Read-only; supports GET (header auth) or POST (body or header auth). */
+/** Get a webhook endpoint Fetch a single webhook endpoint by id, with delivery health. The signing secret is included for keys with full access or the account scope; read-only keys get it omitted. Read-only; supports GET (header auth) or POST (body or header auth). */
 export const getWebhook: API.OperationMethod<
   GetWebhookRequest,
   WebhookEndpointResponse,
   GetWebhookError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1128, __c141, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(408, __c51, 0) as any as S.Schema<WebhookEndpointResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(2000, __c125, 0) as any as S.Schema<WebhookEndpointResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3910,16 +5674,67 @@ export const getWebhook: API.OperationMethod<
   span: "GetWebhook",
 }));
 
+export type HostingBackupsError = BadRequest | PorkbunOpError;
+/** List backups **Applies to:** Cloud for WordPress (not the free preview). The site's backups, newest first: automatic file backups daily and database backups hourly (when it changes), kept 30 days, plus up to one on-demand backup of each type. Returns the newest `limit` (default 100, max 1000; on-demand ones are always included) and `total`. `type` filters to `files` or `database`. **Errors:** `STAGING_NOT_FOUND`, `UPSTREAM_UNAVAILABLE`. */
+export const hostingBackups: API.OperationMethod<
+  HostingBackupsRequest,
+  HostingBackupsResponse,
+  HostingBackupsError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(256, __c16, 0) as any as S.Schema<HostingBackupsRequest>,
+  output: __S(3442, __c215, 2) as any as S.Schema<HostingBackupsResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingBackups",
+}));
+
+export type HostingCreateBackupError = BadRequest | PorkbunOpError;
+/** Take an on-demand backup **Applies to:** Cloud for WordPress (not the free preview). Starts a backup of the site's files and database now. Only one on-demand backup of each type can exist: delete the old one first (`BACKUP_FAILED` says "Quota Reached" otherwise). It appears in `/hosting/backups` when finished, usually within a few minutes. Supports `dryRun`. Not available with sandbox keys. **Errors:** `BACKUP_FAILED`, `STAGING_NOT_FOUND`. */
+export const hostingCreateBackup: API.OperationMethod<
+  HostingCreateBackupRequest,
+  HostingCreateBackupResponse,
+  HostingCreateBackupError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(336, __c21, 0) as any as S.Schema<HostingCreateBackupRequest>,
+  output: __S(2672, __c167, 0) as any as S.Schema<HostingCreateBackupResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingCreateBackup",
+}));
+
+export type HostingCreateStagingError = BadRequest | PorkbunOpError;
+/** Create a staging site **Applies to:** Cloud for WordPress (not the free preview). Builds a private copy of the live site on a `*.stagebun.com` address to try changes safely: from the live site as it is now, or from a backup pair (`fsId` + `dbId` from `/hosting/backups`). One per site. It starts password protected (the password is in the response), with outgoing email blocked and search engines asked not to index it. Queued; usually a few minutes, and the account holder is emailed when it is ready. Poll `getStaging`. Supports `dryRun`. Not available with sandbox keys. **Errors:** `STAGING_ALREADY_EXISTS`, `OPERATION_IN_PROGRESS`, `BACKUP_NOT_FOUND`. */
+export const hostingCreateStaging: API.OperationMethod<
+  HostingCreateStagingRequest,
+  HostingCreateStagingResponse,
+  HostingCreateStagingError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(352, __c22, 0) as any as S.Schema<HostingCreateStagingRequest>,
+  output: __S(353, __c22, 1) as any as S.Schema<HostingCreateStagingResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingCreateStaging",
+}));
+
 export type HostingCreateWpCredentialsError = BadRequest | PorkbunOpError;
-/** Mint WordPress REST API credentials (WordPress only) **Applies to:** Cloud for WordPress only. Creates a WordPress **Application Password** so an agent or integration can drive the site over the WP REST API at `https://{domain}/wp-json/` using HTTP Basic auth. The password is returned **once** -- WordPress stores only a hash. Defaults to a dedicated least-privilege `porkbun-agent` user with the `editor` role (created on first use), which can manage content but not install code. `role: "administrator"` grants full site control **including plugin installation (arbitrary code execution on the site)** and therefore requires `acknowledgeFullAccess: true`. Revoke any time via `/hosting/deleteWpCredentials/{domain}` or in wp-admin under Users -> Profile. Requires the site to be provisioned and ACTIVE (poll `/hosting/get/{domain}`). Free **preview** sites (the $0 parked plan) are excluded -- they return `PREVIEW_SITE_NOT_SUPPORTED`; upgrade to a paid plan first. Works on any Cloud for WordPress site in the account regardless of whether it was provisioned via the API or the website, including sites migrated onto WP Cloud from the legacy WordPress product. For `role: "administrator"` the site's actual administrator account is looked up rather than assumed, so a renamed admin user is handled. **Rate limit:** 20 mints per account per hour (`dryRun` calls are free). */
+/** Mint WordPress REST API credentials (WordPress only) **To edit a site's content from an agent, use `/hosting/wpRequest` and `/hosting/wpUploadMedia` instead: they run inside the site and need no password.** This endpoint is for code that calls the WordPress REST API itself. **Applies to:** Cloud for WordPress only. Creates a WordPress **Application Password** so an agent or integration can drive the site over the WP REST API at `https://{domain}/wp-json/` using HTTP Basic auth. The password is returned **once** -- WordPress stores only a hash. Defaults to a dedicated least-privilege `porkbun-agent` user with the `editor` role (created on first use), which can manage content but not install code. `role: "administrator"` grants full site control **including plugin installation (arbitrary code execution on the site)** and therefore requires `acknowledgeFullAccess: true`. Revoke any time via `/hosting/deleteWpCredentials/{domain}` or in wp-admin under Users -> Profile. Requires the site to be provisioned and ACTIVE (poll `/hosting/get/{domain}`). Free **preview** sites (the $0 parked plan) are excluded -- they return `PREVIEW_SITE_NOT_SUPPORTED`; upgrade to a paid plan first. Works on any Cloud for WordPress site in the account regardless of whether it was provisioned via the API or the website, including sites migrated onto WP Cloud from the legacy WordPress product. For `role: "administrator"` the site's actual administrator account is looked up rather than assumed, so a renamed admin user is handled. **Rate limit:** 20 mints per account per hour (`dryRun` calls are free). */
 export const hostingCreateWpCredentials: API.OperationMethod<
   HostingCreateWpCredentialsRequest,
   HostingCreateWpCredentialsResponse,
   HostingCreateWpCredentialsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c142, 0) as any as S.Schema<HostingCreateWpCredentialsRequest>,
-  output: __S(1138, __c142, 2) as any as S.Schema<HostingCreateWpCredentialsResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<HostingCreateWpCredentialsRequest>,
+  output: __S(386, __c24, 2) as any as S.Schema<HostingCreateWpCredentialsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3927,21 +5742,55 @@ export const hostingCreateWpCredentials: API.OperationMethod<
   span: "HostingCreateWpCredentials",
 }));
 
+export type HostingDeleteBackupError = BadRequest | PorkbunOpError;
+/** Delete an on-demand backup **Applies to:** Cloud for WordPress (not the free preview). Deletes an on-demand backup by `id` (from `/hosting/backups`). Automatic backups cannot be deleted. Deletion finishes in the background within a minute or two. Supports `dryRun`. Not available with sandbox keys. **Errors:** `BACKUP_NOT_FOUND`, `NOT_SUPPORTED_FOR_PRODUCT` (an automatic backup), `UPDATE_FAILED`. */
+export const hostingDeleteBackup: API.OperationMethod<
+  HostingDeleteBackupRequest,
+  HostingDeleteBackupResponse,
+  HostingDeleteBackupError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(400, __c25, 0) as any as S.Schema<HostingDeleteBackupRequest>,
+  output: __S(2672, __c167, 0) as any as S.Schema<HostingDeleteBackupResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingDeleteBackup",
+}));
+
 export type HostingDeleteFileError = BadRequest | PorkbunOpError;
-/** Delete a site file (static hosting only) **Applies to:** Secure Static Hosting only -- a WordPress site returns `NOT_SUPPORTED_FOR_PRODUCT`. Delete a file or directory at `path` in the domain's hosting space. Idempotent: a path that is already gone returns `SUCCESS` with `alreadyAbsent: true`. A directory that still has files returns `HOSTING_DIR_NOT_EMPTY` with its `contents`, unless `recursive: true` is sent, which deletes it with everything inside (the site root can never be deleted). */
+/** Delete a site file (static hosting only) **Applies to:** Secure Static Hosting only -- a WordPress site or Link in Bio page returns `NOT_SUPPORTED_FOR_PRODUCT`. Delete a file or directory at `path` in the domain's hosting space. Idempotent: a path that is already gone returns `SUCCESS` with `alreadyAbsent: true`. A directory that still has files returns `HOSTING_DIR_NOT_EMPTY` with its `contents`, unless `recursive: true` is sent, which deletes it with everything inside (the site root can never be deleted). */
 export const hostingDeleteFile: API.OperationMethod<
   HostingDeleteFileRequest,
   HostingDeleteFileResponse,
   HostingDeleteFileError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1144, __c143, 0) as any as S.Schema<HostingDeleteFileRequest>,
-  output: __S(1145, __c143, 1) as any as S.Schema<HostingDeleteFileResponse>,
+  input: __S(416, __c26, 0) as any as S.Schema<HostingDeleteFileRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<HostingDeleteFileResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "HostingDeleteFile",
+}));
+
+export type HostingDeleteStagingError = BadRequest | PorkbunOpError;
+/** Delete the staging site **Applies to:** Cloud for WordPress (not the free preview). Deletes the staging site and its backups. The live site is not affected. Queued; `getStaging` returns `staging: null` once it is gone. Supports `dryRun`. Not available with sandbox keys. **Errors:** `STAGING_NOT_FOUND`, `OPERATION_IN_PROGRESS`. */
+export const hostingDeleteStaging: API.OperationMethod<
+  HostingDeleteStagingRequest,
+  HostingDeleteStagingResponse,
+  HostingDeleteStagingError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(432, __c27, 0) as any as S.Schema<HostingDeleteStagingRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<HostingDeleteStagingResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingDeleteStaging",
 }));
 
 export type HostingDeleteWpCredentialsError = BadRequest | PorkbunOpError;
@@ -3952,8 +5801,8 @@ export const hostingDeleteWpCredentials: API.OperationMethod<
   HostingDeleteWpCredentialsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c144, 0) as any as S.Schema<HostingDeleteWpCredentialsRequest>,
-  output: __S(1153, __c144, 1) as any as S.Schema<HostingDeleteWpCredentialsResponse>,
+  input: __S(464, __c29, 0) as any as S.Schema<HostingDeleteWpCredentialsRequest>,
+  output: __S(465, __c29, 1) as any as S.Schema<HostingDeleteWpCredentialsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3962,20 +5811,54 @@ export const hostingDeleteWpCredentials: API.OperationMethod<
 }));
 
 export type HostingFilesError = BadRequest | PorkbunOpError;
-/** List site files (static hosting only) **Applies to:** Secure Static Hosting only -- a WordPress site returns `NOT_SUPPORTED_FOR_PRODUCT`. List file/directory names under an optional `path` in the domain's hosting space. Also available via POST (send `path` in the body). */
+/** List site files (static hosting only) **Applies to:** Secure Static Hosting only -- a WordPress site or Link in Bio page returns `NOT_SUPPORTED_FOR_PRODUCT`. List file/directory names under an optional `path` in the domain's hosting space. Also available via POST (send `path` in the body). */
 export const hostingFiles: API.OperationMethod<
   HostingFilesRequest,
   HostingFilesResponse,
   HostingFilesError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1160, __c145, 0) as any as S.Schema<HostingFilesRequest>,
-  output: __S(1161, __c145, 1) as any as S.Schema<HostingFilesResponse>,
+  input: __S(480, __c30, 0) as any as S.Schema<HostingFilesRequest>,
+  output: __S(481, __c30, 1) as any as S.Schema<HostingFilesResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "HostingFiles",
+}));
+
+export type HostingGetStagingError = BadRequest | PorkbunOpError;
+/** Get the staging site **Applies to:** Cloud for WordPress (not the free preview). The staging copy: URL, status, the latest job and its state, password protection (with the password), outbound email/API blocking and environment type. `staging` is null when there is none. Poll this after createStaging, resetStaging, publishStaging or deleteStaging. Needs the `hosting` permission because it returns the staging password. */
+export const hostingGetStaging: API.OperationMethod<
+  HostingGetStagingRequest,
+  HostingGetStagingResponse,
+  HostingGetStagingError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(496, __c31, 0) as any as S.Schema<HostingGetStagingRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<HostingGetStagingResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingGetStaging",
+}));
+
+export type HostingGetStagingGetError = BadRequest | PorkbunOpError;
+/** Get the staging site **Applies to:** Cloud for WordPress (not the free preview). The staging copy: URL, status, the latest job and its state, password protection (with the password), outbound email/API blocking and environment type. `staging` is null when there is none. Poll this after createStaging, resetStaging, publishStaging or deleteStaging. Needs the `hosting` permission because it returns the staging password. */
+export const hostingGetStagingGet: API.OperationMethod<
+  HostingGetStagingGetRequest,
+  HostingGetStagingGetResponse,
+  HostingGetStagingGetError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(528, __c33, 0) as any as S.Schema<HostingGetStagingGetRequest>,
+  output: __S(512, __c32, 0) as any as S.Schema<HostingGetStagingGetResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingGetStagingGet",
 }));
 
 export type HostingGetWpCredentialsError = BadRequest | PorkbunOpError;
@@ -3986,8 +5869,8 @@ export const hostingGetWpCredentials: API.OperationMethod<
   HostingGetWpCredentialsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c146, 0) as any as S.Schema<HostingGetWpCredentialsRequest>,
-  output: __S(1169, __c146, 1) as any as S.Schema<HostingGetWpCredentialsResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<HostingGetWpCredentialsRequest>,
+  output: __S(561, __c35, 1) as any as S.Schema<HostingGetWpCredentialsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -3996,15 +5879,15 @@ export const hostingGetWpCredentials: API.OperationMethod<
 }));
 
 export type HostingMakeDirError = BadRequest | PorkbunOpError;
-/** Create a directory (static hosting only) **Applies to:** Secure Static Hosting only -- a WordPress site returns `NOT_SUPPORTED_FOR_PRODUCT`. Create a directory (and any missing parent directories) at `path` in the domain's hosting space. Deploy already auto-creates directories in a file's path, so use this to stand up an empty directory explicitly. Path is sanitized segment-by-segment (no traversal / control chars). */
+/** Create a directory (static hosting only) **Applies to:** Secure Static Hosting only -- a WordPress site or Link in Bio page returns `NOT_SUPPORTED_FOR_PRODUCT`. Create a directory (and any missing parent directories) at `path` in the domain's hosting space. Deploy already auto-creates directories in a file's path, so use this to stand up an empty directory explicitly. Path is sanitized segment-by-segment (no traversal / control chars). */
 export const hostingMakeDir: API.OperationMethod<
   HostingMakeDirRequest,
   HostingMakeDirResponse,
   HostingMakeDirError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1176, __c147, 0) as any as S.Schema<HostingMakeDirRequest>,
-  output: __S(1177, __c147, 1) as any as S.Schema<HostingMakeDirResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<HostingMakeDirRequest>,
+  output: __S(577, __c36, 1) as any as S.Schema<HostingMakeDirResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4013,20 +5896,241 @@ export const hostingMakeDir: API.OperationMethod<
 }));
 
 export type HostingPlansError = BadRequest | PorkbunOpError;
-/** List provisionable hosting plans (static + WordPress) **Applies to:** Both products. List the hosting plans that can be provisioned via the API, with price, interval, trial length, and features. Pass a row's `plan` to `/hosting/create` and its `price` (cents) as `acknowledgedCost`. Currently Secure Static Hosting; more products are added over time. Also available via POST. Includes both Secure Static Hosting and Cloud for WordPress (managed WordPress) plans; the `product` field distinguishes them. */
+/** List the hosting plans you can buy **Applies to:** Secure Static Hosting, Cloud for WordPress and paid Link in Bio. Lists the plans `/hosting/create` sells, with price, interval, trial length and features. `product` tells them apart (`secureStaticHosting`, `cloudWordPress`, and `managedLinks` for Link in Bio). To buy one, send the row's `sku` to `/hosting/create` and its `price` (cents) as `acknowledgedCost`. Also available via POST. */
 export const hostingPlans: API.OperationMethod<
   HostingPlansRequest,
   HostingPlansResponse,
   HostingPlansError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c148, 0) as any as S.Schema<HostingPlansRequest>,
-  output: __S(1187, __c148, 3) as any as S.Schema<HostingPlansResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<HostingPlansRequest>,
+  output: __S(595, __c37, 3) as any as S.Schema<HostingPlansResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "HostingPlans",
+}));
+
+export type HostingPublishStagingError = BadRequest | PorkbunOpError;
+/** Publish staging to the live site **Applies to:** Cloud for WordPress (not the free preview). **Replaces the live site's files and database with the staging site's.** A fresh on-demand backup of the live site is taken first (it replaces any existing on-demand backup), so the live site can be restored from `/hosting/backups` if needed. Queued; several minutes, and the account holder is emailed when it is done. Confirm with the user first; poll `getStaging`. Supports `dryRun`. Not available with sandbox keys. **Errors:** `STAGING_NOT_FOUND`, `STAGING_NOT_READY`, `OPERATION_IN_PROGRESS`. */
+export const hostingPublishStaging: API.OperationMethod<
+  HostingPublishStagingRequest,
+  HostingPublishStagingResponse,
+  HostingPublishStagingError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(608, __c38, 0) as any as S.Schema<HostingPublishStagingRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<HostingPublishStagingResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingPublishStaging",
+}));
+
+export type HostingReissueSslError = BadRequest | PorkbunOpError;
+/** Restart SSL issuance **Applies to:** Cloud for WordPress (not the free preview). Restarts certificate issuance for the domain and its www. host when it is stuck (check `wordpress.site.ssl`). The domain must point at the site. Once per 5 minutes per site. Supports `dryRun`. Not available with sandbox keys. **Errors:** `RATE_LIMIT_EXCEEDED` (with ttlRemaining), `UPDATE_FAILED`. */
+export const hostingReissueSsl: API.OperationMethod<
+  HostingReissueSslRequest,
+  HostingReissueSslResponse,
+  HostingReissueSslError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(624, __c39, 0) as any as S.Schema<HostingReissueSslRequest>,
+  output: __S(2672, __c167, 0) as any as S.Schema<HostingReissueSslResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingReissueSsl",
+}));
+
+export type HostingResetStagingError = BadRequest | PorkbunOpError;
+/** Rebuild the staging site **Applies to:** Cloud for WordPress (not the free preview). Replaces everything on the staging site with a fresh copy of the live site, or of a backup pair (`fsId` + `dbId`). Changes made on staging are lost. Queued; poll `getStaging`. Supports `dryRun`. Not available with sandbox keys. **Errors:** `STAGING_NOT_FOUND`, `STAGING_NOT_READY`, `OPERATION_IN_PROGRESS`, `BACKUP_NOT_FOUND`. */
+export const hostingResetStaging: API.OperationMethod<
+  HostingResetStagingRequest,
+  HostingResetStagingResponse,
+  HostingResetStagingError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(640, __c40, 0) as any as S.Schema<HostingResetStagingRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<HostingResetStagingResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingResetStaging",
+}));
+
+export type HostingRestoreBackupError = BadRequest | PorkbunOpError;
+/** Restore from a backup **Applies to:** Cloud for WordPress (not the free preview). **Replaces the site's files and database** with one files backup (`fsId`) and one database backup (`dbId`) from `/hosting/backups`. Anything changed since then is lost. The restore is queued; the site is unavailable while it runs (usually a few minutes) and the account holder is emailed when it finishes. Poll `GET /hosting/get` (`wordpress.site.operations`) for its state. One restore or factory reset at a time, and not while a staging job runs. Confirm with the user first; a dry run shows the exact backups and dates. Supports `dryRun`. Not available with sandbox keys. **Errors:** `BACKUP_NOT_FOUND`, `OPERATION_IN_PROGRESS`, `STAGING_NOT_FOUND`, `UPDATE_FAILED`. */
+export const hostingRestoreBackup: API.OperationMethod<
+  HostingRestoreBackupRequest,
+  HostingRestoreBackupResponse,
+  HostingRestoreBackupError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(656, __c41, 0) as any as S.Schema<HostingRestoreBackupRequest>,
+  output: __S(658, __c41, 2) as any as S.Schema<HostingRestoreBackupResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingRestoreBackup",
+}));
+
+export type HostingSetPhpVersionError = BadRequest | PorkbunOpError;
+/** Set the PHP version **Applies to:** Cloud for WordPress (not the free preview). Changes the PHP version the site runs. `version` must be one of `wordpress.site.availablePhpVersions` from `GET /hosting/get`. Takes effect within a minute or two; switch back the same way if the site misbehaves. Supports `dryRun`. Not available with sandbox keys. **Errors:** `INVALID_INPUT` (lists the versions), `UPSTREAM_UNAVAILABLE`, `UPDATE_FAILED`. */
+export const hostingSetPhpVersion: API.OperationMethod<
+  HostingSetPhpVersionRequest,
+  HostingSetPhpVersionResponse,
+  HostingSetPhpVersionError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(672, __c42, 0) as any as S.Schema<HostingSetPhpVersionRequest>,
+  output: __S(2672, __c167, 0) as any as S.Schema<HostingSetPhpVersionResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingSetPhpVersion",
+}));
+
+export type HostingSetSearchVisibilityError = BadRequest | PorkbunOpError;
+/** Show or hide the site from search engines **Applies to:** Cloud for WordPress (not the free preview). `visible: false` asks search engines not to index the site (WordPress "discourage search engines"); `true` allows it again. Pages already indexed drop out over time. Supports `dryRun`. Not available with sandbox keys. **Errors:** `INVALID_INPUT`, `UPSTREAM_UNAVAILABLE` (the site could not be reached; nothing changed). */
+export const hostingSetSearchVisibility: API.OperationMethod<
+  HostingSetSearchVisibilityRequest,
+  HostingSetSearchVisibilityResponse,
+  HostingSetSearchVisibilityError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(688, __c43, 0) as any as S.Schema<HostingSetSearchVisibilityRequest>,
+  output: __S(2672, __c167, 0) as any as S.Schema<HostingSetSearchVisibilityResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingSetSearchVisibility",
+}));
+
+export type HostingSetStagingEnvironmentError = BadRequest | PorkbunOpError;
+/** Set the staging environment type **Applies to:** Cloud for WordPress (not the free preview). Sets WP_ENVIRONMENT_TYPE on the staging site, the signal plugins read to decide how to behave. `production` may make plugins act live (payments, email, caching); use it only to test production behaviour. Default `staging`. Supports `dryRun`. Not available with sandbox keys. **Errors:** `STAGING_NOT_FOUND`, `STAGING_NOT_READY`, `INVALID_INPUT`, `UPSTREAM_UNAVAILABLE`. */
+export const hostingSetStagingEnvironment: API.OperationMethod<
+  HostingSetStagingEnvironmentRequest,
+  HostingSetStagingEnvironmentResponse,
+  HostingSetStagingEnvironmentError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(704, __c44, 0) as any as S.Schema<HostingSetStagingEnvironmentRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<HostingSetStagingEnvironmentResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingSetStagingEnvironment",
+}));
+
+export type HostingSetStagingGateError = BadRequest | PorkbunOpError;
+/** Set staging password protection **Applies to:** Cloud for WordPress (not the free preview). `enabled` turns the password page on or off; `password` (4-64 characters) changes it. Turning protection off makes a copy of the live site public (it stays marked not to be indexed). The response includes the current password. Supports `dryRun`. Not available with sandbox keys. **Errors:** `STAGING_NOT_FOUND`, `STAGING_NOT_READY`, `INVALID_INPUT`, `UPSTREAM_UNAVAILABLE`. */
+export const hostingSetStagingGate: API.OperationMethod<
+  HostingSetStagingGateRequest,
+  HostingSetStagingGateResponse,
+  HostingSetStagingGateError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(736, __c46, 0) as any as S.Schema<HostingSetStagingGateRequest>,
+  output: __S(738, __c46, 2) as any as S.Schema<HostingSetStagingGateResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingSetStagingGate",
+}));
+
+export type HostingSetStagingGuardError = BadRequest | PorkbunOpError;
+/** Block or allow outbound email and API calls from staging **Applies to:** Cloud for WordPress (not the free preview). `blockEmail` swallows outgoing email (so a copy of the site cannot email real customers); `blockApiRequests` blocks outbound WordPress HTTP API requests (payment gateways, CRMs, webhooks). A new staging site blocks email and allows API requests. Only the fields sent change. Supports `dryRun`. Not available with sandbox keys. **Errors:** `STAGING_NOT_FOUND`, `STAGING_NOT_READY`, `UPSTREAM_UNAVAILABLE`. */
+export const hostingSetStagingGuard: API.OperationMethod<
+  HostingSetStagingGuardRequest,
+  HostingSetStagingGuardResponse,
+  HostingSetStagingGuardError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(752, __c47, 0) as any as S.Schema<HostingSetStagingGuardRequest>,
+  output: __S(449, __c28, 1) as any as S.Schema<HostingSetStagingGuardResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingSetStagingGuard",
+}));
+
+export type HostingSetWordPressVersionError = BadRequest | PorkbunOpError;
+/** Set the WordPress version **Applies to:** Cloud for WordPress (not the free preview). `latest` follows WordPress releases; `previous` holds one major release back, the escape hatch when an update breaks the site. While on `previous` the site gets no newer releases, so set `latest` again once fixed. No pinned version numbers. Takes a few minutes. Supports `dryRun`. Not available with sandbox keys. **Errors:** `INVALID_INPUT`, `UPDATE_FAILED`. */
+export const hostingSetWordPressVersion: API.OperationMethod<
+  HostingSetWordPressVersionRequest,
+  HostingSetWordPressVersionResponse,
+  HostingSetWordPressVersionError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(768, __c48, 0) as any as S.Schema<HostingSetWordPressVersionRequest>,
+  output: __S(2672, __c167, 0) as any as S.Schema<HostingSetWordPressVersionResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingSetWordPressVersion",
+}));
+
+export type HostingUpdateAutoRenewError = BadRequest | PorkbunOpError;
+/** Turn hosting auto-renew on or off **Applies to:** Secure Static Hosting, Cloud for WordPress and paid Link in Bio. The same switch as on the hosting page on porkbun.com. Off: the plan stays active until `expireDate` and is not charged again (a trial ends without a charge); after that the hosting is removed, except a paid Link in Bio page, which moves to the free plan with its content kept. On: it renews before `expireDate` at the plan price. `GET /hosting/get` shows the current setting (`autoRenew`). Free plans never renew, so they return `NOT_SUPPORTED_FOR_PRODUCT`. Supports `dryRun`. Not available with sandbox keys. **Errors:** `HOSTING_NOT_FOUND`, `NOT_SUPPORTED_FOR_PRODUCT`, `INVALID_INPUT`, `UPDATE_FAILED`. */
+export const hostingUpdateAutoRenew: API.OperationMethod<
+  HostingUpdateAutoRenewRequest,
+  HostingUpdateAutoRenewResponse,
+  HostingUpdateAutoRenewError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(784, __c49, 0) as any as S.Schema<HostingUpdateAutoRenewRequest>,
+  output: __S(785, __c49, 1) as any as S.Schema<HostingUpdateAutoRenewResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingUpdateAutoRenew",
+}));
+
+export type HostingWpRequestError = BadRequest | PorkbunOpError;
+/** Edit a WordPress site: one REST API call, run inside the site **Applies to:** Cloud for WordPress (not the free preview). The way to change a WordPress site's content without credentials: one WordPress REST API call, e.g. `GET /wp/v2/pages` (list), `GET /wp/v2/pages/12` with `{"context": "edit"}` (raw block markup to edit), `POST /wp/v2/pages/12` with `{"content": "..."}` (update), `POST /wp/v2/posts` (create). Runs inside the site: WordPress's own REST handling is called in-process over WP-CLI, as a WordPress user, so no application password is created, stored or returned, and it works whatever the domain's DNS points at. By default it acts as the dedicated `porkbun-agent` editor (created on first use): pages, posts, media, comments, menus. Site settings (title, tagline, homepage), plugins, themes and users need an administrator: send `asAdministrator` and `acknowledgeFullAccess`. Each call takes a few seconds. The response is WordPress's own: `httpStatus`, `data` (its JSON), and `total`/`totalPages` on lists. A WordPress error (4xx/5xx) returns `status: ERROR`, `code: WP_REST_ERROR`, with WordPress's code and message in `data`. Answers over about 400 KB return `WP_RESPONSE_TOO_LARGE`: narrow them with `_fields`, `per_page` or a single id. Writes support `dryRun`. Rate limit: 600 calls per account per hour. Site-share keys (`site`) can use it. Agents that make their own HTTP requests can instead mint credentials with `/hosting/createWpCredentials` and call `https://{domain}/wp-json/` directly. **Errors:** `WP_REST_ERROR`, `WP_RESPONSE_TOO_LARGE`, `FULL_ACCESS_ACKNOWLEDGMENT_REQUIRED`, `WP_CLI_FAILED` (the site did not answer), `INVALID_INPUT`, `HOSTING_NOT_FOUND`, `PREVIEW_SITE_NOT_SUPPORTED`, `NOT_SUPPORTED_FOR_PRODUCT`. */
+export const hostingWpRequest: API.OperationMethod<
+  HostingWpRequestRequest,
+  HostingWpRequestResponse,
+  HostingWpRequestError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(800, __c50, 0) as any as S.Schema<HostingWpRequestRequest>,
+  output: __S(801, __c50, 1) as any as S.Schema<HostingWpRequestResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingWpRequest",
+}));
+
+export type HostingWpUploadMediaError = BadRequest | PorkbunOpError;
+/** Add an image or file to a WordPress site's media library **Applies to:** Cloud for WordPress (not the free preview). Upload from a public `url` (WordPress downloads it, refusing private and local addresses) or from base64 `data` with a `filename`, up to about 10 MB. Returns the attachment `id` (use as `featured_media` on a post or page) and its `url` (use in content). Runs inside the site: WordPress's own REST handling is called in-process over WP-CLI, as a WordPress user, so no application password is created, stored or returned, and it works whatever the domain's DNS points at. By default it acts as the dedicated `porkbun-agent` editor (created on first use): pages, posts, media, comments, menus. Site settings (title, tagline, homepage), plugins, themes and users need an administrator: send `asAdministrator` and `acknowledgeFullAccess`. Each call takes a few seconds. Rate limit: 200 uploads per account per hour. Supports `dryRun`. Site-share keys (`site`) can use it. **Errors:** `INVALID_INPUT`, `WP_CLI_FAILED` (with WordPress's reason, e.g. a file type it does not allow), `FULL_ACCESS_ACKNOWLEDGMENT_REQUIRED`, `HOSTING_NOT_FOUND`. */
+export const hostingWpUploadMedia: API.OperationMethod<
+  HostingWpUploadMediaRequest,
+  HostingWpUploadMediaResponse,
+  HostingWpUploadMediaError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(816, __c51, 0) as any as S.Schema<HostingWpUploadMediaRequest>,
+  output: __S(818, __c51, 2) as any as S.Schema<HostingWpUploadMediaResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "HostingWpUploadMedia",
 }));
 
 export type ImportDnsError = BadRequest | PorkbunOpError;
@@ -4037,8 +6141,8 @@ export const importDns: API.OperationMethod<
   ImportDnsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1192, __c149, 0) as any as S.Schema<ImportDnsRequest>,
-  output: __S(1193, __c149, 1) as any as S.Schema<ImportDnsResponse>,
+  input: __S(832, __c52, 0) as any as S.Schema<ImportDnsRequest>,
+  output: __S(833, __c52, 1) as any as S.Schema<ImportDnsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4046,16 +6150,169 @@ export const importDns: API.OperationMethod<
   span: "ImportDns",
 }));
 
+export type LinkInBioAddLinkError = BadRequest | PorkbunOpError;
+/** Add a link Adds a link, featured link or category heading. `position`: `bottom` (default) or `top`. Returns the new link (with its id) and the page. Fields marked "paid plans" return `FEATURE_NOT_IN_PLAN` on the free on-domain plan, and nothing is saved. Supports `dryRun`. Not available with sandbox keys. **Errors:** `LINK_LIMIT_REACHED`, `DUPLICATE_LINK` (same title and URL as another link), `FEATURE_NOT_IN_PLAN`, `INVALID_INPUT`. */
+export const linkInBioAddLink: API.OperationMethod<
+  LinkInBioAddLinkRequest,
+  LinkInBioLinkResponse,
+  LinkInBioAddLinkError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(848, __c53, 0) as any as S.Schema<LinkInBioAddLinkRequest>,
+  output: __S(865, __c54, 1) as any as S.Schema<LinkInBioLinkResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkInBioAddLink",
+}));
+
+export type LinkInBioDeleteLinkError = BadRequest | PorkbunOpError;
+/** Delete a link Deletes a link with its image, animation and protection. To hide a link instead, use editLink with `enabled: false`. Supports `dryRun`. Not available with sandbox keys. **Errors:** `LINK_NOT_FOUND`. */
+export const linkInBioDeleteLink: API.OperationMethod<
+  LinkInBioDeleteLinkRequest,
+  LinkInBioResponse,
+  LinkInBioDeleteLinkError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(880, __c55, 0) as any as S.Schema<LinkInBioDeleteLinkRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkInBioDeleteLink",
+}));
+
+export type LinkInBioEditLinkError = BadRequest | PorkbunOpError;
+/** Edit a link Changes any of a link's fields; `id` is required and only the fields sent change. Set `enabled: false` to hide a link without deleting it. Supports `dryRun`. Not available with sandbox keys. **Errors:** `LINK_NOT_FOUND`, `DUPLICATE_LINK`, `FEATURE_NOT_IN_PLAN`, `INVALID_INPUT`. */
+export const linkInBioEditLink: API.OperationMethod<
+  LinkInBioEditLinkRequest,
+  LinkInBioLinkResponse,
+  LinkInBioEditLinkError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(896, __c56, 0) as any as S.Schema<LinkInBioEditLinkRequest>,
+  output: __S(865, __c54, 1) as any as S.Schema<LinkInBioLinkResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkInBioEditLink",
+}));
+
+export type LinkInBioGetPostError = BadRequest | PorkbunOpError;
+/** Get a Link in Bio page The page on a domain: its public URL, plan and what the plan allows, profile, links in display order (with ids), social icons, appearance and settings. Use it before editing, and to read link ids. **Errors:** `LINKINBIO_NOT_FOUND` (no page; the message says what the domain has instead). */
+export const linkInBioGetPost: API.OperationMethod<
+  LinkInBioGetPostRequest,
+  LinkInBioResponse,
+  LinkInBioGetPostError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(944, __c59, 0) as any as S.Schema<LinkInBioGetPostRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkInBioGetPost",
+}));
+
+export type LinkInBioReorderLinksError = BadRequest | PorkbunOpError;
+/** Reorder links `ids` lists every link id on the page, once each, in the order to show them. Supports `dryRun`. Not available with sandbox keys. **Errors:** `INVALID_INPUT` (the message lists the current ids). */
+export const linkInBioReorderLinks: API.OperationMethod<
+  LinkInBioReorderLinksRequest,
+  LinkInBioResponse,
+  LinkInBioReorderLinksError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(960, __c60, 0) as any as S.Schema<LinkInBioReorderLinksRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkInBioReorderLinks",
+}));
+
+export type LinkInBioUpdateAppearanceError = BadRequest | PorkbunOpError;
+/** Update the page appearance Only the keys sent change; null resets one to the editor default. `preset` applies a ready-made look in the editor; set individual colours to fine-tune. Supports `dryRun`. Not available with sandbox keys. **Errors:** `INVALID_INPUT`. */
+export const linkInBioUpdateAppearance: API.OperationMethod<
+  LinkInBioUpdateAppearanceRequest,
+  LinkInBioResponse,
+  LinkInBioUpdateAppearanceError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(992, __c62, 0) as any as S.Schema<LinkInBioUpdateAppearanceRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkInBioUpdateAppearance",
+}));
+
+export type LinkInBioUpdateProfileError = BadRequest | PorkbunOpError;
+/** Update the page title, bio and avatar Only the fields sent change; an empty title or bio removes it. `avatar` is a base64 JPEG or PNG (a `data:` URL works too), up to 5 MB and 4000x4000; null removes it. Supports `dryRun`. Not available with sandbox keys. **Errors:** `INVALID_INPUT`, `LINKINBIO_SAVE_FAILED`. */
+export const linkInBioUpdateProfile: API.OperationMethod<
+  LinkInBioUpdateProfileRequest,
+  LinkInBioResponse,
+  LinkInBioUpdateProfileError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1008, __c63, 0) as any as S.Schema<LinkInBioUpdateProfileRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkInBioUpdateProfile",
+}));
+
+export type LinkInBioUpdateSettingsError = BadRequest | PorkbunOpError;
+/** Update page settings `sensitiveContent`: a warning (`generic`) or an age check (`18`, `21`, `25`) shown before the page, or null to turn it off. `analytics`: tracking IDs (googleAnalyticsId, facebookPixelId, twitterPixelId, tikTokPixelId) and UTM parameters (utmSource, utmMedium) added to outgoing links; paid plans; "" removes one. The mailing-list signup form is set up in the editor only. Supports `dryRun`. Not available with sandbox keys. **Errors:** `FEATURE_NOT_IN_PLAN`, `INVALID_INPUT`. */
+export const linkInBioUpdateSettings: API.OperationMethod<
+  LinkInBioUpdateSettingsRequest,
+  LinkInBioResponse,
+  LinkInBioUpdateSettingsError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1025, __c64, 1) as any as S.Schema<LinkInBioUpdateSettingsRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkInBioUpdateSettings",
+}));
+
+export type LinkInBioUpdateSocialsError = BadRequest | PorkbunOpError;
+/** Update social icons `location` (`top` or `bottom`) and `socials`, an object of email, instagram, facebook, tiktok, youtube, twitter and linkedin: a handle or a profile URL. Only the keys sent change; "" or null removes one. Supports `dryRun`. Not available with sandbox keys. **Errors:** `INVALID_INPUT`. */
+export const linkInBioUpdateSocials: API.OperationMethod<
+  LinkInBioUpdateSocialsRequest,
+  LinkInBioResponse,
+  LinkInBioUpdateSocialsError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1041, __c65, 1) as any as S.Schema<LinkInBioUpdateSocialsRequest>,
+  output: __S(1952, __c122, 0) as any as S.Schema<LinkInBioResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "LinkInBioUpdateSocials",
+}));
+
 export type ListDomainsError = BadRequest | PorkbunOpError;
-/** List all domains Retrieve domains in the authenticated account. Results are returned in chunks of up to 1000 domains. Use `start` to paginate. **Filtering:** all filter parameters are optional. Combine them freely. - `domain` -- exact match (returns 0 or 1) - `nameContains` -- substring search - `tlds` -- limit to these TLDs - `expiringWithinDays` -- only domains expiring within N days - `autoRenew` -- `yes` / `no` - `apiAccess` -- `yes` / `no` (filter to domains the API key can operate on) - `sortName` -- `domain` / `tld` / `create_date` / `expire_date` - `sortDirection` -- `asc` / `desc` Supports both GET (with header auth) and POST (with body or header auth). For multi-value `tlds` on GET, use bracket syntax: `?tlds[]=com&tlds[]=io`. */
+/** List all domains Retrieve domains in the authenticated account. Results are returned in chunks of up to 1000 domains. Use `start` to paginate. **Filtering:** all filter parameters are optional. Combine them freely. - `domain` -- exact match (returns 0 or 1) - `nameContains` -- substring search - `tlds` -- limit to these TLDs - `expiringWithinDays` -- only domains expiring within N days - `addedAfter` / `addedBefore` -- when the domain joined this account at Porkbun, by registration or transfer (`addedDate`). Use `addedAfter` to fetch only what's new since your last sync - `createdAfter` / `createdBefore` -- the registry creation date (`createDate`); a transferred-in domain keeps its original one - `expiresAfter` / `expiresBefore` -- an expiry window by date - `autoRenew` -- `yes` / `no` - `apiAccess` -- `yes` / `no` (filter to domains the API key can operate on) - `sortName` -- `domain` / `tld` / `create_date` / `added_date` / `expire_date` Dates are `YYYY-MM-DD` or `YYYY-MM-DD HH:MM:SS`, in UTC like every date in the response. `...After` includes the moment given; `...Before` excludes it. - `sortDirection` -- `asc` / `desc` Supports both GET (with header auth) and POST (with body or header auth). For multi-value `tlds` on GET, use bracket syntax: `?tlds[]=com&tlds[]=io`. */
 export const listDomains: API.OperationMethod<
   ListDomainsRequest,
   DomainListAllResponse,
   ListDomainsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c150, 0) as any as S.Schema<ListDomainsRequest>,
-  output: __S(972, __c121, 4) as any as S.Schema<DomainListAllResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<ListDomainsRequest>,
+  output: __S(3348, __c209, 4) as any as S.Schema<DomainListAllResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4071,8 +6328,8 @@ export const listInvoices: API.OperationMethod<
   ListInvoicesError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<ListInvoicesRequest>,
-  output: __S(12, __c1, 4) as any as S.Schema<ListInvoicesResponse>,
+  input: __S(1072, __c67, 0) as any as S.Schema<ListInvoicesRequest>,
+  output: __S(1075, __c67, 3) as any as S.Schema<ListInvoicesResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4088,8 +6345,8 @@ export const listMarketplaceListings: API.OperationMethod<
   ListMarketplaceListingsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<ListMarketplaceListingsRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<ListMarketplaceListingsResponse>,
+  input: __S(1088, __c68, 0) as any as S.Schema<ListMarketplaceListingsRequest>,
+  output: __S(1106, __c69, 2) as any as S.Schema<ListMarketplaceListingsResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4098,15 +6355,15 @@ export const listMarketplaceListings: API.OperationMethod<
 }));
 
 export type ListMarketplaceListingsGetError = PorkbunOpError;
-/** List marketplace domains GET form of `/marketplace/getAll` for read-friendly filtering and URL-shareable searches. Authenticate via `X-API-Key` and `X-Secret-API-Key` headers, or `Authorization: Bearer <token>`. All filter params are optional and mirror the POST body. For multi-value `tlds`, use bracket syntax: `?tlds[]=com&tlds[]=io`. See the POST documentation for the full filtering semantics (unfiltered pagination vs filtered mode, `+include` / `-exclude` query prefixes, sort options). */
+/** List marketplace domains Retrieve domains listed on the Porkbun marketplace. Two modes: - **Unfiltered (default):** paginated raw listing, up to 5000 entries per call via `start` / `limit`. - **Filtered:** when any of `query`, `tlds`, `sldLengthMin`, `sldLengthMax`, or `sortName` is provided, results are filtered server-side. Filtered mode returns up to 1000 matching listings (matches the web UI's marketplace search). `query` supports `+include` and `-exclude` prefixes per word against the SLD (e.g. `+ai -test` matches SLDs containing 'ai' but not 'test'). Token-based access is not supported. On GET, authenticate with the `X-API-Key` and `X-Secret-API-Key` headers and pass the filters as query parameters. For multi-value `tlds`, use bracket syntax: `?tlds[]=com&tlds[]=io`. */
 export const listMarketplaceListingsGet: API.OperationMethod<
   ListMarketplaceListingsGetRequest,
   ListMarketplaceListingsGetResponse,
   ListMarketplaceListingsGetError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ListMarketplaceListingsGetRequest>,
-  output: __S(26, __c3, 2) as any as S.Schema<ListMarketplaceListingsGetResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<ListMarketplaceListingsGetRequest>,
+  output: __S(1106, __c69, 2) as any as S.Schema<ListMarketplaceListingsGetResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4122,8 +6379,8 @@ export const listTransfersGet: API.OperationMethod<
   ListTransfersGetError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListTransfersGetRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<ListTransfersResponse>,
+  input: __S(1152, __c72, 0) as any as S.Schema<ListTransfersGetRequest>,
+  output: __S(1154, __c72, 2) as any as S.Schema<ListTransfersResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4132,15 +6389,15 @@ export const listTransfersGet: API.OperationMethod<
 }));
 
 export type ListWebhookError = BadRequest | PorkbunOpError;
-/** List webhook endpoints List all webhook endpoints registered on the authenticated account, including each endpoint's signing secret and delivery health. Read-only; supports GET (header auth) or POST (body or header auth). */
+/** List webhook endpoints List all webhook endpoints registered on the authenticated account, with delivery health. Each endpoint's signing secret is included for keys with full access or the account scope; read-only keys get it omitted. Read-only; supports GET (header auth) or POST (body or header auth). */
 export const listWebhook: API.OperationMethod<
   ListWebhookRequest,
   WebhookListResponse,
   ListWebhookError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListWebhookRequest>,
-  output: __S(50, __c6, 2) as any as S.Schema<WebhookListResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<ListWebhookRequest>,
+  output: __S(1170, __c73, 2) as any as S.Schema<WebhookListResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4156,8 +6413,8 @@ export const mockDirectory: API.OperationMethod<
   MockDirectoryError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<MockDirectoryRequest>,
-  output: __S(59, __c7, 3) as any as S.Schema<MockDirectoryResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<MockDirectoryRequest>,
+  output: __S(1187, __c74, 3) as any as S.Schema<MockDirectoryResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4173,8 +6430,8 @@ export const mockEndpoint: API.OperationMethod<
   MockEndpointError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<MockEndpointRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<MockEndpointResponse>,
+  input: __S(1200, __c75, 0) as any as S.Schema<MockEndpointRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<MockEndpointResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4186,8 +6443,8 @@ export type PingError = BadRequest | PorkbunOpError;
 /** Test credentials and get caller IP Returns the caller's public IP address. Optionally validates API credentials. - **No credentials supplied** -- returns IP only. - **Valid credentials supplied** -- returns IP with `credentialsValid: true`. - **Invalid credentials supplied** -- returns an error. Useful for agents and clients to verify their API key is working before making other calls. */
 export const ping: API.OperationMethod<PingRequest, PingResponse, PingError, PorkbunOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(72, __c9, 0) as any as S.Schema<PingRequest>,
-    output: __S(1040, __c130, 0) as any as S.Schema<PingResponse>,
+    input: __S(1216, __c76, 0) as any as S.Schema<PingRequest>,
+    output: __S(96, __c6, 0) as any as S.Schema<PingResponse>,
     errors: [BadRequest, UnknownPorkbunError],
     protocol: PorkbunProtocol,
     retry: Retry.Retry,
@@ -4199,8 +6456,8 @@ export type PostIpError = PorkbunOpError;
 /** Get caller IP address Returns the caller's public IP address. No credentials required. Use the `api-ipv4.porkbun.com` hostname if you need to force an IPv4 address. */
 export const postIp: API.OperationMethod<PostIpRequest, IpResponse, PostIpError, PorkbunOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(80, __c10, 0) as any as S.Schema<PostIpRequest>,
-    output: __S(1024, __c128, 0) as any as S.Schema<IpResponse>,
+    input: __S(1232, __c77, 0) as any as S.Schema<PostIpRequest>,
+    output: __S(48, __c3, 0) as any as S.Schema<IpResponse>,
     errors: [UnknownPorkbunError],
     protocol: PorkbunProtocol,
     retry: Retry.Retry,
@@ -4216,8 +6473,8 @@ export const previewCloudflare: API.OperationMethod<
   PreviewCloudflareError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<PreviewCloudflareRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<PreviewCloudflareResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<PreviewCloudflareRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<PreviewCloudflareResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4226,15 +6483,15 @@ export const previewCloudflare: API.OperationMethod<
 }));
 
 export type RenewDomainError = BadRequest | PorkbunOpError;
-/** Renew a domain Renew a domain, paid from account credit or directly in USDC. Requirements: - Domain must be in your account and active - Domain must be opted in to API access - Account email and phone must be verified - Sufficient account credit, or `"payWith": "usdc"` to pay directly - `cost` must equal the current renewal price for the domain's minimum renewal duration (in pennies) - Domain must have been registered more than 30 days ago (checked against the domain's creation date) - Domain must not have been successfully renewed within the last 30 days - Premium renewals are not currently supported via API Renewals are always for the registry-minimum duration (usually 1 year). Use `/domain/checkDomain/{domain}` with `priceType=renewal` to get the current price before renewing. **Rate limits (both apply):** - Attempt limit (default: 1 attempt per second per account) - Success limit (default: 1000 successful renewals per 86400 seconds per account) Both limits are configurable per API key and their current values are returned in the `limits` field of the response. ## Dry run Add `dryRun: true` to validate everything and preview the cost WITHOUT renewing or charging -- nothing is created. Example response: ```json { "status": "SUCCESS", "dryRun": true, "wouldSucceed": true, "operation": "renewal", "domain": "example.com", "tld": "com", "available": "unavailable", "premium": false, "duration": 1, "cost": 1099, "costDisplay": "$10.99", "balance": 5000, "sufficientFunds": true, "message": "Dry run: this renewal would succeed and cost $10.99. No order was created and no charge was made.", "requestId": "019e04fa-3c11-7a02-9bd2-1f7c0e4a8b55" } ``` **Paying for it.** Two ways. **From prepaid account credit** (the default): no card on file is charged at purchase time, so the balance has to be there first. Read it with `GET /account/balance`; add to it with `POST /account/topup` (a saved card, with the account holder's OK), `POST /account/topupMpp` (the user's card from a Stripe Link agent wallet), `POST /account/topupCrypto` (USDC) or at https://porkbun.com/account/credit, and auto top-up at https://porkbun.com/account/api keeps it filled. Too little credit returns `INSUFFICIENT_FUNDS` with `cost`, `balance`, `shortfall` and `usdcAmountToCover` in cents. **Or directly in USDC:** add `"payWith": "usdc"` and an x402 client pays the HTTP 402 this returns (`PAYMENT_REQUIRED`, terms in the `PAYMENT-REQUIRED` header) and repeats the request with `PAYMENT-SIGNATURE`; no credit is needed, and if the purchase fails the payment stays on the account as credit (https://porkbun.com/llms/guides/pay-with-usdc-x402). Either way the account's monthly API spend limit applies ($100 a month until the account holder sets their own; `MONTHLY_SPEND_LIMIT_EXCEEDED`). `dryRun: true` reports cost and balance without charging, and `dryRun` with `cost: 0` returns a quote. */
+/** Renew a domain Renew a domain, paid from account credit, directly in USDC, or by card. Requirements: - Domain must be in your account and active - Domain must be opted in to API access - Account email and phone must be verified - Sufficient account credit, or `"payWith": "usdc"` / `"card"` to pay directly - `cost` must equal the current renewal price for the domain's minimum renewal duration (in pennies) - The domain must not have been registered or renewed in the last 30 days (`RENEWAL_TOO_SOON` otherwise, with `renewableAt`: when it can be renewed) - Premium renewals are not currently supported via API Renewals are always for the registry-minimum duration (usually 1 year). Use `/domain/checkDomain/{domain}` with `priceType=renewal` to get the current price before renewing. **Rate limits (both apply):** - Attempt limit (default: 1 attempt per second per account) - Success limit (default: 1000 successful renewals per 86400 seconds per account) Both limits are configurable per API key and their current values are returned in the `limits` field of the response. ## Dry run Add `dryRun: true` to validate everything and preview the cost WITHOUT renewing or charging -- nothing is created. Example response: ```json { "status": "SUCCESS", "dryRun": true, "wouldSucceed": true, "operation": "renewal", "domain": "example.com", "tld": "com", "available": "unavailable", "premium": false, "duration": 1, "cost": 1099, "costDisplay": "$10.99", "balance": 5000, "sufficientFunds": true, "message": "Dry run: this renewal would succeed and cost $10.99. No order was created and no charge was made.", "requestId": "019e04fa-3c11-7a02-9bd2-1f7c0e4a8b55" } ``` **Paying for it.** Two ways. **From prepaid account credit** (the default): no card on file is charged at purchase time, so the balance has to be there first. Read it with `GET /account/balance`; add to it with `POST /account/topup` (a saved card, with the account holder's OK), `POST /account/topupMpp` (the user's card from a Stripe Link agent wallet), `POST /account/topupCrypto` (USDC) or at https://porkbun.com/account/credit, and auto top-up at https://porkbun.com/account/api keeps it filled. Too little credit returns `INSUFFICIENT_FUNDS` with `cost`, `balance`, `shortfall` and `usdcAmountToCover` in cents. **Or directly in USDC:** add `"payWith": "usdc"` and an x402 client pays the HTTP 402 this returns (`PAYMENT_REQUIRED`, terms in the `PAYMENT-REQUIRED` header) and repeats the request with `PAYMENT-SIGNATURE`; no credit is needed, and if the purchase fails the payment stays on the account as credit (https://porkbun.com/llms/guides/pay-with-usdc-x402). **Or by card with a hold:** `"payWith": "card"` returns a single-use `payUrl` to pay from a Stripe Link agent wallet (it only authorizes); repeat with `cardPaymentId`, and the hold is captured if the purchase succeeds or released if it fails (https://porkbun.com/llms/guides/pay-with-card-mpp). Either way the account's monthly API spend limit applies ($100 a month until the account holder sets their own; `MONTHLY_SPEND_LIMIT_EXCEEDED`). `dryRun: true` reports cost and balance without charging, and `dryRun` with `cost: 0` returns a quote. */
 export const renewDomain: API.OperationMethod<
   RenewDomainRequest,
   RenewDomainResponse2,
   RenewDomainError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<RenewDomainRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<RenewDomainResponse2>,
+  input: __S(1264, __c79, 0) as any as S.Schema<RenewDomainRequest>,
+  output: __S(1265, __c79, 1) as any as S.Schema<RenewDomainResponse2>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4250,8 +6507,8 @@ export const resendWebhook: API.OperationMethod<
   ResendWebhookError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<ResendWebhookRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<WebhookResendResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<ResendWebhookRequest>,
+  output: __S(1281, __c80, 1) as any as S.Schema<WebhookResendResponse>,
   errors: [BadRequest, NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4267,8 +6524,8 @@ export const resetSandbox: API.OperationMethod<
   ResetSandboxError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<ResetSandboxRequest>,
-  output: __S(129, __c16, 1) as any as S.Schema<ResetSandboxResponse>,
+  input: __S(1312, __c82, 0) as any as S.Schema<ResetSandboxRequest>,
+  output: __S(1313, __c82, 1) as any as S.Schema<ResetSandboxResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4284,8 +6541,8 @@ export const restoreDns: API.OperationMethod<
   RestoreDnsError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<RestoreDnsRequest>,
-  output: __S(139, __c17, 3) as any as S.Schema<DnsRestoreResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<RestoreDnsRequest>,
+  output: __S(1347, __c84, 3) as any as S.Schema<DnsRestoreResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4301,13 +6558,30 @@ export const retryCloudflare: API.OperationMethod<
   RetryCloudflareError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<RetryCloudflareRequest>,
-  output: __S(1120, __c140, 0) as any as S.Schema<RetryCloudflareResponse>,
+  input: __S(1360, __c85, 0) as any as S.Schema<RetryCloudflareRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<RetryCloudflareResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RetryCloudflare",
+}));
+
+export type RevokeApikeyError = BadRequest | PorkbunOpError;
+/** Revoke the calling API key Permanently revokes **the key making this call**, nothing else: a key can only revoke itself, so this cannot be used to change any other key. Use it when an agent or script is finished, or suspects its key has leaked. Any key can call it, including a read-only one. Requires `"confirm": "revoke"` (without it the response says which key would be revoked). Supports `dryRun`. The key stops working within a few seconds and cannot be restored; if it belongs to an app connected over OAuth, that app is disconnected. Works for sandbox keys too. A key made by site sharing can call it to give its access back; the share is then recorded as revoked and the account holder is emailed. **Errors:** `CONFIRMATION_REQUIRED`, `NOT_SUPPORTED_FOR_PRODUCT` (the request was not made with an API key). */
+export const revokeApikey: API.OperationMethod<
+  RevokeApikeyRequest,
+  RevokeApikeyResponse,
+  RevokeApikeyError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1376, __c86, 0) as any as S.Schema<RevokeApikeyRequest>,
+  output: __S(1378, __c86, 2) as any as S.Schema<RevokeApikeyResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeApikey",
 }));
 
 export type SandboxTopupError = PorkbunOpError;
@@ -4318,8 +6592,8 @@ export const sandboxTopup: API.OperationMethod<
   SandboxTopupError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<SandboxTopupRequest>,
-  output: __S(153, __c19, 1) as any as S.Schema<SandboxTopupResponse>,
+  input: __S(1392, __c87, 0) as any as S.Schema<SandboxTopupRequest>,
+  output: __S(1393, __c87, 1) as any as S.Schema<SandboxTopupResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4335,13 +6609,30 @@ export const sandboxTriggerWebhook: API.OperationMethod<
   SandboxTriggerWebhookError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<SandboxTriggerWebhookRequest>,
-  output: __S(161, __c20, 1) as any as S.Schema<SandboxTriggerWebhookResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<SandboxTriggerWebhookRequest>,
+  output: __S(1409, __c88, 1) as any as S.Schema<SandboxTriggerWebhookResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SandboxTriggerWebhook",
+}));
+
+export type SearchAftermarketError = BadRequest | PorkbunOpError;
+/** Search domains for sale on the aftermarket Find registered domains that are for sale: the partner aftermarket (Afternic, Sedo, Atom, NameBright and DAX listings, merged to the lowest price per name), Porkbun Marketplace, and DAX auctions. The same listings the website's search shows. Use it when `checkDomain` says a name is taken (its `aftermarketSearch` field links here), or to browse names for sale by keyword. `query` is a keyword (`coffee`) or a full domain (`coffee.com`). For a full domain, `exactMatch` holds its listing if it has one, and related listings follow. Results come back as: the exact name first, then buy-now listings, then make-offer, then auctions, each by price. **Read `saleType` before quoting a price.** `buy_now`: `price` is the price to buy it. `make_offer`: `price` is the seller's minimum offer, not a price. `auction`: `price` is the current bid. All prices are integer US cents and are the current listed price; the binding price is set at checkout. **Buying is on the website, not the API:** send the user to the listing's `buyUrl`. An aftermarket name arrives by transfer from the seller, usually within a few days (`fastTransfer: true` is quicker). A cold search queries several marketplaces and can take a few seconds; results are cached for 10 minutes. Limited to 20 searches a minute per account (`RATE_LIMIT_EXCEEDED`). If a source cannot be reached, the others are still returned and `sourcesUnavailable` names it. Also accepts POST with the same fields in the body. Works with sandbox keys (the listings are real). */
+export const searchAftermarket: API.OperationMethod<
+  SearchAftermarketRequest,
+  SearchAftermarketResponse,
+  SearchAftermarketError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1424, __c89, 0) as any as S.Schema<SearchAftermarketRequest>,
+  output: __S(1427, __c89, 3) as any as S.Schema<SearchAftermarketResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchAftermarket",
 }));
 
 export type SearchCloseoutError = BadRequest | PorkbunOpError;
@@ -4352,8 +6643,8 @@ export const searchCloseout: API.OperationMethod<
   SearchCloseoutError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<SearchCloseoutRequest>,
-  output: __S(170, __c21, 2) as any as S.Schema<SearchCloseoutResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<SearchCloseoutRequest>,
+  output: __S(1442, __c90, 2) as any as S.Schema<SearchCloseoutResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4369,13 +6660,30 @@ export const setAutoTopup: API.OperationMethod<
   SetAutoTopupError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<SetAutoTopupRequest>,
-  output: __S(832, __c104, 0) as any as S.Schema<AutoTopupResponse>,
+  input: __S(1456, __c91, 0) as any as S.Schema<SetAutoTopupRequest>,
+  output: __S(3106, __c194, 2) as any as S.Schema<AutoTopupResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetAutoTopup",
+}));
+
+export type ShareApikeyError = BadRequest | PorkbunOpError;
+/** Share one domain's website with someone (owner approves) Starts sharing one domain's website with another person, so they and the AI agent they use can run it without the account. **Nothing is granted by this call.** It returns an `approveUrl` that the account holder opens on porkbun.com: the page shows exactly what will be shared, and approving there (logged in, after the usual re-verify) creates a share link and QR code to send the other person; the link opens a page with a handoff prompt for their AI agent and the share code. After approval, `GET /apikey/shares` returns `shareUrl` (plus `handoffPrompt` and `shareCode`, for an agent that sends the message itself). The other person claims it once, within `claimHours` of approval. Set `accessHours` to make the access itself end on its own (e.g. 48), counted from the claim; leave it out for access until revoked. They claim it: their agent calls `/apikey/claim`, or they connect the Claude app or ChatGPT with the share code. Either way a new key is made on this account with the `site` permission alone, limited to the domain: the other person (and their AI agent) can run that one website: WordPress content (`/hosting/wpRequest`, `/hosting/wpUploadMedia`), static files, Link in Bio edits, backups and restores, staging, PHP and WordPress versions, SSL and search visibility. They cannot buy anything, cancel the hosting or change auto-renew, change DNS, turn on a Link in Bio page, or see the rest of the account (no other domains, balance or invoices). The account holder is emailed when it is claimed, the key shows as "Share: <name>" in API Access, and `/apikey/revokeShare` or deleting that key ends it. The domain must have hosting or a Link in Bio page. A key that was itself shared cannot share onward. Not available with sandbox keys. Supports `dryRun`. **Errors:** `INVALID_INPUT`, `DOMAIN_NOT_FOUND`, `HOSTING_NOT_FOUND`, `DOMAIN_NOT_ALLOWED`, `INSUFFICIENT_SCOPE`, `RATE_LIMITED` (20 open shares), `SANDBOX_UNSUPPORTED`. */
+export const shareApikey: API.OperationMethod<
+  ShareApikeyRequest,
+  ShareApikeyResponse,
+  ShareApikeyError,
+  PorkbunOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1472, __c92, 0) as any as S.Schema<ShareApikeyRequest>,
+  output: __S(1473, __c92, 1) as any as S.Schema<ShareApikeyResponse>,
+  errors: [BadRequest, UnknownPorkbunError],
+  protocol: PorkbunProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ShareApikey",
 }));
 
 export type TestWebhookError = BadRequest | NotFound | PorkbunOpError;
@@ -4386,8 +6694,8 @@ export const testWebhook: API.OperationMethod<
   TestWebhookError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<TestWebhookRequest>,
-  output: __S(185, __c23, 1) as any as S.Schema<WebhookTestResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<TestWebhookRequest>,
+  output: __S(1489, __c93, 1) as any as S.Schema<WebhookTestResponse>,
   errors: [BadRequest, NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4396,15 +6704,15 @@ export const testWebhook: API.OperationMethod<
 }));
 
 export type TopupAccountCreditError = BadRequest | PorkbunOpError;
-/** Top up account credit now **Charges the saved payment method** and adds the money to account credit immediately. The call that unblocks work already in progress: enabling auto top-up does nothing until the next order trips the threshold, which is no help to a caller holding an `INSUFFICIENT_FUNDS` response right now. **`amount` is optional.** Omitted, it charges the account's configured top-up amount, or $50 if the account has never set one -- `amountSource` in the response says which of `configured`, `default` or `request` applied. Supplied, it charges that figure for this call only and leaves the stored setting alone, which is the point: an agent could always have written the amount to `/account/autoTopup` first, and making it do that turns a one-off charge into a silent edit of a setting the customer owns. The card itself can only be saved outside the API, and a supplied amount is held to the same 500-50000 cent range as one set through `/account/autoTopup`. On top of that the dollars are bounded by the month: the account's **monthly spend limit** caps top-ups as well as domain spend (it is the account saying how much the API may move, and a card charge is the API moving money), and an account that has never set one still gets a $100/month ceiling. Card, auto top-ups set off by an API purchase, MPP and USDC all count toward it -- `monthlyCeiling` and `ceilingSource` on `GET /account/autoTopup` say which is in force. Top-ups are also limited to 5 per day and 20 per month (`TOPUP_LIMIT_EXCEEDED`), and every successful charge emails the account holder. Errors that matter: `NO_PAYMENT_METHOD` (nothing saved to charge -- the account holder has to save a card or buy credit on the website), `CARD_DECLINED` (nothing was added; the card needs attention), `TOPUP_FAILED` (nothing was charged; retry once). With a sandbox key this grants simulated credit and charges nothing (`simulated: true`). Supports `dryRun`, which previews the amount and charges nothing in any environment. Honours `Idempotency-Key`. */
+/** Top up account credit now **Charges the saved payment method** and adds the money to account credit immediately. The call that unblocks work already in progress: enabling auto top-up does nothing until the next order trips the threshold, which is no help to a caller holding an `INSUFFICIENT_FUNDS` response right now. **`amount` is optional.** Omitted, it charges the account's configured top-up amount, or $50 if the account has never set one -- `amountSource` in the response says which of `configured`, `default` or `request` applied. Supplied, it charges that figure for this call only and leaves the stored setting alone, which is the point: an agent could always have written the amount to `/account/autoTopup` first, and making it do that turns a one-off charge into a silent edit of a setting the customer owns. The card itself can only be saved outside the API, and a supplied amount is held to the same 500-50000 cent range as one set through `/account/autoTopup`. On top of that the dollars are bounded by the month: the account's **monthly spend limit** caps top-ups as well as domain spend (it is the account saying how much the API may move, and a card charge is the API moving money), and an account that has never set one still gets a $100/month ceiling. Card, auto top-ups set off by an API purchase, MPP and USDC all count toward it -- `monthlyCeiling` and `ceilingSource` on `GET /account/autoTopup` say which is in force. Top-ups are also limited to 5 per day and 20 per month (`TOPUP_LIMIT_EXCEEDED`), and every successful charge emails the account holder. **Primary and backup cards.** An account can save up to three cards on the website, one primary and the rest backups. A top-up charges the primary; if it is declined, it tries each backup in turn and charges at most one card. It does not fall back after a decline that suggests fraud (Radar blocks, lost or stolen cards). The response names the card that paid (`card`), sets `usedBackup` when a backup stepped in, and lists any card declined first in `declinedFirst`, so you can tell the account holder their primary card needs attention. `GET /account/autoTopup` lists the saved cards. Errors that matter: `NO_PAYMENT_METHOD` (nothing saved to charge, or every card is marked as no longer chargeable -- the account holder has to add a card or buy credit on the website), `CARD_DECLINED` (every card tried was declined and nothing was added; `declined` lists each card with its decline code), `TOPUP_FAILED` (nothing was charged; retry once). With a sandbox key this grants simulated credit and charges nothing (`simulated: true`). Supports `dryRun`, which previews the amount and charges nothing in any environment. Honours `Idempotency-Key`. */
 export const topupAccountCredit: API.OperationMethod<
   TopupAccountCreditRequest,
   TopupAccountCreditResponse,
   TopupAccountCreditError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<TopupAccountCreditRequest>,
-  output: __S(201, __c25, 1) as any as S.Schema<TopupAccountCreditResponse>,
+  input: __S(1520, __c95, 0) as any as S.Schema<TopupAccountCreditRequest>,
+  output: __S(1524, __c95, 4) as any as S.Schema<TopupAccountCreditResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4420,8 +6728,8 @@ export const topupCrypto: API.OperationMethod<
   TopupCryptoError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<TopupCryptoRequest>,
-  output: __S(209, __c26, 1) as any as S.Schema<TopupCryptoResponse>,
+  input: __S(1536, __c96, 0) as any as S.Schema<TopupCryptoRequest>,
+  output: __S(1537, __c96, 1) as any as S.Schema<TopupCryptoResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4437,8 +6745,8 @@ export const topupCryptoStatus: API.OperationMethod<
   TopupCryptoStatusError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<TopupCryptoStatusRequest>,
-  output: __S(217, __c27, 1) as any as S.Schema<TopupCryptoStatusResponse>,
+  input: __S(1552, __c97, 0) as any as S.Schema<TopupCryptoStatusRequest>,
+  output: __S(1553, __c97, 1) as any as S.Schema<TopupCryptoStatusResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4447,15 +6755,15 @@ export const topupCryptoStatus: API.OperationMethod<
 }));
 
 export type TopupMppError = PorkbunOpError;
-/** Top up credit with the user's card, paid by an agent (MPP) Returns a signed, single-use payment link (valid 15 minutes, bound to this account and amount) that an AI agent pays with the user's **card** over MPP, the Machine Payments Protocol (mpp.dev), using a Stripe Shared Payment Token from its agent wallet (Stripe's Link Agent Wallet). No card needs to be saved at Porkbun. Nothing is charged by this call. The agent's MPP client requests `payUrl` (POST) and gets HTTP `402` with a `WWW-Authenticate: Payment` challenge (`method="stripe"`, `intent="charge"`); its wallet mints a token for the user's card, the client retries with `Authorization: Payment <credential>`, and the credit is added at once: the response carries `credited_cents` and the new `balance_cents`, with a `Payment-Receipt` header. For example: `npx @stripe/link-cli mpp pay <payUrl> -X POST --context "..."`. Link refuses a `--context` shorter than 100 characters: it is what the user reads when approving the spend, so say what it is for and the dollar amount, worded fresh for each payment (Link can refuse an identical repeat). Same limits as card top-ups (`POST /account/topup`): $5-$500, the monthly ceiling, 5 a day and 20 a month (`TOPUP_LIMIT_EXCEEDED`). Not available on sandbox keys (`SANDBOX_UNSUPPORTED`). */
+/** Top up credit with the user's card, paid by an agent (MPP) Returns a signed, single-use payment link (valid 15 minutes, bound to this account and amount) that an AI agent pays with the user's **card** over MPP, the Machine Payments Protocol (mpp.dev), using a Stripe Shared Payment Token from its agent wallet (Stripe's Link Agent Wallet). No card needs to be saved at Porkbun. Nothing is charged by this call. The agent's MPP client requests `payUrl` (POST) and gets HTTP `402` with a `WWW-Authenticate: Payment` challenge (`method="stripe"`, `intent="charge"`); its wallet mints a token for the user's card, the client retries with `Authorization: Payment <credential>`, and the credit is added at once: the response carries `credited_cents` and the new `balance_cents`, with a `Payment-Receipt` header. For example: `npx @stripe/link-cli mpp pay <payUrl> -X POST --context "..."`. Newer Link CLI versions stop after creating the spend request: once the person approves in Link, complete it with `link-cli mpp pay <payUrl> --spend-request-id <lsrq_id> -X POST`. Link refuses a `--context` shorter than 100 characters: it is what the user reads when approving the spend, so say what it is for and the dollar amount, worded fresh for each payment (Link can refuse an identical repeat). Same limits as card top-ups (`POST /account/topup`): $5-$500, the monthly ceiling, 5 a day and 20 a month (`TOPUP_LIMIT_EXCEEDED`). Not available on sandbox keys (`SANDBOX_UNSUPPORTED`). */
 export const topupMpp: API.OperationMethod<
   TopupMppRequest,
   TopupMppResponse,
   TopupMppError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<TopupMppRequest>,
-  output: __S(225, __c28, 1) as any as S.Schema<TopupMppResponse>,
+  input: __S(1568, __c98, 0) as any as S.Schema<TopupMppRequest>,
+  output: __S(1569, __c98, 1) as any as S.Schema<TopupMppResponse>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4464,15 +6772,15 @@ export const topupMpp: API.OperationMethod<
 }));
 
 export type TransferDomainError = PorkbunOpError;
-/** Initiate a domain transfer Initiates an inbound domain transfer to Porkbun, paid from account credit or directly in USDC. The transfer is processed asynchronously and typically takes 5-7 days to complete. **Requirements:** - Account email and phone must be verified. - Sufficient account credit to cover the transfer cost, or `"payWith": "usdc"` to pay directly. - Domain must not already be in your account. - No other active transfer for the same domain. - `.uk` and manage-only TLDs are not supported via API. - Premium domain transfers are not supported via API. - Some registries refuse registrant contacts on temporary or encrypted email providers and suspend domains that use one. `.in` and its second levels are the first; a transfer whose registrant contact uses one is refused with `REGISTRANT_EMAIL_NOT_ACCEPTED` before any charge. This is about the contact recorded on the domain, not about who hosts mail for it. ## Dry run Add `dryRun: true` to validate everything and preview the cost WITHOUT initiating the transfer or charging -- nothing is created. Example response: ```json { "status": "SUCCESS", "dryRun": true, "wouldSucceed": true, "operation": "transfer", "domain": "example.com", "tld": "com", "available": "unavailable", "premium": false, "duration": 1, "cost": 999, "costDisplay": "$9.99", "balance": 5000, "sufficientFunds": true, "message": "Dry run: this transfer would succeed and cost $9.99. No order was created and no charge was made.", "requestId": "019e04fa-5f22-7c93-8a41-2e9d0b3f6c77" } ``` **Paying for it.** Two ways. **From prepaid account credit** (the default): no card on file is charged at purchase time, so the balance has to be there first. Read it with `GET /account/balance`; add to it with `POST /account/topup` (a saved card, with the account holder's OK), `POST /account/topupMpp` (the user's card from a Stripe Link agent wallet), `POST /account/topupCrypto` (USDC) or at https://porkbun.com/account/credit, and auto top-up at https://porkbun.com/account/api keeps it filled. Too little credit returns `INSUFFICIENT_FUNDS` with `cost`, `balance`, `shortfall` and `usdcAmountToCover` in cents. **Or directly in USDC:** add `"payWith": "usdc"` and an x402 client pays the HTTP 402 this returns (`PAYMENT_REQUIRED`, terms in the `PAYMENT-REQUIRED` header) and repeats the request with `PAYMENT-SIGNATURE`; no credit is needed, and if the purchase fails the payment stays on the account as credit (https://porkbun.com/llms/guides/pay-with-usdc-x402). Either way the account's monthly API spend limit applies ($100 a month until the account holder sets their own; `MONTHLY_SPEND_LIMIT_EXCEEDED`). `dryRun: true` reports cost and balance without charging, and `dryRun` with `cost: 0` returns a quote. */
+/** Initiate a domain transfer Initiates an inbound domain transfer to Porkbun, paid from account credit, directly in USDC, or by card. The transfer is processed asynchronously and typically takes 5-7 days to complete. **Requirements:** - Account email and phone must be verified. - Sufficient account credit to cover the transfer cost, or `"payWith": "usdc"` / `"card"` to pay directly. - Domain must not already be in your account. - No other active transfer for the same domain. - `.uk` and manage-only TLDs are not supported via API. - Premium domain transfers are not supported via API. - Some registries refuse registrant contacts on temporary or encrypted email providers and suspend domains that use one. `.in` and its second levels are the first; a transfer whose registrant contact uses one is refused with `REGISTRANT_EMAIL_NOT_ACCEPTED` before any charge. This is about the contact recorded on the domain, not about who hosts mail for it. ## Dry run Add `dryRun: true` to validate everything and preview the cost WITHOUT initiating the transfer or charging -- nothing is created. Example response: ```json { "status": "SUCCESS", "dryRun": true, "wouldSucceed": true, "operation": "transfer", "domain": "example.com", "tld": "com", "available": "unavailable", "premium": false, "duration": 1, "cost": 999, "costDisplay": "$9.99", "balance": 5000, "sufficientFunds": true, "message": "Dry run: this transfer would succeed and cost $9.99. No order was created and no charge was made.", "requestId": "019e04fa-5f22-7c93-8a41-2e9d0b3f6c77" } ``` **Paying for it.** Two ways. **From prepaid account credit** (the default): no card on file is charged at purchase time, so the balance has to be there first. Read it with `GET /account/balance`; add to it with `POST /account/topup` (a saved card, with the account holder's OK), `POST /account/topupMpp` (the user's card from a Stripe Link agent wallet), `POST /account/topupCrypto` (USDC) or at https://porkbun.com/account/credit, and auto top-up at https://porkbun.com/account/api keeps it filled. Too little credit returns `INSUFFICIENT_FUNDS` with `cost`, `balance`, `shortfall` and `usdcAmountToCover` in cents. **Or directly in USDC:** add `"payWith": "usdc"` and an x402 client pays the HTTP 402 this returns (`PAYMENT_REQUIRED`, terms in the `PAYMENT-REQUIRED` header) and repeats the request with `PAYMENT-SIGNATURE`; no credit is needed, and if the purchase fails the payment stays on the account as credit (https://porkbun.com/llms/guides/pay-with-usdc-x402). **Or by card with a hold:** `"payWith": "card"` returns a single-use `payUrl` to pay from a Stripe Link agent wallet (it only authorizes); repeat with `cardPaymentId`, and the hold is captured if the purchase succeeds or released if it fails (https://porkbun.com/llms/guides/pay-with-card-mpp). Either way the account's monthly API spend limit applies ($100 a month until the account holder sets their own; `MONTHLY_SPEND_LIMIT_EXCEEDED`). `dryRun: true` reports cost and balance without charging, and `dryRun` with `cost: 0` returns a quote. */
 export const transferDomain: API.OperationMethod<
   TransferDomainRequest,
   TransferDomainResponse2,
   TransferDomainError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<TransferDomainRequest>,
-  output: __S(233, __c29, 1) as any as S.Schema<TransferDomainResponse2>,
+  input: __S(1584, __c99, 0) as any as S.Schema<TransferDomainRequest>,
+  output: __S(1585, __c99, 1) as any as S.Schema<TransferDomainResponse2>,
   errors: [UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4488,8 +6796,8 @@ export const transferDomainPrepare: API.OperationMethod<
   TransferDomainPrepareError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<TransferDomainPrepareRequest>,
-  output: __S(241, __c30, 1) as any as S.Schema<TransferDomainPrepareResponse>,
+  input: __S(1600, __c100, 0) as any as S.Schema<TransferDomainPrepareRequest>,
+  output: __S(1601, __c100, 1) as any as S.Schema<TransferDomainPrepareResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4505,8 +6813,8 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(408, __c51, 0) as any as S.Schema<WebhookEndpointResponse>,
+  input: __S(1616, __c101, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(2000, __c125, 0) as any as S.Schema<WebhookEndpointResponse>,
   errors: [BadRequest, NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4522,8 +6830,8 @@ export const webhookDeliveries: API.OperationMethod<
   WebhookDeliveriesError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<WebhookDeliveriesRequest>,
-  output: __S(258, __c32, 2) as any as S.Schema<WebhookDeliveryListResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<WebhookDeliveriesRequest>,
+  output: __S(1634, __c102, 2) as any as S.Schema<WebhookDeliveryListResponse>,
   errors: [BadRequest, NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4539,8 +6847,8 @@ export const webhookDelivery2: API.OperationMethod<
   WebhookDelivery2Error,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<WebhookDeliveryRequest>,
-  output: __S(265, __c33, 1) as any as S.Schema<WebhookDeliveryResponse>,
+  input: __S(1648, __c103, 0) as any as S.Schema<WebhookDeliveryRequest>,
+  output: __S(1649, __c103, 1) as any as S.Schema<WebhookDeliveryResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4556,8 +6864,8 @@ export const webhookEventTypes: API.OperationMethod<
   WebhookEventTypesError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<WebhookEventTypesRequest>,
-  output: __S(273, __c34, 1) as any as S.Schema<WebhookEventTypesResponse>,
+  input: __S(1664, __c104, 0) as any as S.Schema<WebhookEventTypesRequest>,
+  output: __S(1665, __c104, 1) as any as S.Schema<WebhookEventTypesResponse>,
   errors: [BadRequest, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4573,8 +6881,8 @@ export const webhookRotateSecret: API.OperationMethod<
   WebhookRotateSecretError,
   PorkbunOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<WebhookRotateSecretRequest>,
-  output: __S(408, __c51, 0) as any as S.Schema<WebhookEndpointResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<WebhookRotateSecretRequest>,
+  output: __S(2000, __c125, 0) as any as S.Schema<WebhookEndpointResponse>,
   errors: [NotFound, UnknownPorkbunError],
   protocol: PorkbunProtocol,
   retry: Retry.Retry,
@@ -4587,21 +6895,1130 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          recordId: S.String.pipe(T.Label()),
-          dryRun: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/cloudflare/deleteRecord/{domain}/{recordId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CloudflareDeleteRecordRequest" });
+        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/apikey/shares", code: 200 })),
+      ).annotate({ identifier: "ApikeySharesRequest" });
   }
 }
 function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          domain: S.optional(S.String),
+          sharedWith: S.optional(S.String),
+          permissions: S.optional(S.String),
+          status: S.optional(S.String),
+          created: S.optional(S.String),
+          expires: S.optional(S.NullOr(S.String)),
+          approved: S.optional(S.NullOr(S.String)),
+          claimed: S.optional(S.NullOr(S.String)),
+          claimedVia: S.optional(S.NullOr(S.String)),
+          shareUrl: S.optional(S.String),
+          qrCodeUrl: S.optional(S.String),
+          shareCode: S.optional(S.String),
+          handoffPrompt: S.optional(S.String),
+          accessHours: S.optional(S.NullOr(S.Number)),
+          accessUntil: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ApikeySharesResponseSharesItem" });
+    case 1:
+      return S.Array(__S(16, __c1, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          shares: S.optional(__S(17, __c1, 1)),
+        }),
+      ).annotate({ identifier: "ApikeySharesResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/ip", code: 200 })),
+      ).annotate({ identifier: "GetIpRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          yourIp: S.String,
+          xForwardedFor: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "IpResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/linkinbio/get/{domain}", code: 200 })),
+      ).annotate({ identifier: "GetLinkInBioRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/ping", code: 200 })),
+      ).annotate({ identifier: "GetPingRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          yourIp: S.String,
+          xForwardedFor: S.optional(S.String),
+          credentialsValid: S.optional(S.Boolean),
+          account: S.optional(S.String),
+          scopes: S.optional(__S(320, __c20, 0)),
+        }),
+      ).annotate({ identifier: "GetPingResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tld: S.optional(S.String),
+          tlds: S.optional(S.Unknown),
+        }).pipe(T.Http({ method: "POST", uri: "/pricing/get", code: 200 })),
+      ).annotate({ identifier: "GetPricingRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.optional(S.String),
+          max_per_user: S.optional(S.Number),
+          first_year_only: S.optional(S.String),
+          type: S.optional(S.String),
+          amount: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetPricingResponsePricingValueCouponsValue" });
+    case 1:
+      return S.Record(S.String, __S(128, __c8, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          registration: S.optional(S.String),
+          renewal: S.optional(S.String),
+          transfer: S.optional(S.String),
+          specialType: S.optional(S.String),
+          coupons: S.optional(__S(129, __c8, 1)),
+        }),
+      ).annotate({ identifier: "GetPricingResponsePricingValue" });
+    case 3:
+      return S.Record(S.String, __S(130, __c8, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          unsupported: S.optional(__S(320, __c20, 0)),
+          pricing: S.optional(__S(131, __c8, 3)),
+        }),
+      ).annotate({ identifier: "GetPricingResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          tld: S.optional(S.String.pipe(T.Query())),
+          tlds: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/pricing/get", code: 200 })),
+      ).annotate({ identifier: "GetPricingGetRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/ssl/retrieve/{domain}", code: 200 })),
+      ).annotate({ identifier: "GetSslRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          certificatechain: S.optional(S.String),
+          privatekey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          publickey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetSslResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/ssl/retrieve/{domain}", code: 200 })),
+      ).annotate({ identifier: "GetSslRetrieveRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/domain/getTransfer/{domain}", code: 200 })),
+      ).annotate({ identifier: "GetTransferGetRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          transfer: S.optional(__S(224, __c14, 0)),
+        }),
+      ).annotate({ identifier: "GetTransferResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.optional(S.String),
+          status: S.optional(S.String),
+          statusDescription: S.optional(S.String),
+          transferDate: S.optional(S.String),
+          orderId: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetTransferResponseTransfer" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/webhook/get/{id}", code: 200 })),
+      ).annotate({ identifier: "GetWebhookRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          staging: S.optional(S.Boolean),
+          limit: S.optional(S.Number),
+          type: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/backups/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingBackupsRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domains: __S(320, __c20, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/domain/checkDomain", code: 200 })),
+      ).annotate({ identifier: "BulkDomainCheckDomainRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          checked: S.optional(S.Number),
+          domains: S.optional(__S(304, __c19, 0)),
+          unresolved: S.optional(__S(320, __c20, 0)),
+          invalid: S.optional(__S(288, __c18, 0)),
+          limits: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "BulkDomainCheckDomainResponse" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          staging: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/createBackup/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingCreateBackupRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          fsId: S.optional(S.String),
+          dbId: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/createStaging/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingCreateStagingRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          domain: S.optional(S.String),
+          staging: S.optional(__S(372, __c23, 4)),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostingCreateStagingResponse" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          files: S.optional(S.String),
+          database: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WordPressStagingBuiltFromBackup" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+          password: S.optional(S.NullOr(S.String).pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "WordPressStagingPasswordProtection" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          guardInstalled: S.optional(S.Boolean),
+          blockEmail: S.optional(S.NullOr(S.Boolean)),
+          blockApiRequests: S.optional(S.NullOr(S.Boolean)),
+        }),
+      ).annotate({ identifier: "WordPressStagingOutbound" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          issued: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "WordPressStagingSsl" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.optional(S.NullOr(S.String)),
+          status: S.optional(S.String),
+          operation: S.optional(S.NullOr(S.String)),
+          operationState: S.optional(S.NullOr(S.String)),
+          builtFromBackup: S.optional(S.NullOr(__S(368, __c23, 0))),
+          passwordProtection: S.optional(__S(369, __c23, 1)),
+          outbound: S.optional(__S(370, __c23, 2)),
+          environment: S.optional(S.String),
+          ssl: S.optional(S.NullOr(__S(371, __c23, 3))),
+          createdAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WordPressStaging" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          role: S.optional(S.String),
+          acknowledgeFullAccess: S.optional(S.Boolean),
+          name: S.optional(S.String),
+          dryRun: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/hosting/createWpCredentials/{domain}", code: 200 }),
+        ),
+      ).annotate({ identifier: "HostingCreateWpCredentialsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.optional(S.String),
+          applicationPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          role: S.optional(S.String),
+          name: S.optional(S.String),
+          restUrl: S.optional(S.String),
+          authorization: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostingCreateWpCredentialsResponseCredentials" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          credentials: S.optional(__S(385, __c24, 1)),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostingCreateWpCredentialsResponse" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          staging: S.optional(S.Boolean),
+          id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/deleteBackup/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingDeleteBackupRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          path: S.String,
+          recursive: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/deleteFile/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingDeleteFileRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          deleted: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostingDeleteFileResponse" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/deleteStaging/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingDeleteStagingRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostingDeleteStagingResponseOperation" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          domain: S.optional(S.String),
+          operation: S.optional(__S(448, __c28, 0)),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostingDeleteStagingResponse" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          uuid: S.optional(S.String),
+          all: S.optional(S.Boolean),
+          wpUser: S.optional(S.String),
+          dryRun: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/hosting/deleteWpCredentials/{domain}", code: 200 }),
+        ),
+      ).annotate({ identifier: "HostingDeleteWpCredentialsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          revoked: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostingDeleteWpCredentialsResponse" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/hosting/files/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingFilesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          path: S.optional(S.String),
+          files: S.optional(__S(320, __c20, 0)),
+        }),
+      ).annotate({ identifier: "HostingFilesResponse" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/getStaging/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingGetStagingRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          domain: S.optional(S.String),
+          staging: S.optional(__S(372, __c23, 4)),
+        }),
+      ).annotate({ identifier: "HostingGetStagingResponse" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/hosting/getStaging/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingGetStagingGetRequest" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          shareToken: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/apikey/claim", code: 200 })),
+      ).annotate({ identifier: "ClaimApikeyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          apikey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          secretapikey: S.optional(S.String),
+          domain: S.optional(S.String),
+          permissions: S.optional(S.String),
+          product: S.optional(S.String),
+          message: S.optional(S.String),
+          accessUntil: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ClaimApikeyResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          wpUser: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/hosting/getWpCredentials/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingGetWpCredentialsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          wpUser: S.optional(S.String),
+          credentials: S.optional(__S(288, __c18, 0)),
+        }),
+      ).annotate({ identifier: "HostingGetWpCredentialsResponse" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          path: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/makeDir/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingMakeDirRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          created: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostingMakeDirResponse" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/hosting/plans", code: 200 })),
+      ).annotate({ identifier: "HostingPlansRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          product: S.optional(S.String),
+          plan: S.optional(S.String),
+          sku: S.optional(S.String),
+          interval: S.optional(S.String),
+          price: S.optional(S.Number),
+          priceFormatted: S.optional(S.String),
+          trialDays: S.optional(S.Number),
+          name: S.optional(S.String),
+          features: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "HostingPlansResponsePlansItem" });
+    case 2:
+      return S.Array(__S(593, __c37, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          plans: S.optional(__S(594, __c37, 2)),
+        }),
+      ).annotate({ identifier: "HostingPlansResponse" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/publishStaging/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingPublishStagingRequest" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/reissueSsl/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingReissueSslRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          fsId: S.optional(S.String),
+          dbId: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/resetStaging/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingResetStagingRequest" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          staging: S.optional(S.Boolean),
+          fsId: S.String,
+          dbId: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/restoreBackup/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingRestoreBackupRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          type: S.optional(S.String),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostingRestoreBackupResponseOperation" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          domain: S.optional(S.String),
+          target: S.optional(S.String),
+          operation: S.optional(__S(657, __c41, 1)),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostingRestoreBackupResponse" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          version: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/setPhpVersion/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingSetPhpVersionRequest" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          visible: S.Boolean,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/hosting/setSearchVisibility/{domain}", code: 200 }),
+        ),
+      ).annotate({ identifier: "HostingSetSearchVisibilityRequest" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          type: S.String,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/hosting/setStagingEnvironment/{domain}", code: 200 }),
+        ),
+      ).annotate({ identifier: "HostingSetStagingEnvironmentRequest" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          cost: S.Number,
+          payWith: S.optional(S.String),
+          usdcCheckoutId: S.optional(S.String),
+          cardPaymentId: S.optional(S.String),
+          dryRun: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/closeout/buy/{domain}", code: 200 })),
+      ).annotate({ identifier: "CloseoutBuyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          domain: S.optional(S.String),
+          orderId: S.optional(S.Number),
+          closeoutId: S.optional(S.Number),
+          closeoutPrice: S.optional(S.Number),
+          renewalPrice: S.optional(S.Number),
+          totalPrice: S.optional(S.Number),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CloseoutBuyResponse" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          enabled: S.optional(S.Boolean),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/setStagingGate/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingSetStagingGateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+        }),
+      ).annotate({ identifier: "HostingSetStagingGateResponsePasswordProtection" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          domain: S.optional(S.String),
+          passwordProtection: S.optional(__S(737, __c46, 1)),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostingSetStagingGateResponse" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          blockEmail: S.optional(S.Boolean),
+          blockApiRequests: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/setStagingGuard/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingSetStagingGuardRequest" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          version: S.String,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/hosting/setWordPressVersion/{domain}", code: 200 }),
+        ),
+      ).annotate({ identifier: "HostingSetWordPressVersionRequest" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          autoRenew: S.Boolean,
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/updateAutoRenew/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingUpdateAutoRenewRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          domain: S.optional(S.String),
+          product: S.optional(S.String),
+          autoRenew: S.optional(S.Boolean),
+          isTrial: S.optional(S.Boolean),
+          expireDate: S.optional(S.String),
+          cost: S.optional(__S(1904, __c119, 0)),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostingUpdateAutoRenewResponse" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          method: S.optional(S.String),
+          path: S.String,
+          query: S.optional(__S(304, __c19, 0)),
+          body: S.optional(__S(304, __c19, 0)),
+          embed: S.optional(S.Boolean),
+          asAdministrator: S.optional(S.Boolean),
+          acknowledgeFullAccess: S.optional(S.Boolean),
+          dryRun: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/wpRequest/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingWpRequestRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          httpStatus: S.optional(S.Number),
+          actsAs: S.optional(S.String),
+          data: S.optional(S.Unknown),
+          total: S.optional(S.Number),
+          totalPages: S.optional(S.Number),
+          code: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostingWpRequestResponse" });
+  }
+}
+function __c51(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          url: S.optional(S.String),
+          data: S.optional(S.String),
+          filename: S.optional(S.String),
+          title: S.optional(S.String),
+          altText: S.optional(S.String),
+          caption: S.optional(S.String),
+          postId: S.optional(S.Number),
+          asAdministrator: S.optional(S.Boolean),
+          acknowledgeFullAccess: S.optional(S.Boolean),
+          dryRun: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/hosting/wpUploadMedia/{domain}", code: 200 })),
+      ).annotate({ identifier: "HostingWpUploadMediaRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          url: S.optional(S.String),
+          mimeType: S.optional(S.String),
+          title: S.optional(S.String),
+          altText: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostingWpUploadMediaResponseMedia" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          media: S.optional(__S(817, __c51, 1)),
+          actsAs: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostingWpUploadMediaResponse" });
+  }
+}
+function __c52(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          records: S.optional(__S(2209, __c138, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/dns/import/{domain}", code: 200 })),
+      ).annotate({ identifier: "ImportDnsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          domain: S.optional(S.String),
+          created: S.optional(S.Number),
+          skipped: S.optional(S.Number),
+          failed: S.optional(S.Number),
+          failures: S.optional(__S(288, __c18, 0)),
+          warnings: S.optional(__S(320, __c20, 0)),
+        }),
+      ).annotate({ identifier: "ImportDnsResponse" });
+  }
+}
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          type: S.optional(S.String),
+          title: S.String,
+          url: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          startDate: S.optional(S.NullOr(S.String)),
+          endDate: S.optional(S.NullOr(S.String)),
+          animation: S.optional(S.NullOr(S.String)),
+          protection: S.optional(S.NullOr(__S(864, __c54, 0))),
+          position: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/linkinbio/addLink/{domain}", code: 200 })),
+      ).annotate({ identifier: "LinkInBioAddLinkRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          value: S.optional(S.String),
+          explanation: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LinkInBioAddLinkRequestProtection" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          link: S.optional(__S(1940, __c121, 4)),
+          linkInBio: S.optional(__S(1947, __c121, 11)),
+        }),
+      ).annotate({ identifier: "LinkInBioLinkResponse" });
+  }
+}
+function __c55(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          id: S.Number,
+        }).pipe(T.Http({ method: "POST", uri: "/linkinbio/deleteLink/{domain}", code: 200 })),
+      ).annotate({ identifier: "LinkInBioDeleteLinkRequest" });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          type: S.optional(S.String),
+          title: S.optional(S.String),
+          url: S.optional(S.String),
+          enabled: S.optional(S.Boolean),
+          startDate: S.optional(S.NullOr(S.String)),
+          endDate: S.optional(S.NullOr(S.String)),
+          animation: S.optional(S.NullOr(S.String)),
+          protection: S.optional(S.NullOr(__S(864, __c54, 0))),
+          id: S.Number,
+        }).pipe(T.Http({ method: "POST", uri: "/linkinbio/editLink/{domain}", code: 200 })),
+      ).annotate({ identifier: "LinkInBioEditLinkRequest" });
+  }
+}
+function __c57(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          type: S.String,
+          name: S.optional(S.String),
+          content: S.optional(S.String),
+          ttl: S.optional(S.Number),
+          priority: S.optional(S.Number),
+          proxied: S.optional(S.Boolean),
+          comment: S.optional(S.String),
+          data: S.optional(S.Unknown),
+          dryRun: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/cloudflare/createRecord/{domain}", code: 200 })),
+      ).annotate({ identifier: "CloudflareCreateRecordRequest" });
+  }
+}
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "CloudflareCreateRecordResponse",
+      });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/linkinbio/get/{domain}", code: 200 })),
+      ).annotate({ identifier: "LinkInBioGetPostRequest" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          ids: __S(976, __c61, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/linkinbio/reorderLinks/{domain}", code: 200 })),
+      ).annotate({ identifier: "LinkInBioReorderLinksRequest" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Number);
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          preset: S.optional(S.String),
+          fontFamily: S.optional(S.String),
+          buttonStyle: S.optional(S.String),
+          radius: S.optional(S.Number),
+          pageBackgroundMode: S.optional(S.String),
+          textAlign: S.optional(S.String),
+          pageBackgroundColor: S.optional(S.String),
+          pageBackgroundColor2: S.optional(S.String),
+          pageColor: S.optional(S.String),
+          boxBackgroundColor: S.optional(S.String),
+          borderColor: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/linkinbio/updateAppearance/{domain}", code: 200 })),
+      ).annotate({ identifier: "LinkInBioUpdateAppearanceRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          title: S.optional(S.String),
+          bio: S.optional(S.String),
+          avatar: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "POST", uri: "/linkinbio/updateProfile/{domain}", code: 200 })),
+      ).annotate({ identifier: "LinkInBioUpdateProfileRequest" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          sensitiveContent: S.optional(S.NullOr(S.String)),
+          analytics: S.optional(__S(1024, __c64, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/linkinbio/updateSettings/{domain}", code: 200 })),
+      ).annotate({ identifier: "LinkInBioUpdateSettingsRequest" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          location: S.optional(S.String),
+          socials: S.optional(__S(1040, __c65, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/linkinbio/updateSocials/{domain}", code: 200 })),
+      ).annotate({ identifier: "LinkInBioUpdateSocialsRequest" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          start: S.optional(S.Number),
+          includeLabels: S.optional(S.String),
+          domain: S.optional(S.String),
+          nameContains: S.optional(S.String),
+          expiringWithinDays: S.optional(S.Number),
+          addedAfter: S.optional(S.String),
+          addedBefore: S.optional(S.String),
+          createdAfter: S.optional(S.String),
+          createdBefore: S.optional(S.String),
+          expiresAfter: S.optional(S.String),
+          expiresBefore: S.optional(S.String),
+          tlds: S.optional(__S(320, __c20, 0)),
+          autoRenew: S.optional(S.String),
+          apiAccess: S.optional(S.String),
+          sortName: S.optional(S.String),
+          sortDirection: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/domain/listAll", code: 200 })),
+      ).annotate({ identifier: "ListDomainsRequest" });
+  }
+}
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4620,28 +8037,26 @@ function __c1(j: number): any {
           total_cents: S.optional(S.Number),
           total: S.optional(S.String),
           itemCount: S.optional(S.Number),
-          domains: S.optional(__S(880, __c110, 0)),
+          domains: S.optional(__S(320, __c20, 0)),
           url: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ListInvoicesResponseInvoicesItem" });
     case 2:
-      return S.Array(__S(9, __c1, 1));
+      return S.Array(__S(1073, __c67, 1));
     case 3:
-      return S.Array(S.Number);
-    case 4:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          invoices: S.optional(__S(10, __c1, 2)),
+          invoices: S.optional(__S(1074, __c67, 2)),
           total: S.optional(S.Number),
           start: S.optional(S.Number),
           limit: S.optional(S.Number),
-          years: S.optional(__S(11, __c1, 3)),
+          years: S.optional(__S(976, __c61, 0)),
         }),
       ).annotate({ identifier: "ListInvoicesResponse" });
   }
 }
-function __c2(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4649,7 +8064,7 @@ function __c2(j: number): any {
           start: S.optional(S.Number),
           limit: S.optional(S.Number),
           query: S.optional(S.String),
-          tlds: S.optional(__S(880, __c110, 0)),
+          tlds: S.optional(__S(320, __c20, 0)),
           sldLengthMin: S.optional(S.Number),
           sldLengthMax: S.optional(S.Number),
           sortName: S.optional(S.String),
@@ -4658,7 +8073,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "ListMarketplaceListingsRequest" });
   }
 }
-function __c3(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4671,25 +8086,25 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "ListMarketplaceListingsResponseDomainsItem" });
     case 1:
-      return S.Array(__S(24, __c3, 0));
+      return S.Array(__S(1104, __c69, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
           count: S.optional(S.Number),
           filtered: S.optional(S.Boolean),
-          domains: S.optional(__S(25, __c3, 1)),
+          domains: S.optional(__S(1105, __c69, 1)),
         }),
       ).annotate({ identifier: "ListMarketplaceListingsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           query: S.optional(S.String.pipe(T.Query())),
-          tlds: S.optional(__S(880, __c110, 0).pipe(T.Query())),
+          tlds: S.optional(__S(320, __c20, 0).pipe(T.Query())),
           sldLengthMin: S.optional(S.Number.pipe(T.Query())),
           sldLengthMax: S.optional(S.Number.pipe(T.Query())),
           sortName: S.optional(S.String.pipe(T.Query())),
@@ -4700,41 +8115,59 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ListMarketplaceListingsGetRequest" });
   }
 }
-function __c5(j: number): any {
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          recordId: S.String.pipe(T.Label()),
+          dryRun: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/cloudflare/deleteRecord/{domain}/{recordId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CloudflareDeleteRecordRequest" });
+  }
+}
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/domain/listTransfers", code: 200 })),
       ).annotate({ identifier: "ListTransfersGetRequest" });
     case 1:
-      return S.Array(__S(1104, __c138, 0));
+      return S.Array(__S(224, __c14, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          transfers: S.optional(__S(41, __c5, 1)),
+          transfers: S.optional(__S(1153, __c72, 1)),
         }),
       ).annotate({ identifier: "ListTransfersResponse" });
   }
 }
-function __c6(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/webhook/list", code: 200 })),
       ).annotate({ identifier: "ListWebhookRequest" });
     case 1:
-      return S.Array(__S(400, __c50, 0));
+      return S.Array(__S(1984, __c124, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          endpoints: S.optional(__S(49, __c6, 1)),
+          endpoints: S.optional(__S(1169, __c73, 1)),
         }),
       ).annotate({ identifier: "WebhookListResponse" });
   }
 }
-function __c7(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4750,19 +8183,19 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "MockDirectoryResponseEndpointsItem" });
     case 2:
-      return S.Array(__S(57, __c7, 1));
+      return S.Array(__S(1185, __c74, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
           mock: S.optional(S.Boolean),
           count: S.optional(S.Number),
-          endpoints: S.optional(__S(58, __c7, 2)),
+          endpoints: S.optional(__S(1186, __c74, 2)),
         }),
       ).annotate({ identifier: "MockDirectoryResponse" });
   }
 }
-function __c8(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4773,7 +8206,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "MockEndpointRequest" });
   }
 }
-function __c9(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4781,7 +8214,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "PingRequest" });
   }
 }
-function __c10(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4789,7 +8222,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "PostIpRequest" });
   }
 }
-function __c11(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4799,29 +8232,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "PreviewCloudflareRequest" });
   }
 }
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          recordId: S.String.pipe(T.Label()),
-          type: S.optional(S.String),
-          name: S.optional(S.String),
-          content: S.optional(S.String),
-          ttl: S.optional(S.Number),
-          priority: S.optional(S.Number),
-          proxied: S.optional(S.Boolean),
-          comment: S.optional(S.String),
-          data: S.optional(S.Unknown),
-          dryRun: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/cloudflare/editRecord/{domain}/{recordId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "CloudflareEditRecordRequest" });
-  }
-}
-function __c13(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4830,6 +8241,7 @@ function __c13(j: number): any {
           cost: S.Number,
           payWith: S.optional(S.String),
           usdcCheckoutId: S.optional(S.String),
+          cardPaymentId: S.optional(S.String),
           dryRun: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/domain/renew/{domain}", code: 200 })),
       ).annotate({ identifier: "RenewDomainRequest" });
@@ -4839,7 +8251,7 @@ function __c13(j: number): any {
       });
   }
 }
-function __c14(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4851,13 +8263,13 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          delivery: S.optional(__S(120, __c15, 0)),
+          delivery: S.optional(__S(1296, __c81, 0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "WebhookResendResponse" });
   }
 }
-function __c15(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4879,7 +8291,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "WebhookDelivery" });
   }
 }
-function __c16(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4897,7 +8309,29 @@ function __c16(j: number): any {
       ).annotate({ identifier: "ResetSandboxResponse" });
   }
 }
-function __c17(j: number): any {
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          recordId: S.String.pipe(T.Label()),
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          content: S.optional(S.String),
+          ttl: S.optional(S.Number),
+          priority: S.optional(S.Number),
+          proxied: S.optional(S.Boolean),
+          comment: S.optional(S.String),
+          data: S.optional(S.Unknown),
+          dryRun: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/cloudflare/editRecord/{domain}/{recordId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "CloudflareEditRecordRequest" });
+  }
+}
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4917,23 +8351,23 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "DnsRestoreResponseFailedItem" });
     case 2:
-      return S.Array(__S(137, __c17, 1));
+      return S.Array(__S(1345, __c84, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          warnings: S.optional(__S(880, __c110, 0)),
+          warnings: S.optional(__S(320, __c20, 0)),
           status: S.optional(S.String),
           domain: S.optional(S.String),
           restoredFrom: S.optional(S.Number),
           previousStateSavedAs: S.optional(S.NullOr(S.Number)),
           restored: S.optional(S.Number),
           removed: S.optional(S.Number),
-          failed: S.optional(__S(138, __c17, 2)),
+          failed: S.optional(__S(1346, __c84, 2)),
         }),
       ).annotate({ identifier: "DnsRestoreResponse" });
   }
 }
-function __c18(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4943,7 +8377,33 @@ function __c18(j: number): any {
       ).annotate({ identifier: "RetryCloudflareRequest" });
   }
 }
-function __c19(j: number): any {
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          confirm: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/apikey/revoke", code: 200 })),
+      ).annotate({ identifier: "RevokeApikeyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          title: S.optional(S.String),
+          apikey: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          connectedApp: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "RevokeApikeyResponseRevoked" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          revoked: S.optional(__S(1377, __c86, 1)),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RevokeApikeyResponse" });
+  }
+}
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4963,7 +8423,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "SandboxTopupResponse" });
   }
 }
-function __c20(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4985,7 +8445,51 @@ function __c20(j: number): any {
       ).annotate({ identifier: "SandboxTriggerWebhookResponse" });
   }
 }
-function __c21(j: number): any {
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          query: S.String.pipe(T.Query()),
+          tld: S.optional(S.String.pipe(T.Query())),
+          saleType: S.optional(S.String.pipe(T.Query())),
+          priceMin: S.optional(S.Number.pipe(T.Query())),
+          priceMax: S.optional(S.Number.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/aftermarket/search", code: 200 })),
+      ).annotate({ identifier: "SearchAftermarketRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.optional(S.String),
+          tld: S.optional(S.String),
+          price: S.optional(S.Number),
+          priceDisplay: S.optional(S.String),
+          priceMeaning: S.optional(S.String),
+          saleType: S.optional(S.String),
+          source: S.optional(S.String),
+          fastTransfer: S.optional(S.Boolean),
+          buyUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AftermarketListing" });
+    case 2:
+      return S.Array(__S(1425, __c89, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          query: S.optional(S.String),
+          exactMatch: S.optional(S.NullOr(__S(1425, __c89, 1))),
+          listings: S.optional(__S(1426, __c89, 2)),
+          count: S.optional(S.Number),
+          total: S.optional(S.Number),
+          sourcesUnavailable: S.optional(__S(320, __c20, 0)),
+          note: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SearchAftermarketResponse" });
+  }
+}
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5004,7 +8508,7 @@ function __c21(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/closeout/search", code: 200 })),
       ).annotate({ identifier: "SearchCloseoutRequest" });
     case 1:
-      return S.Array(__S(856, __c107, 0));
+      return S.Array(__S(3152, __c197, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5013,12 +8517,12 @@ function __c21(j: number): any {
           totalAvailable: S.optional(S.Number),
           start: S.optional(S.Number),
           limit: S.optional(S.Number),
-          closeouts: S.optional(__S(169, __c21, 1)),
+          closeouts: S.optional(__S(1441, __c90, 1)),
         }),
       ).annotate({ identifier: "SearchCloseoutResponse" });
   }
 }
-function __c22(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5031,7 +8535,34 @@ function __c22(j: number): any {
       ).annotate({ identifier: "SetAutoTopupRequest" });
   }
 }
-function __c23(j: number): any {
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String,
+          sharedWith: S.String,
+          claimHours: S.optional(S.Number),
+          accessHours: S.optional(S.Number),
+          dryRun: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/apikey/share", code: 200 })),
+      ).annotate({ identifier: "ShareApikeyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          shareId: S.optional(S.Number),
+          domain: S.optional(S.String),
+          sharedWith: S.optional(S.String),
+          approveUrl: S.optional(S.String),
+          expires: S.optional(S.String),
+          message: S.optional(S.String),
+          accessHours: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "ShareApikeyResponse" });
+  }
+}
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5049,7 +8580,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "WebhookTestResponse" });
   }
 }
-function __c24(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5057,7 +8588,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "CloudflareGetConnectionRequest" });
   }
 }
-function __c25(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5067,6 +8598,32 @@ function __c25(j: number): any {
         }).pipe(T.Http({ method: "POST", uri: "/account/topup", code: 200 })),
       ).annotate({ identifier: "TopupAccountCreditRequest" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          brand: S.optional(S.String),
+          last4: S.optional(S.NullOr(S.String)),
+          expMonth: S.optional(S.NullOr(S.Number)),
+          expYear: S.optional(S.NullOr(S.Number)),
+          nickname: S.optional(S.NullOr(S.String)),
+          usedBackup: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ChargedCard" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          brand: S.optional(S.String),
+          last4: S.optional(S.NullOr(S.String)),
+          expMonth: S.optional(S.NullOr(S.Number)),
+          expYear: S.optional(S.NullOr(S.Number)),
+          nickname: S.optional(S.NullOr(S.String)),
+          declineCode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeclinedCard" });
+    case 3:
+      return S.Array(__S(1522, __c95, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
@@ -5080,11 +8637,14 @@ function __c25(j: number): any {
           chargesThisMonth: S.optional(S.Number),
           simulated: S.optional(S.Boolean),
           message: S.optional(S.String),
+          card: S.optional(__S(1521, __c95, 1)),
+          usedBackup: S.optional(S.Boolean),
+          declinedFirst: S.optional(__S(1523, __c95, 3)),
         }),
       ).annotate({ identifier: "TopupAccountCreditResponse" });
   }
 }
-function __c26(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5111,7 +8671,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "TopupCryptoResponse" });
   }
 }
-function __c27(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5134,7 +8694,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "TopupCryptoStatusResponse" });
   }
 }
-function __c28(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5151,13 +8711,13 @@ function __c28(j: number): any {
           payUrl: S.optional(S.String),
           expiresAt: S.optional(S.String),
           protocol: S.optional(S.String),
-          methods: S.optional(__S(880, __c110, 0)),
+          methods: S.optional(__S(320, __c20, 0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "TopupMppResponse" });
   }
 }
-function __c29(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5168,6 +8728,7 @@ function __c29(j: number): any {
           holdForDnsSetup: S.optional(S.Boolean),
           payWith: S.optional(S.String),
           usdcCheckoutId: S.optional(S.String),
+          cardPaymentId: S.optional(S.String),
           dryRun: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/domain/transfer/{domain}", code: 200 })),
       ).annotate({ identifier: "TransferDomainRequest" });
@@ -5177,7 +8738,7 @@ function __c29(j: number): any {
       });
   }
 }
-function __c30(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5193,25 +8754,25 @@ function __c30(j: number): any {
           zoneReady: S.optional(S.Boolean),
           recordCount: S.optional(S.Number),
           message: S.optional(S.String),
-          porkbunNameservers: S.optional(__S(880, __c110, 0)),
+          porkbunNameservers: S.optional(__S(320, __c20, 0)),
         }),
       ).annotate({ identifier: "TransferDomainPrepareResponse" });
   }
 }
-function __c31(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.Number,
           url: S.optional(S.String),
-          events: S.optional(__S(880, __c110, 0)),
+          events: S.optional(__S(320, __c20, 0)),
           status: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/webhook/update", code: 200 })),
       ).annotate({ identifier: "UpdateWebhookRequest" });
   }
 }
-function __c32(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5223,12 +8784,12 @@ function __c32(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/webhook/deliveries", code: 200 })),
       ).annotate({ identifier: "WebhookDeliveriesRequest" });
     case 1:
-      return S.Array(__S(120, __c15, 0));
+      return S.Array(__S(1296, __c81, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          deliveries: S.optional(__S(257, __c32, 1)),
+          deliveries: S.optional(__S(1633, __c102, 1)),
           total: S.optional(S.Number),
           start: S.optional(S.Number),
           limit: S.optional(S.Number),
@@ -5237,7 +8798,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "WebhookDeliveryListResponse" });
   }
 }
-function __c33(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5249,12 +8810,12 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          delivery: S.optional(__S(120, __c15, 0)),
+          delivery: S.optional(__S(1296, __c81, 0)),
         }),
       ).annotate({ identifier: "WebhookDeliveryResponse" });
   }
 }
-function __c34(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5264,12 +8825,12 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          eventTypes: S.optional(__S(880, __c110, 0)),
+          eventTypes: S.optional(__S(320, __c20, 0)),
         }),
       ).annotate({ identifier: "WebhookEventTypesResponse" });
   }
 }
-function __c35(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5277,7 +8838,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "CloudflareGetQueueRequest" });
   }
 }
-function __c36(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5287,7 +8848,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "WebhookRotateSecretRequest" });
   }
 }
-function __c37(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5297,7 +8858,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "CloudflareGetRecordsRequest" });
   }
 }
-function __c38(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5307,7 +8868,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "CloudflareGetZoneRequest" });
   }
 }
-function __c39(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5317,7 +8878,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "CloudflareGetZoneSettingsRequest" });
   }
 }
-function __c40(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5325,7 +8886,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "CloudflareInventoryRequest" });
   }
 }
-function __c41(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5335,20 +8896,20 @@ function __c41(j: number): any {
       ).annotate({ identifier: "CloudflareRollbackRequest" });
   }
 }
-function __c42(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
           enabled: S.Boolean,
-          records: S.optional(__S(880, __c110, 0)),
+          records: S.optional(__S(320, __c20, 0)),
           dryRun: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/cloudflare/setProxy/{domain}", code: 200 })),
       ).annotate({ identifier: "CloudflareSetProxyRequest" });
   }
 }
-function __c43(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5365,18 +8926,18 @@ function __c43(j: number): any {
       ).annotate({ identifier: "CloudflareSetZoneSettingsRequest" });
   }
 }
-function __c44(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domains: __S(880, __c110, 0),
+          domains: __S(320, __c20, 0),
           dryRun: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/cloudflare/connect", code: 200 })),
       ).annotate({ identifier: "ConnectCloudflareRequest" });
   }
 }
-function __c45(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5396,7 +8957,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "CreateAccountInviteResponse" });
   }
 }
-function __c46(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5415,13 +8976,13 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          id: S.optional(S.String),
-          warnings: S.optional(__S(880, __c110, 0)),
+          id: S.optional(S.Number),
+          warnings: S.optional(__S(320, __c20, 0)),
         }),
       ).annotate({ identifier: "CreateDnsResponse" });
   }
 }
-function __c47(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5429,9 +8990,11 @@ function __c47(j: number): any {
           domain: S.String.pipe(T.Label()),
           cost: S.Number,
           agreeToTerms: S.String,
+          idnLanguage: S.optional(S.String),
           whoisPrivacy: S.optional(S.Boolean),
           payWith: S.optional(S.String),
           usdcCheckoutId: S.optional(S.String),
+          cardPaymentId: S.optional(S.String),
           dryRun: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/domain/create/{domain}", code: 200 })),
       ).annotate({ identifier: "CreateDomainRequest" });
@@ -5441,7 +9004,7 @@ function __c47(j: number): any {
       });
   }
 }
-function __c48(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5453,6 +9016,7 @@ function __c48(j: number): any {
           agreeToNameserverChange: S.optional(S.Boolean),
           payWith: S.optional(S.String),
           usdcCheckoutId: S.optional(S.String),
+          cardPaymentId: S.optional(S.String),
           dryRun: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/hosting/create/{domain}", code: 200 })),
       ).annotate({ identifier: "CreateHostingRequest" });
@@ -5473,36 +9037,197 @@ function __c48(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          amount: S.optional(S.Number),
-          formatted: S.optional(S.String),
-          interval: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CreateHostingResponseCost" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
           status: S.optional(S.String),
           orderId: S.optional(S.Number),
-          hosting: S.optional(__S(385, __c48, 1)),
+          hosting: S.optional(__S(1889, __c118, 1)),
           charged: S.optional(S.Number),
-          cost: S.optional(__S(386, __c48, 2)),
+          cost: S.optional(__S(1904, __c119, 0)),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateHostingResponse" });
   }
 }
-function __c49(j: number): any {
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          amount: S.optional(S.Number),
+          formatted: S.optional(S.String),
+          interval: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateHostingResponseCost" });
+  }
+}
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          agreeToNameserverChange: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/linkinbio/create/{domain}", code: 200 })),
+      ).annotate({ identifier: "CreateLinkInBioRequest" });
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sku: S.optional(S.String),
+          name: S.optional(S.String),
+          free: S.optional(S.Boolean),
+          price: S.optional(S.Number),
+          interval: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "LinkInBioPlan" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          maxLinks: S.optional(S.Number),
+          scheduling: S.optional(S.Boolean),
+          animation: S.optional(S.Boolean),
+          passcodeProtection: S.optional(S.Boolean),
+          analyticsIds: S.optional(S.Boolean),
+          utmParameters: S.optional(S.Boolean),
+          mailingList: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "LinkInBioFeatures" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          title: S.optional(S.NullOr(S.String)),
+          bio: S.optional(S.NullOr(S.String)),
+          avatarUrl: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "LinkInBioProfile" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          value: S.optional(S.NullOr(S.String)),
+          explanation: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "LinkInBioLinkProtection" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          type: S.optional(S.String),
+          title: S.optional(S.String),
+          url: S.optional(S.NullOr(S.String)),
+          enabled: S.optional(S.Boolean),
+          position: S.optional(S.Number),
+          startDate: S.optional(S.NullOr(S.String)),
+          endDate: S.optional(S.NullOr(S.String)),
+          animation: S.optional(S.NullOr(S.String)),
+          protection: S.optional(S.NullOr(__S(1939, __c121, 3))),
+          imageUrl: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "LinkInBioLink" });
+    case 5:
+      return S.Array(__S(1940, __c121, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String),
+          email: S.optional(S.NullOr(S.String)),
+          instagram: S.optional(S.NullOr(S.String)),
+          facebook: S.optional(S.NullOr(S.String)),
+          tiktok: S.optional(S.NullOr(S.String)),
+          youtube: S.optional(S.NullOr(S.String)),
+          twitter: S.optional(S.NullOr(S.String)),
+          linkedin: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "LinkInBioSocials" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          preset: S.optional(S.NullOr(S.String)),
+          fontFamily: S.optional(S.NullOr(S.String)),
+          buttonStyle: S.optional(S.NullOr(S.String)),
+          radius: S.optional(S.NullOr(S.Number)),
+          pageBackgroundMode: S.optional(S.NullOr(S.String)),
+          textAlign: S.optional(S.NullOr(S.String)),
+          pageBackgroundColor: S.optional(S.NullOr(S.String)),
+          pageBackgroundColor2: S.optional(S.NullOr(S.String)),
+          pageColor: S.optional(S.NullOr(S.String)),
+          boxBackgroundColor: S.optional(S.NullOr(S.String)),
+          borderColor: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "LinkInBioAppearance" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          googleAnalyticsId: S.optional(S.NullOr(S.String)),
+          facebookPixelId: S.optional(S.NullOr(S.String)),
+          twitterPixelId: S.optional(S.NullOr(S.String)),
+          tikTokPixelId: S.optional(S.NullOr(S.String)),
+          utmSource: S.optional(S.NullOr(S.String)),
+          utmMedium: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "LinkInBioSettingsAnalytics" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+          provider: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "LinkInBioSettingsMailingList" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          sensitiveContent: S.optional(S.NullOr(S.String)),
+          analytics: S.optional(__S(1944, __c121, 8)),
+          mailingList: S.optional(__S(1945, __c121, 9)),
+        }),
+      ).annotate({ identifier: "LinkInBioSettings" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.optional(S.String),
+          url: S.optional(S.String),
+          delivery: S.optional(S.String),
+          plan: S.optional(__S(1936, __c121, 0)),
+          status: S.optional(S.String),
+          isTrial: S.optional(S.Boolean),
+          expireDate: S.optional(S.NullOr(S.String)),
+          features: S.optional(__S(1937, __c121, 1)),
+          linkCount: S.optional(S.Number),
+          profile: S.optional(__S(1938, __c121, 2)),
+          links: S.optional(__S(1941, __c121, 5)),
+          socials: S.optional(__S(1942, __c121, 6)),
+          appearance: S.optional(__S(1943, __c121, 7)),
+          settings: S.optional(__S(1946, __c121, 10)),
+          editorUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "LinkInBio" });
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          linkInBio: S.optional(__S(1947, __c121, 11)),
+        }),
+      ).annotate({ identifier: "LinkInBioResponse" });
+  }
+}
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           url: S.String,
-          events: S.optional(__S(880, __c110, 0)),
+          events: S.optional(__S(320, __c20, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/webhook/create", code: 200 })),
       ).annotate({ identifier: "CreateWebhookRequest" });
   }
 }
-function __c50(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5510,7 +9235,7 @@ function __c50(j: number): any {
           id: S.optional(S.Number),
           url: S.optional(S.String),
           secret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          events: S.optional(__S(880, __c110, 0)),
+          events: S.optional(__S(320, __c20, 0)),
           status: S.optional(S.String),
           consecutiveFailures: S.optional(S.Number),
           lastSuccessDate: S.optional(S.NullOr(S.String)),
@@ -5521,18 +9246,18 @@ function __c50(j: number): any {
       ).annotate({ identifier: "WebhookEndpoint" });
   }
 }
-function __c51(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          endpoint: S.optional(__S(400, __c50, 0)),
+          endpoint: S.optional(__S(1984, __c124, 0)),
         }),
       ).annotate({ identifier: "WebhookEndpointResponse" });
   }
 }
-function __c52(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5543,12 +9268,12 @@ function __c52(j: number): any {
       ).annotate({ identifier: "DeleteDnsRequest" });
   }
 }
-function __c53(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          warnings: S.optional(__S(880, __c110, 0)),
+          warnings: S.optional(__S(320, __c20, 0)),
           status: S.String,
           message: S.optional(S.String),
           code: S.optional(S.String),
@@ -5556,7 +9281,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "BasicResponse" });
   }
 }
-function __c54(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5566,7 +9291,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "DeleteHostingRequest" });
   }
 }
-function __c55(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5576,7 +9301,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "DeleteWebhookRequest" });
   }
 }
-function __c56(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5587,7 +9312,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "DeleteWebhookResponse" });
   }
 }
-function __c57(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5597,12 +9322,12 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "DeployHostingRequestFilesItem" });
     case 1:
-      return S.Array(__S(456, __c57, 0));
+      return S.Array(__S(2096, __c131, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
-          files: __S(457, __c57, 1),
+          files: __S(2097, __c131, 1),
         }).pipe(T.Http({ method: "POST", uri: "/hosting/deploy/{domain}", code: 200 })),
       ).annotate({ identifier: "DeployHostingRequest" });
     case 3:
@@ -5613,18 +9338,18 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "DeployHostingResponseSkippedItem" });
     case 4:
-      return S.Array(__S(459, __c57, 3));
+      return S.Array(__S(2099, __c131, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          deployed: S.optional(__S(880, __c110, 0)),
-          skipped: S.optional(__S(460, __c57, 4)),
+          deployed: S.optional(__S(320, __c20, 0)),
+          skipped: S.optional(__S(2100, __c131, 4)),
         }),
       ).annotate({ identifier: "DeployHostingResponse" });
   }
 }
-function __c58(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5632,7 +9357,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "DisconnectCloudflareRequest" });
   }
 }
-function __c59(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5651,7 +9376,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "DnsCreateDnssecRecordRequest" });
   }
 }
-function __c60(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5669,7 +9394,27 @@ function __c60(j: number): any {
       ).annotate({ identifier: "DnsDeleteByNameTypeRequest" });
   }
 }
-function __c61(j: number): any {
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/account/verifyEmail/confirm", code: 200 })),
+      ).annotate({ identifier: "AccountVerifyEmailConfirmRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          verified: S.optional(S.Boolean),
+          alreadyVerified: S.optional(S.Boolean),
+          message: S.optional(S.String),
+          phoneVerified: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AccountVerifyEmailConfirmResponse" });
+  }
+}
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5682,7 +9427,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "DnsDeleteDnssecRecordRequest" });
   }
 }
-function __c62(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5704,15 +9449,15 @@ function __c62(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           domain: S.optional(S.String),
-          snapshot: S.optional(__S(497, __c62, 1)),
-          missing: S.optional(__S(505, __c63, 1)),
-          extra: S.optional(__S(505, __c63, 1)),
+          snapshot: S.optional(__S(2193, __c137, 1)),
+          missing: S.optional(__S(2209, __c138, 1)),
+          extra: S.optional(__S(2209, __c138, 1)),
           inSync: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "DnsDiffResponse" });
   }
 }
-function __c63(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5725,10 +9470,10 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "DnsHistoryRecord" });
     case 1:
-      return S.Array(__S(504, __c63, 0));
+      return S.Array(__S(2208, __c138, 0));
   }
 }
-function __c64(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5750,7 +9495,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "DnsEditByNameTypeRequest" });
   }
 }
-function __c65(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5760,7 +9505,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "DnsGetDnssecRecordsRequest" });
   }
 }
-function __c66(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5773,17 +9518,17 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "DnsGetDnssecRecordsResponseRecordsValue" });
     case 1:
-      return S.Record(S.String, __S(528, __c66, 0));
+      return S.Record(S.String, __S(2256, __c141, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          records: S.optional(__S(529, __c66, 1)),
+          records: S.optional(__S(2257, __c141, 1)),
         }),
       ).annotate({ identifier: "DnsGetDnssecRecordsResponse" });
   }
 }
-function __c67(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5803,18 +9548,18 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "DnsHistoryResponseRestorePointsItem" });
     case 2:
-      return S.Array(__S(537, __c67, 1));
+      return S.Array(__S(2273, __c142, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
           domain: S.optional(S.String),
-          restorePoints: S.optional(__S(538, __c67, 2)),
+          restorePoints: S.optional(__S(2274, __c142, 2)),
         }),
       ).annotate({ identifier: "DnsHistoryResponse" });
   }
 }
-function __c68(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5835,7 +9580,7 @@ function __c68(j: number): any {
         }),
       ).annotate({ identifier: "DnsPreflightResponseChecksItem" });
     case 2:
-      return S.Array(__S(545, __c68, 1));
+      return S.Array(__S(2289, __c143, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5843,34 +9588,14 @@ function __c68(j: number): any {
           domain: S.optional(S.String),
           intent: S.optional(S.String),
           safe: S.optional(S.Boolean),
-          blockers: S.optional(__S(880, __c110, 0)),
-          warnings: S.optional(__S(880, __c110, 0)),
-          checks: S.optional(__S(546, __c68, 2)),
+          blockers: S.optional(__S(320, __c20, 0)),
+          warnings: S.optional(__S(320, __c20, 0)),
+          checks: S.optional(__S(2290, __c143, 2)),
         }),
       ).annotate({ identifier: "DnsPreflightResponse" });
   }
 }
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/account/verifyPhone/confirm", code: 200 })),
-      ).annotate({ identifier: "AccountVerifyPhoneConfirmRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          verified: S.optional(S.Boolean),
-          alreadyVerified: S.optional(S.Boolean),
-          emailVerified: S.optional(S.Boolean),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AccountVerifyPhoneConfirmResponse" });
-  }
-}
-function __c70(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5881,7 +9606,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "DnsRetrieveByIdRequest" });
   }
 }
-function __c71(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5896,18 +9621,18 @@ function __c71(j: number): any {
         }),
       ).annotate({ identifier: "DnsRecordsResponseRecordsItem" });
     case 1:
-      return S.Array(__S(568, __c71, 0));
+      return S.Array(__S(2320, __c145, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
           cloudflare: S.optional(S.String),
-          records: __S(569, __c71, 1),
+          records: __S(2321, __c145, 1),
         }),
       ).annotate({ identifier: "DnsRecordsResponse" });
   }
 }
-function __c72(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5925,7 +9650,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "DnsRetrieveByNameTypeRequest" });
   }
 }
-function __c73(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5939,12 +9664,12 @@ function __c73(j: number): any {
           status: S.optional(S.String),
           domain: S.optional(S.String),
           recordCount: S.optional(S.Number),
-          records: S.optional(__S(505, __c63, 1)),
+          records: S.optional(__S(2209, __c138, 1)),
         }),
       ).annotate({ identifier: "DnsScanResponse" });
   }
 }
-function __c74(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5960,7 +9685,29 @@ function __c74(j: number): any {
       ).annotate({ identifier: "DomainAddUrlForwardRequest" });
   }
 }
-function __c75(j: number): any {
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "POST", uri: "/account/verifyEmail/send", code: 200 })),
+      ).annotate({ identifier: "AccountVerifyEmailSendRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          sent: S.optional(S.Boolean),
+          codeAlreadySent: S.optional(S.Boolean),
+          alreadyVerified: S.optional(S.Boolean),
+          sentTo: S.optional(S.String),
+          expiresInMinutes: S.optional(S.Number),
+          retryAfterSeconds: S.optional(S.Number),
+          message: S.optional(S.String),
+          phoneVerified: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AccountVerifyEmailSendResponse" });
+  }
+}
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5987,7 +9734,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "DomainCancelTransferResponse" });
   }
 }
-function __c76(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6007,19 +9754,28 @@ function __c76(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
+          code: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CheckDomainResponseResponseIdnLanguagesItem" });
+    case 3:
+      return S.Array(__S(2418, __c151, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           type: S.optional(S.String),
           price: S.optional(S.String),
           regularPrice: S.optional(S.String),
         }),
       ).annotate({ identifier: "CheckDomainResponseResponseAdditionalRenewal" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
-          renewal: S.optional(__S(610, __c76, 2)),
-          transfer: S.optional(__S(610, __c76, 2)),
+          renewal: S.optional(__S(2420, __c151, 4)),
+          transfer: S.optional(__S(2420, __c151, 4)),
         }),
       ).annotate({ identifier: "CheckDomainResponseResponseAdditional" });
-    case 4:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           avail: S.optional(S.String),
@@ -6029,35 +9785,39 @@ function __c76(j: number): any {
           regularPrice: S.optional(S.String),
           premium: S.optional(S.String),
           minDuration: S.optional(S.Number),
-          additional: S.optional(__S(611, __c76, 3)),
+          idnLanguages: S.optional(__S(2419, __c151, 3)),
+          inYourAccount: S.optional(S.Boolean),
+          aftermarketSearch: S.optional(S.String),
+          note: S.optional(S.String),
+          additional: S.optional(__S(2421, __c151, 5)),
         }),
       ).annotate({ identifier: "CheckDomainResponseResponse" });
-    case 5:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          response: __S(612, __c76, 4),
-          limits: S.optional(__S(608, __c76, 0)),
+          response: __S(2422, __c151, 6),
+          limits: S.optional(__S(2416, __c151, 0)),
           ttlRemaining: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CheckDomainResponse" });
   }
 }
-function __c77(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
           subdomain: S.String.pipe(T.Label()),
-          ips: __S(880, __c110, 0),
+          ips: __S(320, __c20, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/domain/createGlue/{domain}/{subdomain}", code: 200 }),
         ),
       ).annotate({ identifier: "DomainCreateGlueRequest" });
   }
 }
-function __c78(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6070,7 +9830,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "DomainDeleteGlueRequest" });
   }
 }
-function __c79(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6083,7 +9843,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "DomainDeleteUrlForwardRequest" });
   }
 }
-function __c80(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6095,12 +9855,12 @@ function __c80(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          contacts: S.optional(__S(649, __c81, 1)),
+          contacts: S.optional(__S(2497, __c156, 1)),
         }),
       ).annotate({ identifier: "DomainGetContactsResponse" });
   }
 }
-function __c81(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6124,40 +9884,15 @@ function __c81(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          registrant: S.optional(__S(648, __c81, 0)),
-          admin: S.optional(__S(648, __c81, 0)),
-          tech: S.optional(__S(648, __c81, 0)),
-          billing: S.optional(__S(648, __c81, 0)),
+          registrant: S.optional(__S(2496, __c156, 0)),
+          admin: S.optional(__S(2496, __c156, 0)),
+          tech: S.optional(__S(2496, __c156, 0)),
+          billing: S.optional(__S(2496, __c156, 0)),
         }),
       ).annotate({ identifier: "DomainGetContactsResponseContacts" });
   }
 }
-function __c82(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          channel: S.optional(S.String),
-          dryRun: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/account/verifyPhone/send", code: 200 })),
-      ).annotate({ identifier: "AccountVerifyPhoneSendRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          sent: S.optional(S.Boolean),
-          codeAlreadySent: S.optional(S.Boolean),
-          alreadyVerified: S.optional(S.Boolean),
-          channel: S.optional(S.String),
-          sentTo: S.optional(S.String),
-          expiresInMinutes: S.optional(S.Number),
-          retryAfterSeconds: S.optional(S.Number),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AccountVerifyPhoneSendResponse" });
-  }
-}
-function __c83(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6165,22 +9900,35 @@ function __c83(j: number): any {
           domain: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "POST", uri: "/domain/getGlue/{domain}", code: 200 })),
       ).annotate({ identifier: "DomainGetGlueRequest" });
-  }
-}
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(888, __c111, 0));
     case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.Array(__S(2513, __c157, 1));
+    case 3:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          hosts: S.optional(__S(672, __c84, 0)),
+          hosts: S.optional(__S(2514, __c157, 2)),
+          glue: S.optional(__S(2529, __c158, 1)),
         }),
       ).annotate({ identifier: "DomainGetGlueResponse" });
   }
 }
-function __c85(j: number): any {
+function __c158(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          host: S.String,
+          v4: __S(320, __c20, 0),
+          v6: __S(320, __c20, 0),
+        }),
+      ).annotate({ identifier: "DomainGetGlueResponseGlueItem" });
+    case 1:
+      return S.Array(__S(2528, __c158, 0));
+  }
+}
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6190,18 +9938,18 @@ function __c85(j: number): any {
       ).annotate({ identifier: "DomainGetNsRequest" });
   }
 }
-function __c86(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          ns: S.optional(__S(880, __c110, 0)),
+          ns: S.optional(__S(320, __c20, 0)),
         }),
       ).annotate({ identifier: "DomainGetNsResponse" });
   }
 }
-function __c87(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6229,7 +9977,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "DomainGetRegistrationRequirementsResponse" });
   }
 }
-function __c88(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6249,12 +9997,32 @@ function __c88(j: number): any {
           delegation: S.optional(S.Unknown),
           dnssec: S.optional(S.Number),
           nextStep: S.optional(S.Unknown),
-          porkbunNameservers: S.optional(__S(880, __c110, 0)),
+          porkbunNameservers: S.optional(__S(320, __c20, 0)),
         }),
       ).annotate({ identifier: "DomainGetTransferSetupResponse" });
   }
 }
-function __c89(j: number): any {
+function __c163(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/account/verifyPhone/confirm", code: 200 })),
+      ).annotate({ identifier: "AccountVerifyPhoneConfirmRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          verified: S.optional(S.Boolean),
+          alreadyVerified: S.optional(S.Boolean),
+          emailVerified: S.optional(S.Boolean),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AccountVerifyPhoneConfirmResponse" });
+  }
+}
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6264,7 +10032,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "DomainGetUrlForwardingRequest" });
   }
 }
-function __c90(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6279,17 +10047,17 @@ function __c90(j: number): any {
         }),
       ).annotate({ identifier: "GetUrlForwardingResponseForwardsItem" });
     case 1:
-      return S.Array(__S(720, __c90, 0));
+      return S.Array(__S(2640, __c165, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
-          forwards: __S(721, __c90, 1),
+          forwards: __S(2641, __c165, 1),
         }),
       ).annotate({ identifier: "GetUrlForwardingResponse" });
   }
 }
-function __c91(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6298,7 +10066,11 @@ function __c91(j: number): any {
           force: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/domain/startTransfer/{domain}", code: 200 })),
       ).annotate({ identifier: "DomainStartTransferRequest" });
-    case 1:
+  }
+}
+function __c167(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
@@ -6308,35 +10080,35 @@ function __c91(j: number): any {
       ).annotate({ identifier: "DomainStartTransferResponse" });
   }
 }
-function __c92(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
           status: S.String,
-          domains: S.optional(__S(880, __c110, 0)),
+          domains: S.optional(__S(320, __c20, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/domain/updateAutoRenew/{domain}", code: 200 })),
       ).annotate({ identifier: "DomainUpdateAutoRenewRequest" });
     case 1:
-      return S.Record(S.String, __S(448, __c56, 0));
+      return S.Record(S.String, __S(2080, __c130, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          results: S.optional(__S(737, __c92, 1)),
+          results: S.optional(__S(2689, __c168, 1)),
         }),
       ).annotate({ identifier: "DomainUpdateAutoRenewResponse" });
   }
 }
-function __c93(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
-          contacts: S.optional(__S(649, __c81, 1)),
-          contact: S.optional(__S(648, __c81, 0)),
+          contacts: S.optional(__S(2497, __c156, 1)),
+          contact: S.optional(__S(2496, __c156, 0)),
           dryRun: S.optional(S.Boolean),
           addressValidationChoice: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/domain/updateContacts/{domain}", code: 200 })),
@@ -6351,57 +10123,32 @@ function __c93(j: number): any {
       ).annotate({ identifier: "DomainUpdateContactsResponse" });
   }
 }
-function __c94(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
           subdomain: S.String.pipe(T.Label()),
-          ips: __S(880, __c110, 0),
+          ips: __S(320, __c20, 0),
         }).pipe(
           T.Http({ method: "POST", uri: "/domain/updateGlue/{domain}/{subdomain}", code: 200 }),
         ),
       ).annotate({ identifier: "DomainUpdateGlueRequest" });
   }
 }
-function __c95(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
-          ns: __S(880, __c110, 0),
+          ns: __S(320, __c20, 0),
         }).pipe(T.Http({ method: "POST", uri: "/domain/updateNs/{domain}", code: 200 })),
       ).annotate({ identifier: "DomainUpdateNsRequest" });
   }
 }
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          codeChallenge: S.optional(S.String),
-          codeChallengeMethod: S.optional(S.String),
-          sandbox: S.optional(S.Boolean),
-          returnUrl: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/apikey/request", code: 200 })),
-      ).annotate({ identifier: "ApikeyRequestRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          requestToken: S.String,
-          authUrl: S.optional(S.String),
-          expiration: S.optional(S.String),
-          deliveryMode: S.optional(S.String),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ApikeyRequestResponse" });
-  }
-}
-function __c97(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6425,7 +10172,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "DomainUpdateTransferAuthCodeResponse" });
   }
 }
-function __c98(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6442,7 +10189,250 @@ function __c98(j: number): any {
       ).annotate({ identifier: "EditDnsRequest" });
   }
 }
-function __c99(j: number): any {
+function __c174(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          address: S.String,
+          forwardTo: S.String,
+          confirmDnsChanges: S.optional(S.Boolean),
+          dryRun: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/email/addForward/{domain}", code: 200 })),
+      ).annotate({ identifier: "EmailAddForwardRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          content: S.optional(S.String),
+          prio: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EmailAddForwardResponseDnsChangesMxRecordsRemovedItem" });
+    case 2:
+      return S.Array(__S(2785, __c174, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          mxRecordsRemoved: S.optional(__S(2786, __c174, 2)),
+          spf: S.optional(S.String),
+          spfBefore: S.optional(S.String),
+          spfAfter: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EmailAddForwardResponseDnsChanges" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          domain: S.optional(S.String),
+          address: S.optional(S.String),
+          forwardTo: S.optional(S.String),
+          dnsChanges: S.optional(__S(2787, __c174, 3)),
+          limits: S.optional(__S(2800, __c175, 0)),
+        }),
+      ).annotate({ identifier: "EmailAddForwardResponse" });
+  }
+}
+function __c175(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          used: S.optional(S.Number),
+          max: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "EmailAddForwardResponseLimits" });
+  }
+}
+function __c176(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          address: S.String,
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          confirmDnsChanges: S.optional(S.Boolean),
+          dryRun: S.optional(S.Boolean),
+          cost: S.Number,
+          agreeToTerms: S.String,
+          payWith: S.optional(S.String),
+          cardPaymentId: S.optional(S.String),
+          usdcCheckoutId: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/email/createMailbox/{domain}", code: 200 })),
+      ).annotate({ identifier: "EmailCreateMailboxRequest" });
+  }
+}
+function __c177(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          address: S.optional(S.NullOr(S.String)),
+          status: S.optional(S.String),
+          trial: S.optional(S.Boolean),
+          expires: S.optional(S.String),
+          quota: S.optional(S.String),
+          autoRenews: S.optional(S.Boolean),
+          renewalPrice: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "EmailCreateMailboxResponseMailbox" });
+  }
+}
+function __c178(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          domain: S.optional(S.String),
+          mailbox: S.optional(__S(2832, __c177, 0)),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          passwordGenerated: S.optional(S.Boolean),
+          dnsChanges: S.optional(S.Unknown),
+          clientSettings: S.optional(S.Unknown),
+          orderId: S.optional(S.Number),
+          charged: S.optional(S.Number),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EmailCreateMailboxResponse" });
+  }
+}
+function __c179(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channel: S.optional(S.String),
+          dryRun: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/account/verifyPhone/send", code: 200 })),
+      ).annotate({ identifier: "AccountVerifyPhoneSendRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          sent: S.optional(S.Boolean),
+          codeAlreadySent: S.optional(S.Boolean),
+          alreadyVerified: S.optional(S.Boolean),
+          channel: S.optional(S.String),
+          sentTo: S.optional(S.String),
+          expiresInMinutes: S.optional(S.Number),
+          retryAfterSeconds: S.optional(S.Number),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AccountVerifyPhoneSendResponse" });
+  }
+}
+function __c180(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          address: S.String,
+          forwardTo: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/email/deleteForward/{domain}", code: 200 })),
+      ).annotate({ identifier: "EmailDeleteForwardRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          address: S.optional(S.String),
+          forwardTo: S.optional(S.String),
+          dnsRecordsRemoved: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "EmailDeleteForwardResponse" });
+  }
+}
+function __c181(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/email/getForwards/{domain}", code: 200 })),
+      ).annotate({ identifier: "EmailGetForwardsRequest" });
+  }
+}
+function __c182(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          address: S.optional(S.String),
+          forwardTo: S.optional(S.String),
+          created: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EmailGetForwardsResponseForwardsItem" });
+    case 1:
+      return S.Array(__S(2912, __c182, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          domain: S.optional(S.String),
+          forwards: S.optional(__S(2913, __c182, 1)),
+          limits: S.optional(__S(2800, __c175, 0)),
+          dnsConfigured: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "EmailGetForwardsResponse" });
+  }
+}
+function __c183(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/email/getMailboxes/{domain}", code: 200 })),
+      ).annotate({ identifier: "EmailGetMailboxesRequest" });
+  }
+}
+function __c184(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2832, __c177, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          mailboxes: S.optional(__S(2944, __c184, 0)),
+          price: S.optional(__S(1904, __c119, 0)),
+          clientSettings: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "EmailGetMailboxesResponse" });
+  }
+}
+function __c185(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          mailboxId: S.optional(S.Number),
+          address: S.optional(S.String),
+          cost: S.Number,
+          agreeToTerms: S.String,
+          payWith: S.optional(S.String),
+          cardPaymentId: S.optional(S.String),
+          usdcCheckoutId: S.optional(S.String),
+          dryRun: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/email/renewMailbox/{domain}", code: 200 })),
+      ).annotate({ identifier: "EmailRenewMailboxRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          mailbox: S.optional(S.Unknown),
+          orderId: S.optional(S.Number),
+          charged: S.optional(S.Number),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EmailRenewMailboxResponse" });
+  }
+}
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6453,7 +10443,22 @@ function __c99(j: number): any {
       ).annotate({ identifier: "EmailSetPasswordRequest" });
   }
 }
-function __c100(j: number): any {
+function __c187(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          address: S.String,
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          confirmDnsChanges: S.optional(S.Boolean),
+          dryRun: S.optional(S.Boolean),
+          mailboxId: S.optional(S.Number),
+        }).pipe(T.Http({ method: "POST", uri: "/email/setupMailbox/{domain}", code: 200 })),
+      ).annotate({ identifier: "EmailSetupMailboxRequest" });
+  }
+}
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6471,7 +10476,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "GetAccountInviteStatusResponse" });
   }
 }
-function __c101(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6492,7 +10497,15 @@ function __c101(j: number): any {
       ).annotate({ identifier: "GetApikeyResponse" });
   }
 }
-function __c102(j: number): any {
+function __c190(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/apikey/shares", code: 200 })),
+      ).annotate({ identifier: "GetApikeyShareRequest" });
+  }
+}
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6529,15 +10542,43 @@ function __c102(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          settings: S.optional(__S(817, __c102, 1)),
+          settings: S.optional(__S(3057, __c191, 1)),
           monthlySpend: S.optional(S.Number),
-          spendLimit: S.optional(__S(818, __c102, 2)),
-          topupLimit: S.optional(__S(819, __c102, 3)),
+          spendLimit: S.optional(__S(3058, __c191, 2)),
+          topupLimit: S.optional(__S(3059, __c191, 3)),
         }),
       ).annotate({ identifier: "ApiSettingsResponse" });
   }
 }
-function __c103(j: number): any {
+function __c192(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          codeChallenge: S.optional(S.String),
+          codeChallengeMethod: S.optional(S.String),
+          sandbox: S.optional(S.Boolean),
+          returnUrl: S.optional(S.String),
+          scopes: S.optional(__S(3072, __c192, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/apikey/request", code: 200 })),
+      ).annotate({ identifier: "ApikeyRequestRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          requestToken: S.String,
+          authUrl: S.optional(S.String),
+          expiration: S.optional(S.String),
+          deliveryMode: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApikeyRequestResponse" });
+  }
+}
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6545,9 +10586,27 @@ function __c103(j: number): any {
       ).annotate({ identifier: "GetAutoTopupRequest" });
   }
 }
-function __c104(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          role: S.optional(S.String),
+          type: S.optional(S.String),
+          brand: S.optional(S.String),
+          last4: S.optional(S.NullOr(S.String)),
+          expMonth: S.optional(S.NullOr(S.Number)),
+          expYear: S.optional(S.NullOr(S.Number)),
+          nickname: S.optional(S.NullOr(S.String)),
+          status: S.optional(S.String),
+          lastDeclineCode: S.optional(S.NullOr(S.String)),
+          retryAfter: S.optional(S.NullOr(S.String)),
+          usedForTopups: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "SavedCard" });
+    case 1:
+      return S.Array(__S(3104, __c194, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
@@ -6557,17 +10616,18 @@ function __c104(j: number): any {
           effectiveAmount: S.optional(S.Number),
           defaultAmount: S.optional(S.Number),
           paymentMethodOnFile: S.optional(S.Boolean),
+          cards: S.optional(__S(3105, __c194, 1)),
           balance: S.optional(S.Number),
           chargesToday: S.optional(S.Number),
           chargesThisMonth: S.optional(S.Number),
           maxChargesPerDay: S.optional(S.Number),
           maxChargesPerMonth: S.optional(S.Number),
-          warnings: S.optional(__S(880, __c110, 0)),
+          warnings: S.optional(__S(320, __c20, 0)),
         }),
       ).annotate({ identifier: "AutoTopupResponse" });
   }
 }
-function __c105(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6583,7 +10643,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "BalanceResponse" });
   }
 }
-function __c106(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6596,12 +10656,12 @@ function __c106(j: number): any {
         S.Struct({
           status: S.optional(S.String),
           available: S.optional(S.Boolean),
-          closeout: S.optional(__S(856, __c107, 0)),
+          closeout: S.optional(__S(3152, __c197, 0)),
         }),
       ).annotate({ identifier: "GetCloseoutResponse" });
   }
 }
-function __c107(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6628,7 +10688,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "CloseoutItem" });
   }
 }
-function __c108(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6638,42 +10698,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "GetCloudflareRequest" });
   }
 }
-function __c109(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domains: __S(880, __c110, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/domain/checkDomain", code: 200 })),
-      ).annotate({ identifier: "BulkDomainCheckDomainRequest" });
-    case 1:
-      return S.Record(S.String, S.Unknown);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          checked: S.optional(S.Number),
-          domains: S.optional(__S(873, __c109, 1)),
-          unresolved: S.optional(__S(880, __c110, 0)),
-          invalid: S.optional(__S(888, __c111, 0)),
-          limits: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "BulkDomainCheckDomainResponse" });
-  }
-}
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c111(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-  }
-}
-function __c112(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6683,7 +10708,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "GetDnsRequest" });
   }
 }
-function __c113(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6694,7 +10719,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "GetDnsRecordByIdRequest" });
   }
 }
-function __c114(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6704,7 +10729,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "GetDnsRecordsRequest" });
   }
 }
-function __c115(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6722,7 +10747,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "GetDnsRecordsByNameTypeRequest" });
   }
 }
-function __c116(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6732,7 +10757,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "GetDnssecRecordsRequest" });
   }
 }
-function __c117(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6760,12 +10785,31 @@ function __c117(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          domain: S.optional(__S(937, __c117, 1)),
+          domain: S.optional(__S(3265, __c204, 1)),
         }),
       ).annotate({ identifier: "GetDomainResponse" });
   }
 }
-function __c118(j: number): any {
+function __c205(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number,
+          dryRun: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/apikey/revokeShare", code: 200 })),
+      ).annotate({ identifier: "ApikeyRevokeShareRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          id: S.optional(S.Number),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApikeyRevokeShareResponse" });
+  }
+}
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6773,9 +10817,21 @@ function __c118(j: number): any {
           domain: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/domain/getGlue/{domain}", code: 200 })),
       ).annotate({ identifier: "GetDomainGlueRequest" });
+    case 1:
+      return S.Array(S.Unknown);
+    case 2:
+      return S.Array(__S(3297, __c206, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          hosts: S.optional(__S(3298, __c206, 2)),
+          glue: S.optional(__S(2529, __c158, 1)),
+        }),
+      ).annotate({ identifier: "GetDomainGlueResponse" });
   }
 }
-function __c119(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6785,7 +10841,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "GetDomainNsRequest" });
   }
 }
-function __c120(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6795,7 +10851,13 @@ function __c120(j: number): any {
           domain: S.optional(S.String.pipe(T.Query())),
           nameContains: S.optional(S.String.pipe(T.Query())),
           expiringWithinDays: S.optional(S.Number.pipe(T.Query())),
-          tlds: S.optional(__S(880, __c110, 0).pipe(T.Query())),
+          addedAfter: S.optional(S.String.pipe(T.Query())),
+          addedBefore: S.optional(S.String.pipe(T.Query())),
+          createdAfter: S.optional(S.String.pipe(T.Query())),
+          createdBefore: S.optional(S.String.pipe(T.Query())),
+          expiresAfter: S.optional(S.String.pipe(T.Query())),
+          expiresBefore: S.optional(S.String.pipe(T.Query())),
+          tlds: S.optional(__S(320, __c20, 0).pipe(T.Query())),
           autoRenew: S.optional(S.String.pipe(T.Query())),
           apiAccess: S.optional(S.String.pipe(T.Query())),
           sortName: S.optional(S.String.pipe(T.Query())),
@@ -6804,7 +10866,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "GetDomainsRequest" });
   }
 }
-function __c121(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6815,7 +10877,7 @@ function __c121(j: number): any {
         }),
       ).annotate({ identifier: "DomainListAllResponseDomainsItemLabelsItem" });
     case 1:
-      return S.Array(__S(968, __c121, 0));
+      return S.Array(__S(3344, __c209, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6823,28 +10885,29 @@ function __c121(j: number): any {
           status: S.optional(S.String),
           tld: S.optional(S.String),
           createDate: S.optional(S.String),
+          addedDate: S.optional(S.String),
           expireDate: S.optional(S.String),
           securityLock: S.optional(S.Number),
           whoisPrivacy: S.optional(S.Number),
           autoRenew: S.optional(S.Number),
           apiAccess: S.optional(S.Number),
           notLocal: S.optional(S.Number),
-          labels: S.optional(__S(969, __c121, 1)),
+          labels: S.optional(__S(3345, __c209, 1)),
         }),
       ).annotate({ identifier: "DomainListAllResponseDomainsItem" });
     case 3:
-      return S.Array(__S(970, __c121, 2));
+      return S.Array(__S(3346, __c209, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           status: S.String,
           count: S.optional(S.Number),
-          domains: __S(971, __c121, 3),
+          domains: __S(3347, __c209, 3),
         }),
       ).annotate({ identifier: "DomainListAllResponse" });
   }
 }
-function __c122(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6854,34 +10917,27 @@ function __c122(j: number): any {
       ).annotate({ identifier: "GetDomainUrlForwardingRequest" });
   }
 }
-function __c123(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           domain: S.String.pipe(T.Label()),
-          cost: S.Number,
-          payWith: S.optional(S.String),
-          usdcCheckoutId: S.optional(S.String),
-          dryRun: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/closeout/buy/{domain}", code: 200 })),
-      ).annotate({ identifier: "CloseoutBuyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          domain: S.optional(S.String),
-          orderId: S.optional(S.Number),
-          closeoutId: S.optional(S.Number),
-          closeoutPrice: S.optional(S.Number),
-          renewalPrice: S.optional(S.Number),
-          totalPrice: S.optional(S.Number),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CloseoutBuyResponse" });
+        }).pipe(T.Http({ method: "GET", uri: "/email/getForwards/{domain}", code: 200 })),
+      ).annotate({ identifier: "GetEmailForwardsRequest" });
   }
 }
-function __c124(j: number): any {
+function __c212(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/email/getMailboxes/{domain}", code: 200 })),
+      ).annotate({ identifier: "GetEmailMailboxesRequest" });
+  }
+}
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6890,6 +10946,74 @@ function __c124(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/hosting/get/{domain}", code: 200 })),
       ).annotate({ identifier: "GetHostingRequest" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          issued: S.optional(S.Boolean),
+          expiresAt: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "WordPressSiteSsl" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          usedBytes: S.optional(S.NullOr(S.Number)),
+          quotaBytes: S.optional(S.NullOr(S.Number)),
+          percentUsed: S.optional(S.NullOr(S.Number)),
+          note: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WordPressSiteStorage" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          visible: S.optional(S.NullOr(S.Boolean)),
+          checkedAt: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "WordPressSiteSearchVisibility" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          url: S.optional(S.NullOr(S.String)),
+          status: S.optional(S.String),
+          operation: S.optional(S.NullOr(S.String)),
+          operationState: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "WordPressSiteStaging" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          type: S.optional(S.String),
+          target: S.optional(S.String),
+          state: S.optional(S.String),
+          createdAt: S.optional(S.String),
+          updatedAt: S.optional(S.NullOr(S.String)),
+          error: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "WordPressSiteOperationsItem" });
+    case 6:
+      return S.Array(__S(3413, __c213, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          siteId: S.optional(S.NullOr(S.Number)),
+          phpVersion: S.optional(S.NullOr(S.String)),
+          availablePhpVersions: S.optional(S.NullOr(__S(320, __c20, 0))),
+          wordPressVersion: S.optional(S.NullOr(S.String)),
+          ssl: S.optional(S.NullOr(__S(3409, __c213, 1))),
+          storage: S.optional(S.NullOr(__S(3410, __c213, 2))),
+          searchVisibility: S.optional(S.NullOr(__S(3411, __c213, 3))),
+          staging: S.optional(S.NullOr(__S(3412, __c213, 4))),
+          operations: S.optional(S.NullOr(__S(3414, __c213, 6))),
+        }),
+      ).annotate({ identifier: "WordPressSite" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          restUrl: S.optional(S.String),
+          adminUrl: S.optional(S.String),
+          site: S.optional(__S(3415, __c213, 7)),
+        }),
+      ).annotate({ identifier: "GetHostingResponseHostingWordpress" });
+    case 9:
       return S.suspend(() =>
         S.Struct({
           domain: S.optional(S.String),
@@ -6902,18 +11026,61 @@ function __c124(j: number): any {
           expireDate: S.optional(S.String),
           pendingRetire: S.optional(S.Boolean),
           cost: S.optional(S.Unknown),
+          wordpress: S.optional(__S(3416, __c213, 8)),
         }),
       ).annotate({ identifier: "GetHostingResponseHosting" });
-    case 2:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          hosting: S.optional(S.NullOr(__S(993, __c124, 1))),
+          hosting: S.optional(S.NullOr(__S(3417, __c213, 9))),
         }),
       ).annotate({ identifier: "GetHostingResponse" });
   }
 }
-function __c125(j: number): any {
+function __c214(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          domain: S.String.pipe(T.Label()),
+          staging: S.optional(S.Boolean.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          type: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/hosting/backups/{domain}", code: 200 })),
+      ).annotate({ identifier: "GetHostingBackupRequest" });
+  }
+}
+function __c215(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          type: S.optional(S.String),
+          onDemand: S.optional(S.Boolean),
+          createdAt: S.optional(S.String),
+          bytes: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "GetHostingBackupResponseBackupsItem" });
+    case 1:
+      return S.Array(__S(3440, __c215, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+          domain: S.optional(S.String),
+          target: S.optional(S.String),
+          backups: S.optional(__S(3441, __c215, 1)),
+          count: S.optional(S.Number),
+          total: S.optional(S.Number),
+          retention: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetHostingBackupResponse" });
+  }
+}
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6941,20 +11108,20 @@ function __c125(j: number): any {
           status: S.optional(S.String),
           price_cents: S.optional(S.Number),
           discount_cents: S.optional(S.Number),
-          tags: S.optional(__S(880, __c110, 0)),
+          tags: S.optional(__S(320, __c20, 0)),
         }),
       ).annotate({ identifier: "GetInvoiceResponseInvoiceItemsItem" });
     case 3:
-      return S.Array(__S(1002, __c125, 2));
+      return S.Array(__S(3458, __c216, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
           date: S.optional(S.String),
           state: S.optional(S.String),
-          billTo: S.optional(__S(1001, __c125, 1)),
-          paymentMethods: S.optional(__S(880, __c110, 0)),
-          items: S.optional(__S(1003, __c125, 3)),
+          billTo: S.optional(__S(3457, __c216, 1)),
+          paymentMethods: S.optional(__S(320, __c20, 0)),
+          items: S.optional(__S(3459, __c216, 3)),
           gross_cents: S.optional(S.Number),
           refunded_cents: S.optional(S.Number),
           total_cents: S.optional(S.Number),
@@ -6970,12 +11137,12 @@ function __c125(j: number): any {
       return S.suspend(() =>
         S.Struct({
           status: S.optional(S.String),
-          invoice: S.optional(__S(1004, __c125, 4)),
+          invoice: S.optional(__S(3460, __c216, 4)),
         }),
       ).annotate({ identifier: "GetInvoiceResponse" });
   }
 }
-function __c126(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6995,412 +11162,6 @@ function __c126(j: number): any {
           downloadExpires: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "GetInvoicePdfResponse" });
-  }
-}
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/ip", code: 200 })),
-      ).annotate({ identifier: "GetIpRequest" });
-  }
-}
-function __c128(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.String,
-          yourIp: S.String,
-          xForwardedFor: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "IpResponse" });
-  }
-}
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/ping", code: 200 })),
-      ).annotate({ identifier: "GetPingRequest" });
-  }
-}
-function __c130(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.String,
-          yourIp: S.String,
-          xForwardedFor: S.optional(S.String),
-          credentialsValid: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "GetPingResponse" });
-  }
-}
-function __c131(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tld: S.optional(S.String),
-          tlds: S.optional(S.Unknown),
-        }).pipe(T.Http({ method: "POST", uri: "/pricing/get", code: 200 })),
-      ).annotate({ identifier: "GetPricingRequest" });
-  }
-}
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.optional(S.String),
-          max_per_user: S.optional(S.Number),
-          first_year_only: S.optional(S.String),
-          type: S.optional(S.String),
-          amount: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GetPricingResponsePricingValueCouponsValue" });
-    case 1:
-      return S.Record(S.String, __S(1056, __c132, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          registration: S.optional(S.String),
-          renewal: S.optional(S.String),
-          transfer: S.optional(S.String),
-          specialType: S.optional(S.String),
-          coupons: S.optional(__S(1057, __c132, 1)),
-        }),
-      ).annotate({ identifier: "GetPricingResponsePricingValue" });
-    case 3:
-      return S.Record(S.String, __S(1058, __c132, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          unsupported: S.optional(__S(880, __c110, 0)),
-          pricing: S.optional(__S(1059, __c132, 3)),
-        }),
-      ).annotate({ identifier: "GetPricingResponse" });
-  }
-}
-function __c133(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          tld: S.optional(S.String.pipe(T.Query())),
-          tlds: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/pricing/get", code: 200 })),
-      ).annotate({ identifier: "GetPricingGetRequest" });
-  }
-}
-function __c134(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/ssl/retrieve/{domain}", code: 200 })),
-      ).annotate({ identifier: "GetSslRequest" });
-  }
-}
-function __c135(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          certificatechain: S.optional(S.String),
-          privatekey: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          publickey: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GetSslResponse" });
-  }
-}
-function __c136(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/ssl/retrieve/{domain}", code: 200 })),
-      ).annotate({ identifier: "GetSslRetrieveRequest" });
-  }
-}
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/domain/getTransfer/{domain}", code: 200 })),
-      ).annotate({ identifier: "GetTransferGetRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          transfer: S.optional(__S(1104, __c138, 0)),
-        }),
-      ).annotate({ identifier: "GetTransferResponse" });
-  }
-}
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.optional(S.String),
-          status: S.optional(S.String),
-          statusDescription: S.optional(S.String),
-          transferDate: S.optional(S.String),
-          orderId: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "GetTransferResponseTransfer" });
-  }
-}
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          type: S.String,
-          name: S.optional(S.String),
-          content: S.optional(S.String),
-          ttl: S.optional(S.Number),
-          priority: S.optional(S.Number),
-          proxied: S.optional(S.Boolean),
-          comment: S.optional(S.String),
-          data: S.optional(S.Unknown),
-          dryRun: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/cloudflare/createRecord/{domain}", code: 200 })),
-      ).annotate({ identifier: "CloudflareCreateRecordRequest" });
-  }
-}
-function __c140(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "CloudflareCreateRecordResponse",
-      });
-  }
-}
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/webhook/get/{id}", code: 200 })),
-      ).annotate({ identifier: "GetWebhookRequest" });
-  }
-}
-function __c142(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          role: S.optional(S.String),
-          acknowledgeFullAccess: S.optional(S.Boolean),
-          name: S.optional(S.String),
-          dryRun: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/hosting/createWpCredentials/{domain}", code: 200 }),
-        ),
-      ).annotate({ identifier: "HostingCreateWpCredentialsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          username: S.optional(S.String),
-          applicationPassword: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          role: S.optional(S.String),
-          name: S.optional(S.String),
-          restUrl: S.optional(S.String),
-          authorization: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HostingCreateWpCredentialsResponseCredentials" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          credentials: S.optional(__S(1137, __c142, 1)),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HostingCreateWpCredentialsResponse" });
-  }
-}
-function __c143(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          path: S.String,
-          recursive: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/hosting/deleteFile/{domain}", code: 200 })),
-      ).annotate({ identifier: "HostingDeleteFileRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          deleted: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HostingDeleteFileResponse" });
-  }
-}
-function __c144(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          uuid: S.optional(S.String),
-          all: S.optional(S.Boolean),
-          wpUser: S.optional(S.String),
-          dryRun: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/hosting/deleteWpCredentials/{domain}", code: 200 }),
-        ),
-      ).annotate({ identifier: "HostingDeleteWpCredentialsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          revoked: S.optional(S.String),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HostingDeleteWpCredentialsResponse" });
-  }
-}
-function __c145(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/hosting/files/{domain}", code: 200 })),
-      ).annotate({ identifier: "HostingFilesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          path: S.optional(S.String),
-          files: S.optional(__S(880, __c110, 0)),
-        }),
-      ).annotate({ identifier: "HostingFilesResponse" });
-  }
-}
-function __c146(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          wpUser: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/hosting/getWpCredentials/{domain}", code: 200 })),
-      ).annotate({ identifier: "HostingGetWpCredentialsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          wpUser: S.optional(S.String),
-          credentials: S.optional(__S(888, __c111, 0)),
-        }),
-      ).annotate({ identifier: "HostingGetWpCredentialsResponse" });
-  }
-}
-function __c147(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          path: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/hosting/makeDir/{domain}", code: 200 })),
-      ).annotate({ identifier: "HostingMakeDirRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          created: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "HostingMakeDirResponse" });
-  }
-}
-function __c148(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/hosting/plans", code: 200 })),
-      ).annotate({ identifier: "HostingPlansRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          product: S.optional(S.String),
-          plan: S.optional(S.String),
-          sku: S.optional(S.String),
-          interval: S.optional(S.String),
-          price: S.optional(S.Number),
-          priceFormatted: S.optional(S.String),
-          trialDays: S.optional(S.Number),
-          name: S.optional(S.String),
-          features: S.optional(S.Unknown),
-        }),
-      ).annotate({ identifier: "HostingPlansResponsePlansItem" });
-    case 2:
-      return S.Array(__S(1185, __c148, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          plans: S.optional(__S(1186, __c148, 2)),
-        }),
-      ).annotate({ identifier: "HostingPlansResponse" });
-  }
-}
-function __c149(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          domain: S.String.pipe(T.Label()),
-          records: S.optional(__S(505, __c63, 1)),
-        }).pipe(T.Http({ method: "POST", uri: "/dns/import/{domain}", code: 200 })),
-      ).annotate({ identifier: "ImportDnsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          status: S.optional(S.String),
-          domain: S.optional(S.String),
-          created: S.optional(S.Number),
-          skipped: S.optional(S.Number),
-          failed: S.optional(S.Number),
-          failures: S.optional(__S(888, __c111, 0)),
-          warnings: S.optional(__S(880, __c110, 0)),
-        }),
-      ).annotate({ identifier: "ImportDnsResponse" });
-  }
-}
-function __c150(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          start: S.optional(S.Number),
-          includeLabels: S.optional(S.String),
-          domain: S.optional(S.String),
-          nameContains: S.optional(S.String),
-          expiringWithinDays: S.optional(S.Number),
-          tlds: S.optional(__S(880, __c110, 0)),
-          autoRenew: S.optional(S.String),
-          apiAccess: S.optional(S.String),
-          sortName: S.optional(S.String),
-          sortDirection: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/domain/listAll", code: 200 })),
-      ).annotate({ identifier: "ListDomainsRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

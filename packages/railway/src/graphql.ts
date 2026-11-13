@@ -144,6 +144,7 @@ const RailwayRateLimitedSpec: ErrorSpec<RailwayRateLimited> = errorSpec(
       code: "INTERNAL_SERVER_ERROR",
       messageIncludes: "one environment can be created per user every 30s",
     },
+    { code: "BAD_USER_INPUT", messageIncludes: "creating environments too quickly" },
   ],
   { retryable: true, global: true },
 );
@@ -322,7 +323,6 @@ export type RailwayError =
 export type AccessGroupSource = "MANUAL";
 
 export type ActiveFeatureFlag =
-  | "ACTIVITY_FEED_HISTORY"
   | "AGENT_BOOTSTRAPS"
   | "AGENT_BYOK"
   | "AGENT_BYOK_ANTHROPIC"
@@ -330,6 +330,7 @@ export type ActiveFeatureFlag =
   | "AGENT_BYOK_FIREWORKS"
   | "AGENT_BYOK_OPENAI"
   | "AGENT_BYOK_OPENROUTER"
+  | "AGENT_CLAUDE_CONNECT"
   | "AGENT_CONNECTORS"
   | "AGENT_TASKS"
   | "CHAT_SANDBOX"
@@ -337,24 +338,27 @@ export type ActiveFeatureFlag =
   | "CLOUD_AGENTS"
   | "CLOUD_AGENT_BUILDER"
   | "CLOUD_AGENT_CHAT"
+  | "CONNECTOR_TUNNELS"
   | "CS_MCP_EXPRESS"
-  | "EMAIL_FORWARDING"
   | "HA_FOR_MONGO"
   | "IN_DASHBOARD_SUPPORT"
   | "MAGIC_CONFIG"
-  | "MYSQL_PITR"
+  | "MANAGED_DATABASE_EDIT_WARNING"
+  | "MANAGED_DATABASE_SETUP"
   | "PRIORITY_BOARDING"
   | "RAILWAY_AGENT_DASHBOARD"
-  | "RAILWAY_AGENT_FEED"
+  | "RAILWAY_AUTOMATIONS"
   | "TRACING"
   | "USAGE_INSIGHTS"
+  | "VERIFIERS"
   | "VM_STORAGE_TRACES";
 
 export type ActivePlatformFlag =
+  | "ACTIVITY_FEED_FILTERS_KILLSWITCH"
+  | "AGENT_CACHE_TOKEN_BILLING"
   | "AGENT_USAGE_CH_INGEST"
   | "ALERT_SUS_USERS_CRON_KILLSWITCH"
   | "BLOCK_TRIAL_RESTRICTION_APPEALS"
-  | "BUILDER_V4_ROLLOUT"
   | "BUILD_DEPLOY_QUEUE_V2"
   | "CAC_T0_KILLSWITCH"
   | "CANVAS_CROSS_ENV_GUARD_ENFORCE"
@@ -371,6 +375,7 @@ export type ActivePlatformFlag =
   | "DEV_STUDIO_ANON_PROVISIONS"
   | "DOMAIN_RECONCILE_KILLSWITCH"
   | "EMAIL_FORWARDING_KILLSWITCH"
+  | "ENVIRONMENT_PATCH_ARCHIVE_PRODUCE"
   | "IN_DASHBOARD_SUPPORT"
   | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
   | "LOGS_LONG_WINDOW_CHUNKING"
@@ -382,6 +387,7 @@ export type ActivePlatformFlag =
   | "NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT"
   | "NUDGES"
   | "NUDGE_BACKUP_SCHEDULE_MISSING"
+  | "NUDGE_CONNECTOR_NEEDS_ATTENTION"
   | "NUDGE_FIRST_DEPLOY_FAILED"
   | "NUDGE_PUBLIC_DB_URL_WITHIN_PROJECT"
   | "NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE"
@@ -389,12 +395,17 @@ export type ActivePlatformFlag =
   | "OAUTH_DCR_KILLSWITCH"
   | "PRE_DEPLOY_TIMEOUT_KILLSWITCH"
   | "PROJECT_HISTORY_DUAL_WRITE"
+  | "RADAR_DNS_ANON_ENFORCEMENT"
   | "RADAR_HTTP_PATTERN_DETECTION"
+  | "RADAR_SIGNUP_ENFORCE"
   | "RELAY_SPEND_RESERVATION_KILLSWITCH"
   | "REMOVE_DEPLOYMENT_COMPACT"
+  | "RESTRICTION_ABUSE_QUEUE"
   | "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL"
   | "SPLIT_USAGE_QUERIES"
   | "SSH_ANON_PROVISIONING"
+  | "SSH_ANON_REFUSE_NO_PTY"
+  | "SSH_ANON_REFUSE_ZERO_SIZE_PTY"
   | "SSH_TRIAL_GUEST_IDLE_SLEEP"
   | "STRIPE_INTERACTIVE_SUBSCRIPTION_ON_SESSION"
   | "STRIPE_METERS_NEW_ACCOUNTS"
@@ -403,14 +414,21 @@ export type ActivePlatformFlag =
   | "TRIAL_RELAY_MODEL_ALLOWLIST_KILLSWITCH"
   | "UPDATED_VM_QUERIES"
   | "USAGE_CH_READS"
+  | "VERIFIERS"
   | "VM_COUPON_MIGRATION"
+  | "VM_NEW_SERVICES_HOBBY_ROLLOUT"
+  | "VM_NEW_SERVICES_TRIAL_ROLLOUT"
   | "VM_USAGE_CH_INGEST"
-  | "WORKSPACE_MCP_KILLSWITCH";
+  | "WORKSPACE_MCP_KILLSWITCH"
+  | "X_AGENT_BUILDS";
 
-export type ActiveProjectFeatureFlag = "PLACEHOLDER" | "RBS_VOLUMES";
+export type ActiveProjectFeatureFlag =
+  | "LEGACY_CONFIG_AS_CODE"
+  | "PLACEHOLDER"
+  | "RBS_VOLUMES"
+  | "VM_NEW_SERVICES";
 
 export type ActiveServiceFeatureFlag =
-  | "BUILDER_V4"
   | "COPY_VOLUME_TO_ENVIRONMENT"
   | "PLACEHOLDER"
   | "SKIPPED_BUILDS"
@@ -457,6 +475,9 @@ export type CertificateStatusDetailed =
   | "CERTIFICATE_STATUS_TYPE_DETAILED_UNSPECIFIED"
   | "UNRECOGNIZED";
 
+/** What a BLOCKED session waits on: a tool call to approve, a question to answer, or a login or credential. */
+export type CloudAgentBlockedKind = "AUTH" | "PERMISSION" | "QUESTION";
+
 /** Capture progress of a cloud agent checkpoint. */
 export type CloudAgentCheckpointStatus = "FAILED" | "IN_PROGRESS" | "SUCCEEDED";
 
@@ -471,7 +492,13 @@ export type CloudAgentStatus =
   | "SLEEPING"
   | "STARTING";
 
-export type CloudAgentTaskInteractionAction = "ACCEPT" | "ALLOW" | "CANCEL" | "DECLINE" | "DENY";
+export type CloudAgentTaskInteractionAction =
+  | "ACCEPT"
+  | "ALLOW"
+  | "APPROVE"
+  | "CANCEL"
+  | "DECLINE"
+  | "DENY";
 
 export type CloudAgentTaskMode = "FOLLOW_UP" | "PROMPT" | "STEER";
 
@@ -483,6 +510,9 @@ export type CloudAgentTaskStatus =
   | "RUNNING";
 
 export type CloudAgentTaskVia = "API" | "MCP";
+
+/** Where a cloud agent's work stands, named after the OSC 7501 program-status states. */
+export type CloudAgentWorkState = "BLOCKED" | "DONE" | "ERROR" | "IDLE" | "WORKING";
 
 export type CnameCheckStatus = "ERROR" | "INFO" | "INVALID" | "VALID" | "WAITING";
 
@@ -564,6 +594,9 @@ export type EventSeverity = "CRITICAL" | "INFO" | "NOTICE" | "WARNING";
 
 /** Supported function runtime environments */
 export type FunctionRuntimeName = "bun";
+
+/** A named reading of history, not a peer of the filter's own fields: a mode expands into them. */
+export type HistoryFilterMode = "ACTIVITY_FEED";
 
 /** Which HTTP metric an HTTP_METRICS_ITEM widget renders. */
 export type HttpMetricKind = "LATENCY" | "REQUESTS" | "STATUS_RATIO";
@@ -679,10 +712,11 @@ export type PitrHaWorkflowPhase =
 export type Plan = "FREE" | "HOBBY" | "PRO";
 
 export type PlatformFeatureFlag =
+  | "ACTIVITY_FEED_FILTERS_KILLSWITCH"
+  | "AGENT_CACHE_TOKEN_BILLING"
   | "AGENT_USAGE_CH_INGEST"
   | "ALERT_SUS_USERS_CRON_KILLSWITCH"
   | "BLOCK_TRIAL_RESTRICTION_APPEALS"
-  | "BUILDER_V4_ROLLOUT"
   | "BUILD_DEPLOY_QUEUE_V2"
   | "CAC_T0_KILLSWITCH"
   | "CANVAS_CROSS_ENV_GUARD_ENFORCE"
@@ -699,6 +733,7 @@ export type PlatformFeatureFlag =
   | "DEV_STUDIO_ANON_PROVISIONS"
   | "DOMAIN_RECONCILE_KILLSWITCH"
   | "EMAIL_FORWARDING_KILLSWITCH"
+  | "ENVIRONMENT_PATCH_ARCHIVE_PRODUCE"
   | "IN_DASHBOARD_SUPPORT"
   | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
   | "LOGS_LONG_WINDOW_CHUNKING"
@@ -710,6 +745,7 @@ export type PlatformFeatureFlag =
   | "NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT"
   | "NUDGES"
   | "NUDGE_BACKUP_SCHEDULE_MISSING"
+  | "NUDGE_CONNECTOR_NEEDS_ATTENTION"
   | "NUDGE_FIRST_DEPLOY_FAILED"
   | "NUDGE_PUBLIC_DB_URL_WITHIN_PROJECT"
   | "NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE"
@@ -717,12 +753,17 @@ export type PlatformFeatureFlag =
   | "OAUTH_DCR_KILLSWITCH"
   | "PRE_DEPLOY_TIMEOUT_KILLSWITCH"
   | "PROJECT_HISTORY_DUAL_WRITE"
+  | "RADAR_DNS_ANON_ENFORCEMENT"
   | "RADAR_HTTP_PATTERN_DETECTION"
+  | "RADAR_SIGNUP_ENFORCE"
   | "RELAY_SPEND_RESERVATION_KILLSWITCH"
   | "REMOVE_DEPLOYMENT_COMPACT"
+  | "RESTRICTION_ABUSE_QUEUE"
   | "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL"
   | "SPLIT_USAGE_QUERIES"
   | "SSH_ANON_PROVISIONING"
+  | "SSH_ANON_REFUSE_NO_PTY"
+  | "SSH_ANON_REFUSE_ZERO_SIZE_PTY"
   | "SSH_TRIAL_GUEST_IDLE_SLEEP"
   | "STRIPE_INTERACTIVE_SUBSCRIPTION_ON_SESSION"
   | "STRIPE_METERS_NEW_ACCOUNTS"
@@ -731,9 +772,13 @@ export type PlatformFeatureFlag =
   | "TRIAL_RELAY_MODEL_ALLOWLIST_KILLSWITCH"
   | "UPDATED_VM_QUERIES"
   | "USAGE_CH_READS"
+  | "VERIFIERS"
   | "VM_COUPON_MIGRATION"
+  | "VM_NEW_SERVICES_HOBBY_ROLLOUT"
+  | "VM_NEW_SERVICES_TRIAL_ROLLOUT"
   | "VM_USAGE_CH_INGEST"
-  | "WORKSPACE_MCP_KILLSWITCH";
+  | "WORKSPACE_MCP_KILLSWITCH"
+  | "X_AGENT_BUILDS";
 
 export type PlatformFeatureFlagType = "BOOLEAN" | "PERCENTAGE";
 
@@ -893,6 +938,8 @@ export type WorkspacePolicyName =
   | "RESTRICT_PUBLIC_TCP_PROXIES"
   | "RESTRICT_RAILWAY_DOMAIN_GENERATION";
 
+export type XAgentClaimStatus = "CLAIMABLE" | "CLAIMED" | "UNAVAILABLE" | "UNDER_REVIEW";
+
 export interface AccessGroupCreateInput {
   readonly name: string;
   readonly role: "ADMIN" | "MEMBER" | "VIEWER";
@@ -994,6 +1041,7 @@ export interface CliEventTrackInput {
   readonly sessionId?: string | null | undefined;
   readonly subCommand?: string | null | undefined;
   readonly success: boolean;
+  readonly ttyStreams?: string | null | undefined;
   readonly workspaceId?: string | null | undefined;
 }
 
@@ -1061,14 +1109,20 @@ export interface CloudAgentStateReportInput {
 export interface CloudAgentTaskDispatchInput {
   readonly agentName?: string | null | undefined;
   readonly cloudAgentId?: string | null | undefined;
+  readonly context?: unknown | null | undefined;
+  readonly conversationKey?: string | null | undefined;
   readonly environmentId: string;
   readonly externalRef?: string | null | undefined;
   readonly idempotencyKey?: string | null | undefined;
+  readonly images?: ReadonlyArray<CloudAgentTaskImageInput> | null | undefined;
+  readonly interactive?: boolean | null | undefined;
   readonly metadata?: unknown | null | undefined;
   readonly mode?: "FOLLOW_UP" | "PROMPT" | "STEER" | null | undefined;
+  readonly model?: string | null | undefined;
   readonly outputSchema?: unknown | null | undefined;
   readonly projectId: string;
   readonly prompt: string;
+  readonly reasoningEffort?: string | null | undefined;
   readonly replyToTaskId?: string | null | undefined;
   readonly sessionId?: string | null | undefined;
   readonly source?: CloudAgentSourceInput | null | undefined;
@@ -1077,8 +1131,16 @@ export interface CloudAgentTaskDispatchInput {
   readonly webhookUrl?: string | null | undefined;
 }
 
+/** An image the model sees with the prompt: PNG, JPEG, or WebP. Send data or url, not both. */
+export interface CloudAgentTaskImageInput {
+  readonly data?: string | null | undefined;
+  readonly filename?: string | null | undefined;
+  readonly mediaType?: string | null | undefined;
+  readonly url?: string | null | undefined;
+}
+
 export interface CloudAgentTaskRespondInput {
-  readonly action: "ACCEPT" | "ALLOW" | "CANCEL" | "DECLINE" | "DENY";
+  readonly action: "ACCEPT" | "ALLOW" | "APPROVE" | "CANCEL" | "DECLINE" | "DENY";
   readonly answeredBy?: string | null | undefined;
   readonly content?: unknown | null | undefined;
   readonly requestId: string;
@@ -1103,6 +1165,12 @@ export interface CustomDomainCreateInput {
   readonly projectId: string;
   readonly serviceId: string;
   readonly targetPort?: number | null | undefined;
+}
+
+export interface DatabasePasswordResetInput {
+  readonly databaseType: string;
+  readonly environmentId: string;
+  readonly serviceId: string;
 }
 
 export interface DeploymentInstanceExecutionCreateInput {
@@ -1281,7 +1349,6 @@ export interface ExplicitOwnerInput {
 
 export interface FeatureFlagToggleInput {
   readonly flag:
-    | "ACTIVITY_FEED_HISTORY"
     | "AGENT_BOOTSTRAPS"
     | "AGENT_BYOK"
     | "AGENT_BYOK_ANTHROPIC"
@@ -1289,6 +1356,7 @@ export interface FeatureFlagToggleInput {
     | "AGENT_BYOK_FIREWORKS"
     | "AGENT_BYOK_OPENAI"
     | "AGENT_BYOK_OPENROUTER"
+    | "AGENT_CLAUDE_CONNECT"
     | "AGENT_CONNECTORS"
     | "AGENT_TASKS"
     | "CHAT_SANDBOX"
@@ -1296,17 +1364,19 @@ export interface FeatureFlagToggleInput {
     | "CLOUD_AGENTS"
     | "CLOUD_AGENT_BUILDER"
     | "CLOUD_AGENT_CHAT"
+    | "CONNECTOR_TUNNELS"
     | "CS_MCP_EXPRESS"
-    | "EMAIL_FORWARDING"
     | "HA_FOR_MONGO"
     | "IN_DASHBOARD_SUPPORT"
     | "MAGIC_CONFIG"
-    | "MYSQL_PITR"
+    | "MANAGED_DATABASE_EDIT_WARNING"
+    | "MANAGED_DATABASE_SETUP"
     | "PRIORITY_BOARDING"
     | "RAILWAY_AGENT_DASHBOARD"
-    | "RAILWAY_AGENT_FEED"
+    | "RAILWAY_AUTOMATIONS"
     | "TRACING"
     | "USAGE_INSIGHTS"
+    | "VERIFIERS"
     | "VM_STORAGE_TRACES";
 }
 
@@ -1323,18 +1393,13 @@ export interface GitHubRepoUpdateInput {
   readonly serviceId: string;
 }
 
-export interface HerokuImportVariablesInput {
-  readonly environmentId: string;
-  readonly herokuAppId: string;
-  readonly projectId: string;
-  readonly serviceId: string;
-}
-
 export interface HistoryFilterInput {
   readonly actions?: ReadonlyArray<string> | null | undefined;
+  readonly mode?: "ACTIVITY_FEED" | null | undefined;
   readonly objects?: ReadonlyArray<string> | null | undefined;
   readonly outcomes?: ReadonlyArray<string> | null | undefined;
   readonly serviceIds?: ReadonlyArray<string> | null | undefined;
+  readonly since?: string | null | undefined;
 }
 
 export interface IntegrationCreateInput {
@@ -1505,13 +1570,8 @@ export interface ProjectCreateRepo {
 }
 
 export interface ProjectFeatureFlagToggleInput {
-  readonly flag: "PLACEHOLDER" | "RBS_VOLUMES";
+  readonly flag: "LEGACY_CONFIG_AS_CODE" | "PLACEHOLDER" | "RBS_VOLUMES" | "VM_NEW_SERVICES";
   readonly projectId: string;
-}
-
-export interface ProjectInviteUserInput {
-  readonly email: string;
-  readonly link: string;
 }
 
 export interface ProjectInvitee {
@@ -1734,7 +1794,6 @@ export interface ServiceDomainUpdateInput {
 
 export interface ServiceFeatureFlagToggleInput {
   readonly flag:
-    | "BUILDER_V4"
     | "COPY_VOLUME_TO_ENVIRONMENT"
     | "PLACEHOLDER"
     | "SKIPPED_BUILDS"
@@ -2176,7 +2235,7 @@ export interface AccessGroupMember {
   readonly createdAt: string;
   readonly id: string;
   readonly updatedAt: string;
-  readonly user: User;
+  readonly user: UserSummary;
   readonly userId: string;
 }
 
@@ -2281,6 +2340,8 @@ export interface AllDomains {
 }
 
 export interface ApiToken {
+  readonly createdAt: string;
+  readonly creator: UserSummary;
   readonly displayToken: string;
   readonly expiresAt: string | null;
   readonly id: string;
@@ -2441,6 +2502,7 @@ export interface ClearanceTokenCreator {
 /** A persistent cloud agent for running coding harnesses. */
 export interface CloudAgent {
   readonly agentWsUrl: string | null;
+  readonly archivedAt: string | null;
   readonly consoleTargetId: string | null;
   readonly createdAt: string;
   readonly domain: string | null;
@@ -2448,21 +2510,24 @@ export interface CloudAgent {
   readonly environmentId: string;
   readonly id: string;
   readonly name: string;
+  readonly privateDomain: string | null;
   readonly project: Project;
   readonly projectId: string;
   readonly region: string | null;
   readonly sessions: ReadonlyArray<CloudAgentSnapshot>;
   readonly source: CloudAgentSource | null;
   readonly status: "CRASHED" | "DELETING" | "FAILED" | "RUNNING" | "SLEEPING" | "STARTING";
+  readonly workStatus: CloudAgentWorkStatus;
 }
 
 /** A checkpoint of a cloud agent's disk. */
 export interface CloudAgentCheckpoint {
   readonly createdAt: string;
-  readonly environmentId: string;
+  readonly environmentId: string | null;
   readonly failureReason: string | null;
   readonly id: string;
   readonly name: string | null;
+  readonly projectId: string;
   readonly region: string;
   readonly status: "FAILED" | "IN_PROGRESS" | "SUCCEEDED";
 }
@@ -2497,6 +2562,7 @@ export interface CloudAgentSnapshot {
   readonly terminal: boolean;
   readonly title: string | null;
   readonly updatedAt: string;
+  readonly workStatus: CloudAgentWorkStatus;
 }
 
 /** Workspace provenance: the GitHub repo cloned into the agent's workspace at create time. */
@@ -2511,6 +2577,7 @@ export interface CloudAgentSource {
 
 /** Task lifecycle and correlation. Read cloudAgentTask for the latest session response. */
 export interface CloudAgentTask {
+  readonly attachments: ReadonlyArray<CloudAgentTaskAttachment>;
   readonly cloudAgentId: string | null;
   readonly completedAt: string | null;
   readonly createdAt: string;
@@ -2519,13 +2586,25 @@ export interface CloudAgentTask {
   readonly externalRef: string | null;
   readonly id: string;
   readonly metadata: unknown | null;
+  readonly model: string | null;
   readonly promptPreview: string | null;
+  readonly reasoningEffort: string | null;
   readonly requestedByUserId: string | null;
   readonly sessionId: string | null;
   readonly startedAt: string | null;
   readonly status: "AWAITING_INPUT" | "COMPLETED" | "FAILED" | "PENDING" | "RUNNING";
   readonly structuredOutput: unknown | null;
   readonly text: string | null;
+}
+
+/** A file the agent published and linked in its result. The URL rechecks access on every request and stays valid until expiresAt. */
+export interface CloudAgentTaskAttachment {
+  readonly bytes: number | null;
+  readonly contentType: string;
+  readonly expiresAt: string;
+  readonly filename: string;
+  readonly id: string;
+  readonly url: string;
 }
 
 export interface CloudAgentTaskCancelResult {
@@ -2535,6 +2614,7 @@ export interface CloudAgentTaskCancelResult {
 
 export interface CloudAgentTaskHandle {
   readonly cloudAgentId: string;
+  readonly deliveredAsReply: boolean;
   readonly replayed: boolean;
   readonly sessionId: string;
   readonly status: "AWAITING_INPUT" | "COMPLETED" | "FAILED" | "PENDING" | "RUNNING";
@@ -2543,7 +2623,7 @@ export interface CloudAgentTaskHandle {
 
 /** A question the task's run is waiting on: a tool approval or an MCP server's form. */
 export interface CloudAgentTaskInteraction {
-  readonly actions: ReadonlyArray<"ACCEPT" | "ALLOW" | "CANCEL" | "DECLINE" | "DENY">;
+  readonly actions: ReadonlyArray<"ACCEPT" | "ALLOW" | "APPROVE" | "CANCEL" | "DECLINE" | "DENY">;
   readonly expiresAt: string | null;
   readonly fields: unknown | null;
   readonly kind: string;
@@ -2553,6 +2633,20 @@ export interface CloudAgentTaskInteraction {
   readonly server: string | null;
   readonly summary: unknown | null;
   readonly tool: string | null;
+}
+
+export interface CloudAgentTaskModel {
+  readonly displayName: string;
+  readonly id: string;
+  readonly isDefault: boolean;
+  readonly provider: string;
+  readonly reasoningEfforts: ReadonlyArray<string>;
+}
+
+export interface CloudAgentTaskModels {
+  readonly defaultModel: string;
+  readonly defaultReasoningEffort: string | null;
+  readonly models: ReadonlyArray<CloudAgentTaskModel>;
 }
 
 export interface CloudAgentTaskPage {
@@ -2574,19 +2668,31 @@ export interface CloudAgentTaskRespondResult {
 }
 
 export interface CloudAgentTaskResult {
+  readonly attachments: ReadonlyArray<CloudAgentTaskAttachment>;
   readonly cloudAgentId: string;
   readonly completedAt: string | null;
   readonly error: string | null;
   readonly externalRef: string | null;
   readonly metadata: unknown | null;
+  readonly model: string | null;
   readonly pendingInteractions: ReadonlyArray<CloudAgentTaskInteraction>;
   readonly progress: CloudAgentTaskProgress | null;
+  readonly reasoningEffort: string | null;
   readonly sessionId: string;
   readonly sessionState: string | null;
   readonly status: "AWAITING_INPUT" | "COMPLETED" | "FAILED" | "PENDING" | "RUNNING";
   readonly structuredOutput: unknown | null;
   readonly taskId: string;
   readonly text: string | null;
+}
+
+/** Where work stands, computed on read from the native harness's run events, else the VM's session report. */
+export interface CloudAgentWorkStatus {
+  readonly at: string | null;
+  readonly kind: "AUTH" | "PERMISSION" | "QUESTION" | null;
+  readonly message: string | null;
+  readonly state: "BLOCKED" | "DONE" | "ERROR" | "IDLE" | "WORKING";
+  readonly unseen: boolean;
 }
 
 export interface CnameCheck {
@@ -2810,6 +2916,20 @@ export interface DNSRecords {
   readonly zone: string;
 }
 
+export interface DatabasePasswordResetResponse {
+  readonly newPassword: string;
+  readonly rotationInProgress: boolean | null;
+  readonly updatedVariables: unknown;
+}
+
+export interface DatabasePasswordRotationProgress {
+  readonly completedMembers: ReadonlyArray<string>;
+  readonly error: string | null;
+  readonly memberServiceId: string | null;
+  readonly memberServiceName: string | null;
+  readonly phase: string;
+}
+
 export interface Deployment {
   readonly canRedeploy: boolean;
   readonly canRollback: boolean;
@@ -2821,6 +2941,7 @@ export interface Deployment {
   readonly environmentId: string;
   readonly id: string;
   readonly instances: ReadonlyArray<DeploymentDeploymentInstance>;
+  readonly isArchived: boolean;
   readonly meta: unknown | null;
   readonly projectId: string;
   readonly service: Service;
@@ -2923,6 +3044,7 @@ export interface DeploymentSnapshot {
   readonly id: string;
   readonly updatedAt: string;
   readonly variables: unknown;
+  readonly variablesRedacted: boolean;
 }
 
 export interface DeploymentSocket {
@@ -3338,11 +3460,6 @@ export interface Group {
   readonly projectId: string;
 }
 
-export interface HerokuApp {
-  readonly id: string;
-  readonly name: string;
-}
-
 /** The result of an HTTP duration metrics query. */
 export interface HttpDurationMetricsResult {
   readonly samples: ReadonlyArray<HttpDurationMetricsSample>;
@@ -3438,7 +3555,9 @@ export interface IntegrationAuthIntegrationsConnectionEdge {
 export interface InviteCode {
   readonly code: Redacted.Redacted<string>;
   readonly createdAt: string;
+  readonly expiresAt: string;
   readonly id: string;
+  readonly isExpired: boolean;
   readonly project: Project;
   readonly projectId: string;
   readonly role: "ADMIN" | "MEMBER" | "VIEWER";
@@ -3844,7 +3963,7 @@ export interface PitrHaWorkflowProgress {
   readonly workflowId: string;
 }
 
-/** Estimated destination-volume scratch a PITR restore to a target needs: the base backup's data plus every WAL segment replayed from that backup to the target (Postgres holds replayed WAL in pg_wal faster than restartpoints recycle it). A conservative over-estimate for a non-blocking pre-restore warning -- not a gate. */
+/** Estimated disk space a point-in-time restore to a target needs, and whether it fits your plan's largest volume. A conservative estimate for the restore dialog's warning. */
 export interface PitrRestoreScratchEstimate {
   readonly baseBackupLabel: string;
   readonly dataMB: number;
@@ -3861,10 +3980,11 @@ export interface PlanLimitOverride {
 
 export interface PlatformFeatureFlagStatus {
   readonly flag:
+    | "ACTIVITY_FEED_FILTERS_KILLSWITCH"
+    | "AGENT_CACHE_TOKEN_BILLING"
     | "AGENT_USAGE_CH_INGEST"
     | "ALERT_SUS_USERS_CRON_KILLSWITCH"
     | "BLOCK_TRIAL_RESTRICTION_APPEALS"
-    | "BUILDER_V4_ROLLOUT"
     | "BUILD_DEPLOY_QUEUE_V2"
     | "CAC_T0_KILLSWITCH"
     | "CANVAS_CROSS_ENV_GUARD_ENFORCE"
@@ -3881,6 +4001,7 @@ export interface PlatformFeatureFlagStatus {
     | "DEV_STUDIO_ANON_PROVISIONS"
     | "DOMAIN_RECONCILE_KILLSWITCH"
     | "EMAIL_FORWARDING_KILLSWITCH"
+    | "ENVIRONMENT_PATCH_ARCHIVE_PRODUCE"
     | "IN_DASHBOARD_SUPPORT"
     | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
     | "LOGS_LONG_WINDOW_CHUNKING"
@@ -3892,6 +4013,7 @@ export interface PlatformFeatureFlagStatus {
     | "NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT"
     | "NUDGES"
     | "NUDGE_BACKUP_SCHEDULE_MISSING"
+    | "NUDGE_CONNECTOR_NEEDS_ATTENTION"
     | "NUDGE_FIRST_DEPLOY_FAILED"
     | "NUDGE_PUBLIC_DB_URL_WITHIN_PROJECT"
     | "NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE"
@@ -3899,12 +4021,17 @@ export interface PlatformFeatureFlagStatus {
     | "OAUTH_DCR_KILLSWITCH"
     | "PRE_DEPLOY_TIMEOUT_KILLSWITCH"
     | "PROJECT_HISTORY_DUAL_WRITE"
+    | "RADAR_DNS_ANON_ENFORCEMENT"
     | "RADAR_HTTP_PATTERN_DETECTION"
+    | "RADAR_SIGNUP_ENFORCE"
     | "RELAY_SPEND_RESERVATION_KILLSWITCH"
     | "REMOVE_DEPLOYMENT_COMPACT"
+    | "RESTRICTION_ABUSE_QUEUE"
     | "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL"
     | "SPLIT_USAGE_QUERIES"
     | "SSH_ANON_PROVISIONING"
+    | "SSH_ANON_REFUSE_NO_PTY"
+    | "SSH_ANON_REFUSE_ZERO_SIZE_PTY"
     | "SSH_TRIAL_GUEST_IDLE_SLEEP"
     | "STRIPE_INTERACTIVE_SUBSCRIPTION_ON_SESSION"
     | "STRIPE_METERS_NEW_ACCOUNTS"
@@ -3913,9 +4040,13 @@ export interface PlatformFeatureFlagStatus {
     | "TRIAL_RELAY_MODEL_ALLOWLIST_KILLSWITCH"
     | "UPDATED_VM_QUERIES"
     | "USAGE_CH_READS"
+    | "VERIFIERS"
     | "VM_COUPON_MIGRATION"
+    | "VM_NEW_SERVICES_HOBBY_ROLLOUT"
+    | "VM_NEW_SERVICES_TRIAL_ROLLOUT"
     | "VM_USAGE_CH_INGEST"
-    | "WORKSPACE_MCP_KILLSWITCH";
+    | "WORKSPACE_MCP_KILLSWITCH"
+    | "X_AGENT_BUILDS";
   readonly rolloutPercentage: number;
   readonly status: boolean;
   readonly type: "BOOLEAN" | "PERCENTAGE";
@@ -4013,7 +4144,9 @@ export interface Project {
   readonly description: string | null;
   readonly environments: ReadonlyArray<Environment>;
   readonly expiredAt: string | null;
-  readonly featureFlags: ReadonlyArray<"PLACEHOLDER" | "RBS_VOLUMES">;
+  readonly featureFlags: ReadonlyArray<
+    "LEGACY_CONFIG_AS_CODE" | "PLACEHOLDER" | "RBS_VOLUMES" | "VM_NEW_SERVICES"
+  >;
   readonly focusedPrEnvironments: boolean;
   readonly groups: ReadonlyArray<Group>;
   readonly id: string;
@@ -4571,6 +4704,16 @@ export interface QueryUserTemplatesConnectionEdge {
   readonly node: Template;
 }
 
+export interface QueryWorkspaceApiTokensConnection {
+  readonly edges: ReadonlyArray<QueryWorkspaceApiTokensConnectionEdge>;
+  readonly pageInfo: PageInfo;
+}
+
+export interface QueryWorkspaceApiTokensConnectionEdge {
+  readonly cursor: string;
+  readonly node: ApiToken;
+}
+
 export interface QueryWorkspaceIdentityProvidersConnection {
   readonly edges: ReadonlyArray<QueryWorkspaceIdentityProvidersConnectionEdge>;
   readonly pageInfo: PageInfo;
@@ -4703,7 +4846,15 @@ export interface SSHSignupClaimableWorkspace {
 export interface SSHSignupInfo {
   readonly claimableWorkspaces: ReadonlyArray<SSHSignupClaimableWorkspace>;
   readonly fingerprint: string;
+  readonly origin: SSHSignupOrigin;
   readonly trial: SSHSignupTrial | null;
+}
+
+/** Where the terminal that started an SSH signup connected from. */
+export interface SSHSignupOrigin {
+  readonly ip: string | null;
+  readonly requestedAt: string;
+  readonly sameNetwork: boolean;
 }
 
 /** The anonymous trial box the offered SSH key currently owns; approving the signup claims it. */
@@ -4721,6 +4872,7 @@ export interface Sandbox {
   readonly id: string;
   readonly idleTimeoutMinutes: number | null;
   readonly networkIsolation: "ISOLATED" | "PRIVATE";
+  readonly privateDomain: string | null;
   readonly region: string;
   readonly status: "CREATING" | "DESTROYED" | "DESTROYING" | "FAILED" | "RUNNING";
 }
@@ -4779,11 +4931,7 @@ export interface Service {
   readonly deletedAt: string | null;
   readonly deployments: ReadonlyArray<Deployment>;
   readonly featureFlags: ReadonlyArray<
-    | "BUILDER_V4"
-    | "COPY_VOLUME_TO_ENVIRONMENT"
-    | "PLACEHOLDER"
-    | "SKIPPED_BUILDS"
-    | "USE_DEPLOYMENT_VMS"
+    "COPY_VOLUME_TO_ENVIRONMENT" | "PLACEHOLDER" | "SKIPPED_BUILDS" | "USE_DEPLOYMENT_VMS"
   >;
   readonly groupId: string | null;
   readonly hasHiddenRegistryCredentialsFromTemplate: boolean;
@@ -5049,7 +5197,6 @@ export interface TeamMember {
   readonly avatar: string | null;
   readonly email: string;
   readonly featureFlags: ReadonlyArray<
-    | "ACTIVITY_FEED_HISTORY"
     | "AGENT_BOOTSTRAPS"
     | "AGENT_BYOK"
     | "AGENT_BYOK_ANTHROPIC"
@@ -5057,6 +5204,7 @@ export interface TeamMember {
     | "AGENT_BYOK_FIREWORKS"
     | "AGENT_BYOK_OPENAI"
     | "AGENT_BYOK_OPENROUTER"
+    | "AGENT_CLAUDE_CONNECT"
     | "AGENT_CONNECTORS"
     | "AGENT_TASKS"
     | "CHAT_SANDBOX"
@@ -5064,17 +5212,19 @@ export interface TeamMember {
     | "CLOUD_AGENTS"
     | "CLOUD_AGENT_BUILDER"
     | "CLOUD_AGENT_CHAT"
+    | "CONNECTOR_TUNNELS"
     | "CS_MCP_EXPRESS"
-    | "EMAIL_FORWARDING"
     | "HA_FOR_MONGO"
     | "IN_DASHBOARD_SUPPORT"
     | "MAGIC_CONFIG"
-    | "MYSQL_PITR"
+    | "MANAGED_DATABASE_EDIT_WARNING"
+    | "MANAGED_DATABASE_SETUP"
     | "PRIORITY_BOARDING"
     | "RAILWAY_AGENT_DASHBOARD"
-    | "RAILWAY_AGENT_FEED"
+    | "RAILWAY_AUTOMATIONS"
     | "TRACING"
     | "USAGE_INSIGHTS"
+    | "VERIFIERS"
     | "VM_STORAGE_TRACES"
   > | null;
   readonly id: string;
@@ -5117,6 +5267,7 @@ export interface Template {
   readonly id: string;
   readonly image: string | null;
   readonly isApproved: boolean;
+  readonly isOuterEdge: boolean;
   readonly isV2Template: boolean;
   readonly isVerified: boolean;
   readonly languages: ReadonlyArray<string> | null;
@@ -5296,7 +5447,6 @@ export interface User {
   readonly createdAt: string;
   readonly email: string;
   readonly featureFlags: ReadonlyArray<
-    | "ACTIVITY_FEED_HISTORY"
     | "AGENT_BOOTSTRAPS"
     | "AGENT_BYOK"
     | "AGENT_BYOK_ANTHROPIC"
@@ -5304,6 +5454,7 @@ export interface User {
     | "AGENT_BYOK_FIREWORKS"
     | "AGENT_BYOK_OPENAI"
     | "AGENT_BYOK_OPENROUTER"
+    | "AGENT_CLAUDE_CONNECT"
     | "AGENT_CONNECTORS"
     | "AGENT_TASKS"
     | "CHAT_SANDBOX"
@@ -5311,17 +5462,19 @@ export interface User {
     | "CLOUD_AGENTS"
     | "CLOUD_AGENT_BUILDER"
     | "CLOUD_AGENT_CHAT"
+    | "CONNECTOR_TUNNELS"
     | "CS_MCP_EXPRESS"
-    | "EMAIL_FORWARDING"
     | "HA_FOR_MONGO"
     | "IN_DASHBOARD_SUPPORT"
     | "MAGIC_CONFIG"
-    | "MYSQL_PITR"
+    | "MANAGED_DATABASE_EDIT_WARNING"
+    | "MANAGED_DATABASE_SETUP"
     | "PRIORITY_BOARDING"
     | "RAILWAY_AGENT_DASHBOARD"
-    | "RAILWAY_AGENT_FEED"
+    | "RAILWAY_AUTOMATIONS"
     | "TRACING"
     | "USAGE_INSIGHTS"
+    | "VERIFIERS"
     | "VM_STORAGE_TRACES"
   >;
   readonly flags: ReadonlyArray<"BETA">;
@@ -5336,10 +5489,11 @@ export interface User {
   readonly lastLogin: string;
   readonly name: string | null;
   readonly platformFeatureFlags: ReadonlyArray<
+    | "ACTIVITY_FEED_FILTERS_KILLSWITCH"
+    | "AGENT_CACHE_TOKEN_BILLING"
     | "AGENT_USAGE_CH_INGEST"
     | "ALERT_SUS_USERS_CRON_KILLSWITCH"
     | "BLOCK_TRIAL_RESTRICTION_APPEALS"
-    | "BUILDER_V4_ROLLOUT"
     | "BUILD_DEPLOY_QUEUE_V2"
     | "CAC_T0_KILLSWITCH"
     | "CANVAS_CROSS_ENV_GUARD_ENFORCE"
@@ -5356,6 +5510,7 @@ export interface User {
     | "DEV_STUDIO_ANON_PROVISIONS"
     | "DOMAIN_RECONCILE_KILLSWITCH"
     | "EMAIL_FORWARDING_KILLSWITCH"
+    | "ENVIRONMENT_PATCH_ARCHIVE_PRODUCE"
     | "IN_DASHBOARD_SUPPORT"
     | "KAFKA_EPHEMERAL_ENVIRONMENT_UPDATES"
     | "LOGS_LONG_WINDOW_CHUNKING"
@@ -5367,6 +5522,7 @@ export interface User {
     | "NEW_STRIPE_WEBHOOK_VERSION_ROLLOUT"
     | "NUDGES"
     | "NUDGE_BACKUP_SCHEDULE_MISSING"
+    | "NUDGE_CONNECTOR_NEEDS_ATTENTION"
     | "NUDGE_FIRST_DEPLOY_FAILED"
     | "NUDGE_PUBLIC_DB_URL_WITHIN_PROJECT"
     | "NUDGE_RESUBSCRIBE_AFTER_DEAD_INVOICE"
@@ -5374,12 +5530,17 @@ export interface User {
     | "OAUTH_DCR_KILLSWITCH"
     | "PRE_DEPLOY_TIMEOUT_KILLSWITCH"
     | "PROJECT_HISTORY_DUAL_WRITE"
+    | "RADAR_DNS_ANON_ENFORCEMENT"
     | "RADAR_HTTP_PATTERN_DETECTION"
+    | "RADAR_SIGNUP_ENFORCE"
     | "RELAY_SPEND_RESERVATION_KILLSWITCH"
     | "REMOVE_DEPLOYMENT_COMPACT"
+    | "RESTRICTION_ABUSE_QUEUE"
     | "SERVICEINSTANCE_DATALOADER_FOR_STATIC_URL"
     | "SPLIT_USAGE_QUERIES"
     | "SSH_ANON_PROVISIONING"
+    | "SSH_ANON_REFUSE_NO_PTY"
+    | "SSH_ANON_REFUSE_ZERO_SIZE_PTY"
     | "SSH_TRIAL_GUEST_IDLE_SLEEP"
     | "STRIPE_INTERACTIVE_SUBSCRIPTION_ON_SESSION"
     | "STRIPE_METERS_NEW_ACCOUNTS"
@@ -5388,9 +5549,13 @@ export interface User {
     | "TRIAL_RELAY_MODEL_ALLOWLIST_KILLSWITCH"
     | "UPDATED_VM_QUERIES"
     | "USAGE_CH_READS"
+    | "VERIFIERS"
     | "VM_COUPON_MIGRATION"
+    | "VM_NEW_SERVICES_HOBBY_ROLLOUT"
+    | "VM_NEW_SERVICES_TRIAL_ROLLOUT"
     | "VM_USAGE_CH_INGEST"
     | "WORKSPACE_MCP_KILLSWITCH"
+    | "X_AGENT_BUILDS"
   >;
   readonly profile: UserProfile | null;
   readonly projects: ReadonlyArray<Project>;
@@ -5453,6 +5618,14 @@ export interface UserProviderAuthsConnection {
 export interface UserProviderAuthsConnectionEdge {
   readonly cursor: string;
   readonly node: ProviderAuth;
+}
+
+export interface UserSummary {
+  readonly avatar: string | null;
+  readonly email: string;
+  readonly id: string;
+  readonly name: string | null;
+  readonly username: string | null;
 }
 
 export interface Variable {
@@ -5695,7 +5868,6 @@ export interface WorkspaceMember {
   readonly avatar: string | null;
   readonly email: string;
   readonly featureFlags: ReadonlyArray<
-    | "ACTIVITY_FEED_HISTORY"
     | "AGENT_BOOTSTRAPS"
     | "AGENT_BYOK"
     | "AGENT_BYOK_ANTHROPIC"
@@ -5703,6 +5875,7 @@ export interface WorkspaceMember {
     | "AGENT_BYOK_FIREWORKS"
     | "AGENT_BYOK_OPENAI"
     | "AGENT_BYOK_OPENROUTER"
+    | "AGENT_CLAUDE_CONNECT"
     | "AGENT_CONNECTORS"
     | "AGENT_TASKS"
     | "CHAT_SANDBOX"
@@ -5710,17 +5883,19 @@ export interface WorkspaceMember {
     | "CLOUD_AGENTS"
     | "CLOUD_AGENT_BUILDER"
     | "CLOUD_AGENT_CHAT"
+    | "CONNECTOR_TUNNELS"
     | "CS_MCP_EXPRESS"
-    | "EMAIL_FORWARDING"
     | "HA_FOR_MONGO"
     | "IN_DASHBOARD_SUPPORT"
     | "MAGIC_CONFIG"
-    | "MYSQL_PITR"
+    | "MANAGED_DATABASE_EDIT_WARNING"
+    | "MANAGED_DATABASE_SETUP"
     | "PRIORITY_BOARDING"
     | "RAILWAY_AGENT_DASHBOARD"
-    | "RAILWAY_AGENT_FEED"
+    | "RAILWAY_AUTOMATIONS"
     | "TRACING"
     | "USAGE_INSIGHTS"
+    | "VERIFIERS"
     | "VM_STORAGE_TRACES"
   > | null;
   readonly id: string;
@@ -5738,7 +5913,7 @@ export interface WorkspacePolicy {
 }
 
 export interface WorkspacePolicyDeploySourceAllowlist {
-  readonly addedBy: User | null;
+  readonly addedBy: UserSummary | null;
   readonly createdAt: string;
   readonly id: string;
   readonly sourceIcon: string | null;
@@ -5772,6 +5947,30 @@ export interface WorkspaceProjectsConnection {
 export interface WorkspaceProjectsConnectionEdge {
   readonly cursor: string;
   readonly node: Project;
+}
+
+/** A build requested from @RailwayAgent on X, as its claim page shows it to the signed-in user. */
+export interface XAgentClaimInfo {
+  readonly buildId: string;
+  readonly claimableWorkspaces: ReadonlyArray<XAgentClaimWorkspace>;
+  readonly connectedXUsername: string | null;
+  readonly expiresAt: string | null;
+  readonly intent: string;
+  readonly matchesOwner: boolean;
+  readonly ownerUsername: string;
+  readonly previewUrl: string;
+  readonly status: "CLAIMABLE" | "CLAIMED" | "UNAVAILABLE" | "UNDER_REVIEW";
+}
+
+export interface XAgentClaimResult {
+  readonly projectId: string;
+  readonly projectUrl: string;
+  readonly workspaceId: string;
+}
+
+export interface XAgentClaimWorkspace {
+  readonly id: string;
+  readonly name: string;
 }
 
 export const AccessGroup: TypeMeta = {
@@ -6014,6 +6213,12 @@ export const CloudAgentTask: TypeMeta = {
     return CloudAgentTaskFields;
   },
 };
+export const CloudAgentTaskAttachment: TypeMeta = {
+  name: "CloudAgentTaskAttachment",
+  get fields() {
+    return CloudAgentTaskAttachmentFields;
+  },
+};
 export const CloudAgentTaskCancelResult: TypeMeta = {
   name: "CloudAgentTaskCancelResult",
   get fields() {
@@ -6030,6 +6235,18 @@ export const CloudAgentTaskInteraction: TypeMeta = {
   name: "CloudAgentTaskInteraction",
   get fields() {
     return CloudAgentTaskInteractionFields;
+  },
+};
+export const CloudAgentTaskModel: TypeMeta = {
+  name: "CloudAgentTaskModel",
+  get fields() {
+    return CloudAgentTaskModelFields;
+  },
+};
+export const CloudAgentTaskModels: TypeMeta = {
+  name: "CloudAgentTaskModels",
+  get fields() {
+    return CloudAgentTaskModelsFields;
   },
 };
 export const CloudAgentTaskPage: TypeMeta = {
@@ -6054,6 +6271,12 @@ export const CloudAgentTaskResult: TypeMeta = {
   name: "CloudAgentTaskResult",
   get fields() {
     return CloudAgentTaskResultFields;
+  },
+};
+export const CloudAgentWorkStatus: TypeMeta = {
+  name: "CloudAgentWorkStatus",
+  get fields() {
+    return CloudAgentWorkStatusFields;
   },
 };
 export const CnameCheck: TypeMeta = {
@@ -6144,6 +6367,18 @@ export const DNSRecords: TypeMeta = {
   name: "DNSRecords",
   get fields() {
     return DNSRecordsFields;
+  },
+};
+export const DatabasePasswordResetResponse: TypeMeta = {
+  name: "DatabasePasswordResetResponse",
+  get fields() {
+    return DatabasePasswordResetResponseFields;
+  },
+};
+export const DatabasePasswordRotationProgress: TypeMeta = {
+  name: "DatabasePasswordRotationProgress",
+  get fields() {
+    return DatabasePasswordRotationProgressFields;
   },
 };
 export const Deployment: TypeMeta = {
@@ -6444,12 +6679,6 @@ export const Group: TypeMeta = {
   name: "Group",
   get fields() {
     return GroupFields;
-  },
-};
-export const HerokuApp: TypeMeta = {
-  name: "HerokuApp",
-  get fields() {
-    return HerokuAppFields;
   },
 };
 export const HttpDurationMetricsResult: TypeMeta = {
@@ -7370,6 +7599,18 @@ export const QueryUserTemplatesConnectionEdge: TypeMeta = {
     return QueryUserTemplatesConnectionEdgeFields;
   },
 };
+export const QueryWorkspaceApiTokensConnection: TypeMeta = {
+  name: "QueryWorkspaceApiTokensConnection",
+  get fields() {
+    return QueryWorkspaceApiTokensConnectionFields;
+  },
+};
+export const QueryWorkspaceApiTokensConnectionEdge: TypeMeta = {
+  name: "QueryWorkspaceApiTokensConnectionEdge",
+  get fields() {
+    return QueryWorkspaceApiTokensConnectionEdgeFields;
+  },
+};
 export const QueryWorkspaceIdentityProvidersConnection: TypeMeta = {
   name: "QueryWorkspaceIdentityProvidersConnection",
   get fields() {
@@ -7494,6 +7735,12 @@ export const SSHSignupInfo: TypeMeta = {
   name: "SSHSignupInfo",
   get fields() {
     return SSHSignupInfoFields;
+  },
+};
+export const SSHSignupOrigin: TypeMeta = {
+  name: "SSHSignupOrigin",
+  get fields() {
+    return SSHSignupOriginFields;
   },
 };
 export const SSHSignupTrial: TypeMeta = {
@@ -7892,6 +8139,12 @@ export const UserProviderAuthsConnectionEdge: TypeMeta = {
     return UserProviderAuthsConnectionEdgeFields;
   },
 };
+export const UserSummary: TypeMeta = {
+  name: "UserSummary",
+  get fields() {
+    return UserSummaryFields;
+  },
+};
 export const Variable: TypeMeta = {
   name: "Variable",
   get fields() {
@@ -8072,6 +8325,24 @@ export const WorkspaceProjectsConnectionEdge: TypeMeta = {
     return WorkspaceProjectsConnectionEdgeFields;
   },
 };
+export const XAgentClaimInfo: TypeMeta = {
+  name: "XAgentClaimInfo",
+  get fields() {
+    return XAgentClaimInfoFields;
+  },
+};
+export const XAgentClaimResult: TypeMeta = {
+  name: "XAgentClaimResult",
+  get fields() {
+    return XAgentClaimResultFields;
+  },
+};
+export const XAgentClaimWorkspace: TypeMeta = {
+  name: "XAgentClaimWorkspace",
+  get fields() {
+    return XAgentClaimWorkspaceFields;
+  },
+};
 export const NotificationDeliveryUpdate: TypeMeta = {
   name: "NotificationDeliveryUpdate",
   fields: { __typename: scalarField("__typename") },
@@ -8114,7 +8385,7 @@ const AccessGroupMemberFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
   updatedAt: scalarField("updatedAt"),
-  user: objectField("user", User),
+  user: objectField("user", UserSummary),
   userId: scalarField("userId"),
 };
 
@@ -8201,6 +8472,8 @@ const AllDomainsFields: TypeMeta["fields"] = {
 };
 
 const ApiTokenFields: TypeMeta["fields"] = {
+  createdAt: scalarField("createdAt"),
+  creator: objectField("creator", UserSummary),
   displayToken: scalarField("displayToken"),
   expiresAt: scalarField("expiresAt"),
   id: scalarField("id"),
@@ -8352,6 +8625,7 @@ const ClearanceTokenCreatorFields: TypeMeta["fields"] = {
 
 const CloudAgentFields: TypeMeta["fields"] = {
   agentWsUrl: scalarField("agentWsUrl"),
+  archivedAt: scalarField("archivedAt"),
   consoleTargetId: scalarField("consoleTargetId"),
   createdAt: scalarField("createdAt"),
   domain: scalarField("domain"),
@@ -8359,12 +8633,14 @@ const CloudAgentFields: TypeMeta["fields"] = {
   environmentId: scalarField("environmentId"),
   id: scalarField("id"),
   name: scalarField("name"),
+  privateDomain: scalarField("privateDomain"),
   project: objectField("project", Project),
   projectId: scalarField("projectId"),
   region: scalarField("region"),
   sessions: listField("sessions", CloudAgentSnapshot),
   source: objectField("source", CloudAgentSource),
   status: scalarField("status"),
+  workStatus: objectField("workStatus", CloudAgentWorkStatus),
 };
 
 const CloudAgentCheckpointFields: TypeMeta["fields"] = {
@@ -8373,6 +8649,7 @@ const CloudAgentCheckpointFields: TypeMeta["fields"] = {
   failureReason: scalarField("failureReason"),
   id: scalarField("id"),
   name: scalarField("name"),
+  projectId: scalarField("projectId"),
   region: scalarField("region"),
   status: scalarField("status"),
 };
@@ -8405,6 +8682,7 @@ const CloudAgentSnapshotFields: TypeMeta["fields"] = {
   terminal: scalarField("terminal"),
   title: scalarField("title"),
   updatedAt: scalarField("updatedAt"),
+  workStatus: objectField("workStatus", CloudAgentWorkStatus),
 };
 
 const CloudAgentSourceFields: TypeMeta["fields"] = {
@@ -8417,6 +8695,7 @@ const CloudAgentSourceFields: TypeMeta["fields"] = {
 };
 
 const CloudAgentTaskFields: TypeMeta["fields"] = {
+  attachments: listField("attachments", CloudAgentTaskAttachment),
   cloudAgentId: scalarField("cloudAgentId"),
   completedAt: scalarField("completedAt"),
   createdAt: scalarField("createdAt"),
@@ -8425,13 +8704,24 @@ const CloudAgentTaskFields: TypeMeta["fields"] = {
   externalRef: scalarField("externalRef"),
   id: scalarField("id"),
   metadata: scalarField("metadata"),
+  model: scalarField("model"),
   promptPreview: scalarField("promptPreview"),
+  reasoningEffort: scalarField("reasoningEffort"),
   requestedByUserId: scalarField("requestedByUserId"),
   sessionId: scalarField("sessionId"),
   startedAt: scalarField("startedAt"),
   status: scalarField("status"),
   structuredOutput: scalarField("structuredOutput"),
   text: scalarField("text"),
+};
+
+const CloudAgentTaskAttachmentFields: TypeMeta["fields"] = {
+  bytes: scalarField("bytes"),
+  contentType: scalarField("contentType"),
+  expiresAt: scalarField("expiresAt"),
+  filename: scalarField("filename"),
+  id: scalarField("id"),
+  url: scalarField("url"),
 };
 
 const CloudAgentTaskCancelResultFields: TypeMeta["fields"] = {
@@ -8441,6 +8731,7 @@ const CloudAgentTaskCancelResultFields: TypeMeta["fields"] = {
 
 const CloudAgentTaskHandleFields: TypeMeta["fields"] = {
   cloudAgentId: scalarField("cloudAgentId"),
+  deliveredAsReply: scalarField("deliveredAsReply"),
   replayed: scalarField("replayed"),
   sessionId: scalarField("sessionId"),
   status: scalarField("status"),
@@ -8458,6 +8749,20 @@ const CloudAgentTaskInteractionFields: TypeMeta["fields"] = {
   server: scalarField("server"),
   summary: scalarField("summary"),
   tool: scalarField("tool"),
+};
+
+const CloudAgentTaskModelFields: TypeMeta["fields"] = {
+  displayName: scalarField("displayName"),
+  id: scalarField("id"),
+  isDefault: scalarField("isDefault"),
+  provider: scalarField("provider"),
+  reasoningEfforts: scalarField("reasoningEfforts"),
+};
+
+const CloudAgentTaskModelsFields: TypeMeta["fields"] = {
+  defaultModel: scalarField("defaultModel"),
+  defaultReasoningEffort: scalarField("defaultReasoningEffort"),
+  models: listField("models", CloudAgentTaskModel),
 };
 
 const CloudAgentTaskPageFields: TypeMeta["fields"] = {
@@ -8479,19 +8784,30 @@ const CloudAgentTaskRespondResultFields: TypeMeta["fields"] = {
 };
 
 const CloudAgentTaskResultFields: TypeMeta["fields"] = {
+  attachments: listField("attachments", CloudAgentTaskAttachment),
   cloudAgentId: scalarField("cloudAgentId"),
   completedAt: scalarField("completedAt"),
   error: scalarField("error"),
   externalRef: scalarField("externalRef"),
   metadata: scalarField("metadata"),
+  model: scalarField("model"),
   pendingInteractions: listField("pendingInteractions", CloudAgentTaskInteraction),
   progress: objectField("progress", CloudAgentTaskProgress),
+  reasoningEffort: scalarField("reasoningEffort"),
   sessionId: scalarField("sessionId"),
   sessionState: scalarField("sessionState"),
   status: scalarField("status"),
   structuredOutput: scalarField("structuredOutput"),
   taskId: scalarField("taskId"),
   text: scalarField("text"),
+};
+
+const CloudAgentWorkStatusFields: TypeMeta["fields"] = {
+  at: scalarField("at"),
+  kind: scalarField("kind"),
+  message: scalarField("message"),
+  state: scalarField("state"),
+  unseen: scalarField("unseen"),
 };
 
 const CnameCheckFields: TypeMeta["fields"] = {
@@ -8671,6 +8987,20 @@ const DNSRecordsFields: TypeMeta["fields"] = {
   zone: scalarField("zone"),
 };
 
+const DatabasePasswordResetResponseFields: TypeMeta["fields"] = {
+  newPassword: scalarField("newPassword"),
+  rotationInProgress: scalarField("rotationInProgress"),
+  updatedVariables: scalarField("updatedVariables"),
+};
+
+const DatabasePasswordRotationProgressFields: TypeMeta["fields"] = {
+  completedMembers: scalarField("completedMembers"),
+  error: scalarField("error"),
+  memberServiceId: scalarField("memberServiceId"),
+  memberServiceName: scalarField("memberServiceName"),
+  phase: scalarField("phase"),
+};
+
 const DeploymentFields: TypeMeta["fields"] = {
   canRedeploy: scalarField("canRedeploy"),
   canRollback: scalarField("canRollback"),
@@ -8682,6 +9012,7 @@ const DeploymentFields: TypeMeta["fields"] = {
   environmentId: scalarField("environmentId"),
   id: scalarField("id"),
   instances: listField("instances", DeploymentDeploymentInstance),
+  isArchived: scalarField("isArchived"),
   meta: scalarField("meta"),
   projectId: scalarField("projectId"),
   service: objectField("service", Service),
@@ -8741,6 +9072,7 @@ const DeploymentSnapshotFields: TypeMeta["fields"] = {
   id: scalarField("id"),
   updatedAt: scalarField("updatedAt"),
   variables: scalarField("variables"),
+  variablesRedacted: scalarField("variablesRedacted"),
 };
 
 const DeploymentSocketFields: TypeMeta["fields"] = {
@@ -9128,11 +9460,6 @@ const GroupFields: TypeMeta["fields"] = {
   projectId: scalarField("projectId"),
 };
 
-const HerokuAppFields: TypeMeta["fields"] = {
-  id: scalarField("id"),
-  name: scalarField("name"),
-};
-
 const HttpDurationMetricsResultFields: TypeMeta["fields"] = {
   samples: listField("samples", HttpDurationMetricsSample),
 };
@@ -9227,7 +9554,9 @@ const IntegrationAuthIntegrationsConnectionEdgeFields: TypeMeta["fields"] = {
 const InviteCodeFields: TypeMeta["fields"] = {
   code: scalarField("code", { sensitive: true }),
   createdAt: scalarField("createdAt"),
+  expiresAt: scalarField("expiresAt"),
   id: scalarField("id"),
+  isExpired: scalarField("isExpired"),
   project: objectField("project", Project),
   projectId: scalarField("projectId"),
   role: scalarField("role"),
@@ -10262,6 +10591,16 @@ const QueryUserTemplatesConnectionEdgeFields: TypeMeta["fields"] = {
   node: objectField("node", Template),
 };
 
+const QueryWorkspaceApiTokensConnectionFields: TypeMeta["fields"] = {
+  edges: listField("edges", QueryWorkspaceApiTokensConnectionEdge),
+  pageInfo: objectField("pageInfo", PageInfo),
+};
+
+const QueryWorkspaceApiTokensConnectionEdgeFields: TypeMeta["fields"] = {
+  cursor: scalarField("cursor"),
+  node: objectField("node", ApiToken),
+};
+
 const QueryWorkspaceIdentityProvidersConnectionFields: TypeMeta["fields"] = {
   edges: listField("edges", QueryWorkspaceIdentityProvidersConnectionEdge),
   pageInfo: objectField("pageInfo", PageInfo),
@@ -10392,7 +10731,14 @@ const SSHSignupClaimableWorkspaceFields: TypeMeta["fields"] = {
 const SSHSignupInfoFields: TypeMeta["fields"] = {
   claimableWorkspaces: listField("claimableWorkspaces", SSHSignupClaimableWorkspace),
   fingerprint: scalarField("fingerprint"),
+  origin: objectField("origin", SSHSignupOrigin),
   trial: objectField("trial", SSHSignupTrial),
+};
+
+const SSHSignupOriginFields: TypeMeta["fields"] = {
+  ip: scalarField("ip"),
+  requestedAt: scalarField("requestedAt"),
+  sameNetwork: scalarField("sameNetwork"),
 };
 
 const SSHSignupTrialFields: TypeMeta["fields"] = {
@@ -10409,6 +10755,7 @@ const SandboxFields: TypeMeta["fields"] = {
   id: scalarField("id"),
   idleTimeoutMinutes: scalarField("idleTimeoutMinutes"),
   networkIsolation: scalarField("networkIsolation"),
+  privateDomain: scalarField("privateDomain"),
   region: scalarField("region"),
   status: scalarField("status"),
 };
@@ -10785,6 +11132,7 @@ const TemplateFields: TypeMeta["fields"] = {
   id: scalarField("id"),
   image: scalarField("image"),
   isApproved: scalarField("isApproved"),
+  isOuterEdge: scalarField("isOuterEdge"),
   isV2Template: scalarField("isV2Template"),
   isVerified: scalarField("isVerified"),
   languages: scalarField("languages"),
@@ -11055,6 +11403,14 @@ const UserProviderAuthsConnectionEdgeFields: TypeMeta["fields"] = {
   node: objectField("node", ProviderAuth),
 };
 
+const UserSummaryFields: TypeMeta["fields"] = {
+  avatar: scalarField("avatar"),
+  email: scalarField("email"),
+  id: scalarField("id"),
+  name: scalarField("name"),
+  username: scalarField("username"),
+};
+
 const VariableFields: TypeMeta["fields"] = {
   createdAt: scalarField("createdAt"),
   environment: objectField("environment", Environment),
@@ -11320,7 +11676,7 @@ const WorkspacePolicyFields: TypeMeta["fields"] = {
 };
 
 const WorkspacePolicyDeploySourceAllowlistFields: TypeMeta["fields"] = {
-  addedBy: objectField("addedBy", User),
+  addedBy: objectField("addedBy", UserSummary),
   createdAt: scalarField("createdAt"),
   id: scalarField("id"),
   sourceIcon: scalarField("sourceIcon"),
@@ -11354,6 +11710,29 @@ const WorkspaceProjectsConnectionFields: TypeMeta["fields"] = {
 const WorkspaceProjectsConnectionEdgeFields: TypeMeta["fields"] = {
   cursor: scalarField("cursor"),
   node: objectField("node", Project),
+};
+
+const XAgentClaimInfoFields: TypeMeta["fields"] = {
+  buildId: scalarField("buildId"),
+  claimableWorkspaces: listField("claimableWorkspaces", XAgentClaimWorkspace),
+  connectedXUsername: scalarField("connectedXUsername"),
+  expiresAt: scalarField("expiresAt"),
+  intent: scalarField("intent"),
+  matchesOwner: scalarField("matchesOwner"),
+  ownerUsername: scalarField("ownerUsername"),
+  previewUrl: scalarField("previewUrl"),
+  status: scalarField("status"),
+};
+
+const XAgentClaimResultFields: TypeMeta["fields"] = {
+  projectId: scalarField("projectId"),
+  projectUrl: scalarField("projectUrl"),
+  workspaceId: scalarField("workspaceId"),
+};
+
+const XAgentClaimWorkspaceFields: TypeMeta["fields"] = {
+  id: scalarField("id"),
+  name: scalarField("name"),
 };
 
 export const Railway = {
@@ -11559,6 +11938,7 @@ export const Railway = {
     ),
   cloudAgents: (args: {
     readonly environmentId: string;
+    readonly archived?: boolean | null | undefined;
     readonly mine?: boolean | null | undefined;
   }): Query<ReadonlyArray<CloudAgent>, RailwayGlobalError> =>
     rootList(
@@ -11566,7 +11946,7 @@ export const Railway = {
       "cloudAgents",
       CloudAgent,
       args,
-      { environmentId: "ID!", mine: "Boolean" },
+      { archived: "Boolean", environmentId: "ID!", mine: "Boolean" },
       globalErrors,
     ),
   cloudAgentTask: (args: {
@@ -11580,6 +11960,18 @@ export const Railway = {
       CloudAgentTaskResult,
       args,
       { cloudAgentId: "String!", sessionId: "String!", taskId: "String" },
+      globalErrors,
+    ),
+  cloudAgentTaskModels: (args: {
+    readonly environmentId: string;
+    readonly projectId: string;
+  }): Query<CloudAgentTaskModels, RailwayGlobalError> =>
+    root(
+      "query",
+      "cloudAgentTaskModels",
+      CloudAgentTaskModels,
+      args,
+      { environmentId: "String!", projectId: "String!" },
       globalErrors,
     ),
   cloudAgentTasks: (args: {
@@ -11640,6 +12032,18 @@ export const Railway = {
       DomainAvailable,
       args,
       { domain: "String!" },
+      globalErrors,
+    ),
+  databasePasswordRotationProgress: (args: {
+    readonly environmentId: string;
+    readonly serviceId: string;
+  }): Query<DatabasePasswordRotationProgress | null, RailwayGlobalError> =>
+    root(
+      "query",
+      "databasePasswordRotationProgress",
+      DatabasePasswordRotationProgress,
+      args,
+      { environmentId: "String!", serviceId: "String!" },
       globalErrors,
     ),
   deployment: (args: {
@@ -12146,8 +12550,6 @@ export const Railway = {
     rootList("query", "gitHubSshKeys", GitHubSshKey, undefined, undefined, globalErrors),
   githubWritableScopes: (): Query<ReadonlyArray<string>, RailwayGlobalError> =>
     rootLeaf("query", "githubWritableScopes", true, undefined, undefined, globalErrors),
-  herokuApps: (): Query<ReadonlyArray<HerokuApp>, RailwayGlobalError> =>
-    rootList("query", "herokuApps", HerokuApp, undefined, undefined, globalErrors),
   httpDurationMetrics: (args: {
     readonly endDate: string;
     readonly environmentId: string;
@@ -12375,8 +12777,10 @@ export const Railway = {
       },
       globalErrors,
     ),
-  myCloudAgents: (): Query<ReadonlyArray<CloudAgent>, RailwayGlobalError> =>
-    rootList("query", "myCloudAgents", CloudAgent, undefined, undefined, globalErrors),
+  myCloudAgents: (args?: {
+    readonly archived?: boolean | null | undefined;
+  }): Query<ReadonlyArray<CloudAgent>, RailwayGlobalError> =>
+    rootList("query", "myCloudAgents", CloudAgent, args, { archived: "Boolean" }, globalErrors),
   mysqlPitrRestorableWindow: (args: {
     readonly environmentId: string;
     readonly serviceId: string;
@@ -13441,6 +13845,21 @@ export const Railway = {
       RailwayNotFoundSpec,
       ...globalErrors,
     ]),
+  workspaceApiTokens: (args: {
+    readonly workspaceId: string;
+    readonly after?: string | null | undefined;
+    readonly before?: string | null | undefined;
+    readonly first?: number | null | undefined;
+    readonly last?: number | null | undefined;
+  }): Query<ReadonlyArray<ApiToken>, RailwayGlobalError> =>
+    rootConnection(
+      "query",
+      "workspaceApiTokens",
+      ApiToken,
+      args,
+      { after: "String", before: "String", first: "Int", last: "Int", workspaceId: "String!" },
+      globalErrors,
+    ),
   workspaceByCode: (args: { readonly code: string }): Query<Workspace, RailwayGlobalError> =>
     root("query", "workspaceByCode", Workspace, args, { code: "String!" }, globalErrors),
   workspaceIdentityProviders: (args: {
@@ -13535,6 +13954,10 @@ export const Railway = {
       },
       globalErrors,
     ),
+  xAgentClaimInfo: (args: {
+    readonly buildId: string;
+  }): Query<XAgentClaimInfo, RailwayGlobalError> =>
+    root("query", "xAgentClaimInfo", XAgentClaimInfo, args, { buildId: "String!" }, globalErrors),
   accessGroupCreate: (args: {
     readonly input: AccessGroupCreateInput;
   }): Query<AccessGroup, RailwayGlobalError> =>
@@ -13748,6 +14171,8 @@ export const Railway = {
       { input: "CliEventTrackInput!" },
       globalErrors,
     ),
+  cloudAgentArchive: (args: { readonly id: string }): Query<boolean, RailwayGlobalError> =>
+    rootLeaf("mutation", "cloudAgentArchive", false, args, { id: "ID!" }, globalErrors),
   cloudAgentCheckpointCreate: (args: {
     readonly id: string;
     readonly name?: string | null | undefined;
@@ -13826,6 +14251,31 @@ export const Railway = {
       globalErrors,
       { sensitive: true },
     ),
+  cloudAgentMarkSeen: (args: {
+    readonly cloudAgentId: string;
+    readonly sessionId?: string | null | undefined;
+  }): Query<boolean, RailwayGlobalError> =>
+    rootLeaf(
+      "mutation",
+      "cloudAgentMarkSeen",
+      false,
+      args,
+      { cloudAgentId: "ID!", sessionId: "String" },
+      globalErrors,
+    ),
+  cloudAgentSessionRename: (args: {
+    readonly cloudAgentId: string;
+    readonly sessionId: string;
+    readonly title: string;
+  }): Query<boolean, RailwayGlobalError> =>
+    rootLeaf(
+      "mutation",
+      "cloudAgentSessionRename",
+      false,
+      args,
+      { cloudAgentId: "ID!", sessionId: "String!", title: "String!" },
+      globalErrors,
+    ),
   cloudAgentSleep: (args: { readonly id: string }): Query<CloudAgent, RailwayGlobalError> =>
     root("mutation", "cloudAgentSleep", CloudAgent, args, { id: "ID!" }, globalErrors),
   cloudAgentStateReport: (args: {
@@ -13884,6 +14334,8 @@ export const Railway = {
       { input: "CloudAgentTaskRespondInput!" },
       globalErrors,
     ),
+  cloudAgentUnarchive: (args: { readonly id: string }): Query<boolean, RailwayGlobalError> =>
+    rootLeaf("mutation", "cloudAgentUnarchive", false, args, { id: "ID!" }, globalErrors),
   cloudAgentWake: (args: { readonly id: string }): Query<CloudAgent, RailwayGlobalError> =>
     root("mutation", "cloudAgentWake", CloudAgent, args, { id: "ID!" }, globalErrors),
   customDomainCreate: (args: {
@@ -13945,6 +14397,17 @@ export const Railway = {
       false,
       args,
       { customerId: "String!", input: "customerTogglePayoutsToCreditsInput!" },
+      globalErrors,
+    ),
+  databasePasswordReset: (args: {
+    readonly input: DatabasePasswordResetInput;
+  }): Query<DatabasePasswordResetResponse, RailwayGlobalError> =>
+    root(
+      "mutation",
+      "databasePasswordReset",
+      DatabasePasswordResetResponse,
+      args,
+      { input: "DatabasePasswordResetInput!" },
       globalErrors,
     ),
   deploymentApprove: (args: { readonly id: string }): Query<boolean, RailwayGlobalError> =>
@@ -14420,17 +14883,6 @@ export const Railway = {
       { input: "GitHubRepoUpdateInput!" },
       globalErrors,
     ),
-  herokuImportVariables: (args: {
-    readonly input: HerokuImportVariablesInput;
-  }): Query<number, RailwayGlobalError> =>
-    rootLeaf(
-      "mutation",
-      "herokuImportVariables",
-      false,
-      args,
-      { input: "HerokuImportVariablesInput!" },
-      globalErrors,
-    ),
   integrationCreate: (args: {
     readonly input: IntegrationCreateInput;
   }): Query<Integration, RailwayGlobalError> =>
@@ -14826,16 +15278,16 @@ export const Railway = {
       { id: "String!" },
       globalErrors,
     ),
-  projectInviteUser: (args: {
-    readonly id: string;
-    readonly input: ProjectInviteUserInput;
-  }): Query<boolean, RailwayGlobalError> =>
-    rootLeaf(
+  projectInviteCodeCreate: (args: {
+    readonly projectId: string;
+    readonly role: "ADMIN" | "MEMBER" | "VIEWER";
+  }): Query<InviteCode, RailwayGlobalError> =>
+    root(
       "mutation",
-      "projectInviteUser",
-      false,
+      "projectInviteCodeCreate",
+      InviteCode,
       args,
-      { id: "String!", input: "ProjectInviteUserInput!" },
+      { projectId: "String!", role: "ProjectRole!" },
       globalErrors,
     ),
   projectLeave: (args: { readonly id: string }): Query<boolean, RailwayGlobalError> =>
@@ -16052,6 +16504,18 @@ export const Railway = {
       },
       globalErrors,
     ),
+  workspaceApiTokenDelete: (args: {
+    readonly id: string;
+    readonly workspaceId: string;
+  }): Query<boolean, RailwayGlobalError> =>
+    rootLeaf(
+      "mutation",
+      "workspaceApiTokenDelete",
+      false,
+      args,
+      { id: "String!", workspaceId: "String!" },
+      globalErrors,
+    ),
   workspaceDelete: (args: { readonly id: string }): Query<boolean, RailwayGlobalError> =>
     rootLeaf("mutation", "workspaceDelete", false, args, { id: "String!" }, globalErrors),
   workspaceInviteCodeCreate: (args: {
@@ -16203,6 +16667,18 @@ export const Railway = {
       false,
       args,
       { input: "WorkspaceUserRemoveInput!", workspaceId: "String!" },
+      globalErrors,
+    ),
+  xAgentProjectClaim: (args: {
+    readonly buildId: string;
+    readonly workspaceId: string;
+  }): Query<XAgentClaimResult, RailwayGlobalError> =>
+    root(
+      "mutation",
+      "xAgentProjectClaim",
+      XAgentClaimResult,
+      args,
+      { buildId: "String!", workspaceId: "String!" },
       globalErrors,
     ),
 };

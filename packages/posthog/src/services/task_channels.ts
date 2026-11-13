@@ -296,13 +296,21 @@ export interface ListTaskChannelsRequest {
   /** The initial index from which to return the results. */
   offset?: number | undefined;
 }
-export type PaginatedChannelDTOListResultsList = Array<ChannelDTO>;
-export interface PaginatedChannelDTOList {
+export type ChannelListResponseCase0List = Array<ChannelDTO>;
+/** Channels on this page. */
+export type ChannelPageResultsList = Array<ChannelDTO>;
+export interface ChannelPage {
+  /** Number of channels the requester can access. */
   count: number;
-  next?: string | null | undefined;
-  previous?: string | null | undefined;
-  results: PaginatedChannelDTOListResultsList;
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page. */
+  previous: string | null;
+  /** Channels on this page. */
+  results: ChannelPageResultsList;
 }
+export type ChannelListResponse = ChannelListResponseCase0List | ChannelPage;
+export type ListTaskChannelsResponse = ChannelListResponse;
 export interface ListTaskChannelsFeedRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -460,7 +468,7 @@ export const createTaskChannelsProvisionDefault: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c28, 0) as any as S.Schema<CreateTaskChannelsProvisionDefaultRequest>,
-  output: __S(113, __c28, 1) as any as S.Schema<ProvisionedChannels>,
+  output: __S(114, __c28, 2) as any as S.Schema<ProvisionedChannels>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -476,7 +484,7 @@ export const createTaskChannelsSetup: API.OperationMethod<
   CreateTaskChannelsSetupError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(122, __c30, 2) as any as S.Schema<CreateTaskChannelsSetupRequest>,
+  input: __S(118, __c29, 2) as any as S.Schema<CreateTaskChannelsSetupRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<SpaceSetupStartedDTO>,
   errors: [Conflict],
   protocol: PosthogProtocol,
@@ -493,8 +501,8 @@ export const createTaskChannelsStar: API.OperationMethod<
   CreateTaskChannelsStarError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(124, __c31, 0) as any as S.Schema<CreateTaskChannelsStarRequest>,
-  output: __S(128, __c32, 0) as any as S.Schema<CreateTaskChannelsStarResponse>,
+  input: __S(120, __c30, 0) as any as S.Schema<CreateTaskChannelsStarRequest>,
+  output: __S(124, __c31, 0) as any as S.Schema<CreateTaskChannelsStarResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -510,8 +518,8 @@ export const createTaskChannelsTeachingCanvasTest: API.OperationMethod<
   CreateTaskChannelsTeachingCanvasTestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(132, __c33, 0) as any as S.Schema<CreateTaskChannelsTeachingCanvasTestRequest>,
-  output: __S(133, __c33, 1) as any as S.Schema<TeachingCanvas>,
+  input: __S(128, __c32, 0) as any as S.Schema<CreateTaskChannelsTeachingCanvasTestRequest>,
+  output: __S(129, __c32, 1) as any as S.Schema<TeachingCanvas>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -527,7 +535,7 @@ export const getTaskChannel: API.OperationMethod<
   GetTaskChannelError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c34, 0) as any as S.Schema<GetTaskChannelRequest>,
+  input: __S(132, __c33, 0) as any as S.Schema<GetTaskChannelRequest>,
   output: __S(16, __c4, 0) as any as S.Schema<ChannelDTO>,
   errors: [],
   protocol: PosthogProtocol,
@@ -625,12 +633,12 @@ export type ListTaskChannelsError = PosthogOpError;
 /** List channels List channels the requester can access, sorted by name and ID. Includes public channels, their personal #me channel, and private channels they belong to. Call provision_defaults to create missing default channels. Send limit and offset to get a page with count, next, previous, and results. Without limit, the response is an array of all accessible channels. */
 export const listTaskChannels: API.OperationMethod<
   ListTaskChannelsRequest,
-  PaginatedChannelDTOList,
+  ListTaskChannelsResponse,
   ListTaskChannelsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(56, __c14, 0) as any as S.Schema<ListTaskChannelsRequest>,
-  output: __S(57, __c14, 1) as any as S.Schema<PaginatedChannelDTOList>,
+  output: __S(57, __c14, 1) as any as S.Schema<ListTaskChannelsResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -664,7 +672,7 @@ export const taskChannelsDestroy: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c16, 0) as any as S.Schema<TaskChannelsDestroyRequest>,
-  output: __S(128, __c32, 0) as any as S.Schema<TaskChannelsDestroyResponse>,
+  output: __S(124, __c31, 0) as any as S.Schema<TaskChannelsDestroyResponse>,
   errors: [Conflict],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -681,7 +689,7 @@ export const taskChannelsInstructionsDestroy: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<TaskChannelsInstructionsDestroyRequest>,
-  output: __S(128, __c32, 0) as any as S.Schema<TaskChannelsInstructionsDestroyResponse>,
+  output: __S(124, __c31, 0) as any as S.Schema<TaskChannelsInstructionsDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -1001,14 +1009,9 @@ function __c14(j: number): any {
         ),
       ).annotate({ identifier: "ListTaskChannelsRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: __S(116, __c29, 0),
-        }),
-      ).annotate({ identifier: "PaginatedChannelDTOList" });
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListTaskChannelsResponse",
+      });
   }
 }
 function __c15(j: number): any {
@@ -1281,9 +1284,11 @@ function __c28(j: number): any {
         ),
       ).annotate({ identifier: "CreateTaskChannelsProvisionDefaultRequest" });
     case 1:
+      return S.Array(__S(16, __c4, 0));
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          channels: __S(116, __c29, 0),
+          channels: __S(113, __c28, 1),
           personal_created: S.Boolean,
           general_created: S.Boolean,
         }),
@@ -1291,12 +1296,6 @@ function __c28(j: number): any {
   }
 }
 function __c29(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(16, __c4, 0));
-  }
-}
-function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1323,8 +1322,8 @@ function __c30(j: number): any {
           project_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
           kind: S.String,
-          goal: S.optional(__S(120, __c30, 0)),
-          feature: S.optional(__S(121, __c30, 1)),
+          goal: S.optional(__S(116, __c29, 0)),
+          feature: S.optional(__S(117, __c29, 1)),
           repository: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({
@@ -1336,7 +1335,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "CreateTaskChannelsSetupRequest" });
   }
 }
-function __c31(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1354,7 +1353,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CreateTaskChannelsStarRequest" });
   }
 }
-function __c32(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -1362,7 +1361,7 @@ function __c32(j: number): any {
       });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1385,7 +1384,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "TeachingCanvas" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

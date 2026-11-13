@@ -84,54 +84,36 @@ export class NotFound
   ) {}
 
 export interface CheckFreeAccessPublicationsRequest {
-  /** Required. The resource name of the publication. Format: publications/{publication_id} */
-  name: string;
   /** Required. The URI of the content. */
   uri?: string | undefined;
   /** Required. The HTTP referrer. */
   httpReferrer?: string | undefined;
+  /** Required. The resource name of the publication. Format: publications/{publication} */
+  name: string;
 }
 /** Response message for CheckFreeAccess */
 export interface CheckFreeAccessResponse {
   /** Output only. True if free access should be allowed, false otherwise. */
   isAllowed?: boolean | undefined;
 }
-export type PublicationOnboardingStateEnum =
-  | "ONBOARDING_STATE_UNSPECIFIED"
-  | "ACTION_REQUIRED"
-  | "PENDING_VERIFICATION"
-  | "COMPLETE";
-/** Subscription Linking (SL) product settings and status. */
-export interface SlProduct {
-  /** Optional. The Google Cloud Project number associated with the publication. */
-  gcpProjectNumber?: string | undefined;
-  /** Optional. Whether the Subscription Linking product is enabled. */
-  enabled?: boolean | undefined;
+export interface CheckProgramAccessPublicationsRequest {
+  /** Required. The resource name of the publication. Format: publications/{publication} */
+  name: string;
+  /** Required. The specific product ID being accessed. */
+  productId?: string | undefined;
+  /** Required. The encrypted site token string received from the Chrome HTTP header. */
+  swgUserToken?: string | undefined;
 }
-/** Details about the acceptance of the Terms of Service (TOS). */
-export interface TosAcceptance {
-  /** Optional. Whether the user opted in to receive product updates and email communications. */
-  emailOptIn?: boolean | undefined;
-  /** Required. Whether the user has accepted the Terms of Service. */
-  userAccepted?: boolean | undefined;
+export type CheckProgramAccessResponseStatusEnum =
+  | "PROGRAM_ACCESS_STATUS_UNSPECIFIED"
+  | "HAS_ACCESS"
+  | "NO_ACCESS"
+  | "CAP_EXHAUSTED";
+/** Response message for `CheckProgramAccess`. */
+export interface CheckProgramAccessResponse {
+  /** The entitlement access status. */
+  status?: CheckProgramAccessResponseStatusEnum | undefined;
 }
-/** Configuration and status of the Reader Revenue Manager (RRM) product for a publication. */
-export interface RrmProduct {
-  /** Optional. The details of the TOS acceptance. */
-  tosAcceptance?: TosAcceptance | undefined;
-  /** Optional. Whether the RRM product is enabled for the publication. */
-  enabled?: boolean | undefined;
-  /** Output only. The URL to the product-specific Terms of Service. */
-  productTosUrl?: string | undefined;
-}
-/** Represents a domain property associated with a publication, typically used to verify ownership and scope access. */
-export interface DomainProperty {
-  /** Required. The URL of the domain property (e.g., "https://example.com"). */
-  url?: string | undefined;
-  /** Output only. Whether the domain ownership has been verified (e.g., via Google Search Console). */
-  ownershipVerified?: boolean | undefined;
-}
-export type DomainPropertyList = Array<DomainProperty>;
 export type ContentPolicyStatusStateEnum =
   | "STATE_UNSPECIFIED"
   | "OK"
@@ -152,47 +134,83 @@ export type PublicationPaymentOptionEnum =
   | "NONE"
   | "SUBSCRIPTIONS"
   | "CONTRIBUTIONS";
+export type StringList = Array<string>;
 export type PublicationPublicationTypeEnum =
   | "PUBLICATION_TYPE_UNSPECIFIED"
   | "FOR_PROFIT"
   | "NON_PROFIT";
-export type StringList = Array<string>;
+/** Details about the acceptance of the Terms of Service (TOS). */
+export interface TosAcceptance {
+  /** Optional. Whether the user opted in to receive product updates and email communications. */
+  emailOptIn?: boolean | undefined;
+  /** Required. Whether the user has accepted the Terms of Service. */
+  userAccepted?: boolean | undefined;
+}
+/** Configuration and status of the Reader Revenue Manager (RRM) product for a publication. */
+export interface RrmProduct {
+  /** Output only. The URL to the product-specific Terms of Service. */
+  productTosUrl?: string | undefined;
+  /** Optional. The details of the TOS acceptance. */
+  tosAcceptance?: TosAcceptance | undefined;
+  /** Optional. Whether the RRM product is enabled for the publication. */
+  enabled?: boolean | undefined;
+}
+/** Represents a domain property associated with a publication, typically used to verify ownership and scope access. */
+export interface DomainProperty {
+  /** Output only. Whether the domain ownership has been verified (e.g., via Google Search Console). */
+  ownershipVerified?: boolean | undefined;
+  /** Required. The URL of the domain property (e.g., "https://example.com"). */
+  url?: string | undefined;
+}
+export type DomainPropertyList = Array<DomainProperty>;
+export type PublicationOnboardingStateEnum =
+  | "ONBOARDING_STATE_UNSPECIFIED"
+  | "ACTION_REQUIRED"
+  | "PENDING_VERIFICATION"
+  | "COMPLETE";
+/** Subscription Linking (SL) product settings and status. */
+export interface SlProduct {
+  /** Optional. Whether the Subscription Linking product is enabled. */
+  enabled?: boolean | undefined;
+  /** Optional. The Google Cloud Project number associated with the publication. */
+  gcpProjectNumber?: string | undefined;
+}
 /** Represents a publisher's publication in Reader Revenue Manager. */
 export interface Publication {
-  /** Output only. The current onboarding state. */
-  onboardingState?: PublicationOnboardingStateEnum | (string & {}) | undefined;
-  /** Output only. The unique identifier of the publication. */
-  publicationId?: string | undefined;
-  /** Identifier. The resource name of the publication. Format: organizations/{organization}/publications/{publication} */
-  name?: string | undefined;
-  /** Optional. Subscription Linking product configurations. */
-  slProduct?: SlProduct | undefined;
-  /** Optional. The URL to the publisher's Privacy Policy. */
-  publicationPrivacyPolicyUrl?: string | undefined;
-  /** Optional. Reader Revenue Manager product settings and status. */
-  rrmProduct?: RrmProduct | undefined;
-  /** Optional. Additional domain properties verified for the publication. */
-  additionalDomains?: DomainPropertyList | undefined;
-  /** Required. The primary domain property associated with the publication. */
-  primaryDomain?: DomainProperty | undefined;
-  /** Required. The user-visible display name of the publication. */
-  displayName?: string | undefined;
-  /** Output only. The unique identifier of the organization that owns this publication. */
-  organizationId?: string | undefined;
   /** Output only. The content policy compliance status of the publication. */
   contentPolicyStatus?: ContentPolicyStatus | undefined;
   /** Output only. The configured payment option. */
   paymentOption?: PublicationPaymentOptionEnum | (string & {}) | undefined;
-  /** Required. The ISO 3166-1 alpha-2 region code where the publication is registered (e.g., "US"). */
-  regionCode?: string | undefined;
-  /** Optional. The publication entity type (for-profit vs non-profit). Defaults to FOR_PROFIT if omitted. */
-  publicationType?: PublicationPublicationTypeEnum | (string & {}) | undefined;
-  /** Output only. The list of active products/features enabled for this publication. */
-  products?: StringList | undefined;
-  /** Required. The primary language of the publication (BCP-47 code, e.g., "en-US"). */
-  languageCode?: string | undefined;
   /** Optional. The URL to the publisher's own Terms of Service. */
   publicationTosUrl?: string | undefined;
+  /** Output only. The list of active products/features enabled for this publication. */
+  products?: StringList | undefined;
+  /** Identifier. The resource name of the publication. Format: organizations/{organization}/publications/{publication} */
+  name?: string | undefined;
+  /** Output only. The unique identifier of the publication. */
+  publicationId?: string | undefined;
+  /** Optional. The publication entity type (for-profit vs non-profit). Defaults to FOR_PROFIT if omitted. */
+  publicationType?: PublicationPublicationTypeEnum | (string & {}) | undefined;
+  /** Output only. The unique identifier of the organization that owns this publication. */
+  organizationId?: string | undefined;
+  /** Optional. Reader Revenue Manager product settings and status. */
+  rrmProduct?: RrmProduct | undefined;
+  /** Required. The ISO 3166-1 alpha-2 region code where the publication is registered (e.g., "US"). */
+  regionCode?: string | undefined;
+  /** Required. The primary domain property associated with the publication. */
+  primaryDomain?: DomainProperty | undefined;
+  /** Required. The primary language of the publication (BCP-47 code, e.g., "en-US"). */
+  languageCode?: string | undefined;
+  /** Optional. Additional domain properties verified for the publication. */
+  additionalDomains?: DomainPropertyList | undefined;
+  /** Required. The user-visible display name of the publication. */
+  displayName?: string | undefined;
+  /** Output only. The current onboarding state. */
+  onboardingState?: PublicationOnboardingStateEnum | (string & {}) | undefined;
+  /** Optional. Subscription Linking product configurations. */
+  slProduct?: SlProduct | undefined;
+  /** Optional. The URL to the publisher's Privacy Policy. */
+  publicationPrivacyPolicyUrl?: string | undefined;
 }
 export interface CreateOrganizationsPublicationsRequest {
   /** Required. The parent resource where this publication will be created. Format: `organizations/{organization}`. */
@@ -202,33 +220,77 @@ export interface CreateOrganizationsPublicationsRequest {
   /** Request body */
   body?: Publication | undefined;
 }
-export type CtaTypeEnum = "TYPE_UNSPECIFIED" | "NEWSLETTER_SIGNUP";
+export type IntegerList = Array<number>;
+/** A preset question referencing a template in the survey question catalog. */
+export interface PresetQuestion {
+  /** Required. ID of the question template from `SurveyQuestionCatalog`. */
+  questionId?: number | undefined;
+  /** Optional. Selected answer choice IDs from the question template. Required (2-5 unique IDs) when the catalog question is `CONFIGURABLE_CHOICES`, and must be omitted for `FIXED_CHOICES`. */
+  answerIds?: IntegerList | undefined;
+}
+/** An answer choice for a custom survey question. */
+export interface CustomAnswerChoice {
+  /** Required. The display text of the answer choice shown to readers. */
+  displayText?: string | undefined;
+}
+export type CustomAnswerChoiceList = Array<CustomAnswerChoice>;
+/** A custom question defined by the publisher. */
+export interface CustomQuestion {
+  /** Output only. Server-assigned unique identifier for the custom question. */
+  id?: string | undefined;
+  /** Optional. Reporting category label sent to Google Analytics (up to 100 characters). */
+  categoryLabel?: string | undefined;
+  /** Required. Ordered list of answer choices for the custom question (2-5 items). */
+  answerChoices?: CustomAnswerChoiceList | undefined;
+  /** Optional. The question prompt displayed to readers (up to 140 characters). */
+  displayText?: string | undefined;
+}
+/** A single question within a survey, which can be either a preset question from the catalog or a custom publisher-defined question. */
+export interface SurveyQuestion {
+  /** Optional. A question selected from the preset question catalog. */
+  presetQuestion?: PresetQuestion | undefined;
+  /** Optional. A custom question defined by the publisher. */
+  customQuestion?: CustomQuestion | undefined;
+}
+export type SurveyQuestionList = Array<SurveyQuestion>;
+/** Configuration for survey calls-to-action (CTAs). */
+export interface SurveyConfig {
+  /** Optional. Ordered list of questions presented in the survey (1-3 items when `ACTIVE`; 0-3 when `DRAFT`). */
+  questions?: SurveyQuestionList | undefined;
+  /** Optional. Header prompt shown to readers. If omitted, the server populates the default prompt localized to the parent publication's configured primary language. */
+  customMessage?: string | undefined;
+  /** Output only. Link to the Looker Studio dashboard. */
+  reportUrl?: string | undefined;
+}
 export type CtaStateEnum = "STATE_UNSPECIFIED" | "DRAFT" | "ACTIVE";
+export type CtaTypeEnum = "TYPE_UNSPECIFIED" | "NEWSLETTER_SIGNUP" | "SURVEY";
 /** Configuration for newsletter signup calls-to-action (CTAs). */
 export interface NewsletterConfig {
-  /** Required. The title of the newsletter signup prompt. */
-  title?: string | undefined;
-  /** Optional. Whether checking the opt-in checkbox is required. */
-  optInRequired?: boolean | undefined;
   /** Optional. Whether the user is required to provide their name to sign up. */
   nameRequired?: boolean | undefined;
   /** Optional. A custom message displayed to the user in the signup prompt. */
   customMessage?: string | undefined;
   /** Optional. Custom consent or disclosure text shown to the user. */
   customConsentText?: string | undefined;
+  /** Optional. Whether checking the opt-in checkbox is required. */
+  optInRequired?: boolean | undefined;
+  /** Required. The title of the newsletter signup prompt. */
+  title?: string | undefined;
 }
 /** Represents a Call-To-Action (CTA) configuration for a publication. */
 export interface Cta {
+  /** Optional. Configuration specific to survey CTAs. Only populated if type is `SURVEY`. */
+  surveyConfig?: SurveyConfig | undefined;
+  /** Identifier. The resource name of the Cta. Format: organizations/{organization}/publications/{publication}/ctas/{cta} */
+  name?: string | undefined;
+  /** Optional. The current state of this CTA. */
+  state?: CtaStateEnum | (string & {}) | undefined;
   /** Required. The user-visible display name of the CTA. */
   displayName?: string | undefined;
   /** Required. The type of this CTA. */
   type?: CtaTypeEnum | (string & {}) | undefined;
-  /** Output only. The current state of this CTA. */
-  state?: CtaStateEnum | (string & {}) | undefined;
   /** Optional. Configuration specific to newsletter signup CTAs. Only populated if type is `NEWSLETTER_SIGNUP`. */
   newsletterConfig?: NewsletterConfig | undefined;
-  /** Identifier. The resource name of the Cta. Format: organizations/{organization}/publications/{publication}/ctas/{cta} */
-  name?: string | undefined;
 }
 export interface CreateOrganizationsPublicationsCtasRequest {
   /** Required. The parent publication resource where this CTA will be created. Format: `organizations/{organization}/publications/{publication}`. */
@@ -248,10 +310,10 @@ export interface GeneratePlatformSiteTokensUsersRequest {
 }
 /** Represents a domain-scoped secure token mapping. */
 export interface SiteToken {
-  /** The domain-scoped secure token value (ESUT). */
-  token?: string | undefined;
   /** The domain scope this token is valid for. */
   domain?: string | undefined;
+  /** The domain-scoped secure token value (ESUT). */
+  token?: string | undefined;
 }
 export type SiteTokenList = Array<SiteToken>;
 /** Response message for `GeneratePlatformSiteTokens`. */
@@ -267,29 +329,422 @@ export interface GetOrganizationsPublicationsCtasRequest {
   /** Required. The resource name of the CTA to retrieve. Format: `organizations/{organization}/publications/{publication}/ctas/{cta}`. */
   name: string;
 }
+export interface GetSurveyQuestionCatalogOrganizationsPublicationsRequest {
+  /** Optional. The BCP-47 language code (e.g., "en-US", "es-419") to override the publication's configured primary language. */
+  languageCode?: string | undefined;
+  /** Required. The resource name of the survey question catalog to retrieve. Format: `organizations/{organization}/publications/{publication}/surveyQuestionCatalog`. */
+  name: string;
+}
+export type QuestionTemplateConfigurationTypeEnum =
+  | "QUESTION_CONFIGURATION_TYPE_UNSPECIFIED"
+  | "FIXED_CHOICES"
+  | "CONFIGURABLE_CHOICES";
+export type AnswerChoiceTemplateCategoryEnum =
+  | "ANSWER_CATEGORY_UNSPECIFIED"
+  | "INTEREST__ACADEMIC_INTERESTS"
+  | "INTEREST__AUTOMOTIVE"
+  | "INTEREST__BOOKS_AND_LITERATURE"
+  | "INTEREST__BUSINESS_AND_FINANCE"
+  | "INTEREST__CAREERS"
+  | "INTEREST__FAMILY_AND_RELATIONSHIPS"
+  | "INTEREST__FINE_ART"
+  | "INTEREST__FOOD_AND_DRINK"
+  | "INTEREST__HEALTH_AND_MEDICAL_SERVICES"
+  | "INTEREST__HEALTHY_LIVING"
+  | "INTEREST__HOBBIES_AND_INTERESTS"
+  | "INTEREST__HOME_AND_GARDEN"
+  | "INTEREST__MEDICAL_HEALTH"
+  | "INTEREST__MOVIES"
+  | "INTEREST__MUSIC_AND_AUDIO"
+  | "INTEREST__NEWS_AND_POLITICS"
+  | "INTEREST__PERSONAL_FINANCE"
+  | "INTEREST__PETS"
+  | "INTEREST__PHARMACEUTICALS_CONDITIONS_AND_SYMPTOMS"
+  | "INTEREST__POP_CULTURE"
+  | "INTEREST__REAL_ESTATE"
+  | "INTEREST__SHOPPING"
+  | "INTEREST__SPORTS"
+  | "INTEREST__STYLE_AND_FASHION"
+  | "INTEREST__TECHNOLOGY_AND_COMPUTING"
+  | "INTEREST__TELEVISION"
+  | "INTEREST__TRAVEL"
+  | "INTEREST__VIDEO_GAMING"
+  | "INTEREST__ACADEMIC_INTERESTS__ARTS_AND_HUMANITIES"
+  | "INTEREST__ACADEMIC_INTERESTS__LANGUAGE_LEARNING"
+  | "INTEREST__ACADEMIC_INTERESTS__LIFE_SCIENCES"
+  | "INTEREST__ACADEMIC_INTERESTS__PHYSICAL_SCIENCE_AND_ENGINEERING"
+  | "INTEREST__ACADEMIC_INTERESTS__SOCIAL_SCIENCES"
+  | "INTEREST__AUTOMOTIVE__AUTO_BUYING_AND_SELLING"
+  | "INTEREST__AUTOMOTIVE__AUTO_SHOWS"
+  | "INTEREST__AUTOMOTIVE__AUTO_TECHNOLOGY"
+  | "INTEREST__AUTOMOTIVE__BUDGET_CARS"
+  | "INTEREST__AUTOMOTIVE__CAR_CULTURE"
+  | "INTEREST__AUTOMOTIVE__CLASSIC_CARS"
+  | "INTEREST__AUTOMOTIVE__CONCEPT_CARS"
+  | "INTEREST__AUTOMOTIVE__DASH_CAM_VIDEOS"
+  | "INTEREST__AUTOMOTIVE__DRIVERLESS_CARS"
+  | "INTEREST__AUTOMOTIVE__GREEN_VEHICLES"
+  | "INTEREST__AUTOMOTIVE__LUXURY_CARS"
+  | "INTEREST__AUTOMOTIVE__MOTORCYCLES"
+  | "INTEREST__AUTOMOTIVE__PERFORMANCE_CARS"
+  | "INTEREST__AUTOMOTIVE__SCOOTERS"
+  | "INTEREST__BOOKS_AND_LITERATURE__ART_AND_PHOTOGRAPHY_BOOKS"
+  | "INTEREST__BOOKS_AND_LITERATURE__BIOGRAPHIES"
+  | "INTEREST__BOOKS_AND_LITERATURE__CHILDRENS_LITERATURE"
+  | "INTEREST__BOOKS_AND_LITERATURE__COMICS_AND_GRAPHIC_NOVELS"
+  | "INTEREST__BOOKS_AND_LITERATURE__COOKBOOKS"
+  | "INTEREST__BOOKS_AND_LITERATURE__FICTION"
+  | "INTEREST__BOOKS_AND_LITERATURE__POETRY"
+  | "INTEREST__BOOKS_AND_LITERATURE__TRAVEL_BOOKS"
+  | "INTEREST__BOOKS_AND_LITERATURE__YOUNG_ADULT_LITERATURE"
+  | "INTEREST__BUSINESS_AND_FINANCE__BUSINESS"
+  | "INTEREST__BUSINESS_AND_FINANCE__ECONOMY"
+  | "INTEREST__BUSINESS_AND_FINANCE__INDUSTRIES"
+  | "INTEREST__CAREERS__APPRENTICESHIPS"
+  | "INTEREST__CAREERS__CAREER_ADVICE"
+  | "INTEREST__CAREERS__CAREER_PLANNING"
+  | "INTEREST__CAREERS__REMOTE_WORKING"
+  | "INTEREST__CAREERS__VOCATIONAL_TRAINING"
+  | "INTEREST__EDUCATION__ADULT_EDUCATION"
+  | "INTEREST__EDUCATION__ONLINE_EDUCATION"
+  | "INTEREST__FAMILY_AND_RELATIONSHIPS__PARENTING"
+  | "INTEREST__FINE_ART__COSTUME"
+  | "INTEREST__FINE_ART__DANCE"
+  | "INTEREST__FINE_ART__DESIGN"
+  | "INTEREST__FINE_ART__DIGITAL_ARTS"
+  | "INTEREST__FINE_ART__FINE_ART_PHOTOGRAPHY"
+  | "INTEREST__FINE_ART__MODERN_ART"
+  | "INTEREST__FINE_ART__OPERA"
+  | "INTEREST__FINE_ART__THEATER"
+  | "INTEREST__FOOD_AND_DRINK__ALCOHOLIC_BEVERAGES"
+  | "INTEREST__FOOD_AND_DRINK__BARBECUES_AND_GRILLING"
+  | "INTEREST__FOOD_AND_DRINK__COOKING"
+  | "INTEREST__FOOD_AND_DRINK__DESSERTS_AND_BAKING"
+  | "INTEREST__FOOD_AND_DRINK__DINING_OUT"
+  | "INTEREST__FOOD_AND_DRINK__FOOD_ALLERGIES"
+  | "INTEREST__FOOD_AND_DRINK__FOOD_MOVEMENTS"
+  | "INTEREST__FOOD_AND_DRINK__HEALTHY_COOKING_AND_EATING"
+  | "INTEREST__FOOD_AND_DRINK__NON_ALCOHOLIC_BEVERAGES"
+  | "INTEREST__FOOD_AND_DRINK__VEGAN_DIETS"
+  | "INTEREST__FOOD_AND_DRINK__VEGETARIAN_DIETS"
+  | "INTEREST__FOOD_AND_DRINK__WORLD_CUISINES"
+  | "INTEREST__HEALTH_AND_MEDICAL_SERVICES__HEALTH_AND_PHARMA"
+  | "INTEREST__HEALTHY_LIVING__CHILDRENS_HEALTH"
+  | "INTEREST__HEALTHY_LIVING__FITNESS_AND_EXERCISE"
+  | "INTEREST__HEALTHY_LIVING__MENS_HEALTH"
+  | "INTEREST__HEALTHY_LIVING__NUTRITION"
+  | "INTEREST__HEALTHY_LIVING__SENIOR_HEALTH"
+  | "INTEREST__HEALTHY_LIVING__WEIGHT_LOSS"
+  | "INTEREST__HEALTHY_LIVING__WELLNESS"
+  | "INTEREST__HEALTHY_LIVING__WOMENS_HEALTH"
+  | "INTEREST__HOBBIES_AND_INTERESTS__ANTIQUING_AND_ANTIQUES"
+  | "INTEREST__HOBBIES_AND_INTERESTS__ARTS_AND_CRAFTS"
+  | "INTEREST__HOBBIES_AND_INTERESTS__BEEKEEPING"
+  | "INTEREST__HOBBIES_AND_INTERESTS__BIRDWATCHING"
+  | "INTEREST__HOBBIES_AND_INTERESTS__CIGARS"
+  | "INTEREST__HOBBIES_AND_INTERESTS__COLLECTING"
+  | "INTEREST__HOBBIES_AND_INTERESTS__CONTENT_PRODUCTION"
+  | "INTEREST__HOBBIES_AND_INTERESTS__GAMES_AND_PUZZLES"
+  | "INTEREST__HOBBIES_AND_INTERESTS__GENEALOGY_AND_ANCESTRY"
+  | "INTEREST__HOBBIES_AND_INTERESTS__MAGIC_AND_ILLUSION"
+  | "INTEREST__HOBBIES_AND_INTERESTS__MODEL_TOYS"
+  | "INTEREST__HOBBIES_AND_INTERESTS__MUSICAL_INSTRUMENTS"
+  | "INTEREST__HOBBIES_AND_INTERESTS__PARANORMAL_PHENOMENA"
+  | "INTEREST__HOBBIES_AND_INTERESTS__RADIO_CONTROL"
+  | "INTEREST__HOBBIES_AND_INTERESTS__SCI_FI_AND_FANTASY"
+  | "INTEREST__HOBBIES_AND_INTERESTS__WORKSHOPS_AND_CLASSES"
+  | "INTEREST__HOME_AND_GARDEN__GARDENING"
+  | "INTEREST__HOME_AND_GARDEN__HOME_ENTERTAINING"
+  | "INTEREST__HOME_AND_GARDEN__HOME_IMPROVEMENT"
+  | "INTEREST__HOME_AND_GARDEN__INTERIOR_DECORATING"
+  | "INTEREST__HOME_AND_GARDEN__LANDSCAPING"
+  | "INTEREST__HOME_AND_GARDEN__OUTDOOR_DECORATING"
+  | "INTEREST__HOME_AND_GARDEN__REMODELING_AND_CONSTRUCTION"
+  | "INTEREST__HOME_AND_GARDEN__SMART_HOME"
+  | "INTEREST__MOVIES__ACTION_AND_ADVENTURE_MOVIES"
+  | "INTEREST__MOVIES__ANIMATION_MOVIES"
+  | "INTEREST__MOVIES__COMEDY_MOVIES"
+  | "INTEREST__MOVIES__CRIME_AND_MYSTERY_MOVIES"
+  | "INTEREST__MOVIES__DOCUMENTARY_MOVIES"
+  | "INTEREST__MOVIES__DRAMA_MOVIES"
+  | "INTEREST__MOVIES__FAMILY_AND_CHILDREN_MOVIES"
+  | "INTEREST__MOVIES__FANTASY_MOVIES"
+  | "INTEREST__MOVIES__HORROR_MOVIES"
+  | "INTEREST__MOVIES__INDIE_AND_ARTHOUSE_MOVIES"
+  | "INTEREST__MOVIES__ROMANCE_MOVIES"
+  | "INTEREST__MOVIES__SCIENCE_FICTION_MOVIES"
+  | "INTEREST__MOVIES__WORLD_MOVIES"
+  | "INTEREST__MUSIC_AND_AUDIO__ADULT_ALBUM_ALTERNATIVE"
+  | "INTEREST__MUSIC_AND_AUDIO__ADULT_CONTEMPORARY_MUSIC"
+  | "INTEREST__MUSIC_AND_AUDIO__ALTERNATIVE_MUSIC"
+  | "INTEREST__MUSIC_AND_AUDIO__BLUES"
+  | "INTEREST__MUSIC_AND_AUDIO__CHILDRENS_MUSIC"
+  | "INTEREST__MUSIC_AND_AUDIO__CLASSIC_HITS"
+  | "INTEREST__MUSIC_AND_AUDIO__CLASSICAL_MUSIC"
+  | "INTEREST__MUSIC_AND_AUDIO__COLLEGE_RADIO"
+  | "INTEREST__MUSIC_AND_AUDIO__COMEDY_MUSIC_AND_AUDIO"
+  | "INTEREST__MUSIC_AND_AUDIO__CONTEMPORARY_HITS_POP_TOP_40"
+  | "INTEREST__MUSIC_AND_AUDIO__COUNTRY_MUSIC"
+  | "INTEREST__MUSIC_AND_AUDIO__DANCE_AND_ELECTRONIC_MUSIC"
+  | "INTEREST__MUSIC_AND_AUDIO__GOSPEL_MUSIC"
+  | "INTEREST__MUSIC_AND_AUDIO__HIP_HOP_MUSIC"
+  | "INTEREST__MUSIC_AND_AUDIO__INSPIRATIONAL_NEW_AGE_MUSIC"
+  | "INTEREST__MUSIC_AND_AUDIO__JAZZ"
+  | "INTEREST__MUSIC_AND_AUDIO__OLDIES_ADULT_STANDARDS"
+  | "INTEREST__MUSIC_AND_AUDIO__RNB_SOUL_FUNK"
+  | "INTEREST__MUSIC_AND_AUDIO__REGGAE"
+  | "INTEREST__MUSIC_AND_AUDIO__RELIGIOUS__MUSIC_AND_AUDIO"
+  | "INTEREST__MUSIC_AND_AUDIO__ROCK_MUSIC"
+  | "INTEREST__MUSIC_AND_AUDIO__SONGWRITERS_FOLK"
+  | "INTEREST__MUSIC_AND_AUDIO__SOUNDTRACKS_TV_AND_SHOWTUNES"
+  | "INTEREST__MUSIC_AND_AUDIO__SPORTS_RADIO"
+  | "INTEREST__MUSIC_AND_AUDIO__TALK_RADIO"
+  | "INTEREST__MUSIC_AND_AUDIO__URBAN_CONTEMPORARY_MUSIC"
+  | "INTEREST__MUSIC_AND_AUDIO__VARIETY__MUSIC_AND_AUDIO"
+  | "INTEREST__MUSIC_AND_AUDIO__WORLD_INTERNATIONAL_MUSIC"
+  | "INTEREST__NEWS_AND_POLITICS__CRIME"
+  | "INTEREST__NEWS_AND_POLITICS__DISASTERS"
+  | "INTEREST__NEWS_AND_POLITICS__INTERNATIONAL_NEWS"
+  | "INTEREST__NEWS_AND_POLITICS__LAW"
+  | "INTEREST__NEWS_AND_POLITICS__LOCAL_NEWS"
+  | "INTEREST__NEWS_AND_POLITICS__NATIONAL_NEWS"
+  | "INTEREST__NEWS_AND_POLITICS__POLITICS"
+  | "INTEREST__NEWS_AND_POLITICS__WEATHER"
+  | "INTEREST__PERSONAL_FINANCE__FRUGAL_LIVING"
+  | "INTEREST__PERSONAL_FINANCE__INSURANCE"
+  | "INTEREST__PERSONAL_FINANCE__PERSONAL_DEBT"
+  | "INTEREST__PERSONAL_FINANCE__PERSONAL_INVESTING"
+  | "INTEREST__PERSONAL_FINANCE__PERSONAL_TAXES"
+  | "INTEREST__PERSONAL_FINANCE__RETIREMENT_PLANNING"
+  | "INTEREST__PETS__BIRDS"
+  | "INTEREST__PETS__CATS"
+  | "INTEREST__PETS__DOGS"
+  | "INTEREST__PETS__FISH_AND_AQUARIUMS"
+  | "INTEREST__PETS__HORSES_AND_EQUINE"
+  | "INTEREST__PETS__LARGE_ANIMALS"
+  | "INTEREST__PETS__PET_ADOPTIONS"
+  | "INTEREST__PETS__REPTILES"
+  | "INTEREST__POP_CULTURE__HUMOR_AND_SATIRE"
+  | "INTEREST__REAL_ESTATE__APARTMENTS"
+  | "INTEREST__REAL_ESTATE__DEVELOPMENTAL_SITES"
+  | "INTEREST__REAL_ESTATE__HOTEL_PROPERTIES"
+  | "INTEREST__REAL_ESTATE__HOUSES"
+  | "INTEREST__REAL_ESTATE__INDUSTRIAL_PROPERTY"
+  | "INTEREST__REAL_ESTATE__LAND_AND_FARMS"
+  | "INTEREST__REAL_ESTATE__OFFICE_PROPERTY"
+  | "INTEREST__REAL_ESTATE__REAL_ESTATE_BUYING_AND_SELLING"
+  | "INTEREST__REAL_ESTATE__REAL_ESTATE_RENTING_AND_LEASING"
+  | "INTEREST__REAL_ESTATE__RETAIL_PROPERTY"
+  | "INTEREST__REAL_ESTATE__VACATION_PROPERTIES"
+  | "INTEREST__SPORTS__AMERICAN_FOOTBALL"
+  | "INTEREST__SPORTS__AUSTRALIAN_RULES_FOOTBALL"
+  | "INTEREST__SPORTS__AUTO_RACING"
+  | "INTEREST__SPORTS__BADMINTON"
+  | "INTEREST__SPORTS__BASEBALL"
+  | "INTEREST__SPORTS__BASKETBALL"
+  | "INTEREST__SPORTS__BEACH_VOLLEYBALL"
+  | "INTEREST__SPORTS__BODYBUILDING"
+  | "INTEREST__SPORTS__BOWLING"
+  | "INTEREST__SPORTS__BOXING"
+  | "INTEREST__SPORTS__CHEERLEADING"
+  | "INTEREST__SPORTS__COLLEGE_SPORTS"
+  | "INTEREST__SPORTS__CRICKET"
+  | "INTEREST__SPORTS__CYCLING"
+  | "INTEREST__SPORTS__DARTS"
+  | "INTEREST__SPORTS__DISABLED_SPORTS"
+  | "INTEREST__SPORTS__DIVING"
+  | "INTEREST__SPORTS__EQUINE_SPORTS"
+  | "INTEREST__SPORTS__EXTREME_SPORTS"
+  | "INTEREST__SPORTS__FANTASY_SPORTS"
+  | "INTEREST__SPORTS__FIELD_HOCKEY"
+  | "INTEREST__SPORTS__FIGURE_SKATING"
+  | "INTEREST__SPORTS__FISHING_SPORTS"
+  | "INTEREST__SPORTS__GOLF"
+  | "INTEREST__SPORTS__GYMNASTICS"
+  | "INTEREST__SPORTS__HUNTING_AND_SHOOTING"
+  | "INTEREST__SPORTS__ICE_HOCKEY"
+  | "INTEREST__SPORTS__INLINE_SKATING"
+  | "INTEREST__SPORTS__LACROSSE"
+  | "INTEREST__SPORTS__MARTIAL_ARTS"
+  | "INTEREST__SPORTS__OLYMPIC_SPORTS"
+  | "INTEREST__SPORTS__POKER_AND_PROFESSIONAL_GAMBLING"
+  | "INTEREST__SPORTS__RODEO"
+  | "INTEREST__SPORTS__ROWING"
+  | "INTEREST__SPORTS__RUGBY"
+  | "INTEREST__SPORTS__SAILING"
+  | "INTEREST__SPORTS__SKIING"
+  | "INTEREST__SPORTS__SNOOKER_POOL_BILLIARDS"
+  | "INTEREST__SPORTS__SOCCER"
+  | "INTEREST__SPORTS__SOFTBALL"
+  | "INTEREST__SPORTS__SPORTS_EQUIPMENT"
+  | "INTEREST__SPORTS__SQUASH"
+  | "INTEREST__SPORTS__SWIMMING"
+  | "INTEREST__SPORTS__TABLE_TENNIS"
+  | "INTEREST__SPORTS__TENNIS"
+  | "INTEREST__SPORTS__TRACK_AND_FIELD"
+  | "INTEREST__SPORTS__VOLLEYBALL"
+  | "INTEREST__SPORTS__WALKING"
+  | "INTEREST__SPORTS__WATER_POLO"
+  | "INTEREST__SPORTS__WEIGHTLIFTING"
+  | "INTEREST__SPORTS__WRESTLING"
+  | "INTEREST__STYLE_AND_FASHION__BEAUTY"
+  | "INTEREST__STYLE_AND_FASHION__BODY_ART"
+  | "INTEREST__STYLE_AND_FASHION__CHILDRENS_CLOTHING"
+  | "INTEREST__STYLE_AND_FASHION__DESIGNER_CLOTHING"
+  | "INTEREST__STYLE_AND_FASHION__FASHION_TRENDS"
+  | "INTEREST__STYLE_AND_FASHION__HIGH_FASHION"
+  | "INTEREST__STYLE_AND_FASHION__MENS_FASHION"
+  | "INTEREST__STYLE_AND_FASHION__PERSONAL_CARE"
+  | "INTEREST__STYLE_AND_FASHION__STREET_STYLE"
+  | "INTEREST__STYLE_AND_FASHION__WOMENS_FASHION"
+  | "INTEREST__TECHNOLOGY_AND_COMPUTING__ARTIFICIAL_INTELLIGENCE"
+  | "INTEREST__TECHNOLOGY_AND_COMPUTING__AUGMENTED_REALITY"
+  | "INTEREST__TECHNOLOGY_AND_COMPUTING__COMPUTING"
+  | "INTEREST__TECHNOLOGY_AND_COMPUTING__CONSUMER_ELECTRONICS"
+  | "INTEREST__TECHNOLOGY_AND_COMPUTING__ROBOTICS"
+  | "INTEREST__TECHNOLOGY_AND_COMPUTING__VIRTUAL_REALITY"
+  | "INTEREST__TELEVISION__ANIMATION_TV"
+  | "INTEREST__TELEVISION__CHILDRENS_TV"
+  | "INTEREST__TELEVISION__COMEDY_TV"
+  | "INTEREST__TELEVISION__DRAMA_TV"
+  | "INTEREST__TELEVISION__FACTUAL_TV"
+  | "INTEREST__TELEVISION__HOLIDAY_TV"
+  | "INTEREST__TELEVISION__MUSIC_TV"
+  | "INTEREST__TELEVISION__REALITY_TV"
+  | "INTEREST__TELEVISION__SCIENCE_FICTION_TV"
+  | "INTEREST__TELEVISION__SOAP_OPERA_TV"
+  | "INTEREST__TELEVISION__SPECIAL_INTEREST_TV"
+  | "INTEREST__TELEVISION__SPORTS_TV"
+  | "INTEREST__TRAVEL__ADVENTURE_TRAVEL"
+  | "INTEREST__TRAVEL__AFRICA_TRAVEL"
+  | "INTEREST__TRAVEL__ASIA_TRAVEL"
+  | "INTEREST__TRAVEL__AUSTRALIA_AND_OCEANIA_TRAVEL"
+  | "INTEREST__TRAVEL__BEACH_TRAVEL"
+  | "INTEREST__TRAVEL__CAMPING"
+  | "INTEREST__TRAVEL__DAY_TRIPS"
+  | "INTEREST__TRAVEL__EUROPE_TRAVEL"
+  | "INTEREST__TRAVEL__FAMILY_TRAVEL"
+  | "INTEREST__TRAVEL__NORTH_AMERICA_TRAVEL"
+  | "INTEREST__TRAVEL__POLAR_TRAVEL"
+  | "INTEREST__TRAVEL__ROAD_TRIPS"
+  | "INTEREST__TRAVEL__SOUTH_AMERICA_TRAVEL"
+  | "INTEREST__VIDEO_GAMING__CONSOLE_GAMES"
+  | "INTEREST__VIDEO_GAMING__ESPORTS"
+  | "INTEREST__VIDEO_GAMING__MOBILE_GAMES"
+  | "INTEREST__VIDEO_GAMING__PC_GAMES"
+  | "INTEREST__VIDEO_GAMING__VIDEO_GAME_GENRES"
+  | "DEMOGRAPHIC__EDUCATION_AND_OCCUPATION__HIGH_SCHOOL_GRADUATE"
+  | "DEMOGRAPHIC__EDUCATION_AND_OCCUPATION__ASSOCIATES_DEGREE"
+  | "DEMOGRAPHIC__EDUCATION_AND_OCCUPATION__BACHELORS_DEGREE"
+  | "DEMOGRAPHIC__EDUCATION_AND_OCCUPATION__GRADUATE_DEGREE_AND_ABOVE"
+  | "DEMOGRAPHIC__EDUCATION_AND_OCCUPATION__EDUCATION_OTHER"
+  | "DEMOGRAPHIC__AGE_RANGE__18_TO_24"
+  | "DEMOGRAPHIC__AGE_RANGE__25_TO_34"
+  | "DEMOGRAPHIC__AGE_RANGE__35_TO_44"
+  | "DEMOGRAPHIC__AGE_RANGE__45_TO_54"
+  | "DEMOGRAPHIC__AGE_RANGE__55_AND_ABOVE"
+  | "DEMOGRAPHIC__HOUSEHOLD_DATA__LESS_THAN_10000"
+  | "DEMOGRAPHIC__HOUSEHOLD_DATA__10000_TO_49999"
+  | "DEMOGRAPHIC__HOUSEHOLD_DATA__50000_TO_149999"
+  | "DEMOGRAPHIC__HOUSEHOLD_DATA__150000_TO_249999"
+  | "DEMOGRAPHIC__HOUSEHOLD_DATA__250000_AND_ABOVE"
+  | "DEMOGRAPHIC__HOUSEHOLD_DATA__LESS_THAN_50000"
+  | "DEMOGRAPHIC__HOUSEHOLD_DATA__1_ADULT"
+  | "DEMOGRAPHIC__HOUSEHOLD_DATA__2_ADULTS"
+  | "DEMOGRAPHIC__HOUSEHOLD_DATA__3_AND_ABOVE_ADULTS"
+  | "DEMOGRAPHIC__HOUSEHOLD_DATA__0_CHILD"
+  | "DEMOGRAPHIC__HOUSEHOLD_DATA__1_CHILD"
+  | "DEMOGRAPHIC__HOUSEHOLD_DATA__2_CHILDREN"
+  | "DEMOGRAPHIC__HOUSEHOLD_DATA__3_AND_ABOVE_CHILDREN"
+  | "DEMOGRAPHIC__EDUCATION_AND_OCCUPATION__RETIRED"
+  | "DEMOGRAPHIC__EDUCATION_AND_OCCUPATION__STUDENT"
+  | "DEMOGRAPHIC__EDUCATION_AND_OCCUPATION__PART_TIME"
+  | "DEMOGRAPHIC__EDUCATION_AND_OCCUPATION__FULL_TIME"
+  | "DEMOGRAPHIC__EDUCATION_AND_OCCUPATION__SELF_EMPLOYED"
+  | "DEMOGRAPHIC__EDUCATION_AND_OCCUPATION__UNEMPLOYED_JOB_SEEKER"
+  | "PURCHASE_INTENT__BEAUTY"
+  | "PURCHASE_INTENT__CLOTHING"
+  | "PURCHASE_INTENT__CREDIT_CARDS"
+  | "PURCHASE_INTENT__ELECTRONICS"
+  | "PURCHASE_INTENT__HOME_AND_GARDEN_PRODUCTS"
+  | "PURCHASE_INTENT__HOUSEHOLD_APPLIANCES"
+  | "PURCHASE_INTENT__INSURANCE"
+  | "PURCHASE_INTENT__NEW_OR_PRE_OWNED_VEHICLES"
+  | "PURCHASE_INTENT__NONE_OF_THE_ABOVE"
+  | "DIGITAL_SUBSCRIPTION_BENEFITS__ACCESS_TO_EXCLUSIVE_CONTENT"
+  | "DIGITAL_SUBSCRIPTION_BENEFITS__ANYTIME_CANCELLATION"
+  | "DIGITAL_SUBSCRIPTION_BENEFITS__DISCOUNTED_SUBSCRIPTION_PLANS"
+  | "DIGITAL_SUBSCRIPTION_BENEFITS__EARLY_ACCESS"
+  | "DIGITAL_SUBSCRIPTION_BENEFITS__SHARED_ACCESS";
+/** A predefined answer choice template for a catalog question. */
+export interface AnswerChoiceTemplate {
+  /** Output only. Category of the answer based on the IAB Audience Taxonomy. */
+  category?: AnswerChoiceTemplateCategoryEnum | undefined;
+  /** Output only. Localized answer choice text displayed to readers. */
+  displayText?: string | undefined;
+  /** Output only. Text label used for aggregating responses by category in analytics. */
+  categoryLabel?: string | undefined;
+  /** Output only. Unique identifier of the answer choice within the question. */
+  id?: number | undefined;
+}
+export type AnswerChoiceTemplateList = Array<AnswerChoiceTemplate>;
+export type QuestionTemplateCategoryEnum =
+  | "QUESTION_CATEGORY_UNSPECIFIED"
+  | "INTEREST"
+  | "DEMOGRAPHIC__EDUCATION_AND_OCCUPATION__EDUCATION"
+  | "DEMOGRAPHIC__AGE_RANGE"
+  | "PURCHASE_INTENT"
+  | "DEMOGRAPHIC__HOUSEHOLD_DATA__HOUSEHOLD_INCOME_USD"
+  | "DEMOGRAPHIC__HOUSEHOLD_DATA__NUMBER_OF_ADULTS"
+  | "DEMOGRAPHIC__HOUSEHOLD_DATA__NUMBER_OF_CHILDREN"
+  | "DEMOGRAPHIC__EDUCATION_AND_OCCUPATION__EMPLOYMENT_STATUS"
+  | "DIGITAL_SUBSCRIPTION_BENEFITS";
+/** A predefined question template in the survey question catalog. */
+export interface QuestionTemplate {
+  /** Output only. Localized question text displayed to readers. */
+  displayText?: string | undefined;
+  /** Output only. The type of answer choice configuration for this question. */
+  configurationType?: QuestionTemplateConfigurationTypeEnum | undefined;
+  /** Output only. Text label used for aggregating responses by category in analytics. */
+  categoryLabel?: string | undefined;
+  /** Output only. Possible answer choices for this question. */
+  answerChoices?: AnswerChoiceTemplateList | undefined;
+  /** Output only. Category of the question based on the IAB Audience Taxonomy. */
+  category?: QuestionTemplateCategoryEnum | undefined;
+  /** Output only. Unique identifier of the question template. */
+  id?: number | undefined;
+}
+export type QuestionTemplateList = Array<QuestionTemplate>;
+/** Represents the catalog of predefined survey questions and localized answer choices available for a publication. */
+export interface SurveyQuestionCatalog {
+  /** Output only. The list of available predefined question templates. */
+  questions?: QuestionTemplateList | undefined;
+  /** Identifier. The resource name of the survey question catalog. Format: `organizations/{organization}/publications/{publication}/surveyQuestionCatalog`. */
+  name?: string | undefined;
+}
 export interface ListOrganizationsPublicationsRequest {
-  /** Required. The parent organization whose publications to list, or "organizations/-" for all organizations a user has access to. Format: `organizations/{organization}`. */
-  parent: string;
   /** Optional. A filter expression to filter the publications returned. */
   filter?: string | undefined;
-  /** Optional. A page token, received from a previous `ListPublications` call, to retrieve the next page. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of publications to return. The service may return fewer than this value. If unspecified, at most 50 publications will be returned. */
   pageSize?: number | undefined;
+  /** Required. The parent organization whose publications to list, or "organizations/-" for all organizations a user has access to. Format: `organizations/{organization}`. */
+  parent: string;
+  /** Optional. A page token, received from a previous `ListPublications` call, to retrieve the next page. */
+  pageToken?: string | undefined;
 }
 export type PublicationList = Array<Publication>;
 /** Response message for `ListPublications`. */
 export interface ListPublicationsResponse {
-  /** Output only. A token to retrieve the next page of results, or empty if there are no more results. */
-  nextPageToken?: string | undefined;
   /** Output only. The list of publications. */
   publications?: PublicationList | undefined;
+  /** Output only. A token to retrieve the next page of results, or empty if there are no more results. */
+  nextPageToken?: string | undefined;
 }
 export interface ListOrganizationsPublicationsCtasRequest {
-  /** Optional. The maximum number of CTAs to return. The service may return fewer than this value. If unspecified, at most 50 CTAs will be returned. */
-  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListCtas` call, to retrieve the next page. */
   pageToken?: string | undefined;
+  /** Optional. The maximum number of CTAs to return. The service may return fewer than this value. If unspecified, at most 50 CTAs will be returned. */
+  pageSize?: number | undefined;
   /** Required. The parent publication resource whose CTAs to list. Format: `organizations/{organization}/publications/{publication}`. */
   parent: string;
 }
@@ -302,18 +757,18 @@ export interface ListCtasResponse {
   nextPageToken?: string | undefined;
 }
 export interface PatchOrganizationsPublicationsRequest {
-  /** Identifier. The resource name of the publication. Format: organizations/{organization}/publications/{publication} */
-  name: string;
   /** Optional. The list of fields to update. */
   updateMask?: string | undefined;
+  /** Identifier. The resource name of the publication. Format: organizations/{organization}/publications/{publication} */
+  name: string;
   /** Request body */
   body?: Publication | undefined;
 }
 export interface PatchOrganizationsPublicationsCtasRequest {
-  /** Optional. The list of fields to update. */
-  updateMask?: string | undefined;
   /** Identifier. The resource name of the Cta. Format: organizations/{organization}/publications/{publication}/ctas/{cta} */
   name: string;
+  /** Optional. The list of fields to update. */
+  updateMask?: string | undefined;
   /** Request body */
   body?: Cta | undefined;
 }
@@ -325,13 +780,30 @@ export const checkFreeAccessPublications: API.OperationMethod<
   CheckFreeAccessPublicationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<CheckFreeAccessPublicationsRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<CheckFreeAccessResponse>,
+  input: __S(96, __c6, 0) as any as S.Schema<CheckFreeAccessPublicationsRequest>,
+  output: __S(97, __c6, 1) as any as S.Schema<CheckFreeAccessResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckFreeAccessPublications",
+}));
+
+export type CheckProgramAccessPublicationsError = NotFound | Forbidden | GcpOpError;
+/** Checks if a reader has active program access. */
+export const checkProgramAccessPublications: API.OperationMethod<
+  CheckProgramAccessPublicationsRequest,
+  CheckProgramAccessResponse,
+  CheckProgramAccessPublicationsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(112, __c7, 0) as any as S.Schema<CheckProgramAccessPublicationsRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<CheckProgramAccessResponse>,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CheckProgramAccessPublications",
 }));
 
 export type CreateOrganizationsPublicationsError =
@@ -347,8 +819,8 @@ export const createOrganizationsPublications: API.OperationMethod<
   CreateOrganizationsPublicationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreateOrganizationsPublicationsRequest>,
-  output: __S(55, __c6, 7) as any as S.Schema<Publication>,
+  input: __S(128, __c8, 0) as any as S.Schema<CreateOrganizationsPublicationsRequest>,
+  output: __S(151, __c9, 7) as any as S.Schema<Publication>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -369,8 +841,8 @@ export const createOrganizationsPublicationsCtas: API.OperationMethod<
   CreateOrganizationsPublicationsCtasError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<CreateOrganizationsPublicationsCtasRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<Cta>,
+  input: __S(160, __c10, 0) as any as S.Schema<CreateOrganizationsPublicationsCtasRequest>,
+  output: __S(185, __c11, 9) as any as S.Schema<Cta>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -391,8 +863,8 @@ export const generatePlatformSiteTokensUsers: API.OperationMethod<
   GeneratePlatformSiteTokensUsersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(73, __c9, 1) as any as S.Schema<GeneratePlatformSiteTokensUsersRequest>,
-  output: __S(76, __c9, 4) as any as S.Schema<GeneratePlatformSiteTokensResponse>,
+  input: __S(193, __c12, 1) as any as S.Schema<GeneratePlatformSiteTokensUsersRequest>,
+  output: __S(196, __c12, 4) as any as S.Schema<GeneratePlatformSiteTokensResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -408,8 +880,8 @@ export const getOrganizationsPublications: API.OperationMethod<
   GetOrganizationsPublicationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetOrganizationsPublicationsRequest>,
-  output: __S(55, __c6, 7) as any as S.Schema<Publication>,
+  input: __S(208, __c13, 0) as any as S.Schema<GetOrganizationsPublicationsRequest>,
+  output: __S(151, __c9, 7) as any as S.Schema<Publication>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -425,13 +897,37 @@ export const getOrganizationsPublicationsCtas: API.OperationMethod<
   GetOrganizationsPublicationsCtasError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetOrganizationsPublicationsCtasRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<Cta>,
+  input: __S(0, __c0, 0) as any as S.Schema<GetOrganizationsPublicationsCtasRequest>,
+  output: __S(185, __c11, 9) as any as S.Schema<Cta>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsPublicationsCtas",
+}));
+
+export type GetSurveyQuestionCatalogOrganizationsPublicationsError =
+  | NotFound
+  | Forbidden
+  | GcpOpError;
+/** Retrieves the catalog of predefined survey questions and answer choices available for a publication. */
+export const getSurveyQuestionCatalogOrganizationsPublications: API.OperationMethod<
+  GetSurveyQuestionCatalogOrganizationsPublicationsRequest,
+  SurveyQuestionCatalog,
+  GetSurveyQuestionCatalogOrganizationsPublicationsError,
+  GcpOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    16,
+    __c1,
+    0,
+  ) as any as S.Schema<GetSurveyQuestionCatalogOrganizationsPublicationsRequest>,
+  output: __S(21, __c1, 5) as any as S.Schema<SurveyQuestionCatalog>,
+  errors: [NotFound, Forbidden, UnknownGCPError],
+  protocol: GcpProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSurveyQuestionCatalogOrganizationsPublications",
 }));
 
 export type ListOrganizationsPublicationsError = NotFound | Forbidden | GcpOpError;
@@ -443,8 +939,8 @@ export const listOrganizationsPublications: API.PaginatedOperationMethod<
   GcpOpContext,
   ListPublicationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListOrganizationsPublicationsRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<ListPublicationsResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<ListOrganizationsPublicationsRequest>,
+  output: __S(34, __c2, 2) as any as S.Schema<ListPublicationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -462,8 +958,8 @@ export const listOrganizationsPublicationsCtas: API.PaginatedOperationMethod<
   GcpOpContext,
   ListCtasResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<ListOrganizationsPublicationsCtasRequest>,
-  output: __S(10, __c1, 2) as any as S.Schema<ListCtasResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<ListOrganizationsPublicationsCtasRequest>,
+  output: __S(50, __c3, 2) as any as S.Schema<ListCtasResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -485,8 +981,8 @@ export const patchOrganizationsPublications: API.OperationMethod<
   PatchOrganizationsPublicationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<PatchOrganizationsPublicationsRequest>,
-  output: __S(55, __c6, 7) as any as S.Schema<Publication>,
+  input: __S(64, __c4, 0) as any as S.Schema<PatchOrganizationsPublicationsRequest>,
+  output: __S(151, __c9, 7) as any as S.Schema<Publication>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -507,8 +1003,8 @@ export const patchOrganizationsPublicationsCtas: API.OperationMethod<
   PatchOrganizationsPublicationsCtasError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<PatchOrganizationsPublicationsCtasRequest>,
-  output: __S(65, __c8, 1) as any as S.Schema<Cta>,
+  input: __S(80, __c5, 0) as any as S.Schema<PatchOrganizationsPublicationsCtasRequest>,
+  output: __S(185, __c11, 9) as any as S.Schema<Cta>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -522,10 +1018,74 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://webcontentpublisher.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetOrganizationsPublicationsCtasRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          languageCode: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://webcontentpublisher.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetSurveyQuestionCatalogOrganizationsPublicationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          category: S.optional(S.String),
+          displayText: S.optional(S.String),
+          categoryLabel: S.optional(S.String),
+          id: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "AnswerChoiceTemplate" });
+    case 2:
+      return S.Array(__S(17, __c1, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          displayText: S.optional(S.String),
+          configurationType: S.optional(S.String),
+          categoryLabel: S.optional(S.String),
+          answerChoices: S.optional(__S(18, __c1, 2)),
+          category: S.optional(S.String),
+          id: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "QuestionTemplate" });
+    case 4:
+      return S.Array(__S(19, __c1, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          questions: S.optional(__S(20, __c1, 4)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SurveyQuestionCatalog" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -535,23 +1095,23 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationsPublicationsRequest" });
     case 1:
-      return S.Array(__S(55, __c6, 7));
+      return S.Array(__S(151, __c9, 7));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          publications: S.optional(__S(33, __c2, 1)),
           nextPageToken: S.optional(S.String),
-          publications: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "ListPublicationsResponse" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -562,24 +1122,24 @@ function __c1(j: number): any {
         ),
       ).annotate({ identifier: "ListOrganizationsPublicationsCtasRequest" });
     case 1:
-      return S.Array(__S(65, __c8, 1));
+      return S.Array(__S(185, __c11, 9));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ctas: S.optional(__S(9, __c1, 1)),
+          ctas: S.optional(__S(49, __c3, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCtasResponse" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           updateMask: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(55, __c6, 7).pipe(T.HttpBody())),
+          name: S.String.pipe(T.Label()),
+          body: S.optional(__S(151, __c9, 7).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -590,14 +1150,14 @@ function __c2(j: number): any {
       ).annotate({ identifier: "PatchOrganizationsPublicationsRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
+          updateMask: S.optional(S.String.pipe(T.Query())),
+          body: S.optional(__S(185, __c11, 9).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -608,14 +1168,14 @@ function __c3(j: number): any {
       ).annotate({ identifier: "PatchOrganizationsPublicationsCtasRequest" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
           uri: S.optional(S.String.pipe(T.Query())),
           httpReferrer: S.optional(S.String.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -632,14 +1192,38 @@ function __c4(j: number): any {
       ).annotate({ identifier: "CheckFreeAccessResponse" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          productId: S.optional(S.String.pipe(T.Query())),
+          swgUserToken: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}:checkProgramAccess",
+            baseUrl: "https://webcontentpublisher.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "CheckProgramAccessPublicationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CheckProgramAccessResponse" });
+  }
+}
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           publicationId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(55, __c6, 7).pipe(T.HttpBody())),
+          body: S.optional(__S(151, __c9, 7).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -650,80 +1234,80 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsPublicationsRequest" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          gcpProjectNumber: S.optional(S.String),
-          enabled: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "SlProduct" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          emailOptIn: S.optional(S.Boolean),
-          userAccepted: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "TosAcceptance" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          tosAcceptance: S.optional(__S(49, __c6, 1)),
-          enabled: S.optional(S.Boolean),
-          productTosUrl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RrmProduct" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          url: S.optional(S.String),
-          ownershipVerified: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "DomainProperty" });
-    case 4:
-      return S.Array(__S(51, __c6, 3));
-    case 5:
       return S.suspend(() =>
         S.Struct({
           policyInfoUrl: S.optional(S.String),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContentPolicyStatus" });
-    case 6:
+    case 1:
       return S.Array(S.String);
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          emailOptIn: S.optional(S.Boolean),
+          userAccepted: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "TosAcceptance" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          productTosUrl: S.optional(S.String),
+          tosAcceptance: S.optional(__S(146, __c9, 2)),
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "RrmProduct" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ownershipVerified: S.optional(S.Boolean),
+          url: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DomainProperty" });
+    case 5:
+      return S.Array(__S(148, __c9, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+          gcpProjectNumber: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SlProduct" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          onboardingState: S.optional(S.String),
-          publicationId: S.optional(S.String),
-          name: S.optional(S.String),
-          slProduct: S.optional(__S(48, __c6, 0)),
-          publicationPrivacyPolicyUrl: S.optional(S.String),
-          rrmProduct: S.optional(__S(50, __c6, 2)),
-          additionalDomains: S.optional(__S(52, __c6, 4)),
-          primaryDomain: S.optional(__S(51, __c6, 3)),
-          displayName: S.optional(S.String),
-          organizationId: S.optional(S.String),
-          contentPolicyStatus: S.optional(__S(53, __c6, 5)),
+          contentPolicyStatus: S.optional(__S(144, __c9, 0)),
           paymentOption: S.optional(S.String),
-          regionCode: S.optional(S.String),
-          publicationType: S.optional(S.String),
-          products: S.optional(__S(54, __c6, 6)),
-          languageCode: S.optional(S.String),
           publicationTosUrl: S.optional(S.String),
+          products: S.optional(__S(145, __c9, 1)),
+          name: S.optional(S.String),
+          publicationId: S.optional(S.String),
+          publicationType: S.optional(S.String),
+          organizationId: S.optional(S.String),
+          rrmProduct: S.optional(__S(147, __c9, 3)),
+          regionCode: S.optional(S.String),
+          primaryDomain: S.optional(__S(148, __c9, 4)),
+          languageCode: S.optional(S.String),
+          additionalDomains: S.optional(__S(149, __c9, 5)),
+          displayName: S.optional(S.String),
+          onboardingState: S.optional(S.String),
+          slProduct: S.optional(__S(150, __c9, 6)),
+          publicationPrivacyPolicyUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "Publication" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
           ctaId: S.optional(S.String.pipe(T.Query())),
-          body: S.optional(__S(65, __c8, 1).pipe(T.HttpBody())),
+          body: S.optional(__S(185, __c11, 9).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -734,31 +1318,75 @@ function __c7(j: number): any {
       ).annotate({ identifier: "CreateOrganizationsPublicationsCtasRequest" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          title: S.optional(S.String),
-          optInRequired: S.optional(S.Boolean),
-          nameRequired: S.optional(S.Boolean),
-          customMessage: S.optional(S.String),
-          customConsentText: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NewsletterConfig" });
+      return S.Array(S.Number);
     case 1:
       return S.suspend(() =>
         S.Struct({
+          questionId: S.optional(S.Number),
+          answerIds: S.optional(__S(176, __c11, 0)),
+        }),
+      ).annotate({ identifier: "PresetQuestion" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          displayText: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomAnswerChoice" });
+    case 3:
+      return S.Array(__S(178, __c11, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          categoryLabel: S.optional(S.String),
+          answerChoices: S.optional(__S(179, __c11, 3)),
+          displayText: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CustomQuestion" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          presetQuestion: S.optional(__S(177, __c11, 1)),
+          customQuestion: S.optional(__S(180, __c11, 4)),
+        }),
+      ).annotate({ identifier: "SurveyQuestion" });
+    case 6:
+      return S.Array(__S(181, __c11, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          questions: S.optional(__S(182, __c11, 6)),
+          customMessage: S.optional(S.String),
+          reportUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SurveyConfig" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          nameRequired: S.optional(S.Boolean),
+          customMessage: S.optional(S.String),
+          customConsentText: S.optional(S.String),
+          optInRequired: S.optional(S.Boolean),
+          title: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NewsletterConfig" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          surveyConfig: S.optional(__S(183, __c11, 7)),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
           displayName: S.optional(S.String),
           type: S.optional(S.String),
-          state: S.optional(S.String),
-          newsletterConfig: S.optional(__S(64, __c8, 0)),
-          name: S.optional(S.String),
+          newsletterConfig: S.optional(__S(184, __c11, 8)),
         }),
       ).annotate({ identifier: "Cta" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -768,7 +1396,7 @@ function __c9(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(72, __c9, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(192, __c12, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -780,21 +1408,21 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
           domain: S.optional(S.String),
+          token: S.optional(S.String),
         }),
       ).annotate({ identifier: "SiteToken" });
     case 3:
-      return S.Array(__S(74, __c9, 2));
+      return S.Array(__S(194, __c12, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          siteTokens: S.optional(__S(75, __c9, 3)),
+          siteTokens: S.optional(__S(195, __c12, 3)),
         }),
       ).annotate({ identifier: "GeneratePlatformSiteTokensResponse" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -808,22 +1436,6 @@ function __c10(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetOrganizationsPublicationsRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://webcontentpublisher.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetOrganizationsPublicationsCtasRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -1150,6 +1150,7 @@ export interface ConfigurationDetails {
   arn?: string | undefined;
   uuid?: string | undefined;
 }
+export type RunOutputUriPrefixMode = string;
 export interface GetRunResponse {
   arn?: string | undefined;
   id?: string | undefined;
@@ -1194,6 +1195,7 @@ export interface GetRunResponse {
   vpcConfig?: VpcConfigResponse | undefined;
   engineSettings?: any | undefined;
   sessionPolicy?: string | undefined;
+  outputUriPrefixMode?: string | undefined;
 }
 export interface GetRunCacheRequest {
   id: string;
@@ -2224,6 +2226,7 @@ export interface StartRunRequest {
   configurationName?: string | undefined;
   sessionPolicy?: string | undefined;
   engineSettings?: any | undefined;
+  outputUriPrefixMode?: string | undefined;
 }
 export interface StartRunResponse {
   arn?: string | undefined;
@@ -6921,6 +6924,7 @@ function __c5(j: number): any {
           configurationName: S.optional(S.String),
           sessionPolicy: S.optional(S.String),
           engineSettings: S.optional(S.Any),
+          outputUriPrefixMode: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/run" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartRunRequest" });
     case 1:
@@ -8987,6 +8991,7 @@ function __c93(j: number): any {
           vpcConfig: S.optional(__S(328, __c41, 0)),
           engineSettings: S.optional(S.Any),
           sessionPolicy: S.optional(S.String),
+          outputUriPrefixMode: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetRunResponse" });
   }

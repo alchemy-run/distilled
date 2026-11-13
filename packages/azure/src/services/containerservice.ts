@@ -299,10 +299,19 @@ export interface AgentPoolSecurityProfile {
 }
 /** Whether to install GPU drivers. When it's not specified, default is Install. */
 export type GPUDriver = "Install" | "None";
+/** The Managed GPU experience installs additional components, such as the Data Center GPU Manager (DCGM) metrics for monitoring, on top of the GPU driver for you. For more details of what is installed, check out aka.ms/aks/managed-gpu. */
+export type ManagementMode = "Unmanaged" | "Managed";
+/** NVIDIA-specific GPU settings */
+export interface NvidiaGPUProfile {
+  /** The Managed GPU experience installs additional components, such as the Data Center GPU Manager (DCGM) metrics for monitoring, on top of the GPU driver for you. For more details of what is installed, check out aka.ms/aks/managed-gpu. */
+  managementMode?: ManagementMode | (string & {}) | undefined;
+}
 /** GPU settings for the Agent Pool. */
 export interface GPUProfile {
   /** Whether to install GPU drivers. When it's not specified, default is Install. */
   driver?: GPUDriver | (string & {}) | undefined;
+  /** NVIDIA-specific GPU settings. */
+  nvidia?: NvidiaGPUProfile | undefined;
 }
 /** Profile of the managed cluster gateway agent pool. */
 export interface AgentPoolGatewayProfile {
@@ -8294,7 +8303,7 @@ function __c0(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/abort",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "AbortAgentPoolLatestOperationRequest" });
@@ -8325,7 +8334,7 @@ function __c2(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/abort",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "AbortManagedClusterLatestOperationRequest" });
@@ -8416,7 +8425,7 @@ function __c6(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "UpdateManagedClusterTagsRequest" });
@@ -8457,7 +8466,7 @@ function __c7(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "UpdateManagedNamespaceRequest" });
@@ -8485,7 +8494,7 @@ function __c8(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "UpdatePrivateEndpointConnectionRequest" });
@@ -8592,7 +8601,7 @@ function __c11(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "UpdateSnapshotTagsRequest" });
@@ -8708,7 +8717,7 @@ function __c17(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteIdentityBindingRequest" });
@@ -8728,7 +8737,7 @@ function __c18(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteMaintenanceConfigurationRequest" });
@@ -8747,7 +8756,7 @@ function __c19(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteManagedClusterRequest" });
@@ -8767,7 +8776,7 @@ function __c20(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteManagedNamespaceRequest" });
@@ -8823,13 +8832,13 @@ function __c21(j: number): any {
           networkProfile: S.optional(__S(746, __c23, 10)),
           windowsProfile: S.optional(__S(747, __c23, 11)),
           securityProfile: S.optional(__S(748, __c23, 12)),
-          gpuProfile: S.optional(__S(749, __c23, 13)),
-          gatewayProfile: S.optional(__S(750, __c23, 14)),
-          artifactStreamingProfile: S.optional(__S(751, __c23, 15)),
-          virtualMachinesProfile: S.optional(__S(757, __c23, 21)),
-          virtualMachineNodesStatus: S.optional(__S(753, __c23, 17)),
+          gpuProfile: S.optional(__S(750, __c23, 14)),
+          gatewayProfile: S.optional(__S(751, __c23, 15)),
+          artifactStreamingProfile: S.optional(__S(752, __c23, 16)),
+          virtualMachinesProfile: S.optional(__S(758, __c23, 22)),
+          virtualMachineNodesStatus: S.optional(__S(754, __c23, 18)),
           status: S.optional(__S(960, __c30, 0)),
-          localDNSProfile: S.optional(__S(760, __c23, 24)),
+          localDNSProfile: S.optional(__S(761, __c23, 25)),
         }),
       ).annotate({ identifier: "ManagedClusterAgentPoolProfilePropertiesInput" });
     case 1:
@@ -8845,7 +8854,7 @@ function __c21(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "AgentPoolsCreateOrUpdateRequest" });
@@ -9000,31 +9009,38 @@ function __c23(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
+          managementMode: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NvidiaGPUProfile" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
           driver: S.optional(S.String),
+          nvidia: S.optional(__S(749, __c23, 13)),
         }),
       ).annotate({ identifier: "GPUProfile" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           publicIPPrefixSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AgentPoolGatewayProfile" });
-    case 15:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AgentPoolArtifactStreamingProfile" });
-    case 16:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           size: S.optional(S.String),
           count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ManualScaleProfile" });
-    case 17:
-      return S.Array(__S(752, __c23, 16));
     case 18:
+      return S.Array(__S(753, __c23, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           size: S.optional(S.String),
@@ -9032,22 +9048,22 @@ function __c23(j: number): any {
           maxCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AutoScaleProfile" });
-    case 19:
-      return S.Array(__S(754, __c23, 18));
     case 20:
-      return S.suspend(() =>
-        S.Struct({
-          manual: S.optional(__S(753, __c23, 17)),
-          autoscale: S.optional(__S(755, __c23, 19)),
-        }),
-      ).annotate({ identifier: "ScaleProfile" });
+      return S.Array(__S(755, __c23, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          scale: S.optional(__S(756, __c23, 20)),
+          manual: S.optional(__S(754, __c23, 18)),
+          autoscale: S.optional(__S(756, __c23, 20)),
+        }),
+      ).annotate({ identifier: "ScaleProfile" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({
+          scale: S.optional(__S(757, __c23, 21)),
         }),
       ).annotate({ identifier: "VirtualMachinesProfile" });
-    case 22:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           queryLogging: S.optional(S.String),
@@ -9060,18 +9076,18 @@ function __c23(j: number): any {
           serveStale: S.optional(S.String),
         }),
       ).annotate({ identifier: "LocalDNSOverride" });
-    case 23:
-      return S.Record(S.String, __S(758, __c23, 22));
     case 24:
+      return S.Record(S.String, __S(759, __c23, 23));
+    case 25:
       return S.suspend(() =>
         S.Struct({
           mode: S.optional(S.String),
           state: S.optional(S.String),
-          vnetDNSOverrides: S.optional(__S(759, __c23, 23)),
-          kubeDNSOverrides: S.optional(__S(759, __c23, 23)),
+          vnetDNSOverrides: S.optional(__S(760, __c23, 24)),
+          kubeDNSOverrides: S.optional(__S(760, __c23, 24)),
         }),
       ).annotate({ identifier: "LocalDNSProfile" });
-    case 25:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           provisioningError: S.optional(__S(901, __c28, 5)),
@@ -9132,13 +9148,13 @@ function __c24(j: number): any {
           networkProfile: S.optional(__S(746, __c23, 10)),
           windowsProfile: S.optional(__S(747, __c23, 11)),
           securityProfile: S.optional(__S(748, __c23, 12)),
-          gpuProfile: S.optional(__S(749, __c23, 13)),
-          gatewayProfile: S.optional(__S(750, __c23, 14)),
-          artifactStreamingProfile: S.optional(__S(751, __c23, 15)),
-          virtualMachinesProfile: S.optional(__S(757, __c23, 21)),
-          virtualMachineNodesStatus: S.optional(__S(753, __c23, 17)),
-          status: S.optional(__S(761, __c23, 25)),
-          localDNSProfile: S.optional(__S(760, __c23, 24)),
+          gpuProfile: S.optional(__S(750, __c23, 14)),
+          gatewayProfile: S.optional(__S(751, __c23, 15)),
+          artifactStreamingProfile: S.optional(__S(752, __c23, 16)),
+          virtualMachinesProfile: S.optional(__S(758, __c23, 22)),
+          virtualMachineNodesStatus: S.optional(__S(754, __c23, 18)),
+          status: S.optional(__S(762, __c23, 26)),
+          localDNSProfile: S.optional(__S(761, __c23, 25)),
         }),
       ).annotate({ identifier: "ManagedClusterAgentPoolProfileProperties" });
   }
@@ -9239,7 +9255,7 @@ function __c31(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
@@ -9265,7 +9281,7 @@ function __c32(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteSnapshotRequest" });
@@ -9285,7 +9301,7 @@ function __c33(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteTrustedAccessRoleBindingRequest" });
@@ -9738,7 +9754,7 @@ function __c46(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetAgentPoolRequest" });
@@ -9771,7 +9787,7 @@ function __c48(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/availableAgentPoolVersions",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetAgentPoolAvailableAgentPoolVersionsRequest" });
@@ -9816,7 +9832,7 @@ function __c49(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeProfiles/default",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetAgentPoolUpgradeProfileRequest" });
@@ -9879,7 +9895,7 @@ function __c51(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/upgradeNodeImageVersion",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "AgentPoolsUpgradeNodeImageVersionRequest" });
@@ -10175,7 +10191,7 @@ function __c67(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetIdentityBindingRequest" });
@@ -10238,7 +10254,7 @@ function __c70(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/machines/{machineName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetMachineRequest" });
@@ -10295,7 +10311,7 @@ function __c72(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetMaintenanceConfigurationRequest" });
@@ -10441,7 +10457,7 @@ function __c75(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetManagedClusterRequest" });
@@ -10558,13 +10574,13 @@ function __c81(j: number): any {
           networkProfile: S.optional(__S(746, __c23, 10)),
           windowsProfile: S.optional(__S(747, __c23, 11)),
           securityProfile: S.optional(__S(748, __c23, 12)),
-          gpuProfile: S.optional(__S(749, __c23, 13)),
-          gatewayProfile: S.optional(__S(750, __c23, 14)),
-          artifactStreamingProfile: S.optional(__S(751, __c23, 15)),
-          virtualMachinesProfile: S.optional(__S(757, __c23, 21)),
-          virtualMachineNodesStatus: S.optional(__S(753, __c23, 17)),
-          status: S.optional(__S(761, __c23, 25)),
-          localDNSProfile: S.optional(__S(760, __c23, 24)),
+          gpuProfile: S.optional(__S(750, __c23, 14)),
+          gatewayProfile: S.optional(__S(751, __c23, 15)),
+          artifactStreamingProfile: S.optional(__S(752, __c23, 16)),
+          virtualMachinesProfile: S.optional(__S(758, __c23, 22)),
+          virtualMachineNodesStatus: S.optional(__S(754, __c23, 18)),
+          status: S.optional(__S(762, __c23, 26)),
+          localDNSProfile: S.optional(__S(761, __c23, 25)),
           name: S.String,
         }),
       ).annotate({ identifier: "ManagedClusterAgentPoolProfile" });
@@ -10726,7 +10742,7 @@ function __c81(j: number): any {
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          observability: S.optional(__S(751, __c23, 15)),
+          observability: S.optional(__S(752, __c23, 16)),
           security: S.optional(__S(2616, __c81, 24)),
           performance: S.optional(__S(2617, __c81, 25)),
         }),
@@ -10808,7 +10824,7 @@ function __c82(j: number): any {
           loadBalancerSku: S.optional(S.String),
           loadBalancerProfile: S.optional(__S(2623, __c81, 31)),
           natGatewayProfile: S.optional(__S(2626, __c82, 2)),
-          staticEgressGatewayProfile: S.optional(__S(751, __c23, 15)),
+          staticEgressGatewayProfile: S.optional(__S(752, __c23, 16)),
           podCidrs: S.optional(__S(864, __c27, 0)),
           serviceCidrs: S.optional(__S(864, __c27, 0)),
           ipFamilies: S.optional(__S(2464, __c77, 0)),
@@ -10940,7 +10956,7 @@ function __c82(j: number): any {
       return S.suspend(() =>
         S.Struct({
           logAnalyticsWorkspaceResourceId: S.optional(S.String),
-          securityMonitoring: S.optional(__S(751, __c23, 15)),
+          securityMonitoring: S.optional(__S(752, __c23, 16)),
           securityGating: S.optional(__S(2638, __c82, 14)),
         }),
       ).annotate({ identifier: "ManagedClusterSecurityProfileDefender" });
@@ -10972,7 +10988,7 @@ function __c82(j: number): any {
           defender: S.optional(__S(2639, __c82, 15)),
           azureKeyVaultKms: S.optional(__S(2640, __c82, 16)),
           kubernetesResourceObjectEncryptionProfile: S.optional(__S(2641, __c82, 17)),
-          workloadIdentity: S.optional(__S(751, __c23, 15)),
+          workloadIdentity: S.optional(__S(752, __c23, 16)),
           imageCleaner: S.optional(__S(2642, __c82, 18)),
           customCATrustCertificates: S.optional(__S(864, __c27, 0)),
         }),
@@ -10980,10 +10996,10 @@ function __c82(j: number): any {
     case 20:
       return S.suspend(() =>
         S.Struct({
-          diskCSIDriver: S.optional(__S(751, __c23, 15)),
-          fileCSIDriver: S.optional(__S(751, __c23, 15)),
-          snapshotController: S.optional(__S(751, __c23, 15)),
-          blobCSIDriver: S.optional(__S(751, __c23, 15)),
+          diskCSIDriver: S.optional(__S(752, __c23, 16)),
+          fileCSIDriver: S.optional(__S(752, __c23, 16)),
+          snapshotController: S.optional(__S(752, __c23, 16)),
+          blobCSIDriver: S.optional(__S(752, __c23, 16)),
         }),
       ).annotate({ identifier: "ManagedClusterStorageProfile" });
     case 21:
@@ -11046,7 +11062,7 @@ function __c82(j: number): any {
         S.Struct({
           enabled: S.Boolean,
           kubeStateMetrics: S.optional(__S(2652, __c82, 28)),
-          controlPlane: S.optional(__S(751, __c23, 15)),
+          controlPlane: S.optional(__S(752, __c23, 16)),
         }),
       ).annotate({ identifier: "ManagedClusterAzureMonitorProfileMetrics" });
     case 30:
@@ -11076,7 +11092,7 @@ function __c83(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          autoInstrumentation: S.optional(__S(751, __c23, 15)),
+          autoInstrumentation: S.optional(__S(752, __c23, 16)),
           openTelemetryMetrics: S.optional(__S(2655, __c82, 31)),
           openTelemetryLogsAndTraces: S.optional(__S(2655, __c82, 31)),
         }),
@@ -11151,7 +11167,7 @@ function __c83(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          costAnalysis: S.optional(__S(751, __c23, 15)),
+          costAnalysis: S.optional(__S(752, __c23, 16)),
         }),
       ).annotate({ identifier: "ManagedClusterMetricsProfile" });
     case 12:
@@ -11235,10 +11251,10 @@ function __c83(j: number): any {
           metricsProfile: S.optional(__S(2667, __c83, 11)),
           nodeProvisioningProfile: S.optional(__S(2668, __c83, 12)),
           bootstrapProfile: S.optional(__S(2669, __c83, 13)),
-          aiToolchainOperatorProfile: S.optional(__S(751, __c23, 15)),
+          aiToolchainOperatorProfile: S.optional(__S(752, __c23, 16)),
           schedulerProfile: S.optional(__S(2671, __c83, 15)),
           hostedSystemProfile: S.optional(__S(2672, __c83, 16)),
-          status: S.optional(__S(761, __c23, 25)),
+          status: S.optional(__S(762, __c23, 26)),
         }),
       ).annotate({ identifier: "ManagedClusterProperties" });
     case 18:
@@ -11292,7 +11308,7 @@ function __c84(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/commandResults/{commandId}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetManagedClusterCommandResultRequest" });
@@ -11335,7 +11351,7 @@ function __c86(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/meshRevisionProfiles/{mode}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetManagedClusterMeshRevisionProfileRequest" });
@@ -11398,7 +11414,7 @@ function __c89(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshUpgradeProfiles/{mode}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetManagedClusterMeshUpgradeProfileRequest" });
@@ -11431,7 +11447,7 @@ function __c91(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/upgradeProfiles/default",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetManagedClusterUpgradeProfileRequest" });
@@ -11479,7 +11495,7 @@ function __c92(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetManagedNamespaceRequest" });
@@ -11533,7 +11549,7 @@ function __c95(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
@@ -11581,7 +11597,7 @@ function __c97(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetSnapshotRequest" });
@@ -11630,7 +11646,7 @@ function __c99(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "GetTrustedAccessRoleBindingRequest" });
@@ -11931,7 +11947,7 @@ function __c107(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings/{identityBindingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "IdentityBindingsCreateOrUpdateRequest" });
@@ -11964,7 +11980,7 @@ function __c108(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListAgentPoolsRequest" });
@@ -12309,7 +12325,7 @@ function __c122(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/identityBindings",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListIdentityBindingByManagedClusterRequest" });
@@ -12338,7 +12354,7 @@ function __c123(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/machines",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListMachinesRequest" });
@@ -12366,7 +12382,7 @@ function __c124(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListMaintenanceConfigurationByManagedClusterRequest" });
@@ -12393,7 +12409,7 @@ function __c125(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterByResourceGroupRequest" });
@@ -12426,7 +12442,7 @@ function __c127(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterAdminCredential",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterClusterAdminCredentialsRequest" });
@@ -12446,7 +12462,7 @@ function __c128(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterMonitoringUserCredential",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterClusterMonitoringUserCredentialsRequest" });
@@ -12467,7 +12483,7 @@ function __c129(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/listClusterUserCredential",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterClusterUserCredentialsRequest" });
@@ -12485,7 +12501,7 @@ function __c130(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/kubernetesVersions",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterKubernetesVersionsRequest" });
@@ -12535,7 +12551,7 @@ function __c131(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/meshRevisionProfiles",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterMeshRevisionProfilesRequest" });
@@ -12629,7 +12645,7 @@ function __c135(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/meshUpgradeProfiles",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterMeshUpgradeProfilesRequest" });
@@ -12657,7 +12673,7 @@ function __c136(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/outboundNetworkDependenciesEndpoints",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClusterOutboundNetworkDependenciesEndpointsRequest" });
@@ -12710,7 +12726,7 @@ function __c137(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/managedClusters",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedClustersRequest" });
@@ -12729,7 +12745,7 @@ function __c138(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedNamespaceByManagedClusterRequest" });
@@ -12758,7 +12774,7 @@ function __c139(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}/listCredential",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedNamespaceCredentialRequest" });
@@ -12773,7 +12789,7 @@ function __c140(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.ContainerService/operations",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -12818,7 +12834,7 @@ function __c141(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionsRequest" });
@@ -12845,7 +12861,7 @@ function __c142(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateLinkResources",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourcesRequest" });
@@ -12869,7 +12885,7 @@ function __c143(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListSnapshotByResourceGroupRequest" });
@@ -12899,7 +12915,7 @@ function __c145(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/snapshots",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListSnapshotsRequest" });
@@ -12922,7 +12938,7 @@ function __c146(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteAgentPoolRequest" });
@@ -12941,7 +12957,7 @@ function __c147(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListTrustedAccessRoleBindingsRequest" });
@@ -12968,7 +12984,7 @@ function __c148(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerService/locations/{location}/trustedAccessRoles",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ListTrustedAccessRolesRequest" });
@@ -13048,7 +13064,7 @@ function __c150(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "MaintenanceConfigurationsCreateOrUpdateRequest" });
@@ -13104,13 +13120,13 @@ function __c151(j: number): any {
           networkProfile: S.optional(__S(746, __c23, 10)),
           windowsProfile: S.optional(__S(747, __c23, 11)),
           securityProfile: S.optional(__S(748, __c23, 12)),
-          gpuProfile: S.optional(__S(749, __c23, 13)),
-          gatewayProfile: S.optional(__S(750, __c23, 14)),
-          artifactStreamingProfile: S.optional(__S(751, __c23, 15)),
-          virtualMachinesProfile: S.optional(__S(757, __c23, 21)),
-          virtualMachineNodesStatus: S.optional(__S(753, __c23, 17)),
+          gpuProfile: S.optional(__S(750, __c23, 14)),
+          gatewayProfile: S.optional(__S(751, __c23, 15)),
+          artifactStreamingProfile: S.optional(__S(752, __c23, 16)),
+          virtualMachinesProfile: S.optional(__S(758, __c23, 22)),
+          virtualMachineNodesStatus: S.optional(__S(754, __c23, 18)),
           status: S.optional(__S(960, __c30, 0)),
-          localDNSProfile: S.optional(__S(760, __c23, 24)),
+          localDNSProfile: S.optional(__S(761, __c23, 25)),
           name: S.String,
         }),
       ).annotate({ identifier: "ManagedClusterAgentPoolProfileInput" });
@@ -13174,7 +13190,7 @@ function __c151(j: number): any {
           loadBalancerSku: S.optional(S.String),
           loadBalancerProfile: S.optional(__S(4837, __c151, 5)),
           natGatewayProfile: S.optional(__S(4838, __c151, 6)),
-          staticEgressGatewayProfile: S.optional(__S(751, __c23, 15)),
+          staticEgressGatewayProfile: S.optional(__S(752, __c23, 16)),
           podCidrs: S.optional(__S(864, __c27, 0)),
           serviceCidrs: S.optional(__S(864, __c27, 0)),
           ipFamilies: S.optional(__S(2464, __c77, 0)),
@@ -13204,7 +13220,7 @@ function __c151(j: number): any {
           servicePrincipalProfile: S.optional(__S(2600, __c81, 8)),
           addonProfiles: S.optional(__S(2603, __c81, 11)),
           podIdentityProfile: S.optional(__S(4836, __c151, 4)),
-          oidcIssuerProfile: S.optional(__S(751, __c23, 15)),
+          oidcIssuerProfile: S.optional(__S(752, __c23, 16)),
           nodeResourceGroup: S.optional(S.String),
           nodeResourceGroupProfile: S.optional(__S(2614, __c81, 22)),
           enableRBAC: S.optional(S.Boolean),
@@ -13231,7 +13247,7 @@ function __c151(j: number): any {
           metricsProfile: S.optional(__S(2667, __c83, 11)),
           nodeProvisioningProfile: S.optional(__S(2668, __c83, 12)),
           bootstrapProfile: S.optional(__S(2669, __c83, 13)),
-          aiToolchainOperatorProfile: S.optional(__S(751, __c23, 15)),
+          aiToolchainOperatorProfile: S.optional(__S(752, __c23, 16)),
           schedulerProfile: S.optional(__S(2671, __c83, 15)),
           hostedSystemProfile: S.optional(__S(2672, __c83, 16)),
           status: S.optional(__S(960, __c30, 0)),
@@ -13263,7 +13279,7 @@ function __c151(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ManagedClustersCreateOrUpdateRequest" });
@@ -13316,7 +13332,7 @@ function __c152(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/managedNamespaces/{managedNamespaceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ManagedNamespacesCreateOrUpdateRequest" });
@@ -13355,7 +13371,7 @@ function __c153(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resolvePrivateLinkServiceId",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "PostResolvePrivateLinkServiceIdRequest" });
@@ -13376,7 +13392,7 @@ function __c154(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/resetServicePrincipalProfile",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "ResetManagedClusterServicePrincipalProfileRequest" });
@@ -13395,7 +13411,7 @@ function __c155(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "RotateManagedClusterClusterCertificatesRequest" });
@@ -13414,7 +13430,7 @@ function __c156(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateServiceAccountSigningKeys",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "RotateManagedClusterServiceAccountSigningKeysRequest" });
@@ -13435,7 +13451,7 @@ function __c157(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/agentPools/{agentPoolName}/deleteMachines",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteAgentPoolMachinesRequest" });
@@ -13457,7 +13473,7 @@ function __c158(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/runCommand",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "RunManagedClusterCommandRequest" });
@@ -13486,7 +13502,7 @@ function __c159(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "SnapshotsCreateOrUpdateRequest" });
@@ -13505,7 +13521,7 @@ function __c160(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/start",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "StartManagedClusterRequest" });
@@ -13561,7 +13577,7 @@ function __c163(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/stop",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "StopManagedClusterRequest" });
@@ -13609,7 +13625,7 @@ function __c165(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/trustedAccessRoleBindings/{trustedAccessRoleBindingName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-08-01",
           }),
         ),
       ).annotate({ identifier: "TrustedAccessRoleBindingsCreateOrUpdateRequest" });

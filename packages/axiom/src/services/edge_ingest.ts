@@ -76,6 +76,7 @@ export interface IngestStatus {
   walLength: number;
 }
 export type IngestToDatasetError = BadRequest | NotFound | UnprocessableEntity | AxiomOpError;
+/** Ingests JSON, NDJSON, or CSV events into an events or logs dataset in this edge deployment. Events that fail are counted in `failed` and listed in `failures`. Events whose timestamp is more than 24 hours in the future or before the Unix epoch (1970-01-01T00:00:00Z) are rejected and not stored. Returns `400` when every event in the request is rejected and `430` when the organization has reached its ingest limit. */
 export const ingestToDataset: API.OperationMethod<
   IngestToDatasetRequest,
   IngestStatus,

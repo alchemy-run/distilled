@@ -543,6 +543,10 @@ export interface Phase1Status {
   integrityAlgorithm?: string | undefined;
   state?: string | undefined;
 }
+/** List of negotiated local traffic selectors. */
+export type Phase2StatusLocalTSList = Array<string>;
+/** List of negotiated remote traffic selectors. */
+export type Phase2StatusRemoteTSList = Array<string>;
 export interface Phase2Status {
   /** The total data volume received through this Security Association, measured in bytes. */
   bytesIn?: string | undefined;
@@ -556,12 +560,16 @@ export interface Phase2Status {
   encryptionAlgorithm?: string | undefined;
   /** The negotiated integrity algorithm or pseudo-random-function. */
   integrityAlgorithm?: string | undefined;
+  /** List of negotiated local traffic selectors. */
+  localTS?: Phase2StatusLocalTSList | undefined;
   /** The total number of packets received through this IPsec Security Association. */
   packetsIn?: string | undefined;
   /** The total number of packets sent through this IPsec Security Association */
   packetsOut?: string | undefined;
   /** The security protocol used for the tunnel, typically `ESP` (Encapsulating Security Payload). */
   protocol?: string | undefined;
+  /** List of negotiated remote traffic selectors. */
+  remoteTS?: Phase2StatusRemoteTSList | undefined;
   state?: string | undefined;
 }
 /** Describes the status of the VPN itself. */
@@ -1456,9 +1464,11 @@ function __c7(j: number): any {
           encap: S.optional(S.String),
           encryptionAlgorithm: S.optional(S.String),
           integrityAlgorithm: S.optional(S.String),
+          localTS: S.optional(__S(336, __c21, 0)),
           packetsIn: S.optional(S.String),
           packetsOut: S.optional(S.String),
           protocol: S.optional(S.String),
+          remoteTS: S.optional(__S(336, __c21, 0)),
           state: S.optional(S.String),
         }),
       ).annotate({ identifier: "Phase2Status" });

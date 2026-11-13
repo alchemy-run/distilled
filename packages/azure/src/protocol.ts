@@ -276,6 +276,7 @@ const decode = ({
       // 4. Unknown Azure error.
       return yield* fail(
         new UnknownAzureError({
+          status,
           code: arm?.code,
           message: arm?.message,
           target: arm?.target,

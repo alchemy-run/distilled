@@ -511,6 +511,32 @@ export interface ClearSettingsRequest {
 export interface ClearSettingsResponse {
   ok: boolean;
 }
+/** The users to remove from the channel. */
+export type ConversationsKickRequestUserIdsList = Array<string>;
+export interface ConversationsKickRequest {
+  /** ID of conversation to remove users from. */
+  channel_id: string;
+  /** The users to remove from the channel. */
+  user_ids: ConversationsKickRequestUserIdsList;
+}
+/** User IDs that were successfully removed. */
+export type ConversationsKickResponseRemovedUserIdsList = Array<string>;
+export interface ConversationsKickResponseFailedUserIdsItem {
+  user_id: string;
+  /** The error code explaining why the removal failed. */
+  error: string;
+}
+/** User IDs that could not be removed, with error details. */
+export type ConversationsKickResponseFailedUserIdsList =
+  Array<ConversationsKickResponseFailedUserIdsItem>;
+export interface ConversationsKickResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  /** User IDs that were successfully removed. */
+  removed_user_ids: ConversationsKickResponseRemovedUserIdsList;
+  /** User IDs that could not be removed, with error details. */
+  failed_user_ids: ConversationsKickResponseFailedUserIdsList;
+}
 export interface ConvertToPrivateRequest {
   /** The channel to convert to private. */
   channel_id: string;
@@ -607,6 +633,14 @@ export interface CreateUsergroupResponse {
   /** A string representation of the error type */
   error?: string | undefined;
   subteam?: unknown | undefined;
+}
+export interface DeactivateUserRequest {
+  /** The ID of the user to deactivate. */
+  user_id: string;
+}
+export interface DeactivateUserResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
 }
 export interface DeleteBarrierRequest {
   /** The ID of the barrier you're trying to delete */
@@ -754,9 +788,24 @@ export interface GetExpirationRequest {
   /** If an org token is passed in and this team is on the org, it will operate on the workspace level on the specified team. Otherwise it will operate on the org or team in context. */
   target_team?: string | undefined;
 }
+export interface GetExpirationResponseUser {
+  /** Encoded user ID */
+  id: string;
+  /** Username of user */
+  username?: string | undefined;
+  /** Email address of user */
+  email: string;
+  /** Whether the user is a multi-channel guest. */
+  is_restricted: boolean;
+  /** Whether the user is a single-channel guest. */
+  is_ultra_restricted: boolean;
+  /** Expiration timestamp for the guest user. */
+  expiration_ts?: number | undefined;
+}
 export interface GetExpirationResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
+  user?: GetExpirationResponseUser | undefined;
 }
 export interface GetFileRequest {
   /** Date to retrieve the analytics data for, expressed as `YYYY-MM-DD` in UTC. Required unless `metadata_only` is set to true. */
@@ -1247,6 +1296,117 @@ export interface ListOriginalConnectedChannelInfoResponse {
   response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
   channels: ListOriginalConnectedChannelInfoResponseChannelsList;
 }
+/** Only return skills in this category. */
+export type ListSlackbotSkillsRequestCategory =
+  | "communication"
+  | "customer_support"
+  | "data_and_analytics"
+  | "engineering"
+  | "product_management"
+  | "productivity"
+  | "professional_development"
+  | "project_management"
+  | "sales"
+  | "system"
+  | "team_management"
+  | "other";
+/** Only return skills created by these users. Accepts U or W user IDs. */
+export type ListSlackbotSkillsRequestCreatorIdsList = Array<string>;
+/** Filter by publication to the org catalog. */
+export type ListSlackbotSkillsRequestPublishStatus = "all" | "published" | "unpublished";
+/** Filter by org deployment, independently of publication. */
+export type ListSlackbotSkillsRequestAutoEnabledStatus = "all" | "enabled" | "disabled";
+/** Sort across the inventory. Name uses case-insensitive ordering. Unedited skills use their creation date for date_updated sorting. */
+export type ListSlackbotSkillsRequestSort = "name" | "usage_count" | "date_updated";
+/** Sort direction; file ID breaks ties. */
+export type ListSlackbotSkillsRequestSortDir = "asc" | "desc";
+export interface ListSlackbotSkillsRequest {
+  /** Only return skills in this category. */
+  category?: ListSlackbotSkillsRequestCategory | (string & {}) | undefined;
+  /** Continuation from the previous page. Keep all filters and sorting unchanged. Pages can be empty while a continuation remains; continue until next_cursor is empty. Changes during traversal may move results; pagination is not a snapshot. */
+  cursor?: string | undefined;
+  /** The maximum number of skills to return. Fewer may be returned even when more remain. */
+  limit?: number | undefined;
+  /** Only return skills created by these users. Accepts U or W user IDs. */
+  creator_ids?: ListSlackbotSkillsRequestCreatorIdsList | undefined;
+  /** Filter by publication to the org catalog. */
+  publish_status?: ListSlackbotSkillsRequestPublishStatus | (string & {}) | undefined;
+  /** Filter by org deployment, independently of publication. */
+  auto_enabled_status?: ListSlackbotSkillsRequestAutoEnabledStatus | (string & {}) | undefined;
+  /** Sort across the inventory. Name uses case-insensitive ordering. Unedited skills use their creation date for date_updated sorting. */
+  sort?: ListSlackbotSkillsRequestSort | (string & {}) | undefined;
+  /** Sort direction; file ID breaks ties. */
+  sort_dir?: ListSlackbotSkillsRequestSortDir | (string & {}) | undefined;
+}
+/** Enumerates the categories available for organizing AI skills. */
+export type ListSlackbotSkillsResponseSkillsItemCategory =
+  | "communication"
+  | "customer_support"
+  | "data_and_analytics"
+  | "engineering"
+  | "product_management"
+  | "productivity"
+  | "professional_development"
+  | "project_management"
+  | "sales"
+  | "system"
+  | "team_management"
+  | "other";
+/** Who in the workspace can view and share this skill. Derived from the highest ORG/WORKSPACE-level access grant on the underlying skill canvas: `invite_only` when no such grant exists (only the creator and explicitly invited members), `anyone_can_view` when a read or comment grant exists, `anyone_can_edit` when a write grant exists. */
+export type ListSlackbotSkillsResponseSkillsItemVisibility =
+  | "invite_only"
+  | "anyone_can_view"
+  | "anyone_can_edit";
+/** Who receives a skill automatically. This setting does not grant access to its instructions. */
+export type ListSlackbotSkillsResponseSkillsItemAutoEnabledPermissionType =
+  | "everyone"
+  | "named_entities"
+  | "no_one";
+/** Deployment audience within this organization. Empty for everyone or no_one. */
+export type ListSlackbotSkillsResponseSkillsItemAutoEnabledUsergroupIdsList = Array<string>;
+export interface ListSlackbotSkillsResponseSkillsItemAutoEnabled {
+  /** Who receives a skill automatically. This setting does not grant access to its instructions. */
+  permission_type: ListSlackbotSkillsResponseSkillsItemAutoEnabledPermissionType;
+  /** Deployment audience within this organization. Empty for everyone or no_one. */
+  usergroup_ids: ListSlackbotSkillsResponseSkillsItemAutoEnabledUsergroupIdsList;
+}
+/** Explicit metadata-only inventory projection, including invite-only skills. No access level or skill content is implied. */
+export interface ListSlackbotSkillsResponseSkillsItem {
+  /** Canvas skill file ID. */
+  id: string;
+  /** Human-readable label. Not unique. */
+  display_name: string;
+  /** When Slackbot should use the skill. */
+  description: unknown;
+  /** Skill category. */
+  category: ListSlackbotSkillsResponseSkillsItemCategory | null;
+  /** User ID of the skill's creator. */
+  creator_id: unknown;
+  /** Unix timestamp when the skill was created. */
+  date_created: unknown;
+  /** Unix timestamp when the skill was last updated. Null if it was never edited. */
+  date_updated: unknown;
+  /** Org-wide visibility. Null if visibility could not be determined. */
+  visibility: ListSlackbotSkillsResponseSkillsItemVisibility | null;
+  /** Whether the skill is published to the organization's catalog. */
+  is_official: boolean;
+  /** Approximate number of runs. */
+  usage_count: unknown;
+  /** Approximate number of people who have the skill enabled. */
+  library_count: unknown;
+  auto_enabled: ListSlackbotSkillsResponseSkillsItemAutoEnabled;
+}
+export type ListSlackbotSkillsResponseSkillsList = Array<ListSlackbotSkillsResponseSkillsItem>;
+/** Pagination metadata. An empty `next_cursor` means the last page. */
+export type ListSlackbotSkillsResponseResponseMetadata =
+  AnalyticsMessagesActivityResponseResponseMetadata;
+export interface ListSlackbotSkillsResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  skills: ListSlackbotSkillsResponseSkillsList;
+  /** Pagination metadata. An empty `next_cursor` means the last page. */
+  response_metadata?: AnalyticsMessagesActivityResponseResponseMetadata | undefined;
+}
 export interface ListTeamsRequest {
   /** The maximum number of items to return. Must be a positive integer no larger than 1000. */
   limit?: number | undefined;
@@ -1466,10 +1626,16 @@ export interface LookupAppsConfigRequest {
 export type LookupAppsConfigResponseConfigsItemWorkflowAuthStrategy =
   | "builder_choice"
   | "end_user_only";
+export type LookupAppsConfigResponseConfigsItemRichLinkPreviewType =
+  | "all_details"
+  | "limited_details"
+  | "no_preview"
+  | "default_to_global_setting";
 export interface LookupAppsConfigResponseConfigsItem {
   app_id: string;
   workflow_auth_strategy: LookupAppsConfigResponseConfigsItemWorkflowAuthStrategy;
   domain_restrictions: unknown;
+  rich_link_preview_type?: LookupAppsConfigResponseConfigsItemRichLinkPreviewType | undefined;
 }
 export type LookupAppsConfigResponseConfigsList = Array<LookupAppsConfigResponseConfigsItem>;
 export interface LookupAppsConfigResponse {
@@ -1553,6 +1719,40 @@ export interface LookupWorkflowsTriggersTypesPermissionsResponse {
   ok: boolean;
   permissions: LookupWorkflowsTriggersTypesPermissionsResponsePermissionsMap;
   metadata: LookupWorkflowsTriggersTypesPermissionsResponseMetadataMap;
+}
+/** IDs of frontline members in the authenticated organization. Valid users are queued; rejected IDs are returned in invalid_users. */
+export type PauseUsersAccessRequestUserIdsList = Array<string>;
+export interface PauseUsersAccessRequest {
+  /** IDs of frontline members in the authenticated organization. Valid users are queued; rejected IDs are returned in invalid_users. */
+  user_ids: PauseUsersAccessRequestUserIdsList;
+  /** Optional explanation for the access change. */
+  reason?: string | undefined;
+}
+export type PauseUsersAccessResponseInvalidUsersItemReason =
+  | "user_not_found"
+  | "user_not_frontline_member";
+export interface PauseUsersAccessResponseInvalidUsersItem {
+  user_id: string;
+  reason: PauseUsersAccessResponseInvalidUsersItemReason;
+}
+/** Rejected users. An empty array on success; populated in failed_for_all_users and failed_for_some_users error responses. */
+export type PauseUsersAccessResponseInvalidUsersList =
+  Array<PauseUsersAccessResponseInvalidUsersItem>;
+export interface PauseUsersAccessResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  /** Rejected users. An empty array on success; populated in failed_for_all_users and failed_for_some_users error responses. */
+  invalid_users: PauseUsersAccessResponseInvalidUsersList;
+}
+/** One to 50 skill IDs. Successful items are not rolled back if other items fail. */
+export type PublishSlackbotSkillRequestSkillIdsList = Array<string>;
+export interface PublishSlackbotSkillRequest {
+  /** One to 50 skill IDs. Successful items are not rolled back if other items fail. */
+  skill_ids: PublishSlackbotSkillRequestSkillIdsList;
+}
+export interface PublishSlackbotSkillResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
 }
 /** List of user IDs whose named_entities access will be revoked */
 export type RemoveAppsPermissionsRequestUserIdsList = Array<string>;
@@ -1745,6 +1945,30 @@ export interface ResetUsersSessionResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
 }
+/** IDs of frontline members in the authenticated organization. Valid users are queued; rejected IDs are returned in invalid_users. */
+export type ResumeUsersAccessRequestUserIdsList = Array<string>;
+export interface ResumeUsersAccessRequest {
+  /** IDs of frontline members in the authenticated organization. Valid users are queued; rejected IDs are returned in invalid_users. */
+  user_ids: ResumeUsersAccessRequestUserIdsList;
+  /** Optional explanation for the access change. */
+  reason?: string | undefined;
+}
+export type ResumeUsersAccessResponseInvalidUsersItemReason =
+  | "user_not_found"
+  | "user_not_frontline_member";
+export interface ResumeUsersAccessResponseInvalidUsersItem {
+  user_id: string;
+  reason: ResumeUsersAccessResponseInvalidUsersItemReason;
+}
+/** Rejected users. An empty array on success; populated in failed_for_all_users and failed_for_some_users error responses. */
+export type ResumeUsersAccessResponseInvalidUsersList =
+  Array<ResumeUsersAccessResponseInvalidUsersItem>;
+export interface ResumeUsersAccessResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  /** Rejected users. An empty array on success; populated in failed_for_all_users and failed_for_some_users error responses. */
+  invalid_users: ResumeUsersAccessResponseInvalidUsersList;
+}
 /** Comma separated string of team IDs, signifying the internal workspaces to search through. */
 export type SearchConversationRequestTeamIdsList = Array<string>;
 /** Array of encoded team IDs, signifying the external orgs to search through. */
@@ -1756,7 +1980,7 @@ export interface SearchConversationRequest {
   team_ids?: SearchConversationRequestTeamIdsList | undefined;
   /** Array of encoded team IDs, signifying the external orgs to search through. */
   connected_team_ids?: SearchConversationRequestConnectedTeamIdsList | undefined;
-  /** Name of the the channel to query by. */
+  /** Name of the channel to query by. */
   query?: string | undefined;
   /** Maximum number of items to be returned. Must be between 1 - 20 both inclusive. Default is 10. */
   limit?: number | undefined;
@@ -1913,10 +2137,14 @@ export interface SetAppsMcpServersPermissionsResponse {
   ok: boolean;
 }
 /** The type of permission that defines who can access the app */
-export type SetAppsPermissionsRequestPermissionType = "everyone" | "named_entities" | "no_one";
+export type SetAppsPermissionsRequestPermissionType =
+  | "everyone"
+  | "named_entities"
+  | "named_entities_exclude"
+  | "no_one";
 /** List of user IDs to allow for named_entities visibility */
 export type SetAppsPermissionsRequestUserIdsList = Array<string>;
-/** List of encoded usergroup IDs */
+/** List of encoded usergroup IDs the permission applies to. With named_entities the listed groups may access the app; with named_entities_exclude they may not */
 export type SetAppsPermissionsRequestUsergroupIdsList = Array<string>;
 /** The mode that defines where the app can be used in channels */
 export type SetAppsPermissionsRequestChannelRestrictionMode =
@@ -1932,7 +2160,7 @@ export interface SetAppsPermissionsRequest {
   permission_type: SetAppsPermissionsRequestPermissionType | (string & {});
   /** List of user IDs to allow for named_entities visibility */
   user_ids?: SetAppsPermissionsRequestUserIdsList | undefined;
-  /** List of encoded usergroup IDs */
+  /** List of encoded usergroup IDs the permission applies to. With named_entities the listed groups may access the app; with named_entities_exclude they may not */
   usergroup_ids?: SetAppsPermissionsRequestUsergroupIdsList | undefined;
   /** The mode that defines where the app can be used in channels */
   channel_restriction_mode?:
@@ -1945,6 +2173,29 @@ export interface SetAppsPermissionsRequest {
 export interface SetAppsPermissionsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
+}
+/** Deployment audience. */
+export type SetAutoEnabledRequestPermissionType = "everyone" | "named_entities" | "no_one";
+/** One to 100 user groups for named_entities. Duplicates count toward the input limit and are stored once. Omit for other permission types. */
+export type SetAutoEnabledRequestUsergroupIdsList = Array<string>;
+export interface SetAutoEnabledRequest {
+  /** Canvas skill to deploy. */
+  skill_id: string;
+  /** Deployment audience. */
+  permission_type: SetAutoEnabledRequestPermissionType | (string & {});
+  /** One to 100 user groups for named_entities. Duplicates count toward the input limit and are stored once. Omit for other permission types. */
+  usergroup_ids?: SetAutoEnabledRequestUsergroupIdsList | undefined;
+}
+/** Who receives a skill automatically. This setting does not grant access to its instructions. */
+export type SetAutoEnabledResponsePermissionType = "everyone" | "named_entities" | "no_one";
+export type SetAutoEnabledResponseUsergroupIdsList = Array<string>;
+export interface SetAutoEnabledResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+  skill_id: string;
+  /** Who receives a skill automatically. This setting does not grant access to its instructions. */
+  permission_type: SetAutoEnabledResponsePermissionType;
+  usergroup_ids: SetAutoEnabledResponseUsergroupIdsList;
 }
 export interface SetConversationPrefsRequest {
   /** The channel to set the prefs for */
@@ -2146,8 +2397,8 @@ export interface SetWorkflowsTriggersTypesPermissionsResponse {
 export interface TeamsSettingsInfoRequest {
   team_id: string;
 }
-export type TeamsSettingsInfoResponseTeamItemDefaultChannelsList = Array<unknown>;
-export interface TeamsSettingsInfoResponseTeamItem {
+export type TeamsSettingsInfoResponseTeamDefaultChannelsList = Array<unknown>;
+export interface TeamsSettingsInfoResponseTeam {
   id?: string | undefined;
   name?: string | undefined;
   domain?: string | undefined;
@@ -2155,12 +2406,11 @@ export interface TeamsSettingsInfoResponseTeamItem {
   icon?: unknown | undefined;
   enterprise_id?: string | undefined;
   enterprise_name?: string | undefined;
-  default_channels?: TeamsSettingsInfoResponseTeamItemDefaultChannelsList | undefined;
+  default_channels?: TeamsSettingsInfoResponseTeamDefaultChannelsList | undefined;
 }
-export type TeamsSettingsInfoResponseTeamList = Array<TeamsSettingsInfoResponseTeamItem>;
 export interface TeamsSettingsInfoResponse {
   ok: boolean;
-  team: TeamsSettingsInfoResponseTeamList;
+  team: TeamsSettingsInfoResponseTeam;
 }
 export interface UnarchiveConversationRequest {
   /** The channel to unarchive. */
@@ -2188,6 +2438,16 @@ export interface UnlinkObjectsRequest {
   new_name: string;
 }
 export interface UnlinkObjectsResponse {
+  /** Always `true` (a failed call raises a typed error instead). */
+  ok: boolean;
+}
+/** One to 50 skill IDs. Successful items are not rolled back if other items fail. */
+export type UnpublishSlackbotSkillRequestSkillIdsList = Array<string>;
+export interface UnpublishSlackbotSkillRequest {
+  /** One to 50 skill IDs. Successful items are not rolled back if other items fail. */
+  skill_ids: UnpublishSlackbotSkillRequestSkillIdsList;
+}
+export interface UnpublishSlackbotSkillResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
 }
@@ -2270,7 +2530,8 @@ export type UploadUsersResponseInvalidUsersItemReason =
   | "insert_failed"
   | "channel_limit_exceeded"
   | "multi_workspace_idp_group"
-  | "usergroup_limit_exceeded";
+  | "usergroup_limit_exceeded"
+  | "non_frontline_user";
 export interface UploadUsersResponseInvalidUsersItem {
   user_id: string;
   reason: UploadUsersResponseInvalidUsersItemReason;
@@ -2301,7 +2562,7 @@ export const addAlias: API.OperationMethod<
 }));
 
 export type AddAppsPermissionsError = SlackOpError;
-/** Grant permission for entities to access an app that has its permission type set to named_entities Required scopes -- user: `admin.apps:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_auth` -- Invalid authorization token - `access_denied` -- This actor does not have access to the permissions on this resource. - `invalid_permission_type` -- This app requires permission_type to be set as named_entities before adding users. - `no_valid_named_entities` -- None of the provided named entities were valid - `too_many_named_entities` -- Too many named entities passed into the app permissions setting. - `app_not_found` -- This app does not exist. - `not_an_enterprise` -- This feature is only available on Enterprise Grid plans. - `app_acl_not_found` -- This app does not have an ACL. - `internal_error` -- Internal error - `user_not_found` -- Value passed for `user_ids` was invalid. - `invalid_entities` -- Invalid entities. - `invalid_channel_restriction_mode` -- Cannot add channels when channel_restriction_mode is all_channels. Use set to configure a restriction mode first. - `channel_not_found` -- One or more channel IDs are not valid. - `failed_to_update_channels` -- An error occurred while updating the channel restriction list. - `restricted_action` -- User does not have permission to perform this action. See https://docs.slack.dev/reference/methods/admin.apps.permissions.add */
+/** Grant permission for entities to access an app that has its permission type set to named_entities Required scopes -- user: `admin.apps:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_auth` -- Invalid authorization token - `access_denied` -- This actor does not have access to the permissions on this resource. - `invalid_permission_type` -- This app requires permission_type to be set as named_entities before adding users. - `no_valid_named_entities` -- None of the provided named entities were valid - `too_many_named_entities` -- Too many named entities passed into the app permissions setting. - `app_not_found` -- This app does not exist. - `not_an_enterprise` -- This feature is only available on Enterprise Grid plans. - `app_acl_not_found` -- This app does not have an ACL. - `internal_error` -- Internal error - `user_not_found` -- Value passed for `user_ids` was invalid. - `invalid_entities` -- Invalid entities. - `invalid_channel_restriction_mode` -- Cannot add channels when channel_restriction_mode is all_channels. Use set to configure a restriction mode first. - `channel_not_found` -- One or more channel IDs are not valid, are not in this organization, or name a private channel the caller is neither a member of nor permitted to manage. - `failed_to_update_channels` -- An error occurred while updating the channel restriction list. - `restricted_action` -- User does not have permission to perform this action. See https://docs.slack.dev/reference/methods/admin.apps.permissions.add */
 export const addAppsPermissions: API.OperationMethod<
   AddAppsPermissionsRequest,
   AddAppsPermissionsResponse,
@@ -2325,8 +2586,8 @@ export const addAssignments: API.OperationMethod<
   AddAssignmentsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c38, 0) as any as S.Schema<AddAssignmentsRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<AddAssignmentsResponse>,
+  input: __S(368, __c46, 0) as any as S.Schema<AddAssignmentsRequest>,
+  output: __S(376, __c47, 0) as any as S.Schema<AddAssignmentsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -2342,8 +2603,8 @@ export const addChannels: API.OperationMethod<
   AddChannelsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c52, 0) as any as S.Schema<AddChannelsRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<AddChannelsResponse>,
+  input: __S(480, __c60, 0) as any as S.Schema<AddChannelsRequest>,
+  output: __S(488, __c61, 0) as any as S.Schema<AddChannelsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -2359,7 +2620,7 @@ export const addEmoji: API.OperationMethod<
   AddEmojiError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c64, 0) as any as S.Schema<AddEmojiRequest>,
+  input: __S(576, __c72, 0) as any as S.Schema<AddEmojiRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<AddEmojiResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -2376,7 +2637,7 @@ export const addGroup: API.OperationMethod<
   AddGroupError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c76, 0) as any as S.Schema<AddGroupRequest>,
+  input: __S(672, __c84, 0) as any as S.Schema<AddGroupRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<AddGroupResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -2393,7 +2654,7 @@ export const addTeams: API.OperationMethod<
   AddTeamsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c88, 0) as any as S.Schema<AddTeamsRequest>,
+  input: __S(768, __c96, 0) as any as S.Schema<AddTeamsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<AddTeamsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -2410,8 +2671,8 @@ export const addUsers: API.OperationMethod<
   AddUsersError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c100, 0) as any as S.Schema<AddUsersRequest>,
-  output: __S(801, __c100, 1) as any as S.Schema<AddUsersResponse>,
+  input: __S(864, __c108, 0) as any as S.Schema<AddUsersRequest>,
+  output: __S(865, __c108, 1) as any as S.Schema<AddUsersResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -2427,7 +2688,7 @@ export const addWorkflowsCollaborator: API.OperationMethod<
   AddWorkflowsCollaboratorError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c112, 0) as any as S.Schema<AddWorkflowsCollaboratorRequest>,
+  input: __S(960, __c120, 0) as any as S.Schema<AddWorkflowsCollaboratorRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<AddWorkflowsCollaboratorResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -2437,15 +2698,15 @@ export const addWorkflowsCollaborator: API.OperationMethod<
 }));
 
 export type AnalyticsMessagesActivityError = SlackOpError;
-/** Retrieves activity metrics for messages from a given channel. Required scopes -- user: `admin.analytics:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- The specified channel was not found. - `invalid_arguments` -- Required arguments either were not provided or contain invalid values. - `restricted_action` -- The token does not have permission to access this resource. - `not_an_enterprise` -- The user token does not belong to an enterprise. - `restricted_plan_level` -- The enterprise plan level does not have access to this feature. - `rate_limited` -- Too many requests in a short amount of time. See https://docs.slack.dev/reference/methods/admin.analytics.messages.activity */
+/** Retrieves activity metrics for messages from a given channel, created between oldest_ts and latest_ts Required scopes -- user: `admin.analytics:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- The specified channel was not found. - `invalid_arguments` -- Required arguments either were not provided or contain invalid values. - `restricted_action` -- The token does not have permission to access this resource, or the channel is not public and the organization has disabled private channel analytics. - `not_an_enterprise` -- The user token does not belong to an enterprise. - `restricted_plan_level` -- The enterprise plan level does not have access to this feature. - `rate_limited` -- Too many requests in a short amount of time. See https://docs.slack.dev/reference/methods/admin.analytics.messages.activity */
 export const analyticsMessagesActivity: API.OperationMethod<
   AnalyticsMessagesActivityRequest,
   AnalyticsMessagesActivityResponse,
   AnalyticsMessagesActivityError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(984, __c123, 0) as any as S.Schema<AnalyticsMessagesActivityRequest>,
-  output: __S(985, __c123, 1) as any as S.Schema<AnalyticsMessagesActivityResponse>,
+  input: __S(1056, __c132, 0) as any as S.Schema<AnalyticsMessagesActivityRequest>,
+  output: __S(1057, __c132, 1) as any as S.Schema<AnalyticsMessagesActivityResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -2454,7 +2715,7 @@ export const analyticsMessagesActivity: API.OperationMethod<
 }));
 
 export type AnalyticsMessagesMetadataError = SlackOpError;
-/** Retrieves metadata for a list of messages from a given channel. Required scopes -- user: `admin.analytics:read` Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- The specified channel was not found - `invalid_arguments` -- Required arguments either were not provided or contain invalid values. - `not_an_enterprise` -- The user token does not belong to an enterprise. - `analytics_unavailable` -- We were unable to find analytics for you. - `admin_analytics_disabled` -- We're having issues returning your analytics. Please wait and try again. - `restricted_plan_level` -- This feature is not available for your current product plan. - `different_team_owns_message_metadata_for_channel` -- Message metadata must be accessed by an actor from the same team that owns the channel. This may be the org or a specific enterprise workspace. - `rate_limited` -- Too many requests in a short amount of time. See https://docs.slack.dev/reference/methods/admin.analytics.messages.metadata */
+/** Retrieves metadata for a list of messages from a given channel. Required scopes -- user: `admin.analytics:read` Rate limit tier: 5 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- The specified channel was not found - `invalid_arguments` -- Required arguments either were not provided or contain invalid values. - `not_an_enterprise` -- The user token does not belong to an enterprise. - `analytics_unavailable` -- We were unable to find analytics for you. - `admin_analytics_disabled` -- We're having issues returning your analytics. Please wait and try again. - `restricted_plan_level` -- This feature is not available for your current product plan. - `different_team_owns_message_metadata_for_channel` -- Message metadata must be accessed by an actor from the same team that owns the channel. This may be the org or a specific enterprise workspace. - `rate_limited` -- Too many requests in a short amount of time. - `restricted_action` -- The token does not have permission to access this resource, or the channel is not public and the organization has disabled private channel analytics. See https://docs.slack.dev/reference/methods/admin.analytics.messages.metadata */
 export const analyticsMessagesMetadata: API.PaginatedOperationMethod<
   AnalyticsMessagesMetadataRequest,
   AnalyticsMessagesMetadataResponse,
@@ -2481,7 +2742,7 @@ export const analyticsMessagesMetadata: API.PaginatedOperationMethod<
 ) as any;
 
 export type ApproveAppError = SlackOpError;
-/** Approve an app for installation on a workspace. Required scopes -- user: `admin.apps:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `app_management_app_not_installed_on_org` -- The app management app must be installed on the org. - `app_not_eligible_for_auto_install` -- The app does not have the required scope to be eligible for auto-install rule creation. - `app_restricted_org_wide` -- The app is already restricted org wide. - `auto_install_rule_creation_failed` -- The app was approved successfully, but the auto-install AAA rule could not be created. Please create the rule manually. - `custom_integration_not_allowed_at_enterprise` -- Returned when the install request is for custom integration app. - `feature_not_enabled` -- Returned when the Admin APIs feature is not enabled for this team. - `invalid_request_id` -- The `request_id` passed is invalid. - `invalid_app_id` -- The `app_id` passed is invalid. - `org_resolution_required` -- The `team_id` is in an Enterprise org while `app_id` is certified. - `invalid_scopes` -- Some of the provided scopes do not exist. - `not_allowed_to_create_automation_rule` -- The actor does not have permission to create AAA automation rules. The app was approved but the auto-install rule was not created. - `not_an_admin` -- This method is only accessible by org owners and admins. - `request_already_resolved` -- The app request has already been resolved. - `request_id_or_app_id_is_required` -- Must include a `request_id` or `app_id`. - `request_id_required_for_custom_integrations` -- A `request_id` is required for custom integrations. - `team_not_found` -- Returned when team id is not found. - `too_many_ids_provided` -- Please provide only `app_id` OR `request_id`. - `too_many_teams_provided` -- Please provide only `team_id` OR `enterprise_id`. See https://docs.slack.dev/reference/methods/admin.apps.approve */
+/** Approve an app for installation on a workspace. Required scopes -- user: `admin.apps:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `app_management_app_not_installed_on_org` -- The app management app must be installed on the org. - `app_not_eligible_for_auto_install` -- The app does not have the required scope to be eligible for auto-install rule creation. - `app_restricted_org_wide` -- The app is already restricted org wide. - `auto_install_rule_creation_failed` -- The app was approved successfully, but the auto-install AAA rule could not be created. Please create the rule manually. - `custom_integration_not_allowed_at_enterprise` -- Returned when the install request is for custom integration app. - `feature_not_enabled` -- Returned when the Admin APIs feature is not enabled for this team. - `invalid_request_id` -- The `request_id` passed is invalid. - `invalid_app_id` -- The `app_id` passed is invalid. - `org_resolution_required` -- The `team_id` is in an Enterprise org while `app_id` is certified. - `invalid_scopes` -- Some of the provided scopes do not exist. - `not_allowed_to_create_automation_rule` -- The actor does not have permission to create AAA automation rules. The app was approved but the auto-install rule was not created. - `not_an_admin` -- This method is only accessible by org owners and admins. - `request_already_resolved` -- The app request has already been resolved. - `request_id_or_app_id_is_required` -- Must include a `request_id` or `app_id`. - `request_id_required_for_custom_integrations` -- A `request_id` is required for custom integrations. - `team_not_found` -- Returned when team id is not found. - `too_many_ids_provided` -- Please provide only `app_id` OR `request_id`. - `too_many_teams_provided` -- Please provide only `team_id` OR `enterprise_id`. - `invalid_approved_acl` -- The `approved_acl` passed is invalid, or can't be applied to this request. The app was not approved. See https://docs.slack.dev/reference/methods/admin.apps.approve */
 export const approveApp: API.OperationMethod<
   ApproveAppRequest,
   ApproveAppResponse,
@@ -2522,7 +2783,7 @@ export const appsRestrict: API.OperationMethod<
   AppsRestrictError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c28, 0) as any as S.Schema<AppsRestrictRequest>,
+  input: __S(288, __c36, 0) as any as S.Schema<AppsRestrictRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<AppsRestrictResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -2532,14 +2793,14 @@ export const appsRestrict: API.OperationMethod<
 }));
 
 export type ArchiveConversationError = SlackOpError;
-/** Archive a public or private channel. Required scopes -- user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `already_archived` -- This channel has already been archived. - `cant_archive_general` -- You cannot archive the 'general' channel. - `channel_not_found` -- The value passed for `channel` was invalid. - `channel_type_not_supported` -- The value passed for `channel` was an MPDM, DM, or the 'general' channel. - `could_not_archive_channel` -- The provided channel could not be archived. - `default_org_wide_channel` -- The default org-wide channel cannot be archived. - `feature_not_enabled` -- The token provided does not have access to this method. - `restricted_action` -- A workspace preference prevents the authenticated user from archiving this channel. See https://docs.slack.dev/reference/methods/admin.conversations.archive */
+/** Archive a public or private channel. Required scopes -- user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `already_archived` -- This channel has already been archived. - `cant_archive_general` -- You cannot archive the 'general' channel. - `channel_not_found` -- The value passed for `channel` was invalid, or the channel belongs to a workspace other than the token's workspace and isn't shared with it. - `channel_type_not_supported` -- The value passed for `channel` was an MPDM, DM, or the 'general' channel. - `could_not_archive_channel` -- The provided channel could not be archived. - `default_org_wide_channel` -- The default org-wide channel cannot be archived. - `feature_not_enabled` -- The token provided does not have access to this method. - `restricted_action` -- A workspace preference prevents the authenticated user from archiving this channel. - `target_team_not_on_org` -- The specified target_team is not part of the organization. See https://docs.slack.dev/reference/methods/admin.conversations.archive */
 export const archiveConversation: API.OperationMethod<
   ArchiveConversationRequest,
   ArchiveConversationResponse,
   ArchiveConversationError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(232, __c29, 0) as any as S.Schema<ArchiveConversationRequest>,
+  input: __S(296, __c37, 0) as any as S.Schema<ArchiveConversationRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ArchiveConversationResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -2556,8 +2817,8 @@ export const assignEntities: API.OperationMethod<
   AssignEntitiesError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<AssignEntitiesRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<AssignEntitiesResponse>,
+  input: __S(304, __c38, 0) as any as S.Schema<AssignEntitiesRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<AssignEntitiesResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -2566,14 +2827,14 @@ export const assignEntities: API.OperationMethod<
 }));
 
 export type AssignUserError = SlackOpError;
-/** Add an Enterprise user to a workspace. Required scopes -- user: `admin.users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team - `invalid_role_for_user` -- The requested status is incompatible with the user's role on another workspace. - `invited_user_not_created` -- The invited user could not be created. - `invited_user_not_reactivated` -- The invited user could not be reactivated. - `invitor_cannot_see_channel` -- The invitor is not part of one or many channels that the user was requested to be added to - `not_an_admin` -- This method wasn't called by an admin. - `team_not_found` -- `team_id was not found. - `too_many_channels` -- The user was requested to be added to more channels than is allowed. - `user_already_team_member` -- The given user is already active on the given team. - `user_is_bot` -- The given user is a bot from an app. This api only works with humans. - `user_not_found` -- `user_id` was not found. - `user_cannot_be_added_to_workspace` -- The user can't be added to this workspace because of their account type or the workspace's configuration. See https://docs.slack.dev/reference/methods/admin.users.assign */
+/** Add an Enterprise user to a workspace. Required scopes -- user: `admin.users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team - `invalid_role_for_user` -- The requested status is incompatible with the user's role on another workspace. - `invited_user_not_created` -- The invited user could not be created. - `invited_user_not_reactivated` -- The invited user could not be reactivated. - `invitor_cannot_see_channel` -- The invitor is not part of one or many channels that the user was requested to be added to - `not_an_admin` -- This method wasn't called by an admin. - `team_not_found` -- `team_id was not found. - `too_many_channels` -- The user was requested to be added to more channels than is allowed. - `user_already_team_member` -- The given user is already active on the given team. - `user_is_bot` -- The given user is a bot from an app. This api only works with humans. - `user_not_found` -- `user_id` was not found. - `user_cannot_be_added_to_workspace` -- The user can't be added to this workspace because of their account type or the workspace's configuration. - `inviter_email_not_verified` -- The user is still invited, and the user whose token is calling this method has not verified the email address on their own account. They must verify it before adding an invited user to a workspace. See https://docs.slack.dev/reference/methods/admin.users.assign */
 export const assignUser: API.OperationMethod<
   AssignUserRequest,
   AssignUserResponse,
   AssignUserError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<AssignUserRequest>,
+  input: __S(320, __c40, 0) as any as S.Schema<AssignUserRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<AssignUserResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -2590,8 +2851,8 @@ export const bulkArchive: API.OperationMethod<
   BulkArchiveError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(264, __c33, 0) as any as S.Schema<BulkArchiveRequest>,
-  output: __S(272, __c34, 0) as any as S.Schema<BulkArchiveResponse>,
+  input: __S(328, __c41, 0) as any as S.Schema<BulkArchiveRequest>,
+  output: __S(336, __c42, 0) as any as S.Schema<BulkArchiveResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -2607,8 +2868,8 @@ export const bulkDelete: API.OperationMethod<
   BulkDeleteError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c36, 0) as any as S.Schema<BulkDeleteRequest>,
-  output: __S(272, __c34, 0) as any as S.Schema<BulkDeleteResponse>,
+  input: __S(352, __c44, 0) as any as S.Schema<BulkDeleteRequest>,
+  output: __S(336, __c42, 0) as any as S.Schema<BulkDeleteResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -2624,8 +2885,8 @@ export const bulkMove: API.OperationMethod<
   BulkMoveError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(296, __c37, 0) as any as S.Schema<BulkMoveRequest>,
-  output: __S(272, __c34, 0) as any as S.Schema<BulkMoveResponse>,
+  input: __S(360, __c45, 0) as any as S.Schema<BulkMoveRequest>,
+  output: __S(336, __c42, 0) as any as S.Schema<BulkMoveResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -2641,8 +2902,8 @@ export const bulkSetExcludeFromSlackAi: API.OperationMethod<
   BulkSetExcludeFromSlackAiError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c40, 0) as any as S.Schema<BulkSetExcludeFromSlackAiRequest>,
-  output: __S(272, __c34, 0) as any as S.Schema<BulkSetExcludeFromSlackAiResponse>,
+  input: __S(384, __c48, 0) as any as S.Schema<BulkSetExcludeFromSlackAiRequest>,
+  output: __S(336, __c42, 0) as any as S.Schema<BulkSetExcludeFromSlackAiResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -2658,8 +2919,8 @@ export const bulkSetProperties: API.OperationMethod<
   BulkSetPropertiesError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(328, __c41, 0) as any as S.Schema<BulkSetPropertiesRequest>,
-  output: __S(329, __c41, 1) as any as S.Schema<BulkSetPropertiesResponse>,
+  input: __S(392, __c49, 0) as any as S.Schema<BulkSetPropertiesRequest>,
+  output: __S(393, __c49, 1) as any as S.Schema<BulkSetPropertiesResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -2675,7 +2936,7 @@ export const cancelAppsRequest: API.OperationMethod<
   CancelAppsRequestError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c42, 0) as any as S.Schema<CancelAppsRequestRequest>,
+  input: __S(400, __c50, 0) as any as S.Schema<CancelAppsRequestRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<CancelAppsRequestResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -2692,7 +2953,7 @@ export const clearResolution: API.OperationMethod<
   ClearResolutionError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(344, __c43, 0) as any as S.Schema<ClearResolutionRequest>,
+  input: __S(408, __c51, 0) as any as S.Schema<ClearResolutionRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ClearResolutionResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -2709,13 +2970,30 @@ export const clearSettings: API.OperationMethod<
   ClearSettingsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c44, 0) as any as S.Schema<ClearSettingsRequest>,
+  input: __S(416, __c52, 0) as any as S.Schema<ClearSettingsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ClearSettingsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ClearSettings",
+}));
+
+export type ConversationsKickError = SlackOpError;
+/** Remove multiple users from a conversation. Admin version of conversations.kick with support for bulk user removal. Required scopes -- user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- The value passed for `channel_id` was invalid. - `channel_type_not_supported` -- The provided `channel_id` is a DM, MPDM, or cannot be used with this method. - `external_channel_migrating` -- The channel is an externally shared channel that is currently being migrated and members can't be removed. - `failed_for_all_users` -- All users could not be removed from the channel. Check `failed_user_ids` for details. - `not_supported` -- This type of channel doesn't support removing members through this method. - `restricted_action` -- The authenticated user lacks channel management permissions for this channel type, or a team preference prevents them from removing members. - `too_many_users` -- Too many user IDs provided (maximum 100). - `permission_denied` -- The user does not have permission to remove members from the channel. See https://docs.slack.dev/reference/methods/admin.conversations.kick */
+export const conversationsKick: API.OperationMethod<
+  ConversationsKickRequest,
+  ConversationsKickResponse,
+  ConversationsKickError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(424, __c53, 0) as any as S.Schema<ConversationsKickRequest>,
+  output: __S(427, __c53, 3) as any as S.Schema<ConversationsKickResponse>,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConversationsKick",
 }));
 
 export type ConvertToPrivateError = SlackOpError;
@@ -2726,7 +3004,7 @@ export const convertToPrivate: API.OperationMethod<
   ConvertToPrivateError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(360, __c45, 0) as any as S.Schema<ConvertToPrivateRequest>,
+  input: __S(432, __c54, 0) as any as S.Schema<ConvertToPrivateRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ConvertToPrivateResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -2743,7 +3021,7 @@ export const convertToPublic: API.OperationMethod<
   ConvertToPublicError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c46, 0) as any as S.Schema<ConvertToPublicRequest>,
+  input: __S(440, __c55, 0) as any as S.Schema<ConvertToPublicRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ConvertToPublicResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -2760,8 +3038,8 @@ export const createBarrier: API.OperationMethod<
   CreateBarrierError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(376, __c47, 0) as any as S.Schema<CreateBarrierRequest>,
-  output: __S(384, __c48, 0) as any as S.Schema<CreateBarrierResponse>,
+  input: __S(448, __c56, 0) as any as S.Schema<CreateBarrierRequest>,
+  output: __S(456, __c57, 0) as any as S.Schema<CreateBarrierResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -2777,8 +3055,8 @@ export const createConversation: API.OperationMethod<
   CreateConversationError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c50, 0) as any as S.Schema<CreateConversationRequest>,
-  output: __S(401, __c50, 1) as any as S.Schema<CreateConversationResponse>,
+  input: __S(472, __c59, 0) as any as S.Schema<CreateConversationRequest>,
+  output: __S(473, __c59, 1) as any as S.Schema<CreateConversationResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -2794,8 +3072,8 @@ export const createForObjects: API.OperationMethod<
   CreateForObjectsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(408, __c51, 0) as any as S.Schema<CreateForObjectsRequest>,
-  output: __S(409, __c51, 1) as any as S.Schema<CreateForObjectsResponse>,
+  input: __S(496, __c62, 0) as any as S.Schema<CreateForObjectsRequest>,
+  output: __S(497, __c62, 1) as any as S.Schema<CreateForObjectsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -2811,8 +3089,8 @@ export const createTeam: API.OperationMethod<
   CreateTeamError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(432, __c54, 0) as any as S.Schema<CreateTeamRequest>,
-  output: __S(433, __c54, 1) as any as S.Schema<CreateTeamResponse>,
+  input: __S(504, __c63, 0) as any as S.Schema<CreateTeamRequest>,
+  output: __S(505, __c63, 1) as any as S.Schema<CreateTeamResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -2828,13 +3106,30 @@ export const createUsergroup: API.OperationMethod<
   CreateUsergroupError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(440, __c55, 0) as any as S.Schema<CreateUsergroupRequest>,
-  output: __S(441, __c55, 1) as any as S.Schema<CreateUsergroupResponse>,
+  input: __S(512, __c64, 0) as any as S.Schema<CreateUsergroupRequest>,
+  output: __S(513, __c64, 1) as any as S.Schema<CreateUsergroupResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateUsergroup",
+}));
+
+export type DeactivateUserError = SlackOpError;
+/** Deactivate a user from an enterprise organization and all its workspaces. Required scopes -- user: `admin.users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `restricted_action` -- The caller does not have permission to perform this action. Must be an org admin or owner. - `user_not_found` -- The user was not found or does not belong to this enterprise. - `invalid_user` -- The user was not found or is not a valid target for deactivation. - `deactivation_failed` -- The deactivation operation failed. - `user_is_team_primary_owner` -- The user is a primary owner of one or more workspaces and cannot be deactivated. See https://docs.slack.dev/reference/methods/admin.users.deactivate */
+export const deactivateUser: API.OperationMethod<
+  DeactivateUserRequest,
+  DeactivateUserResponse,
+  DeactivateUserError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(520, __c65, 0) as any as S.Schema<DeactivateUserRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeactivateUserResponse>,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeactivateUser",
 }));
 
 export type DeleteBarrierError = SlackOpError;
@@ -2845,7 +3140,7 @@ export const deleteBarrier: API.OperationMethod<
   DeleteBarrierError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c56, 0) as any as S.Schema<DeleteBarrierRequest>,
+  input: __S(528, __c66, 0) as any as S.Schema<DeleteBarrierRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteBarrierResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -2862,7 +3157,7 @@ export const deleteConversation: API.OperationMethod<
   DeleteConversationError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(456, __c57, 0) as any as S.Schema<DeleteConversationRequest>,
+  input: __S(536, __c67, 0) as any as S.Schema<DeleteConversationRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DeleteConversationResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -2872,14 +3167,14 @@ export const deleteConversation: API.OperationMethod<
 }));
 
 export type DisconnectSharedError = SlackOpError;
-/** Disconnect a connected channel from one or more workspaces. Required scopes -- user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `cannot_kick_home_team` -- The originating workspace cannot be kicked from the channel. - `cannot_kick_team` -- Only the originating workspace for a connected channel may remove other workspaces from the channel. - `channel_not_found` -- The value passed for `channel_id` was invalid. - `channel_type_not_supported` -- The value passed for `channel_id` was an MPDM, DM, or the 'general' channel. - `feature_not_enabled` -- The token provided does not have access to this method. - `leaving_team_not_in_channel` -- The workspace being removed is not connected to the channel. - `leaving_team_required` -- There are more than two teams in the channel--you must supplied a `leaving_team_id` parameter. - `missing_scope` -- The provided token does not have the required scopes to use this method. - `no_teams_to_disconnect` -- This channel is not shared, so there are no workspaces to disconnect. - `not_an_admin` -- The token provided is not associated with an Org Admin or Owner. - `not_an_enterprise` -- This endpoint can only be called for an Enterprise organization. - `not_supported` -- The passed `channel_id` was a DM, MPDM, or the 'general' channel. - `restricted_action` -- A workspace preference prevents the authenticated user from disconnecting a channel. - `team_not_found` -- At least one of the supplied `leaving_team_ids` are invalid. See https://docs.slack.dev/reference/methods/admin.conversations.disconnectShared */
+/** Disconnect a connected channel from one or more workspaces. Required scopes -- user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `cannot_kick_home_team` -- The originating workspace cannot be kicked from the channel. - `cannot_kick_team` -- Only the originating workspace for a connected channel may remove other workspaces from the channel. - `channel_not_found` -- The value passed for `channel_id` was invalid. - `channel_type_not_supported` -- The value passed for `channel_id` was an MPDM, DM, or the 'general' channel. - `feature_not_enabled` -- The token provided does not have access to this method. - `leaving_team_not_in_channel` -- The workspace being removed is not connected to the channel. - `leaving_team_required` -- There are more than two teams in the channel--you must supplied a `leaving_team_id` parameter. - `missing_scope` -- The provided token does not have the required scopes to use this method. - `no_teams_to_disconnect` -- This channel is not shared, so there are no workspaces to disconnect. - `not_an_admin` -- The token provided is not associated with an Org Admin or Owner. - `not_an_enterprise` -- This endpoint can only be called for an Enterprise organization. - `not_supported` -- The passed `channel_id` was a DM, MPDM, or the 'general' channel. - `restricted_action` -- A workspace preference prevents the authenticated user from disconnecting a channel. - `team_not_found` -- At least one of the supplied `leaving_team_ids` are invalid. - `external_channel_migrating` -- The channel is an externally shared channel that is currently being migrated. - `default_org_wide_channel` -- The channel is a default org-wide channel, which isn't supported by this method. See https://docs.slack.dev/reference/methods/admin.conversations.disconnectShared */
 export const disconnectShared: API.OperationMethod<
   DisconnectSharedRequest,
   DisconnectSharedResponse,
   DisconnectSharedError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c58, 0) as any as S.Schema<DisconnectSharedRequest>,
+  input: __S(544, __c68, 0) as any as S.Schema<DisconnectSharedRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<DisconnectSharedResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -2896,7 +3191,7 @@ export const exportUsersUnsupportedVersion: API.OperationMethod<
   ExportUsersUnsupportedVersionError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(472, __c59, 0) as any as S.Schema<ExportUsersUnsupportedVersionRequest>,
+  input: __S(552, __c69, 0) as any as S.Schema<ExportUsersUnsupportedVersionRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ExportUsersUnsupportedVersionResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -2913,8 +3208,8 @@ export const fetchUsergroup: API.OperationMethod<
   FetchUsergroupError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c60, 0) as any as S.Schema<FetchUsergroupRequest>,
-  output: __S(481, __c60, 1) as any as S.Schema<FetchUsergroupResponse>,
+  input: __S(560, __c70, 0) as any as S.Schema<FetchUsergroupRequest>,
+  output: __S(561, __c70, 1) as any as S.Schema<FetchUsergroupResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -2923,15 +3218,15 @@ export const fetchUsergroup: API.OperationMethod<
 }));
 
 export type GetConversationPrefsError = SlackOpError;
-/** Get conversation preferences for a public or private channel. Required scopes -- user: `admin.conversations:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- The value passed for `channel_id` was invalid. - `channel_type_not_supported` -- The provided `channel_id` was a DM, MPDM, or the 'general' channel. - `could_not_get_conversation_prefs` -- There was an error getting the conversation preferences for this channel. - `feature_not_enabled` -- The token provided does not have access to this method. - `missing_scope` -- The token provided doesn't have the required scopes. - `not_an_admin` -- The token provided is not associated with an Org Admin or Owner. - `not_an_enterprise` -- This endpoint can only be called by an Enterprise organization. - `restricted_action` -- A workspace preference prevents the authenticated user from listing preferences. See https://docs.slack.dev/reference/methods/admin.conversations.getConversationPrefs */
+/** Get conversation preferences for a public or private channel. Required scopes -- user: `admin.conversations:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- The value passed for `channel_id` was invalid, or the channel belongs to a workspace other than the token's workspace and isn't shared with it. - `channel_type_not_supported` -- The provided `channel_id` was a DM, MPDM, or the 'general' channel. - `could_not_get_conversation_prefs` -- There was an error getting the conversation preferences for this channel. - `feature_not_enabled` -- The token provided does not have access to this method. - `missing_scope` -- The token provided doesn't have the required scopes. - `not_an_admin` -- The token provided is not associated with an Org Admin or Owner. - `not_an_enterprise` -- This endpoint can only be called by an Enterprise organization. - `restricted_action` -- A workspace preference prevents the authenticated user from listing preferences. - `target_team_not_on_org` -- The specified target_team is not part of the organization. See https://docs.slack.dev/reference/methods/admin.conversations.getConversationPrefs */
 export const getConversationPrefs: API.OperationMethod<
   GetConversationPrefsRequest,
   GetConversationPrefsResponse,
   GetConversationPrefsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(488, __c61, 0) as any as S.Schema<GetConversationPrefsRequest>,
-  output: __S(493, __c61, 5) as any as S.Schema<GetConversationPrefsResponse>,
+  input: __S(568, __c71, 0) as any as S.Schema<GetConversationPrefsRequest>,
+  output: __S(573, __c71, 5) as any as S.Schema<GetConversationPrefsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -2940,15 +3235,15 @@ export const getConversationPrefs: API.OperationMethod<
 }));
 
 export type GetCustomRetentionError = SlackOpError;
-/** This API endpoint can be used by any admin to get a conversation's retention policy. Required scopes -- user: `admin.conversations:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- Value given for `channel_id` was invalid. - `channel_type_not_supported` -- Value given for `channel_id` was a #general channel. - `could_not_get_retention` -- The retention policy could not be retrieved. - `default_org_wide_channel` -- The channel given is a default org-wide channel. - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team. - `not_an_admin` -- The token provided is not associated with an org admin. - `restricted_action` -- A team preference prevents the authenticated user from modifying the retention policy of this channel. - `retention_override_not_allowed` -- The current org retention policy disallows modifying the retention policy of this channel. See https://docs.slack.dev/reference/methods/admin.conversations.getCustomRetention */
+/** This API endpoint can be used by any admin to get a conversation's retention policy. Required scopes -- user: `admin.conversations:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- Value given for `channel_id` was invalid. - `channel_type_not_supported` -- Value given for `channel_id` was a #general channel. - `could_not_get_retention` -- The retention policy could not be retrieved. - `default_org_wide_channel` -- The channel given is a default org-wide channel. - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team. - `not_an_admin` -- The token provided is not associated with an org admin. - `restricted_action` -- A team preference prevents the authenticated user from modifying the retention policy of this channel. - `retention_override_not_allowed` -- The current org retention policy disallows modifying the retention policy of this channel. - `not_supported` -- This type of channel isn't supported by this method. - `external_channel_migrating` -- The channel is an externally shared channel that is currently being migrated. See https://docs.slack.dev/reference/methods/admin.conversations.getCustomRetention */
 export const getCustomRetention: API.OperationMethod<
   GetCustomRetentionRequest,
   GetCustomRetentionResponse,
   GetCustomRetentionError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c62, 0) as any as S.Schema<GetCustomRetentionRequest>,
-  output: __S(497, __c62, 1) as any as S.Schema<GetCustomRetentionResponse>,
+  input: __S(584, __c73, 0) as any as S.Schema<GetCustomRetentionRequest>,
+  output: __S(585, __c73, 1) as any as S.Schema<GetCustomRetentionResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -2966,8 +3261,8 @@ export const getEntities: API.PaginatedOperationMethod<
   GetEntitiesResponseEntitiesItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(504, __c63, 0) as any as S.Schema<GetEntitiesRequest>,
-    output: __S(507, __c63, 3) as any as S.Schema<GetEntitiesResponse>,
+    input: __S(592, __c74, 0) as any as S.Schema<GetEntitiesRequest>,
+    output: __S(595, __c74, 3) as any as S.Schema<GetEntitiesResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -2992,8 +3287,8 @@ export const getExpiration: API.OperationMethod<
   GetExpirationError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(520, __c65, 0) as any as S.Schema<GetExpirationRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<GetExpirationResponse>,
+  input: __S(600, __c75, 0) as any as S.Schema<GetExpirationRequest>,
+  output: __S(602, __c75, 2) as any as S.Schema<GetExpirationResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -3009,8 +3304,8 @@ export const getFile: API.OperationMethod<
   GetFileError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c66, 0) as any as S.Schema<GetFileRequest>,
-  output: __S(529, __c66, 1) as any as S.Schema<GetFileResponse>,
+  input: __S(608, __c76, 0) as any as S.Schema<GetFileRequest>,
+  output: __S(609, __c76, 1) as any as S.Schema<GetFileResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -3026,8 +3321,8 @@ export const getItem: API.OperationMethod<
   GetItemError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(536, __c67, 0) as any as S.Schema<GetItemRequest>,
-  output: __S(537, __c67, 1) as any as S.Schema<GetItemResponse>,
+  input: __S(616, __c77, 0) as any as S.Schema<GetItemRequest>,
+  output: __S(617, __c77, 1) as any as S.Schema<GetItemResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -3043,8 +3338,8 @@ export const getSettings: API.OperationMethod<
   GetSettingsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(552, __c69, 0) as any as S.Schema<GetSettingsRequest>,
-  output: __S(555, __c69, 3) as any as S.Schema<GetSettingsResponse>,
+  input: __S(632, __c79, 0) as any as S.Schema<GetSettingsRequest>,
+  output: __S(635, __c79, 3) as any as S.Schema<GetSettingsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -3053,15 +3348,15 @@ export const getSettings: API.OperationMethod<
 }));
 
 export type GetTeamsError = SlackOpError;
-/** Get all the workspaces a given public or private channel is connected to within this Enterprise org. Required scopes -- user: `admin.conversations:read` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- The channel wasn't found or isn't connected to multiple workspaces. - `channel_type_not_supported` -- The `channel_id` provided was a DM, MPDM, or the 'general' channel. - `could_not_get_teams` -- Could not fetch the workspaces that the channel is shared with in this organization. - `external_channel_migrating` -- The channel is actively being migrated - `feature_not_enabled` -- The token provided doesn't have access to this method. - `invalid_cursor` -- The provided cursor wasn't valid. - `invalid_limit` -- The value passed for `limit` wasn't valid. - `restricted_action` -- A workspace preference prevents the authenticated user from listing the workspaces connected to a channel. - `unsupported_team_type` -- This endpoint can only called by Enterprise organizations. See https://docs.slack.dev/reference/methods/admin.conversations.getTeams */
+/** Get all the workspaces a given public or private channel is connected to within this Enterprise org. Required scopes -- user: `admin.conversations:read` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- The channel wasn't found or isn't connected to multiple workspaces. - `channel_type_not_supported` -- The `channel_id` provided was a DM, MPDM, or the 'general' channel. - `could_not_get_teams` -- Could not fetch the workspaces that the channel is shared with in this organization. - `external_channel_migrating` -- The channel is actively being migrated - `feature_not_enabled` -- The token provided doesn't have access to this method. - `invalid_cursor` -- The provided cursor wasn't valid. - `invalid_limit` -- The value passed for `limit` wasn't valid. - `restricted_action` -- A workspace preference prevents the authenticated user from listing the workspaces connected to a channel. - `unsupported_team_type` -- This endpoint can only called by Enterprise organizations. - `target_team_not_on_org` -- The specified target_team is not part of the organization. - `not_supported` -- This type of channel isn't supported by this method. - `default_org_wide_channel` -- The channel is a default org-wide channel, which isn't supported by this method. See https://docs.slack.dev/reference/methods/admin.conversations.getTeams */
 export const getTeams: API.OperationMethod<
   GetTeamsRequest,
   GetTeamsResponse,
   GetTeamsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c70, 0) as any as S.Schema<GetTeamsRequest>,
-  output: __S(561, __c70, 1) as any as S.Schema<GetTeamsResponse>,
+  input: __S(640, __c80, 0) as any as S.Schema<GetTeamsRequest>,
+  output: __S(641, __c80, 1) as any as S.Schema<GetTeamsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -3077,7 +3372,7 @@ export const invalidateUsersSession: API.OperationMethod<
   InvalidateUsersSessionError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(568, __c71, 0) as any as S.Schema<InvalidateUsersSessionRequest>,
+  input: __S(648, __c81, 0) as any as S.Schema<InvalidateUsersSessionRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<InvalidateUsersSessionResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -3094,7 +3389,7 @@ export const inviteConversation: API.OperationMethod<
   InviteConversationError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c72, 0) as any as S.Schema<InviteConversationRequest>,
+  input: __S(656, __c82, 0) as any as S.Schema<InviteConversationRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<InviteConversationResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -3111,7 +3406,7 @@ export const inviteRequestsDeny: API.OperationMethod<
   InviteRequestsDenyError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(584, __c73, 0) as any as S.Schema<InviteRequestsDenyRequest>,
+  input: __S(664, __c83, 0) as any as S.Schema<InviteRequestsDenyRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<InviteRequestsDenyResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -3121,14 +3416,14 @@ export const inviteRequestsDeny: API.OperationMethod<
 }));
 
 export type InviteUserError = SlackOpError;
-/** Invite a user to a workspace. Required scopes -- user: `admin.users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `already_in_team` -- The user is already on the team. - `already_in_team_invited_user` -- The user has already been invited to the team. - `failed_looking_up_user` -- We couldn't find the requested user. - `failed_to_send_invite` -- The invite failed to send. - `failed_to_validate_caller` -- The token calling this method doesn't have permission to invite a user. - `failed_to_validate_channels` -- `channel_ids` was invalid. - `failed_to_validate_custom_message` -- `extra_message` was invalid. - `failed_to_validate_expiration` -- `expiration_ts` was invalid. - `failed_to_validate_team` -- The team calling this method was invalid. - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team. - `invalid_email` -- Email address was not valid. - `not_an_admin` -- The user token does not have admin privileges. - `team_not_found` -- `team_id` was not found. - `user_disabled` -- The user is disabled. See https://docs.slack.dev/reference/methods/admin.users.invite */
+/** Invite a user to a workspace. Required scopes -- user: `admin.users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `already_in_team` -- The user is already on the team. - `already_in_team_invited_user` -- The user has already been invited to the team. - `failed_looking_up_user` -- We couldn't find the requested user. - `failed_to_send_invite` -- The invite failed to send. - `failed_to_validate_caller` -- The token calling this method doesn't have permission to invite a user. - `failed_to_validate_channels` -- `channel_ids` was invalid. - `failed_to_validate_custom_message` -- `extra_message` was invalid. - `failed_to_validate_expiration` -- `expiration_ts` was invalid. - `failed_to_validate_team` -- The team calling this method was invalid. - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team. - `invalid_email` -- Email address was not valid. - `not_an_admin` -- The user token does not have admin privileges. - `team_not_found` -- `team_id` was not found. - `user_disabled` -- The user is disabled. - `inviter_email_not_verified` -- The user whose token is calling this method has not verified the email address on their own account. They must verify it before they can send invites, since the invite email presents that address as theirs. See https://docs.slack.dev/reference/methods/admin.users.invite */
 export const inviteUser: API.OperationMethod<
   InviteUserRequest,
   InviteUserResponse,
   InviteUserError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c74, 0) as any as S.Schema<InviteUserRequest>,
+  input: __S(680, __c85, 0) as any as S.Schema<InviteUserRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<InviteUserResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -3145,7 +3440,7 @@ export const linkObjects: API.OperationMethod<
   LinkObjectsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(600, __c75, 0) as any as S.Schema<LinkObjectsRequest>,
+  input: __S(688, __c86, 0) as any as S.Schema<LinkObjectsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<LinkObjectsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -3164,8 +3459,8 @@ export const listAppsActivities: API.PaginatedOperationMethod<
   unknown
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(616, __c77, 0) as any as S.Schema<ListAppsActivitiesRequest>,
-    output: __S(617, __c77, 1) as any as S.Schema<ListAppsActivitiesResponse>,
+    input: __S(696, __c87, 0) as any as S.Schema<ListAppsActivitiesRequest>,
+    output: __S(697, __c87, 1) as any as S.Schema<ListAppsActivitiesResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3192,8 +3487,8 @@ export const listAppsApproved: API.PaginatedOperationMethod<
   unknown
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(632, __c79, 0) as any as S.Schema<ListAppsApprovedRequest>,
-    output: __S(633, __c79, 1) as any as S.Schema<ListAppsApprovedResponse>,
+    input: __S(712, __c89, 0) as any as S.Schema<ListAppsApprovedRequest>,
+    output: __S(713, __c89, 1) as any as S.Schema<ListAppsApprovedResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3220,8 +3515,8 @@ export const listAppsMcpServers: API.PaginatedOperationMethod<
   ListAppsMcpServersResponseServersItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(640, __c80, 0) as any as S.Schema<ListAppsMcpServersRequest>,
-    output: __S(643, __c80, 3) as any as S.Schema<ListAppsMcpServersResponse>,
+    input: __S(720, __c90, 0) as any as S.Schema<ListAppsMcpServersRequest>,
+    output: __S(723, __c90, 3) as any as S.Schema<ListAppsMcpServersResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3239,15 +3534,15 @@ export const listAppsMcpServers: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListAppsMcpServersPermissionsError = SlackOpError;
-/** List MCP servers for an app with their access control permissions Required scopes -- user: `admin.apps:read` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `restricted_action` -- User does not have permission to perform this action. - `invalid_auth` -- Invalid authorization token - `app_not_found` -- This app does not exist. - `not_an_enterprise` -- This feature is only available on Enterprise Grid plans. - `feature_not_enabled` -- The MCP server ACL feature is not enabled for this team. - `internal_error` -- An internal error occurred while resolving the app's approved domains or ACLs. Retry the request. See https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.permissions.list */
+/** List MCP servers for an app with their access control permissions Required scopes -- user: `admin.apps:read` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `restricted_action` -- User does not have permission to perform this action. - `invalid_auth` -- Invalid authorization token - `app_not_found` -- This app does not exist. - `not_an_enterprise` -- This feature is only available on Enterprise Grid plans. - `internal_error` -- An internal error occurred while resolving the app's approved domains or ACLs. Retry the request. See https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.permissions.list */
 export const listAppsMcpServersPermissions: API.OperationMethod<
   ListAppsMcpServersPermissionsRequest,
   ListAppsMcpServersPermissionsResponse,
   ListAppsMcpServersPermissionsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(648, __c81, 0) as any as S.Schema<ListAppsMcpServersPermissionsRequest>,
-  output: __S(649, __c81, 1) as any as S.Schema<ListAppsMcpServersPermissionsResponse>,
+  input: __S(728, __c91, 0) as any as S.Schema<ListAppsMcpServersPermissionsRequest>,
+  output: __S(729, __c91, 1) as any as S.Schema<ListAppsMcpServersPermissionsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -3263,7 +3558,7 @@ export const listAppsPermissions: API.OperationMethod<
   ListAppsPermissionsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c82, 0) as any as S.Schema<ListAppsPermissionsRequest>,
+  input: __S(736, __c92, 0) as any as S.Schema<ListAppsPermissionsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ListAppsPermissionsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -3282,8 +3577,8 @@ export const listAppsRequests: API.PaginatedOperationMethod<
   unknown
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(664, __c83, 0) as any as S.Schema<ListAppsRequestsRequest>,
-    output: __S(665, __c83, 1) as any as S.Schema<ListAppsRequestsResponse>,
+    input: __S(744, __c93, 0) as any as S.Schema<ListAppsRequestsRequest>,
+    output: __S(745, __c93, 1) as any as S.Schema<ListAppsRequestsResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3310,8 +3605,8 @@ export const listAppsRestricted: API.PaginatedOperationMethod<
   unknown
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(672, __c84, 0) as any as S.Schema<ListAppsRestrictedRequest>,
-    output: __S(673, __c84, 1) as any as S.Schema<ListAppsRestrictedResponse>,
+    input: __S(752, __c94, 0) as any as S.Schema<ListAppsRestrictedRequest>,
+    output: __S(753, __c94, 1) as any as S.Schema<ListAppsRestrictedResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3338,8 +3633,8 @@ export const listAssignments: API.PaginatedOperationMethod<
   ListAssignmentsResponseRoleAssignmentsItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(680, __c85, 0) as any as S.Schema<ListAssignmentsRequest>,
-    output: __S(683, __c85, 3) as any as S.Schema<ListAssignmentsResponse>,
+    input: __S(760, __c95, 0) as any as S.Schema<ListAssignmentsRequest>,
+    output: __S(763, __c95, 3) as any as S.Schema<ListAssignmentsResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3366,8 +3661,8 @@ export const listBarriers: API.PaginatedOperationMethod<
   unknown
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(688, __c86, 0) as any as S.Schema<ListBarriersRequest>,
-    output: __S(689, __c86, 1) as any as S.Schema<ListBarriersResponse>,
+    input: __S(776, __c97, 0) as any as S.Schema<ListBarriersRequest>,
+    output: __S(777, __c97, 1) as any as S.Schema<ListBarriersResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3392,8 +3687,8 @@ export const listChannels: API.OperationMethod<
   ListChannelsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(696, __c87, 0) as any as S.Schema<ListChannelsRequest>,
-  output: __S(697, __c87, 1) as any as S.Schema<ListChannelsResponse>,
+  input: __S(784, __c98, 0) as any as S.Schema<ListChannelsRequest>,
+  output: __S(785, __c98, 1) as any as S.Schema<ListChannelsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -3409,8 +3704,8 @@ export const listEmoji: API.OperationMethod<
   ListEmojiError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(712, __c89, 0) as any as S.Schema<ListEmojiRequest>,
-  output: __S(713, __c89, 1) as any as S.Schema<ListEmojiResponse>,
+  input: __S(792, __c99, 0) as any as S.Schema<ListEmojiRequest>,
+  output: __S(793, __c99, 1) as any as S.Schema<ListEmojiResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -3428,8 +3723,8 @@ export const listFunctions: API.PaginatedOperationMethod<
   unknown
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(728, __c91, 0) as any as S.Schema<ListFunctionsRequest>,
-    output: __S(729, __c91, 1) as any as S.Schema<ListFunctionsResponse>,
+    input: __S(808, __c101, 0) as any as S.Schema<ListFunctionsRequest>,
+    output: __S(809, __c101, 1) as any as S.Schema<ListFunctionsResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3454,8 +3749,8 @@ export const listGroups: API.OperationMethod<
   ListGroupsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c92, 0) as any as S.Schema<ListGroupsRequest>,
-  output: __S(737, __c92, 1) as any as S.Schema<ListGroupsResponse>,
+  input: __S(816, __c102, 0) as any as S.Schema<ListGroupsRequest>,
+  output: __S(817, __c102, 1) as any as S.Schema<ListGroupsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -3473,8 +3768,8 @@ export const listInviteRequests: API.PaginatedOperationMethod<
   unknown
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(744, __c93, 0) as any as S.Schema<ListInviteRequestsRequest>,
-    output: __S(745, __c93, 1) as any as S.Schema<ListInviteRequestsResponse>,
+    input: __S(824, __c103, 0) as any as S.Schema<ListInviteRequestsRequest>,
+    output: __S(825, __c103, 1) as any as S.Schema<ListInviteRequestsResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3501,8 +3796,8 @@ export const listInviteRequestsApproved: API.PaginatedOperationMethod<
   unknown
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(752, __c94, 0) as any as S.Schema<ListInviteRequestsApprovedRequest>,
-    output: __S(753, __c94, 1) as any as S.Schema<ListInviteRequestsApprovedResponse>,
+    input: __S(832, __c104, 0) as any as S.Schema<ListInviteRequestsApprovedRequest>,
+    output: __S(833, __c104, 1) as any as S.Schema<ListInviteRequestsApprovedResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3529,8 +3824,8 @@ export const listInviteRequestsDenied: API.PaginatedOperationMethod<
   unknown
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(760, __c95, 0) as any as S.Schema<ListInviteRequestsDeniedRequest>,
-    output: __S(761, __c95, 1) as any as S.Schema<ListInviteRequestsDeniedResponse>,
+    input: __S(840, __c105, 0) as any as S.Schema<ListInviteRequestsDeniedRequest>,
+    output: __S(841, __c105, 1) as any as S.Schema<ListInviteRequestsDeniedResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3557,8 +3852,8 @@ export const listOriginalConnectedChannelInfo: API.PaginatedOperationMethod<
   ListOriginalConnectedChannelInfoResponseChannelsItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(768, __c96, 0) as any as S.Schema<ListOriginalConnectedChannelInfoRequest>,
-    output: __S(771, __c96, 3) as any as S.Schema<ListOriginalConnectedChannelInfoResponse>,
+    input: __S(848, __c106, 0) as any as S.Schema<ListOriginalConnectedChannelInfoRequest>,
+    output: __S(851, __c106, 3) as any as S.Schema<ListOriginalConnectedChannelInfoResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3575,6 +3870,34 @@ export const listOriginalConnectedChannelInfo: API.PaginatedOperationMethod<
   slackPaginate,
 ) as any;
 
+export type ListSlackbotSkillsError = SlackOpError;
+/** Lists metadata for skills owned by the organization, including invite-only skills. Required scopes -- user: `admin.skills:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_cursor` -- The cursor is malformed or belongs to different filters, sorting, user, or organization. - `invalid_category` -- The category isn't one of the supported skill categories. - `feature_not_enabled` -- The Skills API isn't enabled for this organization or workspace. - `restricted_action` -- The caller must be an org admin or owner with permission to manage skills. - `internal_error` -- A lookup failed, so the page couldn't be built completely. Retry the request with the same cursor. See https://docs.slack.dev/reference/methods/admin.slackbot.skills.list */
+export const listSlackbotSkills: API.PaginatedOperationMethod<
+  ListSlackbotSkillsRequest,
+  ListSlackbotSkillsResponse,
+  ListSlackbotSkillsError,
+  SlackOpContext,
+  ListSlackbotSkillsResponseSkillsItem
+> = /*@__PURE__*/ API.makePaginated(
+  () => ({
+    input: __S(856, __c107, 0) as any as S.Schema<ListSlackbotSkillsRequest>,
+    output: __S(860, __c107, 4) as any as S.Schema<ListSlackbotSkillsResponse>,
+    errors: [SlackError, SlackRateLimited],
+    protocol: SlackProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "ListSlackbotSkills",
+    pagination: {
+      mode: "cursor",
+      inputToken: "cursor",
+      outputToken: "response_metadata.next_cursor",
+      items: "skills",
+      pageSize: "limit",
+    } as const,
+  }),
+  slackPaginate,
+) as any;
+
 export type ListTeamsError = SlackOpError;
 /** List all teams in an Enterprise organization Required scopes -- user: `admin.teams:read` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team. - `invalid_cursor` -- Invalid cursor. - `invalid_limit` -- Value passed for `limit` was not valid. - `not_an_admin` -- This method is only accessible by org owners and admins. See https://docs.slack.dev/reference/methods/admin.teams.list */
 export const listTeams: API.PaginatedOperationMethod<
@@ -3585,8 +3908,8 @@ export const listTeams: API.PaginatedOperationMethod<
   ListTeamsResponseTeamsItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(776, __c97, 0) as any as S.Schema<ListTeamsRequest>,
-    output: __S(780, __c97, 4) as any as S.Schema<ListTeamsResponse>,
+    input: __S(880, __c110, 0) as any as S.Schema<ListTeamsRequest>,
+    output: __S(884, __c110, 4) as any as S.Schema<ListTeamsResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3613,8 +3936,8 @@ export const listTeamsAdmins: API.PaginatedOperationMethod<
   string
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(784, __c98, 0) as any as S.Schema<ListTeamsAdminsRequest>,
-    output: __S(785, __c98, 1) as any as S.Schema<ListTeamsAdminsResponse>,
+    input: __S(888, __c111, 0) as any as S.Schema<ListTeamsAdminsRequest>,
+    output: __S(889, __c111, 1) as any as S.Schema<ListTeamsAdminsResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3641,8 +3964,8 @@ export const listTeamsOwners: API.PaginatedOperationMethod<
   string
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(792, __c99, 0) as any as S.Schema<ListTeamsOwnersRequest>,
-    output: __S(793, __c99, 1) as any as S.Schema<ListTeamsOwnersResponse>,
+    input: __S(896, __c112, 0) as any as S.Schema<ListTeamsOwnersRequest>,
+    output: __S(897, __c112, 1) as any as S.Schema<ListTeamsOwnersResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3669,8 +3992,8 @@ export const listUsers: API.PaginatedOperationMethod<
   ListUsersResponseUsersItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(816, __c102, 0) as any as S.Schema<ListUsersRequest>,
-    output: __S(819, __c102, 3) as any as S.Schema<ListUsersResponse>,
+    input: __S(904, __c113, 0) as any as S.Schema<ListUsersRequest>,
+    output: __S(907, __c113, 3) as any as S.Schema<ListUsersResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3697,8 +4020,8 @@ export const listUsersSession: API.PaginatedOperationMethod<
   ListUsersSessionResponseActiveSessionsItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(824, __c103, 0) as any as S.Schema<ListUsersSessionRequest>,
-    output: __S(828, __c103, 4) as any as S.Schema<ListUsersSessionResponse>,
+    input: __S(912, __c114, 0) as any as S.Schema<ListUsersSessionRequest>,
+    output: __S(916, __c114, 4) as any as S.Schema<ListUsersSessionResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3723,8 +4046,8 @@ export const lookupAppsConfig: API.OperationMethod<
   LookupAppsConfigError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c104, 0) as any as S.Schema<LookupAppsConfigRequest>,
-  output: __S(835, __c104, 3) as any as S.Schema<LookupAppsConfigResponse>,
+  input: __S(920, __c115, 0) as any as S.Schema<LookupAppsConfigRequest>,
+  output: __S(923, __c115, 3) as any as S.Schema<LookupAppsConfigResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -3742,8 +4065,8 @@ export const lookupConversation: API.PaginatedOperationMethod<
   string
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(840, __c105, 0) as any as S.Schema<LookupConversationRequest>,
-    output: __S(841, __c105, 1) as any as S.Schema<LookupConversationResponse>,
+    input: __S(928, __c116, 0) as any as S.Schema<LookupConversationRequest>,
+    output: __S(929, __c116, 1) as any as S.Schema<LookupConversationResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -3768,8 +4091,8 @@ export const lookupFunctionsPermissions: API.OperationMethod<
   LookupFunctionsPermissionsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c106, 0) as any as S.Schema<LookupFunctionsPermissionsRequest>,
-  output: __S(849, __c106, 1) as any as S.Schema<LookupFunctionsPermissionsResponse>,
+  input: __S(936, __c117, 0) as any as S.Schema<LookupFunctionsPermissionsRequest>,
+  output: __S(937, __c117, 1) as any as S.Schema<LookupFunctionsPermissionsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -3785,8 +4108,8 @@ export const lookupWorkflowsPermissions: API.OperationMethod<
   LookupWorkflowsPermissionsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(856, __c107, 0) as any as S.Schema<LookupWorkflowsPermissionsRequest>,
-  output: __S(857, __c107, 1) as any as S.Schema<LookupWorkflowsPermissionsResponse>,
+  input: __S(944, __c118, 0) as any as S.Schema<LookupWorkflowsPermissionsRequest>,
+  output: __S(945, __c118, 1) as any as S.Schema<LookupWorkflowsPermissionsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -3802,8 +4125,8 @@ export const lookupWorkflowsTriggersTypesPermissions: API.OperationMethod<
   LookupWorkflowsTriggersTypesPermissionsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c108, 0) as any as S.Schema<LookupWorkflowsTriggersTypesPermissionsRequest>,
-  output: __S(865, __c108, 1) as any as S.Schema<LookupWorkflowsTriggersTypesPermissionsResponse>,
+  input: __S(952, __c119, 0) as any as S.Schema<LookupWorkflowsTriggersTypesPermissionsRequest>,
+  output: __S(953, __c119, 1) as any as S.Schema<LookupWorkflowsTriggersTypesPermissionsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -3811,15 +4134,49 @@ export const lookupWorkflowsTriggersTypesPermissions: API.OperationMethod<
   span: "LookupWorkflowsTriggersTypesPermissions",
 }));
 
+export type PauseUsersAccessError = SlackOpError;
+/** Pause access across the organization for up to 1,000 frontline members. Success means the request was queued, not that all updates have completed. Required scopes -- user: `admin.users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `restricted_action` -- Only organization admins and owners can perform this action. - `feature_not_enabled` -- Frontline access management is not enabled for this organization. - `failed_job_enqueue` -- The access change could not be queued. Retry the request. - `failed_for_all_users` -- No valid users were found. Nothing was queued. invalid_users lists the rejected IDs and reasons. - `failed_for_some_users` -- Valid users were queued, but some users were rejected. invalid_users lists the rejected IDs and reasons. Correct and retry only those IDs. See https://docs.slack.dev/reference/methods/admin.users.access.pause */
+export const pauseUsersAccess: API.OperationMethod<
+  PauseUsersAccessRequest,
+  PauseUsersAccessResponse,
+  PauseUsersAccessError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(968, __c121, 0) as any as S.Schema<PauseUsersAccessRequest>,
+  output: __S(976, __c122, 0) as any as S.Schema<PauseUsersAccessResponse>,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PauseUsersAccess",
+}));
+
+export type PublishSlackbotSkillError = SlackOpError;
+/** Publishes Slackbot skills to an organization's catalog. Required scopes -- user: `admin.skills:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `feature_not_enabled` -- The Skills API is not enabled for this organization or workspace. - `restricted_action` -- The caller must be an org admin or owner with permission to manage skills, and must be able to edit and share any canvas that needs org-wide access. - `internal_error` -- The operation could not be completed. Retry the request. - `failed_for_some_skills` -- Some skills failed. `failed_skills` lists each distinct failed skill ID and its error: `skill_not_found`, `method_not_supported_for_skill_type`, `restricted_action`, or `internal_error`. Missing, deleted, non-skill, and other organizations' files all return `skill_not_found`. See https://docs.slack.dev/reference/methods/admin.slackbot.skills.publish */
+export const publishSlackbotSkill: API.OperationMethod<
+  PublishSlackbotSkillRequest,
+  PublishSlackbotSkillResponse,
+  PublishSlackbotSkillError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(984, __c123, 0) as any as S.Schema<PublishSlackbotSkillRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<PublishSlackbotSkillResponse>,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "PublishSlackbotSkill",
+}));
+
 export type RemoveAppsPermissionsError = SlackOpError;
-/** Revoke an entity's access to an app that has its permission type set to named_entities Required scopes -- user: `admin.apps:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_auth` -- Invalid authorization token - `access_denied` -- This actor does not have access to the permissions on this resource. - `named_entities_cannot_be_empty` -- There must be at least one valid named entity - `app_not_found` -- This app does not exist. - `not_an_enterprise` -- This feature is only available on Enterprise Grid plans. - `invalid_permission_type` -- This app requires permission_type to be set as named_entities before removing users. - `too_many_named_entities` -- Too many named entities passed into the app permissions setting. - `app_acl_not_found` -- This app does not have an ACL. - `internal_error` -- Internal error - `user_not_found` -- Value passed for `user_ids` was invalid. - `invalid_channel_restriction_mode` -- Cannot remove channels when channel_restriction_mode is all_channels. - `channel_not_found` -- One or more channel IDs are not valid. - `failed_to_update_channels` -- An error occurred while updating the channel restriction list. - `restricted_action` -- User does not have permission to perform this action. See https://docs.slack.dev/reference/methods/admin.apps.permissions.remove */
+/** Revoke an entity's access to an app that has its permission type set to named_entities Required scopes -- user: `admin.apps:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_auth` -- Invalid authorization token - `access_denied` -- This actor does not have access to the permissions on this resource. - `named_entities_cannot_be_empty` -- There must be at least one valid named entity - `app_not_found` -- This app does not exist. - `not_an_enterprise` -- This feature is only available on Enterprise Grid plans. - `invalid_permission_type` -- This app requires permission_type to be set as named_entities before removing users. - `too_many_named_entities` -- Too many named entities passed into the app permissions setting. - `app_acl_not_found` -- This app does not have an ACL. - `internal_error` -- Internal error - `user_not_found` -- Value passed for `user_ids` was invalid. - `invalid_channel_restriction_mode` -- Cannot remove channels when channel_restriction_mode is all_channels. - `channel_not_found` -- One or more channel IDs are not valid. - `failed_to_update_channels` -- An error occurred while updating the channel restriction list. - `restricted_action` -- User does not have permission to perform this action. - `app_acl_write_failed` -- A transient database error (e.g. a deadlock) prevented the permission change from being saved. No change was applied; retry the request. See https://docs.slack.dev/reference/methods/admin.apps.permissions.remove */
 export const removeAppsPermissions: API.OperationMethod<
   RemoveAppsPermissionsRequest,
   RemoveAppsPermissionsResponse,
   RemoveAppsPermissionsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(872, __c109, 0) as any as S.Schema<RemoveAppsPermissionsRequest>,
+  input: __S(992, __c124, 0) as any as S.Schema<RemoveAppsPermissionsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<RemoveAppsPermissionsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -3836,8 +4193,8 @@ export const removeAssignments: API.OperationMethod<
   RemoveAssignmentsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c110, 0) as any as S.Schema<RemoveAssignmentsRequest>,
-  output: __S(312, __c39, 0) as any as S.Schema<RemoveAssignmentsResponse>,
+  input: __S(1000, __c125, 0) as any as S.Schema<RemoveAssignmentsRequest>,
+  output: __S(376, __c47, 0) as any as S.Schema<RemoveAssignmentsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -3853,8 +4210,8 @@ export const removeChannels: API.OperationMethod<
   RemoveChannelsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(888, __c111, 0) as any as S.Schema<RemoveChannelsRequest>,
-  output: __S(424, __c53, 0) as any as S.Schema<RemoveChannelsResponse>,
+  input: __S(1008, __c126, 0) as any as S.Schema<RemoveChannelsRequest>,
+  output: __S(488, __c61, 0) as any as S.Schema<RemoveChannelsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -3863,14 +4220,14 @@ export const removeChannels: API.OperationMethod<
 }));
 
 export type RemoveCustomRetentionError = SlackOpError;
-/** This API endpoint can be used by any admin to remove a conversation's retention policy. Required scopes -- user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- Value given for `channel_id` was invalid. - `channel_type_not_supported` -- Value given for `channel_id` was a #general channel. - `could_not_remove_retention` -- The retention policy could not be removed. - `default_org_wide_channel` -- The channel given is a default org-wide channel. - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team. - `not_an_admin` -- The token provided is not associated with an admin. - `restricted_action` -- A team preference prevents the authenticated user from modifying the retention policy of this channel. - `retention_override_not_allowed` -- The current retention policy disallows modifying the retention policy of this channel. See https://docs.slack.dev/reference/methods/admin.conversations.removeCustomRetention */
+/** This API endpoint can be used by any admin to remove a conversation's retention policy. Required scopes -- user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- Value given for `channel_id` was invalid. - `channel_type_not_supported` -- Value given for `channel_id` was a #general channel. - `could_not_remove_retention` -- The retention policy could not be removed. - `default_org_wide_channel` -- The channel given is a default org-wide channel. - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team. - `not_an_admin` -- The token provided is not associated with an admin. - `restricted_action` -- A team preference prevents the authenticated user from modifying the retention policy of this channel. - `retention_override_not_allowed` -- The current retention policy disallows modifying the retention policy of this channel. - `not_supported` -- This type of channel isn't supported by this method. - `external_channel_migrating` -- The channel is an externally shared channel that is currently being migrated. See https://docs.slack.dev/reference/methods/admin.conversations.removeCustomRetention */
 export const removeCustomRetention: API.OperationMethod<
   RemoveCustomRetentionRequest,
   RemoveCustomRetentionResponse,
   RemoveCustomRetentionError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(904, __c113, 0) as any as S.Schema<RemoveCustomRetentionRequest>,
+  input: __S(1016, __c127, 0) as any as S.Schema<RemoveCustomRetentionRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<RemoveCustomRetentionResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -3887,7 +4244,7 @@ export const removeEmoji: API.OperationMethod<
   RemoveEmojiError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c114, 0) as any as S.Schema<RemoveEmojiRequest>,
+  input: __S(1024, __c128, 0) as any as S.Schema<RemoveEmojiRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<RemoveEmojiResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -3904,8 +4261,8 @@ export const removeEntities: API.OperationMethod<
   RemoveEntitiesError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(920, __c115, 0) as any as S.Schema<RemoveEntitiesRequest>,
-  output: __S(248, __c31, 0) as any as S.Schema<RemoveEntitiesResponse>,
+  input: __S(1032, __c129, 0) as any as S.Schema<RemoveEntitiesRequest>,
+  output: __S(312, __c39, 0) as any as S.Schema<RemoveEntitiesResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -3921,7 +4278,7 @@ export const removeGroup: API.OperationMethod<
   RemoveGroupError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c116, 0) as any as S.Schema<RemoveGroupRequest>,
+  input: __S(1040, __c130, 0) as any as S.Schema<RemoveGroupRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<RemoveGroupResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -3938,7 +4295,7 @@ export const removeTeams: API.OperationMethod<
   RemoveTeamsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(936, __c117, 0) as any as S.Schema<RemoveTeamsRequest>,
+  input: __S(1048, __c131, 0) as any as S.Schema<RemoveTeamsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<RemoveTeamsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -3955,7 +4312,7 @@ export const removeUser: API.OperationMethod<
   RemoveUserError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c118, 0) as any as S.Schema<RemoveUserRequest>,
+  input: __S(1072, __c134, 0) as any as S.Schema<RemoveUserRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<RemoveUserResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -3972,7 +4329,7 @@ export const removeUsers: API.OperationMethod<
   RemoveUsersError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(952, __c119, 0) as any as S.Schema<RemoveUsersRequest>,
+  input: __S(1080, __c135, 0) as any as S.Schema<RemoveUsersRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<RemoveUsersResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -3989,7 +4346,7 @@ export const removeWorkflowsCollaborator: API.OperationMethod<
   RemoveWorkflowsCollaboratorError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c120, 0) as any as S.Schema<RemoveWorkflowsCollaboratorRequest>,
+  input: __S(1088, __c136, 0) as any as S.Schema<RemoveWorkflowsCollaboratorRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<RemoveWorkflowsCollaboratorResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4006,7 +4363,7 @@ export const renameConversation: API.OperationMethod<
   RenameConversationError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(968, __c121, 0) as any as S.Schema<RenameConversationRequest>,
+  input: __S(1096, __c137, 0) as any as S.Schema<RenameConversationRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<RenameConversationResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4023,7 +4380,7 @@ export const renameEmoji: API.OperationMethod<
   RenameEmojiError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c122, 0) as any as S.Schema<RenameEmojiRequest>,
+  input: __S(1104, __c138, 0) as any as S.Schema<RenameEmojiRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<RenameEmojiResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4040,7 +4397,7 @@ export const resetBulk: API.OperationMethod<
   ResetBulkError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1000, __c125, 0) as any as S.Schema<ResetBulkRequest>,
+  input: __S(1112, __c139, 0) as any as S.Schema<ResetBulkRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ResetBulkResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4057,7 +4414,7 @@ export const resetUsersSession: API.OperationMethod<
   ResetUsersSessionError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c126, 0) as any as S.Schema<ResetUsersSessionRequest>,
+  input: __S(1120, __c140, 0) as any as S.Schema<ResetUsersSessionRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<ResetUsersSessionResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4066,8 +4423,25 @@ export const resetUsersSession: API.OperationMethod<
   span: "ResetUsersSession",
 }));
 
+export type ResumeUsersAccessError = SlackOpError;
+/** Resume access across the organization for up to 1,000 frontline members. Success means the request was queued, not that all updates have completed. Required scopes -- user: `admin.users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `restricted_action` -- Only organization admins and owners can perform this action. - `failed_job_enqueue` -- The access change could not be queued. Retry the request. - `failed_for_all_users` -- No valid users were found. Nothing was queued. invalid_users lists the rejected IDs and reasons. - `failed_for_some_users` -- Valid users were queued, but some users were rejected. invalid_users lists the rejected IDs and reasons. Correct and retry only those IDs. See https://docs.slack.dev/reference/methods/admin.users.access.resume */
+export const resumeUsersAccess: API.OperationMethod<
+  ResumeUsersAccessRequest,
+  ResumeUsersAccessResponse,
+  ResumeUsersAccessError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1128, __c141, 0) as any as S.Schema<ResumeUsersAccessRequest>,
+  output: __S(976, __c122, 0) as any as S.Schema<ResumeUsersAccessResponse>,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ResumeUsersAccess",
+}));
+
 export type SearchConversationError = SlackOpError;
-/** Search for public or private channels in an Enterprise organization. Required scopes -- user: `admin.conversations:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `connected_team_passed_in_is_not_top_level_team` -- One of the orgs provided in the external connected teams filter is not a top level team. - `external_team_not_connected_to_this_org` -- One of the teams provided in the external connected teams filter is not connected to the org. - `feature_not_enabled` -- The token provided doesn't have access to this method. - `invalid_auth` -- The token provided does not belong to an Enterprise organization, or a specified workspace wasn't part of this Enterprise. - `invalid_cursor` -- The provided cursor is not valid, often due to not urlencoding query parameters. - `invalid_search_channel_type` -- An invalid `search_channel_types` arg was passed. Make sure there are no spaces between your args and that each is one of the enumerated options listed above. - `invalid_sort` -- The provided `sort` argument wasn't valid. - `invalid_sort_dir` -- The provided `sort_dir` argument wasn't valid. - `not_allowed` -- The authenticated user does not have the permission to call this method. - `not_an_admin` -- The token provided is not associated with an Org Admin or Owner. - `not_an_enterprise` -- This endpoint can only be called by an Enterprise organization. - `team_not_found` -- One of the workspaces provided in the list wasn't found. See https://docs.slack.dev/reference/methods/admin.conversations.search */
+/** Search for public or private channels in an Enterprise organization. Required scopes -- user: `admin.conversations:read` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `connected_team_passed_in_is_not_top_level_team` -- One of the orgs provided in the external connected teams filter is not a top level team. Pass the connected org's top-level ID. - `external_team_not_connected_to_this_org` -- One of the teams provided in the external connected teams filter is not connected to the org. - `feature_not_enabled` -- The token provided doesn't have access to this method. - `invalid_auth` -- The token provided does not belong to an Enterprise organization, or a specified workspace wasn't part of this Enterprise. - `invalid_cursor` -- The provided cursor is not valid, often due to not urlencoding query parameters. - `invalid_search_channel_type` -- An invalid `search_channel_types` arg was passed. Make sure there are no spaces between your args and that each is one of the enumerated options listed above. - `invalid_sort` -- The provided `sort` argument wasn't valid. - `invalid_sort_dir` -- The provided `sort_dir` argument wasn't valid. - `not_allowed` -- The authenticated user does not have the permission to call this method. - `not_an_admin` -- The token provided is not associated with an Org Admin or Owner. - `not_an_enterprise` -- This endpoint can only be called by an Enterprise organization. - `team_not_found` -- One of the workspaces provided in the list wasn't found. - `target_team_not_on_org` -- The specified target_team is not part of the organization. See https://docs.slack.dev/reference/methods/admin.conversations.search */
 export const searchConversation: API.PaginatedOperationMethod<
   SearchConversationRequest,
   SearchConversationResponse,
@@ -4076,8 +4450,8 @@ export const searchConversation: API.PaginatedOperationMethod<
   string
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1016, __c127, 0) as any as S.Schema<SearchConversationRequest>,
-    output: __S(1017, __c127, 1) as any as S.Schema<SearchConversationResponse>,
+    input: __S(1136, __c142, 0) as any as S.Schema<SearchConversationRequest>,
+    output: __S(1137, __c142, 1) as any as S.Schema<SearchConversationResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -4104,8 +4478,8 @@ export const searchWorkflow: API.PaginatedOperationMethod<
   unknown
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1024, __c128, 0) as any as S.Schema<SearchWorkflowRequest>,
-    output: __S(1025, __c128, 1) as any as S.Schema<SearchWorkflowResponse>,
+    input: __S(1144, __c143, 0) as any as S.Schema<SearchWorkflowRequest>,
+    output: __S(1145, __c143, 1) as any as S.Schema<SearchWorkflowResponse>,
     errors: [SlackError, SlackRateLimited],
     protocol: SlackProtocol,
     retry: Retry.Retry,
@@ -4130,7 +4504,7 @@ export const setAdmin: API.OperationMethod<
   SetAdminError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1032, __c129, 0) as any as S.Schema<SetAdminRequest>,
+  input: __S(40, __c5, 0) as any as S.Schema<SetAdminRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetAdminResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4147,7 +4521,7 @@ export const setAppsConfig: API.OperationMethod<
   SetAppsConfigError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1041, __c130, 1) as any as S.Schema<SetAppsConfigRequest>,
+  input: __S(49, __c6, 1) as any as S.Schema<SetAppsConfigRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetAppsConfigResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4157,14 +4531,14 @@ export const setAppsConfig: API.OperationMethod<
 }));
 
 export type SetAppsMcpServersPermissionsError = SlackOpError;
-/** Set the access control permission for who can use an MCP server Required scopes -- user: `admin.apps:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `restricted_action` -- User does not have permission to perform this action. - `invalid_auth` -- Invalid authorization token - `app_not_found` -- This app does not exist. - `server_not_found` -- The specified MCP server does not exist for this app. - `not_an_enterprise` -- This feature is only available on Enterprise Grid plans. - `feature_not_enabled` -- The MCP server ACL feature is not enabled for this team. - `invalid_permission_type` -- The permission_type value is not valid. - `named_entities_cannot_be_empty` -- Must pass at least one valid named entity when permission_type is named_entities or named_entities_exclude. - `no_valid_named_entities` -- None of the provided named entities were valid. - `too_many_named_entities` -- Too many named entities provided. - `user_not_found` -- One or more user IDs are not valid. - `usergroup_not_found` -- One or more usergroup IDs are not valid. - `server_acl_type_broader_than_app` -- The chosen permission type is broader than the app-level ACL allows. - `server_acl_entities_not_in_scope` -- One or more entities in the server ACL are not in scope of the app-level ACL. See https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.permissions.set */
+/** Set the access control permission for who can use an MCP server Required scopes -- user: `admin.apps:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `restricted_action` -- User does not have permission to perform this action. - `invalid_auth` -- Invalid authorization token - `app_not_found` -- This app does not exist. - `server_not_found` -- The specified MCP server does not exist for this app. - `not_an_enterprise` -- This feature is only available on Enterprise Grid plans. - `invalid_permission_type` -- The permission_type value is not valid. - `named_entities_cannot_be_empty` -- Must pass at least one valid named entity when permission_type is named_entities or named_entities_exclude. - `no_valid_named_entities` -- None of the provided named entities were valid. - `user_not_found` -- One or more user IDs are not valid. - `usergroup_not_found` -- One or more usergroup IDs are not valid. - `server_acl_type_broader_than_app` -- The chosen permission type is broader than the app-level ACL allows. - `server_acl_entities_not_in_scope` -- One or more entities in the server ACL are not in scope of the app-level ACL. - `entities_not_supported` -- user_ids or usergroup_ids were provided, but the permission_type does not accept named entities. Only named_entities and named_entities_exclude do. See https://docs.slack.dev/reference/methods/admin.apps.mcp.servers.permissions.set */
 export const setAppsMcpServersPermissions: API.OperationMethod<
   SetAppsMcpServersPermissionsRequest,
   SetAppsMcpServersPermissionsResponse,
   SetAppsMcpServersPermissionsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1048, __c131, 0) as any as S.Schema<SetAppsMcpServersPermissionsRequest>,
+  input: __S(56, __c7, 0) as any as S.Schema<SetAppsMcpServersPermissionsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetAppsMcpServersPermissionsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4174,20 +4548,37 @@ export const setAppsMcpServersPermissions: API.OperationMethod<
 }));
 
 export type SetAppsPermissionsError = SlackOpError;
-/** Set the permission type for who can access an app Required scopes -- user: `admin.apps:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_auth` -- Invalid authorization token - `access_denied` -- This actor does not have access to the permissions on this resource. - `invalid_permission_type` -- This app requires permission_type to be set as named_entities before adding users. - `named_entities_cannot_be_empty` -- Must pass at least one valid named entity. - `no_valid_named_entities` -- None of the provided named entities were valid - `too_many_named_entities` -- Too many named_entities passed into the app permissions setting. - `app_not_found` -- This app does not exist. - `not_an_enterprise` -- This feature is only available on Enterprise Grid plans. - `user_not_found` -- This actor does not have access to at least one valid named entity. - `usergroup_not_found` -- The usergroup is not valid. - `invalid_channel_restriction_mode` -- The channel_restriction_mode value is not valid. - `channel_ids_required` -- channel_ids is required when channel_restriction_mode is specific_channels or all_channels_except. - `channel_not_found` -- One or more channel IDs are not valid. - `restricted_action` -- User does not have permission to perform this action. - `channel_restrictions_not_available` -- Channel restrictions are not available for this workspace. - `channel_restriction_requires_app_access` -- Channel access cannot be configured while the app is set to no_one, since the app can't be used in any channel. See https://docs.slack.dev/reference/methods/admin.apps.permissions.set */
+/** Set the permission type for who can access an app Required scopes -- user: `admin.apps:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_auth` -- Invalid authorization token - `access_denied` -- This actor does not have access to the permissions on this resource. - `invalid_permission_type` -- This app requires permission_type to be set as named_entities before adding users. - `named_entities_cannot_be_empty` -- Must pass at least one valid named entity. - `no_valid_named_entities` -- None of the provided named entities were valid - `too_many_named_entities` -- Too many named_entities passed into the app permissions setting. - `app_not_found` -- This app does not exist. - `not_an_enterprise` -- This feature is only available on Enterprise Grid plans. - `user_not_found` -- This actor does not have access to at least one valid named entity. - `usergroup_not_found` -- The usergroup is not valid. - `invalid_channel_restriction_mode` -- The channel_restriction_mode value is not valid. - `channel_ids_required` -- channel_ids is required when channel_restriction_mode is specific_channels or all_channels_except. - `channel_not_found` -- One or more channel IDs are not valid, are not in this organization, or name a private channel that is not already set on the app and that the caller is neither a member of nor permitted to manage. - `restricted_action` -- User does not have permission to perform this action. - `channel_restrictions_not_available` -- Channel restrictions are not available for this workspace. - `channel_restriction_requires_app_access` -- Channel access cannot be configured while the app is set to no_one, since the app can't be used in any channel. - `app_acl_write_failed` -- A transient database error (e.g. a deadlock) prevented the permission change from being saved. No change was applied; retry the request. See https://docs.slack.dev/reference/methods/admin.apps.permissions.set */
 export const setAppsPermissions: API.OperationMethod<
   SetAppsPermissionsRequest,
   SetAppsPermissionsResponse,
   SetAppsPermissionsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c132, 0) as any as S.Schema<SetAppsPermissionsRequest>,
+  input: __S(64, __c8, 0) as any as S.Schema<SetAppsPermissionsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetAppsPermissionsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetAppsPermissions",
+}));
+
+export type SetAutoEnabledError = SlackOpError;
+/** Sets who a Slackbot skill is automatically turned on for. Required scopes -- user: `admin.skills:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `feature_not_enabled` -- The Skills API is not enabled for this organization or workspace. - `restricted_action` -- The caller must be an org admin or owner with permission to manage skills. - `internal_error` -- The operation could not be completed. Retry the request. - `skill_not_found` -- The skill is missing, deleted, no longer a skill, or outside this organization or workspace. - `method_not_supported_for_skill_type` -- Only canvas skills can be deployed. - `skill_not_visible_to_audience` -- Share the skill first. usergroup_ids lists the groups that cannot view it. - `audience_too_large` -- Validating this audience requires more than 1,000 member checks across the requested groups. Overlapping members count once per group. Select a smaller audience, or share the canvas org-wide if that access is intended, before retrying. - `named_entities_cannot_be_empty` -- Provide at least one user group for named_entities. - `usergroup_not_found` -- invalid_usergroup_ids lists missing, deleted or foreign user groups. - `too_many_named_entities` -- Provide at most 100 user groups. - `invalid_permission_type` -- Use everyone, named_entities or no_one. - `usergroup_ids_not_allowed` -- Only named_entities accepts usergroup_ids. See https://docs.slack.dev/reference/methods/admin.slackbot.skills.setAutoEnabled */
+export const setAutoEnabled: API.OperationMethod<
+  SetAutoEnabledRequest,
+  SetAutoEnabledResponse,
+  SetAutoEnabledError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(72, __c9, 0) as any as S.Schema<SetAutoEnabledRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<SetAutoEnabledResponse>,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetAutoEnabled",
 }));
 
 export type SetConversationPrefsError = SlackOpError;
@@ -4198,7 +4589,7 @@ export const setConversationPrefs: API.OperationMethod<
   SetConversationPrefsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1064, __c133, 0) as any as S.Schema<SetConversationPrefsRequest>,
+  input: __S(80, __c10, 0) as any as S.Schema<SetConversationPrefsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetConversationPrefsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4208,14 +4599,14 @@ export const setConversationPrefs: API.OperationMethod<
 }));
 
 export type SetCustomRetentionError = SlackOpError;
-/** This API endpoint can be used by any admin to set a conversation's retention policy. Required scopes -- user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- Value given for `channel_id` was invalid. - `channel_type_not_supported` -- Value given for `channel_id` was a group dm, direct message, or #general channel. - `could_not_set_retention` -- The retention policy could not be set. - `default_org_wide_channel` -- The channel given is a default org-wide channel. - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team. - `invalid_duration` -- Retention `duration_days` must be an integer greater than 0 days and less than 36500 days (100 years). - `not_an_admin` -- The token provided is not associated with an admin. - `restricted_action` -- A team preference prevents the authenticated user from modifying the retention policy of this channel. - `retention_override_not_allowed` -- The current retention policy disallows modifying the retention policy of this channel. See https://docs.slack.dev/reference/methods/admin.conversations.setCustomRetention */
+/** This API endpoint can be used by any admin to set a conversation's retention policy. Required scopes -- user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_found` -- Value given for `channel_id` was invalid. - `channel_type_not_supported` -- Value given for `channel_id` was a group dm, direct message, or #general channel. - `could_not_set_retention` -- The retention policy could not be set. - `default_org_wide_channel` -- The channel given is a default org-wide channel. - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team. - `invalid_duration` -- Retention `duration_days` must be an integer greater than 0 days and less than 36500 days (100 years). - `not_an_admin` -- The token provided is not associated with an admin. - `restricted_action` -- A team preference prevents the authenticated user from modifying the retention policy of this channel. - `retention_override_not_allowed` -- The current retention policy disallows modifying the retention policy of this channel. - `not_supported` -- This type of channel isn't supported by this method. - `external_channel_migrating` -- The channel is an externally shared channel that is currently being migrated. See https://docs.slack.dev/reference/methods/admin.conversations.setCustomRetention */
 export const setCustomRetention: API.OperationMethod<
   SetCustomRetentionRequest,
   SetCustomRetentionResponse,
   SetCustomRetentionError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c134, 0) as any as S.Schema<SetCustomRetentionRequest>,
+  input: __S(88, __c11, 0) as any as S.Schema<SetCustomRetentionRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetCustomRetentionResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4232,7 +4623,7 @@ export const setDefaultChannels: API.OperationMethod<
   SetDefaultChannelsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<SetDefaultChannelsRequest>,
+  input: __S(96, __c12, 0) as any as S.Schema<SetDefaultChannelsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetDefaultChannelsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4249,7 +4640,7 @@ export const setDescription: API.OperationMethod<
   SetDescriptionError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<SetDescriptionRequest>,
+  input: __S(104, __c13, 0) as any as S.Schema<SetDescriptionRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetDescriptionResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4266,7 +4657,7 @@ export const setDiscoverability: API.OperationMethod<
   SetDiscoverabilityError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<SetDiscoverabilityRequest>,
+  input: __S(112, __c14, 0) as any as S.Schema<SetDiscoverabilityRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetDiscoverabilityResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4276,14 +4667,14 @@ export const setDiscoverability: API.OperationMethod<
 }));
 
 export type SetExpirationError = SlackOpError;
-/** Set an expiration for a guest user Required scopes -- user: `admin.users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `failed_looking_up_user` -- We couldn't find the requested user. - `failed_to_set_expiration` -- The expiration could not be set for the user. - `failed_to_validate_caller` -- The token calling this method doesn't have permission to invite a user. - `failed_to_validate_expiration` -- `expiration_ts` was invalid. - `failed_to_validate_team` -- The team calling this method was invalid. - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team. - `invalid_arguments` -- The passed arguments were invalid. - `invalid_auth` -- This action could not be authorized. - `team_id_required_for_enterprise` -- Team ID required. - `team_not_found` -- `team_id` was not found. - `user_is_already_deleted` -- The user has already been deleted and disabled. - `user_is_deactivated` -- User has been deactivated. - `user_is_not_a_guest` -- The passed user_id does not belong to a guest user. - `user_not_found` -- The user could not be found. See https://docs.slack.dev/reference/methods/admin.users.setExpiration */
+/** Set an expiration for a guest user Required scopes -- user: `admin.users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `cannot_modify_external_guest` -- The user is an external huddle guest, whose expiration can't be changed. - `failed_looking_up_user` -- We couldn't find the requested user. - `failed_to_set_expiration` -- The expiration could not be set for the user. - `failed_to_validate_caller` -- The token calling this method doesn't have permission to invite a user. - `failed_to_validate_expiration` -- `expiration_ts` was invalid. - `failed_to_validate_team` -- The team calling this method was invalid. - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team. - `invalid_arguments` -- The passed arguments were invalid. - `invalid_auth` -- This action could not be authorized. - `team_id_required_for_enterprise` -- Team ID required. - `team_not_found` -- `team_id` was not found. - `user_is_already_deleted` -- The user has already been deleted and disabled. - `user_is_deactivated` -- User has been deactivated. - `user_is_not_a_guest` -- The passed user_id does not belong to a guest user. - `user_not_found` -- The user could not be found. See https://docs.slack.dev/reference/methods/admin.users.setExpiration */
 export const setExpiration: API.OperationMethod<
   SetExpirationRequest,
   SetExpirationResponse,
   SetExpirationError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<SetExpirationRequest>,
+  input: __S(128, __c16, 0) as any as S.Schema<SetExpirationRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetExpirationResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4300,7 +4691,7 @@ export const setFunctionsPermissions: API.OperationMethod<
   SetFunctionsPermissionsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(74, __c9, 2) as any as S.Schema<SetFunctionsPermissionsRequest>,
+  input: __S(138, __c17, 2) as any as S.Schema<SetFunctionsPermissionsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetFunctionsPermissionsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4317,7 +4708,7 @@ export const setIcon: API.OperationMethod<
   SetIconError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<SetIconRequest>,
+  input: __S(144, __c18, 0) as any as S.Schema<SetIconRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetIconResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4334,7 +4725,7 @@ export const setName: API.OperationMethod<
   SetNameError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<SetNameRequest>,
+  input: __S(152, __c19, 0) as any as S.Schema<SetNameRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetNameResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4351,7 +4742,7 @@ export const setOwner: API.OperationMethod<
   SetOwnerError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<SetOwnerRequest>,
+  input: __S(160, __c20, 0) as any as S.Schema<SetOwnerRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetOwnerResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4361,14 +4752,14 @@ export const setOwner: API.OperationMethod<
 }));
 
 export type SetRegularError = SlackOpError;
-/** Set an existing guest user, admin user, or owner to be a regular user. Required scopes -- user: `admin.users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `cannot_set_org_admin_to_regular_at_workspace_level` -- Org admins cannot be set to regular at the workspace level. Change their user type at the org level instead. - `cannot_set_this_guest_to_regular_at_team_level` -- This guest cannot be set to regular because they are active on multiple workspaces. - `cannot_modify_primary_owner` -- The primary owner cannot be modified. - `failed_to_set_user_to_regular` -- Changing a user to a regular member failed. - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team. - `invalid_role_for_user` -- The user's current role does not allow this change. - `not_an_admin` -- This method can only be accessed by org owners and admins. - `team_not_found` -- `team_id` was not found. - `user_not_found` -- The requested user was not found. See https://docs.slack.dev/reference/methods/admin.users.setRegular */
+/** Set an existing guest user, admin user, or owner to be a regular user. Required scopes -- user: `admin.users:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `cannot_set_org_admin_to_regular_at_workspace_level` -- Org admins cannot be set to regular at the workspace level. Change their user type at the org level instead. - `cannot_set_this_guest_to_regular_at_team_level` -- This guest cannot be set to regular because they are active on multiple workspaces. - `cannot_modify_primary_owner` -- The primary owner cannot be modified. - `failed_to_set_user_to_regular` -- Changing a user to a regular member failed. - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team. - `invalid_role_for_user` -- The user's current role does not allow this change. - `not_an_admin` -- This method can only be accessed by org owners and admins. - `team_not_found` -- `team_id` was not found. - `user_not_found` -- The requested user was not found. - `inviter_email_not_verified` -- The target is an invited user, and the user whose token is calling this method has not verified the email address on their own account. They must verify it before changing an invited user's account type. See https://docs.slack.dev/reference/methods/admin.users.setRegular */
 export const setRegular: API.OperationMethod<
   SetRegularRequest,
   SetRegularResponse,
   SetRegularError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<SetRegularRequest>,
+  input: __S(168, __c21, 0) as any as S.Schema<SetRegularRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetRegularResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4385,7 +4776,7 @@ export const setSettings: API.OperationMethod<
   SetSettingsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<SetSettingsRequest>,
+  input: __S(176, __c22, 0) as any as S.Schema<SetSettingsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetSettingsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4395,15 +4786,15 @@ export const setSettings: API.OperationMethod<
 }));
 
 export type SetTeamsError = SlackOpError;
-/** Set the workspaces in an Enterprise org that connect to a public or private channel. Required scopes -- user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `cannot_add_legacy_disconnected_channel_to_workspaces` -- Cannot add legacy disconnected channel to workspaces - `cannot_move_local_channel` -- This API cannot be used to move a local channel from one workspace to another. - `channel_cannot_be_unshared` -- Channel cannot be unshared from this workspace. - `channel_not_found` -- The channel wasn't found or isn't shared to this workspace. - `channel_type_not_supported` -- The requested `channel_id` is not a supported type of channel. - `could_not_set_teams_for_channel` -- The requested `channel_id` has not been shared with the target workspace. - `default_org_wide_channel` -- Default org wide channel cannot be unshared from a workspace. - `externally_shared_or_disconnected_channel` -- The channel is or was externally shared. - `invalid_channel_id` -- `channel_id` was invalid. - `invalid_target_team` -- Target workspace is invalid. - `managed_channel_not_supported` -- Cannot unshare a managed channel - `name_taken` -- The proposed new name for the channel is already in use within your organization. - `not_allowed_for_grid_workspace` -- Slack Connect is not allowed for this Enterprise org workspace - `not_enabled` -- The API endpoint is not enabled for your team. - `restricted_action` -- The caller of this API is not allowed to perform this operation. - `too_many_target_teams` -- Too many `target_team_ids` were provided. - `unsupported_arguments` -- The provided method arguments are not supported. See https://docs.slack.dev/reference/methods/admin.conversations.setTeams */
+/** Set the workspaces in an Enterprise org that connect to a public or private channel. Required scopes -- user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `cannot_add_legacy_disconnected_channel_to_workspaces` -- Cannot add legacy disconnected channel to workspaces - `cannot_move_local_channel` -- This API cannot be used to move a local channel from one workspace to another. - `channel_cannot_be_unshared` -- Channel cannot be unshared from this workspace. - `channel_not_found` -- The channel wasn't found or isn't shared to this workspace. - `channel_type_not_supported` -- The requested `channel_id` is not a supported type of channel. - `could_not_set_teams_for_channel` -- The requested `channel_id` has not been shared with the target workspace. - `default_org_wide_channel` -- Default org wide channel cannot be unshared from a workspace. - `externally_shared_or_disconnected_channel` -- The channel is or was externally shared. - `invalid_channel_id` -- `channel_id` was invalid. - `invalid_target_team` -- Target workspace is invalid. - `managed_channel_not_supported` -- Cannot unshare a managed channel - `name_taken` -- The proposed new name for the channel is already in use within your organization. - `not_allowed_for_grid_workspace` -- Slack Connect is not allowed for this Enterprise org workspace - `not_enabled` -- The API endpoint is not enabled for your team. - `restricted_action` -- The caller of this API is not allowed to perform this operation. - `too_many_target_teams` -- Too many `target_team_ids` were provided. - `unsupported_arguments` -- The provided method arguments are not supported. - `insufficient_permissions_to_share_channel` -- The authenticated user isn't an org admin or owner and tried to add or remove an unlisted workspace that isn't visible to them. Ask an org admin or owner with permission to manage the channel to make this change. See https://docs.slack.dev/reference/methods/admin.conversations.setTeams */
 export const setTeams: API.OperationMethod<
   SetTeamsRequest,
   SetTeamsResponse,
   SetTeamsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<SetTeamsRequest>,
-  output: __S(129, __c16, 1) as any as S.Schema<SetTeamsResponse>,
+  input: __S(184, __c23, 0) as any as S.Schema<SetTeamsRequest>,
+  output: __S(185, __c23, 1) as any as S.Schema<SetTeamsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -4412,14 +4803,14 @@ export const setTeams: API.OperationMethod<
 }));
 
 export type SetWorkflowsTriggersTypesPermissionsError = SlackOpError;
-/** Set the permissions for using a trigger type Required scopes -- user: `client` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `invalid_named_entities` -- Named entities visibility requires a valid set of named entities to be specified - `invalid_permission_type` -- This permission type is invalid. - `invalid_permission_set` -- This permission set is invalid. - `required_visibility` -- Visibility is required on this resource. - `restricted_action` -- This actor does not have access to the permissions on this resource. - `trigger_type_id_not_found` -- The referenced trigger type ID does not exist. - `visibility_is_not_named_entities` -- The visibility should be named entities when the user_ids, team_ids, or org_ids args are set See https://docs.slack.dev/reference/methods/admin.workflows.triggers.types.permissions.set */
+/** Set the permissions for using a trigger type Required scopes -- user: `client` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `invalid_named_entities` -- Named entities visibility requires a valid set of named entities to be specified - `invalid_permission_type` -- This permission type is invalid. - `invalid_permission_set` -- This permission set is invalid. - `required_visibility` -- Visibility is required on this resource. - `restricted_action` -- This actor does not have access to the permissions on this resource. - `trigger_type_id_not_found` -- The referenced trigger type ID does not exist. - `visibility_is_not_named_entities` -- The visibility should be named entities when the user_ids, team_ids, or org_ids args are set - `user_not_found` -- A value passed in `user_ids` was invalid. See https://docs.slack.dev/reference/methods/admin.workflows.triggers.types.permissions.set */
 export const setWorkflowsTriggersTypesPermissions: API.OperationMethod<
   SetWorkflowsTriggersTypesPermissionsRequest,
   SetWorkflowsTriggersTypesPermissionsResponse,
   SetWorkflowsTriggersTypesPermissionsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(137, __c17, 1) as any as S.Schema<SetWorkflowsTriggersTypesPermissionsRequest>,
+  input: __S(193, __c24, 1) as any as S.Schema<SetWorkflowsTriggersTypesPermissionsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<SetWorkflowsTriggersTypesPermissionsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4436,8 +4827,8 @@ export const teamsSettingsInfo: API.OperationMethod<
   TeamsSettingsInfoError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c18, 0) as any as S.Schema<TeamsSettingsInfoRequest>,
-  output: __S(147, __c18, 3) as any as S.Schema<TeamsSettingsInfoResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<TeamsSettingsInfoRequest>,
+  output: __S(202, __c25, 2) as any as S.Schema<TeamsSettingsInfoResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -4446,14 +4837,14 @@ export const teamsSettingsInfo: API.OperationMethod<
 }));
 
 export type UnarchiveConversationError = SlackOpError;
-/** Unarchive a public or private channel. Required scopes -- user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_archived` -- The passed channel is not currently archived. - `channel_not_found` -- The value passed for `channel_id` was invalid. - `channel_type_not_supported` -- The value passed for `channel` was a DM, MPDM, or the 'general' channel - `could_not_unarchive_channel` -- The channel could not be unarchived. - `default_org_wide_channel` -- You can't unarchive a default org-wide channel. - `feature_not_enabled` -- The token provided doesn't have access to this method. - `missing_scope` -- The token provided doesn't have the required scopes. - `restricted_action` -- A workspace preference prevents the authenticated user from unarchiving. See https://docs.slack.dev/reference/methods/admin.conversations.unarchive */
+/** Unarchive a public or private channel. Required scopes -- user: `admin.conversations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `channel_not_archived` -- The passed channel is not currently archived. - `channel_not_found` -- The value passed for `channel_id` was invalid, or the channel belongs to a workspace other than the token's workspace and isn't shared with it. - `channel_type_not_supported` -- The value passed for `channel` was a DM, MPDM, or the 'general' channel - `could_not_unarchive_channel` -- The channel could not be unarchived. - `default_org_wide_channel` -- You can't unarchive a default org-wide channel. - `feature_not_enabled` -- The token provided doesn't have access to this method. - `missing_scope` -- The token provided doesn't have the required scopes. - `restricted_action` -- A workspace preference prevents the authenticated user from unarchiving. - `target_team_not_on_org` -- The specified target_team is not part of the organization. See https://docs.slack.dev/reference/methods/admin.conversations.unarchive */
 export const unarchiveConversation: API.OperationMethod<
   UnarchiveConversationRequest,
   UnarchiveConversationResponse,
   UnarchiveConversationError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(152, __c19, 0) as any as S.Schema<UnarchiveConversationRequest>,
+  input: __S(216, __c27, 0) as any as S.Schema<UnarchiveConversationRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UnarchiveConversationResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4463,14 +4854,14 @@ export const unarchiveConversation: API.OperationMethod<
 }));
 
 export type UninstallAppError = SlackOpError;
-/** Uninstall an app from one or many workspaces, or an entire enterprise organization. Required scopes -- user: `admin.apps:write` Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `app_not_found` -- The provided `app_id` was not found. - `can_not_uninstall` -- This application can not be uninstalled via the API. - `enterprise_not_found` -- The provided `enterprise_id` was not found. - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team. - `must_revoke_access` -- Organization-deployed apps cannot be uninstalled from specific workspaces using this API. - `permission_denied` -- You do not have permission to uninstall applications from the reqeusted org or workspaces. - `specify_enterprise_or_teams` -- Provide exactly one of `enterprise_id` or `team_ids`. - `teams_not_found` -- One or more of the provided `team_ids` were not found. - `too_many_teams` -- Too many IDs are present in `team_ids`. - `restricted_action` -- the user is not authorized to perform this action See https://docs.slack.dev/reference/methods/admin.apps.uninstall */
+/** Uninstall an app from one or many workspaces, or an entire enterprise organization. Required scopes -- user: `admin.apps:write` Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `app_not_found` -- The provided `app_id` was not found. - `can_not_uninstall` -- This application can not be uninstalled via the API. - `enterprise_not_found` -- The provided `enterprise_id` was not found. - `feature_not_enabled` -- The Admin APIs feature is not enabled for this team. - `must_revoke_access` -- Organization-deployed apps cannot be uninstalled from specific workspaces using this API. - `permission_denied` -- You do not have permission to uninstall applications from the requested org or workspaces. - `specify_enterprise_or_teams` -- Provide exactly one of `enterprise_id` or `team_ids`. - `teams_not_found` -- One or more of the provided `team_ids` were not found. - `too_many_teams` -- Too many IDs are present in `team_ids`. - `restricted_action` -- the user is not authorized to perform this action See https://docs.slack.dev/reference/methods/admin.apps.uninstall */
 export const uninstallApp: API.OperationMethod<
   UninstallAppRequest,
   UninstallAppResponse,
   UninstallAppError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<UninstallAppRequest>,
+  input: __S(224, __c28, 0) as any as S.Schema<UninstallAppRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UninstallAppResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4487,13 +4878,30 @@ export const unlinkObjects: API.OperationMethod<
   UnlinkObjectsError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<UnlinkObjectsRequest>,
+  input: __S(232, __c29, 0) as any as S.Schema<UnlinkObjectsRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UnlinkObjectsResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnlinkObjects",
+}));
+
+export type UnpublishSlackbotSkillError = SlackOpError;
+/** Removes Slackbot skills from the org catalog, preserving access, libraries, and deployments. Required scopes -- user: `admin.skills:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `feature_not_enabled` -- The Skills API is not enabled for this organization or workspace. - `restricted_action` -- The caller must be an org admin or owner with permission to manage skills. - `internal_error` -- The operation could not be completed. Retry the request. - `failed_for_some_skills` -- Some skills failed. `failed_skills` lists each distinct failed skill ID and its error: `skill_not_found`, `method_not_supported_for_skill_type`, `restricted_action`, or `internal_error`. Missing, deleted, non-skill, and other organizations' files all return `skill_not_found`. See https://docs.slack.dev/reference/methods/admin.slackbot.skills.unpublish */
+export const unpublishSlackbotSkill: API.OperationMethod<
+  UnpublishSlackbotSkillRequest,
+  UnpublishSlackbotSkillResponse,
+  UnpublishSlackbotSkillError,
+  SlackOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(240, __c30, 0) as any as S.Schema<UnpublishSlackbotSkillRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<UnpublishSlackbotSkillResponse>,
+  errors: [SlackError, SlackRateLimited],
+  protocol: SlackProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UnpublishSlackbotSkill",
 }));
 
 export type UnpublishWorkflowError = SlackOpError;
@@ -4504,7 +4912,7 @@ export const unpublishWorkflow: API.OperationMethod<
   UnpublishWorkflowError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<UnpublishWorkflowRequest>,
+  input: __S(248, __c31, 0) as any as S.Schema<UnpublishWorkflowRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UnpublishWorkflowResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4521,8 +4929,8 @@ export const updateBarrier: API.OperationMethod<
   UpdateBarrierError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<UpdateBarrierRequest>,
-  output: __S(384, __c48, 0) as any as S.Schema<UpdateBarrierResponse>,
+  input: __S(256, __c32, 0) as any as S.Schema<UpdateBarrierRequest>,
+  output: __S(456, __c57, 0) as any as S.Schema<UpdateBarrierResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -4538,7 +4946,7 @@ export const updateItem: API.OperationMethod<
   UpdateItemError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<UpdateItemRequest>,
+  input: __S(264, __c33, 0) as any as S.Schema<UpdateItemRequest>,
   output: __S(8, __c1, 0) as any as S.Schema<UpdateItemResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
@@ -4555,8 +4963,8 @@ export const updateUsergroup: API.OperationMethod<
   UpdateUsergroupError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<UpdateUsergroupRequest>,
-  output: __S(201, __c25, 1) as any as S.Schema<UpdateUsergroupResponse>,
+  input: __S(272, __c34, 0) as any as S.Schema<UpdateUsergroupRequest>,
+  output: __S(273, __c34, 1) as any as S.Schema<UpdateUsergroupResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -4565,15 +4973,15 @@ export const updateUsergroup: API.OperationMethod<
 }));
 
 export type UploadUsersError = SlackOpError;
-/** Add members to an existing organizational usergroup in bulk via CSV upload. This method is only available to Enterprise Grid organizations. Required scopes -- user: `admin.usergroups:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `feature_not_enabled` -- The Admin APIs feature is not enabled for this workspace. - `invalid_auth` -- The workspace specified is not part of this organization. - `restricted_action` -- The calling user cannot modify the specified usergroup, or the usergroup's membership is managed by an identity provider (IdP) and can only be changed through SCIM. - `not_an_enterprise` -- The token passed in does not belong to an Enterprise organization. - `invalid_usergroup` -- A usergroup with the specified ID does not exist. - `no_valid_users` -- There were no valid users provided in the csv. - `unable_to_parse_csv` -- Could not parse the uploaded csv. - `member_count_would_exceed_visible_limit` -- The usergroup is visible and the member count would exceed the limit. - `cannot_modify_role_admin` -- The user does not have permission to modify the roles admin role. See https://docs.slack.dev/reference/methods/admin.usergroups.uploadUsers */
+/** Add members to an existing organizational usergroup in bulk via CSV upload. This method is only available to Enterprise Grid organizations. Required scopes -- user: `admin.usergroups:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `feature_not_enabled` -- The Admin APIs feature is not enabled for this workspace. - `invalid_auth` -- The workspace specified is not part of this organization. - `restricted_action` -- The calling user cannot modify the specified usergroup, or the usergroup's membership is managed by an identity provider (IdP) and can only be changed through SCIM. - `not_an_enterprise` -- The token passed in does not belong to an Enterprise organization. - `invalid_usergroup` -- A usergroup with the specified ID does not exist. - `no_valid_users` -- There were no valid users provided in the csv. - `unable_to_parse_csv` -- Could not parse the uploaded csv. - `member_count_would_exceed_visible_limit` -- The usergroup is visible and the member count would exceed the limit. - `cannot_modify_role_admin` -- The user does not have permission to modify the roles admin role. - `subteam_limit_exceeded` -- A csv upload can only contain at most 15k users. See https://docs.slack.dev/reference/methods/admin.usergroups.uploadUsers */
 export const uploadUsers: API.OperationMethod<
   UploadUsersRequest,
   UploadUsersResponse,
   UploadUsersError,
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<UploadUsersRequest>,
-  output: __S(217, __c27, 1) as any as S.Schema<UploadUsersResponse>,
+  input: __S(280, __c35, 0) as any as S.Schema<UploadUsersRequest>,
+  output: __S(281, __c35, 1) as any as S.Schema<UploadUsersResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -4684,13 +5092,124 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
           messages: __S(38, __c4, 6),
         }),
       ).annotate({ identifier: "AnalyticsMessagesMetadataResponse" });
   }
 }
 function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          team_id: S.String,
+          user_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/admin.users.setAdmin", code: 200 })),
+      ).annotate({ identifier: "SetAdminRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          urls: S.optional(__S(24, __c3, 0)),
+          emails: S.optional(__S(24, __c3, 0)),
+        }),
+      ).annotate({ identifier: "SetAppsConfigRequestDomainRestrictions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          app_id: S.String,
+          workflow_auth_strategy: S.optional(S.String),
+          rich_link_preview_type: S.optional(S.String),
+          domain_restrictions: S.optional(__S(48, __c6, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/admin.apps.config.set", code: 200 })),
+      ).annotate({ identifier: "SetAppsConfigRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          app_id: S.String,
+          server_id: S.String,
+          permission_type: S.String,
+          user_ids: S.optional(__S(24, __c3, 0)),
+          usergroup_ids: S.optional(__S(24, __c3, 0)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/admin.apps.mcp.servers.permissions.set", code: 200 }),
+        ),
+      ).annotate({ identifier: "SetAppsMcpServersPermissionsRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          app_id: S.String,
+          permission_type: S.String,
+          user_ids: S.optional(__S(24, __c3, 0)),
+          usergroup_ids: S.optional(__S(24, __c3, 0)),
+          channel_restriction_mode: S.optional(S.String),
+          channel_ids: S.optional(__S(24, __c3, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/admin.apps.permissions.set", code: 200 })),
+      ).annotate({ identifier: "SetAppsPermissionsRequest" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          skill_id: S.String,
+          permission_type: S.String,
+          usergroup_ids: S.optional(__S(24, __c3, 0)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/admin.slackbot.skills.setAutoEnabled", code: 200 }),
+        ),
+      ).annotate({ identifier: "SetAutoEnabledRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          skill_id: S.String,
+          permission_type: S.String,
+          usergroup_ids: __S(24, __c3, 0),
+        }),
+      ).annotate({ identifier: "SetAutoEnabledResponse" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channel_id: S.String,
+          prefs: S.String,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/admin.conversations.setConversationPrefs", code: 200 }),
+        ),
+      ).annotate({ identifier: "SetConversationPrefsRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channel_id: S.String,
+          duration_days: S.Number,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/admin.conversations.setCustomRetention", code: 200 }),
+        ),
+      ).annotate({ identifier: "SetCustomRetentionRequest" });
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4703,7 +5222,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "SetDefaultChannelsRequest" });
   }
 }
-function __c6(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4714,7 +5233,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "SetDescriptionRequest" });
   }
 }
-function __c7(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4725,97 +5244,6 @@ function __c7(j: number): any {
           T.Http({ method: "POST", uri: "/admin.teams.settings.setDiscoverability", code: 200 }),
         ),
       ).annotate({ identifier: "SetDiscoverabilityRequest" });
-  }
-}
-function __c8(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          team_id: S.optional(S.String),
-          user_id: S.String,
-          expiration_ts: S.Number,
-        }).pipe(T.Http({ method: "POST", uri: "/admin.users.setExpiration", code: 200 })),
-      ).annotate({ identifier: "SetExpirationRequest" });
-  }
-}
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          visibility: S.String,
-          permission_type: S.String,
-          user_ids: S.optional(__S(24, __c3, 0)),
-        }),
-      ).annotate({ identifier: "SetFunctionsPermissionsRequestPermissionsItem" });
-    case 1:
-      return S.Array(__S(72, __c9, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          function_id: S.String,
-          visibility: S.optional(S.String),
-          user_ids: S.optional(__S(24, __c3, 0)),
-          permissions: S.optional(__S(73, __c9, 1)),
-        }).pipe(T.Http({ method: "POST", uri: "/admin.functions.permissions.set", code: 200 })),
-      ).annotate({ identifier: "SetFunctionsPermissionsRequest" });
-  }
-}
-function __c10(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          image_url: S.String.pipe(T.Query()),
-          team_id: S.String.pipe(T.Query()),
-        }).pipe(T.Http({ method: "GET", uri: "/admin.teams.settings.setIcon", code: 200 })),
-      ).annotate({ identifier: "SetIconRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          team_id: S.String,
-          name: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/admin.teams.settings.setName", code: 200 })),
-      ).annotate({ identifier: "SetNameRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          team_id: S.String,
-          user_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/admin.users.setOwner", code: 200 })),
-      ).annotate({ identifier: "SetOwnerRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          team_id: S.String,
-          user_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/admin.users.setRegular", code: 200 })),
-      ).annotate({ identifier: "SetRegularRequest" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          user_ids: __S(24, __c3, 0),
-          duration: S.optional(S.Number),
-          desktop_app_browser_quit: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/admin.users.session.setSettings", code: 200 })),
-      ).annotate({ identifier: "SetSettingsRequest" });
   }
 }
 function __c15(j: number): any {
@@ -4839,6 +5267,97 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          team_id: S.optional(S.String),
+          user_id: S.String,
+          expiration_ts: S.Number,
+        }).pipe(T.Http({ method: "POST", uri: "/admin.users.setExpiration", code: 200 })),
+      ).annotate({ identifier: "SetExpirationRequest" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          visibility: S.String,
+          permission_type: S.String,
+          user_ids: S.optional(__S(24, __c3, 0)),
+        }),
+      ).annotate({ identifier: "SetFunctionsPermissionsRequestPermissionsItem" });
+    case 1:
+      return S.Array(__S(136, __c17, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          function_id: S.String,
+          visibility: S.optional(S.String),
+          user_ids: S.optional(__S(24, __c3, 0)),
+          permissions: S.optional(__S(137, __c17, 1)),
+        }).pipe(T.Http({ method: "POST", uri: "/admin.functions.permissions.set", code: 200 })),
+      ).annotate({ identifier: "SetFunctionsPermissionsRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          image_url: S.String.pipe(T.Query()),
+          team_id: S.String.pipe(T.Query()),
+        }).pipe(T.Http({ method: "GET", uri: "/admin.teams.settings.setIcon", code: 200 })),
+      ).annotate({ identifier: "SetIconRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          team_id: S.String,
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/admin.teams.settings.setName", code: 200 })),
+      ).annotate({ identifier: "SetNameRequest" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          team_id: S.String,
+          user_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/admin.users.setOwner", code: 200 })),
+      ).annotate({ identifier: "SetOwnerRequest" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          team_id: S.String,
+          user_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/admin.users.setRegular", code: 200 })),
+      ).annotate({ identifier: "SetRegularRequest" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user_ids: __S(24, __c3, 0),
+          duration: S.optional(S.Number),
+          desktop_app_browser_quit: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/admin.users.session.setSettings", code: 200 })),
+      ).annotate({ identifier: "SetSettingsRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           channel_id: S.String,
           team_id: S.optional(S.String),
           target_team_ids: S.optional(__S(24, __c3, 0)),
@@ -4854,12 +5373,12 @@ function __c16(j: number): any {
       ).annotate({ identifier: "SetTeamsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          permissions: S.optional(__S(720, __c90, 0)),
+          permissions: S.optional(__S(800, __c100, 0)),
         }),
       ).annotate({ identifier: "SetWorkflowsTriggersTypesPermissionsRequestPermissions" });
     case 1:
@@ -4868,7 +5387,7 @@ function __c17(j: number): any {
           id: S.String,
           visibility: S.optional(S.String),
           user_ids: S.optional(__S(24, __c3, 0)),
-          permissions: S.optional(__S(136, __c17, 0)),
+          permissions: S.optional(__S(192, __c24, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4879,7 +5398,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "SetWorkflowsTriggersTypesPermissionsRequest" });
   }
 }
-function __c18(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4897,21 +5416,30 @@ function __c18(j: number): any {
           icon: S.optional(S.Unknown),
           enterprise_id: S.optional(S.String),
           enterprise_name: S.optional(S.String),
-          default_channels: S.optional(__S(624, __c78, 0)),
+          default_channels: S.optional(__S(704, __c88, 0)),
         }),
-      ).annotate({ identifier: "TeamsSettingsInfoResponseTeamItem" });
+      ).annotate({ identifier: "TeamsSettingsInfoResponseTeam" });
     case 2:
-      return S.Array(__S(145, __c18, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          team: __S(146, __c18, 2),
+          team: __S(201, __c25, 1),
         }),
       ).annotate({ identifier: "TeamsSettingsInfoResponse" });
   }
 }
-function __c19(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          team_id: S.optional(S.String),
+          invite_request_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/admin.inviteRequests.approve", code: 200 })),
+      ).annotate({ identifier: "ApproveInviteRequestRequest" });
+  }
+}
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4921,7 +5449,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "UnarchiveConversationRequest" });
   }
 }
-function __c20(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4933,7 +5461,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "UninstallAppRequest" });
   }
 }
-function __c21(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4944,7 +5472,17 @@ function __c21(j: number): any {
       ).annotate({ identifier: "UnlinkObjectsRequest" });
   }
 }
-function __c22(j: number): any {
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          skill_ids: __S(24, __c3, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/admin.slackbot.skills.unpublish", code: 200 })),
+      ).annotate({ identifier: "UnpublishSlackbotSkillRequest" });
+  }
+}
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4954,7 +5492,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "UnpublishWorkflowRequest" });
   }
 }
-function __c23(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4962,7 +5500,7 @@ function __c23(j: number): any {
           barrier_id: S.String,
           primary_usergroup_id: S.String,
           barriered_from_usergroup_ids: __S(24, __c3, 0),
-          restricted_subjects: __S(392, __c49, 0),
+          restricted_subjects: __S(464, __c58, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -4974,20 +5512,20 @@ function __c23(j: number): any {
       ).annotate({ identifier: "UpdateBarrierRequest" });
   }
 }
-function __c24(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           trusted_cidr: S.optional(__S(24, __c3, 0)),
-          trusted_asns: S.optional(__S(544, __c68, 0)),
+          trusted_asns: S.optional(__S(624, __c78, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/admin.audit.anomaly.allow.updateItem", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateItemRequest" });
   }
 }
-function __c25(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5009,18 +5547,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "UpdateUsergroupResponse" });
   }
 }
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          team_id: S.optional(S.String),
-          invite_request_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/admin.inviteRequests.approve", code: 200 })),
-      ).annotate({ identifier: "ApproveInviteRequestRequest" });
-  }
-}
-function __c27(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5034,12 +5561,12 @@ function __c27(j: number): any {
         S.Struct({
           ok: S.Boolean,
           successful_user_count: S.Number,
-          invalid_users: S.optional(__S(809, __c101, 1)),
+          invalid_users: S.optional(__S(873, __c109, 1)),
         }),
       ).annotate({ identifier: "UploadUsersResponse" });
   }
 }
-function __c28(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5052,7 +5579,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "AppsRestrictRequest" });
   }
 }
-function __c29(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5062,7 +5589,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "ArchiveConversationRequest" });
   }
 }
-function __c30(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5074,7 +5601,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "AssignEntitiesRequest" });
   }
 }
-function __c31(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5085,7 +5612,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "AssignEntitiesResponse" });
   }
 }
-function __c32(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5099,7 +5626,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "AssignUserRequest" });
   }
 }
-function __c33(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5116,19 +5643,19 @@ function __c33(j: number): any {
       ).annotate({ identifier: "BulkArchiveRequest" });
   }
 }
-function __c34(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           bulk_action_id: S.String,
-          not_added: __S(281, __c35, 1),
+          not_added: __S(345, __c43, 1),
         }),
       ).annotate({ identifier: "BulkArchiveResponse" });
   }
 }
-function __c35(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5138,10 +5665,10 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "BulkArchiveResponseNotAddedItem" });
     case 1:
-      return S.Array(__S(280, __c35, 0));
+      return S.Array(__S(344, __c43, 0));
   }
 }
-function __c36(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5158,7 +5685,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "BulkDeleteRequest" });
   }
 }
-function __c37(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5176,7 +5703,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "BulkMoveRequest" });
   }
 }
-function __c38(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5188,7 +5715,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "AddAssignmentsRequest" });
   }
 }
-function __c39(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5199,7 +5726,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "AddAssignmentsResponse" });
   }
 }
-function __c40(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5216,7 +5743,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "BulkSetExcludeFromSlackAiRequest" });
   }
 }
-function __c41(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5237,12 +5764,12 @@ function __c41(j: number): any {
         S.Struct({
           ok: S.Boolean,
           bulk_action_id: S.String,
-          not_updated: __S(281, __c35, 1),
+          not_updated: __S(345, __c43, 1),
         }),
       ).annotate({ identifier: "BulkSetPropertiesResponse" });
   }
 }
-function __c42(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5254,7 +5781,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "CancelAppsRequestRequest" });
   }
 }
-function __c43(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5266,7 +5793,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ClearResolutionRequest" });
   }
 }
-function __c44(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5276,7 +5803,35 @@ function __c44(j: number): any {
       ).annotate({ identifier: "ClearSettingsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channel_id: S.String,
+          user_ids: __S(24, __c3, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/admin.conversations.kick", code: 200 })),
+      ).annotate({ identifier: "ConversationsKickRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          user_id: S.String,
+          error: S.String,
+        }),
+      ).annotate({ identifier: "ConversationsKickResponseFailedUserIdsItem" });
+    case 2:
+      return S.Array(__S(425, __c53, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          removed_user_ids: __S(24, __c3, 0),
+          failed_user_ids: __S(426, __c53, 2),
+        }),
+      ).annotate({ identifier: "ConversationsKickResponse" });
+  }
+}
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5289,7 +5844,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "ConvertToPrivateRequest" });
   }
 }
-function __c46(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5299,14 +5854,14 @@ function __c46(j: number): any {
       ).annotate({ identifier: "ConvertToPublicRequest" });
   }
 }
-function __c47(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           primary_usergroup_id: S.String,
           barriered_from_usergroup_ids: __S(24, __c3, 0),
-          restricted_subjects: __S(392, __c49, 0),
+          restricted_subjects: __S(464, __c58, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -5318,7 +5873,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "CreateBarrierRequest" });
   }
 }
-function __c48(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5329,13 +5884,13 @@ function __c48(j: number): any {
       ).annotate({ identifier: "CreateBarrierResponse" });
   }
 }
-function __c49(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c50(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5356,7 +5911,31 @@ function __c50(j: number): any {
       ).annotate({ identifier: "CreateConversationResponse" });
   }
 }
-function __c51(j: number): any {
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          usergroup_id: S.String,
+          team_id: S.optional(S.String),
+          channel_ids: __S(24, __c3, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.addChannels", code: 200 })),
+      ).annotate({ identifier: "AddChannelsRequest" });
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          error: S.optional(S.String),
+          invalid_channels: S.optional(__S(24, __c3, 0)),
+        }),
+      ).annotate({ identifier: "AddChannelsResponse" });
+  }
+}
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5377,31 +5956,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "CreateForObjectsResponse" });
   }
 }
-function __c52(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          usergroup_id: S.String,
-          team_id: S.optional(S.String),
-          channel_ids: __S(24, __c3, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.addChannels", code: 200 })),
-      ).annotate({ identifier: "AddChannelsRequest" });
-  }
-}
-function __c53(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          error: S.optional(S.String),
-          invalid_channels: S.optional(__S(24, __c3, 0)),
-        }),
-      ).annotate({ identifier: "AddChannelsResponse" });
-  }
-}
-function __c54(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5421,7 +5976,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "CreateTeamResponse" });
   }
 }
-function __c55(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5442,7 +5997,17 @@ function __c55(j: number): any {
       ).annotate({ identifier: "CreateUsergroupResponse" });
   }
 }
-function __c56(j: number): any {
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/admin.users.deactivate", code: 200 })),
+      ).annotate({ identifier: "DeactivateUserRequest" });
+  }
+}
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5459,7 +6024,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "DeleteBarrierRequest" });
   }
 }
-function __c57(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5469,7 +6034,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "DeleteConversationRequest" });
   }
 }
-function __c58(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5482,7 +6047,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "DisconnectSharedRequest" });
   }
 }
-function __c59(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5500,7 +6065,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "ExportUsersUnsupportedVersionRequest" });
   }
 }
-function __c60(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5517,7 +6082,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "FetchUsergroupResponse" });
   }
 }
-function __c61(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5549,24 +6114,35 @@ function __c61(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          who_can_post: S.optional(__S(489, __c61, 1)),
-          can_thread: S.optional(__S(489, __c61, 1)),
-          membership_limit: S.optional(__S(490, __c61, 2)),
-          can_huddle: S.optional(__S(491, __c61, 3)),
-          enable_at_channel: S.optional(__S(491, __c61, 3)),
-          enable_at_here: S.optional(__S(491, __c61, 3)),
+          who_can_post: S.optional(__S(569, __c71, 1)),
+          can_thread: S.optional(__S(569, __c71, 1)),
+          membership_limit: S.optional(__S(570, __c71, 2)),
+          can_huddle: S.optional(__S(571, __c71, 3)),
+          enable_at_channel: S.optional(__S(571, __c71, 3)),
+          enable_at_here: S.optional(__S(571, __c71, 3)),
         }),
       ).annotate({ identifier: "GetConversationPrefsResponsePrefs" });
     case 5:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          prefs: S.optional(__S(492, __c61, 4)),
+          prefs: S.optional(__S(572, __c71, 4)),
         }),
       ).annotate({ identifier: "GetConversationPrefsResponse" });
   }
 }
-function __c62(j: number): any {
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Query()),
+          url: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/admin.emoji.add", code: 200 })),
+      ).annotate({ identifier: "AddEmojiRequest" });
+  }
+}
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5586,7 +6162,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "GetCustomRetentionResponse" });
   }
 }
-function __c63(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5606,30 +6182,19 @@ function __c63(j: number): any {
         }),
       ).annotate({ identifier: "GetEntitiesResponseEntitiesItem" });
     case 2:
-      return S.Array(__S(505, __c63, 1));
+      return S.Array(__S(593, __c74, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          response_metadata: S.optional(__S(992, __c124, 0)),
-          entities: __S(506, __c63, 2),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
+          entities: __S(594, __c74, 2),
           entity_total_count: S.Number,
         }),
       ).annotate({ identifier: "GetEntitiesResponse" });
   }
 }
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Query()),
-          url: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/admin.emoji.add", code: 200 })),
-      ).annotate({ identifier: "AddEmojiRequest" });
-  }
-}
-function __c65(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5638,9 +6203,27 @@ function __c65(j: number): any {
           target_team: S.optional(S.String.pipe(T.Query())),
         }).pipe(T.Http({ method: "GET", uri: "/admin.users.getExpiration", code: 200 })),
       ).annotate({ identifier: "GetExpirationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          username: S.optional(S.String),
+          email: S.String,
+          is_restricted: S.Boolean,
+          is_ultra_restricted: S.Boolean,
+          expiration_ts: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetExpirationResponseUser" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          user: S.optional(__S(601, __c75, 1)),
+        }),
+      ).annotate({ identifier: "GetExpirationResponse" });
   }
 }
-function __c66(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5656,7 +6239,7 @@ function __c66(j: number): any {
       });
   }
 }
-function __c67(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5669,18 +6252,18 @@ function __c67(j: number): any {
         S.Struct({
           ok: S.Boolean,
           trusted_cidr: S.optional(__S(24, __c3, 0)),
-          trusted_asns: S.optional(__S(544, __c68, 0)),
+          trusted_asns: S.optional(__S(624, __c78, 0)),
         }),
       ).annotate({ identifier: "GetItemResponse" });
   }
 }
-function __c68(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c69(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5697,18 +6280,18 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "GetSettingsResponseSessionSettingsItem" });
     case 2:
-      return S.Array(__S(553, __c69, 1));
+      return S.Array(__S(633, __c79, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          session_settings: S.optional(__S(554, __c69, 2)),
+          session_settings: S.optional(__S(634, __c79, 2)),
           no_settings_applied: S.optional(__S(24, __c3, 0)),
         }),
       ).annotate({ identifier: "GetSettingsResponse" });
   }
 }
-function __c70(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5722,12 +6305,12 @@ function __c70(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
         }),
       ).annotate({ identifier: "GetTeamsResponse" });
   }
 }
-function __c71(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5738,7 +6321,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "InvalidateUsersSessionRequest" });
   }
 }
-function __c72(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5749,7 +6332,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "InviteConversationRequest" });
   }
 }
-function __c73(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5760,7 +6343,21 @@ function __c73(j: number): any {
       ).annotate({ identifier: "InviteRequestsDenyRequest" });
   }
 }
-function __c74(j: number): any {
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          team_id: S.optional(S.String.pipe(T.Query())),
+          group_id: S.String.pipe(T.Query()),
+          channel_id: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/admin.conversations.restrictAccess.addGroup", code: 200 }),
+        ),
+      ).annotate({ identifier: "AddGroupRequest" });
+  }
+}
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5779,7 +6376,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "InviteUserRequest" });
   }
 }
-function __c75(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5791,21 +6388,7 @@ function __c75(j: number): any {
       ).annotate({ identifier: "LinkObjectsRequest" });
   }
 }
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          team_id: S.optional(S.String.pipe(T.Query())),
-          group_id: S.String.pipe(T.Query()),
-          channel_id: S.String.pipe(T.Query()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/admin.conversations.restrictAccess.addGroup", code: 200 }),
-        ),
-      ).annotate({ identifier: "AddGroupRequest" });
-  }
-}
-function __c77(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5836,19 +6419,19 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          activities: __S(624, __c78, 0),
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          activities: __S(704, __c88, 0),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
         }),
       ).annotate({ identifier: "ListAppsActivitiesResponse" });
   }
 }
-function __c78(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
   }
 }
-function __c79(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5864,13 +6447,13 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          approved_apps: __S(624, __c78, 0),
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          approved_apps: __S(704, __c88, 0),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
         }),
       ).annotate({ identifier: "ListAppsApprovedResponse" });
   }
 }
-function __c80(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5891,18 +6474,18 @@ function __c80(j: number): any {
         }),
       ).annotate({ identifier: "ListAppsMcpServersResponseServersItem" });
     case 2:
-      return S.Array(__S(641, __c80, 1));
+      return S.Array(__S(721, __c90, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          servers: __S(642, __c80, 2),
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          servers: __S(722, __c90, 2),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
         }),
       ).annotate({ identifier: "ListAppsMcpServersResponse" });
   }
 }
-function __c81(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5916,12 +6499,12 @@ function __c81(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          servers: __S(624, __c78, 0),
+          servers: __S(704, __c88, 0),
         }),
       ).annotate({ identifier: "ListAppsMcpServersPermissionsResponse" });
   }
 }
-function __c82(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5931,7 +6514,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "ListAppsPermissionsRequest" });
   }
 }
-function __c83(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5947,13 +6530,13 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          app_requests: __S(624, __c78, 0),
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          app_requests: __S(704, __c88, 0),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
         }),
       ).annotate({ identifier: "ListAppsRequestsResponse" });
   }
 }
-function __c84(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5969,13 +6552,13 @@ function __c84(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          restricted_apps: __S(624, __c78, 0),
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          restricted_apps: __S(704, __c88, 0),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
         }),
       ).annotate({ identifier: "ListAppsRestrictedResponse" });
   }
 }
-function __c85(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5997,19 +6580,31 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "ListAssignmentsResponseRoleAssignmentsItem" });
     case 2:
-      return S.Array(__S(681, __c85, 1));
+      return S.Array(__S(761, __c95, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           error: S.optional(S.String),
-          role_assignments: __S(682, __c85, 2),
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          role_assignments: __S(762, __c95, 2),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
         }),
       ).annotate({ identifier: "ListAssignmentsResponse" });
   }
 }
-function __c86(j: number): any {
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          usergroup_id: S.String,
+          team_ids: __S(24, __c3, 0),
+          auto_provision: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.addTeams", code: 200 })),
+      ).annotate({ identifier: "AddTeamsRequest" });
+  }
+}
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6022,13 +6617,13 @@ function __c86(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          barriers: __S(624, __c78, 0),
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          barriers: __S(704, __c88, 0),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
         }),
       ).annotate({ identifier: "ListBarriersResponse" });
   }
 }
-function __c87(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6048,19 +6643,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "ListChannelsResponse" });
   }
 }
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          usergroup_id: S.String,
-          team_ids: __S(24, __c3, 0),
-          auto_provision: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.addTeams", code: 200 })),
-      ).annotate({ identifier: "AddTeamsRequest" });
-  }
-}
-function __c89(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6073,19 +6656,19 @@ function __c89(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          emoji: __S(720, __c90, 0),
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          emoji: __S(800, __c100, 0),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
         }),
       ).annotate({ identifier: "ListEmojiResponse" });
   }
 }
-function __c90(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c91(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6101,13 +6684,13 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          functions: __S(624, __c78, 0),
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          functions: __S(704, __c88, 0),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
         }),
       ).annotate({ identifier: "ListFunctionsResponse" });
   }
 }
-function __c92(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6131,7 +6714,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "ListGroupsResponse" });
   }
 }
-function __c93(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6145,13 +6728,13 @@ function __c93(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          response_metadata: S.optional(__S(992, __c124, 0)),
-          invite_requests: __S(624, __c78, 0),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
+          invite_requests: __S(704, __c88, 0),
         }),
       ).annotate({ identifier: "ListInviteRequestsResponse" });
   }
 }
-function __c94(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6165,13 +6748,13 @@ function __c94(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          response_metadata: S.optional(__S(992, __c124, 0)),
-          approved_requests: __S(624, __c78, 0),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
+          approved_requests: __S(704, __c88, 0),
         }),
       ).annotate({ identifier: "ListInviteRequestsApprovedResponse" });
   }
 }
-function __c95(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6185,13 +6768,13 @@ function __c95(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          response_metadata: S.optional(__S(992, __c124, 0)),
-          denied_requests: __S(624, __c78, 0),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
+          denied_requests: __S(704, __c88, 0),
         }),
       ).annotate({ identifier: "ListInviteRequestsDeniedResponse" });
   }
 }
-function __c96(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6219,18 +6802,101 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "ListOriginalConnectedChannelInfoResponseChannelsItem" });
     case 2:
-      return S.Array(__S(769, __c96, 1));
+      return S.Array(__S(849, __c106, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          response_metadata: S.optional(__S(992, __c124, 0)),
-          channels: __S(770, __c96, 2),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
+          channels: __S(850, __c106, 2),
         }),
       ).annotate({ identifier: "ListOriginalConnectedChannelInfoResponse" });
   }
 }
-function __c97(j: number): any {
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          category: S.optional(S.String),
+          cursor: S.optional(S.String),
+          limit: S.optional(S.Number),
+          creator_ids: S.optional(__S(24, __c3, 0)),
+          publish_status: S.optional(S.String),
+          auto_enabled_status: S.optional(S.String),
+          sort: S.optional(S.String),
+          sort_dir: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/admin.slackbot.skills.list", code: 200 })),
+      ).annotate({ identifier: "ListSlackbotSkillsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          permission_type: S.String,
+          usergroup_ids: __S(24, __c3, 0),
+        }),
+      ).annotate({ identifier: "ListSlackbotSkillsResponseSkillsItemAutoEnabled" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          display_name: S.String,
+          description: S.Unknown,
+          category: S.NullOr(S.String),
+          creator_id: S.Unknown,
+          date_created: S.Unknown,
+          date_updated: S.Unknown,
+          visibility: S.NullOr(S.String),
+          is_official: S.Boolean,
+          usage_count: S.Unknown,
+          library_count: S.Unknown,
+          auto_enabled: __S(857, __c107, 1),
+        }),
+      ).annotate({ identifier: "ListSlackbotSkillsResponseSkillsItem" });
+    case 3:
+      return S.Array(__S(858, __c107, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          skills: __S(859, __c107, 3),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
+        }),
+      ).annotate({ identifier: "ListSlackbotSkillsResponse" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          users: __S(24, __c3, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.addUsers", code: 200 })),
+      ).annotate({ identifier: "AddUsersRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          error: S.optional(S.String),
+          invalid_users: S.optional(__S(873, __c109, 1)),
+        }),
+      ).annotate({ identifier: "AddUsersResponse" });
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user_id: S.String,
+          reason: S.String,
+        }),
+      ).annotate({ identifier: "AddUsersResponseInvalidUsersItem" });
+    case 1:
+      return S.Array(__S(872, __c109, 0));
+  }
+}
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6252,23 +6918,23 @@ function __c97(j: number): any {
           id: S.optional(S.String),
           name: S.String,
           discoverability: S.String,
-          primary_owner: __S(777, __c97, 1),
+          primary_owner: __S(881, __c110, 1),
           team_url: S.String,
         }),
       ).annotate({ identifier: "ListTeamsResponseTeamsItem" });
     case 3:
-      return S.Array(__S(778, __c97, 2));
+      return S.Array(__S(882, __c110, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          teams: __S(779, __c97, 3),
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          teams: __S(883, __c110, 3),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
         }),
       ).annotate({ identifier: "ListTeamsResponse" });
   }
 }
-function __c98(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6283,12 +6949,12 @@ function __c98(j: number): any {
         S.Struct({
           ok: S.Boolean,
           admin_ids: __S(24, __c3, 0),
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
         }),
       ).annotate({ identifier: "ListTeamsAdminsResponse" });
   }
 }
-function __c99(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6303,44 +6969,12 @@ function __c99(j: number): any {
         S.Struct({
           ok: S.Boolean,
           owner_ids: __S(24, __c3, 0),
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
         }),
       ).annotate({ identifier: "ListTeamsOwnersResponse" });
   }
 }
-function __c100(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          users: __S(24, __c3, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.addUsers", code: 200 })),
-      ).annotate({ identifier: "AddUsersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          error: S.optional(S.String),
-          invalid_users: S.optional(__S(809, __c101, 1)),
-        }),
-      ).annotate({ identifier: "AddUsersResponse" });
-  }
-}
-function __c101(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          user_id: S.String,
-          reason: S.String,
-        }),
-      ).annotate({ identifier: "AddUsersResponseInvalidUsersItem" });
-    case 1:
-      return S.Array(__S(808, __c101, 0));
-  }
-}
-function __c102(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6380,18 +7014,18 @@ function __c102(j: number): any {
         }),
       ).annotate({ identifier: "ListUsersResponseUsersItem" });
     case 2:
-      return S.Array(__S(817, __c102, 1));
+      return S.Array(__S(905, __c113, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          users: __S(818, __c102, 2),
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          users: __S(906, __c113, 2),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
         }),
       ).annotate({ identifier: "ListUsersResponse" });
   }
 }
-function __c103(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6418,29 +7052,29 @@ function __c103(j: number): any {
           user_id: S.String,
           team_id: S.String,
           session_id: S.Number,
-          recent: S.optional(__S(825, __c103, 1)),
-          created: __S(825, __c103, 1),
+          recent: S.optional(__S(913, __c114, 1)),
+          created: __S(913, __c114, 1),
         }),
       ).annotate({ identifier: "ListUsersSessionResponseActiveSessionsItem" });
     case 3:
-      return S.Array(__S(826, __c103, 2));
+      return S.Array(__S(914, __c114, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          response_metadata: S.optional(__S(992, __c124, 0)),
-          active_sessions: __S(827, __c103, 3),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
+          active_sessions: __S(915, __c114, 3),
         }),
       ).annotate({ identifier: "ListUsersSessionResponse" });
   }
 }
-function __c104(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           app_ids: S.optional(__S(24, __c3, 0)),
-          rich_link_preview_types: S.optional(__S(392, __c49, 0)),
+          rich_link_preview_types: S.optional(__S(464, __c58, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/admin.apps.config.lookup", code: 200 })),
       ).annotate({ identifier: "LookupAppsConfigRequest" });
     case 1:
@@ -6449,20 +7083,21 @@ function __c104(j: number): any {
           app_id: S.String,
           workflow_auth_strategy: S.String,
           domain_restrictions: S.Unknown,
+          rich_link_preview_type: S.optional(S.String),
         }),
       ).annotate({ identifier: "LookupAppsConfigResponseConfigsItem" });
     case 2:
-      return S.Array(__S(833, __c104, 1));
+      return S.Array(__S(921, __c115, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          configs: __S(834, __c104, 2),
+          configs: __S(922, __c115, 2),
         }),
       ).annotate({ identifier: "LookupAppsConfigResponse" });
   }
 }
-function __c105(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6486,12 +7121,12 @@ function __c105(j: number): any {
         S.Struct({
           ok: S.Boolean,
           channel_ids: __S(24, __c3, 0),
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
         }),
       ).annotate({ identifier: "LookupConversationResponse" });
   }
 }
-function __c106(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6503,14 +7138,14 @@ function __c106(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          permissions: __S(720, __c90, 0),
-          metadata: __S(720, __c90, 0),
-          errors: __S(720, __c90, 0),
+          permissions: __S(800, __c100, 0),
+          metadata: __S(800, __c100, 0),
+          errors: __S(800, __c100, 0),
         }),
       ).annotate({ identifier: "LookupFunctionsPermissionsResponse" });
   }
 }
-function __c107(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6523,12 +7158,12 @@ function __c107(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          permissions: __S(720, __c90, 0),
+          permissions: __S(800, __c100, 0),
         }),
       ).annotate({ identifier: "LookupWorkflowsPermissionsResponse" });
   }
 }
-function __c108(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6546,13 +7181,56 @@ function __c108(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          permissions: __S(720, __c90, 0),
-          metadata: __S(720, __c90, 0),
+          permissions: __S(800, __c100, 0),
+          metadata: __S(800, __c100, 0),
         }),
       ).annotate({ identifier: "LookupWorkflowsTriggersTypesPermissionsResponse" });
   }
 }
-function __c109(j: number): any {
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          workflow_ids: __S(24, __c3, 0),
+          collaborator_ids: __S(24, __c3, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/admin.workflows.collaborators.add", code: 200 })),
+      ).annotate({ identifier: "AddWorkflowsCollaboratorRequest" });
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user_ids: __S(24, __c3, 0),
+          reason: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/admin.users.access.pause", code: 200 })),
+      ).annotate({ identifier: "PauseUsersAccessRequest" });
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          invalid_users: __S(873, __c109, 1),
+        }),
+      ).annotate({ identifier: "PauseUsersAccessResponse" });
+  }
+}
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          skill_ids: __S(24, __c3, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/admin.slackbot.skills.publish", code: 200 })),
+      ).annotate({ identifier: "PublishSlackbotSkillRequest" });
+  }
+}
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6565,7 +7243,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "RemoveAppsPermissionsRequest" });
   }
 }
-function __c110(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6577,7 +7255,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "RemoveAssignmentsRequest" });
   }
 }
-function __c111(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6588,18 +7266,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "RemoveChannelsRequest" });
   }
 }
-function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          workflow_ids: __S(24, __c3, 0),
-          collaborator_ids: __S(24, __c3, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/admin.workflows.collaborators.add", code: 200 })),
-      ).annotate({ identifier: "AddWorkflowsCollaboratorRequest" });
-  }
-}
-function __c113(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6611,7 +7278,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "RemoveCustomRetentionRequest" });
   }
 }
-function __c114(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6621,7 +7288,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "RemoveEmojiRequest" });
   }
 }
-function __c115(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6633,7 +7300,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "RemoveEntitiesRequest" });
   }
 }
-function __c116(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6651,7 +7318,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "RemoveGroupRequest" });
   }
 }
-function __c117(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6662,64 +7329,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "RemoveTeamsRequest" });
   }
 }
-function __c118(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          team_id: S.String,
-          user_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/admin.users.remove", code: 200 })),
-      ).annotate({ identifier: "RemoveUserRequest" });
-  }
-}
-function __c119(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          users: __S(24, __c3, 0),
-        }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.removeUsers", code: 200 })),
-      ).annotate({ identifier: "RemoveUsersRequest" });
-  }
-}
-function __c120(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          workflow_ids: __S(24, __c3, 0),
-          collaborator_ids: __S(24, __c3, 0),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/admin.workflows.collaborators.remove", code: 200 }),
-        ),
-      ).annotate({ identifier: "RemoveWorkflowsCollaboratorRequest" });
-  }
-}
-function __c121(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          channel_id: S.String,
-          name: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/admin.conversations.rename", code: 200 })),
-      ).annotate({ identifier: "RenameConversationRequest" });
-  }
-}
-function __c122(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Query()),
-          new_name: S.String.pipe(T.Query()),
-        }).pipe(T.Http({ method: "GET", uri: "/admin.emoji.rename", code: 200 })),
-      ).annotate({ identifier: "RenameEmojiRequest" });
-  }
-}
-function __c123(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6735,13 +7345,13 @@ function __c123(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
           message_activities: S.Unknown,
         }),
       ).annotate({ identifier: "AnalyticsMessagesActivityResponse" });
   }
 }
-function __c124(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6751,7 +7361,64 @@ function __c124(j: number): any {
       ).annotate({ identifier: "AnalyticsMessagesActivityResponseResponseMetadata" });
   }
 }
-function __c125(j: number): any {
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          team_id: S.String,
+          user_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/admin.users.remove", code: 200 })),
+      ).annotate({ identifier: "RemoveUserRequest" });
+  }
+}
+function __c135(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          users: __S(24, __c3, 0),
+        }).pipe(T.Http({ method: "POST", uri: "/admin.usergroups.removeUsers", code: 200 })),
+      ).annotate({ identifier: "RemoveUsersRequest" });
+  }
+}
+function __c136(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          workflow_ids: __S(24, __c3, 0),
+          collaborator_ids: __S(24, __c3, 0),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/admin.workflows.collaborators.remove", code: 200 }),
+        ),
+      ).annotate({ identifier: "RemoveWorkflowsCollaboratorRequest" });
+  }
+}
+function __c137(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channel_id: S.String,
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/admin.conversations.rename", code: 200 })),
+      ).annotate({ identifier: "RenameConversationRequest" });
+  }
+}
+function __c138(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Query()),
+          new_name: S.String.pipe(T.Query()),
+        }).pipe(T.Http({ method: "GET", uri: "/admin.emoji.rename", code: 200 })),
+      ).annotate({ identifier: "RenameEmojiRequest" });
+  }
+}
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6763,7 +7430,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "ResetBulkRequest" });
   }
 }
-function __c126(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6775,7 +7442,18 @@ function __c126(j: number): any {
       ).annotate({ identifier: "ResetUsersSessionRequest" });
   }
 }
-function __c127(j: number): any {
+function __c141(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user_ids: __S(24, __c3, 0),
+          reason: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/admin.users.access.resume", code: 200 })),
+      ).annotate({ identifier: "ResumeUsersAccessRequest" });
+  }
+}
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6799,12 +7477,12 @@ function __c127(j: number): any {
           next_cursor: S.String,
           total_count: S.Number,
           error: S.optional(S.String),
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
         }),
       ).annotate({ identifier: "SearchConversationResponse" });
   }
 }
-function __c128(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6829,99 +7507,11 @@ function __c128(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          workflows: __S(624, __c78, 0),
-          response_metadata: S.optional(__S(992, __c124, 0)),
+          workflows: __S(704, __c88, 0),
+          response_metadata: S.optional(__S(1064, __c133, 0)),
           total_found: S.Number,
         }),
       ).annotate({ identifier: "SearchWorkflowResponse" });
-  }
-}
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          team_id: S.String,
-          user_id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/admin.users.setAdmin", code: 200 })),
-      ).annotate({ identifier: "SetAdminRequest" });
-  }
-}
-function __c130(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          urls: S.optional(__S(24, __c3, 0)),
-          emails: S.optional(__S(24, __c3, 0)),
-        }),
-      ).annotate({ identifier: "SetAppsConfigRequestDomainRestrictions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          app_id: S.String,
-          workflow_auth_strategy: S.optional(S.String),
-          rich_link_preview_type: S.optional(S.String),
-          domain_restrictions: S.optional(__S(1040, __c130, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/admin.apps.config.set", code: 200 })),
-      ).annotate({ identifier: "SetAppsConfigRequest" });
-  }
-}
-function __c131(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          app_id: S.String,
-          server_id: S.String,
-          permission_type: S.String,
-          user_ids: S.optional(__S(24, __c3, 0)),
-          usergroup_ids: S.optional(__S(24, __c3, 0)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/admin.apps.mcp.servers.permissions.set", code: 200 }),
-        ),
-      ).annotate({ identifier: "SetAppsMcpServersPermissionsRequest" });
-  }
-}
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          app_id: S.String,
-          permission_type: S.String,
-          user_ids: S.optional(__S(24, __c3, 0)),
-          usergroup_ids: S.optional(__S(24, __c3, 0)),
-          channel_restriction_mode: S.optional(S.String),
-          channel_ids: S.optional(__S(24, __c3, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/admin.apps.permissions.set", code: 200 })),
-      ).annotate({ identifier: "SetAppsPermissionsRequest" });
-  }
-}
-function __c133(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          channel_id: S.String,
-          prefs: S.String,
-        }).pipe(
-          T.Http({ method: "POST", uri: "/admin.conversations.setConversationPrefs", code: 200 }),
-        ),
-      ).annotate({ identifier: "SetConversationPrefsRequest" });
-  }
-}
-function __c134(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          channel_id: S.String,
-          duration_days: S.Number,
-        }).pipe(
-          T.Http({ method: "POST", uri: "/admin.conversations.setCustomRetention", code: 200 }),
-        ),
-      ).annotate({ identifier: "SetCustomRetentionRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

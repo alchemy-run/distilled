@@ -2214,6 +2214,7 @@ export interface GetBucketVersioningResult {
 export type DurationSeconds = number;
 export type Privilege = "Minimal" | "Default" | (string & {});
 export type AuditContext = string;
+export type InstanceScope = "SELF" | "ALL" | (string & {});
 export interface GetDataAccessRequest {
   AccountId: string;
   Target: string;
@@ -2222,6 +2223,7 @@ export interface GetDataAccessRequest {
   Privilege?: Privilege | undefined;
   TargetType?: S3PrefixType | undefined;
   AuditContext?: string | undefined;
+  InstanceScope?: InstanceScope | undefined;
 }
 export type AccessKeyId = string | redacted.Redacted<string>;
 export type SecretAccessKey = string | redacted.Redacted<string>;
@@ -2237,6 +2239,7 @@ export interface GetDataAccessResult {
   Credentials?: Credentials | undefined;
   MatchedGrantTarget?: string | undefined;
   Grantee?: Grantee | undefined;
+  MatchedInstanceArn?: string | undefined;
 }
 export interface GetJobTaggingRequest {
   AccountId: string;
@@ -2586,11 +2589,13 @@ export interface ListCallerAccessGrantsRequest {
   NextToken?: string | undefined;
   MaxResults?: number | undefined;
   AllowedByApplication?: boolean | undefined;
+  InstanceScope?: InstanceScope | undefined;
 }
 export interface ListCallerAccessGrantsEntry {
   Permission?: Permission | undefined;
   GrantScope?: string | undefined;
   ApplicationArn?: string | undefined;
+  AccessGrantsInstanceArn?: string | undefined;
 }
 export type CallerAccessGrantsList = ListCallerAccessGrantsEntry[];
 export interface ListCallerAccessGrantsResult {
@@ -4722,7 +4727,7 @@ export const getBucketVersioning: API.OperationMethod<
 
 export type GetDataAccessError = CommonErrors;
 /**
- * Returns a temporary access credential from S3 Access Grants to the grantee or client application. The temporary credential is an Amazon Web Services STS token that grants them access to the S3 data.
+ * Returns a temporary access credential from S3 Access Grants to the grantee or client application. The temporary credential is an Amazon Web Services STS token that grants them access to the S3 data. By default, S3 Access Grants searches for a matching grant in the instance of the Amazon Web Services account ID in the request. To also search instances shared with the caller through Amazon Web Services Resource Access Manager (RAM), set the `InstanceScope` parameter to `ALL`.
  *
  * ### Permissions
  *
@@ -5268,7 +5273,7 @@ export const listAccessPointsForObjectLambda: API.PaginatedOperationMethod<
 
 export type ListCallerAccessGrantsError = CommonErrors;
 /**
- * Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. You can, optionally, narrow the results by `GrantScope`, using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with a path that contains the path fragment. You can also pass the `AllowedByApplication` filter in the request, which returns only the grants authorized for applications, whether the application is the caller's Identity Center application or any other application (`ALL`). For more information, see List the caller's access grants in the *Amazon S3 User Guide*.
+ * Use this API to list the access grants that grant the caller access to Amazon S3 data through S3 Access Grants. The caller (grantee) can be an Identity and Access Management (IAM) identity or Amazon Web Services Identity Center corporate directory identity. You must pass the Amazon Web Services account of the S3 data owner (grantor) in the request. By default, S3 Access Grants returns grants from the instance of the Amazon Web Services account ID in the request. To return grants from all instances shared with the caller's account through Amazon Web Services Resource Access Manager (RAM), set the `InstanceScope` parameter to `ALL`. You can, optionally, narrow the results by `GrantScope`, using a fragment of the data's S3 path, and S3 Access Grants will return only the grants with a path that contains the path fragment. You can also pass the `AllowedByApplication` filter in the request, which returns only the grants authorized for applications, whether the application is the caller's Identity Center application or any other application (`ALL`). For more information, see List the caller's access grants in the *Amazon S3 User Guide*.
  *
  * ### Permissions
  *
@@ -9720,6 +9725,7 @@ function __c92(j: number): any {
           Privilege: S.optional(S.String).pipe(T.HttpQuery("privilege")),
           TargetType: S.optional(S.String).pipe(T.HttpQuery("targetType")),
           AuditContext: S.optional(S.String).pipe(T.HttpQuery("auditContext")),
+          InstanceScope: S.optional(S.String).pipe(T.HttpQuery("instanceScope")),
         }).pipe(
           T.all(
             ns,
@@ -9748,6 +9754,7 @@ function __c92(j: number): any {
           Credentials: S.optional(__S(2945, __c92, 1)),
           MatchedGrantTarget: S.optional(S.String),
           Grantee: S.optional(__S(736, __c23, 0)),
+          MatchedInstanceArn: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetDataAccessResult" });
   }
@@ -10602,6 +10609,7 @@ function __c113(j: number): any {
           NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
           MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           AllowedByApplication: S.optional(S.Boolean).pipe(T.HttpQuery("allowedByApplication")),
+          InstanceScope: S.optional(S.String).pipe(T.HttpQuery("instanceScope")),
         }).pipe(
           T.all(
             ns,
@@ -10621,6 +10629,7 @@ function __c113(j: number): any {
           Permission: S.optional(S.String),
           GrantScope: S.optional(S.String),
           ApplicationArn: S.optional(S.String),
+          AccessGrantsInstanceArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCallerAccessGrantsEntry" });
     case 2:

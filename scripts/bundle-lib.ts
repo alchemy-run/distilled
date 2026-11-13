@@ -80,6 +80,7 @@ const CORE_GROUPS: Record<string, string[]> = {
     "retry",
     "sdk-error",
     "trait",
+    "unknown-error",
     "response-validation",
     "response-validation-strict",
     "schema-lite-impl",

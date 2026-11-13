@@ -56,29 +56,28 @@ export type GPUType =
   | "GPU_TYPE_L40S"
   | "GPU_TYPE_H200";
 export interface GPUConfig {
-  type?: GPUType | (string & {}) | undefined;
   /** Deprecated, at some point */
+  type?: GPUType | (string & {}) | undefined;
   count?: number | undefined;
   gpuType?: string | undefined;
 }
-/** milli CPU cores */
 export interface Resources {
-  memoryMb?: number | undefined;
   /** MiB */
-  milliCpu?: number | undefined;
+  memoryMb?: number | undefined;
   /** milli CPU cores */
+  milliCpu?: number | undefined;
   gpuConfig?: GPUConfig | undefined;
+  /** MiB */
   memoryMbMax?: number | undefined;
   /** MiB */
   ephemeralDiskMb?: number | undefined;
-  /** MiB */
-  milliCpuMax?: number | undefined;
   /** milli CPU cores */
-  rdma?: boolean | undefined;
+  milliCpuMax?: number | undefined;
   /** Whether to use RDMA interfaces */
+  rdma?: boolean | undefined;
+  /** Leave thread-count env vars (OMP_NUM_THREADS, ...) unset so libraries size themselves from the visible CPUs. Ignored on runc. */
   skipNumThreadsEnvVars?: boolean | undefined;
 }
-/** libmodal/modal-go: Go SDK, since version modal-go/v0.0.15 */
 export type CloudProvider =
   | "CLOUD_PROVIDER_UNSPECIFIED"
   | "CLOUD_PROVIDER_AWS"
@@ -128,14 +127,13 @@ export interface VolumeMount {
 export type VolumeMountList = Array<VolumeMount>;
 export type PTYInfoPTYType = "PTY_TYPE_UNSPECIFIED" | "PTY_TYPE_FUNCTION" | "PTY_TYPE_SHELL";
 export interface PTYInfo {
-  enabled?: boolean | undefined;
   /** Soon deprecated */
+  enabled?: boolean | undefined;
   winszRows?: number | undefined;
   winszCols?: number | undefined;
   envTerm?: string | undefined;
   envColorterm?: string | undefined;
   envTermProgram?: string | undefined;
-  /** Replace function with shell */
   ptyType?: PTYInfoPTYType | (string & {}) | undefined;
   noTerminateOnIdleStdin?: boolean | undefined;
 }
@@ -145,6 +143,7 @@ export interface SchedulerPlacement {
   Zone?: string | undefined;
   Lifecycle?: string | undefined;
   InstanceTypes?: StringList | undefined;
+  /** Functions only */
   nonpreemptible?: boolean | undefined;
 }
 export type TunnelType = "TUNNEL_TYPE_UNSPECIFIED" | "TUNNEL_TYPE_H2";
@@ -278,25 +277,24 @@ export interface Sandbox {
   imageId?: string | undefined;
   secretIds?: StringList | undefined;
   resources?: Resources | undefined;
-  cloudProvider?: CloudProvider | (string & {}) | undefined;
   /** Deprecated at some point */
-  timeoutSecs?: number | undefined;
+  cloudProvider?: CloudProvider | (string & {}) | undefined;
   /** The max lifetime of a sandbox in seconds. */
+  timeoutSecs?: number | undefined;
   workdir?: string | undefined;
   nfsMounts?: SharedVolumeMountList | undefined;
-  runtimeDebug?: boolean | undefined;
   /** For internal debugging use only. */
-  blockNetwork?: boolean | undefined;
+  runtimeDebug?: boolean | undefined;
   /** deprecated, use network_access instead */
+  blockNetwork?: boolean | undefined;
   s3Mounts?: S3MountList | undefined;
   cloudBucketMounts?: CloudBucketMountList | undefined;
   volumeMounts?: VolumeMountList | undefined;
   ptyInfo?: PTYInfo | undefined;
-  /** _experimental_scheduler */
+  /** If set, tasks will be scheduled using the new scheduler, which also knows to look at fine-grained placement constraints. */
   schedulerPlacement?: SchedulerPlacement | undefined;
-  /** _experimental_resources */
-  workerId?: string | undefined;
   /** for internal debugging use only */
+  workerId?: string | undefined;
   openPorts?: PortSpecs | undefined;
   i6pnEnabled?: boolean | undefined;
   /** Network access configuration beyond simple allow/block. */
@@ -306,8 +304,9 @@ export interface Sandbox {
   enableSnapshot?: boolean | undefined;
   /** Used to pin gVisor version for memory-snapshottable sandboxes. This field is set by the server, not the client. */
   snapshotVersion?: number | undefined;
+  /** Supersedes cloud_provider */
   cloudProviderStr?: string | undefined;
-  /** Supersedes cloud_provider Specifies container runtime behavior for sandboxes which are restored from a snapshot. Set by the backend at snapshot creation time. */
+  /** Specifies container runtime behavior for sandboxes which are restored from a snapshot. Set by the backend at snapshot creation time. */
   runscRuntimeVersion?: string | undefined;
   /** Runtime the sandbox runs in: "vm" for a virtual machine, or a container runtime such as "gvisor". Leave it unset to let Modal pick. */
   runtime?: string | undefined;
@@ -319,8 +318,9 @@ export interface Sandbox {
   experimentalOptions?: BooleanMap | undefined;
   /** Experimental options */
   experimentalOptionsV2?: StringMap | undefined;
+  /** Internal use only. */
   preloadPathPrefixes?: StringList | undefined;
-  /** Internal use only. Optional idle timeout in seconds. If set, the sandbox will be terminated after being idle for this duration. */
+  /** Optional idle timeout in seconds. If set, the sandbox will be terminated after being idle for this duration. */
   idleTimeoutSecs?: number | undefined;
   /** Deprecated: direct sandbox commands are always enabled. */
   directSandboxCommandsEnabled?: boolean | undefined;
@@ -349,11 +349,10 @@ export type SandboxTagList = Array<SandboxTag>;
 export interface CreateSandboxRequest {
   appId?: string | undefined;
   definition?: Sandbox | undefined;
-  environmentName?: string | undefined;
   /** *DEPRECATED* 7/16/2025 */
+  environmentName?: string | undefined;
   tags?: SandboxTagList | undefined;
 }
-/** Used for both tasks and function outputs */
 export type GenericResultGenericStatus =
   | "GENERIC_STATUS_UNSPECIFIED"
   | "GENERIC_STATUS_SUCCESS"
@@ -366,24 +365,25 @@ export type GenericResultGenericStatus =
   | "GENERIC_STATUS_MEMORY_MANAGER_EVICTION"
   | "GENERIC_STATUS_MEMORY_THRASHING_EVICTION"
   | "GENERIC_STATUS_KERNEL_OOM_KILL";
-/** sub-type for generic types like lists */
+/** Used for both tasks and function outputs */
 export interface GenericResult {
-  status: GenericResultGenericStatus;
   /** Status of the task or function output. */
-  exception: string;
+  status: GenericResultGenericStatus;
   /** Exception message for failures, if available. */
-  exitcode: number;
+  exception: string;
   /** Status code of the container entrypoint or builder process if it terminates unexpectedly. */
-  traceback: string;
+  exitcode: number;
   /** String value of the Python traceback. */
-  serializedTb: string;
+  traceback: string;
   /** Pickled traceback object. */
-  tbLineCache: string;
+  serializedTb: string;
   /** Pickled line cache for traceback object. */
-  data?: string | undefined;
+  tbLineCache: string;
   /** Inline data of the result. */
-  dataBlobId?: string | undefined;
+  data?: string | undefined;
   /** Blob ID for large data. */
+  dataBlobId?: string | undefined;
+  /** (?) */
   propagationReason: string;
 }
 export interface SandboxHandleMetadata {
@@ -446,8 +446,8 @@ export type TaskSnapshotBehavior =
   | "TASK_SNAPSHOT_BEHAVIOR_NONE";
 export interface TaskInfo {
   id: string;
-  startedAt: number;
   /** For Function containers, this corresponds to the "ready" time, after startup phase */
+  startedAt: number;
   finishedAt: number;
   result?: GenericResult | undefined;
   enqueuedAt: number;
@@ -461,15 +461,16 @@ export interface ResourceInfoResourceValue {
   isDefault: boolean;
 }
 export interface ResourceInfo {
-  memoryMb?: ResourceInfoResourceValue | undefined;
   /** MiB */
-  milliCpu?: ResourceInfoResourceValue | undefined;
+  memoryMb?: ResourceInfoResourceValue | undefined;
   /** milli CPU cores */
+  milliCpu?: ResourceInfoResourceValue | undefined;
   gpuType: string;
+  /** MiB */
   memoryMbMax: number;
   /** MiB */
   ephemeralDiskMb: number;
-  /** MiB */
+  /** milli CPU cores */
   milliCpuMax: number;
 }
 export interface TunnelData {
@@ -482,12 +483,11 @@ export interface TunnelData {
 export type TunnelDataList = Array<TunnelData>;
 export interface SandboxInfo {
   id: string;
-  /** modal.client.Sandbox definition */
   createdAt: number;
   taskInfo?: TaskInfo | undefined;
   appId: string;
-  tags: SandboxTagList;
   /** TODO: Not yet exposed in client library. */
+  tags: SandboxTagList;
   name: string;
   imageId: string;
   resourceInfo?: ResourceInfo | undefined;
@@ -514,8 +514,8 @@ export interface RestoreSandboxRequest {
     | RestoreSandboxRequestSandboxNameOverrideType
     | (string & {})
     | undefined;
-  workerId?: string | undefined;
   /** For internal debugging use only. */
+  workerId?: string | undefined;
   replaceVolumeMounts?: boolean | undefined;
   volumeMounts?: VolumeMountList | undefined;
 }
@@ -576,7 +576,6 @@ export interface SandboxCreateV2Request {
   /** Applied in order. Cannot be combined with ephemeral_secrets. If definition.secret_ids is set, it must match the secret_id entries here. */
   secretSources?: SecretSourceList | undefined;
 }
-/** Defined as start time of the first task in the cluster */
 export interface CommandRouterAccess {
   jwt: string;
   url: string;
@@ -704,11 +703,11 @@ export interface TaskLogsBatch {
   appDone: boolean;
   functionId: string;
   inputId: string;
-  imageId: string;
   /** Used for image logs */
+  imageId: string;
   eof: boolean;
-  ptyExecId: string;
   /** Used for interactive functions */
+  ptyExecId: string;
   rootFunctionId: string;
   ttlDays: number;
   sandboxId: string;
@@ -727,26 +726,72 @@ export interface SandboxGetResourceUsageResponse {
   gpuNanosecs: string;
   gpuType?: string | undefined;
 }
+export interface SandboxGetStatsRequest {
+  sandboxId?: string | undefined;
+}
+export interface StatsPercentile {
+  /** The percentile expressed in basis points: 5000 is p50 and 9990 is p99.9. */
+  percentileBasisPoints: number;
+  value: number;
+}
+export type StatsPercentileList = Array<StatsPercentile>;
+export interface SandboxGetStatsResponseResourceStats {
+  /** Exact, equally weighted sample percentiles: p50, p90, p99, and p99.9. */
+  percentiles: StatsPercentileList;
+  mean: number;
+  max: number;
+}
+export interface SandboxGetStatsResponse {
+  /** Estimated compute cost in USD at the workspace's current plan rates, without reservation discounts or network egress. Unset when no usage is available. */
+  cost?: string | undefined;
+  costByResource: StringMap;
+  numDatapoints: string;
+  cpuCores?: SandboxGetStatsResponseResourceStats | undefined;
+  memoryGib?: SandboxGetStatsResponseResourceStats | undefined;
+  durationHours: number;
+  /** Billing-adjusted usage: the greater of measured and reserved resources per sample, less any resources bundled with a GPU. */
+  billedCpuCoreSeconds: number;
+  billedMemoryGibSeconds: number;
+}
+export interface SandboxGetStatsV2Request {
+  sandboxId?: string | undefined;
+}
+export interface SandboxGetStatsV2Response {
+  /** Estimated compute cost in USD at the workspace's current plan rates, without reservation discounts or network egress. Unset when no usage is available. */
+  cost?: string | undefined;
+  costByResource: StringMap;
+  numDatapoints: string;
+  cpuCores?: SandboxGetStatsResponseResourceStats | undefined;
+  memoryGib?: SandboxGetStatsResponseResourceStats | undefined;
+  durationHours: number;
+  /** Billing-adjusted usage: the greater of measured and reserved resources per sample, less any resources bundled with a GPU. */
+  billedCpuCoreSeconds: number;
+  billedMemoryGibSeconds: number;
+}
 export interface SandboxGetTaskIdRequest {
   sandboxId?: string | undefined;
-  timeout?: number | undefined;
   /** Legacy clients do not provide a timeout. New clients must always provide a timeout. */
+  timeout?: number | undefined;
+  /** If true, waits until the container's postStart hook has been run before returning. Useful for detecting init failures. */
   waitUntilReady?: boolean | undefined;
 }
 export interface SandboxGetTaskIdResponse {
-  taskId?: string | undefined;
   /** This is None if the sandbox was terminated before a task could be scheduled. */
+  taskId?: string | undefined;
+  /** If the task has already exited, this is the result. */
   taskResult?: GenericResult | undefined;
 }
 export interface SandboxGetTaskIdV2Request {
   sandboxId?: string | undefined;
-  timeout?: number | undefined;
   /** Legacy clients do not provide a timeout. New clients must always provide a timeout. */
+  timeout?: number | undefined;
+  /** If true, waits until the container's postStart hook has been run before returning. Useful for detecting init failures. */
   waitUntilReady?: boolean | undefined;
 }
 export interface SandboxGetTaskIdV2Response {
-  taskId?: string | undefined;
   /** This is None if the sandbox was terminated before a task could be scheduled. */
+  taskId?: string | undefined;
+  /** If the task has already exited, this is the result. */
   taskResult?: GenericResult | undefined;
 }
 export interface SandboxGetTimeRangeStatsRequest {
@@ -805,6 +850,7 @@ export interface SandboxRestoreV2Request {
     | RestoreSandboxRequestSandboxNameOverrideType
     | (string & {})
     | undefined;
+  /** For internal debugging use only. */
   workerId?: string | undefined;
 }
 export interface SandboxRestoreV2Response {
@@ -943,8 +989,8 @@ export const getSandboxSnapshot: API.OperationMethod<
   GetSandboxSnapshotError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetSandboxSnapshotRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<GetSandboxSnapshotResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetSandboxSnapshotRequest>,
+  output: __S(1218, __c38, 2) as any as S.Schema<GetSandboxSnapshotResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -959,8 +1005,8 @@ export const getSandboxSnapshotFsAsync: API.OperationMethod<
   GetSandboxSnapshotFsAsyncError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetSandboxSnapshotFsAsyncRequest>,
-  output: __S(1633, __c51, 1) as any as S.Schema<GetSandboxSnapshotFsAsyncResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetSandboxSnapshotFsAsyncRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<GetSandboxSnapshotFsAsyncResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -975,8 +1021,8 @@ export const getSandboxTag: API.OperationMethod<
   GetSandboxTagError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<GetSandboxTagRequest>,
-  output: __S(1760, __c55, 0) as any as S.Schema<GetSandboxTagResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetSandboxTagRequest>,
+  output: __S(1856, __c58, 0) as any as S.Schema<GetSandboxTagResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -991,8 +1037,8 @@ export const listSandbox: API.OperationMethod<
   ListSandboxError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<ListSandboxRequest>,
-  output: __S(1861, __c58, 5) as any as S.Schema<ListSandboxResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListSandboxRequest>,
+  output: __S(1957, __c61, 5) as any as S.Schema<ListSandboxResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1007,8 +1053,8 @@ export const restoreSandbox: API.OperationMethod<
   RestoreSandboxError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<RestoreSandboxRequest>,
-  output: __S(1889, __c59, 1) as any as S.Schema<RestoreSandboxResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<RestoreSandboxRequest>,
+  output: __S(1985, __c62, 1) as any as S.Schema<RestoreSandboxResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1024,8 +1070,8 @@ export const sandboxContainerCreateV2: API.OperationMethod<
   SandboxContainerCreateV2Error,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<SandboxContainerCreateV2Request>,
-  output: __S(1921, __c60, 1) as any as S.Schema<SandboxContainerCreateV2Response>,
+  input: __S(2016, __c63, 0) as any as S.Schema<SandboxContainerCreateV2Request>,
+  output: __S(2017, __c63, 1) as any as S.Schema<SandboxContainerCreateV2Response>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1040,8 +1086,8 @@ export const sandboxCreateConnectToken: API.OperationMethod<
   SandboxCreateConnectTokenError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<SandboxCreateConnectTokenRequest>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SandboxCreateConnectTokenResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<SandboxCreateConnectTokenRequest>,
+  output: __S(2112, __c66, 0) as any as S.Schema<SandboxCreateConnectTokenResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1057,7 +1103,7 @@ export const sandboxCreateConnectTokenV2: API.OperationMethod<
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<SandboxCreateConnectTokenV2Request>,
-  output: __S(2016, __c63, 0) as any as S.Schema<SandboxCreateConnectTokenV2Response>,
+  output: __S(2112, __c66, 0) as any as S.Schema<SandboxCreateConnectTokenV2Response>,
   errors: [SandboxNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1193,15 +1239,49 @@ export const sandboxGetResourceUsage: API.OperationMethod<
   span: "SandboxGetResourceUsage",
 }));
 
+export type SandboxGetStatsError = ModalOpError;
+/** Statistics over available usage samples; ingestion can lag execution. */
+export const sandboxGetStats: API.OperationMethod<
+  SandboxGetStatsRequest,
+  SandboxGetStatsResponse,
+  SandboxGetStatsError,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(384, __c12, 0) as any as S.Schema<SandboxGetStatsRequest>,
+  output: __S(419, __c13, 3) as any as S.Schema<SandboxGetStatsResponse>,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxGetStats",
+}));
+
+export type SandboxGetStatsV2Error = ModalOpError;
+export const sandboxGetStatsV2: API.OperationMethod<
+  SandboxGetStatsV2Request,
+  SandboxGetStatsV2Response,
+  SandboxGetStatsV2Error,
+  ModalOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(832, __c26, 0) as any as S.Schema<SandboxGetStatsV2Request>,
+  output: __S(419, __c13, 3) as any as S.Schema<SandboxGetStatsV2Response>,
+  errors: [UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SandboxGetStatsV2",
+}));
+
 export type SandboxGetTaskIdError = ModalOpError;
+/** needed for modal container exec */
 export const sandboxGetTaskId: API.OperationMethod<
   SandboxGetTaskIdRequest,
   SandboxGetTaskIdResponse,
   SandboxGetTaskIdError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<SandboxGetTaskIdRequest>,
-  output: __S(416, __c13, 0) as any as S.Schema<SandboxGetTaskIdResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<SandboxGetTaskIdRequest>,
+  output: __S(896, __c28, 0) as any as S.Schema<SandboxGetTaskIdResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1210,15 +1290,14 @@ export const sandboxGetTaskId: API.OperationMethod<
 }));
 
 export type SandboxGetTaskIdV2Error = SandboxNotFound | ModalOpError;
-/** needed for modal container exec */
 export const sandboxGetTaskIdV2: API.OperationMethod<
   SandboxGetTaskIdV2Request,
   SandboxGetTaskIdV2Response,
   SandboxGetTaskIdV2Error,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<SandboxGetTaskIdV2Request>,
-  output: __S(416, __c13, 0) as any as S.Schema<SandboxGetTaskIdV2Response>,
+  input: __S(928, __c29, 0) as any as S.Schema<SandboxGetTaskIdV2Request>,
+  output: __S(896, __c28, 0) as any as S.Schema<SandboxGetTaskIdV2Response>,
   errors: [SandboxNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1234,8 +1313,8 @@ export const sandboxGetTimeRangeStats: API.PaginatedOperationMethod<
   ModalOpContext,
   SandboxStatsGroup
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<SandboxGetTimeRangeStatsRequest>,
-  output: __S(870, __c27, 6) as any as S.Schema<SandboxGetTimeRangeStatsResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<SandboxGetTimeRangeStatsRequest>,
+  output: __S(966, __c30, 6) as any as S.Schema<SandboxGetTimeRangeStatsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1256,8 +1335,8 @@ export const sandboxGetTunnels: API.OperationMethod<
   SandboxGetTunnelsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<SandboxGetTunnelsRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<SandboxGetTunnelsResponse>,
+  input: __S(992, __c31, 0) as any as S.Schema<SandboxGetTunnelsRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<SandboxGetTunnelsResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1272,8 +1351,8 @@ export const sandboxGetTunnelsV2: API.OperationMethod<
   SandboxGetTunnelsV2Error,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<SandboxGetTunnelsV2Request>,
-  output: __S(928, __c29, 0) as any as S.Schema<SandboxGetTunnelsV2Response>,
+  input: __S(1056, __c33, 0) as any as S.Schema<SandboxGetTunnelsV2Request>,
+  output: __S(1024, __c32, 0) as any as S.Schema<SandboxGetTunnelsV2Response>,
   errors: [SandboxNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1288,8 +1367,8 @@ export const sandboxListV2: API.OperationMethod<
   SandboxListV2Error,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<SandboxListV2Request>,
-  output: __S(1861, __c58, 5) as any as S.Schema<SandboxListV2Response>,
+  input: __S(1088, __c34, 0) as any as S.Schema<SandboxListV2Request>,
+  output: __S(1957, __c61, 5) as any as S.Schema<SandboxListV2Response>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1304,8 +1383,8 @@ export const sandboxRestoreV2: API.OperationMethod<
   SandboxRestoreV2Error,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<SandboxRestoreV2Request>,
-  output: __S(1025, __c32, 1) as any as S.Schema<SandboxRestoreV2Response>,
+  input: __S(1120, __c35, 0) as any as S.Schema<SandboxRestoreV2Request>,
+  output: __S(1121, __c35, 1) as any as S.Schema<SandboxRestoreV2Response>,
   errors: [SandboxNotFound, SandboxAlreadyExists, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1320,7 +1399,7 @@ export const sandboxSetName: API.OperationMethod<
   SandboxSetNameError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<SandboxSetNameRequest>,
+  input: __S(1152, __c36, 0) as any as S.Schema<SandboxSetNameRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<SandboxSetNameResponse>,
   errors: [SandboxNotFound, SandboxAlreadyExists, UnknownModalError],
   protocol: ModalProtocol,
@@ -1336,7 +1415,7 @@ export const sandboxSetOutboundPolicy: API.OperationMethod<
   SandboxSetOutboundPolicyError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<SandboxSetOutboundPolicyRequest>,
+  input: __S(1184, __c37, 0) as any as S.Schema<SandboxSetOutboundPolicyRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<SandboxSetOutboundPolicyResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
@@ -1352,7 +1431,7 @@ export const sandboxSetOutboundPolicyV2: API.OperationMethod<
   SandboxSetOutboundPolicyV2Error,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<SandboxSetOutboundPolicyV2Request>,
+  input: __S(1248, __c39, 0) as any as S.Schema<SandboxSetOutboundPolicyV2Request>,
   output: __S(768, __c24, 0) as any as S.Schema<SandboxSetOutboundPolicyV2Response>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
@@ -1368,8 +1447,8 @@ export const sandboxSnapshot: API.OperationMethod<
   SandboxSnapshotError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<SandboxSnapshotRequest>,
-  output: __S(1153, __c36, 1) as any as S.Schema<SandboxSnapshotResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<SandboxSnapshotRequest>,
+  output: __S(1281, __c40, 1) as any as S.Schema<SandboxSnapshotResponse>,
   errors: [SandboxNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1384,8 +1463,8 @@ export const sandboxSnapshotFs: API.OperationMethod<
   SandboxSnapshotFsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<SandboxSnapshotFsRequest>,
-  output: __S(1633, __c51, 1) as any as S.Schema<SandboxSnapshotFsResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<SandboxSnapshotFsRequest>,
+  output: __S(1665, __c52, 1) as any as S.Schema<SandboxSnapshotFsResponse>,
   errors: [SandboxNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1400,7 +1479,7 @@ export const sandboxSnapshotFsAsync: API.OperationMethod<
   SandboxSnapshotFsAsyncError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<SandboxSnapshotFsAsyncRequest>,
+  input: __S(1344, __c42, 0) as any as S.Schema<SandboxSnapshotFsAsyncRequest>,
   output: __S(192, __c6, 0) as any as S.Schema<SandboxSnapshotFsAsyncResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
@@ -1416,7 +1495,7 @@ export const sandboxStdinWrite: API.OperationMethod<
   SandboxStdinWriteError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<SandboxStdinWriteRequest>,
+  input: __S(1376, __c43, 0) as any as S.Schema<SandboxStdinWriteRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<SandboxStdinWriteResponse>,
   errors: [SandboxNotFound, UnknownModalError],
   protocol: ModalProtocol,
@@ -1432,8 +1511,8 @@ export const sandboxTagsGetV2: API.OperationMethod<
   SandboxTagsGetV2Error,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<SandboxTagsGetV2Request>,
-  output: __S(1760, __c55, 0) as any as S.Schema<SandboxTagsGetV2Response>,
+  input: __S(1408, __c44, 0) as any as S.Schema<SandboxTagsGetV2Request>,
+  output: __S(1856, __c58, 0) as any as S.Schema<SandboxTagsGetV2Response>,
   errors: [SandboxNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1448,7 +1527,7 @@ export const sandboxTagsSetV2: API.OperationMethod<
   SandboxTagsSetV2Error,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<SandboxTagsSetV2Request>,
+  input: __S(1440, __c45, 0) as any as S.Schema<SandboxTagsSetV2Request>,
   output: __S(768, __c24, 0) as any as S.Schema<SandboxTagsSetV2Response>,
   errors: [SandboxNotFound, UnknownModalError],
   protocol: ModalProtocol,
@@ -1464,8 +1543,8 @@ export const sandboxTerminateV2: API.OperationMethod<
   SandboxTerminateV2Error,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<SandboxTerminateV2Request>,
-  output: __S(1408, __c44, 0) as any as S.Schema<SandboxTerminateV2Response>,
+  input: __S(1472, __c46, 0) as any as S.Schema<SandboxTerminateV2Request>,
+  output: __S(1504, __c47, 0) as any as S.Schema<SandboxTerminateV2Response>,
   errors: [SandboxNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1480,8 +1559,8 @@ export const sandboxWaitUntilReady: API.OperationMethod<
   SandboxWaitUntilReadyError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<SandboxWaitUntilReadyRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<SandboxWaitUntilReadyResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<SandboxWaitUntilReadyRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<SandboxWaitUntilReadyResponse>,
   errors: [SandboxNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1496,8 +1575,8 @@ export const sandboxWaitV2: API.OperationMethod<
   SandboxWaitV2Error,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<SandboxWaitV2Request>,
-  output: __S(1504, __c47, 0) as any as S.Schema<SandboxWaitV2Response>,
+  input: __S(1568, __c49, 0) as any as S.Schema<SandboxWaitV2Request>,
+  output: __S(1600, __c50, 0) as any as S.Schema<SandboxWaitV2Response>,
   errors: [SandboxNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1512,7 +1591,7 @@ export const setSandboxTag: API.OperationMethod<
   SetSandboxTagError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<SetSandboxTagRequest>,
+  input: __S(1696, __c53, 0) as any as S.Schema<SetSandboxTagRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<SetSandboxTagResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
@@ -1528,8 +1607,8 @@ export const terminateSandbox: API.OperationMethod<
   TerminateSandboxError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<TerminateSandboxRequest>,
-  output: __S(1408, __c44, 0) as any as S.Schema<TerminateSandboxResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<TerminateSandboxRequest>,
+  output: __S(1504, __c47, 0) as any as S.Schema<TerminateSandboxResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1544,8 +1623,8 @@ export const waitSandbox: API.OperationMethod<
   WaitSandboxError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<WaitSandboxRequest>,
-  output: __S(1504, __c47, 0) as any as S.Schema<WaitSandboxResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<WaitSandboxRequest>,
+  output: __S(1600, __c50, 0) as any as S.Schema<WaitSandboxResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1560,8 +1639,8 @@ export const waitSandboxSnapshot: API.OperationMethod<
   WaitSandboxSnapshotError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<WaitSandboxSnapshotRequest>,
-  output: __S(1697, __c53, 1) as any as S.Schema<WaitSandboxSnapshotResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<WaitSandboxSnapshotRequest>,
+  output: __S(1793, __c56, 1) as any as S.Schema<WaitSandboxSnapshotResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -1597,8 +1676,8 @@ function __c1(j: number): any {
           definition: S.optional(__S(754, __c23, 18)),
           ephemeralSecrets: S.optional(__S(750, __c23, 14)),
           tags: S.optional(__S(577, __c18, 1)),
-          cloudBucketMountCredentials: S.optional(__S(1952, __c61, 0)),
-          secretSources: S.optional(__S(1954, __c61, 2)),
+          cloudBucketMountCredentials: S.optional(__S(2048, __c64, 0)),
+          secretSources: S.optional(__S(2050, __c64, 2)),
         }).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/SandboxCreateV2", code: 200 }),
         ),
@@ -1607,7 +1686,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sandboxId: S.String,
-          tunnels: __S(1825, __c57, 1),
+          tunnels: __S(1921, __c60, 1),
           taskId: S.String,
           metadata: S.optional(__S(608, __c19, 0)),
           commandRouterAccess: S.optional(__S(64, __c2, 0)),
@@ -1850,12 +1929,10 @@ function __c12(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sandboxId: S.optional(S.String),
-          timeout: S.optional(S.Number),
-          waitUntilReady: S.optional(S.Boolean),
         }).pipe(
-          T.Http({ method: "POST", uri: "/modal.client.ModalClient/SandboxGetTaskId", code: 200 }),
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/SandboxGetStats", code: 200 }),
         ),
-      ).annotate({ identifier: "SandboxGetTaskIdRequest" });
+      ).annotate({ identifier: "SandboxGetStatsRequest" });
   }
 }
 function __c13(j: number): any {
@@ -1863,10 +1940,33 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          taskId: S.optional(S.String),
-          taskResult: S.optional(__S(512, __c16, 0)),
+          percentileBasisPoints: S.Number,
+          value: S.Number,
         }),
-      ).annotate({ identifier: "SandboxGetTaskIdResponse" });
+      ).annotate({ identifier: "StatsPercentile" });
+    case 1:
+      return S.Array(__S(416, __c13, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          percentiles: __S(417, __c13, 1),
+          mean: S.Number,
+          max: S.Number,
+        }),
+      ).annotate({ identifier: "SandboxGetStatsResponseResourceStats" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          cost: S.optional(S.String),
+          costByResource: __S(544, __c17, 0),
+          numDatapoints: S.String,
+          cpuCores: S.optional(__S(418, __c13, 2)),
+          memoryGib: S.optional(__S(418, __c13, 2)),
+          durationHours: S.Number,
+          billedCpuCoreSeconds: S.Number,
+          billedMemoryGibSeconds: S.Number,
+        }),
+      ).annotate({ identifier: "SandboxGetStatsResponse" });
   }
 }
 function __c14(j: number): any {
@@ -2278,6 +2378,43 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sandboxId: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/SandboxGetStatsV2", code: 200 }),
+        ),
+      ).annotate({ identifier: "SandboxGetStatsV2Request" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.optional(S.String),
+          timeout: S.optional(S.Number),
+          waitUntilReady: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/SandboxGetTaskId", code: 200 }),
+        ),
+      ).annotate({ identifier: "SandboxGetTaskIdRequest" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          taskId: S.optional(S.String),
+          taskResult: S.optional(__S(512, __c16, 0)),
+        }),
+      ).annotate({ identifier: "SandboxGetTaskIdResponse" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.optional(S.String),
           timeout: S.optional(S.Number),
           waitUntilReady: S.optional(S.Boolean),
         }).pipe(
@@ -2290,7 +2427,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "SandboxGetTaskIdV2Request" });
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2316,29 +2453,29 @@ function __c27(j: number): any {
         }),
       ).annotate({ identifier: "SandboxStatsGroupTagValue" });
     case 2:
-      return S.Record(S.String, __S(865, __c27, 1));
+      return S.Record(S.String, __S(961, __c30, 1));
     case 3:
       return S.Record(S.String, S.Number);
     case 4:
       return S.suspend(() =>
         S.Struct({
-          tags: __S(866, __c27, 2),
+          tags: __S(962, __c30, 2),
           cost: S.Number,
-          costByResource: __S(867, __c27, 3),
+          costByResource: __S(963, __c30, 3),
         }),
       ).annotate({ identifier: "SandboxStatsGroup" });
     case 5:
-      return S.Array(__S(868, __c27, 4));
+      return S.Array(__S(964, __c30, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          groups: __S(869, __c27, 5),
+          groups: __S(965, __c30, 5),
           nextPageToken: S.String,
         }),
       ).annotate({ identifier: "SandboxGetTimeRangeStatsResponse" });
   }
 }
-function __c28(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2351,18 +2488,18 @@ function __c28(j: number): any {
       ).annotate({ identifier: "SandboxGetTunnelsRequest" });
   }
 }
-function __c29(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           result: S.optional(__S(512, __c16, 0)),
-          tunnels: __S(1825, __c57, 1),
+          tunnels: __S(1921, __c60, 1),
         }),
       ).annotate({ identifier: "SandboxGetTunnelsResponse" });
   }
 }
-function __c30(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2379,7 +2516,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "SandboxGetTunnelsV2Request" });
   }
 }
-function __c31(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2395,7 +2532,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "SandboxListV2Request" });
   }
 }
-function __c32(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2412,7 +2549,7 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sandboxId: S.String,
-          tunnels: __S(1825, __c57, 1),
+          tunnels: __S(1921, __c60, 1),
           taskId: S.String,
           metadata: S.optional(__S(608, __c19, 0)),
           commandRouterAccess: S.optional(__S(64, __c2, 0)),
@@ -2420,7 +2557,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "SandboxRestoreV2Response" });
   }
 }
-function __c33(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2433,7 +2570,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "SandboxSetNameRequest" });
   }
 }
-function __c34(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2450,42 +2587,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "SandboxSetOutboundPolicyRequest" });
   }
 }
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.optional(S.String),
-          outboundPolicy: S.optional(__S(814, __c25, 14)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/modal.client.ModalClient/SandboxSetOutboundPolicyV2",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SandboxSetOutboundPolicyV2Request" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/modal.client.ModalClient/SandboxSnapshot", code: 200 }),
-        ),
-      ).annotate({ identifier: "SandboxSnapshotRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          snapshotId: S.String,
-        }),
-      ).annotate({ identifier: "SandboxSnapshotResponse" });
-  }
-}
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2509,12 +2611,47 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           snapshotId: S.String,
-          handleMetadata: S.optional(__S(1185, __c37, 1)),
+          handleMetadata: S.optional(__S(1217, __c38, 1)),
         }),
       ).annotate({ identifier: "GetSandboxSnapshotResponse" });
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.optional(S.String),
+          outboundPolicy: S.optional(__S(814, __c25, 14)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/modal.client.ModalClient/SandboxSetOutboundPolicyV2",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SandboxSetOutboundPolicyV2Request" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/SandboxSnapshot", code: 200 }),
+        ),
+      ).annotate({ identifier: "SandboxSnapshotRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          snapshotId: S.String,
+        }),
+      ).annotate({ identifier: "SandboxSnapshotResponse" });
+  }
+}
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2527,7 +2664,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "SandboxSnapshotFsRequest" });
   }
 }
-function __c39(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2543,7 +2680,7 @@ function __c39(j: number): any {
       ).annotate({ identifier: "SandboxSnapshotFsAsyncRequest" });
   }
 }
-function __c40(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2558,7 +2695,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "SandboxStdinWriteRequest" });
   }
 }
-function __c41(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2570,7 +2707,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "SandboxTagsGetV2Request" });
   }
 }
-function __c42(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2584,7 +2721,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "SandboxTagsSetV2Request" });
   }
 }
-function __c43(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2600,7 +2737,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "SandboxTerminateV2Request" });
   }
 }
-function __c44(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2610,7 +2747,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "SandboxTerminateV2Response" });
   }
 }
-function __c45(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2633,7 +2770,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "SandboxWaitUntilReadyResponse" });
   }
 }
-function __c46(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2646,7 +2783,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "SandboxWaitV2Request" });
   }
 }
-function __c47(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2657,33 +2794,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "SandboxWaitV2Response" });
   }
 }
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          environmentName: S.optional(S.String),
-          sandboxId: S.optional(S.String),
-          tags: S.optional(__S(577, __c18, 1)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/modal.client.ModalClient/SandboxTagsSet", code: 200 }),
-        ),
-      ).annotate({ identifier: "SetSandboxTagRequest" });
-  }
-}
-function __c49(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.optional(S.String),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/modal.client.ModalClient/SandboxTerminate", code: 200 }),
-        ),
-      ).annotate({ identifier: "TerminateSandboxRequest" });
-  }
-}
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2700,7 +2811,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetSandboxSnapshotFsAsyncRequest" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2717,12 +2828,38 @@ function __c51(j: number): any {
         S.Struct({
           imageId: S.String,
           result: S.optional(__S(512, __c16, 0)),
-          imageMetadata: S.optional(__S(1632, __c51, 0)),
+          imageMetadata: S.optional(__S(1664, __c52, 0)),
         }),
       ).annotate({ identifier: "GetSandboxSnapshotFsAsyncResponse" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          environmentName: S.optional(S.String),
+          sandboxId: S.optional(S.String),
+          tags: S.optional(__S(577, __c18, 1)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/SandboxTagsSet", code: 200 }),
+        ),
+      ).annotate({ identifier: "SetSandboxTagRequest" });
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.optional(S.String),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/SandboxTerminate", code: 200 }),
+        ),
+      ).annotate({ identifier: "TerminateSandboxRequest" });
+  }
+}
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2735,7 +2872,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "WaitSandboxRequest" });
   }
 }
-function __c53(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2758,7 +2895,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "WaitSandboxSnapshotResponse" });
   }
 }
-function __c54(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2770,7 +2907,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GetSandboxTagRequest" });
   }
 }
-function __c55(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2780,7 +2917,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetSandboxTagResponse" });
   }
 }
-function __c56(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2796,7 +2933,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "ListSandboxRequest" });
   }
 }
-function __c57(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2809,10 +2946,10 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "TunnelData" });
     case 1:
-      return S.Array(__S(1824, __c57, 0));
+      return S.Array(__S(1920, __c60, 0));
   }
 }
-function __c58(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2838,8 +2975,8 @@ function __c58(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          memoryMb: S.optional(__S(1857, __c58, 1)),
-          milliCpu: S.optional(__S(1857, __c58, 1)),
+          memoryMb: S.optional(__S(1953, __c61, 1)),
+          milliCpu: S.optional(__S(1953, __c61, 1)),
           gpuType: S.String,
           memoryMbMax: S.Number,
           ephemeralDiskMb: S.Number,
@@ -2851,32 +2988,32 @@ function __c58(j: number): any {
         S.Struct({
           id: S.String,
           createdAt: S.Number,
-          taskInfo: S.optional(__S(1856, __c58, 0)),
+          taskInfo: S.optional(__S(1952, __c61, 0)),
           appId: S.String,
           tags: __S(577, __c18, 1),
           name: S.String,
           imageId: S.String,
-          resourceInfo: S.optional(__S(1858, __c58, 2)),
+          resourceInfo: S.optional(__S(1954, __c61, 2)),
           regions: __S(640, __c20, 0),
           timeoutSecs: S.Number,
           idleTimeoutSecs: S.optional(S.Number),
           readyAt: S.optional(S.Number),
           readinessProbe: S.optional(__S(674, __c21, 2)),
-          tunnels: __S(1825, __c57, 1),
+          tunnels: __S(1921, __c60, 1),
           metadata: S.optional(__S(608, __c19, 0)),
         }),
       ).annotate({ identifier: "SandboxInfo" });
     case 4:
-      return S.Array(__S(1859, __c58, 3));
+      return S.Array(__S(1955, __c61, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          sandboxes: __S(1860, __c58, 4),
+          sandboxes: __S(1956, __c61, 4),
         }),
       ).annotate({ identifier: "ListSandboxResponse" });
   }
 }
-function __c59(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2899,7 +3036,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "RestoreSandboxResponse" });
   }
 }
-function __c60(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2908,8 +3045,8 @@ function __c60(j: number): any {
           containerName: S.optional(S.String),
           definition: S.optional(__S(754, __c23, 18)),
           ephemeralSecrets: S.optional(__S(750, __c23, 14)),
-          cloudBucketMountCredentials: S.optional(__S(1952, __c61, 0)),
-          secretSources: S.optional(__S(1954, __c61, 2)),
+          cloudBucketMountCredentials: S.optional(__S(2048, __c64, 0)),
+          secretSources: S.optional(__S(2050, __c64, 2)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -2927,7 +3064,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "SandboxContainerCreateV2Response" });
   }
 }
-function __c61(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, __S(750, __c23, 14));
@@ -2939,10 +3076,10 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "SecretSource" });
     case 2:
-      return S.Array(__S(1953, __c61, 1));
+      return S.Array(__S(2049, __c64, 1));
   }
 }
-function __c62(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2960,7 +3097,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "SandboxCreateConnectTokenRequest" });
   }
 }
-function __c63(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

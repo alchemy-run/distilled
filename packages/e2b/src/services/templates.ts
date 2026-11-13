@@ -40,16 +40,16 @@ export class TemplateInUse
 export type CreateTemplateRequestTagsList = Array<string>;
 export interface CreateTemplateRequest {
   /** Name of the template. Can include a tag with colon separator (e.g. "my-template" or "my-template:v1"). If tag is included, it will be treated as if the tag was provided in the tags array. */
-  name?: string;
+  name?: string | undefined;
   /** Tags to assign to the template build */
-  tags?: CreateTemplateRequestTagsList;
+  tags?: CreateTemplateRequestTagsList | undefined;
   /** Alias of the template. Deprecated, use name instead. */
-  alias?: string;
+  alias?: string | undefined;
   /** Identifier of the team, as its UUID or its public project ID (prj_) */
-  teamID?: string;
-  cpuCount?: number;
-  memoryMB?: number;
-  minFreeDiskMb?: number;
+  teamID?: string | undefined;
+  cpuCount?: number | undefined;
+  memoryMB?: number | undefined;
+  minFreeDiskMb?: number | undefined;
 }
 /** Names of the template */
 export type TemplateRequestResponseV3NamesList = Array<string>;
@@ -78,9 +78,9 @@ export interface DeleteTemplateResponse {}
 export interface GetTemplateRequest {
   templateID: string;
   /** Cursor to start the list from */
-  nextToken?: string;
+  nextToken?: string | undefined;
   /** Maximum number of items to return per page */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Aliases of the template */
 export type GetTemplateResponseAliasesList = Array<string>;
@@ -103,11 +103,11 @@ export interface TemplateBuild {
   /** Time when the build was last updated */
   updatedAt: string;
   /** Time when the build was finished */
-  finishedAt?: string;
+  finishedAt?: string | undefined;
   cpuCount: number;
   memoryMB: number;
-  diskSizeMB?: number;
-  envdVersion?: string;
+  diskSizeMB?: number | undefined;
+  envdVersion?: string | undefined;
 }
 /** List of builds for the template */
 export type GetTemplateResponseBuildsList = Array<TemplateBuild>;
@@ -139,12 +139,12 @@ export interface GetTemplateResponse {
   envdVersion: string;
   buildStatus: TemplateBuildStatus;
   /** Whether the template is one of the platform's default templates. A default template owned by another team carries zero or null usage fields (`spawnCount`, `buildCount`, `lastSpawnedAt`, `createdBy`). */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Description of the template */
-  description?: string;
+  description?: string | undefined;
   /** List of builds for the template */
   builds: GetTemplateResponseBuildsList;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 /** State of the sandbox */
 export type LogLevel = "debug" | "info" | "warn" | "error";
@@ -152,10 +152,10 @@ export interface GetTemplateBuildStatusRequest {
   templateID: string;
   buildID: string;
   /** Index of the starting build log that should be returned with the template */
-  logsOffset?: number;
+  logsOffset?: number | undefined;
   /** Maximum number of logs that should be returned */
-  limit?: number;
-  level?: LogLevel | (string & {});
+  limit?: number | undefined;
+  level?: LogLevel | (string & {}) | undefined;
 }
 /** Build logs (always empty since the V1 build path was removed, use logEntries) */
 export type TemplateBuildInfoLogsList = Array<string>;
@@ -166,7 +166,7 @@ export interface BuildLogEntry {
   message: string;
   level: LogLevel;
   /** Step in the build process related to the log entry */
-  step?: string;
+  step?: string | undefined;
 }
 /** Build logs structured */
 export type TemplateBuildInfoLogEntriesList = Array<BuildLogEntry>;
@@ -176,9 +176,9 @@ export interface BuildStatusReason {
   /** Message with the status reason, currently reporting only for error status */
   message: string;
   /** Step that failed */
-  step?: string;
+  step?: string | undefined;
   /** Log entries related to the status reason */
-  logEntries?: BuildStatusReasonLogEntriesList;
+  logEntries?: BuildStatusReasonLogEntriesList | undefined;
 }
 export interface TemplateBuildInfo {
   /** Build logs (always empty since the V1 build path was removed, use logEntries) */
@@ -190,7 +190,7 @@ export interface TemplateBuildInfo {
   /** Identifier of the build */
   buildID: string;
   status: TemplateBuildStatus;
-  reason?: BuildStatusReason;
+  reason?: BuildStatusReason | undefined;
 }
 export interface GetTemplateByAliasRequest {
   alias: string;
@@ -211,9 +211,9 @@ export interface TemplateBuildFileUpload {
   /** Whether the file is already present in the cache */
   present: boolean;
   /** Url where the file should be uploaded to */
-  url?: string;
+  url?: string | undefined;
   /** Request headers that must be sent with the upload request */
-  headers?: TemplateBuildFileUploadHeadersMap;
+  headers?: TemplateBuildFileUploadHeadersMap | undefined;
 }
 export interface ListDefaultTemplatesRequest {}
 /** Aliases of the template */
@@ -248,9 +248,9 @@ export interface Template {
   envdVersion: string;
   buildStatus: TemplateBuildStatus;
   /** Whether the template is one of the platform's default templates. A default template owned by another team carries zero or null usage fields (`spawnCount`, `buildCount`, `lastSpawnedAt`, `createdBy`). */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Description of the template */
-  description?: string;
+  description?: string | undefined;
 }
 export type ListDefaultTemplatesResponseBodyList = Array<Template>;
 export type ListDefaultTemplatesResponse = ListDefaultTemplatesResponseBodyList;
@@ -262,13 +262,13 @@ export interface ListTemplateBuildLogsRequest {
   templateID: string;
   buildID: string;
   /** Starting timestamp of the logs that should be returned in milliseconds */
-  cursor?: number;
+  cursor?: number | undefined;
   /** Maximum number of logs that should be returned */
-  limit?: number;
-  direction?: LogsDirection | (string & {});
-  level?: LogLevel | (string & {});
+  limit?: number | undefined;
+  direction?: LogsDirection | (string & {}) | undefined;
+  level?: LogLevel | (string & {}) | undefined;
   /** Source of the logs that should be returned from */
-  source?: LogsSource | (string & {});
+  source?: LogsSource | (string & {}) | undefined;
 }
 /** Build logs structured */
 export type TemplateBuildLogsResponseLogsList = Array<BuildLogEntry>;
@@ -277,16 +277,16 @@ export interface TemplateBuildLogsResponse {
   logs: TemplateBuildLogsResponseLogsList;
 }
 export interface ListTemplatesRequest {
-  teamID?: string;
+  teamID?: string | undefined;
   /** Cursor to start the list from */
-  nextToken?: string;
+  nextToken?: string | undefined;
   /** Maximum number of items to return per page */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type ListTemplatesResponseBodyList = Array<Template>;
 export interface ListTemplatesResponse {
   items: ListTemplatesResponseBodyList;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 /** Type of registry authentication */
 export type AWSRegistryType = "aws";
@@ -326,11 +326,11 @@ export interface TemplateStep {
   /** Type of the step */
   type: string;
   /** Arguments for the step */
-  args?: TemplateStepArgsList;
+  args?: TemplateStepArgsList | undefined;
   /** Hash of the files used in the step (lowercase hex SHA-256) */
-  filesHash?: string;
+  filesHash?: string | undefined;
   /** Whether the step should be forced to run regardless of the cache */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 /** List of steps to execute in the template build */
 export type StartTemplateBuildRequestStepsList = Array<TemplateStep>;
@@ -338,24 +338,24 @@ export interface StartTemplateBuildRequest {
   templateID: string;
   buildID: string;
   /** Image to use as a base for the template build */
-  fromImage?: string;
+  fromImage?: string | undefined;
   /** Template to use as a base for the template build */
-  fromTemplate?: string;
-  fromImageRegistry?: FromImageRegistry;
+  fromTemplate?: string | undefined;
+  fromImageRegistry?: FromImageRegistry | undefined;
   /** Whether the whole build should be forced to run regardless of the cache */
-  force?: boolean;
+  force?: boolean | undefined;
   /** List of steps to execute in the template build */
-  steps?: StartTemplateBuildRequestStepsList;
+  steps?: StartTemplateBuildRequestStepsList | undefined;
   /** Start command to execute in the template after the build */
-  startCmd?: string;
+  startCmd?: string | undefined;
   /** Ready check command to execute in the template after the build */
-  readyCmd?: string;
+  readyCmd?: string | undefined;
 }
 export interface StartTemplateBuildResponse {}
 export interface UpdateTemplateRequest {
   templateID: string;
   /** Whether the template is public or only accessible by the team */
-  public?: boolean;
+  public?: boolean | undefined;
 }
 /** Names of the template (namespace/alias format when namespaced) */
 export type TemplateUpdateResponseNamesList = Array<string>;

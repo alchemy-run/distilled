@@ -39,6 +39,7 @@ export interface MountBatchedCheckExistenceRequest {
 }
 export interface MountBatchedCheckExistenceResponse {
   missingSha256HexHashes: StringList;
+  /** Server time of the check. Clients send the earliest one back as earliest_checked_at on the commit. */
   checkedAt?: string | undefined;
 }
 export type DeploymentNamespace =
@@ -52,13 +53,13 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS"
   | "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
-/** Server time of the check. Clients send the earliest one back as earliest_checked_at on the commit. */
 export interface MountFile {
   filename?: string | undefined;
-  sha256Hex?: string | undefined;
   /** SHA-256 checksum of the file. */
-  size?: string | undefined;
+  sha256Hex?: string | undefined;
   /** Size of the file in bytes -- ignored in MountBuild(). */
+  size?: string | undefined;
+  /** Unix file permission bits `st_mode`. */
   mode?: number | undefined;
 }
 export type MountFileList = Array<MountFile>;
@@ -68,8 +69,9 @@ export interface MountGetOrCreateRequest {
   environmentName?: string | undefined;
   objectCreationType?: ObjectCreationType | (string & {}) | undefined;
   files?: MountFileList | undefined;
+  /** only used with OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP */
   appId?: string | undefined;
-  /** only used with OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP Earliest checked_at the client received from the existence checks for these files. Telemetry only. */
+  /** Earliest checked_at the client received from the existence checks for these files. Telemetry only. */
   earliestCheckedAt?: string | undefined;
 }
 export interface MountHandleMetadata {
@@ -86,6 +88,7 @@ export interface MountPutFileRequest {
 }
 export interface MountPutFileResponse {
   exists: boolean;
+  /** Server time of the check. Clients send the earliest one back as earliest_checked_at on the commit. */
   checkedAt?: string | undefined;
 }
 export type MountBatchedCheckExistenceError = ModalOpError;

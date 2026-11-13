@@ -106,18 +106,9 @@ export interface GetDataColorThemeRequest {
 export interface ListDataColorThemesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** Number of results to return per page. */
-  limit?: number | undefined;
-  /** The initial index from which to return the results. */
-  offset?: number | undefined;
 }
-export type PaginatedDataColorThemeListResultsList = Array<DataColorTheme>;
-export interface PaginatedDataColorThemeList {
-  count?: number | undefined;
-  next?: string | null | undefined;
-  previous?: string | null | undefined;
-  results?: PaginatedDataColorThemeListResultsList | undefined;
-}
+export type ListDataColorThemesResponseBodyList = Array<DataColorTheme>;
+export type ListDataColorThemesResponse = ListDataColorThemesResponseBodyList;
 export interface UpdateDataColorThemeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -185,12 +176,12 @@ export const getDataColorTheme: API.OperationMethod<
 export type ListDataColorThemesError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const listDataColorThemes: API.OperationMethod<
   ListDataColorThemesRequest,
-  PaginatedDataColorThemeList,
+  ListDataColorThemesResponse,
   ListDataColorThemesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(16, __c4, 0) as any as S.Schema<ListDataColorThemesRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<PaginatedDataColorThemeList>,
+  output: __S(18, __c4, 2) as any as S.Schema<ListDataColorThemesResponse>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -324,8 +315,6 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -337,14 +326,9 @@ function __c4(j: number): any {
     case 1:
       return S.Array(__S(6, __c1, 2));
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.optional(S.Number),
-          next: S.optional(S.NullOr(S.String)),
-          previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(17, __c4, 1)),
-        }),
-      ).annotate({ identifier: "PaginatedDataColorThemeList" });
+      return S.suspend(() => __S(17, __c4, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListDataColorThemesResponse",
+      });
   }
 }
 function __c5(j: number): any {

@@ -2367,6 +2367,7 @@ export interface CreateTrustStoreResult {
   TrustStore?: TrustStore | undefined;
   ETag?: string | undefined;
 }
+export type VpcIpAddressType = "ipv4" | "dualstack" | (string & {});
 export interface VpcOriginEndpointConfig {
   Name: string;
   Arn: string;
@@ -2374,6 +2375,7 @@ export interface VpcOriginEndpointConfig {
   HTTPSPort: number;
   OriginProtocolPolicy: OriginProtocolPolicy;
   OriginSslProtocols?: OriginSslProtocols | undefined;
+  IpAddressType?: VpcIpAddressType | undefined;
 }
 export interface CreateVpcOriginRequest {
   VpcOriginEndpointConfig: VpcOriginEndpointConfig;
@@ -3499,6 +3501,7 @@ export interface VpcOriginSummary {
   Arn: string;
   AccountId?: string | undefined;
   OriginEndpointArn: string;
+  IpAddressType?: VpcIpAddressType | undefined;
 }
 export type VpcOriginSummaryList = VpcOriginSummary[];
 export interface VpcOriginList {
@@ -12002,6 +12005,7 @@ function __c82(j: number): any {
           HTTPSPort: S.Number,
           OriginProtocolPolicy: S.String,
           OriginSslProtocols: S.optional(__S(257, __c8, 1)),
+          IpAddressType: S.optional(S.String),
         }),
       ).annotate({ identifier: "VpcOriginEndpointConfig" });
     case 1:
@@ -15562,6 +15566,7 @@ function __c193(j: number): any {
           Arn: S.String,
           AccountId: S.optional(S.String),
           OriginEndpointArn: S.String,
+          IpAddressType: S.optional(S.String),
         }),
       ).annotate({ identifier: "VpcOriginSummary" });
     case 2:

@@ -46,7 +46,15 @@ const rules = /*@__PURE__*/ T.EndpointResolver((p, _) => {
             `https://acm-acme.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
           );
         }
-        return err("ACME operations are only available in commercial AWS partitions");
+        if (_.getAttr(PartitionResult, "name") === "aws-us-gov") {
+          if (UseFIPS === true) {
+            return err("FIPS endpoints are not available for ACME operations");
+          }
+          return e(
+            `https://acm-acme.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+          );
+        }
+        return err("ACME operations are only available in the aws and aws-us-gov partitions");
       }
       if (UseFIPS === true && UseDualStack === true) {
         return e(`https://acm-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`);

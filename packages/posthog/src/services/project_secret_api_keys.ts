@@ -98,6 +98,8 @@ export interface ProjectSecretAPIKey {
   last_rolled_at?: string | null | undefined;
   /** Project-wide API scopes granted to this key. Project secret API keys do not honor object-level access controls, so a scope can access resources of that type even when per-resource RBAC would hide them from an individual user. */
   scopes?: ProjectSecretAPIKeyScopesList | undefined;
+  /** Value the AI gateway stamps as $ai_credential on generations made with this key, so gateway spend can be grouped by key. Derived from the key's hash, so it changes when the key is rolled. */
+  ai_credential: string | null;
 }
 export interface CreateProjectSecretApiKeysRollRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -323,6 +325,7 @@ function __c1(j: number): any {
           last_used_at: S.optional(S.NullOr(S.String)),
           last_rolled_at: S.optional(S.NullOr(S.String)),
           scopes: S.optional(__S(4, __c1, 0)),
+          ai_credential: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ProjectSecretAPIKey" });
   }

@@ -1,0 +1,360 @@
+{
+  "description": "The zone summary in records/get, records/add and records/update is written by WriteZoneInfoAsJson in DnsServerCore/WebServiceZonesApi.cs (v15.5.0). It always writes name, type, lastModified, disabled and soaSerial, writes catalog as null for zones outside a catalog, and adds DNSSEC, expiry and notify members by zone type. The examples in APIDOCS.md show internal, which 15.5.0 no longer writes; it stays optional. Confirmed with strict response validation of records/get, records/add and records/update against Technitium 15.5.0, 15.5.1 and 15.6.2 containers on 2026-10-31.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#ZoneNotifyFailedFor",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "smithy.api#String"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#GetRecordsResponseZone/members/nameIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#GetRecordsResponseZone/members/lastModified",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#GetRecordsResponseZone/members/soaSerial",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#GetRecordsResponseZone/members/catalog",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "technitium.api#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#GetRecordsResponseZone/members/hasDnssecPrivateKeys",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#GetRecordsResponseZone/members/validationFailed",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#GetRecordsResponseZone/members/expiry",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#GetRecordsResponseZone/members/isExpired",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#GetRecordsResponseZone/members/syncFailed",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#GetRecordsResponseZone/members/notifyFailed",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#GetRecordsResponseZone/members/notifyFailedFor",
+      "value": {
+        "target": "technitium.zones#ZoneNotifyFailedFor"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#GetRecordsResponseZone/members/name/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#GetRecordsResponseZone/members/type/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#GetRecordsResponseZone/members/disabled/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#GetRecordsResponseZone/members/soaSerial/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#GetRecordsResponseZone/members/lastModified/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddRecordResponseZone/members/nameIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddRecordResponseZone/members/lastModified",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddRecordResponseZone/members/soaSerial",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddRecordResponseZone/members/catalog",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "technitium.api#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddRecordResponseZone/members/hasDnssecPrivateKeys",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddRecordResponseZone/members/validationFailed",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddRecordResponseZone/members/expiry",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddRecordResponseZone/members/isExpired",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddRecordResponseZone/members/syncFailed",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddRecordResponseZone/members/notifyFailed",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddRecordResponseZone/members/notifyFailedFor",
+      "value": {
+        "target": "technitium.zones#ZoneNotifyFailedFor"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddRecordResponseZone/members/name/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddRecordResponseZone/members/type/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddRecordResponseZone/members/disabled/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddRecordResponseZone/members/soaSerial/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#AddRecordResponseZone/members/lastModified/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#UpdateRecordResponseZone/members/nameIdn",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#UpdateRecordResponseZone/members/lastModified",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#UpdateRecordResponseZone/members/soaSerial",
+      "value": {
+        "target": "smithy.api#Double"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#UpdateRecordResponseZone/members/catalog",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "technitium.api#nullable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#UpdateRecordResponseZone/members/hasDnssecPrivateKeys",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#UpdateRecordResponseZone/members/validationFailed",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#UpdateRecordResponseZone/members/expiry",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#UpdateRecordResponseZone/members/isExpired",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#UpdateRecordResponseZone/members/syncFailed",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#UpdateRecordResponseZone/members/notifyFailed",
+      "value": {
+        "target": "smithy.api#Boolean"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#UpdateRecordResponseZone/members/notifyFailedFor",
+      "value": {
+        "target": "technitium.zones#ZoneNotifyFailedFor"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#UpdateRecordResponseZone/members/name/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#UpdateRecordResponseZone/members/type/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#UpdateRecordResponseZone/members/disabled/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#UpdateRecordResponseZone/members/soaSerial/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/technitium.zones#UpdateRecordResponseZone/members/lastModified/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    }
+  ]
+}

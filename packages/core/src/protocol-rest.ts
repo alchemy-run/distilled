@@ -61,6 +61,7 @@ import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive
  */
 import * as Telemetry from "./telemetry.ts";
 import { httpSymbol, makeAnnotation, type HttpTrait } from "./trait.ts";
+import type { UnknownErrorProps } from "./unknown-error.ts";
 
 // =============================================================================
 // Traits
@@ -132,6 +133,18 @@ export interface RestErrorInfo {
 }
 
 /**
+ * The core {@link UnknownErrorProps} of a failure, for an SDK's
+ * `unknownError`: `new UnknownNeonError(unknownErrorProps(info))`. A number
+ * code becomes its string.
+ */
+export const unknownErrorProps = (info: RestErrorInfo): UnknownErrorProps => ({
+  status: info.status,
+  code: info.code === undefined ? undefined : String(info.code),
+  message: info.message,
+  body: info.body,
+});
+
+/**
  * A 2xx body that failed strict validation, or a non-JSON 2xx body for an
  * output with sensitive members, for the `parseError` option.
  */
@@ -164,13 +177,15 @@ export interface RestProtocolOptions<C> {
    * API base URL from the resolved credentials. Receives the operation's
    * route so APIs with more than one endpoint (e.g. S2's account vs
    * per-basin hosts, chosen by path) can route per request; single-endpoint
-   * providers ignore the argument. A THROWN error (e.g. a required scope
-   * missing from the credentials) is caught and surfaced on the calling
-   * effect's error channel rather than dying as a defect.
+   * providers ignore the argument. `server` is the operation's host name
+   * (`T.Http({ server })`) for APIs that serve some operations from another
+   * host; map it to a base URL from the credentials. A THROWN error (e.g. a
+   * required scope missing from the credentials) is caught and surfaced on
+   * the calling effect's error channel rather than dying as a defect.
    */
   readonly baseUrl: (
     credentials: C,
-    target: { readonly uri: string; readonly method: string },
+    target: { readonly uri: string; readonly method: string; readonly server?: string | undefined },
   ) => string;
   /** Auth (and any fixed) headers from the resolved credentials. */
   readonly headers: (credentials: C) => Record<string, string>;
@@ -194,7 +209,12 @@ export interface RestProtocolOptions<C> {
    * can't express, e.g. a 403 that is a rate limit because of its headers.
    */
   readonly classifyError?: (info: RestErrorInfo) => unknown;
-  /** Fallback error for failures nothing else matched. */
+  /**
+   * Fallback error for failures nothing else matched: the SDK's
+   * `Unknown<Sdk>Error`, built from {@link unknownErrorProps}. Only non-5xx
+   * statuses reach it (unmapped 5xx are `InternalServerError`), so the class
+   * carries no retryable category.
+   */
   readonly unknownError: (info: RestErrorInfo) => unknown;
   /**
    * The SDK's `<Sdk>ParseError`, raised when a 2xx body does not match the
@@ -238,7 +258,7 @@ export interface CollectedBody {
  * How a server-streaming operation's body is framed (`API.makeStreaming`,
  * output `{ items }`): its `framing` config, e.g. `ndjson` from
  * core/ndjson. An operation without one can't stream (`.stream()` fails
- * with `SdkError`).
+ * with `SdkError`, see `API.cannotStream`).
  */
 export interface StreamFraming {
   /**
@@ -417,6 +437,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       baseUrl = options.baseUrl(creds, {
         uri: http?.uri ?? "",
         method: http?.method ?? "",
+        server: http?.server,
       });
     } catch (e) {
       // A baseUrl that refuses the route (missing scope in the
@@ -678,10 +699,12 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
           ),
         ),
       call: (op, input) => send(op, input, false),
-      stream: (op, input) =>
-        (op.config.framing as StreamFraming | undefined)?.stream(
-          send(op, input, true) as Effect.Effect<FramedBody>,
-        ),
+      stream: (op, input) => {
+        const framing = op.config.framing as StreamFraming | undefined;
+        return framing === undefined
+          ? API.cannotStream(op)
+          : framing.stream(send(op, input, true) as Effect.Effect<FramedBody>);
+      },
     }),
   );
 };

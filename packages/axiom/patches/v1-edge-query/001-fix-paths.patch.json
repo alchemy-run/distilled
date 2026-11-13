@@ -63,11 +63,7 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.axiom.api#GetDatasetMetricsResponseBodyValue"
-    },
-    {
-      "op": "remove",
-      "path": "/shapes/com.axiom.api#GetDatasetMetricsResponseBodyMap"
+      "path": "/shapes/com.axiom.api#GetDatasetMetricsResponseBodyList"
     },
     {
       "op": "remove",
@@ -83,7 +79,11 @@
     },
     {
       "op": "remove",
-      "path": "/shapes/com.axiom.api#FindMetricsResponseBodyList"
+      "path": "/shapes/com.axiom.api#FindMetricsResponseBodyValueList"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.axiom.api#FindMetricsResponseBodyMap"
     },
     {
       "op": "remove",

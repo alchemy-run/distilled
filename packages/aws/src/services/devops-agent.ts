@@ -266,6 +266,21 @@ export interface MCPServerSigV4Configuration {
 }
 export interface RemoteAgentConfiguration {}
 export interface RemoteAgentSigV4Configuration {}
+export type Guid = string;
+export type MSTeamsChannelId = string;
+export interface MSTeamsChannel {
+  channelName: string;
+  channelId: string;
+}
+export interface MSTeamsTransmissionTarget {
+  opsOncallTarget?: MSTeamsChannel | undefined;
+  opsSRETarget?: MSTeamsChannel | undefined;
+}
+export interface MSTeamsConfiguration {
+  teamId: string;
+  teamName: string;
+  transmissionTarget: MSTeamsTransmissionTarget;
+}
 export type DisplayName = string;
 export type PrivateConnectionName = string;
 export interface PrivateNetworkAccess {
@@ -298,6 +313,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -320,6 +336,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -342,6 +359,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -364,6 +382,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -386,6 +405,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -408,6 +428,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -430,6 +451,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -452,6 +474,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -474,6 +497,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -496,6 +520,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -518,6 +543,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -540,6 +566,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -562,6 +589,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -584,6 +612,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -606,6 +635,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -628,6 +658,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -650,6 +681,7 @@ export type ServiceConfiguration =
       mcpserversigv4: MCPServerSigV4Configuration;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -672,6 +704,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent: RemoteAgentConfiguration;
       remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -694,6 +727,7 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4: RemoteAgentSigV4Configuration;
+      msteams?: undefined;
       releaseManagement?: undefined;
     }
   | {
@@ -716,6 +750,30 @@ export type ServiceConfiguration =
       mcpserversigv4?: undefined;
       remoteagent?: undefined;
       remoteagentsigv4?: undefined;
+      msteams: MSTeamsConfiguration;
+      releaseManagement?: undefined;
+    }
+  | {
+      sourceAws?: undefined;
+      aws?: undefined;
+      github?: undefined;
+      slack?: undefined;
+      dynatrace?: undefined;
+      servicenow?: undefined;
+      mcpservernewrelic?: undefined;
+      mcpserverdatadog?: undefined;
+      mcpserver?: undefined;
+      gitlab?: undefined;
+      mcpserversplunk?: undefined;
+      eventChannel?: undefined;
+      azure?: undefined;
+      azuredevops?: undefined;
+      mcpservergrafana?: undefined;
+      pagerduty?: undefined;
+      mcpserversigv4?: undefined;
+      remoteagent?: undefined;
+      remoteagentsigv4?: undefined;
+      msteams?: undefined;
       releaseManagement: ReleaseManagementConfiguration;
     };
 export type CapabilityType =
@@ -1281,6 +1339,7 @@ export type Service =
   | "slack"
   | "azure"
   | "azuredevops"
+  | "msteams"
   | "dynatrace"
   | "servicenow"
   | "pagerduty"
@@ -1343,7 +1402,6 @@ export interface RegisteredNewRelicDetails {
 export interface RegisteredAzureDevOpsServiceDetails {
   organizationName: string;
 }
-export type Guid = string;
 export type WebIdentityTokenAudienceList = string[];
 export interface RegisteredAzureIdentityDetails {
   tenantId: string;
@@ -2856,6 +2914,7 @@ export type AssociateServiceError =
   | InternalServerException
   | InvalidParameterException
   | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | ValidationException
   | CommonErrors;
 /**
@@ -2874,6 +2933,7 @@ export const associateService: API.OperationMethod<
     InternalServerException,
     InvalidParameterException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -4638,6 +4698,7 @@ export type UpdateAssociationError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
+  | ServiceQuotaExceededException
   | ValidationException
   | CommonErrors;
 /**
@@ -4655,6 +4716,7 @@ export const updateAssociation: API.OperationMethod<
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
+    ServiceQuotaExceededException,
     ValidationException,
   ],
   protocol: AwsProtocol,
@@ -4892,8 +4954,8 @@ function __c0(j: number): any {
         S.Struct({
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
           serviceId: S.String,
-          configuration: __S(150, __c4, 22),
-          capabilities: S.optional(__S(155, __c4, 27)),
+          configuration: __S(153, __c4, 25),
+          capabilities: S.optional(__S(158, __c4, 30)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/agentspaces/{agentSpaceId}/associations" }),
@@ -5042,16 +5104,31 @@ function __c4(j: number): any {
         S.Struct({ services: __S(32, __c1, 0), customerEmail: SensitiveString }),
       ).annotate({ identifier: "PagerDutyConfiguration" });
     case 19:
+      return S.suspend(() => S.Struct({ channelName: S.String, channelId: S.String })).annotate({
+        identifier: "MSTeamsChannel",
+      });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          opsOncallTarget: S.optional(__S(147, __c4, 19)),
+          opsSRETarget: S.optional(__S(147, __c4, 19)),
+        }),
+      ).annotate({ identifier: "MSTeamsTransmissionTarget" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({ teamId: S.String, teamName: S.String, transmissionTarget: __S(148, __c4, 20) }),
+      ).annotate({ identifier: "MSTeamsConfiguration" });
+    case 22:
       return S.suspend(() =>
         S.Struct({ privateConnectionName: S.String, runtimeRoleArn: S.String }),
       ).annotate({ identifier: "PrivateNetworkAccess" });
-    case 20:
-      return S.Union([/*@__PURE__*/ S.Struct({ privateAccess: __S(147, __c4, 19) })]);
-    case 21:
+    case 23:
+      return S.Union([/*@__PURE__*/ S.Struct({ privateAccess: __S(150, __c4, 22) })]);
+    case 24:
       return S.suspend(() =>
-        S.Struct({ name: S.String, networkAccess: __S(148, __c4, 20) }),
+        S.Struct({ name: S.String, networkAccess: __S(151, __c4, 23) }),
       ).annotate({ identifier: "ReleaseManagementConfiguration" });
-    case 22:
+    case 25:
       return S.Union([
         /*@__PURE__*/ S.Struct({ sourceAws: __S(128, __c4, 0) }),
         /*@__PURE__*/ S.Struct({ aws: __S(129, __c4, 1) }),
@@ -5072,31 +5149,32 @@ function __c4(j: number): any {
         /*@__PURE__*/ S.Struct({ mcpserversigv4: __S(141, __c4, 13) }),
         /*@__PURE__*/ S.Struct({ remoteagent: __S(64, __c2, 0) }),
         /*@__PURE__*/ S.Struct({ remoteagentsigv4: __S(64, __c2, 0) }),
-        /*@__PURE__*/ S.Struct({ releaseManagement: __S(149, __c4, 21) }),
+        /*@__PURE__*/ S.Struct({ msteams: __S(149, __c4, 21) }),
+        /*@__PURE__*/ S.Struct({ releaseManagement: __S(152, __c4, 24) }),
       ]);
-    case 23:
+    case 26:
       return S.suspend(() => S.Struct({ patterns: __S(32, __c1, 0) })).annotate({
         identifier: "PatternFilter",
       });
-    case 24:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           events: S.optional(__S(96, __c3, 0)),
-          targetBranches: S.optional(__S(151, __c4, 23)),
+          targetBranches: S.optional(__S(154, __c4, 26)),
         }),
       ).annotate({ identifier: "TriggerFilterGroup" });
-    case 25:
-      return S.Array(__S(152, __c4, 24));
-    case 26:
+    case 28:
+      return S.Array(__S(155, __c4, 27));
+    case 29:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          triggerFilterGroups: S.optional(__S(153, __c4, 25)),
+          triggerFilterGroups: S.optional(__S(156, __c4, 28)),
         }),
       ).annotate({ identifier: "CapabilityConfiguration" });
-    case 27:
-      return S.Record(S.String, /*@__PURE__*/ __S(154, __c4, 26).pipe(S.optional));
-    case 28:
+    case 30:
+      return S.Record(S.String, /*@__PURE__*/ __S(157, __c4, 29).pipe(S.optional));
+    case 31:
       return S.suspend(() =>
         S.Struct({
           agentSpaceId: S.String,
@@ -5105,8 +5183,8 @@ function __c4(j: number): any {
           status: S.optional(S.String),
           associationId: S.String,
           serviceId: S.String,
-          configuration: __S(150, __c4, 22),
-          capabilities: S.optional(__S(155, __c4, 27)),
+          configuration: __S(153, __c4, 25),
+          capabilities: S.optional(__S(158, __c4, 30)),
         }),
       ).annotate({ identifier: "Association" });
   }
@@ -5125,7 +5203,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GenericWebhook" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ association: __S(156, __c4, 28), webhook: S.optional(__S(160, __c5, 0)) }),
+        S.Struct({ association: __S(159, __c4, 31), webhook: S.optional(__S(160, __c5, 0)) }),
       ).annotate({ identifier: "AssociateServiceOutput" });
   }
 }
@@ -5947,7 +6025,7 @@ function __c44(j: number): any {
         ),
       ).annotate({ identifier: "GetAssociationInput" });
     case 1:
-      return S.suspend(() => S.Struct({ association: __S(156, __c4, 28) })).annotate({
+      return S.suspend(() => S.Struct({ association: __S(159, __c4, 31) })).annotate({
         identifier: "GetAssociationOutput",
       });
   }
@@ -6422,7 +6500,7 @@ function __c59(j: number): any {
         ),
       ).annotate({ identifier: "ListAssociationsInput" });
     case 1:
-      return S.Array(__S(156, __c4, 28));
+      return S.Array(__S(159, __c4, 31));
     case 2:
       return S.suspend(() =>
         S.Struct({ nextToken: S.optional(S.String), associations: __S(1889, __c59, 1) }),
@@ -7418,8 +7496,8 @@ function __c82(j: number): any {
         S.Struct({
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
           associationId: S.String.pipe(T.HttpLabel("associationId")),
-          configuration: __S(150, __c4, 22),
-          capabilities: S.optional(__S(155, __c4, 27)),
+          configuration: __S(153, __c4, 25),
+          capabilities: S.optional(__S(158, __c4, 30)),
         }).pipe(
           T.all(
             T.Http({

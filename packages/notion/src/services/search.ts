@@ -823,7 +823,9 @@ export interface PartialPageObjectResponse {
   /** The ID of the page. */
   id: string;
 }
-export type SearchByTitleResponseResultsItemCase0 = PageObjectResponse | PartialPageObjectResponse;
+export type PageOrDataSourceListResponseResultsItemCase0 =
+  | PageObjectResponse
+  | PartialPageObjectResponse;
 export interface DatabasePropertyConfigResponseNumber {
   /** The number format for the property. */
   format: string;
@@ -899,6 +901,8 @@ export interface DatabasePropertyRelationConfigResponseDualProperty {
 export interface DatabasePropertyRelationConfigResponse {
   database_id: string;
   data_source_id: string;
+  /** The maximum number of pages each page can relate to, or null when there is no limit. Read-only. */
+  limit: number | null;
   /** Always `single_property` */
   type?: string | undefined;
   single_property?: unknown | undefined;
@@ -985,6 +989,96 @@ export type DataSourceObjectResponseDatabaseType =
 export type DataSourceObjectResponsePropertiesMap = {
   [key: string]: DatabasePropertyConfigResponse | undefined;
 };
+export interface DataSourceObjectResponseSyncMetadataHealthCase0Checks {
+  sync_version_updated_at: string;
+  delta_synced_through_at?: string | undefined;
+  last_execution_succeeded_at?: string | undefined;
+}
+export type DataSourceObjectResponseSyncMetadataHealthCase0ErrorSeverity =
+  | "action_required"
+  | "degraded"
+  | "failing";
+export interface DataSourceObjectResponseSyncMetadataHealthCase0Error {
+  code: string;
+  severity: DataSourceObjectResponseSyncMetadataHealthCase0ErrorSeverity;
+}
+export type DataSourceObjectResponseSyncMetadataHealthCase0Stage =
+  | "backfilling"
+  | "initializing"
+  | "steady";
+export interface DataSourceObjectResponseSyncMetadataHealthCase0 {
+  checks: DataSourceObjectResponseSyncMetadataHealthCase0Checks;
+  error: DataSourceObjectResponseSyncMetadataHealthCase0Error;
+  ok: boolean;
+  paused: boolean;
+  stage: DataSourceObjectResponseSyncMetadataHealthCase0Stage;
+}
+export type DataSourceObjectResponseSyncMetadataHealthCase1Checks =
+  DataSourceObjectResponseSyncMetadataHealthCase0Checks;
+export type DataSourceObjectResponseSyncMetadataHealthCase1Stage =
+  | "backfilling"
+  | "initializing"
+  | "steady";
+export interface DataSourceObjectResponseSyncMetadataHealthCase1 {
+  checks: DataSourceObjectResponseSyncMetadataHealthCase0Checks;
+  ok: boolean;
+  paused: boolean;
+  stage: DataSourceObjectResponseSyncMetadataHealthCase1Stage;
+}
+export interface DataSourceObjectResponseSyncMetadataHealthCase2 {
+  paused: boolean;
+}
+/** Live collection sync health. Null means unavailable, not unhealthy. Missing timestamps are unknown. */
+export type DataSourceObjectResponseSyncMetadataHealth =
+  | DataSourceObjectResponseSyncMetadataHealthCase0
+  | DataSourceObjectResponseSyncMetadataHealthCase1
+  | DataSourceObjectResponseSyncMetadataHealthCase2;
+/** The sync provider: github (GitHub), jira (Jira), or salesforce (Salesforce). */
+export type DataSourceObjectResponseSyncMetadataExternalDatabaseSyncProvider =
+  | "github"
+  | "jira"
+  | "salesforce";
+/** Stored identity of an external database sync. */
+export interface DataSourceObjectResponseSyncMetadataExternalDatabaseSync {
+  /** The stored sync ID. This is not a credential. */
+  sync_id: string;
+  /** The sync provider: github (GitHub), jira (Jira), or salesforce (Salesforce). */
+  provider: DataSourceObjectResponseSyncMetadataExternalDatabaseSyncProvider;
+}
+/** The provider of a legacy synced data source: Jira or Salesforce. Values are case-sensitive. */
+export type DataSourceObjectResponseSyncMetadataExternalCollectionType = "Jira" | "Salesforce";
+/** Stored legacy sync state: true means syncing, false means not syncing, and row_limit_exceeded means the row limit stopped syncing. False does not guarantee a successful sync. */
+export type DataSourceObjectResponseSyncMetadataSyncStateSyncing = boolean | string;
+/** Stored state for a legacy synced data source. Missing or invalid timestamps are omitted. This is not a live health check. */
+export interface DataSourceObjectResponseSyncMetadataSyncState {
+  /** Stored legacy sync state: true means syncing, false means not syncing, and row_limit_exceeded means the row limit stopped syncing. False does not guarantee a successful sync. */
+  syncing: DataSourceObjectResponseSyncMetadataSyncStateSyncing;
+  /** Stored legacy sync update time in UTC ISO 8601 format. This does not guarantee that all source changes have been imported. */
+  last_synced_at?: string | undefined;
+  /** Stored legacy sync checkpoint time in UTC ISO 8601 format. */
+  last_sync_checkpoint_at?: string | undefined;
+  /** Stored legacy sync heartbeat time in UTC ISO 8601 format. */
+  last_sync_heartbeat_at?: string | undefined;
+}
+/** Sync identity and available health, included when listing or retrieving data sources. */
+export interface DataSourceObjectResponseSyncMetadata {
+  /** Live collection sync health. Null means unavailable, not unhealthy. Missing timestamps are unknown. */
+  health?: DataSourceObjectResponseSyncMetadataHealth | null | undefined;
+  /** Notion user who owns the sync credential, included when health is available. */
+  owner_user_id?: string | undefined;
+  /** Provider resource synced to this data source, when available. */
+  resource?: string | undefined;
+  /** Stored identity of an external database sync. */
+  external_database_sync?: DataSourceObjectResponseSyncMetadataExternalDatabaseSync | undefined;
+  /** The provider of a legacy synced data source: Jira or Salesforce. Values are case-sensitive. */
+  external_collection_type?: DataSourceObjectResponseSyncMetadataExternalCollectionType | undefined;
+  /** The stored sync ID when provider details are unavailable. This is not a credential. */
+  sync_id?: string | undefined;
+  /** Stored state for a legacy synced data source. Missing or invalid timestamps are omitted. This is not a live health check. */
+  sync_state?: DataSourceObjectResponseSyncMetadataSyncState | undefined;
+  /** Opaque, developer-defined collection key for a worker sync. It is not a globally unique ID or a credential. Worker status is not included. */
+  synced_collection_key?: string | undefined;
+}
 export interface DataSourceObjectResponse {
   /** The data source object type name. */
   object: string;
@@ -1022,41 +1116,45 @@ export interface DataSourceObjectResponse {
   url: string;
   /** The public URL of the data source if it is publicly accessible. */
   public_url: string | null;
+  /** Sync identity and available health, included when listing or retrieving data sources. */
+  sync_metadata?: DataSourceObjectResponseSyncMetadata | undefined;
 }
-export type SearchByTitleResponseResultsItemCase1 =
+export type PageOrDataSourceListResponseResultsItemCase1 =
   | PartialDataSourceObjectResponse
   | DataSourceObjectResponse;
-export type SearchByTitleResponseResultsItem =
-  | SearchByTitleResponseResultsItemCase0
-  | SearchByTitleResponseResultsItemCase1;
-export type SearchByTitleResponseResultsList = Array<SearchByTitleResponseResultsItem>;
-export type SearchByTitleResponseRequestStatusType = "complete" | "incomplete";
-export type SearchByTitleResponseRequestStatusIncompleteReason = "query_result_limit_reached";
-export interface SearchByTitleResponseRequestStatus {
-  type: SearchByTitleResponseRequestStatusType;
-  incomplete_reason?: SearchByTitleResponseRequestStatusIncompleteReason | undefined;
+export type PageOrDataSourceListResponseResultsItem =
+  | PageOrDataSourceListResponseResultsItemCase0
+  | PageOrDataSourceListResponseResultsItemCase1;
+export type PageOrDataSourceListResponseResultsList =
+  Array<PageOrDataSourceListResponseResultsItem>;
+export type PageOrDataSourceListResponseRequestStatusType = "complete" | "incomplete";
+export type PageOrDataSourceListResponseRequestStatusIncompleteReason =
+  "query_result_limit_reached";
+export interface PageOrDataSourceListResponseRequestStatus {
+  type: PageOrDataSourceListResponseRequestStatusType;
+  incomplete_reason?: PageOrDataSourceListResponseRequestStatusIncompleteReason | undefined;
 }
-export interface SearchByTitleResponse {
+export interface PageOrDataSourceListResponse {
   type: string;
   page_or_data_source: unknown;
   object: string;
   next_cursor: string | null;
   has_more: boolean;
-  results: SearchByTitleResponseResultsList;
-  request_status?: SearchByTitleResponseRequestStatus | undefined;
+  results: PageOrDataSourceListResponseResultsList;
+  request_status?: PageOrDataSourceListResponseRequestStatus | undefined;
 }
 export type SearchByTitleError = NotionOpError;
 /** Search by title */
 export const searchByTitle: API.PaginatedOperationMethod<
   SearchByTitleRequest,
-  SearchByTitleResponse,
+  PageOrDataSourceListResponse,
   SearchByTitleError,
   NotionOpContext,
-  SearchByTitleResponseResultsItem
+  PageOrDataSourceListResponseResultsItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
     input: __S(1, __c0, 1) as any as S.Schema<SearchByTitleRequest>,
-    output: __S(4, __c0, 4) as any as S.Schema<SearchByTitleResponse>,
+    output: __S(4, __c0, 4) as any as S.Schema<PageOrDataSourceListResponse>,
     errors: [UnknownNotionError],
     protocol: NotionProtocol,
     retry: Retry.Retry,
@@ -1096,7 +1194,7 @@ function __c0(j: number): any {
           type: S.String,
           incomplete_reason: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SearchByTitleResponseRequestStatus" });
+      ).annotate({ identifier: "PageOrDataSourceListResponseRequestStatus" });
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1108,7 +1206,7 @@ function __c0(j: number): any {
           results: __S(2, __c0, 2),
           request_status: S.optional(__S(3, __c0, 3)),
         }),
-      ).annotate({ identifier: "SearchByTitleResponse" });
+      ).annotate({ identifier: "PageOrDataSourceListResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

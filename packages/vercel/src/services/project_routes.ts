@@ -306,6 +306,8 @@ export type AddRouteResponseRouteRouteTransformsItemCase1Type = "request.path";
 export interface AddRouteResponseRouteRouteTransformsItemCase1 {
   args: string;
   env?: AddRouteResponseRouteRouteTransformsItemCase1EnvList | undefined;
+  /** Keep an earlier request.path value. Builders use this for fallback routes. */
+  fallback?: boolean | undefined;
   op: AddRouteResponseRouteRouteTransformsItemCase1Op;
   type: AddRouteResponseRouteRouteTransformsItemCase1Type;
 }
@@ -649,6 +651,8 @@ export type EditRouteResponseRouteRouteTransformsItemCase1Type = "request.path";
 export interface EditRouteResponseRouteRouteTransformsItemCase1 {
   args: string;
   env?: EditRouteResponseRouteRouteTransformsItemCase1EnvList | undefined;
+  /** Keep an earlier request.path value. Builders use this for fallback routes. */
+  fallback?: boolean | undefined;
   op: EditRouteResponseRouteRouteTransformsItemCase1Op;
   type: EditRouteResponseRouteRouteTransformsItemCase1Type;
 }
@@ -751,6 +755,7 @@ export interface GenerateRouteRequestCurrentRoute {
   name?: string | undefined;
   description?: string | undefined;
   pathCondition: GenerateRouteRequestCurrentRoutePathCondition;
+  caseSensitive?: boolean | undefined;
   conditions?: GenerateRouteRequestCurrentRouteConditionsList | undefined;
   actions: GenerateRouteRequestCurrentRouteActionsList;
 }
@@ -806,6 +811,7 @@ export interface GenerateRouteResponseRoutePathCondition {
 }
 export interface GenerateRouteResponseRoute {
   actions: GenerateRouteResponseRouteActionsList;
+  caseSensitive?: boolean | undefined;
   conditions?: GenerateRouteResponseRouteConditionsList | undefined;
   description: string;
   name: string;
@@ -1033,6 +1039,8 @@ export type GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase1Type = "
 export interface GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase1 {
   args: string;
   env?: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase1EnvList | undefined;
+  /** Keep an earlier request.path value. Builders use this for fallback routes. */
+  fallback?: boolean | undefined;
   op: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase1Op;
   type: GetRoutesResponseBodyCase1RoutesItemRouteTransformsItemCase1Type;
 }
@@ -1315,6 +1323,8 @@ export type GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase1Type = "
 export interface GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase1 {
   args: string;
   env?: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase1EnvList | undefined;
+  /** Keep an earlier request.path value. Builders use this for fallback routes. */
+  fallback?: boolean | undefined;
   op: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase1Op;
   type: GetRoutesResponseBodyCase2RoutesItemRouteTransformsItemCase1Type;
 }
@@ -1600,6 +1610,8 @@ export type GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase1Type = "
 export interface GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase1 {
   args: string;
   env?: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase1EnvList | undefined;
+  /** Keep an earlier request.path value. Builders use this for fallback routes. */
+  fallback?: boolean | undefined;
   op: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase1Op;
   type: GetRoutesResponseBodyCase3RoutesItemRouteTransformsItemCase1Type;
 }
@@ -2282,6 +2294,7 @@ function __c10(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           pathCondition: __S(320, __c10, 0),
+          caseSensitive: S.optional(S.Boolean),
           conditions: S.optional(__S(322, __c10, 2)),
           actions: __S(326, __c10, 6),
         }),
@@ -2343,6 +2356,7 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           actions: __S(332, __c10, 12),
+          caseSensitive: S.optional(S.Boolean),
           conditions: S.optional(__S(334, __c10, 14)),
           description: S.String,
           name: S.String,

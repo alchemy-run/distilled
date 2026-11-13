@@ -201,8 +201,11 @@ export interface DeleteDatabaseRequest {
 }
 export type DeleteDatabaseResponse = unknown;
 export type DatabaseExportRequestOutputFormat = "polling";
+export type DatabaseExportRequestDumpOptionsCompatibility = "d1" | "sqlite3_cli_only";
 export type DatabaseExportRequestDumpOptionsTablesList = Array<string>;
 export interface DatabaseExportRequestDumpOptions {
+  /** Dump format. `d1` (the default) gives a dump that D1 can import. `sqlite3_cli_only` matches the output of the `sqlite3 .dump` command, including virtual tables such as FTS5 or R*Tree tables, but cannot be imported back into D1. */
+  compatibility?: DatabaseExportRequestDumpOptionsCompatibility | (string & {}) | undefined;
   /** Export only the table definitions, not their contents */
   noData?: boolean | undefined;
   /** Export only each table's contents, not its definition */
@@ -1018,6 +1021,7 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          compatibility: S.optional(S.String),
           noData: S.optional(S.Boolean.pipe(T.Body("no_data"))),
           noSchema: S.optional(S.Boolean.pipe(T.Body("no_schema"))),
           tables: S.optional(__S(16, __c2, 0)),

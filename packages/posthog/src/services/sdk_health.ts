@@ -26,14 +26,14 @@ const TELEMETRY = {
 export interface GetSdkHealthReportRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  /** When true, bypasses the Redis cache and re-queries ClickHouse for SDK usage. A background job refreshes this data once a day, so the cached answer is usually current. Use sparingly. */
+  /** When true, bypasses the cache and re-reads SDK usage. The cached answer is at most an hour old, so use this sparingly. */
   force_refresh?: boolean | undefined;
 }
 /** * `healthy` - healthy * `needs_attention` - needs_attention */
 export type OverallHealthEnum = "healthy" | "needs_attention";
 /** * `success` - success * `warning` - warning * `danger` - danger */
 export type SdkHealthReportHealthEnum = "success" | "warning" | "danger";
-/** * `web` - web * `posthog-ios` - posthog-ios * `posthog-android` - posthog-android * `posthog-java` - posthog-java * `posthog-server` - posthog-server * `posthog-node` - posthog-node * `posthog-python` - posthog-python * `posthog-php` - posthog-php * `posthog-ruby` - posthog-ruby * `posthog-go` - posthog-go * `posthog-flutter` - posthog-flutter * `posthog-react-native` - posthog-react-native * `posthog-kmp` - posthog-kmp * `posthog-dotnet` - posthog-dotnet * `posthog-elixir` - posthog-elixir * `posthog-unity` - posthog-unity * `posthog-node-mcp` - posthog-node-mcp * `posthog-python-mcp` - posthog-python-mcp * `posthog-edge` - posthog-edge * `posthog-convex` - posthog-convex * `posthog-rails` - posthog-rails * `posthog-aspnetcore` - posthog-aspnetcore */
+/** * `web` - web * `posthog-ios` - posthog-ios * `posthog-android` - posthog-android * `posthog-java` - posthog-java * `posthog-server` - posthog-server * `posthog-node` - posthog-node * `posthog-python` - posthog-python * `posthog-php` - posthog-php * `posthog-laravel` - posthog-laravel * `posthog-ruby` - posthog-ruby * `posthog-go` - posthog-go * `posthog-flutter` - posthog-flutter * `posthog-react-native` - posthog-react-native * `posthog-kmp` - posthog-kmp * `posthog-dotnet` - posthog-dotnet * `posthog-elixir` - posthog-elixir * `posthog-unity` - posthog-unity * `posthog-node-mcp` - posthog-node-mcp * `posthog-python-mcp` - posthog-python-mcp * `posthog-edge` - posthog-edge * `posthog-convex` - posthog-convex * `posthog-rails` - posthog-rails * `posthog-aspnetcore` - posthog-aspnetcore * `posthog-rs` - posthog-rs * `posthog-rs-mcp` - posthog-rs-mcp * `posthog-godot` - posthog-godot * `posthog-unreal` - posthog-unreal * `posthog-go-mcp` - posthog-go-mcp * `posthog-ruby-mcp` - posthog-ruby-mcp * `posthog-roblox` - posthog-roblox * `js` - js */
 export type LibEnum =
   | "web"
   | "posthog-ios"
@@ -43,6 +43,7 @@ export type LibEnum =
   | "posthog-node"
   | "posthog-python"
   | "posthog-php"
+  | "posthog-laravel"
   | "posthog-ruby"
   | "posthog-go"
   | "posthog-flutter"
@@ -56,7 +57,15 @@ export type LibEnum =
   | "posthog-edge"
   | "posthog-convex"
   | "posthog-rails"
-  | "posthog-aspnetcore";
+  | "posthog-aspnetcore"
+  | "posthog-rs"
+  | "posthog-rs-mcp"
+  | "posthog-godot"
+  | "posthog-unreal"
+  | "posthog-go-mcp"
+  | "posthog-ruby-mcp"
+  | "posthog-roblox"
+  | "js";
 /** * `none` - none * `warning` - warning * `danger` - danger */
 export type SdkAssessmentSeverityEnum = "none" | "warning" | "danger";
 /** Top-level alert sentences matching the SDK Health UI's 'Time for an update!' banner -- one per outdated version with significant traffic. Quote verbatim when surfacing the headline to users. */
@@ -100,7 +109,7 @@ export interface OutdatedTrafficAlert {
 /** Outdated versions that handle a significant share of traffic (above the threshold). Not populated for mobile SDKs. */
 export type SdkAssessmentOutdatedTrafficAlertsList = Array<OutdatedTrafficAlert>;
 export interface SdkAssessment {
-  /** SDK identifier, e.g. 'web', 'posthog-python', 'posthog-node', 'posthog-ios'. * `web` - web * `posthog-ios` - posthog-ios * `posthog-android` - posthog-android * `posthog-java` - posthog-java * `posthog-server` - posthog-server * `posthog-node` - posthog-node * `posthog-python` - posthog-python * `posthog-php` - posthog-php * `posthog-ruby` - posthog-ruby * `posthog-go` - posthog-go * `posthog-flutter` - posthog-flutter * `posthog-react-native` - posthog-react-native * `posthog-kmp` - posthog-kmp * `posthog-dotnet` - posthog-dotnet * `posthog-elixir` - posthog-elixir * `posthog-unity` - posthog-unity * `posthog-node-mcp` - posthog-node-mcp * `posthog-python-mcp` - posthog-python-mcp * `posthog-edge` - posthog-edge * `posthog-convex` - posthog-convex * `posthog-rails` - posthog-rails * `posthog-aspnetcore` - posthog-aspnetcore */
+  /** SDK identifier, e.g. 'web', 'posthog-python', 'posthog-node', 'posthog-ios'. * `web` - web * `posthog-ios` - posthog-ios * `posthog-android` - posthog-android * `posthog-java` - posthog-java * `posthog-server` - posthog-server * `posthog-node` - posthog-node * `posthog-python` - posthog-python * `posthog-php` - posthog-php * `posthog-laravel` - posthog-laravel * `posthog-ruby` - posthog-ruby * `posthog-go` - posthog-go * `posthog-flutter` - posthog-flutter * `posthog-react-native` - posthog-react-native * `posthog-kmp` - posthog-kmp * `posthog-dotnet` - posthog-dotnet * `posthog-elixir` - posthog-elixir * `posthog-unity` - posthog-unity * `posthog-node-mcp` - posthog-node-mcp * `posthog-python-mcp` - posthog-python-mcp * `posthog-edge` - posthog-edge * `posthog-convex` - posthog-convex * `posthog-rails` - posthog-rails * `posthog-aspnetcore` - posthog-aspnetcore * `posthog-rs` - posthog-rs * `posthog-rs-mcp` - posthog-rs-mcp * `posthog-godot` - posthog-godot * `posthog-unreal` - posthog-unreal * `posthog-go-mcp` - posthog-go-mcp * `posthog-ruby-mcp` - posthog-ruby-mcp * `posthog-roblox` - posthog-roblox * `js` - js */
   lib?: LibEnum | undefined;
   /** Human-readable SDK name matching the SDK Health UI (e.g. 'Python', 'Node.js', 'Web', 'iOS'). */
   readable_name?: string | undefined;

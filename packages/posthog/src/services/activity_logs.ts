@@ -54,6 +54,8 @@ export class NotFound
 export type ListActivityLogRequestOrdering = "-created_at" | "created_at";
 export type ListActivityLogRequestScope =
   | "Cohort"
+  | "CrossProjectDashboard"
+  | "DevGatewayToken"
   | "FeatureFlag"
   | "Person"
   | "Group"
@@ -79,6 +81,7 @@ export type ListActivityLogRequestScope =
   | "EarlyAccessFeature"
   | "SessionRecordingPlaylist"
   | "ReplayScanner"
+  | "ReplayObservation"
   | "VisionAlertConfiguration"
   | "Comment"
   | "Team"
@@ -89,6 +92,7 @@ export type ListActivityLogRequestScope =
   | "LegalDocument"
   | "Organization"
   | "OrganizationDomain"
+  | "OrganizationIPRestrictions"
   | "IdentityProviderConfig"
   | "OrganizationMembership"
   | "Role"
@@ -104,6 +108,8 @@ export type ListActivityLogRequestScope =
   | "PersonalAPIKey"
   | "ProjectSecretAPIKey"
   | "OAuthApplication"
+  | "WorkloadTrustPolicy"
+  | "WorkloadTrustPolicyRequest"
   | "User"
   | "Action"
   | "AccountView"
@@ -116,33 +122,48 @@ export type ListActivityLogRequestScope =
   | "EvaluationDirectory"
   | "LLMPrompt"
   | "LLMPromptLabel"
+  | "LLMSkill"
   | "LLMTrace"
   | "AIGatewayCredit"
   | "WebAnalyticsFilterPreset"
   | "CustomerProfileConfig"
   | "Log"
   | "LogsAlertConfiguration"
+  | "PlatformAlertConfiguration"
   | "LogsExclusionRule"
   | "LogsRetentionRule"
   | "TracesRetentionRule"
   | "DashboardWidget"
   | "ProductTour"
   | "Ticket"
+  | "TicketMacro"
+  | "KnowledgeSource"
+  | "KnowledgeLibrary"
   | "InstanceSetting"
   | "SignalReport"
   | "SignalScoutConfig"
+  | "SignalSourceConfig"
   | "SignalTeamConfig"
   | "StreamlitApp"
   | "Metric"
   | "TableCertification"
   | "DataQualityCheck"
   | "DataQualityCheckSchedule"
+  | "WarehouseSuggestion"
+  | "AccessControl"
+  | "DataWarehouseTable"
+  | "DataWarehouseJoin"
   | "Billing"
   | "Loop"
-  | "StamphogRepoConfig";
-/** * `Cohort` - Cohort * `FeatureFlag` - FeatureFlag * `Person` - Person * `Group` - Group * `Insight` - Insight * `Plugin` - Plugin * `PluginConfig` - PluginConfig * `HogFunction` - HogFunction * `HogFlow` - HogFlow * `DataManagement` - DataManagement * `EventDefinition` - EventDefinition * `PropertyDefinition` - PropertyDefinition * `Notebook` - Notebook * `GeneratedWidget` - GeneratedWidget * `Canvas` - Canvas * `Endpoint` - Endpoint * `EndpointVersion` - EndpointVersion * `Dashboard` - Dashboard * `Replay` - Replay * `Experiment` - Experiment * `ExperimentHoldout` - ExperimentHoldout * `ExperimentSavedMetric` - ExperimentSavedMetric * `Survey` - Survey * `EarlyAccessFeature` - EarlyAccessFeature * `SessionRecordingPlaylist` - SessionRecordingPlaylist * `ReplayScanner` - ReplayScanner * `VisionAlertConfiguration` - VisionAlertConfiguration * `Comment` - Comment * `Team` - Team * `Project` - Project * `ErrorTrackingIssue` - ErrorTrackingIssue * `DataWarehouseExpression` - DataWarehouseExpression * `DataWarehouseSavedQuery` - DataWarehouseSavedQuery * `LegalDocument` - LegalDocument * `Organization` - Organization * `OrganizationDomain` - OrganizationDomain * `IdentityProviderConfig` - IdentityProviderConfig * `OrganizationMembership` - OrganizationMembership * `Role` - Role * `UserGroup` - UserGroup * `BatchExport` - BatchExport * `BatchImport` - BatchImport * `ExportedAsset` - ExportedAsset * `Integration` - Integration * `Annotation` - Annotation * `Tag` - Tag * `TaggedItem` - TaggedItem * `Subscription` - Subscription * `PersonalAPIKey` - PersonalAPIKey * `ProjectSecretAPIKey` - ProjectSecretAPIKey * `OAuthApplication` - OAuthApplication * `User` - User * `Action` - Action * `AccountView` - AccountView * `AlertConfiguration` - AlertConfiguration * `Threshold` - Threshold * `AlertSubscription` - AlertSubscription * `ExternalDataSource` - ExternalDataSource * `ExternalDataSchema` - ExternalDataSchema * `Evaluation` - Evaluation * `EvaluationDirectory` - EvaluationDirectory * `LLMPrompt` - LLMPrompt * `LLMPromptLabel` - LLMPromptLabel * `LLMTrace` - LLMTrace * `AIGatewayCredit` - AIGatewayCredit * `WebAnalyticsFilterPreset` - WebAnalyticsFilterPreset * `CustomerProfileConfig` - CustomerProfileConfig * `Log` - Log * `LogsAlertConfiguration` - LogsAlertConfiguration * `LogsExclusionRule` - LogsExclusionRule * `LogsRetentionRule` - LogsRetentionRule * `TracesRetentionRule` - TracesRetentionRule * `DashboardWidget` - DashboardWidget * `ProductTour` - ProductTour * `Ticket` - Ticket * `InstanceSetting` - InstanceSetting * `SignalReport` - SignalReport * `SignalScoutConfig` - SignalScoutConfig * `SignalTeamConfig` - SignalTeamConfig * `StreamlitApp` - StreamlitApp * `Metric` - Metric * `TableCertification` - TableCertification * `DataQualityCheck` - DataQualityCheck * `DataQualityCheckSchedule` - DataQualityCheckSchedule * `Billing` - Billing * `Loop` - Loop * `StamphogRepoConfig` - StamphogRepoConfig */
+  | "StamphogRepoConfig"
+  | "ReviewRepository"
+  | "ReviewProjectSettings"
+  | "ReviewInstallationClaim";
+/** * `Cohort` - Cohort * `CrossProjectDashboard` - CrossProjectDashboard * `DevGatewayToken` - DevGatewayToken * `FeatureFlag` - FeatureFlag * `Person` - Person * `Group` - Group * `Insight` - Insight * `Plugin` - Plugin * `PluginConfig` - PluginConfig * `HogFunction` - HogFunction * `HogFlow` - HogFlow * `DataManagement` - DataManagement * `EventDefinition` - EventDefinition * `PropertyDefinition` - PropertyDefinition * `Notebook` - Notebook * `GeneratedWidget` - GeneratedWidget * `Canvas` - Canvas * `Endpoint` - Endpoint * `EndpointVersion` - EndpointVersion * `Dashboard` - Dashboard * `Replay` - Replay * `Experiment` - Experiment * `ExperimentHoldout` - ExperimentHoldout * `ExperimentSavedMetric` - ExperimentSavedMetric * `Survey` - Survey * `EarlyAccessFeature` - EarlyAccessFeature * `SessionRecordingPlaylist` - SessionRecordingPlaylist * `ReplayScanner` - ReplayScanner * `ReplayObservation` - ReplayObservation * `VisionAlertConfiguration` - VisionAlertConfiguration * `Comment` - Comment * `Team` - Team * `Project` - Project * `ErrorTrackingIssue` - ErrorTrackingIssue * `DataWarehouseExpression` - DataWarehouseExpression * `DataWarehouseSavedQuery` - DataWarehouseSavedQuery * `LegalDocument` - LegalDocument * `Organization` - Organization * `OrganizationDomain` - OrganizationDomain * `OrganizationIPRestrictions` - OrganizationIPRestrictions * `IdentityProviderConfig` - IdentityProviderConfig * `OrganizationMembership` - OrganizationMembership * `Role` - Role * `UserGroup` - UserGroup * `BatchExport` - BatchExport * `BatchImport` - BatchImport * `ExportedAsset` - ExportedAsset * `Integration` - Integration * `Annotation` - Annotation * `Tag` - Tag * `TaggedItem` - TaggedItem * `Subscription` - Subscription * `PersonalAPIKey` - PersonalAPIKey * `ProjectSecretAPIKey` - ProjectSecretAPIKey * `OAuthApplication` - OAuthApplication * `WorkloadTrustPolicy` - WorkloadTrustPolicy * `WorkloadTrustPolicyRequest` - WorkloadTrustPolicyRequest * `User` - User * `Action` - Action * `AccountView` - AccountView * `AlertConfiguration` - AlertConfiguration * `Threshold` - Threshold * `AlertSubscription` - AlertSubscription * `ExternalDataSource` - ExternalDataSource * `ExternalDataSchema` - ExternalDataSchema * `Evaluation` - Evaluation * `EvaluationDirectory` - EvaluationDirectory * `LLMPrompt` - LLMPrompt * `LLMPromptLabel` - LLMPromptLabel * `LLMSkill` - LLMSkill * `LLMTrace` - LLMTrace * `AIGatewayCredit` - AIGatewayCredit * `WebAnalyticsFilterPreset` - WebAnalyticsFilterPreset * `CustomerProfileConfig` - CustomerProfileConfig * `Log` - Log * `LogsAlertConfiguration` - LogsAlertConfiguration * `PlatformAlertConfiguration` - PlatformAlertConfiguration * `LogsExclusionRule` - LogsExclusionRule * `LogsRetentionRule` - LogsRetentionRule * `TracesRetentionRule` - TracesRetentionRule * `DashboardWidget` - DashboardWidget * `ProductTour` - ProductTour * `Ticket` - Ticket * `TicketMacro` - TicketMacro * `KnowledgeSource` - KnowledgeSource * `KnowledgeLibrary` - KnowledgeLibrary * `InstanceSetting` - InstanceSetting * `SignalReport` - SignalReport * `SignalScoutConfig` - SignalScoutConfig * `SignalSourceConfig` - SignalSourceConfig * `SignalTeamConfig` - SignalTeamConfig * `StreamlitApp` - StreamlitApp * `Metric` - Metric * `TableCertification` - TableCertification * `DataQualityCheck` - DataQualityCheck * `DataQualityCheckSchedule` - DataQualityCheckSchedule * `WarehouseSuggestion` - WarehouseSuggestion * `AccessControl` - AccessControl * `DataWarehouseTable` - DataWarehouseTable * `DataWarehouseJoin` - DataWarehouseJoin * `Billing` - Billing * `Loop` - Loop * `StamphogRepoConfig` - StamphogRepoConfig * `ReviewRepository` - ReviewRepository * `ReviewProjectSettings` - ReviewProjectSettings * `ReviewInstallationClaim` - ReviewInstallationClaim */
 export type ListActivityLogRequestScopesItem =
   | "Cohort"
+  | "CrossProjectDashboard"
+  | "DevGatewayToken"
   | "FeatureFlag"
   | "Person"
   | "Group"
@@ -168,6 +189,7 @@ export type ListActivityLogRequestScopesItem =
   | "EarlyAccessFeature"
   | "SessionRecordingPlaylist"
   | "ReplayScanner"
+  | "ReplayObservation"
   | "VisionAlertConfiguration"
   | "Comment"
   | "Team"
@@ -178,6 +200,7 @@ export type ListActivityLogRequestScopesItem =
   | "LegalDocument"
   | "Organization"
   | "OrganizationDomain"
+  | "OrganizationIPRestrictions"
   | "IdentityProviderConfig"
   | "OrganizationMembership"
   | "Role"
@@ -193,6 +216,8 @@ export type ListActivityLogRequestScopesItem =
   | "PersonalAPIKey"
   | "ProjectSecretAPIKey"
   | "OAuthApplication"
+  | "WorkloadTrustPolicy"
+  | "WorkloadTrustPolicyRequest"
   | "User"
   | "Action"
   | "AccountView"
@@ -205,36 +230,51 @@ export type ListActivityLogRequestScopesItem =
   | "EvaluationDirectory"
   | "LLMPrompt"
   | "LLMPromptLabel"
+  | "LLMSkill"
   | "LLMTrace"
   | "AIGatewayCredit"
   | "WebAnalyticsFilterPreset"
   | "CustomerProfileConfig"
   | "Log"
   | "LogsAlertConfiguration"
+  | "PlatformAlertConfiguration"
   | "LogsExclusionRule"
   | "LogsRetentionRule"
   | "TracesRetentionRule"
   | "DashboardWidget"
   | "ProductTour"
   | "Ticket"
+  | "TicketMacro"
+  | "KnowledgeSource"
+  | "KnowledgeLibrary"
   | "InstanceSetting"
   | "SignalReport"
   | "SignalScoutConfig"
+  | "SignalSourceConfig"
   | "SignalTeamConfig"
   | "StreamlitApp"
   | "Metric"
   | "TableCertification"
   | "DataQualityCheck"
   | "DataQualityCheckSchedule"
+  | "WarehouseSuggestion"
+  | "AccessControl"
+  | "DataWarehouseTable"
+  | "DataWarehouseJoin"
   | "Billing"
   | "Loop"
-  | "StamphogRepoConfig";
+  | "StamphogRepoConfig"
+  | "ReviewRepository"
+  | "ReviewProjectSettings"
+  | "ReviewInstallationClaim";
 export type ListActivityLogRequestScopesList = Array<
   ListActivityLogRequestScopesItem | (string & {})
 >;
 export interface ListActivityLogRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
+  /** The pagination cursor value. */
+  cursor?: string | undefined;
   /** Filter by the ID of the affected resource. */
   item_id?: string | undefined;
   /** Sort by when the entry was created. Defaults to newest first. Use created_at for oldest first when polling for new entries, so a saved cursor picks up where the last request stopped. * `-created_at` - -created_at * `created_at` - created_at */
@@ -243,7 +283,7 @@ export interface ListActivityLogRequest {
   page?: number | undefined;
   /** Number of results per page (default: 100, max: 1000). */
   page_size?: number | undefined;
-  /** Filter by a single activity scope, e.g. "FeatureFlag", "Insight", "Dashboard", "Experiment". * `Cohort` - Cohort * `FeatureFlag` - FeatureFlag * `Person` - Person * `Group` - Group * `Insight` - Insight * `Plugin` - Plugin * `PluginConfig` - PluginConfig * `HogFunction` - HogFunction * `HogFlow` - HogFlow * `DataManagement` - DataManagement * `EventDefinition` - EventDefinition * `PropertyDefinition` - PropertyDefinition * `Notebook` - Notebook * `GeneratedWidget` - GeneratedWidget * `Canvas` - Canvas * `Endpoint` - Endpoint * `EndpointVersion` - EndpointVersion * `Dashboard` - Dashboard * `Replay` - Replay * `Experiment` - Experiment * `ExperimentHoldout` - ExperimentHoldout * `ExperimentSavedMetric` - ExperimentSavedMetric * `Survey` - Survey * `EarlyAccessFeature` - EarlyAccessFeature * `SessionRecordingPlaylist` - SessionRecordingPlaylist * `ReplayScanner` - ReplayScanner * `VisionAlertConfiguration` - VisionAlertConfiguration * `Comment` - Comment * `Team` - Team * `Project` - Project * `ErrorTrackingIssue` - ErrorTrackingIssue * `DataWarehouseExpression` - DataWarehouseExpression * `DataWarehouseSavedQuery` - DataWarehouseSavedQuery * `LegalDocument` - LegalDocument * `Organization` - Organization * `OrganizationDomain` - OrganizationDomain * `IdentityProviderConfig` - IdentityProviderConfig * `OrganizationMembership` - OrganizationMembership * `Role` - Role * `UserGroup` - UserGroup * `BatchExport` - BatchExport * `BatchImport` - BatchImport * `ExportedAsset` - ExportedAsset * `Integration` - Integration * `Annotation` - Annotation * `Tag` - Tag * `TaggedItem` - TaggedItem * `Subscription` - Subscription * `PersonalAPIKey` - PersonalAPIKey * `ProjectSecretAPIKey` - ProjectSecretAPIKey * `OAuthApplication` - OAuthApplication * `User` - User * `Action` - Action * `AccountView` - AccountView * `AlertConfiguration` - AlertConfiguration * `Threshold` - Threshold * `AlertSubscription` - AlertSubscription * `ExternalDataSource` - ExternalDataSource * `ExternalDataSchema` - ExternalDataSchema * `Evaluation` - Evaluation * `EvaluationDirectory` - EvaluationDirectory * `LLMPrompt` - LLMPrompt * `LLMPromptLabel` - LLMPromptLabel * `LLMTrace` - LLMTrace * `AIGatewayCredit` - AIGatewayCredit * `WebAnalyticsFilterPreset` - WebAnalyticsFilterPreset * `CustomerProfileConfig` - CustomerProfileConfig * `Log` - Log * `LogsAlertConfiguration` - LogsAlertConfiguration * `LogsExclusionRule` - LogsExclusionRule * `LogsRetentionRule` - LogsRetentionRule * `TracesRetentionRule` - TracesRetentionRule * `DashboardWidget` - DashboardWidget * `ProductTour` - ProductTour * `Ticket` - Ticket * `InstanceSetting` - InstanceSetting * `SignalReport` - SignalReport * `SignalScoutConfig` - SignalScoutConfig * `SignalTeamConfig` - SignalTeamConfig * `StreamlitApp` - StreamlitApp * `Metric` - Metric * `TableCertification` - TableCertification * `DataQualityCheck` - DataQualityCheck * `DataQualityCheckSchedule` - DataQualityCheckSchedule * `Billing` - Billing * `Loop` - Loop * `StamphogRepoConfig` - StamphogRepoConfig */
+  /** Filter by a single activity scope, e.g. "FeatureFlag", "Insight", "Dashboard", "Experiment". * `Cohort` - Cohort * `CrossProjectDashboard` - CrossProjectDashboard * `DevGatewayToken` - DevGatewayToken * `FeatureFlag` - FeatureFlag * `Person` - Person * `Group` - Group * `Insight` - Insight * `Plugin` - Plugin * `PluginConfig` - PluginConfig * `HogFunction` - HogFunction * `HogFlow` - HogFlow * `DataManagement` - DataManagement * `EventDefinition` - EventDefinition * `PropertyDefinition` - PropertyDefinition * `Notebook` - Notebook * `GeneratedWidget` - GeneratedWidget * `Canvas` - Canvas * `Endpoint` - Endpoint * `EndpointVersion` - EndpointVersion * `Dashboard` - Dashboard * `Replay` - Replay * `Experiment` - Experiment * `ExperimentHoldout` - ExperimentHoldout * `ExperimentSavedMetric` - ExperimentSavedMetric * `Survey` - Survey * `EarlyAccessFeature` - EarlyAccessFeature * `SessionRecordingPlaylist` - SessionRecordingPlaylist * `ReplayScanner` - ReplayScanner * `ReplayObservation` - ReplayObservation * `VisionAlertConfiguration` - VisionAlertConfiguration * `Comment` - Comment * `Team` - Team * `Project` - Project * `ErrorTrackingIssue` - ErrorTrackingIssue * `DataWarehouseExpression` - DataWarehouseExpression * `DataWarehouseSavedQuery` - DataWarehouseSavedQuery * `LegalDocument` - LegalDocument * `Organization` - Organization * `OrganizationDomain` - OrganizationDomain * `OrganizationIPRestrictions` - OrganizationIPRestrictions * `IdentityProviderConfig` - IdentityProviderConfig * `OrganizationMembership` - OrganizationMembership * `Role` - Role * `UserGroup` - UserGroup * `BatchExport` - BatchExport * `BatchImport` - BatchImport * `ExportedAsset` - ExportedAsset * `Integration` - Integration * `Annotation` - Annotation * `Tag` - Tag * `TaggedItem` - TaggedItem * `Subscription` - Subscription * `PersonalAPIKey` - PersonalAPIKey * `ProjectSecretAPIKey` - ProjectSecretAPIKey * `OAuthApplication` - OAuthApplication * `WorkloadTrustPolicy` - WorkloadTrustPolicy * `WorkloadTrustPolicyRequest` - WorkloadTrustPolicyRequest * `User` - User * `Action` - Action * `AccountView` - AccountView * `AlertConfiguration` - AlertConfiguration * `Threshold` - Threshold * `AlertSubscription` - AlertSubscription * `ExternalDataSource` - ExternalDataSource * `ExternalDataSchema` - ExternalDataSchema * `Evaluation` - Evaluation * `EvaluationDirectory` - EvaluationDirectory * `LLMPrompt` - LLMPrompt * `LLMPromptLabel` - LLMPromptLabel * `LLMSkill` - LLMSkill * `LLMTrace` - LLMTrace * `AIGatewayCredit` - AIGatewayCredit * `WebAnalyticsFilterPreset` - WebAnalyticsFilterPreset * `CustomerProfileConfig` - CustomerProfileConfig * `Log` - Log * `LogsAlertConfiguration` - LogsAlertConfiguration * `PlatformAlertConfiguration` - PlatformAlertConfiguration * `LogsExclusionRule` - LogsExclusionRule * `LogsRetentionRule` - LogsRetentionRule * `TracesRetentionRule` - TracesRetentionRule * `DashboardWidget` - DashboardWidget * `ProductTour` - ProductTour * `Ticket` - Ticket * `TicketMacro` - TicketMacro * `KnowledgeSource` - KnowledgeSource * `KnowledgeLibrary` - KnowledgeLibrary * `InstanceSetting` - InstanceSetting * `SignalReport` - SignalReport * `SignalScoutConfig` - SignalScoutConfig * `SignalSourceConfig` - SignalSourceConfig * `SignalTeamConfig` - SignalTeamConfig * `StreamlitApp` - StreamlitApp * `Metric` - Metric * `TableCertification` - TableCertification * `DataQualityCheck` - DataQualityCheck * `DataQualityCheckSchedule` - DataQualityCheckSchedule * `WarehouseSuggestion` - WarehouseSuggestion * `AccessControl` - AccessControl * `DataWarehouseTable` - DataWarehouseTable * `DataWarehouseJoin` - DataWarehouseJoin * `Billing` - Billing * `Loop` - Loop * `StamphogRepoConfig` - StamphogRepoConfig * `ReviewRepository` - ReviewRepository * `ReviewProjectSettings` - ReviewProjectSettings * `ReviewInstallationClaim` - ReviewInstallationClaim */
   scope?: ListActivityLogRequestScope | (string & {}) | undefined;
   /** Filter by multiple activity scopes, comma-separated. Values must be valid ActivityScope enum values. E.g. "FeatureFlag,Insight". */
   scopes?: ListActivityLogRequestScopesList | undefined;
@@ -275,6 +315,30 @@ export interface UserBasic {
   hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
   role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
+/** * `session` - session * `personal_api_key` - personal_api_key * `oauth` - oauth * `project_secret_key` - project_secret_key * `team_secret_token` - team_secret_token * `id_jag` - id_jag * `oidc_workload` - oidc_workload * `internal_jwt` - internal_jwt * `service_jwt` - service_jwt * `internal_api_secret` - internal_api_secret * `scim` - scim * `vercel` - vercel * `partner` - partner * `sharing_access_token` - sharing_access_token * `sharing_password` - sharing_password * `widget_token` - widget_token * `billing_service` - billing_service * `gateway_agent` - gateway_agent * `export_renderer` - export_renderer * `webhook` - webhook * `cross_region_signature` - cross_region_signature * `unattributed` - unattributed */
+export type ActivityLogCredentialTypeEnum =
+  | "session"
+  | "personal_api_key"
+  | "oauth"
+  | "project_secret_key"
+  | "team_secret_token"
+  | "id_jag"
+  | "oidc_workload"
+  | "internal_jwt"
+  | "service_jwt"
+  | "internal_api_secret"
+  | "scim"
+  | "vercel"
+  | "partner"
+  | "sharing_access_token"
+  | "sharing_password"
+  | "widget_token"
+  | "billing_service"
+  | "gateway_agent"
+  | "export_renderer"
+  | "webhook"
+  | "cross_region_signature"
+  | "unattributed";
 export interface ActivityLog {
   id?: string | undefined;
   user?: UserBasic | null | undefined;
@@ -286,6 +350,10 @@ export interface ActivityLog {
   is_system?: boolean | null | undefined;
   client?: string | null | undefined;
   ip_address?: string | null | undefined;
+  /** Kind of credential that authenticated the request that made the change. 'unattributed' means the request recorded no credential. Null for changes made outside a request, such as background jobs, and for entries recorded before PostHog stored the credential. * `session` - session * `personal_api_key` - personal_api_key * `oauth` - oauth * `project_secret_key` - project_secret_key * `team_secret_token` - team_secret_token * `id_jag` - id_jag * `oidc_workload` - oidc_workload * `internal_jwt` - internal_jwt * `service_jwt` - service_jwt * `internal_api_secret` - internal_api_secret * `scim` - scim * `vercel` - vercel * `partner` - partner * `sharing_access_token` - sharing_access_token * `sharing_password` - sharing_password * `widget_token` - widget_token * `billing_service` - billing_service * `gateway_agent` - gateway_agent * `export_renderer` - export_renderer * `webhook` - webhook * `cross_region_signature` - cross_region_signature * `unattributed` - unattributed */
+  credential_type: ActivityLogCredentialTypeEnum | null;
+  /** Id of the credential that authenticated the change: the login session id for 'session', or the key id for 'personal_api_key' and 'project_secret_key'. Null for every other credential type and for impersonated changes. */
+  credential_id: string | null;
   activity?: string | undefined;
   item_id?: string | null | undefined;
   scope?: string | undefined;
@@ -324,6 +392,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
           item_id: S.optional(S.String.pipe(T.Query())),
           ordering: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
@@ -363,6 +432,8 @@ function __c0(j: number): any {
           is_system: S.optional(S.NullOr(S.Boolean)),
           client: S.optional(S.NullOr(S.String)),
           ip_address: S.optional(S.NullOr(S.String)),
+          credential_type: S.NullOr(S.String),
+          credential_id: S.NullOr(S.String),
           activity: S.optional(S.String),
           item_id: S.optional(S.NullOr(S.String)),
           scope: S.optional(S.String),

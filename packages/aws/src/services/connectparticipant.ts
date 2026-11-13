@@ -254,10 +254,12 @@ export interface DisconnectParticipantRequest {
 }
 export interface DisconnectParticipantResponse {}
 export type URLExpiryInSeconds = number;
+export type ContentDisposition = "INLINE" | "ATTACHMENT" | (string & {});
 export interface GetAttachmentRequest {
   AttachmentId: string;
   ConnectionToken: string;
   UrlExpiryInSeconds?: number | undefined;
+  UrlContentDisposition?: ContentDisposition | undefined;
 }
 export type PreSignedAttachmentUrl = string;
 export type AttachmentSizeInBytes = number;
@@ -396,10 +398,10 @@ export interface StartAttachmentUploadRequest {
   ClientToken: string;
   ConnectionToken: string;
 }
-export type UploadMetadataUrl = string;
-export type UploadMetadataSignedHeadersKey = string;
-export type UploadMetadataSignedHeadersValue = string;
-export type UploadMetadataSignedHeaders = { [key: string]: string | undefined };
+export type MetadataUrl = string;
+export type UrlMetadataSignedHeadersKey = string;
+export type UrlMetadataSignedHeadersValue = string;
+export type UrlMetadataSignedHeaders = { [key: string]: string | undefined };
 export interface UploadMetadata {
   Url?: string | undefined;
   UrlExpiry?: string | undefined;
@@ -1021,6 +1023,7 @@ function __c2(j: number): any {
           AttachmentId: S.String,
           ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
           UrlExpiryInSeconds: S.optional(S.Number),
+          UrlContentDisposition: S.optional(S.String),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/participant/attachment" }),

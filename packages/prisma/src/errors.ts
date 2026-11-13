@@ -27,6 +27,7 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -36,11 +37,9 @@ import * as Schema from "@distilled.cloud/core/schema-lite-typed";
  */
 export class UnknownPrismaError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownPrismaError>()("UnknownPrismaError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
+    ...UnknownErrorFields,
     hint: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  }) {}
 
 /** Schema parse error wrapper (kept for v0 API compatibility). */
 export class PrismaParseError

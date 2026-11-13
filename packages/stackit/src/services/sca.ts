@@ -58,20 +58,20 @@ export type ContainerArgsList = Array<string>;
 /** Container command override. */
 export type ContainerCommandList = Array<string>;
 /** EnvVarType identifies the origin of an environment variable. - ENV_FROM_SOURCE_TYPE_UNSPECIFIED: Used as zero value. - ENV_FROM_SOURCE_TYPE_MANUAL: Environment source from a literal value. - ENV_FROM_SOURCE_TYPE_SECRET: Environment source from a secret. */
-export type EnvVarType =
+export type ContainerEnvVarType =
   | "ENV_FROM_SOURCE_TYPE_UNSPECIFIED"
   | "ENV_FROM_SOURCE_TYPE_MANUAL"
   | "ENV_FROM_SOURCE_TYPE_SECRET";
 /** EnvVar defines a single environment variable. */
-export interface EnvVar {
+export interface ContainerEnvVar {
   /** Environment variable key. */
   key: string;
-  origin?: EnvVarType | (string & {}) | undefined;
+  origin?: ContainerEnvVarType | (string & {}) | undefined;
   /** Environment variable value. */
   value: string;
 }
 /** Environment variables exposed to the container. */
-export type ContainerEnvironmentVariablesList = Array<EnvVar>;
+export type ContainerEnvironmentVariablesList = Array<ContainerEnvVar>;
 /** Container describes a simplified container configuration for the application. */
 export interface Container {
   /** Container argument override. */
@@ -91,89 +91,83 @@ export interface Container {
 }
 /** Containers to deploy for the application. */
 export type CreateApplicationRequestContainersList = Array<Container>;
-/** Allowed destination CIDRs for Ingress traffic. */
-export type NetworkIngressAclList = Array<string>;
-/** Network configuration for an application. */
-export interface Network {
-  /** Allowed destination CIDRs for Ingress traffic. */
-  ingressAcl?: NetworkIngressAclList | undefined;
-  /** Internal port number for inter application communication. */
-  internalPort?: number | undefined;
-  /** Port number. */
+export interface ApplicationInternalNetwork {
+  /** Enable or disable internal networking. */
+  enabled: boolean;
+  /** Port to expose the application internally. */
   port?: number | undefined;
-  /** Whether the application should be accessible from the internet. */
-  publicIngress?: boolean | undefined;
 }
-export interface ApplicationRegistryCredentialsAuth {
-  /** Password to authenticate to the registry. Omit or set to null to indicate deletion in updates. */
-  password?: string | Redacted.Redacted<string> | undefined;
-  url: string;
-  user: string;
+/** List of IPv4 CIDR ranges that the application is allowed to communicate with. */
+export type ApplicationAccessControlEgressList = Array<string>;
+/** List of IPv4 CIDR ranges allowed to access the application. */
+export type ApplicationAccessControlIngressList = Array<string>;
+export interface ApplicationAccessControl {
+  /** List of IPv4 CIDR ranges that the application is allowed to communicate with. */
+  egress?: ApplicationAccessControlEgressList | undefined;
+  /** List of IPv4 CIDR ranges allowed to access the application. */
+  ingress?: ApplicationAccessControlIngressList | undefined;
 }
-export type ApplicationRegistryAuthType = "AUTH_TYPE_NONE" | "AUTH_TYPE_CREDENTIALS";
-export interface ApplicationRegistry {
-  credentials?: ApplicationRegistryCredentialsAuth | undefined;
-  type: ApplicationRegistryAuthType | (string & {});
+export interface ApplicationPublicNetwork {
+  accessControl?: ApplicationAccessControl | undefined;
+  /** Enable or disable public networking. */
+  enabled: boolean;
+  /** Port to expose the application. */
+  port?: number | undefined;
 }
-/** Image registry configuration for the application. */
-export type CreateApplicationRequestRegistryList = Array<ApplicationRegistry>;
-/** - CURRENT_STATUS_UNSPECIFIED: Used as zero value. - CURRENT_STATUS_PROGRESSING: Applications replicas are being created. - CURRENT_STATUS_RUNNING: Application is ready and has the desired replicas running. - CURRENT_STATUS_FAILED: Application is not available and has some error. - CURRENT_STATUS_IDLE: Application is ready but is scaled to 0 replicas. - CURRENT_STATUS_NONE: Application is stopped. */
-export type CurrentStatus =
-  | "CURRENT_STATUS_UNSPECIFIED"
-  | "CURRENT_STATUS_PROGRESSING"
-  | "CURRENT_STATUS_RUNNING"
-  | "CURRENT_STATUS_FAILED"
-  | "CURRENT_STATUS_IDLE"
-  | "CURRENT_STATUS_NONE";
-export interface RuntimeStatusInput {
-  currentStatus?: CurrentStatus | (string & {}) | undefined;
+/** Network configuration for an application. */
+export interface ApplicationNetwork {
+  internal?: ApplicationInternalNetwork | undefined;
+  public?: ApplicationPublicNetwork | undefined;
 }
-/** CustomRuleParameter defines a single scaler parameter. */
-export interface CustomRuleParameter {
+/** CustomRuleParameter defines a single scaler parameter from KEDA Scaler metadata configuration. */
+export interface ApplicationCustomRuleParameter {
+  /** Parameter name/key from KEDA metadata parameters. */
   name: string;
+  /** Parameter value for KEDA metadata key. */
   value: string;
 }
 /** Scaler parameters. */
-export type CustomScaleRuleParametersList = Array<CustomRuleParameter>;
+export type ApplicationCustomScaleRuleParametersList = Array<ApplicationCustomRuleParameter>;
 /** CustomRuleSecretMapping maps a scaler parameter to an environment secret. */
-export interface CustomRuleSecretMapping {
+export interface ApplicationCustomRuleSecretMapping {
   /** Secret parameter name. */
   parameter: string;
   /** Environment secret name. */
   secret: string | Redacted.Redacted<string>;
 }
 /** Secret mappings for the scaler. */
-export type CustomScaleRuleSecretsMappingList = Array<CustomRuleSecretMapping>;
-/** CustomScaleRule defines parameters for custom scalers (e.g., KEDA). */
-export interface CustomScaleRule {
+export type ApplicationCustomScaleRuleSecretsMappingList =
+  Array<ApplicationCustomRuleSecretMapping>;
+/** CustomScaleRule defines parameters for KEDA Scalers. */
+export interface ApplicationCustomScaleRule {
   /** Scaler parameters. */
-  parameters?: CustomScaleRuleParametersList | undefined;
+  parameters?: ApplicationCustomScaleRuleParametersList | undefined;
   /** Secret mappings for the scaler. */
-  secretsMapping?: CustomScaleRuleSecretsMappingList | undefined;
+  secretsMapping?: ApplicationCustomScaleRuleSecretsMappingList | undefined;
   /** Scaler type. */
   type: string;
 }
 /** HttpScaleRule defines parameters for HTTP-based scaling. */
-export interface HttpScaleRule {
+export interface ApplicationHttpScaleRule {
   /** Target concurrency per instance. */
   concurrency?: number | undefined;
   /** Target requests per second per instance. */
   rps?: number | undefined;
 }
 /** - RULE_TYPE_UNSPECIFIED: Used as zero value. - RULE_TYPE_HTTP: HTTP scaling rule. - RULE_TYPE_CUSTOM: Custom scaling rule (e.g. KEDA). */
-export type RuleType = "RULE_TYPE_UNSPECIFIED" | "RULE_TYPE_HTTP" | "RULE_TYPE_CUSTOM";
+export type ApplicationRuleType = "RULE_TYPE_UNSPECIFIED" | "RULE_TYPE_HTTP" | "RULE_TYPE_CUSTOM";
 /** ScaleRule defines one autoscaling trigger. */
-export interface ScaleRule {
-  customRule?: CustomScaleRule | undefined;
-  httpRule?: HttpScaleRule | undefined;
+export interface ApplicationScaleRule {
+  customRule?: ApplicationCustomScaleRule | undefined;
+  httpRule?: ApplicationHttpScaleRule | undefined;
   /** Rule name. */
   name: string;
-  type: RuleType | (string & {});
+  type: ApplicationRuleType | (string & {});
 }
 /** Scaling rules. */
-export type AutoScalingRulesList = Array<ScaleRule>;
+export type ApplicationAutoScalingRulesList = Array<ApplicationScaleRule>;
 /** AutoScaling configuration. */
-export interface AutoScaling {
+export interface ApplicationAutoScaling {
   /** Allow automatically scale to zero. */
   allowScaleToZero?: boolean | undefined;
   /** Maximum number of instances. */
@@ -181,116 +175,119 @@ export interface AutoScaling {
   /** Minimum number of instances. */
   minInstances: number;
   /** Scaling rules. */
-  rules: AutoScalingRulesList;
+  rules: ApplicationAutoScalingRulesList;
 }
 /** ManualScaling configuration. */
-export interface ManualScaling {
+export interface ApplicationManualScaling {
   /** Number of instances to run. */
   instances: number;
 }
-/** - SCALING_TYPE_UNSPECIFIED: Used as zero value. - SCALING_TYPE_AUTO: Auto scaling based on rules. - SCALING_TYPE_MANUAL: Manual scaling with fixed number of instances. */
-export type ScalingType = "SCALING_TYPE_UNSPECIFIED" | "SCALING_TYPE_AUTO" | "SCALING_TYPE_MANUAL";
+/** ScalingType for the scaling configuration of the application. - SCALING_TYPE_UNSPECIFIED: Used as zero value. - SCALING_TYPE_AUTO: Auto scaling based on rules. - SCALING_TYPE_MANUAL: Manual scaling with fixed number of instances. */
+export type ApplicationScalingType =
+  | "SCALING_TYPE_UNSPECIFIED"
+  | "SCALING_TYPE_AUTO"
+  | "SCALING_TYPE_MANUAL";
 /** Scaling configuration for the application. */
-export interface Scaling {
-  autoScaling?: AutoScaling | undefined;
-  manualScaling?: ManualScaling | undefined;
-  type: ScalingType | (string & {});
+export interface ApplicationScaling {
+  autoScaling?: ApplicationAutoScaling | undefined;
+  manualScaling?: ApplicationManualScaling | undefined;
+  type: ApplicationScalingType | (string & {});
 }
-/** ApplicationSecret defines a single secret key-value pair. */
-export interface ApplicationSecret {
-  /** Secret key. */
-  key: string;
-  /** Secret value. Omit or set to null to keep the existing value unchanged. */
-  value?: string | undefined;
-}
-/** Secrets associated with the application. */
-export type CreateApplicationRequestSecretsList = Array<ApplicationSecret>;
 export interface CreateApplicationRequest {
   /** Project to create the application in. */
   projectId: string;
-  /** environment to create the application in. */
+  /** Region to create the application in. */
+  region: string;
+  /** Environment to create the application in. */
   environmentId: string;
   /** Containers to deploy for the application. */
   containers: CreateApplicationRequestContainersList;
   /** Human-readable display name. */
   displayName: string;
-  network?: Network | undefined;
-  /** Image registry configuration for the application. */
-  registry?: CreateApplicationRequestRegistryList | undefined;
-  runtimeStatus?: RuntimeStatusInput | undefined;
-  scaling: Scaling;
-  /** Secrets associated with the application. */
-  secrets?: CreateApplicationRequestSecretsList | undefined;
+  network?: ApplicationNetwork | undefined;
+  scaling: ApplicationScaling;
   /** Indicates if the application resources are stopped. */
   stopped?: boolean | undefined;
 }
 /** Containers to deploy for the application. */
 export type ApplicationContainersList = Array<Container>;
-/** Image registry configuration for the application. */
-export type ApplicationRegistryList = Array<ApplicationRegistry>;
-/** Failure reasons collected from workload conditions. */
-export type RuntimeStatusFailureReasonsList = Array<string>;
+/** Current status of the application. - CURRENT_STATUS_UNSPECIFIED: Used as zero value. - CURRENT_STATUS_PROGRESSING: Applications replicas are being created. - CURRENT_STATUS_RUNNING: Application is ready and has the desired replicas running. - CURRENT_STATUS_FAILED: Application is not available and has some error. - CURRENT_STATUS_IDLE: Application is ready but is scaled to 0 replicas. - CURRENT_STATUS_NONE: Application is stopped. */
+export type ApplicationCurrentStatus =
+  | "CURRENT_STATUS_UNSPECIFIED"
+  | "CURRENT_STATUS_PROGRESSING"
+  | "CURRENT_STATUS_RUNNING"
+  | "CURRENT_STATUS_FAILED"
+  | "CURRENT_STATUS_IDLE"
+  | "CURRENT_STATUS_NONE";
+/** List of application domains. */
+export interface ApplicationDomains {
+  /** Default domain for the application. */
+  default?: string | undefined;
+  /** Internal domain for the application. */
+  internal?: string | undefined;
+}
 /** - INSTANCE_STATUS_PROGRESSING: Instance is being created. - INSTANCE_STATUS_RUNNING: Instance is available and running. - INSTANCE_STATUS_FAILED: Instance is not available and has some error. */
-export type InstanceStatus =
+export type ApplicationInstanceStatus =
   | "INSTANCE_STATUS_PROGRESSING"
   | "INSTANCE_STATUS_RUNNING"
   | "INSTANCE_STATUS_FAILED";
 /** Application instance summary. */
-export interface Instance {
+export interface ApplicationInstance {
   /** Instance's name. */
   name?: string | undefined;
-  status?: InstanceStatus | undefined;
+  status?: ApplicationInstanceStatus | undefined;
 }
-export type RuntimeStatusInstancesList = Array<Instance>;
-/** Known URLs for the running application. */
-export type RuntimeStatusUrlsList = Array<string>;
-export interface RuntimeStatus {
-  currentStatus?: CurrentStatus | undefined;
-  /** Failure reasons collected from workload conditions. */
-  failureReasons?: RuntimeStatusFailureReasonsList | undefined;
-  instances?: RuntimeStatusInstancesList | undefined;
-  /** Internal URL for the running application. */
-  internalUrl?: string | undefined;
+export type ApplicationStatusInstancesList = Array<ApplicationInstance>;
+/** Status of the application. */
+export interface ApplicationStatus {
+  current?: ApplicationCurrentStatus | undefined;
+  domains?: ApplicationDomains | undefined;
+  instances?: ApplicationStatusInstancesList | undefined;
   /** Last time the application was deployed. */
   lastDeployment?: string | undefined;
-  /** Known URLs for the running application. */
-  urls?: RuntimeStatusUrlsList | undefined;
 }
-/** Secrets associated with the application. */
-export type ApplicationSecretsList = Array<ApplicationSecret>;
 /** Application describes a deployable multi-container workload instance. */
 export interface Application {
   /** Containers to deploy for the application. */
   containers: ApplicationContainersList;
+  /** Creation date in RFC3339 format. */
+  createdAt?: string | undefined;
   /** Human-readable display name. */
   displayName: string;
-  /** Application environment ID. */
+  /** Environment identifier where the application belongs. */
   environmentId?: string | undefined;
-  /** Application human-readable display name. */
+  /** Environment human-readable display name. */
   environmentName?: string | undefined;
-  /** Application identifier, for example: 00000000-0000-0000-0000-000000000000. */
+  /** Application identifier. */
   id?: string | undefined;
-  network?: Network | undefined;
-  /** Image registry configuration for the application. */
-  registry?: ApplicationRegistryList | undefined;
-  runtimeStatus?: RuntimeStatus | undefined;
-  scaling: Scaling;
-  /** Secrets associated with the application. */
-  secrets?: ApplicationSecretsList | undefined;
+  network?: ApplicationNetwork | undefined;
+  /** Region of the environment. */
+  region?: string | undefined;
+  scaling: ApplicationScaling;
+  status?: ApplicationStatus | undefined;
   /** Indicates if the application resources are stopped. */
   stopped?: boolean | undefined;
+  /** Last update date in RFC3339 format. */
+  updatedAt?: string | undefined;
 }
-/** - ENVIRONMENT_STATUS_UNSPECIFIED: Used as zero value. - ENVIRONMENT_STATUS_PROGRESSING: Environment is being created. - ENVIRONMENT_STATUS_CREATED: Environment is successfully created. */
-export type EnvironmentStatus =
-  | "ENVIRONMENT_STATUS_UNSPECIFIED"
-  | "ENVIRONMENT_STATUS_PROGRESSING"
-  | "ENVIRONMENT_STATUS_CREATED";
 export interface CreateEnvironmentRequest {
-  /** Parent project resource name to create under */
+  /** Project to create the environment */
   projectId: string;
+  /** Region to place the environment */
+  region: string;
   /** Human-readable display name. */
   displayName: string;
-  status?: EnvironmentStatus | (string & {}) | undefined;
+}
+/** - CURRENT_STATUS_UNSPECIFIED: Used as zero value. - CURRENT_STATUS_PROGRESSING: Environment is being created. - CURRENT_STATUS_CREATED: Environment is successfully created. */
+export type EnvironmentCurrentStatus =
+  | "CURRENT_STATUS_UNSPECIFIED"
+  | "CURRENT_STATUS_PROGRESSING"
+  | "CURRENT_STATUS_CREATED";
+/** Status of the environment. */
+export interface EnvironmentStatus {
+  /** Amount of applications in the environment. */
+  applicationsNumber?: number | undefined;
+  current?: EnvironmentCurrentStatus | undefined;
 }
 /** Environment describes an isolated container scope within a project. */
 export interface Environment {
@@ -300,14 +297,18 @@ export interface Environment {
   default?: boolean | undefined;
   /** Human-readable display name. */
   displayName: string;
-  /** Environment identifier, for example: default. */
+  /** Environment identifier. */
   id?: string | undefined;
+  /** Region of the environment. */
+  region?: string | undefined;
   status?: EnvironmentStatus | undefined;
 }
 export interface DeleteApplicationRequest {
   /** Project to delete the application in. */
   projectId: string;
-  /** environment to delete the application in. */
+  /** Region to delete the application in. */
+  region: string;
+  /** Environment to delete the application in. */
   environmentId: string;
   /** Application id to delete. */
   applicationId: string;
@@ -315,37 +316,43 @@ export interface DeleteApplicationRequest {
 export interface GetApplicationRequest {
   /** Project to fetch the application from. */
   projectId: string;
-  /** environment to fetch the application from. */
-  environmentId: string;
-  /** Application id to fetch. */
-  applicationId: string;
-}
-export interface GetApplicationEventsRequest {
-  /** Project to fetch the application from. */
-  projectId: string;
+  /** Region to fetch the application from. */
+  region: string;
   /** Environment to fetch the application from. */
   environmentId: string;
   /** Application id to fetch. */
   applicationId: string;
 }
+export interface GetApplicationEventsRequest {
+  /** Project to fetch the application events from. */
+  projectId: string;
+  /** Region to fetch the application events from. */
+  region: string;
+  /** Environment to fetch the application events from. */
+  environmentId: string;
+  /** Application id to fetch the events. */
+  applicationId: string;
+}
 /** Event defines an event line. */
-export interface Event {
+export interface ApplicationEvent {
   /** Event message. */
   message?: string | undefined;
 }
 /** Events list. */
-export type GetApplicationEventsResponseEventsList = Array<Event>;
+export type GetApplicationEventsResponseEventsList = Array<ApplicationEvent>;
 /** GetApplicationEventsResponse contains an application's events list. */
 export interface GetApplicationEventsResponse {
   /** Events list. */
   events?: GetApplicationEventsResponseEventsList | undefined;
 }
 export interface GetApplicationLogsRequest {
-  /** Project to fetch the application from. */
+  /** Project to fetch the application logs from. */
   projectId: string;
-  /** Environment to fetch the application from. */
+  /** Region to fetch the application logs from. */
+  region: string;
+  /** Environment to fetch the application logs from. */
   environmentId: string;
-  /** Application id to fetch. */
+  /** Application id to fetch the logs. */
   applicationId: string;
   /** Instance name of the application. */
   instance: string;
@@ -355,29 +362,33 @@ export interface GetApplicationLogsRequest {
   previous?: boolean | undefined;
 }
 /** Log defines a log line. */
-export interface Log {
+export interface ApplicationLog {
   /** Log message. */
   message?: string | undefined;
 }
 /** Logs list. */
-export type GetApplicationLogsResponseLogsList = Array<Log>;
+export type GetApplicationLogsResponseLogsList = Array<ApplicationLog>;
 /** GetApplicationLogsResponse contains an application's logs list. */
 export interface GetApplicationLogsResponse {
   /** Logs list. */
   logs?: GetApplicationLogsResponseLogsList | undefined;
 }
 export interface GetEnvironmentRequest {
-  /** Parent project resource name to fetch under. */
+  /** Project to retrieve the environment */
   projectId: string;
+  /** Region to fetch the environment */
+  region: string;
   /** Environment identifier, for example: default. */
   environmentId: string;
 }
 export interface GetOverviewRequest {
-  /** Parent project resource name to list under. */
+  /** Project to fetch the overview from. */
   projectId: string;
+  /** Region to fetch the overview from. */
+  region: string;
 }
 /** Summary describes the current status of a project. */
-export interface Summary {
+export interface OverviewSummary {
   /** Number of applications running in a project. */
   applicationsRunning?: number | undefined;
   /** Number of applications created in a project. */
@@ -385,109 +396,226 @@ export interface Summary {
 }
 /** GetOverviewResponse contains a summary of the current state of the project's application. */
 export interface GetOverviewResponse {
-  summary: Summary;
+  /** Region where the overview is being fetched from. */
+  region?: string | undefined;
+  summary?: OverviewSummary | undefined;
 }
 export interface ListApplicationsRequest {
-  /** Project to list the applications in. */
+  /** Project to list the applications from. */
   projectId: string;
-  /** environment to list the applications in. */
+  /** Region to list the applications from. */
+  region: string;
+  /** Environment to list the applications from. */
   environmentId: string;
 }
-/** ApplicationSummary describes a summary of an application. */
+/** ApplicationSummary describes a briefer representation of an application. */
 export interface ApplicationSummary {
-  /** Number of containers. */
-  containers?: number | undefined;
   /** Creation date in RFC3339 format. */
   createdAt?: string | undefined;
-  /** Application's human-readable name. */
+  /** Human-readable display name. */
   displayName?: string | undefined;
-  /** Environment's identifier. */
+  /** Environment identifier where the application belongs. */
   environmentId?: string | undefined;
-  /** Environment's human-readable name. */
+  /** Environment human-readable display name. */
   environmentName?: string | undefined;
-  /** Application identifier, for example: 00000000-0000-0000-0000-000000000000. */
+  /** Application identifier. */
   id?: string | undefined;
-  /** Application's running instances. */
-  instances?: number | undefined;
-  /** Application's internal URL. */
-  internalUrl?: string | undefined;
-  /** Date of the last moment the application got the running status in RFC3339 format. */
-  lastDeployment?: string | undefined;
-  status?: CurrentStatus | undefined;
+  /** Region of the environment. */
+  region?: string | undefined;
+  status?: ApplicationStatus | undefined;
   /** Indicates if the application resources are stopped. */
   stopped?: boolean | undefined;
-  /** Application's published URL. */
-  url?: string | undefined;
+  /** Last update date in RFC3339 format. */
+  updatedAt?: string | undefined;
 }
-/** Applications under the requested parent. */
+/** Applications summaries under the requested parent. */
 export type ListApplicationsResponseItemsList = Array<ApplicationSummary>;
 /** ListApplicationsResponse contains applications and pagination metadata. */
 export interface ListApplicationsResponse {
-  /** Applications under the requested parent. */
+  /** Applications summaries under the requested parent. */
   items?: ListApplicationsResponseItemsList | undefined;
 }
-export interface ListEnvironmentsRequest {
-  /** Parent project resource name to list under. */
+export interface ListEnvironmentRegistriesRequest {
+  /** Project to fetch the environment registries from. */
   projectId: string;
+  /** Region to fetch the environment registries from. */
+  region: string;
+  /** Environment to fetch the environment registries from. */
+  environmentId: string;
 }
-/** Environment summary. */
-export interface EnvironmentSummary {
-  /** Amount of applications in the environment. */
-  applicationsNumber?: number | undefined;
-  /** Creation date in RFC3339 format. */
-  createdAt?: string | undefined;
-  /** Is the default environmet. */
-  default?: boolean | undefined;
-  /** Human-readable display name. */
+/** RegistryConsumer lists the usages of a single Environment registry. */
+export interface RegistryConsumer {
+  /** The container where the registry is used. */
+  container?: string | undefined;
+  /** The display name of the entity. */
   displayName?: string | undefined;
-  /** Environment identifier, for example: default. */
+  /** The entity that is consuming the registry. */
   id?: string | undefined;
 }
+/** List of entities actively consuming this registry. */
+export type EnvironmentRegistryStatusConsumersList = Array<RegistryConsumer>;
+/** EnvironmentRegistryStatus computed fields for a single registry. */
+export interface EnvironmentRegistryStatus {
+  /** List of entities actively consuming this registry. */
+  consumers?: EnvironmentRegistryStatusConsumersList | undefined;
+}
+/** EnvironmentRegistry defines a single registry representation. */
+export interface EnvironmentRegistry {
+  /** Creation timestamp of this registry entry. */
+  createdAt?: string | undefined;
+  /** Registry password. Omit or set to null to keep the existing value unchanged. */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Registry region. */
+  region?: string | undefined;
+  /** Registry server. */
+  server: string;
+  status?: EnvironmentRegistryStatus | undefined;
+  /** Last update timestamp of this registry entry. */
+  updatedAt?: string | undefined;
+  /** Registry username. Omit or set to null to keep the existing value unchanged. */
+  username?: string | undefined;
+}
+/** The collection of configured registries. */
+export type EnvironmentRegistriesVaultRegistriesList = Array<EnvironmentRegistry>;
+/** Represents the collection Environment registries. */
+export interface EnvironmentRegistriesVault {
+  /** The collection of configured registries. */
+  registries: EnvironmentRegistriesVaultRegistriesList;
+}
+export interface ListEnvironmentsRequest {
+  /** Project to list environments from. */
+  projectId: string;
+  /** Region to fetch the environments from. */
+  region: string;
+}
 /** Environments under the requested parent. */
-export type ListEnvironmentsResponseItemsList = Array<EnvironmentSummary>;
+export type ListEnvironmentsResponseItemsList = Array<Environment>;
 /** ListEnvironmentsResponse contains environments and pagination metadata. */
 export interface ListEnvironmentsResponse {
   /** Environments under the requested parent. */
   items?: ListEnvironmentsResponseItemsList | undefined;
 }
+export interface ListEnvironmentSecretsRequest {
+  /** Project to fetch the environment secrets from. */
+  projectId: string;
+  /** Region to fetch the environment secrets from. */
+  region: string;
+  /** Environment to fetch the environment secrets from. */
+  environmentId: string;
+}
+/** SecretConsumer lists the usages of a single Environment secret. */
+export interface SecretConsumer {
+  /** The container where the secret is used. */
+  container?: string | undefined;
+  /** The display name of the entity. */
+  displayName?: string | undefined;
+  /** The entity that is consuming the secret. */
+  id?: string | undefined;
+}
+/** List of entities actively consuming this secret. */
+export type EnvironmentSecretStatusConsumersList = Array<SecretConsumer>;
+/** EnvironmentSecretStatus computed fields for a single secret. */
+export interface EnvironmentSecretStatus {
+  /** List of entities actively consuming this secret. */
+  consumers?: EnvironmentSecretStatusConsumersList | undefined;
+}
+/** EnvironmentSecret defines a single secret representation. */
+export interface EnvironmentSecret {
+  /** Creation timestamp of this registry entry. */
+  createdAt?: string | undefined;
+  /** Secret key. */
+  key: string;
+  /** Secret region. */
+  region?: string | undefined;
+  status?: EnvironmentSecretStatus | undefined;
+  /** Last update timestamp of this registry entry. */
+  updatedAt?: string | undefined;
+  /** Secret value. Omit or set to null to keep the existing value unchanged. */
+  value?: string | undefined;
+}
+/** The collection of configured secrets. */
+export type EnvironmentSecretsVaultSecretsList = Array<EnvironmentSecret>;
+/** Represents the vault containing the Environment secrets. */
+export interface EnvironmentSecretsVault {
+  /** The collection of configured secrets. */
+  secrets: EnvironmentSecretsVaultSecretsList;
+}
 export interface ListProjectApplicationsRequest {
   /** Project to list the applications in. */
   projectId: string;
+  /** Region to list the applications from. */
+  region: string;
 }
 /** Containers to deploy for the application. */
 export type UpdateApplicationRequestContainersList = Array<Container>;
-/** Image registry configuration for the application. */
-export type UpdateApplicationRequestRegistryList = Array<ApplicationRegistry>;
-/** Secrets associated with the application. */
-export type UpdateApplicationRequestSecretsList = Array<ApplicationSecret>;
 export interface UpdateApplicationRequest {
   /** Project to update the application in. */
   projectId: string;
-  /** environment to update the application in. */
+  /** Region to update the application in. */
+  region: string;
+  /** Environment to update the application in. */
   environmentId: string;
   /** Application id to update. */
   applicationId: string;
   /** Containers to deploy for the application. */
-  containers?: UpdateApplicationRequestContainersList | undefined;
-  network?: Network | undefined;
-  /** Image registry configuration for the application. */
-  registry?: UpdateApplicationRequestRegistryList | undefined;
-  scaling?: Scaling | undefined;
-  /** Secrets associated with the application. */
-  secrets?: UpdateApplicationRequestSecretsList | undefined;
+  containers: UpdateApplicationRequestContainersList;
+  /** Human-readable display name. */
+  displayName: string;
+  network?: ApplicationNetwork | undefined;
+  scaling: ApplicationScaling;
   /** Indicates if the application resources are stopped. */
   stopped?: boolean | undefined;
 }
+/** EnvironmentRegistry defines a single registry representation. */
+export interface EnvironmentRegistryInput {
+  /** Registry password. Omit or set to null to keep the existing value unchanged. */
+  password?: string | Redacted.Redacted<string> | undefined;
+  /** Registry server. */
+  server: string;
+  /** Registry username. Omit or set to null to keep the existing value unchanged. */
+  username?: string | undefined;
+}
+/** The collection of configured registries. */
+export type UpdateEnvironmentRegistriesRequestRegistriesList = Array<EnvironmentRegistryInput>;
+export interface UpdateEnvironmentRegistriesRequest {
+  /** Project to update the environment registries in. */
+  projectId: string;
+  /** Region to update the environment registries from. */
+  region: string;
+  /** Environment to update the environment registries in. */
+  environmentId: string;
+  /** The collection of configured registries. */
+  registries: UpdateEnvironmentRegistriesRequestRegistriesList;
+}
+/** EnvironmentSecret defines a single secret representation. */
+export interface EnvironmentSecretInput {
+  /** Secret key. */
+  key: string;
+  /** Secret value. Omit or set to null to keep the existing value unchanged. */
+  value?: string | undefined;
+}
+/** The collection of configured secrets. */
+export type UpdateEnvironmentSecretsRequestSecretsList = Array<EnvironmentSecretInput>;
+export interface UpdateEnvironmentSecretsRequest {
+  /** Project to update the environment secrets in. */
+  projectId: string;
+  /** Region to update the environment secrets from. */
+  region: string;
+  /** Environment to update the environment secrets in. */
+  environmentId: string;
+  /** The collection of configured secrets. */
+  secrets: UpdateEnvironmentSecretsRequestSecretsList;
+}
 export type CreateApplicationError = BadRequest | Conflict | StackitOpError;
-/** Creates a new application within a environment. */
+/** Creates a new application within an environment. */
 export const createApplication: API.OperationMethod<
   CreateApplicationRequest,
   Application,
   CreateApplicationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(193, __c6, 1) as any as S.Schema<CreateApplicationRequest>,
-  output: __S(249, __c7, 25) as any as S.Schema<Application>,
+  input: __S(416, __c13, 0) as any as S.Schema<CreateApplicationRequest>,
+  output: __S(500, __c15, 20) as any as S.Schema<Application>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -503,8 +631,8 @@ export const createEnvironment: API.OperationMethod<
   CreateEnvironmentError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<CreateEnvironmentRequest>,
-  output: __S(288, __c9, 0) as any as S.Schema<Environment>,
+  input: __S(512, __c16, 0) as any as S.Schema<CreateEnvironmentRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<Environment>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -520,8 +648,8 @@ export const deleteApplication: API.OperationMethod<
   DeleteApplicationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DeleteApplicationRequest>,
-  output: __S(249, __c7, 25) as any as S.Schema<Application>,
+  input: __S(576, __c18, 0) as any as S.Schema<DeleteApplicationRequest>,
+  output: __S(500, __c15, 20) as any as S.Schema<Application>,
   errors: [NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -537,8 +665,8 @@ export const getApplication: API.OperationMethod<
   GetApplicationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<GetApplicationRequest>,
-  output: __S(249, __c7, 25) as any as S.Schema<Application>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetApplicationRequest>,
+  output: __S(500, __c15, 20) as any as S.Schema<Application>,
   errors: [NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -554,8 +682,8 @@ export const getApplicationEvents: API.OperationMethod<
   GetApplicationEventsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetApplicationEventsRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<GetApplicationEventsResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetApplicationEventsRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<GetApplicationEventsResponse>,
   errors: [NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -571,8 +699,8 @@ export const getApplicationLogs: API.OperationMethod<
   GetApplicationLogsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetApplicationLogsRequest>,
-  output: __S(449, __c14, 1) as any as S.Schema<GetApplicationLogsResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetApplicationLogsRequest>,
+  output: __S(705, __c22, 1) as any as S.Schema<GetApplicationLogsResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -588,8 +716,8 @@ export const getEnvironment: API.OperationMethod<
   GetEnvironmentError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetEnvironmentRequest>,
-  output: __S(288, __c9, 0) as any as S.Schema<Environment>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetEnvironmentRequest>,
+  output: __S(545, __c17, 1) as any as S.Schema<Environment>,
   errors: [NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -598,7 +726,7 @@ export const getEnvironment: API.OperationMethod<
 }));
 
 export type GetOverviewError = StackitOpError;
-/** Retrieves the overview for an environment. */
+/** Retrieves an aggregated overview of the project's current state. */
 export const getOverview: API.OperationMethod<
   GetOverviewRequest,
   GetOverviewResponse,
@@ -631,6 +759,23 @@ export const listApplications: API.OperationMethod<
   span: "ListApplications",
 }));
 
+export type ListEnvironmentRegistriesError = NotFound | StackitOpError;
+/** Retrieves the registries defined within an environment. */
+export const listEnvironmentRegistries: API.OperationMethod<
+  ListEnvironmentRegistriesRequest,
+  EnvironmentRegistriesVault,
+  ListEnvironmentRegistriesError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(96, __c3, 0) as any as S.Schema<ListEnvironmentRegistriesRequest>,
+  output: __S(162, __c5, 2) as any as S.Schema<EnvironmentRegistriesVault>,
+  errors: [NotFound, UnknownStackitError],
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentRegistries",
+}));
+
 export type ListEnvironmentsError = BadRequest | StackitOpError;
 /** Lists environments within a project. */
 export const listEnvironments: API.OperationMethod<
@@ -639,13 +784,30 @@ export const listEnvironments: API.OperationMethod<
   ListEnvironmentsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<ListEnvironmentsRequest>,
-  output: __S(99, __c3, 3) as any as S.Schema<ListEnvironmentsResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<ListEnvironmentsRequest>,
+  output: __S(194, __c6, 2) as any as S.Schema<ListEnvironmentsResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnvironments",
+}));
+
+export type ListEnvironmentSecretsError = NotFound | StackitOpError;
+/** Retrieves the secrets defined within an environment. */
+export const listEnvironmentSecrets: API.OperationMethod<
+  ListEnvironmentSecretsRequest,
+  EnvironmentSecretsVault,
+  ListEnvironmentSecretsError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(224, __c7, 0) as any as S.Schema<ListEnvironmentSecretsRequest>,
+  output: __S(258, __c8, 2) as any as S.Schema<EnvironmentSecretsVault>,
+  errors: [NotFound, UnknownStackitError],
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListEnvironmentSecrets",
 }));
 
 export type ListProjectApplicationsError = BadRequest | StackitOpError;
@@ -656,7 +818,7 @@ export const listProjectApplications: API.OperationMethod<
   ListProjectApplicationsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<ListProjectApplicationsRequest>,
+  input: __S(288, __c9, 0) as any as S.Schema<ListProjectApplicationsRequest>,
   output: __S(66, __c2, 2) as any as S.Schema<ListApplicationsResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
@@ -673,13 +835,47 @@ export const updateApplication: API.OperationMethod<
   UpdateApplicationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<UpdateApplicationRequest>,
-  output: __S(249, __c7, 25) as any as S.Schema<Application>,
+  input: __S(320, __c10, 0) as any as S.Schema<UpdateApplicationRequest>,
+  output: __S(500, __c15, 20) as any as S.Schema<Application>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateApplication",
+}));
+
+export type UpdateEnvironmentRegistriesError = BadRequest | NotFound | StackitOpError;
+/** Updates the environment registries collection. */
+export const updateEnvironmentRegistries: API.OperationMethod<
+  UpdateEnvironmentRegistriesRequest,
+  EnvironmentRegistriesVault,
+  UpdateEnvironmentRegistriesError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(354, __c11, 2) as any as S.Schema<UpdateEnvironmentRegistriesRequest>,
+  output: __S(162, __c5, 2) as any as S.Schema<EnvironmentRegistriesVault>,
+  errors: [BadRequest, NotFound, UnknownStackitError],
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironmentRegistries",
+}));
+
+export type UpdateEnvironmentSecretsError = BadRequest | NotFound | StackitOpError;
+/** Updates the environment secrets collection. */
+export const updateEnvironmentSecrets: API.OperationMethod<
+  UpdateEnvironmentSecretsRequest,
+  EnvironmentSecretsVault,
+  UpdateEnvironmentSecretsError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(386, __c12, 2) as any as S.Schema<UpdateEnvironmentSecretsRequest>,
+  output: __S(258, __c8, 2) as any as S.Schema<EnvironmentSecretsVault>,
+  errors: [BadRequest, NotFound, UnknownStackitError],
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateEnvironmentSecrets",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -689,10 +885,11 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/v1alpha/projects/{projectId}/overview",
+            uri: "/v1beta/projects/{projectId}/regions/{region}/overview",
             code: 200,
             baseUrl: "https://sca.api.{region}stackit.cloud",
           }),
@@ -704,11 +901,12 @@ function __c0(j: number): any {
           applicationsRunning: S.optional(S.Number),
           applicationsTotal: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "Summary" });
+      ).annotate({ identifier: "OverviewSummary" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          summary: __S(1, __c0, 1),
+          region: S.optional(S.String),
+          summary: S.optional(__S(1, __c0, 1)),
         }),
       ).annotate({ identifier: "GetOverviewResponse" });
   }
@@ -719,11 +917,12 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
           environmentId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/v1alpha/projects/{projectId}/environments/{environmentId}/applications",
+            uri: "/v1beta/projects/{projectId}/regions/{region}/environments/{environmentId}/applications",
             code: 200,
             baseUrl: "https://sca.api.{region}stackit.cloud",
           }),
@@ -736,18 +935,15 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          containers: S.optional(S.Number),
           createdAt: S.optional(S.String),
           displayName: S.optional(S.String),
           environmentId: S.optional(S.String),
           environmentName: S.optional(S.String),
           id: S.optional(S.String),
-          instances: S.optional(S.Number),
-          internalUrl: S.optional(S.String),
-          lastDeployment: S.optional(S.String),
-          status: S.optional(S.String),
+          region: S.optional(S.String),
+          status: S.optional(__S(451, __c14, 3)),
           stopped: S.optional(S.Boolean),
-          url: S.optional(S.String),
+          updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplicationSummary" });
     case 1:
@@ -766,33 +962,17 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+          environmentId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/v1alpha/projects/{projectId}/environments",
+            uri: "/v1beta/projects/{projectId}/regions/{region}/environments/{environmentId}/registries",
             code: 200,
             baseUrl: "https://sca.api.{region}stackit.cloud",
           }),
         ),
-      ).annotate({ identifier: "ListEnvironmentsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          applicationsNumber: S.optional(S.Number),
-          createdAt: S.optional(S.String),
-          default: S.optional(S.Boolean),
-          displayName: S.optional(S.String),
-          id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "EnvironmentSummary" });
-    case 2:
-      return S.Array(__S(97, __c3, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          items: S.optional(__S(98, __c3, 2)),
-        }),
-      ).annotate({ identifier: "ListEnvironmentsResponse" });
+      ).annotate({ identifier: "ListEnvironmentRegistriesRequest" });
   }
 }
 function __c4(j: number): any {
@@ -800,16 +980,19 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1alpha/projects/{projectId}/applications",
-            code: 200,
-            baseUrl: "https://sca.api.{region}stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "ListProjectApplicationsRequest" });
+          container: S.optional(S.String),
+          displayName: S.optional(S.String),
+          id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RegistryConsumer" });
+    case 1:
+      return S.Array(__S(128, __c4, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          consumers: S.optional(__S(129, __c4, 1)),
+        }),
+      ).annotate({ identifier: "EnvironmentRegistryStatus" });
   }
 }
 function __c5(j: number): any {
@@ -817,24 +1000,23 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          environmentId: S.String.pipe(T.Label()),
-          applicationId: S.String.pipe(T.Label()),
-          containers: S.optional(__S(228, __c7, 4)),
-          network: S.optional(__S(229, __c7, 5)),
-          registry: S.optional(__S(232, __c7, 8)),
-          scaling: S.optional(__S(243, __c7, 19)),
-          secrets: S.optional(__S(245, __c7, 21)),
-          stopped: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/v1alpha/projects/{projectId}/environments/{environmentId}/applications/{applicationId}",
-            code: 200,
-            baseUrl: "https://sca.api.{region}stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateApplicationRequest" });
+          createdAt: S.optional(S.String),
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          region: S.optional(S.String),
+          server: S.String,
+          status: S.optional(__S(130, __c4, 2)),
+          updatedAt: S.optional(S.String),
+          username: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnvironmentRegistry" });
+    case 1:
+      return S.Array(__S(160, __c5, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          registries: __S(161, __c5, 1),
+        }),
+      ).annotate({ identifier: "EnvironmentRegistriesVault" });
   }
 }
 function __c6(j: number): any {
@@ -842,26 +1024,188 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          currentStatus: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RuntimeStatusInput" });
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1beta/projects/{projectId}/regions/{region}/environments",
+            code: 200,
+            baseUrl: "https://sca.api.{region}stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "ListEnvironmentsRequest" });
     case 1:
+      return S.Array(__S(545, __c17, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          items: S.optional(__S(193, __c6, 1)),
+        }),
+      ).annotate({ identifier: "ListEnvironmentsResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
           environmentId: S.String.pipe(T.Label()),
-          containers: __S(228, __c7, 4),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1beta/projects/{projectId}/regions/{region}/environments/{environmentId}/secrets",
+            code: 200,
+            baseUrl: "https://sca.api.{region}stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "ListEnvironmentSecretsRequest" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          createdAt: S.optional(S.String),
+          key: S.String,
+          region: S.optional(S.String),
+          status: S.optional(__S(130, __c4, 2)),
+          updatedAt: S.optional(S.String),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnvironmentSecret" });
+    case 1:
+      return S.Array(__S(256, __c8, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          secrets: __S(257, __c8, 1),
+        }),
+      ).annotate({ identifier: "EnvironmentSecretsVault" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1beta/projects/{projectId}/regions/{region}/applications",
+            code: 200,
+            baseUrl: "https://sca.api.{region}stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "ListProjectApplicationsRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+          environmentId: S.String.pipe(T.Label()),
+          applicationId: S.String.pipe(T.Label()),
+          containers: __S(484, __c15, 4),
           displayName: S.String,
-          network: S.optional(__S(229, __c7, 5)),
-          registry: S.optional(__S(232, __c7, 8)),
-          runtimeStatus: S.optional(__S(192, __c6, 0)),
-          scaling: __S(243, __c7, 19),
-          secrets: S.optional(__S(245, __c7, 21)),
+          network: S.optional(__S(488, __c15, 8)),
+          scaling: __S(499, __c15, 19),
+          stopped: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/v1beta/projects/{projectId}/regions/{region}/environments/{environmentId}/applications/{applicationId}",
+            code: 200,
+            baseUrl: "https://sca.api.{region}stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateApplicationRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          server: S.String,
+          username: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnvironmentRegistryInput" });
+    case 1:
+      return S.Array(__S(352, __c11, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+          environmentId: S.String.pipe(T.Label()),
+          registries: __S(353, __c11, 1),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/v1beta/projects/{projectId}/regions/{region}/environments/{environmentId}/registries",
+            code: 200,
+            baseUrl: "https://sca.api.{region}stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateEnvironmentRegistriesRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.String,
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnvironmentSecretInput" });
+    case 1:
+      return S.Array(__S(384, __c12, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+          environmentId: S.String.pipe(T.Label()),
+          secrets: __S(385, __c12, 1),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/v1beta/projects/{projectId}/regions/{region}/environments/{environmentId}/secrets",
+            code: 200,
+            baseUrl: "https://sca.api.{region}stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateEnvironmentSecretsRequest" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+          environmentId: S.String.pipe(T.Label()),
+          containers: __S(484, __c15, 4),
+          displayName: S.String,
+          network: S.optional(__S(488, __c15, 8)),
+          scaling: __S(499, __c15, 19),
           stopped: S.optional(S.Boolean),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/v1alpha/projects/{projectId}/environments/{environmentId}/applications",
+            uri: "/v1beta/projects/{projectId}/regions/{region}/environments/{environmentId}/applications",
             code: 200,
             baseUrl: "https://sca.api.{region}stackit.cloud",
           }),
@@ -869,7 +1213,36 @@ function __c6(j: number): any {
       ).annotate({ identifier: "CreateApplicationRequest" });
   }
 }
-function __c7(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          default: S.optional(S.String),
+          internal: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApplicationDomains" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          status: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApplicationInstance" });
+    case 2:
+      return S.Array(__S(449, __c14, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          current: S.optional(S.String),
+          domains: S.optional(__S(448, __c14, 0)),
+          instances: S.optional(__S(450, __c14, 2)),
+          lastDeployment: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApplicationStatus" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -880,175 +1253,150 @@ function __c7(j: number): any {
           origin: S.optional(S.String),
           value: S.String,
         }),
-      ).annotate({ identifier: "EnvVar" });
+      ).annotate({ identifier: "ContainerEnvVar" });
     case 2:
-      return S.Array(__S(225, __c7, 1));
+      return S.Array(__S(481, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          args: S.optional(__S(224, __c7, 0)),
-          command: S.optional(__S(224, __c7, 0)),
+          args: S.optional(__S(480, __c15, 0)),
+          command: S.optional(__S(480, __c15, 0)),
           cpu: S.optional(S.Number),
-          environmentVariables: S.optional(__S(226, __c7, 2)),
+          environmentVariables: S.optional(__S(482, __c15, 2)),
           image: S.String,
           memory: S.optional(S.Number),
           name: S.String,
         }),
       ).annotate({ identifier: "Container" });
     case 4:
-      return S.Array(__S(227, __c7, 3));
+      return S.Array(__S(483, __c15, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          ingressAcl: S.optional(__S(224, __c7, 0)),
-          internalPort: S.optional(S.Number),
+          enabled: S.Boolean,
           port: S.optional(S.Number),
-          publicIngress: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "Network" });
+      ).annotate({ identifier: "ApplicationInternalNetwork" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          password: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          url: S.String,
-          user: S.String,
+          egress: S.optional(__S(480, __c15, 0)),
+          ingress: S.optional(__S(480, __c15, 0)),
         }),
-      ).annotate({ identifier: "ApplicationRegistryCredentialsAuth" });
+      ).annotate({ identifier: "ApplicationAccessControl" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          credentials: S.optional(__S(230, __c7, 6)),
-          type: S.String,
+          accessControl: S.optional(__S(486, __c15, 6)),
+          enabled: S.Boolean,
+          port: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "ApplicationRegistry" });
+      ).annotate({ identifier: "ApplicationPublicNetwork" });
     case 8:
-      return S.Array(__S(231, __c7, 7));
+      return S.suspend(() =>
+        S.Struct({
+          internal: S.optional(__S(485, __c15, 5)),
+          public: S.optional(__S(487, __c15, 7)),
+        }),
+      ).annotate({ identifier: "ApplicationNetwork" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           value: S.String,
         }),
-      ).annotate({ identifier: "CustomRuleParameter" });
+      ).annotate({ identifier: "ApplicationCustomRuleParameter" });
     case 10:
-      return S.Array(__S(233, __c7, 9));
+      return S.Array(__S(489, __c15, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           parameter: S.String,
           secret: S.String.pipe(T.SensitiveValue({})),
         }),
-      ).annotate({ identifier: "CustomRuleSecretMapping" });
+      ).annotate({ identifier: "ApplicationCustomRuleSecretMapping" });
     case 12:
-      return S.Array(__S(235, __c7, 11));
+      return S.Array(__S(491, __c15, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          parameters: S.optional(__S(234, __c7, 10)),
-          secretsMapping: S.optional(__S(236, __c7, 12)),
+          parameters: S.optional(__S(490, __c15, 10)),
+          secretsMapping: S.optional(__S(492, __c15, 12)),
           type: S.String,
         }),
-      ).annotate({ identifier: "CustomScaleRule" });
+      ).annotate({ identifier: "ApplicationCustomScaleRule" });
     case 14:
       return S.suspend(() =>
         S.Struct({
           concurrency: S.optional(S.Number),
           rps: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "HttpScaleRule" });
+      ).annotate({ identifier: "ApplicationHttpScaleRule" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          customRule: S.optional(__S(237, __c7, 13)),
-          httpRule: S.optional(__S(238, __c7, 14)),
+          customRule: S.optional(__S(493, __c15, 13)),
+          httpRule: S.optional(__S(494, __c15, 14)),
           name: S.String,
           type: S.String,
         }),
-      ).annotate({ identifier: "ScaleRule" });
+      ).annotate({ identifier: "ApplicationScaleRule" });
     case 16:
-      return S.Array(__S(239, __c7, 15));
+      return S.Array(__S(495, __c15, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           allowScaleToZero: S.optional(S.Boolean),
           maxInstances: S.Number,
           minInstances: S.Number,
-          rules: __S(240, __c7, 16),
+          rules: __S(496, __c15, 16),
         }),
-      ).annotate({ identifier: "AutoScaling" });
+      ).annotate({ identifier: "ApplicationAutoScaling" });
     case 18:
       return S.suspend(() =>
         S.Struct({
           instances: S.Number,
         }),
-      ).annotate({ identifier: "ManualScaling" });
+      ).annotate({ identifier: "ApplicationManualScaling" });
     case 19:
       return S.suspend(() =>
         S.Struct({
-          autoScaling: S.optional(__S(241, __c7, 17)),
-          manualScaling: S.optional(__S(242, __c7, 18)),
+          autoScaling: S.optional(__S(497, __c15, 17)),
+          manualScaling: S.optional(__S(498, __c15, 18)),
           type: S.String,
         }),
-      ).annotate({ identifier: "Scaling" });
+      ).annotate({ identifier: "ApplicationScaling" });
     case 20:
       return S.suspend(() =>
         S.Struct({
-          key: S.String,
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ApplicationSecret" });
-    case 21:
-      return S.Array(__S(244, __c7, 20));
-    case 22:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          status: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Instance" });
-    case 23:
-      return S.Array(__S(246, __c7, 22));
-    case 24:
-      return S.suspend(() =>
-        S.Struct({
-          currentStatus: S.optional(S.String),
-          failureReasons: S.optional(__S(224, __c7, 0)),
-          instances: S.optional(__S(247, __c7, 23)),
-          internalUrl: S.optional(S.String),
-          lastDeployment: S.optional(S.String),
-          urls: S.optional(__S(224, __c7, 0)),
-        }),
-      ).annotate({ identifier: "RuntimeStatus" });
-    case 25:
-      return S.suspend(() =>
-        S.Struct({
-          containers: __S(228, __c7, 4),
+          containers: __S(484, __c15, 4),
+          createdAt: S.optional(S.String),
           displayName: S.String,
           environmentId: S.optional(S.String),
           environmentName: S.optional(S.String),
           id: S.optional(S.String),
-          network: S.optional(__S(229, __c7, 5)),
-          registry: S.optional(__S(232, __c7, 8)),
-          runtimeStatus: S.optional(__S(248, __c7, 24)),
-          scaling: __S(243, __c7, 19),
-          secrets: S.optional(__S(245, __c7, 21)),
+          network: S.optional(__S(488, __c15, 8)),
+          region: S.optional(S.String),
+          scaling: __S(499, __c15, 19),
+          status: S.optional(__S(451, __c14, 3)),
           stopped: S.optional(S.Boolean),
+          updatedAt: S.optional(S.String),
         }),
       ).annotate({ identifier: "Application" });
   }
 }
-function __c8(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
           displayName: S.String,
-          status: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/v1alpha/projects/{projectId}/environments",
+            uri: "/v1beta/projects/{projectId}/regions/{region}/environments",
             code: 200,
             baseUrl: "https://sca.api.{region}stackit.cloud",
           }),
@@ -1056,32 +1404,41 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentRequest" });
   }
 }
-function __c9(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          applicationsNumber: S.optional(S.Number),
+          current: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "EnvironmentStatus" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.optional(S.String),
           default: S.optional(S.Boolean),
           displayName: S.String,
           id: S.optional(S.String),
-          status: S.optional(S.String),
+          region: S.optional(S.String),
+          status: S.optional(__S(544, __c17, 0)),
         }),
       ).annotate({ identifier: "Environment" });
   }
 }
-function __c10(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
           environmentId: S.String.pipe(T.Label()),
           applicationId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
-            uri: "/v1alpha/projects/{projectId}/environments/{environmentId}/applications/{applicationId}",
+            uri: "/v1beta/projects/{projectId}/regions/{region}/environments/{environmentId}/applications/{applicationId}",
             code: 200,
             baseUrl: "https://sca.api.{region}stackit.cloud",
           }),
@@ -1089,18 +1446,19 @@ function __c10(j: number): any {
       ).annotate({ identifier: "DeleteApplicationRequest" });
   }
 }
-function __c11(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
           environmentId: S.String.pipe(T.Label()),
           applicationId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/v1alpha/projects/{projectId}/environments/{environmentId}/applications/{applicationId}",
+            uri: "/v1beta/projects/{projectId}/regions/{region}/environments/{environmentId}/applications/{applicationId}",
             code: 200,
             baseUrl: "https://sca.api.{region}stackit.cloud",
           }),
@@ -1108,18 +1466,19 @@ function __c11(j: number): any {
       ).annotate({ identifier: "GetApplicationRequest" });
   }
 }
-function __c12(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
           environmentId: S.String.pipe(T.Label()),
           applicationId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/v1alpha/projects/{projectId}/environments/{environmentId}/applications/{applicationId}/events",
+            uri: "/v1beta/projects/{projectId}/regions/{region}/environments/{environmentId}/applications/{applicationId}/events",
             code: 200,
             baseUrl: "https://sca.api.{region}stackit.cloud",
           }),
@@ -1128,29 +1487,30 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          events: S.optional(__S(417, __c13, 1)),
+          events: S.optional(__S(673, __c21, 1)),
         }),
       ).annotate({ identifier: "GetApplicationEventsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           message: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Event" });
+      ).annotate({ identifier: "ApplicationEvent" });
     case 1:
-      return S.Array(__S(416, __c13, 0));
+      return S.Array(__S(672, __c21, 0));
   }
 }
-function __c14(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
           environmentId: S.String.pipe(T.Label()),
           applicationId: S.String.pipe(T.Label()),
           instance: S.String.pipe(T.Query()),
@@ -1159,7 +1519,7 @@ function __c14(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/v1alpha/projects/{projectId}/environments/{environmentId}/applications/{applicationId}/logs",
+            uri: "/v1beta/projects/{projectId}/regions/{region}/environments/{environmentId}/applications/{applicationId}/logs",
             code: 200,
             baseUrl: "https://sca.api.{region}stackit.cloud",
           }),
@@ -1168,22 +1528,23 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          logs: S.optional(__S(417, __c13, 1)),
+          logs: S.optional(__S(673, __c21, 1)),
         }),
       ).annotate({ identifier: "GetApplicationLogsResponse" });
   }
 }
-function __c15(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
           environmentId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/v1alpha/projects/{projectId}/environments/{environmentId}",
+            uri: "/v1beta/projects/{projectId}/regions/{region}/environments/{environmentId}",
             code: 200,
             baseUrl: "https://sca.api.{region}stackit.cloud",
           }),

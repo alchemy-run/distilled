@@ -1,0 +1,10 @@
+{
+  "description": "createEmbedSession and refreshEmbedSession answer with the embed session token, a bearer credential for the embedded onboarding iframe (x-coinflow-embed-session). Deliver it as Redacted.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.coinflow.embed#EmbedSessionToken/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

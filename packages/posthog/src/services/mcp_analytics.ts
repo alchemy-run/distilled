@@ -23,6 +23,27 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+export interface CreateMcpAnalyticsCustomHarnessRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** Name to show for calls from this harness. */
+  name: string;
+  /** Text to look for in the client name or User-Agent product that the harness reports. Matching ignores case and finds the text anywhere in the name, so `acme-agent` matches `Acme-Agent/1.2`. */
+  match_pattern: string;
+  /** Optional icon shown next to the harness name. A base64 data URI of a PNG, GIF or WebP image with a transparent background, 16 KB or smaller and at most 256 by 256 pixels. The icon shows in one color, like the built-in harness logos. An empty string means no icon. */
+  icon?: string | undefined;
+}
+export interface MCPCustomHarness {
+  id: string;
+  /** Name to show for calls from this harness. */
+  name: string;
+  /** Text to look for in the client name or User-Agent product that the harness reports. Matching ignores case and finds the text anywhere in the name, so `acme-agent` matches `Acme-Agent/1.2`. */
+  match_pattern: string;
+  /** Optional icon shown next to the harness name. A base64 data URI of a PNG, GIF or WebP image with a transparent background, 16 KB or smaller and at most 256 by 256 pixels. The icon shows in one color, like the built-in harness logos. An empty string means no icon. */
+  icon?: string | undefined;
+  created_at: string;
+  updated_at: string;
+}
 /** * `results` - Results * `usability` - Usability * `bug` - Bug * `docs` - Docs * `other` - Other */
 export type MCPAnalyticsSubmissionFeedbackCategoryEnum =
   | "results"
@@ -125,6 +146,12 @@ export interface MCPSessionIntent {
   session_id: string;
   /** LLM-generated summary (at most two sentences) of the agent's overall goal for the session. */
   intent: string;
+}
+export interface GetMcpAnalyticsCustomHarnessRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this mcp custom harness. */
+  id: string;
 }
 export interface GetMcpAnalyticsIntentClusterRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -340,6 +367,13 @@ export interface MCPIntentClusterSnapshot {
 }
 export type GetMcpAnalyticsIntentClusterResponseBodyList = Array<MCPIntentClusterSnapshot>;
 export type GetMcpAnalyticsIntentClusterResponse = GetMcpAnalyticsIntentClusterResponseBodyList;
+export interface ListMcpAnalyticsCustomHarnessesRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+}
+export type ListMcpAnalyticsCustomHarnessesResponseBodyList = Array<MCPCustomHarness>;
+export type ListMcpAnalyticsCustomHarnessesResponse =
+  ListMcpAnalyticsCustomHarnessesResponseBodyList;
 export interface ListMcpAnalyticsFeedbackRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -415,10 +449,21 @@ export interface MCPSession {
 }
 export type PaginatedMCPSessionListResultsList = Array<MCPSession>;
 export interface PaginatedMCPSessionList {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page. */
+  previous: string | null;
   results: PaginatedMCPSessionListResultsList;
   /** Whether more results exist beyond this page; the client fetches the next page with a larger offset. */
   has_next: boolean;
 }
+export interface McpAnalyticsCustomHarnessesDestroyRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this mcp custom harness. */
+  id: string;
+}
+export interface McpAnalyticsCustomHarnessesDestroyResponse {}
 export interface McpAnalyticsIntentClustersRecomputeRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
@@ -431,6 +476,8 @@ export interface McpAnalyticsSessionsActivityOverviewRequest {
   filter_test_accounts?: boolean | undefined;
   /** Property filters that narrow the underlying $mcp_tool_call events, JSON-encoded. A list of event, person, or session property filters, each with key, value, operator, and type. Example: [{"key": "$mcp_tool_name", "value": ["query_run"], "operator": "exact", "type": "event"}] */
   properties?: string | undefined;
+  /** Compute the overview again instead of serving the cached result, at most once every 5 seconds. The fresh result replaces the cached one. */
+  refresh?: boolean | undefined;
 }
 export interface MCPActivityStats {
   /** $mcp_tool_call events captured in the last 30 days. */
@@ -538,6 +585,8 @@ export interface McpAnalyticsSessionsToolCallsRequest {
   /** Property filters that narrow the underlying $mcp_tool_call events, JSON-encoded. A list of event, person, or session property filters, each with key, value, operator, and type. Example: [{"key": "$mcp_tool_name", "value": ["query_run"], "operator": "exact", "type": "event"}] */
   properties?: string | undefined;
 }
+/** Argument names the client sent ($mcp_input_keys), without values. Empty when not captured. */
+export type MCPToolCallInputKeysList = Array<string>;
 export interface MCPToolCall {
   /** ClickHouse uuid of the $mcp_tool_call event. */
   event_id: string;
@@ -553,13 +602,78 @@ export interface MCPToolCall {
   error_message: string;
   /** Duration of the tool call in milliseconds when captured. */
   duration_ms: number | null;
+  /** Arguments the client passed ($mcp_parameters) as JSON text, exactly as the SDK captured them after its redaction. Empty when not captured. */
+  parameters: string;
+  /** Result the MCP server returned ($mcp_response) as JSON text, exactly as the SDK captured it after its redaction and truncation. Empty when not captured. */
+  response: string;
+  /** Error category ($mcp_error_type) when the SDK classified the failure, otherwise empty. */
+  error_type: string;
+  /** HTTP status ($mcp_error_status) when the failure carried one, otherwise empty. */
+  error_status: string;
+  /** Command an exec-style server ran ($mcp_exec_verb), such as call, info, search or unrecognized. Empty for direct tool calls. */
+  exec_verb: string;
+  /** Tool the exec command named ($mcp_exec_target_tool). Empty when the command named none. */
+  exec_target_tool: string;
+  /** Argument names the client sent ($mcp_input_keys), without values. Empty when not captured. */
+  input_keys: MCPToolCallInputKeysList;
+  /** Specific failure code ($mcp_error_code) when the server set one, otherwise empty. */
+  error_code: string;
+  /** Argument the failure points at ($mcp_error_field), otherwise empty. */
+  error_field: string;
+  /** Model that made the call ($mcp_llm_model), otherwise empty. */
+  llm_model: string;
 }
 export type PaginatedMCPToolCallListResultsList = Array<MCPToolCall>;
 export interface PaginatedMCPToolCallList {
+  /** URL of the next page, or null on the last page. */
+  next: string | null;
+  /** URL of the previous page, or null on the first page. */
+  previous: string | null;
   results: PaginatedMCPToolCallListResultsList;
   /** Whether more results exist beyond this page; the client fetches the next page with a larger offset. */
   has_next: boolean;
 }
+export interface UpdateMcpAnalyticsCustomHarnessRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this mcp custom harness. */
+  id: string;
+  /** Name to show for calls from this harness. */
+  name: string;
+  /** Text to look for in the client name or User-Agent product that the harness reports. Matching ignores case and finds the text anywhere in the name, so `acme-agent` matches `Acme-Agent/1.2`. */
+  match_pattern: string;
+  /** Optional icon shown next to the harness name. A base64 data URI of a PNG, GIF or WebP image with a transparent background, 16 KB or smaller and at most 256 by 256 pixels. The icon shows in one color, like the built-in harness logos. An empty string means no icon. */
+  icon?: string | undefined;
+}
+export interface UpdateMcpAnalyticsCustomHarnessesPartialRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this mcp custom harness. */
+  id: string;
+  /** Name to show for calls from this harness. */
+  name?: string | undefined;
+  /** Text to look for in the client name or User-Agent product that the harness reports. Matching ignores case and finds the text anywhere in the name, so `acme-agent` matches `Acme-Agent/1.2`. */
+  match_pattern?: string | undefined;
+  /** Optional icon shown next to the harness name. A base64 data URI of a PNG, GIF or WebP image with a transparent background, 16 KB or smaller and at most 256 by 256 pixels. The icon shows in one color, like the built-in harness logos. An empty string means no icon. */
+  icon?: string | undefined;
+}
+export type CreateMcpAnalyticsCustomHarnessError = PosthogOpError;
+/** A team's own harness names, shown in place of "Other" in MCP analytics. */
+export const createMcpAnalyticsCustomHarness: API.OperationMethod<
+  CreateMcpAnalyticsCustomHarnessRequest,
+  MCPCustomHarness,
+  CreateMcpAnalyticsCustomHarnessError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(0, __c0, 0) as any as S.Schema<CreateMcpAnalyticsCustomHarnessRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<MCPCustomHarness>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateMcpAnalyticsCustomHarness",
+}));
+
 export type CreateMcpAnalyticsFeedbackError = PosthogOpError;
 /** Create a new MCP feedback submission for the current project. */
 export const createMcpAnalyticsFeedback: API.OperationMethod<
@@ -568,8 +682,8 @@ export const createMcpAnalyticsFeedback: API.OperationMethod<
   CreateMcpAnalyticsFeedbackError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateMcpAnalyticsFeedbackRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<MCPAnalyticsSubmission>,
+  input: __S(64, __c2, 0) as any as S.Schema<CreateMcpAnalyticsFeedbackRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<MCPAnalyticsSubmission>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -585,8 +699,8 @@ export const createMcpAnalyticsMissingCapability: API.OperationMethod<
   CreateMcpAnalyticsMissingCapabilityError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<CreateMcpAnalyticsMissingCapabilityRequest>,
-  output: __S(32, __c1, 0) as any as S.Schema<MCPAnalyticsSubmission>,
+  input: __S(384, __c12, 0) as any as S.Schema<CreateMcpAnalyticsMissingCapabilityRequest>,
+  output: __S(96, __c3, 0) as any as S.Schema<MCPAnalyticsSubmission>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -602,13 +716,30 @@ export const generateMcpAnalyticsSessionIntent: API.OperationMethod<
   GenerateMcpAnalyticsSessionIntentError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<GenerateMcpAnalyticsSessionIntentRequest>,
-  output: __S(129, __c4, 1) as any as S.Schema<MCPSessionIntent>,
+  input: __S(416, __c13, 0) as any as S.Schema<GenerateMcpAnalyticsSessionIntentRequest>,
+  output: __S(417, __c13, 1) as any as S.Schema<MCPSessionIntent>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateMcpAnalyticsSessionIntent",
+}));
+
+export type GetMcpAnalyticsCustomHarnessError = PosthogOpError;
+/** A team's own harness names, shown in place of "Other" in MCP analytics. */
+export const getMcpAnalyticsCustomHarness: API.OperationMethod<
+  GetMcpAnalyticsCustomHarnessRequest,
+  MCPCustomHarness,
+  GetMcpAnalyticsCustomHarnessError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(448, __c14, 0) as any as S.Schema<GetMcpAnalyticsCustomHarnessRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<MCPCustomHarness>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetMcpAnalyticsCustomHarness",
 }));
 
 export type GetMcpAnalyticsIntentClusterError = PosthogOpError;
@@ -619,13 +750,30 @@ export const getMcpAnalyticsIntentCluster: API.OperationMethod<
   GetMcpAnalyticsIntentClusterError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<GetMcpAnalyticsIntentClusterRequest>,
-  output: __S(183, __c5, 23) as any as S.Schema<GetMcpAnalyticsIntentClusterResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetMcpAnalyticsIntentClusterRequest>,
+  output: __S(503, __c15, 23) as any as S.Schema<GetMcpAnalyticsIntentClusterResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetMcpAnalyticsIntentCluster",
+}));
+
+export type ListMcpAnalyticsCustomHarnessesError = PosthogOpError;
+/** A team's own harness names, shown in place of "Other" in MCP analytics. */
+export const listMcpAnalyticsCustomHarnesses: API.OperationMethod<
+  ListMcpAnalyticsCustomHarnessesRequest,
+  ListMcpAnalyticsCustomHarnessesResponse,
+  ListMcpAnalyticsCustomHarnessesError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(544, __c17, 0) as any as S.Schema<ListMcpAnalyticsCustomHarnessesRequest>,
+  output: __S(546, __c17, 2) as any as S.Schema<ListMcpAnalyticsCustomHarnessesResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListMcpAnalyticsCustomHarnesses",
 }));
 
 export type ListMcpAnalyticsFeedbackError = PosthogOpError;
@@ -636,8 +784,8 @@ export const listMcpAnalyticsFeedback: API.OperationMethod<
   ListMcpAnalyticsFeedbackError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<ListMcpAnalyticsFeedbackRequest>,
-  output: __S(257, __c8, 1) as any as S.Schema<PaginatedMCPAnalyticsSubmissionList>,
+  input: __S(576, __c18, 0) as any as S.Schema<ListMcpAnalyticsFeedbackRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<PaginatedMCPAnalyticsSubmissionList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -653,8 +801,8 @@ export const listMcpAnalyticsMissingCapabilities: API.OperationMethod<
   ListMcpAnalyticsMissingCapabilitiesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<ListMcpAnalyticsMissingCapabilitiesRequest>,
-  output: __S(257, __c8, 1) as any as S.Schema<PaginatedMCPAnalyticsSubmissionList>,
+  input: __S(640, __c20, 0) as any as S.Schema<ListMcpAnalyticsMissingCapabilitiesRequest>,
+  output: __S(609, __c19, 1) as any as S.Schema<PaginatedMCPAnalyticsSubmissionList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -670,13 +818,30 @@ export const listMcpAnalyticsSessions: API.OperationMethod<
   ListMcpAnalyticsSessionsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<ListMcpAnalyticsSessionsRequest>,
-  output: __S(323, __c10, 3) as any as S.Schema<PaginatedMCPSessionList>,
+  input: __S(672, __c21, 0) as any as S.Schema<ListMcpAnalyticsSessionsRequest>,
+  output: __S(675, __c21, 3) as any as S.Schema<PaginatedMCPSessionList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMcpAnalyticsSessions",
+}));
+
+export type McpAnalyticsCustomHarnessesDestroyError = PosthogOpError;
+/** A team's own harness names, shown in place of "Other" in MCP analytics. */
+export const mcpAnalyticsCustomHarnessesDestroy: API.OperationMethod<
+  McpAnalyticsCustomHarnessesDestroyRequest,
+  McpAnalyticsCustomHarnessesDestroyResponse,
+  McpAnalyticsCustomHarnessesDestroyError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c4, 0) as any as S.Schema<McpAnalyticsCustomHarnessesDestroyRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<McpAnalyticsCustomHarnessesDestroyResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "McpAnalyticsCustomHarnessesDestroy",
 }));
 
 export type McpAnalyticsIntentClustersRecomputeError = PosthogOpError;
@@ -687,8 +852,8 @@ export const mcpAnalyticsIntentClustersRecompute: API.OperationMethod<
   McpAnalyticsIntentClustersRecomputeError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(352, __c11, 0) as any as S.Schema<McpAnalyticsIntentClustersRecomputeRequest>,
-  output: __S(353, __c11, 1) as any as S.Schema<McpAnalyticsIntentClustersRecomputeResponse>,
+  input: __S(192, __c6, 0) as any as S.Schema<McpAnalyticsIntentClustersRecomputeRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<McpAnalyticsIntentClustersRecomputeResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -697,15 +862,15 @@ export const mcpAnalyticsIntentClustersRecompute: API.OperationMethod<
 }));
 
 export type McpAnalyticsSessionsActivityOverviewError = PosthogOpError;
-/** Aggregate counters, top tools, agent clients, and the most recent tool calls for the last 30 days, computed in one request. Powers the dashboard's activity view; always computed fresh so polling callers watch data arrive. */
+/** Aggregate counters, top tools, agent clients, and the most recent tool calls for the last 30 days, computed in one request. Powers the dashboard's activity view. Results are cached for up to 5 minutes, or 20 seconds when the caller has property restrictions. An empty result is never cached. Pass refresh to skip the cache. */
 export const mcpAnalyticsSessionsActivityOverview: API.OperationMethod<
   McpAnalyticsSessionsActivityOverviewRequest,
   MCPActivityOverview,
   McpAnalyticsSessionsActivityOverviewError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<McpAnalyticsSessionsActivityOverviewRequest>,
-  output: __S(392, __c12, 8) as any as S.Schema<MCPActivityOverview>,
+  input: __S(224, __c7, 0) as any as S.Schema<McpAnalyticsSessionsActivityOverviewRequest>,
+  output: __S(232, __c7, 8) as any as S.Schema<MCPActivityOverview>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -721,8 +886,8 @@ export const mcpAnalyticsSessionsIntentDigest: API.OperationMethod<
   McpAnalyticsSessionsIntentDigestError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<McpAnalyticsSessionsIntentDigestRequest>,
-  output: __S(419, __c13, 3) as any as S.Schema<MCPIntentDigest>,
+  input: __S(256, __c8, 0) as any as S.Schema<McpAnalyticsSessionsIntentDigestRequest>,
+  output: __S(259, __c8, 3) as any as S.Schema<MCPIntentDigest>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -738,8 +903,8 @@ export const mcpAnalyticsSessionsToolCalls: API.OperationMethod<
   McpAnalyticsSessionsToolCallsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<McpAnalyticsSessionsToolCallsRequest>,
-  output: __S(99, __c3, 3) as any as S.Schema<PaginatedMCPToolCallList>,
+  input: __S(288, __c9, 0) as any as S.Schema<McpAnalyticsSessionsToolCallsRequest>,
+  output: __S(291, __c9, 3) as any as S.Schema<PaginatedMCPToolCallList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -747,8 +912,76 @@ export const mcpAnalyticsSessionsToolCalls: API.OperationMethod<
   span: "McpAnalyticsSessionsToolCalls",
 }));
 
+export type UpdateMcpAnalyticsCustomHarnessError = PosthogOpError;
+/** A team's own harness names, shown in place of "Other" in MCP analytics. */
+export const updateMcpAnalyticsCustomHarness: API.OperationMethod<
+  UpdateMcpAnalyticsCustomHarnessRequest,
+  MCPCustomHarness,
+  UpdateMcpAnalyticsCustomHarnessError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(320, __c10, 0) as any as S.Schema<UpdateMcpAnalyticsCustomHarnessRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<MCPCustomHarness>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMcpAnalyticsCustomHarness",
+}));
+
+export type UpdateMcpAnalyticsCustomHarnessesPartialError = PosthogOpError;
+/** A team's own harness names, shown in place of "Other" in MCP analytics. */
+export const updateMcpAnalyticsCustomHarnessesPartial: API.OperationMethod<
+  UpdateMcpAnalyticsCustomHarnessesPartialRequest,
+  MCPCustomHarness,
+  UpdateMcpAnalyticsCustomHarnessesPartialError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(352, __c11, 0) as any as S.Schema<UpdateMcpAnalyticsCustomHarnessesPartialRequest>,
+  output: __S(32, __c1, 0) as any as S.Schema<MCPCustomHarness>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateMcpAnalyticsCustomHarnessesPartial",
+}));
+
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          name: S.String,
+          match_pattern: S.String,
+          icon: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/mcp_analytics/custom_harnesses/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateMcpAnalyticsCustomHarnessRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          match_pattern: S.String,
+          icon: S.optional(S.String),
+          created_at: S.String,
+          updated_at: S.String,
+        }),
+      ).annotate({ identifier: "MCPCustomHarness" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -774,7 +1007,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateMcpAnalyticsFeedbackRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -798,33 +1031,157 @@ function __c1(j: number): any {
       ).annotate({ identifier: "MCPAnalyticsSubmission" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           project_id: S.String.pipe(T.Label()),
-          attempted_tool: S.optional(S.String),
-          mcp_client_name: S.optional(S.String),
-          mcp_client_version: S.optional(S.String),
-          mcp_protocol_version: S.optional(S.String),
-          mcp_transport: S.optional(S.String),
-          mcp_session_id: S.optional(S.String),
-          mcp_trace_id: S.optional(S.String),
-          goal: S.String,
-          missing_capability: S.String,
-          blocked: S.optional(S.Boolean),
+          id: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/mcp_analytics/missing_capabilities/",
+            method: "DELETE",
+            uri: "/api/projects/{project_id}/mcp_analytics/custom_harnesses/{id}/",
             code: 200,
           }),
         ),
-      ).annotate({ identifier: "CreateMcpAnalyticsMissingCapabilityRequest" });
+      ).annotate({ identifier: "McpAnalyticsCustomHarnessesDestroyRequest" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "McpAnalyticsCustomHarnessesDestroyResponse",
+      });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/mcp_analytics/intent_clusters/recompute/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "McpAnalyticsIntentClustersRecomputeRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          filter_test_accounts: S.optional(S.Boolean.pipe(T.Query())),
+          properties: S.optional(S.String.pipe(T.Query())),
+          refresh: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/mcp_analytics/sessions/activity_overview/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "McpAnalyticsSessionsActivityOverviewRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          total_calls: S.Number,
+          distinct_tools: S.Number,
+          distinct_sessions: S.Number,
+          distinct_clients: S.Number,
+          calls_with_intent: S.Number,
+          error_calls: S.Number,
+          missing_capability_reports: S.Number,
+        }),
+      ).annotate({ identifier: "MCPActivityStats" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          tool: S.String,
+          calls: S.Number,
+          errors: S.Number,
+        }),
+      ).annotate({ identifier: "MCPActivityToolRow" });
+    case 3:
+      return S.Array(__S(226, __c7, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          client: S.String,
+          calls: S.Number,
+        }),
+      ).annotate({ identifier: "MCPActivityClientRow" });
+    case 5:
+      return S.Array(__S(228, __c7, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          timestamp: S.String,
+          tool: S.String,
+          intent: S.NullOr(S.String),
+          is_error: S.Boolean,
+          error_message: S.NullOr(S.String),
+          duration_ms: S.NullOr(S.Number),
+          client_name: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "MCPActivityRecentCall" });
+    case 7:
+      return S.Array(__S(230, __c7, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          stats: __S(225, __c7, 1),
+          top_tools: __S(227, __c7, 3),
+          clients: __S(229, __c7, 5),
+          recent_calls: __S(231, __c7, 7),
+        }),
+      ).annotate({ identifier: "MCPActivityOverview" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/mcp_analytics/sessions/intent_digest/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "McpAnalyticsSessionsIntentDigestRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.String,
+          intent_count: S.Number,
+          example_intent: S.String,
+          tools: __S(512, __c16, 0),
+        }),
+      ).annotate({ identifier: "MCPIntentTheme" });
+    case 2:
+      return S.Array(__S(257, __c8, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          digest: S.NullOr(S.String),
+          intent_count: S.Number,
+          themes: __S(258, __c8, 2),
+        }),
+      ).annotate({ identifier: "MCPIntentDigest" });
+  }
+}
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -854,20 +1211,98 @@ function __c3(j: number): any {
           is_error: S.Boolean,
           error_message: S.String,
           duration_ms: S.NullOr(S.Number),
+          parameters: S.String,
+          response: S.String,
+          error_type: S.String,
+          error_status: S.String,
+          exec_verb: S.String,
+          exec_target_tool: S.String,
+          input_keys: __S(512, __c16, 0),
+          error_code: S.String,
+          error_field: S.String,
+          llm_model: S.String,
         }),
       ).annotate({ identifier: "MCPToolCall" });
     case 2:
-      return S.Array(__S(97, __c3, 1));
+      return S.Array(__S(289, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(98, __c3, 2),
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
+          results: __S(290, __c9, 2),
           has_next: S.Boolean,
         }),
       ).annotate({ identifier: "PaginatedMCPToolCallList" });
   }
 }
-function __c4(j: number): any {
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          name: S.String,
+          match_pattern: S.String,
+          icon: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/api/projects/{project_id}/mcp_analytics/custom_harnesses/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateMcpAnalyticsCustomHarnessRequest" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          match_pattern: S.optional(S.String),
+          icon: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/mcp_analytics/custom_harnesses/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateMcpAnalyticsCustomHarnessesPartialRequest" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          attempted_tool: S.optional(S.String),
+          mcp_client_name: S.optional(S.String),
+          mcp_client_version: S.optional(S.String),
+          mcp_protocol_version: S.optional(S.String),
+          mcp_transport: S.optional(S.String),
+          mcp_session_id: S.optional(S.String),
+          mcp_trace_id: S.optional(S.String),
+          goal: S.String,
+          missing_capability: S.String,
+          blocked: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/mcp_analytics/missing_capabilities/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateMcpAnalyticsMissingCapabilityRequest" });
+  }
+}
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -892,7 +1327,24 @@ function __c4(j: number): any {
       ).annotate({ identifier: "MCPSessionIntent" });
   }
 }
-function __c5(j: number): any {
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/mcp_analytics/custom_harnesses/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetMcpAnalyticsCustomHarnessRequest" });
+  }
+}
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -918,25 +1370,25 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "MCPIntentClusterToolEntry" });
     case 2:
-      return S.Array(__S(161, __c5, 1));
+      return S.Array(__S(481, __c15, 1));
     case 3:
       return S.Array(/*@__PURE__*/ S.NullOr(S.String));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          steps: __S(163, __c5, 3),
+          steps: __S(483, __c15, 3),
           outcome: S.String,
           count: S.Number,
         }),
       ).annotate({ identifier: "MCPIntentClusterJourneyPath" });
     case 5:
-      return S.Array(__S(164, __c5, 4));
+      return S.Array(__S(484, __c15, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          paths: __S(165, __c5, 5),
+          paths: __S(485, __c15, 5),
           total_sessions: S.Number,
-          leak: S.NullOr(__S(164, __c5, 4)),
+          leak: S.NullOr(__S(484, __c15, 4)),
         }),
       ).annotate({ identifier: "MCPIntentClusterJourney" });
     case 7:
@@ -948,7 +1400,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "MCPClusterSwitch" });
     case 8:
-      return S.Array(__S(167, __c5, 7));
+      return S.Array(__S(487, __c15, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -957,7 +1409,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "MCPClusterSelfRetry" });
     case 10:
-      return S.Array(__S(169, __c5, 9));
+      return S.Array(__S(489, __c15, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
@@ -969,15 +1421,15 @@ function __c5(j: number): any {
           error_count: S.Number,
           error_rate_pct: S.Number,
           routing_entropy: S.Number,
-          tool_distribution: __S(162, __c5, 2),
-          sample_intents: __S(192, __c6, 0),
-          journey: S.NullOr(__S(166, __c5, 6)),
-          switches: __S(168, __c5, 8),
-          self_retries: __S(170, __c5, 10),
+          tool_distribution: __S(482, __c15, 2),
+          sample_intents: __S(512, __c16, 0),
+          journey: S.NullOr(__S(486, __c15, 6)),
+          switches: __S(488, __c15, 8),
+          self_retries: __S(490, __c15, 10),
         }),
       ).annotate({ identifier: "MCPIntentCluster" });
     case 12:
-      return S.Array(__S(171, __c5, 11));
+      return S.Array(__S(491, __c15, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
@@ -993,11 +1445,11 @@ function __c5(j: number): any {
           capture_pct: S.Number,
           rank: S.Number,
           description_fit: S.NullOr(S.Number),
-          top_competitor: S.NullOr(__S(173, __c5, 13)),
+          top_competitor: S.NullOr(__S(493, __c15, 13)),
         }),
       ).annotate({ identifier: "MCPToolPivotClusterEntry" });
     case 15:
-      return S.Array(__S(174, __c5, 14));
+      return S.Array(__S(494, __c15, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -1011,11 +1463,11 @@ function __c5(j: number): any {
           discovery_rate_pct: S.NullOr(S.Number),
           description: S.NullOr(S.String),
           n_clusters_served: S.Number,
-          clusters: __S(175, __c5, 15),
+          clusters: __S(495, __c15, 15),
         }),
       ).annotate({ identifier: "MCPToolPivot" });
     case 17:
-      return S.Array(__S(176, __c5, 16));
+      return S.Array(__S(496, __c15, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -1028,7 +1480,7 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "MCPToolOverlap" });
     case 19:
-      return S.Array(__S(178, __c5, 18));
+      return S.Array(__S(498, __c15, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -1058,27 +1510,49 @@ function __c5(j: number): any {
           error_message: S.String,
           last_computed_at: S.NullOr(S.String),
           last_computed_by_email: S.String,
-          clusters: __S(172, __c5, 12),
-          tools: __S(177, __c5, 17),
-          tool_overlaps: __S(179, __c5, 19),
-          computed_with: S.NullOr(__S(180, __c5, 20)),
+          clusters: __S(492, __c15, 12),
+          tools: __S(497, __c15, 17),
+          tool_overlaps: __S(499, __c15, 19),
+          computed_with: S.NullOr(__S(500, __c15, 20)),
         }),
       ).annotate({ identifier: "MCPIntentClusterSnapshot" });
     case 22:
-      return S.Array(__S(181, __c5, 21));
+      return S.Array(__S(501, __c15, 21));
     case 23:
-      return S.suspend(() => __S(182, __c5, 22).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(502, __c15, 22).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetMcpAnalyticsIntentClusterResponse",
       });
   }
 }
-function __c6(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c7(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/mcp_analytics/custom_harnesses/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListMcpAnalyticsCustomHarnessesRequest" });
+    case 1:
+      return S.Array(__S(32, __c1, 0));
+    case 2:
+      return S.suspend(() => __S(545, __c17, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListMcpAnalyticsCustomHarnessesResponse",
+      });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1096,22 +1570,22 @@ function __c7(j: number): any {
       ).annotate({ identifier: "ListMcpAnalyticsFeedbackRequest" });
   }
 }
-function __c8(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(32, __c1, 0));
+      return S.Array(__S(96, __c3, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(256, __c8, 0),
+          results: __S(608, __c19, 0),
         }),
       ).annotate({ identifier: "PaginatedMCPAnalyticsSubmissionList" });
   }
 }
-function __c9(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1129,7 +1603,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ListMcpAnalyticsMissingCapabilitiesRequest" });
   }
 }
-function __c10(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1161,7 +1635,7 @@ function __c10(j: number): any {
           session_start: S.String,
           session_end: S.String,
           distinct_id_count: S.Number,
-          tools_used: __S(192, __c6, 0),
+          tools_used: __S(512, __c16, 0),
           mcp_client_name: S.String,
           distinct_id: S.String,
           person_email: S.String,
@@ -1170,142 +1644,16 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "MCPSession" });
     case 2:
-      return S.Array(__S(321, __c10, 1));
+      return S.Array(__S(673, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          results: __S(322, __c10, 2),
+          next: S.NullOr(S.String),
+          previous: S.NullOr(S.String),
+          results: __S(674, __c21, 2),
           has_next: S.Boolean,
         }),
       ).annotate({ identifier: "PaginatedMCPSessionList" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/mcp_analytics/intent_clusters/recompute/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "McpAnalyticsIntentClustersRecomputeRequest" });
-    case 1:
-      return S.suspend(() => S.Struct({})).annotate({
-        identifier: "McpAnalyticsIntentClustersRecomputeResponse",
-      });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          filter_test_accounts: S.optional(S.Boolean.pipe(T.Query())),
-          properties: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/api/projects/{project_id}/mcp_analytics/sessions/activity_overview/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "McpAnalyticsSessionsActivityOverviewRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          total_calls: S.Number,
-          distinct_tools: S.Number,
-          distinct_sessions: S.Number,
-          distinct_clients: S.Number,
-          calls_with_intent: S.Number,
-          error_calls: S.Number,
-          missing_capability_reports: S.Number,
-        }),
-      ).annotate({ identifier: "MCPActivityStats" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          tool: S.String,
-          calls: S.Number,
-          errors: S.Number,
-        }),
-      ).annotate({ identifier: "MCPActivityToolRow" });
-    case 3:
-      return S.Array(__S(386, __c12, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          client: S.String,
-          calls: S.Number,
-        }),
-      ).annotate({ identifier: "MCPActivityClientRow" });
-    case 5:
-      return S.Array(__S(388, __c12, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          timestamp: S.String,
-          tool: S.String,
-          intent: S.NullOr(S.String),
-          is_error: S.Boolean,
-          error_message: S.NullOr(S.String),
-          duration_ms: S.NullOr(S.Number),
-          client_name: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "MCPActivityRecentCall" });
-    case 7:
-      return S.Array(__S(390, __c12, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          stats: __S(385, __c12, 1),
-          top_tools: __S(387, __c12, 3),
-          clients: __S(389, __c12, 5),
-          recent_calls: __S(391, __c12, 7),
-        }),
-      ).annotate({ identifier: "MCPActivityOverview" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/api/projects/{project_id}/mcp_analytics/sessions/intent_digest/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "McpAnalyticsSessionsIntentDigestRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.String,
-          intent_count: S.Number,
-          example_intent: S.String,
-          tools: __S(192, __c6, 0),
-        }),
-      ).annotate({ identifier: "MCPIntentTheme" });
-    case 2:
-      return S.Array(__S(417, __c13, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          digest: S.NullOr(S.String),
-          intent_count: S.Number,
-          themes: __S(418, __c13, 2),
-        }),
-      ).annotate({ identifier: "MCPIntentDigest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

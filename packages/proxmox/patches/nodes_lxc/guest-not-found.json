@@ -1,0 +1,633 @@
+{
+  "description": "Type the failure for a VMID that names no container on the node. Calls under /nodes/{node}/lxc/{vmid} load the guest's configuration, and PVE::AbstractConfig::load_config dies with \"Configuration file 'nodes/<node>/lxc/<vmid>.conf' does not exist\\n\", which the API server answers as HTTP 500 with that message in the JSON body (PVE::APIServer::Formatter::Standard). As a 500 it would surface as a retryable InternalServerError; it is a not-found. Sources: https://git.proxmox.com/?p=pve-guest-common.git;a=blob;f=src/PVE/AbstractConfig.pm (load_config), https://git.proxmox.com/?p=pve-http-server.git;a=blob;f=src/PVE/APIServer/Formatter/Standard.pm (prepare_response_data).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GuestNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The VMID names no container on this node: Proxmox answers HTTP 500 \"Configuration file 'nodes/<node>/lxc/<vmid>.conf' does not exist\".",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 500,
+              "message": {
+                "matches": "^Configuration file 'nodes/[^/']+/lxc/[0-9]+\\.conf' does not exist$"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#DeleteNodesByNodeLxcByVmid/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#DeleteNodesByNodeLxcByVmidFirewallAliasesByName/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#DeleteNodesByNodeLxcByVmidFirewallIpsetByName/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#DeleteNodesByNodeLxcByVmidFirewallIpsetByNameByCidr/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#DeleteNodesByNodeLxcByVmidFirewallRulesByPos/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#DeleteNodesByNodeLxcByVmidSnapshotBySnapname/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmid/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidConfig/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidFeature/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidFirewall/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidFirewallAliases/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidFirewallAliasesByName/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidFirewallIpset/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidFirewallIpsetByName/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidFirewallIpsetByNameByCidr/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidFirewallLog/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidFirewallOptions/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidFirewallRefs/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidFirewallRules/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidFirewallRulesByPos/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidInterfaces/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidMigrate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidMtunnelwebsocket/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidPending/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidRrd/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidRrddata/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidSnapshot/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidSnapshotBySnapname/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidSnapshotBySnapnameConfig/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidStatus/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidStatusCurrent/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#GetNodesByNodeLxcByVmidVncwebsocket/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidClone/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidFirewallAliases/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidFirewallIpset/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidFirewallIpsetByName/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidFirewallRules/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidMigrate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidMoveVolume/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidMtunnel/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidRemoteMigrate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidSnapshot/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidSnapshotBySnapnameRollback/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidSpiceproxy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidStatusReboot/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidStatusResume/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidStatusShutdown/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidStatusStart/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidStatusStop/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidStatusSuspend/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidTemplate/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidTermproxy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PostNodesByNodeLxcByVmidVncproxy/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PutNodesByNodeLxcByVmidConfig/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PutNodesByNodeLxcByVmidFirewallAliasesByName/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PutNodesByNodeLxcByVmidFirewallIpsetByNameByCidr/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PutNodesByNodeLxcByVmidFirewallOptions/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PutNodesByNodeLxcByVmidFirewallRulesByPos/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PutNodesByNodeLxcByVmidResize/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/proxmox.nodes_lxc#PutNodesByNodeLxcByVmidSnapshotBySnapnameConfig/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "proxmox.nodes_lxc#GuestNotFound"
+        }
+      ]
+    }
+  ]
+}

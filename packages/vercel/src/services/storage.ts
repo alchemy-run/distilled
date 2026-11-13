@@ -220,6 +220,7 @@ export interface CreateStorageStoresBlobResponseStoreProjectsMetadataItem {
   makeEnvVarsSensitive?: boolean | undefined;
   name: string;
   projectId: string;
+  secretsOutdated?: boolean | undefined;
 }
 export type CreateStorageStoresBlobResponseStoreProjectsMetadataList =
   Array<CreateStorageStoresBlobResponseStoreProjectsMetadataItem>;
@@ -407,6 +408,7 @@ export interface GetStorageStoreResponseStoreProjectsMetadataItem {
   makeEnvVarsSensitive?: boolean | undefined;
   name: string;
   projectId: string;
+  secretsOutdated?: boolean | undefined;
 }
 export type GetStorageStoreResponseStoreProjectsMetadataList =
   Array<GetStorageStoreResponseStoreProjectsMetadataItem>;
@@ -580,6 +582,7 @@ function __c1(j: number): any {
           makeEnvVarsSensitive: S.optional(S.Boolean),
           name: S.String,
           projectId: S.String,
+          secretsOutdated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "CreateStorageStoresBlobResponseStoreProjectsMetadataItem" });
     case 5:

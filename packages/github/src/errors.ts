@@ -33,6 +33,7 @@ import type {
   NotFound,
   UnprocessableEntity,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -57,11 +58,8 @@ export class Gone
  */
 export class UnknownGithubError
   extends /*@__PURE__*/ Schema.TaggedError<UnknownGithubError>()("UnknownGithubError", {
-    status: Schema.Number,
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
+    ...UnknownErrorFields,
     headers: /*@__PURE__*/ Schema.Record(Schema.String, Schema.optional(Schema.String)),
-    body: Schema.Unknown,
   }).pipe(Category.withBadRequestError) {}
 
 /** Schema parse error wrapper. */

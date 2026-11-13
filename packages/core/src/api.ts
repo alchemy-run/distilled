@@ -106,13 +106,13 @@ export class Protocol
        * Server streaming (see {@link makeStreaming}): each response message
        * as it arrives, decoded as one element of the output's `items`.
        * Ending the stream early cancels the call. Protocols that can't
-       * stream leave it out; one that can stream only some operations
-       * returns `undefined` for the others.
+       * stream leave it out; one that streams only some operations fails
+       * the others with {@link cannotStream}.
        */
       readonly stream?: (
         operation: PreparedOperation,
         input: unknown,
-      ) => Stream.Stream<unknown, unknown> | undefined;
+      ) => Stream.Stream<unknown, unknown>;
     }
   >()("Protocol") {}
 
@@ -476,6 +476,31 @@ const stateOf = (op: unknown): OperationState => (op as Record<symbol, Operation
 export const describeOperation = (op: unknown): Telemetry.OperationInfo =>
   infoOf(prepare(stateOf(op)));
 
+/**
+ * The HTTP request a call to `op` with `input` would send, built by the
+ * operation's protocol (`Protocol.encode`) and not sent: no retry, no span,
+ * no response. It fails as the call would before sending (bad input,
+ * credentials, endpoint), or with {@link SdkError} when the operation can't
+ * be loaded; the Protocol seam does not type those failures, so the error is
+ * `unknown`. Presigning builds on it.
+ */
+export const encodeRequest = <I, O, E, R>(
+  op: OperationMethod<I, O, E, R>,
+  input: I,
+): Effect.Effect<HttpClientRequest.HttpClientRequest, unknown, R> =>
+  Effect.suspend(() => {
+    const state = stateOf(op) as OperationState | undefined;
+    if (state === undefined) return Effect.fail(new SdkError({ message: "not an operation" }));
+    const prepared = prepareOr(state);
+    if (prepared instanceof SdkError) return Effect.fail(prepared);
+    const encode = (service: ProtocolShape) =>
+      service.encode({ input, inputAst: prepared.inputAst, config: prepared.cfg });
+    if (prepared.service !== undefined) return encode(prepared.service);
+    return Effect.flatMap(protocolContext(prepared.cfg.protocol), (protocolCtx) =>
+      encode((prepared.service = Context.get(protocolCtx, Protocol))),
+    );
+  });
+
 const defineState = (op: unknown, state: OperationState): OperationState => {
   Object.defineProperty(op, stateKey, { value: state });
   return state;
@@ -818,6 +843,14 @@ export type StreamingOperationMethod<I, O, E, R, Item = StreamedItem<O>> = Effec
   StreamingCall<I, O, E, R, Item> &
   OperationSchemas<I, O>;
 
+/** The `.stream()` of an operation its protocol can't stream: fails with {@link SdkError}. */
+export const cannotStream = (operation: PreparedOperation): Stream.Stream<never, SdkError> =>
+  Stream.fail(
+    new SdkError({
+      message: `${operation.config.operationName ?? "this operation"}: its protocol can't stream`,
+    }),
+  );
+
 /** `.stream(input)` over an operation's protocol. */
 const streamCall =
   (state: OperationState) =>
@@ -827,12 +860,7 @@ const streamCall =
         const prepared = prepareOr(state);
         if (prepared instanceof SdkError) return Effect.succeed(Stream.fail(prepared));
         const run = (service: ProtocolShape) =>
-          service.stream?.(prepared, input) ??
-          Stream.fail(
-            new SdkError({
-              message: `${prepared.cfg.operationName ?? "this operation"}: its protocol can't stream`,
-            }),
-          );
+          service.stream === undefined ? cannotStream(prepared) : service.stream(prepared, input);
         return prepared.service !== undefined
           ? Effect.succeed(run(prepared.service))
           : Effect.map(protocolContext(prepared.cfg.protocol), (ctx) =>

@@ -115,9 +115,12 @@ export type CreateAPITokenRequestScopesItem =
   | "group:configure"
   | "group:mint-token"
   | "group:rotate-creds"
+  | "group:create"
+  | "group:delete"
+  | "org:read"
   | "read-only"
   | "full-access";
-/** Permissions to grant a group-scoped token. Each entry is either an individual scope or one of the presets `read-only` (expands to `read`) and `full-access` (expands to every scope). Required and must be non-empty when `group` is set. `db:mint-token` lets the token issue new SQL credentials; `db:rotate-creds` invalidates every existing SQL token for the database -- they are deliberately separate because rotation is destructive. */
+/** Permissions to grant the token. Each entry is either an individual scope or one of the presets `read-only` (expands to `read`) and `full-access` (expands to every group scope, without `group:create`, `group:delete`, and `org:read`). Required and must be non-empty when `group` is set. Optional for an org-scoped token: without `scopes`, the token can do everything that its user can do in the organization. `group:create`, `group:delete`, and `org:read` are valid only on org-scoped tokens. `db:mint-token` lets the token issue new SQL credentials; `db:rotate-creds` invalidates every existing SQL token for the database -- they are deliberately separate because rotation is destructive. */
 export type CreateAPITokenRequestScopesList = Array<
   CreateAPITokenRequestScopesItem | (string & {})
 >;
@@ -128,7 +131,7 @@ export interface CreateAPITokenRequest {
   organization?: string | undefined;
   /** The group name (inside `organization`) to restrict this token to. Requires `organization` and a non-empty `scopes` list. */
   group?: string | undefined;
-  /** Permissions to grant a group-scoped token. Each entry is either an individual scope or one of the presets `read-only` (expands to `read`) and `full-access` (expands to every scope). Required and must be non-empty when `group` is set. `db:mint-token` lets the token issue new SQL credentials; `db:rotate-creds` invalidates every existing SQL token for the database -- they are deliberately separate because rotation is destructive. */
+  /** Permissions to grant the token. Each entry is either an individual scope or one of the presets `read-only` (expands to `read`) and `full-access` (expands to every group scope, without `group:create`, `group:delete`, and `org:read`). Required and must be non-empty when `group` is set. Optional for an org-scoped token: without `scopes`, the token can do everything that its user can do in the organization. `group:create`, `group:delete`, and `org:read` are valid only on org-scoped tokens. `db:mint-token` lets the token issue new SQL credentials; `db:rotate-creds` invalidates every existing SQL token for the database -- they are deliberately separate because rotation is destructive. */
   scopes?: CreateAPITokenRequestScopesList | undefined;
 }
 export interface CreateAPITokenResponse {
@@ -635,7 +638,7 @@ export interface InviteOrganizationMemberV2Response {
   invited?: InviteCreatedV2 | undefined;
 }
 export interface ListAPITokensRequest {}
-/** The expanded list of scopes granted to this token. Present only for group-scoped tokens. Presets passed at creation time (`read-only`, `full-access`) are stored as the underlying individual scopes and are returned in that form. */
+/** The expanded list of scopes granted to this token. Present only for tokens with scopes. Presets passed at creation time (`read-only`, `full-access`) are stored as the underlying individual scopes and are returned in that form. */
 export type APITokenScopesList = Array<string>;
 export interface APIToken {
   /** The name given to the API Token. */
@@ -646,7 +649,7 @@ export interface APIToken {
   organization?: string | undefined;
   /** The group name this token is pinned to. Present only for group-scoped tokens. */
   group?: string | undefined;
-  /** The expanded list of scopes granted to this token. Present only for group-scoped tokens. Presets passed at creation time (`read-only`, `full-access`) are stored as the underlying individual scopes and are returned in that form. */
+  /** The expanded list of scopes granted to this token. Present only for tokens with scopes. Presets passed at creation time (`read-only`, `full-access`) are stored as the underlying individual scopes and are returned in that form. */
   scopes?: APITokenScopesList | undefined;
   /** The date the token was created, in `YYYY-MM-DD` format. */
   created_at?: string | undefined;
@@ -768,7 +771,7 @@ export interface ListOrganizationAPITokensRequest {
   /** The slug of the organization or user account. */
   organizationSlug: string;
 }
-/** The expanded scope list. Present only for group-scoped tokens. */
+/** The expanded scope list. Present only for tokens with scopes. */
 export type ListOrganizationAPITokensResponseTokensItemScopesList = Array<string>;
 /** The user who minted the token. Returned to admins and owners so they can see who provisioned each token. */
 export interface ListOrganizationAPITokensResponseTokensItemOwner {
@@ -784,7 +787,7 @@ export interface ListOrganizationAPITokensResponseTokensItem {
   organization?: string | undefined;
   /** The group name. Present only for group-scoped tokens. */
   group?: string | undefined;
-  /** The expanded scope list. Present only for group-scoped tokens. */
+  /** The expanded scope list. Present only for tokens with scopes. */
   scopes?: ListOrganizationAPITokensResponseTokensItemScopesList | undefined;
   /** The user who minted the token. Returned to admins and owners so they can see who provisioned each token. */
   owner?: ListOrganizationAPITokensResponseTokensItemOwner | undefined;
@@ -1178,7 +1181,7 @@ export const addOrganizationMember: API.OperationMethod<
 }));
 
 export type CreateAPITokenError = BadRequest | NotFound | Conflict | TursoOpError;
-/** Create API Token Returns a new API token belonging to a user. The token can be minted at three levels of restriction, in increasing order of narrowness: - **Organization-scoped** -- pass `organization`. The token can only act on resources inside that organization. - **Group-scoped** -- pass `organization`, `group`, and `scopes`. The token is pinned to a single group inside the organization and only the operations listed in `scopes` are allowed. The caller must be an admin or owner of the organization. - **Unrestricted** *(deprecated)* -- no request body. The token can act on every organization the caller belongs to. **Unrestricted tokens are deprecated and will be removed in a future release.** Always pass `organization` for new tokens and rotate existing unrestricted tokens to scoped tokens. Group-scoped tokens are designed for automations that should be able to provision and manage databases inside a single group without being able to touch the rest of the organization. */
+/** Create API Token Returns a new API token belonging to a user. The token can be minted at three levels of restriction, in increasing order of narrowness: - **Organization-scoped** -- pass `organization`, and optionally `scopes`. The token can only act on resources inside that organization. With `scopes`, it can do only the listed operations, in every group of the organization. - **Group-scoped** -- pass `organization`, `group`, and `scopes`. The token is pinned to a single group inside the organization and only the operations listed in `scopes` are allowed. The caller must be an admin or owner of the organization. - **Unrestricted** *(deprecated)* -- no request body. The token can act on every organization the caller belongs to. **Unrestricted tokens are deprecated and will be removed in a future release.** Always pass `organization` for new tokens and rotate existing unrestricted tokens to scoped tokens. Group-scoped tokens are designed for automations that should be able to provision and manage databases inside a single group without being able to touch the rest of the organization. */
 export const createAPIToken: API.OperationMethod<
   CreateAPITokenRequest,
   CreateAPITokenResponse,

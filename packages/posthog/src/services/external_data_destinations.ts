@@ -58,6 +58,8 @@ export interface SyncedSource {
 }
 /** Sources whose tables sync to this destination, so you can see what a change or a deletion would affect. Includes sources that reach it through a single table's override, and -- for the PostHog warehouse -- sources that write there by default because nothing else was configured. */
 export type ExternalDataDestinationSyncedSourcesList = Array<SyncedSource>;
+/** * `healthy` - Healthy * `failing` - Failing * `paused` - Paused */
+export type ExternalDataDestinationStatusEnum = "healthy" | "failing" | "paused";
 export interface ExternalDataDestination {
   id: string;
   /** Where synced rows are written. The PostHog warehouse is managed for you, so you cannot create one here. * `PostHogWarehouse` - PostHog warehouse * `Redshift` - Redshift * `Snowflake` - Snowflake * `BigQuery` - BigQuery * `Postgres` - Postgres * `Databricks` - Databricks * `AzureBlob` - Azure Blob * `S3` - S3 */
@@ -75,6 +77,136 @@ export interface ExternalDataDestination {
   updated_at: string | null;
   /** Sources whose tables sync to this destination, so you can see what a change or a deletion would affect. Includes sources that reach it through a single table's override, and -- for the PostHog warehouse -- sources that write there by default because nothing else was configured. */
   synced_sources: ExternalDataDestinationSyncedSourcesList;
+  /** Whether delivery to this destination works. `healthy`: the last delivery worked. `failing`: the last delivery failed. `paused`: PostHog stopped syncing to it after repeated configuration errors. Edit the destination to turn it back on. * `healthy` - Healthy * `failing` - Failing * `paused` - Paused */
+  status: ExternalDataDestinationStatusEnum;
+  /** The last delivery error, safe to show to the user. Null if no delivery has failed. */
+  latest_error: string | null;
+  /** When the last delivery error occurred. */
+  latest_error_at: string | null;
+}
+export interface CreateExternalDataDestinationsTestConnectionRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this external data destination. */
+  id: string;
+}
+/** * `Passed` - Passed * `Failed` - Failed * `Skipped` - Skipped */
+export type DestinationConnectionTestStepStatusEnum = "Passed" | "Failed" | "Skipped";
+export interface DestinationConnectionTestStep {
+  /** What this step checks. */
+  name: string;
+  /** A longer explanation of what this step checks. */
+  description: string;
+  /** The result of the step. Null when the step did not run because an earlier step failed. * `Passed` - Passed * `Failed` - Failed * `Skipped` - Skipped */
+  status: DestinationConnectionTestStepStatusEnum | null;
+  /** Why the step failed or was skipped. Null when the step passed or did not run. */
+  message: string | null;
+}
+/** The steps of the connection test, in order. The test stops at the first failed step. */
+export type DestinationConnectionTestResponseStepsList = Array<DestinationConnectionTestStep>;
+export interface DestinationConnectionTestResponse {
+  /** The steps of the connection test, in order. The test stops at the first failed step. */
+  steps: DestinationConnectionTestResponseStepsList;
+}
+/** IDs of up to 50 existing sources to attach to this destination. */
+export type ExternalDataDestinationsAddSourcesCreateRequestSourceIdsList = Array<string>;
+export interface ExternalDataDestinationsAddSourcesCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** A UUID string identifying this external data destination. */
+  id: string;
+  /** IDs of up to 50 existing sources to attach to this destination. */
+  source_ids: ExternalDataDestinationsAddSourcesCreateRequestSourceIdsList;
+  /** Start a full resync for each enabled table newly attached. */
+  resync?: boolean | undefined;
+}
+/** Sources newly attached to this destination. */
+export type AddSourcesResponseAttachedList = Array<SyncedSource>;
+export interface SkippedSource {
+  /** ID of the source that was not attached. */
+  id: string;
+  /** Name of the source that was not attached. */
+  name: string;
+  /** Why the source was not attached. */
+  reason: string;
+}
+/** Sources that were not attached and their reasons. */
+export type AddSourcesResponseSkippedList = Array<SkippedSource>;
+export interface ResyncFailure {
+  /** ID of the table whose resync did not start. */
+  schema_id: string;
+  /** Why the resync did not start. */
+  detail: string;
+}
+/** Tables whose resync did not start. The sources are still attached. */
+export type AddSourcesResponseResyncFailuresList = Array<ResyncFailure>;
+export interface AddSourcesResponse {
+  /** Sources newly attached to this destination. */
+  attached: AddSourcesResponseAttachedList;
+  /** Sources that were not attached and their reasons. */
+  skipped: AddSourcesResponseSkippedList;
+  /** Number of tables sent for a full resync. */
+  tables_resyncing: number;
+  /** Tables whose resync did not start. The sources are still attached. */
+  resync_failures: AddSourcesResponseResyncFailuresList;
+}
+export interface ExternalDataDestinationsConnectLinkCompleteCreateRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The connect token from the connect link URL. */
+  connect_token: string;
+  /** Id of the integration the user saved on the connect page. */
+  integration_id: number;
+}
+/** * `pending` - Pending * `connected` - Connected * `expired` - Expired */
+export type DestinationConnectStatusEnum = "pending" | "connected" | "expired";
+export interface DestinationConnectStatus {
+  /** `pending`: the user has not saved a connection yet. `connected`: the user saved one, and integration_id holds it. `expired`: the link is no longer valid, or it is unknown or belongs to another user. Ask for a new link. * `pending` - Pending * `connected` - Connected * `expired` - Expired */
+  status: DestinationConnectStatusEnum;
+  /** Id of the saved integration when status is `connected`. Pass it to destination create. */
+  integration_id: number | null;
+  /** The integration kind the link is for. Null when status is `expired`. */
+  integration_kind: string | null;
+  /** Name of the saved connection, such as the account or host, to confirm with the user. */
+  display_name: string | null;
+}
+export type ExternalDataDestinationsConnectLinkRetrieveRequestDestinationType =
+  | "Redshift"
+  | "Snowflake"
+  | "BigQuery"
+  | "Postgres"
+  | "Databricks"
+  | "AzureBlob"
+  | "S3";
+export interface ExternalDataDestinationsConnectLinkRetrieveRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The destination type to connect, e.g. 'Snowflake' or 'S3'. * `Redshift` - Redshift * `Snowflake` - Snowflake * `BigQuery` - BigQuery * `Postgres` - Postgres * `Databricks` - Databricks * `AzureBlob` - Azure Blob * `S3` - S3 */
+  destination_type:
+    | ExternalDataDestinationsConnectLinkRetrieveRequestDestinationType
+    | (string & {});
+  /** Which integration kind to connect when the type accepts more than one. Only S3 does: 'aws-s3' (the default) or 's3-compatible' for MinIO, Wasabi, R2, GCS and similar. */
+  integration_kind?: string | undefined;
+}
+export interface DestinationConnectLink {
+  /** The destination type the link is for. */
+  destination_type: string;
+  /** The integration kind the page creates. */
+  integration_kind: string;
+  /** Full URL to share with the user. It opens the connection form for this integration kind in PostHog, so credentials never pass through the agent or the chat. */
+  connect_url: string;
+  /** Secret token in the link. Pass it to the connect link status endpoint to learn which integration the user saved. Only the user who asked for the link can read its status. */
+  connect_token: string;
+  /** When the link stops accepting a new connection. Ask for a new link after this time. */
+  expires_at: string;
+  /** Next steps for the agent to relay to the user. */
+  instructions: string;
+}
+export interface ExternalDataDestinationsConnectLinkStatusRetrieveRequest {
+  /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
+  project_id: string;
+  /** The connect_token that the connect link returned. */
+  connect_token: string;
 }
 export interface ExternalDataDestinationsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -141,12 +273,105 @@ export const createExternalDataDestination: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateExternalDataDestinationRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<ExternalDataDestination>,
+  output: __S(16, __c2, 0) as any as S.Schema<ExternalDataDestination>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateExternalDataDestination",
+}));
+
+export type CreateExternalDataDestinationsTestConnectionError = PosthogOpError;
+/** Test the credentials and target of an existing destination, and return the result of each step. */
+export const createExternalDataDestinationsTestConnection: API.OperationMethod<
+  CreateExternalDataDestinationsTestConnectionRequest,
+  DestinationConnectionTestResponse,
+  CreateExternalDataDestinationsTestConnectionError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(24, __c3, 0) as any as S.Schema<CreateExternalDataDestinationsTestConnectionRequest>,
+  output: __S(27, __c3, 3) as any as S.Schema<DestinationConnectionTestResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateExternalDataDestinationsTestConnection",
+}));
+
+export type ExternalDataDestinationsAddSourcesCreateError = PosthogOpError;
+/** Manage where warehouse sources write their synced rows. A destination can be attached to several sources, or to a single table on a source. Credentials come from an integration, so one connection can be reused across syncs. */
+export const externalDataDestinationsAddSourcesCreate: API.OperationMethod<
+  ExternalDataDestinationsAddSourcesCreateRequest,
+  AddSourcesResponse,
+  ExternalDataDestinationsAddSourcesCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(41, __c5, 1) as any as S.Schema<ExternalDataDestinationsAddSourcesCreateRequest>,
+  output: __S(46, __c5, 6) as any as S.Schema<AddSourcesResponse>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataDestinationsAddSourcesCreate",
+}));
+
+export type ExternalDataDestinationsConnectLinkCompleteCreateError = PosthogOpError;
+/** Report the integration the user saved on the connect page, so the agent that sent them can read it. The connect page calls this. Repeating the call with the same integration is safe. */
+export const externalDataDestinationsConnectLinkCompleteCreate: API.OperationMethod<
+  ExternalDataDestinationsConnectLinkCompleteCreateRequest,
+  DestinationConnectStatus,
+  ExternalDataDestinationsConnectLinkCompleteCreateError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    48,
+    __c6,
+    0,
+  ) as any as S.Schema<ExternalDataDestinationsConnectLinkCompleteCreateRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<DestinationConnectStatus>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataDestinationsConnectLinkCompleteCreate",
+}));
+
+export type ExternalDataDestinationsConnectLinkRetrieveError = PosthogOpError;
+/** Return a secure browser link where the user connects the credentials for a destination. The page saves an integration and does not create the destination, so secrets never pass through the agent. The link carries a connect token. The agent reads the saved integration's id with the token from the connect link status endpoint, then creates the destination with it. */
+export const externalDataDestinationsConnectLinkRetrieve: API.OperationMethod<
+  ExternalDataDestinationsConnectLinkRetrieveRequest,
+  DestinationConnectLink,
+  ExternalDataDestinationsConnectLinkRetrieveError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(64, __c8, 0) as any as S.Schema<ExternalDataDestinationsConnectLinkRetrieveRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<DestinationConnectLink>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataDestinationsConnectLinkRetrieve",
+}));
+
+export type ExternalDataDestinationsConnectLinkStatusRetrieveError = PosthogOpError;
+/** Return whether the user saved a connection through a connect link, and which integration it is. Never returns credentials or integration config. */
+export const externalDataDestinationsConnectLinkStatusRetrieve: API.OperationMethod<
+  ExternalDataDestinationsConnectLinkStatusRetrieveRequest,
+  DestinationConnectStatus,
+  ExternalDataDestinationsConnectLinkStatusRetrieveError,
+  PosthogOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(
+    72,
+    __c9,
+    0,
+  ) as any as S.Schema<ExternalDataDestinationsConnectLinkStatusRetrieveRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<DestinationConnectStatus>,
+  errors: [],
+  protocol: PosthogProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ExternalDataDestinationsConnectLinkStatusRetrieve",
 }));
 
 export type ExternalDataDestinationsDestroyError = PosthogOpError;
@@ -157,8 +382,8 @@ export const externalDataDestinationsDestroy: API.OperationMethod<
   ExternalDataDestinationsDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c2, 0) as any as S.Schema<ExternalDataDestinationsDestroyRequest>,
-  output: __S(9, __c2, 1) as any as S.Schema<ExternalDataDestinationsDestroyResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<ExternalDataDestinationsDestroyRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<ExternalDataDestinationsDestroyResponse>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -174,8 +399,8 @@ export const getExternalDataDestination: API.OperationMethod<
   GetExternalDataDestinationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(12, __c3, 0) as any as S.Schema<GetExternalDataDestinationRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<ExternalDataDestination>,
+  input: __S(88, __c11, 0) as any as S.Schema<GetExternalDataDestinationRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<ExternalDataDestination>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -191,8 +416,8 @@ export const listExternalDataDestinations: API.OperationMethod<
   ListExternalDataDestinationsError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<ListExternalDataDestinationsRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<PaginatedExternalDataDestinationList>,
+  input: __S(96, __c12, 0) as any as S.Schema<ListExternalDataDestinationsRequest>,
+  output: __S(98, __c12, 2) as any as S.Schema<PaginatedExternalDataDestinationList>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -208,8 +433,8 @@ export const updateExternalDataDestination: API.OperationMethod<
   UpdateExternalDataDestinationError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<UpdateExternalDataDestinationRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<ExternalDataDestination>,
+  input: __S(104, __c13, 0) as any as S.Schema<UpdateExternalDataDestinationRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<ExternalDataDestination>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -225,8 +450,8 @@ export const updateExternalDataDestinationsPartial: API.OperationMethod<
   UpdateExternalDataDestinationsPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<UpdateExternalDataDestinationsPartialRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<ExternalDataDestination>,
+  input: __S(32, __c4, 0) as any as S.Schema<UpdateExternalDataDestinationsPartialRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<ExternalDataDestination>,
   errors: [],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -267,8 +492,12 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "SyncedSource" });
     case 1:
-      return S.Array(__S(4, __c1, 0));
-    case 2:
+      return S.Array(__S(8, __c1, 0));
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -280,12 +509,196 @@ function __c1(j: number): any {
           created_at: S.String,
           created_by: S.NullOr(S.Number),
           updated_at: S.NullOr(S.String),
-          synced_sources: __S(5, __c1, 1),
+          synced_sources: __S(9, __c1, 1),
+          status: S.String,
+          latest_error: S.NullOr(S.String),
+          latest_error_at: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "ExternalDataDestination" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/external_data_destinations/{id}/test_connection/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CreateExternalDataDestinationsTestConnectionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.String,
+          status: S.NullOr(S.String),
+          message: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "DestinationConnectionTestStep" });
+    case 2:
+      return S.Array(__S(25, __c3, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          steps: __S(26, __c3, 2),
+        }),
+      ).annotate({ identifier: "DestinationConnectionTestResponse" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          type: S.optional(S.String),
+          name: S.optional(S.String),
+          config: S.optional(S.Unknown),
+          integration: S.optional(S.NullOr(S.Number)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/api/projects/{project_id}/external_data_destinations/{id}/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateExternalDataDestinationsPartialRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+          source_ids: __S(40, __c5, 0),
+          resync: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/external_data_destinations/{id}/add_sources/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ExternalDataDestinationsAddSourcesCreateRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          reason: S.String,
+        }),
+      ).annotate({ identifier: "SkippedSource" });
+    case 3:
+      return S.Array(__S(42, __c5, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          schema_id: S.String,
+          detail: S.String,
+        }),
+      ).annotate({ identifier: "ResyncFailure" });
+    case 5:
+      return S.Array(__S(44, __c5, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          attached: __S(9, __c1, 1),
+          skipped: __S(43, __c5, 3),
+          tables_resyncing: S.Number,
+          resync_failures: __S(45, __c5, 5),
+        }),
+      ).annotate({ identifier: "AddSourcesResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          connect_token: S.String,
+          integration_id: S.Number,
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/api/projects/{project_id}/external_data_destinations/connect_link_complete/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ExternalDataDestinationsConnectLinkCompleteCreateRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.String,
+          integration_id: S.NullOr(S.Number),
+          integration_kind: S.NullOr(S.String),
+          display_name: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "DestinationConnectStatus" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          destination_type: S.String.pipe(T.Query()),
+          integration_kind: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/external_data_destinations/connect_link/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ExternalDataDestinationsConnectLinkRetrieveRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          destination_type: S.String,
+          integration_kind: S.String,
+          connect_url: S.String,
+          connect_token: S.String,
+          expires_at: S.String,
+          instructions: S.String,
+        }),
+      ).annotate({ identifier: "DestinationConnectLink" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          project_id: S.String.pipe(T.Label()),
+          connect_token: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/api/projects/{project_id}/external_data_destinations/connect_link_status/",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ExternalDataDestinationsConnectLinkStatusRetrieveRequest" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -306,7 +719,7 @@ function __c2(j: number): any {
       });
   }
 }
-function __c3(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -323,7 +736,7 @@ function __c3(j: number): any {
       ).annotate({ identifier: "GetExternalDataDestinationRequest" });
   }
 }
-function __c4(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -340,19 +753,19 @@ function __c4(j: number): any {
         ),
       ).annotate({ identifier: "ListExternalDataDestinationsRequest" });
     case 1:
-      return S.Array(__S(6, __c1, 2));
+      return S.Array(__S(16, __c2, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: __S(17, __c4, 1),
+          results: __S(97, __c12, 1),
         }),
       ).annotate({ identifier: "PaginatedExternalDataDestinationList" });
   }
 }
-function __c5(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -371,27 +784,6 @@ function __c5(j: number): any {
           }),
         ),
       ).annotate({ identifier: "UpdateExternalDataDestinationRequest" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          project_id: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-          type: S.optional(S.String),
-          name: S.optional(S.String),
-          config: S.optional(S.Unknown),
-          integration: S.optional(S.NullOr(S.Number)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/api/projects/{project_id}/external_data_destinations/{id}/",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateExternalDataDestinationsPartialRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

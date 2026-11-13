@@ -1,0 +1,10 @@
+{
+  "description": "EnsureBazelCacheResponse.client_key_pem is documented as \"The PEM-encoded client key that can be used by Bazel to connect to the cache\" but carries no sensitive mark, so it surfaces as a plain string. proto/namespace/cloud/integrations/bazel/v1beta/bazel.proto. Source: buf.build/namespace/cloud, fetched 2026-11-11.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/so.namespace.bazel.cache#EnsureBazelCacheResponse/members/clientKeyPem/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

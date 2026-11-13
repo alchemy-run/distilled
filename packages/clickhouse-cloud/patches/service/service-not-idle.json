@@ -1,0 +1,39 @@
+{
+  "description": "Type the 400 PATCH /v1/organizations/{organizationId}/services/{serviceId}/state answers to the `awake` command for a service that is not idle: {\"status\": 400, \"error\": \"BAD_REQUEST: Service must be in idle state to awake\"}. The spec types it only as the shared envelope, so it surfaced as the generic BadRequest, which every invalid request body also answers. Observed live 2026-11-12 sending command awake to a running service (request id 763c5551-1f2b-453d-9abb-6f463ca7cf2c) and to a stopped one (request id b869c8f7-1ffb-490a-ae52-c2ec61d6d639). The start and stop commands are idempotent (200 in every state).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#ServiceNotIdle",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The service is not idle, so it cannot be awakened. Read its state and send start or stop instead.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Service must be in idle state to awake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#InstanceStateUpdate/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.service#ServiceNotIdle"
+        }
+      ]
+    }
+  ]
+}

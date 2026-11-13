@@ -79,6 +79,8 @@ export interface SearchFilesResponseFilesPagination {
   page?: number | undefined;
   /** First result id */
   first?: number | undefined;
+  /** Cursor for the next page of results, when cursor pagination is used */
+  next_cursor?: string | undefined;
 }
 export type SearchFilesResponseFilesMatchesList = Array<unknown>;
 export type SearchFilesResponseFilesPagingWarningsList = Array<string>;
@@ -92,6 +94,8 @@ export interface SearchFilesResponseFilesPaging {
   /** Current page */
   page?: number | undefined;
   warnings?: SearchFilesResponseFilesPagingWarningsList | undefined;
+  /** Cursor for the next page of results, when cursor pagination is used */
+  next_cursor?: string | undefined;
 }
 export interface SearchFilesResponseFiles {
   pagination?: SearchFilesResponseFilesPagination | undefined;
@@ -229,7 +233,7 @@ export const searchFiles: API.OperationMethod<
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<SearchFilesRequest>,
-  output: __S(12, __c1, 4) as any as S.Schema<SearchFilesResponse>,
+  output: __S(11, __c1, 3) as any as S.Schema<SearchFilesResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -246,7 +250,7 @@ export const searchMessages: API.OperationMethod<
   SlackOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c3, 0) as any as S.Schema<SearchMessagesRequest>,
-  output: __S(29, __c3, 5) as any as S.Schema<SearchMessagesResponse>,
+  output: __S(28, __c3, 4) as any as S.Schema<SearchMessagesResponse>,
   errors: [SlackError, SlackRateLimited],
   protocol: SlackProtocol,
   retry: Retry.Retry,
@@ -299,47 +303,36 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          last: S.optional(S.Number),
-          warnings: S.optional(__S(16, __c2, 0)),
-          total_count: S.optional(S.Number),
-          page_count: S.optional(S.Number),
-          per_page: S.optional(S.Number),
-          page: S.optional(S.Number),
-          first: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SearchFilesResponseFilesPagination" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           count: S.optional(S.Number),
           pages: S.optional(S.Number),
           total: S.optional(S.Number),
           page: S.optional(S.Number),
           warnings: S.optional(__S(16, __c2, 0)),
+          next_cursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchFilesResponseFilesPaging" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          pagination: S.optional(__S(9, __c1, 1)),
-          matches: S.optional(__S(17, __c2, 1)),
-          paging: S.optional(__S(10, __c1, 2)),
+          pagination: S.optional(__S(17, __c2, 1)),
+          matches: S.optional(__S(18, __c2, 2)),
+          paging: S.optional(__S(9, __c1, 1)),
           all_stop_words: S.optional(S.Boolean),
           total: S.optional(S.Number),
           query_too_long: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SearchFilesResponseFiles" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
-          files: S.optional(__S(11, __c1, 3)),
+          files: S.optional(__S(10, __c1, 2)),
           callstack: S.optional(S.String),
-          users: S.optional(__S(18, __c2, 2)),
-          teams: S.optional(__S(18, __c2, 2)),
-          channels: S.optional(__S(18, __c2, 2)),
-          ims: S.optional(__S(18, __c2, 2)),
-          groups: S.optional(__S(18, __c2, 2)),
+          users: S.optional(__S(19, __c2, 3)),
+          teams: S.optional(__S(19, __c2, 3)),
+          channels: S.optional(__S(19, __c2, 3)),
+          ims: S.optional(__S(19, __c2, 3)),
+          groups: S.optional(__S(19, __c2, 3)),
           query: S.optional(S.String),
           ignored_exclude_bots_pref: S.optional(S.Boolean),
         }),
@@ -351,8 +344,21 @@ function __c2(j: number): any {
     case 0:
       return S.Array(S.String);
     case 1:
-      return S.Array(S.Unknown);
+      return S.suspend(() =>
+        S.Struct({
+          last: S.optional(S.Number),
+          warnings: S.optional(__S(16, __c2, 0)),
+          total_count: S.optional(S.Number),
+          page_count: S.optional(S.Number),
+          per_page: S.optional(S.Number),
+          page: S.optional(S.Number),
+          first: S.optional(S.Number),
+          next_cursor: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SearchFilesResponseFilesPagination" });
     case 2:
+      return S.Array(S.Unknown);
+    case 3:
       return S.Record(S.String, S.Unknown);
   }
 }
@@ -374,19 +380,6 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          last: S.optional(S.Number),
-          warnings: S.optional(__S(16, __c2, 0)),
-          total_count: S.optional(S.Number),
-          page_count: S.optional(S.Number),
-          per_page: S.optional(S.Number),
-          page: S.optional(S.Number),
-          first: S.optional(S.Number),
-          next_cursor: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SearchMessagesResponseMessagesPagination" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
           count: S.optional(S.Number),
           total: S.optional(S.Number),
           pages: S.optional(S.Number),
@@ -395,35 +388,35 @@ function __c3(j: number): any {
           next_cursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchMessagesResponseMessagesPaging" });
-    case 3:
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          matches: S.optional(__S(17, __c2, 1)),
-          pagination: S.optional(__S(25, __c3, 1)),
+          matches: S.optional(__S(18, __c2, 2)),
+          pagination: S.optional(__S(17, __c2, 1)),
           total: S.optional(S.Number),
           all_stop_words: S.optional(S.Boolean),
-          paging: S.optional(__S(26, __c3, 2)),
+          paging: S.optional(__S(25, __c3, 1)),
         }),
       ).annotate({ identifier: "SearchMessagesResponseMessages" });
-    case 4:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           next_cursor: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchMessagesResponseResponseMetadata" });
-    case 5:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           callstack: S.optional(S.String),
-          users: S.optional(__S(18, __c2, 2)),
-          messages: S.optional(__S(27, __c3, 3)),
+          users: S.optional(__S(19, __c2, 3)),
+          messages: S.optional(__S(26, __c3, 2)),
           show_feedback: S.optional(S.Boolean),
-          teams: S.optional(__S(18, __c2, 2)),
+          teams: S.optional(__S(19, __c2, 3)),
           query: S.optional(S.String),
-          bots: S.optional(__S(18, __c2, 2)),
+          bots: S.optional(__S(19, __c2, 3)),
           ignored_exclude_bots_pref: S.optional(S.Boolean),
-          response_metadata: S.optional(__S(28, __c3, 4)),
+          response_metadata: S.optional(__S(27, __c3, 3)),
         }),
       ).annotate({ identifier: "SearchMessagesResponse" });
   }

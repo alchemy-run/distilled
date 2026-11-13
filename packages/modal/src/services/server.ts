@@ -38,10 +38,11 @@ export interface FetchServerRequestRequestTail {
   count?: number | undefined;
 }
 export interface FetchServerRequestRequestRange {
-  since?: string | undefined;
   /** Inclusive, based on request timestamp. */
+  since?: string | undefined;
+  /** Exclusive, based on request timestamp. */
   until?: string | undefined;
-  /** Exclusive, based on request timestamp. Maximum number of requests to return. Must be between 1 and 20000. */
+  /** Maximum number of requests to return. Must be between 1 and 20000. */
   limit?: number | undefined;
 }
 export interface FetchServerRequestRequest {
@@ -63,10 +64,10 @@ export interface FetchServerRequestResponse {
 }
 export interface ServerCountRequestsRequest {
   functionId?: string | undefined;
-  since?: string | undefined;
   /** Inclusive, based on request timestamp. */
-  until?: string | undefined;
+  since?: string | undefined;
   /** Exclusive, based on request timestamp. */
+  until?: string | undefined;
   bucketSecs?: number | undefined;
 }
 export interface ServerCountRequestsResponseRequestBucket {
@@ -83,10 +84,11 @@ export interface ServerCountRequestsResponse {
 export type StringList = Array<string>;
 export interface ServerGetMetricsRequest {
   functionId?: string | undefined;
-  since?: string | undefined;
   /** Required; rounded down to a UTC bucket boundary. */
+  since?: string | undefined;
+  /** Required; rounded down; at most 31 days after since. */
   until?: string | undefined;
-  /** Required; rounded down; at most 31 days after since. If omitted, choose a supported width targeting approximately 100 buckets. At most 500 points per series in the rounded interval. */
+  /** If omitted, choose a supported width targeting approximately 100 buckets. At most 500 points per series in the rounded interval. */
   bucketSecs?: number | undefined;
   /** Metric groups: containers, requests, etc. */
   groups?: StringList | undefined;
@@ -102,25 +104,26 @@ export interface FunctionMetricSeries {
   name: string;
   /** Public semantic unit, such as seconds, calls, containers, or requests. */
   unit: string;
-  points: FunctionMetricPointList;
   /** Ascending timestamps; absent points are gaps. */
+  points: FunctionMetricPointList;
   description: string;
 }
 export type FunctionMetricSeriesList = Array<FunctionMetricSeries>;
 export interface ServerGetMetricsResponse {
-  since?: string | undefined;
   /** Inclusive effective bound, rounded down. */
-  until?: string | undefined;
+  since?: string | undefined;
   /** Exclusive effective bound, rounded down. */
+  until?: string | undefined;
   bucketSecs: number;
   series: FunctionMetricSeriesList;
 }
 export interface ServerGetTimeRangeStatsRequest {
   functionId?: string | undefined;
-  since?: string | undefined;
   /** Inclusive. */
+  since?: string | undefined;
+  /** Exclusive. */
   until?: string | undefined;
-  /** Exclusive. Filter stats for a specific container */
+  /** Filter stats for a specific container */
   containerId?: string | undefined;
 }
 export interface ServerGetTimeRangeStatsResponseServerStatusCodeCount {
@@ -159,10 +162,10 @@ export interface ServerGetTimeRangeStatsResponseServerInferenceStats {
   scalarStats: DoubleMap;
 }
 export interface ServerGetTimeRangeStatsResponse {
-  since?: string | undefined;
   /** Inclusive. */
-  until?: string | undefined;
+  since?: string | undefined;
   /** Exclusive. */
+  until?: string | undefined;
   requestCount: string;
   requestCountByStatusCode: ServerGetTimeRangeStatsResponseServerStatusCodeCountList;
   requestRatePerSecond: number;

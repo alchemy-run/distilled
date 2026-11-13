@@ -62,7 +62,7 @@ export interface AddOrUpdateRepoPermissionsInOrgRequest {
   owner: string;
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
-  /** The permission to grant the team on this repository. We accept the following permissions to be set: `pull`, `triage`, `push`, `maintain`, `admin` and you can also specify a custom repository role name, if the owning organization has defined any. If no permission is specified, the team's `permission` attribute will be used to determine what permission to grant the team on this repository. */
+  /** The permission to grant the team on this repository. We accept the following permissions to be set: `pull`, `triage`, `moderate`, `push`, `maintain`, `admin` and you can also specify a custom repository role name, if the owning organization has defined any. If no permission is specified, the team's `permission` attribute will be used to determine what permission to grant the team on this repository. */
   permission?: string | undefined;
 }
 export interface AddOrUpdateRepoPermissionsInOrgResponse {}
@@ -210,6 +210,7 @@ export interface TeamRepository {
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
@@ -421,7 +422,7 @@ export interface ListRequest {
   per_page?: number | undefined;
   /** The page number of the results to fetch. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
   page?: number | undefined;
-  /** Filter team results by their type. For more information, see "[What kind of team should I use?](https://docs.github.com/enterprise-cloud@latest/admin/concepts/enterprise-fundamentals/teams-in-an-enterprise#what-kind-of-team-should-i-use)" */
+  /** Filter team results by their type. For more information, see "[What kind of team should I use?](https://docs.github.com/admin/concepts/enterprise-fundamentals/teams-in-an-enterprise#what-kind-of-team-should-i-use)" */
   team_type?: ListRequestTeamType | (string & {}) | undefined;
 }
 export interface TeamPermissions {
@@ -758,6 +759,7 @@ export interface MinimalRepository {
   updated_at?: string | null | undefined;
   permissions?: MinimalRepositoryPermissions | undefined;
   role_name?: string | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | undefined;
   delete_branch_on_merge?: boolean | undefined;
   subscribers_count?: number | undefined;

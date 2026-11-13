@@ -297,6 +297,7 @@ export type CreateRequestGuardrailsPromptS10 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsPromptS11 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsPromptS12 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsPromptS13 = "FLAG" | "BLOCK";
+export type CreateRequestGuardrailsPromptS14 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsPromptS2 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsPromptS3 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsPromptS4 = "FLAG" | "BLOCK";
@@ -312,6 +313,7 @@ export interface CreateRequestGuardrailsPrompt {
   s11?: CreateRequestGuardrailsPromptS11 | (string & {}) | undefined;
   s12?: CreateRequestGuardrailsPromptS12 | (string & {}) | undefined;
   s13?: CreateRequestGuardrailsPromptS13 | (string & {}) | undefined;
+  s14?: CreateRequestGuardrailsPromptS14 | (string & {}) | undefined;
   s2?: CreateRequestGuardrailsPromptS2 | (string & {}) | undefined;
   s3?: CreateRequestGuardrailsPromptS3 | (string & {}) | undefined;
   s4?: CreateRequestGuardrailsPromptS4 | (string & {}) | undefined;
@@ -327,6 +329,7 @@ export type CreateRequestGuardrailsResponseS10 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsResponseS11 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsResponseS12 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsResponseS13 = "FLAG" | "BLOCK";
+export type CreateRequestGuardrailsResponseS14 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsResponseS2 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsResponseS3 = "FLAG" | "BLOCK";
 export type CreateRequestGuardrailsResponseS4 = "FLAG" | "BLOCK";
@@ -342,6 +345,7 @@ export interface CreateRequestGuardrailsResponse {
   s11?: CreateRequestGuardrailsResponseS11 | (string & {}) | undefined;
   s12?: CreateRequestGuardrailsResponseS12 | (string & {}) | undefined;
   s13?: CreateRequestGuardrailsResponseS13 | (string & {}) | undefined;
+  s14?: CreateRequestGuardrailsResponseS14 | (string & {}) | undefined;
   s2?: CreateRequestGuardrailsResponseS2 | (string & {}) | undefined;
   s3?: CreateRequestGuardrailsResponseS3 | (string & {}) | undefined;
   s4?: CreateRequestGuardrailsResponseS4 | (string & {}) | undefined;
@@ -433,6 +437,7 @@ export interface CreateAiGatewayRequest {
   collectLogs: boolean;
   rateLimitingInterval: number | null;
   rateLimitingLimit: number | null;
+  /** Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled. */
   authentication?: boolean | undefined;
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
   byokOnly?: boolean | undefined;
@@ -492,6 +497,7 @@ export type CreateResponseGuardrailsPromptS10 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsPromptS11 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsPromptS12 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsPromptS13 = "FLAG" | "BLOCK";
+export type CreateResponseGuardrailsPromptS14 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsPromptS2 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsPromptS3 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsPromptS4 = "FLAG" | "BLOCK";
@@ -507,6 +513,7 @@ export interface CreateResponseGuardrailsPrompt {
   s11?: CreateResponseGuardrailsPromptS11 | null | undefined;
   s12?: CreateResponseGuardrailsPromptS12 | null | undefined;
   s13?: CreateResponseGuardrailsPromptS13 | null | undefined;
+  s14?: CreateResponseGuardrailsPromptS14 | null | undefined;
   s2?: CreateResponseGuardrailsPromptS2 | null | undefined;
   s3?: CreateResponseGuardrailsPromptS3 | null | undefined;
   s4?: CreateResponseGuardrailsPromptS4 | null | undefined;
@@ -522,6 +529,7 @@ export type CreateResponseGuardrailsResponseS10 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsResponseS11 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsResponseS12 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsResponseS13 = "FLAG" | "BLOCK";
+export type CreateResponseGuardrailsResponseS14 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsResponseS2 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsResponseS3 = "FLAG" | "BLOCK";
 export type CreateResponseGuardrailsResponseS4 = "FLAG" | "BLOCK";
@@ -537,6 +545,7 @@ export interface CreateResponseGuardrailsResponse {
   s11?: CreateResponseGuardrailsResponseS11 | null | undefined;
   s12?: CreateResponseGuardrailsResponseS12 | null | undefined;
   s13?: CreateResponseGuardrailsResponseS13 | null | undefined;
+  s14?: CreateResponseGuardrailsResponseS14 | null | undefined;
   s2?: CreateResponseGuardrailsResponseS2 | null | undefined;
   s3?: CreateResponseGuardrailsResponseS3 | null | undefined;
   s4?: CreateResponseGuardrailsResponseS4 | null | undefined;
@@ -613,6 +622,7 @@ export interface CreateAiGatewayResponse {
   modifiedAt: string;
   rateLimitingInterval: number;
   rateLimitingLimit: number;
+  /** Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled. */
   authentication?: boolean | null | undefined;
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
   byokOnly?: boolean | null | undefined;
@@ -1235,6 +1245,8 @@ export interface CreateProviderConfigResponse {
   providerSlug: string;
   secretId: string;
   secretPreview: string;
+  /** UTC date (YYYY-MM-DD) the gateway last selected this key to authenticate a request to the provider, whether or not the request succeeded. Updated at most once a day. Null if the gateway has not used the key since this field was introduced. */
+  lastUsedAt?: string | null | undefined;
   rateLimit?: number | null | undefined;
   rateLimitPeriod?: number | null | undefined;
 }
@@ -1494,6 +1506,7 @@ export type DeleteResponseGuardrailsPromptS10 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsPromptS11 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsPromptS12 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsPromptS13 = "FLAG" | "BLOCK";
+export type DeleteResponseGuardrailsPromptS14 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsPromptS2 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsPromptS3 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsPromptS4 = "FLAG" | "BLOCK";
@@ -1509,6 +1522,7 @@ export interface DeleteResponseGuardrailsPrompt {
   s11?: DeleteResponseGuardrailsPromptS11 | null | undefined;
   s12?: DeleteResponseGuardrailsPromptS12 | null | undefined;
   s13?: DeleteResponseGuardrailsPromptS13 | null | undefined;
+  s14?: DeleteResponseGuardrailsPromptS14 | null | undefined;
   s2?: DeleteResponseGuardrailsPromptS2 | null | undefined;
   s3?: DeleteResponseGuardrailsPromptS3 | null | undefined;
   s4?: DeleteResponseGuardrailsPromptS4 | null | undefined;
@@ -1524,6 +1538,7 @@ export type DeleteResponseGuardrailsResponseS10 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsResponseS11 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsResponseS12 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsResponseS13 = "FLAG" | "BLOCK";
+export type DeleteResponseGuardrailsResponseS14 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsResponseS2 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsResponseS3 = "FLAG" | "BLOCK";
 export type DeleteResponseGuardrailsResponseS4 = "FLAG" | "BLOCK";
@@ -1539,6 +1554,7 @@ export interface DeleteResponseGuardrailsResponse {
   s11?: DeleteResponseGuardrailsResponseS11 | null | undefined;
   s12?: DeleteResponseGuardrailsResponseS12 | null | undefined;
   s13?: DeleteResponseGuardrailsResponseS13 | null | undefined;
+  s14?: DeleteResponseGuardrailsResponseS14 | null | undefined;
   s2?: DeleteResponseGuardrailsResponseS2 | null | undefined;
   s3?: DeleteResponseGuardrailsResponseS3 | null | undefined;
   s4?: DeleteResponseGuardrailsResponseS4 | null | undefined;
@@ -1614,6 +1630,7 @@ export interface DeleteAiGatewayResponse {
   modifiedAt: string;
   rateLimitingInterval: number;
   rateLimitingLimit: number;
+  /** Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled. */
   authentication?: boolean | null | undefined;
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
   byokOnly?: boolean | null | undefined;
@@ -1950,6 +1967,7 @@ export type GetResponseGuardrailsPromptS10 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsPromptS11 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsPromptS12 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsPromptS13 = "FLAG" | "BLOCK";
+export type GetResponseGuardrailsPromptS14 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsPromptS2 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsPromptS3 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsPromptS4 = "FLAG" | "BLOCK";
@@ -1965,6 +1983,7 @@ export interface GetResponseGuardrailsPrompt {
   s11?: GetResponseGuardrailsPromptS11 | null | undefined;
   s12?: GetResponseGuardrailsPromptS12 | null | undefined;
   s13?: GetResponseGuardrailsPromptS13 | null | undefined;
+  s14?: GetResponseGuardrailsPromptS14 | null | undefined;
   s2?: GetResponseGuardrailsPromptS2 | null | undefined;
   s3?: GetResponseGuardrailsPromptS3 | null | undefined;
   s4?: GetResponseGuardrailsPromptS4 | null | undefined;
@@ -1980,6 +1999,7 @@ export type GetResponseGuardrailsResponseS10 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsResponseS11 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsResponseS12 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsResponseS13 = "FLAG" | "BLOCK";
+export type GetResponseGuardrailsResponseS14 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsResponseS2 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsResponseS3 = "FLAG" | "BLOCK";
 export type GetResponseGuardrailsResponseS4 = "FLAG" | "BLOCK";
@@ -1995,6 +2015,7 @@ export interface GetResponseGuardrailsResponse {
   s11?: GetResponseGuardrailsResponseS11 | null | undefined;
   s12?: GetResponseGuardrailsResponseS12 | null | undefined;
   s13?: GetResponseGuardrailsResponseS13 | null | undefined;
+  s14?: GetResponseGuardrailsResponseS14 | null | undefined;
   s2?: GetResponseGuardrailsResponseS2 | null | undefined;
   s3?: GetResponseGuardrailsResponseS3 | null | undefined;
   s4?: GetResponseGuardrailsResponseS4 | null | undefined;
@@ -2070,6 +2091,7 @@ export interface GetAiGatewayResponse {
   modifiedAt: string;
   rateLimitingInterval: number;
   rateLimitingLimit: number;
+  /** Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled. */
   authentication?: boolean | null | undefined;
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
   byokOnly?: boolean | null | undefined;
@@ -2377,6 +2399,8 @@ export interface GetLogResponse {
   success: boolean;
   tokensIn: number;
   tokensOut: number;
+  /** Whether the request and response bodies were eligible to be stored. False when the request sent `cf-aig-collect-log-payload: false`, logging was off, or the gateway does not store bodies for the request. Null for logs written before this field existed. */
+  collectLogPayload?: boolean | null | undefined;
   cost?: number | null | undefined;
   customCost?: boolean | null | undefined;
   metadata?: string | null | undefined;
@@ -2632,6 +2656,7 @@ export type ListResultItemGuardrailsPromptS10 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsPromptS11 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsPromptS12 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsPromptS13 = "FLAG" | "BLOCK";
+export type ListResultItemGuardrailsPromptS14 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsPromptS2 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsPromptS3 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsPromptS4 = "FLAG" | "BLOCK";
@@ -2647,6 +2672,7 @@ export interface ListResultItemGuardrailsPrompt {
   s11?: ListResultItemGuardrailsPromptS11 | null | undefined;
   s12?: ListResultItemGuardrailsPromptS12 | null | undefined;
   s13?: ListResultItemGuardrailsPromptS13 | null | undefined;
+  s14?: ListResultItemGuardrailsPromptS14 | null | undefined;
   s2?: ListResultItemGuardrailsPromptS2 | null | undefined;
   s3?: ListResultItemGuardrailsPromptS3 | null | undefined;
   s4?: ListResultItemGuardrailsPromptS4 | null | undefined;
@@ -2662,6 +2688,7 @@ export type ListResultItemGuardrailsResponseS10 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsResponseS11 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsResponseS12 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsResponseS13 = "FLAG" | "BLOCK";
+export type ListResultItemGuardrailsResponseS14 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsResponseS2 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsResponseS3 = "FLAG" | "BLOCK";
 export type ListResultItemGuardrailsResponseS4 = "FLAG" | "BLOCK";
@@ -2677,6 +2704,7 @@ export interface ListResultItemGuardrailsResponse {
   s11?: ListResultItemGuardrailsResponseS11 | null | undefined;
   s12?: ListResultItemGuardrailsResponseS12 | null | undefined;
   s13?: ListResultItemGuardrailsResponseS13 | null | undefined;
+  s14?: ListResultItemGuardrailsResponseS14 | null | undefined;
   s2?: ListResultItemGuardrailsResponseS2 | null | undefined;
   s3?: ListResultItemGuardrailsResponseS3 | null | undefined;
   s4?: ListResultItemGuardrailsResponseS4 | null | undefined;
@@ -2751,6 +2779,7 @@ export interface ListResultItem {
   modifiedAt: string;
   rateLimitingInterval: number;
   rateLimitingLimit: number;
+  /** Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled. */
   authentication?: boolean | null | undefined;
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
   byokOnly?: boolean | null | undefined;
@@ -3181,6 +3210,8 @@ export interface LogsListResultItem {
   success: boolean;
   tokensIn: number;
   tokensOut: number;
+  /** Whether the request and response bodies were eligible to be stored. False when the request sent `cf-aig-collect-log-payload: false`, logging was off, or the gateway does not store bodies for the request. Null for logs written before this field existed. */
+  collectLogPayload?: boolean | null | undefined;
   cost?: number | null | undefined;
   customCost?: boolean | null | undefined;
   metadata?: string | null | undefined;
@@ -3215,6 +3246,8 @@ export interface ProviderConfigsListResultItem {
   providerSlug: string;
   secretId: string;
   secretPreview: string;
+  /** UTC date (YYYY-MM-DD) the gateway last selected this key to authenticate a request to the provider, whether or not the request succeeded. Updated at most once a day. Null if the gateway has not used the key since this field was introduced. */
+  lastUsedAt?: string | null | undefined;
   rateLimit?: number | null | undefined;
   rateLimitPeriod?: number | null | undefined;
 }
@@ -3441,6 +3474,7 @@ export type UpdateRequestGuardrailsPromptS10 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsPromptS11 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsPromptS12 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsPromptS13 = "FLAG" | "BLOCK";
+export type UpdateRequestGuardrailsPromptS14 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsPromptS2 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsPromptS3 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsPromptS4 = "FLAG" | "BLOCK";
@@ -3456,6 +3490,7 @@ export interface UpdateRequestGuardrailsPrompt {
   s11?: UpdateRequestGuardrailsPromptS11 | (string & {}) | undefined;
   s12?: UpdateRequestGuardrailsPromptS12 | (string & {}) | undefined;
   s13?: UpdateRequestGuardrailsPromptS13 | (string & {}) | undefined;
+  s14?: UpdateRequestGuardrailsPromptS14 | (string & {}) | undefined;
   s2?: UpdateRequestGuardrailsPromptS2 | (string & {}) | undefined;
   s3?: UpdateRequestGuardrailsPromptS3 | (string & {}) | undefined;
   s4?: UpdateRequestGuardrailsPromptS4 | (string & {}) | undefined;
@@ -3471,6 +3506,7 @@ export type UpdateRequestGuardrailsResponseS10 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsResponseS11 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsResponseS12 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsResponseS13 = "FLAG" | "BLOCK";
+export type UpdateRequestGuardrailsResponseS14 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsResponseS2 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsResponseS3 = "FLAG" | "BLOCK";
 export type UpdateRequestGuardrailsResponseS4 = "FLAG" | "BLOCK";
@@ -3486,6 +3522,7 @@ export interface UpdateRequestGuardrailsResponse {
   s11?: UpdateRequestGuardrailsResponseS11 | (string & {}) | undefined;
   s12?: UpdateRequestGuardrailsResponseS12 | (string & {}) | undefined;
   s13?: UpdateRequestGuardrailsResponseS13 | (string & {}) | undefined;
+  s14?: UpdateRequestGuardrailsResponseS14 | (string & {}) | undefined;
   s2?: UpdateRequestGuardrailsResponseS2 | (string & {}) | undefined;
   s3?: UpdateRequestGuardrailsResponseS3 | (string & {}) | undefined;
   s4?: UpdateRequestGuardrailsResponseS4 | (string & {}) | undefined;
@@ -3559,6 +3596,7 @@ export interface UpdateAiGatewayRequest {
   collectLogs: boolean;
   rateLimitingInterval: number | null;
   rateLimitingLimit: number | null;
+  /** Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled. */
   authentication?: boolean | undefined;
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
   byokOnly?: boolean | undefined;
@@ -3618,6 +3656,7 @@ export type UpdateResponseGuardrailsPromptS10 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsPromptS11 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsPromptS12 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsPromptS13 = "FLAG" | "BLOCK";
+export type UpdateResponseGuardrailsPromptS14 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsPromptS2 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsPromptS3 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsPromptS4 = "FLAG" | "BLOCK";
@@ -3633,6 +3672,7 @@ export interface UpdateResponseGuardrailsPrompt {
   s11?: UpdateResponseGuardrailsPromptS11 | null | undefined;
   s12?: UpdateResponseGuardrailsPromptS12 | null | undefined;
   s13?: UpdateResponseGuardrailsPromptS13 | null | undefined;
+  s14?: UpdateResponseGuardrailsPromptS14 | null | undefined;
   s2?: UpdateResponseGuardrailsPromptS2 | null | undefined;
   s3?: UpdateResponseGuardrailsPromptS3 | null | undefined;
   s4?: UpdateResponseGuardrailsPromptS4 | null | undefined;
@@ -3648,6 +3688,7 @@ export type UpdateResponseGuardrailsResponseS10 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsResponseS11 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsResponseS12 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsResponseS13 = "FLAG" | "BLOCK";
+export type UpdateResponseGuardrailsResponseS14 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsResponseS2 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsResponseS3 = "FLAG" | "BLOCK";
 export type UpdateResponseGuardrailsResponseS4 = "FLAG" | "BLOCK";
@@ -3663,6 +3704,7 @@ export interface UpdateResponseGuardrailsResponse {
   s11?: UpdateResponseGuardrailsResponseS11 | null | undefined;
   s12?: UpdateResponseGuardrailsResponseS12 | null | undefined;
   s13?: UpdateResponseGuardrailsResponseS13 | null | undefined;
+  s14?: UpdateResponseGuardrailsResponseS14 | null | undefined;
   s2?: UpdateResponseGuardrailsResponseS2 | null | undefined;
   s3?: UpdateResponseGuardrailsResponseS3 | null | undefined;
   s4?: UpdateResponseGuardrailsResponseS4 | null | undefined;
@@ -3738,6 +3780,7 @@ export interface UpdateAiGatewayResponse {
   modifiedAt: string;
   rateLimitingInterval: number;
   rateLimitingLimit: number;
+  /** Require authentication for gateway access. New gateways must have authentication enabled. Once enabled, authentication cannot be disabled. */
   authentication?: boolean | null | undefined;
   /** Requires customer-provided provider credentials and prevents fallback to Unified Billing. */
   byokOnly?: boolean | null | undefined;
@@ -5009,6 +5052,7 @@ function __c2(j: number): any {
           s11: S.optional(S.NullOr(S.String).pipe(T.Body("S11"))),
           s12: S.optional(S.NullOr(S.String).pipe(T.Body("S12"))),
           s13: S.optional(S.NullOr(S.String).pipe(T.Body("S13"))),
+          s14: S.optional(S.NullOr(S.String).pipe(T.Body("S14"))),
           s2: S.optional(S.NullOr(S.String).pipe(T.Body("S2"))),
           s3: S.optional(S.NullOr(S.String).pipe(T.Body("S3"))),
           s4: S.optional(S.NullOr(S.String).pipe(T.Body("S4"))),
@@ -5075,6 +5119,7 @@ function __c3(j: number): any {
           s11: S.optional(S.String.pipe(T.Body("S11"))),
           s12: S.optional(S.String.pipe(T.Body("S12"))),
           s13: S.optional(S.String.pipe(T.Body("S13"))),
+          s14: S.optional(S.String.pipe(T.Body("S14"))),
           s2: S.optional(S.String.pipe(T.Body("S2"))),
           s3: S.optional(S.String.pipe(T.Body("S3"))),
           s4: S.optional(S.String.pipe(T.Body("S4"))),
@@ -5569,6 +5614,7 @@ function __c18(j: number): any {
           providerSlug: S.String.pipe(T.Body("provider_slug")),
           secretId: S.String.pipe(T.Body("secret_id")),
           secretPreview: S.String.pipe(T.Body("secret_preview")),
+          lastUsedAt: S.optional(S.NullOr(S.String).pipe(T.Body("last_used_at"))),
           rateLimit: S.optional(S.NullOr(S.Number).pipe(T.Body("rate_limit"))),
           rateLimitPeriod: S.optional(S.NullOr(S.Number).pipe(T.Body("rate_limit_period"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
@@ -6352,6 +6398,7 @@ function __c38(j: number): any {
           success: S.Boolean,
           tokensIn: S.Number.pipe(T.Body("tokens_in")),
           tokensOut: S.Number.pipe(T.Body("tokens_out")),
+          collectLogPayload: S.optional(S.NullOr(S.Boolean).pipe(T.Body("collect_log_payload"))),
           cost: S.optional(S.NullOr(S.Number)),
           customCost: S.optional(S.NullOr(S.Boolean).pipe(T.Body("custom_cost"))),
           metadata: S.optional(S.NullOr(S.String)),
@@ -7054,6 +7101,7 @@ function __c50(j: number): any {
           success: S.Boolean,
           tokensIn: S.Number.pipe(T.Body("tokens_in")),
           tokensOut: S.Number.pipe(T.Body("tokens_out")),
+          collectLogPayload: S.optional(S.NullOr(S.Boolean).pipe(T.Body("collect_log_payload"))),
           cost: S.optional(S.NullOr(S.Number)),
           customCost: S.optional(S.NullOr(S.Boolean).pipe(T.Body("custom_cost"))),
           metadata: S.optional(S.NullOr(S.String)),
@@ -7106,6 +7154,7 @@ function __c51(j: number): any {
           providerSlug: S.String.pipe(T.Body("provider_slug")),
           secretId: S.String.pipe(T.Body("secret_id")),
           secretPreview: S.String.pipe(T.Body("secret_preview")),
+          lastUsedAt: S.optional(S.NullOr(S.String).pipe(T.Body("last_used_at"))),
           rateLimit: S.optional(S.NullOr(S.Number).pipe(T.Body("rate_limit"))),
           rateLimitPeriod: S.optional(S.NullOr(S.Number).pipe(T.Body("rate_limit_period"))),
         }),

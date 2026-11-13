@@ -386,8 +386,6 @@ export interface CreateServerImageResponseImage {
   rapid_deploy?: boolean | undefined;
   /** Protection configuration for the Resource. */
   protection: CreateServerImageResponseImageProtection;
-  /** **Deprecated:** This field is deprecated, use the deprecation object instead. Point in time when the Image is considered to be deprecated (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
-  deprecated: string | null;
   /** Describes if, when and how the resource is deprecated. If this field is set to `null` the resource is not deprecated. If a value is set, it is considered deprecated. */
   deprecation: CreateServerImageResponseImageDeprecation | null;
   /** Point in time where the Image was deleted (in [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) format). */
@@ -2063,7 +2061,6 @@ function __c29(j: number): any {
           os_version: S.NullOr(S.String),
           rapid_deploy: S.optional(S.Boolean),
           protection: __S(235, __c29, 3),
-          deprecated: S.NullOr(S.String),
           deprecation: S.NullOr(__S(236, __c29, 4)),
           deleted: S.NullOr(S.String),
           labels: __S(232, __c29, 0),

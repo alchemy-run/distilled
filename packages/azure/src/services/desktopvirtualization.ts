@@ -66,7 +66,7 @@ export interface MsixPackageApplications {
 /** List of package applications. */
 export type AppAttachPackageInfoPropertiesPackageApplicationsList = Array<MsixPackageApplications>;
 /** Is package timestamped so it can ignore the certificate expiry date */
-export type AppAttachPackageInfoPropertiesIsPackageTimestamped = "Timestamped" | "NotTimestamped";
+export type PackageTimestamped = "Timestamped" | "NotTimestamped";
 /** Schema for Import Package Information properties. */
 export interface AppAttachPackageInfoProperties {
   /** Alias of App Attach Package. Assigned at import time */
@@ -80,7 +80,7 @@ export interface AppAttachPackageInfoProperties {
   /** Package Full Name from appxmanifest.xml. */
   packageFullName?: string | undefined;
   /** User friendly Name to be displayed in the portal. */
-  displayName?: string | null | undefined;
+  displayName?: string | undefined;
   /** Relative Path to the package inside the image. */
   packageRelativePath?: string | undefined;
   /** Specifies how to register Package in feed. */
@@ -88,7 +88,7 @@ export interface AppAttachPackageInfoProperties {
   /** Make this version of the package the active one across the hostpool. */
   isActive?: boolean | undefined;
   /** List of package dependencies. */
-  packageDependencies?: AppAttachPackageInfoPropertiesPackageDependenciesList | null | undefined;
+  packageDependencies?: AppAttachPackageInfoPropertiesPackageDependenciesList | undefined;
   /** Package version found in the appxmanifest.xml. */
   version?: string | undefined;
   /** Date Package was last updated, found in the appxmanifest.xml. */
@@ -96,20 +96,16 @@ export interface AppAttachPackageInfoProperties {
   /** List of package applications. */
   packageApplications?: AppAttachPackageInfoPropertiesPackageApplicationsList | undefined;
   /** Certificate name found in the appxmanifest.xml. */
-  certificateName?: string | null | undefined;
+  certificateName?: string | undefined;
   /** Date certificate expires, found in the appxmanifest.xml. */
-  certificateExpiry?: string | null | undefined;
+  certificateExpiry?: string | undefined;
   /** Is package timestamped so it can ignore the certificate expiry date */
-  isPackageTimestamped?:
-    | AppAttachPackageInfoPropertiesIsPackageTimestamped
-    | (string & {})
-    | null
-    | undefined;
+  isPackageTimestamped?: PackageTimestamped | (string & {}) | undefined;
 }
 /** List of Hostpool resource Ids. */
 export type AppAttachPackagePropertiesInputHostPoolReferencesList = Array<string>;
 /** Parameter indicating how the health check should behave if this package fails staging */
-export type FailHealthCheckOnStagingFailureEnum = "Unhealthy" | "NeedsAssistance" | "DoNotFail";
+export type FailHealthCheckOnStagingFailure = "Unhealthy" | "NeedsAssistance" | "DoNotFail";
 /** Schema for App Attach Package properties. */
 export interface AppAttachPackagePropertiesInput {
   /** Detailed properties for App Attach Package */
@@ -119,7 +115,13 @@ export interface AppAttachPackagePropertiesInput {
   /** URL path to certificate name located in keyVault */
   keyVaultURL?: string | undefined;
   /** Parameter indicating how the health check should behave if this package fails staging */
-  failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailureEnum | (string & {}) | undefined;
+  failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailure | (string & {}) | undefined;
+  /** Specific name of package owner, is "AppAttach" for native app attach packages */
+  packageOwnerName?: string | undefined;
+  /** Lookback url to third party control plane, is null for native app attach packages */
+  packageLookbackUrl?: string | undefined;
+  /** Field that can be populated with custom data and filtered on in list GET calls */
+  customData?: string | undefined;
 }
 export interface AppAttachPackageCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -171,7 +173,13 @@ export interface AppAttachPackageProperties {
   /** URL path to certificate name located in keyVault */
   keyVaultURL?: string | undefined;
   /** Parameter indicating how the health check should behave if this package fails staging */
-  failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailureEnum | undefined;
+  failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailure | undefined;
+  /** Specific name of package owner, is "AppAttach" for native app attach packages */
+  packageOwnerName?: string | undefined;
+  /** Lookback url to third party control plane, is null for native app attach packages */
+  packageLookbackUrl?: string | undefined;
+  /** Field that can be populated with custom data and filtered on in list GET calls */
+  customData?: string | undefined;
 }
 export interface AppAttachPackageCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -191,11 +199,39 @@ export interface AppAttachPackageCreateOrUpdateResponse {
 }
 /** Resource tags. */
 export type ApplicationGroupsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
+/** Resource Type of ApplicationGroup. */
+export type ApplicationGroupType = "RemoteApp" | "Desktop";
+/** Schema for ApplicationGroup properties. */
+export interface ApplicationGroupPropertiesInput {
+  /** Description of ApplicationGroup. */
+  description?: string | undefined;
+  /** Friendly name of ApplicationGroup. */
+  friendlyName?: string | undefined;
+  /** HostPool arm path of ApplicationGroup. */
+  hostPoolArmPath: string;
+  /** Resource Type of ApplicationGroup. */
+  applicationGroupType: ApplicationGroupType | (string & {});
+  /** Boolean representing whether the applicationGroup is show in the feed. */
+  showInFeed?: boolean | undefined;
+}
 /** Type of managed service identity (either system assigned, or none). */
 export type SystemAssignedServiceIdentityType = "None" | "SystemAssigned";
 /** Managed service identity (either system assigned, or none) */
 export interface ApplicationGroupsCreateOrUpdateRequestIdentity {
   type: SystemAssignedServiceIdentityType | (string & {});
+}
+/** Plan for the resource. */
+export interface ApplicationGroupsCreateOrUpdateRequestPlan {
+  /** A user defined name of the 3rd Party Artifact that is being procured. */
+  name: string;
+  /** The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic */
+  publisher: string;
+  /** The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID specified for the artifact at the time of Data Market onboarding. */
+  product: string;
+  /** A publisher provided promotion code as provisioned in Data Market for the said product/artifact. */
+  promotionCode?: string | undefined;
+  /** The version of the desired product/artifact. */
+  version?: string | undefined;
 }
 /** This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT. */
 export type SkuTier = "Free" | "Basic" | "Standard" | "Premium";
@@ -211,34 +247,6 @@ export interface ApplicationGroupsCreateOrUpdateRequestSku {
   /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
   capacity?: number | undefined;
 }
-/** Plan for the resource. */
-export interface ApplicationGroupsCreateOrUpdateRequestPlan {
-  /** A user defined name of the 3rd Party Artifact that is being procured. */
-  name: string;
-  /** The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic */
-  publisher: string;
-  /** The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID specified for the artifact at the time of Data Market onboarding. */
-  product: string;
-  /** A publisher provided promotion code as provisioned in Data Market for the said product/artifact. */
-  promotionCode?: string | undefined;
-  /** The version of the desired product/artifact. */
-  version?: string | undefined;
-}
-/** Resource Type of ApplicationGroup. */
-export type ApplicationGroupPropertiesInputApplicationGroupType = "RemoteApp" | "Desktop";
-/** Schema for ApplicationGroup properties. */
-export interface ApplicationGroupPropertiesInput {
-  /** Description of ApplicationGroup. */
-  description?: string | undefined;
-  /** Friendly name of ApplicationGroup. */
-  friendlyName?: string | undefined;
-  /** HostPool arm path of ApplicationGroup. */
-  hostPoolArmPath: string;
-  /** Resource Type of ApplicationGroup. */
-  applicationGroupType: ApplicationGroupPropertiesInputApplicationGroupType | (string & {});
-  /** Boolean representing whether the applicationGroup is show in the feed. */
-  showInFeed?: boolean | undefined;
-}
 export interface ApplicationGroupsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -250,46 +258,21 @@ export interface ApplicationGroupsCreateOrUpdateRequest {
   tags?: ApplicationGroupsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateRequestSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for ApplicationGroup */
   properties: ApplicationGroupPropertiesInput;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateRequestSku | undefined;
 }
 /** Resource tags. */
 export type ApplicationGroupsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
-/** Managed service identity (either system assigned, or none) */
-export interface ApplicationGroupsCreateOrUpdateResponseIdentity {
-  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string | undefined;
-  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string | undefined;
-  type: SystemAssignedServiceIdentityType;
-}
-/** The resource model definition representing SKU */
-export interface ApplicationGroupsCreateOrUpdateResponseSku {
-  /** The name of the SKU. E.g. P3. It is typically a letter+number code */
-  name: string;
-  tier?: SkuTier | undefined;
-  /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
-  size?: string | undefined;
-  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
-  family?: string | undefined;
-  /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
-  capacity?: number | undefined;
-}
-/** Plan for the resource. */
-export type ApplicationGroupsCreateOrUpdateResponsePlan =
-  ApplicationGroupsCreateOrUpdateRequestPlan;
-/** Resource Type of ApplicationGroup. */
-export type ApplicationGroupPropertiesApplicationGroupType = "RemoteApp" | "Desktop";
 /** Schema for ApplicationGroup properties. */
 export interface ApplicationGroupProperties {
   /** ObjectId of ApplicationGroup. (internal use) */
@@ -303,11 +286,34 @@ export interface ApplicationGroupProperties {
   /** Workspace arm path of ApplicationGroup. */
   workspaceArmPath?: string | undefined;
   /** Resource Type of ApplicationGroup. */
-  applicationGroupType: ApplicationGroupPropertiesApplicationGroupType;
+  applicationGroupType: ApplicationGroupType;
   /** Is cloud pc resource. */
-  cloudPcResource?: boolean | null | undefined;
+  cloudPcResource?: boolean | undefined;
   /** Boolean representing whether the applicationGroup is show in the feed. */
   showInFeed?: boolean | undefined;
+}
+/** Managed service identity (either system assigned, or none) */
+export interface ApplicationGroupsCreateOrUpdateResponseIdentity {
+  /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  principalId?: string | undefined;
+  /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
+  tenantId?: string | undefined;
+  type: SystemAssignedServiceIdentityType;
+}
+/** Plan for the resource. */
+export type ApplicationGroupsCreateOrUpdateResponsePlan =
+  ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export interface ApplicationGroupsCreateOrUpdateResponseSku {
+  /** The name of the SKU. E.g. P3. It is typically a letter+number code */
+  name: string;
+  tier?: SkuTier | undefined;
+  /** The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. */
+  size?: string | undefined;
+  /** If the service has different generations of hardware, for the same SKU, then that can be captured here. */
+  family?: string | undefined;
+  /** If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted. */
+  capacity?: number | undefined;
 }
 export interface ApplicationGroupsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -322,25 +328,25 @@ export interface ApplicationGroupsCreateOrUpdateResponse {
   tags?: ApplicationGroupsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for ApplicationGroup */
   properties: ApplicationGroupProperties;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
+  /** If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  etag?: string | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
 }
 /** Resource Type of Application. */
-export type ApplicationPropertiesInputApplicationType = "InBuilt" | "MsixApplication";
+export type RemoteApplicationType = "InBuilt" | "MsixApplication";
 /** Specifies whether this published application can be launched with command line arguments provided by the client, command line arguments specified at publish time, or no command line arguments at all. */
-export type ApplicationPropertiesInputCommandLineSetting = "DoNotAllow" | "Allow" | "Require";
+export type CommandLineSetting = "DoNotAllow" | "Allow" | "Require";
 /** Schema for Application properties. */
 export interface ApplicationPropertiesInput {
   /** Description of Application. */
@@ -350,13 +356,13 @@ export interface ApplicationPropertiesInput {
   /** Specifies a path for the executable file for the application. */
   filePath?: string | undefined;
   /** Specifies the package family name for MSIX applications */
-  msixPackageFamilyName?: string | null | undefined;
+  msixPackageFamilyName?: string | undefined;
   /** Specifies the package application Id for MSIX applications */
-  msixPackageApplicationId?: string | null | undefined;
+  msixPackageApplicationId?: string | undefined;
   /** Resource Type of Application. */
-  applicationType?: ApplicationPropertiesInputApplicationType | (string & {}) | undefined;
+  applicationType?: RemoteApplicationType | (string & {}) | undefined;
   /** Specifies whether this published application can be launched with command line arguments provided by the client, command line arguments specified at publish time, or no command line arguments at all. */
-  commandLineSetting: ApplicationPropertiesInputCommandLineSetting | (string & {});
+  commandLineSetting: CommandLineSetting | (string & {});
   /** Command Line Arguments for Application. */
   commandLineArguments?: string | undefined;
   /** Specifies whether to show the RemoteApp program in the RD Web Access server. */
@@ -378,10 +384,6 @@ export interface ApplicationsCreateOrUpdateRequest {
   /** Detailed properties for Application */
   properties: ApplicationPropertiesInput;
 }
-/** Resource Type of Application. */
-export type ApplicationPropertiesApplicationType = "InBuilt" | "MsixApplication";
-/** Specifies whether this published application can be launched with command line arguments provided by the client, command line arguments specified at publish time, or no command line arguments at all. */
-export type ApplicationPropertiesCommandLineSetting = "DoNotAllow" | "Allow" | "Require";
 /** Schema for Application properties. */
 export interface ApplicationProperties {
   /** ObjectId of Application. (internal use) */
@@ -393,13 +395,13 @@ export interface ApplicationProperties {
   /** Specifies a path for the executable file for the application. */
   filePath?: string | undefined;
   /** Specifies the package family name for MSIX applications */
-  msixPackageFamilyName?: string | null | undefined;
+  msixPackageFamilyName?: string | undefined;
   /** Specifies the package application Id for MSIX applications */
-  msixPackageApplicationId?: string | null | undefined;
+  msixPackageApplicationId?: string | undefined;
   /** Resource Type of Application. */
-  applicationType?: ApplicationPropertiesApplicationType | undefined;
+  applicationType?: RemoteApplicationType | undefined;
   /** Specifies whether this published application can be launched with command line arguments provided by the client, command line arguments specified at publish time, or no command line arguments at all. */
-  commandLineSetting: ApplicationPropertiesCommandLineSetting;
+  commandLineSetting: CommandLineSetting;
   /** Command Line Arguments for Application. */
   commandLineArguments?: string | undefined;
   /** Specifies whether to show the RemoteApp program in the RD Web Access server. */
@@ -427,24 +429,19 @@ export interface ApplicationsCreateOrUpdateResponse {
 }
 /** Resource tags. */
 export type CreateScalingPlanRequestTagsMap = { [key: string]: string | undefined };
-/** Managed service identity (either system assigned, or none) */
-export type CreateScalingPlanRequestIdentity = ApplicationGroupsCreateOrUpdateRequestIdentity;
-/** The resource model definition representing SKU */
-export type CreateScalingPlanRequestSku = ApplicationGroupsCreateOrUpdateRequestSku;
-/** Plan for the resource. */
-export type CreateScalingPlanRequestPlan = ApplicationGroupsCreateOrUpdateRequestPlan;
 /** HostPool type for desktop. */
-export type ScalingPlanPropertiesInputHostPoolType = "Pooled";
-export type ScalingScheduleDaysOfWeekItem =
-  | "Sunday"
+export type ScalingPlanPropertiesInputHostPoolType = "Pooled" | "Personal";
+/** Day of the week. Modeled as string */
+export type DayOfWeek =
   | "Monday"
   | "Tuesday"
   | "Wednesday"
   | "Thursday"
   | "Friday"
-  | "Saturday";
+  | "Saturday"
+  | "Sunday";
 /** Set of days of the week on which this schedule is active. */
-export type ScalingScheduleDaysOfWeekList = Array<ScalingScheduleDaysOfWeekItem | (string & {})>;
+export type ScalingScheduleDaysOfWeekList = Array<DayOfWeek | (string & {})>;
 /** The time for a scaling action to occur. */
 export interface Time {
   /** The hour. */
@@ -453,15 +450,9 @@ export interface Time {
   minute: number;
 }
 /** Load balancing algorithm for ramp up period. */
-export type ScalingScheduleRampUpLoadBalancingAlgorithm = "BreadthFirst" | "DepthFirst";
-/** Load balancing algorithm for peak period. */
-export type ScalingSchedulePeakLoadBalancingAlgorithm = "BreadthFirst" | "DepthFirst";
-/** Load balancing algorithm for ramp down period. */
-export type ScalingScheduleRampDownLoadBalancingAlgorithm = "BreadthFirst" | "DepthFirst";
+export type SessionHostLoadBalancingAlgorithm = "BreadthFirst" | "DepthFirst";
 /** Specifies when to stop hosts during ramp down period. */
-export type ScalingScheduleRampDownStopHostsWhen = "ZeroSessions" | "ZeroActiveSessions";
-/** Load balancing algorithm for off-peak period. */
-export type ScalingScheduleOffPeakLoadBalancingAlgorithm = "BreadthFirst" | "DepthFirst";
+export type StopHostsWhen = "ZeroSessions" | "ZeroActiveSessions";
 /** A ScalingPlanPooledSchedule. */
 export interface ScalingSchedule {
   /** Name of the ScalingPlanPooledSchedule. */
@@ -471,10 +462,7 @@ export interface ScalingSchedule {
   /** Starting time for ramp up period. */
   rampUpStartTime?: Time | undefined;
   /** Load balancing algorithm for ramp up period. */
-  rampUpLoadBalancingAlgorithm?:
-    | ScalingScheduleRampUpLoadBalancingAlgorithm
-    | (string & {})
-    | undefined;
+  rampUpLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm | (string & {}) | undefined;
   /** Minimum host percentage for ramp up period. */
   rampUpMinimumHostsPct?: number | undefined;
   /** Capacity threshold for ramp up period. */
@@ -482,17 +470,11 @@ export interface ScalingSchedule {
   /** Starting time for peak period. */
   peakStartTime?: Time | undefined;
   /** Load balancing algorithm for peak period. */
-  peakLoadBalancingAlgorithm?:
-    | ScalingSchedulePeakLoadBalancingAlgorithm
-    | (string & {})
-    | undefined;
+  peakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm | (string & {}) | undefined;
   /** Starting time for ramp down period. */
   rampDownStartTime?: Time | undefined;
   /** Load balancing algorithm for ramp down period. */
-  rampDownLoadBalancingAlgorithm?:
-    | ScalingScheduleRampDownLoadBalancingAlgorithm
-    | (string & {})
-    | undefined;
+  rampDownLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm | (string & {}) | undefined;
   /** Minimum host percentage for ramp down period. */
   rampDownMinimumHostsPct?: number | undefined;
   /** Capacity threshold for ramp down period. */
@@ -500,7 +482,7 @@ export interface ScalingSchedule {
   /** Should users be logged off forcefully from hosts. */
   rampDownForceLogoffUsers?: boolean | undefined;
   /** Specifies when to stop hosts during ramp down period. */
-  rampDownStopHostsWhen?: ScalingScheduleRampDownStopHostsWhen | (string & {}) | undefined;
+  rampDownStopHostsWhen?: StopHostsWhen | (string & {}) | undefined;
   /** Number of minutes to wait to stop hosts during ramp down period. */
   rampDownWaitTimeMinutes?: number | undefined;
   /** Notification message for users during ramp down period. */
@@ -508,10 +490,7 @@ export interface ScalingSchedule {
   /** Starting time for off-peak period. */
   offPeakStartTime?: Time | undefined;
   /** Load balancing algorithm for off-peak period. */
-  offPeakLoadBalancingAlgorithm?:
-    | ScalingScheduleOffPeakLoadBalancingAlgorithm
-    | (string & {})
-    | undefined;
+  offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm | (string & {}) | undefined;
 }
 /** List of ScalingPlanPooledSchedule definitions. */
 export type ScalingPlanPropertiesInputSchedulesList = Array<ScalingSchedule>;
@@ -541,6 +520,12 @@ export interface ScalingPlanPropertiesInput {
   /** List of ScalingHostPoolReference definitions. */
   hostPoolReferences?: ScalingPlanPropertiesInputHostPoolReferencesList | undefined;
 }
+/** Managed service identity (either system assigned, or none) */
+export type CreateScalingPlanRequestIdentity = ApplicationGroupsCreateOrUpdateRequestIdentity;
+/** Plan for the resource. */
+export type CreateScalingPlanRequestPlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type CreateScalingPlanRequestSku = ApplicationGroupsCreateOrUpdateRequestSku;
 export interface CreateScalingPlanRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -552,29 +537,23 @@ export interface CreateScalingPlanRequest {
   tags?: CreateScalingPlanRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateRequestSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for scaling plan. */
   properties: ScalingPlanPropertiesInput;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateRequestSku | undefined;
 }
 /** Resource tags. */
 export type CreateScalingPlanResponseTagsMap = { [key: string]: string | undefined };
-/** Managed service identity (either system assigned, or none) */
-export type CreateScalingPlanResponseIdentity = ApplicationGroupsCreateOrUpdateResponseIdentity;
-/** The resource model definition representing SKU */
-export type CreateScalingPlanResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
-/** Plan for the resource. */
-export type CreateScalingPlanResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
 /** HostPool type for desktop. */
-export type ScalingPlanPropertiesHostPoolType = "Pooled";
+export type ScalingPlanPropertiesHostPoolType = "Pooled" | "Personal";
 /** List of ScalingPlanPooledSchedule definitions. */
 export type ScalingPlanPropertiesSchedulesList = Array<ScalingSchedule>;
 /** List of ScalingHostPoolReference definitions. */
@@ -598,6 +577,12 @@ export interface ScalingPlanProperties {
   /** List of ScalingHostPoolReference definitions. */
   hostPoolReferences?: ScalingPlanPropertiesHostPoolReferencesList | undefined;
 }
+/** Managed service identity (either system assigned, or none) */
+export type CreateScalingPlanResponseIdentity = ApplicationGroupsCreateOrUpdateResponseIdentity;
+/** Plan for the resource. */
+export type CreateScalingPlanResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type CreateScalingPlanResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 export interface CreateScalingPlanResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -611,71 +596,35 @@ export interface CreateScalingPlanResponse {
   tags?: CreateScalingPlanResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for scaling plan. */
   properties: ScalingPlanProperties;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
+  /** If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  etag?: string | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
 }
-export type ScalingPlanPersonalSchedulePropertiesDaysOfWeekItem =
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday"
-  | "Sunday";
 /** Set of days of the week on which this schedule is active. */
-export type ScalingPlanPersonalSchedulePropertiesDaysOfWeekList = Array<
-  ScalingPlanPersonalSchedulePropertiesDaysOfWeekItem | (string & {})
->;
+export type ScalingPlanPersonalSchedulePropertiesDaysOfWeekList = Array<DayOfWeek | (string & {})>;
 /** The desired startup behavior during the ramp up period for personal vms in the hostpool. */
-export type ScalingPlanPersonalSchedulePropertiesRampUpAutoStartHosts =
-  | "None"
-  | "WithAssignedUser"
-  | "All";
+export type StartupBehavior = "None" | "WithAssignedUser" | "All";
 /** The desired configuration of Start VM On Connect for the hostpool during the ramp up phase. If this is disabled, session hosts must be turned on using rampUpAutoStartHosts or by turning them on manually. */
 export type ScalingPlanPersonalSchedulePropertiesRampUpStartVMOnConnect = "Enable" | "Disable";
 /** Action to be taken after a user disconnect during the ramp up period. */
-export type ScalingPlanPersonalSchedulePropertiesRampUpActionOnDisconnect = "None" | "Deallocate";
-/** Action to be taken after a logoff during the ramp up period. */
-export type ScalingPlanPersonalSchedulePropertiesRampUpActionOnLogoff = "None" | "Deallocate";
+export type SessionHandlingOperation = "None" | "Deallocate" | "Hibernate";
 /** The desired configuration of Start VM On Connect for the hostpool during the peak phase. */
 export type ScalingPlanPersonalSchedulePropertiesPeakStartVMOnConnect = "Enable" | "Disable";
-/** Action to be taken after a user disconnect during the peak period. */
-export type ScalingPlanPersonalSchedulePropertiesPeakActionOnDisconnect = "None" | "Deallocate";
-/** Action to be taken after a logoff during the peak period. */
-export type ScalingPlanPersonalSchedulePropertiesPeakActionOnLogoff = "None" | "Deallocate";
 /** The desired configuration of Start VM On Connect for the hostpool during the ramp down phase. */
 export type ScalingPlanPersonalSchedulePropertiesRampDownStartVMOnConnect = "Enable" | "Disable";
-/** Action to be taken after a user disconnect during the ramp down period. */
-export type ScalingPlanPersonalSchedulePropertiesRampDownActionOnDisconnect = "None" | "Deallocate";
-/** Action to be taken after a logoff during the ramp down period. */
-export type ScalingPlanPersonalSchedulePropertiesRampDownActionOnLogoff =
-  | "None"
-  | "Deallocate"
-  | "Hibernate";
 /** The desired configuration of Start VM On Connect for the hostpool during the off-peak phase. */
 export type ScalingPlanPersonalSchedulePropertiesOffPeakStartVMOnConnect = "Enable" | "Disable";
-/** Action to be taken after a user disconnect during the off-peak period. */
-export type ScalingPlanPersonalSchedulePropertiesOffPeakActionOnDisconnect =
-  | "None"
-  | "Deallocate"
-  | "Hibernate";
-/** Action to be taken after a logoff during the off-peak period. */
-export type ScalingPlanPersonalSchedulePropertiesOffPeakActionOnLogoff =
-  | "None"
-  | "Deallocate"
-  | "Hibernate";
 /** A ScalingPlanPersonalSchedule. */
 export interface ScalingPlanPersonalScheduleProperties {
   /** Set of days of the week on which this schedule is active. */
@@ -683,27 +632,18 @@ export interface ScalingPlanPersonalScheduleProperties {
   /** Starting time for ramp up period. */
   rampUpStartTime?: Time | undefined;
   /** The desired startup behavior during the ramp up period for personal vms in the hostpool. */
-  rampUpAutoStartHosts?:
-    | ScalingPlanPersonalSchedulePropertiesRampUpAutoStartHosts
-    | (string & {})
-    | undefined;
+  rampUpAutoStartHosts?: StartupBehavior | (string & {}) | undefined;
   /** The desired configuration of Start VM On Connect for the hostpool during the ramp up phase. If this is disabled, session hosts must be turned on using rampUpAutoStartHosts or by turning them on manually. */
   rampUpStartVMOnConnect?:
     | ScalingPlanPersonalSchedulePropertiesRampUpStartVMOnConnect
     | (string & {})
     | undefined;
   /** Action to be taken after a user disconnect during the ramp up period. */
-  rampUpActionOnDisconnect?:
-    | ScalingPlanPersonalSchedulePropertiesRampUpActionOnDisconnect
-    | (string & {})
-    | undefined;
+  rampUpActionOnDisconnect?: SessionHandlingOperation | (string & {}) | undefined;
   /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the ramp up period. */
   rampUpMinutesToWaitOnDisconnect?: number | undefined;
   /** Action to be taken after a logoff during the ramp up period. */
-  rampUpActionOnLogoff?:
-    | ScalingPlanPersonalSchedulePropertiesRampUpActionOnLogoff
-    | (string & {})
-    | undefined;
+  rampUpActionOnLogoff?: SessionHandlingOperation | (string & {}) | undefined;
   /** The time in minutes to wait before performing the desired session handling action when a user logs off during the ramp up period. */
   rampUpMinutesToWaitOnLogoff?: number | undefined;
   /** Starting time for peak period. */
@@ -714,17 +654,11 @@ export interface ScalingPlanPersonalScheduleProperties {
     | (string & {})
     | undefined;
   /** Action to be taken after a user disconnect during the peak period. */
-  peakActionOnDisconnect?:
-    | ScalingPlanPersonalSchedulePropertiesPeakActionOnDisconnect
-    | (string & {})
-    | undefined;
+  peakActionOnDisconnect?: SessionHandlingOperation | (string & {}) | undefined;
   /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the peak period. */
   peakMinutesToWaitOnDisconnect?: number | undefined;
   /** Action to be taken after a logoff during the peak period. */
-  peakActionOnLogoff?:
-    | ScalingPlanPersonalSchedulePropertiesPeakActionOnLogoff
-    | (string & {})
-    | undefined;
+  peakActionOnLogoff?: SessionHandlingOperation | (string & {}) | undefined;
   /** The time in minutes to wait before performing the desired session handling action when a user logs off during the peak period. */
   peakMinutesToWaitOnLogoff?: number | undefined;
   /** Starting time for ramp down period. */
@@ -735,17 +669,11 @@ export interface ScalingPlanPersonalScheduleProperties {
     | (string & {})
     | undefined;
   /** Action to be taken after a user disconnect during the ramp down period. */
-  rampDownActionOnDisconnect?:
-    | ScalingPlanPersonalSchedulePropertiesRampDownActionOnDisconnect
-    | (string & {})
-    | undefined;
+  rampDownActionOnDisconnect?: SessionHandlingOperation | (string & {}) | undefined;
   /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the ramp down period. */
   rampDownMinutesToWaitOnDisconnect?: number | undefined;
   /** Action to be taken after a logoff during the ramp down period. */
-  rampDownActionOnLogoff?:
-    | ScalingPlanPersonalSchedulePropertiesRampDownActionOnLogoff
-    | (string & {})
-    | undefined;
+  rampDownActionOnLogoff?: SessionHandlingOperation | (string & {}) | undefined;
   /** The time in minutes to wait before performing the desired session handling action when a user logs off during the ramp down period. */
   rampDownMinutesToWaitOnLogoff?: number | undefined;
   /** Starting time for off-peak period. */
@@ -756,17 +684,11 @@ export interface ScalingPlanPersonalScheduleProperties {
     | (string & {})
     | undefined;
   /** Action to be taken after a user disconnect during the off-peak period. */
-  offPeakActionOnDisconnect?:
-    | ScalingPlanPersonalSchedulePropertiesOffPeakActionOnDisconnect
-    | (string & {})
-    | undefined;
+  offPeakActionOnDisconnect?: SessionHandlingOperation | (string & {}) | undefined;
   /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the off-peak period. */
   offPeakMinutesToWaitOnDisconnect?: number | undefined;
   /** Action to be taken after a logoff during the off-peak period. */
-  offPeakActionOnLogoff?:
-    | ScalingPlanPersonalSchedulePropertiesOffPeakActionOnLogoff
-    | (string & {})
-    | undefined;
+  offPeakActionOnLogoff?: SessionHandlingOperation | (string & {}) | undefined;
   /** The time in minutes to wait before performing the desired session handling action when a user logs off during the off-peak period. */
   offPeakMinutesToWaitOnLogoff?: number | undefined;
 }
@@ -794,38 +716,8 @@ export interface CreateScalingPlanPersonalScheduleResponse {
   /** Detailed properties for ScalingPlanPersonalSchedule */
   properties: ScalingPlanPersonalScheduleProperties;
 }
-export type ScalingPlanPooledSchedulePropertiesDaysOfWeekItem =
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday"
-  | "Sunday";
 /** Set of days of the week on which this schedule is active. */
-export type ScalingPlanPooledSchedulePropertiesDaysOfWeekList = Array<
-  ScalingPlanPooledSchedulePropertiesDaysOfWeekItem | (string & {})
->;
-/** Load balancing algorithm for ramp up period. */
-export type ScalingPlanPooledSchedulePropertiesRampUpLoadBalancingAlgorithm =
-  | "BreadthFirst"
-  | "DepthFirst";
-/** Load balancing algorithm for peak period. */
-export type ScalingPlanPooledSchedulePropertiesPeakLoadBalancingAlgorithm =
-  | "BreadthFirst"
-  | "DepthFirst";
-/** Load balancing algorithm for ramp down period. */
-export type ScalingPlanPooledSchedulePropertiesRampDownLoadBalancingAlgorithm =
-  | "BreadthFirst"
-  | "DepthFirst";
-/** Specifies when to stop hosts during ramp down period. */
-export type ScalingPlanPooledSchedulePropertiesRampDownStopHostsWhen =
-  | "ZeroSessions"
-  | "ZeroActiveSessions";
-/** Load balancing algorithm for off-peak period. */
-export type ScalingPlanPooledSchedulePropertiesOffPeakLoadBalancingAlgorithm =
-  | "BreadthFirst"
-  | "DepthFirst";
+export type ScalingPlanPooledSchedulePropertiesDaysOfWeekList = Array<DayOfWeek | (string & {})>;
 /** A ScalingPlanPooledSchedule. */
 export interface ScalingPlanPooledScheduleProperties {
   /** Set of days of the week on which this schedule is active. */
@@ -833,10 +725,7 @@ export interface ScalingPlanPooledScheduleProperties {
   /** Starting time for ramp up period. */
   rampUpStartTime?: Time | undefined;
   /** Load balancing algorithm for ramp up period. */
-  rampUpLoadBalancingAlgorithm?:
-    | ScalingPlanPooledSchedulePropertiesRampUpLoadBalancingAlgorithm
-    | (string & {})
-    | undefined;
+  rampUpLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm | (string & {}) | undefined;
   /** Minimum host percentage for ramp up period. */
   rampUpMinimumHostsPct?: number | undefined;
   /** Capacity threshold for ramp up period. */
@@ -844,17 +733,11 @@ export interface ScalingPlanPooledScheduleProperties {
   /** Starting time for peak period. */
   peakStartTime?: Time | undefined;
   /** Load balancing algorithm for peak period. */
-  peakLoadBalancingAlgorithm?:
-    | ScalingPlanPooledSchedulePropertiesPeakLoadBalancingAlgorithm
-    | (string & {})
-    | undefined;
+  peakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm | (string & {}) | undefined;
   /** Starting time for ramp down period. */
   rampDownStartTime?: Time | undefined;
   /** Load balancing algorithm for ramp down period. */
-  rampDownLoadBalancingAlgorithm?:
-    | ScalingPlanPooledSchedulePropertiesRampDownLoadBalancingAlgorithm
-    | (string & {})
-    | undefined;
+  rampDownLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm | (string & {}) | undefined;
   /** Minimum host percentage for ramp down period. */
   rampDownMinimumHostsPct?: number | undefined;
   /** Capacity threshold for ramp down period. */
@@ -862,10 +745,7 @@ export interface ScalingPlanPooledScheduleProperties {
   /** Should users be logged off forcefully from hosts. */
   rampDownForceLogoffUsers?: boolean | undefined;
   /** Specifies when to stop hosts during ramp down period. */
-  rampDownStopHostsWhen?:
-    | ScalingPlanPooledSchedulePropertiesRampDownStopHostsWhen
-    | (string & {})
-    | undefined;
+  rampDownStopHostsWhen?: StopHostsWhen | (string & {}) | undefined;
   /** Number of minutes to wait to stop hosts during ramp down period. */
   rampDownWaitTimeMinutes?: number | undefined;
   /** Notification message for users during ramp down period. */
@@ -873,10 +753,7 @@ export interface ScalingPlanPooledScheduleProperties {
   /** Starting time for off-peak period. */
   offPeakStartTime?: Time | undefined;
   /** Load balancing algorithm for off-peak period. */
-  offPeakLoadBalancingAlgorithm?:
-    | ScalingPlanPooledSchedulePropertiesOffPeakLoadBalancingAlgorithm
-    | (string & {})
-    | undefined;
+  offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm | (string & {}) | undefined;
 }
 export interface CreateScalingPlanPooledScheduleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -960,7 +837,7 @@ export interface DeletePrivateEndpointConnectionByHostPoolRequest {
   resourceGroupName: string;
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
-  /** The name of the private endpoint connection associated with the Azure resource. */
+  /** The name parameter for private endpoint */
   privateEndpointConnectionName: string;
 }
 export interface DeletePrivateEndpointConnectionByHostPoolResponse {}
@@ -971,7 +848,7 @@ export interface DeletePrivateEndpointConnectionByWorkspaceRequest {
   resourceGroupName: string;
   /** The name of the workspace */
   workspaceName: string;
-  /** The name of the private endpoint connection associated with the Azure resource. */
+  /** The name parameter for private endpoint */
   privateEndpointConnectionName: string;
 }
 export interface DeletePrivateEndpointConnectionByWorkspaceResponse {}
@@ -1116,10 +993,10 @@ export interface GetApplicationGroupRequest {
 export type GetApplicationGroupResponseTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
 export type GetApplicationGroupResponseIdentity = ApplicationGroupsCreateOrUpdateResponseIdentity;
-/** The resource model definition representing SKU */
-export type GetApplicationGroupResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 /** Plan for the resource. */
 export type GetApplicationGroupResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type GetApplicationGroupResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 export interface GetApplicationGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -1133,20 +1010,20 @@ export interface GetApplicationGroupResponse {
   tags?: GetApplicationGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for ApplicationGroup */
   properties: ApplicationGroupProperties;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
+  /** If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  etag?: string | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
 }
 export interface GetDesktopRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1193,84 +1070,62 @@ export interface GetHostPoolRequest {
 }
 /** Resource tags. */
 export type GetHostPoolResponseTagsMap = { [key: string]: string | undefined };
-/** Managed service identity (either system assigned, or none) */
-export type GetHostPoolResponseIdentity = ApplicationGroupsCreateOrUpdateResponseIdentity;
-/** The resource model definition representing SKU */
-export type GetHostPoolResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
-/** Plan for the resource. */
-export type GetHostPoolResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
 /** HostPool type for desktop. */
-export type HostPoolPropertiesHostPoolType = "Personal" | "Pooled" | "BYODesktop";
+export type HostPoolType = "Personal" | "Pooled" | "BYODesktop";
 /** PersonalDesktopAssignment type for HostPool. */
-export type HostPoolPropertiesPersonalDesktopAssignmentType = "Automatic" | "Direct";
+export type PersonalDesktopAssignmentType = "Automatic" | "Direct";
 /** The type of the load balancer. */
-export type HostPoolPropertiesLoadBalancerType =
-  | "BreadthFirst"
-  | "DepthFirst"
-  | "Persistent"
-  | "MultiplePersistent";
+export type LoadBalancerType = "BreadthFirst" | "DepthFirst" | "Persistent" | "MultiplePersistent";
 /** The type of resetting the token. */
-export type RegistrationInfoRegistrationTokenOperation = "Delete" | "None" | "Update";
+export type RegistrationTokenOperation = "Delete" | "None" | "Update";
 /** Represents a RegistrationInfo definition. */
 export interface RegistrationInfo {
   /** Expiration time of registration token. */
-  expirationTime?: string | null | undefined;
+  expirationTime?: string | undefined;
   /** The registration token base64 encoded string. */
   token?: string | undefined;
   /** The type of resetting the token. */
-  registrationTokenOperation?:
-    | RegistrationInfoRegistrationTokenOperation
-    | (string & {})
-    | undefined;
+  registrationTokenOperation?: RegistrationTokenOperation | (string & {}) | undefined;
 }
 /** List of applicationGroup links. */
 export type HostPoolPropertiesApplicationGroupReferencesList = Array<string>;
 /** List of App Attach Package links. */
 export type HostPoolPropertiesAppAttachPackageReferencesList = Array<string>;
 /** The type of single sign on Secret Type. */
-export type HostPoolPropertiesSsoSecretType =
+export type SSOSecretType =
   | "SharedKey"
   | "Certificate"
   | "SharedKeyInKeyVault"
   | "CertificateInKeyVault";
 /** The type of preferred application group type, default to Desktop Application Group */
-export type HostPoolPropertiesPreferredAppGroupType = "None" | "Desktop" | "RailApplications";
-/** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-export type HostPoolPropertiesPublicNetworkAccess =
+export type PreferredAppGroupType = "None" | "Desktop" | "RailApplications";
+/** Enabled to allow this resource to be access from the public network */
+export type HostpoolPublicNetworkAccess =
   | "Enabled"
   | "Disabled"
   | "EnabledForSessionHostsOnly"
   | "EnabledForClientsOnly";
 /** The type of maintenance for session host components. */
-export type AgentUpdatePropertiesType = "Default" | "Scheduled";
-/** Day of the week. */
-export type MaintenanceWindowPropertiesDayOfWeek =
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday"
-  | "Sunday";
+export type SessionHostComponentUpdateType = "Default" | "Scheduled";
 /** Maintenance window starting hour and day of week. */
 export interface MaintenanceWindowProperties {
   /** The update start hour of the day. (0 - 23) */
   hour?: number | undefined;
   /** Day of the week. */
-  dayOfWeek?: MaintenanceWindowPropertiesDayOfWeek | (string & {}) | undefined;
+  dayOfWeek?: DayOfWeek | (string & {}) | undefined;
 }
 /** List of maintenance windows. Maintenance windows are 2 hours long. */
 export type AgentUpdatePropertiesMaintenanceWindowsList = Array<MaintenanceWindowProperties>;
 /** The session host configuration for updating agent, monitoring agent, and stack component. */
 export interface AgentUpdateProperties {
   /** The type of maintenance for session host components. */
-  type?: AgentUpdatePropertiesType | (string & {}) | undefined;
+  type?: SessionHostComponentUpdateType | (string & {}) | undefined;
   /** Whether to use localTime of the virtual machine. */
   useSessionHostLocalTime?: boolean | undefined;
   /** Time zone for maintenance as defined in https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0. Must be set if useLocalTime is true. */
   maintenanceWindowTimeZone?: string | undefined;
   /** List of maintenance windows. Maintenance windows are 2 hours long. */
-  maintenanceWindows?: AgentUpdatePropertiesMaintenanceWindowsList | null | undefined;
+  maintenanceWindows?: AgentUpdatePropertiesMaintenanceWindowsList | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
@@ -1308,7 +1163,7 @@ export interface PrivateEndpointConnectionProperties {
   provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** The private endpoint connection resource. */
-export interface HostPoolPropertiesPrivateEndpointConnectionsItem {
+export interface PrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
   /** The name of the resource */
@@ -1321,8 +1176,17 @@ export interface HostPoolPropertiesPrivateEndpointConnectionsItem {
   properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connection associated with the specified resource */
-export type HostPoolPropertiesPrivateEndpointConnectionsList =
-  Array<HostPoolPropertiesPrivateEndpointConnectionsItem>;
+export type HostPoolPropertiesPrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
+/** Managed Private UDP Connection Settings */
+export type ManagedPrivateUDP = "Default" | "Enabled" | "Disabled";
+/** Direct UDP Connection Settings */
+export type DirectUDP = "Default" | "Enabled" | "Disabled";
+/** Public UDP Connection Settings */
+export type PublicUDP = "Default" | "Enabled" | "Disabled";
+/** Relay UDP Connection Settings */
+export type RelayUDP = "Default" | "Enabled" | "Disabled";
+/** Controls if the use of RDPShortPath transport is allowed, possibly bypassing Private Link routes. */
+export type AllowRDPShortPathWithPrivateLink = "Disabled" | "Enabled";
 /** Properties of HostPool. */
 export interface HostPoolProperties {
   /** ObjectId of HostPool. (internal use) */
@@ -1332,28 +1196,25 @@ export interface HostPoolProperties {
   /** Description of HostPool. */
   description?: string | undefined;
   /** HostPool type for desktop. */
-  hostPoolType: HostPoolPropertiesHostPoolType;
+  hostPoolType: HostPoolType;
   /** PersonalDesktopAssignment type for HostPool. */
-  personalDesktopAssignmentType?:
-    | HostPoolPropertiesPersonalDesktopAssignmentType
-    | null
-    | undefined;
+  personalDesktopAssignmentType?: PersonalDesktopAssignmentType | undefined;
   /** Custom rdp property of HostPool. */
   customRdpProperty?: string | undefined;
   /** The max session limit of HostPool. */
-  maxSessionLimit?: number | null | undefined;
+  maxSessionLimit?: number | undefined;
   /** The type of the load balancer. */
-  loadBalancerType: HostPoolPropertiesLoadBalancerType;
+  loadBalancerType: LoadBalancerType;
   /** The ring number of HostPool. */
-  ring?: number | null | undefined;
+  ring?: number | undefined;
   /** Is validation environment. */
-  validationEnvironment?: boolean | null | undefined;
+  validationEnvironment?: boolean | undefined;
   /** The registration info of HostPool. */
-  registrationInfo?: RegistrationInfo | null | undefined;
+  registrationInfo?: RegistrationInfo | undefined;
   /** VM template for sessionhosts configuration within hostpool. */
   vmTemplate?: string | undefined;
   /** List of applicationGroup links. */
-  applicationGroupReferences?: HostPoolPropertiesApplicationGroupReferencesList | null | undefined;
+  applicationGroupReferences?: HostPoolPropertiesApplicationGroupReferencesList | undefined;
   /** List of App Attach Package links. */
   appAttachPackageReferences?: HostPoolPropertiesAppAttachPackageReferencesList | undefined;
   /** URL to customer ADFS server for signing WVD SSO certificates. */
@@ -1363,20 +1224,36 @@ export interface HostPoolProperties {
   /** Path to Azure KeyVault storing the secret used for communication to ADFS. */
   ssoClientSecretKeyVaultPath?: string | Redacted.Redacted<string> | undefined;
   /** The type of single sign on Secret Type. */
-  ssoSecretType?: HostPoolPropertiesSsoSecretType | null | undefined;
+  ssoSecretType?: SSOSecretType | undefined;
   /** The type of preferred application group type, default to Desktop Application Group */
-  preferredAppGroupType: HostPoolPropertiesPreferredAppGroupType;
+  preferredAppGroupType: PreferredAppGroupType;
   /** The flag to turn on/off StartVMOnConnect feature. */
-  startVMOnConnect?: boolean | null | undefined;
+  startVMOnConnect?: boolean | undefined;
   /** Is cloud pc resource. */
-  cloudPcResource?: boolean | null | undefined;
+  cloudPcResource?: boolean | undefined;
   /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-  publicNetworkAccess?: HostPoolPropertiesPublicNetworkAccess | null | undefined;
+  publicNetworkAccess?: HostpoolPublicNetworkAccess | undefined;
   /** The session host configuration for updating agent, monitoring agent, and stack component. */
-  agentUpdate?: AgentUpdateProperties | null | undefined;
+  agentUpdate?: AgentUpdateProperties | undefined;
   /** List of private endpoint connection associated with the specified resource */
-  privateEndpointConnections?: HostPoolPropertiesPrivateEndpointConnectionsList | null | undefined;
+  privateEndpointConnections?: HostPoolPropertiesPrivateEndpointConnectionsList | undefined;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  managedPrivateUDP?: ManagedPrivateUDP | undefined;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  directUDP?: DirectUDP | undefined;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  publicUDP?: PublicUDP | undefined;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  relayUDP?: RelayUDP | undefined;
+  /** Controls if the use of RDPShortPath transport is allowed, possibly bypassing Private Link routes. */
+  allowRDPShortPathWithPrivateLink?: AllowRDPShortPathWithPrivateLink | undefined;
 }
+/** Managed service identity (either system assigned, or none) */
+export type GetHostPoolResponseIdentity = ApplicationGroupsCreateOrUpdateResponseIdentity;
+/** Plan for the resource. */
+export type GetHostPoolResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type GetHostPoolResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 export interface GetHostPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -1390,20 +1267,20 @@ export interface GetHostPoolResponse {
   tags?: GetHostPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for HostPool */
   properties: HostPoolProperties;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
+  /** If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  etag?: string | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
 }
 export interface GetHostPoolRegistrationTokenRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1436,7 +1313,7 @@ export interface MSIXPackageProperties {
   /** Package Family Name from appxmanifest.xml. Contains Package Name and Publisher name. */
   packageFamilyName?: string | undefined;
   /** User friendly Name to be displayed in the portal. */
-  displayName?: string | null | undefined;
+  displayName?: string | undefined;
   /** Relative Path to the package inside the image. */
   packageRelativePath?: string | undefined;
   /** Specifies how to register Package in feed. */
@@ -1471,21 +1348,8 @@ export interface GetPrivateEndpointConnectionByHostPoolRequest {
   resourceGroupName: string;
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
-  /** The name of the private endpoint connection associated with the Azure resource. */
+  /** The name parameter for private endpoint */
   privateEndpointConnectionName: string;
-}
-/** The group ids for the private endpoint resource. */
-export type GetPrivateEndpointConnectionByHostPoolResponsePropertiesGroupIdsList = Array<string>;
-/** Properties of the private endpoint connection. */
-export interface GetPrivateEndpointConnectionByHostPoolResponseProperties {
-  /** The group ids for the private endpoint resource. */
-  groupIds?: GetPrivateEndpointConnectionByHostPoolResponsePropertiesGroupIdsList | undefined;
-  /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint | undefined;
-  /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-  /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface GetPrivateEndpointConnectionByHostPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1496,8 +1360,8 @@ export interface GetPrivateEndpointConnectionByHostPoolResponse {
   type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
-  /** Properties of the private endpoint connection. */
-  properties?: GetPrivateEndpointConnectionByHostPoolResponseProperties | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetPrivateEndpointConnectionByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1506,21 +1370,8 @@ export interface GetPrivateEndpointConnectionByWorkspaceRequest {
   resourceGroupName: string;
   /** The name of the workspace */
   workspaceName: string;
-  /** The name of the private endpoint connection associated with the Azure resource. */
+  /** The name parameter for private endpoint */
   privateEndpointConnectionName: string;
-}
-/** The group ids for the private endpoint resource. */
-export type GetPrivateEndpointConnectionByWorkspaceResponsePropertiesGroupIdsList = Array<string>;
-/** Properties of the private endpoint connection. */
-export interface GetPrivateEndpointConnectionByWorkspaceResponseProperties {
-  /** The group ids for the private endpoint resource. */
-  groupIds?: GetPrivateEndpointConnectionByWorkspaceResponsePropertiesGroupIdsList | undefined;
-  /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint | undefined;
-  /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-  /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface GetPrivateEndpointConnectionByWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -1531,8 +1382,8 @@ export interface GetPrivateEndpointConnectionByWorkspaceResponse {
   type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
-  /** Properties of the private endpoint connection. */
-  properties?: GetPrivateEndpointConnectionByWorkspaceResponseProperties | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetScalingPlanRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1546,10 +1397,10 @@ export interface GetScalingPlanRequest {
 export type GetScalingPlanResponseTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
 export type GetScalingPlanResponseIdentity = ApplicationGroupsCreateOrUpdateResponseIdentity;
-/** The resource model definition representing SKU */
-export type GetScalingPlanResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 /** Plan for the resource. */
 export type GetScalingPlanResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type GetScalingPlanResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 export interface GetScalingPlanResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -1563,20 +1414,20 @@ export interface GetScalingPlanResponse {
   tags?: GetScalingPlanResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for scaling plan. */
   properties: ScalingPlanProperties;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
+  /** If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  etag?: string | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
 }
 export interface GetScalingPlanPersonalScheduleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1633,7 +1484,7 @@ export interface GetSessionHostRequest {
   sessionHostName: string;
 }
 /** Status for a SessionHost. */
-export type SessionHostPropertiesStatus =
+export type Status =
   | "Available"
   | "Unavailable"
   | "Shutdown"
@@ -1647,14 +1498,9 @@ export type SessionHostPropertiesStatus =
   | "FSLogixNotHealthy"
   | "NeedsAssistance";
 /** Update state of a SessionHost. */
-export type SessionHostPropertiesUpdateState =
-  | "Initial"
-  | "Pending"
-  | "Started"
-  | "Succeeded"
-  | "Failed";
+export type UpdateState = "Initial" | "Pending" | "Started" | "Succeeded" | "Failed";
 /** Represents the name of the health check operation performed. */
-export type SessionHostHealthCheckReportHealthCheckName =
+export type HealthCheckName =
   | "DomainJoinedCheck"
   | "DomainTrustCheck"
   | "FSLogixHealthCheck"
@@ -1667,7 +1513,7 @@ export type SessionHostHealthCheckReportHealthCheckName =
   | "MetaDataServiceCheck"
   | "AppAttachHealthCheck";
 /** Represents the Health state of the health check we performed. */
-export type SessionHostHealthCheckReportHealthCheckResult =
+export type HealthCheckResult =
   | "Unknown"
   | "HealthCheckSucceeded"
   | "HealthCheckFailed"
@@ -1684,9 +1530,9 @@ export interface SessionHostHealthCheckFailureDetails {
 /** The report for session host information. */
 export interface SessionHostHealthCheckReport {
   /** Represents the name of the health check operation performed. */
-  healthCheckName?: SessionHostHealthCheckReportHealthCheckName | undefined;
+  healthCheckName?: HealthCheckName | undefined;
   /** Represents the Health state of the health check we performed. */
-  healthCheckResult?: SessionHostHealthCheckReportHealthCheckResult | undefined;
+  healthCheckResult?: HealthCheckResult | undefined;
   /** Additional detailed information on the failure. */
   additionalFailureDetails?: SessionHostHealthCheckFailureDetails | undefined;
 }
@@ -1714,7 +1560,7 @@ export interface SessionHostProperties {
   /** Friendly name of SessionHost */
   friendlyName?: string | undefined;
   /** Status for a SessionHost. */
-  status?: SessionHostPropertiesStatus | undefined;
+  status?: Status | undefined;
   /** The timestamp of the status. */
   statusTimestamp?: string | undefined;
   /** The version of the OS on the session host. */
@@ -1722,7 +1568,7 @@ export interface SessionHostProperties {
   /** The version of the side by side stack on the session host. */
   sxSStackVersion?: string | undefined;
   /** Update state of a SessionHost. */
-  updateState?: SessionHostPropertiesUpdateState | undefined;
+  updateState?: UpdateState | undefined;
   /** The timestamp of the last update. */
   lastUpdateTime?: string | undefined;
   /** The error message. */
@@ -1757,9 +1603,9 @@ export interface GetUserSessionRequest {
   userSessionId: string;
 }
 /** Application type of application. */
-export type UserSessionPropertiesApplicationType = "RemoteApp" | "Desktop";
+export type ApplicationType = "RemoteApp" | "Desktop";
 /** State of user session. */
-export type UserSessionPropertiesSessionState =
+export type SessionState =
   | "Unknown"
   | "Active"
   | "Disconnected"
@@ -1773,9 +1619,9 @@ export interface UserSessionProperties {
   /** The user principal name. */
   userPrincipalName?: string | undefined;
   /** Application type of application. */
-  applicationType?: UserSessionPropertiesApplicationType | undefined;
+  applicationType?: ApplicationType | undefined;
   /** State of user session. */
-  sessionState?: UserSessionPropertiesSessionState | undefined;
+  sessionState?: SessionState | undefined;
   /** The active directory user name. */
   activeDirectoryUserName?: string | undefined;
   /** The timestamp of the user session create. */
@@ -1803,22 +1649,12 @@ export interface GetWorkspaceRequest {
 }
 /** Resource tags. */
 export type GetWorkspaceResponseTagsMap = { [key: string]: string | undefined };
-/** Managed service identity (either system assigned, or none) */
-export type GetWorkspaceResponseIdentity = ApplicationGroupsCreateOrUpdateResponseIdentity;
-/** The resource model definition representing SKU */
-export type GetWorkspaceResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
-/** Plan for the resource. */
-export type GetWorkspaceResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
 /** List of applicationGroup resource Ids. */
 export type WorkspacePropertiesApplicationGroupReferencesList = Array<string>;
-/** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-export type WorkspacePropertiesPublicNetworkAccess = "Enabled" | "Disabled";
-/** The private endpoint connection resource. */
-export type WorkspacePropertiesPrivateEndpointConnectionsItem =
-  HostPoolPropertiesPrivateEndpointConnectionsItem;
+/** Enabled to allow this resource to be access from the public network */
+export type PublicNetworkAccess = "Enabled" | "Disabled";
 /** List of private endpoint connection associated with the specified resource */
-export type WorkspacePropertiesPrivateEndpointConnectionsList =
-  Array<HostPoolPropertiesPrivateEndpointConnectionsItem>;
+export type WorkspacePropertiesPrivateEndpointConnectionsList = Array<PrivateEndpointConnection>;
 /** Schema for Workspace properties. */
 export interface WorkspaceProperties {
   /** ObjectId of Workspace. (internal use) */
@@ -1828,14 +1664,20 @@ export interface WorkspaceProperties {
   /** Friendly name of Workspace. */
   friendlyName?: string | undefined;
   /** List of applicationGroup resource Ids. */
-  applicationGroupReferences?: WorkspacePropertiesApplicationGroupReferencesList | null | undefined;
+  applicationGroupReferences?: WorkspacePropertiesApplicationGroupReferencesList | undefined;
   /** Is cloud pc resource. */
-  cloudPcResource?: boolean | null | undefined;
+  cloudPcResource?: boolean | undefined;
   /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-  publicNetworkAccess?: WorkspacePropertiesPublicNetworkAccess | null | undefined;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** List of private endpoint connection associated with the specified resource */
-  privateEndpointConnections?: WorkspacePropertiesPrivateEndpointConnectionsList | null | undefined;
+  privateEndpointConnections?: WorkspacePropertiesPrivateEndpointConnectionsList | undefined;
 }
+/** Managed service identity (either system assigned, or none) */
+export type GetWorkspaceResponseIdentity = ApplicationGroupsCreateOrUpdateResponseIdentity;
+/** Plan for the resource. */
+export type GetWorkspaceResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type GetWorkspaceResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 export interface GetWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -1849,53 +1691,23 @@ export interface GetWorkspaceResponse {
   tags?: GetWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for Workspace */
   properties?: WorkspaceProperties | undefined;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
+  /** If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  etag?: string | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
 }
 /** Resource tags. */
 export type HostPoolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
-/** Managed service identity (either system assigned, or none) */
-export type HostPoolsCreateOrUpdateRequestIdentity = ApplicationGroupsCreateOrUpdateRequestIdentity;
-/** The resource model definition representing SKU */
-export type HostPoolsCreateOrUpdateRequestSku = ApplicationGroupsCreateOrUpdateRequestSku;
-/** Plan for the resource. */
-export type HostPoolsCreateOrUpdateRequestPlan = ApplicationGroupsCreateOrUpdateRequestPlan;
-/** HostPool type for desktop. */
-export type HostPoolPropertiesInputHostPoolType = "Personal" | "Pooled" | "BYODesktop";
-/** PersonalDesktopAssignment type for HostPool. */
-export type HostPoolPropertiesInputPersonalDesktopAssignmentType = "Automatic" | "Direct";
-/** The type of the load balancer. */
-export type HostPoolPropertiesInputLoadBalancerType =
-  | "BreadthFirst"
-  | "DepthFirst"
-  | "Persistent"
-  | "MultiplePersistent";
-/** The type of single sign on Secret Type. */
-export type HostPoolPropertiesInputSsoSecretType =
-  | "SharedKey"
-  | "Certificate"
-  | "SharedKeyInKeyVault"
-  | "CertificateInKeyVault";
-/** The type of preferred application group type, default to Desktop Application Group */
-export type HostPoolPropertiesInputPreferredAppGroupType = "None" | "Desktop" | "RailApplications";
-/** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-export type HostPoolPropertiesInputPublicNetworkAccess =
-  | "Enabled"
-  | "Disabled"
-  | "EnabledForSessionHostsOnly"
-  | "EnabledForClientsOnly";
 /** Properties of HostPool. */
 export interface HostPoolPropertiesInput {
   /** Friendly name of HostPool. */
@@ -1903,25 +1715,21 @@ export interface HostPoolPropertiesInput {
   /** Description of HostPool. */
   description?: string | undefined;
   /** HostPool type for desktop. */
-  hostPoolType: HostPoolPropertiesInputHostPoolType | (string & {});
+  hostPoolType: HostPoolType | (string & {});
   /** PersonalDesktopAssignment type for HostPool. */
-  personalDesktopAssignmentType?:
-    | HostPoolPropertiesInputPersonalDesktopAssignmentType
-    | (string & {})
-    | null
-    | undefined;
+  personalDesktopAssignmentType?: PersonalDesktopAssignmentType | (string & {}) | undefined;
   /** Custom rdp property of HostPool. */
   customRdpProperty?: string | undefined;
   /** The max session limit of HostPool. */
-  maxSessionLimit?: number | null | undefined;
+  maxSessionLimit?: number | undefined;
   /** The type of the load balancer. */
-  loadBalancerType: HostPoolPropertiesInputLoadBalancerType | (string & {});
+  loadBalancerType: LoadBalancerType | (string & {});
   /** The ring number of HostPool. */
-  ring?: number | null | undefined;
+  ring?: number | undefined;
   /** Is validation environment. */
-  validationEnvironment?: boolean | null | undefined;
+  validationEnvironment?: boolean | undefined;
   /** The registration info of HostPool. */
-  registrationInfo?: RegistrationInfo | null | undefined;
+  registrationInfo?: RegistrationInfo | undefined;
   /** VM template for sessionhosts configuration within hostpool. */
   vmTemplate?: string | undefined;
   /** URL to customer ADFS server for signing WVD SSO certificates. */
@@ -1931,20 +1739,32 @@ export interface HostPoolPropertiesInput {
   /** Path to Azure KeyVault storing the secret used for communication to ADFS. */
   ssoClientSecretKeyVaultPath?: string | Redacted.Redacted<string> | undefined;
   /** The type of single sign on Secret Type. */
-  ssoSecretType?: HostPoolPropertiesInputSsoSecretType | (string & {}) | null | undefined;
+  ssoSecretType?: SSOSecretType | (string & {}) | undefined;
   /** The type of preferred application group type, default to Desktop Application Group */
-  preferredAppGroupType: HostPoolPropertiesInputPreferredAppGroupType | (string & {});
+  preferredAppGroupType: PreferredAppGroupType | (string & {});
   /** The flag to turn on/off StartVMOnConnect feature. */
-  startVMOnConnect?: boolean | null | undefined;
+  startVMOnConnect?: boolean | undefined;
   /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-  publicNetworkAccess?:
-    | HostPoolPropertiesInputPublicNetworkAccess
-    | (string & {})
-    | null
-    | undefined;
+  publicNetworkAccess?: HostpoolPublicNetworkAccess | (string & {}) | undefined;
   /** The session host configuration for updating agent, monitoring agent, and stack component. */
-  agentUpdate?: AgentUpdateProperties | null | undefined;
+  agentUpdate?: AgentUpdateProperties | undefined;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  managedPrivateUDP?: ManagedPrivateUDP | (string & {}) | undefined;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  directUDP?: DirectUDP | (string & {}) | undefined;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  publicUDP?: PublicUDP | (string & {}) | undefined;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  relayUDP?: RelayUDP | (string & {}) | undefined;
+  /** Controls if the use of RDPShortPath transport is allowed, possibly bypassing Private Link routes. */
+  allowRDPShortPathWithPrivateLink?: AllowRDPShortPathWithPrivateLink | (string & {}) | undefined;
 }
+/** Managed service identity (either system assigned, or none) */
+export type HostPoolsCreateOrUpdateRequestIdentity = ApplicationGroupsCreateOrUpdateRequestIdentity;
+/** Plan for the resource. */
+export type HostPoolsCreateOrUpdateRequestPlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type HostPoolsCreateOrUpdateRequestSku = ApplicationGroupsCreateOrUpdateRequestSku;
 export interface HostPoolsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -1956,28 +1776,28 @@ export interface HostPoolsCreateOrUpdateRequest {
   tags?: HostPoolsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateRequestSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for HostPool */
   properties: HostPoolPropertiesInput;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateRequestSku | undefined;
 }
 /** Resource tags. */
 export type HostPoolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
 export type HostPoolsCreateOrUpdateResponseIdentity =
   ApplicationGroupsCreateOrUpdateResponseIdentity;
-/** The resource model definition representing SKU */
-export type HostPoolsCreateOrUpdateResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 /** Plan for the resource. */
 export type HostPoolsCreateOrUpdateResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type HostPoolsCreateOrUpdateResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 export interface HostPoolsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -1991,23 +1811,23 @@ export interface HostPoolsCreateOrUpdateResponse {
   tags?: HostPoolsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for HostPool */
   properties: HostPoolProperties;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
+  /** If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  etag?: string | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
 }
 /** Possible device architectures that an app attach package can be configured for */
-export type ImportAppAttachPackageInfoRequestPackageArchitecture =
+export type AppAttachPackageArchitectures =
   | "ARM"
   | "ARM64"
   | "x86"
@@ -2025,11 +1845,7 @@ export interface ImportAppAttachPackageInfoRequest {
   /** URI to Image */
   path?: string | undefined;
   /** Possible device architectures that an app attach package can be configured for */
-  packageArchitecture?:
-    | ImportAppAttachPackageInfoRequestPackageArchitecture
-    | (string & {})
-    | null
-    | undefined;
+  packageArchitecture?: AppAttachPackageArchitectures | (string & {}) | undefined;
 }
 /** Resource tags. */
 export type AppAttachPackageTagsMap = { [key: string]: string | undefined };
@@ -2050,13 +1866,13 @@ export interface AppAttachPackage {
   /** Detailed properties for App Attach Package */
   properties: AppAttachPackageProperties;
 }
-/** List of App Attach Package definitions. */
+/** The AppAttachPackage items on this page */
 export type AppAttachPackageListValueList = Array<AppAttachPackage>;
 /** List of App Attach Package definitions. */
 export interface AppAttachPackageList {
-  /** List of App Attach Package definitions. */
-  value?: AppAttachPackageListValueList | undefined;
-  /** Link to the next page of results. */
+  /** The AppAttachPackage items on this page */
+  value: AppAttachPackageListValueList;
+  /** The link to the next page of items */
   nextLink?: string | undefined;
 }
 export interface ListAppAttachPackageByResourceGroupRequest {
@@ -2091,10 +1907,10 @@ export interface ListApplicationGroupByResourceGroupRequest {
 export type ApplicationGroupTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
 export type ApplicationGroupIdentity = ApplicationGroupsCreateOrUpdateResponseIdentity;
-/** The resource model definition representing SKU */
-export type ApplicationGroupSku = ApplicationGroupsCreateOrUpdateResponseSku;
 /** Plan for the resource. */
 export type ApplicationGroupPlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type ApplicationGroupSku = ApplicationGroupsCreateOrUpdateResponseSku;
 /** Represents a ApplicationGroup definition. */
 export interface ApplicationGroup {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2109,28 +1925,28 @@ export interface ApplicationGroup {
   tags?: ApplicationGroupTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for ApplicationGroup */
   properties: ApplicationGroupProperties;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
+  /** If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  etag?: string | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
 }
-/** List of ApplicationGroup definitions. */
+/** The ApplicationGroup items on this page */
 export type ApplicationGroupListValueList = Array<ApplicationGroup>;
 /** List of ApplicationGroup definitions. */
 export interface ApplicationGroupList {
-  /** List of ApplicationGroup definitions. */
-  value?: ApplicationGroupListValueList | undefined;
-  /** Link to the next page of results. */
+  /** The ApplicationGroup items on this page */
+  value: ApplicationGroupListValueList;
+  /** The link to the next page of items */
   nextLink?: string | undefined;
 }
 export interface ListApplicationGroupBySubscriptionRequest {
@@ -2166,13 +1982,13 @@ export interface Application {
   /** Detailed properties for Application */
   properties: ApplicationProperties;
 }
-/** List of Application definitions. */
+/** The Application items on this page */
 export type ApplicationListValueList = Array<Application>;
 /** List of Application definitions. */
 export interface ApplicationList {
-  /** List of Application definitions. */
-  value?: ApplicationListValueList | undefined;
-  /** Link to the next page of results. */
+  /** The Application items on this page */
+  value: ApplicationListValueList;
+  /** The link to the next page of items */
   nextLink?: string | undefined;
 }
 export interface ListDesktopsRequest {
@@ -2202,13 +2018,13 @@ export interface Desktop {
   /** Detailed properties for Desktop */
   properties?: DesktopProperties | undefined;
 }
-/** List of Desktop definitions. */
+/** The Desktop items on this page */
 export type DesktopListValueList = Array<Desktop>;
 /** List of Desktop definitions. */
 export interface DesktopList {
-  /** List of Desktop definitions. */
-  value?: DesktopListValueList | undefined;
-  /** Link to the next page of results. */
+  /** The Desktop items on this page */
+  value: DesktopListValueList;
+  /** The link to the next page of items */
   nextLink?: string | undefined;
 }
 export interface ListHostPoolByResourceGroupRequest {
@@ -2227,10 +2043,10 @@ export interface ListHostPoolByResourceGroupRequest {
 export type HostPoolTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
 export type HostPoolIdentity = ApplicationGroupsCreateOrUpdateResponseIdentity;
-/** The resource model definition representing SKU */
-export type HostPoolSku = ApplicationGroupsCreateOrUpdateResponseSku;
 /** Plan for the resource. */
 export type HostPoolPlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type HostPoolSku = ApplicationGroupsCreateOrUpdateResponseSku;
 /** Represents a HostPool definition. */
 export interface HostPool {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2245,28 +2061,28 @@ export interface HostPool {
   tags?: HostPoolTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for HostPool */
   properties: HostPoolProperties;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
+  /** If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  etag?: string | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
 }
-/** List of HostPool definitions. */
+/** The HostPool items on this page */
 export type HostPoolListValueList = Array<HostPool>;
 /** List of HostPool definitions. */
 export interface HostPoolList {
-  /** List of HostPool definitions. */
-  value?: HostPoolListValueList | undefined;
-  /** Link to the next page of results. */
+  /** The HostPool items on this page */
+  value: HostPoolListValueList;
+  /** The link to the next page of items */
   nextLink?: string | undefined;
 }
 export interface ListHostPoolRegistrationTokensRequest {
@@ -2280,7 +2096,7 @@ export interface ListHostPoolRegistrationTokensRequest {
 /** Represents a Minimal set of properties for RegistrationToken definition. */
 export interface RegistrationTokenMinimal {
   /** Expiration time of registration token. */
-  expirationTime?: string | null | undefined;
+  expirationTime?: string | undefined;
   /** The registration token base64 encoded string. */
   token?: string | undefined;
 }
@@ -2330,13 +2146,13 @@ export interface MSIXPackage {
   /** Detailed properties for MSIX Package */
   properties: MSIXPackageProperties;
 }
-/** List of MSIX Package definitions. */
+/** The MSIXPackage items on this page */
 export type MSIXPackageListValueList = Array<MSIXPackage>;
 /** List of MSIX Package definitions. */
 export interface MSIXPackageList {
-  /** List of MSIX Package definitions. */
-  value?: MSIXPackageListValueList | undefined;
-  /** Link to the next page of results. */
+  /** The MSIXPackage items on this page */
+  value: MSIXPackageListValueList;
+  /** The link to the next page of items */
   nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
@@ -2369,6 +2185,7 @@ export interface ServiceSpecification {
 }
 /** Properties of the operation */
 export interface OperationProperties {
+  /** Service specification payload */
   serviceSpecification?: ServiceSpecification | undefined;
 }
 /** Supported operation of this resource provider. */
@@ -2379,6 +2196,7 @@ export interface ResourceProviderOperation {
   display?: ResourceProviderOperationDisplay | undefined;
   /** Is a data action. */
   isDataAction?: boolean | undefined;
+  /** Properties of the operation */
   properties?: OperationProperties | undefined;
 }
 /** The ResourceProviderOperation items on this page */
@@ -2404,19 +2222,6 @@ export interface ListPrivateEndpointConnectionByHostPoolRequest {
   /** Initial number of items to skip. */
   initialSkip?: number | undefined;
 }
-/** The group ids for the private endpoint resource. */
-export type PrivateEndpointConnectionWithSystemDataPropertiesGroupIdsList = Array<string>;
-/** Properties of the private endpoint connection. */
-export interface PrivateEndpointConnectionWithSystemDataProperties {
-  /** The group ids for the private endpoint resource. */
-  groupIds?: PrivateEndpointConnectionWithSystemDataPropertiesGroupIdsList | undefined;
-  /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint | undefined;
-  /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-  /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
-}
 /** The Private Endpoint Connection resource. */
 export interface PrivateEndpointConnectionWithSystemData {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2427,17 +2232,17 @@ export interface PrivateEndpointConnectionWithSystemData {
   type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
-  /** Properties of the private endpoint connection. */
-  properties?: PrivateEndpointConnectionWithSystemDataProperties | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
-/** Array of private endpoint connections */
+/** The PrivateEndpointConnectionWithSystemData items on this page */
 export type PrivateEndpointConnectionListResultWithSystemDataValueList =
   Array<PrivateEndpointConnectionWithSystemData>;
-/** List of private endpoint connection associated with the specified storage account */
+/** List of private endpoint connection associated with the specified HostPool */
 export interface PrivateEndpointConnectionListResultWithSystemData {
-  /** Array of private endpoint connections */
-  value?: PrivateEndpointConnectionListResultWithSystemDataValueList | undefined;
-  /** Link to the next page of results. */
+  /** The PrivateEndpointConnectionWithSystemData items on this page */
+  value: PrivateEndpointConnectionListResultWithSystemDataValueList;
+  /** The link to the next page of items */
   nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByWorkspaceRequest {
@@ -2488,13 +2293,13 @@ export interface PrivateLinkResource {
   /** Resource properties. */
   properties?: PrivateLinkResourceProperties | undefined;
 }
-/** Array of private link resources */
+/** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResource>;
 /** A list of private link resources */
 export interface PrivateLinkResourceListResult {
-  /** Array of private link resources */
-  value?: PrivateLinkResourceListResultValueList | undefined;
-  /** Link to the next page of results. */
+  /** The PrivateLinkResource items on this page */
+  value: PrivateLinkResourceListResultValueList;
+  /** The link to the next page of items */
   nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByWorkspaceRequest {
@@ -2529,10 +2334,10 @@ export interface ListScalingPlanByHostPoolRequest {
 export type ScalingPlanTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
 export type ScalingPlanIdentity = ApplicationGroupsCreateOrUpdateResponseIdentity;
-/** The resource model definition representing SKU */
-export type ScalingPlanSku = ApplicationGroupsCreateOrUpdateResponseSku;
 /** Plan for the resource. */
 export type ScalingPlanPlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type ScalingPlanSku = ApplicationGroupsCreateOrUpdateResponseSku;
 /** Represents a scaling plan definition. */
 export interface ScalingPlan {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2547,28 +2352,28 @@ export interface ScalingPlan {
   tags?: ScalingPlanTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for scaling plan. */
   properties: ScalingPlanProperties;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
+  /** If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  etag?: string | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
 }
-/** List of scaling plan definitions. */
+/** The ScalingPlan items on this page */
 export type ScalingPlanListValueList = Array<ScalingPlan>;
 /** List of scaling plan definitions. */
 export interface ScalingPlanList {
-  /** List of scaling plan definitions. */
-  value?: ScalingPlanListValueList | undefined;
-  /** Link to the next page of results. */
+  /** The ScalingPlan items on this page */
+  value: ScalingPlanListValueList;
+  /** The link to the next page of items */
   nextLink?: string | undefined;
 }
 export interface ListScalingPlanByResourceGroupRequest {
@@ -2620,13 +2425,13 @@ export interface ScalingPlanPersonalSchedule {
   /** Detailed properties for ScalingPlanPersonalSchedule */
   properties: ScalingPlanPersonalScheduleProperties;
 }
-/** List of ScalingPlanPersonalSchedule definitions. */
+/** The ScalingPlanPersonalSchedule items on this page */
 export type ScalingPlanPersonalScheduleListValueList = Array<ScalingPlanPersonalSchedule>;
 /** List of ScalingPlanPersonalSchedule definitions. */
 export interface ScalingPlanPersonalScheduleList {
-  /** List of ScalingPlanPersonalSchedule definitions. */
-  value?: ScalingPlanPersonalScheduleListValueList | undefined;
-  /** Link to the next page of results. */
+  /** The ScalingPlanPersonalSchedule items on this page */
+  value: ScalingPlanPersonalScheduleListValueList;
+  /** The link to the next page of items */
   nextLink?: string | undefined;
 }
 export interface ListScalingPlanPooledSchedulesRequest {
@@ -2656,13 +2461,13 @@ export interface ScalingPlanPooledSchedule {
   /** Detailed properties for ScalingPlanPooledSchedule */
   properties: ScalingPlanPooledScheduleProperties;
 }
-/** List of ScalingPlanPooledSchedule definitions. */
+/** The ScalingPlanPooledSchedule items on this page */
 export type ScalingPlanPooledScheduleListValueList = Array<ScalingPlanPooledSchedule>;
 /** List of ScalingPlanPooledSchedule definitions. */
 export interface ScalingPlanPooledScheduleList {
-  /** List of ScalingPlanPooledSchedule definitions. */
-  value?: ScalingPlanPooledScheduleListValueList | undefined;
-  /** Link to the next page of results. */
+  /** The ScalingPlanPooledSchedule items on this page */
+  value: ScalingPlanPooledScheduleListValueList;
+  /** The link to the next page of items */
   nextLink?: string | undefined;
 }
 export interface ListSessionHostsRequest {
@@ -2692,13 +2497,13 @@ export interface SessionHost {
   /** Detailed properties for SessionHost */
   properties?: SessionHostProperties | undefined;
 }
-/** List of SessionHost definitions. */
+/** The SessionHost items on this page */
 export type SessionHostListValueList = Array<SessionHost>;
 /** List of SessionHost definitions. */
 export interface SessionHostList {
-  /** List of SessionHost definitions. */
-  value?: SessionHostListValueList | undefined;
-  /** Link to the next page of results. */
+  /** The SessionHost items on this page */
+  value: SessionHostListValueList;
+  /** The link to the next page of items */
   nextLink?: string | undefined;
 }
 export interface ListStartMenuItemsRequest {
@@ -2741,13 +2546,13 @@ export interface StartMenuItem {
   /** Detailed properties for StartMenuItem */
   properties?: StartMenuItemProperties | undefined;
 }
-/** List of StartMenuItem definitions. */
+/** The StartMenuItem items on this page */
 export type StartMenuItemListValueList = Array<StartMenuItem>;
 /** List of StartMenuItem definitions. */
 export interface StartMenuItemList {
-  /** List of StartMenuItem definitions. */
-  value?: StartMenuItemListValueList | undefined;
-  /** Link to the next page of results. */
+  /** The StartMenuItem items on this page */
+  value: StartMenuItemListValueList;
+  /** The link to the next page of items */
   nextLink?: string | undefined;
 }
 export interface ListUserSessionByHostPoolRequest {
@@ -2779,13 +2584,13 @@ export interface UserSession {
   /** Detailed properties for UserSession */
   properties?: UserSessionProperties | undefined;
 }
-/** List of UserSession definitions. */
+/** The UserSession items on this page */
 export type UserSessionListValueList = Array<UserSession>;
 /** List of UserSession definitions. */
 export interface UserSessionList {
-  /** List of UserSession definitions. */
-  value?: UserSessionListValueList | undefined;
-  /** Link to the next page of results. */
+  /** The UserSession items on this page */
+  value: UserSessionListValueList;
+  /** The link to the next page of items */
   nextLink?: string | undefined;
 }
 export interface ListUserSessionsRequest {
@@ -2820,10 +2625,10 @@ export interface ListWorkspaceByResourceGroupRequest {
 export type WorkspaceTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
 export type WorkspaceIdentity = ApplicationGroupsCreateOrUpdateResponseIdentity;
-/** The resource model definition representing SKU */
-export type WorkspaceSku = ApplicationGroupsCreateOrUpdateResponseSku;
 /** Plan for the resource. */
 export type WorkspacePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type WorkspaceSku = ApplicationGroupsCreateOrUpdateResponseSku;
 /** Represents a Workspace definition. */
 export interface Workspace {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -2838,28 +2643,28 @@ export interface Workspace {
   tags?: WorkspaceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for Workspace */
   properties?: WorkspaceProperties | undefined;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
+  /** If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  etag?: string | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
 }
-/** List of Workspace definitions. */
+/** The Workspace items on this page */
 export type WorkspaceListValueList = Array<Workspace>;
 /** List of Workspace definitions. */
 export interface WorkspaceList {
-  /** List of Workspace definitions. */
-  value?: WorkspaceListValueList | undefined;
-  /** Link to the next page of results. */
+  /** The Workspace items on this page */
+  value: WorkspaceListValueList;
+  /** The link to the next page of items */
   nextLink?: string | undefined;
 }
 export interface ListWorkspaceBySubscriptionRequest {
@@ -2893,7 +2698,7 @@ export interface ExpandMsixImageProperties {
   /** Package Full Name from appxmanifest.xml. */
   packageFullName?: string | undefined;
   /** User friendly Name to be displayed in the portal. */
-  displayName?: string | null | undefined;
+  displayName?: string | undefined;
   /** Relative Path to the package inside the image. */
   packageRelativePath?: string | undefined;
   /** Specifies how to register Package in feed. */
@@ -2901,7 +2706,7 @@ export interface ExpandMsixImageProperties {
   /** Make this version of the package the active one across the hostpool. */
   isActive?: boolean | undefined;
   /** List of package dependencies. */
-  packageDependencies?: ExpandMsixImagePropertiesPackageDependenciesList | null | undefined;
+  packageDependencies?: ExpandMsixImagePropertiesPackageDependenciesList | undefined;
   /** Package version found in the appxmanifest.xml. */
   version?: string | undefined;
   /** Date Package was last updated, found in the appxmanifest.xml. */
@@ -2909,9 +2714,9 @@ export interface ExpandMsixImageProperties {
   /** List of package applications. */
   packageApplications?: ExpandMsixImagePropertiesPackageApplicationsList | undefined;
   /** Certificate name found in the appxmanifest.xml. */
-  certificateName?: string | null | undefined;
+  certificateName?: string | undefined;
   /** Date certificate expires, found in the appxmanifest.xml. */
-  certificateExpiry?: string | null | undefined;
+  certificateExpiry?: string | undefined;
 }
 /** Represents the definition of contents retrieved after expanding the MSIX Image. */
 export interface ExpandMsixImage {
@@ -2926,13 +2731,13 @@ export interface ExpandMsixImage {
   /** Detailed properties for ExpandMsixImage */
   properties?: ExpandMsixImageProperties | undefined;
 }
-/** List of MSIX package properties from give MSIX Image. */
+/** The ExpandMsixImage items on this page */
 export type ExpandMsixImageListValueList = Array<ExpandMsixImage>;
 /** List of MSIX package properties retrieved from MSIX Image expansion. */
 export interface ExpandMsixImageList {
-  /** List of MSIX package properties from give MSIX Image. */
-  value?: ExpandMsixImageListValueList | undefined;
-  /** Link to the next page of results. */
+  /** The ExpandMsixImage items on this page */
+  value: ExpandMsixImageListValueList;
+  /** The link to the next page of items */
   nextLink?: string | undefined;
 }
 export interface MSIXPackagesCreateOrUpdateRequest {
@@ -2976,6 +2781,8 @@ export interface SendUserSessionMessageRequest {
   messageBody?: string | undefined;
 }
 export interface SendUserSessionMessageResponse {}
+/** tags to be updated */
+export type UpdateAppAttachPackageRequestTagsMap = { [key: string]: string | undefined };
 /** List of Hostpool resource Ids. */
 export type AppAttachPackagePatchPropertiesHostPoolReferencesList = Array<string>;
 /** Schema for patchable fields on an App Attach Package. */
@@ -2987,7 +2794,11 @@ export interface AppAttachPackagePatchProperties {
   /** URL path to certificate name located in keyVault */
   keyVaultURL?: string | undefined;
   /** Parameter indicating how the health check should behave if this package fails staging */
-  failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailureEnum | (string & {}) | undefined;
+  failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailure | (string & {}) | undefined;
+  /** Lookback url to third party control plane, is null for native app attach packages */
+  packageLookbackUrl?: string | undefined;
+  /** Field that can be populated with custom data and filtered on in list GET calls */
+  customData?: string | undefined;
 }
 export interface UpdateAppAttachPackageRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2996,6 +2807,8 @@ export interface UpdateAppAttachPackageRequest {
   resourceGroupName: string;
   /** The name of the App Attach package */
   appAttachPackageName: string;
+  /** tags to be updated */
+  tags?: UpdateAppAttachPackageRequestTagsMap | undefined;
   /** Detailed properties for App Attach Package */
   properties?: AppAttachPackagePatchProperties | undefined;
 }
@@ -3017,10 +2830,6 @@ export interface UpdateAppAttachPackageResponse {
   /** Detailed properties for App Attach Package */
   properties: AppAttachPackageProperties;
 }
-/** Specifies whether this published application can be launched with command line arguments provided by the client, command line arguments specified at publish time, or no command line arguments at all. */
-export type ApplicationPatchPropertiesCommandLineSetting = "DoNotAllow" | "Allow" | "Require";
-/** Resource Type of Application. */
-export type ApplicationPatchPropertiesApplicationType = "InBuilt" | "MsixApplication";
 /** Application properties that can be patched. */
 export interface ApplicationPatchProperties {
   /** Description of Application. */
@@ -3030,7 +2839,7 @@ export interface ApplicationPatchProperties {
   /** Specifies a path for the executable file for the application. */
   filePath?: string | undefined;
   /** Specifies whether this published application can be launched with command line arguments provided by the client, command line arguments specified at publish time, or no command line arguments at all. */
-  commandLineSetting?: ApplicationPatchPropertiesCommandLineSetting | (string & {}) | undefined;
+  commandLineSetting?: CommandLineSetting | (string & {}) | undefined;
   /** Command Line Arguments for Application. */
   commandLineArguments?: string | undefined;
   /** Specifies whether to show the RemoteApp program in the RD Web Access server. */
@@ -3040,11 +2849,11 @@ export interface ApplicationPatchProperties {
   /** Index of the icon. */
   iconIndex?: number | undefined;
   /** Specifies the package family name for MSIX applications */
-  msixPackageFamilyName?: string | null | undefined;
+  msixPackageFamilyName?: string | undefined;
   /** Specifies the package application Id for MSIX applications */
-  msixPackageApplicationId?: string | null | undefined;
+  msixPackageApplicationId?: string | undefined;
   /** Resource Type of Application. */
-  applicationType?: ApplicationPatchPropertiesApplicationType | (string & {}) | undefined;
+  applicationType?: RemoteApplicationType | (string & {}) | undefined;
 }
 export interface UpdateApplicationRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3089,7 +2898,7 @@ export interface UpdateApplicationGroupRequest {
   /** The name of the application group */
   applicationGroupName: string;
   /** tags to be updated */
-  tags?: UpdateApplicationGroupRequestTagsMap | null | undefined;
+  tags?: UpdateApplicationGroupRequestTagsMap | undefined;
   /** ApplicationGroup properties that can be patched. */
   properties?: ApplicationGroupPatchProperties | undefined;
 }
@@ -3098,10 +2907,10 @@ export type UpdateApplicationGroupResponseTagsMap = { [key: string]: string | un
 /** Managed service identity (either system assigned, or none) */
 export type UpdateApplicationGroupResponseIdentity =
   ApplicationGroupsCreateOrUpdateResponseIdentity;
-/** The resource model definition representing SKU */
-export type UpdateApplicationGroupResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 /** Plan for the resource. */
 export type UpdateApplicationGroupResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type UpdateApplicationGroupResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 export interface UpdateApplicationGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -3115,20 +2924,20 @@ export interface UpdateApplicationGroupResponse {
   tags?: UpdateApplicationGroupResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for ApplicationGroup */
   properties: ApplicationGroupProperties;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
+  /** If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  etag?: string | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
 }
 /** Desktop properties that can be patched. */
 export interface DesktopPatchProperties {
@@ -3163,71 +2972,27 @@ export interface UpdateDesktopResponse {
 }
 /** tags to be updated */
 export type UpdateHostPoolRequestTagsMap = { [key: string]: string | undefined };
-/** PersonalDesktopAssignment type for HostPool. */
-export type HostPoolPatchPropertiesPersonalDesktopAssignmentType = "Automatic" | "Direct";
-/** The type of the load balancer. */
-export type HostPoolPatchPropertiesLoadBalancerType =
-  | "BreadthFirst"
-  | "DepthFirst"
-  | "Persistent"
-  | "MultiplePersistent";
-/** The type of resetting the token. */
-export type RegistrationInfoPatchRegistrationTokenOperation = "Delete" | "None" | "Update";
 /** Represents a RegistrationInfo definition. */
 export interface RegistrationInfoPatch {
   /** Expiration time of registration token. */
-  expirationTime?: string | null | undefined;
+  expirationTime?: string | undefined;
   /** The type of resetting the token. */
-  registrationTokenOperation?:
-    | RegistrationInfoPatchRegistrationTokenOperation
-    | (string & {})
-    | undefined;
+  registrationTokenOperation?: RegistrationTokenOperation | (string & {}) | undefined;
 }
-/** The type of single sign on Secret Type. */
-export type HostPoolPatchPropertiesSsoSecretType =
-  | "SharedKey"
-  | "Certificate"
-  | "SharedKeyInKeyVault"
-  | "CertificateInKeyVault";
-/** The type of preferred application group type, default to Desktop Application Group */
-export type HostPoolPatchPropertiesPreferredAppGroupType = "None" | "Desktop" | "RailApplications";
-/** Enabled to allow this resource to be access from the public network */
-export type HostPoolPatchPropertiesPublicNetworkAccess =
-  | "Enabled"
-  | "Disabled"
-  | "EnabledForSessionHostsOnly"
-  | "EnabledForClientsOnly";
-/** The type of maintenance for session host components. */
-export type AgentUpdatePatchPropertiesType = "Default" | "Scheduled";
-/** Day of the week. */
-export type MaintenanceWindowPatchPropertiesDayOfWeek =
-  | "Monday"
-  | "Tuesday"
-  | "Wednesday"
-  | "Thursday"
-  | "Friday"
-  | "Saturday"
-  | "Sunday";
 /** Maintenance window starting hour and day of week. */
-export interface MaintenanceWindowPatchProperties {
-  /** The update start hour of the day. (0 - 23) */
-  hour?: number | undefined;
-  /** Day of the week. */
-  dayOfWeek?: MaintenanceWindowPatchPropertiesDayOfWeek | (string & {}) | undefined;
-}
+export type MaintenanceWindowPatchProperties = MaintenanceWindowProperties;
 /** List of maintenance windows. Maintenance windows are 2 hours long. */
-export type AgentUpdatePatchPropertiesMaintenanceWindowsList =
-  Array<MaintenanceWindowPatchProperties>;
+export type AgentUpdatePatchPropertiesMaintenanceWindowsList = Array<MaintenanceWindowProperties>;
 /** The session host configuration for updating agent, monitoring agent, and stack component. */
 export interface AgentUpdatePatchProperties {
   /** The type of maintenance for session host components. */
-  type?: AgentUpdatePatchPropertiesType | (string & {}) | undefined;
+  type?: SessionHostComponentUpdateType | (string & {}) | undefined;
   /** Whether to use localTime of the virtual machine. */
   useSessionHostLocalTime?: boolean | undefined;
   /** Time zone for maintenance as defined in https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0. Must be set if useLocalTime is true. */
   maintenanceWindowTimeZone?: string | undefined;
   /** List of maintenance windows. Maintenance windows are 2 hours long. */
-  maintenanceWindows?: AgentUpdatePatchPropertiesMaintenanceWindowsList | null | undefined;
+  maintenanceWindows?: AgentUpdatePatchPropertiesMaintenanceWindowsList | undefined;
 }
 /** Properties of HostPool. */
 export interface HostPoolPatchProperties {
@@ -3238,21 +3003,17 @@ export interface HostPoolPatchProperties {
   /** Custom rdp property of HostPool. */
   customRdpProperty?: string | undefined;
   /** The max session limit of HostPool. */
-  maxSessionLimit?: number | null | undefined;
+  maxSessionLimit?: number | undefined;
   /** PersonalDesktopAssignment type for HostPool. */
-  personalDesktopAssignmentType?:
-    | HostPoolPatchPropertiesPersonalDesktopAssignmentType
-    | (string & {})
-    | null
-    | undefined;
+  personalDesktopAssignmentType?: PersonalDesktopAssignmentType | (string & {}) | undefined;
   /** The type of the load balancer. */
-  loadBalancerType?: HostPoolPatchPropertiesLoadBalancerType | (string & {}) | undefined;
+  loadBalancerType?: LoadBalancerType | (string & {}) | undefined;
   /** The ring number of HostPool. */
-  ring?: number | null | undefined;
+  ring?: number | undefined;
   /** Is validation environment. */
-  validationEnvironment?: boolean | null | undefined;
+  validationEnvironment?: boolean | undefined;
   /** The registration info of HostPool. */
-  registrationInfo?: RegistrationInfoPatch | null | undefined;
+  registrationInfo?: RegistrationInfoPatch | undefined;
   /** VM template for sessionhosts configuration within hostpool. */
   vmTemplate?: string | undefined;
   /** URL to customer ADFS server for signing WVD SSO certificates. */
@@ -3262,19 +3023,25 @@ export interface HostPoolPatchProperties {
   /** Path to Azure KeyVault storing the secret used for communication to ADFS. */
   ssoClientSecretKeyVaultPath?: string | Redacted.Redacted<string> | undefined;
   /** The type of single sign on Secret Type. */
-  ssoSecretType?: HostPoolPatchPropertiesSsoSecretType | (string & {}) | null | undefined;
+  ssoSecretType?: SSOSecretType | (string & {}) | undefined;
   /** The type of preferred application group type, default to Desktop Application Group */
-  preferredAppGroupType?: HostPoolPatchPropertiesPreferredAppGroupType | (string & {}) | undefined;
+  preferredAppGroupType?: PreferredAppGroupType | (string & {}) | undefined;
   /** The flag to turn on/off StartVMOnConnect feature. */
-  startVMOnConnect?: boolean | null | undefined;
+  startVMOnConnect?: boolean | undefined;
   /** Enabled to allow this resource to be access from the public network */
-  publicNetworkAccess?:
-    | HostPoolPatchPropertiesPublicNetworkAccess
-    | (string & {})
-    | null
-    | undefined;
+  publicNetworkAccess?: HostpoolPublicNetworkAccess | (string & {}) | undefined;
   /** The session host configuration for updating agent, monitoring agent, and stack component. */
-  agentUpdate?: AgentUpdatePatchProperties | null | undefined;
+  agentUpdate?: AgentUpdatePatchProperties | undefined;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  managedPrivateUDP?: ManagedPrivateUDP | (string & {}) | undefined;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  directUDP?: DirectUDP | (string & {}) | undefined;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  publicUDP?: PublicUDP | (string & {}) | undefined;
+  /** Default: AVD-wide settings are used to determine connection availability, Enabled: UDP will attempt this connection type when making connections. This means that this connection is possible, but is not guaranteed, as there are other factors that may prevent this connection type, Disabled: UDP will not attempt this connection type when making connections */
+  relayUDP?: RelayUDP | (string & {}) | undefined;
+  /** Controls if the use of RDPShortPath transport is allowed, possibly bypassing Private Link routes. */
+  allowRDPShortPathWithPrivateLink?: AllowRDPShortPathWithPrivateLink | (string & {}) | undefined;
 }
 /** Managed service identity (either system assigned, or none) */
 export type UpdateHostPoolRequestIdentity = ApplicationGroupsCreateOrUpdateRequestIdentity;
@@ -3286,7 +3053,7 @@ export interface UpdateHostPoolRequest {
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
   /** tags to be updated */
-  tags?: UpdateHostPoolRequestTagsMap | null | undefined;
+  tags?: UpdateHostPoolRequestTagsMap | undefined;
   /** HostPool properties that can be patched. */
   properties?: HostPoolPatchProperties | undefined;
   /** Managed service identity (either system assigned, or none) */
@@ -3296,10 +3063,10 @@ export interface UpdateHostPoolRequest {
 export type UpdateHostPoolResponseTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
 export type UpdateHostPoolResponseIdentity = ApplicationGroupsCreateOrUpdateResponseIdentity;
-/** The resource model definition representing SKU */
-export type UpdateHostPoolResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 /** Plan for the resource. */
 export type UpdateHostPoolResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type UpdateHostPoolResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 export interface UpdateHostPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -3313,20 +3080,20 @@ export interface UpdateHostPoolResponse {
   tags?: UpdateHostPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for HostPool */
   properties: HostPoolProperties;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
+  /** If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  etag?: string | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
 }
 /** MSIX Package properties that can be patched. */
 export interface MSIXPackagePatchProperties {
@@ -3364,7 +3131,7 @@ export interface UpdateMSIXPackageResponse {
 /** The private endpoint resource. */
 export interface PrivateEndpointInput {}
 /** Properties of the private endpoint connection. */
-export interface UpdatePrivateEndpointConnectionByHostPoolRequestProperties {
+export interface PrivateEndpointConnectionPropertiesInput {
   /** The private endpoint resource. */
   privateEndpoint?: PrivateEndpointInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
@@ -3377,23 +3144,10 @@ export interface UpdatePrivateEndpointConnectionByHostPoolRequest {
   resourceGroupName: string;
   /** The name of the host pool within the specified resource group */
   hostPoolName: string;
-  /** The name of the private endpoint connection associated with the Azure resource. */
+  /** The name parameter for private endpoint */
   privateEndpointConnectionName: string;
-  /** Properties of the private endpoint connection. */
-  properties?: UpdatePrivateEndpointConnectionByHostPoolRequestProperties | undefined;
-}
-/** The group ids for the private endpoint resource. */
-export type UpdatePrivateEndpointConnectionByHostPoolResponsePropertiesGroupIdsList = Array<string>;
-/** Properties of the private endpoint connection. */
-export interface UpdatePrivateEndpointConnectionByHostPoolResponseProperties {
-  /** The group ids for the private endpoint resource. */
-  groupIds?: UpdatePrivateEndpointConnectionByHostPoolResponsePropertiesGroupIdsList | undefined;
-  /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint | undefined;
-  /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-  /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface UpdatePrivateEndpointConnectionByHostPoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3404,12 +3158,9 @@ export interface UpdatePrivateEndpointConnectionByHostPoolResponse {
   type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
-  /** Properties of the private endpoint connection. */
-  properties?: UpdatePrivateEndpointConnectionByHostPoolResponseProperties | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
-/** Properties of the private endpoint connection. */
-export type UpdatePrivateEndpointConnectionByWorkspaceRequestProperties =
-  UpdatePrivateEndpointConnectionByHostPoolRequestProperties;
 export interface UpdatePrivateEndpointConnectionByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -3417,24 +3168,10 @@ export interface UpdatePrivateEndpointConnectionByWorkspaceRequest {
   resourceGroupName: string;
   /** The name of the workspace */
   workspaceName: string;
-  /** The name of the private endpoint connection associated with the Azure resource. */
+  /** The name parameter for private endpoint */
   privateEndpointConnectionName: string;
-  /** Properties of the private endpoint connection. */
-  properties?: UpdatePrivateEndpointConnectionByHostPoolRequestProperties | undefined;
-}
-/** The group ids for the private endpoint resource. */
-export type UpdatePrivateEndpointConnectionByWorkspaceResponsePropertiesGroupIdsList =
-  Array<string>;
-/** Properties of the private endpoint connection. */
-export interface UpdatePrivateEndpointConnectionByWorkspaceResponseProperties {
-  /** The group ids for the private endpoint resource. */
-  groupIds?: UpdatePrivateEndpointConnectionByWorkspaceResponsePropertiesGroupIdsList | undefined;
-  /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint | undefined;
-  /** A collection of information about the state of the connection between service consumer and provider. */
-  privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
-  /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface UpdatePrivateEndpointConnectionByWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3445,8 +3182,8 @@ export interface UpdatePrivateEndpointConnectionByWorkspaceResponse {
   type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
   systemData?: SystemData | undefined;
-  /** Properties of the private endpoint connection. */
-  properties?: UpdatePrivateEndpointConnectionByWorkspaceResponseProperties | undefined;
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** tags to be updated */
 export type UpdateScalingPlanRequestTagsMap = { [key: string]: string | undefined };
@@ -3477,7 +3214,7 @@ export interface UpdateScalingPlanRequest {
   /** The name of the scaling plan. */
   scalingPlanName: string;
   /** tags to be updated */
-  tags?: UpdateScalingPlanRequestTagsMap | null | undefined;
+  tags?: UpdateScalingPlanRequestTagsMap | undefined;
   /** Detailed properties for scaling plan */
   properties?: ScalingPlanPatchProperties | undefined;
 }
@@ -3485,10 +3222,10 @@ export interface UpdateScalingPlanRequest {
 export type UpdateScalingPlanResponseTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
 export type UpdateScalingPlanResponseIdentity = ApplicationGroupsCreateOrUpdateResponseIdentity;
-/** The resource model definition representing SKU */
-export type UpdateScalingPlanResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 /** Plan for the resource. */
 export type UpdateScalingPlanResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type UpdateScalingPlanResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 export interface UpdateScalingPlanResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -3502,20 +3239,81 @@ export interface UpdateScalingPlanResponse {
   tags?: UpdateScalingPlanResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for scaling plan. */
   properties: ScalingPlanProperties;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
+  /** If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  etag?: string | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
+}
+/** Set of days of the week on which this schedule is active. */
+export type ScalingPlanPersonalSchedulePatchPropertiesDaysOfWeekList = Array<
+  DayOfWeek | (string & {})
+>;
+/** The desired configuration of Start VM On Connect for the hostpool during the ramp up phase. If this is disabled, session hosts must be turned on using rampUpAutoStartHosts or by turning them on manually. */
+export type SetStartVMOnConnect = "Enable" | "Disable";
+/** ScalingPlanPersonalSchedule properties that can be patched. */
+export interface ScalingPlanPersonalSchedulePatchProperties {
+  /** Set of days of the week on which this schedule is active. */
+  daysOfWeek?: ScalingPlanPersonalSchedulePatchPropertiesDaysOfWeekList | undefined;
+  /** Starting time for ramp up period. */
+  rampUpStartTime?: Time | undefined;
+  /** The desired startup behavior during the ramp up period for personal vms in the hostpool. */
+  rampUpAutoStartHosts?: StartupBehavior | (string & {}) | undefined;
+  /** The desired configuration of Start VM On Connect for the hostpool during the ramp up phase. If this is disabled, session hosts must be turned on using rampUpAutoStartHosts or by turning them on manually. */
+  rampUpStartVMOnConnect?: SetStartVMOnConnect | (string & {}) | undefined;
+  /** Action to be taken after a user disconnect during the ramp up period. */
+  rampUpActionOnDisconnect?: SessionHandlingOperation | (string & {}) | undefined;
+  /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the ramp up period. */
+  rampUpMinutesToWaitOnDisconnect?: number | undefined;
+  /** Action to be taken after a logoff during the ramp up period. */
+  rampUpActionOnLogoff?: SessionHandlingOperation | (string & {}) | undefined;
+  /** The time in minutes to wait before performing the desired session handling action when a user logs off during the ramp up period. */
+  rampUpMinutesToWaitOnLogoff?: number | undefined;
+  /** Starting time for peak period. */
+  peakStartTime?: Time | undefined;
+  /** The desired configuration of Start VM On Connect for the hostpool during the peak phase. */
+  peakStartVMOnConnect?: SetStartVMOnConnect | (string & {}) | undefined;
+  /** Action to be taken after a user disconnect during the peak period. */
+  peakActionOnDisconnect?: SessionHandlingOperation | (string & {}) | undefined;
+  /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the peak period. */
+  peakMinutesToWaitOnDisconnect?: number | undefined;
+  /** Action to be taken after a logoff during the peak period. */
+  peakActionOnLogoff?: SessionHandlingOperation | (string & {}) | undefined;
+  /** The time in minutes to wait before performing the desired session handling action when a user logs off during the peak period. */
+  peakMinutesToWaitOnLogoff?: number | undefined;
+  /** Starting time for ramp down period. */
+  rampDownStartTime?: Time | undefined;
+  /** The desired configuration of Start VM On Connect for the hostpool during the ramp down phase. */
+  rampDownStartVMOnConnect?: SetStartVMOnConnect | (string & {}) | undefined;
+  /** Action to be taken after a user disconnect during the ramp down period. */
+  rampDownActionOnDisconnect?: SessionHandlingOperation | (string & {}) | undefined;
+  /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the ramp down period. */
+  rampDownMinutesToWaitOnDisconnect?: number | undefined;
+  /** Action to be taken after a logoff during the ramp down period. */
+  rampDownActionOnLogoff?: SessionHandlingOperation | (string & {}) | undefined;
+  /** The time in minutes to wait before performing the desired session handling action when a user logs off during the ramp down period. */
+  rampDownMinutesToWaitOnLogoff?: number | undefined;
+  /** Starting time for off-peak period. */
+  offPeakStartTime?: Time | undefined;
+  /** The desired configuration of Start VM On Connect for the hostpool during the off-peak phase. */
+  offPeakStartVMOnConnect?: SetStartVMOnConnect | (string & {}) | undefined;
+  /** Action to be taken after a user disconnect during the off-peak period. */
+  offPeakActionOnDisconnect?: SessionHandlingOperation | (string & {}) | undefined;
+  /** The time in minutes to wait before performing the desired session handling action when a user disconnects during the off-peak period. */
+  offPeakMinutesToWaitOnDisconnect?: number | undefined;
+  /** Action to be taken after a logoff during the off-peak period. */
+  offPeakActionOnLogoff?: SessionHandlingOperation | (string & {}) | undefined;
+  /** The time in minutes to wait before performing the desired session handling action when a user logs off during the off-peak period. */
+  offPeakMinutesToWaitOnLogoff?: number | undefined;
 }
 export interface UpdateScalingPlanPersonalScheduleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3527,7 +3325,7 @@ export interface UpdateScalingPlanPersonalScheduleRequest {
   /** The name of the ScalingPlanSchedule */
   scalingPlanScheduleName: string;
   /** Detailed properties for ScalingPlanPersonalSchedule */
-  properties?: ScalingPlanPersonalScheduleProperties | undefined;
+  properties?: ScalingPlanPersonalSchedulePatchProperties | undefined;
 }
 export interface UpdateScalingPlanPersonalScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3541,6 +3339,47 @@ export interface UpdateScalingPlanPersonalScheduleResponse {
   /** Detailed properties for ScalingPlanPersonalSchedule */
   properties: ScalingPlanPersonalScheduleProperties;
 }
+/** Set of days of the week on which this schedule is active. */
+export type ScalingPlanPooledSchedulePatchPropertiesDaysOfWeekList = Array<
+  DayOfWeek | (string & {})
+>;
+/** A ScalingPlanPooledSchedule that can be patched. */
+export interface ScalingPlanPooledSchedulePatchProperties {
+  /** Set of days of the week on which this schedule is active. */
+  daysOfWeek?: ScalingPlanPooledSchedulePatchPropertiesDaysOfWeekList | undefined;
+  /** Starting time for ramp up period. */
+  rampUpStartTime?: Time | undefined;
+  /** Load balancing algorithm for ramp up period. */
+  rampUpLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm | (string & {}) | undefined;
+  /** Minimum host percentage for ramp up period. */
+  rampUpMinimumHostsPct?: number | undefined;
+  /** Capacity threshold for ramp up period. */
+  rampUpCapacityThresholdPct?: number | undefined;
+  /** Starting time for peak period. */
+  peakStartTime?: Time | undefined;
+  /** Load balancing algorithm for peak period. */
+  peakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm | (string & {}) | undefined;
+  /** Starting time for ramp down period. */
+  rampDownStartTime?: Time | undefined;
+  /** Load balancing algorithm for ramp down period. */
+  rampDownLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm | (string & {}) | undefined;
+  /** Minimum host percentage for ramp down period. */
+  rampDownMinimumHostsPct?: number | undefined;
+  /** Capacity threshold for ramp down period. */
+  rampDownCapacityThresholdPct?: number | undefined;
+  /** Should users be logged off forcefully from hosts. */
+  rampDownForceLogoffUsers?: boolean | undefined;
+  /** Specifies when to stop hosts during ramp down period. */
+  rampDownStopHostsWhen?: StopHostsWhen | (string & {}) | undefined;
+  /** Number of minutes to wait to stop hosts during ramp down period. */
+  rampDownWaitTimeMinutes?: number | undefined;
+  /** Notification message for users during ramp down period. */
+  rampDownNotificationMessage?: string | undefined;
+  /** Starting time for off-peak period. */
+  offPeakStartTime?: Time | undefined;
+  /** Load balancing algorithm for off-peak period. */
+  offPeakLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm | (string & {}) | undefined;
+}
 export interface UpdateScalingPlanPooledScheduleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -3551,7 +3390,7 @@ export interface UpdateScalingPlanPooledScheduleRequest {
   /** The name of the ScalingPlanSchedule */
   scalingPlanScheduleName: string;
   /** Detailed properties for ScalingPlanPooledSchedule */
-  properties?: ScalingPlanPooledScheduleProperties | undefined;
+  properties?: ScalingPlanPooledSchedulePatchProperties | undefined;
 }
 export interface UpdateScalingPlanPooledScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3604,8 +3443,6 @@ export interface UpdateSessionHostResponse {
 export type UpdateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
 /** List of applicationGroup links. */
 export type WorkspacePatchPropertiesApplicationGroupReferencesList = Array<string>;
-/** Enabled to allow this resource to be access from the public network */
-export type WorkspacePatchPropertiesPublicNetworkAccess = "Enabled" | "Disabled";
 /** Workspace properties that can be patched. */
 export interface WorkspacePatchProperties {
   /** Description of Workspace. */
@@ -3613,16 +3450,9 @@ export interface WorkspacePatchProperties {
   /** Friendly name of Workspace. */
   friendlyName?: string | undefined;
   /** List of applicationGroup links. */
-  applicationGroupReferences?:
-    | WorkspacePatchPropertiesApplicationGroupReferencesList
-    | null
-    | undefined;
+  applicationGroupReferences?: WorkspacePatchPropertiesApplicationGroupReferencesList | undefined;
   /** Enabled to allow this resource to be access from the public network */
-  publicNetworkAccess?:
-    | WorkspacePatchPropertiesPublicNetworkAccess
-    | (string & {})
-    | null
-    | undefined;
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
 }
 export interface UpdateWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3632,7 +3462,7 @@ export interface UpdateWorkspaceRequest {
   /** The name of the workspace */
   workspaceName: string;
   /** tags to be updated */
-  tags?: UpdateWorkspaceRequestTagsMap | null | undefined;
+  tags?: UpdateWorkspaceRequestTagsMap | undefined;
   /** Detailed properties for Workspace */
   properties?: WorkspacePatchProperties | undefined;
 }
@@ -3640,10 +3470,10 @@ export interface UpdateWorkspaceRequest {
 export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
 export type UpdateWorkspaceResponseIdentity = ApplicationGroupsCreateOrUpdateResponseIdentity;
-/** The resource model definition representing SKU */
-export type UpdateWorkspaceResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 /** Plan for the resource. */
 export type UpdateWorkspaceResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type UpdateWorkspaceResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 export interface UpdateWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -3657,34 +3487,25 @@ export interface UpdateWorkspaceResponse {
   tags?: UpdateWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for Workspace */
   properties?: WorkspaceProperties | undefined;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
+  /** If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  etag?: string | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
 }
 /** Resource tags. */
 export type WorkspacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
-/** Managed service identity (either system assigned, or none) */
-export type WorkspacesCreateOrUpdateRequestIdentity =
-  ApplicationGroupsCreateOrUpdateRequestIdentity;
-/** The resource model definition representing SKU */
-export type WorkspacesCreateOrUpdateRequestSku = ApplicationGroupsCreateOrUpdateRequestSku;
-/** Plan for the resource. */
-export type WorkspacesCreateOrUpdateRequestPlan = ApplicationGroupsCreateOrUpdateRequestPlan;
 /** List of applicationGroup resource Ids. */
 export type WorkspacePropertiesInputApplicationGroupReferencesList = Array<string>;
-/** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-export type WorkspacePropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
 /** Schema for Workspace properties. */
 export interface WorkspacePropertiesInput {
   /** Description of Workspace. */
@@ -3692,17 +3513,17 @@ export interface WorkspacePropertiesInput {
   /** Friendly name of Workspace. */
   friendlyName?: string | undefined;
   /** List of applicationGroup resource Ids. */
-  applicationGroupReferences?:
-    | WorkspacePropertiesInputApplicationGroupReferencesList
-    | null
-    | undefined;
+  applicationGroupReferences?: WorkspacePropertiesInputApplicationGroupReferencesList | undefined;
   /** Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints */
-  publicNetworkAccess?:
-    | WorkspacePropertiesInputPublicNetworkAccess
-    | (string & {})
-    | null
-    | undefined;
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
 }
+/** Managed service identity (either system assigned, or none) */
+export type WorkspacesCreateOrUpdateRequestIdentity =
+  ApplicationGroupsCreateOrUpdateRequestIdentity;
+/** Plan for the resource. */
+export type WorkspacesCreateOrUpdateRequestPlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type WorkspacesCreateOrUpdateRequestSku = ApplicationGroupsCreateOrUpdateRequestSku;
 export interface WorkspacesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
@@ -3714,28 +3535,28 @@ export interface WorkspacesCreateOrUpdateRequest {
   tags?: WorkspacesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateRequestSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for Workspace */
   properties?: WorkspacePropertiesInput | undefined;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateRequestIdentity | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateRequestSku | undefined;
 }
 /** Resource tags. */
 export type WorkspacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** Managed service identity (either system assigned, or none) */
 export type WorkspacesCreateOrUpdateResponseIdentity =
   ApplicationGroupsCreateOrUpdateResponseIdentity;
-/** The resource model definition representing SKU */
-export type WorkspacesCreateOrUpdateResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 /** Plan for the resource. */
 export type WorkspacesCreateOrUpdateResponsePlan = ApplicationGroupsCreateOrUpdateRequestPlan;
+/** The resource model definition representing SKU */
+export type WorkspacesCreateOrUpdateResponseSku = ApplicationGroupsCreateOrUpdateResponseSku;
 export interface WorkspacesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
   id?: string | undefined;
@@ -3749,20 +3570,20 @@ export interface WorkspacesCreateOrUpdateResponse {
   tags?: WorkspacesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string | undefined;
-  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
-  kind?: string | undefined;
-  /** The etag field is *not* required. If it is provided in the response body, it must also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
-  etag?: string | undefined;
-  /** Managed service identity (either system assigned, or none) */
-  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
-  /** The resource model definition representing SKU */
-  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
-  /** Plan for the resource. */
-  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
   /** Detailed properties for Workspace */
   properties?: WorkspaceProperties | undefined;
+  /** Managed service identity (either system assigned, or none) */
+  identity?: ApplicationGroupsCreateOrUpdateResponseIdentity | undefined;
+  /** If etag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields. */
+  etag?: string | undefined;
+  /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type; e.g. ApiApps are a kind of Microsoft.Web/sites type. If supported, the resource provider must validate and persist this value. */
+  kind?: string | undefined;
+  /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
+  managedBy?: string | undefined;
+  /** Plan for the resource. */
+  plan?: ApplicationGroupsCreateOrUpdateRequestPlan | undefined;
+  /** The resource model definition representing SKU */
+  sku?: ApplicationGroupsCreateOrUpdateResponseSku | undefined;
 }
 export type AppAttachPackageCreateOrUpdateError = AzureOpError;
 /** Create or update an App Attach package. */
@@ -3772,7 +3593,7 @@ export const AppAttachPackageCreateOrUpdate: API.OperationMethod<
   AppAttachPackageCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<AppAttachPackageCreateOrUpdateRequest>,
+  input: __S(1, __c0, 1) as any as S.Schema<AppAttachPackageCreateOrUpdateRequest>,
   output: __S(82, __c5, 2) as any as S.Schema<AppAttachPackageCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -3789,8 +3610,8 @@ export const ApplicationGroupsCreateOrUpdate: API.OperationMethod<
   ApplicationGroupsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(113, __c7, 1) as any as S.Schema<ApplicationGroupsCreateOrUpdateRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<ApplicationGroupsCreateOrUpdateResponse>,
+  input: __S(97, __c6, 1) as any as S.Schema<ApplicationGroupsCreateOrUpdateRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<ApplicationGroupsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3806,8 +3627,8 @@ export const ApplicationsCreateOrUpdate: API.OperationMethod<
   ApplicationsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(337, __c21, 1) as any as S.Schema<ApplicationsCreateOrUpdateRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<ApplicationsCreateOrUpdateResponse>,
+  input: __S(321, __c20, 1) as any as S.Schema<ApplicationsCreateOrUpdateRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<ApplicationsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3823,8 +3644,8 @@ export const CreateScalingPlan: API.OperationMethod<
   CreateScalingPlanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(625, __c39, 1) as any as S.Schema<CreateScalingPlanRequest>,
-  output: __S(645, __c40, 5) as any as S.Schema<CreateScalingPlanResponse>,
+  input: __S(609, __c38, 1) as any as S.Schema<CreateScalingPlanRequest>,
+  output: __S(629, __c39, 5) as any as S.Schema<CreateScalingPlanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3840,8 +3661,8 @@ export const CreateScalingPlanPersonalSchedule: API.OperationMethod<
   CreateScalingPlanPersonalScheduleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(912, __c57, 0) as any as S.Schema<CreateScalingPlanPersonalScheduleRequest>,
-  output: __S(929, __c58, 1) as any as S.Schema<CreateScalingPlanPersonalScheduleResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<CreateScalingPlanPersonalScheduleRequest>,
+  output: __S(913, __c57, 1) as any as S.Schema<CreateScalingPlanPersonalScheduleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3857,8 +3678,8 @@ export const CreateScalingPlanPooledSchedule: API.OperationMethod<
   CreateScalingPlanPooledScheduleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<CreateScalingPlanPooledScheduleRequest>,
-  output: __S(1153, __c72, 1) as any as S.Schema<CreateScalingPlanPooledScheduleResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<CreateScalingPlanPooledScheduleRequest>,
+  output: __S(1137, __c71, 1) as any as S.Schema<CreateScalingPlanPooledScheduleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3874,8 +3695,8 @@ export const DeleteAppAttachPackage: API.OperationMethod<
   DeleteAppAttachPackageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<DeleteAppAttachPackageRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<DeleteAppAttachPackageResponse>,
+  input: __S(1360, __c85, 0) as any as S.Schema<DeleteAppAttachPackageRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<DeleteAppAttachPackageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3891,8 +3712,8 @@ export const DeleteApplication: API.OperationMethod<
   DeleteApplicationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<DeleteApplicationRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<DeleteApplicationResponse>,
+  input: __S(1568, __c98, 0) as any as S.Schema<DeleteApplicationRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<DeleteApplicationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3908,8 +3729,8 @@ export const DeleteApplicationGroup: API.OperationMethod<
   DeleteApplicationGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<DeleteApplicationGroupRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<DeleteApplicationGroupResponse>,
+  input: __S(1776, __c111, 0) as any as S.Schema<DeleteApplicationGroupRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<DeleteApplicationGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3925,8 +3746,8 @@ export const DeleteHostPool: API.OperationMethod<
   DeleteHostPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<DeleteHostPoolRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<DeleteHostPoolResponse>,
+  input: __S(1792, __c112, 0) as any as S.Schema<DeleteHostPoolRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<DeleteHostPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3942,8 +3763,8 @@ export const DeleteMSIXPackage: API.OperationMethod<
   DeleteMSIXPackageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<DeleteMSIXPackageRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<DeleteMSIXPackageResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<DeleteMSIXPackageRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<DeleteMSIXPackageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3952,15 +3773,15 @@ export const DeleteMSIXPackage: API.OperationMethod<
 }));
 
 export type DeletePrivateEndpointConnectionByHostPoolError = AzureOpError;
-/** Remove a connection. */
+/** Delete a PrivateEndpointConnectionWithSystemData */
 export const DeletePrivateEndpointConnectionByHostPool: API.OperationMethod<
   DeletePrivateEndpointConnectionByHostPoolRequest,
   DeletePrivateEndpointConnectionByHostPoolResponse,
   DeletePrivateEndpointConnectionByHostPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<DeletePrivateEndpointConnectionByHostPoolRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<DeletePrivateEndpointConnectionByHostPoolResponse>,
+  input: __S(176, __c11, 0) as any as S.Schema<DeletePrivateEndpointConnectionByHostPoolRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<DeletePrivateEndpointConnectionByHostPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -3969,17 +3790,17 @@ export const DeletePrivateEndpointConnectionByHostPool: API.OperationMethod<
 }));
 
 export type DeletePrivateEndpointConnectionByWorkspaceError = AzureOpError;
-/** Remove a connection. */
+/** Delete a PrivateEndpointConnectionWithSystemData */
 export const DeletePrivateEndpointConnectionByWorkspace: API.OperationMethod<
   DeletePrivateEndpointConnectionByWorkspaceRequest,
   DeletePrivateEndpointConnectionByWorkspaceResponse,
   DeletePrivateEndpointConnectionByWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<DeletePrivateEndpointConnectionByWorkspaceRequest>,
+  input: __S(192, __c12, 0) as any as S.Schema<DeletePrivateEndpointConnectionByWorkspaceRequest>,
   output: __S(
-    1392,
-    __c87,
+    1376,
+    __c86,
     0,
   ) as any as S.Schema<DeletePrivateEndpointConnectionByWorkspaceResponse>,
   errors: [UnknownAzureError],
@@ -3997,8 +3818,8 @@ export const DeleteScalingPlan: API.OperationMethod<
   DeleteScalingPlanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<DeleteScalingPlanRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<DeleteScalingPlanResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<DeleteScalingPlanRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<DeleteScalingPlanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4014,8 +3835,8 @@ export const DeleteScalingPlanPersonalSchedule: API.OperationMethod<
   DeleteScalingPlanPersonalScheduleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<DeleteScalingPlanPersonalScheduleRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<DeleteScalingPlanPersonalScheduleResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<DeleteScalingPlanPersonalScheduleRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<DeleteScalingPlanPersonalScheduleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4031,8 +3852,8 @@ export const DeleteScalingPlanPooledSchedule: API.OperationMethod<
   DeleteScalingPlanPooledScheduleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<DeleteScalingPlanPooledScheduleRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<DeleteScalingPlanPooledScheduleResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<DeleteScalingPlanPooledScheduleRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<DeleteScalingPlanPooledScheduleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4048,8 +3869,8 @@ export const DeleteSessionHost: API.OperationMethod<
   DeleteSessionHostError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<DeleteSessionHostRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<DeleteSessionHostResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<DeleteSessionHostRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<DeleteSessionHostResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4065,8 +3886,8 @@ export const DeleteUserSession: API.OperationMethod<
   DeleteUserSessionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<DeleteUserSessionRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<DeleteUserSessionResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<DeleteUserSessionRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<DeleteUserSessionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4082,8 +3903,8 @@ export const DeleteWorkspace: API.OperationMethod<
   DeleteWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<DeleteWorkspaceRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<DeleteWorkspaceResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<DeleteWorkspaceRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<DeleteWorkspaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4099,8 +3920,8 @@ export const DisconnectUserSession: API.OperationMethod<
   DisconnectUserSessionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<DisconnectUserSessionRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<DisconnectUserSessionResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<DisconnectUserSessionRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<DisconnectUserSessionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4116,7 +3937,7 @@ export const GetAppAttachPackage: API.OperationMethod<
   GetAppAttachPackageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(368, __c23, 0) as any as S.Schema<GetAppAttachPackageRequest>,
+  input: __S(352, __c22, 0) as any as S.Schema<GetAppAttachPackageRequest>,
   output: __S(82, __c5, 2) as any as S.Schema<GetAppAttachPackageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4133,8 +3954,8 @@ export const GetApplication: API.OperationMethod<
   GetApplicationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c24, 0) as any as S.Schema<GetApplicationRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<GetApplicationResponse>,
+  input: __S(368, __c23, 0) as any as S.Schema<GetApplicationRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<GetApplicationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4150,8 +3971,8 @@ export const GetApplicationGroup: API.OperationMethod<
   GetApplicationGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<GetApplicationGroupRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<GetApplicationGroupResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<GetApplicationGroupRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<GetApplicationGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4167,8 +3988,8 @@ export const GetDesktop: API.OperationMethod<
   GetDesktopError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c26, 0) as any as S.Schema<GetDesktopRequest>,
-  output: __S(433, __c27, 1) as any as S.Schema<GetDesktopResponse>,
+  input: __S(400, __c25, 0) as any as S.Schema<GetDesktopRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<GetDesktopResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4184,8 +4005,8 @@ export const GetHostPool: API.OperationMethod<
   GetHostPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c28, 0) as any as S.Schema<GetHostPoolRequest>,
-  output: __S(516, __c32, 4) as any as S.Schema<GetHostPoolResponse>,
+  input: __S(432, __c27, 0) as any as S.Schema<GetHostPoolRequest>,
+  output: __S(500, __c31, 4) as any as S.Schema<GetHostPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4201,8 +4022,8 @@ export const GetHostPoolRegistrationToken: API.OperationMethod<
   GetHostPoolRegistrationTokenError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(528, __c33, 0) as any as S.Schema<GetHostPoolRegistrationTokenRequest>,
-  output: __S(464, __c29, 0) as any as S.Schema<RegistrationInfo>,
+  input: __S(512, __c32, 0) as any as S.Schema<GetHostPoolRegistrationTokenRequest>,
+  output: __S(448, __c28, 0) as any as S.Schema<RegistrationInfo>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4218,8 +4039,8 @@ export const GetMSIXPackage: API.OperationMethod<
   GetMSIXPackageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c34, 0) as any as S.Schema<GetMSIXPackageRequest>,
-  output: __S(561, __c35, 1) as any as S.Schema<GetMSIXPackageResponse>,
+  input: __S(528, __c33, 0) as any as S.Schema<GetMSIXPackageRequest>,
+  output: __S(545, __c34, 1) as any as S.Schema<GetMSIXPackageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4228,15 +4049,15 @@ export const GetMSIXPackage: API.OperationMethod<
 }));
 
 export type GetPrivateEndpointConnectionByHostPoolError = AzureOpError;
-/** Get a private endpoint connection. */
+/** Get a PrivateEndpointConnectionWithSystemData */
 export const GetPrivateEndpointConnectionByHostPool: API.OperationMethod<
   GetPrivateEndpointConnectionByHostPoolRequest,
   GetPrivateEndpointConnectionByHostPoolResponse,
   GetPrivateEndpointConnectionByHostPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<GetPrivateEndpointConnectionByHostPoolRequest>,
-  output: __S(483, __c30, 3) as any as S.Schema<GetPrivateEndpointConnectionByHostPoolResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<GetPrivateEndpointConnectionByHostPoolRequest>,
+  output: __S(467, __c29, 3) as any as S.Schema<GetPrivateEndpointConnectionByHostPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4245,15 +4066,15 @@ export const GetPrivateEndpointConnectionByHostPool: API.OperationMethod<
 }));
 
 export type GetPrivateEndpointConnectionByWorkspaceError = AzureOpError;
-/** Get a private endpoint connection. */
+/** Get a PrivateEndpointConnectionWithSystemData */
 export const GetPrivateEndpointConnectionByWorkspace: API.OperationMethod<
   GetPrivateEndpointConnectionByWorkspaceRequest,
   GetPrivateEndpointConnectionByWorkspaceResponse,
   GetPrivateEndpointConnectionByWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<GetPrivateEndpointConnectionByWorkspaceRequest>,
-  output: __S(483, __c30, 3) as any as S.Schema<GetPrivateEndpointConnectionByWorkspaceResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<GetPrivateEndpointConnectionByWorkspaceRequest>,
+  output: __S(467, __c29, 3) as any as S.Schema<GetPrivateEndpointConnectionByWorkspaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4269,8 +4090,8 @@ export const GetScalingPlan: API.OperationMethod<
   GetScalingPlanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<GetScalingPlanRequest>,
-  output: __S(645, __c40, 5) as any as S.Schema<GetScalingPlanResponse>,
+  input: __S(592, __c37, 0) as any as S.Schema<GetScalingPlanRequest>,
+  output: __S(629, __c39, 5) as any as S.Schema<GetScalingPlanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4286,8 +4107,8 @@ export const GetScalingPlanPersonalSchedule: API.OperationMethod<
   GetScalingPlanPersonalScheduleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<GetScalingPlanPersonalScheduleRequest>,
-  output: __S(929, __c58, 1) as any as S.Schema<GetScalingPlanPersonalScheduleResponse>,
+  input: __S(656, __c41, 0) as any as S.Schema<GetScalingPlanPersonalScheduleRequest>,
+  output: __S(913, __c57, 1) as any as S.Schema<GetScalingPlanPersonalScheduleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4303,8 +4124,8 @@ export const GetScalingPlanPooledSchedule: API.OperationMethod<
   GetScalingPlanPooledScheduleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<GetScalingPlanPooledScheduleRequest>,
-  output: __S(1153, __c72, 1) as any as S.Schema<GetScalingPlanPooledScheduleResponse>,
+  input: __S(672, __c42, 0) as any as S.Schema<GetScalingPlanPooledScheduleRequest>,
+  output: __S(1137, __c71, 1) as any as S.Schema<GetScalingPlanPooledScheduleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4320,8 +4141,8 @@ export const GetSessionHost: API.OperationMethod<
   GetSessionHostError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<GetSessionHostRequest>,
-  output: __S(724, __c45, 4) as any as S.Schema<GetSessionHostResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<GetSessionHostRequest>,
+  output: __S(708, __c44, 4) as any as S.Schema<GetSessionHostResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4337,8 +4158,8 @@ export const GetUserSession: API.OperationMethod<
   GetUserSessionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<GetUserSessionRequest>,
-  output: __S(753, __c47, 1) as any as S.Schema<GetUserSessionResponse>,
+  input: __S(720, __c45, 0) as any as S.Schema<GetUserSessionRequest>,
+  output: __S(737, __c46, 1) as any as S.Schema<GetUserSessionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4354,8 +4175,8 @@ export const GetWorkspace: API.OperationMethod<
   GetWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<GetWorkspaceRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<GetWorkspaceResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<GetWorkspaceRequest>,
+  output: __S(769, __c48, 1) as any as S.Schema<GetWorkspaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4371,8 +4192,8 @@ export const HostPoolsCreateOrUpdate: API.OperationMethod<
   HostPoolsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(801, __c50, 1) as any as S.Schema<HostPoolsCreateOrUpdateRequest>,
-  output: __S(516, __c32, 4) as any as S.Schema<HostPoolsCreateOrUpdateResponse>,
+  input: __S(785, __c49, 1) as any as S.Schema<HostPoolsCreateOrUpdateRequest>,
+  output: __S(500, __c31, 4) as any as S.Schema<HostPoolsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4388,8 +4209,8 @@ export const ImportAppAttachPackageInfo: API.OperationMethod<
   ImportAppAttachPackageInfoError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(816, __c51, 0) as any as S.Schema<ImportAppAttachPackageInfoRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<AppAttachPackageList>,
+  input: __S(800, __c50, 0) as any as S.Schema<ImportAppAttachPackageInfoRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<AppAttachPackageList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4405,8 +4226,8 @@ export const ListAppAttachPackageByResourceGroup: API.OperationMethod<
   ListAppAttachPackageByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<ListAppAttachPackageByResourceGroupRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<AppAttachPackageList>,
+  input: __S(832, __c52, 0) as any as S.Schema<ListAppAttachPackageByResourceGroupRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<AppAttachPackageList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4422,8 +4243,8 @@ export const ListAppAttachPackageBySubscription: API.OperationMethod<
   ListAppAttachPackageBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<ListAppAttachPackageBySubscriptionRequest>,
-  output: __S(833, __c52, 1) as any as S.Schema<AppAttachPackageList>,
+  input: __S(848, __c53, 0) as any as S.Schema<ListAppAttachPackageBySubscriptionRequest>,
+  output: __S(817, __c51, 1) as any as S.Schema<AppAttachPackageList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4439,8 +4260,8 @@ export const ListApplicationGroupByResourceGroup: API.OperationMethod<
   ListApplicationGroupByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ListApplicationGroupByResourceGroupRequest>,
-  output: __S(897, __c56, 1) as any as S.Schema<ApplicationGroupList>,
+  input: __S(864, __c54, 0) as any as S.Schema<ListApplicationGroupByResourceGroupRequest>,
+  output: __S(881, __c55, 1) as any as S.Schema<ApplicationGroupList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4456,8 +4277,8 @@ export const ListApplicationGroupBySubscription: API.OperationMethod<
   ListApplicationGroupBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(944, __c59, 0) as any as S.Schema<ListApplicationGroupBySubscriptionRequest>,
-  output: __S(897, __c56, 1) as any as S.Schema<ApplicationGroupList>,
+  input: __S(928, __c58, 0) as any as S.Schema<ListApplicationGroupBySubscriptionRequest>,
+  output: __S(881, __c55, 1) as any as S.Schema<ApplicationGroupList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4473,8 +4294,8 @@ export const ListApplications: API.OperationMethod<
   ListApplicationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<ListApplicationsRequest>,
-  output: __S(962, __c60, 2) as any as S.Schema<ApplicationList>,
+  input: __S(944, __c59, 0) as any as S.Schema<ListApplicationsRequest>,
+  output: __S(946, __c59, 2) as any as S.Schema<ApplicationList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4490,8 +4311,8 @@ export const ListDesktops: API.OperationMethod<
   ListDesktopsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(976, __c61, 0) as any as S.Schema<ListDesktopsRequest>,
-  output: __S(978, __c61, 2) as any as S.Schema<DesktopList>,
+  input: __S(960, __c60, 0) as any as S.Schema<ListDesktopsRequest>,
+  output: __S(962, __c60, 2) as any as S.Schema<DesktopList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4507,8 +4328,8 @@ export const ListHostPoolByResourceGroup: API.OperationMethod<
   ListHostPoolByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<ListHostPoolByResourceGroupRequest>,
-  output: __S(1009, __c63, 1) as any as S.Schema<HostPoolList>,
+  input: __S(976, __c61, 0) as any as S.Schema<ListHostPoolByResourceGroupRequest>,
+  output: __S(993, __c62, 1) as any as S.Schema<HostPoolList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4517,15 +4338,15 @@ export const ListHostPoolByResourceGroup: API.OperationMethod<
 }));
 
 export type ListHostPoolRegistrationTokensError = AzureOpError;
-/** Operation to list the RegistrationTokens associated with the HostPool */
+/** Operation to list the RegistrationTokens associated with the HostPool. */
 export const ListHostPoolRegistrationTokens: API.OperationMethod<
   ListHostPoolRegistrationTokensRequest,
   RegistrationTokenList,
   ListHostPoolRegistrationTokensError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<ListHostPoolRegistrationTokensRequest>,
-  output: __S(1027, __c64, 3) as any as S.Schema<RegistrationTokenList>,
+  input: __S(1008, __c63, 0) as any as S.Schema<ListHostPoolRegistrationTokensRequest>,
+  output: __S(1011, __c63, 3) as any as S.Schema<RegistrationTokenList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4541,8 +4362,8 @@ export const ListHostPools: API.OperationMethod<
   ListHostPoolsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<ListHostPoolsRequest>,
-  output: __S(1009, __c63, 1) as any as S.Schema<HostPoolList>,
+  input: __S(1024, __c64, 0) as any as S.Schema<ListHostPoolsRequest>,
+  output: __S(993, __c62, 1) as any as S.Schema<HostPoolList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4558,8 +4379,8 @@ export const ListMSIXPackages: API.OperationMethod<
   ListMSIXPackagesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c66, 0) as any as S.Schema<ListMSIXPackagesRequest>,
-  output: __S(1058, __c66, 2) as any as S.Schema<MSIXPackageList>,
+  input: __S(1040, __c65, 0) as any as S.Schema<ListMSIXPackagesRequest>,
+  output: __S(1042, __c65, 2) as any as S.Schema<MSIXPackageList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4575,8 +4396,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1072, __c67, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(1080, __c67, 8) as any as S.Schema<ResourceProviderOperationListResult>,
+  input: __S(1056, __c66, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(1064, __c66, 8) as any as S.Schema<ResourceProviderOperationListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4592,8 +4413,8 @@ export const ListPrivateEndpointConnectionByHostPool: API.OperationMethod<
   ListPrivateEndpointConnectionByHostPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<ListPrivateEndpointConnectionByHostPoolRequest>,
-  output: __S(1104, __c69, 0) as any as S.Schema<PrivateEndpointConnectionListResultWithSystemData>,
+  input: __S(1072, __c67, 0) as any as S.Schema<ListPrivateEndpointConnectionByHostPoolRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<PrivateEndpointConnectionListResultWithSystemData>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4602,15 +4423,15 @@ export const ListPrivateEndpointConnectionByHostPool: API.OperationMethod<
 }));
 
 export type ListPrivateEndpointConnectionByWorkspaceError = AzureOpError;
-/** List private endpoint connections. */
+/** List private endpoint connections associated with Workspace. */
 export const ListPrivateEndpointConnectionByWorkspace: API.OperationMethod<
   ListPrivateEndpointConnectionByWorkspaceRequest,
   PrivateEndpointConnectionListResultWithSystemData,
   ListPrivateEndpointConnectionByWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c70, 0) as any as S.Schema<ListPrivateEndpointConnectionByWorkspaceRequest>,
-  output: __S(1104, __c69, 0) as any as S.Schema<PrivateEndpointConnectionListResultWithSystemData>,
+  input: __S(1104, __c69, 0) as any as S.Schema<ListPrivateEndpointConnectionByWorkspaceRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<PrivateEndpointConnectionListResultWithSystemData>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4626,8 +4447,8 @@ export const ListPrivateLinkResourceByHostPool: API.OperationMethod<
   ListPrivateLinkResourceByHostPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<ListPrivateLinkResourceByHostPoolRequest>,
-  output: __S(1187, __c74, 3) as any as S.Schema<PrivateLinkResourceListResult>,
+  input: __S(1152, __c72, 0) as any as S.Schema<ListPrivateLinkResourceByHostPoolRequest>,
+  output: __S(1171, __c73, 3) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4643,8 +4464,8 @@ export const ListPrivateLinkResourceByWorkspace: API.OperationMethod<
   ListPrivateLinkResourceByWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<ListPrivateLinkResourceByWorkspaceRequest>,
-  output: __S(1187, __c74, 3) as any as S.Schema<PrivateLinkResourceListResult>,
+  input: __S(1184, __c74, 0) as any as S.Schema<ListPrivateLinkResourceByWorkspaceRequest>,
+  output: __S(1171, __c73, 3) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4660,8 +4481,8 @@ export const ListScalingPlanByHostPool: API.OperationMethod<
   ListScalingPlanByHostPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c76, 0) as any as S.Schema<ListScalingPlanByHostPoolRequest>,
-  output: __S(1233, __c77, 1) as any as S.Schema<ScalingPlanList>,
+  input: __S(1200, __c75, 0) as any as S.Schema<ListScalingPlanByHostPoolRequest>,
+  output: __S(1217, __c76, 1) as any as S.Schema<ScalingPlanList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4677,8 +4498,8 @@ export const ListScalingPlanByResourceGroup: API.OperationMethod<
   ListScalingPlanByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c78, 0) as any as S.Schema<ListScalingPlanByResourceGroupRequest>,
-  output: __S(1233, __c77, 1) as any as S.Schema<ScalingPlanList>,
+  input: __S(1232, __c77, 0) as any as S.Schema<ListScalingPlanByResourceGroupRequest>,
+  output: __S(1217, __c76, 1) as any as S.Schema<ScalingPlanList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4694,8 +4515,8 @@ export const ListScalingPlanBySubscription: API.OperationMethod<
   ListScalingPlanBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<ListScalingPlanBySubscriptionRequest>,
-  output: __S(1233, __c77, 1) as any as S.Schema<ScalingPlanList>,
+  input: __S(1248, __c78, 0) as any as S.Schema<ListScalingPlanBySubscriptionRequest>,
+  output: __S(1217, __c76, 1) as any as S.Schema<ScalingPlanList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4711,8 +4532,8 @@ export const ListScalingPlanPersonalSchedules: API.OperationMethod<
   ListScalingPlanPersonalSchedulesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<ListScalingPlanPersonalSchedulesRequest>,
-  output: __S(1282, __c80, 2) as any as S.Schema<ScalingPlanPersonalScheduleList>,
+  input: __S(1264, __c79, 0) as any as S.Schema<ListScalingPlanPersonalSchedulesRequest>,
+  output: __S(1266, __c79, 2) as any as S.Schema<ScalingPlanPersonalScheduleList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4728,8 +4549,8 @@ export const ListScalingPlanPooledSchedules: API.OperationMethod<
   ListScalingPlanPooledSchedulesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<ListScalingPlanPooledSchedulesRequest>,
-  output: __S(1298, __c81, 2) as any as S.Schema<ScalingPlanPooledScheduleList>,
+  input: __S(1280, __c80, 0) as any as S.Schema<ListScalingPlanPooledSchedulesRequest>,
+  output: __S(1282, __c80, 2) as any as S.Schema<ScalingPlanPooledScheduleList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4745,8 +4566,8 @@ export const ListSessionHosts: API.OperationMethod<
   ListSessionHostsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c82, 0) as any as S.Schema<ListSessionHostsRequest>,
-  output: __S(1314, __c82, 2) as any as S.Schema<SessionHostList>,
+  input: __S(1296, __c81, 0) as any as S.Schema<ListSessionHostsRequest>,
+  output: __S(1298, __c81, 2) as any as S.Schema<SessionHostList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4762,8 +4583,8 @@ export const ListStartMenuItems: API.OperationMethod<
   ListStartMenuItemsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<ListStartMenuItemsRequest>,
-  output: __S(1332, __c83, 4) as any as S.Schema<StartMenuItemList>,
+  input: __S(1312, __c82, 0) as any as S.Schema<ListStartMenuItemsRequest>,
+  output: __S(1316, __c82, 4) as any as S.Schema<StartMenuItemList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4772,15 +4593,15 @@ export const ListStartMenuItems: API.OperationMethod<
 }));
 
 export type ListUserSessionByHostPoolError = AzureOpError;
-/** List userSessions. */
+/** A synchronous resource action. */
 export const ListUserSessionByHostPool: API.OperationMethod<
   ListUserSessionByHostPoolRequest,
   UserSessionList,
   ListUserSessionByHostPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<ListUserSessionByHostPoolRequest>,
-  output: __S(1361, __c85, 1) as any as S.Schema<UserSessionList>,
+  input: __S(1328, __c83, 0) as any as S.Schema<ListUserSessionByHostPoolRequest>,
+  output: __S(1345, __c84, 1) as any as S.Schema<UserSessionList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4796,8 +4617,8 @@ export const ListUserSessions: API.OperationMethod<
   ListUserSessionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<ListUserSessionsRequest>,
-  output: __S(1361, __c85, 1) as any as S.Schema<UserSessionList>,
+  input: __S(1392, __c87, 0) as any as S.Schema<ListUserSessionsRequest>,
+  output: __S(1345, __c84, 1) as any as S.Schema<UserSessionList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4813,8 +4634,8 @@ export const ListWorkspaceByResourceGroup: API.OperationMethod<
   ListWorkspaceByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<ListWorkspaceByResourceGroupRequest>,
-  output: __S(1441, __c90, 1) as any as S.Schema<WorkspaceList>,
+  input: __S(1408, __c88, 0) as any as S.Schema<ListWorkspaceByResourceGroupRequest>,
+  output: __S(1425, __c89, 1) as any as S.Schema<WorkspaceList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4830,8 +4651,8 @@ export const ListWorkspaceBySubscription: API.OperationMethod<
   ListWorkspaceBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<ListWorkspaceBySubscriptionRequest>,
-  output: __S(1441, __c90, 1) as any as S.Schema<WorkspaceList>,
+  input: __S(1440, __c90, 0) as any as S.Schema<ListWorkspaceBySubscriptionRequest>,
+  output: __S(1425, __c89, 1) as any as S.Schema<WorkspaceList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4840,15 +4661,15 @@ export const ListWorkspaceBySubscription: API.OperationMethod<
 }));
 
 export type MsixImagesExpandError = AzureOpError;
-/** Expands and Lists MSIX packages in an Image, given the Image Path. */
+/** Expands and Lists MSIX packages in an Image, given the Image Path. This action uses incorrect Msix casing intentionally to match the previous APIs. */
 export const MsixImagesExpand: API.OperationMethod<
   MsixImagesExpandRequest,
   ExpandMsixImageList,
   MsixImagesExpandError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<MsixImagesExpandRequest>,
-  output: __S(1476, __c92, 4) as any as S.Schema<ExpandMsixImageList>,
+  input: __S(1456, __c91, 0) as any as S.Schema<MsixImagesExpandRequest>,
+  output: __S(1460, __c91, 4) as any as S.Schema<ExpandMsixImageList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4864,8 +4685,8 @@ export const MSIXPackagesCreateOrUpdate: API.OperationMethod<
   MSIXPackagesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<MSIXPackagesCreateOrUpdateRequest>,
-  output: __S(561, __c35, 1) as any as S.Schema<MSIXPackagesCreateOrUpdateResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<MSIXPackagesCreateOrUpdateRequest>,
+  output: __S(545, __c34, 1) as any as S.Schema<MSIXPackagesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4881,8 +4702,8 @@ export const SendUserSessionMessage: API.OperationMethod<
   SendUserSessionMessageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<SendUserSessionMessageRequest>,
-  output: __S(1392, __c87, 0) as any as S.Schema<SendUserSessionMessageResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<SendUserSessionMessageRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<SendUserSessionMessageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4898,7 +4719,7 @@ export const UpdateAppAttachPackage: API.OperationMethod<
   UpdateAppAttachPackageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<UpdateAppAttachPackageRequest>,
+  input: __S(1505, __c94, 1) as any as S.Schema<UpdateAppAttachPackageRequest>,
   output: __S(82, __c5, 2) as any as S.Schema<UpdateAppAttachPackageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -4915,8 +4736,8 @@ export const UpdateApplication: API.OperationMethod<
   UpdateApplicationError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1537, __c96, 1) as any as S.Schema<UpdateApplicationRequest>,
-  output: __S(353, __c22, 1) as any as S.Schema<UpdateApplicationResponse>,
+  input: __S(1521, __c95, 1) as any as S.Schema<UpdateApplicationRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<UpdateApplicationResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4932,8 +4753,8 @@ export const UpdateApplicationGroup: API.OperationMethod<
   UpdateApplicationGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1553, __c97, 1) as any as S.Schema<UpdateApplicationGroupRequest>,
-  output: __S(129, __c8, 1) as any as S.Schema<UpdateApplicationGroupResponse>,
+  input: __S(1537, __c96, 1) as any as S.Schema<UpdateApplicationGroupRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<UpdateApplicationGroupResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4949,8 +4770,8 @@ export const UpdateDesktop: API.OperationMethod<
   UpdateDesktopError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1569, __c98, 1) as any as S.Schema<UpdateDesktopRequest>,
-  output: __S(433, __c27, 1) as any as S.Schema<UpdateDesktopResponse>,
+  input: __S(1553, __c97, 1) as any as S.Schema<UpdateDesktopRequest>,
+  output: __S(417, __c26, 1) as any as S.Schema<UpdateDesktopResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4966,8 +4787,8 @@ export const UpdateHostPool: API.OperationMethod<
   UpdateHostPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1602, __c100, 2) as any as S.Schema<UpdateHostPoolRequest>,
-  output: __S(516, __c32, 4) as any as S.Schema<UpdateHostPoolResponse>,
+  input: __S(1586, __c99, 2) as any as S.Schema<UpdateHostPoolRequest>,
+  output: __S(500, __c31, 4) as any as S.Schema<UpdateHostPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4983,8 +4804,8 @@ export const UpdateMSIXPackage: API.OperationMethod<
   UpdateMSIXPackageError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1617, __c101, 1) as any as S.Schema<UpdateMSIXPackageRequest>,
-  output: __S(561, __c35, 1) as any as S.Schema<UpdateMSIXPackageResponse>,
+  input: __S(1601, __c100, 1) as any as S.Schema<UpdateMSIXPackageRequest>,
+  output: __S(545, __c34, 1) as any as S.Schema<UpdateMSIXPackageResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5000,8 +4821,8 @@ export const UpdatePrivateEndpointConnectionByHostPool: API.OperationMethod<
   UpdatePrivateEndpointConnectionByHostPoolError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<UpdatePrivateEndpointConnectionByHostPoolRequest>,
-  output: __S(483, __c30, 3) as any as S.Schema<UpdatePrivateEndpointConnectionByHostPoolResponse>,
+  input: __S(1616, __c101, 0) as any as S.Schema<UpdatePrivateEndpointConnectionByHostPoolRequest>,
+  output: __S(467, __c29, 3) as any as S.Schema<UpdatePrivateEndpointConnectionByHostPoolResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5017,8 +4838,8 @@ export const UpdatePrivateEndpointConnectionByWorkspace: API.OperationMethod<
   UpdatePrivateEndpointConnectionByWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<UpdatePrivateEndpointConnectionByWorkspaceRequest>,
-  output: __S(483, __c30, 3) as any as S.Schema<UpdatePrivateEndpointConnectionByWorkspaceResponse>,
+  input: __S(1648, __c103, 0) as any as S.Schema<UpdatePrivateEndpointConnectionByWorkspaceRequest>,
+  output: __S(467, __c29, 3) as any as S.Schema<UpdatePrivateEndpointConnectionByWorkspaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5034,8 +4855,8 @@ export const UpdateScalingPlan: API.OperationMethod<
   UpdateScalingPlanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1681, __c105, 1) as any as S.Schema<UpdateScalingPlanRequest>,
-  output: __S(645, __c40, 5) as any as S.Schema<UpdateScalingPlanResponse>,
+  input: __S(1665, __c104, 1) as any as S.Schema<UpdateScalingPlanRequest>,
+  output: __S(629, __c39, 5) as any as S.Schema<UpdateScalingPlanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5051,8 +4872,8 @@ export const UpdateScalingPlanPersonalSchedule: API.OperationMethod<
   UpdateScalingPlanPersonalScheduleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<UpdateScalingPlanPersonalScheduleRequest>,
-  output: __S(929, __c58, 1) as any as S.Schema<UpdateScalingPlanPersonalScheduleResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<UpdateScalingPlanPersonalScheduleRequest>,
+  output: __S(913, __c57, 1) as any as S.Schema<UpdateScalingPlanPersonalScheduleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5068,8 +4889,8 @@ export const UpdateScalingPlanPooledSchedule: API.OperationMethod<
   UpdateScalingPlanPooledScheduleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<UpdateScalingPlanPooledScheduleRequest>,
-  output: __S(1153, __c72, 1) as any as S.Schema<UpdateScalingPlanPooledScheduleResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<UpdateScalingPlanPooledScheduleRequest>,
+  output: __S(1137, __c71, 1) as any as S.Schema<UpdateScalingPlanPooledScheduleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5085,8 +4906,8 @@ export const UpdateSessionHost: API.OperationMethod<
   UpdateSessionHostError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1729, __c108, 1) as any as S.Schema<UpdateSessionHostRequest>,
-  output: __S(724, __c45, 4) as any as S.Schema<UpdateSessionHostResponse>,
+  input: __S(1713, __c107, 1) as any as S.Schema<UpdateSessionHostRequest>,
+  output: __S(708, __c44, 4) as any as S.Schema<UpdateSessionHostResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5102,8 +4923,8 @@ export const UpdateWorkspace: API.OperationMethod<
   UpdateWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<UpdateWorkspaceRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<UpdateWorkspaceResponse>,
+  input: __S(1728, __c108, 0) as any as S.Schema<UpdateWorkspaceRequest>,
+  output: __S(769, __c48, 1) as any as S.Schema<UpdateWorkspaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5119,8 +4940,8 @@ export const WorkspacesCreateOrUpdate: API.OperationMethod<
   WorkspacesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<WorkspacesCreateOrUpdateRequest>,
-  output: __S(785, __c49, 1) as any as S.Schema<WorkspacesCreateOrUpdateResponse>,
+  input: __S(1760, __c110, 0) as any as S.Schema<WorkspacesCreateOrUpdateRequest>,
+  output: __S(769, __c48, 1) as any as S.Schema<WorkspacesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5134,18 +4955,30 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          image: S.optional(__S(80, __c5, 0)),
+          hostPoolReferences: S.optional(__S(48, __c3, 0)),
+          keyVaultURL: S.optional(S.String),
+          failHealthCheckOnStagingFailure: S.optional(S.String),
+          packageOwnerName: S.optional(S.String),
+          packageLookbackUrl: S.optional(S.String),
+          customData: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AppAttachPackagePropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           appAttachPackageName: S.String.pipe(T.Label()),
           tags: S.optional(__S(32, __c2, 0)),
           location: S.String,
-          properties: __S(96, __c6, 0),
+          properties: __S(0, __c0, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/appAttachPackages/{appAttachPackageName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "AppAttachPackageCreateOrUpdateRequest" });
@@ -5216,17 +5049,17 @@ function __c5(j: number): any {
           packageName: S.optional(S.String),
           packageFamilyName: S.optional(S.String),
           packageFullName: S.optional(S.String),
-          displayName: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.String),
           packageRelativePath: S.optional(S.String),
           isRegularRegistration: S.optional(S.Boolean),
           isActive: S.optional(S.Boolean),
-          packageDependencies: S.optional(S.NullOr(__S(65, __c4, 1))),
+          packageDependencies: S.optional(__S(65, __c4, 1)),
           version: S.optional(S.String),
           lastUpdated: S.optional(S.String),
           packageApplications: S.optional(__S(67, __c4, 3)),
-          certificateName: S.optional(S.NullOr(S.String)),
-          certificateExpiry: S.optional(S.NullOr(S.String)),
-          isPackageTimestamped: S.optional(S.NullOr(S.String)),
+          certificateName: S.optional(S.String),
+          certificateExpiry: S.optional(S.String),
+          isPackageTimestamped: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppAttachPackageInfoProperties" });
     case 1:
@@ -5237,6 +5070,9 @@ function __c5(j: number): any {
           hostPoolReferences: S.optional(__S(48, __c3, 0)),
           keyVaultURL: S.optional(S.String),
           failHealthCheckOnStagingFailure: S.optional(S.String),
+          packageOwnerName: S.optional(S.String),
+          packageLookbackUrl: S.optional(S.String),
+          customData: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppAttachPackageProperties" });
     case 2:
@@ -5258,19 +5094,6 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          image: S.optional(__S(80, __c5, 0)),
-          hostPoolReferences: S.optional(__S(48, __c3, 0)),
-          keyVaultURL: S.optional(S.String),
-          failHealthCheckOnStagingFailure: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AppAttachPackagePropertiesInput" });
-  }
-}
-function __c7(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           description: S.optional(S.String),
           friendlyName: S.optional(S.String),
           hostPoolArmPath: S.String,
@@ -5286,24 +5109,24 @@ function __c7(j: number): any {
           applicationGroupName: S.String.pipe(T.Label()),
           tags: S.optional(__S(32, __c2, 0)),
           location: S.String,
-          managedBy: S.optional(S.String),
+          properties: __S(96, __c6, 0),
+          identity: S.optional(__S(144, __c9, 0)),
           kind: S.optional(S.String),
-          identity: S.optional(__S(160, __c10, 0)),
-          sku: S.optional(__S(144, __c9, 0)),
-          plan: S.optional(__S(145, __c9, 1)),
-          properties: __S(112, __c7, 0),
+          managedBy: S.optional(S.String),
+          plan: S.optional(__S(128, __c8, 0)),
+          sku: S.optional(__S(129, __c8, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ApplicationGroupsCreateOrUpdateRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5314,7 +5137,7 @@ function __c8(j: number): any {
           hostPoolArmPath: S.String,
           workspaceArmPath: S.optional(S.String),
           applicationGroupType: S.String,
-          cloudPcResource: S.optional(S.NullOr(S.Boolean)),
+          cloudPcResource: S.optional(S.Boolean),
           showInFeed: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ApplicationGroupProperties" });
@@ -5327,30 +5150,20 @@ function __c8(j: number): any {
           systemData: S.optional(__S(16, __c1, 0)),
           tags: S.optional(__S(32, __c2, 0)),
           location: S.String,
-          managedBy: S.optional(S.String),
-          kind: S.optional(S.String),
+          properties: __S(112, __c7, 0),
+          identity: S.optional(__S(130, __c8, 2)),
           etag: S.optional(S.String),
-          identity: S.optional(__S(146, __c9, 2)),
-          sku: S.optional(__S(144, __c9, 0)),
-          plan: S.optional(__S(145, __c9, 1)),
-          properties: __S(128, __c8, 0),
+          kind: S.optional(S.String),
+          managedBy: S.optional(S.String),
+          plan: S.optional(__S(128, __c8, 0)),
+          sku: S.optional(__S(129, __c8, 1)),
         }),
       ).annotate({ identifier: "ApplicationGroupsCreateOrUpdateResponse" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          tier: S.optional(S.String),
-          size: S.optional(S.String),
-          family: S.optional(S.String),
-          capacity: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ApplicationGroupsCreateOrUpdateRequestSku" });
-    case 1:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -5360,6 +5173,16 @@ function __c9(j: number): any {
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplicationGroupsCreateOrUpdateRequestPlan" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          tier: S.optional(S.String),
+          size: S.optional(S.String),
+          family: S.optional(S.String),
+          capacity: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ApplicationGroupsCreateOrUpdateRequestSku" });
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5370,7 +5193,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "ApplicationGroupsCreateOrUpdateResponseIdentity" });
   }
 }
-function __c10(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5380,7 +5203,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ApplicationGroupsCreateOrUpdateRequestIdentity" });
   }
 }
-function __c11(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5394,13 +5217,13 @@ function __c11(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "DeleteMSIXPackageRequest" });
   }
 }
-function __c12(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5414,13 +5237,13 @@ function __c12(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "DeletePrivateEndpointConnectionByHostPoolRequest" });
   }
 }
-function __c13(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5434,13 +5257,13 @@ function __c13(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "DeletePrivateEndpointConnectionByWorkspaceRequest" });
   }
 }
-function __c14(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5453,10 +5276,30 @@ function __c14(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "DeleteScalingPlanRequest" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          scalingPlanName: S.String.pipe(T.Label()),
+          scalingPlanScheduleName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules/{scalingPlanScheduleName}",
+            code: 200,
+            apiVersion: "2026-04-16",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteScalingPlanPersonalScheduleRequest" });
   }
 }
 function __c15(j: number): any {
@@ -5471,35 +5314,15 @@ function __c15(j: number): any {
         }).pipe(
           T.Http({
             method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules/{scalingPlanScheduleName}",
-            code: 200,
-            apiVersion: "2025-10-10",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteScalingPlanPersonalScheduleRequest" });
-  }
-}
-function __c16(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          scalingPlanName: S.String.pipe(T.Label()),
-          scalingPlanScheduleName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules/{scalingPlanScheduleName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "DeleteScalingPlanPooledScheduleRequest" });
   }
 }
-function __c17(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5514,13 +5337,13 @@ function __c17(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "DeleteSessionHostRequest" });
   }
 }
-function __c18(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5536,13 +5359,13 @@ function __c18(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}/userSessions/{userSessionId}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "DeleteUserSessionRequest" });
   }
 }
-function __c19(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5555,13 +5378,13 @@ function __c19(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "DeleteWorkspaceRequest" });
   }
 }
-function __c20(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5576,13 +5399,13 @@ function __c20(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}/userSessions/{userSessionId}/disconnect",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "DisconnectUserSessionRequest" });
   }
 }
-function __c21(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5590,8 +5413,8 @@ function __c21(j: number): any {
           description: S.optional(S.String),
           friendlyName: S.optional(S.String),
           filePath: S.optional(S.String),
-          msixPackageFamilyName: S.optional(S.NullOr(S.String)),
-          msixPackageApplicationId: S.optional(S.NullOr(S.String)),
+          msixPackageFamilyName: S.optional(S.String),
+          msixPackageApplicationId: S.optional(S.String),
           applicationType: S.optional(S.String),
           commandLineSetting: S.String,
           commandLineArguments: S.optional(S.String),
@@ -5607,19 +5430,19 @@ function __c21(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           applicationGroupName: S.String.pipe(T.Label()),
           applicationName: S.String.pipe(T.Label()),
-          properties: __S(336, __c21, 0),
+          properties: __S(320, __c20, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications/{applicationName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ApplicationsCreateOrUpdateRequest" });
   }
 }
-function __c22(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5628,8 +5451,8 @@ function __c22(j: number): any {
           description: S.optional(S.String),
           friendlyName: S.optional(S.String),
           filePath: S.optional(S.String),
-          msixPackageFamilyName: S.optional(S.NullOr(S.String)),
-          msixPackageApplicationId: S.optional(S.NullOr(S.String)),
+          msixPackageFamilyName: S.optional(S.String),
+          msixPackageApplicationId: S.optional(S.String),
           applicationType: S.optional(S.String),
           commandLineSetting: S.String,
           commandLineArguments: S.optional(S.String),
@@ -5647,12 +5470,12 @@ function __c22(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(352, __c22, 0),
+          properties: __S(336, __c21, 0),
         }),
       ).annotate({ identifier: "ApplicationsCreateOrUpdateResponse" });
   }
 }
-function __c23(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5665,13 +5488,13 @@ function __c23(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/appAttachPackages/{appAttachPackageName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "GetAppAttachPackageRequest" });
   }
 }
-function __c24(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5685,13 +5508,13 @@ function __c24(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications/{applicationName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "GetApplicationRequest" });
   }
 }
-function __c25(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5704,13 +5527,13 @@ function __c25(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "GetApplicationGroupRequest" });
   }
 }
-function __c26(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5724,13 +5547,13 @@ function __c26(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/desktops/{desktopName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "GetDesktopRequest" });
   }
 }
-function __c27(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5749,12 +5572,12 @@ function __c27(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(432, __c27, 0)),
+          properties: S.optional(__S(416, __c26, 0)),
         }),
       ).annotate({ identifier: "GetDesktopResponse" });
   }
 }
-function __c28(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5767,25 +5590,25 @@ function __c28(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "GetHostPoolRequest" });
   }
 }
-function __c29(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          expirationTime: S.optional(S.NullOr(S.String)),
+          expirationTime: S.optional(S.String),
           token: S.optional(S.String),
           registrationTokenOperation: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistrationInfo" });
   }
 }
-function __c30(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5805,8 +5628,8 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           groupIds: S.optional(__S(48, __c3, 0)),
-          privateEndpoint: S.optional(__S(480, __c30, 0)),
-          privateLinkServiceConnectionState: __S(481, __c30, 1),
+          privateEndpoint: S.optional(__S(464, __c29, 0)),
+          privateLinkServiceConnectionState: __S(465, __c29, 1),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionProperties" });
@@ -5817,18 +5640,18 @@ function __c30(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(482, __c30, 2)),
+          properties: S.optional(__S(466, __c29, 2)),
         }),
-      ).annotate({ identifier: "HostPoolPropertiesPrivateEndpointConnectionsItem" });
+      ).annotate({ identifier: "PrivateEndpointConnection" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(467, __c29, 3));
   }
 }
 function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(483, __c30, 3));
-  }
-}
-function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5838,14 +5661,14 @@ function __c32(j: number): any {
         }),
       ).annotate({ identifier: "MaintenanceWindowProperties" });
     case 1:
-      return S.Array(__S(512, __c32, 0));
+      return S.Array(__S(496, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           useSessionHostLocalTime: S.optional(S.Boolean),
           maintenanceWindowTimeZone: S.optional(S.String),
-          maintenanceWindows: S.optional(S.NullOr(__S(513, __c32, 1))),
+          maintenanceWindows: S.optional(__S(497, __c31, 1)),
         }),
       ).annotate({ identifier: "AgentUpdateProperties" });
     case 3:
@@ -5855,26 +5678,31 @@ function __c32(j: number): any {
           friendlyName: S.optional(S.String),
           description: S.optional(S.String),
           hostPoolType: S.String,
-          personalDesktopAssignmentType: S.optional(S.NullOr(S.String)),
+          personalDesktopAssignmentType: S.optional(S.String),
           customRdpProperty: S.optional(S.String),
-          maxSessionLimit: S.optional(S.NullOr(S.Number)),
+          maxSessionLimit: S.optional(S.Number),
           loadBalancerType: S.String,
-          ring: S.optional(S.NullOr(S.Number)),
-          validationEnvironment: S.optional(S.NullOr(S.Boolean)),
-          registrationInfo: S.optional(S.NullOr(__S(464, __c29, 0))),
+          ring: S.optional(S.Number),
+          validationEnvironment: S.optional(S.Boolean),
+          registrationInfo: S.optional(__S(448, __c28, 0)),
           vmTemplate: S.optional(S.String),
-          applicationGroupReferences: S.optional(S.NullOr(__S(48, __c3, 0))),
+          applicationGroupReferences: S.optional(__S(48, __c3, 0)),
           appAttachPackageReferences: S.optional(__S(48, __c3, 0)),
           ssoadfsAuthority: S.optional(S.String),
           ssoClientId: S.optional(S.String),
           ssoClientSecretKeyVaultPath: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          ssoSecretType: S.optional(S.NullOr(S.String)),
+          ssoSecretType: S.optional(S.String),
           preferredAppGroupType: S.String,
-          startVMOnConnect: S.optional(S.NullOr(S.Boolean)),
-          cloudPcResource: S.optional(S.NullOr(S.Boolean)),
-          publicNetworkAccess: S.optional(S.NullOr(S.String)),
-          agentUpdate: S.optional(S.NullOr(__S(514, __c32, 2))),
-          privateEndpointConnections: S.optional(S.NullOr(__S(496, __c31, 0))),
+          startVMOnConnect: S.optional(S.Boolean),
+          cloudPcResource: S.optional(S.Boolean),
+          publicNetworkAccess: S.optional(S.String),
+          agentUpdate: S.optional(__S(498, __c31, 2)),
+          privateEndpointConnections: S.optional(__S(480, __c30, 0)),
+          managedPrivateUDP: S.optional(S.String),
+          directUDP: S.optional(S.String),
+          publicUDP: S.optional(S.String),
+          relayUDP: S.optional(S.String),
+          allowRDPShortPathWithPrivateLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostPoolProperties" });
     case 4:
@@ -5886,18 +5714,18 @@ function __c32(j: number): any {
           systemData: S.optional(__S(16, __c1, 0)),
           tags: S.optional(__S(32, __c2, 0)),
           location: S.String,
-          managedBy: S.optional(S.String),
-          kind: S.optional(S.String),
+          properties: __S(499, __c31, 3),
+          identity: S.optional(__S(130, __c8, 2)),
           etag: S.optional(S.String),
-          identity: S.optional(__S(146, __c9, 2)),
-          sku: S.optional(__S(144, __c9, 0)),
-          plan: S.optional(__S(145, __c9, 1)),
-          properties: __S(515, __c32, 3),
+          kind: S.optional(S.String),
+          managedBy: S.optional(S.String),
+          plan: S.optional(__S(128, __c8, 0)),
+          sku: S.optional(__S(129, __c8, 1)),
         }),
       ).annotate({ identifier: "GetHostPoolResponse" });
   }
 }
-function __c33(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5910,13 +5738,13 @@ function __c33(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/retrieveRegistrationToken",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "GetHostPoolRegistrationTokenRequest" });
   }
 }
-function __c34(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5930,13 +5758,13 @@ function __c34(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "GetMSIXPackageRequest" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5944,7 +5772,7 @@ function __c35(j: number): any {
           imagePath: S.optional(S.String),
           packageName: S.optional(S.String),
           packageFamilyName: S.optional(S.String),
-          displayName: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.String),
           packageRelativePath: S.optional(S.String),
           isRegularRegistration: S.optional(S.Boolean),
           isActive: S.optional(S.Boolean),
@@ -5961,12 +5789,12 @@ function __c35(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(560, __c35, 0),
+          properties: __S(544, __c34, 0),
         }),
       ).annotate({ identifier: "GetMSIXPackageResponse" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5980,13 +5808,13 @@ function __c36(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointConnectionByHostPoolRequest" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6000,13 +5828,13 @@ function __c37(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointConnectionByWorkspaceRequest" });
   }
 }
-function __c38(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6019,13 +5847,13 @@ function __c38(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "GetScalingPlanRequest" });
   }
 }
-function __c39(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6035,8 +5863,8 @@ function __c39(j: number): any {
           timeZone: S.String,
           hostPoolType: S.optional(S.String),
           exclusionTag: S.optional(S.String),
-          schedules: S.optional(__S(641, __c40, 1)),
-          hostPoolReferences: S.optional(__S(643, __c40, 3)),
+          schedules: S.optional(__S(625, __c39, 1)),
+          hostPoolReferences: S.optional(__S(627, __c39, 3)),
         }),
       ).annotate({ identifier: "ScalingPlanPropertiesInput" });
     case 1:
@@ -6047,37 +5875,37 @@ function __c39(j: number): any {
           scalingPlanName: S.String.pipe(T.Label()),
           tags: S.optional(__S(32, __c2, 0)),
           location: S.String,
-          managedBy: S.optional(S.String),
+          properties: __S(608, __c38, 0),
+          identity: S.optional(__S(144, __c9, 0)),
           kind: S.optional(S.String),
-          identity: S.optional(__S(160, __c10, 0)),
-          sku: S.optional(__S(144, __c9, 0)),
-          plan: S.optional(__S(145, __c9, 1)),
-          properties: __S(624, __c39, 0),
+          managedBy: S.optional(S.String),
+          plan: S.optional(__S(128, __c8, 0)),
+          sku: S.optional(__S(129, __c8, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "CreateScalingPlanRequest" });
   }
 }
-function __c40(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          daysOfWeek: S.optional(__S(656, __c41, 0)),
-          rampUpStartTime: S.optional(__S(657, __c41, 1)),
+          daysOfWeek: S.optional(__S(640, __c40, 0)),
+          rampUpStartTime: S.optional(__S(641, __c40, 1)),
           rampUpLoadBalancingAlgorithm: S.optional(S.String),
           rampUpMinimumHostsPct: S.optional(S.Number),
           rampUpCapacityThresholdPct: S.optional(S.Number),
-          peakStartTime: S.optional(__S(657, __c41, 1)),
+          peakStartTime: S.optional(__S(641, __c40, 1)),
           peakLoadBalancingAlgorithm: S.optional(S.String),
-          rampDownStartTime: S.optional(__S(657, __c41, 1)),
+          rampDownStartTime: S.optional(__S(641, __c40, 1)),
           rampDownLoadBalancingAlgorithm: S.optional(S.String),
           rampDownMinimumHostsPct: S.optional(S.Number),
           rampDownCapacityThresholdPct: S.optional(S.Number),
@@ -6085,12 +5913,12 @@ function __c40(j: number): any {
           rampDownStopHostsWhen: S.optional(S.String),
           rampDownWaitTimeMinutes: S.optional(S.Number),
           rampDownNotificationMessage: S.optional(S.String),
-          offPeakStartTime: S.optional(__S(657, __c41, 1)),
+          offPeakStartTime: S.optional(__S(641, __c40, 1)),
           offPeakLoadBalancingAlgorithm: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScalingSchedule" });
     case 1:
-      return S.Array(__S(640, __c40, 0));
+      return S.Array(__S(624, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -6099,7 +5927,7 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "ScalingHostPoolReference" });
     case 3:
-      return S.Array(__S(642, __c40, 2));
+      return S.Array(__S(626, __c39, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -6109,8 +5937,8 @@ function __c40(j: number): any {
           timeZone: S.String,
           hostPoolType: S.optional(S.String),
           exclusionTag: S.optional(S.String),
-          schedules: S.optional(__S(641, __c40, 1)),
-          hostPoolReferences: S.optional(__S(643, __c40, 3)),
+          schedules: S.optional(__S(625, __c39, 1)),
+          hostPoolReferences: S.optional(__S(627, __c39, 3)),
         }),
       ).annotate({ identifier: "ScalingPlanProperties" });
     case 5:
@@ -6122,18 +5950,18 @@ function __c40(j: number): any {
           systemData: S.optional(__S(16, __c1, 0)),
           tags: S.optional(__S(32, __c2, 0)),
           location: S.String,
-          managedBy: S.optional(S.String),
-          kind: S.optional(S.String),
+          properties: __S(628, __c39, 4),
+          identity: S.optional(__S(130, __c8, 2)),
           etag: S.optional(S.String),
-          identity: S.optional(__S(146, __c9, 2)),
-          sku: S.optional(__S(144, __c9, 0)),
-          plan: S.optional(__S(145, __c9, 1)),
-          properties: __S(644, __c40, 4),
+          kind: S.optional(S.String),
+          managedBy: S.optional(S.String),
+          plan: S.optional(__S(128, __c8, 0)),
+          sku: S.optional(__S(129, __c8, 1)),
         }),
       ).annotate({ identifier: "CreateScalingPlanResponse" });
   }
 }
-function __c41(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -6144,6 +5972,26 @@ function __c41(j: number): any {
           minute: S.Number,
         }),
       ).annotate({ identifier: "Time" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          scalingPlanName: S.String.pipe(T.Label()),
+          scalingPlanScheduleName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules/{scalingPlanScheduleName}",
+            code: 200,
+            apiVersion: "2026-04-16",
+          }),
+        ),
+      ).annotate({ identifier: "GetScalingPlanPersonalScheduleRequest" });
   }
 }
 function __c42(j: number): any {
@@ -6158,35 +6006,15 @@ function __c42(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules/{scalingPlanScheduleName}",
-            code: 200,
-            apiVersion: "2025-10-10",
-          }),
-        ),
-      ).annotate({ identifier: "GetScalingPlanPersonalScheduleRequest" });
-  }
-}
-function __c43(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          scalingPlanName: S.String.pipe(T.Label()),
-          scalingPlanScheduleName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules/{scalingPlanScheduleName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "GetScalingPlanPooledScheduleRequest" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6200,13 +6028,13 @@ function __c44(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "GetSessionHostRequest" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6221,11 +6049,11 @@ function __c45(j: number): any {
         S.Struct({
           healthCheckName: S.optional(S.String),
           healthCheckResult: S.optional(S.String),
-          additionalFailureDetails: S.optional(__S(720, __c45, 0)),
+          additionalFailureDetails: S.optional(__S(704, __c44, 0)),
         }),
       ).annotate({ identifier: "SessionHostHealthCheckReport" });
     case 2:
-      return S.Array(__S(721, __c45, 1));
+      return S.Array(__S(705, __c44, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6245,7 +6073,7 @@ function __c45(j: number): any {
           updateState: S.optional(S.String),
           lastUpdateTime: S.optional(S.String),
           updateErrorMessage: S.optional(S.String),
-          sessionHostHealthCheckResults: S.optional(__S(722, __c45, 2)),
+          sessionHostHealthCheckResults: S.optional(__S(706, __c44, 2)),
         }),
       ).annotate({ identifier: "SessionHostProperties" });
     case 4:
@@ -6255,12 +6083,12 @@ function __c45(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(723, __c45, 3)),
+          properties: S.optional(__S(707, __c44, 3)),
         }),
       ).annotate({ identifier: "GetSessionHostResponse" });
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6275,13 +6103,13 @@ function __c46(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}/userSessions/{userSessionId}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "GetUserSessionRequest" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6301,12 +6129,12 @@ function __c47(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(752, __c47, 0)),
+          properties: S.optional(__S(736, __c46, 0)),
         }),
       ).annotate({ identifier: "GetUserSessionResponse" });
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6319,13 +6147,13 @@ function __c48(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "GetWorkspaceRequest" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6333,10 +6161,10 @@ function __c49(j: number): any {
           objectId: S.optional(S.String),
           description: S.optional(S.String),
           friendlyName: S.optional(S.String),
-          applicationGroupReferences: S.optional(S.NullOr(__S(48, __c3, 0))),
-          cloudPcResource: S.optional(S.NullOr(S.Boolean)),
-          publicNetworkAccess: S.optional(S.NullOr(S.String)),
-          privateEndpointConnections: S.optional(S.NullOr(__S(496, __c31, 0))),
+          applicationGroupReferences: S.optional(__S(48, __c3, 0)),
+          cloudPcResource: S.optional(S.Boolean),
+          publicNetworkAccess: S.optional(S.String),
+          privateEndpointConnections: S.optional(__S(480, __c30, 0)),
         }),
       ).annotate({ identifier: "WorkspaceProperties" });
     case 1:
@@ -6348,18 +6176,18 @@ function __c49(j: number): any {
           systemData: S.optional(__S(16, __c1, 0)),
           tags: S.optional(__S(32, __c2, 0)),
           location: S.String,
-          managedBy: S.optional(S.String),
-          kind: S.optional(S.String),
+          properties: S.optional(__S(768, __c48, 0)),
+          identity: S.optional(__S(130, __c8, 2)),
           etag: S.optional(S.String),
-          identity: S.optional(__S(146, __c9, 2)),
-          sku: S.optional(__S(144, __c9, 0)),
-          plan: S.optional(__S(145, __c9, 1)),
-          properties: S.optional(__S(784, __c49, 0)),
+          kind: S.optional(S.String),
+          managedBy: S.optional(S.String),
+          plan: S.optional(__S(128, __c8, 0)),
+          sku: S.optional(__S(129, __c8, 1)),
         }),
       ).annotate({ identifier: "GetWorkspaceResponse" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6367,22 +6195,27 @@ function __c50(j: number): any {
           friendlyName: S.optional(S.String),
           description: S.optional(S.String),
           hostPoolType: S.String,
-          personalDesktopAssignmentType: S.optional(S.NullOr(S.String)),
+          personalDesktopAssignmentType: S.optional(S.String),
           customRdpProperty: S.optional(S.String),
-          maxSessionLimit: S.optional(S.NullOr(S.Number)),
+          maxSessionLimit: S.optional(S.Number),
           loadBalancerType: S.String,
-          ring: S.optional(S.NullOr(S.Number)),
-          validationEnvironment: S.optional(S.NullOr(S.Boolean)),
-          registrationInfo: S.optional(S.NullOr(__S(464, __c29, 0))),
+          ring: S.optional(S.Number),
+          validationEnvironment: S.optional(S.Boolean),
+          registrationInfo: S.optional(__S(448, __c28, 0)),
           vmTemplate: S.optional(S.String),
           ssoadfsAuthority: S.optional(S.String),
           ssoClientId: S.optional(S.String),
           ssoClientSecretKeyVaultPath: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          ssoSecretType: S.optional(S.NullOr(S.String)),
+          ssoSecretType: S.optional(S.String),
           preferredAppGroupType: S.String,
-          startVMOnConnect: S.optional(S.NullOr(S.Boolean)),
-          publicNetworkAccess: S.optional(S.NullOr(S.String)),
-          agentUpdate: S.optional(S.NullOr(__S(514, __c32, 2))),
+          startVMOnConnect: S.optional(S.Boolean),
+          publicNetworkAccess: S.optional(S.String),
+          agentUpdate: S.optional(__S(498, __c31, 2)),
+          managedPrivateUDP: S.optional(S.String),
+          directUDP: S.optional(S.String),
+          publicUDP: S.optional(S.String),
+          relayUDP: S.optional(S.String),
+          allowRDPShortPathWithPrivateLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostPoolPropertiesInput" });
     case 1:
@@ -6393,24 +6226,24 @@ function __c50(j: number): any {
           hostPoolName: S.String.pipe(T.Label()),
           tags: S.optional(__S(32, __c2, 0)),
           location: S.String,
-          managedBy: S.optional(S.String),
+          properties: __S(784, __c49, 0),
+          identity: S.optional(__S(144, __c9, 0)),
           kind: S.optional(S.String),
-          identity: S.optional(__S(160, __c10, 0)),
-          sku: S.optional(__S(144, __c9, 0)),
-          plan: S.optional(__S(145, __c9, 1)),
-          properties: __S(800, __c50, 0),
+          managedBy: S.optional(S.String),
+          plan: S.optional(__S(128, __c8, 0)),
+          sku: S.optional(__S(129, __c8, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "HostPoolsCreateOrUpdateRequest" });
   }
 }
-function __c51(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6419,32 +6252,32 @@ function __c51(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           hostPoolName: S.String.pipe(T.Label()),
           path: S.optional(S.String),
-          packageArchitecture: S.optional(S.NullOr(S.String)),
+          packageArchitecture: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/importAppAttachPackageInfo",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ImportAppAttachPackageInfoRequest" });
   }
 }
-function __c52(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(82, __c5, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(832, __c52, 0)),
+          value: __S(816, __c51, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppAttachPackageList" });
   }
 }
-function __c53(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6457,13 +6290,13 @@ function __c53(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/appAttachPackages",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListAppAttachPackageByResourceGroupRequest" });
   }
 }
-function __c54(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6475,13 +6308,13 @@ function __c54(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/appAttachPackages",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListAppAttachPackageBySubscriptionRequest" });
   }
 }
-function __c55(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6497,26 +6330,26 @@ function __c55(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListApplicationGroupByResourceGroupRequest" });
   }
 }
-function __c56(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(129, __c8, 1));
+      return S.Array(__S(113, __c7, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(896, __c56, 0)),
+          value: __S(880, __c55, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplicationGroupList" });
   }
 }
-function __c57(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6525,44 +6358,44 @@ function __c57(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           scalingPlanName: S.String.pipe(T.Label()),
           scalingPlanScheduleName: S.String.pipe(T.Label()),
-          properties: __S(928, __c58, 0),
+          properties: __S(912, __c57, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules/{scalingPlanScheduleName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "CreateScalingPlanPersonalScheduleRequest" });
   }
 }
-function __c58(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          daysOfWeek: S.optional(__S(656, __c41, 0)),
-          rampUpStartTime: S.optional(__S(657, __c41, 1)),
+          daysOfWeek: S.optional(__S(640, __c40, 0)),
+          rampUpStartTime: S.optional(__S(641, __c40, 1)),
           rampUpAutoStartHosts: S.optional(S.String),
           rampUpStartVMOnConnect: S.optional(S.String),
           rampUpActionOnDisconnect: S.optional(S.String),
           rampUpMinutesToWaitOnDisconnect: S.optional(S.Number),
           rampUpActionOnLogoff: S.optional(S.String),
           rampUpMinutesToWaitOnLogoff: S.optional(S.Number),
-          peakStartTime: S.optional(__S(657, __c41, 1)),
+          peakStartTime: S.optional(__S(641, __c40, 1)),
           peakStartVMOnConnect: S.optional(S.String),
           peakActionOnDisconnect: S.optional(S.String),
           peakMinutesToWaitOnDisconnect: S.optional(S.Number),
           peakActionOnLogoff: S.optional(S.String),
           peakMinutesToWaitOnLogoff: S.optional(S.Number),
-          rampDownStartTime: S.optional(__S(657, __c41, 1)),
+          rampDownStartTime: S.optional(__S(641, __c40, 1)),
           rampDownStartVMOnConnect: S.optional(S.String),
           rampDownActionOnDisconnect: S.optional(S.String),
           rampDownMinutesToWaitOnDisconnect: S.optional(S.Number),
           rampDownActionOnLogoff: S.optional(S.String),
           rampDownMinutesToWaitOnLogoff: S.optional(S.Number),
-          offPeakStartTime: S.optional(__S(657, __c41, 1)),
+          offPeakStartTime: S.optional(__S(641, __c40, 1)),
           offPeakStartVMOnConnect: S.optional(S.String),
           offPeakActionOnDisconnect: S.optional(S.String),
           offPeakMinutesToWaitOnDisconnect: S.optional(S.Number),
@@ -6577,12 +6410,12 @@ function __c58(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(928, __c58, 0),
+          properties: __S(912, __c57, 0),
         }),
       ).annotate({ identifier: "CreateScalingPlanPersonalScheduleResponse" });
   }
 }
-function __c59(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6594,10 +6427,41 @@ function __c59(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/applicationGroups",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListApplicationGroupBySubscriptionRequest" });
+  }
+}
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          applicationGroupName: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          isDescending: S.optional(S.Boolean.pipe(T.Query())),
+          initialSkip: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications",
+            code: 200,
+            apiVersion: "2026-04-16",
+          }),
+        ),
+      ).annotate({ identifier: "ListApplicationsRequest" });
+    case 1:
+      return S.Array(__S(337, __c21, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(945, __c59, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApplicationList" });
   }
 }
 function __c60(j: number): any {
@@ -6614,55 +6478,24 @@ function __c60(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications",
-            code: 200,
-            apiVersion: "2025-10-10",
-          }),
-        ),
-      ).annotate({ identifier: "ListApplicationsRequest" });
-    case 1:
-      return S.Array(__S(353, __c22, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(__S(961, __c60, 1)),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ApplicationList" });
-  }
-}
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          applicationGroupName: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          isDescending: S.optional(S.Boolean.pipe(T.Query())),
-          initialSkip: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/desktops",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListDesktopsRequest" });
     case 1:
-      return S.Array(__S(433, __c27, 1));
+      return S.Array(__S(417, __c26, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(977, __c61, 1)),
+          value: __S(961, __c60, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DesktopList" });
   }
 }
-function __c62(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6677,26 +6510,26 @@ function __c62(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListHostPoolByResourceGroupRequest" });
   }
 }
-function __c63(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(516, __c32, 4));
+      return S.Array(__S(500, __c31, 4));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1008, __c63, 0)),
+          value: __S(992, __c62, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostPoolList" });
   }
 }
-function __c64(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6709,29 +6542,29 @@ function __c64(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/listRegistrationTokens",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListHostPoolRegistrationTokensRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          expirationTime: S.optional(S.NullOr(S.String)),
+          expirationTime: S.optional(S.String),
           token: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistrationTokenMinimal" });
     case 2:
-      return S.Array(__S(1025, __c64, 1));
+      return S.Array(__S(1009, __c63, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1026, __c64, 2)),
+          value: S.optional(__S(1010, __c63, 2)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistrationTokenList" });
   }
 }
-function __c65(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6745,13 +6578,13 @@ function __c65(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/hostPools",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListHostPoolsRequest" });
   }
 }
-function __c66(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6767,22 +6600,22 @@ function __c66(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListMSIXPackagesRequest" });
     case 1:
-      return S.Array(__S(561, __c35, 1));
+      return S.Array(__S(545, __c34, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1057, __c66, 1)),
+          value: __S(1041, __c65, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "MSIXPackageList" });
   }
 }
-function __c67(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6791,7 +6624,7 @@ function __c67(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.DesktopVirtualization/operations",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -6813,40 +6646,40 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "LogSpecification" });
     case 3:
-      return S.Array(__S(1074, __c67, 2));
+      return S.Array(__S(1058, __c66, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          logSpecifications: S.optional(__S(1075, __c67, 3)),
+          logSpecifications: S.optional(__S(1059, __c66, 3)),
         }),
       ).annotate({ identifier: "ServiceSpecification" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          serviceSpecification: S.optional(__S(1076, __c67, 4)),
+          serviceSpecification: S.optional(__S(1060, __c66, 4)),
         }),
       ).annotate({ identifier: "OperationProperties" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          display: S.optional(__S(1073, __c67, 1)),
+          display: S.optional(__S(1057, __c66, 1)),
           isDataAction: S.optional(S.Boolean),
-          properties: S.optional(__S(1077, __c67, 5)),
+          properties: S.optional(__S(1061, __c66, 5)),
         }),
       ).annotate({ identifier: "ResourceProviderOperation" });
     case 7:
-      return S.Array(__S(1078, __c67, 6));
+      return S.Array(__S(1062, __c66, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1079, __c67, 7),
+          value: __S(1063, __c66, 7),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceProviderOperationListResult" });
   }
 }
-function __c68(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6862,24 +6695,24 @@ function __c68(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByHostPoolRequest" });
   }
 }
-function __c69(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(496, __c31, 0)),
+          value: __S(480, __c30, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionListResultWithSystemData" });
   }
 }
-function __c70(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6892,13 +6725,13 @@ function __c70(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateEndpointConnections",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByWorkspaceRequest" });
   }
 }
-function __c71(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6907,31 +6740,31 @@ function __c71(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           scalingPlanName: S.String.pipe(T.Label()),
           scalingPlanScheduleName: S.String.pipe(T.Label()),
-          properties: __S(1152, __c72, 0),
+          properties: __S(1136, __c71, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules/{scalingPlanScheduleName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "CreateScalingPlanPooledScheduleRequest" });
   }
 }
-function __c72(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          daysOfWeek: S.optional(__S(656, __c41, 0)),
-          rampUpStartTime: S.optional(__S(657, __c41, 1)),
+          daysOfWeek: S.optional(__S(640, __c40, 0)),
+          rampUpStartTime: S.optional(__S(641, __c40, 1)),
           rampUpLoadBalancingAlgorithm: S.optional(S.String),
           rampUpMinimumHostsPct: S.optional(S.Number),
           rampUpCapacityThresholdPct: S.optional(S.Number),
-          peakStartTime: S.optional(__S(657, __c41, 1)),
+          peakStartTime: S.optional(__S(641, __c40, 1)),
           peakLoadBalancingAlgorithm: S.optional(S.String),
-          rampDownStartTime: S.optional(__S(657, __c41, 1)),
+          rampDownStartTime: S.optional(__S(641, __c40, 1)),
           rampDownLoadBalancingAlgorithm: S.optional(S.String),
           rampDownMinimumHostsPct: S.optional(S.Number),
           rampDownCapacityThresholdPct: S.optional(S.Number),
@@ -6939,7 +6772,7 @@ function __c72(j: number): any {
           rampDownStopHostsWhen: S.optional(S.String),
           rampDownWaitTimeMinutes: S.optional(S.Number),
           rampDownNotificationMessage: S.optional(S.String),
-          offPeakStartTime: S.optional(__S(657, __c41, 1)),
+          offPeakStartTime: S.optional(__S(641, __c40, 1)),
           offPeakLoadBalancingAlgorithm: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScalingPlanPooledScheduleProperties" });
@@ -6950,12 +6783,12 @@ function __c72(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: __S(1152, __c72, 0),
+          properties: __S(1136, __c71, 0),
         }),
       ).annotate({ identifier: "CreateScalingPlanPooledScheduleResponse" });
   }
 }
-function __c73(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6971,13 +6804,13 @@ function __c73(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateLinkResources",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceByHostPoolRequest" });
   }
 }
-function __c74(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6994,21 +6827,21 @@ function __c74(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1184, __c74, 0)),
+          properties: S.optional(__S(1168, __c73, 0)),
         }),
       ).annotate({ identifier: "PrivateLinkResource" });
     case 2:
-      return S.Array(__S(1185, __c74, 1));
+      return S.Array(__S(1169, __c73, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1186, __c74, 2)),
+          value: __S(1170, __c73, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceListResult" });
   }
 }
-function __c75(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7024,13 +6857,13 @@ function __c75(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateLinkResources",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceByWorkspaceRequest" });
   }
 }
-function __c76(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7046,26 +6879,26 @@ function __c76(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/scalingPlans",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListScalingPlanByHostPoolRequest" });
   }
 }
-function __c77(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(645, __c40, 5));
+      return S.Array(__S(629, __c39, 5));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1232, __c77, 0)),
+          value: __S(1216, __c76, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScalingPlanList" });
   }
 }
-function __c78(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7080,13 +6913,13 @@ function __c78(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListScalingPlanByResourceGroupRequest" });
   }
 }
-function __c79(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7100,10 +6933,41 @@ function __c79(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/scalingPlans",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListScalingPlanBySubscriptionRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          scalingPlanName: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          isDescending: S.optional(S.Boolean.pipe(T.Query())),
+          initialSkip: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules",
+            code: 200,
+            apiVersion: "2026-04-16",
+          }),
+        ),
+      ).annotate({ identifier: "ListScalingPlanPersonalSchedulesRequest" });
+    case 1:
+      return S.Array(__S(913, __c57, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(1265, __c79, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ScalingPlanPersonalScheduleList" });
   }
 }
 function __c80(j: number): any {
@@ -7120,55 +6984,24 @@ function __c80(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules",
-            code: 200,
-            apiVersion: "2025-10-10",
-          }),
-        ),
-      ).annotate({ identifier: "ListScalingPlanPersonalSchedulesRequest" });
-    case 1:
-      return S.Array(__S(929, __c58, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(__S(1281, __c80, 1)),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ScalingPlanPersonalScheduleList" });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          scalingPlanName: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          isDescending: S.optional(S.Boolean.pipe(T.Query())),
-          initialSkip: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListScalingPlanPooledSchedulesRequest" });
     case 1:
-      return S.Array(__S(1153, __c72, 1));
+      return S.Array(__S(1137, __c71, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1297, __c81, 1)),
+          value: __S(1281, __c80, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScalingPlanPooledScheduleList" });
   }
 }
-function __c82(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7184,22 +7017,22 @@ function __c82(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListSessionHostsRequest" });
     case 1:
-      return S.Array(__S(724, __c45, 4));
+      return S.Array(__S(708, __c44, 4));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1313, __c82, 1)),
+          value: __S(1297, __c81, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SessionHostList" });
   }
 }
-function __c83(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7215,7 +7048,7 @@ function __c83(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/startMenuItems",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListStartMenuItemsRequest" });
@@ -7236,21 +7069,21 @@ function __c83(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1329, __c83, 1)),
+          properties: S.optional(__S(1313, __c82, 1)),
         }),
       ).annotate({ identifier: "StartMenuItem" });
     case 3:
-      return S.Array(__S(1330, __c83, 2));
+      return S.Array(__S(1314, __c82, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1331, __c83, 3)),
+          value: __S(1315, __c82, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StartMenuItemList" });
   }
 }
-function __c84(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7267,26 +7100,26 @@ function __c84(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/userSessions",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListUserSessionByHostPoolRequest" });
   }
 }
-function __c85(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(753, __c47, 1));
+      return S.Array(__S(737, __c46, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1360, __c85, 0)),
+          value: __S(1344, __c84, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UserSessionList" });
   }
 }
-function __c86(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7299,13 +7132,13 @@ function __c86(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/appAttachPackages/{appAttachPackageName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "DeleteAppAttachPackageRequest" });
   }
 }
-function __c87(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -7313,7 +7146,7 @@ function __c87(j: number): any {
       });
   }
 }
-function __c88(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7330,13 +7163,13 @@ function __c88(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}/userSessions",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListUserSessionsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7351,26 +7184,26 @@ function __c89(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceByResourceGroupRequest" });
   }
 }
-function __c90(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(785, __c49, 1));
+      return S.Array(__S(769, __c48, 1));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1440, __c90, 0)),
+          value: __S(1424, __c89, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspaceList" });
   }
 }
-function __c91(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7381,13 +7214,13 @@ function __c91(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/workspaces",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceBySubscriptionRequest" });
   }
 }
-function __c92(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7401,7 +7234,7 @@ function __c92(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/expandMsixImage",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "MsixImagesExpandRequest" });
@@ -7413,16 +7246,16 @@ function __c92(j: number): any {
           packageName: S.optional(S.String),
           packageFamilyName: S.optional(S.String),
           packageFullName: S.optional(S.String),
-          displayName: S.optional(S.NullOr(S.String)),
+          displayName: S.optional(S.String),
           packageRelativePath: S.optional(S.String),
           isRegularRegistration: S.optional(S.Boolean),
           isActive: S.optional(S.Boolean),
-          packageDependencies: S.optional(S.NullOr(__S(65, __c4, 1))),
+          packageDependencies: S.optional(__S(65, __c4, 1)),
           version: S.optional(S.String),
           lastUpdated: S.optional(S.String),
           packageApplications: S.optional(__S(67, __c4, 3)),
-          certificateName: S.optional(S.NullOr(S.String)),
-          certificateExpiry: S.optional(S.NullOr(S.String)),
+          certificateName: S.optional(S.String),
+          certificateExpiry: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExpandMsixImageProperties" });
     case 2:
@@ -7432,21 +7265,21 @@ function __c92(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1473, __c92, 1)),
+          properties: S.optional(__S(1457, __c91, 1)),
         }),
       ).annotate({ identifier: "ExpandMsixImage" });
     case 3:
-      return S.Array(__S(1474, __c92, 2));
+      return S.Array(__S(1458, __c91, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1475, __c92, 3)),
+          value: __S(1459, __c91, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExpandMsixImageList" });
   }
 }
-function __c93(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7455,19 +7288,19 @@ function __c93(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           hostPoolName: S.String.pipe(T.Label()),
           msixPackageFullName: S.String.pipe(T.Label()),
-          properties: __S(560, __c35, 0),
+          properties: __S(544, __c34, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "MSIXPackagesCreateOrUpdateRequest" });
   }
 }
-function __c94(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7484,33 +7317,45 @@ function __c94(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}/userSessions/{userSessionId}/sendMessage",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "SendUserSessionMessageRequest" });
   }
 }
-function __c95(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          image: S.optional(__S(80, __c5, 0)),
+          hostPoolReferences: S.optional(__S(48, __c3, 0)),
+          keyVaultURL: S.optional(S.String),
+          failHealthCheckOnStagingFailure: S.optional(S.String),
+          packageLookbackUrl: S.optional(S.String),
+          customData: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AppAttachPackagePatchProperties" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           appAttachPackageName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(96, __c6, 0)),
+          tags: S.optional(__S(32, __c2, 0)),
+          properties: S.optional(__S(1504, __c94, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/appAttachPackages/{appAttachPackageName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "UpdateAppAttachPackageRequest" });
   }
 }
-function __c96(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7523,8 +7368,8 @@ function __c96(j: number): any {
           showInPortal: S.optional(S.Boolean),
           iconPath: S.optional(S.String),
           iconIndex: S.optional(S.Number),
-          msixPackageFamilyName: S.optional(S.NullOr(S.String)),
-          msixPackageApplicationId: S.optional(S.NullOr(S.String)),
+          msixPackageFamilyName: S.optional(S.String),
+          msixPackageApplicationId: S.optional(S.String),
           applicationType: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplicationPatchProperties" });
@@ -7535,19 +7380,19 @@ function __c96(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           applicationGroupName: S.String.pipe(T.Label()),
           applicationName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1536, __c96, 0)),
+          properties: S.optional(__S(1520, __c95, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications/{applicationName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "UpdateApplicationRequest" });
   }
 }
-function __c97(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7563,20 +7408,20 @@ function __c97(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           applicationGroupName: S.String.pipe(T.Label()),
-          tags: S.optional(S.NullOr(__S(32, __c2, 0))),
-          properties: S.optional(__S(1552, __c97, 0)),
+          tags: S.optional(__S(32, __c2, 0)),
+          properties: S.optional(__S(1536, __c96, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "UpdateApplicationGroupRequest" });
   }
 }
-function __c98(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7592,19 +7437,19 @@ function __c98(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           applicationGroupName: S.String.pipe(T.Label()),
           desktopName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1568, __c98, 0)),
+          properties: S.optional(__S(1552, __c97, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/desktops/{desktopName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "UpdateDesktopRequest" });
   }
 }
-function __c99(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7618,18 +7463,18 @@ function __c99(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}/applications/{applicationName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "DeleteApplicationRequest" });
   }
 }
-function __c100(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          expirationTime: S.optional(S.NullOr(S.String)),
+          expirationTime: S.optional(S.String),
           registrationTokenOperation: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistrationInfoPatch" });
@@ -7639,21 +7484,26 @@ function __c100(j: number): any {
           friendlyName: S.optional(S.String),
           description: S.optional(S.String),
           customRdpProperty: S.optional(S.String),
-          maxSessionLimit: S.optional(S.NullOr(S.Number)),
-          personalDesktopAssignmentType: S.optional(S.NullOr(S.String)),
+          maxSessionLimit: S.optional(S.Number),
+          personalDesktopAssignmentType: S.optional(S.String),
           loadBalancerType: S.optional(S.String),
-          ring: S.optional(S.NullOr(S.Number)),
-          validationEnvironment: S.optional(S.NullOr(S.Boolean)),
-          registrationInfo: S.optional(S.NullOr(__S(1600, __c100, 0))),
+          ring: S.optional(S.Number),
+          validationEnvironment: S.optional(S.Boolean),
+          registrationInfo: S.optional(__S(1584, __c99, 0)),
           vmTemplate: S.optional(S.String),
           ssoadfsAuthority: S.optional(S.String),
           ssoClientId: S.optional(S.String),
           ssoClientSecretKeyVaultPath: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          ssoSecretType: S.optional(S.NullOr(S.String)),
+          ssoSecretType: S.optional(S.String),
           preferredAppGroupType: S.optional(S.String),
-          startVMOnConnect: S.optional(S.NullOr(S.Boolean)),
-          publicNetworkAccess: S.optional(S.NullOr(S.String)),
-          agentUpdate: S.optional(S.NullOr(__S(514, __c32, 2))),
+          startVMOnConnect: S.optional(S.Boolean),
+          publicNetworkAccess: S.optional(S.String),
+          agentUpdate: S.optional(__S(498, __c31, 2)),
+          managedPrivateUDP: S.optional(S.String),
+          directUDP: S.optional(S.String),
+          publicUDP: S.optional(S.String),
+          relayUDP: S.optional(S.String),
+          allowRDPShortPathWithPrivateLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "HostPoolPatchProperties" });
     case 2:
@@ -7662,21 +7512,21 @@ function __c100(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           hostPoolName: S.String.pipe(T.Label()),
-          tags: S.optional(S.NullOr(__S(32, __c2, 0))),
-          properties: S.optional(__S(1601, __c100, 1)),
-          identity: S.optional(__S(160, __c10, 0)),
+          tags: S.optional(__S(32, __c2, 0)),
+          properties: S.optional(__S(1585, __c99, 1)),
+          identity: S.optional(__S(144, __c9, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "UpdateHostPoolRequest" });
   }
 }
-function __c101(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7693,19 +7543,19 @@ function __c101(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           hostPoolName: S.String.pipe(T.Label()),
           msixPackageFullName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1616, __c101, 0)),
+          properties: S.optional(__S(1600, __c100, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "UpdateMSIXPackageRequest" });
   }
 }
-function __c102(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7714,30 +7564,30 @@ function __c102(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           hostPoolName: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1648, __c103, 0)),
+          properties: S.optional(__S(1632, __c102, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "UpdatePrivateEndpointConnectionByHostPoolRequest" });
   }
 }
-function __c103(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(1392, __c87, 0)),
-          privateLinkServiceConnectionState: __S(481, __c30, 1),
+          privateEndpoint: S.optional(__S(1376, __c86, 0)),
+          privateLinkServiceConnectionState: __S(465, __c29, 1),
         }),
-      ).annotate({ identifier: "UpdatePrivateEndpointConnectionByHostPoolRequestProperties" });
+      ).annotate({ identifier: "PrivateEndpointConnectionPropertiesInput" });
   }
 }
-function __c104(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7746,19 +7596,19 @@ function __c104(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1648, __c103, 0)),
+          properties: S.optional(__S(1632, __c102, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "UpdatePrivateEndpointConnectionByWorkspaceRequest" });
   }
 }
-function __c105(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7767,8 +7617,8 @@ function __c105(j: number): any {
           friendlyName: S.optional(S.String),
           timeZone: S.optional(S.String),
           exclusionTag: S.optional(S.String),
-          schedules: S.optional(__S(641, __c40, 1)),
-          hostPoolReferences: S.optional(__S(643, __c40, 3)),
+          schedules: S.optional(__S(625, __c39, 1)),
+          hostPoolReferences: S.optional(__S(627, __c39, 3)),
         }),
       ).annotate({ identifier: "ScalingPlanPatchProperties" });
     case 1:
@@ -7777,17 +7627,38 @@ function __c105(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           scalingPlanName: S.String.pipe(T.Label()),
-          tags: S.optional(S.NullOr(__S(32, __c2, 0))),
-          properties: S.optional(__S(1680, __c105, 0)),
+          tags: S.optional(__S(32, __c2, 0)),
+          properties: S.optional(__S(1664, __c104, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "UpdateScalingPlanRequest" });
+  }
+}
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          scalingPlanName: S.String.pipe(T.Label()),
+          scalingPlanScheduleName: S.String.pipe(T.Label()),
+          properties: S.optional(__S(912, __c57, 0)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules/{scalingPlanScheduleName}",
+            code: 200,
+            apiVersion: "2026-04-16",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateScalingPlanPersonalScheduleRequest" });
   }
 }
 function __c106(j: number): any {
@@ -7799,40 +7670,19 @@ function __c106(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           scalingPlanName: S.String.pipe(T.Label()),
           scalingPlanScheduleName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(928, __c58, 0)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules/{scalingPlanScheduleName}",
-            code: 200,
-            apiVersion: "2025-10-10",
-          }),
-        ),
-      ).annotate({ identifier: "UpdateScalingPlanPersonalScheduleRequest" });
-  }
-}
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          scalingPlanName: S.String.pipe(T.Label()),
-          scalingPlanScheduleName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1152, __c72, 0)),
+          properties: S.optional(__S(1136, __c71, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/pooledSchedules/{scalingPlanScheduleName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "UpdateScalingPlanPooledScheduleRequest" });
   }
 }
-function __c108(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7850,19 +7700,19 @@ function __c108(j: number): any {
           hostPoolName: S.String.pipe(T.Label()),
           sessionHostName: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
-          properties: S.optional(__S(1728, __c108, 0)),
+          properties: S.optional(__S(1712, __c107, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "UpdateSessionHostRequest" });
   }
 }
-function __c109(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7870,33 +7720,33 @@ function __c109(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
-          tags: S.optional(S.NullOr(__S(32, __c2, 0))),
-          properties: S.optional(__S(1760, __c110, 0)),
+          tags: S.optional(__S(32, __c2, 0)),
+          properties: S.optional(__S(1744, __c109, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "UpdateWorkspaceRequest" });
   }
 }
-function __c110(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           friendlyName: S.optional(S.String),
-          applicationGroupReferences: S.optional(S.NullOr(__S(48, __c3, 0))),
-          publicNetworkAccess: S.optional(S.NullOr(S.String)),
+          applicationGroupReferences: S.optional(__S(48, __c3, 0)),
+          publicNetworkAccess: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspacePatchProperties" });
   }
 }
-function __c111(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7906,24 +7756,24 @@ function __c111(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           tags: S.optional(__S(32, __c2, 0)),
           location: S.String,
-          managedBy: S.optional(S.String),
+          properties: S.optional(__S(1744, __c109, 0)),
+          identity: S.optional(__S(144, __c9, 0)),
           kind: S.optional(S.String),
-          identity: S.optional(__S(160, __c10, 0)),
-          sku: S.optional(__S(144, __c9, 0)),
-          plan: S.optional(__S(145, __c9, 1)),
-          properties: S.optional(__S(1760, __c110, 0)),
+          managedBy: S.optional(S.String),
+          plan: S.optional(__S(128, __c8, 0)),
+          sku: S.optional(__S(129, __c8, 1)),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "WorkspacesCreateOrUpdateRequest" });
   }
 }
-function __c112(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7936,13 +7786,13 @@ function __c112(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/applicationGroups/{applicationGroupName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "DeleteApplicationGroupRequest" });
   }
 }
-function __c113(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7956,7 +7806,7 @@ function __c113(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}",
             code: 200,
-            apiVersion: "2025-10-10",
+            apiVersion: "2026-04-16",
           }),
         ),
       ).annotate({ identifier: "DeleteHostPoolRequest" });

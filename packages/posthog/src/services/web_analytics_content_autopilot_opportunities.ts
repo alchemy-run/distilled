@@ -110,6 +110,8 @@ export interface ContentAutopilotOpportunity {
   run_id: string | null;
   /** Latest proposal drafted for this opportunity. */
   proposal_id: string | null;
+  /** Tracked AI visibility prompt this opportunity came from. */
+  aeo_prompt_id: string | null;
   /** Type of visibility gap. * `ai_visibility_gap` - AI visibility gap */
   kind: ContentAutopilotOpportunityKindEnum;
   /** The prompt the site isn't cited for. */
@@ -248,6 +250,7 @@ function __c1(j: number): any {
           profile_id: S.String,
           run_id: S.NullOr(S.String),
           proposal_id: S.NullOr(S.String),
+          aeo_prompt_id: S.NullOr(S.String),
           kind: S.String,
           title: S.String,
           score: S.Number,

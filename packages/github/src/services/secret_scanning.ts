@@ -341,7 +341,20 @@ export interface SecretScanningLocationPullRequestReviewComment {
   /** The GitHub URL for the pull request review comment where the secret was detected. */
   html_url?: string | undefined;
 }
-/** Details on the location where the token was initially detected. This can be a commit, wiki commit, issue, discussion, pull request. */
+/** Represents an 'actions_log' secret scanning location type. The path identifies the workflow definition, while line and column positions identify the secret in the raw job log, not in the workflow file. */
+export interface SecretScanningLocationActionsLog {
+  /** The workflow definition path. Dynamically generated workflows can have a synthetic path. */
+  path: string;
+  /** Line number at which the secret starts in the raw job log. */
+  start_line: number;
+  /** Line number at which the secret ends in the raw job log. */
+  end_line: number;
+  /** The one-based column at which the secret starts within the start line of the raw job log. */
+  start_column: number;
+  /** The one-based column at which the secret ends within the end line of the raw job log. */
+  end_column: number;
+}
+/** Details on the location where the token was initially detected. This can be a commit, wiki commit, issue, discussion, pull request, or Actions job log. */
 export type NullableSecretScanningFirstDetectedLocation =
   | SecretScanningLocationCommit
   | SecretScanningLocationWikiCommit
@@ -355,7 +368,8 @@ export type NullableSecretScanningFirstDetectedLocation =
   | SecretScanningLocationPullRequestBody
   | SecretScanningLocationPullRequestComment
   | SecretScanningLocationPullRequestReview
-  | SecretScanningLocationPullRequestReviewComment;
+  | SecretScanningLocationPullRequestReviewComment
+  | SecretScanningLocationActionsLog;
 export interface SecretScanningAlertMetadataItem {
   /** The metadata key. */
   key: string;
@@ -805,7 +819,8 @@ export type SecretScanningLocationType =
   | "pull_request_body"
   | "pull_request_comment"
   | "pull_request_review"
-  | "pull_request_review_comment";
+  | "pull_request_review_comment"
+  | "actions_log";
 export type SecretScanningLocationDetails =
   | SecretScanningLocationCommit
   | SecretScanningLocationWikiCommit
@@ -819,7 +834,8 @@ export type SecretScanningLocationDetails =
   | SecretScanningLocationPullRequestBody
   | SecretScanningLocationPullRequestComment
   | SecretScanningLocationPullRequestReview
-  | SecretScanningLocationPullRequestReviewComment;
+  | SecretScanningLocationPullRequestReviewComment
+  | SecretScanningLocationActionsLog;
 export interface SecretScanningLocation {
   /** The location type. Because secrets may be found in different types of resources (ie. code, comments, issues, pull requests, discussions), this field identifies the type of resource where the secret was found. */
   type?: SecretScanningLocationType | undefined;
@@ -1272,7 +1288,7 @@ export const listRepoCustomPatterns: API.OperationMethod<
 }));
 
 export type UpdateAlertError = GithubOpError;
-/** Update a secret scanning alert Updates the status of a secret scanning alert in an eligible repository. You can also use this endpoint to assign or unassign an alert to a user who has write access to the repository. The authenticated user must be an administrator for the repository or for the organization that owns the repository to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. */
+/** Update a secret scanning alert Updates the status of a secret scanning alert in an eligible repository. You can also use this endpoint to assign or unassign an alert to a user who has write access to the repository. The authenticated user must be an administrator for the repository or for the organization that owns the repository to use this endpoint. OAuth app tokens and personal access tokens (classic) need the `repo` or `security_events` scope to use this endpoint. If this endpoint is only used with public repositories, the token can use the `public_repo` scope instead. > [!NOTE] > If [delegated alert dismissal](https://docs.github.com/code-security/how-tos/manage-security-alerts/manage-secret-scanning-alerts/enable-delegated-dismissal) is enabled, resolving or reopening an alert also requires write access to the "Secret scanning alert dismissal requests" permission. Granting the permission to the app alone is not sufficient if the token's permissions exclude it. */
 export const updateAlert: API.OperationMethod<
   UpdateAlertRequest,
   SecretScanningAlertWithMetadata,

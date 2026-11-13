@@ -830,6 +830,8 @@ export interface CreateDockerfileApplicationRequest {
   is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
   is_stripprefix_enabled?: boolean | undefined;
+  /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
+  traefik_certificate_resolver?: string | null | undefined;
   /** Deploy the raw Docker Compose definition. */
   is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
@@ -864,7 +866,7 @@ export interface CreateDockerfileApplicationRequest {
   connect_to_docker_network?: boolean | undefined;
   /** Force domain usage even if conflicts are detected. Default is false. */
   force_domain_override?: boolean | undefined;
-  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Default: true. */
+  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Ignored for the dockercompose build pack, which uses docker_compose_domains. Default: true. */
   autogenerate_domain?: boolean | undefined;
   /** Escape special characters in labels. By default, $ (and other chars) is escaped. So if you write $ in the labels, it will be saved as $$. If you want to use env variables inside the labels, turn this off. */
   is_container_label_escape_enabled?: boolean | undefined;
@@ -1001,6 +1003,8 @@ export interface CreateDockerimageApplicationRequest {
   is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
   is_stripprefix_enabled?: boolean | undefined;
+  /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
+  traefik_certificate_resolver?: string | null | undefined;
   /** Deploy the raw Docker Compose definition. */
   is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
@@ -1035,7 +1039,7 @@ export interface CreateDockerimageApplicationRequest {
   connect_to_docker_network?: boolean | undefined;
   /** Force domain usage even if conflicts are detected. Default is false. */
   force_domain_override?: boolean | undefined;
-  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Default: true. */
+  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Ignored for the dockercompose build pack, which uses docker_compose_domains. Default: true. */
   autogenerate_domain?: boolean | undefined;
   /** Escape special characters in labels. By default, $ (and other chars) is escaped. So if you write $ in the labels, it will be saved as $$. If you want to use env variables inside the labels, turn this off. */
   is_container_label_escape_enabled?: boolean | undefined;
@@ -1467,7 +1471,7 @@ export interface CreatePrivateDeployKeyApplicationRequest {
   docker_compose_domains?:
     | CreatePrivateDeployKeyApplicationRequestDockerComposeDomainsList
     | undefined;
-  /** The watch paths. */
+  /** Watch path patterns, one per line (newline-separated). Commas do not separate patterns. */
   watch_paths?: string | undefined;
   /** Use build server. */
   use_build_server?: boolean | null | undefined;
@@ -1497,6 +1501,8 @@ export interface CreatePrivateDeployKeyApplicationRequest {
   is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
   is_stripprefix_enabled?: boolean | undefined;
+  /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
+  traefik_certificate_resolver?: string | null | undefined;
   /** Deploy the raw Docker Compose definition. */
   is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
@@ -1531,7 +1537,7 @@ export interface CreatePrivateDeployKeyApplicationRequest {
   connect_to_docker_network?: boolean | undefined;
   /** Force domain usage even if conflicts are detected. Default is false. */
   force_domain_override?: boolean | undefined;
-  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Default: true. */
+  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Ignored for the dockercompose build pack, which uses docker_compose_domains. Default: true. */
   autogenerate_domain?: boolean | undefined;
   /** Escape special characters in labels. By default, $ (and other chars) is escaped. So if you write $ in the labels, it will be saved as $$. If you want to use env variables inside the labels, turn this off. */
   is_container_label_escape_enabled?: boolean | undefined;
@@ -1713,7 +1719,7 @@ export interface CreatePrivateGithubAppApplicationRequest {
   docker_compose_domains?:
     | CreatePrivateGithubAppApplicationRequestDockerComposeDomainsList
     | undefined;
-  /** The watch paths. */
+  /** Watch path patterns, one per line (newline-separated). Commas do not separate patterns. */
   watch_paths?: string | undefined;
   /** Use build server. */
   use_build_server?: boolean | null | undefined;
@@ -1743,6 +1749,8 @@ export interface CreatePrivateGithubAppApplicationRequest {
   is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
   is_stripprefix_enabled?: boolean | undefined;
+  /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
+  traefik_certificate_resolver?: string | null | undefined;
   /** Deploy the raw Docker Compose definition. */
   is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
@@ -1777,7 +1785,7 @@ export interface CreatePrivateGithubAppApplicationRequest {
   connect_to_docker_network?: boolean | undefined;
   /** Force domain usage even if conflicts are detected. Default is false. */
   force_domain_override?: boolean | undefined;
-  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Default: true. */
+  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Ignored for the dockercompose build pack, which uses docker_compose_domains. Default: true. */
   autogenerate_domain?: boolean | undefined;
   /** Escape special characters in labels. By default, $ (and other chars) is escaped. So if you write $ in the labels, it will be saved as $$. If you want to use env variables inside the labels, turn this off. */
   is_container_label_escape_enabled?: boolean | undefined;
@@ -1978,7 +1986,7 @@ export interface CreatePublicApplicationRequest {
   docker_compose_custom_build_command?: string | undefined;
   /** Array of URLs to be applied to containers of a dockercompose application. */
   docker_compose_domains?: CreatePublicApplicationRequestDockerComposeDomainsList | undefined;
-  /** The watch paths. */
+  /** Watch path patterns, one per line (newline-separated). Commas do not separate patterns. */
   watch_paths?: string | undefined;
   /** Use build server. */
   use_build_server?: boolean | null | undefined;
@@ -2008,6 +2016,8 @@ export interface CreatePublicApplicationRequest {
   is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
   is_stripprefix_enabled?: boolean | undefined;
+  /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
+  traefik_certificate_resolver?: string | null | undefined;
   /** Deploy the raw Docker Compose definition. */
   is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
@@ -2042,7 +2052,7 @@ export interface CreatePublicApplicationRequest {
   connect_to_docker_network?: boolean | undefined;
   /** Force domain usage even if conflicts are detected. Default is false. */
   force_domain_override?: boolean | undefined;
-  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Default: true. */
+  /** If true and domains is empty, auto-generate a domain using the server's wildcard domain or sslip.io fallback. Ignored for the dockercompose build pack, which uses docker_compose_domains. Default: true. */
   autogenerate_domain?: boolean | undefined;
   /** Escape special characters in labels. By default, $ (and other chars) is escaped. So if you write $ in the labels, it will be saved as $$. If you want to use env variables inside the labels, turn this off. */
   is_container_label_escape_enabled?: boolean | undefined;
@@ -2089,7 +2099,7 @@ export interface CreateScheduledTaskByApplicationUuidRequest {
   container?: string | null | undefined;
   /** The timeout of the scheduled task in seconds. */
   timeout?: number | undefined;
-  /** The flag to indicate if the scheduled task is enabled. */
+  /** The flag to indicate if the scheduled task is enabled. An enabled task requires the deploy ability. */
   enabled?: boolean | undefined;
 }
 /** Scheduled Task model */
@@ -2128,7 +2138,7 @@ export interface CreateScheduledTaskByServiceUuidRequest {
   container?: string | null | undefined;
   /** The timeout of the scheduled task in seconds. */
   timeout?: number | undefined;
-  /** The flag to indicate if the scheduled task is enabled. */
+  /** The flag to indicate if the scheduled task is enabled. An enabled task requires the deploy ability. */
   enabled?: boolean | undefined;
 }
 export type CreateSecretManagerIntegrationTokenRequestProvider = "doppler" | "infisical" | "vault";
@@ -2224,6 +2234,8 @@ export interface CreateServiceRequest {
   instant_deploy?: boolean | undefined;
   /** The base64 encoded Docker Compose content. */
   docker_compose_raw?: string | undefined;
+  /** Connect the service to the predefined docker network. */
+  connect_to_docker_network?: boolean | undefined;
   /** Array of URLs to be applied to containers of a service. */
   urls?: CreateServiceRequestUrlsList | undefined;
   /** Force domain override even if conflicts are detected. */
@@ -2764,12 +2776,15 @@ export interface ApplicationSetting {
   is_build_server_enabled?: boolean | undefined;
   is_consistent_container_name_enabled?: boolean | undefined;
   is_gzip_enabled?: boolean | undefined;
+  /** Traefik certificate resolver override. Null uses the server setting, "none" uses no resolver. */
+  traefik_certificate_resolver?: string | null | undefined;
   is_stripprefix_enabled?: boolean | undefined;
   connect_to_docker_network?: boolean | undefined;
   custom_internal_name?: string | null | undefined;
   custom_container_name_prefix?: string | null | undefined;
   is_container_label_escape_enabled?: boolean | undefined;
   is_env_sorting_enabled?: boolean | undefined;
+  include_coolify_default_variables?: boolean | undefined;
   is_container_label_readonly_enabled?: boolean | undefined;
   is_preserve_repository_enabled?: boolean | undefined;
   disable_build_cache?: boolean | undefined;
@@ -3367,6 +3382,7 @@ export interface GetServerRequest {
 /** The proxy type. */
 export type ServerProxyType = "traefik" | "caddy" | "none";
 export type ServerSettingServerRole = "deployment" | "build" | "both";
+export type ServerSettingTrafficIpMode = "full" | "anonymized" | "off";
 /** Server Settings model */
 export interface ServerSetting {
   id?: number | undefined;
@@ -3393,6 +3409,9 @@ export interface ServerSetting {
   traffic_retention_1d_days?: number | undefined;
   is_geoip_enabled?: boolean | undefined;
   geoip_refresh_days?: number | undefined;
+  traffic_ip_mode?: ServerSettingTrafficIpMode | undefined;
+  /** Traefik certificate resolver for generated HTTPS routers. Null when the proxy uses its own certificates. */
+  traefik_certificate_resolver?: string | null | undefined;
   is_reachable?: boolean | undefined;
   is_sentinel_enabled?: boolean | undefined;
   is_swarm_manager?: boolean | undefined;
@@ -3514,6 +3533,8 @@ export interface GetServerProxyResponse {
   redirect_enabled?: boolean | undefined;
   redirect_url?: string | null | undefined;
   generate_exact_labels?: boolean | undefined;
+  /** Traefik certificate resolver for generated HTTPS routers. Null when the proxy uses its own certificates. */
+  traefik_certificate_resolver?: string | null | undefined;
   /** Docker Compose proxy configuration when stored in the database. Only present with read:sensitive. */
   configuration?: string | null | undefined;
 }
@@ -3521,6 +3542,8 @@ export interface GetServerSentinelRequest {
   /** Server UUID */
   uuid: string;
 }
+/** How Sentinel stores client IPs for the Top IPs breakdown. */
+export type GetServerSentinelResponseTrafficIpMode = "full" | "anonymized" | "off";
 export interface GetServerSentinelResponse {
   /** Sentinel is mandatory on regular managed servers. */
   is_sentinel_enabled?: boolean | undefined;
@@ -3540,6 +3563,8 @@ export interface GetServerSentinelResponse {
   traffic_retention_1d_days?: number | undefined;
   is_geoip_enabled?: boolean | undefined;
   geoip_refresh_days?: number | undefined;
+  /** How Sentinel stores client IPs for the Top IPs breakdown. */
+  traffic_ip_mode?: GetServerSentinelResponseTrafficIpMode | undefined;
   /** Only present with read:sensitive. */
   geoip_maxmind_license_key?: string | undefined;
 }
@@ -4251,6 +4276,8 @@ export interface PatchServiceApplicationByServiceAndAppUuidRequest {
   exclude_from_status?: boolean | null | undefined;
   is_log_drain_enabled?: boolean | null | undefined;
   is_gzip_enabled?: boolean | null | undefined;
+  /** Traefik certificate resolver for this service application. Null uses the server setting, "none" uses no resolver. */
+  traefik_certificate_resolver?: string | null | undefined;
   is_stripprefix_enabled?: boolean | null | undefined;
   is_force_https_enabled?: boolean | null | undefined;
   /** Maximum Docker restart count before Coolify stops the container. Set to 0 to disable the limit. */
@@ -4421,6 +4448,8 @@ export interface SetApplicationStorageBackupScheduleRequest {
   retention_days_s3?: number | undefined;
   retention_max_storage_s3?: number | undefined;
   timeout?: number | undefined;
+  /** Alert after this many days without an execution; 0 disables alerts */
+  missing_backup_notification_days?: number | undefined;
 }
 export type VolumeBackupScheduleResponseStorageType = "persistent" | "directory";
 export interface VolumeBackupScheduleResponse {
@@ -4441,6 +4470,7 @@ export interface VolumeBackupScheduleResponse {
   retention_days_s3: number;
   retention_max_storage_s3: number;
   timeout: number;
+  missing_backup_notification_days: number;
 }
 export interface SetDatabaseStorageBackupScheduleRequest {
   /** UUID of the database. */
@@ -4460,6 +4490,8 @@ export interface SetDatabaseStorageBackupScheduleRequest {
   retention_days_s3?: number | undefined;
   retention_max_storage_s3?: number | undefined;
   timeout?: number | undefined;
+  /** Alert after this many days without an execution; 0 disables alerts */
+  missing_backup_notification_days?: number | undefined;
 }
 export interface SetServiceStorageBackupScheduleRequest {
   /** UUID of the service. */
@@ -4479,6 +4511,8 @@ export interface SetServiceStorageBackupScheduleRequest {
   retention_days_s3?: number | undefined;
   retention_max_storage_s3?: number | undefined;
   timeout?: number | undefined;
+  /** Alert after this many days without an execution; 0 disables alerts */
+  missing_backup_notification_days?: number | undefined;
 }
 export interface StartApplicationByUuidRequest {
   /** UUID of the application. */
@@ -4585,12 +4619,6 @@ export type UpdateApplicationByUuidRequestDockerComposeDomainsList =
 export interface UpdateApplicationByUuidRequest {
   /** UUID of the application. */
   uuid: string;
-  /** The project UUID. */
-  project_uuid?: string | undefined;
-  /** The server UUID. */
-  server_uuid?: string | undefined;
-  /** The environment name. */
-  environment_name?: string | undefined;
   /** The Github App UUID. */
   github_app_uuid?: string | undefined;
   /** The git repository URL. */
@@ -4599,8 +4627,6 @@ export interface UpdateApplicationByUuidRequest {
   git_branch?: string | undefined;
   /** The ports to expose. */
   ports_exposes?: string | undefined;
-  /** The destination UUID. */
-  destination_uuid?: string | undefined;
   /** The build pack type. */
   build_pack?: UpdateApplicationByUuidRequestBuildPack | (string & {}) | undefined;
   /** The application name. */
@@ -4713,7 +4739,7 @@ export interface UpdateApplicationByUuidRequest {
   docker_compose_custom_build_command?: string | undefined;
   /** Array of URLs to be applied to containers of a dockercompose application. */
   docker_compose_domains?: UpdateApplicationByUuidRequestDockerComposeDomainsList | undefined;
-  /** The watch paths. */
+  /** Watch path patterns, one per line (newline-separated). Commas do not separate patterns. */
   watch_paths?: string | undefined;
   /** Use build server. */
   use_build_server?: boolean | null | undefined;
@@ -4743,6 +4769,8 @@ export interface UpdateApplicationByUuidRequest {
   is_gzip_enabled?: boolean | undefined;
   /** Enable path prefix stripping. */
   is_stripprefix_enabled?: boolean | undefined;
+  /** Traefik certificate resolver for this application. Null uses the server setting, "none" uses no resolver. */
+  traefik_certificate_resolver?: string | null | undefined;
   /** Deploy the raw Docker Compose definition. */
   is_raw_compose_deployment_enabled?: boolean | undefined;
   /** Enable log drain for the application. */
@@ -4872,6 +4900,8 @@ export interface UpdateDatabaseByUuidRequest {
   limits_cpuset?: string | undefined;
   /** CPU shares of the database */
   limits_cpu_shares?: number | undefined;
+  /** Restart the database after the update. Requires the deploy ability. */
+  instant_deploy?: boolean | undefined;
   /** PostgreSQL user */
   postgres_user?: string | undefined;
   /** PostgreSQL password */
@@ -5231,7 +5261,7 @@ export interface UpdateScheduledTaskByApplicationUuidRequest {
   container?: string | null | undefined;
   /** The timeout of the scheduled task in seconds. */
   timeout?: number | undefined;
-  /** The flag to indicate if the scheduled task is enabled. */
+  /** The flag to indicate if the scheduled task is enabled. An enabled task requires the deploy ability. */
   enabled?: boolean | undefined;
 }
 export interface UpdateScheduledTaskByServiceUuidRequest {
@@ -5249,7 +5279,7 @@ export interface UpdateScheduledTaskByServiceUuidRequest {
   container?: string | null | undefined;
   /** The timeout of the scheduled task in seconds. */
   timeout?: number | undefined;
-  /** The flag to indicate if the scheduled task is enabled. */
+  /** The flag to indicate if the scheduled task is enabled. An enabled task requires the deploy ability. */
   enabled?: boolean | undefined;
 }
 /** Server role. */
@@ -5342,6 +5372,8 @@ export interface UpdateServerProxyRequest {
   /** Public http(s) redirect URL, or null to clear. */
   redirect_url?: string | null | undefined;
   generate_exact_labels?: boolean | undefined;
+  /** Traefik certificate resolver for generated HTTPS routers (letters, digits, _ and -). Null or empty to use your own certificates. Redeploy resources to apply. */
+  traefik_certificate_resolver?: string | null | undefined;
   /** Proxy type (case-insensitive). */
   proxy_type?: UpdateServerProxyRequestProxyType | (string & {}) | undefined;
 }
@@ -5351,8 +5383,11 @@ export interface UpdateServerProxyResponse {
   redirect_enabled?: boolean | undefined;
   redirect_url?: string | null | undefined;
   generate_exact_labels?: boolean | undefined;
+  traefik_certificate_resolver?: string | null | undefined;
   configuration?: string | null | undefined;
 }
+/** How Sentinel stores client IPs: full, anonymized (IPv4 /24, IPv6 /48), or off. */
+export type UpdateServerSentinelRequestTrafficIpMode = "full" | "anonymized" | "off";
 export interface UpdateServerSentinelRequest {
   /** Server UUID */
   uuid: string;
@@ -5370,6 +5405,8 @@ export interface UpdateServerSentinelRequest {
   is_geoip_enabled?: boolean | undefined;
   geoip_refresh_days?: number | undefined;
   geoip_maxmind_license_key?: string | null | undefined;
+  /** How Sentinel stores client IPs: full, anonymized (IPv4 /24, IPv6 /48), or off. */
+  traffic_ip_mode?: UpdateServerSentinelRequestTrafficIpMode | (string & {}) | undefined;
 }
 export interface UpdateServerSentinelResponse {}
 export interface UpdateServerSharedEnvRequest {
@@ -6228,6 +6265,7 @@ export const createS3Storage: API.OperationMethod<
 }));
 
 export type CreateScheduledTaskByApplicationUuidError =
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
@@ -6240,14 +6278,18 @@ export const createScheduledTaskByApplicationUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2128, __c266, 0) as any as S.Schema<CreateScheduledTaskByApplicationUuidRequest>,
   output: __S(2136, __c267, 0) as any as S.Schema<ScheduledTask>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateScheduledTaskByApplicationUuid",
 }));
 
-export type CreateScheduledTaskByServiceUuidError = NotFound | UnprocessableEntity | CoolifyOpError;
+export type CreateScheduledTaskByServiceUuidError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
 /** Create Task Create a new scheduled task for a service. */
 export const createScheduledTaskByServiceUuid: API.OperationMethod<
   CreateScheduledTaskByServiceUuidRequest,
@@ -6257,7 +6299,7 @@ export const createScheduledTaskByServiceUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c268, 0) as any as S.Schema<CreateScheduledTaskByServiceUuidRequest>,
   output: __S(2136, __c267, 0) as any as S.Schema<ScheduledTask>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -7307,8 +7349,8 @@ export const enableServerCloudflareTunnel: API.OperationMethod<
   span: "EnableServerCloudflareTunnel",
 }));
 
-export type ExecuteScheduledTaskByApplicationUuidError = NotFound | CoolifyOpError;
-/** Execute Task Queue immediate execution of a scheduled task for an application. */
+export type ExecuteScheduledTaskByApplicationUuidError = Forbidden | NotFound | CoolifyOpError;
+/** Execute Task Queue immediate execution of a scheduled task for an application. Requires the deploy ability. */
 export const executeScheduledTaskByApplicationUuid: API.OperationMethod<
   ExecuteScheduledTaskByApplicationUuidRequest,
   ExecuteScheduledTaskByApplicationUuidResponse,
@@ -7317,15 +7359,15 @@ export const executeScheduledTaskByApplicationUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ExecuteScheduledTaskByApplicationUuidRequest>,
   output: __S(2200, __c275, 0) as any as S.Schema<ExecuteScheduledTaskByApplicationUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [Forbidden, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteScheduledTaskByApplicationUuid",
 }));
 
-export type ExecuteScheduledTaskByServiceUuidError = NotFound | CoolifyOpError;
-/** Execute Task Queue immediate execution of a scheduled task for a service. */
+export type ExecuteScheduledTaskByServiceUuidError = Forbidden | NotFound | CoolifyOpError;
+/** Execute Task Queue immediate execution of a scheduled task for a service. Requires the deploy ability. */
 export const executeScheduledTaskByServiceUuid: API.OperationMethod<
   ExecuteScheduledTaskByServiceUuidRequest,
   ExecuteScheduledTaskByServiceUuidResponse,
@@ -7334,7 +7376,7 @@ export const executeScheduledTaskByServiceUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ExecuteScheduledTaskByServiceUuidRequest>,
   output: __S(2200, __c275, 0) as any as S.Schema<ExecuteScheduledTaskByServiceUuidResponse>,
-  errors: [NotFound, UnknownCoolifyError],
+  errors: [Forbidden, NotFound, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9498,7 +9540,12 @@ export const restartApplicationByUuid: API.OperationMethod<
   span: "RestartApplicationByUuid",
 }));
 
-export type RestartDatabaseByUuidError = BadRequest | NotFound | Conflict | CoolifyOpError;
+export type RestartDatabaseByUuidError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | CoolifyOpError;
 /** Restart Restart database. */
 export const restartDatabaseByUuid: API.OperationMethod<
   RestartDatabaseByUuidRequest,
@@ -9508,7 +9555,7 @@ export const restartDatabaseByUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1336, __c167, 0) as any as S.Schema<RestartDatabaseByUuidRequest>,
   output: __S(2416, __c302, 0) as any as S.Schema<RestartDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCoolifyError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -9516,7 +9563,7 @@ export const restartDatabaseByUuid: API.OperationMethod<
 }));
 
 export type RestartServerProxyError = BadRequest | NotFound | CoolifyOpError;
-/** Restart server proxy Queue a proxy restart for a team-owned server. */
+/** Restart server proxy Queue a proxy restart for a team-owned server. Needs a token with the `deploy` permission. */
 export const restartServerProxy: API.OperationMethod<
   RestartServerProxyRequest,
   RestartServerProxyResponse,
@@ -9675,7 +9722,7 @@ export type SaveServerProxyConfigurationError =
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Save server proxy configuration Save the raw proxy Docker Compose configuration for a team-owned server. Multi-line configuration must be base64 encoded (same pattern as other compose payloads). */
+/** Save server proxy configuration Save the raw proxy Docker Compose configuration for a team-owned server. Needs a token with the `write` and `deploy` permissions. Multi-line configuration must be base64 encoded (same pattern as other compose payloads). */
 export const saveServerProxyConfiguration: API.OperationMethod<
   SaveServerProxyConfigurationRequest,
   SaveServerProxyConfigurationResponse,
@@ -9774,7 +9821,12 @@ export const startApplicationByUuid: API.OperationMethod<
   span: "StartApplicationByUuid",
 }));
 
-export type StartDatabaseByUuidError = BadRequest | NotFound | Conflict | CoolifyOpError;
+export type StartDatabaseByUuidError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | CoolifyOpError;
 /** Start Start database. */
 export const startDatabaseByUuid: API.OperationMethod<
   StartDatabaseByUuidRequest,
@@ -9784,7 +9836,7 @@ export const startDatabaseByUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1464, __c183, 0) as any as S.Schema<StartDatabaseByUuidRequest>,
   output: __S(2416, __c302, 0) as any as S.Schema<StartDatabaseByUuidResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownCoolifyError],
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10454,6 +10506,7 @@ export const updateS3StorageByUuid: API.OperationMethod<
 }));
 
 export type UpdateScheduledTaskByApplicationUuidError =
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
@@ -10466,14 +10519,18 @@ export const updateScheduledTaskByApplicationUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1800, __c225, 0) as any as S.Schema<UpdateScheduledTaskByApplicationUuidRequest>,
   output: __S(2136, __c267, 0) as any as S.Schema<ScheduledTask>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateScheduledTaskByApplicationUuid",
 }));
 
-export type UpdateScheduledTaskByServiceUuidError = NotFound | UnprocessableEntity | CoolifyOpError;
+export type UpdateScheduledTaskByServiceUuidError =
+  | Forbidden
+  | NotFound
+  | UnprocessableEntity
+  | CoolifyOpError;
 /** Update Task Update a scheduled task for a service. */
 export const updateScheduledTaskByServiceUuid: API.OperationMethod<
   UpdateScheduledTaskByServiceUuidRequest,
@@ -10483,7 +10540,7 @@ export const updateScheduledTaskByServiceUuid: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1808, __c226, 0) as any as S.Schema<UpdateScheduledTaskByServiceUuidRequest>,
   output: __S(2136, __c267, 0) as any as S.Schema<ScheduledTask>,
-  errors: [NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10551,10 +10608,11 @@ export const updateServerDockerCleanup: API.OperationMethod<
 
 export type UpdateServerLogDrainsError =
   | BadRequest
+  | Forbidden
   | NotFound
   | UnprocessableEntity
   | CoolifyOpError;
-/** Update log drain settings Update New Relic, Axiom, or custom log drain settings for a server owned by the authenticated team. */
+/** Update log drain settings Update New Relic, Axiom, or custom log drain settings for a server owned by the authenticated team. Changing `logdrain_custom_config` or `logdrain_custom_config_parser` needs a token with the `deploy` permission. Custom configs cannot use the lua, wasm, exec, exec_wasi, or file plugins, @INCLUDE, or plugins_file, and the parser file can only contain [PARSER] and [MULTILINE_PARSER] sections. */
 export const updateServerLogDrains: API.OperationMethod<
   UpdateServerLogDrainsRequest,
   UpdateServerLogDrainsResponse,
@@ -10563,7 +10621,7 @@ export const updateServerLogDrains: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1840, __c230, 0) as any as S.Schema<UpdateServerLogDrainsRequest>,
   output: __S(2200, __c275, 0) as any as S.Schema<UpdateServerLogDrainsResponse>,
-  errors: [BadRequest, NotFound, UnprocessableEntity, UnknownCoolifyError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownCoolifyError],
   protocol: CoolifyProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10571,7 +10629,7 @@ export const updateServerLogDrains: API.OperationMethod<
 }));
 
 export type UpdateServerProxyError = BadRequest | NotFound | UnprocessableEntity | CoolifyOpError;
-/** Update server proxy Update proxy redirect settings, exact labels generation, and optionally the proxy type for a team-owned server. */
+/** Update server proxy Update proxy redirect settings, exact labels generation, the Traefik certificate resolver, and optionally the proxy type for a team-owned server. */
 export const updateServerProxy: API.OperationMethod<
   UpdateServerProxyRequest,
   UpdateServerProxyResponse,
@@ -10985,12 +11043,14 @@ function __c7(j: number): any {
           is_build_server_enabled: S.optional(S.Boolean),
           is_consistent_container_name_enabled: S.optional(S.Boolean),
           is_gzip_enabled: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_stripprefix_enabled: S.optional(S.Boolean),
           connect_to_docker_network: S.optional(S.Boolean),
           custom_internal_name: S.optional(S.NullOr(S.String)),
           custom_container_name_prefix: S.optional(S.NullOr(S.String)),
           is_container_label_escape_enabled: S.optional(S.Boolean),
           is_env_sorting_enabled: S.optional(S.Boolean),
+          include_coolify_default_variables: S.optional(S.Boolean),
           is_container_label_readonly_enabled: S.optional(S.Boolean),
           is_preserve_repository_enabled: S.optional(S.Boolean),
           disable_build_cache: S.optional(S.Boolean),
@@ -11917,6 +11977,8 @@ function __c60(j: number): any {
           traffic_retention_1d_days: S.optional(S.Number),
           is_geoip_enabled: S.optional(S.Boolean),
           geoip_refresh_days: S.optional(S.Number),
+          traffic_ip_mode: S.optional(S.String),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_reachable: S.optional(S.Boolean),
           is_sentinel_enabled: S.optional(S.Boolean),
           is_swarm_manager: S.optional(S.Boolean),
@@ -12058,6 +12120,7 @@ function __c66(j: number): any {
           redirect_enabled: S.optional(S.Boolean),
           redirect_url: S.optional(S.NullOr(S.String)),
           generate_exact_labels: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           configuration: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "GetServerProxyResponse" });
@@ -12089,6 +12152,7 @@ function __c67(j: number): any {
           traffic_retention_1d_days: S.optional(S.Number),
           is_geoip_enabled: S.optional(S.Boolean),
           geoip_refresh_days: S.optional(S.Number),
+          traffic_ip_mode: S.optional(S.String),
           geoip_maxmind_license_key: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetServerSentinelResponse" });
@@ -13473,6 +13537,7 @@ function __c157(j: number): any {
           exclude_from_status: S.optional(S.NullOr(S.Boolean)),
           is_log_drain_enabled: S.optional(S.NullOr(S.Boolean)),
           is_gzip_enabled: S.optional(S.NullOr(S.Boolean)),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_stripprefix_enabled: S.optional(S.NullOr(S.Boolean)),
           is_force_https_enabled: S.optional(S.NullOr(S.Boolean)),
           max_restart_count: S.optional(S.NullOr(S.Number)),
@@ -13843,6 +13908,7 @@ function __c178(j: number): any {
           retention_days_s3: S.optional(S.Number),
           retention_max_storage_s3: S.optional(S.Number),
           timeout: S.optional(S.Number),
+          missing_backup_notification_days: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13875,6 +13941,7 @@ function __c179(j: number): any {
           retention_days_s3: S.Number,
           retention_max_storage_s3: S.Number,
           timeout: S.Number,
+          missing_backup_notification_days: S.Number,
         }),
       ).annotate({ identifier: "VolumeBackupScheduleResponse" });
   }
@@ -13899,6 +13966,7 @@ function __c180(j: number): any {
           retention_days_s3: S.optional(S.Number),
           retention_max_storage_s3: S.optional(S.Number),
           timeout: S.optional(S.Number),
+          missing_backup_notification_days: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -13929,6 +13997,7 @@ function __c181(j: number): any {
           retention_days_s3: S.optional(S.Number),
           retention_max_storage_s3: S.optional(S.Number),
           timeout: S.optional(S.Number),
+          missing_backup_notification_days: S.optional(S.Number),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -14073,14 +14142,10 @@ function __c191(j: number): any {
       return S.suspend(() =>
         S.Struct({
           uuid: S.String.pipe(T.Label()),
-          project_uuid: S.optional(S.String),
-          server_uuid: S.optional(S.String),
-          environment_name: S.optional(S.String),
           github_app_uuid: S.optional(S.String),
           git_repository: S.optional(S.String),
           git_branch: S.optional(S.String),
           ports_exposes: S.optional(S.String),
-          destination_uuid: S.optional(S.String),
           build_pack: S.optional(S.String),
           name: S.optional(S.String),
           description: S.optional(S.String),
@@ -14152,6 +14217,7 @@ function __c191(j: number): any {
           docker_images_to_keep: S.optional(S.Number),
           is_gzip_enabled: S.optional(S.Boolean),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_raw_compose_deployment_enabled: S.optional(S.Boolean),
           is_log_drain_enabled: S.optional(S.Boolean),
           is_gpu_enabled: S.optional(S.Boolean),
@@ -14302,6 +14368,7 @@ function __c202(j: number): any {
           limits_cpus: S.optional(S.String),
           limits_cpuset: S.optional(S.String),
           limits_cpu_shares: S.optional(S.Number),
+          instant_deploy: S.optional(S.Boolean),
           postgres_user: S.optional(S.String),
           postgres_password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           postgres_db: S.optional(S.String),
@@ -14449,6 +14516,7 @@ function __c206(j: number): any {
           docker_images_to_keep: S.optional(S.Number),
           is_gzip_enabled: S.optional(S.Boolean),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_raw_compose_deployment_enabled: S.optional(S.Boolean),
           is_log_drain_enabled: S.optional(S.Boolean),
           is_gpu_enabled: S.optional(S.Boolean),
@@ -14760,6 +14828,7 @@ function __c220(j: number): any {
           docker_images_to_keep: S.optional(S.Number),
           is_gzip_enabled: S.optional(S.Boolean),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_raw_compose_deployment_enabled: S.optional(S.Boolean),
           is_log_drain_enabled: S.optional(S.Boolean),
           is_gpu_enabled: S.optional(S.Boolean),
@@ -14982,6 +15051,7 @@ function __c232(j: number): any {
           redirect_enabled: S.optional(S.Boolean),
           redirect_url: S.optional(S.NullOr(S.String)),
           generate_exact_labels: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           proxy_type: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/servers/{uuid}/proxy", code: 200 })),
       ).annotate({ identifier: "UpdateServerProxyRequest" });
@@ -15007,6 +15077,7 @@ function __c233(j: number): any {
           is_geoip_enabled: S.optional(S.Boolean),
           geoip_refresh_days: S.optional(S.Number),
           geoip_maxmind_license_key: S.optional(S.NullOr(S.String)),
+          traffic_ip_mode: S.optional(S.String),
         }).pipe(T.Http({ method: "PATCH", uri: "/servers/{uuid}/sentinel", code: 200 })),
       ).annotate({ identifier: "UpdateServerSentinelRequest" });
   }
@@ -15509,6 +15580,7 @@ function __c258(j: number): any {
           docker_images_to_keep: S.optional(S.Number),
           is_gzip_enabled: S.optional(S.Boolean),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_raw_compose_deployment_enabled: S.optional(S.Boolean),
           is_log_drain_enabled: S.optional(S.Boolean),
           is_gpu_enabled: S.optional(S.Boolean),
@@ -15636,6 +15708,7 @@ function __c260(j: number): any {
           docker_images_to_keep: S.optional(S.Number),
           is_gzip_enabled: S.optional(S.Boolean),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_raw_compose_deployment_enabled: S.optional(S.Boolean),
           is_log_drain_enabled: S.optional(S.Boolean),
           is_gpu_enabled: S.optional(S.Boolean),
@@ -15779,6 +15852,7 @@ function __c264(j: number): any {
           docker_images_to_keep: S.optional(S.Number),
           is_gzip_enabled: S.optional(S.Boolean),
           is_stripprefix_enabled: S.optional(S.Boolean),
+          traefik_certificate_resolver: S.optional(S.NullOr(S.String)),
           is_raw_compose_deployment_enabled: S.optional(S.Boolean),
           is_log_drain_enabled: S.optional(S.Boolean),
           is_gpu_enabled: S.optional(S.Boolean),
@@ -15977,6 +16051,7 @@ function __c276(j: number): any {
           destination_uuid: S.optional(S.String),
           instant_deploy: S.optional(S.Boolean),
           docker_compose_raw: S.optional(S.String),
+          connect_to_docker_network: S.optional(S.Boolean),
           urls: S.optional(__S(2217, __c277, 1)),
           force_domain_override: S.optional(S.Boolean),
           is_container_label_escape_enabled: S.optional(S.Boolean),

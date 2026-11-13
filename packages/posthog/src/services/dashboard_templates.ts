@@ -52,6 +52,38 @@ export class NotFound
   ) {}
 
 export type CreateDashboardTemplateRequestTagsList = Array<string>;
+/** * `tight` - tight * `condensed` - condensed * `standard` - standard * `relaxed` - relaxed * `wide` - wide */
+export type TileSpacingEnum = "tight" | "condensed" | "standard" | "relaxed" | "wide";
+/** * `vertical` - vertical * `horizontal` - horizontal * `stable` - stable */
+export type LayoutCompactionEnum = "vertical" | "horizontal" | "stable";
+/** * `sections` - sections * `tabs` - tabs */
+export type TileGroupDisplayEnum = "sections" | "tabs";
+/** * `blue` - Blue * `purple` - Purple * `green` - Green * `yellow` - Yellow * `orange` - Orange * `red` - Red */
+export type DashboardTileGroupColorEnum = "blue" | "purple" | "green" | "yellow" | "orange" | "red";
+export interface DashboardTileGroup {
+  /** Heading for the group. When it is blank or omitted, the heading shows the number of tiles. */
+  title?: string | undefined;
+  /** Whether the group starts closed. Defaults to false. When a viewer opens or closes the group, their browser keeps that choice and it wins over this default. A closed group loads its tiles when a viewer opens it. */
+  collapsed?: boolean | undefined;
+  /** Color of a dot before the group heading. Null or omitted shows no dot. * `blue` - Blue * `purple` - Purple * `green` - Green * `yellow` - Yellow * `orange` - Orange * `red` - Red */
+  color?: DashboardTileGroupColorEnum | (string & {}) | null | undefined;
+}
+/** Settings for tile groups, keyed by the tiles' group_key. Each group shows as a band of its tiles under a heading that viewers can open and close. Viewers who do not have bands yet see only the group title above its tiles. A write replaces the whole map. Send an empty object or null to remove all group settings. */
+export type DashboardCustomizationGroupsMap = { [key: string]: DashboardTileGroup | undefined };
+/** Deprecated: use groups. Titles for tile groups, keyed by group_key. A write replaces all titles and keeps the other group settings. Send an empty object or null to clear titles. Do not send it with groups. */
+export type DashboardCustomizationGroupTitlesMap = { [key: string]: string | undefined };
+export interface DashboardCustomization {
+  /** Named tile density preset. * `tight` - tight * `condensed` - condensed * `standard` - standard * `relaxed` - relaxed * `wide` - wide */
+  tile_spacing?: TileSpacingEnum | (string & {}) | undefined;
+  /** How tiles rearrange after a move or resize. vertical stacks tiles upward, horizontal stacks tiles to the left, and stable preserves positions while moving colliding tiles. * `vertical` - vertical * `horizontal` - horizontal * `stable` - stable */
+  layout_compaction?: LayoutCompactionEnum | (string & {}) | undefined;
+  /** How tile groups show. sections shows each group as a band that opens and closes. tabs shows one group at a time, and tiles outside any group get their own first tab. * `sections` - sections * `tabs` - tabs */
+  group_display?: TileGroupDisplayEnum | (string & {}) | undefined;
+  /** Settings for tile groups, keyed by the tiles' group_key. Each group shows as a band of its tiles under a heading that viewers can open and close. Viewers who do not have bands yet see only the group title above its tiles. A write replaces the whole map. Send an empty object or null to remove all group settings. */
+  groups?: DashboardCustomizationGroupsMap | undefined;
+  /** Deprecated: use groups. Titles for tile groups, keyed by group_key. A write replaces all titles and keeps the other group settings. Send an empty object or null to clear titles. Do not send it with groups. */
+  group_titles?: DashboardCustomizationGroupTitlesMap | undefined;
+}
 /** * `team` - Only team * `organization` - Organization * `global` - Global * `feature_flag` - Feature Flag */
 export type DashboardTemplateScopeEnum = "team" | "organization" | "global" | "feature_flag";
 export type BlankEnum = "";
@@ -66,6 +98,8 @@ export interface CreateDashboardTemplateRequest {
   tags?: CreateDashboardTemplateRequestTagsList | null | undefined;
   tiles?: unknown | undefined;
   variables?: unknown | undefined;
+  /** Display settings that a dashboard made from this template starts with: tile spacing, layout compaction, and the tile groups that tiles join through their group_key. */
+  customization?: DashboardCustomization | null | undefined;
   deleted?: boolean | null | undefined;
   image_url?: string | null | undefined;
   scope?: CreateDashboardTemplateRequestScope | null | undefined;
@@ -118,6 +152,8 @@ export interface DashboardTemplate {
   tags?: DashboardTemplateTagsList | null | undefined;
   tiles?: unknown | undefined;
   variables?: unknown | undefined;
+  /** Display settings that a dashboard made from this template starts with: tile spacing, layout compaction, and the tile groups that tiles join through their group_key. */
+  customization?: DashboardCustomization | null | undefined;
   deleted?: boolean | null | undefined;
   created_at?: string | null | undefined;
   created_by?: UserBasic | null | undefined;
@@ -196,6 +232,8 @@ export interface UpdateDashboardTemplateRequest {
   tags?: UpdateDashboardTemplateRequestTagsList | null | undefined;
   tiles?: unknown | undefined;
   variables?: unknown | undefined;
+  /** Display settings that a dashboard made from this template starts with: tile spacing, layout compaction, and the tile groups that tiles join through their group_key. */
+  customization?: DashboardCustomization | null | undefined;
   deleted?: boolean | null | undefined;
   image_url?: string | null | undefined;
   scope?: UpdateDashboardTemplateRequestScope | null | undefined;
@@ -217,6 +255,8 @@ export interface UpdateDashboardTemplatesPartialRequest {
   tags?: UpdateDashboardTemplatesPartialRequestTagsList | null | undefined;
   tiles?: unknown | undefined;
   variables?: unknown | undefined;
+  /** Display settings that a dashboard made from this template starts with: tile spacing, layout compaction, and the tile groups that tiles join through their group_key. */
+  customization?: DashboardCustomization | null | undefined;
   deleted?: boolean | null | undefined;
   image_url?: string | null | undefined;
   scope?: UpdateDashboardTemplatesPartialRequestScope | null | undefined;
@@ -235,7 +275,7 @@ export const createDashboardTemplate: API.OperationMethod<
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<CreateDashboardTemplateRequest>,
-  output: __S(12, __c1, 4) as any as S.Schema<DashboardTemplate>,
+  output: __S(24, __c1, 8) as any as S.Schema<DashboardTemplate>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -255,8 +295,8 @@ export const dashboardTemplatesCopyBetweenProjectsCreate: API.OperationMethod<
   DashboardTemplatesCopyBetweenProjectsCreateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<DashboardTemplatesCopyBetweenProjectsCreateRequest>,
-  output: __S(12, __c1, 4) as any as S.Schema<DashboardTemplate>,
+  input: __S(32, __c2, 0) as any as S.Schema<DashboardTemplatesCopyBetweenProjectsCreateRequest>,
+  output: __S(24, __c1, 8) as any as S.Schema<DashboardTemplate>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -272,8 +312,8 @@ export const dashboardTemplatesDestroy: API.OperationMethod<
   DashboardTemplatesDestroyError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<DashboardTemplatesDestroyRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<DashboardTemplatesDestroyResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<DashboardTemplatesDestroyRequest>,
+  output: __S(49, __c3, 1) as any as S.Schema<DashboardTemplatesDestroyResponse>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -288,8 +328,8 @@ export const getDashboardTemplate: API.OperationMethod<
   GetDashboardTemplateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetDashboardTemplateRequest>,
-  output: __S(12, __c1, 4) as any as S.Schema<DashboardTemplate>,
+  input: __S(64, __c4, 0) as any as S.Schema<GetDashboardTemplateRequest>,
+  output: __S(24, __c1, 8) as any as S.Schema<DashboardTemplate>,
   errors: [Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -304,8 +344,8 @@ export const listDashboardTemplates: API.OperationMethod<
   ListDashboardTemplatesError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListDashboardTemplatesRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<PaginatedDashboardTemplateList>,
+  input: __S(80, __c5, 0) as any as S.Schema<ListDashboardTemplatesRequest>,
+  output: __S(82, __c5, 2) as any as S.Schema<PaginatedDashboardTemplateList>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -320,8 +360,8 @@ export const updateDashboardTemplate: API.OperationMethod<
   UpdateDashboardTemplateError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<UpdateDashboardTemplateRequest>,
-  output: __S(12, __c1, 4) as any as S.Schema<DashboardTemplate>,
+  input: __S(96, __c6, 0) as any as S.Schema<UpdateDashboardTemplateRequest>,
+  output: __S(24, __c1, 8) as any as S.Schema<DashboardTemplate>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -340,8 +380,8 @@ export const updateDashboardTemplatesPartial: API.OperationMethod<
   UpdateDashboardTemplatesPartialError,
   PosthogOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<UpdateDashboardTemplatesPartialRequest>,
-  output: __S(12, __c1, 4) as any as S.Schema<DashboardTemplate>,
+  input: __S(112, __c7, 0) as any as S.Schema<UpdateDashboardTemplatesPartialRequest>,
+  output: __S(24, __c1, 8) as any as S.Schema<DashboardTemplate>,
   errors: [BadRequest, Forbidden, NotFound],
   protocol: PosthogProtocol,
   retry: Retry.Retry,
@@ -359,13 +399,14 @@ function __c0(j: number): any {
           template_name: S.optional(S.NullOr(S.String)),
           dashboard_description: S.optional(S.NullOr(S.String)),
           dashboard_filters: S.optional(S.Unknown),
-          tags: S.optional(S.NullOr(__S(8, __c1, 0))),
+          tags: S.optional(S.NullOr(__S(16, __c1, 0))),
           tiles: S.optional(S.Unknown),
           variables: S.optional(S.Unknown),
+          customization: S.optional(S.NullOr(__S(20, __c1, 4))),
           deleted: S.optional(S.NullOr(S.Boolean)),
           image_url: S.optional(S.NullOr(S.String)),
           scope: S.optional(S.NullOr(S.Unknown)),
-          availability_contexts: S.optional(S.NullOr(__S(8, __c1, 0))),
+          availability_contexts: S.optional(S.NullOr(__S(16, __c1, 0))),
           is_featured: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -382,8 +423,30 @@ function __c1(j: number): any {
     case 0:
       return S.Array(S.String);
     case 1:
-      return S.Record(S.String, S.Unknown);
+      return S.suspend(() =>
+        S.Struct({
+          title: S.optional(S.String),
+          collapsed: S.optional(S.Boolean),
+          color: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "DashboardTileGroup" });
     case 2:
+      return S.Record(S.String, __S(17, __c1, 1));
+    case 3:
+      return S.Record(S.String, S.String);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          tile_spacing: S.optional(S.String),
+          layout_compaction: S.optional(S.String),
+          group_display: S.optional(S.String),
+          groups: S.optional(__S(18, __c1, 2)),
+          group_titles: S.optional(__S(19, __c1, 3)),
+        }),
+      ).annotate({ identifier: "DashboardCustomization" });
+    case 5:
+      return S.Record(S.String, S.Unknown);
+    case 6:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.Number),
@@ -393,37 +456,38 @@ function __c1(j: number): any {
           last_name: S.optional(S.String),
           email: S.optional(S.String),
           is_email_verified: S.optional(S.NullOr(S.Boolean)),
-          hedgehog_config: S.optional(S.NullOr(__S(9, __c1, 1))),
+          hedgehog_config: S.optional(S.NullOr(__S(21, __c1, 5))),
           role_at_organization: S.optional(S.NullOr(S.Unknown)),
         }),
       ).annotate({ identifier: "UserBasic" });
-    case 3:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           actions: S.Number,
           cohorts: S.Number,
-          warehouse_tables: __S(8, __c1, 0),
+          warehouse_tables: __S(16, __c1, 0),
         }),
       ).annotate({ identifier: "NonPortableReferences" });
-    case 4:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           template_name: S.optional(S.NullOr(S.String)),
           dashboard_description: S.optional(S.NullOr(S.String)),
           dashboard_filters: S.optional(S.Unknown),
-          tags: S.optional(S.NullOr(__S(8, __c1, 0))),
+          tags: S.optional(S.NullOr(__S(16, __c1, 0))),
           tiles: S.optional(S.Unknown),
           variables: S.optional(S.Unknown),
+          customization: S.optional(S.NullOr(__S(20, __c1, 4))),
           deleted: S.optional(S.NullOr(S.Boolean)),
           created_at: S.optional(S.NullOr(S.String)),
-          created_by: S.optional(S.NullOr(__S(10, __c1, 2))),
+          created_by: S.optional(S.NullOr(__S(22, __c1, 6))),
           image_url: S.optional(S.NullOr(S.String)),
           team_id: S.optional(S.NullOr(S.Number)),
           scope: S.optional(S.NullOr(S.Unknown)),
-          availability_contexts: S.optional(S.NullOr(__S(8, __c1, 0))),
+          availability_contexts: S.optional(S.NullOr(__S(16, __c1, 0))),
           is_featured: S.optional(S.Boolean),
-          non_portable_references: S.optional(__S(11, __c1, 3)),
+          non_portable_references: S.optional(__S(23, __c1, 7)),
         }),
       ).annotate({ identifier: "DashboardTemplate" });
   }
@@ -504,14 +568,14 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListDashboardTemplatesRequest" });
     case 1:
-      return S.Array(__S(12, __c1, 4));
+      return S.Array(__S(24, __c1, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({
           count: S.optional(S.Number),
           next: S.optional(S.NullOr(S.String)),
           previous: S.optional(S.NullOr(S.String)),
-          results: S.optional(__S(41, __c5, 1)),
+          results: S.optional(__S(81, __c5, 1)),
         }),
       ).annotate({ identifier: "PaginatedDashboardTemplateList" });
   }
@@ -526,13 +590,14 @@ function __c6(j: number): any {
           template_name: S.optional(S.NullOr(S.String)),
           dashboard_description: S.optional(S.NullOr(S.String)),
           dashboard_filters: S.optional(S.Unknown),
-          tags: S.optional(S.NullOr(__S(8, __c1, 0))),
+          tags: S.optional(S.NullOr(__S(16, __c1, 0))),
           tiles: S.optional(S.Unknown),
           variables: S.optional(S.Unknown),
+          customization: S.optional(S.NullOr(__S(20, __c1, 4))),
           deleted: S.optional(S.NullOr(S.Boolean)),
           image_url: S.optional(S.NullOr(S.String)),
           scope: S.optional(S.NullOr(S.Unknown)),
-          availability_contexts: S.optional(S.NullOr(__S(8, __c1, 0))),
+          availability_contexts: S.optional(S.NullOr(__S(16, __c1, 0))),
           is_featured: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -554,13 +619,14 @@ function __c7(j: number): any {
           template_name: S.optional(S.NullOr(S.String)),
           dashboard_description: S.optional(S.NullOr(S.String)),
           dashboard_filters: S.optional(S.Unknown),
-          tags: S.optional(S.NullOr(__S(8, __c1, 0))),
+          tags: S.optional(S.NullOr(__S(16, __c1, 0))),
           tiles: S.optional(S.Unknown),
           variables: S.optional(S.Unknown),
+          customization: S.optional(S.NullOr(__S(20, __c1, 4))),
           deleted: S.optional(S.NullOr(S.Boolean)),
           image_url: S.optional(S.NullOr(S.String)),
           scope: S.optional(S.NullOr(S.Unknown)),
-          availability_contexts: S.optional(S.NullOr(__S(8, __c1, 0))),
+          availability_contexts: S.optional(S.NullOr(__S(16, __c1, 0))),
           is_featured: S.optional(S.Boolean),
         }).pipe(
           T.Http({

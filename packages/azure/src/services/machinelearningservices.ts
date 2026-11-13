@@ -43,11 +43,13 @@ export interface CodeConfiguration {
   scoringScript: string;
 }
 /** Environment variables configuration for the deployment. */
-export type BatchDeploymentPropertiesEnvironmentVariablesMap = {
+export type BatchDeploymentPropertiesInputEnvironmentVariablesMap = {
   [key: string]: string | null | undefined;
 };
 /** Property dictionary. Properties can be added, but not removed or altered. */
-export type BatchDeploymentPropertiesPropertiesMap = { [key: string]: string | null | undefined };
+export type BatchDeploymentPropertiesInputPropertiesMap = {
+  [key: string]: string | null | undefined;
+};
 /** The enumerated property types for batch deployments. */
 export type BatchDeploymentConfigurationType = "Model" | "PipelineComponent";
 /** Properties relevant to different deployment types. */
@@ -56,7 +58,7 @@ export interface BatchDeploymentConfiguration {
   deploymentConfigurationType: BatchDeploymentConfigurationType | (string & {});
 }
 /** Log verbosity for batch inferencing. Increasing verbosity order for logging is : Warning, Info and Debug. The default value is Info. */
-export type BatchDeploymentPropertiesLoggingLevel = "Info" | "Warning" | "Debug";
+export type BatchDeploymentPropertiesInputLoggingLevel = "Info" | "Warning" | "Debug";
 /** Enum to determine which reference method to use for an asset. */
 export type ReferenceType = "Id" | "DataPath" | "OutputPath";
 /** Base definition for asset references. */
@@ -73,16 +75,7 @@ export interface AssetReferenceBase {
   jobId?: string | undefined;
 }
 /** Enum to determine how batch inferencing will handle output */
-export type BatchDeploymentPropertiesOutputAction = "SummaryOnly" | "AppendRow";
-/** Possible values for DeploymentProvisioningState. */
-export type DeploymentProvisioningState =
-  | "Creating"
-  | "Deleting"
-  | "Scaling"
-  | "Updating"
-  | "Succeeded"
-  | "Failed"
-  | "Canceled";
+export type BatchDeploymentPropertiesInputOutputAction = "SummaryOnly" | "AppendRow";
 /** Additional properties bag. */
 export type ResourceConfigurationPropertiesMap = { [key: string]: unknown | null | undefined };
 export interface ResourceConfiguration {
@@ -101,7 +94,7 @@ export interface BatchRetrySettings {
   timeout?: string | undefined;
 }
 /** Batch inference settings per deployment. */
-export interface BatchDeploymentProperties {
+export interface BatchDeploymentPropertiesInput {
   /** Code configuration for the endpoint deployment. */
   codeConfiguration?: CodeConfiguration | null | undefined;
   /** Description of the endpoint deployment. */
@@ -109,9 +102,9 @@ export interface BatchDeploymentProperties {
   /** ARM resource ID or AssetId of the environment specification for the endpoint deployment. */
   environmentId?: string | null | undefined;
   /** Environment variables configuration for the deployment. */
-  environmentVariables?: BatchDeploymentPropertiesEnvironmentVariablesMap | null | undefined;
+  environmentVariables?: BatchDeploymentPropertiesInputEnvironmentVariablesMap | null | undefined;
   /** Property dictionary. Properties can be added, but not removed or altered. */
-  properties?: BatchDeploymentPropertiesPropertiesMap | null | undefined;
+  properties?: BatchDeploymentPropertiesInputPropertiesMap | null | undefined;
   /** Compute target for batch inference operation. */
   compute?: string | null | undefined;
   /** Properties relevant to different deployment types. */
@@ -119,7 +112,7 @@ export interface BatchDeploymentProperties {
   /** Error threshold, if the error count for the entire input goes above this value, the batch inference will be aborted. Range is [-1, int.MaxValue]. For FileDataset, this value is the count of file failures. For TabularDataset, this value is the count of record failures. If set to -1 (the lower bound), all failures during batch inference will be ignored. */
   errorThreshold?: number | undefined;
   /** Log verbosity for batch inferencing. Increasing verbosity order for logging is : Warning, Info and Debug. The default value is Info. */
-  loggingLevel?: BatchDeploymentPropertiesLoggingLevel | (string & {}) | undefined;
+  loggingLevel?: BatchDeploymentPropertiesInputLoggingLevel | (string & {}) | undefined;
   /** Indicates maximum number of parallelism per instance. */
   maxConcurrencyPerInstance?: number | undefined;
   /** Size of the mini-batch passed to each batch invocation. For FileDataset, this is the number of files per mini-batch. For TabularDataset, this is the size of the records in bytes, per mini-batch. */
@@ -127,11 +120,9 @@ export interface BatchDeploymentProperties {
   /** Reference to the model asset for the endpoint deployment. */
   model?: AssetReferenceBase | null | undefined;
   /** Enum to determine how batch inferencing will handle output */
-  outputAction?: BatchDeploymentPropertiesOutputAction | (string & {}) | undefined;
+  outputAction?: BatchDeploymentPropertiesInputOutputAction | (string & {}) | undefined;
   /** Customized output file name for append_row output action. */
   outputFileName?: string | undefined;
-  /** Provisioning state for the endpoint deployment. */
-  provisioningState?: DeploymentProvisioningState | (string & {}) | undefined;
   /** Indicates compute configuration for the job. If not provided, will default to the defaults defined in ResourceConfiguration. */
   resources?: ResourceConfiguration | null | undefined;
   /** Retry Settings for the batch inference operation. If not provided, will default to the defaults defined in BatchRetrySettings. */
@@ -182,7 +173,7 @@ export interface BatchDeploymentsCreateOrUpdateRequest {
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
-  properties: BatchDeploymentProperties;
+  properties: BatchDeploymentPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: BatchDeploymentsCreateOrUpdateRequestIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
@@ -211,6 +202,62 @@ export interface SystemData {
 }
 /** Resource tags. */
 export type BatchDeploymentsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
+/** Environment variables configuration for the deployment. */
+export type BatchDeploymentPropertiesEnvironmentVariablesMap = {
+  [key: string]: string | null | undefined;
+};
+/** Property dictionary. Properties can be added, but not removed or altered. */
+export type BatchDeploymentPropertiesPropertiesMap = { [key: string]: string | null | undefined };
+/** Log verbosity for batch inferencing. Increasing verbosity order for logging is : Warning, Info and Debug. The default value is Info. */
+export type BatchDeploymentPropertiesLoggingLevel = "Info" | "Warning" | "Debug";
+/** Enum to determine how batch inferencing will handle output */
+export type BatchDeploymentPropertiesOutputAction = "SummaryOnly" | "AppendRow";
+/** Possible values for DeploymentProvisioningState. */
+export type DeploymentProvisioningState =
+  | "Creating"
+  | "Deleting"
+  | "Scaling"
+  | "Updating"
+  | "Succeeded"
+  | "Failed"
+  | "Canceled";
+/** Batch inference settings per deployment. */
+export interface BatchDeploymentProperties {
+  /** Code configuration for the endpoint deployment. */
+  codeConfiguration?: CodeConfiguration | null | undefined;
+  /** Description of the endpoint deployment. */
+  description?: string | null | undefined;
+  /** ARM resource ID or AssetId of the environment specification for the endpoint deployment. */
+  environmentId?: string | null | undefined;
+  /** Environment variables configuration for the deployment. */
+  environmentVariables?: BatchDeploymentPropertiesEnvironmentVariablesMap | null | undefined;
+  /** Property dictionary. Properties can be added, but not removed or altered. */
+  properties?: BatchDeploymentPropertiesPropertiesMap | null | undefined;
+  /** Compute target for batch inference operation. */
+  compute?: string | null | undefined;
+  /** Properties relevant to different deployment types. */
+  deploymentConfiguration?: BatchDeploymentConfiguration | null | undefined;
+  /** Error threshold, if the error count for the entire input goes above this value, the batch inference will be aborted. Range is [-1, int.MaxValue]. For FileDataset, this value is the count of file failures. For TabularDataset, this value is the count of record failures. If set to -1 (the lower bound), all failures during batch inference will be ignored. */
+  errorThreshold?: number | undefined;
+  /** Log verbosity for batch inferencing. Increasing verbosity order for logging is : Warning, Info and Debug. The default value is Info. */
+  loggingLevel?: BatchDeploymentPropertiesLoggingLevel | undefined;
+  /** Indicates maximum number of parallelism per instance. */
+  maxConcurrencyPerInstance?: number | undefined;
+  /** Size of the mini-batch passed to each batch invocation. For FileDataset, this is the number of files per mini-batch. For TabularDataset, this is the size of the records in bytes, per mini-batch. */
+  miniBatchSize?: number | undefined;
+  /** Reference to the model asset for the endpoint deployment. */
+  model?: AssetReferenceBase | null | undefined;
+  /** Enum to determine how batch inferencing will handle output */
+  outputAction?: BatchDeploymentPropertiesOutputAction | undefined;
+  /** Customized output file name for append_row output action. */
+  outputFileName?: string | undefined;
+  /** Provisioning state for the endpoint deployment. */
+  provisioningState?: DeploymentProvisioningState | undefined;
+  /** Indicates compute configuration for the job. If not provided, will default to the defaults defined in ResourceConfiguration. */
+  resources?: ResourceConfiguration | null | undefined;
+  /** Retry Settings for the batch inference operation. If not provided, will default to the defaults defined in BatchRetrySettings. */
+  retrySettings?: BatchRetrySettings | null | undefined;
+}
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
@@ -658,6 +705,39 @@ export interface PendingUploadResponseDto {
   pendingUploadType?: PendingUploadResponseDtoPendingUploadType | undefined;
 }
 /** The asset property dictionary. */
+export type CodeVersionPropertiesInputPropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type CodeVersionPropertiesInputTagsMap = { [key: string]: string | null | undefined };
+/** Code asset version details. */
+export interface CodeVersionPropertiesInput {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: CodeVersionPropertiesInputPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: CodeVersionPropertiesInputTagsMap | null | undefined;
+  /** If the name version are system generated (anonymous registration). */
+  isAnonymous?: boolean | undefined;
+  /** Is the asset archived? */
+  isArchived?: boolean | undefined;
+  /** Uri where code is located */
+  codeUri?: string | null | undefined;
+}
+export interface CodeVersionsCreateOrUpdateRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of Azure Machine Learning workspace. */
+  workspaceName: string;
+  /** Container name. This is case-sensitive. */
+  name: string;
+  /** Version identifier. This is case-sensitive. */
+  version: string;
+  /** [Required] Additional attributes of the entity. */
+  properties: CodeVersionPropertiesInput;
+}
+/** The asset property dictionary. */
 export type CodeVersionPropertiesPropertiesMap = { [key: string]: string | null | undefined };
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type CodeVersionPropertiesTagsMap = { [key: string]: string | null | undefined };
@@ -676,21 +756,7 @@ export interface CodeVersionProperties {
   /** Uri where code is located */
   codeUri?: string | null | undefined;
   /** Provisioning state for the code version. */
-  provisioningState?: AssetProvisioningState | (string & {}) | undefined;
-}
-export interface CodeVersionsCreateOrUpdateRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** Name of Azure Machine Learning workspace. */
-  workspaceName: string;
-  /** Container name. This is case-sensitive. */
-  name: string;
-  /** Version identifier. This is case-sensitive. */
-  version: string;
-  /** [Required] Additional attributes of the entity. */
-  properties: CodeVersionProperties;
+  provisioningState?: AssetProvisioningState | undefined;
 }
 export interface CodeVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -769,6 +835,41 @@ export interface ComponentContainersCreateOrUpdateResponse {
   properties: ComponentContainerProperties;
 }
 /** The asset property dictionary. */
+export type ComponentVersionPropertiesInputPropertiesMap = {
+  [key: string]: string | null | undefined;
+};
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type ComponentVersionPropertiesInputTagsMap = { [key: string]: string | null | undefined };
+/** Definition of a component version: defines resources that span component types. */
+export interface ComponentVersionPropertiesInput {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: ComponentVersionPropertiesInputPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: ComponentVersionPropertiesInputTagsMap | null | undefined;
+  /** If the name version are system generated (anonymous registration). */
+  isAnonymous?: boolean | undefined;
+  /** Is the asset archived? */
+  isArchived?: boolean | undefined;
+  /** Defines Component definition details. <see href="https://docs.microsoft.com/en-us/azure/machine-learning/reference-yaml-component-command" /> */
+  componentSpec?: unknown | null | undefined;
+}
+export interface ComponentVersionsCreateOrUpdateRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Name of Azure Machine Learning workspace. */
+  workspaceName: string;
+  /** Container name. */
+  name: string;
+  /** Version identifier. */
+  version: string;
+  /** [Required] Additional attributes of the entity. */
+  properties: ComponentVersionPropertiesInput;
+}
+/** The asset property dictionary. */
 export type ComponentVersionPropertiesPropertiesMap = { [key: string]: string | null | undefined };
 /** Tag dictionary. Tags can be added, removed, and updated. */
 export type ComponentVersionPropertiesTagsMap = { [key: string]: string | null | undefined };
@@ -787,21 +888,7 @@ export interface ComponentVersionProperties {
   /** Defines Component definition details. <see href="https://docs.microsoft.com/en-us/azure/machine-learning/reference-yaml-component-command" /> */
   componentSpec?: unknown | null | undefined;
   /** Provisioning state for the component version. */
-  provisioningState?: AssetProvisioningState | (string & {}) | undefined;
-}
-export interface ComponentVersionsCreateOrUpdateRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** Name of Azure Machine Learning workspace. */
-  workspaceName: string;
-  /** Container name. */
-  name: string;
-  /** Version identifier. */
-  version: string;
-  /** [Required] Additional attributes of the entity. */
-  properties: ComponentVersionProperties;
+  provisioningState?: AssetProvisioningState | undefined;
 }
 export interface ComponentVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -2095,13 +2182,13 @@ export interface EnvironmentContainersCreateOrUpdateResponse {
   properties: EnvironmentContainerProperties;
 }
 /** The asset property dictionary. */
-export type EnvironmentVersionPropertiesPropertiesMap = {
+export type EnvironmentVersionPropertiesInputPropertiesMap = {
   [key: string]: string | null | undefined;
 };
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type EnvironmentVersionPropertiesTagsMap = { [key: string]: string | null | undefined };
+export type EnvironmentVersionPropertiesInputTagsMap = { [key: string]: string | null | undefined };
 /** AutoRebuild setting for the derived image */
-export type EnvironmentVersionPropertiesAutoRebuild = "Disabled" | "OnBaseImageUpdate";
+export type EnvironmentVersionPropertiesInputAutoRebuild = "Disabled" | "OnBaseImageUpdate";
 /** Configuration settings for Docker build context */
 export interface BuildContext {
   /** [Required] URI of the Docker build context used to build the image. Supports blob URIs on environment creation and may return blob or Git URIs. <seealso href="https://docs.docker.com/engine/reference/commandline/build/#extended-description" /> */
@@ -2109,8 +2196,6 @@ export interface BuildContext {
   /** Path to the Dockerfile in the build context. <seealso href="https://docs.docker.com/engine/reference/builder/" /> */
   dockerfilePath?: string | undefined;
 }
-/** Environment type is either user created or curated by Azure ML service */
-export type EnvironmentType = "Curated" | "UserCreated";
 export interface Route {
   /** [Required] The path for the route. */
   path: string;
@@ -2128,35 +2213,31 @@ export interface InferenceContainerProperties {
   startupRoute?: Route | null | undefined;
 }
 /** The type of operating system. */
-export type EnvironmentVersionPropertiesOsType = "Linux" | "Windows";
+export type EnvironmentVersionPropertiesInputOsType = "Linux" | "Windows";
 /** Environment version details. */
-export interface EnvironmentVersionProperties {
+export interface EnvironmentVersionPropertiesInput {
   /** The asset description text. */
   description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: EnvironmentVersionPropertiesPropertiesMap | null | undefined;
+  properties?: EnvironmentVersionPropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: EnvironmentVersionPropertiesTagsMap | null | undefined;
+  tags?: EnvironmentVersionPropertiesInputTagsMap | null | undefined;
   /** If the name version are system generated (anonymous registration). */
   isAnonymous?: boolean | undefined;
   /** Is the asset archived? */
   isArchived?: boolean | undefined;
   /** AutoRebuild setting for the derived image */
-  autoRebuild?: EnvironmentVersionPropertiesAutoRebuild | (string & {}) | undefined;
+  autoRebuild?: EnvironmentVersionPropertiesInputAutoRebuild | (string & {}) | undefined;
   /** Configuration settings for Docker build context. */
   build?: BuildContext | undefined;
   /** Standard configuration file used by Conda that lets you install any kind of package, including Python, R, and C/C++ packages. <see href="https://repo2docker.readthedocs.io/en/latest/config_files.html#environment-yml-install-a-conda-environment" /> */
   condaFile?: string | undefined;
-  /** Environment type is either user managed or curated by the Azure ML service <see href="https://docs.microsoft.com/en-us/azure/machine-learning/resource-curated-environments" /> */
-  environmentType?: EnvironmentType | (string & {}) | undefined;
   /** Name of the image that will be used for the environment. <seealso href="https://docs.microsoft.com/en-us/azure/machine-learning/how-to-deploy-custom-docker-image#use-a-custom-base-image" /> */
   image?: string | undefined;
   /** Defines configuration specific to inference. */
   inferenceConfig?: InferenceContainerProperties | undefined;
   /** The type of operating system. */
-  osType?: EnvironmentVersionPropertiesOsType | (string & {}) | undefined;
-  /** Provisioning state for the environment version. */
-  provisioningState?: AssetProvisioningState | (string & {}) | undefined;
+  osType?: EnvironmentVersionPropertiesInputOsType | (string & {}) | undefined;
   /** Stage in the environment lifecycle assigned to this environment */
   stage?: string | null | undefined;
 }
@@ -2172,7 +2253,50 @@ export interface EnvironmentVersionsCreateOrUpdateRequest {
   /** Version identifier. This is case-sensitive. */
   version: string;
   /** [Required] Additional attributes of the entity. */
-  properties: EnvironmentVersionProperties;
+  properties: EnvironmentVersionPropertiesInput;
+}
+/** The asset property dictionary. */
+export type EnvironmentVersionPropertiesPropertiesMap = {
+  [key: string]: string | null | undefined;
+};
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type EnvironmentVersionPropertiesTagsMap = { [key: string]: string | null | undefined };
+/** AutoRebuild setting for the derived image */
+export type EnvironmentVersionPropertiesAutoRebuild = "Disabled" | "OnBaseImageUpdate";
+/** Environment type is either user created or curated by Azure ML service */
+export type EnvironmentType = "Curated" | "UserCreated";
+/** The type of operating system. */
+export type EnvironmentVersionPropertiesOsType = "Linux" | "Windows";
+/** Environment version details. */
+export interface EnvironmentVersionProperties {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: EnvironmentVersionPropertiesPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: EnvironmentVersionPropertiesTagsMap | null | undefined;
+  /** If the name version are system generated (anonymous registration). */
+  isAnonymous?: boolean | undefined;
+  /** Is the asset archived? */
+  isArchived?: boolean | undefined;
+  /** AutoRebuild setting for the derived image */
+  autoRebuild?: EnvironmentVersionPropertiesAutoRebuild | undefined;
+  /** Configuration settings for Docker build context. */
+  build?: BuildContext | undefined;
+  /** Standard configuration file used by Conda that lets you install any kind of package, including Python, R, and C/C++ packages. <see href="https://repo2docker.readthedocs.io/en/latest/config_files.html#environment-yml-install-a-conda-environment" /> */
+  condaFile?: string | undefined;
+  /** Environment type is either user managed or curated by the Azure ML service <see href="https://docs.microsoft.com/en-us/azure/machine-learning/resource-curated-environments" /> */
+  environmentType?: EnvironmentType | undefined;
+  /** Name of the image that will be used for the environment. <seealso href="https://docs.microsoft.com/en-us/azure/machine-learning/how-to-deploy-custom-docker-image#use-a-custom-base-image" /> */
+  image?: string | undefined;
+  /** Defines configuration specific to inference. */
+  inferenceConfig?: InferenceContainerProperties | undefined;
+  /** The type of operating system. */
+  osType?: EnvironmentVersionPropertiesOsType | undefined;
+  /** Provisioning state for the environment version. */
+  provisioningState?: AssetProvisioningState | undefined;
+  /** Stage in the environment lifecycle assigned to this environment */
+  stage?: string | null | undefined;
 }
 export interface EnvironmentVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -2325,11 +2449,13 @@ export interface FeaturesetVersionBackfillResponse {
   retryAfter?: number | undefined;
 }
 /** The asset property dictionary. */
-export type FeaturesetVersionPropertiesPropertiesMap = { [key: string]: string | null | undefined };
+export type FeaturesetVersionPropertiesInputPropertiesMap = {
+  [key: string]: string | null | undefined;
+};
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type FeaturesetVersionPropertiesTagsMap = { [key: string]: string | null | undefined };
+export type FeaturesetVersionPropertiesInputTagsMap = { [key: string]: string | null | undefined };
 /** Specifies list of entities */
-export type FeaturesetVersionPropertiesEntitiesList = Array<string>;
+export type FeaturesetVersionPropertiesInputEntitiesList = Array<string>;
 /** Enum to determine the email notification type. */
 export type EmailNotificationEnableType = "JobCompleted" | "JobFailed" | "JobCancelled";
 /** Send email notification to user on specified notification type */
@@ -2426,23 +2552,21 @@ export interface FeaturesetSpecification {
   path?: string | null | undefined;
 }
 /** DTO object representing feature set version */
-export interface FeaturesetVersionProperties {
+export interface FeaturesetVersionPropertiesInput {
   /** The asset description text. */
   description?: string | null | undefined;
   /** The asset property dictionary. */
-  properties?: FeaturesetVersionPropertiesPropertiesMap | null | undefined;
+  properties?: FeaturesetVersionPropertiesInputPropertiesMap | null | undefined;
   /** Tag dictionary. Tags can be added, removed, and updated. */
-  tags?: FeaturesetVersionPropertiesTagsMap | null | undefined;
+  tags?: FeaturesetVersionPropertiesInputTagsMap | null | undefined;
   /** If the name version are system generated (anonymous registration). */
   isAnonymous?: boolean | undefined;
   /** Is the asset archived? */
   isArchived?: boolean | undefined;
   /** Specifies list of entities */
-  entities?: FeaturesetVersionPropertiesEntitiesList | null | undefined;
+  entities?: FeaturesetVersionPropertiesInputEntitiesList | null | undefined;
   /** Specifies the materialization settings */
   materializationSettings?: MaterializationSettings | null | undefined;
-  /** Provisioning state for the featureset version container. */
-  provisioningState?: AssetProvisioningState | (string & {}) | undefined;
   /** Specifies the feature spec details */
   specification?: FeaturesetSpecification | null | undefined;
   /** Specifies the asset stage */
@@ -2460,7 +2584,36 @@ export interface FeaturesetVersionsCreateOrUpdateRequest {
   /** Version identifier. This is case-sensitive. */
   version: string;
   /** [Required] Additional attributes of the entity. */
-  properties: FeaturesetVersionProperties;
+  properties: FeaturesetVersionPropertiesInput;
+}
+/** The asset property dictionary. */
+export type FeaturesetVersionPropertiesPropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type FeaturesetVersionPropertiesTagsMap = { [key: string]: string | null | undefined };
+/** Specifies list of entities */
+export type FeaturesetVersionPropertiesEntitiesList = Array<string>;
+/** DTO object representing feature set version */
+export interface FeaturesetVersionProperties {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: FeaturesetVersionPropertiesPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: FeaturesetVersionPropertiesTagsMap | null | undefined;
+  /** If the name version are system generated (anonymous registration). */
+  isAnonymous?: boolean | undefined;
+  /** Is the asset archived? */
+  isArchived?: boolean | undefined;
+  /** Specifies list of entities */
+  entities?: FeaturesetVersionPropertiesEntitiesList | null | undefined;
+  /** Specifies the materialization settings */
+  materializationSettings?: MaterializationSettings | null | undefined;
+  /** Provisioning state for the featureset version container. */
+  provisioningState?: AssetProvisioningState | undefined;
+  /** Specifies the feature spec details */
+  specification?: FeaturesetSpecification | null | undefined;
+  /** Specifies the asset stage */
+  stage?: string | null | undefined;
 }
 export interface FeaturesetVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -2551,11 +2704,11 @@ export interface FeaturestoreEntityContainersCreateOrUpdateResponse {
   retryAfter?: number | undefined;
 }
 /** The asset property dictionary. */
-export type FeaturestoreEntityVersionPropertiesPropertiesMap = {
+export type FeaturestoreEntityVersionPropertiesInputPropertiesMap = {
   [key: string]: string | null | undefined;
 };
 /** Tag dictionary. Tags can be added, removed, and updated. */
-export type FeaturestoreEntityVersionPropertiesTagsMap = {
+export type FeaturestoreEntityVersionPropertiesInputTagsMap = {
   [key: string]: string | null | undefined;
 };
 /** Specifies the data type */
@@ -2576,6 +2729,47 @@ export interface IndexColumn {
   dataType?: IndexColumnDataType | (string & {}) | undefined;
 }
 /** Specifies index columns */
+export type FeaturestoreEntityVersionPropertiesInputIndexColumnsList = Array<IndexColumn>;
+/** DTO object representing feature entity version */
+export interface FeaturestoreEntityVersionPropertiesInput {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: FeaturestoreEntityVersionPropertiesInputPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: FeaturestoreEntityVersionPropertiesInputTagsMap | null | undefined;
+  /** If the name version are system generated (anonymous registration). */
+  isAnonymous?: boolean | undefined;
+  /** Is the asset archived? */
+  isArchived?: boolean | undefined;
+  /** Specifies index columns */
+  indexColumns?: FeaturestoreEntityVersionPropertiesInputIndexColumnsList | null | undefined;
+  /** Specifies the asset stage */
+  stage?: string | null | undefined;
+}
+export interface FeaturestoreEntityVersionsCreateOrUpdateRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Azure Machine Learning Workspace Name */
+  workspaceName: string;
+  /** Container name. This is case-sensitive. */
+  name: string;
+  /** Version identifier. This is case-sensitive. */
+  version: string;
+  /** [Required] Additional attributes of the entity. */
+  properties: FeaturestoreEntityVersionPropertiesInput;
+}
+/** The asset property dictionary. */
+export type FeaturestoreEntityVersionPropertiesPropertiesMap = {
+  [key: string]: string | null | undefined;
+};
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type FeaturestoreEntityVersionPropertiesTagsMap = {
+  [key: string]: string | null | undefined;
+};
+/** Specifies index columns */
 export type FeaturestoreEntityVersionPropertiesIndexColumnsList = Array<IndexColumn>;
 /** DTO object representing feature entity version */
 export interface FeaturestoreEntityVersionProperties {
@@ -2592,23 +2786,9 @@ export interface FeaturestoreEntityVersionProperties {
   /** Specifies index columns */
   indexColumns?: FeaturestoreEntityVersionPropertiesIndexColumnsList | null | undefined;
   /** Provisioning state for the featurestore entity version. */
-  provisioningState?: AssetProvisioningState | (string & {}) | undefined;
+  provisioningState?: AssetProvisioningState | undefined;
   /** Specifies the asset stage */
   stage?: string | null | undefined;
-}
-export interface FeaturestoreEntityVersionsCreateOrUpdateRequest {
-  /** The ID of the target subscription. */
-  subscriptionId: string;
-  /** The name of the resource group. The name is case insensitive. */
-  resourceGroupName: string;
-  /** Azure Machine Learning Workspace Name */
-  workspaceName: string;
-  /** Container name. This is case-sensitive. */
-  name: string;
-  /** Version identifier. This is case-sensitive. */
-  version: string;
-  /** [Required] Additional attributes of the entity. */
-  properties: FeaturestoreEntityVersionProperties;
 }
 export interface FeaturestoreEntityVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -3408,7 +3588,7 @@ export interface ModelVersionProperties {
   /** The URI path to the model contents. */
   modelUri?: string | null | undefined;
   /** Provisioning state for the model version. */
-  provisioningState?: AssetProvisioningState | (string & {}) | undefined;
+  provisioningState?: AssetProvisioningState | undefined;
   /** Stage in the model lifecycle assigned to this model */
   stage?: string | null | undefined;
   /** Array of dataset references */
@@ -3534,12 +3714,9 @@ export interface OnlineDeploymentProperties {
   /** The mdc configuration, we disable mdc when it's null. */
   dataCollector?: DataCollector | null | undefined;
   /** Enum to determine whether PublicNetworkAccess is Enabled or Disabled for egress of a deployment. */
-  egressPublicNetworkAccess?:
-    | OnlineDeploymentPropertiesEgressPublicNetworkAccess
-    | (string & {})
-    | undefined;
+  egressPublicNetworkAccess?: OnlineDeploymentPropertiesEgressPublicNetworkAccess | undefined;
   /** [Required] The compute type of the endpoint. */
-  endpointComputeType: EndpointComputeType | (string & {});
+  endpointComputeType: EndpointComputeType;
   /** Compute instance type. Default: Standard_F4s_v2. */
   instanceType?: string | null | undefined;
   /** Liveness probe monitors the health of the container regularly. */
@@ -3549,7 +3726,7 @@ export interface OnlineDeploymentProperties {
   /** The path to mount the model in custom container. */
   modelMountPath?: string | null | undefined;
   /** Provisioning state for the endpoint deployment. */
-  provisioningState?: DeploymentProvisioningState | (string & {}) | undefined;
+  provisioningState?: DeploymentProvisioningState | undefined;
   /** Readiness probe validates if the container is ready to serve traffic. The properties and defaults are the same as liveness probe. */
   readinessProbe?: ProbeSettings | null | undefined;
   /** Request settings for the deployment. */
@@ -4271,7 +4448,7 @@ export interface ScheduleProperties {
   /** Is the schedule enabled? */
   isEnabled?: boolean | undefined;
   /** Provisioning state for the schedule. */
-  provisioningState?: ScheduleProvisioningStatus | (string & {}) | undefined;
+  provisioningState?: ScheduleProvisioningStatus | undefined;
   /** [Required] Specifies the trigger details */
   trigger: TriggerBase;
 }
@@ -4831,6 +5008,36 @@ export type BatchEndpointTrackedResourceArmPaginatedResultValueList = Array<Batc
 export interface BatchEndpointTrackedResourceArmPaginatedResult {
   /** The BatchEndpoint items on this page */
   value: BatchEndpointTrackedResourceArmPaginatedResultValueList;
+  /** The link to the next page of items */
+  nextLink?: string | undefined;
+}
+export interface ListCapabilityHostsRequest {
+  /** The ID of the target subscription. */
+  subscriptionId: string;
+  /** The name of the resource group. The name is case insensitive. */
+  resourceGroupName: string;
+  /** Azure Machine Learning Workspace Name */
+  workspaceName: string;
+}
+/** Azure Resource Manager resource envelope. */
+export interface CapabilityHost {
+  /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
+  id?: string | undefined;
+  /** The name of the resource */
+  name?: string | undefined;
+  /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
+  type?: string | undefined;
+  /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
+  systemData?: SystemData | undefined;
+  /** [Required] Additional attributes of the entity. */
+  properties: CapabilityHostProperties;
+}
+/** The CapabilityHost items on this page */
+export type CapabilityHostListResultValueList = Array<CapabilityHost>;
+/** The response of a CapabilityHost list operation. */
+export interface CapabilityHostListResult {
+  /** The CapabilityHost items on this page */
+  value: CapabilityHostListResultValueList;
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
@@ -6833,6 +7040,41 @@ export interface ModelContainersCreateOrUpdateResponse {
   /** [Required] Additional attributes of the entity. */
   properties: ModelContainerProperties;
 }
+/** The asset property dictionary. */
+export type ModelVersionPropertiesInputPropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type ModelVersionPropertiesInputTagsMap = { [key: string]: string | null | undefined };
+/** Mapping of model flavors to their properties. */
+export type ModelVersionPropertiesInputFlavorsMap = {
+  [key: string]: FlavorData | null | undefined;
+};
+/** Array of dataset references */
+export type ModelVersionPropertiesInputDatasetsList = Array<DatasetReference>;
+/** Model asset version details. */
+export interface ModelVersionPropertiesInput {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: ModelVersionPropertiesInputPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: ModelVersionPropertiesInputTagsMap | null | undefined;
+  /** If the name version are system generated (anonymous registration). */
+  isAnonymous?: boolean | undefined;
+  /** Is the asset archived? */
+  isArchived?: boolean | undefined;
+  /** Mapping of model flavors to their properties. */
+  flavors?: ModelVersionPropertiesInputFlavorsMap | null | undefined;
+  /** Name of the training job which produced this model */
+  jobName?: string | null | undefined;
+  /** The storage format for this entity. Used for NCD. */
+  modelType?: string | null | undefined;
+  /** The URI path to the model contents. */
+  modelUri?: string | null | undefined;
+  /** Stage in the model lifecycle assigned to this model */
+  stage?: string | null | undefined;
+  /** Array of dataset references */
+  datasets?: ModelVersionPropertiesInputDatasetsList | null | undefined;
+}
 export interface ModelVersionsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -6845,7 +7087,7 @@ export interface ModelVersionsCreateOrUpdateRequest {
   /** Version identifier. This is case-sensitive. */
   version: string;
   /** [Required] Additional attributes of the entity. */
-  properties: ModelVersionProperties;
+  properties: ModelVersionPropertiesInput;
 }
 export interface ModelVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -6861,6 +7103,55 @@ export interface ModelVersionsCreateOrUpdateResponse {
 }
 /** Resource tags. */
 export type OnlineDeploymentsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
+/** Environment variables configuration for the deployment. */
+export type OnlineDeploymentPropertiesInputEnvironmentVariablesMap = {
+  [key: string]: string | null | undefined;
+};
+/** Property dictionary. Properties can be added, but not removed or altered. */
+export type OnlineDeploymentPropertiesInputPropertiesMap = {
+  [key: string]: string | null | undefined;
+};
+/** Enum to determine whether PublicNetworkAccess is Enabled or Disabled for egress of a deployment. */
+export type OnlineDeploymentPropertiesInputEgressPublicNetworkAccess = "Enabled" | "Disabled";
+export interface OnlineDeploymentPropertiesInput {
+  /** Code configuration for the endpoint deployment. */
+  codeConfiguration?: CodeConfiguration | null | undefined;
+  /** Description of the endpoint deployment. */
+  description?: string | null | undefined;
+  /** ARM resource ID or AssetId of the environment specification for the endpoint deployment. */
+  environmentId?: string | null | undefined;
+  /** Environment variables configuration for the deployment. */
+  environmentVariables?: OnlineDeploymentPropertiesInputEnvironmentVariablesMap | null | undefined;
+  /** Property dictionary. Properties can be added, but not removed or altered. */
+  properties?: OnlineDeploymentPropertiesInputPropertiesMap | null | undefined;
+  /** If true, enables Application Insights logging. */
+  appInsightsEnabled?: boolean | undefined;
+  /** The mdc configuration, we disable mdc when it's null. */
+  dataCollector?: DataCollector | null | undefined;
+  /** Enum to determine whether PublicNetworkAccess is Enabled or Disabled for egress of a deployment. */
+  egressPublicNetworkAccess?:
+    | OnlineDeploymentPropertiesInputEgressPublicNetworkAccess
+    | (string & {})
+    | undefined;
+  /** [Required] The compute type of the endpoint. */
+  endpointComputeType: EndpointComputeType | (string & {});
+  /** Compute instance type. Default: Standard_F4s_v2. */
+  instanceType?: string | null | undefined;
+  /** Liveness probe monitors the health of the container regularly. */
+  livenessProbe?: ProbeSettings | null | undefined;
+  /** The URI path to the model. */
+  model?: string | null | undefined;
+  /** The path to mount the model in custom container. */
+  modelMountPath?: string | null | undefined;
+  /** Readiness probe validates if the container is ready to serve traffic. The properties and defaults are the same as liveness probe. */
+  readinessProbe?: ProbeSettings | null | undefined;
+  /** Request settings for the deployment. */
+  requestSettings?: OnlineRequestSettings | null | undefined;
+  /** Scale settings for the deployment. If it is null or not provided, it defaults to TargetUtilizationScaleSettings for KubernetesOnlineDeployment and to DefaultScaleSettings for ManagedOnlineDeployment. */
+  scaleSettings?: OnlineScaleSettings | null | undefined;
+  /** Startup probe verify whether an application within a container has started successfully. */
+  startupProbe?: ProbeSettings | null | undefined;
+}
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type OnlineDeploymentsCreateOrUpdateRequestIdentity =
   BatchDeploymentsCreateOrUpdateRequestIdentity;
@@ -6882,7 +7173,7 @@ export interface OnlineDeploymentsCreateOrUpdateRequest {
   /** The geo-location where the resource lives */
   location: string;
   /** [Required] Additional attributes of the entity. */
-  properties: OnlineDeploymentProperties;
+  properties: OnlineDeploymentPropertiesInput;
   /** Managed service identity (system assigned and/or user assigned identities) */
   identity?: BatchDeploymentsCreateOrUpdateRequestIdentity | undefined;
   /** Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type. */
@@ -7439,7 +7730,7 @@ export interface RegistryCodeVersionsCreateOrUpdateRequest {
   /** Version identifier. */
   version: string;
   /** [Required] Additional attributes of the entity. */
-  properties: CodeVersionProperties;
+  properties: CodeVersionPropertiesInput;
 }
 export interface RegistryCodeVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -7493,7 +7784,7 @@ export interface RegistryComponentVersionsCreateOrUpdateRequest {
   /** Version identifier. */
   version: string;
   /** [Required] Additional attributes of the entity. */
-  properties: ComponentVersionProperties;
+  properties: ComponentVersionPropertiesInput;
 }
 export interface RegistryComponentVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -7630,7 +7921,7 @@ export interface RegistryEnvironmentVersionsCreateOrUpdateRequest {
   /** Version identifier. This is case-sensitive. */
   version: string;
   /** [Required] Additional attributes of the entity. */
-  properties: EnvironmentVersionProperties;
+  properties: EnvironmentVersionPropertiesInput;
 }
 export interface RegistryEnvironmentVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -7707,7 +7998,7 @@ export interface RegistryModelVersionsCreateOrUpdateRequest {
   /** Version identifier. This is case-sensitive. */
   version: string;
   /** [Required] Additional attributes of the entity. */
-  properties: ModelVersionProperties;
+  properties: ModelVersionPropertiesInput;
 }
 export interface RegistryModelVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -7797,6 +8088,27 @@ export interface RestartComputeResponse {
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
   retryAfter?: number | undefined;
 }
+/** The asset property dictionary. */
+export type SchedulePropertiesInputPropertiesMap = { [key: string]: string | null | undefined };
+/** Tag dictionary. Tags can be added, removed, and updated. */
+export type SchedulePropertiesInputTagsMap = { [key: string]: string | null | undefined };
+/** Base definition of a schedule */
+export interface SchedulePropertiesInput {
+  /** The asset description text. */
+  description?: string | null | undefined;
+  /** The asset property dictionary. */
+  properties?: SchedulePropertiesInputPropertiesMap | null | undefined;
+  /** Tag dictionary. Tags can be added, removed, and updated. */
+  tags?: SchedulePropertiesInputTagsMap | null | undefined;
+  /** [Required] Specifies the action of the schedule */
+  action: ScheduleActionBase;
+  /** Display name of schedule. */
+  displayName?: string | null | undefined;
+  /** Is the schedule enabled? */
+  isEnabled?: boolean | undefined;
+  /** [Required] Specifies the trigger details */
+  trigger: TriggerBase;
+}
 export interface SchedulesCreateOrUpdateRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
@@ -7807,7 +8119,7 @@ export interface SchedulesCreateOrUpdateRequest {
   /** Schedule name. */
   name: string;
   /** [Required] Additional attributes of the entity. */
-  properties: ScheduleProperties;
+  properties: SchedulePropertiesInput;
 }
 export interface SchedulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
@@ -8741,8 +9053,8 @@ export const BatchDeploymentsCreateOrUpdate: API.OperationMethod<
   BatchDeploymentsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<BatchDeploymentsCreateOrUpdateRequest>,
-  output: __S(1, __c0, 1) as any as S.Schema<BatchDeploymentsCreateOrUpdateResponse>,
+  input: __S(1, __c0, 1) as any as S.Schema<BatchDeploymentsCreateOrUpdateRequest>,
+  output: __S(2, __c0, 2) as any as S.Schema<BatchDeploymentsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8775,8 +9087,8 @@ export const CancelJob: API.OperationMethod<
   CancelJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4864, __c152, 0) as any as S.Schema<CancelJobRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<CancelJobResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<CancelJobRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<CancelJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8792,8 +9104,8 @@ export const CapabilityHostsCreateOrUpdate: API.OperationMethod<
   CapabilityHostsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5889, __c184, 1) as any as S.Schema<CapabilityHostsCreateOrUpdateRequest>,
-  output: __S(5890, __c184, 2) as any as S.Schema<CapabilityHostsCreateOrUpdateResponse>,
+  input: __S(5953, __c186, 1) as any as S.Schema<CapabilityHostsCreateOrUpdateRequest>,
+  output: __S(5954, __c186, 2) as any as S.Schema<CapabilityHostsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8809,8 +9121,8 @@ export const CodeContainersCreateOrUpdate: API.OperationMethod<
   CodeContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<CodeContainersCreateOrUpdateRequest>,
-  output: __S(6400, __c200, 0) as any as S.Schema<CodeContainersCreateOrUpdateResponse>,
+  input: __S(6368, __c199, 0) as any as S.Schema<CodeContainersCreateOrUpdateRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<CodeContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8826,8 +9138,8 @@ export const CodeVersionsCreateOrGetStartPendingUpload: API.OperationMethod<
   CodeVersionsCreateOrGetStartPendingUploadError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<CodeVersionsCreateOrGetStartPendingUploadRequest>,
-  output: __S(6784, __c212, 0) as any as S.Schema<PendingUploadResponseDto>,
+  input: __S(6816, __c213, 0) as any as S.Schema<CodeVersionsCreateOrGetStartPendingUploadRequest>,
+  output: __S(6848, __c214, 0) as any as S.Schema<PendingUploadResponseDto>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8843,8 +9155,8 @@ export const CodeVersionsCreateOrUpdate: API.OperationMethod<
   CodeVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<CodeVersionsCreateOrUpdateRequest>,
-  output: __S(7424, __c232, 0) as any as S.Schema<CodeVersionsCreateOrUpdateResponse>,
+  input: __S(7488, __c234, 0) as any as S.Schema<CodeVersionsCreateOrUpdateRequest>,
+  output: __S(7552, __c236, 0) as any as S.Schema<CodeVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8860,8 +9172,8 @@ export const ComponentContainersCreateOrUpdate: API.OperationMethod<
   ComponentContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7936, __c248, 0) as any as S.Schema<ComponentContainersCreateOrUpdateRequest>,
-  output: __S(6400, __c200, 0) as any as S.Schema<ComponentContainersCreateOrUpdateResponse>,
+  input: __S(8096, __c253, 0) as any as S.Schema<ComponentContainersCreateOrUpdateRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<ComponentContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8877,8 +9189,8 @@ export const ComponentVersionsCreateOrUpdate: API.OperationMethod<
   ComponentVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<ComponentVersionsCreateOrUpdateRequest>,
-  output: __S(8448, __c264, 0) as any as S.Schema<ComponentVersionsCreateOrUpdateResponse>,
+  input: __S(8576, __c268, 0) as any as S.Schema<ComponentVersionsCreateOrUpdateRequest>,
+  output: __S(8640, __c270, 0) as any as S.Schema<ComponentVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8894,8 +9206,8 @@ export const ComputeCreateOrUpdate: API.OperationMethod<
   ComputeCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9249, __c289, 1) as any as S.Schema<ComputeCreateOrUpdateRequest>,
-  output: __S(9250, __c289, 2) as any as S.Schema<ComputeCreateOrUpdateResponse>,
+  input: __S(9441, __c295, 1) as any as S.Schema<ComputeCreateOrUpdateRequest>,
+  output: __S(9442, __c295, 2) as any as S.Schema<ComputeCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8928,8 +9240,8 @@ export const DataContainersCreateOrUpdate: API.OperationMethod<
   DataContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<DataContainersCreateOrUpdateRequest>,
-  output: __S(1152, __c36, 0) as any as S.Schema<DataContainersCreateOrUpdateResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<DataContainersCreateOrUpdateRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<DataContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8945,8 +9257,8 @@ export const DatastoresCreateOrUpdate: API.OperationMethod<
   DatastoresCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1665, __c52, 1) as any as S.Schema<DatastoresCreateOrUpdateRequest>,
-  output: __S(1698, __c53, 2) as any as S.Schema<DatastoresCreateOrUpdateResponse>,
+  input: __S(1633, __c51, 1) as any as S.Schema<DatastoresCreateOrUpdateRequest>,
+  output: __S(1666, __c52, 2) as any as S.Schema<DatastoresCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8979,8 +9291,8 @@ export const DeleteBatchDeployment: API.OperationMethod<
   DeleteBatchDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<DeleteBatchDeploymentRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteBatchDeploymentResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<DeleteBatchDeploymentRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteBatchDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -8997,7 +9309,7 @@ export const DeleteBatchEndpoint: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2944, __c92, 0) as any as S.Schema<DeleteBatchEndpointRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteBatchEndpointResponse>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteBatchEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9014,7 +9326,7 @@ export const DeleteCapabilityHost: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(3328, __c104, 0) as any as S.Schema<DeleteCapabilityHostRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteCapabilityHostResponse>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteCapabilityHostResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9047,7 +9359,7 @@ export const DeleteCodeVersion: API.OperationMethod<
   DeleteCodeVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<DeleteCodeVersionRequest>,
+  input: __S(4128, __c129, 0) as any as S.Schema<DeleteCodeVersionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteCodeVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9064,7 +9376,7 @@ export const DeleteComponentContainer: API.OperationMethod<
   DeleteComponentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<DeleteComponentContainerRequest>,
+  input: __S(4544, __c142, 0) as any as S.Schema<DeleteComponentContainerRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteComponentContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9081,7 +9393,7 @@ export const DeleteComponentVersion: API.OperationMethod<
   DeleteComponentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<DeleteComponentVersionRequest>,
+  input: __S(4960, __c155, 0) as any as S.Schema<DeleteComponentVersionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteComponentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9098,8 +9410,8 @@ export const DeleteCompute: API.OperationMethod<
   DeleteComputeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<DeleteComputeRequest>,
-  output: __S(5377, __c168, 1) as any as S.Schema<DeleteComputeResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<DeleteComputeRequest>,
+  output: __S(5409, __c169, 1) as any as S.Schema<DeleteComputeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9115,7 +9427,7 @@ export const DeleteDataContainer: API.OperationMethod<
   DeleteDataContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<DeleteDataContainerRequest>,
+  input: __S(5696, __c178, 0) as any as S.Schema<DeleteDataContainerRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteDataContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9132,7 +9444,7 @@ export const DeleteDatastore: API.OperationMethod<
   DeleteDatastoreError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<DeleteDatastoreRequest>,
+  input: __S(5728, __c179, 0) as any as S.Schema<DeleteDatastoreRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteDatastoreResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9149,7 +9461,7 @@ export const DeleteDataVersion: API.OperationMethod<
   DeleteDataVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<DeleteDataVersionRequest>,
+  input: __S(5760, __c180, 0) as any as S.Schema<DeleteDataVersionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteDataVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9166,7 +9478,7 @@ export const DeleteEnvironmentContainer: API.OperationMethod<
   DeleteEnvironmentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<DeleteEnvironmentContainerRequest>,
+  input: __S(5792, __c181, 0) as any as S.Schema<DeleteEnvironmentContainerRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteEnvironmentContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9183,7 +9495,7 @@ export const DeleteEnvironmentVersion: API.OperationMethod<
   DeleteEnvironmentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<DeleteEnvironmentVersionRequest>,
+  input: __S(5824, __c182, 0) as any as S.Schema<DeleteEnvironmentVersionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteEnvironmentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9200,8 +9512,8 @@ export const DeleteFeaturesetContainer: API.OperationMethod<
   DeleteFeaturesetContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<DeleteFeaturesetContainerRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteFeaturesetContainerResponse>,
+  input: __S(5856, __c183, 0) as any as S.Schema<DeleteFeaturesetContainerRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteFeaturesetContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9217,8 +9529,8 @@ export const DeleteFeaturesetVersion: API.OperationMethod<
   DeleteFeaturesetVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<DeleteFeaturesetVersionRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteFeaturesetVersionResponse>,
+  input: __S(5888, __c184, 0) as any as S.Schema<DeleteFeaturesetVersionRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteFeaturesetVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9234,8 +9546,8 @@ export const DeleteFeaturestoreEntityContainer: API.OperationMethod<
   DeleteFeaturestoreEntityContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<DeleteFeaturestoreEntityContainerRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteFeaturestoreEntityContainerResponse>,
+  input: __S(5920, __c185, 0) as any as S.Schema<DeleteFeaturestoreEntityContainerRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteFeaturestoreEntityContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9251,8 +9563,8 @@ export const DeleteFeaturestoreEntityVersion: API.OperationMethod<
   DeleteFeaturestoreEntityVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<DeleteFeaturestoreEntityVersionRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteFeaturestoreEntityVersionResponse>,
+  input: __S(6048, __c189, 0) as any as S.Schema<DeleteFeaturestoreEntityVersionRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteFeaturestoreEntityVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9268,8 +9580,8 @@ export const DeleteJob: API.OperationMethod<
   DeleteJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<DeleteJobRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteJobResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<DeleteJobRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9285,8 +9597,8 @@ export const DeleteManagedNetworkSettingsRule: API.OperationMethod<
   DeleteManagedNetworkSettingsRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<DeleteManagedNetworkSettingsRuleRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteManagedNetworkSettingsRuleResponse>,
+  input: __S(6112, __c191, 0) as any as S.Schema<DeleteManagedNetworkSettingsRuleRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteManagedNetworkSettingsRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9302,8 +9614,8 @@ export const DeleteMarketplaceSubscription: API.OperationMethod<
   DeleteMarketplaceSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<DeleteMarketplaceSubscriptionRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteMarketplaceSubscriptionResponse>,
+  input: __S(6144, __c192, 0) as any as S.Schema<DeleteMarketplaceSubscriptionRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteMarketplaceSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9319,7 +9631,7 @@ export const DeleteModelContainer: API.OperationMethod<
   DeleteModelContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<DeleteModelContainerRequest>,
+  input: __S(6176, __c193, 0) as any as S.Schema<DeleteModelContainerRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteModelContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9336,7 +9648,7 @@ export const DeleteModelVersion: API.OperationMethod<
   DeleteModelVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<DeleteModelVersionRequest>,
+  input: __S(6208, __c194, 0) as any as S.Schema<DeleteModelVersionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteModelVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9353,8 +9665,8 @@ export const DeleteOnlineDeployment: API.OperationMethod<
   DeleteOnlineDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<DeleteOnlineDeploymentRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteOnlineDeploymentResponse>,
+  input: __S(6240, __c195, 0) as any as S.Schema<DeleteOnlineDeploymentRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteOnlineDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9370,8 +9682,8 @@ export const DeleteOnlineEndpoint: API.OperationMethod<
   DeleteOnlineEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<DeleteOnlineEndpointRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteOnlineEndpointResponse>,
+  input: __S(6272, __c196, 0) as any as S.Schema<DeleteOnlineEndpointRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteOnlineEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9387,7 +9699,7 @@ export const DeletePrivateEndpointConnection: API.OperationMethod<
   DeletePrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
+  input: __S(6304, __c197, 0) as any as S.Schema<DeletePrivateEndpointConnectionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeletePrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9404,8 +9716,8 @@ export const DeleteRegistry: API.OperationMethod<
   DeleteRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<DeleteRegistryRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteRegistryResponse>,
+  input: __S(6336, __c198, 0) as any as S.Schema<DeleteRegistryRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9421,8 +9733,8 @@ export const DeleteRegistryCodeContainer: API.OperationMethod<
   DeleteRegistryCodeContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<DeleteRegistryCodeContainerRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteRegistryCodeContainerResponse>,
+  input: __S(6496, __c203, 0) as any as S.Schema<DeleteRegistryCodeContainerRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryCodeContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9438,8 +9750,8 @@ export const DeleteRegistryCodeVersion: API.OperationMethod<
   DeleteRegistryCodeVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<DeleteRegistryCodeVersionRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteRegistryCodeVersionResponse>,
+  input: __S(6528, __c204, 0) as any as S.Schema<DeleteRegistryCodeVersionRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryCodeVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9455,8 +9767,8 @@ export const DeleteRegistryComponentContainer: API.OperationMethod<
   DeleteRegistryComponentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<DeleteRegistryComponentContainerRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteRegistryComponentContainerResponse>,
+  input: __S(6560, __c205, 0) as any as S.Schema<DeleteRegistryComponentContainerRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryComponentContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9472,8 +9784,8 @@ export const DeleteRegistryComponentVersion: API.OperationMethod<
   DeleteRegistryComponentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<DeleteRegistryComponentVersionRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteRegistryComponentVersionResponse>,
+  input: __S(6592, __c206, 0) as any as S.Schema<DeleteRegistryComponentVersionRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryComponentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9489,8 +9801,8 @@ export const DeleteRegistryDataContainer: API.OperationMethod<
   DeleteRegistryDataContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<DeleteRegistryDataContainerRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteRegistryDataContainerResponse>,
+  input: __S(6624, __c207, 0) as any as S.Schema<DeleteRegistryDataContainerRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryDataContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9506,8 +9818,8 @@ export const DeleteRegistryDataVersion: API.OperationMethod<
   DeleteRegistryDataVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<DeleteRegistryDataVersionRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteRegistryDataVersionResponse>,
+  input: __S(6656, __c208, 0) as any as S.Schema<DeleteRegistryDataVersionRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryDataVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9523,8 +9835,8 @@ export const DeleteRegistryEnvironmentContainer: API.OperationMethod<
   DeleteRegistryEnvironmentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<DeleteRegistryEnvironmentContainerRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteRegistryEnvironmentContainerResponse>,
+  input: __S(6688, __c209, 0) as any as S.Schema<DeleteRegistryEnvironmentContainerRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryEnvironmentContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9540,8 +9852,8 @@ export const DeleteRegistryEnvironmentVersion: API.OperationMethod<
   DeleteRegistryEnvironmentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<DeleteRegistryEnvironmentVersionRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteRegistryEnvironmentVersionResponse>,
+  input: __S(6720, __c210, 0) as any as S.Schema<DeleteRegistryEnvironmentVersionRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryEnvironmentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9557,8 +9869,8 @@ export const DeleteRegistryModelContainer: API.OperationMethod<
   DeleteRegistryModelContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<DeleteRegistryModelContainerRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteRegistryModelContainerResponse>,
+  input: __S(6752, __c211, 0) as any as S.Schema<DeleteRegistryModelContainerRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryModelContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9574,8 +9886,8 @@ export const DeleteRegistryModelVersion: API.OperationMethod<
   DeleteRegistryModelVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<DeleteRegistryModelVersionRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteRegistryModelVersionResponse>,
+  input: __S(6784, __c212, 0) as any as S.Schema<DeleteRegistryModelVersionRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryModelVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9591,8 +9903,8 @@ export const DeleteSchedule: API.OperationMethod<
   DeleteScheduleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6848, __c214, 0) as any as S.Schema<DeleteScheduleRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteScheduleResponse>,
+  input: __S(6912, __c216, 0) as any as S.Schema<DeleteScheduleRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteScheduleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9608,8 +9920,8 @@ export const DeleteServerlessEndpoint: API.OperationMethod<
   DeleteServerlessEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<DeleteServerlessEndpointRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteServerlessEndpointResponse>,
+  input: __S(6944, __c217, 0) as any as S.Schema<DeleteServerlessEndpointRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteServerlessEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9625,8 +9937,8 @@ export const DeleteWorkspace: API.OperationMethod<
   DeleteWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<DeleteWorkspaceRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteWorkspaceResponse>,
+  input: __S(6976, __c218, 0) as any as S.Schema<DeleteWorkspaceRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteWorkspaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9642,7 +9954,7 @@ export const DeleteWorkspaceConnection: API.OperationMethod<
   DeleteWorkspaceConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<DeleteWorkspaceConnectionRequest>,
+  input: __S(7008, __c219, 0) as any as S.Schema<DeleteWorkspaceConnectionRequest>,
   output: __S(128, __c4, 0) as any as S.Schema<DeleteWorkspaceConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9659,8 +9971,8 @@ export const EnvironmentContainersCreateOrUpdate: API.OperationMethod<
   EnvironmentContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<EnvironmentContainersCreateOrUpdateRequest>,
-  output: __S(6400, __c200, 0) as any as S.Schema<EnvironmentContainersCreateOrUpdateResponse>,
+  input: __S(7040, __c220, 0) as any as S.Schema<EnvironmentContainersCreateOrUpdateRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<EnvironmentContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9676,8 +9988,8 @@ export const EnvironmentVersionsCreateOrUpdate: API.OperationMethod<
   EnvironmentVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<EnvironmentVersionsCreateOrUpdateRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<EnvironmentVersionsCreateOrUpdateResponse>,
+  input: __S(7072, __c221, 0) as any as S.Schema<EnvironmentVersionsCreateOrUpdateRequest>,
+  output: __S(7136, __c223, 0) as any as S.Schema<EnvironmentVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9693,8 +10005,8 @@ export const FeaturesetContainersCreateOrUpdate: API.OperationMethod<
   FeaturesetContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<FeaturesetContainersCreateOrUpdateRequest>,
-  output: __S(7136, __c223, 0) as any as S.Schema<FeaturesetContainersCreateOrUpdateResponse>,
+  input: __S(7200, __c225, 0) as any as S.Schema<FeaturesetContainersCreateOrUpdateRequest>,
+  output: __S(7232, __c226, 0) as any as S.Schema<FeaturesetContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9710,8 +10022,8 @@ export const FeaturesetVersionsBackfill: API.OperationMethod<
   FeaturesetVersionsBackfillError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7169, __c224, 1) as any as S.Schema<FeaturesetVersionsBackfillRequest>,
-  output: __S(7170, __c224, 2) as any as S.Schema<FeaturesetVersionBackfillResponse>,
+  input: __S(7265, __c227, 1) as any as S.Schema<FeaturesetVersionsBackfillRequest>,
+  output: __S(7266, __c227, 2) as any as S.Schema<FeaturesetVersionBackfillResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9727,8 +10039,8 @@ export const FeaturesetVersionsCreateOrUpdate: API.OperationMethod<
   FeaturesetVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7264, __c227, 0) as any as S.Schema<FeaturesetVersionsCreateOrUpdateRequest>,
-  output: __S(7265, __c227, 1) as any as S.Schema<FeaturesetVersionsCreateOrUpdateResponse>,
+  input: __S(7361, __c230, 1) as any as S.Schema<FeaturesetVersionsCreateOrUpdateRequest>,
+  output: __S(7362, __c230, 2) as any as S.Schema<FeaturesetVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9744,10 +10056,10 @@ export const FeaturestoreEntityContainersCreateOrUpdate: API.OperationMethod<
   FeaturestoreEntityContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<FeaturestoreEntityContainersCreateOrUpdateRequest>,
+  input: __S(7456, __c233, 0) as any as S.Schema<FeaturestoreEntityContainersCreateOrUpdateRequest>,
   output: __S(
-    7136,
-    __c223,
+    7232,
+    __c226,
     0,
   ) as any as S.Schema<FeaturestoreEntityContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -9765,8 +10077,8 @@ export const FeaturestoreEntityVersionsCreateOrUpdate: API.OperationMethod<
   FeaturestoreEntityVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<FeaturestoreEntityVersionsCreateOrUpdateRequest>,
-  output: __S(7489, __c234, 1) as any as S.Schema<FeaturestoreEntityVersionsCreateOrUpdateResponse>,
+  input: __S(7617, __c238, 1) as any as S.Schema<FeaturestoreEntityVersionsCreateOrUpdateRequest>,
+  output: __S(7618, __c238, 2) as any as S.Schema<FeaturestoreEntityVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9782,8 +10094,8 @@ export const GetBatchDeployment: API.OperationMethod<
   GetBatchDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<GetBatchDeploymentRequest>,
-  output: __S(7584, __c237, 0) as any as S.Schema<GetBatchDeploymentResponse>,
+  input: __S(7680, __c240, 0) as any as S.Schema<GetBatchDeploymentRequest>,
+  output: __S(7712, __c241, 0) as any as S.Schema<GetBatchDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9799,8 +10111,8 @@ export const GetBatchEndpoint: API.OperationMethod<
   GetBatchEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<GetBatchEndpointRequest>,
-  output: __S(7648, __c239, 0) as any as S.Schema<GetBatchEndpointResponse>,
+  input: __S(7744, __c242, 0) as any as S.Schema<GetBatchEndpointRequest>,
+  output: __S(7776, __c243, 0) as any as S.Schema<GetBatchEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9816,8 +10128,8 @@ export const GetCapabilityHost: API.OperationMethod<
   GetCapabilityHostError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<GetCapabilityHostRequest>,
-  output: __S(7681, __c240, 1) as any as S.Schema<GetCapabilityHostResponse>,
+  input: __S(7808, __c244, 0) as any as S.Schema<GetCapabilityHostRequest>,
+  output: __S(7840, __c245, 0) as any as S.Schema<GetCapabilityHostResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9833,8 +10145,8 @@ export const GetCodeContainer: API.OperationMethod<
   GetCodeContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<GetCodeContainerRequest>,
-  output: __S(6400, __c200, 0) as any as S.Schema<GetCodeContainerResponse>,
+  input: __S(7872, __c246, 0) as any as S.Schema<GetCodeContainerRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<GetCodeContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9850,8 +10162,8 @@ export const GetCodeVersion: API.OperationMethod<
   GetCodeVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7744, __c242, 0) as any as S.Schema<GetCodeVersionRequest>,
-  output: __S(7424, __c232, 0) as any as S.Schema<GetCodeVersionResponse>,
+  input: __S(7904, __c247, 0) as any as S.Schema<GetCodeVersionRequest>,
+  output: __S(7552, __c236, 0) as any as S.Schema<GetCodeVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9867,8 +10179,8 @@ export const GetComponentContainer: API.OperationMethod<
   GetComponentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<GetComponentContainerRequest>,
-  output: __S(6400, __c200, 0) as any as S.Schema<GetComponentContainerResponse>,
+  input: __S(7936, __c248, 0) as any as S.Schema<GetComponentContainerRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<GetComponentContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9884,8 +10196,8 @@ export const GetComponentVersion: API.OperationMethod<
   GetComponentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<GetComponentVersionRequest>,
-  output: __S(8448, __c264, 0) as any as S.Schema<GetComponentVersionResponse>,
+  input: __S(7968, __c249, 0) as any as S.Schema<GetComponentVersionRequest>,
+  output: __S(8640, __c270, 0) as any as S.Schema<GetComponentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9901,8 +10213,8 @@ export const GetCompute: API.OperationMethod<
   GetComputeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7840, __c245, 0) as any as S.Schema<GetComputeRequest>,
-  output: __S(7872, __c246, 0) as any as S.Schema<GetComputeResponse>,
+  input: __S(8000, __c250, 0) as any as S.Schema<GetComputeRequest>,
+  output: __S(8032, __c251, 0) as any as S.Schema<GetComputeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9918,8 +10230,8 @@ export const GetDataContainer: API.OperationMethod<
   GetDataContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<GetDataContainerRequest>,
-  output: __S(1152, __c36, 0) as any as S.Schema<GetDataContainerResponse>,
+  input: __S(8064, __c252, 0) as any as S.Schema<GetDataContainerRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<GetDataContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9935,8 +10247,8 @@ export const GetDatastore: API.OperationMethod<
   GetDatastoreError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7968, __c249, 0) as any as S.Schema<GetDatastoreRequest>,
-  output: __S(1698, __c53, 2) as any as S.Schema<GetDatastoreResponse>,
+  input: __S(8128, __c254, 0) as any as S.Schema<GetDatastoreRequest>,
+  output: __S(1666, __c52, 2) as any as S.Schema<GetDatastoreResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9952,7 +10264,7 @@ export const GetDataVersion: API.OperationMethod<
   GetDataVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8000, __c250, 0) as any as S.Schema<GetDataVersionRequest>,
+  input: __S(8160, __c255, 0) as any as S.Schema<GetDataVersionRequest>,
   output: __S(2112, __c66, 0) as any as S.Schema<GetDataVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -9969,8 +10281,8 @@ export const GetEnvironmentContainer: API.OperationMethod<
   GetEnvironmentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<GetEnvironmentContainerRequest>,
-  output: __S(6400, __c200, 0) as any as S.Schema<GetEnvironmentContainerResponse>,
+  input: __S(8192, __c256, 0) as any as S.Schema<GetEnvironmentContainerRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<GetEnvironmentContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -9986,8 +10298,8 @@ export const GetEnvironmentVersion: API.OperationMethod<
   GetEnvironmentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<GetEnvironmentVersionRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<GetEnvironmentVersionResponse>,
+  input: __S(8224, __c257, 0) as any as S.Schema<GetEnvironmentVersionRequest>,
+  output: __S(7136, __c223, 0) as any as S.Schema<GetEnvironmentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10003,8 +10315,8 @@ export const GetFeature: API.OperationMethod<
   GetFeatureError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<GetFeatureRequest>,
-  output: __S(8129, __c254, 1) as any as S.Schema<GetFeatureResponse>,
+  input: __S(8256, __c258, 0) as any as S.Schema<GetFeatureRequest>,
+  output: __S(8289, __c259, 1) as any as S.Schema<GetFeatureResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10020,8 +10332,8 @@ export const GetFeaturesetContainerEntity: API.OperationMethod<
   GetFeaturesetContainerEntityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<GetFeaturesetContainerEntityRequest>,
-  output: __S(6400, __c200, 0) as any as S.Schema<GetFeaturesetContainerEntityResponse>,
+  input: __S(8320, __c260, 0) as any as S.Schema<GetFeaturesetContainerEntityRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<GetFeaturesetContainerEntityResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10037,8 +10349,8 @@ export const GetFeaturesetVersion: API.OperationMethod<
   GetFeaturesetVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8192, __c256, 0) as any as S.Schema<GetFeaturesetVersionRequest>,
-  output: __S(8224, __c257, 0) as any as S.Schema<GetFeaturesetVersionResponse>,
+  input: __S(8352, __c261, 0) as any as S.Schema<GetFeaturesetVersionRequest>,
+  output: __S(8384, __c262, 0) as any as S.Schema<GetFeaturesetVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10054,8 +10366,8 @@ export const GetFeaturestoreEntityContainerEntity: API.OperationMethod<
   GetFeaturestoreEntityContainerEntityError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c258, 0) as any as S.Schema<GetFeaturestoreEntityContainerEntityRequest>,
-  output: __S(6400, __c200, 0) as any as S.Schema<GetFeaturestoreEntityContainerEntityResponse>,
+  input: __S(8416, __c263, 0) as any as S.Schema<GetFeaturestoreEntityContainerEntityRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<GetFeaturestoreEntityContainerEntityResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10071,8 +10383,8 @@ export const GetFeaturestoreEntityVersion: API.OperationMethod<
   GetFeaturestoreEntityVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c259, 0) as any as S.Schema<GetFeaturestoreEntityVersionRequest>,
-  output: __S(8320, __c260, 0) as any as S.Schema<GetFeaturestoreEntityVersionResponse>,
+  input: __S(8448, __c264, 0) as any as S.Schema<GetFeaturestoreEntityVersionRequest>,
+  output: __S(8480, __c265, 0) as any as S.Schema<GetFeaturestoreEntityVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10088,8 +10400,8 @@ export const GetJob: API.OperationMethod<
   GetJobError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<GetJobRequest>,
-  output: __S(8389, __c262, 5) as any as S.Schema<GetJobResponse>,
+  input: __S(8512, __c266, 0) as any as S.Schema<GetJobRequest>,
+  output: __S(8549, __c267, 5) as any as S.Schema<GetJobResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10105,8 +10417,8 @@ export const GetManagedNetworkSettingsRule: API.OperationMethod<
   GetManagedNetworkSettingsRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<GetManagedNetworkSettingsRuleRequest>,
-  output: __S(8576, __c268, 0) as any as S.Schema<GetManagedNetworkSettingsRuleResponse>,
+  input: __S(8704, __c272, 0) as any as S.Schema<GetManagedNetworkSettingsRuleRequest>,
+  output: __S(8768, __c274, 0) as any as S.Schema<GetManagedNetworkSettingsRuleResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10122,8 +10434,8 @@ export const GetMarketplaceSubscription: API.OperationMethod<
   GetMarketplaceSubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<GetMarketplaceSubscriptionRequest>,
-  output: __S(8640, __c270, 0) as any as S.Schema<GetMarketplaceSubscriptionResponse>,
+  input: __S(8800, __c275, 0) as any as S.Schema<GetMarketplaceSubscriptionRequest>,
+  output: __S(8832, __c276, 0) as any as S.Schema<GetMarketplaceSubscriptionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10139,8 +10451,8 @@ export const GetModelContainer: API.OperationMethod<
   GetModelContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c272, 0) as any as S.Schema<GetModelContainerRequest>,
-  output: __S(6400, __c200, 0) as any as S.Schema<GetModelContainerResponse>,
+  input: __S(8896, __c278, 0) as any as S.Schema<GetModelContainerRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<GetModelContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10156,8 +10468,8 @@ export const GetModelVersion: API.OperationMethod<
   GetModelVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<GetModelVersionRequest>,
-  output: __S(8768, __c274, 0) as any as S.Schema<GetModelVersionResponse>,
+  input: __S(8928, __c279, 0) as any as S.Schema<GetModelVersionRequest>,
+  output: __S(8960, __c280, 0) as any as S.Schema<GetModelVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10173,8 +10485,8 @@ export const GetOnlineDeployment: API.OperationMethod<
   GetOnlineDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<GetOnlineDeploymentRequest>,
-  output: __S(8864, __c277, 0) as any as S.Schema<GetOnlineDeploymentResponse>,
+  input: __S(9024, __c282, 0) as any as S.Schema<GetOnlineDeploymentRequest>,
+  output: __S(9056, __c283, 0) as any as S.Schema<GetOnlineDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10190,8 +10502,8 @@ export const GetOnlineDeploymentLogs: API.OperationMethod<
   GetOnlineDeploymentLogsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8928, __c279, 0) as any as S.Schema<GetOnlineDeploymentLogsRequest>,
-  output: __S(8929, __c279, 1) as any as S.Schema<DeploymentLogs>,
+  input: __S(9120, __c285, 0) as any as S.Schema<GetOnlineDeploymentLogsRequest>,
+  output: __S(9121, __c285, 1) as any as S.Schema<DeploymentLogs>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10207,8 +10519,8 @@ export const GetOnlineEndpoint: API.OperationMethod<
   GetOnlineEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<GetOnlineEndpointRequest>,
-  output: __S(8992, __c281, 0) as any as S.Schema<GetOnlineEndpointResponse>,
+  input: __S(9152, __c286, 0) as any as S.Schema<GetOnlineEndpointRequest>,
+  output: __S(9184, __c287, 0) as any as S.Schema<GetOnlineEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10224,8 +10536,8 @@ export const GetOnlineEndpointToken: API.OperationMethod<
   GetOnlineEndpointTokenError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9056, __c283, 0) as any as S.Schema<GetOnlineEndpointTokenRequest>,
-  output: __S(9057, __c283, 1) as any as S.Schema<EndpointAuthToken>,
+  input: __S(9248, __c289, 0) as any as S.Schema<GetOnlineEndpointTokenRequest>,
+  output: __S(9249, __c289, 1) as any as S.Schema<EndpointAuthToken>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10241,8 +10553,8 @@ export const GetPrivateEndpointConnection: API.OperationMethod<
   GetPrivateEndpointConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9088, __c284, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
-  output: __S(9123, __c285, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
+  input: __S(9280, __c290, 0) as any as S.Schema<GetPrivateEndpointConnectionRequest>,
+  output: __S(9315, __c291, 3) as any as S.Schema<GetPrivateEndpointConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10258,8 +10570,8 @@ export const GetRegistry: API.OperationMethod<
   GetRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<GetRegistryRequest>,
-  output: __S(9216, __c288, 0) as any as S.Schema<GetRegistryResponse>,
+  input: __S(9344, __c292, 0) as any as S.Schema<GetRegistryRequest>,
+  output: __S(9408, __c294, 0) as any as S.Schema<GetRegistryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10275,8 +10587,8 @@ export const GetRegistryCodeContainer: API.OperationMethod<
   GetRegistryCodeContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<GetRegistryCodeContainerRequest>,
-  output: __S(6400, __c200, 0) as any as S.Schema<GetRegistryCodeContainerResponse>,
+  input: __S(9504, __c297, 0) as any as S.Schema<GetRegistryCodeContainerRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<GetRegistryCodeContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10292,8 +10604,8 @@ export const GetRegistryCodeVersion: API.OperationMethod<
   GetRegistryCodeVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9344, __c292, 0) as any as S.Schema<GetRegistryCodeVersionRequest>,
-  output: __S(7424, __c232, 0) as any as S.Schema<GetRegistryCodeVersionResponse>,
+  input: __S(9536, __c298, 0) as any as S.Schema<GetRegistryCodeVersionRequest>,
+  output: __S(7552, __c236, 0) as any as S.Schema<GetRegistryCodeVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10309,8 +10621,8 @@ export const GetRegistryComponentContainer: API.OperationMethod<
   GetRegistryComponentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<GetRegistryComponentContainerRequest>,
-  output: __S(6400, __c200, 0) as any as S.Schema<GetRegistryComponentContainerResponse>,
+  input: __S(9568, __c299, 0) as any as S.Schema<GetRegistryComponentContainerRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<GetRegistryComponentContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10326,8 +10638,8 @@ export const GetRegistryComponentVersion: API.OperationMethod<
   GetRegistryComponentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<GetRegistryComponentVersionRequest>,
-  output: __S(8448, __c264, 0) as any as S.Schema<GetRegistryComponentVersionResponse>,
+  input: __S(9600, __c300, 0) as any as S.Schema<GetRegistryComponentVersionRequest>,
+  output: __S(8640, __c270, 0) as any as S.Schema<GetRegistryComponentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10343,8 +10655,8 @@ export const GetRegistryDataContainer: API.OperationMethod<
   GetRegistryDataContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9440, __c295, 0) as any as S.Schema<GetRegistryDataContainerRequest>,
-  output: __S(1152, __c36, 0) as any as S.Schema<GetRegistryDataContainerResponse>,
+  input: __S(9632, __c301, 0) as any as S.Schema<GetRegistryDataContainerRequest>,
+  output: __S(1120, __c35, 0) as any as S.Schema<GetRegistryDataContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10360,8 +10672,8 @@ export const GetRegistryDataReferenceBlobReferenceSAS: API.OperationMethod<
   GetRegistryDataReferenceBlobReferenceSASError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<GetRegistryDataReferenceBlobReferenceSASRequest>,
-  output: __S(9473, __c296, 1) as any as S.Schema<GetBlobReferenceSASResponseDto>,
+  input: __S(9664, __c302, 0) as any as S.Schema<GetRegistryDataReferenceBlobReferenceSASRequest>,
+  output: __S(9665, __c302, 1) as any as S.Schema<GetBlobReferenceSASResponseDto>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10377,7 +10689,7 @@ export const GetRegistryDataVersion: API.OperationMethod<
   GetRegistryDataVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<GetRegistryDataVersionRequest>,
+  input: __S(9696, __c303, 0) as any as S.Schema<GetRegistryDataVersionRequest>,
   output: __S(2112, __c66, 0) as any as S.Schema<GetRegistryDataVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -10394,8 +10706,8 @@ export const GetRegistryEnvironmentContainer: API.OperationMethod<
   GetRegistryEnvironmentContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<GetRegistryEnvironmentContainerRequest>,
-  output: __S(6400, __c200, 0) as any as S.Schema<GetRegistryEnvironmentContainerResponse>,
+  input: __S(9728, __c304, 0) as any as S.Schema<GetRegistryEnvironmentContainerRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<GetRegistryEnvironmentContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10411,8 +10723,8 @@ export const GetRegistryEnvironmentVersion: API.OperationMethod<
   GetRegistryEnvironmentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<GetRegistryEnvironmentVersionRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<GetRegistryEnvironmentVersionResponse>,
+  input: __S(9760, __c305, 0) as any as S.Schema<GetRegistryEnvironmentVersionRequest>,
+  output: __S(7136, __c223, 0) as any as S.Schema<GetRegistryEnvironmentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10428,8 +10740,8 @@ export const GetRegistryModelContainer: API.OperationMethod<
   GetRegistryModelContainerError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<GetRegistryModelContainerRequest>,
-  output: __S(6400, __c200, 0) as any as S.Schema<GetRegistryModelContainerResponse>,
+  input: __S(9792, __c306, 0) as any as S.Schema<GetRegistryModelContainerRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<GetRegistryModelContainerResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10446,7 +10758,7 @@ export const GetRegistryModelVersion: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c15, 0) as any as S.Schema<GetRegistryModelVersionRequest>,
-  output: __S(8768, __c274, 0) as any as S.Schema<GetRegistryModelVersionResponse>,
+  output: __S(8960, __c280, 0) as any as S.Schema<GetRegistryModelVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10531,7 +10843,7 @@ export const JobsCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(899, __c28, 3) as any as S.Schema<JobsCreateOrUpdateRequest>,
-  output: __S(8389, __c262, 5) as any as S.Schema<JobsCreateOrUpdateResponse>,
+  output: __S(8549, __c267, 5) as any as S.Schema<JobsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10590,6 +10902,23 @@ export const ListBatchEndpoints: API.OperationMethod<
   span: "ListBatchEndpoints",
 }));
 
+export type ListCapabilityHostsError = AzureOpError;
+/** List capability hosts in the workspace. Lists the capability hosts associated with the specified workspace. */
+export const ListCapabilityHosts: API.OperationMethod<
+  ListCapabilityHostsRequest,
+  CapabilityHostListResult,
+  ListCapabilityHostsError,
+  AzureOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1024, __c32, 0) as any as S.Schema<ListCapabilityHostsRequest>,
+  output: __S(1026, __c32, 2) as any as S.Schema<CapabilityHostListResult>,
+  errors: [UnknownAzureError],
+  protocol: AzureProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListCapabilityHosts",
+}));
+
 export type ListCodeContainersError = AzureOpError;
 /** List containers. List containers. */
 export const ListCodeContainers: API.OperationMethod<
@@ -10598,8 +10927,8 @@ export const ListCodeContainers: API.OperationMethod<
   ListCodeContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<ListCodeContainersRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<CodeContainerResourceArmPaginatedResult>,
+  input: __S(1184, __c37, 0) as any as S.Schema<ListCodeContainersRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<CodeContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10615,8 +10944,8 @@ export const ListCodeVersions: API.OperationMethod<
   ListCodeVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<ListCodeVersionsRequest>,
-  output: __S(1249, __c39, 1) as any as S.Schema<CodeVersionResourceArmPaginatedResult>,
+  input: __S(1248, __c39, 0) as any as S.Schema<ListCodeVersionsRequest>,
+  output: __S(1281, __c40, 1) as any as S.Schema<CodeVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10632,8 +10961,8 @@ export const ListComponentContainers: API.OperationMethod<
   ListComponentContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<ListComponentContainersRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<ComponentContainerResourceArmPaginatedResult>,
+  input: __S(1312, __c41, 0) as any as S.Schema<ListComponentContainersRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<ComponentContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10649,8 +10978,8 @@ export const ListComponentVersions: API.OperationMethod<
   ListComponentVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<ListComponentVersionsRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<ComponentVersionResourceArmPaginatedResult>,
+  input: __S(1344, __c42, 0) as any as S.Schema<ListComponentVersionsRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<ComponentVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10666,8 +10995,8 @@ export const ListCompute: API.OperationMethod<
   ListComputeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<ListComputeRequest>,
-  output: __S(1378, __c43, 2) as any as S.Schema<PaginatedComputeResourcesList>,
+  input: __S(1408, __c44, 0) as any as S.Schema<ListComputeRequest>,
+  output: __S(1410, __c44, 2) as any as S.Schema<PaginatedComputeResourcesList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10683,8 +11012,8 @@ export const ListComputeKeys: API.OperationMethod<
   ListComputeKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<ListComputeKeysRequest>,
-  output: __S(1409, __c44, 1) as any as S.Schema<ComputeSecrets>,
+  input: __S(1440, __c45, 0) as any as S.Schema<ListComputeKeysRequest>,
+  output: __S(1441, __c45, 1) as any as S.Schema<ComputeSecrets>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10700,8 +11029,8 @@ export const ListComputeNodes: API.OperationMethod<
   ListComputeNodesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<ListComputeNodesRequest>,
-  output: __S(1443, __c45, 3) as any as S.Schema<AmlComputeNodesInformation>,
+  input: __S(1472, __c46, 0) as any as S.Schema<ListComputeNodesRequest>,
+  output: __S(1475, __c46, 3) as any as S.Schema<AmlComputeNodesInformation>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10717,8 +11046,8 @@ export const ListDataContainers: API.OperationMethod<
   ListDataContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<ListDataContainersRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<DataContainerResourceArmPaginatedResult>,
+  input: __S(1504, __c47, 0) as any as S.Schema<ListDataContainersRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<DataContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10734,8 +11063,8 @@ export const ListDatastores: API.OperationMethod<
   ListDatastoresError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<ListDatastoresRequest>,
-  output: __S(1538, __c48, 2) as any as S.Schema<DatastoreResourceArmPaginatedResult>,
+  input: __S(1568, __c49, 0) as any as S.Schema<ListDatastoresRequest>,
+  output: __S(1570, __c49, 2) as any as S.Schema<DatastoreResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10751,8 +11080,8 @@ export const ListDatastoreSecrets: API.OperationMethod<
   ListDatastoreSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<ListDatastoreSecretsRequest>,
-  output: __S(1569, __c49, 1) as any as S.Schema<DatastoreSecrets>,
+  input: __S(1600, __c50, 0) as any as S.Schema<ListDatastoreSecretsRequest>,
+  output: __S(1601, __c50, 1) as any as S.Schema<DatastoreSecrets>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10768,8 +11097,8 @@ export const ListDataVersions: API.OperationMethod<
   ListDataVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<ListDataVersionsRequest>,
-  output: __S(1633, __c51, 1) as any as S.Schema<DataVersionBaseResourceArmPaginatedResult>,
+  input: __S(1696, __c53, 0) as any as S.Schema<ListDataVersionsRequest>,
+  output: __S(1729, __c54, 1) as any as S.Schema<DataVersionBaseResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10785,8 +11114,8 @@ export const ListEnvironmentContainers: API.OperationMethod<
   ListEnvironmentContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<ListEnvironmentContainersRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<EnvironmentContainerResourceArmPaginatedResult>,
+  input: __S(1760, __c55, 0) as any as S.Schema<ListEnvironmentContainersRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<EnvironmentContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10802,8 +11131,8 @@ export const ListEnvironmentVersions: API.OperationMethod<
   ListEnvironmentVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<ListEnvironmentVersionsRequest>,
-  output: __S(1793, __c56, 1) as any as S.Schema<EnvironmentVersionResourceArmPaginatedResult>,
+  input: __S(1792, __c56, 0) as any as S.Schema<ListEnvironmentVersionsRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<EnvironmentVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10819,8 +11148,8 @@ export const ListFeatures: API.OperationMethod<
   ListFeaturesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<ListFeaturesRequest>,
-  output: __S(1826, __c57, 2) as any as S.Schema<FeatureResourceArmPaginatedResult>,
+  input: __S(1856, __c58, 0) as any as S.Schema<ListFeaturesRequest>,
+  output: __S(1858, __c58, 2) as any as S.Schema<FeatureResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10836,8 +11165,8 @@ export const ListFeaturesetContainers: API.OperationMethod<
   ListFeaturesetContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<ListFeaturesetContainersRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<FeaturesetContainerResourceArmPaginatedResult>,
+  input: __S(1888, __c59, 0) as any as S.Schema<ListFeaturesetContainersRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<FeaturesetContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10853,8 +11182,8 @@ export const ListFeaturesetVersions: API.OperationMethod<
   ListFeaturesetVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<ListFeaturesetVersionsRequest>,
-  output: __S(1890, __c59, 2) as any as S.Schema<FeaturesetVersionResourceArmPaginatedResult>,
+  input: __S(1920, __c60, 0) as any as S.Schema<ListFeaturesetVersionsRequest>,
+  output: __S(1922, __c60, 2) as any as S.Schema<FeaturesetVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10870,10 +11199,10 @@ export const ListFeaturestoreEntityContainers: API.OperationMethod<
   ListFeaturestoreEntityContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<ListFeaturestoreEntityContainersRequest>,
+  input: __S(1952, __c61, 0) as any as S.Schema<ListFeaturestoreEntityContainersRequest>,
   output: __S(
-    1057,
-    __c33,
+    1217,
+    __c38,
     1,
   ) as any as S.Schema<FeaturestoreEntityContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
@@ -10891,10 +11220,10 @@ export const ListFeaturestoreEntityVersions: API.OperationMethod<
   ListFeaturestoreEntityVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<ListFeaturestoreEntityVersionsRequest>,
+  input: __S(1984, __c62, 0) as any as S.Schema<ListFeaturestoreEntityVersionsRequest>,
   output: __S(
-    1954,
-    __c61,
+    1986,
+    __c62,
     2,
   ) as any as S.Schema<FeaturestoreEntityVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
@@ -10912,8 +11241,8 @@ export const ListJobs: API.OperationMethod<
   ListJobsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<ListJobsRequest>,
-  output: __S(1986, __c62, 2) as any as S.Schema<JobBaseResourceArmPaginatedResult>,
+  input: __S(2016, __c63, 0) as any as S.Schema<ListJobsRequest>,
+  output: __S(2018, __c63, 2) as any as S.Schema<JobBaseResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10929,8 +11258,8 @@ export const ListManagedNetworkSettingsRule: API.OperationMethod<
   ListManagedNetworkSettingsRuleError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ListManagedNetworkSettingsRuleRequest>,
-  output: __S(2018, __c63, 2) as any as S.Schema<OutboundRuleListResult>,
+  input: __S(2048, __c64, 0) as any as S.Schema<ListManagedNetworkSettingsRuleRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<OutboundRuleListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10946,8 +11275,8 @@ export const ListMarketplaceSubscriptions: API.OperationMethod<
   ListMarketplaceSubscriptionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<ListMarketplaceSubscriptionsRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<MarketplaceSubscriptionResourceArmPaginatedResult>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ListMarketplaceSubscriptionsRequest>,
+  output: __S(2178, __c68, 2) as any as S.Schema<MarketplaceSubscriptionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10963,8 +11292,8 @@ export const ListModelContainers: API.OperationMethod<
   ListModelContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<ListModelContainersRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<ModelContainerResourceArmPaginatedResult>,
+  input: __S(2208, __c69, 0) as any as S.Schema<ListModelContainersRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<ModelContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10980,8 +11309,8 @@ export const ListModelVersions: API.OperationMethod<
   ListModelVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ListModelVersionsRequest>,
-  output: __S(2241, __c70, 1) as any as S.Schema<ModelVersionResourceArmPaginatedResult>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ListModelVersionsRequest>,
+  output: __S(2273, __c71, 1) as any as S.Schema<ModelVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -10997,8 +11326,8 @@ export const ListOnlineDeployments: API.OperationMethod<
   ListOnlineDeploymentsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ListOnlineDeploymentsRequest>,
-  output: __S(2274, __c71, 2) as any as S.Schema<OnlineDeploymentTrackedResourceArmPaginatedResult>,
+  input: __S(2304, __c72, 0) as any as S.Schema<ListOnlineDeploymentsRequest>,
+  output: __S(2306, __c72, 2) as any as S.Schema<OnlineDeploymentTrackedResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11014,8 +11343,8 @@ export const ListOnlineDeploymentSkus: API.OperationMethod<
   ListOnlineDeploymentSkusError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ListOnlineDeploymentSkusRequest>,
-  output: __S(2309, __c72, 5) as any as S.Schema<SkuResourceArmPaginatedResult>,
+  input: __S(2336, __c73, 0) as any as S.Schema<ListOnlineDeploymentSkusRequest>,
+  output: __S(2341, __c73, 5) as any as S.Schema<SkuResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11031,7 +11360,7 @@ export const ListOnlineEndpointKeys: API.OperationMethod<
   ListOnlineEndpointKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<ListOnlineEndpointKeysRequest>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ListOnlineEndpointKeysRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<EndpointAuthKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -11048,8 +11377,8 @@ export const ListOnlineEndpoints: API.OperationMethod<
   ListOnlineEndpointsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<ListOnlineEndpointsRequest>,
-  output: __S(2370, __c74, 2) as any as S.Schema<OnlineEndpointTrackedResourceArmPaginatedResult>,
+  input: __S(2400, __c75, 0) as any as S.Schema<ListOnlineEndpointsRequest>,
+  output: __S(2402, __c75, 2) as any as S.Schema<OnlineEndpointTrackedResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11065,8 +11394,8 @@ export const ListOperations: API.OperationMethod<
   ListOperationsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(2404, __c75, 4) as any as S.Schema<ListOperationsResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(2436, __c76, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11082,8 +11411,8 @@ export const ListPrivateEndpointConnections: API.OperationMethod<
   ListPrivateEndpointConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
-  output: __S(2433, __c76, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
+  input: __S(2464, __c77, 0) as any as S.Schema<ListPrivateEndpointConnectionsRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11099,8 +11428,8 @@ export const ListPrivateLinkResources: API.OperationMethod<
   ListPrivateLinkResourcesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
-  output: __S(2468, __c77, 4) as any as S.Schema<PrivateLinkResourceListResult>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListPrivateLinkResourcesRequest>,
+  output: __S(2500, __c78, 4) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11116,8 +11445,8 @@ export const ListQuotas: API.OperationMethod<
   ListQuotasError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<ListQuotasRequest>,
-  output: __S(2499, __c78, 3) as any as S.Schema<ListWorkspaceQuotas>,
+  input: __S(2560, __c80, 0) as any as S.Schema<ListQuotasRequest>,
+  output: __S(2563, __c80, 3) as any as S.Schema<ListWorkspaceQuotas>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11133,8 +11462,8 @@ export const ListRegistries: API.OperationMethod<
   ListRegistriesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<ListRegistriesRequest>,
-  output: __S(2625, __c82, 1) as any as S.Schema<RegistryTrackedResourceArmPaginatedResult>,
+  input: __S(2624, __c82, 0) as any as S.Schema<ListRegistriesRequest>,
+  output: __S(2657, __c83, 1) as any as S.Schema<RegistryTrackedResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11150,8 +11479,8 @@ export const ListRegistryBySubscription: API.OperationMethod<
   ListRegistryBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<ListRegistryBySubscriptionRequest>,
-  output: __S(2625, __c82, 1) as any as S.Schema<RegistryTrackedResourceArmPaginatedResult>,
+  input: __S(2688, __c84, 0) as any as S.Schema<ListRegistryBySubscriptionRequest>,
+  output: __S(2657, __c83, 1) as any as S.Schema<RegistryTrackedResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11167,8 +11496,8 @@ export const ListRegistryCodeContainers: API.OperationMethod<
   ListRegistryCodeContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<ListRegistryCodeContainersRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<CodeContainerResourceArmPaginatedResult>,
+  input: __S(2720, __c85, 0) as any as S.Schema<ListRegistryCodeContainersRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<CodeContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11184,8 +11513,8 @@ export const ListRegistryCodeVersions: API.OperationMethod<
   ListRegistryCodeVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<ListRegistryCodeVersionsRequest>,
-  output: __S(1249, __c39, 1) as any as S.Schema<CodeVersionResourceArmPaginatedResult>,
+  input: __S(2752, __c86, 0) as any as S.Schema<ListRegistryCodeVersionsRequest>,
+  output: __S(1281, __c40, 1) as any as S.Schema<CodeVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11201,8 +11530,8 @@ export const ListRegistryComponentContainers: API.OperationMethod<
   ListRegistryComponentContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<ListRegistryComponentContainersRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<ComponentContainerResourceArmPaginatedResult>,
+  input: __S(2784, __c87, 0) as any as S.Schema<ListRegistryComponentContainersRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<ComponentContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11218,8 +11547,8 @@ export const ListRegistryComponentVersions: API.OperationMethod<
   ListRegistryComponentVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<ListRegistryComponentVersionsRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<ComponentVersionResourceArmPaginatedResult>,
+  input: __S(2816, __c88, 0) as any as S.Schema<ListRegistryComponentVersionsRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<ComponentVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11235,8 +11564,8 @@ export const ListRegistryDataContainers: API.OperationMethod<
   ListRegistryDataContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<ListRegistryDataContainersRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<DataContainerResourceArmPaginatedResult>,
+  input: __S(2848, __c89, 0) as any as S.Schema<ListRegistryDataContainersRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<DataContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11252,8 +11581,8 @@ export const ListRegistryDataVersions: API.OperationMethod<
   ListRegistryDataVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<ListRegistryDataVersionsRequest>,
-  output: __S(1633, __c51, 1) as any as S.Schema<DataVersionBaseResourceArmPaginatedResult>,
+  input: __S(2880, __c90, 0) as any as S.Schema<ListRegistryDataVersionsRequest>,
+  output: __S(1729, __c54, 1) as any as S.Schema<DataVersionBaseResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11269,8 +11598,8 @@ export const ListRegistryEnvironmentContainers: API.OperationMethod<
   ListRegistryEnvironmentContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<ListRegistryEnvironmentContainersRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<EnvironmentContainerResourceArmPaginatedResult>,
+  input: __S(2912, __c91, 0) as any as S.Schema<ListRegistryEnvironmentContainersRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<EnvironmentContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11286,8 +11615,8 @@ export const ListRegistryEnvironmentVersions: API.OperationMethod<
   ListRegistryEnvironmentVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<ListRegistryEnvironmentVersionsRequest>,
-  output: __S(1793, __c56, 1) as any as S.Schema<EnvironmentVersionResourceArmPaginatedResult>,
+  input: __S(2976, __c93, 0) as any as S.Schema<ListRegistryEnvironmentVersionsRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<EnvironmentVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11303,8 +11632,8 @@ export const ListRegistryModelContainers: API.OperationMethod<
   ListRegistryModelContainersError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<ListRegistryModelContainersRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<ModelContainerResourceArmPaginatedResult>,
+  input: __S(3008, __c94, 0) as any as S.Schema<ListRegistryModelContainersRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<ModelContainerResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11320,8 +11649,8 @@ export const ListRegistryModelVersions: API.OperationMethod<
   ListRegistryModelVersionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<ListRegistryModelVersionsRequest>,
-  output: __S(2241, __c70, 1) as any as S.Schema<ModelVersionResourceArmPaginatedResult>,
+  input: __S(3040, __c95, 0) as any as S.Schema<ListRegistryModelVersionsRequest>,
+  output: __S(2273, __c71, 1) as any as S.Schema<ModelVersionResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11337,8 +11666,8 @@ export const ListSchedules: API.OperationMethod<
   ListSchedulesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<ListSchedulesRequest>,
-  output: __S(3042, __c95, 2) as any as S.Schema<ScheduleResourceArmPaginatedResult>,
+  input: __S(3072, __c96, 0) as any as S.Schema<ListSchedulesRequest>,
+  output: __S(3074, __c96, 2) as any as S.Schema<ScheduleResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11354,7 +11683,7 @@ export const ListServerlessEndpointKeys: API.OperationMethod<
   ListServerlessEndpointKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<ListServerlessEndpointKeysRequest>,
+  input: __S(3104, __c97, 0) as any as S.Schema<ListServerlessEndpointKeysRequest>,
   output: __S(352, __c11, 0) as any as S.Schema<EndpointAuthKeys>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -11371,10 +11700,10 @@ export const ListServerlessEndpoints: API.OperationMethod<
   ListServerlessEndpointsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<ListServerlessEndpointsRequest>,
+  input: __S(3136, __c98, 0) as any as S.Schema<ListServerlessEndpointsRequest>,
   output: __S(
-    3106,
-    __c97,
+    3138,
+    __c98,
     2,
   ) as any as S.Schema<ServerlessEndpointTrackedResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
@@ -11392,8 +11721,8 @@ export const ListUsages: API.OperationMethod<
   ListUsagesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<ListUsagesRequest>,
-  output: __S(3139, __c98, 3) as any as S.Schema<ListUsagesResult>,
+  input: __S(3168, __c99, 0) as any as S.Schema<ListUsagesRequest>,
+  output: __S(3171, __c99, 3) as any as S.Schema<ListUsagesResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11409,8 +11738,8 @@ export const ListVirtualMachineSizes: API.OperationMethod<
   ListVirtualMachineSizesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<ListVirtualMachineSizesRequest>,
-  output: __S(3174, __c99, 6) as any as S.Schema<VirtualMachineSizeListResult>,
+  input: __S(3200, __c100, 0) as any as S.Schema<ListVirtualMachineSizesRequest>,
+  output: __S(3206, __c100, 6) as any as S.Schema<VirtualMachineSizeListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11426,8 +11755,8 @@ export const ListWorkspaceByResourceGroup: API.OperationMethod<
   ListWorkspaceByResourceGroupError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<ListWorkspaceByResourceGroupRequest>,
-  output: __S(3233, __c101, 1) as any as S.Schema<WorkspaceListResult>,
+  input: __S(3232, __c101, 0) as any as S.Schema<ListWorkspaceByResourceGroupRequest>,
+  output: __S(3265, __c102, 1) as any as S.Schema<WorkspaceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11443,8 +11772,8 @@ export const ListWorkspaceBySubscription: API.OperationMethod<
   ListWorkspaceBySubscriptionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<ListWorkspaceBySubscriptionRequest>,
-  output: __S(3233, __c101, 1) as any as S.Schema<WorkspaceListResult>,
+  input: __S(3296, __c103, 0) as any as S.Schema<ListWorkspaceBySubscriptionRequest>,
+  output: __S(3265, __c102, 1) as any as S.Schema<WorkspaceListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11460,10 +11789,10 @@ export const ListWorkspaceConnections: API.OperationMethod<
   ListWorkspaceConnectionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<ListWorkspaceConnectionsRequest>,
+  input: __S(3360, __c105, 0) as any as S.Schema<ListWorkspaceConnectionsRequest>,
   output: __S(
-    3298,
-    __c103,
+    3362,
+    __c105,
     2,
   ) as any as S.Schema<WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult>,
   errors: [UnknownAzureError],
@@ -11481,7 +11810,7 @@ export const ListWorkspaceConnectionSecrets: API.OperationMethod<
   ListWorkspaceConnectionSecretsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<ListWorkspaceConnectionSecretsRequest>,
+  input: __S(3392, __c106, 0) as any as S.Schema<ListWorkspaceConnectionSecretsRequest>,
   output: __S(417, __c13, 1) as any as S.Schema<ListWorkspaceConnectionSecretsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -11498,8 +11827,8 @@ export const ListWorkspaceFeatures: API.OperationMethod<
   ListWorkspaceFeaturesError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<ListWorkspaceFeaturesRequest>,
-  output: __S(3395, __c106, 3) as any as S.Schema<ListAmlUserFeatureResult>,
+  input: __S(3424, __c107, 0) as any as S.Schema<ListWorkspaceFeaturesRequest>,
+  output: __S(3427, __c107, 3) as any as S.Schema<ListAmlUserFeatureResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11515,8 +11844,8 @@ export const ListWorkspaceKeys: API.OperationMethod<
   ListWorkspaceKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<ListWorkspaceKeysRequest>,
-  output: __S(3428, __c107, 4) as any as S.Schema<ListWorkspaceKeysResult>,
+  input: __S(3456, __c108, 0) as any as S.Schema<ListWorkspaceKeysRequest>,
+  output: __S(3460, __c108, 4) as any as S.Schema<ListWorkspaceKeysResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11532,8 +11861,8 @@ export const ListWorkspaceNotebookAccessToken: API.OperationMethod<
   ListWorkspaceNotebookAccessTokenError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<ListWorkspaceNotebookAccessTokenRequest>,
-  output: __S(3489, __c109, 1) as any as S.Schema<NotebookAccessTokenResult>,
+  input: __S(3520, __c110, 0) as any as S.Schema<ListWorkspaceNotebookAccessTokenRequest>,
+  output: __S(3521, __c110, 1) as any as S.Schema<NotebookAccessTokenResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11549,8 +11878,8 @@ export const ListWorkspaceNotebookKeys: API.OperationMethod<
   ListWorkspaceNotebookKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<ListWorkspaceNotebookKeysRequest>,
-  output: __S(3456, __c108, 0) as any as S.Schema<ListNotebookKeysResult>,
+  input: __S(3552, __c111, 0) as any as S.Schema<ListWorkspaceNotebookKeysRequest>,
+  output: __S(3488, __c109, 0) as any as S.Schema<ListNotebookKeysResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11567,11 +11896,11 @@ export const ListWorkspaceOutboundNetworkDependenciesEndpoints: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3552,
-    __c111,
+    3584,
+    __c112,
     0,
   ) as any as S.Schema<ListWorkspaceOutboundNetworkDependenciesEndpointsRequest>,
-  output: __S(3560, __c111, 8) as any as S.Schema<ExternalFQDNResponse>,
+  output: __S(3592, __c112, 8) as any as S.Schema<ExternalFQDNResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11587,8 +11916,8 @@ export const ListWorkspaceStorageAccountKeys: API.OperationMethod<
   ListWorkspaceStorageAccountKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<ListWorkspaceStorageAccountKeysRequest>,
-  output: __S(3585, __c112, 1) as any as S.Schema<ListStorageAccountKeysResult>,
+  input: __S(3616, __c113, 0) as any as S.Schema<ListWorkspaceStorageAccountKeysRequest>,
+  output: __S(3617, __c113, 1) as any as S.Schema<ListStorageAccountKeysResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11604,8 +11933,8 @@ export const ManagedNetworkSettingsRuleCreateOrUpdate: API.OperationMethod<
   ManagedNetworkSettingsRuleCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<ManagedNetworkSettingsRuleCreateOrUpdateRequest>,
-  output: __S(3617, __c113, 1) as any as S.Schema<ManagedNetworkSettingsRuleCreateOrUpdateResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<ManagedNetworkSettingsRuleCreateOrUpdateRequest>,
+  output: __S(3649, __c114, 1) as any as S.Schema<ManagedNetworkSettingsRuleCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11621,8 +11950,8 @@ export const MarketplaceSubscriptionsCreateOrUpdate: API.OperationMethod<
   MarketplaceSubscriptionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3681, __c115, 1) as any as S.Schema<MarketplaceSubscriptionsCreateOrUpdateRequest>,
-  output: __S(3682, __c115, 2) as any as S.Schema<MarketplaceSubscriptionsCreateOrUpdateResponse>,
+  input: __S(3713, __c116, 1) as any as S.Schema<MarketplaceSubscriptionsCreateOrUpdateRequest>,
+  output: __S(3714, __c116, 2) as any as S.Schema<MarketplaceSubscriptionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11638,8 +11967,8 @@ export const ModelContainersCreateOrUpdate: API.OperationMethod<
   ModelContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<ModelContainersCreateOrUpdateRequest>,
-  output: __S(6400, __c200, 0) as any as S.Schema<ModelContainersCreateOrUpdateResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<ModelContainersCreateOrUpdateRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<ModelContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11655,8 +11984,8 @@ export const ModelVersionsCreateOrUpdate: API.OperationMethod<
   ModelVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<ModelVersionsCreateOrUpdateRequest>,
-  output: __S(8768, __c274, 0) as any as S.Schema<ModelVersionsCreateOrUpdateResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<ModelVersionsCreateOrUpdateRequest>,
+  output: __S(8960, __c280, 0) as any as S.Schema<ModelVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11672,8 +12001,8 @@ export const OnlineDeploymentsCreateOrUpdate: API.OperationMethod<
   OnlineDeploymentsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<OnlineDeploymentsCreateOrUpdateRequest>,
-  output: __S(3809, __c119, 1) as any as S.Schema<OnlineDeploymentsCreateOrUpdateResponse>,
+  input: __S(3873, __c121, 1) as any as S.Schema<OnlineDeploymentsCreateOrUpdateRequest>,
+  output: __S(3874, __c121, 2) as any as S.Schema<OnlineDeploymentsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11689,8 +12018,8 @@ export const OnlineEndpointsCreateOrUpdate: API.OperationMethod<
   OnlineEndpointsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3841, __c120, 1) as any as S.Schema<OnlineEndpointsCreateOrUpdateRequest>,
-  output: __S(3842, __c120, 2) as any as S.Schema<OnlineEndpointsCreateOrUpdateResponse>,
+  input: __S(3905, __c122, 1) as any as S.Schema<OnlineEndpointsCreateOrUpdateRequest>,
+  output: __S(3906, __c122, 2) as any as S.Schema<OnlineEndpointsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11706,8 +12035,8 @@ export const PrivateEndpointConnectionsCreateOrUpdate: API.OperationMethod<
   PrivateEndpointConnectionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3873, __c121, 1) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateRequest>,
-  output: __S(9123, __c285, 3) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>,
+  input: __S(3937, __c123, 1) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateRequest>,
+  output: __S(9315, __c291, 3) as any as S.Schema<PrivateEndpointConnectionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11724,13 +12053,13 @@ export const ProvisionManagedNetworkProvisionManagedNetwork: API.OperationMethod
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3904,
-    __c122,
+    3968,
+    __c124,
     0,
   ) as any as S.Schema<ProvisionManagedNetworkProvisionManagedNetworkRequest>,
   output: __S(
-    3905,
-    __c122,
+    3969,
+    __c124,
     1,
   ) as any as S.Schema<ProvisionManagedNetworkProvisionManagedNetworkResponse>,
   errors: [UnknownAzureError],
@@ -11748,8 +12077,8 @@ export const PublishCodeVersion: API.OperationMethod<
   PublishCodeVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<PublishCodeVersionRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<PublishCodeVersionResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<PublishCodeVersionRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<PublishCodeVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11765,8 +12094,8 @@ export const PublishComponentVersion: API.OperationMethod<
   PublishComponentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<PublishComponentVersionRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<PublishComponentVersionResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<PublishComponentVersionRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<PublishComponentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11782,8 +12111,8 @@ export const PublishDataVersion: API.OperationMethod<
   PublishDataVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<PublishDataVersionRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<PublishDataVersionResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<PublishDataVersionRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<PublishDataVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11799,8 +12128,8 @@ export const PublishEnvironmentVersion: API.OperationMethod<
   PublishEnvironmentVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<PublishEnvironmentVersionRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<PublishEnvironmentVersionResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<PublishEnvironmentVersionRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<PublishEnvironmentVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11816,8 +12145,8 @@ export const PublishModelVersion: API.OperationMethod<
   PublishModelVersionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<PublishModelVersionRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<PublishModelVersionResponse>,
+  input: __S(4160, __c130, 0) as any as S.Schema<PublishModelVersionRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<PublishModelVersionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11833,8 +12162,8 @@ export const RegenerateOnlineEndpointKeys: API.OperationMethod<
   RegenerateOnlineEndpointKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<RegenerateOnlineEndpointKeysRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<RegenerateOnlineEndpointKeysResponse>,
+  input: __S(4192, __c131, 0) as any as S.Schema<RegenerateOnlineEndpointKeysRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<RegenerateOnlineEndpointKeysResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11850,8 +12179,8 @@ export const RegenerateServerlessEndpointKeys: API.OperationMethod<
   RegenerateServerlessEndpointKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<RegenerateServerlessEndpointKeysRequest>,
-  output: __S(4161, __c130, 1) as any as S.Schema<RegenerateServerlessEndpointKeysResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<RegenerateServerlessEndpointKeysRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<RegenerateServerlessEndpointKeysResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11867,8 +12196,8 @@ export const RegistriesCreateOrUpdate: API.OperationMethod<
   RegistriesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<RegistriesCreateOrUpdateRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<RegistriesCreateOrUpdateResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<RegistriesCreateOrUpdateRequest>,
+  output: __S(4257, __c133, 1) as any as S.Schema<RegistriesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11884,8 +12213,8 @@ export const RegistryCodeContainersCreateOrUpdate: API.OperationMethod<
   RegistryCodeContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<RegistryCodeContainersCreateOrUpdateRequest>,
-  output: __S(4288, __c134, 0) as any as S.Schema<RegistryCodeContainersCreateOrUpdateResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<RegistryCodeContainersCreateOrUpdateRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<RegistryCodeContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11902,11 +12231,11 @@ export const RegistryCodeVersionsCreateOrGetStartPendingUpload: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4320,
-    __c135,
+    4384,
+    __c137,
     0,
   ) as any as S.Schema<RegistryCodeVersionsCreateOrGetStartPendingUploadRequest>,
-  output: __S(6784, __c212, 0) as any as S.Schema<PendingUploadResponseDto>,
+  output: __S(6848, __c214, 0) as any as S.Schema<PendingUploadResponseDto>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11922,8 +12251,8 @@ export const RegistryCodeVersionsCreateOrUpdate: API.OperationMethod<
   RegistryCodeVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<RegistryCodeVersionsCreateOrUpdateRequest>,
-  output: __S(4353, __c136, 1) as any as S.Schema<RegistryCodeVersionsCreateOrUpdateResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<RegistryCodeVersionsCreateOrUpdateRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<RegistryCodeVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11939,10 +12268,10 @@ export const RegistryComponentContainersCreateOrUpdate: API.OperationMethod<
   RegistryComponentContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<RegistryComponentContainersCreateOrUpdateRequest>,
+  input: __S(4448, __c139, 0) as any as S.Schema<RegistryComponentContainersCreateOrUpdateRequest>,
   output: __S(
-    4288,
-    __c134,
+    4352,
+    __c136,
     0,
   ) as any as S.Schema<RegistryComponentContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -11960,8 +12289,8 @@ export const RegistryComponentVersionsCreateOrUpdate: API.OperationMethod<
   RegistryComponentVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<RegistryComponentVersionsCreateOrUpdateRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<RegistryComponentVersionsCreateOrUpdateResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<RegistryComponentVersionsCreateOrUpdateRequest>,
+  output: __S(4481, __c140, 1) as any as S.Schema<RegistryComponentVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11977,8 +12306,8 @@ export const RegistryDataContainersCreateOrUpdate: API.OperationMethod<
   RegistryDataContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<RegistryDataContainersCreateOrUpdateRequest>,
-  output: __S(4449, __c139, 1) as any as S.Schema<RegistryDataContainersCreateOrUpdateResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<RegistryDataContainersCreateOrUpdateRequest>,
+  output: __S(4513, __c141, 1) as any as S.Schema<RegistryDataContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -11995,11 +12324,11 @@ export const RegistryDataVersionsCreateOrGetStartPendingUpload: API.OperationMet
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4480,
-    __c140,
+    4576,
+    __c143,
     0,
   ) as any as S.Schema<RegistryDataVersionsCreateOrGetStartPendingUploadRequest>,
-  output: __S(6784, __c212, 0) as any as S.Schema<PendingUploadResponseDto>,
+  output: __S(6848, __c214, 0) as any as S.Schema<PendingUploadResponseDto>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12015,8 +12344,8 @@ export const RegistryDataVersionsCreateOrUpdate: API.OperationMethod<
   RegistryDataVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<RegistryDataVersionsCreateOrUpdateRequest>,
-  output: __S(4545, __c142, 1) as any as S.Schema<RegistryDataVersionsCreateOrUpdateResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<RegistryDataVersionsCreateOrUpdateRequest>,
+  output: __S(4609, __c144, 1) as any as S.Schema<RegistryDataVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12033,13 +12362,13 @@ export const RegistryEnvironmentContainersCreateOrUpdate: API.OperationMethod<
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4576,
-    __c143,
+    4640,
+    __c145,
     0,
   ) as any as S.Schema<RegistryEnvironmentContainersCreateOrUpdateRequest>,
   output: __S(
-    7136,
-    __c223,
+    7232,
+    __c226,
     0,
   ) as any as S.Schema<RegistryEnvironmentContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -12057,10 +12386,10 @@ export const RegistryEnvironmentVersionsCreateOrUpdate: API.OperationMethod<
   RegistryEnvironmentVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<RegistryEnvironmentVersionsCreateOrUpdateRequest>,
+  input: __S(4672, __c146, 0) as any as S.Schema<RegistryEnvironmentVersionsCreateOrUpdateRequest>,
   output: __S(
-    4609,
-    __c144,
+    4673,
+    __c146,
     1,
   ) as any as S.Schema<RegistryEnvironmentVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
@@ -12078,8 +12407,8 @@ export const RegistryModelContainersCreateOrUpdate: API.OperationMethod<
   RegistryModelContainersCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<RegistryModelContainersCreateOrUpdateRequest>,
-  output: __S(4288, __c134, 0) as any as S.Schema<RegistryModelContainersCreateOrUpdateResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<RegistryModelContainersCreateOrUpdateRequest>,
+  output: __S(4352, __c136, 0) as any as S.Schema<RegistryModelContainersCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12096,11 +12425,11 @@ export const RegistryModelVersionsCreateOrGetStartPendingUpload: API.OperationMe
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    4672,
-    __c146,
+    4736,
+    __c148,
     0,
   ) as any as S.Schema<RegistryModelVersionsCreateOrGetStartPendingUploadRequest>,
-  output: __S(6784, __c212, 0) as any as S.Schema<PendingUploadResponseDto>,
+  output: __S(6848, __c214, 0) as any as S.Schema<PendingUploadResponseDto>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12116,8 +12445,8 @@ export const RegistryModelVersionsCreateOrUpdate: API.OperationMethod<
   RegistryModelVersionsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<RegistryModelVersionsCreateOrUpdateRequest>,
-  output: __S(4705, __c147, 1) as any as S.Schema<RegistryModelVersionsCreateOrUpdateResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<RegistryModelVersionsCreateOrUpdateRequest>,
+  output: __S(4769, __c149, 1) as any as S.Schema<RegistryModelVersionsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12133,8 +12462,8 @@ export const RemoveRegistryRegions: API.OperationMethod<
   RemoveRegistryRegionsError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<RemoveRegistryRegionsRequest>,
-  output: __S(4737, __c148, 1) as any as S.Schema<RemoveRegistryRegionsResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<RemoveRegistryRegionsRequest>,
+  output: __S(4801, __c150, 1) as any as S.Schema<RemoveRegistryRegionsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12150,8 +12479,8 @@ export const RestartCompute: API.OperationMethod<
   RestartComputeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<RestartComputeRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<RestartComputeResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<RestartComputeRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<RestartComputeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12167,8 +12496,8 @@ export const SchedulesCreateOrUpdate: API.OperationMethod<
   SchedulesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<SchedulesCreateOrUpdateRequest>,
-  output: __S(4801, __c150, 1) as any as S.Schema<SchedulesCreateOrUpdateResponse>,
+  input: __S(4865, __c152, 1) as any as S.Schema<SchedulesCreateOrUpdateRequest>,
+  output: __S(4866, __c152, 2) as any as S.Schema<SchedulesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12184,8 +12513,8 @@ export const ServerlessEndpointsCreateOrUpdate: API.OperationMethod<
   ServerlessEndpointsCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4833, __c151, 1) as any as S.Schema<ServerlessEndpointsCreateOrUpdateRequest>,
-  output: __S(4834, __c151, 2) as any as S.Schema<ServerlessEndpointsCreateOrUpdateResponse>,
+  input: __S(4993, __c156, 1) as any as S.Schema<ServerlessEndpointsCreateOrUpdateRequest>,
+  output: __S(4994, __c156, 2) as any as S.Schema<ServerlessEndpointsCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12201,8 +12530,8 @@ export const StartCompute: API.OperationMethod<
   StartComputeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<StartComputeRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<StartComputeResponse>,
+  input: __S(5024, __c157, 0) as any as S.Schema<StartComputeRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<StartComputeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12218,8 +12547,8 @@ export const StopCompute: API.OperationMethod<
   StopComputeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<StopComputeRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<StopComputeResponse>,
+  input: __S(5056, __c158, 0) as any as S.Schema<StopComputeRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<StopComputeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12235,8 +12564,8 @@ export const UpdateBatchDeployment: API.OperationMethod<
   UpdateBatchDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5025, __c157, 1) as any as S.Schema<UpdateBatchDeploymentRequest>,
-  output: __S(5026, __c157, 2) as any as S.Schema<UpdateBatchDeploymentResponse>,
+  input: __S(5089, __c159, 1) as any as S.Schema<UpdateBatchDeploymentRequest>,
+  output: __S(5090, __c159, 2) as any as S.Schema<UpdateBatchDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12252,8 +12581,8 @@ export const UpdateBatchEndpoint: API.OperationMethod<
   UpdateBatchEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<UpdateBatchEndpointRequest>,
-  output: __S(5057, __c158, 1) as any as S.Schema<UpdateBatchEndpointResponse>,
+  input: __S(5120, __c160, 0) as any as S.Schema<UpdateBatchEndpointRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<UpdateBatchEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12269,8 +12598,8 @@ export const UpdateCompute: API.OperationMethod<
   UpdateComputeError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5155, __c161, 3) as any as S.Schema<UpdateComputeRequest>,
-  output: __S(5156, __c161, 4) as any as S.Schema<UpdateComputeResponse>,
+  input: __S(5219, __c163, 3) as any as S.Schema<UpdateComputeRequest>,
+  output: __S(5220, __c163, 4) as any as S.Schema<UpdateComputeResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12286,8 +12615,8 @@ export const UpdateOnlineDeployment: API.OperationMethod<
   UpdateOnlineDeploymentError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<UpdateOnlineDeploymentRequest>,
-  output: __S(5185, __c162, 1) as any as S.Schema<UpdateOnlineDeploymentResponse>,
+  input: __S(5248, __c164, 0) as any as S.Schema<UpdateOnlineDeploymentRequest>,
+  output: __S(5249, __c164, 1) as any as S.Schema<UpdateOnlineDeploymentResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12303,8 +12632,8 @@ export const UpdateOnlineEndpoint: API.OperationMethod<
   UpdateOnlineEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<UpdateOnlineEndpointRequest>,
-  output: __S(5249, __c164, 1) as any as S.Schema<UpdateOnlineEndpointResponse>,
+  input: __S(5312, __c166, 0) as any as S.Schema<UpdateOnlineEndpointRequest>,
+  output: __S(5313, __c166, 1) as any as S.Schema<UpdateOnlineEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12320,8 +12649,8 @@ export const UpdateQuotas: API.OperationMethod<
   UpdateQuotasError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5282, __c165, 2) as any as S.Schema<UpdateQuotasRequest>,
-  output: __S(5285, __c165, 5) as any as S.Schema<UpdateWorkspaceQuotasResult>,
+  input: __S(5346, __c167, 2) as any as S.Schema<UpdateQuotasRequest>,
+  output: __S(5349, __c167, 5) as any as S.Schema<UpdateWorkspaceQuotasResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12337,8 +12666,8 @@ export const UpdateRegistry: API.OperationMethod<
   UpdateRegistryError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<UpdateRegistryRequest>,
-  output: __S(9216, __c288, 0) as any as S.Schema<UpdateRegistryResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<UpdateRegistryRequest>,
+  output: __S(9408, __c294, 0) as any as S.Schema<UpdateRegistryResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12354,8 +12683,8 @@ export const UpdateServerlessEndpoint: API.OperationMethod<
   UpdateServerlessEndpointError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<UpdateServerlessEndpointRequest>,
-  output: __S(5345, __c167, 1) as any as S.Schema<UpdateServerlessEndpointResponse>,
+  input: __S(5440, __c170, 0) as any as S.Schema<UpdateServerlessEndpointRequest>,
+  output: __S(5441, __c170, 1) as any as S.Schema<UpdateServerlessEndpointResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12371,8 +12700,8 @@ export const UpdateWorkspace: API.OperationMethod<
   UpdateWorkspaceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5411, __c169, 3) as any as S.Schema<UpdateWorkspaceRequest>,
-  output: __S(5442, __c170, 2) as any as S.Schema<UpdateWorkspaceResponse>,
+  input: __S(5475, __c171, 3) as any as S.Schema<UpdateWorkspaceRequest>,
+  output: __S(5506, __c172, 2) as any as S.Schema<UpdateWorkspaceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12388,7 +12717,7 @@ export const UpdateWorkspaceConnection: API.OperationMethod<
   UpdateWorkspaceConnectionError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<UpdateWorkspaceConnectionRequest>,
+  input: __S(5536, __c173, 0) as any as S.Schema<UpdateWorkspaceConnectionRequest>,
   output: __S(417, __c13, 1) as any as S.Schema<UpdateWorkspaceConnectionResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -12405,8 +12734,8 @@ export const WorkspacesCreateOrUpdate: API.OperationMethod<
   WorkspacesCreateOrUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5505, __c172, 1) as any as S.Schema<WorkspacesCreateOrUpdateRequest>,
-  output: __S(5442, __c170, 2) as any as S.Schema<WorkspacesCreateOrUpdateResponse>,
+  input: __S(5569, __c174, 1) as any as S.Schema<WorkspacesCreateOrUpdateRequest>,
+  output: __S(5506, __c172, 2) as any as S.Schema<WorkspacesCreateOrUpdateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12422,8 +12751,8 @@ export const WorkspacesDiagnose: API.OperationMethod<
   WorkspacesDiagnoseError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5537, __c173, 1) as any as S.Schema<WorkspacesDiagnoseRequest>,
-  output: __S(5541, __c173, 5) as any as S.Schema<DiagnoseResponseResult>,
+  input: __S(5601, __c175, 1) as any as S.Schema<WorkspacesDiagnoseRequest>,
+  output: __S(5605, __c175, 5) as any as S.Schema<DiagnoseResponseResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12439,8 +12768,8 @@ export const WorkspacesPrepareNotebook: API.OperationMethod<
   WorkspacesPrepareNotebookError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<WorkspacesPrepareNotebookRequest>,
-  output: __S(5569, __c174, 1) as any as S.Schema<WorkspacesPrepareNotebookResponse>,
+  input: __S(5632, __c176, 0) as any as S.Schema<WorkspacesPrepareNotebookRequest>,
+  output: __S(5633, __c176, 1) as any as S.Schema<WorkspacesPrepareNotebookResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12456,8 +12785,8 @@ export const WorkspacesResyncKeys: API.OperationMethod<
   WorkspacesResyncKeysError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<WorkspacesResyncKeysRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<WorkspacesResyncKeysResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<WorkspacesResyncKeysRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<WorkspacesResyncKeysResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -12471,6 +12800,27 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          codeConfiguration: S.optional(S.NullOr(__S(256, __c8, 0))),
+          description: S.optional(S.NullOr(S.String)),
+          environmentId: S.optional(S.NullOr(S.String)),
+          environmentVariables: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          compute: S.optional(S.NullOr(S.String)),
+          deploymentConfiguration: S.optional(S.NullOr(__S(224, __c7, 0))),
+          errorThreshold: S.optional(S.Number),
+          loggingLevel: S.optional(S.String),
+          maxConcurrencyPerInstance: S.optional(S.Number),
+          miniBatchSize: S.optional(S.Number),
+          model: S.optional(S.NullOr(__S(225, __c7, 1))),
+          outputAction: S.optional(S.String),
+          outputFileName: S.optional(S.String),
+          resources: S.optional(S.NullOr(__S(227, __c7, 3))),
+          retrySettings: S.optional(S.NullOr(__S(228, __c7, 4))),
+        }),
+      ).annotate({ identifier: "BatchDeploymentPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
@@ -12478,7 +12828,7 @@ function __c0(j: number): any {
           deploymentName: S.String.pipe(T.Label()),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(229, __c7, 5),
+          properties: __S(0, __c0, 0),
           identity: S.optional(__S(161, __c5, 1)),
           kind: S.optional(S.String),
           sku: S.optional(__S(192, __c6, 0)),
@@ -12487,11 +12837,11 @@ function __c0(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments/{deploymentName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "BatchDeploymentsCreateOrUpdateRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -12688,7 +13038,7 @@ function __c9(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "BatchEndpointsCreateOrUpdateRequest" });
@@ -12760,7 +13110,7 @@ function __c12(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CreateWorkspaceConnectionRequest" });
@@ -12781,7 +13131,7 @@ function __c13(j: number): any {
           metadata: S.optional(__S(96, __c3, 0)),
           peRequirement: S.optional(S.String),
           peStatus: S.optional(S.String),
-          sharedUserList: S.optional(__S(5920, __c185, 0)),
+          sharedUserList: S.optional(__S(5984, __c187, 0)),
           target: S.optional(S.String),
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
           credentials: S.optional(S.Unknown),
@@ -12812,7 +13162,7 @@ function __c14(j: number): any {
           metadata: S.optional(__S(96, __c3, 0)),
           peRequirement: S.optional(S.String),
           peStatus: S.optional(S.String),
-          sharedUserList: S.optional(__S(5920, __c185, 0)),
+          sharedUserList: S.optional(__S(5984, __c187, 0)),
           target: S.optional(S.String),
           useWorkspaceManagedIdentity: S.optional(S.Boolean),
           credentials: S.optional(S.Unknown),
@@ -12835,7 +13185,7 @@ function __c15(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/models/{modelName}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetRegistryModelVersionRequest" });
@@ -12855,7 +13205,7 @@ function __c16(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetScheduleRequest" });
@@ -12928,7 +13278,7 @@ function __c19(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/serverlessEndpoints/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetServerlessEndpointRequest" });
@@ -13001,7 +13351,7 @@ function __c22(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetWorkspaceRequest" });
@@ -13010,7 +13360,7 @@ function __c22(j: number): any {
 function __c23(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9123, __c285, 3));
+      return S.Array(__S(9315, __c291, 3));
   }
 }
 function __c24(j: number): any {
@@ -13074,7 +13424,7 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "FeatureStoreSettings" });
     case 5:
-      return S.Record(S.String, __S(8544, __c267, 0));
+      return S.Record(S.String, __S(8736, __c273, 0));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -13144,7 +13494,7 @@ function __c25(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          additionalWorkspaceStorageAccounts: S.optional(__S(5920, __c185, 0)),
+          additionalWorkspaceStorageAccounts: S.optional(__S(5984, __c187, 0)),
           defaultWorkspaceResourceGroup: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspaceHubConfig" });
@@ -13153,7 +13503,7 @@ function __c25(j: number): any {
         S.Struct({
           allowPublicAccessWhenBehindVnet: S.optional(S.Boolean),
           applicationInsights: S.optional(S.String),
-          associatedWorkspaces: S.optional(__S(5920, __c185, 0)),
+          associatedWorkspaces: S.optional(__S(5984, __c187, 0)),
           containerRegistry: S.optional(S.String),
           description: S.optional(S.String),
           discoveryUrl: S.optional(S.String),
@@ -13215,7 +13565,7 @@ function __c27(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetWorkspaceConnectionRequest" });
@@ -13228,7 +13578,7 @@ function __c28(j: number): any {
         S.Struct({
           endpoint: S.optional(S.NullOr(S.String)),
           jobServiceType: S.optional(S.NullOr(S.String)),
-          nodes: S.optional(S.NullOr(__S(8385, __c262, 1))),
+          nodes: S.optional(S.NullOr(__S(8545, __c267, 1))),
           port: S.optional(S.NullOr(S.Number)),
           properties: S.optional(S.NullOr(__S(32, __c1, 0))),
         }),
@@ -13245,10 +13595,10 @@ function __c28(j: number): any {
           computeId: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           experimentName: S.optional(S.String),
-          identity: S.optional(S.NullOr(__S(8384, __c262, 0))),
+          identity: S.optional(S.NullOr(__S(8544, __c267, 0))),
           isArchived: S.optional(S.Boolean),
           jobType: S.String,
-          notificationSetting: S.optional(S.NullOr(__S(7330, __c229, 2))),
+          notificationSetting: S.optional(S.NullOr(__S(7426, __c232, 2))),
           services: S.optional(S.NullOr(__S(897, __c28, 1))),
         }),
       ).annotate({ identifier: "JobBasePropertiesInput" });
@@ -13265,7 +13615,7 @@ function __c28(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/jobs/{id}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "JobsCreateOrUpdateRequest" });
@@ -13288,12 +13638,12 @@ function __c29(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListBatchDeploymentsRequest" });
     case 1:
-      return S.Array(__S(7584, __c237, 0));
+      return S.Array(__S(7712, __c241, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -13317,7 +13667,7 @@ function __c30(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/listkeys",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListBatchEndpointKeysRequest" });
@@ -13338,12 +13688,12 @@ function __c31(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListBatchEndpointsRequest" });
     case 1:
-      return S.Array(__S(7648, __c239, 0));
+      return S.Array(__S(7776, __c243, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -13361,32 +13711,27 @@ function __c32(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
-          _skip: S.optional(S.String.pipe(T.Query("$skip"))),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/codes",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/capabilityHosts",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
-      ).annotate({ identifier: "ListCodeContainersRequest" });
+      ).annotate({ identifier: "ListCapabilityHostsRequest" });
+    case 1:
+      return S.Array(__S(7840, __c245, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(1025, __c32, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CapabilityHostListResult" });
   }
 }
 function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(6400, __c200, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(1056, __c33, 0),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CodeContainerResourceArmPaginatedResult" });
-  }
-}
-function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13395,19 +13740,19 @@ function __c34(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(1120, __c35, 0),
+          properties: __S(1088, __c34, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DataContainersCreateOrUpdateRequest" });
   }
 }
-function __c35(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13421,7 +13766,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "DataContainerPropertiesInput" });
   }
 }
-function __c36(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13430,12 +13775,12 @@ function __c36(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(1184, __c37, 0),
+          properties: __S(1152, __c36, 0),
         }),
       ).annotate({ identifier: "DataContainersCreateOrUpdateResponse" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13451,7 +13796,40 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DataContainerProperties" });
   }
 }
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          _skip: S.optional(S.String.pipe(T.Query("$skip"))),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/codes",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListCodeContainersRequest" });
+  }
+}
 function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(6464, __c202, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(1216, __c38, 0),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CodeContainerResourceArmPaginatedResult" });
+  }
+}
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13470,26 +13848,26 @@ function __c38(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/codes/{name}/versions",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListCodeVersionsRequest" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7424, __c232, 0));
+      return S.Array(__S(7552, __c236, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1248, __c39, 0),
+          value: __S(1280, __c40, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CodeVersionResourceArmPaginatedResult" });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13504,13 +13882,13 @@ function __c40(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListComponentContainersRequest" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13528,26 +13906,26 @@ function __c41(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}/versions",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListComponentVersionsRequest" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8448, __c264, 0));
+      return S.Array(__S(8640, __c270, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1344, __c42, 0),
+          value: __S(1376, __c43, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ComponentVersionResourceArmPaginatedResult" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13561,45 +13939,19 @@ function __c43(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListComputeRequest" });
     case 1:
-      return S.Array(__S(7872, __c246, 0));
+      return S.Array(__S(8032, __c251, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1377, __c43, 1),
+          value: __S(1409, __c44, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PaginatedComputeResourcesList" });
-  }
-}
-function __c44(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          workspaceName: S.String.pipe(T.Label()),
-          computeName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/listKeys",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListComputeKeysRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          computeType: S.String,
-        }),
-      ).annotate({ identifier: "ComputeSecrets" });
   }
 }
 function __c45(j: number): any {
@@ -13614,9 +13966,35 @@ function __c45(j: number): any {
         }).pipe(
           T.Http({
             method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/listKeys",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListComputeKeysRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          computeType: S.String,
+        }),
+      ).annotate({ identifier: "ComputeSecrets" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          computeName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/listNodes",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListComputeNodesRequest" });
@@ -13632,17 +14010,17 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "AmlComputeNodeInformation" });
     case 2:
-      return S.Array(__S(1441, __c45, 1));
+      return S.Array(__S(1473, __c46, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          nodes: S.optional(__S(1442, __c45, 2)),
+          nodes: S.optional(__S(1474, __c46, 2)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AmlComputeNodesInformation" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13657,26 +14035,26 @@ function __c46(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListDataContainersRequest" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1152, __c36, 0));
+      return S.Array(__S(1120, __c35, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1504, __c47, 0),
+          value: __S(1536, __c48, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataContainerResourceArmPaginatedResult" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13687,7 +14065,7 @@ function __c48(j: number): any {
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           count: S.optional(S.Number.pipe(T.Query())),
           isDefault: S.optional(S.Boolean.pipe(T.Query())),
-          names: S.optional(__S(5920, __c185, 0).pipe(T.Query())),
+          names: S.optional(__S(5984, __c187, 0).pipe(T.Query())),
           searchText: S.optional(S.String.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           orderByAsc: S.optional(S.Boolean.pipe(T.Query())),
@@ -13696,22 +14074,22 @@ function __c48(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListDatastoresRequest" });
     case 1:
-      return S.Array(__S(1698, __c53, 2));
+      return S.Array(__S(1666, __c52, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1537, __c48, 1),
+          value: __S(1569, __c49, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatastoreResourceArmPaginatedResult" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13727,7 +14105,7 @@ function __c49(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}/listSecrets",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListDatastoreSecretsRequest" });
@@ -13739,45 +14117,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "DatastoreSecrets" });
   }
 }
-function __c50(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          workspaceName: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          _orderBy: S.optional(S.String.pipe(T.Query("$orderBy"))),
-          _top: S.optional(S.Number.pipe(T.Query("$top"))),
-          _skip: S.optional(S.String.pipe(T.Query("$skip"))),
-          _tags: S.optional(S.String.pipe(T.Query("$tags"))),
-          listViewType: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListDataVersionsRequest" });
-  }
-}
 function __c51(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(2112, __c66, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(1632, __c51, 0),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DataVersionBaseResourceArmPaginatedResult" });
-  }
-}
-function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13785,7 +14125,7 @@ function __c52(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           properties: S.optional(S.NullOr(__S(32, __c1, 0))),
           tags: S.optional(S.NullOr(__S(32, __c1, 0))),
-          credentials: __S(1696, __c53, 0),
+          credentials: __S(1664, __c52, 0),
           datastoreType: S.String,
           accountName: S.optional(S.String),
           containerName: S.optional(S.String),
@@ -13807,19 +14147,19 @@ function __c52(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           skipValidation: S.optional(S.Boolean.pipe(T.Query())),
-          properties: __S(1664, __c52, 0),
+          properties: __S(1632, __c51, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DatastoresCreateOrUpdateRequest" });
   }
 }
-function __c53(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13838,7 +14178,7 @@ function __c53(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           properties: S.optional(S.NullOr(__S(32, __c1, 0))),
           tags: S.optional(S.NullOr(__S(32, __c1, 0))),
-          credentials: __S(1696, __c53, 0),
+          credentials: __S(1664, __c52, 0),
           datastoreType: S.String,
           isDefault: S.optional(S.Boolean),
           accountName: S.optional(S.String),
@@ -13860,12 +14200,50 @@ function __c53(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(1697, __c53, 1),
+          properties: __S(1665, __c52, 1),
         }),
       ).annotate({ identifier: "DatastoresCreateOrUpdateResponse" });
   }
 }
+function __c53(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          _orderBy: S.optional(S.String.pipe(T.Query("$orderBy"))),
+          _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          _skip: S.optional(S.String.pipe(T.Query("$skip"))),
+          _tags: S.optional(S.String.pipe(T.Query("$tags"))),
+          listViewType: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListDataVersionsRequest" });
+  }
+}
 function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(2112, __c66, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(1728, __c54, 0),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DataVersionBaseResourceArmPaginatedResult" });
+  }
+}
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13880,13 +14258,13 @@ function __c54(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListEnvironmentContainersRequest" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13904,26 +14282,26 @@ function __c55(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}/versions",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListEnvironmentVersionsRequest" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7040, __c220, 0));
+      return S.Array(__S(7136, __c223, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1792, __c56, 0),
+          value: __S(1824, __c57, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "EnvironmentVersionResourceArmPaginatedResult" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13944,22 +14322,22 @@ function __c57(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets/{featuresetName}/versions/{featuresetVersion}/features",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListFeaturesRequest" });
     case 1:
-      return S.Array(__S(8129, __c254, 1));
+      return S.Array(__S(8289, __c259, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1825, __c57, 1),
+          value: __S(1857, __c58, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FeatureResourceArmPaginatedResult" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13979,13 +14357,13 @@ function __c58(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListFeaturesetContainersRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14008,22 +14386,22 @@ function __c59(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets/{name}/versions",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListFeaturesetVersionsRequest" });
     case 1:
-      return S.Array(__S(8224, __c257, 0));
+      return S.Array(__S(8384, __c262, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1889, __c59, 1),
+          value: __S(1921, __c60, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FeaturesetVersionResourceArmPaginatedResult" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14043,13 +14421,13 @@ function __c60(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featurestoreEntities",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListFeaturestoreEntityContainersRequest" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14072,22 +14450,22 @@ function __c61(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featurestoreEntities/{name}/versions",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListFeaturestoreEntityVersionsRequest" });
     case 1:
-      return S.Array(__S(8320, __c260, 0));
+      return S.Array(__S(8480, __c265, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1953, __c61, 1),
+          value: __S(1985, __c62, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FeaturestoreEntityVersionResourceArmPaginatedResult" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14105,22 +14483,22 @@ function __c62(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/jobs",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListJobsRequest" });
     case 1:
-      return S.Array(__S(8389, __c262, 5));
+      return S.Array(__S(8549, __c267, 5));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1985, __c62, 1),
+          value: __S(2017, __c63, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobBaseResourceArmPaginatedResult" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14133,48 +14511,19 @@ function __c63(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/outboundRules",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListManagedNetworkSettingsRuleRequest" });
     case 1:
-      return S.Array(__S(8576, __c268, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(2017, __c63, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OutboundRuleListResult" });
-  }
-}
-function __c64(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          workspaceName: S.String.pipe(T.Label()),
-          _skip: S.optional(S.String.pipe(T.Query("$skip"))),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/marketplaceSubscriptions",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListMarketplaceSubscriptionsRequest" });
-    case 1:
-      return S.Array(__S(8640, __c270, 0));
+      return S.Array(__S(8768, __c274, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           value: __S(2049, __c64, 1),
           nextLink: S.optional(S.String),
         }),
-      ).annotate({ identifier: "MarketplaceSubscriptionResourceArmPaginatedResult" });
+      ).annotate({ identifier: "OutboundRuleListResult" });
   }
 }
 function __c65(j: number): any {
@@ -14193,7 +14542,7 @@ function __c65(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DataVersionsCreateOrUpdateRequest" });
@@ -14238,6 +14587,35 @@ function __c68(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           _skip: S.optional(S.String.pipe(T.Query("$skip"))),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/marketplaceSubscriptions",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListMarketplaceSubscriptionsRequest" });
+    case 1:
+      return S.Array(__S(8832, __c276, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2177, __c68, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MarketplaceSubscriptionResourceArmPaginatedResult" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          _skip: S.optional(S.String.pipe(T.Query("$skip"))),
           count: S.optional(S.Number.pipe(T.Query())),
           listViewType: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -14245,13 +14623,13 @@ function __c68(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListModelContainersRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14275,26 +14653,26 @@ function __c69(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListModelVersionsRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8768, __c274, 0));
+      return S.Array(__S(8960, __c280, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2240, __c70, 0),
+          value: __S(2272, __c71, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ModelVersionResourceArmPaginatedResult" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14311,22 +14689,22 @@ function __c71(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListOnlineDeploymentsRequest" });
     case 1:
-      return S.Array(__S(8864, __c277, 0));
+      return S.Array(__S(9056, __c283, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2273, __c71, 1),
+          value: __S(2305, __c72, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OnlineDeploymentTrackedResourceArmPaginatedResult" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14343,7 +14721,7 @@ function __c72(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}/skus",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListOnlineDeploymentSkusRequest" });
@@ -14366,23 +14744,23 @@ function __c72(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          capacity: S.optional(S.NullOr(__S(2305, __c72, 1))),
+          capacity: S.optional(S.NullOr(__S(2337, __c73, 1))),
           resourceType: S.optional(S.NullOr(S.String)),
-          sku: S.optional(S.NullOr(__S(2306, __c72, 2))),
+          sku: S.optional(S.NullOr(__S(2338, __c73, 2))),
         }),
       ).annotate({ identifier: "SkuResource" });
     case 4:
-      return S.Array(__S(2307, __c72, 3));
+      return S.Array(__S(2339, __c73, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2308, __c72, 4),
+          value: __S(2340, __c73, 4),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SkuResourceArmPaginatedResult" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14396,13 +14774,13 @@ function __c73(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/listKeys",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListOnlineEndpointKeysRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14422,22 +14800,22 @@ function __c74(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListOnlineEndpointsRequest" });
     case 1:
-      return S.Array(__S(8992, __c281, 0));
+      return S.Array(__S(9184, __c287, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2369, __c74, 1),
+          value: __S(2401, __c75, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OnlineEndpointTrackedResourceArmPaginatedResult" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14446,7 +14824,7 @@ function __c75(j: number): any {
             method: "GET",
             uri: "/providers/Microsoft.MachineLearningServices/operations",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -14464,46 +14842,20 @@ function __c75(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(2401, __c75, 1)),
+          display: S.optional(__S(2433, __c76, 1)),
           origin: S.optional(S.String),
           actionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(2402, __c75, 2));
+      return S.Array(__S(2434, __c76, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2403, __c75, 3)),
+          value: S.optional(__S(2435, __c76, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
-  }
-}
-function __c76(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          workspaceName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/privateEndpointConnections",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListPrivateEndpointConnectionsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(__S(736, __c23, 0)),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
   }
 }
 function __c77(j: number): any {
@@ -14517,9 +14869,35 @@ function __c77(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/privateEndpointConnections",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListPrivateEndpointConnectionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(__S(736, __c23, 0)),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PrivateEndpointConnectionListResult" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/privateLinkResources",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourcesRequest" });
@@ -14527,8 +14905,8 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           groupId: S.optional(S.String),
-          requiredMembers: S.optional(__S(5920, __c185, 0)),
-          requiredZoneNames: S.optional(__S(5920, __c185, 0)),
+          requiredMembers: S.optional(__S(5984, __c187, 0)),
+          requiredZoneNames: S.optional(__S(5984, __c187, 0)),
         }),
       ).annotate({ identifier: "PrivateLinkResourceProperties" });
     case 2:
@@ -14540,72 +14918,23 @@ function __c77(j: number): any {
           systemData: S.optional(__S(64, __c2, 0)),
           identity: S.optional(__S(195, __c6, 3)),
           location: S.optional(S.String),
-          properties: S.optional(__S(2465, __c77, 1)),
+          properties: S.optional(__S(2497, __c78, 1)),
           sku: S.optional(__S(192, __c6, 0)),
           tags: S.optional(__S(96, __c3, 0)),
         }),
       ).annotate({ identifier: "PrivateLinkResource" });
     case 3:
-      return S.Array(__S(2466, __c77, 2));
+      return S.Array(__S(2498, __c78, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2467, __c77, 3)),
+          value: S.optional(__S(2499, __c78, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourceListResult" });
   }
 }
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/quotas",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListQuotasRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          amlWorkspaceLocation: S.optional(S.String),
-          type: S.optional(S.String),
-          name: S.optional(__S(2528, __c79, 0)),
-          limit: S.optional(S.Number),
-          unit: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResourceQuota" });
-    case 2:
-      return S.Array(__S(2497, __c78, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(2498, __c78, 2),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListWorkspaceQuotas" });
-  }
-}
 function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(S.String),
-          localizedValue: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ResourceName" });
-  }
-}
-function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14620,13 +14949,62 @@ function __c80(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments/{deploymentName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteBatchDeploymentRequest" });
   }
 }
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          location: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/quotas",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListQuotasRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          amlWorkspaceLocation: S.optional(S.String),
+          type: S.optional(S.String),
+          name: S.optional(__S(2592, __c81, 0)),
+          limit: S.optional(S.Number),
+          unit: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceQuota" });
+    case 2:
+      return S.Array(__S(2561, __c80, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(2562, __c80, 2),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListWorkspaceQuotas" });
+  }
+}
 function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          localizedValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ResourceName" });
+  }
+}
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14638,26 +15016,26 @@ function __c81(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListRegistriesRequest" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9216, __c288, 0));
+      return S.Array(__S(9408, __c294, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(2624, __c82, 0),
+          value: __S(2656, __c83, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistryTrackedResourceArmPaginatedResult" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14668,13 +15046,13 @@ function __c83(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/registries",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListRegistryBySubscriptionRequest" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14688,13 +15066,13 @@ function __c84(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListRegistryCodeContainersRequest" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14711,13 +15089,13 @@ function __c85(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}/versions",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListRegistryCodeVersionsRequest" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14731,13 +15109,13 @@ function __c86(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/components",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListRegistryComponentContainersRequest" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14754,13 +15132,13 @@ function __c87(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/components/{componentName}/versions",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListRegistryComponentVersionsRequest" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14775,13 +15153,13 @@ function __c88(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/data",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListRegistryDataContainersRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14800,13 +15178,13 @@ function __c89(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/data/{name}/versions",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListRegistryDataVersionsRequest" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14821,13 +15199,33 @@ function __c90(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/environments",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListRegistryEnvironmentContainersRequest" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          endpointName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteBatchEndpointRequest" });
+  }
+}
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14845,33 +15243,13 @@ function __c91(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/environments/{environmentName}/versions",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListRegistryEnvironmentVersionsRequest" });
   }
 }
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          workspaceName: S.String.pipe(T.Label()),
-          endpointName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteBatchEndpointRequest" });
-  }
-}
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14886,13 +15264,13 @@ function __c93(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/models",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListRegistryModelContainersRequest" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14914,13 +15292,13 @@ function __c94(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/models/{modelName}/versions",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListRegistryModelVersionsRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14935,7 +15313,7 @@ function __c95(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListSchedulesRequest" });
@@ -14944,13 +15322,13 @@ function __c95(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3041, __c95, 1),
+          value: __S(3073, __c96, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScheduleResourceArmPaginatedResult" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14964,13 +15342,13 @@ function __c96(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/serverlessEndpoints/{name}/listKeys",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListServerlessEndpointKeysRequest" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14984,7 +15362,7 @@ function __c97(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/serverlessEndpoints",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListServerlessEndpointsRequest" });
@@ -14993,49 +15371,10 @@ function __c97(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3105, __c97, 1),
+          value: __S(3137, __c98, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerlessEndpointTrackedResourceArmPaginatedResult" });
-  }
-}
-function __c98(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          location: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/usages",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListUsagesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          amlWorkspaceLocation: S.optional(S.String),
-          type: S.optional(S.String),
-          unit: S.optional(S.String),
-          currentValue: S.optional(S.Number),
-          limit: S.optional(S.Number),
-          name: S.optional(__S(2528, __c79, 0)),
-        }),
-      ).annotate({ identifier: "Usage" });
-    case 2:
-      return S.Array(__S(3137, __c98, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(3138, __c98, 2),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListUsagesResult" });
   }
 }
 function __c99(j: number): any {
@@ -15048,9 +15387,48 @@ function __c99(j: number): any {
         }).pipe(
           T.Http({
             method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/usages",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListUsagesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          amlWorkspaceLocation: S.optional(S.String),
+          type: S.optional(S.String),
+          unit: S.optional(S.String),
+          currentValue: S.optional(S.Number),
+          limit: S.optional(S.Number),
+          name: S.optional(__S(2592, __c81, 0)),
+        }),
+      ).annotate({ identifier: "Usage" });
+    case 2:
+      return S.Array(__S(3169, __c99, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(3170, __c99, 2),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListUsagesResult" });
+  }
+}
+function __c100(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          location: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/vmSizes",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListVirtualMachineSizesRequest" });
@@ -15063,13 +15441,13 @@ function __c99(j: number): any {
         }),
       ).annotate({ identifier: "EstimatedVMPrice" });
     case 2:
-      return S.Array(__S(3169, __c99, 1));
+      return S.Array(__S(3201, __c100, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           billingCurrency: S.String,
           unitOfMeasure: S.String,
-          values: __S(3170, __c99, 2),
+          values: __S(3202, __c100, 2),
         }),
       ).annotate({ identifier: "EstimatedVMPrices" });
     case 4:
@@ -15084,21 +15462,21 @@ function __c99(j: number): any {
           memoryGB: S.optional(S.Number),
           lowPriorityCapable: S.optional(S.Boolean),
           premiumIO: S.optional(S.Boolean),
-          estimatedVMPrices: S.optional(__S(3171, __c99, 3)),
-          supportedComputeTypes: S.optional(__S(5920, __c185, 0)),
+          estimatedVMPrices: S.optional(__S(3203, __c100, 3)),
+          supportedComputeTypes: S.optional(__S(5984, __c187, 0)),
         }),
       ).annotate({ identifier: "VirtualMachineSize" });
     case 5:
-      return S.Array(__S(3172, __c99, 4));
+      return S.Array(__S(3204, __c100, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3173, __c99, 5)),
+          value: S.optional(__S(3205, __c100, 5)),
         }),
       ).annotate({ identifier: "VirtualMachineSizeListResult" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15113,26 +15491,26 @@ function __c100(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceByResourceGroupRequest" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(768, __c24, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(3232, __c101, 0),
+          value: __S(3264, __c102, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkspaceListResult" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15146,41 +15524,10 @@ function __c102(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/workspaces",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceBySubscriptionRequest" });
-  }
-}
-function __c103(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          workspaceName: S.String.pipe(T.Label()),
-          target: S.optional(S.String.pipe(T.Query())),
-          category: S.optional(S.String.pipe(T.Query())),
-          includeAll: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListWorkspaceConnectionsRequest" });
-    case 1:
-      return S.Array(__S(417, __c13, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(3297, __c103, 1),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult" });
   }
 }
 function __c104(j: number): any {
@@ -15197,7 +15544,7 @@ function __c104(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/capabilityHosts/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteCapabilityHostRequest" });
@@ -15211,16 +15558,27 @@ function __c105(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
-          connectionName: S.String.pipe(T.Label()),
+          target: S.optional(S.String.pipe(T.Query())),
+          category: S.optional(S.String.pipe(T.Query())),
+          includeAll: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}/listsecrets",
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
-      ).annotate({ identifier: "ListWorkspaceConnectionSecretsRequest" });
+      ).annotate({ identifier: "ListWorkspaceConnectionsRequest" });
+    case 1:
+      return S.Array(__S(417, __c13, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(3361, __c105, 1),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WorkspaceConnectionPropertiesV2BasicResourceArmPaginatedResult" });
   }
 }
 function __c106(j: number): any {
@@ -15231,32 +15589,16 @@ function __c106(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          connectionName: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/features",
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}/listsecrets",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
-      ).annotate({ identifier: "ListWorkspaceFeaturesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AmlUserFeature" });
-    case 2:
-      return S.Array(__S(3393, __c106, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(3394, __c106, 2),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListAmlUserFeatureResult" });
+      ).annotate({ identifier: "ListWorkspaceConnectionSecretsRequest" });
   }
 }
 function __c107(j: number): any {
@@ -15269,10 +15611,46 @@ function __c107(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/features",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListWorkspaceFeaturesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AmlUserFeature" });
+    case 2:
+      return S.Array(__S(3425, __c107, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(3426, __c107, 2),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListAmlUserFeatureResult" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/listKeys",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceKeysRequest" });
@@ -15284,12 +15662,12 @@ function __c107(j: number): any {
         }),
       ).annotate({ identifier: "Password" });
     case 2:
-      return S.Array(__S(3425, __c107, 1));
+      return S.Array(__S(3457, __c108, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           location: S.optional(S.String),
-          passwords: S.optional(__S(3426, __c107, 2)),
+          passwords: S.optional(__S(3458, __c108, 2)),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistryListCredentialsResult" });
@@ -15297,15 +15675,15 @@ function __c107(j: number): any {
       return S.suspend(() =>
         S.Struct({
           appInsightsInstrumentationKey: S.optional(S.String),
-          containerRegistryCredentials: S.optional(__S(3427, __c107, 3)),
-          notebookAccessKeys: S.optional(__S(3456, __c108, 0)),
+          containerRegistryCredentials: S.optional(__S(3459, __c108, 3)),
+          notebookAccessKeys: S.optional(__S(3488, __c109, 0)),
           userStorageArmId: S.optional(S.String),
           userStorageKey: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListWorkspaceKeysResult" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15316,7 +15694,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ListNotebookKeysResult" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15329,7 +15707,7 @@ function __c109(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/listNotebookAccessToken",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceNotebookAccessTokenRequest" });
@@ -15348,7 +15726,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "NotebookAccessTokenResult" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15361,67 +15739,10 @@ function __c110(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/listNotebookKeys",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceNotebookKeysRequest" });
-  }
-}
-function __c111(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          workspaceName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/outboundNetworkDependenciesEndpoints",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListWorkspaceOutboundNetworkDependenciesEndpointsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          port: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "FQDNEndpointDetail" });
-    case 2:
-      return S.Array(__S(3553, __c111, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          domainName: S.optional(S.String),
-          endpointDetails: S.optional(__S(3554, __c111, 2)),
-        }),
-      ).annotate({ identifier: "FQDNEndpoint" });
-    case 4:
-      return S.Array(__S(3555, __c111, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          category: S.optional(S.String),
-          endpoints: S.optional(__S(3556, __c111, 4)),
-        }),
-      ).annotate({ identifier: "FQDNEndpoints" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          properties: S.optional(__S(3557, __c111, 5)),
-        }),
-      ).annotate({ identifier: "FQDNEndpointsPropertyBag" });
-    case 7:
-      return S.Array(__S(3558, __c111, 6));
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(__S(3559, __c111, 7)),
-        }),
-      ).annotate({ identifier: "ExternalFQDNResponse" });
   }
 }
 function __c112(j: number): any {
@@ -15434,10 +15755,67 @@ function __c112(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/outboundNetworkDependenciesEndpoints",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "ListWorkspaceOutboundNetworkDependenciesEndpointsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          port: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "FQDNEndpointDetail" });
+    case 2:
+      return S.Array(__S(3585, __c112, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          domainName: S.optional(S.String),
+          endpointDetails: S.optional(__S(3586, __c112, 2)),
+        }),
+      ).annotate({ identifier: "FQDNEndpoint" });
+    case 4:
+      return S.Array(__S(3587, __c112, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          category: S.optional(S.String),
+          endpoints: S.optional(__S(3588, __c112, 4)),
+        }),
+      ).annotate({ identifier: "FQDNEndpoints" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          properties: S.optional(__S(3589, __c112, 5)),
+        }),
+      ).annotate({ identifier: "FQDNEndpointsPropertyBag" });
+    case 7:
+      return S.Array(__S(3590, __c112, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(__S(3591, __c112, 7)),
+        }),
+      ).annotate({ identifier: "ExternalFQDNResponse" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/listStorageAccountKeys",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ListWorkspaceStorageAccountKeysRequest" });
@@ -15449,7 +15827,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "ListStorageAccountKeysResult" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15458,13 +15836,13 @@ function __c113(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           ruleName: S.String.pipe(T.Label()),
-          properties: __S(3648, __c114, 0),
+          properties: __S(3680, __c115, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/outboundRules/{ruleName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ManagedNetworkSettingsRuleCreateOrUpdateRequest" });
@@ -15475,14 +15853,14 @@ function __c113(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8544, __c267, 0),
+          properties: __S(8736, __c273, 0),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "ManagedNetworkSettingsRuleCreateOrUpdateResponse" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15495,7 +15873,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "OutboundRuleInput" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15510,13 +15888,13 @@ function __c115(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(3680, __c115, 0),
+          properties: __S(3712, __c116, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/marketplaceSubscriptions/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "MarketplaceSubscriptionsCreateOrUpdateRequest" });
@@ -15527,31 +15905,10 @@ function __c115(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8673, __c271, 1),
+          properties: __S(8865, __c277, 1),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "MarketplaceSubscriptionsCreateOrUpdateResponse" });
-  }
-}
-function __c116(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          workspaceName: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          properties: __S(6336, __c198, 0),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "ModelContainersCreateOrUpdateRequest" });
   }
 }
 function __c117(j: number): any {
@@ -15568,7 +15925,7 @@ function __c117(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/codes/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteCodeContainerRequest" });
@@ -15583,17 +15940,16 @@ function __c118(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          version: S.String.pipe(T.Label()),
-          properties: __S(8804, __c275, 4),
+          properties: __S(6400, __c200, 0),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions/{version}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
-      ).annotate({ identifier: "ModelVersionsCreateOrUpdateRequest" });
+      ).annotate({ identifier: "ModelContainersCreateOrUpdateRequest" });
   }
 }
 function __c119(j: number): any {
@@ -15604,11 +15960,75 @@ function __c119(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          version: S.String.pipe(T.Label()),
+          properties: __S(3840, __c120, 0),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions/{version}",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "ModelVersionsCreateOrUpdateRequest" });
+  }
+}
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          isAnonymous: S.optional(S.Boolean),
+          isArchived: S.optional(S.Boolean),
+          flavors: S.optional(S.NullOr(__S(8993, __c281, 1))),
+          jobName: S.optional(S.NullOr(S.String)),
+          modelType: S.optional(S.NullOr(S.String)),
+          modelUri: S.optional(S.NullOr(S.String)),
+          stage: S.optional(S.NullOr(S.String)),
+          datasets: S.optional(S.NullOr(__S(8995, __c281, 3))),
+        }),
+      ).annotate({ identifier: "ModelVersionPropertiesInput" });
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          codeConfiguration: S.optional(S.NullOr(__S(256, __c8, 0))),
+          description: S.optional(S.NullOr(S.String)),
+          environmentId: S.optional(S.NullOr(S.String)),
+          environmentVariables: S.optional(S.NullOr(__S(32, __c1, 0))),
+          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          appInsightsEnabled: S.optional(S.Boolean),
+          dataCollector: S.optional(S.NullOr(__S(9091, __c284, 3))),
+          egressPublicNetworkAccess: S.optional(S.String),
+          endpointComputeType: S.String,
+          instanceType: S.optional(S.NullOr(S.String)),
+          livenessProbe: S.optional(S.NullOr(__S(9092, __c284, 4))),
+          model: S.optional(S.NullOr(S.String)),
+          modelMountPath: S.optional(S.NullOr(S.String)),
+          readinessProbe: S.optional(S.NullOr(__S(9092, __c284, 4))),
+          requestSettings: S.optional(S.NullOr(__S(9093, __c284, 5))),
+          scaleSettings: S.optional(S.NullOr(__S(9094, __c284, 6))),
+          startupProbe: S.optional(S.NullOr(__S(9092, __c284, 4))),
+        }),
+      ).annotate({ identifier: "OnlineDeploymentPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(8903, __c278, 7),
+          properties: __S(3872, __c121, 0),
           identity: S.optional(__S(161, __c5, 1)),
           kind: S.optional(S.String),
           sku: S.optional(__S(192, __c6, 0)),
@@ -15617,11 +16037,11 @@ function __c119(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "OnlineDeploymentsCreateOrUpdateRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -15630,7 +16050,7 @@ function __c119(j: number): any {
           systemData: S.optional(__S(64, __c2, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(8903, __c278, 7),
+          properties: __S(9095, __c284, 7),
           identity: S.optional(__S(195, __c6, 3)),
           kind: S.optional(S.String),
           sku: S.optional(__S(192, __c6, 0)),
@@ -15639,7 +16059,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "OnlineDeploymentsCreateOrUpdateResponse" });
   }
 }
-function __c120(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15649,9 +16069,9 @@ function __c120(j: number): any {
           keys: S.optional(S.NullOr(__S(352, __c11, 0))),
           properties: S.optional(S.NullOr(__S(32, __c1, 0))),
           compute: S.optional(S.NullOr(S.String)),
-          mirrorTraffic: S.optional(S.NullOr(__S(9024, __c282, 0))),
+          mirrorTraffic: S.optional(S.NullOr(__S(9216, __c288, 0))),
           publicNetworkAccess: S.optional(S.String),
-          traffic: S.optional(S.NullOr(__S(9024, __c282, 0))),
+          traffic: S.optional(S.NullOr(__S(9216, __c288, 0))),
         }),
       ).annotate({ identifier: "OnlineEndpointPropertiesInput" });
     case 1:
@@ -15663,7 +16083,7 @@ function __c120(j: number): any {
           endpointName: S.String.pipe(T.Label()),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(3840, __c120, 0),
+          properties: __S(3904, __c122, 0),
           identity: S.optional(__S(161, __c5, 1)),
           kind: S.optional(S.String),
           sku: S.optional(__S(192, __c6, 0)),
@@ -15672,7 +16092,7 @@ function __c120(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "OnlineEndpointsCreateOrUpdateRequest" });
@@ -15685,7 +16105,7 @@ function __c120(j: number): any {
           systemData: S.optional(__S(64, __c2, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9025, __c282, 1),
+          properties: __S(9217, __c288, 1),
           identity: S.optional(__S(195, __c6, 3)),
           kind: S.optional(S.String),
           sku: S.optional(__S(192, __c6, 0)),
@@ -15694,13 +16114,13 @@ function __c120(j: number): any {
       ).annotate({ identifier: "OnlineEndpointsCreateOrUpdateResponse" });
   }
 }
-function __c121(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           privateEndpoint: S.optional(__S(128, __c4, 0)),
-          privateLinkServiceConnectionState: S.optional(__S(9121, __c285, 1)),
+          privateLinkServiceConnectionState: S.optional(__S(9313, __c291, 1)),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionPropertiesInput" });
     case 1:
@@ -15710,7 +16130,7 @@ function __c121(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           privateEndpointConnectionName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(3872, __c121, 0)),
+          properties: S.optional(__S(3936, __c123, 0)),
           identity: S.optional(__S(161, __c5, 1)),
           sku: S.optional(__S(192, __c6, 0)),
           location: S.optional(S.String),
@@ -15720,13 +16140,13 @@ function __c121(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "PrivateEndpointConnectionsCreateOrUpdateRequest" });
   }
 }
-function __c122(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15740,7 +16160,7 @@ function __c122(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/provisionManagedNetwork",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ProvisionManagedNetworkProvisionManagedNetworkRequest" });
@@ -15753,54 +16173,6 @@ function __c122(j: number): any {
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "ProvisionManagedNetworkProvisionManagedNetworkResponse" });
-  }
-}
-function __c123(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          workspaceName: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          version: S.String.pipe(T.Label()),
-          destinationName: S.optional(S.NullOr(S.String)),
-          destinationVersion: S.optional(S.NullOr(S.String)),
-          registryName: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/codes/{name}/versions/{version}/publish",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "PublishCodeVersionRequest" });
-  }
-}
-function __c124(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          workspaceName: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          version: S.String.pipe(T.Label()),
-          destinationName: S.optional(S.NullOr(S.String)),
-          destinationVersion: S.optional(S.NullOr(S.String)),
-          registryName: S.optional(S.NullOr(S.String)),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}/versions/{version}/publish",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "PublishComponentVersionRequest" });
   }
 }
 function __c125(j: number): any {
@@ -15819,12 +16191,12 @@ function __c125(j: number): any {
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions/{version}/publish",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/codes/{name}/versions/{version}/publish",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
-      ).annotate({ identifier: "PublishDataVersionRequest" });
+      ).annotate({ identifier: "PublishCodeVersionRequest" });
   }
 }
 function __c126(j: number): any {
@@ -15843,12 +16215,12 @@ function __c126(j: number): any {
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}/versions/{version}/publish",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}/versions/{version}/publish",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
-      ).annotate({ identifier: "PublishEnvironmentVersionRequest" });
+      ).annotate({ identifier: "PublishComponentVersionRequest" });
   }
 }
 function __c127(j: number): any {
@@ -15867,15 +16239,39 @@ function __c127(j: number): any {
         }).pipe(
           T.Http({
             method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions/{version}/publish",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions/{version}/publish",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
-      ).annotate({ identifier: "PublishModelVersionRequest" });
+      ).annotate({ identifier: "PublishDataVersionRequest" });
   }
 }
 function __c128(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          version: S.String.pipe(T.Label()),
+          destinationName: S.optional(S.NullOr(S.String)),
+          destinationVersion: S.optional(S.NullOr(S.String)),
+          registryName: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}/versions/{version}/publish",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "PublishEnvironmentVersionRequest" });
+  }
+}
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15890,13 +16286,37 @@ function __c128(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/codes/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteCodeVersionRequest" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          version: S.String.pipe(T.Label()),
+          destinationName: S.optional(S.NullOr(S.String)),
+          destinationVersion: S.optional(S.NullOr(S.String)),
+          registryName: S.optional(S.NullOr(S.String)),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions/{version}/publish",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "PublishModelVersionRequest" });
+  }
+}
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15912,13 +16332,13 @@ function __c129(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/regenerateKeys",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RegenerateOnlineEndpointKeysRequest" });
   }
 }
-function __c130(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15934,7 +16354,7 @@ function __c130(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/serverlessEndpoints/{name}/regenerateKeys",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RegenerateServerlessEndpointKeysRequest" });
@@ -15949,7 +16369,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "RegenerateServerlessEndpointKeysResponse" });
   }
 }
-function __c131(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15959,7 +16379,7 @@ function __c131(j: number): any {
           registryName: S.String.pipe(T.Label()),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(4228, __c132, 4),
+          properties: __S(4292, __c134, 4),
           identity: S.optional(__S(161, __c5, 1)),
           kind: S.optional(S.String),
           sku: S.optional(__S(192, __c6, 0)),
@@ -15968,7 +16388,7 @@ function __c131(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RegistriesCreateOrUpdateRequest" });
@@ -15981,7 +16401,7 @@ function __c131(j: number): any {
           systemData: S.optional(__S(64, __c2, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9201, __c287, 17),
+          properties: __S(9393, __c293, 17),
           identity: S.optional(__S(195, __c6, 3)),
           kind: S.optional(S.String),
           sku: S.optional(__S(192, __c6, 0)),
@@ -15991,7 +16411,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "RegistriesCreateOrUpdateResponse" });
   }
 }
-function __c132(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16002,9 +16422,9 @@ function __c132(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          groupIds: S.optional(S.NullOr(__S(5920, __c185, 0))),
-          privateEndpoint: S.optional(S.NullOr(__S(4224, __c132, 0))),
-          registryPrivateLinkServiceConnectionState: S.optional(S.NullOr(__S(9189, __c287, 5))),
+          groupIds: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          privateEndpoint: S.optional(S.NullOr(__S(4288, __c134, 0))),
+          registryPrivateLinkServiceConnectionState: S.optional(S.NullOr(__S(9381, __c293, 5))),
           provisioningState: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "RegistryPrivateEndpointConnectionPropertiesInput" });
@@ -16013,27 +16433,27 @@ function __c132(j: number): any {
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
           location: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(4225, __c132, 1))),
+          properties: S.optional(S.NullOr(__S(4289, __c134, 1))),
         }),
       ).annotate({ identifier: "RegistryPrivateEndpointConnectionInput" });
     case 3:
-      return S.Array(__S(4226, __c132, 2));
+      return S.Array(__S(4290, __c134, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           discoveryUrl: S.optional(S.NullOr(S.String)),
           intellectualPropertyPublisher: S.optional(S.NullOr(S.String)),
-          managedResourceGroup: S.optional(S.NullOr(__S(9184, __c287, 0))),
-          managedResourceGroupSettings: S.optional(S.NullOr(__S(9187, __c287, 3))),
+          managedResourceGroup: S.optional(S.NullOr(__S(9376, __c293, 0))),
+          managedResourceGroupSettings: S.optional(S.NullOr(__S(9379, __c293, 3))),
           mlFlowRegistryUri: S.optional(S.NullOr(S.String)),
-          registryPrivateEndpointConnections: S.optional(S.NullOr(__S(4227, __c132, 3))),
+          registryPrivateEndpointConnections: S.optional(S.NullOr(__S(4291, __c134, 3))),
           publicNetworkAccess: S.optional(S.NullOr(S.String)),
-          regionDetails: S.optional(S.NullOr(__S(9200, __c287, 16))),
+          regionDetails: S.optional(S.NullOr(__S(9392, __c293, 16))),
         }),
       ).annotate({ identifier: "RegistryPropertiesInput" });
   }
 }
-function __c133(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16042,19 +16462,19 @@ function __c133(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           codeName: S.String.pipe(T.Label()),
-          properties: __S(6336, __c198, 0),
+          properties: __S(6400, __c200, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RegistryCodeContainersCreateOrUpdateRequest" });
   }
 }
-function __c134(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16063,13 +16483,13 @@ function __c134(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(6368, __c199, 0),
+          properties: __S(6432, __c201, 0),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "RegistryCodeContainersCreateOrUpdateResponse" });
   }
 }
-function __c135(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16086,64 +16506,10 @@ function __c135(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}/versions/{version}/startPendingUpload",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RegistryCodeVersionsCreateOrGetStartPendingUploadRequest" });
-  }
-}
-function __c136(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          registryName: S.String.pipe(T.Label()),
-          codeName: S.String.pipe(T.Label()),
-          version: S.String.pipe(T.Label()),
-          properties: __S(7456, __c233, 0),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}/versions/{version}",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "RegistryCodeVersionsCreateOrUpdateRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(7456, __c233, 0),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-        }),
-      ).annotate({ identifier: "RegistryCodeVersionsCreateOrUpdateResponse" });
-  }
-}
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          registryName: S.String.pipe(T.Label()),
-          componentName: S.String.pipe(T.Label()),
-          properties: __S(6336, __c198, 0),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/components/{componentName}",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "RegistryComponentContainersCreateOrUpdateRequest" });
   }
 }
 function __c138(j: number): any {
@@ -16154,18 +16520,18 @@ function __c138(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
-          componentName: S.String.pipe(T.Label()),
+          codeName: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(8480, __c265, 0),
+          properties: __S(7520, __c235, 0),
         }).pipe(
           T.Http({
             method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/components/{componentName}/versions/{version}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
-      ).annotate({ identifier: "RegistryComponentVersionsCreateOrUpdateRequest" });
+      ).annotate({ identifier: "RegistryCodeVersionsCreateOrUpdateRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -16173,10 +16539,10 @@ function __c138(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8480, __c265, 0),
+          properties: __S(7584, __c237, 0),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
-      ).annotate({ identifier: "RegistryComponentVersionsCreateOrUpdateResponse" });
+      ).annotate({ identifier: "RegistryCodeVersionsCreateOrUpdateResponse" });
   }
 }
 function __c139(j: number): any {
@@ -16187,14 +16553,68 @@ function __c139(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
+          componentName: S.String.pipe(T.Label()),
+          properties: __S(6400, __c200, 0),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/components/{componentName}",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "RegistryComponentContainersCreateOrUpdateRequest" });
+  }
+}
+function __c140(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          registryName: S.String.pipe(T.Label()),
+          componentName: S.String.pipe(T.Label()),
+          version: S.String.pipe(T.Label()),
+          properties: __S(8608, __c269, 0),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/components/{componentName}/versions/{version}",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "RegistryComponentVersionsCreateOrUpdateRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(64, __c2, 0)),
+          properties: __S(8672, __c271, 0),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+        }),
+      ).annotate({ identifier: "RegistryComponentVersionsCreateOrUpdateResponse" });
+  }
+}
+function __c141(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          registryName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(1120, __c35, 0),
+          properties: __S(1088, __c34, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/data/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RegistryDataContainersCreateOrUpdateRequest" });
@@ -16205,14 +16625,34 @@ function __c139(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(1184, __c37, 0),
+          properties: __S(1152, __c36, 0),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "RegistryDataContainersCreateOrUpdateResponse" });
   }
 }
-function __c140(j: number): any {
+function __c142(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteComponentContainerRequest" });
+  }
+}
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16229,33 +16669,13 @@ function __c140(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/data/{name}/versions/{version}/startPendingUpload",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RegistryDataVersionsCreateOrGetStartPendingUploadRequest" });
   }
 }
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          workspaceName: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteComponentContainerRequest" });
-  }
-}
-function __c142(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16271,7 +16691,7 @@ function __c142(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/data/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RegistryDataVersionsCreateOrUpdateRequest" });
@@ -16289,7 +16709,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "RegistryDataVersionsCreateOrUpdateResponse" });
   }
 }
-function __c143(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16298,19 +16718,19 @@ function __c143(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           environmentName: S.String.pipe(T.Label()),
-          properties: __S(6336, __c198, 0),
+          properties: __S(6400, __c200, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/environments/{environmentName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RegistryEnvironmentContainersCreateOrUpdateRequest" });
   }
 }
-function __c144(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16320,13 +16740,13 @@ function __c144(j: number): any {
           registryName: S.String.pipe(T.Label()),
           environmentName: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(7075, __c221, 3),
+          properties: __S(7104, __c222, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/environments/{environmentName}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RegistryEnvironmentVersionsCreateOrUpdateRequest" });
@@ -16337,13 +16757,13 @@ function __c144(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(7075, __c221, 3),
+          properties: __S(7171, __c224, 3),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "RegistryEnvironmentVersionsCreateOrUpdateResponse" });
   }
 }
-function __c145(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16352,19 +16772,19 @@ function __c145(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           modelName: S.String.pipe(T.Label()),
-          properties: __S(6336, __c198, 0),
+          properties: __S(6400, __c200, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/models/{modelName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RegistryModelContainersCreateOrUpdateRequest" });
   }
 }
-function __c146(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16381,13 +16801,13 @@ function __c146(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/models/{modelName}/versions/{version}/startPendingUpload",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RegistryModelVersionsCreateOrGetStartPendingUploadRequest" });
   }
 }
-function __c147(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16397,13 +16817,13 @@ function __c147(j: number): any {
           registryName: S.String.pipe(T.Label()),
           modelName: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(8804, __c275, 4),
+          properties: __S(3840, __c120, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/models/{modelName}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RegistryModelVersionsCreateOrUpdateRequest" });
@@ -16414,13 +16834,13 @@ function __c147(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8804, __c275, 4),
+          properties: __S(8996, __c281, 4),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
         }),
       ).annotate({ identifier: "RegistryModelVersionsCreateOrUpdateResponse" });
   }
 }
-function __c148(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16430,7 +16850,7 @@ function __c148(j: number): any {
           registryName: S.String.pipe(T.Label()),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(4228, __c132, 4),
+          properties: __S(4292, __c134, 4),
           identity: S.optional(__S(161, __c5, 1)),
           kind: S.optional(S.String),
           sku: S.optional(__S(192, __c6, 0)),
@@ -16439,7 +16859,7 @@ function __c148(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/removeRegions",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RemoveRegistryRegionsRequest" });
@@ -16452,7 +16872,7 @@ function __c148(j: number): any {
           systemData: S.optional(__S(64, __c2, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9201, __c287, 17),
+          properties: __S(9393, __c293, 17),
           identity: S.optional(__S(195, __c6, 3)),
           kind: S.optional(S.String),
           sku: S.optional(__S(192, __c6, 0)),
@@ -16462,7 +16882,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "RemoveRegistryRegionsResponse" });
   }
 }
-function __c149(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16476,32 +16896,44 @@ function __c149(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/restart",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "RestartComputeRequest" });
   }
 }
-function __c150(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          action: __S(576, __c18, 0),
+          displayName: S.optional(S.NullOr(S.String)),
+          isEnabled: S.optional(S.Boolean),
+          trigger: __S(577, __c18, 1),
+        }),
+      ).annotate({ identifier: "SchedulePropertiesInput" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(578, __c18, 2),
+          properties: __S(4864, __c152, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "SchedulesCreateOrUpdateRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
@@ -16514,7 +16946,59 @@ function __c150(j: number): any {
       ).annotate({ identifier: "SchedulesCreateOrUpdateResponse" });
   }
 }
-function __c151(j: number): any {
+function __c153(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/jobs/{id}/cancel",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "CancelJobRequest" });
+  }
+}
+function __c154(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "CancelJobResponse" });
+  }
+}
+function __c155(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          version: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}/versions/{version}",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteComponentVersionRequest" });
+  }
+}
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16533,7 +17017,7 @@ function __c151(j: number): any {
           name: S.String.pipe(T.Label()),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(4832, __c151, 0),
+          properties: __S(4992, __c156, 0),
           identity: S.optional(__S(161, __c5, 1)),
           kind: S.optional(S.String),
           sku: S.optional(__S(192, __c6, 0)),
@@ -16542,7 +17026,7 @@ function __c151(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/serverlessEndpoints/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ServerlessEndpointsCreateOrUpdateRequest" });
@@ -16564,59 +17048,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "ServerlessEndpointsCreateOrUpdateResponse" });
   }
 }
-function __c152(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          workspaceName: S.String.pipe(T.Label()),
-          id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/jobs/{id}/cancel",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "CancelJobRequest" });
-  }
-}
-function __c153(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          location: S.optional(S.String.pipe(T.Header("Location"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-        }),
-      ).annotate({ identifier: "CancelJobResponse" });
-  }
-}
-function __c154(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          workspaceName: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          version: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}/versions/{version}",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteComponentVersionRequest" });
-  }
-}
-function __c155(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16630,13 +17062,13 @@ function __c155(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/start",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "StartComputeRequest" });
   }
 }
-function __c156(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16650,13 +17082,13 @@ function __c156(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/stop",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "StopComputeRequest" });
   }
 }
-function __c157(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16672,14 +17104,14 @@ function __c157(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5024, __c157, 0)),
+          properties: S.optional(__S(5088, __c159, 0)),
           tags: S.optional(__S(32, __c1, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments/{deploymentName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateBatchDeploymentRequest" });
@@ -16702,7 +17134,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "UpdateBatchDeploymentResponse" });
   }
 }
-function __c158(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16712,13 +17144,13 @@ function __c158(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           tags: S.optional(__S(32, __c1, 0)),
-          identity: S.optional(__S(5088, __c159, 0)),
+          identity: S.optional(__S(5152, __c161, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateBatchEndpointRequest" });
@@ -16741,24 +17173,24 @@ function __c158(j: number): any {
       ).annotate({ identifier: "UpdateBatchEndpointResponse" });
   }
 }
-function __c159(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          userAssignedIdentities: S.optional(__S(5120, __c160, 0)),
+          userAssignedIdentities: S.optional(__S(5184, __c162, 0)),
         }),
       ).annotate({ identifier: "PartialManagedServiceIdentity" });
   }
 }
-function __c160(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c161(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16771,13 +17203,13 @@ function __c161(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          scaleSettings: S.optional(__S(5152, __c161, 0)),
+          scaleSettings: S.optional(__S(5216, __c163, 0)),
         }),
       ).annotate({ identifier: "ScaleSettingsInformation" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(5153, __c161, 1)),
+          properties: S.optional(__S(5217, __c163, 1)),
         }),
       ).annotate({ identifier: "ClusterUpdateProperties" });
     case 3:
@@ -16787,13 +17219,13 @@ function __c161(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           computeName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(5154, __c161, 2)),
+          properties: S.optional(__S(5218, __c163, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateComputeRequest" });
@@ -16804,7 +17236,7 @@ function __c161(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: S.optional(__S(9286, __c290, 6)),
+          properties: S.optional(__S(9478, __c296, 6)),
           location: S.optional(S.String),
           tags: S.optional(S.NullOr(__S(96, __c3, 0))),
           sku: S.optional(__S(192, __c6, 0)),
@@ -16815,7 +17247,7 @@ function __c161(j: number): any {
       ).annotate({ identifier: "UpdateComputeResponse" });
   }
 }
-function __c162(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16826,13 +17258,13 @@ function __c162(j: number): any {
           endpointName: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
           tags: S.optional(__S(32, __c1, 0)),
-          sku: S.optional(__S(5216, __c163, 0)),
+          sku: S.optional(__S(5280, __c165, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateOnlineDeploymentRequest" });
@@ -16845,7 +17277,7 @@ function __c162(j: number): any {
           systemData: S.optional(__S(64, __c2, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(8903, __c278, 7),
+          properties: __S(9095, __c284, 7),
           identity: S.optional(__S(195, __c6, 3)),
           kind: S.optional(S.String),
           sku: S.optional(__S(192, __c6, 0)),
@@ -16855,7 +17287,7 @@ function __c162(j: number): any {
       ).annotate({ identifier: "UpdateOnlineDeploymentResponse" });
   }
 }
-function __c163(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16869,7 +17301,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "PartialSku" });
   }
 }
-function __c164(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16879,13 +17311,13 @@ function __c164(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           endpointName: S.String.pipe(T.Label()),
           tags: S.optional(__S(32, __c1, 0)),
-          identity: S.optional(__S(5088, __c159, 0)),
+          identity: S.optional(__S(5152, __c161, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateOnlineEndpointRequest" });
@@ -16898,7 +17330,7 @@ function __c164(j: number): any {
           systemData: S.optional(__S(64, __c2, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9025, __c282, 1),
+          properties: __S(9217, __c288, 1),
           identity: S.optional(__S(195, __c6, 3)),
           kind: S.optional(S.String),
           sku: S.optional(__S(192, __c6, 0)),
@@ -16908,7 +17340,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "UpdateOnlineEndpointResponse" });
   }
 }
-function __c165(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16920,19 +17352,19 @@ function __c165(j: number): any {
         }),
       ).annotate({ identifier: "QuotaBaseProperties" });
     case 1:
-      return S.Array(__S(5280, __c165, 0));
+      return S.Array(__S(5344, __c167, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
-          value: S.optional(__S(5281, __c165, 1)),
+          value: S.optional(__S(5345, __c167, 1)),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.MachineLearningServices/locations/{location}/updateQuotas",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateQuotasRequest" });
@@ -16947,17 +17379,17 @@ function __c165(j: number): any {
         }),
       ).annotate({ identifier: "UpdateWorkspaceQuotas" });
     case 4:
-      return S.Array(__S(5283, __c165, 3));
+      return S.Array(__S(5347, __c167, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(5284, __c165, 4)),
+          value: S.optional(__S(5348, __c167, 4)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdateWorkspaceQuotasResult" });
   }
 }
-function __c166(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16966,20 +17398,48 @@ function __c166(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           registryName: S.String.pipe(T.Label()),
           identity: S.optional(__S(161, __c5, 1)),
-          sku: S.optional(__S(5216, __c163, 0)),
+          sku: S.optional(__S(5280, __c165, 0)),
           tags: S.optional(__S(32, __c1, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateRegistryRequest" });
   }
 }
-function __c167(j: number): any {
+function __c169(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          computeName: S.String.pipe(T.Label()),
+          underlyingResourceAction: S.String.pipe(T.Query()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteComputeRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          location: S.optional(S.String.pipe(T.Header("Location"))),
+        }),
+      ).annotate({ identifier: "DeleteComputeResponse" });
+  }
+}
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16989,14 +17449,14 @@ function __c167(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           tags: S.optional(__S(32, __c1, 0)),
-          identity: S.optional(__S(5088, __c159, 0)),
-          sku: S.optional(__S(5216, __c163, 0)),
+          identity: S.optional(__S(5152, __c161, 0)),
+          sku: S.optional(__S(5280, __c165, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/serverlessEndpoints/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateServerlessEndpointRequest" });
@@ -17019,35 +17479,7 @@ function __c167(j: number): any {
       ).annotate({ identifier: "UpdateServerlessEndpointResponse" });
   }
 }
-function __c168(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          workspaceName: S.String.pipe(T.Label()),
-          computeName: S.String.pipe(T.Label()),
-          underlyingResourceAction: S.String.pipe(T.Query()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteComputeRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          location: S.optional(S.String.pipe(T.Header("Location"))),
-        }),
-      ).annotate({ identifier: "DeleteComputeResponse" });
-  }
-}
-function __c169(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17058,7 +17490,7 @@ function __c169(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          keyVaultProperties: __S(5408, __c169, 0),
+          keyVaultProperties: __S(5472, __c171, 0),
         }),
       ).annotate({ identifier: "EncryptionUpdateProperties" });
     case 2:
@@ -17068,11 +17500,11 @@ function __c169(j: number): any {
           containerRegistry: S.optional(S.String),
           description: S.optional(S.String),
           enableDataIsolation: S.optional(S.Boolean),
-          encryption: S.optional(__S(5409, __c169, 1)),
+          encryption: S.optional(__S(5473, __c171, 1)),
           featureStoreSettings: S.optional(__S(804, __c25, 4)),
           friendlyName: S.optional(S.String),
           imageBuildCompute: S.optional(S.String),
-          managedNetwork: S.optional(__S(5441, __c170, 1)),
+          managedNetwork: S.optional(__S(5505, __c172, 1)),
           primaryUserAssignedIdentity: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
           serverlessComputeSettings: S.optional(__S(809, __c25, 9)),
@@ -17088,7 +17520,7 @@ function __c169(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           identity: S.optional(__S(161, __c5, 1)),
-          properties: S.optional(__S(5410, __c169, 2)),
+          properties: S.optional(__S(5474, __c171, 2)),
           sku: S.optional(__S(192, __c6, 0)),
           tags: S.optional(__S(96, __c3, 0)),
         }).pipe(
@@ -17096,22 +17528,22 @@ function __c169(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateWorkspaceRequest" });
   }
 }
-function __c170(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, __S(3648, __c114, 0));
+      return S.Record(S.String, __S(3680, __c115, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           enableNetworkMonitor: S.optional(S.Boolean),
           isolationMode: S.optional(S.String),
-          outboundRules: S.optional(S.NullOr(__S(5440, __c170, 0))),
+          outboundRules: S.optional(S.NullOr(__S(5504, __c172, 0))),
           status: S.optional(__S(806, __c25, 6)),
           firewallSku: S.optional(S.String),
           managedNetworkKind: S.optional(S.String),
@@ -17136,7 +17568,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "UpdateWorkspaceResponse" });
   }
 }
-function __c171(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17151,20 +17583,20 @@ function __c171(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "UpdateWorkspaceConnectionRequest" });
   }
 }
-function __c172(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           allowPublicAccessWhenBehindVnet: S.optional(S.Boolean),
           applicationInsights: S.optional(S.String),
-          associatedWorkspaces: S.optional(__S(5920, __c185, 0)),
+          associatedWorkspaces: S.optional(__S(5984, __c187, 0)),
           containerRegistry: S.optional(S.String),
           description: S.optional(S.String),
           discoveryUrl: S.optional(S.String),
@@ -17177,7 +17609,7 @@ function __c172(j: number): any {
           hubResourceId: S.optional(S.String),
           imageBuildCompute: S.optional(S.String),
           keyVault: S.optional(S.String),
-          managedNetwork: S.optional(__S(5441, __c170, 1)),
+          managedNetwork: S.optional(__S(5505, __c172, 1)),
           primaryUserAssignedIdentity: S.optional(S.String),
           provisionNetworkNow: S.optional(S.Boolean),
           publicNetworkAccess: S.optional(S.String),
@@ -17196,7 +17628,7 @@ function __c172(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
-          properties: __S(5504, __c172, 0),
+          properties: __S(5568, __c174, 0),
           identity: S.optional(__S(161, __c5, 1)),
           kind: S.optional(S.String),
           location: S.optional(S.String),
@@ -17207,27 +17639,27 @@ function __c172(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "WorkspacesCreateOrUpdateRequest" });
   }
 }
-function __c173(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          applicationInsights: S.optional(__S(5120, __c160, 0)),
-          containerRegistry: S.optional(__S(5120, __c160, 0)),
-          dnsResolution: S.optional(__S(5120, __c160, 0)),
-          keyVault: S.optional(__S(5120, __c160, 0)),
-          nsg: S.optional(__S(5120, __c160, 0)),
-          others: S.optional(__S(5120, __c160, 0)),
-          requiredResourceProviders: S.optional(__S(5120, __c160, 0)),
-          resourceLock: S.optional(__S(5120, __c160, 0)),
-          storageAccount: S.optional(__S(5120, __c160, 0)),
-          udr: S.optional(__S(5120, __c160, 0)),
+          applicationInsights: S.optional(__S(5184, __c162, 0)),
+          containerRegistry: S.optional(__S(5184, __c162, 0)),
+          dnsResolution: S.optional(__S(5184, __c162, 0)),
+          keyVault: S.optional(__S(5184, __c162, 0)),
+          nsg: S.optional(__S(5184, __c162, 0)),
+          others: S.optional(__S(5184, __c162, 0)),
+          requiredResourceProviders: S.optional(__S(5184, __c162, 0)),
+          resourceLock: S.optional(__S(5184, __c162, 0)),
+          storageAccount: S.optional(__S(5184, __c162, 0)),
+          udr: S.optional(__S(5184, __c162, 0)),
         }),
       ).annotate({ identifier: "DiagnoseRequestProperties" });
     case 1:
@@ -17236,13 +17668,13 @@ function __c173(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
-          value: S.optional(__S(5536, __c173, 0)),
+          value: S.optional(__S(5600, __c175, 0)),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/diagnose",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "WorkspacesDiagnoseRequest" });
@@ -17255,32 +17687,32 @@ function __c173(j: number): any {
         }),
       ).annotate({ identifier: "DiagnoseResult" });
     case 3:
-      return S.Array(__S(5538, __c173, 2));
+      return S.Array(__S(5602, __c175, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          userDefinedRouteResults: S.optional(__S(5539, __c173, 3)),
-          networkSecurityRuleResults: S.optional(__S(5539, __c173, 3)),
-          resourceLockResults: S.optional(__S(5539, __c173, 3)),
-          dnsResolutionResults: S.optional(__S(5539, __c173, 3)),
-          storageAccountResults: S.optional(__S(5539, __c173, 3)),
-          keyVaultResults: S.optional(__S(5539, __c173, 3)),
-          containerRegistryResults: S.optional(__S(5539, __c173, 3)),
-          applicationInsightsResults: S.optional(__S(5539, __c173, 3)),
-          otherResults: S.optional(__S(5539, __c173, 3)),
+          userDefinedRouteResults: S.optional(__S(5603, __c175, 3)),
+          networkSecurityRuleResults: S.optional(__S(5603, __c175, 3)),
+          resourceLockResults: S.optional(__S(5603, __c175, 3)),
+          dnsResolutionResults: S.optional(__S(5603, __c175, 3)),
+          storageAccountResults: S.optional(__S(5603, __c175, 3)),
+          keyVaultResults: S.optional(__S(5603, __c175, 3)),
+          containerRegistryResults: S.optional(__S(5603, __c175, 3)),
+          applicationInsightsResults: S.optional(__S(5603, __c175, 3)),
+          otherResults: S.optional(__S(5603, __c175, 3)),
         }),
       ).annotate({ identifier: "DiagnoseResponseResultValue" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(5540, __c173, 4)),
+          value: S.optional(__S(5604, __c175, 4)),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "DiagnoseResponseResult" });
   }
 }
-function __c174(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17293,7 +17725,7 @@ function __c174(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/prepareNotebook",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "WorkspacesPrepareNotebookRequest" });
@@ -17310,7 +17742,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "WorkspacesPrepareNotebookResponse" });
   }
 }
-function __c175(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17323,13 +17755,13 @@ function __c175(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/resyncKeys",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "WorkspacesResyncKeysRequest" });
   }
 }
-function __c176(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17343,51 +17775,10 @@ function __c176(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteDataContainerRequest" });
-  }
-}
-function __c177(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          workspaceName: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteDatastoreRequest" });
-  }
-}
-function __c178(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          workspaceName: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          version: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions/{version}",
-            code: 200,
-            apiVersion: "2026-07-01",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteDataVersionRequest" });
   }
 }
 function __c179(j: number): any {
@@ -17402,12 +17793,12 @@ function __c179(j: number): any {
         }).pipe(
           T.Http({
             method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
-      ).annotate({ identifier: "DeleteEnvironmentContainerRequest" });
+      ).annotate({ identifier: "DeleteDatastoreRequest" });
   }
 }
 function __c180(j: number): any {
@@ -17423,12 +17814,12 @@ function __c180(j: number): any {
         }).pipe(
           T.Http({
             method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}/versions/{version}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
-      ).annotate({ identifier: "DeleteEnvironmentVersionRequest" });
+      ).annotate({ identifier: "DeleteDataVersionRequest" });
   }
 }
 function __c181(j: number): any {
@@ -17443,12 +17834,12 @@ function __c181(j: number): any {
         }).pipe(
           T.Http({
             method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets/{name}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
-      ).annotate({ identifier: "DeleteFeaturesetContainerRequest" });
+      ).annotate({ identifier: "DeleteEnvironmentContainerRequest" });
   }
 }
 function __c182(j: number): any {
@@ -17464,12 +17855,12 @@ function __c182(j: number): any {
         }).pipe(
           T.Http({
             method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets/{name}/versions/{version}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
-      ).annotate({ identifier: "DeleteFeaturesetVersionRequest" });
+      ).annotate({ identifier: "DeleteEnvironmentVersionRequest" });
   }
 }
 function __c183(j: number): any {
@@ -17484,12 +17875,12 @@ function __c183(j: number): any {
         }).pipe(
           T.Http({
             method: "DELETE",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featurestoreEntities/{name}",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
-      ).annotate({ identifier: "DeleteFeaturestoreEntityContainerRequest" });
+      ).annotate({ identifier: "DeleteFeaturesetContainerRequest" });
   }
 }
 function __c184(j: number): any {
@@ -17497,53 +17888,40 @@ function __c184(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
-          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
-          acaEnvironmentConnections: S.optional(S.NullOr(__S(5920, __c185, 0))),
-          aiServicesConnections: S.optional(S.NullOr(__S(5920, __c185, 0))),
-          capabilityHostKind: S.optional(S.String),
-          customerSubnet: S.optional(S.NullOr(S.String)),
-          storageConnections: S.optional(S.NullOr(__S(5920, __c185, 0))),
-          threadStorageConnections: S.optional(S.NullOr(__S(5920, __c185, 0))),
-          vectorStoreConnections: S.optional(S.NullOr(__S(5920, __c185, 0))),
-        }),
-      ).annotate({ identifier: "CapabilityHostPropertiesInput" });
-    case 1:
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          version: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets/{name}/versions/{version}",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteFeaturesetVersionRequest" });
+  }
+}
+function __c185(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(5888, __c184, 0),
         }).pipe(
           T.Http({
-            method: "PUT",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/capabilityHosts/{name}",
+            method: "DELETE",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featurestoreEntities/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
-      ).annotate({ identifier: "CapabilityHostsCreateOrUpdateRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          type: S.optional(S.String),
-          systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(5952, __c186, 0),
-          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
-          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
-        }),
-      ).annotate({ identifier: "CapabilityHostsCreateOrUpdateResponse" });
-  }
-}
-function __c185(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
+      ).annotate({ identifier: "DeleteFeaturestoreEntityContainerRequest" });
   }
 }
 function __c186(j: number): any {
@@ -17554,20 +17932,74 @@ function __c186(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           properties: S.optional(S.NullOr(__S(32, __c1, 0))),
           tags: S.optional(S.NullOr(__S(32, __c1, 0))),
-          acaEnvironmentConnections: S.optional(S.NullOr(__S(5920, __c185, 0))),
-          aiServicesConnections: S.optional(S.NullOr(__S(5920, __c185, 0))),
+          acaEnvironmentConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          aiServicesConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          capabilityHostKind: S.optional(S.String),
+          customerSubnet: S.optional(S.NullOr(S.String)),
+          storageConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          threadStorageConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          vectorStoreConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
+        }),
+      ).annotate({ identifier: "CapabilityHostPropertiesInput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          workspaceName: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          properties: __S(5952, __c186, 0),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/capabilityHosts/{name}",
+            code: 200,
+            apiVersion: "2026-09-01",
+          }),
+        ),
+      ).annotate({ identifier: "CapabilityHostsCreateOrUpdateRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          type: S.optional(S.String),
+          systemData: S.optional(__S(64, __c2, 0)),
+          properties: __S(6016, __c188, 0),
+          azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
+          retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
+        }),
+      ).annotate({ identifier: "CapabilityHostsCreateOrUpdateResponse" });
+  }
+}
+function __c187(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c188(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          acaEnvironmentConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          aiServicesConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
           capabilityHostKind: S.optional(S.String),
           customerSubnet: S.optional(S.NullOr(S.String)),
           provisioningState: S.optional(S.String),
-          storageConnections: S.optional(S.NullOr(__S(5920, __c185, 0))),
-          threadStorageConnections: S.optional(S.NullOr(__S(5920, __c185, 0))),
-          vectorStoreConnections: S.optional(S.NullOr(__S(5920, __c185, 0))),
-          messages: S.optional(S.NullOr(__S(5920, __c185, 0))),
+          storageConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          threadStorageConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          vectorStoreConnections: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          messages: S.optional(S.NullOr(__S(5984, __c187, 0))),
         }),
       ).annotate({ identifier: "CapabilityHostProperties" });
   }
 }
-function __c187(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17582,13 +18014,13 @@ function __c187(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featurestoreEntities/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteFeaturestoreEntityVersionRequest" });
   }
 }
-function __c188(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17602,13 +18034,13 @@ function __c188(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/jobs/{id}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteJobRequest" });
   }
 }
-function __c189(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17622,13 +18054,13 @@ function __c189(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/outboundRules/{ruleName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteManagedNetworkSettingsRuleRequest" });
   }
 }
-function __c190(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17642,13 +18074,13 @@ function __c190(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/marketplaceSubscriptions/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteMarketplaceSubscriptionRequest" });
   }
 }
-function __c191(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17662,13 +18094,13 @@ function __c191(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteModelContainerRequest" });
   }
 }
-function __c192(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17683,13 +18115,13 @@ function __c192(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteModelVersionRequest" });
   }
 }
-function __c193(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17704,13 +18136,13 @@ function __c193(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteOnlineDeploymentRequest" });
   }
 }
-function __c194(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17724,13 +18156,13 @@ function __c194(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteOnlineEndpointRequest" });
   }
 }
-function __c195(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17744,13 +18176,13 @@ function __c195(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeletePrivateEndpointConnectionRequest" });
   }
 }
-function __c196(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17763,13 +18195,13 @@ function __c196(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRegistryRequest" });
   }
 }
-function __c197(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17778,19 +18210,19 @@ function __c197(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(6336, __c198, 0),
+          properties: __S(6400, __c200, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/codes/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CodeContainersCreateOrUpdateRequest" });
   }
 }
-function __c198(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17803,7 +18235,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "CodeContainerPropertiesInput" });
   }
 }
-function __c199(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17819,7 +18251,7 @@ function __c199(j: number): any {
       ).annotate({ identifier: "CodeContainerProperties" });
   }
 }
-function __c200(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17828,12 +18260,12 @@ function __c200(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(6368, __c199, 0),
+          properties: __S(6432, __c201, 0),
         }),
       ).annotate({ identifier: "CodeContainersCreateOrUpdateResponse" });
   }
 }
-function __c201(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17847,13 +18279,13 @@ function __c201(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRegistryCodeContainerRequest" });
   }
 }
-function __c202(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17868,13 +18300,13 @@ function __c202(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRegistryCodeVersionRequest" });
   }
 }
-function __c203(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17888,13 +18320,13 @@ function __c203(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/components/{componentName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRegistryComponentContainerRequest" });
   }
 }
-function __c204(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17909,13 +18341,13 @@ function __c204(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/components/{componentName}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRegistryComponentVersionRequest" });
   }
 }
-function __c205(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17929,13 +18361,13 @@ function __c205(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/data/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRegistryDataContainerRequest" });
   }
 }
-function __c206(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17950,13 +18382,13 @@ function __c206(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/data/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRegistryDataVersionRequest" });
   }
 }
-function __c207(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17970,13 +18402,13 @@ function __c207(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/environments/{environmentName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRegistryEnvironmentContainerRequest" });
   }
 }
-function __c208(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17991,13 +18423,13 @@ function __c208(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/environments/{environmentName}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRegistryEnvironmentVersionRequest" });
   }
 }
-function __c209(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18011,13 +18443,13 @@ function __c209(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/models/{modelName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRegistryModelContainerRequest" });
   }
 }
-function __c210(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18032,13 +18464,13 @@ function __c210(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/models/{modelName}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteRegistryModelVersionRequest" });
   }
 }
-function __c211(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18055,25 +18487,25 @@ function __c211(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/codes/{name}/versions/{version}/startPendingUpload",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CodeVersionsCreateOrGetStartPendingUploadRequest" });
   }
 }
-function __c212(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          blobReferenceForConsumption: S.optional(S.NullOr(__S(6817, __c213, 1))),
+          blobReferenceForConsumption: S.optional(S.NullOr(__S(6881, __c215, 1))),
           pendingUploadId: S.optional(S.NullOr(S.String)),
           pendingUploadType: S.optional(S.String),
         }),
       ).annotate({ identifier: "PendingUploadResponseDto" });
   }
 }
-function __c213(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18085,13 +18517,13 @@ function __c213(j: number): any {
       return S.suspend(() =>
         S.Struct({
           blobUri: S.optional(S.NullOr(S.String)),
-          credential: S.optional(S.NullOr(__S(6816, __c213, 0))),
+          credential: S.optional(S.NullOr(__S(6880, __c215, 0))),
           storageAccountArmId: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "BlobReferenceForConsumptionDto" });
   }
 }
-function __c214(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18105,13 +18537,13 @@ function __c214(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/schedules/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteScheduleRequest" });
   }
 }
-function __c215(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18125,13 +18557,13 @@ function __c215(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/serverlessEndpoints/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteServerlessEndpointRequest" });
   }
 }
-function __c216(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18145,13 +18577,13 @@ function __c216(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteWorkspaceRequest" });
   }
 }
-function __c217(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18165,13 +18597,13 @@ function __c217(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/connections/{connectionName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "DeleteWorkspaceConnectionRequest" });
   }
 }
-function __c218(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18180,19 +18612,19 @@ function __c218(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(6336, __c198, 0),
+          properties: __S(6400, __c200, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "EnvironmentContainersCreateOrUpdateRequest" });
   }
 }
-function __c219(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18202,19 +18634,40 @@ function __c219(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(7075, __c221, 3),
+          properties: __S(7104, __c222, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "EnvironmentVersionsCreateOrUpdateRequest" });
   }
 }
-function __c220(j: number): any {
+function __c222(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          isAnonymous: S.optional(S.Boolean),
+          isArchived: S.optional(S.Boolean),
+          autoRebuild: S.optional(S.String),
+          build: S.optional(__S(7168, __c224, 0)),
+          condaFile: S.optional(S.String),
+          image: S.optional(S.String),
+          inferenceConfig: S.optional(__S(7170, __c224, 2)),
+          osType: S.optional(S.String),
+          stage: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "EnvironmentVersionPropertiesInput" });
+  }
+}
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18223,12 +18676,12 @@ function __c220(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(7075, __c221, 3),
+          properties: __S(7171, __c224, 3),
         }),
       ).annotate({ identifier: "EnvironmentVersionsCreateOrUpdateResponse" });
   }
 }
-function __c221(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18247,10 +18700,10 @@ function __c221(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          livenessRoute: S.optional(__S(7073, __c221, 1)),
-          readinessRoute: S.optional(__S(7073, __c221, 1)),
-          scoringRoute: S.optional(__S(7073, __c221, 1)),
-          startupRoute: S.optional(S.NullOr(__S(7073, __c221, 1))),
+          livenessRoute: S.optional(__S(7169, __c224, 1)),
+          readinessRoute: S.optional(__S(7169, __c224, 1)),
+          scoringRoute: S.optional(__S(7169, __c224, 1)),
+          startupRoute: S.optional(S.NullOr(__S(7169, __c224, 1))),
         }),
       ).annotate({ identifier: "InferenceContainerProperties" });
     case 3:
@@ -18262,11 +18715,11 @@ function __c221(j: number): any {
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
           autoRebuild: S.optional(S.String),
-          build: S.optional(__S(7072, __c221, 0)),
+          build: S.optional(__S(7168, __c224, 0)),
           condaFile: S.optional(S.String),
           environmentType: S.optional(S.String),
           image: S.optional(S.String),
-          inferenceConfig: S.optional(__S(7074, __c221, 2)),
+          inferenceConfig: S.optional(__S(7170, __c224, 2)),
           osType: S.optional(S.String),
           provisioningState: S.optional(S.String),
           stage: S.optional(S.NullOr(S.String)),
@@ -18274,7 +18727,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "EnvironmentVersionProperties" });
   }
 }
-function __c222(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18283,19 +18736,19 @@ function __c222(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(6336, __c198, 0),
+          properties: __S(6400, __c200, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "FeaturesetContainersCreateOrUpdateRequest" });
   }
 }
-function __c223(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18304,14 +18757,14 @@ function __c223(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(6368, __c199, 0),
+          properties: __S(6432, __c201, 0),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "FeaturesetContainersCreateOrUpdateResponse" });
   }
 }
-function __c224(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18328,13 +18781,13 @@ function __c224(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          dataAvailabilityStatus: S.optional(__S(7232, __c226, 0)),
+          dataAvailabilityStatus: S.optional(__S(7328, __c229, 0)),
           description: S.optional(S.String),
           displayName: S.optional(S.String),
-          featureWindow: S.optional(S.NullOr(__S(7168, __c224, 0))),
+          featureWindow: S.optional(S.NullOr(__S(7264, __c227, 0))),
           jobId: S.optional(S.String),
           properties: S.optional(__S(32, __c1, 0)),
-          resource: S.optional(__S(7200, __c225, 0)),
+          resource: S.optional(__S(7296, __c228, 0)),
           sparkConfiguration: S.optional(__S(32, __c1, 0)),
           tags: S.optional(__S(32, __c1, 0)),
         }).pipe(
@@ -18342,21 +18795,21 @@ function __c224(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets/{name}/versions/{version}/backfill",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "FeaturesetVersionsBackfillRequest" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          jobIds: S.optional(S.NullOr(__S(5920, __c185, 0))),
+          jobIds: S.optional(S.NullOr(__S(5984, __c187, 0))),
           location: S.optional(S.String.pipe(T.Header("Location"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "FeaturesetVersionBackfillResponse" });
   }
 }
-function __c225(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18366,15 +18819,29 @@ function __c225(j: number): any {
       ).annotate({ identifier: "MaterializationComputeResource" });
   }
 }
-function __c226(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c227(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          isAnonymous: S.optional(S.Boolean),
+          isArchived: S.optional(S.Boolean),
+          entities: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          materializationSettings: S.optional(S.NullOr(__S(7395, __c231, 3))),
+          specification: S.optional(S.NullOr(__S(7396, __c231, 4))),
+          stage: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "FeaturesetVersionPropertiesInput" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -18382,41 +18849,41 @@ function __c227(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(7301, __c228, 5),
+          properties: __S(7360, __c230, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "FeaturesetVersionsCreateOrUpdateRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(7301, __c228, 5),
+          properties: __S(7397, __c231, 5),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "FeaturesetVersionsCreateOrUpdateResponse" });
   }
 }
-function __c228(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          hours: __S(7296, __c228, 0),
-          minutes: __S(7296, __c228, 0),
-          monthDays: S.optional(S.NullOr(__S(7296, __c228, 0))),
-          weekDays: S.optional(S.NullOr(__S(7232, __c226, 0))),
+          hours: __S(7392, __c231, 0),
+          minutes: __S(7392, __c231, 0),
+          monthDays: S.optional(S.NullOr(__S(7392, __c231, 0))),
+          weekDays: S.optional(S.NullOr(__S(7328, __c229, 0))),
         }),
       ).annotate({ identifier: "RecurrenceSchedule" });
     case 2:
@@ -18428,15 +18895,15 @@ function __c228(j: number): any {
           triggerType: S.String,
           frequency: S.String,
           interval: S.Number,
-          schedule: S.optional(S.NullOr(__S(7297, __c228, 1))),
+          schedule: S.optional(S.NullOr(__S(7393, __c231, 1))),
         }),
       ).annotate({ identifier: "RecurrenceTrigger" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          notification: S.optional(S.NullOr(__S(7330, __c229, 2))),
-          resource: S.optional(S.NullOr(__S(7200, __c225, 0))),
-          schedule: S.optional(S.NullOr(__S(7298, __c228, 2))),
+          notification: S.optional(S.NullOr(__S(7426, __c232, 2))),
+          resource: S.optional(S.NullOr(__S(7296, __c228, 0))),
+          schedule: S.optional(S.NullOr(__S(7394, __c231, 2))),
           sparkConfiguration: S.optional(S.NullOr(__S(32, __c1, 0))),
           storeType: S.optional(S.String),
         }),
@@ -18455,16 +18922,16 @@ function __c228(j: number): any {
           tags: S.optional(S.NullOr(__S(32, __c1, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
-          entities: S.optional(S.NullOr(__S(5920, __c185, 0))),
-          materializationSettings: S.optional(S.NullOr(__S(7299, __c228, 3))),
+          entities: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          materializationSettings: S.optional(S.NullOr(__S(7395, __c231, 3))),
           provisioningState: S.optional(S.String),
-          specification: S.optional(S.NullOr(__S(7300, __c228, 4))),
+          specification: S.optional(S.NullOr(__S(7396, __c231, 4))),
           stage: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "FeaturesetVersionProperties" });
   }
 }
-function __c229(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18474,18 +18941,18 @@ function __c229(j: number): any {
         }),
       ).annotate({ identifier: "Webhook" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(7328, __c229, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(7424, __c232, 0)));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          emailOn: S.optional(S.NullOr(__S(7232, __c226, 0))),
-          emails: S.optional(S.NullOr(__S(5920, __c185, 0))),
-          webhooks: S.optional(S.NullOr(__S(7329, __c229, 1))),
+          emailOn: S.optional(S.NullOr(__S(7328, __c229, 0))),
+          emails: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          webhooks: S.optional(S.NullOr(__S(7425, __c232, 1))),
         }),
       ).annotate({ identifier: "NotificationSetting" });
   }
 }
-function __c230(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18494,19 +18961,19 @@ function __c230(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(6336, __c198, 0),
+          properties: __S(6400, __c200, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featurestoreEntities/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "FeaturestoreEntityContainersCreateOrUpdateRequest" });
   }
 }
-function __c231(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18516,19 +18983,34 @@ function __c231(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(7456, __c233, 0),
+          properties: __S(7520, __c235, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/codes/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "CodeVersionsCreateOrUpdateRequest" });
   }
 }
-function __c232(j: number): any {
+function __c235(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          isAnonymous: S.optional(S.Boolean),
+          isArchived: S.optional(S.Boolean),
+          codeUri: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CodeVersionPropertiesInput" });
+  }
+}
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18537,12 +19019,12 @@ function __c232(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(7456, __c233, 0),
+          properties: __S(7584, __c237, 0),
         }),
       ).annotate({ identifier: "CodeVersionsCreateOrUpdateResponse" });
   }
 }
-function __c233(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18558,9 +19040,21 @@ function __c233(j: number): any {
       ).annotate({ identifier: "CodeVersionProperties" });
   }
 }
-function __c234(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          isAnonymous: S.optional(S.Boolean),
+          isArchived: S.optional(S.Boolean),
+          indexColumns: S.optional(S.NullOr(__S(7649, __c239, 1))),
+          stage: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "FeaturestoreEntityVersionPropertiesInput" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
@@ -18568,31 +19062,31 @@ function __c234(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(7522, __c235, 2),
+          properties: __S(7616, __c238, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featurestoreEntities/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "FeaturestoreEntityVersionsCreateOrUpdateRequest" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(7522, __c235, 2),
+          properties: __S(7650, __c239, 2),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
         }),
       ).annotate({ identifier: "FeaturestoreEntityVersionsCreateOrUpdateResponse" });
   }
 }
-function __c235(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18602,7 +19096,7 @@ function __c235(j: number): any {
         }),
       ).annotate({ identifier: "IndexColumn" });
     case 1:
-      return S.Array(__S(7520, __c235, 0));
+      return S.Array(__S(7648, __c239, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -18611,14 +19105,14 @@ function __c235(j: number): any {
           tags: S.optional(S.NullOr(__S(32, __c1, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
-          indexColumns: S.optional(S.NullOr(__S(7521, __c235, 1))),
+          indexColumns: S.optional(S.NullOr(__S(7649, __c239, 1))),
           provisioningState: S.optional(S.String),
           stage: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "FeaturestoreEntityVersionProperties" });
   }
 }
-function __c236(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18633,13 +19127,13 @@ function __c236(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments/{deploymentName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetBatchDeploymentRequest" });
   }
 }
-function __c237(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18658,7 +19152,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "GetBatchDeploymentResponse" });
   }
 }
-function __c238(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18672,13 +19166,13 @@ function __c238(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetBatchEndpointRequest" });
   }
 }
-function __c239(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18697,7 +19191,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "GetBatchEndpointResponse" });
   }
 }
-function __c240(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18711,23 +19205,27 @@ function __c240(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/capabilityHosts/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetCapabilityHostRequest" });
-    case 1:
+  }
+}
+function __c245(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(5952, __c186, 0),
+          properties: __S(6016, __c188, 0),
         }),
       ).annotate({ identifier: "GetCapabilityHostResponse" });
   }
 }
-function __c241(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18741,13 +19239,13 @@ function __c241(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/codes/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetCodeContainerRequest" });
   }
 }
-function __c242(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18762,13 +19260,13 @@ function __c242(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/codes/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetCodeVersionRequest" });
   }
 }
-function __c243(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18782,13 +19280,13 @@ function __c243(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetComponentContainerRequest" });
   }
 }
-function __c244(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18803,13 +19301,13 @@ function __c244(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetComponentVersionRequest" });
   }
 }
-function __c245(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18823,13 +19321,13 @@ function __c245(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetComputeRequest" });
   }
 }
-function __c246(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18838,7 +19336,7 @@ function __c246(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: S.optional(__S(9286, __c290, 6)),
+          properties: S.optional(__S(9478, __c296, 6)),
           location: S.optional(S.String),
           tags: S.optional(S.NullOr(__S(96, __c3, 0))),
           sku: S.optional(__S(192, __c6, 0)),
@@ -18847,7 +19345,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "GetComputeResponse" });
   }
 }
-function __c247(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18861,13 +19359,13 @@ function __c247(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetDataContainerRequest" });
   }
 }
-function __c248(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18876,19 +19374,19 @@ function __c248(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
-          properties: __S(6336, __c198, 0),
+          properties: __S(6400, __c200, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ComponentContainersCreateOrUpdateRequest" });
   }
 }
-function __c249(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18902,13 +19400,13 @@ function __c249(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/datastores/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetDatastoreRequest" });
   }
 }
-function __c250(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18923,13 +19421,13 @@ function __c250(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/data/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetDataVersionRequest" });
   }
 }
-function __c251(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18943,13 +19441,13 @@ function __c251(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetEnvironmentContainerRequest" });
   }
 }
-function __c252(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18964,13 +19462,13 @@ function __c252(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetEnvironmentVersionRequest" });
   }
 }
-function __c253(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18986,13 +19484,13 @@ function __c253(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets/{featuresetName}/versions/{featuresetVersion}/features/{featureName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetFeatureRequest" });
   }
 }
-function __c254(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19011,12 +19509,12 @@ function __c254(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8128, __c254, 0),
+          properties: __S(8288, __c259, 0),
         }),
       ).annotate({ identifier: "GetFeatureResponse" });
   }
 }
-function __c255(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19030,13 +19528,13 @@ function __c255(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetFeaturesetContainerEntityRequest" });
   }
 }
-function __c256(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19051,13 +19549,13 @@ function __c256(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featuresets/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetFeaturesetVersionRequest" });
   }
 }
-function __c257(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19066,12 +19564,12 @@ function __c257(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(7301, __c228, 5),
+          properties: __S(7397, __c231, 5),
         }),
       ).annotate({ identifier: "GetFeaturesetVersionResponse" });
   }
 }
-function __c258(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19085,13 +19583,13 @@ function __c258(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featurestoreEntities/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetFeaturestoreEntityContainerEntityRequest" });
   }
 }
-function __c259(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19106,13 +19604,13 @@ function __c259(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/featurestoreEntities/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetFeaturestoreEntityVersionRequest" });
   }
 }
-function __c260(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19121,12 +19619,12 @@ function __c260(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(7522, __c235, 2),
+          properties: __S(7650, __c239, 2),
         }),
       ).annotate({ identifier: "GetFeaturestoreEntityVersionResponse" });
   }
 }
-function __c261(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19140,13 +19638,13 @@ function __c261(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/jobs/{id}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetJobRequest" });
   }
 }
-function __c262(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19166,14 +19664,14 @@ function __c262(j: number): any {
           endpoint: S.optional(S.NullOr(S.String)),
           errorMessage: S.optional(S.NullOr(S.String)),
           jobServiceType: S.optional(S.NullOr(S.String)),
-          nodes: S.optional(S.NullOr(__S(8385, __c262, 1))),
+          nodes: S.optional(S.NullOr(__S(8545, __c267, 1))),
           port: S.optional(S.NullOr(S.Number)),
           properties: S.optional(S.NullOr(__S(32, __c1, 0))),
           status: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "JobService" });
     case 3:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8386, __c262, 2)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8546, __c267, 2)));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -19184,11 +19682,11 @@ function __c262(j: number): any {
           computeId: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.NullOr(S.String)),
           experimentName: S.optional(S.String),
-          identity: S.optional(S.NullOr(__S(8384, __c262, 0))),
+          identity: S.optional(S.NullOr(__S(8544, __c267, 0))),
           isArchived: S.optional(S.Boolean),
           jobType: S.String,
-          notificationSetting: S.optional(S.NullOr(__S(7330, __c229, 2))),
-          services: S.optional(S.NullOr(__S(8387, __c262, 3))),
+          notificationSetting: S.optional(S.NullOr(__S(7426, __c232, 2))),
+          services: S.optional(S.NullOr(__S(8547, __c267, 3))),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "JobBaseProperties" });
@@ -19199,12 +19697,12 @@ function __c262(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8388, __c262, 4),
+          properties: __S(8548, __c267, 4),
         }),
       ).annotate({ identifier: "GetJobResponse" });
   }
 }
-function __c263(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19214,19 +19712,34 @@ function __c263(j: number): any {
           workspaceName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           version: S.String.pipe(T.Label()),
-          properties: __S(8480, __c265, 0),
+          properties: __S(8608, __c269, 0),
         }).pipe(
           T.Http({
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/components/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ComponentVersionsCreateOrUpdateRequest" });
   }
 }
-function __c264(j: number): any {
+function __c269(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          description: S.optional(S.NullOr(S.String)),
+          properties: S.optional(S.NullOr(__S(32, __c1, 0))),
+          tags: S.optional(S.NullOr(__S(32, __c1, 0))),
+          isAnonymous: S.optional(S.Boolean),
+          isArchived: S.optional(S.Boolean),
+          componentSpec: S.optional(S.NullOr(S.Unknown)),
+        }),
+      ).annotate({ identifier: "ComponentVersionPropertiesInput" });
+  }
+}
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19235,12 +19748,12 @@ function __c264(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8480, __c265, 0),
+          properties: __S(8672, __c271, 0),
         }),
       ).annotate({ identifier: "ComponentVersionsCreateOrUpdateResponse" });
   }
 }
-function __c265(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19256,7 +19769,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "ComponentVersionProperties" });
   }
 }
-function __c266(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19270,13 +19783,13 @@ function __c266(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/outboundRules/{ruleName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetManagedNetworkSettingsRuleRequest" });
   }
 }
-function __c267(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19285,13 +19798,13 @@ function __c267(j: number): any {
           status: S.optional(S.String),
           type: S.String,
           errorInformation: S.optional(S.String),
-          parentRuleNames: S.optional(__S(5920, __c185, 0)),
+          parentRuleNames: S.optional(__S(5984, __c187, 0)),
           destination: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "OutboundRule" });
   }
 }
-function __c268(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19300,12 +19813,12 @@ function __c268(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8544, __c267, 0),
+          properties: __S(8736, __c273, 0),
         }),
       ).annotate({ identifier: "GetManagedNetworkSettingsRuleResponse" });
   }
 }
-function __c269(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19319,13 +19832,13 @@ function __c269(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/marketplaceSubscriptions/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetMarketplaceSubscriptionRequest" });
   }
 }
-function __c270(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19334,12 +19847,12 @@ function __c270(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8673, __c271, 1),
+          properties: __S(8865, __c277, 1),
         }),
       ).annotate({ identifier: "GetMarketplaceSubscriptionResponse" });
   }
 }
-function __c271(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19352,7 +19865,7 @@ function __c271(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          marketplacePlan: S.optional(S.NullOr(__S(8672, __c271, 0))),
+          marketplacePlan: S.optional(S.NullOr(__S(8864, __c277, 0))),
           marketplaceSubscriptionStatus: S.optional(S.String),
           modelId: S.String,
           provisioningState: S.optional(S.String),
@@ -19360,7 +19873,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "MarketplaceSubscriptionProperties" });
   }
 }
-function __c272(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19374,13 +19887,13 @@ function __c272(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetModelContainerRequest" });
   }
 }
-function __c273(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19395,13 +19908,13 @@ function __c273(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/models/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetModelVersionRequest" });
   }
 }
-function __c274(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19410,12 +19923,12 @@ function __c274(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: __S(8804, __c275, 4),
+          properties: __S(8996, __c281, 4),
         }),
       ).annotate({ identifier: "GetModelVersionResponse" });
   }
 }
-function __c275(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19424,7 +19937,7 @@ function __c275(j: number): any {
         }),
       ).annotate({ identifier: "FlavorData" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8800, __c275, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8992, __c281, 0)));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -19433,7 +19946,7 @@ function __c275(j: number): any {
         }),
       ).annotate({ identifier: "DatasetReference" });
     case 3:
-      return S.Array(__S(8802, __c275, 2));
+      return S.Array(__S(8994, __c281, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -19442,18 +19955,18 @@ function __c275(j: number): any {
           tags: S.optional(S.NullOr(__S(32, __c1, 0))),
           isAnonymous: S.optional(S.Boolean),
           isArchived: S.optional(S.Boolean),
-          flavors: S.optional(S.NullOr(__S(8801, __c275, 1))),
+          flavors: S.optional(S.NullOr(__S(8993, __c281, 1))),
           jobName: S.optional(S.NullOr(S.String)),
           modelType: S.optional(S.NullOr(S.String)),
           modelUri: S.optional(S.NullOr(S.String)),
           provisioningState: S.optional(S.String),
           stage: S.optional(S.NullOr(S.String)),
-          datasets: S.optional(S.NullOr(__S(8803, __c275, 3))),
+          datasets: S.optional(S.NullOr(__S(8995, __c281, 3))),
         }),
       ).annotate({ identifier: "ModelVersionProperties" });
   }
 }
-function __c276(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19468,13 +19981,13 @@ function __c276(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetOnlineDeploymentRequest" });
   }
 }
-function __c277(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19485,7 +19998,7 @@ function __c277(j: number): any {
           systemData: S.optional(__S(64, __c2, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(8903, __c278, 7),
+          properties: __S(9095, __c284, 7),
           identity: S.optional(__S(195, __c6, 3)),
           kind: S.optional(S.String),
           sku: S.optional(__S(192, __c6, 0)),
@@ -19493,7 +20006,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "GetOnlineDeploymentResponse" });
   }
 }
-function __c278(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19505,18 +20018,18 @@ function __c278(j: number): any {
         }),
       ).annotate({ identifier: "Collection" });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(8896, __c278, 0)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(9088, __c284, 0)));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          captureHeaders: S.optional(S.NullOr(__S(5920, __c185, 0))),
+          captureHeaders: S.optional(S.NullOr(__S(5984, __c187, 0))),
         }),
       ).annotate({ identifier: "RequestLogging" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          collections: __S(8897, __c278, 1),
-          requestLogging: S.optional(S.NullOr(__S(8898, __c278, 2))),
+          collections: __S(9089, __c284, 1),
+          requestLogging: S.optional(S.NullOr(__S(9090, __c284, 2))),
           rollingRate: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataCollector" });
@@ -19558,23 +20071,23 @@ function __c278(j: number): any {
           environmentVariables: S.optional(S.NullOr(__S(32, __c1, 0))),
           properties: S.optional(S.NullOr(__S(32, __c1, 0))),
           appInsightsEnabled: S.optional(S.Boolean),
-          dataCollector: S.optional(S.NullOr(__S(8899, __c278, 3))),
+          dataCollector: S.optional(S.NullOr(__S(9091, __c284, 3))),
           egressPublicNetworkAccess: S.optional(S.String),
           endpointComputeType: S.String,
           instanceType: S.optional(S.NullOr(S.String)),
-          livenessProbe: S.optional(S.NullOr(__S(8900, __c278, 4))),
+          livenessProbe: S.optional(S.NullOr(__S(9092, __c284, 4))),
           model: S.optional(S.NullOr(S.String)),
           modelMountPath: S.optional(S.NullOr(S.String)),
           provisioningState: S.optional(S.String),
-          readinessProbe: S.optional(S.NullOr(__S(8900, __c278, 4))),
-          requestSettings: S.optional(S.NullOr(__S(8901, __c278, 5))),
-          scaleSettings: S.optional(S.NullOr(__S(8902, __c278, 6))),
-          startupProbe: S.optional(S.NullOr(__S(8900, __c278, 4))),
+          readinessProbe: S.optional(S.NullOr(__S(9092, __c284, 4))),
+          requestSettings: S.optional(S.NullOr(__S(9093, __c284, 5))),
+          scaleSettings: S.optional(S.NullOr(__S(9094, __c284, 6))),
+          startupProbe: S.optional(S.NullOr(__S(9092, __c284, 4))),
         }),
       ).annotate({ identifier: "OnlineDeploymentProperties" });
   }
 }
-function __c279(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19591,7 +20104,7 @@ function __c279(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/deployments/{deploymentName}/getLogs",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetOnlineDeploymentLogsRequest" });
@@ -19603,7 +20116,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "DeploymentLogs" });
   }
 }
-function __c280(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19617,13 +20130,13 @@ function __c280(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetOnlineEndpointRequest" });
   }
 }
-function __c281(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19634,7 +20147,7 @@ function __c281(j: number): any {
           systemData: S.optional(__S(64, __c2, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9025, __c282, 1),
+          properties: __S(9217, __c288, 1),
           identity: S.optional(__S(195, __c6, 3)),
           kind: S.optional(S.String),
           sku: S.optional(__S(192, __c6, 0)),
@@ -19642,7 +20155,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "GetOnlineEndpointResponse" });
   }
 }
-function __c282(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
@@ -19656,15 +20169,15 @@ function __c282(j: number): any {
           scoringUri: S.optional(S.NullOr(S.String)),
           swaggerUri: S.optional(S.NullOr(S.String)),
           compute: S.optional(S.NullOr(S.String)),
-          mirrorTraffic: S.optional(S.NullOr(__S(9024, __c282, 0))),
+          mirrorTraffic: S.optional(S.NullOr(__S(9216, __c288, 0))),
           provisioningState: S.optional(S.String),
           publicNetworkAccess: S.optional(S.String),
-          traffic: S.optional(S.NullOr(__S(9024, __c282, 0))),
+          traffic: S.optional(S.NullOr(__S(9216, __c288, 0))),
         }),
       ).annotate({ identifier: "OnlineEndpointProperties" });
   }
 }
-function __c283(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19678,7 +20191,7 @@ function __c283(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/onlineEndpoints/{endpointName}/token",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetOnlineEndpointTokenRequest" });
@@ -19693,7 +20206,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "EndpointAuthToken" });
   }
 }
-function __c284(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19707,13 +20220,13 @@ function __c284(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetPrivateEndpointConnectionRequest" });
   }
 }
-function __c285(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19733,8 +20246,8 @@ function __c285(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          privateEndpoint: S.optional(__S(9120, __c285, 0)),
-          privateLinkServiceConnectionState: S.optional(__S(9121, __c285, 1)),
+          privateEndpoint: S.optional(__S(9312, __c291, 0)),
+          privateLinkServiceConnectionState: S.optional(__S(9313, __c291, 1)),
           provisioningState: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionProperties" });
@@ -19745,7 +20258,7 @@ function __c285(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: S.optional(__S(9122, __c285, 2)),
+          properties: S.optional(__S(9314, __c291, 2)),
           identity: S.optional(__S(195, __c6, 3)),
           sku: S.optional(__S(192, __c6, 0)),
           location: S.optional(S.String),
@@ -19754,7 +20267,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "GetPrivateEndpointConnectionResponse" });
   }
 }
-function __c286(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19767,13 +20280,13 @@ function __c286(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetRegistryRequest" });
   }
 }
-function __c287(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19788,11 +20301,11 @@ function __c287(j: number): any {
         }),
       ).annotate({ identifier: "ManagedResourceGroupAssignedIdentities" });
     case 2:
-      return S.Array(__S(9185, __c287, 1));
+      return S.Array(__S(9377, __c293, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          assignedIdentities: S.optional(S.NullOr(__S(9186, __c287, 2))),
+          assignedIdentities: S.optional(S.NullOr(__S(9378, __c293, 2))),
         }),
       ).annotate({ identifier: "ManagedResourceGroupSettings" });
     case 4:
@@ -19813,9 +20326,9 @@ function __c287(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          groupIds: S.optional(S.NullOr(__S(5920, __c185, 0))),
-          privateEndpoint: S.optional(S.NullOr(__S(9188, __c287, 4))),
-          registryPrivateLinkServiceConnectionState: S.optional(S.NullOr(__S(9189, __c287, 5))),
+          groupIds: S.optional(S.NullOr(__S(5984, __c187, 0))),
+          privateEndpoint: S.optional(S.NullOr(__S(9380, __c293, 4))),
+          registryPrivateLinkServiceConnectionState: S.optional(S.NullOr(__S(9381, __c293, 5))),
           provisioningState: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "RegistryPrivateEndpointConnectionProperties" });
@@ -19824,32 +20337,32 @@ function __c287(j: number): any {
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
           location: S.optional(S.NullOr(S.String)),
-          properties: S.optional(S.NullOr(__S(9190, __c287, 6))),
+          properties: S.optional(S.NullOr(__S(9382, __c293, 6))),
         }),
       ).annotate({ identifier: "RegistryPrivateEndpointConnection" });
     case 8:
-      return S.Array(__S(9191, __c287, 7));
+      return S.Array(__S(9383, __c293, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
           acrAccountName: S.optional(S.NullOr(S.String)),
           acrAccountSku: S.optional(S.NullOr(S.String)),
-          armResourceId: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          armResourceId: S.optional(S.NullOr(__S(9376, __c293, 0))),
         }),
       ).annotate({ identifier: "SystemCreatedAcrAccount" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          systemCreatedAcrAccount: S.optional(S.NullOr(__S(9193, __c287, 9))),
+          systemCreatedAcrAccount: S.optional(S.NullOr(__S(9385, __c293, 9))),
         }),
       ).annotate({ identifier: "AcrDetails" });
     case 11:
-      return S.Array(__S(9194, __c287, 10));
+      return S.Array(__S(9386, __c293, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           allowBlobPublicAccess: S.optional(S.Boolean),
-          armResourceId: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          armResourceId: S.optional(S.NullOr(__S(9376, __c293, 0))),
           storageAccountHnsEnabled: S.optional(S.Boolean),
           storageAccountName: S.optional(S.NullOr(S.String)),
           storageAccountType: S.optional(S.NullOr(S.String)),
@@ -19858,37 +20371,37 @@ function __c287(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          systemCreatedStorageAccount: S.optional(S.NullOr(__S(9196, __c287, 12))),
+          systemCreatedStorageAccount: S.optional(S.NullOr(__S(9388, __c293, 12))),
         }),
       ).annotate({ identifier: "StorageAccountDetails" });
     case 14:
-      return S.Array(__S(9197, __c287, 13));
+      return S.Array(__S(9389, __c293, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({
-          acrDetails: S.optional(S.NullOr(__S(9195, __c287, 11))),
+          acrDetails: S.optional(S.NullOr(__S(9387, __c293, 11))),
           location: S.optional(S.NullOr(S.String)),
-          storageAccountDetails: S.optional(S.NullOr(__S(9198, __c287, 14))),
+          storageAccountDetails: S.optional(S.NullOr(__S(9390, __c293, 14))),
         }),
       ).annotate({ identifier: "RegistryRegionArmDetails" });
     case 16:
-      return S.Array(__S(9199, __c287, 15));
+      return S.Array(__S(9391, __c293, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           discoveryUrl: S.optional(S.NullOr(S.String)),
           intellectualPropertyPublisher: S.optional(S.NullOr(S.String)),
-          managedResourceGroup: S.optional(S.NullOr(__S(9184, __c287, 0))),
-          managedResourceGroupSettings: S.optional(S.NullOr(__S(9187, __c287, 3))),
+          managedResourceGroup: S.optional(S.NullOr(__S(9376, __c293, 0))),
+          managedResourceGroupSettings: S.optional(S.NullOr(__S(9379, __c293, 3))),
           mlFlowRegistryUri: S.optional(S.NullOr(S.String)),
-          registryPrivateEndpointConnections: S.optional(S.NullOr(__S(9192, __c287, 8))),
+          registryPrivateEndpointConnections: S.optional(S.NullOr(__S(9384, __c293, 8))),
           publicNetworkAccess: S.optional(S.NullOr(S.String)),
-          regionDetails: S.optional(S.NullOr(__S(9200, __c287, 16))),
+          regionDetails: S.optional(S.NullOr(__S(9392, __c293, 16))),
         }),
       ).annotate({ identifier: "RegistryProperties" });
   }
 }
-function __c288(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19899,7 +20412,7 @@ function __c288(j: number): any {
           systemData: S.optional(__S(64, __c2, 0)),
           tags: S.optional(__S(96, __c3, 0)),
           location: S.String,
-          properties: __S(9201, __c287, 17),
+          properties: __S(9393, __c293, 17),
           identity: S.optional(__S(195, __c6, 3)),
           kind: S.optional(S.String),
           sku: S.optional(__S(192, __c6, 0)),
@@ -19907,7 +20420,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "GetRegistryResponse" });
   }
 }
-function __c289(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19927,7 +20440,7 @@ function __c289(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           workspaceName: S.String.pipe(T.Label()),
           computeName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(9248, __c289, 0)),
+          properties: S.optional(__S(9440, __c295, 0)),
           location: S.optional(S.String),
           tags: S.optional(S.NullOr(__S(96, __c3, 0))),
           sku: S.optional(__S(192, __c6, 0)),
@@ -19937,7 +20450,7 @@ function __c289(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "ComputeCreateOrUpdateRequest" });
@@ -19948,7 +20461,7 @@ function __c289(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(64, __c2, 0)),
-          properties: S.optional(__S(9286, __c290, 6)),
+          properties: S.optional(__S(9478, __c296, 6)),
           location: S.optional(S.String),
           tags: S.optional(S.NullOr(__S(96, __c3, 0))),
           sku: S.optional(__S(192, __c6, 0)),
@@ -19959,10 +20472,10 @@ function __c289(j: number): any {
       ).annotate({ identifier: "ComputeCreateOrUpdateResponse" });
   }
 }
-function __c290(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.suspend(() => __S(9283, __c290, 3)));
+      return S.Array(/*@__PURE__*/ S.suspend(() => __S(9475, __c296, 3)));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -19971,25 +20484,25 @@ function __c290(j: number): any {
         }),
       ).annotate({ identifier: "ErrorAdditionalInfo" });
     case 2:
-      return S.Array(__S(9281, __c290, 1));
+      return S.Array(__S(9473, __c296, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
           target: S.optional(S.String),
-          details: S.optional(__S(9280, __c290, 0)),
-          additionalInfo: S.optional(__S(9282, __c290, 2)),
+          details: S.optional(__S(9472, __c296, 0)),
+          additionalInfo: S.optional(__S(9474, __c296, 2)),
         }),
       ).annotate({ identifier: "ErrorDetail" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(9283, __c290, 3)),
+          error: S.optional(__S(9475, __c296, 3)),
         }),
       ).annotate({ identifier: "ComputeProvisioningErrorsItem" });
     case 5:
-      return S.Array(__S(9284, __c290, 4));
+      return S.Array(__S(9476, __c296, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -20000,7 +20513,7 @@ function __c290(j: number): any {
           createdOn: S.optional(S.String),
           modifiedOn: S.optional(S.String),
           resourceId: S.optional(S.NullOr(S.String)),
-          provisioningErrors: S.optional(S.NullOr(__S(9285, __c290, 5))),
+          provisioningErrors: S.optional(S.NullOr(__S(9477, __c296, 5))),
           isAttachedCompute: S.optional(S.Boolean),
           disableLocalAuth: S.optional(S.Boolean),
           properties: S.optional(S.Unknown),
@@ -20008,7 +20521,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "Compute" });
   }
 }
-function __c291(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20022,13 +20535,13 @@ function __c291(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetRegistryCodeContainerRequest" });
   }
 }
-function __c292(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20043,13 +20556,13 @@ function __c292(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/codes/{codeName}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetRegistryCodeVersionRequest" });
   }
 }
-function __c293(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20063,13 +20576,13 @@ function __c293(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/components/{componentName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetRegistryComponentContainerRequest" });
   }
 }
-function __c294(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20084,13 +20597,13 @@ function __c294(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/components/{componentName}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetRegistryComponentVersionRequest" });
   }
 }
-function __c295(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20104,13 +20617,13 @@ function __c295(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/data/{name}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetRegistryDataContainerRequest" });
   }
 }
-function __c296(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20127,19 +20640,19 @@ function __c296(j: number): any {
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/datareferences/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetRegistryDataReferenceBlobReferenceSASRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          blobReferenceForConsumption: S.optional(S.NullOr(__S(6817, __c213, 1))),
+          blobReferenceForConsumption: S.optional(S.NullOr(__S(6881, __c215, 1))),
         }),
       ).annotate({ identifier: "GetBlobReferenceSASResponseDto" });
   }
 }
-function __c297(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20154,13 +20667,13 @@ function __c297(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/data/{name}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetRegistryDataVersionRequest" });
   }
 }
-function __c298(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20174,13 +20687,13 @@ function __c298(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/environments/{environmentName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetRegistryEnvironmentContainerRequest" });
   }
 }
-function __c299(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20195,13 +20708,13 @@ function __c299(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/environments/{environmentName}/versions/{version}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetRegistryEnvironmentVersionRequest" });
   }
 }
-function __c300(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20215,7 +20728,7 @@ function __c300(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/registries/{registryName}/models/{modelName}",
             code: 200,
-            apiVersion: "2026-07-01",
+            apiVersion: "2026-09-01",
           }),
         ),
       ).annotate({ identifier: "GetRegistryModelContainerRequest" });

@@ -88,6 +88,12 @@ export type CreateDeploymentCheckRunResponseBodyCase0Requires =
   | "none";
 export type CreateDeploymentCheckRunResponseBodyCase0Status = "completed" | "queued" | "running";
 export type CreateDeploymentCheckRunResponseBodyCase0TargetsList = Array<string>;
+export interface CreateDeploymentCheckRunResponseBodyCase0TaskSummary {
+  failed: number;
+  pending: number;
+  succeeded: number;
+  total: number;
+}
 export type CreateDeploymentCheckRunResponseBodyCase0SourceCase0Kind = "integration";
 export interface CreateDeploymentCheckRunResponseBodyCase0SourceCase0 {
   externalResourceId?: string | undefined;
@@ -123,9 +129,8 @@ export type CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0Ki
 export interface CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0 {
   kind: CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0Kind;
 }
-export type CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1Kind = "job";
+export type CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1Kind = "deployment";
 export interface CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1 {
-  job: string;
   kind: CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1Kind;
 }
 export type CreateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2FiltersList =
@@ -175,8 +180,10 @@ export interface CreateDeploymentCheckRunResponseBodyCase0 {
   ownerId: string;
   projectId?: string | undefined;
   requires?: CreateDeploymentCheckRunResponseBodyCase0Requires | undefined;
+  startedAt?: number | undefined;
   status: CreateDeploymentCheckRunResponseBodyCase0Status;
   targets?: CreateDeploymentCheckRunResponseBodyCase0TargetsList | undefined;
+  taskSummary?: CreateDeploymentCheckRunResponseBodyCase0TaskSummary | undefined;
   timeout: number;
   updatedAt: number;
   checkId: string;
@@ -206,6 +213,8 @@ export type CreateDeploymentCheckRunResponseBodyCase1Requires =
   | "none";
 export type CreateDeploymentCheckRunResponseBodyCase1Status = "completed" | "queued" | "running";
 export type CreateDeploymentCheckRunResponseBodyCase1TargetsList = Array<string>;
+export type CreateDeploymentCheckRunResponseBodyCase1TaskSummary =
+  CreateDeploymentCheckRunResponseBodyCase0TaskSummary;
 export type CreateDeploymentCheckRunResponseBodyCase1SourceCase0Origin = "config";
 export type CreateDeploymentCheckRunResponseBodyCase1SourceCase0SubKind = "vercel-ci";
 /** Config-driven CI task -- check run `source` only (no parent check). */
@@ -245,8 +254,10 @@ export interface CreateDeploymentCheckRunResponseBodyCase1 {
   ownerId: string;
   projectId?: string | undefined;
   requires?: CreateDeploymentCheckRunResponseBodyCase1Requires | undefined;
+  startedAt?: number | undefined;
   status: CreateDeploymentCheckRunResponseBodyCase1Status;
   targets?: CreateDeploymentCheckRunResponseBodyCase1TargetsList | undefined;
+  taskSummary?: CreateDeploymentCheckRunResponseBodyCase0TaskSummary | undefined;
   timeout: number;
   updatedAt: number;
   source: CreateDeploymentCheckRunResponseBodyCase1Source;
@@ -256,6 +267,7 @@ export type CreateDeploymentCheckRunResponseBody =
   | CreateDeploymentCheckRunResponseBodyCase1;
 export type CreateDeploymentCheckRunResponse = CreateDeploymentCheckRunResponseBody;
 export type CreateProjectCheckRequestRequires = "build-ready" | "deployment-url" | "none";
+/** Deployment targets where this check applies. Valid values are "production", "preview", "all", or a Custom Environment ID such as "env_...". If omitted, defaults to ["production"]. "all" cannot be combined with other targets. */
 export type CreateProjectCheckRequestTargetsList = Array<string>;
 export type CreateProjectCheckRequestBlocks =
   | "build-start"
@@ -265,6 +277,9 @@ export type CreateProjectCheckRequestBlocks =
   | "none";
 export interface CreateProjectCheckRequestSourceCase0 {
   kind?: string | undefined;
+  integrationId?: string | undefined;
+  integrationConfigurationId?: string | undefined;
+  resourceId?: string | undefined;
   externalResourceId?: string | undefined;
 }
 export interface CreateProjectCheckRequestSourceCase1 {
@@ -273,7 +288,9 @@ export interface CreateProjectCheckRequestSourceCase1 {
 }
 export type CreateProjectCheckRequestSourceCase2Provider = "github";
 export interface CreateProjectCheckRequestSourceCase2 {
+  /** Imports Git provider check results, such as GitHub check runs or commit statuses, as Deployment Checks. */
   kind: string;
+  /** The Git provider check name or context to match, for example a GitHub Actions job name. */
   externalCheckName: string;
   provider: CreateProjectCheckRequestSourceCase2Provider;
 }
@@ -288,8 +305,10 @@ export interface CreateProjectCheckRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
   name: string;
+  /** Whether check runs can be manually re-requested. Git provider checks cannot be re-requested. */
   isRerequestable?: boolean | undefined;
   requires: CreateProjectCheckRequestRequires | (string & {});
+  /** Deployment targets where this check applies. Valid values are "production", "preview", "all", or a Custom Environment ID such as "env_...". If omitted, defaults to ["production"]. "all" cannot be combined with other targets. */
   targets?: CreateProjectCheckRequestTargetsList | undefined;
   blocks?: CreateProjectCheckRequestBlocks | (string & {}) | undefined;
   source?: CreateProjectCheckRequestSource | undefined;
@@ -396,6 +415,8 @@ export type GetDeploymentCheckRunResponseBodyCase0Requires =
   | "none";
 export type GetDeploymentCheckRunResponseBodyCase0Status = "completed" | "queued" | "running";
 export type GetDeploymentCheckRunResponseBodyCase0TargetsList = Array<string>;
+export type GetDeploymentCheckRunResponseBodyCase0TaskSummary =
+  CreateDeploymentCheckRunResponseBodyCase0TaskSummary;
 export type GetDeploymentCheckRunResponseBodyCase0SourceCase0Kind = "integration";
 export interface GetDeploymentCheckRunResponseBodyCase0SourceCase0 {
   externalResourceId?: string | undefined;
@@ -431,9 +452,8 @@ export type GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0Kind 
 export interface GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0 {
   kind: GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0Kind;
 }
-export type GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1Kind = "job";
+export type GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1Kind = "deployment";
 export interface GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1 {
-  job: string;
   kind: GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1Kind;
 }
 export type GetDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2FiltersList =
@@ -483,8 +503,10 @@ export interface GetDeploymentCheckRunResponseBodyCase0 {
   ownerId: string;
   projectId?: string | undefined;
   requires?: GetDeploymentCheckRunResponseBodyCase0Requires | undefined;
+  startedAt?: number | undefined;
   status: GetDeploymentCheckRunResponseBodyCase0Status;
   targets?: GetDeploymentCheckRunResponseBodyCase0TargetsList | undefined;
+  taskSummary?: CreateDeploymentCheckRunResponseBodyCase0TaskSummary | undefined;
   timeout: number;
   updatedAt: number;
   checkId: string;
@@ -514,6 +536,8 @@ export type GetDeploymentCheckRunResponseBodyCase1Requires =
   | "none";
 export type GetDeploymentCheckRunResponseBodyCase1Status = "completed" | "queued" | "running";
 export type GetDeploymentCheckRunResponseBodyCase1TargetsList = Array<string>;
+export type GetDeploymentCheckRunResponseBodyCase1TaskSummary =
+  CreateDeploymentCheckRunResponseBodyCase0TaskSummary;
 export type GetDeploymentCheckRunResponseBodyCase1SourceCase0Origin = "config";
 export type GetDeploymentCheckRunResponseBodyCase1SourceCase0SubKind = "vercel-ci";
 /** Config-driven CI task -- check run `source` only (no parent check). */
@@ -553,8 +577,10 @@ export interface GetDeploymentCheckRunResponseBodyCase1 {
   ownerId: string;
   projectId?: string | undefined;
   requires?: GetDeploymentCheckRunResponseBodyCase1Requires | undefined;
+  startedAt?: number | undefined;
   status: GetDeploymentCheckRunResponseBodyCase1Status;
   targets?: GetDeploymentCheckRunResponseBodyCase1TargetsList | undefined;
+  taskSummary?: CreateDeploymentCheckRunResponseBodyCase0TaskSummary | undefined;
   timeout: number;
   updatedAt: number;
   source: GetDeploymentCheckRunResponseBodyCase1Source;
@@ -657,6 +683,8 @@ export type ListCheckRunsResponseRunsItemCase0OutputMap = { [key: string]: unkno
 export type ListCheckRunsResponseRunsItemCase0Requires = "build-ready" | "deployment-url" | "none";
 export type ListCheckRunsResponseRunsItemCase0Status = "completed" | "queued" | "running";
 export type ListCheckRunsResponseRunsItemCase0TargetsList = Array<string>;
+export type ListCheckRunsResponseRunsItemCase0TaskSummary =
+  CreateDeploymentCheckRunResponseBodyCase0TaskSummary;
 export type ListCheckRunsResponseRunsItemCase0SourceCase0Kind = "integration";
 export interface ListCheckRunsResponseRunsItemCase0SourceCase0 {
   externalResourceId?: string | undefined;
@@ -692,9 +720,8 @@ export type ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase0Kind = "i
 export interface ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase0 {
   kind: ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase0Kind;
 }
-export type ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase1Kind = "job";
+export type ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase1Kind = "deployment";
 export interface ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase1 {
-  job: string;
   kind: ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase1Kind;
 }
 export type ListCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2FiltersList = Array<string>;
@@ -743,8 +770,10 @@ export interface ListCheckRunsResponseRunsItemCase0 {
   ownerId: string;
   projectId?: string | undefined;
   requires?: ListCheckRunsResponseRunsItemCase0Requires | undefined;
+  startedAt?: number | undefined;
   status: ListCheckRunsResponseRunsItemCase0Status;
   targets?: ListCheckRunsResponseRunsItemCase0TargetsList | undefined;
+  taskSummary?: CreateDeploymentCheckRunResponseBodyCase0TaskSummary | undefined;
   timeout: number;
   updatedAt: number;
   checkId: string;
@@ -769,6 +798,8 @@ export type ListCheckRunsResponseRunsItemCase1OutputMap = { [key: string]: unkno
 export type ListCheckRunsResponseRunsItemCase1Requires = "build-ready" | "deployment-url" | "none";
 export type ListCheckRunsResponseRunsItemCase1Status = "completed" | "queued" | "running";
 export type ListCheckRunsResponseRunsItemCase1TargetsList = Array<string>;
+export type ListCheckRunsResponseRunsItemCase1TaskSummary =
+  CreateDeploymentCheckRunResponseBodyCase0TaskSummary;
 export type ListCheckRunsResponseRunsItemCase1SourceCase0Origin = "config";
 export type ListCheckRunsResponseRunsItemCase1SourceCase0SubKind = "vercel-ci";
 /** Config-driven CI task -- check run `source` only (no parent check). */
@@ -808,8 +839,10 @@ export interface ListCheckRunsResponseRunsItemCase1 {
   ownerId: string;
   projectId?: string | undefined;
   requires?: ListCheckRunsResponseRunsItemCase1Requires | undefined;
+  startedAt?: number | undefined;
   status: ListCheckRunsResponseRunsItemCase1Status;
   targets?: ListCheckRunsResponseRunsItemCase1TargetsList | undefined;
+  taskSummary?: CreateDeploymentCheckRunResponseBodyCase0TaskSummary | undefined;
   timeout: number;
   updatedAt: number;
   source: ListCheckRunsResponseRunsItemCase1Source;
@@ -852,6 +885,8 @@ export type ListDeploymentCheckRunsResponseRunsItemCase0Requires =
   | "none";
 export type ListDeploymentCheckRunsResponseRunsItemCase0Status = "completed" | "queued" | "running";
 export type ListDeploymentCheckRunsResponseRunsItemCase0TargetsList = Array<string>;
+export type ListDeploymentCheckRunsResponseRunsItemCase0TaskSummary =
+  CreateDeploymentCheckRunResponseBodyCase0TaskSummary;
 export type ListDeploymentCheckRunsResponseRunsItemCase0SourceCase0Kind = "integration";
 export interface ListDeploymentCheckRunsResponseRunsItemCase0SourceCase0 {
   externalResourceId?: string | undefined;
@@ -888,9 +923,9 @@ export type ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase
 export interface ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase0 {
   kind: ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase0Kind;
 }
-export type ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase1Kind = "job";
+export type ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase1Kind =
+  "deployment";
 export interface ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase1 {
-  job: string;
   kind: ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase1Kind;
 }
 export type ListDeploymentCheckRunsResponseRunsItemCase0SourceCase4SelectionCase2FiltersList =
@@ -940,8 +975,10 @@ export interface ListDeploymentCheckRunsResponseRunsItemCase0 {
   ownerId: string;
   projectId?: string | undefined;
   requires?: ListDeploymentCheckRunsResponseRunsItemCase0Requires | undefined;
+  startedAt?: number | undefined;
   status: ListDeploymentCheckRunsResponseRunsItemCase0Status;
   targets?: ListDeploymentCheckRunsResponseRunsItemCase0TargetsList | undefined;
+  taskSummary?: CreateDeploymentCheckRunResponseBodyCase0TaskSummary | undefined;
   timeout: number;
   updatedAt: number;
   checkId: string;
@@ -971,6 +1008,8 @@ export type ListDeploymentCheckRunsResponseRunsItemCase1Requires =
   | "none";
 export type ListDeploymentCheckRunsResponseRunsItemCase1Status = "completed" | "queued" | "running";
 export type ListDeploymentCheckRunsResponseRunsItemCase1TargetsList = Array<string>;
+export type ListDeploymentCheckRunsResponseRunsItemCase1TaskSummary =
+  CreateDeploymentCheckRunResponseBodyCase0TaskSummary;
 export type ListDeploymentCheckRunsResponseRunsItemCase1SourceCase0Origin = "config";
 export type ListDeploymentCheckRunsResponseRunsItemCase1SourceCase0SubKind = "vercel-ci";
 /** Config-driven CI task -- check run `source` only (no parent check). */
@@ -1010,8 +1049,10 @@ export interface ListDeploymentCheckRunsResponseRunsItemCase1 {
   ownerId: string;
   projectId?: string | undefined;
   requires?: ListDeploymentCheckRunsResponseRunsItemCase1Requires | undefined;
+  startedAt?: number | undefined;
   status: ListDeploymentCheckRunsResponseRunsItemCase1Status;
   targets?: ListDeploymentCheckRunsResponseRunsItemCase1TargetsList | undefined;
+  taskSummary?: CreateDeploymentCheckRunResponseBodyCase0TaskSummary | undefined;
   timeout: number;
   updatedAt: number;
   source: ListDeploymentCheckRunsResponseRunsItemCase1Source;
@@ -1151,6 +1192,8 @@ export type UpdateDeploymentCheckRunResponseBodyCase0Requires =
   | "none";
 export type UpdateDeploymentCheckRunResponseBodyCase0Status = "completed" | "queued" | "running";
 export type UpdateDeploymentCheckRunResponseBodyCase0TargetsList = Array<string>;
+export type UpdateDeploymentCheckRunResponseBodyCase0TaskSummary =
+  CreateDeploymentCheckRunResponseBodyCase0TaskSummary;
 export type UpdateDeploymentCheckRunResponseBodyCase0SourceCase0Kind = "integration";
 export interface UpdateDeploymentCheckRunResponseBodyCase0SourceCase0 {
   externalResourceId?: string | undefined;
@@ -1186,9 +1229,8 @@ export type UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0Ki
 export interface UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0 {
   kind: UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase0Kind;
 }
-export type UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1Kind = "job";
+export type UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1Kind = "deployment";
 export interface UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1 {
-  job: string;
   kind: UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase1Kind;
 }
 export type UpdateDeploymentCheckRunResponseBodyCase0SourceCase4SelectionCase2FiltersList =
@@ -1238,8 +1280,10 @@ export interface UpdateDeploymentCheckRunResponseBodyCase0 {
   ownerId: string;
   projectId?: string | undefined;
   requires?: UpdateDeploymentCheckRunResponseBodyCase0Requires | undefined;
+  startedAt?: number | undefined;
   status: UpdateDeploymentCheckRunResponseBodyCase0Status;
   targets?: UpdateDeploymentCheckRunResponseBodyCase0TargetsList | undefined;
+  taskSummary?: CreateDeploymentCheckRunResponseBodyCase0TaskSummary | undefined;
   timeout: number;
   updatedAt: number;
   checkId: string;
@@ -1269,6 +1313,8 @@ export type UpdateDeploymentCheckRunResponseBodyCase1Requires =
   | "none";
 export type UpdateDeploymentCheckRunResponseBodyCase1Status = "completed" | "queued" | "running";
 export type UpdateDeploymentCheckRunResponseBodyCase1TargetsList = Array<string>;
+export type UpdateDeploymentCheckRunResponseBodyCase1TaskSummary =
+  CreateDeploymentCheckRunResponseBodyCase0TaskSummary;
 export type UpdateDeploymentCheckRunResponseBodyCase1SourceCase0Origin = "config";
 export type UpdateDeploymentCheckRunResponseBodyCase1SourceCase0SubKind = "vercel-ci";
 /** Config-driven CI task -- check run `source` only (no parent check). */
@@ -1308,8 +1354,10 @@ export interface UpdateDeploymentCheckRunResponseBodyCase1 {
   ownerId: string;
   projectId?: string | undefined;
   requires?: UpdateDeploymentCheckRunResponseBodyCase1Requires | undefined;
+  startedAt?: number | undefined;
   status: UpdateDeploymentCheckRunResponseBodyCase1Status;
   targets?: UpdateDeploymentCheckRunResponseBodyCase1TargetsList | undefined;
+  taskSummary?: CreateDeploymentCheckRunResponseBodyCase0TaskSummary | undefined;
   timeout: number;
   updatedAt: number;
   source: UpdateDeploymentCheckRunResponseBodyCase1Source;
@@ -1319,6 +1367,7 @@ export type UpdateDeploymentCheckRunResponseBody =
   | UpdateDeploymentCheckRunResponseBodyCase1;
 export type UpdateDeploymentCheckRunResponse = UpdateDeploymentCheckRunResponseBody;
 export type UpdateProjectCheckRequestRequires = "build-ready" | "deployment-url" | "none";
+/** Deployment targets where this check applies. Valid values are "production", "preview", "all", or a Custom Environment ID such as "env_...". "all" cannot be combined with other targets. */
 export type UpdateProjectCheckRequestTargetsList = Array<string>;
 export type UpdateProjectCheckRequestBlocks =
   | "build-start"
@@ -1334,8 +1383,10 @@ export interface UpdateProjectCheckRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
   name?: string | undefined;
+  /** Whether check runs can be manually re-requested. Git provider checks cannot be re-requested. */
   isRerequestable?: boolean | undefined;
   requires?: UpdateProjectCheckRequestRequires | (string & {}) | undefined;
+  /** Deployment targets where this check applies. Valid values are "production", "preview", "all", or a Custom Environment ID such as "env_...". "all" cannot be combined with other targets. */
   targets?: UpdateProjectCheckRequestTargetsList | undefined;
   blocks?: UpdateProjectCheckRequestBlocks | (string & {}) | undefined;
   timeout?: number | undefined;

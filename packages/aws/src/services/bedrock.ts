@@ -1064,8 +1064,13 @@ export interface GuardrailContextualGroundingFilterConfig {
   enabled?: boolean | undefined;
 }
 export type GuardrailContextualGroundingFiltersConfig = GuardrailContextualGroundingFilterConfig[];
+export type GuardrailContextualGroundingTierName = "CLASSIC" | "STANDARD" | (string & {});
+export interface GuardrailContextualGroundingTierConfig {
+  tierName: GuardrailContextualGroundingTierName;
+}
 export interface GuardrailContextualGroundingPolicyConfig {
   filtersConfig: GuardrailContextualGroundingFilterConfig[];
+  tierConfig?: GuardrailContextualGroundingTierConfig | undefined;
 }
 export type AutomatedReasoningPolicyArnList = string[];
 export type AutomatedReasoningConfidenceFilterThreshold = number;
@@ -2701,8 +2706,12 @@ export interface GuardrailContextualGroundingFilter {
   enabled?: boolean | undefined;
 }
 export type GuardrailContextualGroundingFilters = GuardrailContextualGroundingFilter[];
+export interface GuardrailContextualGroundingTier {
+  tierName: GuardrailContextualGroundingTierName;
+}
 export interface GuardrailContextualGroundingPolicy {
   filters: GuardrailContextualGroundingFilter[];
+  tier?: GuardrailContextualGroundingTier | undefined;
 }
 export interface GuardrailAutomatedReasoningPolicy {
   policies: string[];
@@ -8939,9 +8948,12 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "GuardrailSensitiveInformationPolicyConfig" });
     case 6:
-      return S.suspend(() => S.Struct({ filtersConfig: __S(1548, __c48, 12) })).annotate({
-        identifier: "GuardrailContextualGroundingPolicyConfig",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          filtersConfig: __S(1548, __c48, 12),
+          tierConfig: S.optional(__S(1536, __c48, 0)),
+        }),
+      ).annotate({ identifier: "GuardrailContextualGroundingPolicyConfig" });
     case 7:
       return S.suspend(() => S.Struct({ guardrailProfileIdentifier: S.String })).annotate({
         identifier: "GuardrailCrossRegionConfig",
@@ -10805,9 +10817,9 @@ function __c105(j: number): any {
         }),
       ).annotate({ identifier: "GuardrailSensitiveInformationPolicy" });
     case 7:
-      return S.suspend(() => S.Struct({ filters: __S(1548, __c48, 12) })).annotate({
-        identifier: "GuardrailContextualGroundingPolicy",
-      });
+      return S.suspend(() =>
+        S.Struct({ filters: __S(1548, __c48, 12), tier: S.optional(__S(1536, __c48, 0)) }),
+      ).annotate({ identifier: "GuardrailContextualGroundingPolicy" });
     case 8:
       return S.suspend(() =>
         S.Struct({

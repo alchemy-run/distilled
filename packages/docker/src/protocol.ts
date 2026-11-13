@@ -1,6 +1,6 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import { makeRestProtocol, unknownErrorProps } from "@distilled.cloud/core/protocol-rest";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * DockerProtocol -- hand-written.
@@ -57,11 +57,6 @@ export const DockerProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestP
   },
   // Docker's error body is `{ message: string }` -- the factory's default
   // lenient envelope covers it.
-  unknownError: ({ code, message, body }) =>
-    new UnknownDockerError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownDockerError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new DockerParseError({ body, cause }),
 });

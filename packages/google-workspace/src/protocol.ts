@@ -1,5 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
-import { HTTP_STATUS_MAP } from "@distilled.cloud/core/errors";
+import { HTTP_STATUS_MAP, InternalServerError } from "@distilled.cloud/core/errors";
 import type { ConfigError, DefaultErrors } from "@distilled.cloud/core/errors";
 import { getAnn, getProps, hasPropAnn, nameOf } from "@distilled.cloud/core/protocol-http";
 import { validateResponse } from "@distilled.cloud/core/response-validation";
@@ -256,16 +256,27 @@ const decode = ({
         return yield* fail(instance);
       }
 
-      const unknownInstance = new UnknownGoogleWorkspaceError({
-        code: envelope.code ?? status,
-        message,
-        body: json ?? text,
-      });
-      const tackOnUnknown = unknownInstance as unknown as EnvelopeAddenda;
-      if (envelope.status !== undefined) {
-        tackOnUnknown.status = envelope.status;
+      // Unmapped 5xx -> retryable server error, as in core's REST protocol.
+      if (status >= 500) {
+        const instance = new InternalServerError({
+          message,
+          retryAfter: parseRetryAfterForStatus(status, headers),
+        });
+        const tackOn = instance as unknown as EnvelopeAddenda;
+        if (envelope.status !== undefined) tackOn.status = envelope.status;
+        if (envelope.details !== undefined) tackOn.details = envelope.details;
+        return yield* fail(instance);
       }
-      return yield* fail(unknownInstance);
+
+      return yield* fail(
+        new UnknownGoogleWorkspaceError({
+          status,
+          code: envelope.status,
+          message,
+          details: envelope.details,
+          body: json ?? text,
+        }),
+      );
     }
 
     // Success: the JSON body is the payload verbatim (Google wire names are

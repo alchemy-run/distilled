@@ -100,6 +100,7 @@ export interface QueryAplRequest {
 }
 export type QueryAplResponse = unknown;
 export type QueryAplError = AxiomOpError;
+/** Runs an APL query against datasets in this edge deployment and returns the result in the requested `format`. Returns `429` when an organization, token, or user query cost limit is exhausted. */
 export const queryApl: API.OperationMethod<
   QueryAplRequest,
   QueryAplResponse,

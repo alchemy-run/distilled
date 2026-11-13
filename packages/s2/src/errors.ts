@@ -40,6 +40,7 @@ import type {
   NotFound as CoreNotFound,
   UnprocessableEntity as CoreUnprocessableEntity,
 } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 /**
@@ -82,11 +83,10 @@ export class RangeNotSatisfiable
  * half of its error envelope). See https://s2.dev/docs.
  */
 export class UnknownS2Error
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownS2Error>()("UnknownS2Error", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownS2Error>()(
+    "UnknownS2Error",
+    UnknownErrorFields,
+  ) {}
 
 /** Schema parse error wrapper. */
 export class S2ParseError

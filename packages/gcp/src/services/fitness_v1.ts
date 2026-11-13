@@ -83,11 +83,35 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type BucketByTimePeriodTypeEnum = "day" | "week" | "month";
+export interface BucketByTimePeriod {
+  /** org.joda.timezone.DateTimeZone */
+  timeZoneId?: string | undefined;
+  type?: BucketByTimePeriodTypeEnum | (string & {}) | undefined;
+  value?: number | undefined;
+}
+export interface BucketByTime {
+  period?: BucketByTimePeriod | undefined;
+  /** Specifies that result buckets aggregate data by exactly durationMillis time frames. Time frames that contain no data will be included in the response with an empty dataset. */
+  durationMillis?: string | undefined;
+}
 export interface BucketByActivity {
   /** Specifies that only activity segments of duration longer than minDurationMillis are considered and used as a container for aggregated data. */
   minDurationMillis?: string | undefined;
   /** The default activity stream will be used if a specific activityDataSourceId is not specified. */
   activityDataSourceId?: string | undefined;
+}
+/** The specification of which data to aggregate. */
+export interface AggregateBy {
+  /** A data source ID to aggregate. Only data from the specified data source ID will be included in the aggregation. If specified, this data source must exist; the OAuth scopes in the supplied credentials must grant read access to this data type. The dataset in the response will have the same data source ID. Note: Data can be aggregated by either the dataTypeName or the dataSourceId, not both. */
+  dataSourceId?: string | undefined;
+  /** The data type to aggregate. All data sources providing this data type will contribute data to the aggregation. The response will contain a single dataset for this data type name. The dataset will have a data source ID of derived::com.google.android.gms:aggregated. If the user has no data for this data type, an empty data set will be returned. Note: Data can be aggregated by either the dataTypeName or the dataSourceId, not both. */
+  dataTypeName?: string | undefined;
+}
+export type AggregateByList = Array<AggregateBy>;
+export interface BucketBySession {
+  /** Specifies that only sessions of duration longer than minDurationMillis are considered and used as a container for aggregated data. */
+  minDurationMillis?: string | undefined;
 }
 export type AggregateRequestFilteredDataQualityStandardItemEnum =
   | "dataQualityUnknown"
@@ -103,48 +127,24 @@ export type AggregateRequestFilteredDataQualityStandardItemEnum =
 export type AggregateRequestFilteredDataQualityStandardItemEnumList = Array<
   AggregateRequestFilteredDataQualityStandardItemEnum | (string & {})
 >;
-export type BucketByTimePeriodTypeEnum = "day" | "week" | "month";
-export interface BucketByTimePeriod {
-  type?: BucketByTimePeriodTypeEnum | (string & {}) | undefined;
-  /** org.joda.timezone.DateTimeZone */
-  timeZoneId?: string | undefined;
-  value?: number | undefined;
-}
-export interface BucketByTime {
-  /** Specifies that result buckets aggregate data by exactly durationMillis time frames. Time frames that contain no data will be included in the response with an empty dataset. */
-  durationMillis?: string | undefined;
-  period?: BucketByTimePeriod | undefined;
-}
-/** The specification of which data to aggregate. */
-export interface AggregateBy {
-  /** A data source ID to aggregate. Only data from the specified data source ID will be included in the aggregation. If specified, this data source must exist; the OAuth scopes in the supplied credentials must grant read access to this data type. The dataset in the response will have the same data source ID. Note: Data can be aggregated by either the dataTypeName or the dataSourceId, not both. */
-  dataSourceId?: string | undefined;
-  /** The data type to aggregate. All data sources providing this data type will contribute data to the aggregation. The response will contain a single dataset for this data type name. The dataset will have a data source ID of derived::com.google.android.gms:aggregated. If the user has no data for this data type, an empty data set will be returned. Note: Data can be aggregated by either the dataTypeName or the dataSourceId, not both. */
-  dataTypeName?: string | undefined;
-}
-export type AggregateByList = Array<AggregateBy>;
-export interface BucketBySession {
-  /** Specifies that only sessions of duration longer than minDurationMillis are considered and used as a container for aggregated data. */
-  minDurationMillis?: string | undefined;
-}
 /** Next id: 10 */
 export interface AggregateRequest {
-  /** Specifies that data be aggregated by the type of activity being performed when the data was recorded. All data that was recorded during a certain activity type (.for the given time range) will be aggregated into the same bucket. Data that was recorded while the user was not active will not be included in the response. Mutually exclusive of other bucketing specifications. */
-  bucketByActivityType?: BucketByActivity | undefined;
-  /** Specifies that data be aggregated each activity segment recorded for a user. Similar to bucketByActivitySegment, but bucketing is done for each activity segment rather than all segments of the same type. Mutually exclusive of other bucketing specifications. */
-  bucketByActivitySegment?: BucketByActivity | undefined;
-  /** DO NOT POPULATE THIS FIELD. It is ignored. */
-  filteredDataQualityStandard?: AggregateRequestFilteredDataQualityStandardItemEnumList | undefined;
   /** Specifies that data be aggregated by a single time interval. Mutually exclusive of other bucketing specifications. */
   bucketByTime?: BucketByTime | undefined;
   /** The start of a window of time. Data that intersects with this time window will be aggregated. The time is in milliseconds since epoch, inclusive. */
   startTimeMillis?: string | undefined;
   /** The end of a window of time. Data that intersects with this time window will be aggregated. The time is in milliseconds since epoch, inclusive. The maximum allowed difference between start_time_millis // and end_time_millis is 7776000000 (roughly 90 days). */
   endTimeMillis?: string | undefined;
+  /** Specifies that data be aggregated each activity segment recorded for a user. Similar to bucketByActivitySegment, but bucketing is done for each activity segment rather than all segments of the same type. Mutually exclusive of other bucketing specifications. */
+  bucketByActivitySegment?: BucketByActivity | undefined;
   /** The specification of data to be aggregated. At least one aggregateBy spec must be provided. All data that is specified will be aggregated using the same bucketing criteria. There will be one dataset in the response for every aggregateBy spec. */
   aggregateBy?: AggregateByList | undefined;
   /** Specifies that data be aggregated by user sessions. Data that does not fall within the time range of a session will not be included in the response. Mutually exclusive of other bucketing specifications. */
   bucketBySession?: BucketBySession | undefined;
+  /** DO NOT POPULATE THIS FIELD. It is ignored. */
+  filteredDataQualityStandard?: AggregateRequestFilteredDataQualityStandardItemEnumList | undefined;
+  /** Specifies that data be aggregated by the type of activity being performed when the data was recorded. All data that was recorded during a certain activity type (.for the given time range) will be aggregated into the same bucket. Data that was recorded while the user was not active will not be included in the response. Mutually exclusive of other bucketing specifications. */
+  bucketByActivityType?: BucketByActivity | undefined;
 }
 export interface AggregateUsersDatasetRequest {
   /** Aggregate data for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
@@ -152,77 +152,52 @@ export interface AggregateUsersDatasetRequest {
   /** Request body */
   body?: AggregateRequest | undefined;
 }
-export interface Application {
-  /** Package name for this application. This is used as a unique identifier when created by Android applications, but cannot be specified by REST clients. REST clients will have their developer project number reflected into the Data Source data stream IDs, instead of the packageName. */
-  packageName?: string | undefined;
-  /** The name of this application. This is required for REST clients, but we do not enforce uniqueness of this name. It is provided as a matter of convenience for other developers who would like to identify which REST created an Application or Data Source. */
-  name?: string | undefined;
-  /** Version of the application. You should update this field whenever the application changes in a way that affects the computation of the data. */
-  version?: string | undefined;
-  /** An optional URI that can be used to link back to the application. */
-  detailsUrl?: string | undefined;
-}
-/** Sessions contain metadata, such as a user-friendly name and time interval information. */
-export interface Session {
-  /** A human readable name of the session. */
-  name?: string | undefined;
-  /** A client-generated identifier that is unique across all sessions owned by this particular user. */
-  id?: string | undefined;
-  /** The application that created the session. */
-  application?: Application | undefined;
-  /** A start time, in milliseconds since epoch, inclusive. */
-  startTimeMillis?: string | undefined;
-  /** Session active time. While start_time_millis and end_time_millis define the full session time, the active time can be shorter and specified by active_time_millis. If the inactive time during the session is known, it should also be inserted via a com.google.activity.segment data point with a STILL activity value */
-  activeTimeMillis?: string | undefined;
-  /** The type of activity this session represents. */
-  activityType?: number | undefined;
-  /** A description for this session. */
-  description?: string | undefined;
-  /** A timestamp that indicates when the session was last modified. */
-  modifiedTimeMillis?: string | undefined;
-  /** An end time, in milliseconds since epoch, inclusive. */
-  endTimeMillis?: string | undefined;
-}
+export type AggregateBucketTypeEnum =
+  | "unknown"
+  | "time"
+  | "session"
+  | "activityType"
+  | "activitySegment";
 /** Holder object for the value of an entry in a map field of a data point. A map value supports a subset of the formats that the regular Value supports. */
 export interface MapValue {
   /** Floating point value. */
   fpVal?: number | undefined;
 }
 export interface ValueMapValEntry {
-  key?: string | undefined;
   value?: MapValue | undefined;
+  key?: string | undefined;
 }
 export type ValueMapValEntryList = Array<ValueMapValEntry>;
 /** Holder object for the value of a single field in a data point. A field value has a particular format and is only ever set to one of an integer or a floating point value. */
 export interface Value {
-  /** Floating point value. When this is set, other values must not be set. */
-  fpVal?: number | undefined;
-  /** Map value. The valid key space and units for the corresponding value of each entry should be documented as part of the data type definition. Keys should be kept small whenever possible. Data streams with large keys and high data frequency may be down sampled. */
-  mapVal?: ValueMapValEntryList | undefined;
-  /** String value. When this is set, other values must not be set. Strings should be kept small whenever possible. Data streams with large string values and high data frequency may be down sampled. */
-  stringVal?: string | undefined;
   /** Integer value. When this is set, other values must not be set. */
   intVal?: number | undefined;
+  /** Floating point value. When this is set, other values must not be set. */
+  fpVal?: number | undefined;
+  /** String value. When this is set, other values must not be set. Strings should be kept small whenever possible. Data streams with large string values and high data frequency may be down sampled. */
+  stringVal?: string | undefined;
+  /** Map value. The valid key space and units for the corresponding value of each entry should be documented as part of the data type definition. Keys should be kept small whenever possible. Data streams with large keys and high data frequency may be down sampled. */
+  mapVal?: ValueMapValEntryList | undefined;
 }
 export type ValueList = Array<Value>;
 /** Represents a single data point, generated by a particular data source. A data point holds a value for each field, an end timestamp and an optional start time. The exact semantics of each of these attributes are specified in the documentation for the particular data type. A data point can represent an instantaneous measurement, reading or input observation, as well as averages or aggregates over a time interval. Check the data type documentation to determine which is the case for a particular data type. Data points always contain one value for each field of the data type. */
 export interface DataPoint {
-  /** Values of each data type field for the data point. It is expected that each value corresponding to a data type field will occur in the same order that the field is listed with in the data type specified in a data source. Only one of integer and floating point fields will be populated, depending on the format enum value within data source's type field. */
-  value?: ValueList | undefined;
-  /** The raw timestamp from the original SensorEvent. */
-  rawTimestampNanos?: string | undefined;
+  /** The data type defining the format of the values in this data point. */
+  dataTypeName?: string | undefined;
   /** The start time of the interval represented by this data point, in nanoseconds since epoch. */
   startTimeNanos?: string | undefined;
-  /** DO NOT USE THIS FIELD. It is ignored, and not stored. */
-  computationTimeMillis?: string | undefined;
   /** If the data point is contained in a dataset for a derived data source, this field will be populated with the data source stream ID that created the data point originally. WARNING: do not rely on this field for anything other than debugging. The value of this field, if it is set at all, is an implementation detail and is not guaranteed to remain consistent. */
   originDataSourceId?: string | undefined;
   /** The end time of the interval represented by this data point, in nanoseconds since epoch. */
   endTimeNanos?: string | undefined;
-  /** The data type defining the format of the values in this data point. */
-  dataTypeName?: string | undefined;
+  /** The raw timestamp from the original SensorEvent. */
+  rawTimestampNanos?: string | undefined;
   /** Indicates the last time this data point was modified. Useful only in contexts where we are listing the data changes, rather than representing the current state of the data. */
   modifiedTimeMillis?: string | undefined;
+  /** Values of each data type field for the data point. It is expected that each value corresponding to a data type field will occur in the same order that the field is listed with in the data type specified in a data source. Only one of integer and floating point fields will be populated, depending on the format enum value within data source's type field. */
+  value?: ValueList | undefined;
+  /** DO NOT USE THIS FIELD. It is ignored, and not stored. */
+  computationTimeMillis?: string | undefined;
 }
 export type DataPointList = Array<DataPoint>;
 /** A dataset represents a projection container for data points. They do not carry any info of their own. Datasets represent a set of data points from a particular data source. A data point can be found in more than one dataset. */
@@ -231,39 +206,65 @@ export interface Dataset {
   point?: DataPointList | undefined;
   /** The data stream ID of the data source that created the points in this dataset. */
   dataSourceId?: string | undefined;
-  /** The smallest start time of all data points in this possibly partial representation of the dataset. Time is in nanoseconds from epoch. This should also match the first part of the dataset identifier. */
-  minStartTimeNs?: string | undefined;
   /** This token will be set when a dataset is received in response to a GET request and the dataset is too large to be included in a single response. Provide this value in a subsequent GET request to return the next page of data points within this dataset. */
   nextPageToken?: string | undefined;
+  /** The smallest start time of all data points in this possibly partial representation of the dataset. Time is in nanoseconds from epoch. This should also match the first part of the dataset identifier. */
+  minStartTimeNs?: string | undefined;
   /** The largest end time of all data points in this possibly partial representation of the dataset. Time is in nanoseconds from epoch. This should also match the second part of the dataset identifier. */
   maxEndTimeNs?: string | undefined;
 }
 export type DatasetList = Array<Dataset>;
-export type AggregateBucketTypeEnum =
-  | "unknown"
-  | "time"
-  | "session"
-  | "activityType"
-  | "activitySegment";
+export interface Application {
+  /** Package name for this application. This is used as a unique identifier when created by Android applications, but cannot be specified by REST clients. REST clients will have their developer project number reflected into the Data Source data stream IDs, instead of the packageName. */
+  packageName?: string | undefined;
+  /** The name of this application. This is required for REST clients, but we do not enforce uniqueness of this name. It is provided as a matter of convenience for other developers who would like to identify which REST created an Application or Data Source. */
+  name?: string | undefined;
+  /** An optional URI that can be used to link back to the application. */
+  detailsUrl?: string | undefined;
+  /** Version of the application. You should update this field whenever the application changes in a way that affects the computation of the data. */
+  version?: string | undefined;
+}
+/** Sessions contain metadata, such as a user-friendly name and time interval information. */
+export interface Session {
+  /** A human readable name of the session. */
+  name?: string | undefined;
+  /** A timestamp that indicates when the session was last modified. */
+  modifiedTimeMillis?: string | undefined;
+  /** A client-generated identifier that is unique across all sessions owned by this particular user. */
+  id?: string | undefined;
+  /** The application that created the session. */
+  application?: Application | undefined;
+  /** Session active time. While start_time_millis and end_time_millis define the full session time, the active time can be shorter and specified by active_time_millis. If the inactive time during the session is known, it should also be inserted via a com.google.activity.segment data point with a STILL activity value */
+  activeTimeMillis?: string | undefined;
+  /** A description for this session. */
+  description?: string | undefined;
+  /** A start time, in milliseconds since epoch, inclusive. */
+  startTimeMillis?: string | undefined;
+  /** The type of activity this session represents. */
+  activityType?: number | undefined;
+  /** An end time, in milliseconds since epoch, inclusive. */
+  endTimeMillis?: string | undefined;
+}
 export interface AggregateBucket {
+  /** The type of a bucket signifies how the data aggregation is performed in the bucket. */
+  type?: AggregateBucketTypeEnum | undefined;
+  /** The start time for the aggregated data, in milliseconds since epoch, inclusive. */
+  startTimeMillis?: string | undefined;
+  /** There will be one dataset per AggregateBy in the request. */
+  dataset?: DatasetList | undefined;
   /** Available for Bucket.Type.ACTIVITY_TYPE, Bucket.Type.ACTIVITY_SEGMENT */
   activity?: number | undefined;
   /** The end time for the aggregated data, in milliseconds since epoch, inclusive. */
   endTimeMillis?: string | undefined;
   /** Available for Bucket.Type.SESSION */
   session?: Session | undefined;
-  /** There will be one dataset per AggregateBy in the request. */
-  dataset?: DatasetList | undefined;
-  /** The start time for the aggregated data, in milliseconds since epoch, inclusive. */
-  startTimeMillis?: string | undefined;
-  /** The type of a bucket signifies how the data aggregation is performed in the bucket. */
-  type?: AggregateBucketTypeEnum | undefined;
 }
 export type AggregateBucketList = Array<AggregateBucket>;
 export interface AggregateResponse {
   /** A list of buckets containing the aggregated data. */
   bucket?: AggregateBucketList | undefined;
 }
+export type DataSourceTypeEnum = "raw" | "derived";
 export type DeviceTypeEnum =
   | "unknown"
   | "phone"
@@ -275,16 +276,16 @@ export type DeviceTypeEnum =
   | "smartDisplay";
 /** Representation of an integrated device (such as a phone or a wearable) that can hold sensors. Each sensor is exposed as a data source. The main purpose of the device information contained in this class is to identify the hardware of a particular data source. This can be useful in different ways, including: - Distinguishing two similar sensors on different devices (the step counter on two nexus 5 phones, for instance) - Display the source of data to the user (by using the device make / model) - Treat data differently depending on sensor type (accelerometers on a watch may give different patterns than those on a phone) - Build different analysis models for each device/version. */
 export interface Device {
-  /** Version string for the device hardware/software. */
-  version?: string | undefined;
-  /** A constant representing the type of the device. */
-  type?: DeviceTypeEnum | (string & {}) | undefined;
   /** End-user visible model name for the device. */
   model?: string | undefined;
-  /** Manufacturer of the product/hardware. */
-  manufacturer?: string | undefined;
+  /** A constant representing the type of the device. */
+  type?: DeviceTypeEnum | (string & {}) | undefined;
   /** The serial number or other unique ID for the hardware. This field is obfuscated when read by any REST or Android client that did not create the data source. Only the data source creator will see the uid field in clear and normal form. The obfuscation preserves equality; that is, given two IDs, if id1 == id2, obfuscated(id1) == obfuscated(id2). */
   uid?: string | undefined;
+  /** Version string for the device hardware/software. */
+  version?: string | undefined;
+  /** Manufacturer of the product/hardware. */
+  manufacturer?: string | undefined;
 }
 export type DataTypeFieldFormatEnum =
   | "integer"
@@ -296,11 +297,11 @@ export type DataTypeFieldFormatEnum =
   | "blob";
 /** In case of multi-dimensional data (such as an accelerometer with x, y, and z axes) each field represents one dimension. Each data type field has a unique name which identifies it. The field also defines the format of the data (int, float, etc.). This message is only instantiated in code and not used for wire comms or stored in any way. */
 export interface DataTypeField {
+  /** Defines the name and format of data. Unlike data type names, field names are not namespaced, and only need to be unique within the data type. */
+  name?: string | undefined;
   /** The different supported formats for each field in a data type. */
   format?: DataTypeFieldFormatEnum | (string & {}) | undefined;
   optional?: boolean | undefined;
-  /** Defines the name and format of data. Unlike data type names, field names are not namespaced, and only need to be unique within the data type. */
-  name?: string | undefined;
 }
 export type DataTypeFieldList = Array<DataTypeField>;
 export interface DataType {
@@ -309,7 +310,6 @@ export interface DataType {
   /** Each data type has a unique, namespaced, name. All data types in the com.google namespace are shared as part of the platform. */
   name?: string | undefined;
 }
-export type DataSourceTypeEnum = "raw" | "derived";
 export type DataSourceDataQualityStandardItemEnum =
   | "dataQualityUnknown"
   | "dataQualityBloodPressureEsh2002"
@@ -326,22 +326,22 @@ export type DataSourceDataQualityStandardItemEnumList = Array<
 >;
 /** Definition of a unique source of sensor data. Data sources can expose raw data coming from hardware sensors on local or companion devices. They can also expose derived data, created by transforming or merging other data sources. Multiple data sources can exist for the same data type. Every data point inserted into or read from this service has an associated data source. The data source contains enough information to uniquely identify its data, including the hardware device and the application that collected and/or transformed the data. It also holds useful metadata, such as the hardware and application versions, and the device type. Each data source produces a unique stream of data, with a unique identifier. Not all changes to data source affect the stream identifier, so that data collected by updated versions of the same application/device can still be considered to belong to the same data stream. */
 export interface DataSource {
-  /** A unique identifier for the data stream produced by this data source. The identifier includes: - The physical device's manufacturer, model, and serial number (UID). - The application's package name or name. Package name is used when the data source was created by an Android application. The developer project number is used when the data source was created by a REST client. - The data source's type. - The data source's stream name. Note that not all attributes of the data source are used as part of the stream identifier. In particular, the version of the hardware/the application isn't used. This allows us to preserve the same stream through version updates. This also means that two DataSource objects may represent the same data stream even if they're not equal. The exact format of the data stream ID created by an Android application is: type:dataType.name:application.packageName:device.manufacturer:device.model:device.uid:dataStreamName The exact format of the data stream ID created by a REST client is: type:dataType.name:developer project number:device.manufacturer:device.model:device.uid:dataStreamName When any of the optional fields that make up the data stream ID are absent, they will be omitted from the data stream ID. The minimum viable data stream ID would be: type:dataType.name:developer project number Finally, the developer project number and device UID are obfuscated when read by any REST or Android client that did not create the data source. Only the data source creator will see the developer project number in clear and normal form. This means a client will see a different set of data_stream_ids than another client with different credentials. */
-  dataStreamId?: string | undefined;
+  /** A constant describing the type of this data source. Indicates whether this data source produces raw or derived data. */
+  type?: DataSourceTypeEnum | (string & {}) | undefined;
   /** Information about an application which feeds sensor data into the platform. */
   application?: Application | undefined;
-  /** Representation of an integrated device (such as a phone or a wearable) that can hold sensors. */
-  device?: Device | undefined;
-  /** The data type defines the schema for a stream of data being collected by, inserted into, or queried from the Fitness API. */
-  dataType?: DataType | undefined;
   /** An end-user visible name for this data source. */
   name?: string | undefined;
   /** The stream name uniquely identifies this particular data source among other data sources of the same type from the same underlying producer. Setting the stream name is optional, but should be done whenever an application exposes two streams for the same data type, or when a device has two equivalent sensors. */
   dataStreamName?: string | undefined;
-  /** A constant describing the type of this data source. Indicates whether this data source produces raw or derived data. */
-  type?: DataSourceTypeEnum | (string & {}) | undefined;
+  /** Representation of an integrated device (such as a phone or a wearable) that can hold sensors. */
+  device?: Device | undefined;
+  /** The data type defines the schema for a stream of data being collected by, inserted into, or queried from the Fitness API. */
+  dataType?: DataType | undefined;
   /** DO NOT POPULATE THIS FIELD. It is never populated in responses from the platform, and is ignored in queries. It will be removed in a future version entirely. */
   dataQualityStandard?: DataSourceDataQualityStandardItemEnumList | undefined;
+  /** A unique identifier for the data stream produced by this data source. The identifier includes: - The physical device's manufacturer, model, and serial number (UID). - The application's package name or name. Package name is used when the data source was created by an Android application. The developer project number is used when the data source was created by a REST client. - The data source's type. - The data source's stream name. Note that not all attributes of the data source are used as part of the stream identifier. In particular, the version of the hardware/the application isn't used. This allows us to preserve the same stream through version updates. This also means that two DataSource objects may represent the same data stream even if they're not equal. The exact format of the data stream ID created by an Android application is: type:dataType.name:application.packageName:device.manufacturer:device.model:device.uid:dataStreamName The exact format of the data stream ID created by a REST client is: type:dataType.name:developer project number:device.manufacturer:device.model:device.uid:dataStreamName When any of the optional fields that make up the data stream ID are absent, they will be omitted from the data stream ID. The minimum viable data stream ID would be: type:dataType.name:developer project number Finally, the developer project number and device UID are obfuscated when read by any REST or Android client that did not create the data source. Only the data source creator will see the developer project number in clear and normal form. This means a client will see a different set of data_stream_ids than another client with different credentials. */
+  dataStreamId?: string | undefined;
 }
 export interface CreateUsersDataSourcesRequest {
   /** Create the data source for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
@@ -356,19 +356,19 @@ export interface DeleteUsersDataSourcesRequest {
   dataSourceId: string;
 }
 export interface DeleteUsersDataSourcesDatasetsRequest {
-  /** The data stream ID of the data source that created the dataset. */
-  dataSourceId: string;
   /** Dataset identifier that is a composite of the minimum data point start time and maximum data point end time represented as nanoseconds from the epoch. The ID is formatted like: "startTime-endTime" where startTime and endTime are 64 bit integers. */
   datasetId: string;
+  /** The data stream ID of the data source that created the dataset. */
+  dataSourceId: string;
   /** Delete a dataset for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
   userId: string;
 }
 export interface DeleteUsersDataSourcesDatasetsResponse {}
 export interface DeleteUsersSessionsRequest {
-  /** Delete a session for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
-  userId: string;
   /** The ID of the session to be deleted. */
   sessionId: string;
+  /** Delete a session for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
+  userId: string;
 }
 export interface DeleteUsersSessionsResponse {}
 export interface GetUsersDataSourcesRequest {
@@ -380,14 +380,14 @@ export interface GetUsersDataSourcesRequest {
 export interface GetUsersDataSourcesDatasetsRequest {
   /** Dataset identifier that is a composite of the minimum data point start time and maximum data point end time represented as nanoseconds from the epoch. The ID is formatted like: "startTime-endTime" where startTime and endTime are 64 bit integers. */
   datasetId: string;
-  /** The data stream ID of the data source that created the dataset. */
-  dataSourceId: string;
-  /** If specified, no more than this many data points will be included in the dataset. If there are more data points in the dataset, nextPageToken will be set in the dataset response. The limit is applied from the end of the time range. That is, if pageToken is absent, the limit most recent data points will be returned. */
-  limit?: number | undefined;
   /** The continuation token, which is used to page through large datasets. To get the next page of a dataset, set this parameter to the value of nextPageToken from the previous response. Each subsequent call will yield a partial dataset with data point end timestamps that are strictly smaller than those in the previous partial response. */
   pageToken?: string | undefined;
   /** Retrieve a dataset for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
   userId: string;
+  /** The data stream ID of the data source that created the dataset. */
+  dataSourceId: string;
+  /** If specified, no more than this many data points will be included in the dataset. If there are more data points in the dataset, nextPageToken will be set in the dataset response. The limit is applied from the end of the time range. That is, if pageToken is absent, the limit most recent data points will be returned. */
+  limit?: number | undefined;
 }
 export type StringList = Array<string>;
 export interface ListUsersDataSourcesRequest {
@@ -402,74 +402,74 @@ export interface ListDataSourcesResponse {
   dataSource?: DataSourceList | undefined;
 }
 export interface ListUsersDataSourcesDataPointChangesRequest {
-  /** The data stream ID of the data source that created the dataset. */
-  dataSourceId: string;
   /** List data points for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
   userId: string;
   /** The continuation token, which is used to page through large result sets. To get the next page of results, set this parameter to the value of nextPageToken from the previous response. */
   pageToken?: string | undefined;
+  /** The data stream ID of the data source that created the dataset. */
+  dataSourceId: string;
   /** If specified, no more than this many data point changes will be included in the response. */
   limit?: number | undefined;
 }
 export interface ListDataPointChangesResponse {
-  /** Inserted data points for the user. */
-  insertedDataPoint?: DataPointList | undefined;
   /** The data stream ID of the data source with data point changes. */
   dataSourceId?: string | undefined;
-  /** The continuation token, which is used to page through large result sets. Provide this value in a subsequent request to return the next page of results. */
-  nextPageToken?: string | undefined;
+  /** Inserted data points for the user. */
+  insertedDataPoint?: DataPointList | undefined;
   /** Deleted data points for the user. Note, for modifications this should be parsed before handling insertions. */
   deletedDataPoint?: DataPointList | undefined;
+  /** The continuation token, which is used to page through large result sets. Provide this value in a subsequent request to return the next page of results. */
+  nextPageToken?: string | undefined;
 }
 export type IntegerList = Array<number>;
 export interface ListUsersSessionsRequest {
-  /** An RFC3339 timestamp. Only sessions starting before endTime and ending after startTime up to (endTime + 1 day) will be included in the response. If this time is omitted but startTime is specified, all sessions ending after startTime to the end of time will be returned. */
-  endTime?: string | undefined;
-  /** The continuation token, which is used for incremental syncing. To get the next batch of changes, set this parameter to the value of nextPageToken from the previous response. The page token is ignored if either start or end time is specified. If none of start time, end time, and the page token is specified, sessions modified in the last 30 days are returned. */
-  pageToken?: string | undefined;
-  /** List sessions for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
-  userId: string;
   /** If true, and if both startTime and endTime are omitted, session deletions will be returned. */
   includeDeleted?: boolean | undefined;
-  /** An RFC3339 timestamp. Only sessions starting before endTime and ending after startTime up to (endTime + 1 day) will be included in the response. If this time is omitted but endTime is specified, all sessions starting before endTime and ending after the start of time up to (endTime + 1 day) will be returned. */
-  startTime?: string | undefined;
   /** If non-empty, only sessions with these activity types should be returned. */
   activityType?: IntegerList | undefined;
+  /** List sessions for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
+  userId: string;
+  /** An RFC3339 timestamp. Only sessions starting before endTime and ending after startTime up to (endTime + 1 day) will be included in the response. If this time is omitted but startTime is specified, all sessions ending after startTime to the end of time will be returned. */
+  endTime?: string | undefined;
+  /** An RFC3339 timestamp. Only sessions starting before endTime and ending after startTime up to (endTime + 1 day) will be included in the response. If this time is omitted but endTime is specified, all sessions starting before endTime and ending after the start of time up to (endTime + 1 day) will be returned. */
+  startTime?: string | undefined;
+  /** The continuation token, which is used for incremental syncing. To get the next batch of changes, set this parameter to the value of nextPageToken from the previous response. The page token is ignored if either start or end time is specified. If none of start time, end time, and the page token is specified, sessions modified in the last 30 days are returned. */
+  pageToken?: string | undefined;
 }
 export type SessionList = Array<Session>;
 export interface ListSessionsResponse {
-  /** Flag to indicate server has more data to transfer. DO NOT USE THIS FIELD. It is never populated in responses from the server. */
-  hasMoreData?: boolean | undefined;
-  /** Sessions starting before endTime of the request and ending after startTime of the request up to (endTime of the request + 1 day). */
-  session?: SessionList | undefined;
-  /** The sync token which is used to sync further changes. This will only be provided if both startTime and endTime are omitted from the request. */
-  nextPageToken?: string | undefined;
   /** If includeDeleted is set to true in the request, and startTime and endTime are omitted, this will include sessions which were deleted since the last sync. */
   deletedSession?: SessionList | undefined;
+  /** The sync token which is used to sync further changes. This will only be provided if both startTime and endTime are omitted from the request. */
+  nextPageToken?: string | undefined;
+  /** Sessions starting before endTime of the request and ending after startTime of the request up to (endTime of the request + 1 day). */
+  session?: SessionList | undefined;
+  /** Flag to indicate server has more data to transfer. DO NOT USE THIS FIELD. It is never populated in responses from the server. */
+  hasMoreData?: boolean | undefined;
 }
 export interface PatchUsersDataSourcesDatasetsRequest {
   /** Patch a dataset for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
   userId: string;
-  /** The data stream ID of the data source that created the dataset. */
-  dataSourceId: string;
   /** This field is not used, and can be safely omitted. */
   datasetId: string;
+  /** The data stream ID of the data source that created the dataset. */
+  dataSourceId: string;
   /** Request body */
   body?: Dataset | undefined;
 }
 export interface UpdateUsersDataSourcesRequest {
-  /** Update the data source for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
-  userId: string;
   /** The data stream ID of the data source to update. */
   dataSourceId: string;
+  /** Update the data source for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
+  userId: string;
   /** Request body */
   body?: DataSource | undefined;
 }
 export interface UpdateUsersSessionsRequest {
-  /** The ID of the session to be created. */
-  sessionId: string;
   /** Create sessions for the person identified. Use me to indicate the authenticated user. Only me is supported at this time. */
   userId: string;
+  /** The ID of the session to be created. */
+  sessionId: string;
   /** Request body */
   body?: Session | undefined;
 }
@@ -717,10 +717,10 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           datasetId: S.String.pipe(T.Label()),
-          dataSourceId: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           userId: S.String.pipe(T.Label()),
+          dataSourceId: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -763,9 +763,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataSourceId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          dataSourceId: S.String.pipe(T.Label()),
           limit: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -778,10 +778,10 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          insertedDataPoint: S.optional(__S(134, __c8, 6)),
           dataSourceId: S.optional(S.String),
-          nextPageToken: S.optional(S.String),
+          insertedDataPoint: S.optional(__S(134, __c8, 6)),
           deletedDataPoint: S.optional(__S(134, __c8, 6)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDataPointChangesResponse" });
   }
@@ -793,12 +793,12 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          endTime: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          userId: S.String.pipe(T.Label()),
           includeDeleted: S.optional(S.Boolean.pipe(T.Query())),
-          startTime: S.optional(S.String.pipe(T.Query())),
           activityType: S.optional(__S(48, __c3, 0).pipe(T.Query())),
+          userId: S.String.pipe(T.Label()),
+          endTime: S.optional(S.String.pipe(T.Query())),
+          startTime: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -812,10 +812,10 @@ function __c3(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          hasMoreData: S.optional(S.Boolean),
-          session: S.optional(__S(50, __c3, 2)),
-          nextPageToken: S.optional(S.String),
           deletedSession: S.optional(__S(50, __c3, 2)),
+          nextPageToken: S.optional(S.String),
+          session: S.optional(__S(50, __c3, 2)),
+          hasMoreData: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "ListSessionsResponse" });
   }
@@ -826,8 +826,8 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           userId: S.String.pipe(T.Label()),
-          dataSourceId: S.String.pipe(T.Label()),
           datasetId: S.String.pipe(T.Label()),
+          dataSourceId: S.String.pipe(T.Label()),
           body: S.optional(__S(144, __c9, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -844,8 +844,8 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userId: S.String.pipe(T.Label()),
           dataSourceId: S.String.pipe(T.Label()),
+          userId: S.String.pipe(T.Label()),
           body: S.optional(__S(228, __c14, 4).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -862,8 +862,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sessionId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
+          sessionId: S.String.pipe(T.Label()),
           body: S.optional(__S(160, __c10, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
@@ -880,25 +880,25 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          timeZoneId: S.optional(S.String),
+          type: S.optional(S.String),
+          value: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "BucketByTimePeriod" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          period: S.optional(__S(112, __c7, 0)),
+          durationMillis: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BucketByTime" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           minDurationMillis: S.optional(S.String),
           activityDataSourceId: S.optional(S.String),
         }),
       ).annotate({ identifier: "BucketByActivity" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          timeZoneId: S.optional(S.String),
-          value: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "BucketByTimePeriod" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          durationMillis: S.optional(S.String),
-          period: S.optional(__S(113, __c7, 1)),
-        }),
-      ).annotate({ identifier: "BucketByTime" });
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -917,14 +917,14 @@ function __c7(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          bucketByActivityType: S.optional(__S(112, __c7, 0)),
-          bucketByActivitySegment: S.optional(__S(112, __c7, 0)),
-          filteredDataQualityStandard: S.optional(__S(192, __c12, 0)),
-          bucketByTime: S.optional(__S(114, __c7, 2)),
+          bucketByTime: S.optional(__S(113, __c7, 1)),
           startTimeMillis: S.optional(S.String),
           endTimeMillis: S.optional(S.String),
+          bucketByActivitySegment: S.optional(__S(114, __c7, 2)),
           aggregateBy: S.optional(__S(116, __c7, 4)),
           bucketBySession: S.optional(__S(117, __c7, 5)),
+          filteredDataQualityStandard: S.optional(__S(192, __c12, 0)),
+          bucketByActivityType: S.optional(__S(114, __c7, 2)),
         }),
       ).annotate({ identifier: "AggregateRequest" });
     case 7:
@@ -945,12 +945,12 @@ function __c7(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
+          type: S.optional(S.String),
+          startTimeMillis: S.optional(S.String),
+          dataset: S.optional(__S(120, __c7, 8)),
           activity: S.optional(S.Number),
           endTimeMillis: S.optional(S.String),
           session: S.optional(__S(160, __c10, 0)),
-          dataset: S.optional(__S(120, __c7, 8)),
-          startTimeMillis: S.optional(S.String),
-          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "AggregateBucket" });
     case 10:
@@ -974,8 +974,8 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          key: S.optional(S.String),
           value: S.optional(__S(128, __c8, 0)),
+          key: S.optional(S.String),
         }),
       ).annotate({ identifier: "ValueMapValEntry" });
     case 2:
@@ -983,10 +983,10 @@ function __c8(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          fpVal: S.optional(S.Number),
-          mapVal: S.optional(__S(130, __c8, 2)),
-          stringVal: S.optional(S.String),
           intVal: S.optional(S.Number),
+          fpVal: S.optional(S.Number),
+          stringVal: S.optional(S.String),
+          mapVal: S.optional(__S(130, __c8, 2)),
         }),
       ).annotate({ identifier: "Value" });
     case 4:
@@ -994,14 +994,14 @@ function __c8(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(132, __c8, 4)),
-          rawTimestampNanos: S.optional(S.String),
+          dataTypeName: S.optional(S.String),
           startTimeNanos: S.optional(S.String),
-          computationTimeMillis: S.optional(S.String),
           originDataSourceId: S.optional(S.String),
           endTimeNanos: S.optional(S.String),
-          dataTypeName: S.optional(S.String),
+          rawTimestampNanos: S.optional(S.String),
           modifiedTimeMillis: S.optional(S.String),
+          value: S.optional(__S(132, __c8, 4)),
+          computationTimeMillis: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataPoint" });
     case 6:
@@ -1015,8 +1015,8 @@ function __c9(j: number): any {
         S.Struct({
           point: S.optional(__S(134, __c8, 6)),
           dataSourceId: S.optional(S.String),
-          minStartTimeNs: S.optional(S.String),
           nextPageToken: S.optional(S.String),
+          minStartTimeNs: S.optional(S.String),
           maxEndTimeNs: S.optional(S.String),
         }),
       ).annotate({ identifier: "Dataset" });
@@ -1028,13 +1028,13 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
+          modifiedTimeMillis: S.optional(S.String),
           id: S.optional(S.String),
           application: S.optional(__S(176, __c11, 0)),
-          startTimeMillis: S.optional(S.String),
           activeTimeMillis: S.optional(S.String),
-          activityType: S.optional(S.Number),
           description: S.optional(S.String),
-          modifiedTimeMillis: S.optional(S.String),
+          startTimeMillis: S.optional(S.String),
+          activityType: S.optional(S.Number),
           endTimeMillis: S.optional(S.String),
         }),
       ).annotate({ identifier: "Session" });
@@ -1047,8 +1047,8 @@ function __c11(j: number): any {
         S.Struct({
           packageName: S.optional(S.String),
           name: S.optional(S.String),
-          version: S.optional(S.String),
           detailsUrl: S.optional(S.String),
+          version: S.optional(S.String),
         }),
       ).annotate({ identifier: "Application" });
   }
@@ -1081,19 +1081,19 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          version: S.optional(S.String),
-          type: S.optional(S.String),
           model: S.optional(S.String),
-          manufacturer: S.optional(S.String),
+          type: S.optional(S.String),
           uid: S.optional(S.String),
+          version: S.optional(S.String),
+          manufacturer: S.optional(S.String),
         }),
       ).annotate({ identifier: "Device" });
     case 1:
       return S.suspend(() =>
         S.Struct({
+          name: S.optional(S.String),
           format: S.optional(S.String),
           optional: S.optional(S.Boolean),
-          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataTypeField" });
     case 2:
@@ -1108,14 +1108,14 @@ function __c14(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          dataStreamId: S.optional(S.String),
+          type: S.optional(S.String),
           application: S.optional(__S(176, __c11, 0)),
-          device: S.optional(__S(224, __c14, 0)),
-          dataType: S.optional(__S(227, __c14, 3)),
           name: S.optional(S.String),
           dataStreamName: S.optional(S.String),
-          type: S.optional(S.String),
+          device: S.optional(__S(224, __c14, 0)),
+          dataType: S.optional(__S(227, __c14, 3)),
           dataQualityStandard: S.optional(__S(192, __c12, 0)),
+          dataStreamId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DataSource" });
   }
@@ -1142,8 +1142,8 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dataSourceId: S.String.pipe(T.Label()),
           datasetId: S.String.pipe(T.Label()),
+          dataSourceId: S.String.pipe(T.Label()),
           userId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
@@ -1168,8 +1168,8 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          userId: S.String.pipe(T.Label()),
           sessionId: S.String.pipe(T.Label()),
+          userId: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",

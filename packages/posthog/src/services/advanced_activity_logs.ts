@@ -101,6 +101,30 @@ export interface UserBasic {
   hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
   role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
+/** * `session` - session * `personal_api_key` - personal_api_key * `oauth` - oauth * `project_secret_key` - project_secret_key * `team_secret_token` - team_secret_token * `id_jag` - id_jag * `oidc_workload` - oidc_workload * `internal_jwt` - internal_jwt * `service_jwt` - service_jwt * `internal_api_secret` - internal_api_secret * `scim` - scim * `vercel` - vercel * `partner` - partner * `sharing_access_token` - sharing_access_token * `sharing_password` - sharing_password * `widget_token` - widget_token * `billing_service` - billing_service * `gateway_agent` - gateway_agent * `export_renderer` - export_renderer * `webhook` - webhook * `cross_region_signature` - cross_region_signature * `unattributed` - unattributed */
+export type ActivityLogCredentialTypeEnum =
+  | "session"
+  | "personal_api_key"
+  | "oauth"
+  | "project_secret_key"
+  | "team_secret_token"
+  | "id_jag"
+  | "oidc_workload"
+  | "internal_jwt"
+  | "service_jwt"
+  | "internal_api_secret"
+  | "scim"
+  | "vercel"
+  | "partner"
+  | "sharing_access_token"
+  | "sharing_password"
+  | "widget_token"
+  | "billing_service"
+  | "gateway_agent"
+  | "export_renderer"
+  | "webhook"
+  | "cross_region_signature"
+  | "unattributed";
 export interface ActivityLog {
   id?: string | undefined;
   user?: UserBasic | null | undefined;
@@ -112,6 +136,10 @@ export interface ActivityLog {
   is_system?: boolean | null | undefined;
   client?: string | null | undefined;
   ip_address?: string | null | undefined;
+  /** Kind of credential that authenticated the request that made the change. 'unattributed' means the request recorded no credential. Null for changes made outside a request, such as background jobs, and for entries recorded before PostHog stored the credential. * `session` - session * `personal_api_key` - personal_api_key * `oauth` - oauth * `project_secret_key` - project_secret_key * `team_secret_token` - team_secret_token * `id_jag` - id_jag * `oidc_workload` - oidc_workload * `internal_jwt` - internal_jwt * `service_jwt` - service_jwt * `internal_api_secret` - internal_api_secret * `scim` - scim * `vercel` - vercel * `partner` - partner * `sharing_access_token` - sharing_access_token * `sharing_password` - sharing_password * `widget_token` - widget_token * `billing_service` - billing_service * `gateway_agent` - gateway_agent * `export_renderer` - export_renderer * `webhook` - webhook * `cross_region_signature` - cross_region_signature * `unattributed` - unattributed */
+  credential_type: ActivityLogCredentialTypeEnum | null;
+  /** Id of the credential that authenticated the change: the login session id for 'session', or the key id for 'personal_api_key' and 'project_secret_key'. Null for every other credential type and for impersonated changes. */
+  credential_id: string | null;
   activity?: string | undefined;
   item_id?: string | null | undefined;
   scope?: string | undefined;
@@ -168,6 +196,8 @@ export interface ListAdvancedActivityLogsRequest {
   activities?: ListAdvancedActivityLogsRequestActivitiesList | undefined;
   /** Filter by API clients that generated the activity (the x-posthog-client header, or 'scout:<skill_name>' for a scout run). */
   clients?: ListAdvancedActivityLogsRequestClientsList | undefined;
+  /** The pagination cursor value. */
+  cursor?: string | undefined;
   /** JSON-encoded map of `detail` field paths to {operation, value} filters. Allowed operations: exact, contains, in. */
   detail_filters?: string | undefined;
   /** Upper bound on `created_at` (inclusive), ISO-8601. */
@@ -338,6 +368,8 @@ function __c2(j: number): any {
           is_system: S.optional(S.NullOr(S.Boolean)),
           client: S.optional(S.NullOr(S.String)),
           ip_address: S.optional(S.NullOr(S.String)),
+          credential_type: S.NullOr(S.String),
+          credential_id: S.NullOr(S.String),
           activity: S.optional(S.String),
           item_id: S.optional(S.NullOr(S.String)),
           scope: S.optional(S.String),
@@ -393,6 +425,7 @@ function __c4(j: number): any {
           project_id: S.String.pipe(T.Label()),
           activities: S.optional(__S(32, __c4, 0).pipe(T.Query())),
           clients: S.optional(__S(32, __c4, 0).pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
           detail_filters: S.optional(S.String.pipe(T.Query())),
           end_date: S.optional(S.String.pipe(T.Query())),
           follow: S.optional(S.Boolean.pipe(T.Query())),

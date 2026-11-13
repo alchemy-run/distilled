@@ -369,6 +369,7 @@ export interface MinimalRepository {
   updated_at?: string | null | undefined;
   permissions?: MinimalRepositoryPermissions | undefined;
   role_name?: string | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | undefined;
   delete_branch_on_merge?: boolean | undefined;
   subscribers_count?: number | undefined;
@@ -1082,6 +1083,7 @@ export interface NullableRepository {
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
@@ -1238,6 +1240,7 @@ export interface Repository {
   updated_at: string | null;
   /** Whether to allow rebase merges for pull requests. */
   allow_rebase_merge?: boolean | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | undefined;
   /** Whether to allow squash merges for pull requests. */
   allow_squash_merge?: boolean | undefined;
@@ -1365,6 +1368,7 @@ export interface FullRepository {
   permissions?: FullRepositoryPermissions | undefined;
   allow_rebase_merge?: boolean | undefined;
   template_repository?: NullableRepository | null | undefined;
+  /** When present and non-empty, a temporary credential for read-only Git access to this repository. It expires five minutes after generation and cannot be used to push changes. Treat this value as sensitive and avoid recording it in logs. */
   temp_clone_token?: string | null | undefined;
   allow_squash_merge?: boolean | undefined;
   allow_auto_merge?: boolean | undefined;

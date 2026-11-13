@@ -127,10 +127,10 @@ export interface CreateCustomTrustStoreResponse {
   signature: string;
   /** Status of the zone's custom SSL. */
   status: CustomTrustStoreCreateResponseStatus;
-  /** When the certificate was last modified. */
-  updatedAt: string;
   /** When the certificate was uploaded to Cloudflare. */
   uploadedOn: string;
+  /** When the certificate was last modified. Only returned when uploading a certificate. */
+  updatedAt?: string | null | undefined;
 }
 export interface DeleteCustomTrustStoreRequest {
   /** Identifier. */
@@ -170,10 +170,10 @@ export interface GetCustomTrustStoreResponse {
   signature: string;
   /** Status of the zone's custom SSL. */
   status: CustomTrustStoreGetResponseStatus;
-  /** When the certificate was last modified. */
-  updatedAt: string;
   /** When the certificate was uploaded to Cloudflare. */
   uploadedOn: string;
+  /** When the certificate was last modified. Only returned when uploading a certificate. */
+  updatedAt?: string | null | undefined;
 }
 export interface GetTotalTlRequest {
   /** Identifier. */
@@ -183,11 +183,11 @@ export type TotalTlsGetResponseCertificateAuthority = "google" | "lets_encrypt" 
 export type TotalTlsGetResponseValidityPeriod = 90;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetTotalTlResponse {
-  /** The Certificate Authority that Total TLS certificates will be issued through. */
+  /** The Certificate Authority that Total TLS certificates will be issued through. Not returned in responses when Total TLS is disabled. */
   certificateAuthority?: TotalTlsGetResponseCertificateAuthority | null | undefined;
   /** If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone. */
   enabled?: boolean | null | undefined;
-  /** The validity period in days for the certificates ordered via Total TLS. */
+  /** The validity period in days for the certificates ordered via Total TLS. Not returned when Total TLS is disabled. */
   validityPeriod?: TotalTlsGetResponseValidityPeriod | null | undefined;
 }
 export interface ListCustomTrustStoresRequest {
@@ -222,10 +222,10 @@ export interface CustomTrustStoreListResultItem {
   signature: string;
   /** Status of the zone's custom SSL. */
   status: CustomTrustStoreListResultItemStatus;
-  /** When the certificate was last modified. */
-  updatedAt: string;
   /** When the certificate was uploaded to Cloudflare. */
   uploadedOn: string;
+  /** When the certificate was last modified. Only returned when uploading a certificate. */
+  updatedAt?: string | null | undefined;
 }
 export type CustomTrustStoreListResultList = Array<CustomTrustStoreListResultItem>;
 export interface ListCustomTrustStoresResponse {
@@ -240,18 +240,18 @@ export interface UpdateTotalTlRequest {
   zoneId: string;
   /** If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone. */
   enabled: boolean;
-  /** The Certificate Authority that Total TLS certificates will be issued through. */
+  /** The Certificate Authority that Total TLS certificates will be issued through. Not returned in responses when Total TLS is disabled. */
   certificateAuthority?: TotalTlsEditRequestCertificateAuthority | (string & {}) | undefined;
 }
 export type TotalTlsEditResponseCertificateAuthority = "google" | "lets_encrypt" | "ssl_com";
 export type TotalTlsEditResponseValidityPeriod = 90;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateTotalTlResponse {
-  /** The Certificate Authority that Total TLS certificates will be issued through. */
+  /** The Certificate Authority that Total TLS certificates will be issued through. Not returned in responses when Total TLS is disabled. */
   certificateAuthority?: TotalTlsEditResponseCertificateAuthority | null | undefined;
   /** If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone. */
   enabled?: boolean | null | undefined;
-  /** The validity period in days for the certificates ordered via Total TLS. */
+  /** The validity period in days for the certificates ordered via Total TLS. Not returned when Total TLS is disabled. */
   validityPeriod?: TotalTlsEditResponseValidityPeriod | null | undefined;
 }
 export type UpdateTotalTlsRequestCertificateAuthority = "google" | "lets_encrypt" | "ssl_com";
@@ -260,18 +260,18 @@ export interface UpdateTotalTlsRequest {
   zoneId: string;
   /** If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone. */
   enabled: boolean;
-  /** The Certificate Authority that Total TLS certificates will be issued through. */
+  /** The Certificate Authority that Total TLS certificates will be issued through. Not returned in responses when Total TLS is disabled. */
   certificateAuthority?: UpdateTotalTlsRequestCertificateAuthority | (string & {}) | undefined;
 }
 export type UpdateTotalTlsResponseCertificateAuthority = "google" | "lets_encrypt" | "ssl_com";
 export type UpdateTotalTlsResponseValidityPeriod = 90;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateTotalTlsResponse {
-  /** The Certificate Authority that Total TLS certificates will be issued through. */
+  /** The Certificate Authority that Total TLS certificates will be issued through. Not returned in responses when Total TLS is disabled. */
   certificateAuthority?: UpdateTotalTlsResponseCertificateAuthority | null | undefined;
   /** If enabled, Total TLS will order a hostname specific TLS certificate for any proxied A, AAAA, or CNAME record in your zone. */
   enabled?: boolean | null | undefined;
-  /** The validity period in days for the certificates ordered via Total TLS. */
+  /** The validity period in days for the certificates ordered via Total TLS. Not returned when Total TLS is disabled. */
   validityPeriod?: UpdateTotalTlsResponseValidityPeriod | null | undefined;
 }
 export type CreateCustomTrustStoreError =
@@ -511,8 +511,8 @@ function __c0(j: number): any {
           issuer: S.String,
           signature: S.String,
           status: S.String,
-          updatedAt: S.String.pipe(T.Body("updated_at")),
           uploadedOn: S.String.pipe(T.Body("uploaded_on")),
+          updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
         }),
       ).annotate({ identifier: "CustomTrustStoreListResultItem" });
     case 2:
@@ -580,8 +580,8 @@ function __c4(j: number): any {
           issuer: S.String,
           signature: S.String,
           status: S.String,
-          updatedAt: S.String.pipe(T.Body("updated_at")),
           uploadedOn: S.String.pipe(T.Body("uploaded_on")),
+          updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateCustomTrustStoreResponse" });
   }

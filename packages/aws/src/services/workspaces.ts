@@ -545,6 +545,12 @@ export type OperatingSystemName =
   | "WINDOWS_SERVER_2025"
   | "RHEL_8"
   | "ROCKY_8"
+  | "UBUNTU_24_04"
+  | "RHEL_9"
+  | "ROCKY_9"
+  | "UBUNTU_26_04"
+  | "RHEL_10"
+  | "ROCKY_10"
   | (string & {});
 export type AGAModeForWorkSpaceEnum = "ENABLED_AUTO" | "DISABLED" | "INHERITED" | (string & {});
 export type AGAPreferredProtocolForWorkSpace = "TCP" | "NONE" | "INHERITED" | (string & {});
@@ -1639,6 +1645,7 @@ export type ImageComputeType =
 export type CustomImageProtocol = "PCOIP" | "DCV" | "BYOP" | (string & {});
 export type Platform = "WINDOWS" | (string & {});
 export type OSVersion = "Windows_10" | "Windows_11" | (string & {});
+export type ImageValidationMode = "CUSTOMER_MANAGED" | "SERVICE_MANAGED" | (string & {});
 export interface ImportCustomWorkspaceImageRequest {
   ImageName: string;
   ImageDescription: string;
@@ -1649,6 +1656,7 @@ export interface ImportCustomWorkspaceImageRequest {
   Platform: Platform;
   OsVersion: OSVersion;
   Tags?: Tag[] | undefined;
+  ImageValidationMode?: ImageValidationMode | undefined;
 }
 export interface ImportCustomWorkspaceImageResult {
   ImageId?: string | undefined;
@@ -2508,7 +2516,7 @@ export type CreateWorkspacesError =
  * Core.
  *
  * - You don't need to specify the `PCOIP` protocol for Linux bundles
- * because `DCV` (formerly WSP) is the default protocol for those bundles.
+ * because DCV (formerly WSP) is the default protocol for those bundles.
  *
  * - User-decoupled WorkSpaces are only supported by Amazon WorkSpaces
  * Core.
@@ -6798,6 +6806,7 @@ function __c102(j: number): any {
           Platform: S.String,
           OsVersion: S.String,
           Tags: S.optional(__S(465, __c29, 1)),
+          ImageValidationMode: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ImportCustomWorkspaceImageRequest" });
     case 1:

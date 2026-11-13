@@ -485,7 +485,7 @@ export const getAuditEvents: API.OperationMethod<
 }));
 
 export type GetAuditEventsV2Error = OnepasswordOpError;
-/** Retrieves audit events for actions performed by team members within a 1Password account This endpoint requires your JSON Web Token to have the *auditevents* feature. */
+/** Retrieve audit events (v2) This endpoint requires your JSON Web Token to have the *auditevents* feature. */
 export const getAuditEventsV2: API.OperationMethod<
   GetAuditEventsV2Request,
   GetAuditEventsV2Response,
@@ -502,7 +502,7 @@ export const getAuditEventsV2: API.OperationMethod<
 }));
 
 export type GetAuthIntrospectV2Error = OnepasswordOpError;
-/** Performs introspection of the provided Bearer JWT token */
+/** Introspect bearer token (v2) */
 export const getAuthIntrospectV2: API.OperationMethod<
   GetAuthIntrospectV2Request,
   IntrospectionV2,
@@ -536,7 +536,7 @@ export const getItemUsages: API.OperationMethod<
 }));
 
 export type GetItemUsagesV2Error = OnepasswordOpError;
-/** Retrieves events for each usage of an item stored in a shared vault within a 1Password account This endpoint requires your JSON Web Token to have the *itemusages* feature. */
+/** Retrieve item usages (v2) This endpoint requires your JSON Web Token to have the *itemusages* feature. */
 export const getItemUsagesV2: API.OperationMethod<
   GetItemUsagesV2Request,
   GetItemUsagesV2Response,
@@ -570,7 +570,7 @@ export const getSignInAttempts: API.OperationMethod<
 }));
 
 export type GetSignInAttemptsV2Error = OnepasswordOpError;
-/** Retrieves events for both successful and failed attempts to sign into a 1Password account This endpoint requires your JSON Web Token to have the *signinattempts* feature. */
+/** Retrieve sign-in attempts (v2) This endpoint requires your JSON Web Token to have the *signinattempts* feature. */
 export const getSignInAttemptsV2: API.OperationMethod<
   GetSignInAttemptsV2Request,
   GetSignInAttemptsV2Response,

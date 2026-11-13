@@ -30,10 +30,9 @@ export interface CreateBlobRequest {
   contentLength?: string | undefined;
 }
 export type StringList = Array<string>;
-/** Server time of the check. Clients send the earliest one back as earliest_checked_at on the commit. */
 export interface MultiPartUpload {
-  partLength: string;
   /** split upload based on this part length - all except the last part must have this length */
+  partLength: string;
   uploadUrls: StringList;
   completionUrl: string;
 }
@@ -54,6 +53,7 @@ export interface CreateBlobResponse {
 }
 export interface GetBlobRequest {
   blobId?: string | undefined;
+  functionId?: string | undefined;
 }
 export interface GetBlobResponse {
   downloadUrl: string;
@@ -145,6 +145,7 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           blobId: S.optional(S.String),
+          functionId: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/BlobGet", code: 200 })),
       ).annotate({ identifier: "GetBlobRequest" });
     case 1:

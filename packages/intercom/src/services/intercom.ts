@@ -78,13 +78,13 @@ export interface ArchiveContactRequest {
 export type ArchiveContactResponseType = "contact";
 export interface ArchiveContactResponse {
   /** always contact */
-  type?: ArchiveContactResponseType;
+  type?: ArchiveContactResponseType | undefined;
   /** The unique identifier for the contact which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier for the contact which is provided by the Client. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Whether the contact is archived or not. */
-  archived?: boolean;
+  archived?: boolean | undefined;
 }
 /** The author that created the message. */
 export type FinAgentMessageAuthor = "user" | "agent" | "fin";
@@ -97,7 +97,7 @@ export interface FinAgentMessage {
   /** The timestamp when the message was created. Used to deduplicate messages sent within a 5 minute window. Ideally should include milliseconds for higher precision. */
   timestamp: string;
   /** The timestamp when the message was created, with millisecond precision. Only present in webhook event responses (fin_replied). */
-  timestamp_ms?: string;
+  timestamp_ms?: string | undefined;
 }
 /** A hash of attributes associated with the user. Attributes can be used by Fin to target content and responses. Limit to 10 attributes. */
 export type FinAgentUserAttributesMap = { [key: string]: unknown | undefined };
@@ -106,22 +106,22 @@ export interface FinAgentUser {
   /** The ID of the user. This value will be used to uniquely identify the user during a conversation with Fin. Maps to the user_id field on the Intercom User object. */
   id: string;
   /** The name of the user. */
-  name?: string;
+  name?: string | undefined;
   /** The email of the user. */
-  email?: string;
+  email?: string | undefined;
   /** A hash of attributes associated with the user. Attributes can be used by Fin to target content and responses. Limit to 10 attributes. */
-  attributes?: FinAgentUserAttributesMap;
+  attributes?: FinAgentUserAttributesMap | undefined;
 }
 /** An array of previous messages in the conversation before Fin is initialized. This data provides context to Fin and helps generate a better answer. Limit to the last 10 messages. */
 export type FinAgentConversationMetadataHistoryList = Array<FinAgentMessage>;
-/** A hash of attributes associated with the conversation. These attributes can be used by Fin to provide more contextual responses. Limit to 10 attributes. */
+/** A hash of attributes associated with the conversation. These attributes can be used by Fin to provide more contextual responses. Limit to 20 attributes. */
 export type FinAgentConversationMetadataAttributesMap = { [key: string]: unknown | undefined };
 /** Metadata about the conversation, including history and attributes. */
 export interface FinAgentConversationMetadata {
   /** An array of previous messages in the conversation before Fin is initialized. This data provides context to Fin and helps generate a better answer. Limit to the last 10 messages. */
-  history?: FinAgentConversationMetadataHistoryList;
-  /** A hash of attributes associated with the conversation. These attributes can be used by Fin to provide more contextual responses. Limit to 10 attributes. */
-  attributes?: FinAgentConversationMetadataAttributesMap;
+  history?: FinAgentConversationMetadataHistoryList | undefined;
+  /** A hash of attributes associated with the conversation. These attributes can be used by Fin to provide more contextual responses. Limit to 20 attributes. */
+  attributes?: FinAgentConversationMetadataAttributesMap | undefined;
 }
 /** The type of attachment. */
 export type FinAgentAttachmentType = "url" | "file";
@@ -130,13 +130,13 @@ export interface FinAgentAttachment {
   /** The type of attachment. */
   type: FinAgentAttachmentType | (string & {});
   /** The URL of the attachment. Required when type is 'url'. Must be publicly accessible. */
-  url?: string;
+  url?: string | undefined;
   /** The name of the file. Required when type is 'file'. */
-  name?: string;
+  name?: string | undefined;
   /** The MIME type of the file. Required when type is 'file'. */
-  content_type?: string;
+  content_type?: string | undefined;
   /** Base64-encoded file data. Required when type is 'file'. */
-  data?: string;
+  data?: string | undefined;
 }
 /** An array of attachments to include with the message. Maximum of 10 attachments. */
 export type AskFinRequestAttachmentsList = Array<FinAgentAttachment>;
@@ -145,9 +145,11 @@ export interface AskFinRequest {
   conversation_id: string;
   message: FinAgentMessage;
   user: FinAgentUser;
-  conversation_metadata?: FinAgentConversationMetadata;
+  conversation_metadata?: FinAgentConversationMetadata | undefined;
   /** An array of attachments to include with the message. Maximum of 10 attachments. */
-  attachments?: AskFinRequestAttachmentsList;
+  attachments?: AskFinRequestAttachmentsList | undefined;
+  /** The identifier of the environment to start the conversation in, if your Fin for Platforms workspace has environments. Use the same value as `messenger_environment` in your Messenger installation. Defaults to the workspace's default environment; an identifier that matches no environment is rejected. */
+  environment?: string | undefined;
 }
 /** Fin's current status in the conversation workflow. */
 export type AskFinResponseStatus = "thinking" | "replying" | "resolved" | "complete";
@@ -156,7 +158,7 @@ export type FinAgentAttributeErrorsUserAttributesMap = { [key: string]: string |
 /** User-related attribute errors. */
 export interface FinAgentAttributeErrorsUser {
   /** Map of user attribute names to error messages. */
-  attributes?: FinAgentAttributeErrorsUserAttributesMap;
+  attributes?: FinAgentAttributeErrorsUserAttributesMap | undefined;
 }
 /** Map of conversation attribute names to error messages. */
 export type FinAgentAttributeErrorsConversationAttributesMap = {
@@ -165,29 +167,27 @@ export type FinAgentAttributeErrorsConversationAttributesMap = {
 /** Conversation-related attribute errors. */
 export interface FinAgentAttributeErrorsConversation {
   /** Map of conversation attribute names to error messages. */
-  attributes?: FinAgentAttributeErrorsConversationAttributesMap;
+  attributes?: FinAgentAttributeErrorsConversationAttributesMap | undefined;
 }
 /** Contains error details if any user or conversation attribute updates failed. */
 export interface FinAgentAttributeErrors {
   /** User-related attribute errors. */
-  user?: FinAgentAttributeErrorsUser;
+  user?: FinAgentAttributeErrorsUser | undefined;
   /** Conversation-related attribute errors. */
-  conversation?: FinAgentAttributeErrorsConversation;
+  conversation?: FinAgentAttributeErrorsConversation | undefined;
 }
 export interface AskFinResponse {
   /** The external ID of the conversation. */
-  conversation_id?: string;
+  conversation_id?: string | undefined;
   /** The internal Intercom conversation ID, useful for matching this Agent API session to the conversation in Intercom. */
-  intercom_conversation_id?: string;
+  intercom_conversation_id?: string | undefined;
   /** The ID of the user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Fin's current status in the conversation workflow. */
-  status?: AskFinResponseStatus;
+  status?: AskFinResponseStatus | undefined;
   /** The timestamp the response was created at, with millisecond precision. */
-  created_at_ms?: string;
-  errors?: FinAgentAttributeErrors;
-  /** Optional. A URL to subscribe to Server-Sent Events (SSE) for this conversation, if SSE is enabled. The access token is a JWT with a 3-minute TTL. The token is revoked when Fin sets the conversation to complete status. When CSAT is enabled and a survey will follow the resolution, `complete` revocation is deferred until the `csat_requested` event is delivered or the token expires. */
-  sse_subscription_url?: string;
+  created_at_ms?: string | undefined;
+  errors?: FinAgentAttributeErrors | undefined;
 }
 export interface AttachContactToACompanyRequest {
   /** The unique identifier for the contact which is given by Intercom */
@@ -199,11 +199,11 @@ export interface AttachContactToACompanyRequest {
 export type CompanyType = "company";
 export interface CompanyPlan {
   /** Value is always "plan" */
-  type?: string;
+  type?: string | undefined;
   /** The id of the plan */
-  id?: string;
+  id?: string | undefined;
   /** The name of the plan */
-  name?: string;
+  name?: string | undefined;
 }
 /** The custom attributes you have set on the company. */
 export type CompanyCustomAttributesMap = { [key: string]: string | undefined };
@@ -212,18 +212,18 @@ export type CompanyTagsType = "tag.list";
 /** A tag allows you to label your contacts, companies, and conversations and list them using that tag. */
 export interface TagBasic {
   /** value is "tag" */
-  type?: string;
+  type?: string | undefined;
   /** The id of the tag */
-  id?: string;
+  id?: string | undefined;
   /** The name of the tag */
-  name?: string;
+  name?: string | undefined;
 }
 export type CompanyTagsTagsList = Array<TagBasic>;
 /** The list of tags associated with the company */
 export interface CompanyTags {
   /** The type of the object */
-  type?: CompanyTagsType;
-  tags?: CompanyTagsTagsList;
+  type?: CompanyTagsType | undefined;
+  tags?: CompanyTagsTagsList | undefined;
 }
 /** The type of the object */
 export type CompanySegmentsType = "segment.list";
@@ -234,35 +234,35 @@ export type SegmentPersonType = "contact" | "user";
 /** A segment is a group of your contacts defined by the rules that you set. */
 export interface Segment {
   /** The type of object. */
-  type?: SegmentType;
+  type?: SegmentType | undefined;
   /** The unique identifier representing the segment. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the segment. */
-  name?: string;
+  name?: string | undefined;
   /** The time the segment was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the segment was updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Type of the contact: contact (lead) or user. */
-  person_type?: SegmentPersonType;
+  person_type?: SegmentPersonType | undefined;
   /** The number of items in the user segment. It's returned when `include_count=true` is included in the request. */
-  count?: number | null;
+  count?: number | null | undefined;
 }
 export type CompanySegmentsSegmentsList = Array<Segment>;
 /** The list of segments associated with the company */
 export interface CompanySegments {
   /** The type of the object */
-  type?: CompanySegmentsType;
-  segments?: CompanySegmentsSegmentsList;
+  type?: CompanySegmentsType | undefined;
+  segments?: CompanySegmentsSegmentsList | undefined;
 }
 /** The type of the object */
 export type CompanyNotesType = "note.list";
 /** Represents the company that the note was created about. */
 export interface CompanyNoteCompany {
   /** String representing the object's type. Always has the value `company`. */
-  type?: string;
+  type?: string | undefined;
   /** The id of the company. */
-  id?: string;
+  id?: string | undefined;
 }
 /** This object represents the avatar associated with the admin. */
 export type AdminTeamIdsList = Array<number>;
@@ -273,110 +273,110 @@ export type TeamPriorityLevelSecondaryTeamIdsList = Array<number>;
 /** Admin priority levels for teams */
 export interface TeamPriorityLevel {
   /** The primary team ids for the team */
-  primary_team_ids?: TeamPriorityLevelPrimaryTeamIdsList | null;
+  primary_team_ids?: TeamPriorityLevelPrimaryTeamIdsList | null | undefined;
   /** The secondary team ids for the team */
-  secondary_team_ids?: TeamPriorityLevelSecondaryTeamIdsList | null;
+  secondary_team_ids?: TeamPriorityLevelSecondaryTeamIdsList | null | undefined;
 }
 /** The role assigned to this admin. Only present if the admin has a role assigned. */
 export interface AdminRole {
   /** String representing the object's type. Always has the value `role`. */
-  type?: string;
+  type?: string | undefined;
   /** The id of the role. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the role. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Admins are teammate accounts that have access to a workspace. */
 export interface Admin {
   /** String representing the object's type. Always has the value `admin`. */
-  type?: string;
+  type?: string | undefined;
   /** The id representing the admin. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the admin. */
-  name?: string;
+  name?: string | undefined;
   /** The email of the admin. */
-  email?: string;
+  email?: string | undefined;
   /** The job title of the admin. */
-  job_title?: string;
+  job_title?: string | undefined;
   /** Identifies if this admin is currently set in away mode. */
-  away_mode_enabled?: boolean;
+  away_mode_enabled?: boolean | undefined;
   /** Identifies if this admin is set to automatically reassign new conversations to the apps default inbox. */
-  away_mode_reassign?: boolean;
+  away_mode_reassign?: boolean | undefined;
   /** The unique identifier of the away status reason */
-  away_status_reason_id?: number | null;
+  away_status_reason_id?: number | null | undefined;
   /** Identifies if this admin has a paid inbox seat to restrict/allow features that require them. */
-  has_inbox_seat?: boolean;
+  has_inbox_seat?: boolean | undefined;
   /** This object represents the avatar associated with the admin. */
-  team_ids?: AdminTeamIdsList;
+  team_ids?: AdminTeamIdsList | undefined;
   /** Image for the associated team or teammate */
-  avatar?: string | null;
-  team_priority_level?: TeamPriorityLevel | null;
+  avatar?: string | null | undefined;
+  team_priority_level?: TeamPriorityLevel | null | undefined;
   /** The role assigned to this admin. Only present if the admin has a role assigned. */
-  role?: AdminRole | null;
+  role?: AdminRole | null | undefined;
 }
 /** Notes allow you to annotate and comment on companies. */
 export interface CompanyNote {
   /** String representing the object's type. Always has the value `note`. */
-  type?: string;
+  type?: string | undefined;
   /** The id of the note. */
-  id?: string;
+  id?: string | undefined;
   /** The time the note was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** Represents the company that the note was created about. */
-  company?: CompanyNoteCompany | null;
+  company?: CompanyNoteCompany | null | undefined;
   /** Optional. Represents the Admin that created the note. */
-  author?: Admin | null;
+  author?: Admin | null | undefined;
   /** The body text of the note. */
-  body?: string;
+  body?: string | undefined;
 }
 export type CompanyNotesNotesList = Array<CompanyNote>;
 /** The list of notes associated with the company */
 export interface CompanyNotes {
   /** The type of the object */
-  type?: CompanyNotesType;
-  notes?: CompanyNotesNotesList;
+  type?: CompanyNotesType | undefined;
+  notes?: CompanyNotesNotesList | undefined;
 }
 /** Companies allow you to represent organizations using your product. Each company will have its own description and be associated with contacts. You can fetch, create, update and list companies. */
 export interface Company {
   /** Value is `company` */
-  type?: CompanyType;
+  type?: CompanyType | undefined;
   /** The Intercom defined id representing the company. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the company. */
-  name?: string;
+  name?: string | undefined;
   /** The Intercom defined code of the workspace the company is associated to. */
-  app_id?: string;
-  plan?: CompanyPlan;
+  app_id?: string | undefined;
+  plan?: CompanyPlan | undefined;
   /** The company id you have defined for the company. */
-  company_id?: string;
+  company_id?: string | undefined;
   /** The time the company was created by you. */
-  remote_created_at?: number;
+  remote_created_at?: number | undefined;
   /** The time the company was added in Intercom. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The last time the company was updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** The time the company last recorded making a request. */
-  last_request_at?: number;
+  last_request_at?: number | undefined;
   /** The number of employees in the company. */
-  size?: number;
+  size?: number | undefined;
   /** The URL for the company website. */
-  website?: string;
+  website?: string | undefined;
   /** The industry that the company operates in. */
-  industry?: string;
+  industry?: string | undefined;
   /** How much revenue the company generates for your business. */
-  monthly_spend?: number;
+  monthly_spend?: number | undefined;
   /** How many sessions the company has recorded. */
-  session_count?: number;
+  session_count?: number | undefined;
   /** The number of users in the company. */
-  user_count?: number;
+  user_count?: number | undefined;
   /** The custom attributes you have set on the company. */
-  custom_attributes?: CompanyCustomAttributesMap;
+  custom_attributes?: CompanyCustomAttributesMap | undefined;
   /** The list of tags associated with the company */
-  tags?: CompanyTags;
+  tags?: CompanyTags | undefined;
   /** The list of segments associated with the company */
-  segments?: CompanySegments;
+  segments?: CompanySegments | undefined;
   /** The list of notes associated with the company */
-  notes?: CompanyNotes;
+  notes?: CompanyNotes | undefined;
 }
 export interface CustomerRequestCase0 {
   /** The identifier for the contact as given by Intercom. */
@@ -394,17 +394,17 @@ export type CustomerRequest = CustomerRequestCase0 | CustomerRequestCase1 | Cust
 export interface AttachContactToConversationRequestCustomerCase0 {
   /** The identifier for the contact as given by Intercom. */
   intercom_user_id: string;
-  customer?: CustomerRequest | null;
+  customer?: CustomerRequest | null | undefined;
 }
 export interface AttachContactToConversationRequestCustomerCase1 {
   /** The external_id you have defined for the contact who is being added as a participant. */
   user_id: string;
-  customer?: CustomerRequest | null;
+  customer?: CustomerRequest | null | undefined;
 }
 export interface AttachContactToConversationRequestCustomerCase2 {
   /** The email you have defined for the contact who is being added as a participant. */
   email: string;
-  customer?: CustomerRequest | null;
+  customer?: CustomerRequest | null | undefined;
 }
 export type AttachContactToConversationRequestCustomer =
   | AttachContactToConversationRequestCustomerCase0
@@ -414,8 +414,8 @@ export interface AttachContactToConversationRequest {
   /** The identifier for the conversation as given by Intercom. */
   conversation_id: string;
   /** The `id` of the admin who is adding the new participant. */
-  admin_id?: string;
-  customer?: AttachContactToConversationRequestCustomer;
+  admin_id?: string | undefined;
+  customer?: AttachContactToConversationRequestCustomer | undefined;
 }
 export interface ConversationParticipantsResponseCustomersItem {
   /** The role of the participant. Can be "user" or "lead" */
@@ -444,11 +444,11 @@ export type SubscriptionTypeState = "live" | "draft" | "archived";
 /** A translation object contains the localised details of a subscription type. */
 export interface Translation {
   /** The localised name of the subscription type. */
-  name?: string;
+  name?: string | undefined;
   /** The localised description of the subscription type. */
-  description?: string;
+  description?: string | undefined;
   /** The two character identifier for the language of the translation object. */
-  locale?: string;
+  locale?: string | undefined;
 }
 /** An array of translations objects with the localised version of the subscription type in each available locale within your translation settings. */
 export type SubscriptionTypeTranslationsList = Array<Translation>;
@@ -460,18 +460,18 @@ export type SubscriptionTypeContentTypesList = Array<SubscriptionTypeContentType
 /** A subscription type lets customers easily opt out of non-essential communications without missing what's important to them. */
 export interface SubscriptionType {
   /** The type of the object - subscription */
-  type?: string;
+  type?: string | undefined;
   /** The unique identifier representing the subscription type. */
-  id?: string;
+  id?: string | undefined;
   /** The state of the subscription type. */
-  state?: SubscriptionTypeState;
-  default_translation?: Translation;
+  state?: SubscriptionTypeState | undefined;
+  default_translation?: Translation | undefined;
   /** An array of translations objects with the localised version of the subscription type in each available locale within your translation settings. */
-  translations?: SubscriptionTypeTranslationsList;
+  translations?: SubscriptionTypeTranslationsList | undefined;
   /** Describes the type of consent. */
-  consent_type?: SubscriptionTypeConsentType;
+  consent_type?: SubscriptionTypeConsentType | undefined;
   /** The message types that this subscription supports - can contain `email` or `sms_message`. */
-  content_types?: SubscriptionTypeContentTypesList;
+  content_types?: SubscriptionTypeContentTypesList | undefined;
 }
 export interface AttachTagToArticleRequest {
   /** The unique identifier for the article which is given by Intercom. */
@@ -479,25 +479,25 @@ export interface AttachTagToArticleRequest {
   /** The unique identifier of the tag to apply, as given by Intercom. */
   id: string;
   /** Optional id of the teammate to attribute the tagging to. Defaults to the authenticating teammate. Does not affect authorization. */
-  admin_id?: string | null;
+  admin_id?: string | null | undefined;
 }
 /** reference to another object */
 export interface Reference {
-  type?: string;
-  id?: string | null;
+  type?: string | undefined;
+  id?: string | null | undefined;
 }
 /** A tag allows you to label your contacts, companies, and conversations and list them using that tag. */
 export interface Tag {
   /** value is "tag" */
-  type?: string;
+  type?: string | undefined;
   /** The id of the tag */
-  id?: string;
+  id?: string | undefined;
   /** The name of the tag */
-  name?: string;
+  name?: string | undefined;
   /** The time when the tag was applied to the object. Only present when the tag is returned as part of a tagging operation on a contact, conversation, or ticket. */
-  applied_at?: number | null;
+  applied_at?: number | null | undefined;
   /** The admin who applied the tag. Only present when the tag is returned as part of a tagging operation on a contact, conversation, or ticket. */
-  applied_by?: Reference | null;
+  applied_by?: Reference | null | undefined;
 }
 export interface AttachTagToContactRequest {
   /** The unique identifier for the contact which is given by Intercom */
@@ -511,7 +511,7 @@ export interface AttachTagToContentSnippetRequest {
   /** The unique identifier of the tag to apply, as given by Intercom. */
   id: string;
   /** Optional id of the teammate to attribute the tagging to. Defaults to the authenticating teammate. Does not affect authorization. */
-  admin_id?: string | null;
+  admin_id?: string | null | undefined;
 }
 export interface AttachTagToConversationRequest {
   /** conversation_id */
@@ -527,7 +527,7 @@ export interface AttachTagToInternalArticleRequest {
   /** The unique identifier of the tag to apply, as given by Intercom. */
   id: string;
   /** Optional id of the teammate to attribute the tagging to. Defaults to the authenticating teammate. Does not affect authorization. */
-  admin_id?: string | null;
+  admin_id?: string | null | undefined;
 }
 export interface AttachTagToTicketRequest {
   /** ticket_id */
@@ -545,13 +545,13 @@ export interface BlockContactRequest {
 export type BlockContactResponseType = "contact";
 export interface BlockContactResponse {
   /** always contact */
-  type?: BlockContactResponseType;
+  type?: BlockContactResponseType | undefined;
   /** The unique identifier for the contact which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier for the contact which is provided by the Client. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Always true. */
-  blocked?: boolean;
+  blocked?: boolean | undefined;
 }
 /** The bulk action to perform. Allowed `content_ids[].type` values vary per action: * `publish`, `unpublish`: `article_content` * `delete`: `article_content`, `content_snippet`, `file_source_content`, `internal_article` * `set_availability`, `set_audience`: `article_content`, `content_snippet`, `external_content`, `file_source_content`, `internal_article` * `update_tags`: `article` (the parent Article id, not `article_content`), `content_snippet`, `external_content`, `file_source_content`, `internal_article` */
 export type BulkContentActionsRequestAction =
@@ -578,11 +578,11 @@ export type BulkContentActionsRequestContentIdsList =
 /** Required when `action` is `set_availability`. Each field is optional -- only the properties present in the request are toggled. */
 export interface BulkContentActionsRequestAvailability {
   /** Toggle Fin AI Agent availability. */
-  ai_agent?: boolean;
+  ai_agent?: boolean | undefined;
   /** Toggle Copilot availability. */
-  copilot?: boolean;
+  copilot?: boolean | undefined;
   /** Toggle Sales Agent availability. */
-  sales_agent?: boolean;
+  sales_agent?: boolean | undefined;
 }
 /** Segment IDs to assign to the selected content. */
 export type BulkContentActionsRequestAudienceAddSegmentIdsList = Array<number>;
@@ -591,11 +591,11 @@ export type BulkContentActionsRequestAudienceRemoveSegmentIdsList = Array<number
 /** Required when `action` is `set_audience`. Manages segment membership. */
 export interface BulkContentActionsRequestAudience {
   /** Segment IDs to assign to the selected content. */
-  add_segment_ids?: BulkContentActionsRequestAudienceAddSegmentIdsList;
+  add_segment_ids?: BulkContentActionsRequestAudienceAddSegmentIdsList | undefined;
   /** Segment IDs to remove from the selected content. */
-  remove_segment_ids?: BulkContentActionsRequestAudienceRemoveSegmentIdsList;
+  remove_segment_ids?: BulkContentActionsRequestAudienceRemoveSegmentIdsList | undefined;
   /** When `true`, removes all segments from the selected content. */
-  remove_all?: boolean;
+  remove_all?: boolean | undefined;
 }
 /** Tag IDs to apply to the selected content. */
 export type BulkContentActionsRequestTagsAddTagIdsList = Array<number>;
@@ -604,9 +604,9 @@ export type BulkContentActionsRequestTagsRemoveTagIdsList = Array<number>;
 /** Required when `action` is `update_tags`. Applies and/or removes existing tags. Supply at least one of `add_tag_ids` / `remove_tag_ids`. At most 100 distinct tag IDs may be supplied across `add_tag_ids` and `remove_tag_ids` combined. Tag IDs must reference existing, non-archived tags; exceeding the limit or referencing unknown or archived IDs is rejected with `parameter_invalid` (HTTP 422). */
 export interface BulkContentActionsRequestTags {
   /** Tag IDs to apply to the selected content. */
-  add_tag_ids?: BulkContentActionsRequestTagsAddTagIdsList;
+  add_tag_ids?: BulkContentActionsRequestTagsAddTagIdsList | undefined;
   /** Tag IDs to remove from the selected content. */
-  remove_tag_ids?: BulkContentActionsRequestTagsRemoveTagIdsList;
+  remove_tag_ids?: BulkContentActionsRequestTagsRemoveTagIdsList | undefined;
 }
 export interface BulkContentActionsRequest {
   /** The bulk action to perform. Allowed `content_ids[].type` values vary per action: * `publish`, `unpublish`: `article_content` * `delete`: `article_content`, `content_snippet`, `file_source_content`, `internal_article` * `set_availability`, `set_audience`: `article_content`, `content_snippet`, `external_content`, `file_source_content`, `internal_article` * `update_tags`: `article` (the parent Article id, not `article_content`), `content_snippet`, `external_content`, `file_source_content`, `internal_article` */
@@ -614,11 +614,11 @@ export interface BulkContentActionsRequest {
   /** Up to 1,000 content items to apply the action to. */
   content_ids: BulkContentActionsRequestContentIdsList;
   /** Required when `action` is `set_availability`. Each field is optional -- only the properties present in the request are toggled. */
-  availability?: BulkContentActionsRequestAvailability;
+  availability?: BulkContentActionsRequestAvailability | undefined;
   /** Required when `action` is `set_audience`. Manages segment membership. */
-  audience?: BulkContentActionsRequestAudience;
+  audience?: BulkContentActionsRequestAudience | undefined;
   /** Required when `action` is `update_tags`. Applies and/or removes existing tags. Supply at least one of `add_tag_ids` / `remove_tag_ids`. At most 100 distinct tag IDs may be supplied across `add_tag_ids` and `remove_tag_ids` combined. Tag IDs must reference existing, non-archived tags; exceeding the limit or referencing unknown or archived IDs is rejected with `parameter_invalid` (HTTP 422). */
-  tags?: BulkContentActionsRequestTags;
+  tags?: BulkContentActionsRequestTags | undefined;
 }
 export interface BulkContentActionsResponse {}
 export interface CancelDataExportRequest {
@@ -636,13 +636,13 @@ export type DataExportStatus =
 /** The data export API is used to export message delivery and engagement statistics for outbound content (Emails, Posts, Custom Bots, Surveys, Tours, Series, and more) sent in a given timeframe. The exported data includes who received each message, when they received it, and how they engaged with it (opens, clicks, replies, completions, dismissals, unsubscribes, and bounces). */
 export interface DataExport {
   /** The identifier for your job. */
-  job_identifier?: string;
+  job_identifier?: string | undefined;
   /** The current state of your job. */
-  status?: DataExportStatus;
+  status?: DataExportStatus | undefined;
   /** The time after which you will not be able to access the data. */
-  download_expires_at?: string;
+  download_expires_at?: string | undefined;
   /** The location where you can download your data. */
-  download_url?: string;
+  download_url?: string | undefined;
 }
 export interface ChangeTicketTypeRequest {
   /** The unique identifier for the ticket which is given by Intercom. */
@@ -652,7 +652,7 @@ export interface ChangeTicketTypeRequest {
   /** The ID of the ticket state for the new ticket type. */
   ticket_state_id: string;
   /** The attributes to set on the ticket for the new type. Attributes matching by name and type are transferred automatically from the old type; values provided here override the transferred values. */
-  ticket_attributes?: unknown;
+  ticket_attributes?: unknown | undefined;
 }
 /** Always ticket */
 export type TicketType = "ticket";
@@ -661,19 +661,19 @@ export type TicketCategory = "Customer" | "Back-office" | "Tracker";
 export type TicketCustomAttributesValueCase3List = Array<unknown>;
 /** The value describing a file upload set for a custom attribute */
 export interface FileAttribute {
-  type?: string;
+  type?: string | undefined;
   /** The name of the file */
-  name?: string;
+  name?: string | undefined;
   /** The url of the file. This is a temporary URL and will expire after 30 minutes. */
-  url?: string;
+  url?: string | undefined;
   /** The type of file */
-  content_type?: string;
+  content_type?: string | undefined;
   /** The size of the file in bytes */
-  filesize?: number;
+  filesize?: number | undefined;
   /** The width of the file in pixels, if applicable */
-  width?: number;
+  width?: number | undefined;
   /** The height of the file in pixels, if applicable */
-  height?: number;
+  height?: number | undefined;
 }
 export type TicketCustomAttributesValue =
   | string
@@ -688,98 +688,98 @@ export type TicketStateCategory = "submitted" | "in_progress" | "waiting_on_cust
 /** A ticket state, used to define the state of a ticket. */
 export interface TicketState {
   /** String representing the object's type. Always has the value `ticket_state`. */
-  type?: string;
+  type?: string | undefined;
   /** The id of the ticket state */
-  id?: string;
+  id?: string | undefined;
   /** The category of the ticket state */
-  category?: TicketStateCategory;
+  category?: TicketStateCategory | undefined;
   /** The state the ticket is currently in, in a human readable form - visible in Intercom */
-  internal_label?: string;
+  internal_label?: string | undefined;
   /** The state the ticket is currently in, in a human readable form - visible to customers, in the messenger, email and tickets portal. */
-  external_label?: string;
+  external_label?: string | undefined;
 }
 /** Category of the Ticket Type. */
 export type TicketTypeCategory = "Customer" | "Back-office" | "Tracker";
 /** Ticket type attribute, used to define each data field to be captured in a ticket. */
 export interface TicketTypeAttribute {
   /** String representing the object's type. Always has the value `ticket_type_attribute`. */
-  type?: string;
+  type?: string | undefined;
   /** The id representing the ticket type attribute. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the workspace that the ticket type attribute belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The name of the ticket type attribute */
-  name?: string;
+  name?: string | undefined;
   /** The description of the ticket type attribute */
-  description?: string;
+  description?: string | undefined;
   /** The type of the data attribute (allowed values: "string list integer decimal boolean datetime files") */
-  data_type?: string;
+  data_type?: string | undefined;
   /** Input options for the attribute */
-  input_options?: unknown;
+  input_options?: unknown | undefined;
   /** The order of the attribute against other attributes */
-  order?: number;
+  order?: number | undefined;
   /** Whether the attribute is required or not for teammates. */
-  required_to_create?: boolean;
+  required_to_create?: boolean | undefined;
   /** Whether the attribute is required or not for contacts. */
-  required_to_create_for_contacts?: boolean;
+  required_to_create_for_contacts?: boolean | undefined;
   /** Whether the attribute is visible or not to teammates. */
-  visible_on_create?: boolean;
+  visible_on_create?: boolean | undefined;
   /** Whether the attribute is visible or not to contacts. */
-  visible_to_contacts?: boolean;
+  visible_to_contacts?: boolean | undefined;
   /** Whether the attribute is built in or not. */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The id of the ticket type that the attribute belongs to. */
-  ticket_type_id?: number;
+  ticket_type_id?: number | undefined;
   /** Whether the ticket type attribute is archived or not. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** The date and time the ticket type attribute was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The date and time the ticket type attribute was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
 }
 /** A list of ticket type attributes associated with a given ticket type. */
 export type TicketTypeAttributeListTicketTypeAttributesList = Array<TicketTypeAttribute | null>;
 /** A list of attributes associated with a given ticket type. */
 export interface TicketTypeAttributeList {
   /** String representing the object's type. Always has the value `ticket_type_attributes.list`. */
-  type?: string;
+  type?: string | undefined;
   /** A list of ticket type attributes associated with a given ticket type. */
-  ticket_type_attributes?: TicketTypeAttributeListTicketTypeAttributesList;
+  ticket_type_attributes?: TicketTypeAttributeListTicketTypeAttributesList | undefined;
 }
 /** A list of ticket states associated with a given ticket type. */
 export type TicketTypeTicketStatesDataList = Array<TicketState | null>;
 /** A list of ticket states associated with a given ticket type. */
 export interface TicketTypeTicketStates {
   /** String representing the object's type. Always has the value `list`. */
-  type?: string;
+  type?: string | undefined;
   /** A list of ticket states associated with a given ticket type. */
-  data?: TicketTypeTicketStatesDataList;
+  data?: TicketTypeTicketStatesDataList | undefined;
 }
 /** A ticket type, used to define the data fields to be captured in a ticket. */
 export interface TicketType2 {
   /** String representing the object's type. Always has the value `ticket_type`. */
-  type?: string;
+  type?: string | undefined;
   /** The id representing the ticket type. */
-  id?: string;
+  id?: string | undefined;
   /** Category of the Ticket Type. */
-  category?: TicketTypeCategory;
+  category?: TicketTypeCategory | undefined;
   /** The name of the ticket type */
-  name?: string;
+  name?: string | undefined;
   /** The description of the ticket type */
-  description?: string;
+  description?: string | undefined;
   /** The icon of the ticket type */
-  icon?: string;
+  icon?: string | undefined;
   /** The id of the workspace that the ticket type belongs to. */
-  workspace_id?: string;
-  ticket_type_attributes?: TicketTypeAttributeList;
+  workspace_id?: string | undefined;
+  ticket_type_attributes?: TicketTypeAttributeList | undefined;
   /** A list of ticket states associated with a given ticket type. */
-  ticket_states?: TicketTypeTicketStates;
+  ticket_states?: TicketTypeTicketStates | undefined;
   /** Whether the ticket type is archived or not. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** The date and time the ticket type was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The date and time the ticket type was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
 }
 /** always contact.list */
 export type TicketContactsType = "contact.list";
@@ -788,20 +788,20 @@ export type ContactReferenceType = "contact";
 /** reference to contact object */
 export interface ContactReference {
   /** always contact */
-  type?: ContactReferenceType;
+  type?: ContactReferenceType | undefined;
   /** The unique identifier for the contact which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier for the contact which is provided by the Client. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
 }
 /** The list of contacts affected by this ticket. */
 export type TicketContactsContactsList = Array<ContactReference>;
 /** The list of contacts affected by a ticket. */
 export interface TicketContacts {
   /** always contact.list */
-  type?: TicketContactsType;
+  type?: TicketContactsType | undefined;
   /** The list of contacts affected by this ticket. */
-  contacts?: TicketContactsContactsList;
+  contacts?: TicketContactsContactsList | undefined;
 }
 /** Always list. */
 export type LinkedObjectListType = "list";
@@ -812,24 +812,24 @@ export type LinkedObjectCategory = "Customer" | "Back-office" | "Tracker";
 /** A linked conversation or ticket. */
 export interface LinkedObject {
   /** ticket or conversation */
-  type?: LinkedObjectType;
+  type?: LinkedObjectType | undefined;
   /** The ID of the linked object */
-  id?: string;
+  id?: string | undefined;
   /** Category of the Linked Ticket Object. */
-  category?: LinkedObjectCategory | null;
+  category?: LinkedObjectCategory | null | undefined;
 }
 /** An array containing the linked conversations and linked tickets. */
 export type LinkedObjectListDataList = Array<LinkedObject>;
 /** An object containing metadata about linked conversations and linked tickets. Up to 1000 can be returned. */
 export interface LinkedObjectList {
   /** Always list. */
-  type?: LinkedObjectListType;
+  type?: LinkedObjectListType | undefined;
   /** The total number of linked objects. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** Whether or not there are more linked objects than returned. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** An array containing the linked conversations and linked tickets. */
-  data?: LinkedObjectListDataList;
+  data?: LinkedObjectListDataList | undefined;
 }
 export type TicketPartsType = "ticket_part.list";
 /** The previous state of the ticket. */
@@ -849,37 +849,38 @@ export type TicketPartAuthorType = "admin" | "bot" | "team" | "user";
 /** The author that wrote or triggered the part. Can be a bot, admin, team or user. */
 export interface TicketPartAuthor {
   /** The type of the author */
-  type?: TicketPartAuthorType;
+  type?: TicketPartAuthorType | undefined;
   /** The id of the author */
-  id?: string;
+  id?: string | undefined;
   /** The name of the author */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The email of the author */
-  email?: string;
+  email?: string | undefined;
 }
 /** The file attached to a part */
 export interface PartAttachment {
   /** The type of attachment */
-  type?: string;
+  type?: string | undefined;
   /** The name of the attachment */
-  name?: string;
+  name?: string | undefined;
   /** The URL of the attachment */
-  url?: string;
+  url?: string | undefined;
   /** The content type of the attachment */
-  content_type?: string;
+  content_type?: string | undefined;
   /** The size of the attachment */
-  filesize?: number;
+  filesize?: number | undefined;
   /** The width of the attachment */
-  width?: number;
+  width?: number | undefined;
   /** The height of the attachment */
-  height?: number;
+  height?: number | undefined;
 }
 /** A list of attachments for the part. */
 export type TicketPartAttachmentsList = Array<PartAttachment>;
-/** A map of the reply text keyed by locale code. Backs the `ticket.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale. */
+/** A map of the reply text keyed by locale code. Backs the `ticket.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in, when it is known; every other key holds the reply translated into that locale. */
 export interface TicketPartTranslations {
   /** The locale code identifying the language the reply was originally written in. */
-  original: string;
+  original?: string | undefined;
+  [key: string]: unknown;
 }
 /** The type of the object. Always 'attribute'. */
 export type TicketPartUpdatedAttributeDataAttributeType = "attribute";
@@ -921,78 +922,80 @@ export interface TicketPartUpdatedAttributeData {
 /** A Ticket Part represents a message in the ticket. */
 export interface TicketPart {
   /** Always ticket_part */
-  type?: string;
+  type?: string | undefined;
   /** The id representing the ticket part. */
-  id?: string;
+  id?: string | undefined;
   /** The type of ticket part. */
-  part_type?: string;
+  part_type?: string | undefined;
   /** The message body, which may contain HTML. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** The previous state of the ticket. */
-  previous_ticket_state?: TicketPartPreviousTicketState;
+  previous_ticket_state?: TicketPartPreviousTicketState | undefined;
   /** The state of the ticket. */
-  ticket_state?: TicketPartTicketState;
+  ticket_state?: TicketPartTicketState | undefined;
   /** The time the ticket part was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The last time the ticket part was updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** The assignee this ticket_part assigned the ticket to, as a reference whose `type` is `admin`, `team` or `bot`. When the part unassigned the ticket, `type` is `nobody_admin` and `id` is `null`. Null when the part did not change the assignment, or when the assignee has since been deleted. */
-  assigned_to?: Reference | null;
-  author?: TicketPartAuthor;
+  assigned_to?: Reference | null | undefined;
+  author?: TicketPartAuthor | undefined;
   /** A list of attachments for the part. */
-  attachments?: TicketPartAttachmentsList;
+  attachments?: TicketPartAttachmentsList | undefined;
   /** The external id of the ticket part */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Whether or not the ticket part has been redacted. */
-  redacted?: boolean;
+  redacted?: boolean | undefined;
   /** The app package code if this part was created via API. Note this field won't show if the part was not created via API. */
-  app_package_code?: string;
-  /** A map of the reply text keyed by locale code. Backs the `ticket.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale. */
-  translations?: TicketPartTranslations | null;
+  app_package_code?: string | undefined;
+  /** A map of the reply text keyed by locale code. Backs the `ticket.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in, when it is known; every other key holds the reply translated into that locale. */
+  translations?: TicketPartTranslations | null | undefined;
   /** The updated attribute data of the ticket part. Only present for attribute update parts. */
-  updated_attribute_data?: TicketPartUpdatedAttributeData | null;
+  updated_attribute_data?: TicketPartUpdatedAttributeData | null | undefined;
 }
 /** A list of Ticket Part objects for each ticket. There is a limit of 500 parts. */
 export type TicketPartsTicketPartsList = Array<TicketPart>;
 /** A list of Ticket Part objects for each note and event in the ticket. There is a limit of 500 parts. */
 export interface TicketParts {
-  type?: TicketPartsType;
+  type?: TicketPartsType | undefined;
   /** A list of Ticket Part objects for each ticket. There is a limit of 500 parts. */
-  ticket_parts?: TicketPartsTicketPartsList;
-  total_count?: number;
+  ticket_parts?: TicketPartsTicketPartsList | undefined;
+  total_count?: number | undefined;
 }
 /** Tickets are how you track requests from your users. */
 export interface Ticket {
   /** Always ticket */
-  type?: TicketType;
+  type?: TicketType | undefined;
   /** The unique identifier for the ticket which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The ID of the Ticket used in the Intercom Inbox and Messenger. Do not use ticket_id for API queries. */
-  ticket_id?: string;
+  ticket_id?: string | undefined;
   /** Category of the Ticket. */
-  category?: TicketCategory;
-  ticket_attributes?: TicketCustomAttributes;
-  ticket_state?: TicketState | null;
-  ticket_type?: TicketType2 | null;
-  contacts?: TicketContacts;
+  category?: TicketCategory | undefined;
+  /** The channel the ticket was created through. Defaults to messenger when no channel is specified at creation. */
+  channel?: string | null | undefined;
+  ticket_attributes?: TicketCustomAttributes | undefined;
+  ticket_state?: TicketState | null | undefined;
+  ticket_type?: TicketType2 | null | undefined;
+  contacts?: TicketContacts | undefined;
   /** The id representing the admin assigned to the ticket. If it's not assigned to an admin it will return 0. */
-  admin_assignee_id?: number;
+  admin_assignee_id?: number | undefined;
   /** The id representing the team assigned to the ticket. If it's not assigned to a team it will return 0. */
-  team_assignee_id?: number;
+  team_assignee_id?: number | undefined;
   /** The time the ticket was created as a UTC Unix timestamp. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The last time the ticket was updated as a UTC Unix timestamp. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Whether or not the ticket is open. If false, the ticket is closed. */
-  open?: boolean;
+  open?: boolean | undefined;
   /** The time the ticket will be snoozed until as a UTC Unix timestamp. If null, the ticket is not currently snoozed. */
-  snoozed_until?: number;
-  linked_objects?: LinkedObjectList;
-  ticket_parts?: TicketParts;
+  snoozed_until?: number | undefined;
+  linked_objects?: LinkedObjectList | undefined;
+  ticket_parts?: TicketParts | undefined;
   /** Whether or not the ticket is shared with the customer. */
-  is_shared?: boolean;
+  is_shared?: boolean | undefined;
   /** The ID of the previous ticket state from the most recent state change. Returns null if no state change history exists. Useful for tracking state transitions for reporting and compliance. */
-  previous_ticket_state_id?: string | null;
+  previous_ticket_state_id?: string | null | undefined;
 }
 export interface CollectFinVoiceCallByExternalIdRequest {
   /** The external call identifier from the call provider */
@@ -1005,25 +1008,27 @@ export type AiCallResponseIntentList = Array<unknown>;
 /** Response containing information about a Fin Voice call */
 export interface AiCallResponse {
   /** The unique identifier for the external reference */
-  id?: number;
+  id?: number | undefined;
   /** The workspace identifier */
-  app_id?: number;
+  app_id?: number | undefined;
   /** Phone number in E.164 format for the call */
-  user_phone_number?: string;
+  user_phone_number?: string | undefined;
   /** Status of the call. Can be "registered", "in-progress", or a resolution state */
-  status?: string;
+  status?: string | undefined;
   /** The Intercom call identifier, if the call has been matched */
-  intercom_call_id?: string | null;
+  intercom_call_id?: string | null | undefined;
   /** The external call identifier from the call provider */
-  external_call_id?: string;
+  external_call_id?: string | undefined;
   /** The Intercom conversation identifier, if a conversation has been created */
-  intercom_conversation_id?: string | null;
+  intercom_conversation_id?: string | null | undefined;
   /** Array of transcript entries for the call */
-  call_transcript?: AiCallResponseCallTranscriptList;
+  call_transcript?: AiCallResponseCallTranscriptList | undefined;
   /** Summary of the call conversation, truncated to 256 characters. Empty string if no summary available. */
-  call_summary?: string;
+  call_summary?: string | undefined;
   /** Array of intent classifications for the call */
-  intent?: AiCallResponseIntentList;
+  intent?: AiCallResponseIntentList | undefined;
+  /** The metadata object supplied when the call was registered, returned verbatim. Empty object when none was supplied. */
+  data?: unknown | undefined;
 }
 export interface CollectFinVoiceCallByIdRequest {
   /** The external reference ID */
@@ -1033,7 +1038,6 @@ export interface CollectFinVoiceCallByPhoneNumberRequest {
   /** Phone number in E.164 format */
   phone_number: string;
 }
-export interface CollectFinVoiceCallByPhoneNumberResponse {}
 export interface CollectFinVoiceCallsByConversationIdRequest {
   /** The Intercom conversation identifier */
   conversation_id: string;
@@ -1057,8 +1061,8 @@ export interface ConvertConversationToTicketRequest {
   /** The ID of the type of ticket you want to convert the conversation to */
   ticket_type_id: string;
   /** The ID of the ticket state associated with the ticket type. */
-  ticket_state_id?: string;
-  attributes?: TicketRequestCustomAttributes;
+  ticket_state_id?: string | undefined;
+  attributes?: TicketRequestCustomAttributes | undefined;
 }
 export interface ConvertVisitorRequest {
   /** Represents the role of the Contact model. Accepts `lead` or `user`. */
@@ -1070,199 +1074,199 @@ export interface ConvertVisitorRequest {
 }
 export interface ContactAvatar {
   /** The type of object */
-  type?: string;
+  type?: string | undefined;
   /** An image URL containing the avatar of a contact. */
-  image_url?: string | null;
+  image_url?: string | null | undefined;
 }
 /** A list used to access other resources from a parent model. */
 export interface AddressableList {
   /** The addressable object type */
-  type?: string;
+  type?: string | undefined;
   /** The id of the addressable object */
-  id?: string;
+  id?: string | undefined;
   /** Url to get more company resources for this contact */
-  url?: string;
+  url?: string | undefined;
 }
 /** This object represents the tags attached to a contact. */
 export type ContactTagsDataList = Array<AddressableList>;
 /** An object containing tags meta data about the tags that a contact has. Up to 10 will be displayed here. Use the url to get more. */
 export interface ContactTags {
   /** This object represents the tags attached to a contact. */
-  data?: ContactTagsDataList;
+  data?: ContactTagsDataList | undefined;
   /** url to get more tag resources for this contact */
-  url?: string;
+  url?: string | undefined;
   /** Int representing the total number of tags attached to this contact */
-  total_count?: number;
+  total_count?: number | undefined;
   /** Whether there's more Addressable Objects to be viewed. If true, use the url to view all */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 /** This object represents the notes attached to a contact. */
 export type ContactNotesDataList = Array<AddressableList>;
 /** An object containing notes meta data about the notes that a contact has. Up to 10 will be displayed here. Use the url to get more. */
 export interface ContactNotes {
   /** This object represents the notes attached to a contact. */
-  data?: ContactNotesDataList;
+  data?: ContactNotesDataList | undefined;
   /** Url to get more company resources for this contact */
-  url?: string;
+  url?: string | undefined;
   /** Int representing the total number of companyies attached to this contact */
-  total_count?: number;
+  total_count?: number | undefined;
   /** Whether there's more Addressable Objects to be viewed. If true, use the url to view all */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 /** The type of the object. Always company. */
 export type CompanyDataType = "company";
 /** An object containing data about the companies that a contact is associated with. */
 export interface CompanyData {
   /** The unique identifier for the company which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The type of the object. Always company. */
-  type?: CompanyDataType;
+  type?: CompanyDataType | undefined;
   /** The relative URL of the company. */
-  url?: string;
+  url?: string | undefined;
 }
 /** An array of company data objects attached to the contact. */
 export type ContactCompaniesDataList = Array<CompanyData>;
 /** An object with metadata about companies attached to a contact . Up to 10 will be displayed here. Use the url to get more. */
 export interface ContactCompanies {
   /** An array of company data objects attached to the contact. */
-  data?: ContactCompaniesDataList;
+  data?: ContactCompaniesDataList | undefined;
   /** Url to get more company resources for this contact */
-  url?: string;
+  url?: string | undefined;
   /** Integer representing the total number of companies attached to this contact */
-  total_count?: number;
+  total_count?: number | undefined;
   /** Whether there's more Addressable Objects to be viewed. If true, use the url to view all */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 /** An object containing location meta data about a Intercom contact. */
 export interface ContactLocation {
   /** Always location */
-  type?: string | null;
+  type?: string | null | undefined;
   /** The country that the contact is located in */
-  country?: string | null;
+  country?: string | null | undefined;
   /** The overal region that the contact is located in */
-  region?: string | null;
+  region?: string | null | undefined;
   /** The city that the contact is located in */
-  city?: string | null;
+  city?: string | null | undefined;
 }
 /** A Social Profile allows you to label your contacts, companies, and conversations and list them using that Social Profile. */
 export interface SocialProfile {
   /** value is "social_profile" */
-  type?: string;
+  type?: string | undefined;
   /** The name of the Social media profile */
-  name?: string;
+  name?: string | undefined;
   /** The name of the Social media profile */
-  url?: string;
+  url?: string | undefined;
 }
 /** A list of social profiles objects associated with the contact. */
 export type ContactSocialProfilesDataList = Array<SocialProfile>;
 /** An object containing social profiles that a contact has. */
 export interface ContactSocialProfiles {
   /** A list of social profiles objects associated with the contact. */
-  data?: ContactSocialProfilesDataList;
+  data?: ContactSocialProfilesDataList | undefined;
 }
 /** The role of the contact that was merged in. */
 export type MergeHistoryItemSourceContactRole = "lead" | "user";
 /** A record of a contact that was merged into another contact. */
 export interface MergeHistoryItem {
   /** The type of object. */
-  type?: string;
+  type?: string | undefined;
   /** The Intercom ID of the contact that was merged into this contact. */
-  source_contact_id?: string;
+  source_contact_id?: string | undefined;
   /** The role of the contact that was merged in. */
-  source_contact_role?: MergeHistoryItemSourceContactRole;
+  source_contact_role?: MergeHistoryItemSourceContactRole | undefined;
   /** (Unix timestamp in seconds) The time when the merge occurred. */
-  merged_at?: number | null;
+  merged_at?: number | null | undefined;
 }
 /** A list of contacts that were merged into this contact. Only included in the response when `include_merge_history=true` is passed as a query parameter. Only available for contacts with a `user` role. */
 export type ContactMergeHistoryList = Array<MergeHistoryItem>;
 /** Contacts represent your leads and users in Intercom. */
 export interface Contact {
   /** The type of object. */
-  type?: string;
+  type?: string | undefined;
   /** The unique identifier for the contact which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier for the contact which is provided by the Client. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The id of the workspace which the contact belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The role of the contact. */
-  role?: string;
+  role?: string | undefined;
   /** The contact's email. */
-  email?: string;
+  email?: string | undefined;
   /** The contact's email domain. */
-  email_domain?: string;
+  email_domain?: string | undefined;
   /** The contacts phone. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** The contacts name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The id of an admin that has been assigned account ownership of the contact. */
-  owner_id?: string | null;
+  owner_id?: string | null | undefined;
   /** Whether the contact has had an email sent to them hard bounce. */
-  has_hard_bounced?: boolean;
+  has_hard_bounced?: boolean | undefined;
   /** Whether the contact has marked an email sent to them as spam. */
-  marked_email_as_spam?: boolean;
+  marked_email_as_spam?: boolean | undefined;
   /** Whether the contact is unsubscribed from emails. */
-  unsubscribed_from_emails?: boolean;
+  unsubscribed_from_emails?: boolean | undefined;
   /** (Unix timestamp in seconds) The time when the contact was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** (Unix timestamp in seconds) The time specified for when a contact signed up. */
-  signed_up_at?: number | null;
+  signed_up_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last seen (either where the Intercom Messenger was installed or when specified manually). */
-  last_seen_at?: number | null;
+  last_seen_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last messaged in. */
-  last_replied_at?: number | null;
+  last_replied_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last messaged. */
-  last_contacted_at?: number | null;
+  last_contacted_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last opened an email. */
-  last_email_opened_at?: number | null;
+  last_email_opened_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last clicked a link in an email. */
-  last_email_clicked_at?: number | null;
+  last_email_clicked_at?: number | null | undefined;
   /** A preferred language setting for the contact, used by the Intercom Messenger even if their browser settings change. */
-  language_override?: string | null;
+  language_override?: string | null | undefined;
   /** The name of the browser which the contact is using. */
-  browser?: string | null;
+  browser?: string | null | undefined;
   /** The version of the browser which the contact is using. */
-  browser_version?: string | null;
+  browser_version?: string | null | undefined;
   /** The language set by the browser which the contact is using. */
-  browser_language?: string | null;
+  browser_language?: string | null | undefined;
   /** The operating system which the contact is using. */
-  os?: string | null;
+  os?: string | null | undefined;
   /** The name of the Android app which the contact is using. */
-  android_app_name?: string | null;
+  android_app_name?: string | null | undefined;
   /** The version of the Android app which the contact is using. */
-  android_app_version?: string | null;
+  android_app_version?: string | null | undefined;
   /** The Android device which the contact is using. */
-  android_device?: string | null;
+  android_device?: string | null | undefined;
   /** The version of the Android OS which the contact is using. */
-  android_os_version?: string | null;
+  android_os_version?: string | null | undefined;
   /** The version of the Android SDK which the contact is using. */
-  android_sdk_version?: string | null;
+  android_sdk_version?: string | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last seen on an Android device. */
-  android_last_seen_at?: number | null;
+  android_last_seen_at?: number | null | undefined;
   /** The name of the iOS app which the contact is using. */
-  ios_app_name?: string | null;
+  ios_app_name?: string | null | undefined;
   /** The version of the iOS app which the contact is using. */
-  ios_app_version?: string | null;
+  ios_app_version?: string | null | undefined;
   /** The iOS device which the contact is using. */
-  ios_device?: string | null;
+  ios_device?: string | null | undefined;
   /** The version of iOS which the contact is using. */
-  ios_os_version?: string | null;
+  ios_os_version?: string | null | undefined;
   /** The version of the iOS SDK which the contact is using. */
-  ios_sdk_version?: string | null;
+  ios_sdk_version?: string | null | undefined;
   /** (Unix timestamp in seconds) The last time the contact used the iOS app. */
-  ios_last_seen_at?: number | null;
+  ios_last_seen_at?: number | null | undefined;
   /** The custom attributes which are set for the contact. */
-  custom_attributes?: unknown;
-  avatar?: ContactAvatar | null;
-  tags?: ContactTags | null;
-  notes?: ContactNotes;
-  companies?: ContactCompanies;
-  location?: ContactLocation;
-  social_profiles?: ContactSocialProfiles;
+  custom_attributes?: unknown | undefined;
+  avatar?: ContactAvatar | null | undefined;
+  tags?: ContactTags | null | undefined;
+  notes?: ContactNotes | undefined;
+  companies?: ContactCompanies | undefined;
+  location?: ContactLocation | undefined;
+  social_profiles?: ContactSocialProfiles | undefined;
   /** A list of contacts that were merged into this contact. Only included in the response when `include_merge_history=true` is passed as a query parameter. Only available for contacts with a `user` role. */
-  merge_history?: ContactMergeHistoryList | null;
+  merge_history?: ContactMergeHistoryList | null | undefined;
 }
 /** Whether the article will be `published` or will be a `draft`. Defaults to draft. For multilingual articles, this will be the state of the default language's content. */
 export type CreateArticleRequestState = "published" | "draft";
@@ -1277,116 +1281,116 @@ export type ArticleContentInputAudienceIdsList = Array<number>;
 /** The Content of an Article. */
 export interface ArticleContentInput {
   /** The type of object - `article_content` . */
-  type?: ArticleContentInputType | (string & {}) | null;
+  type?: ArticleContentInputType | (string & {}) | null | undefined;
   /** The title of the article. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the article. */
-  description?: string;
+  description?: string | undefined;
   /** The body of the article in HTML. */
-  body?: string;
+  body?: string | undefined;
   /** The body of the article in markdown. */
-  body_markdown?: string | null;
+  body_markdown?: string | null | undefined;
   /** The ID of the author of the article. */
-  author_id?: number;
+  author_id?: number | undefined;
   /** Whether the article is `published` or is a `draft` . */
-  state?: ArticleContentInputState | (string & {});
+  state?: ArticleContentInputState | (string & {}) | undefined;
   /** The time when the article was created (seconds). */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time when the article was last updated (seconds). */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Whether this locale's published content has unpublished changes staged as a draft on top of its live content. */
-  has_unpublished_changes?: boolean;
+  has_unpublished_changes?: boolean | undefined;
   /** The time, in seconds, when this locale's staged draft was last edited, or `null` when there is no staged draft. */
-  draft_updated_at?: number | null;
+  draft_updated_at?: number | null | undefined;
   /** The URL of the article. */
-  url?: string;
+  url?: string | undefined;
   /** The list of audience IDs this article content is targeted to for Fin AI Agent. On multilingual help centers this field appears per-locale inside `translated_content`. On single-language help centers it appears at the article root level. Empty array means no audience targeting is set. */
-  audience_ids?: ArticleContentInputAudienceIdsList | null;
+  audience_ids?: ArticleContentInputAudienceIdsList | null | undefined;
   /** Whether the article is available for AI Chatbot. */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the article is available for AI Copilot. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the article is available for AI Sales Agent. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
 }
 /** The Translated Content of an Article. The keys are the locale codes and the values are the translated content of the article. */
 export interface ArticleTranslatedContentInput {
   /** The type of object - article_translated_content. */
-  type?: ArticleTranslatedContentInputType | (string & {}) | null;
+  type?: ArticleTranslatedContentInputType | (string & {}) | null | undefined;
   /** The content of the article in Arabic */
-  ar?: ArticleContentInput | null;
+  ar?: ArticleContentInput | null | undefined;
   /** The content of the article in Bulgarian */
-  bg?: ArticleContentInput | null;
+  bg?: ArticleContentInput | null | undefined;
   /** The content of the article in Bosnian */
-  bs?: ArticleContentInput | null;
+  bs?: ArticleContentInput | null | undefined;
   /** The content of the article in Catalan */
-  ca?: ArticleContentInput | null;
+  ca?: ArticleContentInput | null | undefined;
   /** The content of the article in Czech */
-  cs?: ArticleContentInput | null;
+  cs?: ArticleContentInput | null | undefined;
   /** The content of the article in Danish */
-  da?: ArticleContentInput | null;
+  da?: ArticleContentInput | null | undefined;
   /** The content of the article in German */
-  de?: ArticleContentInput | null;
+  de?: ArticleContentInput | null | undefined;
   /** The content of the article in Greek */
-  el?: ArticleContentInput | null;
+  el?: ArticleContentInput | null | undefined;
   /** The content of the article in English */
-  en?: ArticleContentInput | null;
+  en?: ArticleContentInput | null | undefined;
   /** The content of the article in Spanish */
-  es?: ArticleContentInput | null;
+  es?: ArticleContentInput | null | undefined;
   /** The content of the article in Estonian */
-  et?: ArticleContentInput | null;
+  et?: ArticleContentInput | null | undefined;
   /** The content of the article in Finnish */
-  fi?: ArticleContentInput | null;
+  fi?: ArticleContentInput | null | undefined;
   /** The content of the article in French */
-  fr?: ArticleContentInput | null;
+  fr?: ArticleContentInput | null | undefined;
   /** The content of the article in Hebrew */
-  he?: ArticleContentInput | null;
+  he?: ArticleContentInput | null | undefined;
   /** The content of the article in Croatian */
-  hr?: ArticleContentInput | null;
+  hr?: ArticleContentInput | null | undefined;
   /** The content of the article in Hungarian */
-  hu?: ArticleContentInput | null;
+  hu?: ArticleContentInput | null | undefined;
   /** The content of the article in Indonesian */
-  id?: ArticleContentInput | null;
+  id?: ArticleContentInput | null | undefined;
   /** The content of the article in Italian */
-  it?: ArticleContentInput | null;
+  it?: ArticleContentInput | null | undefined;
   /** The content of the article in Japanese */
-  ja?: ArticleContentInput | null;
+  ja?: ArticleContentInput | null | undefined;
   /** The content of the article in Korean */
-  ko?: ArticleContentInput | null;
+  ko?: ArticleContentInput | null | undefined;
   /** The content of the article in Lithuanian */
-  lt?: ArticleContentInput | null;
+  lt?: ArticleContentInput | null | undefined;
   /** The content of the article in Latvian */
-  lv?: ArticleContentInput | null;
+  lv?: ArticleContentInput | null | undefined;
   /** The content of the article in Mongolian */
-  mn?: ArticleContentInput | null;
+  mn?: ArticleContentInput | null | undefined;
   /** The content of the article in Norwegian */
-  nb?: ArticleContentInput | null;
+  nb?: ArticleContentInput | null | undefined;
   /** The content of the article in Dutch */
-  nl?: ArticleContentInput | null;
+  nl?: ArticleContentInput | null | undefined;
   /** The content of the article in Polish */
-  pl?: ArticleContentInput | null;
+  pl?: ArticleContentInput | null | undefined;
   /** The content of the article in Portuguese (Portugal) */
-  pt?: ArticleContentInput | null;
+  pt?: ArticleContentInput | null | undefined;
   /** The content of the article in Romanian */
-  ro?: ArticleContentInput | null;
+  ro?: ArticleContentInput | null | undefined;
   /** The content of the article in Russian */
-  ru?: ArticleContentInput | null;
+  ru?: ArticleContentInput | null | undefined;
   /** The content of the article in Slovenian */
-  sl?: ArticleContentInput | null;
+  sl?: ArticleContentInput | null | undefined;
   /** The content of the article in Serbian */
-  sr?: ArticleContentInput | null;
+  sr?: ArticleContentInput | null | undefined;
   /** The content of the article in Swedish */
-  sv?: ArticleContentInput | null;
+  sv?: ArticleContentInput | null | undefined;
   /** The content of the article in Turkish */
-  tr?: ArticleContentInput | null;
+  tr?: ArticleContentInput | null | undefined;
   /** The content of the article in Vietnamese */
-  vi?: ArticleContentInput | null;
+  vi?: ArticleContentInput | null | undefined;
   /** The content of the article in Portuguese (Brazil) */
-  pt_BR?: ArticleContentInput | null;
+  pt_BR?: ArticleContentInput | null | undefined;
   /** The content of the article in Chinese (China) */
-  zh_CN?: ArticleContentInput | null;
+  zh_CN?: ArticleContentInput | null | undefined;
   /** The content of the article in Chinese (Taiwan) */
-  zh_TW?: ArticleContentInput | null;
+  zh_TW?: ArticleContentInput | null | undefined;
 }
 /** The list of audience IDs to assign to this article for Fin AI Agent targeting. Sending a top-level `audience_ids` broadcasts the same set to every locale. For per-locale targeting, use `translated_content.<locale>.audience_ids` instead. Sending both top-level and per-locale in the same request causes top-level to win. Unknown audience IDs return a 404 error. No partial commit occurs. */
 export type CreateArticleRequestAudienceIdsList = Array<number>;
@@ -1394,32 +1398,32 @@ export interface CreateArticleRequest {
   /** The title of the article.For multilingual articles, this will be the title of the default language's content. */
   title: string;
   /** The description of the article. For multilingual articles, this will be the description of the default language's content. */
-  description?: string;
+  description?: string | undefined;
   /** The content of the article in HTML. For multilingual articles, this will be the body of the default language's content. Mutually exclusive with `body_markdown`. */
-  body?: string;
+  body?: string | undefined;
   /** The content of the article in markdown. For multilingual articles, this will be the body of the default language's content. An alternative to `body` -- you can provide content as markdown instead of HTML. Mutually exclusive with `body`. */
-  body_markdown?: string;
+  body_markdown?: string | undefined;
   /** The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace. */
   author_id: number;
   /** Whether the article will be `published` or will be a `draft`. Defaults to draft. For multilingual articles, this will be the state of the default language's content. */
-  state?: CreateArticleRequestState | (string & {});
+  state?: CreateArticleRequestState | (string & {}) | undefined;
   /** The id of the article's parent collection or section. An article without this field stands alone. */
-  parent_id?: number;
+  parent_id?: number | undefined;
   /** The type of parent, which can either be a `collection` or `section`. */
-  parent_type?: string;
-  translated_content?: ArticleTranslatedContentInput | null;
+  parent_type?: string | undefined;
+  translated_content?: ArticleTranslatedContentInput | null | undefined;
   /** The list of audience IDs to assign to this article for Fin AI Agent targeting. Sending a top-level `audience_ids` broadcasts the same set to every locale. For per-locale targeting, use `translated_content.<locale>.audience_ids` instead. Sending both top-level and per-locale in the same request causes top-level to win. Unknown audience IDs return a 404 error. No partial commit occurs. */
-  audience_ids?: CreateArticleRequestAudienceIdsList | null;
+  audience_ids?: CreateArticleRequestAudienceIdsList | null | undefined;
   /** Whether the article should be available for AI Chatbot (Fin). For multilingual articles, this sets the default language's availability. */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the article should be available for AI Copilot. For multilingual articles, this sets the default language's availability. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the article should be available for AI Sales Agent. For multilingual articles, this sets the default language's availability. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
   /** ISO 8601 timestamp at which to schedule a future publish of the article. When set together with `state: "published"`, the article is scheduled instead of published immediately. Setting `null` cancels a pending publish schedule. Timestamps in the past or equal to the current time are rejected with 400 `parameter_invalid` -- the value must be strictly in the future. Combining with `state: "draft"` returns 400 `parameter_invalid`. Sending in the same request as `scheduled_unpublish_at` returns 400 -- only one pending schedule per article. Empty string returns 400 `parameter_invalid`. */
-  scheduled_publish_at?: string | null;
+  scheduled_publish_at?: string | null | undefined;
   /** ISO 8601 timestamp at which to schedule a future unpublish of the article. Setting `null` cancels a pending unpublish schedule. Timestamps in the past or equal to the current time are rejected with 400 `parameter_invalid` -- the value must be strictly in the future. Rejected with 400 `parameter_invalid` if the article has never been published. Sending in the same request as `scheduled_publish_at` returns 400 -- only one pending schedule per article. Empty string returns 400 `parameter_invalid`. */
-  scheduled_unpublish_at?: string | null;
+  scheduled_unpublish_at?: string | null | undefined;
 }
 /** The type of object - `article`. */
 export type CreateArticleResponseType = "article";
@@ -1446,120 +1450,120 @@ export type ArticleContentAudienceIdsList = Array<number>;
 /** The Content of an Article. */
 export interface ArticleContent {
   /** The type of object - `article_content` . */
-  type?: ArticleContentType | null;
+  type?: ArticleContentType | null | undefined;
   /** The title of the article. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the article. */
-  description?: string;
+  description?: string | undefined;
   /** The body of the article in HTML. */
-  body?: string;
+  body?: string | undefined;
   /** The body of the article in markdown. */
-  body_markdown?: string | null;
+  body_markdown?: string | null | undefined;
   /** The ID of the author of the article. */
-  author_id?: number;
+  author_id?: number | undefined;
   /** Whether the article is `published` or is a `draft` . */
-  state?: ArticleContentState;
+  state?: ArticleContentState | undefined;
   /** The time when the article was created (seconds). */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time when the article was last updated (seconds). */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Whether this locale's published content has unpublished changes staged as a draft on top of its live content. */
-  has_unpublished_changes?: boolean;
+  has_unpublished_changes?: boolean | undefined;
   /** The time, in seconds, when this locale's staged draft was last edited, or `null` when there is no staged draft. */
-  draft_updated_at?: number | null;
+  draft_updated_at?: number | null | undefined;
   /** The URL of the article. */
-  url?: string;
+  url?: string | undefined;
   /** The list of audience IDs this article content is targeted to for Fin AI Agent. On multilingual help centers this field appears per-locale inside `translated_content`. On single-language help centers it appears at the article root level. Empty array means no audience targeting is set. */
-  audience_ids?: ArticleContentAudienceIdsList | null;
+  audience_ids?: ArticleContentAudienceIdsList | null | undefined;
   /** Whether the article is available for AI Chatbot. */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the article is available for AI Copilot. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the article is available for AI Sales Agent. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
   /** The ID of the teammate who created this content version. */
-  created_by_id?: number | null;
+  created_by_id?: number | null | undefined;
   /** The ID of the teammate who last updated this content version. */
-  updated_by_id?: number | null;
+  updated_by_id?: number | null | undefined;
 }
 /** The Translated Content of an Article. The keys are the locale codes and the values are the translated content of the article. */
 export interface ArticleTranslatedContent {
   /** The type of object - article_translated_content. */
-  type?: ArticleTranslatedContentType | null;
+  type?: ArticleTranslatedContentType | null | undefined;
   /** The content of the article in Arabic */
-  ar?: ArticleContent | null;
+  ar?: ArticleContent | null | undefined;
   /** The content of the article in Bulgarian */
-  bg?: ArticleContent | null;
+  bg?: ArticleContent | null | undefined;
   /** The content of the article in Bosnian */
-  bs?: ArticleContent | null;
+  bs?: ArticleContent | null | undefined;
   /** The content of the article in Catalan */
-  ca?: ArticleContent | null;
+  ca?: ArticleContent | null | undefined;
   /** The content of the article in Czech */
-  cs?: ArticleContent | null;
+  cs?: ArticleContent | null | undefined;
   /** The content of the article in Danish */
-  da?: ArticleContent | null;
+  da?: ArticleContent | null | undefined;
   /** The content of the article in German */
-  de?: ArticleContent | null;
+  de?: ArticleContent | null | undefined;
   /** The content of the article in Greek */
-  el?: ArticleContent | null;
+  el?: ArticleContent | null | undefined;
   /** The content of the article in English */
-  en?: ArticleContent | null;
+  en?: ArticleContent | null | undefined;
   /** The content of the article in Spanish */
-  es?: ArticleContent | null;
+  es?: ArticleContent | null | undefined;
   /** The content of the article in Estonian */
-  et?: ArticleContent | null;
+  et?: ArticleContent | null | undefined;
   /** The content of the article in Finnish */
-  fi?: ArticleContent | null;
+  fi?: ArticleContent | null | undefined;
   /** The content of the article in French */
-  fr?: ArticleContent | null;
+  fr?: ArticleContent | null | undefined;
   /** The content of the article in Hebrew */
-  he?: ArticleContent | null;
+  he?: ArticleContent | null | undefined;
   /** The content of the article in Croatian */
-  hr?: ArticleContent | null;
+  hr?: ArticleContent | null | undefined;
   /** The content of the article in Hungarian */
-  hu?: ArticleContent | null;
+  hu?: ArticleContent | null | undefined;
   /** The content of the article in Indonesian */
-  id?: ArticleContent | null;
+  id?: ArticleContent | null | undefined;
   /** The content of the article in Italian */
-  it?: ArticleContent | null;
+  it?: ArticleContent | null | undefined;
   /** The content of the article in Japanese */
-  ja?: ArticleContent | null;
+  ja?: ArticleContent | null | undefined;
   /** The content of the article in Korean */
-  ko?: ArticleContent | null;
+  ko?: ArticleContent | null | undefined;
   /** The content of the article in Lithuanian */
-  lt?: ArticleContent | null;
+  lt?: ArticleContent | null | undefined;
   /** The content of the article in Latvian */
-  lv?: ArticleContent | null;
+  lv?: ArticleContent | null | undefined;
   /** The content of the article in Mongolian */
-  mn?: ArticleContent | null;
+  mn?: ArticleContent | null | undefined;
   /** The content of the article in Norwegian */
-  nb?: ArticleContent | null;
+  nb?: ArticleContent | null | undefined;
   /** The content of the article in Dutch */
-  nl?: ArticleContent | null;
+  nl?: ArticleContent | null | undefined;
   /** The content of the article in Polish */
-  pl?: ArticleContent | null;
+  pl?: ArticleContent | null | undefined;
   /** The content of the article in Portuguese (Portugal) */
-  pt?: ArticleContent | null;
+  pt?: ArticleContent | null | undefined;
   /** The content of the article in Romanian */
-  ro?: ArticleContent | null;
+  ro?: ArticleContent | null | undefined;
   /** The content of the article in Russian */
-  ru?: ArticleContent | null;
+  ru?: ArticleContent | null | undefined;
   /** The content of the article in Slovenian */
-  sl?: ArticleContent | null;
+  sl?: ArticleContent | null | undefined;
   /** The content of the article in Serbian */
-  sr?: ArticleContent | null;
+  sr?: ArticleContent | null | undefined;
   /** The content of the article in Swedish */
-  sv?: ArticleContent | null;
+  sv?: ArticleContent | null | undefined;
   /** The content of the article in Turkish */
-  tr?: ArticleContent | null;
+  tr?: ArticleContent | null | undefined;
   /** The content of the article in Vietnamese */
-  vi?: ArticleContent | null;
+  vi?: ArticleContent | null | undefined;
   /** The content of the article in Portuguese (Brazil) */
-  pt_BR?: ArticleContent | null;
+  pt_BR?: ArticleContent | null | undefined;
   /** The content of the article in Chinese (China) */
-  zh_CN?: ArticleContent | null;
+  zh_CN?: ArticleContent | null | undefined;
   /** The content of the article in Chinese (Taiwan) */
-  zh_TW?: ArticleContent | null;
+  zh_TW?: ArticleContent | null | undefined;
 }
 /** The type of the object */
 export type TagsType = "tag.list";
@@ -1568,100 +1572,100 @@ export type TagsTagsList = Array<Tag>;
 /** A list of tags objects associated with a conversation */
 export interface Tags {
   /** The type of the object */
-  type?: TagsType;
+  type?: TagsType | undefined;
   /** A list of tags objects associated with the conversation. */
-  tags?: TagsTagsList;
+  tags?: TagsTagsList | undefined;
 }
 /** The type of object - `article_statistics`. */
 export type ArticleStatisticsType = "article_statistics";
 /** The statistics of an article. */
 export interface ArticleStatistics {
   /** The type of object - `article_statistics`. */
-  type?: ArticleStatisticsType;
+  type?: ArticleStatisticsType | undefined;
   /** The number of total views the article has received. */
-  views?: number;
+  views?: number | undefined;
   /** The number of conversations started from the article. */
-  conversions?: number;
+  conversions?: number | undefined;
   /** The number of total reactions the article has received. */
-  reactions?: number;
+  reactions?: number | undefined;
   /** The percentage of happy reactions the article has received against other types of reaction. */
-  happy_reaction_percentage?: number;
+  happy_reaction_percentage?: number | undefined;
   /** The percentage of neutral reactions the article has received against other types of reaction. */
-  neutral_reaction_percentage?: number;
+  neutral_reaction_percentage?: number | undefined;
   /** The percentage of sad reactions the article has received against */
-  sad_reaction_percentage?: number;
+  sad_reaction_percentage?: number | undefined;
   /** The number of conversations in which Fin AI Agent used this article, summed across all of the article's locales. */
-  fin_involvements?: number;
+  fin_involvements?: number | undefined;
   /** The number of conversations Fin AI Agent resolved using this article, summed across all of the article's locales. */
-  fin_resolutions?: number;
+  fin_resolutions?: number | undefined;
   /** The percentage of Fin AI Agent involvements that resulted in a resolution (fin_resolutions / fin_involvements * 100). */
-  fin_resolution_rate?: number;
+  fin_resolution_rate?: number | undefined;
 }
 export interface CreateArticleResponse {
   /** The type of object - `article`. */
-  type?: CreateArticleResponseType;
+  type?: CreateArticleResponseType | undefined;
   /** The unique identifier for the article which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the workspace which the article belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The title of the article. For multilingual articles, this will be the title of the default language's content. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the article. For multilingual articles, this will be the description of the default language's content. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The body of the article in HTML. For multilingual articles, this will be the body of the default language's content. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** The body of the article in markdown. For multilingual articles, this will be the body of the default language's content. */
-  body_markdown?: string | null;
+  body_markdown?: string | null | undefined;
   /** The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace. */
-  author_id?: number;
+  author_id?: number | undefined;
   /** Whether the article is `published` or is a `draft`. For multilingual articles, this will be the state of the default language's content. */
-  state?: CreateArticleResponseState;
+  state?: CreateArticleResponseState | undefined;
   /** The time when the article was created. For multilingual articles, this will be the timestamp of creation of the default language's content in seconds. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time when the article was last updated. For multilingual articles, this will be the timestamp of last update of the default language's content in seconds. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Whether the published article has unpublished changes staged as a draft on top of its live content. For multilingual articles this reflects the default language's content; a pure draft (never published) reports `false`. */
-  has_unpublished_changes?: boolean;
+  has_unpublished_changes?: boolean | undefined;
   /** The time, in seconds, when the staged draft was last edited, or `null` when there is no staged draft. */
-  draft_updated_at?: number | null;
+  draft_updated_at?: number | null | undefined;
   /** The URL of the article. For multilingual articles, this will be the URL of the default language's content. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The ids of the article's parent collections or sections. An article without this field stands alone. */
-  parent_ids?: CreateArticleResponseParentIdsList;
+  parent_ids?: CreateArticleResponseParentIdsList | undefined;
   /** Whether the article is available for AI Chatbot. For multilingual articles, this will be the value of the default language's content. */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the article is available for AI Copilot. For multilingual articles, this will be the value of the default language's content. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the article is available for AI Sales Agent. For multilingual articles, this will be the value of the default language's content. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
   /** The ID of the teammate who created the article. For multilingual articles, this will be the creator of the default language's content. */
-  created_by_id?: number | null;
+  created_by_id?: number | null | undefined;
   /** The ID of the teammate who last updated the article. For multilingual articles, this will be the last editor of the default language's content. */
-  updated_by_id?: number | null;
+  updated_by_id?: number | null | undefined;
   /** Whether the article is excluded from Fin AI Agent article suggestions. */
-  exclude_from_article_suggestions?: boolean;
+  exclude_from_article_suggestions?: boolean | undefined;
   /** The audience that can view this article in the Help Center. `everyone` means all users and visitors can view it; `restricted` indicates a custom audience ruleset. For multilingual articles, this is the article-level audience. */
-  help_center_audience?: CreateArticleResponseHelpCenterAudience | null;
+  help_center_audience?: CreateArticleResponseHelpCenterAudience | null | undefined;
   /** The Unix timestamp (in seconds) at which the article is scheduled to be published. `null` when no publish is scheduled. Mutually exclusive with `scheduled_unpublish_at` -- at most one pending schedule exists per article. */
-  scheduled_publish_at?: number | null;
+  scheduled_publish_at?: number | null | undefined;
   /** The Unix timestamp (in seconds) at which the article is scheduled to be unpublished. `null` when no unpublish is scheduled. Mutually exclusive with `scheduled_publish_at` -- at most one pending schedule exists per article. */
-  scheduled_unpublish_at?: number | null;
+  scheduled_unpublish_at?: number | null | undefined;
   /** The default locale of the help center. This field is only returned for multilingual help centers. */
-  default_locale?: string;
-  translated_content?: ArticleTranslatedContent | null;
-  tags?: Tags;
-  statistics?: ArticleStatistics | null;
+  default_locale?: string | undefined;
+  translated_content?: ArticleTranslatedContent | null | undefined;
+  tags?: Tags | undefined;
+  statistics?: ArticleStatistics | null | undefined;
 }
 /** A condition used to filter contacts in an audience. */
 export interface Predicate {
   /** The attribute to filter on. */
-  attribute?: string;
+  attribute?: string | undefined;
   /** The type of the attribute. */
-  type?: string;
+  type?: string | undefined;
   /** The comparison operator. */
-  comparison?: string;
+  comparison?: string | undefined;
   /** The value to compare against. */
-  value?: string;
+  value?: string | undefined;
 }
 /** The predicates that define which contacts belong to the audience. */
 export type CreateAudienceRequestPredicatesList = Array<Predicate>;
@@ -1671,9 +1675,9 @@ export interface CreateAudienceRequest {
   /** The name of the audience. */
   name: string;
   /** The predicates that define which contacts belong to the audience. */
-  predicates?: CreateAudienceRequestPredicatesList;
+  predicates?: CreateAudienceRequestPredicatesList | undefined;
   /** Role-based predicates that further filter audience membership by contact role. */
-  role_predicates?: CreateAudienceRequestRolePredicatesList;
+  role_predicates?: CreateAudienceRequestRolePredicatesList | undefined;
 }
 /** The type of object. */
 export type AudienceType = "audience";
@@ -1684,19 +1688,19 @@ export type AudienceRolePredicatesList = Array<Predicate>;
 /** An audience represents a group of contacts that can be targeted by Fin. */
 export interface Audience {
   /** The type of object. */
-  type?: AudienceType;
+  type?: AudienceType | undefined;
   /** The unique identifier representing the audience. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the audience. */
-  name?: string;
+  name?: string | undefined;
   /** The predicates that define which contacts belong to the audience. */
-  predicates?: AudiencePredicatesList;
+  predicates?: AudiencePredicatesList | undefined;
   /** Role-based predicates that further filter audience membership by contact role. */
-  role_predicates?: AudienceRolePredicatesList;
+  role_predicates?: AudienceRolePredicatesList | undefined;
   /** The time the audience was created as a Unix timestamp. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the audience was last updated as a Unix timestamp. */
-  updated_at?: number;
+  updated_at?: number | undefined;
 }
 /** The type of object - group_translated_content. */
 export type GroupTranslatedContentType = "group_translated_content";
@@ -1705,129 +1709,129 @@ export type GroupContentType = "group_content";
 /** The Content of a Group. */
 export interface GroupContent {
   /** The type of object - `group_content` . */
-  type?: GroupContentType | (string & {}) | null;
+  type?: GroupContentType | (string & {}) | null | undefined;
   /** The name of the collection or section. */
-  name?: string;
+  name?: string | undefined;
   /** The description of the collection. Only available for collections. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The Translated Content of an Group. The keys are the locale codes and the values are the translated content of the Group. */
 export interface GroupTranslatedContent {
   /** The type of object - group_translated_content. */
-  type?: GroupTranslatedContentType | (string & {}) | null;
+  type?: GroupTranslatedContentType | (string & {}) | null | undefined;
   /** The content of the group in Arabic */
-  ar?: GroupContent | null;
+  ar?: GroupContent | null | undefined;
   /** The content of the group in Bulgarian */
-  bg?: GroupContent | null;
+  bg?: GroupContent | null | undefined;
   /** The content of the group in Bosnian */
-  bs?: GroupContent | null;
+  bs?: GroupContent | null | undefined;
   /** The content of the group in Catalan */
-  ca?: GroupContent | null;
+  ca?: GroupContent | null | undefined;
   /** The content of the group in Czech */
-  cs?: GroupContent | null;
+  cs?: GroupContent | null | undefined;
   /** The content of the group in Danish */
-  da?: GroupContent | null;
+  da?: GroupContent | null | undefined;
   /** The content of the group in German */
-  de?: GroupContent | null;
+  de?: GroupContent | null | undefined;
   /** The content of the group in Greek */
-  el?: GroupContent | null;
+  el?: GroupContent | null | undefined;
   /** The content of the group in English */
-  en?: GroupContent | null;
+  en?: GroupContent | null | undefined;
   /** The content of the group in Spanish */
-  es?: GroupContent | null;
+  es?: GroupContent | null | undefined;
   /** The content of the group in Estonian */
-  et?: GroupContent | null;
+  et?: GroupContent | null | undefined;
   /** The content of the group in Finnish */
-  fi?: GroupContent | null;
+  fi?: GroupContent | null | undefined;
   /** The content of the group in French */
-  fr?: GroupContent | null;
+  fr?: GroupContent | null | undefined;
   /** The content of the group in Hebrew */
-  he?: GroupContent | null;
+  he?: GroupContent | null | undefined;
   /** The content of the group in Croatian */
-  hr?: GroupContent | null;
+  hr?: GroupContent | null | undefined;
   /** The content of the group in Hungarian */
-  hu?: GroupContent | null;
+  hu?: GroupContent | null | undefined;
   /** The content of the group in Indonesian */
-  id?: GroupContent | null;
+  id?: GroupContent | null | undefined;
   /** The content of the group in Italian */
-  it?: GroupContent | null;
+  it?: GroupContent | null | undefined;
   /** The content of the group in Japanese */
-  ja?: GroupContent | null;
+  ja?: GroupContent | null | undefined;
   /** The content of the group in Korean */
-  ko?: GroupContent | null;
+  ko?: GroupContent | null | undefined;
   /** The content of the group in Lithuanian */
-  lt?: GroupContent | null;
+  lt?: GroupContent | null | undefined;
   /** The content of the group in Latvian */
-  lv?: GroupContent | null;
+  lv?: GroupContent | null | undefined;
   /** The content of the group in Mongolian */
-  mn?: GroupContent | null;
+  mn?: GroupContent | null | undefined;
   /** The content of the group in Norwegian */
-  nb?: GroupContent | null;
+  nb?: GroupContent | null | undefined;
   /** The content of the group in Dutch */
-  nl?: GroupContent | null;
+  nl?: GroupContent | null | undefined;
   /** The content of the group in Polish */
-  pl?: GroupContent | null;
+  pl?: GroupContent | null | undefined;
   /** The content of the group in Portuguese (Portugal) */
-  pt?: GroupContent | null;
+  pt?: GroupContent | null | undefined;
   /** The content of the group in Romanian */
-  ro?: GroupContent | null;
+  ro?: GroupContent | null | undefined;
   /** The content of the group in Russian */
-  ru?: GroupContent | null;
+  ru?: GroupContent | null | undefined;
   /** The content of the group in Slovenian */
-  sl?: GroupContent | null;
+  sl?: GroupContent | null | undefined;
   /** The content of the group in Serbian */
-  sr?: GroupContent | null;
+  sr?: GroupContent | null | undefined;
   /** The content of the group in Swedish */
-  sv?: GroupContent | null;
+  sv?: GroupContent | null | undefined;
   /** The content of the group in Turkish */
-  tr?: GroupContent | null;
+  tr?: GroupContent | null | undefined;
   /** The content of the group in Vietnamese */
-  vi?: GroupContent | null;
+  vi?: GroupContent | null | undefined;
   /** The content of the group in Portuguese (Brazil) */
-  pt_BR?: GroupContent | null;
+  pt_BR?: GroupContent | null | undefined;
   /** The content of the group in Chinese (China) */
-  zh_CN?: GroupContent | null;
+  zh_CN?: GroupContent | null | undefined;
   /** The content of the group in Chinese (Taiwan) */
-  zh_TW?: GroupContent | null;
+  zh_TW?: GroupContent | null | undefined;
 }
 export interface CreateCollectionRequest {
   /** The name of the collection. For multilingual collections, this will be the name of the default language's content. */
   name: string;
   /** The description of the collection. For multilingual collections, this will be the description of the default language's content. */
-  description?: string;
-  translated_content?: GroupTranslatedContent | null;
+  description?: string | undefined;
+  translated_content?: GroupTranslatedContent | null | undefined;
   /** The id of the parent collection. If `null` then it will be created as the first level collection. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** The id of the help center where the collection will be created. If `null` then it will be created in the default help center. */
-  help_center_id?: number | null;
+  help_center_id?: number | null | undefined;
 }
 /** Collections are top level containers for Articles within the Help Center. */
 export interface Collection {
   /** The unique identifier for the collection which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the workspace which the collection belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The name of the collection. For multilingual collections, this will be the name of the default language's content. */
-  name?: string;
+  name?: string | undefined;
   /** The description of the collection. For multilingual help centers, this will be the description of the collection for the default language. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The time when the article was created (seconds). For multilingual articles, this will be the timestamp of creation of the default language's content. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time when the article was last updated (seconds). For multilingual articles, this will be the timestamp of last update of the default language's content. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** The URL of the collection. For multilingual help centers, this will be the URL of the collection for the default language. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The icon of the collection. */
-  icon?: string | null;
+  icon?: string | null | undefined;
   /** The order of the section in relation to others sections within a collection. Values go from `0` upwards. `0` is the default if there's no order. */
-  order?: number;
+  order?: number | undefined;
   /** The default locale of the help center. This field is only returned for multilingual help centers. */
-  default_locale?: string;
-  translated_content?: GroupTranslatedContent | null;
+  default_locale?: string | undefined;
+  translated_content?: GroupTranslatedContent | null | undefined;
   /** The id of the parent collection. If `null` then it is the first level collection. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** The id of the help center the collection is in. */
-  help_center_id?: number | null;
+  help_center_id?: number | null | undefined;
 }
 export interface CreateCompanyNoteRequest {
   /** The unique identifier for the company which is given by Intercom */
@@ -1835,33 +1839,33 @@ export interface CreateCompanyNoteRequest {
   /** The text of the note. */
   body: string;
   /** The unique identifier of the admin creating the note. If not provided, defaults to the admin associated with the access token. */
-  admin_id?: string;
+  admin_id?: string | undefined;
 }
 /** Represents the contact that the note was created about. */
 export interface NoteContact {
   /** String representing the object's type. Always has the value `contact`. */
-  type?: string;
+  type?: string | undefined;
   /** The id of the contact. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Represents the company that the note was created about. */
 export type NoteCompany = CompanyNoteCompany;
 /** Notes allow you to annotate and comment on your contacts and companies. A note is attached to either a contact or a company, never both. */
 export interface Note {
   /** String representing the object's type. Always has the value `note`. */
-  type?: string;
+  type?: string | undefined;
   /** The id of the note. */
-  id?: string;
+  id?: string | undefined;
   /** The time the note was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** Represents the contact that the note was created about. */
-  contact?: NoteContact | null;
+  contact?: NoteContact | null | undefined;
   /** Represents the company that the note was created about. */
-  company?: CompanyNoteCompany | null;
+  company?: CompanyNoteCompany | null | undefined;
   /** Optional. Represents the Admin that created the note. */
-  author?: Admin | null;
+  author?: Admin | null | undefined;
   /** The body text of the note. */
-  body?: string;
+  body?: string | undefined;
 }
 export interface CreateContactRequest {}
 export type CreateContactResponseAvatar = ContactAvatar;
@@ -1869,93 +1873,93 @@ export type CreateContactResponseAvatar = ContactAvatar;
 export type CreateContactResponseMergeHistoryList = Array<MergeHistoryItem>;
 export interface CreateContactResponse {
   /** The type of object. */
-  type?: string;
+  type?: string | undefined;
   /** The unique identifier for the contact which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier for the contact which is provided by the Client. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The id of the workspace which the contact belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The role of the contact. */
-  role?: string;
+  role?: string | undefined;
   /** The contact's email. */
-  email?: string;
+  email?: string | undefined;
   /** The contact's email domain. */
-  email_domain?: string;
+  email_domain?: string | undefined;
   /** The contacts phone. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** The contacts name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The id of an admin that has been assigned account ownership of the contact. */
-  owner_id?: string | null;
+  owner_id?: string | null | undefined;
   /** Whether the contact has had an email sent to them hard bounce. */
-  has_hard_bounced?: boolean;
+  has_hard_bounced?: boolean | undefined;
   /** Whether the contact has marked an email sent to them as spam. */
-  marked_email_as_spam?: boolean;
+  marked_email_as_spam?: boolean | undefined;
   /** Whether the contact is unsubscribed from emails. */
-  unsubscribed_from_emails?: boolean;
+  unsubscribed_from_emails?: boolean | undefined;
   /** (Unix timestamp in seconds) The time when the contact was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** (Unix timestamp in seconds) The time specified for when a contact signed up. */
-  signed_up_at?: number | null;
+  signed_up_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last seen (either where the Intercom Messenger was installed or when specified manually). */
-  last_seen_at?: number | null;
+  last_seen_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last messaged in. */
-  last_replied_at?: number | null;
+  last_replied_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last messaged. */
-  last_contacted_at?: number | null;
+  last_contacted_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last opened an email. */
-  last_email_opened_at?: number | null;
+  last_email_opened_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last clicked a link in an email. */
-  last_email_clicked_at?: number | null;
+  last_email_clicked_at?: number | null | undefined;
   /** A preferred language setting for the contact, used by the Intercom Messenger even if their browser settings change. */
-  language_override?: string | null;
+  language_override?: string | null | undefined;
   /** The name of the browser which the contact is using. */
-  browser?: string | null;
+  browser?: string | null | undefined;
   /** The version of the browser which the contact is using. */
-  browser_version?: string | null;
+  browser_version?: string | null | undefined;
   /** The language set by the browser which the contact is using. */
-  browser_language?: string | null;
+  browser_language?: string | null | undefined;
   /** The operating system which the contact is using. */
-  os?: string | null;
+  os?: string | null | undefined;
   /** The name of the Android app which the contact is using. */
-  android_app_name?: string | null;
+  android_app_name?: string | null | undefined;
   /** The version of the Android app which the contact is using. */
-  android_app_version?: string | null;
+  android_app_version?: string | null | undefined;
   /** The Android device which the contact is using. */
-  android_device?: string | null;
+  android_device?: string | null | undefined;
   /** The version of the Android OS which the contact is using. */
-  android_os_version?: string | null;
+  android_os_version?: string | null | undefined;
   /** The version of the Android SDK which the contact is using. */
-  android_sdk_version?: string | null;
+  android_sdk_version?: string | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last seen on an Android device. */
-  android_last_seen_at?: number | null;
+  android_last_seen_at?: number | null | undefined;
   /** The name of the iOS app which the contact is using. */
-  ios_app_name?: string | null;
+  ios_app_name?: string | null | undefined;
   /** The version of the iOS app which the contact is using. */
-  ios_app_version?: string | null;
+  ios_app_version?: string | null | undefined;
   /** The iOS device which the contact is using. */
-  ios_device?: string | null;
+  ios_device?: string | null | undefined;
   /** The version of iOS which the contact is using. */
-  ios_os_version?: string | null;
+  ios_os_version?: string | null | undefined;
   /** The version of the iOS SDK which the contact is using. */
-  ios_sdk_version?: string | null;
+  ios_sdk_version?: string | null | undefined;
   /** (Unix timestamp in seconds) The last time the contact used the iOS app. */
-  ios_last_seen_at?: number | null;
+  ios_last_seen_at?: number | null | undefined;
   /** The custom attributes which are set for the contact. */
-  custom_attributes?: unknown;
-  avatar?: ContactAvatar | null;
-  tags?: ContactTags | null;
-  notes?: ContactNotes;
-  companies?: ContactCompanies;
-  location?: ContactLocation;
-  social_profiles?: ContactSocialProfiles;
+  custom_attributes?: unknown | undefined;
+  avatar?: ContactAvatar | null | undefined;
+  tags?: ContactTags | null | undefined;
+  notes?: ContactNotes | undefined;
+  companies?: ContactCompanies | undefined;
+  location?: ContactLocation | undefined;
+  social_profiles?: ContactSocialProfiles | undefined;
   /** A list of contacts that were merged into this contact. Only included in the response when `include_merge_history=true` is passed as a query parameter. Only available for contacts with a `user` role. */
-  merge_history?: CreateContactResponseMergeHistoryList | null;
+  merge_history?: CreateContactResponseMergeHistoryList | null | undefined;
   /** If the user has enabled push messaging. */
-  enabled_push_messaging?: boolean | null;
+  enabled_push_messaging?: boolean | null | undefined;
 }
 /** If you intend to create or update External Pages via the API, this should be set to `api`. */
 export type CreateContentImportSourceRequestSyncBehavior = "api";
@@ -1970,11 +1974,11 @@ export interface CreateContentImportSourceRequest {
   /** If you intend to create or update External Pages via the API, this should be set to `api`. */
   sync_behavior: CreateContentImportSourceRequestSyncBehavior | (string & {});
   /** The status of the content import source. */
-  status?: CreateContentImportSourceRequestStatus | (string & {});
+  status?: CreateContentImportSourceRequestStatus | (string & {}) | undefined;
   /** The URL of the content import source. */
   url: string;
   /** The unique identifiers for the audiences to associate with this content import source. Can be a single integer or an array of integers. */
-  audience_ids?: CreateContentImportSourceRequestAudienceIds | null;
+  audience_ids?: CreateContentImportSourceRequestAudienceIds | null | undefined;
 }
 /** Always external_page */
 export type ContentImportSourceType = "content_import_source";
@@ -2003,7 +2007,7 @@ export interface ContentImportSource {
   /** The time when the content import source was last updated. */
   updated_at: number;
   /** The unique identifiers for the audiences associated with this content import source. */
-  audience_ids?: ContentImportSourceAudienceIdsList | null;
+  audience_ids?: ContentImportSourceAudienceIdsList | null | undefined;
 }
 /** The content blocks that make up the body of the snippet. Mutually exclusive with `body_markdown`. */
 export type CreateContentSnippetRequestJsonBlocksList = Array<unknown>;
@@ -2013,19 +2017,19 @@ export interface CreateContentSnippetRequest {
   /** The title of the content snippet. */
   title: string;
   /** The content blocks that make up the body of the snippet. Mutually exclusive with `body_markdown`. */
-  json_blocks?: CreateContentSnippetRequestJsonBlocksList;
+  json_blocks?: CreateContentSnippetRequestJsonBlocksList | undefined;
   /** The content of the snippet in markdown. An alternative to `json_blocks` -- you can provide content as markdown instead of structured blocks. Mutually exclusive with `json_blocks`. */
-  body_markdown?: string;
+  body_markdown?: string | undefined;
   /** The locale of the content snippet. Defaults to `en`. */
-  locale?: string;
+  locale?: string | undefined;
   /** The list of audience IDs to target this content snippet to for Fin AI Agent. Pass an empty array or omit the field for no audience targeting. Unknown audience IDs return a `404` error with no partial commit. */
-  audience_ids?: CreateContentSnippetRequestAudienceIdsList | null;
+  audience_ids?: CreateContentSnippetRequestAudienceIdsList | null | undefined;
   /** Whether the content snippet should be available for AI Chatbot (Fin). Defaults to false. */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the content snippet should be available for AI Copilot. Defaults to false. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the content snippet should be available for AI Sales Agent. Defaults to false. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
 }
 /** The content blocks that make up the body of the snippet. */
 export type ContentSnippetJsonBlocksList = Array<unknown>;
@@ -2034,33 +2038,33 @@ export type ContentSnippetAudienceIdsList = Array<number>;
 /** A content snippet is a reusable piece of content for your AI agent and Copilot. */
 export interface ContentSnippet {
   /** String representing the object's type. Always has the value `content_snippet`. */
-  type?: string;
+  type?: string | undefined;
   /** The unique identifier for the content snippet. */
-  id?: string;
+  id?: string | undefined;
   /** The title of the content snippet. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The locale of the content snippet. */
-  locale?: string;
+  locale?: string | undefined;
   /** The content blocks that make up the body of the snippet. */
-  json_blocks?: ContentSnippetJsonBlocksList;
+  json_blocks?: ContentSnippetJsonBlocksList | undefined;
   /** The body of the content snippet in markdown. */
-  body_markdown?: string | null;
+  body_markdown?: string | null | undefined;
   /** Deprecated. Use ai_chatbot_availability instead. Whether this snippet is available for Fin (1 = on, 0 = off). */
-  chatbot_availability?: number;
+  chatbot_availability?: number | undefined;
   /** Deprecated. Use ai_copilot_availability instead. Whether this snippet is available for Copilot (1 = on, 0 = off). */
-  copilot_availability?: number;
+  copilot_availability?: number | undefined;
   /** Whether the content snippet is available for AI Chatbot (Fin). */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the content snippet is available for AI Copilot. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the content snippet is available for AI Sales Agent. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
   /** The time the snippet was created as a UNIX timestamp. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the snippet was last updated as a UNIX timestamp. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** The list of audience IDs this content snippet is targeted to for Fin AI Agent. Empty array means no audience targeting is set. */
-  audience_ids?: ContentSnippetAudienceIdsList | null;
+  audience_ids?: ContentSnippetAudienceIdsList | null | undefined;
 }
 /** The role associated to the contact - user or lead. */
 export type CreateConversationRequestFromType = "lead" | "user" | "contact";
@@ -2077,13 +2081,13 @@ export interface CreateConversationRequest {
   /** The content of the message. HTML is not supported. */
   body: string;
   /** The title of the email. Only applicable if the message type is email. */
-  subject?: string;
+  subject?: string | undefined;
   /** A list of image URLs that will be added as attachments. You can include up to 10 URLs. */
-  attachment_urls?: CreateConversationRequestAttachmentUrlsList;
+  attachment_urls?: CreateConversationRequestAttachmentUrlsList | undefined;
   /** The time the conversation was created as a UTC Unix timestamp. If not provided, the current time will be used. This field is only recommneded for migrating past conversations from another source into Intercom. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The unique identifier of the brand to associate with this conversation. */
-  brand_id?: string;
+  brand_id?: string | undefined;
 }
 /** The type of message that was sent. Can be email, inapp, facebook or twitter. */
 export type CreateConversationResponseMessageType = "email" | "inapp" | "facebook" | "twitter";
@@ -2095,7 +2099,7 @@ export interface CreateConversationResponse {
   /** The time the conversation was created. */
   created_at: number;
   /** The subject of the message. Only present if message_type: email. */
-  subject?: string;
+  subject?: string | undefined;
   /** The message body, which may contain HTML. */
   body: string;
   /** The type of message that was sent. Can be email, inapp, facebook or twitter. */
@@ -2119,15 +2123,15 @@ export interface CreateConversationAttributeStringRequest {
   /** Name of the attribute. */
   name: string;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
   data_type: CreateConversationAttributeStringRequestDataType | (string & {});
   /** Whether this attribute is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Team IDs that can see this attribute. Empty array means all teams. */
-  visible_to_team_ids?: CreateConversationAttributeStringRequestVisibleToTeamIdsList;
+  visible_to_team_ids?: CreateConversationAttributeStringRequestVisibleToTeamIdsList | undefined;
   /** Whether this string attribute is multiline. */
-  multiline?: boolean;
+  multiline?: boolean | undefined;
 }
 /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
 export type CreateConversationAttributeIntegerRequestDataType =
@@ -2145,13 +2149,13 @@ export interface CreateConversationAttributeIntegerRequest {
   /** Name of the attribute. */
   name: string;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
   data_type: CreateConversationAttributeIntegerRequestDataType | (string & {});
   /** Whether this attribute is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Team IDs that can see this attribute. Empty array means all teams. */
-  visible_to_team_ids?: CreateConversationAttributeIntegerRequestVisibleToTeamIdsList;
+  visible_to_team_ids?: CreateConversationAttributeIntegerRequestVisibleToTeamIdsList | undefined;
 }
 /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
 export type CreateConversationAttributeListRequestDataType =
@@ -2177,15 +2181,15 @@ export interface CreateConversationAttributeListRequest {
   /** Name of the attribute. */
   name: string;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
   data_type: CreateConversationAttributeListRequestDataType | (string & {});
   /** Whether this attribute is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Team IDs that can see this attribute. Empty array means all teams. */
-  visible_to_team_ids?: CreateConversationAttributeListRequestVisibleToTeamIdsList;
+  visible_to_team_ids?: CreateConversationAttributeListRequestVisibleToTeamIdsList | undefined;
   /** Initial options for this list attribute. Each option must have a `label`. */
-  options?: CreateConversationAttributeListRequestOptionsList;
+  options?: CreateConversationAttributeListRequestOptionsList | undefined;
 }
 /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
 export type CreateConversationAttributeDecimalRequestDataType =
@@ -2203,13 +2207,13 @@ export interface CreateConversationAttributeDecimalRequest {
   /** Name of the attribute. */
   name: string;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
   data_type: CreateConversationAttributeDecimalRequestDataType | (string & {});
   /** Whether this attribute is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Team IDs that can see this attribute. Empty array means all teams. */
-  visible_to_team_ids?: CreateConversationAttributeDecimalRequestVisibleToTeamIdsList;
+  visible_to_team_ids?: CreateConversationAttributeDecimalRequestVisibleToTeamIdsList | undefined;
 }
 /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
 export type CreateConversationAttributeBooleanRequestDataType =
@@ -2227,13 +2231,13 @@ export interface CreateConversationAttributeBooleanRequest {
   /** Name of the attribute. */
   name: string;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
   data_type: CreateConversationAttributeBooleanRequestDataType | (string & {});
   /** Whether this attribute is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Team IDs that can see this attribute. Empty array means all teams. */
-  visible_to_team_ids?: CreateConversationAttributeBooleanRequestVisibleToTeamIdsList;
+  visible_to_team_ids?: CreateConversationAttributeBooleanRequestVisibleToTeamIdsList | undefined;
 }
 /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
 export type CreateConversationAttributeDatetimeRequestDataType =
@@ -2251,13 +2255,13 @@ export interface CreateConversationAttributeDatetimeRequest {
   /** Name of the attribute. */
   name: string;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
   data_type: CreateConversationAttributeDatetimeRequestDataType | (string & {});
   /** Whether this attribute is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Team IDs that can see this attribute. Empty array means all teams. */
-  visible_to_team_ids?: CreateConversationAttributeDatetimeRequestVisibleToTeamIdsList;
+  visible_to_team_ids?: CreateConversationAttributeDatetimeRequestVisibleToTeamIdsList | undefined;
 }
 /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
 export type CreateConversationAttributeRelationshipRequestDataType =
@@ -2278,21 +2282,23 @@ export interface CreateConversationAttributeRelationshipRequestReference {
   /** The cardinality of the relationship: `one` or `many`. */
   type: CreateConversationAttributeRelationshipRequestReferenceType | (string & {});
   /** The ID of the related custom object type. */
-  object_type_id?: string;
+  object_type_id?: string | undefined;
 }
 export interface CreateConversationAttributeRelationshipRequest {
   /** Name of the attribute. */
   name: string;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
   data_type: CreateConversationAttributeRelationshipRequestDataType | (string & {});
   /** Whether this attribute is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Team IDs that can see this attribute. Empty array means all teams. */
-  visible_to_team_ids?: CreateConversationAttributeRelationshipRequestVisibleToTeamIdsList;
+  visible_to_team_ids?:
+    | CreateConversationAttributeRelationshipRequestVisibleToTeamIdsList
+    | undefined;
   /** Reference configuration for related objects. */
-  reference?: CreateConversationAttributeRelationshipRequestReference;
+  reference?: CreateConversationAttributeRelationshipRequestReference | undefined;
 }
 /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
 export type CreateConversationAttributeFilesRequestDataType =
@@ -2310,13 +2316,13 @@ export interface CreateConversationAttributeFilesRequest {
   /** Name of the attribute. */
   name: string;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
   data_type: CreateConversationAttributeFilesRequestDataType | (string & {});
   /** Whether this attribute is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Team IDs that can see this attribute. Empty array means all teams. */
-  visible_to_team_ids?: CreateConversationAttributeFilesRequestVisibleToTeamIdsList;
+  visible_to_team_ids?: CreateConversationAttributeFilesRequestVisibleToTeamIdsList | undefined;
 }
 /** Payload for creating a new conversation attribute. */
 export type CreateConversationAttributeRequest =
@@ -2347,29 +2353,29 @@ export type ConversationAttributeStringTypeDataType =
 export type ConversationAttributeStringTypeVisibleToTeamIdsList = Array<string>;
 export interface ConversationAttributeStringType {
   /** Value is `conversation_attribute`. */
-  type?: ConversationAttributeStringTypeType;
+  type?: ConversationAttributeStringTypeType | undefined;
   /** The unique identifier for the conversation attribute. */
-  id?: number;
+  id?: number | undefined;
   /** Name of the attribute. */
-  name?: string;
+  name?: string | undefined;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
-  data_type?: ConversationAttributeStringTypeDataType;
+  data_type?: ConversationAttributeStringTypeDataType | undefined;
   /** Whether this attribute is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Team IDs that can see this attribute. Empty array means all teams. */
-  visible_to_team_ids?: ConversationAttributeStringTypeVisibleToTeamIdsList;
+  visible_to_team_ids?: ConversationAttributeStringTypeVisibleToTeamIdsList | undefined;
   /** Whether this attribute is archived. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** The time the attribute was created as a UTC Unix timestamp. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the attribute was last updated as a UTC Unix timestamp. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** ID of the admin who created the attribute. */
-  admin_id?: string;
+  admin_id?: string | undefined;
   /** Whether this string attribute is multiline. */
-  multiline?: boolean;
+  multiline?: boolean | undefined;
 }
 /** Value is `conversation_attribute`. */
 export type ConversationAttributeIntegerTypeType = "conversation_attribute";
@@ -2387,27 +2393,27 @@ export type ConversationAttributeIntegerTypeDataType =
 export type ConversationAttributeIntegerTypeVisibleToTeamIdsList = Array<string>;
 export interface ConversationAttributeIntegerType {
   /** Value is `conversation_attribute`. */
-  type?: ConversationAttributeIntegerTypeType;
+  type?: ConversationAttributeIntegerTypeType | undefined;
   /** The unique identifier for the conversation attribute. */
-  id?: number;
+  id?: number | undefined;
   /** Name of the attribute. */
-  name?: string;
+  name?: string | undefined;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
-  data_type?: ConversationAttributeIntegerTypeDataType;
+  data_type?: ConversationAttributeIntegerTypeDataType | undefined;
   /** Whether this attribute is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Team IDs that can see this attribute. Empty array means all teams. */
-  visible_to_team_ids?: ConversationAttributeIntegerTypeVisibleToTeamIdsList;
+  visible_to_team_ids?: ConversationAttributeIntegerTypeVisibleToTeamIdsList | undefined;
   /** Whether this attribute is archived. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** The time the attribute was created as a UTC Unix timestamp. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the attribute was last updated as a UTC Unix timestamp. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** ID of the admin who created the attribute. */
-  admin_id?: string;
+  admin_id?: string | undefined;
 }
 /** Value is `conversation_attribute`. */
 export type ConversationAttributeListTypeType = "conversation_attribute";
@@ -2426,39 +2432,39 @@ export type ConversationAttributeListTypeVisibleToTeamIdsList = Array<string>;
 /** A single option on a list-type conversation attribute. */
 export interface ConversationAttributeOption {
   /** The unique UUID identifier for this option. Use this value as `option_id` in the options management endpoints. */
-  id?: string;
+  id?: string | undefined;
   /** The display label for the option. */
-  label?: string;
+  label?: string | undefined;
   /** Whether this option is archived (soft-deleted). */
-  archived?: boolean;
+  archived?: boolean | undefined;
 }
 /** Predefined options for this attribute. Each option has a unique UUID used to identify it in the options management endpoints. */
 export type ConversationAttributeListTypeOptionsList = Array<ConversationAttributeOption>;
 export interface ConversationAttributeListType2 {
   /** Value is `conversation_attribute`. */
-  type?: ConversationAttributeListTypeType;
+  type?: ConversationAttributeListTypeType | undefined;
   /** The unique identifier for the conversation attribute. */
-  id?: number;
+  id?: number | undefined;
   /** Name of the attribute. */
-  name?: string;
+  name?: string | undefined;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
-  data_type?: ConversationAttributeListTypeDataType;
+  data_type?: ConversationAttributeListTypeDataType | undefined;
   /** Whether this attribute is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Team IDs that can see this attribute. Empty array means all teams. */
-  visible_to_team_ids?: ConversationAttributeListTypeVisibleToTeamIdsList;
+  visible_to_team_ids?: ConversationAttributeListTypeVisibleToTeamIdsList | undefined;
   /** Whether this attribute is archived. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** The time the attribute was created as a UTC Unix timestamp. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the attribute was last updated as a UTC Unix timestamp. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** ID of the admin who created the attribute. */
-  admin_id?: string;
+  admin_id?: string | undefined;
   /** Predefined options for this attribute. Each option has a unique UUID used to identify it in the options management endpoints. */
-  options?: ConversationAttributeListTypeOptionsList;
+  options?: ConversationAttributeListTypeOptionsList | undefined;
 }
 /** Value is `conversation_attribute`. */
 export type ConversationAttributeDecimalTypeType = "conversation_attribute";
@@ -2476,27 +2482,27 @@ export type ConversationAttributeDecimalTypeDataType =
 export type ConversationAttributeDecimalTypeVisibleToTeamIdsList = Array<string>;
 export interface ConversationAttributeDecimalType {
   /** Value is `conversation_attribute`. */
-  type?: ConversationAttributeDecimalTypeType;
+  type?: ConversationAttributeDecimalTypeType | undefined;
   /** The unique identifier for the conversation attribute. */
-  id?: number;
+  id?: number | undefined;
   /** Name of the attribute. */
-  name?: string;
+  name?: string | undefined;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
-  data_type?: ConversationAttributeDecimalTypeDataType;
+  data_type?: ConversationAttributeDecimalTypeDataType | undefined;
   /** Whether this attribute is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Team IDs that can see this attribute. Empty array means all teams. */
-  visible_to_team_ids?: ConversationAttributeDecimalTypeVisibleToTeamIdsList;
+  visible_to_team_ids?: ConversationAttributeDecimalTypeVisibleToTeamIdsList | undefined;
   /** Whether this attribute is archived. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** The time the attribute was created as a UTC Unix timestamp. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the attribute was last updated as a UTC Unix timestamp. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** ID of the admin who created the attribute. */
-  admin_id?: string;
+  admin_id?: string | undefined;
 }
 /** Value is `conversation_attribute`. */
 export type ConversationAttributeBooleanTypeType = "conversation_attribute";
@@ -2514,27 +2520,27 @@ export type ConversationAttributeBooleanTypeDataType =
 export type ConversationAttributeBooleanTypeVisibleToTeamIdsList = Array<string>;
 export interface ConversationAttributeBooleanType {
   /** Value is `conversation_attribute`. */
-  type?: ConversationAttributeBooleanTypeType;
+  type?: ConversationAttributeBooleanTypeType | undefined;
   /** The unique identifier for the conversation attribute. */
-  id?: number;
+  id?: number | undefined;
   /** Name of the attribute. */
-  name?: string;
+  name?: string | undefined;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
-  data_type?: ConversationAttributeBooleanTypeDataType;
+  data_type?: ConversationAttributeBooleanTypeDataType | undefined;
   /** Whether this attribute is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Team IDs that can see this attribute. Empty array means all teams. */
-  visible_to_team_ids?: ConversationAttributeBooleanTypeVisibleToTeamIdsList;
+  visible_to_team_ids?: ConversationAttributeBooleanTypeVisibleToTeamIdsList | undefined;
   /** Whether this attribute is archived. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** The time the attribute was created as a UTC Unix timestamp. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the attribute was last updated as a UTC Unix timestamp. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** ID of the admin who created the attribute. */
-  admin_id?: string;
+  admin_id?: string | undefined;
 }
 /** Value is `conversation_attribute`. */
 export type ConversationAttributeDatetimeTypeType = "conversation_attribute";
@@ -2552,27 +2558,27 @@ export type ConversationAttributeDatetimeTypeDataType =
 export type ConversationAttributeDatetimeTypeVisibleToTeamIdsList = Array<string>;
 export interface ConversationAttributeDatetimeType {
   /** Value is `conversation_attribute`. */
-  type?: ConversationAttributeDatetimeTypeType;
+  type?: ConversationAttributeDatetimeTypeType | undefined;
   /** The unique identifier for the conversation attribute. */
-  id?: number;
+  id?: number | undefined;
   /** Name of the attribute. */
-  name?: string;
+  name?: string | undefined;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
-  data_type?: ConversationAttributeDatetimeTypeDataType;
+  data_type?: ConversationAttributeDatetimeTypeDataType | undefined;
   /** Whether this attribute is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Team IDs that can see this attribute. Empty array means all teams. */
-  visible_to_team_ids?: ConversationAttributeDatetimeTypeVisibleToTeamIdsList;
+  visible_to_team_ids?: ConversationAttributeDatetimeTypeVisibleToTeamIdsList | undefined;
   /** Whether this attribute is archived. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** The time the attribute was created as a UTC Unix timestamp. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the attribute was last updated as a UTC Unix timestamp. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** ID of the admin who created the attribute. */
-  admin_id?: string;
+  admin_id?: string | undefined;
 }
 /** Value is `conversation_attribute`. */
 export type ConversationAttributeRelationshipTypeType = "conversation_attribute";
@@ -2593,35 +2599,35 @@ export type ConversationAttributeRelationshipTypeReferenceType = "one" | "many";
 /** Reference configuration for related objects. */
 export interface ConversationAttributeRelationshipTypeReference {
   /** The cardinality of the relationship: `one` or `many`. */
-  type?: ConversationAttributeRelationshipTypeReferenceType;
+  type?: ConversationAttributeRelationshipTypeReferenceType | undefined;
   /** The ID of the related custom object type. */
-  object_type_id?: string;
+  object_type_id?: string | undefined;
 }
 export interface ConversationAttributeRelationshipType {
   /** Value is `conversation_attribute`. */
-  type?: ConversationAttributeRelationshipTypeType;
+  type?: ConversationAttributeRelationshipTypeType | undefined;
   /** The unique identifier for the conversation attribute. */
-  id?: number;
+  id?: number | undefined;
   /** Name of the attribute. */
-  name?: string;
+  name?: string | undefined;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
-  data_type?: ConversationAttributeRelationshipTypeDataType;
+  data_type?: ConversationAttributeRelationshipTypeDataType | undefined;
   /** Whether this attribute is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Team IDs that can see this attribute. Empty array means all teams. */
-  visible_to_team_ids?: ConversationAttributeRelationshipTypeVisibleToTeamIdsList;
+  visible_to_team_ids?: ConversationAttributeRelationshipTypeVisibleToTeamIdsList | undefined;
   /** Whether this attribute is archived. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** The time the attribute was created as a UTC Unix timestamp. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the attribute was last updated as a UTC Unix timestamp. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** ID of the admin who created the attribute. */
-  admin_id?: string;
+  admin_id?: string | undefined;
   /** Reference configuration for related objects. */
-  reference?: ConversationAttributeRelationshipTypeReference;
+  reference?: ConversationAttributeRelationshipTypeReference | undefined;
 }
 /** Value is `conversation_attribute`. */
 export type ConversationAttributeFilesTypeType = "conversation_attribute";
@@ -2639,27 +2645,27 @@ export type ConversationAttributeFilesTypeDataType =
 export type ConversationAttributeFilesTypeVisibleToTeamIdsList = Array<string>;
 export interface ConversationAttributeFilesType {
   /** Value is `conversation_attribute`. */
-  type?: ConversationAttributeFilesTypeType;
+  type?: ConversationAttributeFilesTypeType | undefined;
   /** The unique identifier for the conversation attribute. */
-  id?: number;
+  id?: number | undefined;
   /** Name of the attribute. */
-  name?: string;
+  name?: string | undefined;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the attribute. Allowed types: string, integer, list, decimal, boolean, datetime, relationship, files. */
-  data_type?: ConversationAttributeFilesTypeDataType;
+  data_type?: ConversationAttributeFilesTypeDataType | undefined;
   /** Whether this attribute is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Team IDs that can see this attribute. Empty array means all teams. */
-  visible_to_team_ids?: ConversationAttributeFilesTypeVisibleToTeamIdsList;
+  visible_to_team_ids?: ConversationAttributeFilesTypeVisibleToTeamIdsList | undefined;
   /** Whether this attribute is archived. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** The time the attribute was created as a UTC Unix timestamp. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the attribute was last updated as a UTC Unix timestamp. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** ID of the admin who created the attribute. */
-  admin_id?: string;
+  admin_id?: string | undefined;
 }
 /** Conversation Attributes represent custom metadata fields for conversations. They support type-specific properties: strings (multiline), lists (options), and relationships (reference). */
 export type ConversationAttribute =
@@ -2679,6 +2685,50 @@ export interface CreateConversationAttributeOptionRequest2 {
   label: string;
 }
 export type CreateConversationAttributeOptionResponse = ConversationAttribute;
+export interface CreateConversationStreamTokenRequest {
+  /** The external ID of the contact to issue a token for. */
+  external_id: string;
+}
+/** String representing the object's type. Always has the value `conversation_stream_token`. */
+export type ConversationStreamTokenType = "conversation_stream_token";
+/** What the client needs to connect to the stream. */
+export interface ConversationStreamTokenStream {
+  /** The realtime provider that delivers the stream. */
+  provider?: string | undefined;
+  /** The host to connect to. */
+  url?: string | undefined;
+  /** The channel to subscribe to. */
+  channel?: string | undefined;
+  /** The token to connect with. */
+  token?: string | undefined;
+}
+/** The request that issues a new token for the contact. */
+export interface ConversationStreamTokenLinksSelf {
+  /** The URL to request. */
+  href?: string | undefined;
+  /** The HTTP method to use. */
+  method?: string | undefined;
+}
+/** The request that revokes every active token for the contact. */
+export type ConversationStreamTokenLinksRevoke = ConversationStreamTokenLinksSelf;
+/** The requests you can make with this token. */
+export interface ConversationStreamTokenLinks {
+  /** The request that issues a new token for the contact. */
+  self?: ConversationStreamTokenLinksSelf | undefined;
+  /** The request that revokes every active token for the contact. */
+  revoke?: ConversationStreamTokenLinksSelf | undefined;
+}
+/** A token that lets a contact's client subscribe to a realtime stream of their conversation events. */
+export interface ConversationStreamToken {
+  /** String representing the object's type. Always has the value `conversation_stream_token`. */
+  type?: ConversationStreamTokenType | undefined;
+  /** The time the token expires, as a UNIX timestamp. */
+  expires_at?: number | undefined;
+  /** What the client needs to connect to the stream. */
+  stream?: ConversationStreamTokenStream | undefined;
+  /** The requests you can make with this token. */
+  links?: ConversationStreamTokenLinks | undefined;
+}
 /** The custom attributes which are set for the Custom Object instance. */
 export type CreateCustomObjectInstancesRequestCustomAttributesMap = {
   [key: string]: string | undefined;
@@ -2687,34 +2737,34 @@ export interface CreateCustomObjectInstancesRequest {
   /** The unique identifier of the custom object type that defines the structure of the custom object instance. */
   custom_object_type_identifier: string;
   /** A unique identifier for the Custom Object instance in the external system it originated from. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** The time when the Custom Object instance was created in the external system it originated from. */
-  external_created_at?: number | null;
+  external_created_at?: number | null | undefined;
   /** The time when the Custom Object instance was last updated in the external system it originated from. */
-  external_updated_at?: number | null;
+  external_updated_at?: number | null | undefined;
   /** The custom attributes which are set for the Custom Object instance. */
-  custom_attributes?: CreateCustomObjectInstancesRequestCustomAttributesMap | null;
+  custom_attributes?: CreateCustomObjectInstancesRequestCustomAttributesMap | null | undefined;
 }
 /** The custom attributes you have set on the custom object instance. */
 export type CustomObjectInstanceCustomAttributesMap = { [key: string]: string | undefined };
 /** A Custom Object Instance represents an instance of a custom object type. This allows you to create and set custom attributes to store data about your customers that is not already captured by Intercom. The parent object includes recommended default attributes and you can add your own custom attributes. */
 export interface CustomObjectInstance {
   /** The Intercom defined id representing the custom object instance. */
-  id?: string;
+  id?: string | undefined;
   /** The id you have defined for the custom object instance. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** The time when the Custom Object instance was created in the external system it originated from. */
-  external_created_at?: number | null;
+  external_created_at?: number | null | undefined;
   /** The time when the Custom Object instance was last updated in the external system it originated from. */
-  external_updated_at?: number | null;
+  external_updated_at?: number | null | undefined;
   /** The time the attribute was created as a UTC Unix timestamp */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the attribute was last updated as a UTC Unix timestamp */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** The identifier of the custom object type that defines the structure of the custom object instance. */
-  type?: string;
+  type?: string | undefined;
   /** The custom attributes you have set on the custom object instance. */
-  custom_attributes?: CustomObjectInstanceCustomAttributesMap;
+  custom_attributes?: CustomObjectInstanceCustomAttributesMap | undefined;
 }
 /** The model that the data attribute belongs to. */
 export type CreateDataAttributeRequestModel = "contact" | "company";
@@ -2724,9 +2774,9 @@ export interface CreateDataAttributeRequest {
   /** The model that the data attribute belongs to. */
   model: CreateDataAttributeRequestModel | (string & {});
   /** The readable description you see in the UI for the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** Can this attribute be updated by the Messenger */
-  messenger_writable?: boolean;
+  messenger_writable?: boolean | undefined;
 }
 /** Value is `data_attribute`. */
 export type DataAttributeType = "data_attribute";
@@ -2739,39 +2789,39 @@ export type DataAttributeOptionsList = Array<string>;
 /** Data Attributes are metadata used to describe your contact and company models. These include standard and custom attributes. By using the data attributes endpoint, you can get the global list of attributes for your workspace, as well as create and archive custom attributes. */
 export interface DataAttribute {
   /** Value is `data_attribute`. */
-  type?: DataAttributeType;
+  type?: DataAttributeType | undefined;
   /** The unique identifier for the data attribute which is given by Intercom. Only available for custom attributes. */
-  id?: number;
+  id?: number | undefined;
   /** Value is `contact` for user/lead attributes and `company` for company attributes. */
-  model?: DataAttributeModel;
+  model?: DataAttributeModel | undefined;
   /** Name of the attribute. */
-  name?: string;
+  name?: string | undefined;
   /** Full name of the attribute. Should match the name unless it's a nested attribute. We can split full_name on `.` to access nested user object values. */
-  full_name?: string;
+  full_name?: string | undefined;
   /** Readable name of the attribute (i.e. name you see in the UI) */
-  label?: string;
+  label?: string | undefined;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** The data type of the attribute. */
-  data_type?: DataAttributeDataType;
+  data_type?: DataAttributeDataType | undefined;
   /** List of predefined options for attribute value. */
-  options?: DataAttributeOptionsList;
+  options?: DataAttributeOptionsList | undefined;
   /** Can this attribute be updated through API */
-  api_writable?: boolean;
+  api_writable?: boolean | undefined;
   /** Can this attribute be updated by the Messenger */
-  messenger_writable?: boolean;
+  messenger_writable?: boolean | undefined;
   /** Can this attribute be updated in the UI */
-  ui_writable?: boolean;
+  ui_writable?: boolean | undefined;
   /** Set to true if this is a CDA */
-  custom?: boolean;
+  custom?: boolean | undefined;
   /** Is this attribute archived. (Only applicable to CDAs) */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** The time the attribute was created as a UTC Unix timestamp */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the attribute was last updated as a UTC Unix timestamp */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Teammate who created the attribute. Only applicable to CDAs */
-  admin_id?: string;
+  admin_id?: string | undefined;
 }
 /** The HTTP method used when calling the external API. */
 export type CreateDataConnectorRequestHttpMethod = "get" | "post" | "put" | "delete" | "patch";
@@ -2782,11 +2832,11 @@ export type CreateDataConnectorRequestAudiencesList = Array<
 >;
 export interface CreateDataConnectorRequestHeadersItem {
   /** The header name. */
-  name?: string;
+  name?: string | undefined;
   /** The header value. Supports template variables. */
-  value?: string;
+  value?: string | undefined;
 }
-/** HTTP headers to include in the request. */
+/** HTTP headers to include in the request. Don't put credentials such as API keys here: header values are recorded unmasked in the connector's execution logs, except `Authorization`, which is always masked. Attach an authentication token with `token_ids` instead; its value is masked in execution logs. */
 export type CreateDataConnectorRequestHeadersList = Array<CreateDataConnectorRequestHeadersItem>;
 /** The parameter type. */
 export type CreateDataConnectorRequestDataInputsItemType =
@@ -2796,15 +2846,15 @@ export type CreateDataConnectorRequestDataInputsItemType =
   | "boolean";
 export interface CreateDataConnectorRequestDataInputsItem {
   /** The parameter name. */
-  name?: string;
+  name?: string | undefined;
   /** The parameter type. */
-  type?: CreateDataConnectorRequestDataInputsItemType | (string & {});
+  type?: CreateDataConnectorRequestDataInputsItemType | (string & {}) | undefined;
   /** A description of the parameter. */
-  description?: string;
+  description?: string | undefined;
   /** Whether the parameter is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** The default value for the parameter. Defaults to an empty string if omitted. */
-  default_value?: string;
+  default_value?: string | undefined;
 }
 /** Input parameters accepted by the connector. */
 export type CreateDataConnectorRequestDataInputsList =
@@ -2815,31 +2865,31 @@ export interface CreateDataConnectorRequest {
   /** The name of the data connector. */
   name: string;
   /** A description of what this data connector does. */
-  description?: string;
+  description?: string | undefined;
   /** The HTTP method used when calling the external API. */
-  http_method?: CreateDataConnectorRequestHttpMethod | (string & {});
+  http_method?: CreateDataConnectorRequestHttpMethod | (string & {}) | undefined;
   /** The URL of the external API endpoint. Supports template variables like `{{order_id}}`. */
-  url?: string;
+  url?: string | undefined;
   /** The request body template. Supports template variables. */
-  body?: string;
+  body?: string | undefined;
   /** Whether the connector is used directly by Fin (true) or only in workflows (false). Defaults to false. */
-  direct_fin_usage?: boolean;
+  direct_fin_usage?: boolean | undefined;
   /** The user types this connector is available for. */
-  audiences?: CreateDataConnectorRequestAudiencesList;
-  /** HTTP headers to include in the request. */
-  headers?: CreateDataConnectorRequestHeadersList;
+  audiences?: CreateDataConnectorRequestAudiencesList | undefined;
+  /** HTTP headers to include in the request. Don't put credentials such as API keys here: header values are recorded unmasked in the connector's execution logs, except `Authorization`, which is always masked. Attach an authentication token with `token_ids` instead; its value is masked in execution logs. */
+  headers?: CreateDataConnectorRequestHeadersList | undefined;
   /** Input parameters accepted by the connector. */
-  data_inputs?: CreateDataConnectorRequestDataInputsList;
+  data_inputs?: CreateDataConnectorRequestDataInputsList | undefined;
   /** Whether the connector requires customer authentication before executing. Defaults to false. */
-  customer_authentication?: boolean;
+  customer_authentication?: boolean | undefined;
   /** Whether authentication is bypassed entirely (public endpoint). Defaults to false. */
-  bypass_authentication?: boolean;
+  bypass_authentication?: boolean | undefined;
   /** Whether to validate that all required data inputs have values before executing. */
-  validate_missing_attributes?: boolean;
+  validate_missing_attributes?: boolean | undefined;
   /** A sample JSON response from the external API. Auto-generates `response_fields` and sets `configuration_response_type` to `mock_response_type`. */
-  mock_response?: unknown;
+  mock_response?: unknown | undefined;
   /** IDs of authentication tokens to attach to this data connector. */
-  token_ids?: CreateDataConnectorRequestTokenIdsList;
+  token_ids?: CreateDataConnectorRequestTokenIdsList | undefined;
 }
 /** The type of object - `data_connector`. */
 export type DataConnectorDetailType = "data_connector";
@@ -2847,9 +2897,9 @@ export type DataConnectorDetailType = "data_connector";
 export type DataConnectorDetailState = "draft" | "live";
 export interface DataConnectorDetailHeadersItem {
   /** The header name. */
-  name?: string;
+  name?: string | undefined;
   /** Always `"****"` in responses. */
-  value?: string;
+  value?: string | undefined;
 }
 /** HTTP headers for the request. Header values are always redacted as `"****"` in responses. */
 export type DataConnectorDetailHeadersList = Array<DataConnectorDetailHeadersItem>;
@@ -2873,15 +2923,15 @@ export type DataConnectorDetailDataTransformationType =
 export type DataConnectorDetailDataInputsItemType = "string" | "integer" | "decimal" | "boolean";
 export interface DataConnectorDetailDataInputsItem {
   /** The name of the input parameter. */
-  name?: string;
+  name?: string | undefined;
   /** The data type of the input. */
-  type?: DataConnectorDetailDataInputsItemType;
+  type?: DataConnectorDetailDataInputsItemType | undefined;
   /** A description of the input parameter. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether this input is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** The default value for this input, if any. */
-  default_value?: string;
+  default_value?: string | undefined;
 }
 /** The input parameters accepted by this data connector. */
 export type DataConnectorDetailDataInputsList = Array<DataConnectorDetailDataInputsItem>;
@@ -2895,13 +2945,13 @@ export type DataConnectorDetailResponseFieldsItemType =
   | "boolean";
 export interface DataConnectorDetailResponseFieldsItem {
   /** The JSON path of the response field. */
-  path?: string;
+  path?: string | undefined;
   /** The data type of the response field. */
-  type?: DataConnectorDetailResponseFieldsItemType;
+  type?: DataConnectorDetailResponseFieldsItemType | undefined;
   /** An example value for this field. */
-  example_value?: unknown | null;
+  example_value?: unknown | null | undefined;
   /** Whether this field is redacted in logs. */
-  redacted?: boolean;
+  redacted?: boolean | undefined;
 }
 /** The fields returned in the connector response. */
 export type DataConnectorDetailResponseFieldsList = Array<DataConnectorDetailResponseFieldsItem>;
@@ -2910,9 +2960,9 @@ export type DataConnectorDetailObjectMappingsItemAttributeMappingsItemMappingTyp
   | "primitive_mapping"
   | "context_mapping";
 export interface DataConnectorDetailObjectMappingsItemAttributeMappingsItem {
-  response_attribute_path?: string;
-  intercom_attribute_identifier?: string;
-  mapping_type?: DataConnectorDetailObjectMappingsItemAttributeMappingsItemMappingType;
+  response_attribute_path?: string | undefined;
+  intercom_attribute_identifier?: string | undefined;
+  mapping_type?: DataConnectorDetailObjectMappingsItemAttributeMappingsItemMappingType | undefined;
 }
 export type DataConnectorDetailObjectMappingsItemAttributeMappingsList =
   Array<DataConnectorDetailObjectMappingsItemAttributeMappingsItem>;
@@ -2920,16 +2970,18 @@ export type DataConnectorDetailObjectMappingsItemReferenceMappingsItemIntercomOb
   | "conversation"
   | "user";
 export interface DataConnectorDetailObjectMappingsItemReferenceMappingsItem {
-  intercom_object_type?: DataConnectorDetailObjectMappingsItemReferenceMappingsItemIntercomObjectType;
-  intercom_attribute_identifier?: string;
+  intercom_object_type?:
+    | DataConnectorDetailObjectMappingsItemReferenceMappingsItemIntercomObjectType
+    | undefined;
+  intercom_attribute_identifier?: string | undefined;
 }
 export type DataConnectorDetailObjectMappingsItemReferenceMappingsList =
   Array<DataConnectorDetailObjectMappingsItemReferenceMappingsItem>;
 export interface DataConnectorDetailObjectMappingsItem {
-  response_object_path?: string;
-  intercom_object_type?: DataConnectorDetailObjectMappingsItemIntercomObjectType;
-  attribute_mappings?: DataConnectorDetailObjectMappingsItemAttributeMappingsList;
-  reference_mappings?: DataConnectorDetailObjectMappingsItemReferenceMappingsList;
+  response_object_path?: string | undefined;
+  intercom_object_type?: DataConnectorDetailObjectMappingsItemIntercomObjectType | undefined;
+  attribute_mappings?: DataConnectorDetailObjectMappingsItemAttributeMappingsList | undefined;
+  reference_mappings?: DataConnectorDetailObjectMappingsItemReferenceMappingsList | undefined;
 }
 /** Mappings from connector response objects to Intercom objects. */
 export type DataConnectorDetailObjectMappingsList = Array<DataConnectorDetailObjectMappingsItem>;
@@ -2938,77 +2990,77 @@ export type DataConnectorDetailTokenIdsList = Array<string>;
 /** Full detail view of a data connector, returned by `GET /data_connectors/{id}`. Includes configuration, data inputs, response fields, and object mappings. */
 export interface DataConnectorDetail {
   /** The type of object - `data_connector`. */
-  type?: DataConnectorDetailType;
+  type?: DataConnectorDetailType | undefined;
   /** The unique identifier for the data connector. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the data connector. */
-  name?: string;
+  name?: string | undefined;
   /** A description of what this data connector does. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The current state of the data connector. */
-  state?: DataConnectorDetailState;
+  state?: DataConnectorDetailState | undefined;
   /** The URL of the external API endpoint. Supports template variables like `{{order_id}}`. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The request body template. Supports template variables. */
-  body?: string;
+  body?: string | undefined;
   /** HTTP headers for the request. Header values are always redacted as `"****"` in responses. */
-  headers?: DataConnectorDetailHeadersList;
+  headers?: DataConnectorDetailHeadersList | undefined;
   /** The HTTP method used by the data connector. */
-  http_method?: DataConnectorDetailHttpMethod;
+  http_method?: DataConnectorDetailHttpMethod | undefined;
   /** Whether this connector is used directly by Fin. */
-  direct_fin_usage?: boolean;
+  direct_fin_usage?: boolean | undefined;
   /** The audience types this connector targets. */
-  audiences?: DataConnectorDetailAudiencesList;
+  audiences?: DataConnectorDetailAudiencesList | undefined;
   /** How the connector executes. */
-  execution_type?: DataConnectorDetailExecutionType | null;
+  execution_type?: DataConnectorDetailExecutionType | null | undefined;
   /** The expected response format from the connector. */
-  configuration_response_type?: DataConnectorDetailConfigurationResponseType | null;
+  configuration_response_type?: DataConnectorDetailConfigurationResponseType | null | undefined;
   /** The type of data transformation applied to the response. */
-  data_transformation_type?: DataConnectorDetailDataTransformationType | null;
+  data_transformation_type?: DataConnectorDetailDataTransformationType | null | undefined;
   /** The name of the client-side function, if applicable. */
-  client_function_name?: string | null;
+  client_function_name?: string | null | undefined;
   /** Timeout in milliseconds for the client function, if applicable. */
-  client_function_timeout_ms?: number | null;
+  client_function_timeout_ms?: number | null | undefined;
   /** The input parameters accepted by this data connector. */
-  data_inputs?: DataConnectorDetailDataInputsList;
+  data_inputs?: DataConnectorDetailDataInputsList | undefined;
   /** The fields returned in the connector response. */
-  response_fields?: DataConnectorDetailResponseFieldsList;
+  response_fields?: DataConnectorDetailResponseFieldsList | undefined;
   /** Mappings from connector response objects to Intercom objects. */
-  object_mappings?: DataConnectorDetailObjectMappingsList;
+  object_mappings?: DataConnectorDetailObjectMappingsList | undefined;
   /** IDs of authentication tokens associated with this connector. */
-  token_ids?: DataConnectorDetailTokenIdsList;
+  token_ids?: DataConnectorDetailTokenIdsList | undefined;
   /** Whether OTP authentication is enabled for this connector. */
-  customer_authentication?: boolean;
+  customer_authentication?: boolean | undefined;
   /** Whether authentication is bypassed for this connector. */
-  bypass_authentication?: boolean;
+  bypass_authentication?: boolean | undefined;
   /** Whether to validate missing attributes before execution. */
-  validate_missing_attributes?: boolean | null;
+  validate_missing_attributes?: boolean | null | undefined;
   /** The ID of the admin who created this connector. */
-  created_by_admin_id?: string | null;
+  created_by_admin_id?: string | null | undefined;
   /** The ID of the admin who last updated this connector. */
-  updated_by_admin_id?: string | null;
+  updated_by_admin_id?: string | null | undefined;
   /** The time the data connector was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time the data connector was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The URL path to fetch execution results for this connector. */
-  execution_results_url?: string;
+  execution_results_url?: string | undefined;
 }
 /** Optional metadata about the event. */
 export type CreateDataEventRequestMetadataMap = { [key: string]: string | undefined };
 export interface CreateDataEventRequest {
   /** The name of the event that occurred. This is presented to your App's admins when filtering and creating segments - a good event name is typically a past tense 'verb-noun' combination, to improve readability, for example `updated-plan`. */
-  event_name?: string;
+  event_name?: string | undefined;
   /** The time the event occurred as a UTC Unix timestamp */
-  created_at?: number;
+  created_at?: number | undefined;
   /** Your identifier for the user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** The unique identifier for the contact (lead or user) which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** An email address for your user. An email should only be used where your application uses email to uniquely identify users. */
-  email?: string;
+  email?: string | undefined;
   /** Optional metadata about the event. */
-  metadata?: CreateDataEventRequestMetadataMap;
+  metadata?: CreateDataEventRequestMetadataMap | undefined;
 }
 export interface CreateDataEventResponse {}
 export interface CreateDataExportRequest {
@@ -3025,35 +3077,41 @@ export interface CreateExportReportingDataEnqueueRequest {
   end_time: number;
 }
 export interface CreateExportReportingDataEnqueueResponse {
-  job_identifier?: string;
-  status?: string;
-  download_url?: string;
-  download_expires_at?: string;
+  job_identifier?: string | undefined;
+  status?: string | undefined;
+  download_url?: string | undefined;
+  download_expires_at?: string | undefined;
 }
 /** Always en */
 export type CreateExternalPageRequestLocale = "en";
+/** The list of audience IDs to target this external page to for Fin AI Agent. Omitting the field keeps the default audience inherited from the source. Pass `[]` to clear all audience memberships, including the inherited ones. If an external page already exists with the specified source_id and external_id, omitting the field leaves its audience memberships unchanged. Unknown audience IDs return a `404` error. */
+export type CreateExternalPageRequestAudienceIdsList = Array<number>;
 export interface CreateExternalPageRequest {
   /** The title of the external page. */
   title: string;
   /** The body of the external page in HTML. */
   html: string;
   /** The URL of the external page. This will be used by Fin to link end users to the page it based its answer on. When a URL is not present, Fin will not reference the source. */
-  url?: string;
+  url?: string | undefined;
   /** Whether the external page should be used to answer questions by AI Agent. Will not default when updating an existing external page. */
-  ai_agent_availability?: boolean;
+  ai_agent_availability?: boolean | undefined;
   /** Whether the external page should be used to answer questions by AI Copilot. Will not default when updating an existing external page. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Always en */
   locale: CreateExternalPageRequestLocale | (string & {});
   /** The unique identifier for the source of the external page which was given by Intercom. Every external page must be associated with a Content Import Source which represents the place it comes from and from which it inherits a default audience (configured in the UI). For a new source, make a POST request to the Content Import Source endpoint and an ID for the source will be returned in the response. */
   source_id: number;
   /** The identifier for the external page which was given by the source. Must be unique for the source. */
   external_id: string;
+  /** The list of audience IDs to target this external page to for Fin AI Agent. Omitting the field keeps the default audience inherited from the source. Pass `[]` to clear all audience memberships, including the inherited ones. If an external page already exists with the specified source_id and external_id, omitting the field leaves its audience memberships unchanged. Unknown audience IDs return a `404` error. */
+  audience_ids?: CreateExternalPageRequestAudienceIdsList | null | undefined;
 }
 /** Always external_page */
 export type ExternalPageType = "external_page";
 /** Always en */
 export type ExternalPageLocale = "en";
+/** The list of audience IDs that this external page is targeted to for Fin AI Agent. Empty when the external page has no audience targeting. */
+export type ExternalPageAudienceIdsList = Array<number>;
 /** External pages that you have added to your Fin Content Library. */
 export interface ExternalPage {
   /** Always external_page */
@@ -3065,21 +3123,23 @@ export interface ExternalPage {
   /** The body of the external page in HTML. */
   html: string;
   /** The URL of the external page. This will be used by Fin to link end users to the page it based its answer on. */
-  url?: string;
+  url?: string | undefined;
   /** Whether the external page should be used to answer questions by AI Agent. */
   ai_agent_availability: boolean;
   /** Whether the external page should be used to answer questions by AI Copilot. */
   ai_copilot_availability: boolean;
   /** Whether the external page should be used to answer questions by AI Sales Agent. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
   /** Deprecated. Use ai_agent_availability and ai_copilot_availability instead. */
-  fin_availability?: boolean;
+  fin_availability?: boolean | undefined;
   /** Always en */
   locale: ExternalPageLocale;
   /** The unique identifier for the source of the external page which was given by Intercom. Every external page must be associated with a Content Import Source which represents the place it comes from and from which it inherits a default audience (configured in the UI). For a new source, make a POST request to the Content Import Source endpoint and an ID for the source will be returned in the response. */
   source_id: number;
   /** The identifier for the external page which was given by the source. Must be unique for the source. */
   external_id: string;
+  /** The list of audience IDs that this external page is targeted to for Fin AI Agent. Empty when the external page has no audience targeting. */
+  audience_ids?: ExternalPageAudienceIdsList | undefined;
   /** The time when the external page was created. */
   created_at: number;
   /** The time when the external page was last updated. */
@@ -3108,23 +3168,23 @@ export type HelpCenterRedirectTargetType = "article" | "collection";
 /** A redirect maps a source URL (`from_url`) to an article or collection within a help center, so that links to old or external URLs resolve to live content. */
 export interface HelpCenterRedirect {
   /** The unique identifier for the redirect. */
-  id?: string;
+  id?: string | undefined;
   /** The type of the object - `help_center_redirect`. */
-  type?: HelpCenterRedirectType;
+  type?: HelpCenterRedirectType | undefined;
   /** The source URL that is redirected. An absolute URL within the help center's URL space. */
-  from_url?: string;
+  from_url?: string | undefined;
   /** The locale of the redirect's target. For article targets this is the bound translation's locale, which may differ from the requested locale if no translation exists in that locale. */
-  locale?: string;
+  locale?: string | undefined;
   /** The unique identifier for the help center the redirect belongs to. */
-  help_center_id?: string;
+  help_center_id?: string | undefined;
   /** The type of the redirect target. */
-  target_type?: HelpCenterRedirectTargetType;
+  target_type?: HelpCenterRedirectTargetType | undefined;
   /** The unique identifier of the target article or collection. For article targets this is the Article ID. */
-  target_id?: string;
+  target_id?: string | undefined;
   /** The time the redirect was created as a UTC Unix timestamp. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the redirect was last updated as a UTC Unix timestamp. */
-  updated_at?: number;
+  updated_at?: number | undefined;
 }
 /** The list of audience IDs to target this internal article to for Fin AI Agent. Pass an empty array or omit the field for no audience targeting. Unknown audience IDs return a `404` error with no partial commit. */
 export type CreateInternalArticleRequestAudienceIdsList = Array<number>;
@@ -3132,21 +3192,21 @@ export interface CreateInternalArticleRequest {
   /** The title of the article. */
   title: string;
   /** The content of the article in HTML. Mutually exclusive with `body_markdown`. */
-  body?: string;
+  body?: string | undefined;
   /** The content of the article in markdown. An alternative to `body` -- you can provide content as markdown instead of HTML. Mutually exclusive with `body`. */
-  body_markdown?: string;
+  body_markdown?: string | undefined;
   /** The id of the author of the article. */
   author_id: number;
   /** The id of the owner of the article. */
   owner_id: number;
   /** The list of audience IDs to target this internal article to for Fin AI Agent. Pass an empty array or omit the field for no audience targeting. Unknown audience IDs return a `404` error with no partial commit. */
-  audience_ids?: CreateInternalArticleRequestAudienceIdsList | null;
+  audience_ids?: CreateInternalArticleRequestAudienceIdsList | null | undefined;
   /** Whether the internal article should be available for AI Chatbot (Fin). Defaults to false. */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the internal article should be available for AI Copilot. Defaults to false. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the internal article should be available for AI Sales Agent. Defaults to false. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
 }
 /** The type of object - `internal_article`. */
 export type CreateInternalArticleResponseType = "internal_article";
@@ -3154,33 +3214,33 @@ export type CreateInternalArticleResponseType = "internal_article";
 export type CreateInternalArticleResponseAudienceIdsList = Array<number>;
 export interface CreateInternalArticleResponse {
   /** The type of object - `internal_article`. */
-  type?: CreateInternalArticleResponseType;
+  type?: CreateInternalArticleResponseType | undefined;
   /** The unique identifier for the article which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The title of the article. */
-  title?: string;
+  title?: string | undefined;
   /** The body of the article in HTML. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** The body of the article in markdown. */
-  body_markdown?: string | null;
+  body_markdown?: string | null | undefined;
   /** The id of the owner of the article. */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** The id of the author of the article. */
-  author_id?: number;
+  author_id?: number | undefined;
   /** The time when the article was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time when the article was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** The default locale of the article. */
-  locale?: string;
+  locale?: string | undefined;
   /** The list of audience IDs this internal article is targeted to for Fin AI Agent. Empty array means no audience targeting is set. */
-  audience_ids?: CreateInternalArticleResponseAudienceIdsList | null;
+  audience_ids?: CreateInternalArticleResponseAudienceIdsList | null | undefined;
   /** Whether the internal article is available for AI Chatbot (Fin). */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the internal article is available for AI Copilot. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the internal article is available for AI Sales Agent. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
 }
 /** The kind of message being created. Values: `in_app`, `email` or `whatsapp`. */
 export type CreateMessageRequestMessageType = "in_app" | "email" | "whatsapp";
@@ -3213,22 +3273,22 @@ export type CreateMessageRequestBccCase1List = Array<Recipient>;
 export type CreateMessageRequestBcc = Recipient | CreateMessageRequestBccCase1List;
 export interface CreateMessageRequest {
   /** The kind of message being created. Values: `in_app`, `email` or `whatsapp`. */
-  message_type?: CreateMessageRequestMessageType | (string & {});
+  message_type?: CreateMessageRequestMessageType | (string & {}) | undefined;
   /** The title of the email. */
-  subject?: string;
+  subject?: string | undefined;
   /** The content of the message. HTML and plaintext are supported. */
-  body?: string;
+  body?: string | undefined;
   /** The style of the outgoing message. Possible values `plain` or `personal`. */
-  template?: string;
+  template?: string | undefined;
   /** The sender of the message. If not provided, the default sender will be used. */
-  from?: CreateMessageRequestFrom;
-  to?: CreateMessageRequestTo;
-  cc?: CreateMessageRequestCc;
-  bcc?: CreateMessageRequestBcc;
+  from?: CreateMessageRequestFrom | undefined;
+  to?: CreateMessageRequestTo | undefined;
+  cc?: CreateMessageRequestCc | undefined;
+  bcc?: CreateMessageRequestBcc | undefined;
   /** The time the message was created. If not provided, the current time will be used. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** Whether a conversation should be opened in the inbox for the message without the contact replying. Defaults to false if not provided. */
-  create_conversation_without_contact_reply?: boolean;
+  create_conversation_without_contact_reply?: boolean | undefined;
 }
 /** The type of message that was sent. Can be email, inapp, facebook or twitter. */
 export type MessageMessageType = "email" | "inapp" | "facebook" | "twitter";
@@ -3241,13 +3301,13 @@ export interface Message {
   /** The time the conversation was created. */
   created_at: number;
   /** The subject of the message. Only present if message_type: email. */
-  subject?: string;
+  subject?: string | undefined;
   /** The message body, which may contain HTML. */
   body: string;
   /** The type of message that was sent. Can be email, inapp, facebook or twitter. */
   message_type: MessageMessageType;
   /** The associated conversation_id */
-  conversation_id?: string;
+  conversation_id?: string | undefined;
 }
 /** News items will not be visible to your users in the assigned newsfeeds until they are set live. */
 export type CreateNewsItemRequestState = "draft" | "live";
@@ -3258,9 +3318,9 @@ export type CreateNewsItemRequestReactionsList = Array<string | null>;
 /** Assigns a news item to a newsfeed. */
 export interface NewsfeedAssignment {
   /** The unique identifier for the newsfeed which is given by Intercom. Publish dates cannot be in the future, to schedule news items use the dedicated feature in app (see this article). */
-  newsfeed_id?: number;
+  newsfeed_id?: number | undefined;
   /** Publish date of the news item on the newsfeed, use this field if you want to set a publish date in the past (e.g. when importing existing news items). On write, this field will be ignored if the news item state is "draft". */
-  published_at?: number;
+  published_at?: number | undefined;
 }
 /** A list of newsfeed_assignments to assign to the specified newsfeed. */
 export type CreateNewsItemRequestNewsfeedAssignmentsList = Array<NewsfeedAssignment>;
@@ -3268,19 +3328,19 @@ export interface CreateNewsItemRequest {
   /** The title of the news item. */
   title: string;
   /** The news item body, which may contain HTML. */
-  body?: string;
+  body?: string | undefined;
   /** The id of the sender of the news item. Must be a teammate on the workspace. */
   sender_id: number;
   /** News items will not be visible to your users in the assigned newsfeeds until they are set live. */
-  state?: CreateNewsItemRequestState | (string & {});
+  state?: CreateNewsItemRequestState | (string & {}) | undefined;
   /** When set to `true`, the news item will appear in the messenger newsfeed without showing a notification badge. */
-  deliver_silently?: boolean;
+  deliver_silently?: boolean | undefined;
   /** Label names displayed to users to categorize the news item. */
-  labels?: CreateNewsItemRequestLabelsList;
+  labels?: CreateNewsItemRequestLabelsList | undefined;
   /** Ordered list of emoji reactions to the news item. When empty, reactions are disabled. */
-  reactions?: CreateNewsItemRequestReactionsList;
+  reactions?: CreateNewsItemRequestReactionsList | undefined;
   /** A list of newsfeed_assignments to assign to the specified newsfeed. */
-  newsfeed_assignments?: CreateNewsItemRequestNewsfeedAssignmentsList;
+  newsfeed_assignments?: CreateNewsItemRequestNewsfeedAssignmentsList | undefined;
 }
 /** The type of object. */
 export type NewsItemType = "news-item";
@@ -3295,33 +3355,33 @@ export type NewsItemReactionsList = Array<string | null>;
 /** A News Item is a content type in Intercom enabling you to announce product updates, company news, promotions, events and more with your customers. */
 export interface NewsItem {
   /** The type of object. */
-  type?: NewsItemType;
+  type?: NewsItemType | undefined;
   /** The unique identifier for the news item which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the workspace which the news item belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The title of the news item. */
-  title?: string;
+  title?: string | undefined;
   /** The news item body, which may contain HTML. */
-  body?: string;
+  body?: string | undefined;
   /** The id of the sender of the news item. Must be a teammate on the workspace. */
-  sender_id?: number;
+  sender_id?: number | undefined;
   /** News items will not be visible to your users in the assigned newsfeeds until they are set live. */
-  state?: NewsItemState;
+  state?: NewsItemState | undefined;
   /** A list of newsfeed_assignments to assign to the specified newsfeed. */
-  newsfeed_assignments?: NewsItemNewsfeedAssignmentsList;
+  newsfeed_assignments?: NewsItemNewsfeedAssignmentsList | undefined;
   /** Label names displayed to users to categorize the news item. */
-  labels?: NewsItemLabelsList;
+  labels?: NewsItemLabelsList | undefined;
   /** URL of the image used as cover. Must have .jpg or .png extension. */
-  cover_image_url?: string | null;
+  cover_image_url?: string | null | undefined;
   /** Ordered list of emoji reactions to the news item. When empty, reactions are disabled. */
-  reactions?: NewsItemReactionsList;
+  reactions?: NewsItemReactionsList | undefined;
   /** When set to true, the news item will appear in the messenger newsfeed without showing a notification badge. */
-  deliver_silently?: boolean;
+  deliver_silently?: boolean | undefined;
   /** Timestamp for when the news item was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** Timestamp for when the news item was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
 }
 export interface CreateNoteRequest {
   /** The unique identifier of a given contact. */
@@ -3329,16 +3389,16 @@ export interface CreateNoteRequest {
   /** The text of the note. */
   body: string;
   /** The unique identifier of a given admin. */
-  admin_id?: string;
+  admin_id?: string | undefined;
 }
 /** The type of exception. */
 export type CreateOfficeHoursExceptionRequestExceptionType = "closed" | "custom_hours";
 /** A single open interval. For schedules, `start_minute` and `end_minute` are minute offsets from the start of the week (Monday 00:00 = 0), in the range 0 to 10080. For exceptions, they are minute offsets from midnight on `exception_date`, in the range 0 to 1440. */
 export interface OfficeHoursTimeIntervalInput {
   /** Minute the interval starts. For schedules, offset from the start of the week (Monday 00:00 = 0); for exceptions, offset from midnight on `exception_date`. */
-  start_minute?: number;
+  start_minute?: number | undefined;
   /** Minute the interval ends. For schedules, offset from the start of the week (Monday 00:00 = 0); for exceptions, offset from midnight on `exception_date`. */
-  end_minute?: number;
+  end_minute?: number | undefined;
 }
 /** The open intervals for the exception date. Required for `custom_hours`; omit for `closed`. */
 export type CreateOfficeHoursExceptionRequestTimeIntervalsList =
@@ -3351,47 +3411,47 @@ export interface CreateOfficeHoursExceptionRequest {
   /** The type of exception. */
   exception_type: CreateOfficeHoursExceptionRequestExceptionType | (string & {});
   /** An optional name for the exception. */
-  name?: string;
+  name?: string | undefined;
   /** The open intervals for the exception date. Required for `custom_hours`; omit for `closed`. */
-  time_intervals?: CreateOfficeHoursExceptionRequestTimeIntervalsList | null;
+  time_intervals?: CreateOfficeHoursExceptionRequestTimeIntervalsList | null | undefined;
   /** Whether the exception repeats every year on the same date. */
-  recurring_annually?: boolean;
+  recurring_annually?: boolean | undefined;
 }
 /** `closed` means the workspace is closed all day; `custom_hours` replaces the regular hours with `time_intervals`. */
 export type OfficeHoursExceptionExceptionType = "closed" | "custom_hours";
 /** A single open interval. For schedules, `start_minute` and `end_minute` are minute offsets from the start of the week (Monday 00:00 = 0), in the range 0 to 10080. For exceptions, they are minute offsets from midnight on `exception_date`, in the range 0 to 1440. */
 export interface OfficeHoursTimeInterval {
   /** Minute the interval starts. For schedules, offset from the start of the week (Monday 00:00 = 0); for exceptions, offset from midnight on `exception_date`. */
-  start_minute?: number;
+  start_minute?: number | undefined;
   /** Minute the interval ends. For schedules, offset from the start of the week (Monday 00:00 = 0); for exceptions, offset from midnight on `exception_date`. */
-  end_minute?: number;
+  end_minute?: number | undefined;
   /** Derived day of the week the interval falls on (0 = Monday ... 6 = Sunday). For exceptions, this is derived from `exception_date`. */
-  day_of_week?: number;
+  day_of_week?: number | undefined;
 }
 /** The open intervals for the exception date. `null` when `exception_type` is `closed`. */
 export type OfficeHoursExceptionTimeIntervalsList = Array<OfficeHoursTimeInterval>;
 /** An exception overrides a schedule's regular hours on a specific date, such as a public holiday. */
 export interface OfficeHoursException {
   /** The type of the object - always `office_hours_exception`. */
-  type?: string;
+  type?: string | undefined;
   /** The unique identifier for the office hours exception. */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier for the schedule this exception belongs to. */
-  office_hours_schedule_id?: string;
+  office_hours_schedule_id?: string | undefined;
   /** The date the exception applies to, in `YYYY-MM-DD` format. */
-  exception_date?: string;
+  exception_date?: string | undefined;
   /** `closed` means the workspace is closed all day; `custom_hours` replaces the regular hours with `time_intervals`. */
-  exception_type?: OfficeHoursExceptionExceptionType;
+  exception_type?: OfficeHoursExceptionExceptionType | undefined;
   /** An optional name for the exception. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The open intervals for the exception date. `null` when `exception_type` is `closed`. */
-  time_intervals?: OfficeHoursExceptionTimeIntervalsList | null;
+  time_intervals?: OfficeHoursExceptionTimeIntervalsList | null | undefined;
   /** Whether the exception repeats every year on the same date. */
-  recurring_annually?: boolean;
+  recurring_annually?: boolean | undefined;
   /** The time the exception was created as a Unix timestamp. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the exception was last updated as a Unix timestamp. */
-  updated_at?: number;
+  updated_at?: number | undefined;
 }
 /** The open intervals for the schedule. `start_minute` and `end_minute` must be on a 15-minute boundary. */
 export type CreateOfficeHoursScheduleRequestTimeIntervalsList = Array<OfficeHoursTimeIntervalInput>;
@@ -3408,54 +3468,54 @@ export type OfficeHoursScheduleTimeIntervalsList = Array<OfficeHoursTimeInterval
 /** An office hours schedule defines the recurring weekly hours during which the workspace is open. */
 export interface OfficeHoursSchedule {
   /** The type of the object - always `office_hours_schedule`. */
-  type?: string;
+  type?: string | undefined;
   /** The unique identifier for the office hours schedule. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the office hours schedule. */
-  name?: string;
+  name?: string | undefined;
   /** The IANA time zone the schedule's hours are evaluated in. */
-  time_zone_name?: string;
+  time_zone_name?: string | undefined;
   /** The open intervals that make up the weekly schedule. */
-  time_intervals?: OfficeHoursScheduleTimeIntervalsList;
+  time_intervals?: OfficeHoursScheduleTimeIntervalsList | undefined;
   /** Whether the schedule is open 24/7. */
-  twenty_four_seven?: boolean;
+  twenty_four_seven?: boolean | undefined;
   /** The time the schedule was created as a Unix timestamp. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the schedule was last updated as a Unix timestamp. */
-  updated_at?: number;
+  updated_at?: number | undefined;
 }
 /** A hash of key/value pairs containing any other data about the company you want Intercom to store. */
 export type CreateOrUpdateCompanyRequestCustomAttributesMap = { [key: string]: string | undefined };
 export interface CreateOrUpdateCompanyRequest {
   /** The name of the Company */
-  name?: string;
+  name?: string | undefined;
   /** The company id you have defined for the company. Can't be updated */
-  company_id?: string;
+  company_id?: string | undefined;
   /** The name of the plan you have associated with the company. */
-  plan?: string;
+  plan?: string | undefined;
   /** The number of employees in this company. */
-  size?: number;
+  size?: number | undefined;
   /** The URL for this company's website. Please note that the value specified here is not validated. Accepts any string. */
-  website?: string;
+  website?: string | undefined;
   /** The industry that this company operates in. */
-  industry?: string;
+  industry?: string | undefined;
   /** A hash of key/value pairs containing any other data about the company you want Intercom to store. */
-  custom_attributes?: CreateOrUpdateCompanyRequestCustomAttributesMap;
+  custom_attributes?: CreateOrUpdateCompanyRequestCustomAttributesMap | undefined;
   /** The time the company was created by you. */
-  remote_created_at?: number;
+  remote_created_at?: number | undefined;
   /** Set to true to update the company's last seen time to now. */
-  update_last_request_at?: boolean;
+  update_last_request_at?: boolean | undefined;
   /** How much revenue the company generates for your business. Note that this will truncate floats. i.e. it only allow for whole integers, 155.98 will be truncated to 155. Note that this has an upper limit of 2**31-1 or 2147483647.. */
-  monthly_spend?: number;
+  monthly_spend?: number | undefined;
 }
 export type Datetime = string | number;
 /** The list of associated custom object instances for a given reference attribute on the parent object. */
 export type CustomObjectInstanceListInstancesList = Array<CustomObjectInstance | null>;
 /** The list of associated custom object instances for a given reference attribute on the parent object. */
 export interface CustomObjectInstanceList {
-  type?: string;
+  type?: string | undefined;
   /** The list of associated custom object instances for a given reference attribute on the parent object. */
-  instances?: CustomObjectInstanceListInstancesList;
+  instances?: CustomObjectInstanceListInstancesList | undefined;
 }
 export type CustomAttributesValue = string | number | Datetime | CustomObjectInstanceList;
 /** An object containing the different custom attributes associated to the conversation as key-value pairs. For relationship attributes the value will be a list of custom object instance models. System-defined attributes such as "CX Score rating" and "CX Score explanation" may also be included. */
@@ -3463,27 +3523,27 @@ export type CustomAttributes = { [key: string]: CustomAttributesValue | undefine
 export interface CreatePhoneSwitchRequest {
   /** Phone number in E.164 format, that will receive the SMS to continue the conversation in the Messenger. */
   phone: string;
-  custom_attributes?: CustomAttributes;
+  custom_attributes?: CustomAttributes | undefined;
 }
 export type PhoneSwitchType = "phone_call_redirect";
 /** Phone Switch Response */
 export interface PhoneSwitch {
-  type?: PhoneSwitchType;
+  type?: PhoneSwitchType | undefined;
   /** Phone number in E.164 format, that has received the SMS to continue the conversation in the Messenger. */
-  phone?: string;
+  phone?: string | undefined;
 }
 /** You can create or update an existing tag. */
 export interface CreateOrUpdateTagRequest {
   /** The name of the tag, which will be created if not found, or the new name for the tag if this is an update request. Names are case insensitive. */
   name: string;
   /** The id of tag to updates. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface TagCompanyRequestCompaniesItem {
   /** The Intercom defined id representing the company. */
-  id?: string;
+  id?: string | undefined;
   /** The company id you have defined for the company. */
-  company_id?: string;
+  company_id?: string | undefined;
 }
 /** The id or company_id of the company can be passed as input parameters. */
 export type TagCompanyRequestCompaniesList = Array<TagCompanyRequestCompaniesItem>;
@@ -3496,11 +3556,11 @@ export interface TagCompanyRequest {
 }
 export interface UntagCompanyRequestCompaniesItem {
   /** The Intercom defined id representing the company. */
-  id?: string;
+  id?: string | undefined;
   /** The company id you have defined for the company. */
-  company_id?: string;
+  company_id?: string | undefined;
   /** Always set to true */
-  untag?: boolean;
+  untag?: boolean | undefined;
 }
 /** The id or company_id of the company can be passed as input parameters. */
 export type UntagCompanyRequestCompaniesList = Array<UntagCompanyRequestCompaniesItem>;
@@ -3513,7 +3573,7 @@ export interface UntagCompanyRequest {
 }
 export interface TagMultipleUsersRequestUsersItem {
   /** The Intercom defined id representing the user. */
-  id?: string;
+  id?: string | undefined;
 }
 export type TagMultipleUsersRequestUsersList = Array<TagMultipleUsersRequestUsersItem>;
 /** You can tag a list of users. */
@@ -3528,35 +3588,35 @@ export type CreateTagRequestBody =
   | UntagCompanyRequest
   | TagMultipleUsersRequest;
 export interface CreateTagRequest {
-  body?: CreateTagRequestBody;
+  body?: CreateTagRequestBody | undefined;
 }
 export interface CreateTagResponseUsersItem {
   /** The Intercom ID of the user. */
-  id?: string;
+  id?: string | undefined;
   /** Whether the user was tagged (true) or untagged (false). */
-  tagged?: boolean;
+  tagged?: boolean | undefined;
 }
 /** The users that were tagged or untagged. */
 export type CreateTagResponseUsersList = Array<CreateTagResponseUsersItem>;
 export interface CreateTagResponseCompaniesItem {
   /** The Intercom ID of the company. */
-  id?: string;
+  id?: string | undefined;
   /** Whether the company was tagged (true) or untagged (false). */
-  tagged?: boolean;
+  tagged?: boolean | undefined;
 }
 /** The companies that were tagged or untagged. */
 export type CreateTagResponseCompaniesList = Array<CreateTagResponseCompaniesItem>;
 export interface CreateTagResponse {
   /** value is "tag" */
-  type?: string;
+  type?: string | undefined;
   /** The id of the tag */
-  id?: string;
+  id?: string | undefined;
   /** The name of the tag */
-  name?: string;
+  name?: string | undefined;
   /** The users that were tagged or untagged. */
-  users?: CreateTagResponseUsersList | null;
+  users?: CreateTagResponseUsersList | null | undefined;
   /** The companies that were tagged or untagged. */
-  companies?: CreateTagResponseCompaniesList | null;
+  companies?: CreateTagResponseCompaniesList | null | undefined;
 }
 export interface CreateTicketRequestContactsItemCase0 {
   /** The identifier for the contact as given by Intercom. */
@@ -3578,25 +3638,29 @@ export type CreateTicketRequestContactsItem =
 export type CreateTicketRequestContactsList = Array<CreateTicketRequestContactsItem>;
 export interface CreateTicketRequestAssignment {
   /** The ID of the admin to which the ticket is assigned. If not provided, the ticket will be unassigned. */
-  admin_assignee_id?: string;
+  admin_assignee_id?: string | undefined;
   /** The ID of the team to which the ticket is assigned. If not provided, the ticket will be unassigned. */
-  team_assignee_id?: string;
+  team_assignee_id?: string | undefined;
 }
+/** The channel for the ticket. Only supported for customer ticket types. Defaults to messenger if not provided. */
+export type CreateTicketRequestChannel = "email";
 export interface CreateTicketRequest {
   /** The ID of the type of ticket you want to create */
   ticket_type_id: string;
   /** The list of contacts (users or leads) affected by this ticket. Currently only one is allowed */
   contacts: CreateTicketRequestContactsList;
   /** The ID of the conversation you want to link to the ticket. Here are the valid ways of linking two tickets: - conversation | back-office ticket - customer tickets | non-shared back-office ticket - conversation | tracker ticket - customer ticket | tracker ticket */
-  conversation_to_link_id?: string;
+  conversation_to_link_id?: string | undefined;
   /** The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom */
-  company_id?: string;
+  company_id?: string | undefined;
   /** The time the ticket was created. If not provided, the current time will be used. */
-  created_at?: number;
-  ticket_attributes?: TicketRequestCustomAttributes;
-  assignment?: CreateTicketRequestAssignment;
+  created_at?: number | undefined;
+  ticket_attributes?: TicketRequestCustomAttributes | undefined;
+  assignment?: CreateTicketRequestAssignment | undefined;
+  /** The channel for the ticket. Only supported for customer ticket types. Defaults to messenger if not provided. */
+  channel?: CreateTicketRequestChannel | (string & {}) | undefined;
   /** Option to disable notifications when a Ticket is created. */
-  skip_notifications?: boolean;
+  skip_notifications?: boolean | undefined;
 }
 /** Category of the Ticket Type. */
 export type CreateTicketTypeRequestCategory = "Customer" | "Back-office" | "Tracker";
@@ -3604,13 +3668,13 @@ export interface CreateTicketTypeRequest {
   /** The name of the ticket type. */
   name: string;
   /** The description of the ticket type. */
-  description?: string;
+  description?: string | undefined;
   /** Category of the Ticket Type. */
-  category?: CreateTicketTypeRequestCategory | (string & {});
+  category?: CreateTicketTypeRequestCategory | (string & {}) | undefined;
   /** The icon of the ticket type. */
-  icon?: string;
+  icon?: string | undefined;
   /** Whether the tickets associated with this ticket type are intended for internal use only or will be shared with customers. This is currently a limited attribute. */
-  is_internal?: boolean;
+  is_internal?: boolean | undefined;
 }
 /** The data type of the attribute */
 export type CreateTicketTypeAttributeRequestDataType =
@@ -3631,36 +3695,36 @@ export interface CreateTicketTypeAttributeRequest {
   /** The data type of the attribute */
   data_type: CreateTicketTypeAttributeRequestDataType | (string & {});
   /** Whether the attribute is required to be filled in when teammates are creating the ticket in Inbox. */
-  required_to_create?: boolean;
+  required_to_create?: boolean | undefined;
   /** Whether the attribute is required to be filled in when contacts are creating the ticket in Messenger. */
-  required_to_create_for_contacts?: boolean;
+  required_to_create_for_contacts?: boolean | undefined;
   /** Whether the attribute is visible to teammates when creating a ticket in Inbox. */
-  visible_on_create?: boolean;
+  visible_on_create?: boolean | undefined;
   /** Whether the attribute is visible to contacts when creating a ticket in Messenger. */
-  visible_to_contacts?: boolean;
+  visible_to_contacts?: boolean | undefined;
   /** Whether the attribute allows multiple lines of text (only applicable to string attributes) */
-  multiline?: boolean;
+  multiline?: boolean | undefined;
   /** A comma delimited list of items for the attribute value (only applicable to list attributes) */
-  list_items?: string;
+  list_items?: string | undefined;
   /** Whether the attribute allows multiple files to be attached to it (only applicable to file attributes) */
-  allow_multiple_values?: boolean;
+  allow_multiple_values?: boolean | undefined;
 }
 /** A list of event summaries for the user. Each event summary should contain the event name, the time the event occurred, and the number of times the event occurred. The event name should be a past tense 'verb-noun' combination, to improve readability, for example `updated-plan`. */
 export interface DataEventSummariesRequestEventSummaries {
   /** The name of the event that occurred. A good event name is typically a past tense 'verb-noun' combination, to improve readability, for example `updated-plan`. */
-  event_name?: string;
+  event_name?: string | undefined;
   /** The number of times the event occurred. */
-  count?: number;
+  count?: number | undefined;
   /** The first time the event was sent */
-  first?: number;
+  first?: number | undefined;
   /** The last time the event was sent */
-  last?: number;
+  last?: number | undefined;
 }
 export interface DataEventSummariesRequest {
   /** Your identifier for the user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A list of event summaries for the user. Each event summary should contain the event name, the time the event occurred, and the number of times the event occurred. The event name should be a past tense 'verb-noun' combination, to improve readability, for example `updated-plan`. */
-  event_summaries?: DataEventSummariesRequestEventSummaries;
+  event_summaries?: DataEventSummariesRequestEventSummaries | undefined;
 }
 export interface DataEventSummariesResponse {}
 export interface DeleteArticleRequest {
@@ -3672,11 +3736,11 @@ export type DeletedArticleObjectObject = "article";
 /** Response returned when an object is deleted */
 export interface DeletedArticleObject {
   /** The unique identifier for the article which you provided in the URL. */
-  id?: string;
+  id?: string | undefined;
   /** The type of object which was deleted. - article */
-  object?: DeletedArticleObjectObject;
+  object?: DeletedArticleObjectObject | undefined;
   /** Whether the article was deleted successfully or not. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteAudienceRequest {
   /** The unique identifier for the audience. */
@@ -3692,11 +3756,11 @@ export type DeletedCollectionObjectObject = "collection";
 /** Response returned when an object is deleted */
 export interface DeletedCollectionObject {
   /** The unique identifier for the collection which you provided in the URL. */
-  id?: string;
+  id?: string | undefined;
   /** The type of object which was deleted. - `collection` */
-  object?: DeletedCollectionObjectObject;
+  object?: DeletedCollectionObjectObject | undefined;
   /** Whether the collection was deleted successfully or not. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteCompanyRequest {
   /** The unique identifier for the company which is given by Intercom */
@@ -3707,11 +3771,11 @@ export type DeletedCompanyObjectObject = "company";
 /** Response returned when an object is deleted */
 export interface DeletedCompanyObject {
   /** The unique identifier for the company which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The type of object which was deleted. - `company` */
-  object?: DeletedCompanyObjectObject;
+  object?: DeletedCompanyObjectObject | undefined;
   /** Whether the company was deleted successfully or not. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteContactRequest {
   /** contact_id */
@@ -3721,13 +3785,13 @@ export interface DeleteContactRequest {
 export type DeleteContactResponseType = "contact";
 export interface DeleteContactResponse {
   /** always contact */
-  type?: DeleteContactResponseType;
+  type?: DeleteContactResponseType | undefined;
   /** The unique identifier for the contact which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier for the contact which is provided by the Client. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Whether the contact is deleted or not. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteContentImportSourceRequest {
   /** The unique identifier for the content import source which is given by Intercom. */
@@ -3743,18 +3807,18 @@ export interface DeleteConversationRequest {
   /** id */
   conversation_id: number;
   /** If true (default), deletes the conversation while retaining reporting data. If false, deletes the conversation and all associated reporting data. Setting to false requires the `delete_conversations_and_metrics` OAuth scope. */
-  retain_metrics?: boolean;
+  retain_metrics?: boolean | undefined;
 }
 /** always conversation */
 export type ConversationDeletedObject = "conversation";
 /** deleted conversation object */
 export interface ConversationDeleted {
   /** The unique identifier for the conversation. */
-  id?: string;
+  id?: string | undefined;
   /** always conversation */
-  object?: ConversationDeletedObject;
+  object?: ConversationDeletedObject | undefined;
   /** Whether the conversation is deleted or not. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteConversationAttributeRequest {
   /** The conversation attribute id */
@@ -3777,11 +3841,11 @@ export interface DeleteCustomObjectInstancesByExternalIdRequest {
 /** deleted custom object instance object */
 export interface CustomObjectInstanceDeleted {
   /** The unique identifier of the Custom Object type that defines the structure of the Custom Object instance. */
-  object?: string;
+  object?: string | undefined;
   /** The Intercom defined id representing the Custom Object instance. */
-  id?: string;
+  id?: string | undefined;
   /** Whether the Custom Object instance is deleted or not. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 /** The unique identifier for the instance in the external system it originated from. */
 export interface DeleteCustomObjectInstancesByIdRequestExternalId {
@@ -3801,11 +3865,11 @@ export type DeletedDataConnectorObjectObject = "data_connector";
 /** Response returned when a data connector is deleted. */
 export interface DeletedDataConnectorObject {
   /** The unique identifier for the data connector. */
-  id?: string;
+  id?: string | undefined;
   /** The type of object which was deleted. */
-  object?: DeletedDataConnectorObjectObject;
+  object?: DeletedDataConnectorObjectObject | undefined;
   /** Whether the data connector was deleted successfully. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteExternalPageRequest {
   /** The unique identifier for the external page which is given by Intercom. */
@@ -3822,11 +3886,11 @@ export type DeletedHelpCenterRedirectObjectObject = "help_center_redirect";
 /** Response returned when a redirect is deleted. */
 export interface DeletedHelpCenterRedirectObject {
   /** The unique identifier for the redirect which you provided in the URL. */
-  id?: string;
+  id?: string | undefined;
   /** The type of object which was deleted. - `help_center_redirect` */
-  object?: DeletedHelpCenterRedirectObjectObject;
+  object?: DeletedHelpCenterRedirectObjectObject | undefined;
   /** Whether the redirect was deleted successfully or not. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteInternalArticleRequest {
   /** The unique identifier for the internal article which is given by Intercom. */
@@ -3837,11 +3901,11 @@ export type DeletedInternalArticleObjectObject = "internal_article";
 /** Response returned when an object is deleted */
 export interface DeletedInternalArticleObject {
   /** The unique identifier for the internal article which you provided in the URL. */
-  id?: string;
+  id?: string | undefined;
   /** The type of object which was deleted. - internal_article */
-  object?: DeletedInternalArticleObjectObject;
+  object?: DeletedInternalArticleObjectObject | undefined;
   /** Whether the internal article was deleted successfully or not. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteNewsItemRequest {
   /** The unique identifier for the news item which is given by Intercom. */
@@ -3852,11 +3916,11 @@ export type DeletedObjectObject = "news-item";
 /** Response returned when an object is deleted */
 export interface DeletedObject {
   /** The unique identifier for the news item which you provided in the URL. */
-  id?: string;
+  id?: string | undefined;
   /** The type of object which was deleted - news-item. */
-  object?: DeletedObjectObject;
+  object?: DeletedObjectObject | undefined;
   /** Whether the news item was deleted successfully or not. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DeleteOfficeHoursExceptionRequest {
   /** The unique identifier for the office hours schedule. */
@@ -3865,18 +3929,18 @@ export interface DeleteOfficeHoursExceptionRequest {
   id: string;
 }
 export interface DeleteOfficeHoursExceptionResponse {
-  id?: string;
-  object?: string;
-  deleted?: boolean;
+  id?: string | undefined;
+  object?: string | undefined;
+  deleted?: boolean | undefined;
 }
 export interface DeleteOfficeHoursScheduleRequest {
   /** The unique identifier for the office hours schedule. */
   id: string;
 }
 export interface DeleteOfficeHoursScheduleResponse {
-  id?: string;
-  object?: string;
-  deleted?: boolean;
+  id?: string | undefined;
+  object?: string | undefined;
+  deleted?: boolean | undefined;
 }
 export interface DeleteTagRequest {
   /** The unique identifier of a given tag */
@@ -3892,11 +3956,11 @@ export type TicketDeletedObject = "ticket";
 /** deleted ticket object */
 export interface TicketDeleted {
   /** The unique identifier for the ticket. */
-  id?: string;
+  id?: string | undefined;
   /** always ticket */
-  object?: TicketDeletedObject;
+  object?: TicketDeletedObject | undefined;
   /** Whether the ticket is deleted or not. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export interface DetachContactFromACompanyRequest {
   /** The unique identifier for the contact which is given by Intercom */
@@ -3967,11 +4031,11 @@ export interface DismissContactBannerRequest {
 /** The result of dismissing a banner for a contact. */
 export interface BannerDismiss {
   /** String representing the object's type. Always has the value `banner_dismiss`. */
-  type?: string;
+  type?: string | undefined;
   /** The id of the dismissed banner view. */
-  view_id?: string;
+  view_id?: string | undefined;
   /** Whether the banner view is dismissed. */
-  dismissed?: boolean;
+  dismissed?: boolean | undefined;
 }
 export interface DownloadDataExportRequest {
   /** job_identifier */
@@ -3988,21 +4052,25 @@ export type EnqueueCreateTicketRequestContactsItem =
 /** The list of contacts (users or leads) affected by this ticket. Currently only one is allowed */
 export type EnqueueCreateTicketRequestContactsList = Array<EnqueueCreateTicketRequestContactsItem>;
 export type EnqueueCreateTicketRequestAssignment = CreateTicketRequestAssignment;
+/** The channel for the ticket. Only supported for customer ticket types. Defaults to messenger if not provided. */
+export type EnqueueCreateTicketRequestChannel = "email";
 export interface EnqueueCreateTicketRequest {
   /** The ID of the type of ticket you want to create */
   ticket_type_id: string;
   /** The list of contacts (users or leads) affected by this ticket. Currently only one is allowed */
   contacts: EnqueueCreateTicketRequestContactsList;
   /** The ID of the conversation you want to link to the ticket. Here are the valid ways of linking two tickets: - conversation | back-office ticket - customer tickets | non-shared back-office ticket - conversation | tracker ticket - customer ticket | tracker ticket */
-  conversation_to_link_id?: string;
+  conversation_to_link_id?: string | undefined;
   /** The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom */
-  company_id?: string;
+  company_id?: string | undefined;
   /** The time the ticket was created. If not provided, the current time will be used. */
-  created_at?: number;
-  ticket_attributes?: TicketRequestCustomAttributes;
-  assignment?: CreateTicketRequestAssignment;
+  created_at?: number | undefined;
+  ticket_attributes?: TicketRequestCustomAttributes | undefined;
+  assignment?: CreateTicketRequestAssignment | undefined;
+  /** The channel for the ticket. Only supported for customer ticket types. Defaults to messenger if not provided. */
+  channel?: EnqueueCreateTicketRequestChannel | (string & {}) | undefined;
   /** Option to disable notifications when a Ticket is created. */
-  skip_notifications?: boolean;
+  skip_notifications?: boolean | undefined;
 }
 /** The type of the object */
 export type JobsType = "job";
@@ -4011,19 +4079,19 @@ export type JobsStatus = "pending" | "success" | "failed";
 /** Jobs are tasks that are processed asynchronously by the Intercom system after being enqueued via the API. This allows for efficient handling of operations that may take time to complete, such as data imports or exports. You can check the status of your jobs to monitor their progress and ensure they are completed successfully. */
 export interface Jobs {
   /** The type of the object */
-  type?: JobsType;
+  type?: JobsType | undefined;
   /** The id of the job that's currently being processed or has completed. */
   id: string;
   /** API endpoint URL to check the job status. */
-  url?: string;
+  url?: string | undefined;
   /** The status of the job execution. */
-  status?: JobsStatus;
+  status?: JobsStatus | undefined;
   /** The type of resource created during job execution. */
-  resource_type?: string;
+  resource_type?: string | undefined;
   /** The id of the resource created during job execution (e.g. ticket id) */
-  resource_id?: string | null;
+  resource_id?: string | null | undefined;
   /** The url of the resource created during job exeuction. Use this url to fetch the resource. */
-  resource_url?: string | null;
+  resource_url?: string | null | undefined;
 }
 /** A hash of attributes associated with the user. Attributes can be used by Fin to target content and responses. Limit to 10 attributes. */
 export type EscalateFinConversationRequestUserAttributesMap = {
@@ -4033,30 +4101,28 @@ export interface EscalateFinConversationRequestUser {
   /** The ID of the user. This value will be used to uniquely identify the user during a conversation with Fin. Maps to the user_id field on the Intercom User object. */
   id: string;
   /** The name of the user. */
-  name?: string;
+  name?: string | undefined;
   /** The email of the user. */
-  email?: string;
+  email?: string | undefined;
   /** A hash of attributes associated with the user. Attributes can be used by Fin to target content and responses. Limit to 10 attributes. */
-  attributes?: EscalateFinConversationRequestUserAttributesMap;
+  attributes?: EscalateFinConversationRequestUserAttributesMap | undefined;
 }
 export interface EscalateFinConversationRequest {
   /** The external ID of the conversation to escalate. Provide this or `user`. Required on Fin for Platforms, where `user` is not supported. */
-  conversation_id?: string;
-  user?: EscalateFinConversationRequestUser;
+  conversation_id?: string | undefined;
+  user?: EscalateFinConversationRequestUser | undefined;
   /** Optional background for the receiving teammate, valid with either `conversation_id` or `user`. On the Intercom Helpdesk, it appears above the summary in the internal note of the new conversation the teammate picks up, and is never shown to the end user. Not surfaced on Fin for Platforms. Avoid including credentials or unnecessary personal data -- it is visible to any teammate with access to the conversation. */
-  context?: string;
+  context?: string | undefined;
 }
 /** The resulting status of the conversation. */
 export type EscalateFinConversationResponseStatus = "escalated";
 export interface EscalateFinConversationResponse {
   /** The external ID of the conversation. Returned when you escalate an existing conversation by `conversation_id` (echoed back). When you escalate a `user`, a new conversation is created and only `intercom_conversation_id` is returned. */
-  conversation_id?: string;
+  conversation_id?: string | undefined;
   /** The internal Intercom conversation ID. Returned when a new conversation was created for the escalation. */
-  intercom_conversation_id?: string;
-  /** Optional. A URL to subscribe to Server-Sent Events (SSE) for this conversation, if SSE is enabled. The access token is a JWT with a 3-minute TTL. The token is revoked when Fin sets the conversation to complete status. When CSAT is enabled and a survey will follow the resolution, `complete` revocation is deferred until the `csat_requested` event is delivered or the token expires. Includes a `rewind` window so a subscriber that connects after the escalation is processed can still receive the `escalated` and `complete` events. */
-  sse_subscription_url?: string;
+  intercom_conversation_id?: string | undefined;
   /** The resulting status of the conversation. */
-  status?: EscalateFinConversationResponseStatus;
+  status?: EscalateFinConversationResponseStatus | undefined;
 }
 export interface ExportWorkflowRequest {
   /** The unique identifier for the workflow */
@@ -4075,42 +4141,42 @@ export type WorkflowExportWorkflowEmbeddedRulesList = Array<unknown>;
 /** The workflow configuration. */
 export interface WorkflowExportWorkflow {
   /** The unique identifier for the workflow. */
-  id?: string;
+  id?: string | undefined;
   /** The title of the workflow. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the workflow. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The type of trigger that starts this workflow. */
-  trigger_type?: string;
+  trigger_type?: string | undefined;
   /** The current state of the workflow. */
-  state?: WorkflowExportWorkflowState;
+  state?: WorkflowExportWorkflowState | undefined;
   /** The channels this workflow targets. */
-  target_channels?: WorkflowExportWorkflowTargetChannelsList;
+  target_channels?: WorkflowExportWorkflowTargetChannelsList | undefined;
   /** The preferred devices for this workflow. */
-  preferred_devices?: WorkflowExportWorkflowPreferredDevicesList;
+  preferred_devices?: WorkflowExportWorkflowPreferredDevicesList | undefined;
   /** When the workflow was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** When the workflow was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The targeting rules for this workflow. */
-  targeting?: unknown | null;
+  targeting?: unknown | null | undefined;
   /** The current snapshot of workflow steps and configuration. */
-  snapshot?: unknown | null;
+  snapshot?: unknown | null | undefined;
   /** Custom attributes defined for this workflow. */
-  attributes?: WorkflowExportWorkflowAttributesList;
+  attributes?: WorkflowExportWorkflowAttributesList | undefined;
   /** Rules embedded within the workflow steps. */
-  embedded_rules?: WorkflowExportWorkflowEmbeddedRulesList;
+  embedded_rules?: WorkflowExportWorkflowEmbeddedRulesList | undefined;
 }
 /** A workflow export containing the complete workflow configuration. */
 export interface WorkflowExport {
   /** The version of the export format. */
-  export_version?: string;
+  export_version?: string | undefined;
   /** The timestamp when the export was generated. */
-  exported_at?: string;
+  exported_at?: string | undefined;
   /** The workspace identifier. */
-  app_id?: number;
+  app_id?: number | undefined;
   /** The workflow configuration. */
-  workflow?: WorkflowExportWorkflow;
+  workflow?: WorkflowExportWorkflow | undefined;
 }
 export interface FindTagRequest {
   /** The unique identifier of a given tag */
@@ -4144,58 +4210,58 @@ export type GetArticleResponseHelpCenterAudience =
   | "restricted";
 export interface GetArticleResponse {
   /** The type of object - `article`. */
-  type?: GetArticleResponseType;
+  type?: GetArticleResponseType | undefined;
   /** The unique identifier for the article which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the workspace which the article belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The title of the article. For multilingual articles, this will be the title of the default language's content. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the article. For multilingual articles, this will be the description of the default language's content. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The body of the article in HTML. For multilingual articles, this will be the body of the default language's content. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** The body of the article in markdown. For multilingual articles, this will be the body of the default language's content. */
-  body_markdown?: string | null;
+  body_markdown?: string | null | undefined;
   /** The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace. */
-  author_id?: number;
+  author_id?: number | undefined;
   /** Whether the article is `published` or is a `draft`. For multilingual articles, this will be the state of the default language's content. */
-  state?: GetArticleResponseState;
+  state?: GetArticleResponseState | undefined;
   /** The time when the article was created. For multilingual articles, this will be the timestamp of creation of the default language's content in seconds. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time when the article was last updated. For multilingual articles, this will be the timestamp of last update of the default language's content in seconds. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Whether the published article has unpublished changes staged as a draft on top of its live content. For multilingual articles this reflects the default language's content; a pure draft (never published) reports `false`. */
-  has_unpublished_changes?: boolean;
+  has_unpublished_changes?: boolean | undefined;
   /** The time, in seconds, when the staged draft was last edited, or `null` when there is no staged draft. */
-  draft_updated_at?: number | null;
+  draft_updated_at?: number | null | undefined;
   /** The URL of the article. For multilingual articles, this will be the URL of the default language's content. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The ids of the article's parent collections or sections. An article without this field stands alone. */
-  parent_ids?: GetArticleResponseParentIdsList;
+  parent_ids?: GetArticleResponseParentIdsList | undefined;
   /** Whether the article is available for AI Chatbot. For multilingual articles, this will be the value of the default language's content. */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the article is available for AI Copilot. For multilingual articles, this will be the value of the default language's content. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the article is available for AI Sales Agent. For multilingual articles, this will be the value of the default language's content. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
   /** The ID of the teammate who created the article. For multilingual articles, this will be the creator of the default language's content. */
-  created_by_id?: number | null;
+  created_by_id?: number | null | undefined;
   /** The ID of the teammate who last updated the article. For multilingual articles, this will be the last editor of the default language's content. */
-  updated_by_id?: number | null;
+  updated_by_id?: number | null | undefined;
   /** Whether the article is excluded from Fin AI Agent article suggestions. */
-  exclude_from_article_suggestions?: boolean;
+  exclude_from_article_suggestions?: boolean | undefined;
   /** The audience that can view this article in the Help Center. `everyone` means all users and visitors can view it; `restricted` indicates a custom audience ruleset. For multilingual articles, this is the article-level audience. */
-  help_center_audience?: GetArticleResponseHelpCenterAudience | null;
+  help_center_audience?: GetArticleResponseHelpCenterAudience | null | undefined;
   /** The Unix timestamp (in seconds) at which the article is scheduled to be published. `null` when no publish is scheduled. Mutually exclusive with `scheduled_unpublish_at` -- at most one pending schedule exists per article. */
-  scheduled_publish_at?: number | null;
+  scheduled_publish_at?: number | null | undefined;
   /** The Unix timestamp (in seconds) at which the article is scheduled to be unpublished. `null` when no unpublish is scheduled. Mutually exclusive with `scheduled_publish_at` -- at most one pending schedule exists per article. */
-  scheduled_unpublish_at?: number | null;
+  scheduled_unpublish_at?: number | null | undefined;
   /** The default locale of the help center. This field is only returned for multilingual help centers. */
-  default_locale?: string;
-  translated_content?: ArticleTranslatedContent | null;
-  tags?: Tags;
-  statistics?: ArticleStatistics | null;
+  default_locale?: string | undefined;
+  translated_content?: ArticleTranslatedContent | null | undefined;
+  tags?: Tags | undefined;
+  statistics?: ArticleStatistics | null | undefined;
 }
 export interface GetArticleDraftRequest {
   /** The unique identifier for the article which is given by Intercom. */
@@ -4217,58 +4283,58 @@ export type GetArticleDraftResponseHelpCenterAudience =
   | "restricted";
 export interface GetArticleDraftResponse {
   /** The type of object - `article`. */
-  type?: GetArticleDraftResponseType;
+  type?: GetArticleDraftResponseType | undefined;
   /** The unique identifier for the article which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the workspace which the article belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The title of the article. For multilingual articles, this will be the title of the default language's content. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the article. For multilingual articles, this will be the description of the default language's content. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The body of the article in HTML. For multilingual articles, this will be the body of the default language's content. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** The body of the article in markdown. For multilingual articles, this will be the body of the default language's content. */
-  body_markdown?: string | null;
+  body_markdown?: string | null | undefined;
   /** The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace. */
-  author_id?: number;
+  author_id?: number | undefined;
   /** Whether the article is `published` or is a `draft`. For multilingual articles, this will be the state of the default language's content. */
-  state?: GetArticleDraftResponseState;
+  state?: GetArticleDraftResponseState | undefined;
   /** The time when the article was created. For multilingual articles, this will be the timestamp of creation of the default language's content in seconds. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time when the article was last updated. For multilingual articles, this will be the timestamp of last update of the default language's content in seconds. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Whether the published article has unpublished changes staged as a draft on top of its live content. For multilingual articles this reflects the default language's content; a pure draft (never published) reports `false`. */
-  has_unpublished_changes?: boolean;
+  has_unpublished_changes?: boolean | undefined;
   /** The time, in seconds, when the staged draft was last edited, or `null` when there is no staged draft. */
-  draft_updated_at?: number | null;
+  draft_updated_at?: number | null | undefined;
   /** The URL of the article. For multilingual articles, this will be the URL of the default language's content. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The ids of the article's parent collections or sections. An article without this field stands alone. */
-  parent_ids?: GetArticleDraftResponseParentIdsList;
+  parent_ids?: GetArticleDraftResponseParentIdsList | undefined;
   /** Whether the article is available for AI Chatbot. For multilingual articles, this will be the value of the default language's content. */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the article is available for AI Copilot. For multilingual articles, this will be the value of the default language's content. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the article is available for AI Sales Agent. For multilingual articles, this will be the value of the default language's content. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
   /** The ID of the teammate who created the article. For multilingual articles, this will be the creator of the default language's content. */
-  created_by_id?: number | null;
+  created_by_id?: number | null | undefined;
   /** The ID of the teammate who last updated the article. For multilingual articles, this will be the last editor of the default language's content. */
-  updated_by_id?: number | null;
+  updated_by_id?: number | null | undefined;
   /** Whether the article is excluded from Fin AI Agent article suggestions. */
-  exclude_from_article_suggestions?: boolean;
+  exclude_from_article_suggestions?: boolean | undefined;
   /** The audience that can view this article in the Help Center. `everyone` means all users and visitors can view it; `restricted` indicates a custom audience ruleset. For multilingual articles, this is the article-level audience. */
-  help_center_audience?: GetArticleDraftResponseHelpCenterAudience | null;
+  help_center_audience?: GetArticleDraftResponseHelpCenterAudience | null | undefined;
   /** The Unix timestamp (in seconds) at which the article is scheduled to be published. `null` when no publish is scheduled. Mutually exclusive with `scheduled_unpublish_at` -- at most one pending schedule exists per article. */
-  scheduled_publish_at?: number | null;
+  scheduled_publish_at?: number | null | undefined;
   /** The Unix timestamp (in seconds) at which the article is scheduled to be unpublished. `null` when no unpublish is scheduled. Mutually exclusive with `scheduled_publish_at` -- at most one pending schedule exists per article. */
-  scheduled_unpublish_at?: number | null;
+  scheduled_unpublish_at?: number | null | undefined;
   /** The default locale of the help center. This field is only returned for multilingual help centers. */
-  default_locale?: string;
-  translated_content?: ArticleTranslatedContent | null;
-  tags?: Tags;
-  statistics?: ArticleStatistics | null;
+  default_locale?: string | undefined;
+  translated_content?: ArticleTranslatedContent | null | undefined;
+  tags?: Tags | undefined;
+  statistics?: ArticleStatistics | null | undefined;
 }
 export interface GetArticleVersionRequest {
   /** The unique identifier for the article. */
@@ -4276,7 +4342,7 @@ export interface GetArticleVersionRequest {
   /** The unique identifier for the version. */
   id: string;
   /** Return the version's content for a specific locale. If the locale is not configured for the workspace, a `400` is returned. */
-  locale?: string;
+  locale?: string | undefined;
 }
 /** String representing the object's type. Always has the value `article_version`. */
 export type ArticleVersionType = "article_version";
@@ -4285,33 +4351,33 @@ export type ArticleVersionState = "published" | "draft";
 /** A historical version of an article, including its content. */
 export interface ArticleVersion {
   /** String representing the object's type. Always has the value `article_version`. */
-  type?: ArticleVersionType;
+  type?: ArticleVersionType | undefined;
   /** The unique identifier for the version. */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier of the article this version belongs to. */
-  article_id?: string;
+  article_id?: string | undefined;
   /** The title of the article at this version. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the article at this version. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The HTML body of the article at this version. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** The Markdown body of the article at this version. */
-  body_markdown?: string | null;
+  body_markdown?: string | null | undefined;
   /** The id of the teammate listed as the article's author at this version. */
-  author_id?: string;
+  author_id?: string | undefined;
   /** The id of the teammate who created this version. */
-  created_by_id?: string | null;
+  created_by_id?: string | null | undefined;
   /** How this version was created (for example `web`, `api`). */
-  created_via?: string;
+  created_via?: string | undefined;
   /** The id of the version this version was created from, or `null` if this is the first version. */
-  from_version_id?: string | null;
+  from_version_id?: string | null | undefined;
   /** Whether this version is the currently published version of the article (`published`) or an earlier non-live version (`draft`). */
-  state?: ArticleVersionState;
+  state?: ArticleVersionState | undefined;
   /** The time the version was created, as a UTC Unix timestamp. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the version was last updated, as a UTC Unix timestamp. */
-  updated_at?: number;
+  updated_at?: number | undefined;
 }
 export interface GetAudienceRequest {
   /** The unique identifier for the audience. */
@@ -4324,21 +4390,21 @@ export interface GetBrandRequest {
 /** Represents a branding configuration for the workspace */
 export interface Brand {
   /** The type of object */
-  type?: string;
+  type?: string | undefined;
   /** Unique brand identifier. For default brand, matches the workspace ID */
-  id?: string;
+  id?: string | undefined;
   /** Display name of the brand */
-  name?: string;
+  name?: string | undefined;
   /** Whether this is the workspace's default brand */
-  is_default?: boolean;
+  is_default?: boolean | undefined;
   /** Unix timestamp of brand creation */
-  created_at?: number;
+  created_at?: number | undefined;
   /** Unix timestamp of last modification */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Associated help center identifier */
-  help_center_id?: string;
+  help_center_id?: string | undefined;
   /** Default email settings ID for this brand */
-  default_address_settings_id?: string;
+  default_address_settings_id?: string | undefined;
 }
 export interface GetCallRequest {
   /** The id of the call to retrieve */
@@ -4347,38 +4413,38 @@ export interface GetCallRequest {
 /** Represents a phone call in Intercom */
 export interface Call {
   /** String representing the object's type. Always has the value `call`. */
-  type?: string;
+  type?: string | undefined;
   /** The id of the call. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the conversation associated with the call, if any. */
-  conversation_id?: string | null;
+  conversation_id?: string | null | undefined;
   /** The id of the admin associated with the call, if any. */
-  admin_id?: string | null;
+  admin_id?: string | null | undefined;
   /** The id of the contact associated with the call, if any. */
-  contact_id?: string | null;
+  contact_id?: string | null | undefined;
   /** The current state of the call. */
-  state?: string;
-  initiated_at?: Datetime;
-  answered_at?: Datetime;
-  ended_at?: Datetime;
-  created_at?: Datetime;
-  updated_at?: Datetime;
+  state?: string | undefined;
+  initiated_at?: Datetime | undefined;
+  answered_at?: Datetime | undefined;
+  ended_at?: Datetime | undefined;
+  created_at?: Datetime | undefined;
+  updated_at?: Datetime | undefined;
   /** API URL to download or redirect to the call recording if available. */
-  recording_url?: string | null;
+  recording_url?: string | null | undefined;
   /** API URL to download or redirect to the call transcript if available. */
-  transcription_url?: string | null;
+  transcription_url?: string | null | undefined;
   /** The type of call. */
-  call_type?: string;
+  call_type?: string | undefined;
   /** The direction of the call. */
-  direction?: string;
+  direction?: string | undefined;
   /** The reason for the call end, if applicable. */
-  ended_reason?: string | null;
+  ended_reason?: string | null | undefined;
   /** The phone number involved in the call, in E.164 format. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** API URL to the AI Agent (Fin) call recording if available. */
-  fin_recording_url?: string | null;
+  fin_recording_url?: string | null | undefined;
   /** API URL to the AI Agent (Fin) call transcript if available. */
-  fin_transcription_url?: string | null;
+  fin_transcription_url?: string | null | undefined;
 }
 export interface GetCallRecordingRequest {
   /** The id of the call */
@@ -4396,17 +4462,17 @@ export interface GetCollectionRequest {
 }
 export interface GetCompanyRequest {
   /** The `name` of the company to filter by. */
-  name?: string;
+  name?: string | undefined;
   /** The `company_id` of the company to filter by. */
-  company_id?: string;
+  company_id?: string | undefined;
   /** The `tag_id` of the company to filter by. */
-  tag_id?: string;
+  tag_id?: string | undefined;
   /** The `segment_id` of the company to filter by. */
-  segment_id?: string;
+  segment_id?: string | undefined;
   /** The page of results to fetch. Defaults to first page */
-  page?: number;
+  page?: number | undefined;
   /** How many results to display per page. Defaults to 15 */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The type of object - `list`. */
 export type CompanyListType = "list";
@@ -4414,231 +4480,231 @@ export type CompanyListType = "list";
 export type CursorPagesType = "pages";
 export interface StartingAfterPaging {
   /** The number of results to fetch per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The cursor to use in the next request to get the next page of results. */
-  starting_after?: string | null;
+  starting_after?: string | null | undefined;
 }
 /** Cursor-based pagination is a technique used in the Intercom API to navigate through large amounts of data. A "cursor" or pointer is used to keep track of the current position in the result set, allowing the API to return the data in small chunks or "pages" as needed. */
 export interface CursorPages {
   /** the type of object `pages`. */
-  type?: CursorPagesType;
+  type?: CursorPagesType | undefined;
   /** The current page */
-  page?: number;
-  next?: StartingAfterPaging | null;
+  page?: number | undefined;
+  next?: StartingAfterPaging | null | undefined;
   /** Number of results per page */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Total number of pages */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** An array containing Company Objects. */
 export type CompanyListDataList = Array<Company>;
 /** This will return a list of companies for the App. */
 export interface CompanyList {
   /** The type of object - `list`. */
-  type?: CompanyListType;
-  pages?: CursorPages | null;
+  type?: CompanyListType | undefined;
+  pages?: CursorPages | null | undefined;
   /** The total number of companies. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** An array containing Company Objects. */
-  data?: CompanyListDataList;
+  data?: CompanyListDataList | undefined;
 }
 export interface GetContactRequest {
   /** contact_id */
   contact_id: string;
   /** Pass `true` to include the contact's merge history in the response. Only returned for contacts with a `user` role. */
-  include_merge_history?: boolean;
+  include_merge_history?: boolean | undefined;
 }
 export type GetContactResponseAvatar = ContactAvatar;
 /** A list of contacts that were merged into this contact. Only included in the response when `include_merge_history=true` is passed as a query parameter. Only available for contacts with a `user` role. */
 export type GetContactResponseMergeHistoryList = Array<MergeHistoryItem>;
 export interface GetContactResponse {
   /** The type of object. */
-  type?: string;
+  type?: string | undefined;
   /** The unique identifier for the contact which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier for the contact which is provided by the Client. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The id of the workspace which the contact belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The role of the contact. */
-  role?: string;
+  role?: string | undefined;
   /** The contact's email. */
-  email?: string;
+  email?: string | undefined;
   /** The contact's email domain. */
-  email_domain?: string;
+  email_domain?: string | undefined;
   /** The contacts phone. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** The contacts name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The id of an admin that has been assigned account ownership of the contact. */
-  owner_id?: string | null;
+  owner_id?: string | null | undefined;
   /** Whether the contact has had an email sent to them hard bounce. */
-  has_hard_bounced?: boolean;
+  has_hard_bounced?: boolean | undefined;
   /** Whether the contact has marked an email sent to them as spam. */
-  marked_email_as_spam?: boolean;
+  marked_email_as_spam?: boolean | undefined;
   /** Whether the contact is unsubscribed from emails. */
-  unsubscribed_from_emails?: boolean;
+  unsubscribed_from_emails?: boolean | undefined;
   /** (Unix timestamp in seconds) The time when the contact was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** (Unix timestamp in seconds) The time specified for when a contact signed up. */
-  signed_up_at?: number | null;
+  signed_up_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last seen (either where the Intercom Messenger was installed or when specified manually). */
-  last_seen_at?: number | null;
+  last_seen_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last messaged in. */
-  last_replied_at?: number | null;
+  last_replied_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last messaged. */
-  last_contacted_at?: number | null;
+  last_contacted_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last opened an email. */
-  last_email_opened_at?: number | null;
+  last_email_opened_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last clicked a link in an email. */
-  last_email_clicked_at?: number | null;
+  last_email_clicked_at?: number | null | undefined;
   /** A preferred language setting for the contact, used by the Intercom Messenger even if their browser settings change. */
-  language_override?: string | null;
+  language_override?: string | null | undefined;
   /** The name of the browser which the contact is using. */
-  browser?: string | null;
+  browser?: string | null | undefined;
   /** The version of the browser which the contact is using. */
-  browser_version?: string | null;
+  browser_version?: string | null | undefined;
   /** The language set by the browser which the contact is using. */
-  browser_language?: string | null;
+  browser_language?: string | null | undefined;
   /** The operating system which the contact is using. */
-  os?: string | null;
+  os?: string | null | undefined;
   /** The name of the Android app which the contact is using. */
-  android_app_name?: string | null;
+  android_app_name?: string | null | undefined;
   /** The version of the Android app which the contact is using. */
-  android_app_version?: string | null;
+  android_app_version?: string | null | undefined;
   /** The Android device which the contact is using. */
-  android_device?: string | null;
+  android_device?: string | null | undefined;
   /** The version of the Android OS which the contact is using. */
-  android_os_version?: string | null;
+  android_os_version?: string | null | undefined;
   /** The version of the Android SDK which the contact is using. */
-  android_sdk_version?: string | null;
+  android_sdk_version?: string | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last seen on an Android device. */
-  android_last_seen_at?: number | null;
+  android_last_seen_at?: number | null | undefined;
   /** The name of the iOS app which the contact is using. */
-  ios_app_name?: string | null;
+  ios_app_name?: string | null | undefined;
   /** The version of the iOS app which the contact is using. */
-  ios_app_version?: string | null;
+  ios_app_version?: string | null | undefined;
   /** The iOS device which the contact is using. */
-  ios_device?: string | null;
+  ios_device?: string | null | undefined;
   /** The version of iOS which the contact is using. */
-  ios_os_version?: string | null;
+  ios_os_version?: string | null | undefined;
   /** The version of the iOS SDK which the contact is using. */
-  ios_sdk_version?: string | null;
+  ios_sdk_version?: string | null | undefined;
   /** (Unix timestamp in seconds) The last time the contact used the iOS app. */
-  ios_last_seen_at?: number | null;
+  ios_last_seen_at?: number | null | undefined;
   /** The custom attributes which are set for the contact. */
-  custom_attributes?: unknown;
-  avatar?: ContactAvatar | null;
-  tags?: ContactTags | null;
-  notes?: ContactNotes;
-  companies?: ContactCompanies;
-  location?: ContactLocation;
-  social_profiles?: ContactSocialProfiles;
+  custom_attributes?: unknown | undefined;
+  avatar?: ContactAvatar | null | undefined;
+  tags?: ContactTags | null | undefined;
+  notes?: ContactNotes | undefined;
+  companies?: ContactCompanies | undefined;
+  location?: ContactLocation | undefined;
+  social_profiles?: ContactSocialProfiles | undefined;
   /** A list of contacts that were merged into this contact. Only included in the response when `include_merge_history=true` is passed as a query parameter. Only available for contacts with a `user` role. */
-  merge_history?: GetContactResponseMergeHistoryList | null;
+  merge_history?: GetContactResponseMergeHistoryList | null | undefined;
   /** If the user has enabled push messaging. */
-  enabled_push_messaging?: boolean | null;
+  enabled_push_messaging?: boolean | null | undefined;
 }
 export interface GetContactByExternalIdRequest {
   /** The external ID of the user that you want to retrieve */
   external_id: string;
   /** Pass `true` to include the contact's merge history in the response. Only returned for contacts with a `user` role. */
-  include_merge_history?: boolean;
+  include_merge_history?: boolean | undefined;
 }
 export type GetContactByExternalIdResponseAvatar = ContactAvatar;
 /** A list of contacts that were merged into this contact. Only included in the response when `include_merge_history=true` is passed as a query parameter. Only available for contacts with a `user` role. */
 export type GetContactByExternalIdResponseMergeHistoryList = Array<MergeHistoryItem>;
 export interface GetContactByExternalIdResponse {
   /** The type of object. */
-  type?: string;
+  type?: string | undefined;
   /** The unique identifier for the contact which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier for the contact which is provided by the Client. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The id of the workspace which the contact belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The role of the contact. */
-  role?: string;
+  role?: string | undefined;
   /** The contact's email. */
-  email?: string;
+  email?: string | undefined;
   /** The contact's email domain. */
-  email_domain?: string;
+  email_domain?: string | undefined;
   /** The contacts phone. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** The contacts name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The id of an admin that has been assigned account ownership of the contact. */
-  owner_id?: string | null;
+  owner_id?: string | null | undefined;
   /** Whether the contact has had an email sent to them hard bounce. */
-  has_hard_bounced?: boolean;
+  has_hard_bounced?: boolean | undefined;
   /** Whether the contact has marked an email sent to them as spam. */
-  marked_email_as_spam?: boolean;
+  marked_email_as_spam?: boolean | undefined;
   /** Whether the contact is unsubscribed from emails. */
-  unsubscribed_from_emails?: boolean;
+  unsubscribed_from_emails?: boolean | undefined;
   /** (Unix timestamp in seconds) The time when the contact was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** (Unix timestamp in seconds) The time specified for when a contact signed up. */
-  signed_up_at?: number | null;
+  signed_up_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last seen (either where the Intercom Messenger was installed or when specified manually). */
-  last_seen_at?: number | null;
+  last_seen_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last messaged in. */
-  last_replied_at?: number | null;
+  last_replied_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last messaged. */
-  last_contacted_at?: number | null;
+  last_contacted_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last opened an email. */
-  last_email_opened_at?: number | null;
+  last_email_opened_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last clicked a link in an email. */
-  last_email_clicked_at?: number | null;
+  last_email_clicked_at?: number | null | undefined;
   /** A preferred language setting for the contact, used by the Intercom Messenger even if their browser settings change. */
-  language_override?: string | null;
+  language_override?: string | null | undefined;
   /** The name of the browser which the contact is using. */
-  browser?: string | null;
+  browser?: string | null | undefined;
   /** The version of the browser which the contact is using. */
-  browser_version?: string | null;
+  browser_version?: string | null | undefined;
   /** The language set by the browser which the contact is using. */
-  browser_language?: string | null;
+  browser_language?: string | null | undefined;
   /** The operating system which the contact is using. */
-  os?: string | null;
+  os?: string | null | undefined;
   /** The name of the Android app which the contact is using. */
-  android_app_name?: string | null;
+  android_app_name?: string | null | undefined;
   /** The version of the Android app which the contact is using. */
-  android_app_version?: string | null;
+  android_app_version?: string | null | undefined;
   /** The Android device which the contact is using. */
-  android_device?: string | null;
+  android_device?: string | null | undefined;
   /** The version of the Android OS which the contact is using. */
-  android_os_version?: string | null;
+  android_os_version?: string | null | undefined;
   /** The version of the Android SDK which the contact is using. */
-  android_sdk_version?: string | null;
+  android_sdk_version?: string | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last seen on an Android device. */
-  android_last_seen_at?: number | null;
+  android_last_seen_at?: number | null | undefined;
   /** The name of the iOS app which the contact is using. */
-  ios_app_name?: string | null;
+  ios_app_name?: string | null | undefined;
   /** The version of the iOS app which the contact is using. */
-  ios_app_version?: string | null;
+  ios_app_version?: string | null | undefined;
   /** The iOS device which the contact is using. */
-  ios_device?: string | null;
+  ios_device?: string | null | undefined;
   /** The version of iOS which the contact is using. */
-  ios_os_version?: string | null;
+  ios_os_version?: string | null | undefined;
   /** The version of the iOS SDK which the contact is using. */
-  ios_sdk_version?: string | null;
+  ios_sdk_version?: string | null | undefined;
   /** (Unix timestamp in seconds) The last time the contact used the iOS app. */
-  ios_last_seen_at?: number | null;
+  ios_last_seen_at?: number | null | undefined;
   /** The custom attributes which are set for the contact. */
-  custom_attributes?: unknown;
-  avatar?: ContactAvatar | null;
-  tags?: ContactTags | null;
-  notes?: ContactNotes;
-  companies?: ContactCompanies;
-  location?: ContactLocation;
-  social_profiles?: ContactSocialProfiles;
+  custom_attributes?: unknown | undefined;
+  avatar?: ContactAvatar | null | undefined;
+  tags?: ContactTags | null | undefined;
+  notes?: ContactNotes | undefined;
+  companies?: ContactCompanies | undefined;
+  location?: ContactLocation | undefined;
+  social_profiles?: ContactSocialProfiles | undefined;
   /** A list of contacts that were merged into this contact. Only included in the response when `include_merge_history=true` is passed as a query parameter. Only available for contacts with a `user` role. */
-  merge_history?: GetContactByExternalIdResponseMergeHistoryList | null;
+  merge_history?: GetContactByExternalIdResponseMergeHistoryList | null | undefined;
   /** If the user has enabled push messaging. */
-  enabled_push_messaging?: boolean | null;
+  enabled_push_messaging?: boolean | null | undefined;
 }
 export interface GetContentImportSourceRequest {
   /** The unique identifier for the content import source which is given by Intercom. */
@@ -4652,9 +4718,9 @@ export interface GetConversationRequest {
   /** The id of the conversation to target */
   conversation_id: number;
   /** Set to plaintext to retrieve conversation messages in plain text. This affects both the body and subject fields. Inline links are rendered as `label (url)`, preserving the link URL alongside the visible text. */
-  display_as?: string;
+  display_as?: string | undefined;
   /** If set to true, conversation parts will be translated to the detected language of the conversation. */
-  include_translations?: boolean;
+  include_translations?: boolean | undefined;
 }
 /** Can be set to "open", "closed" or "snoozed". */
 export type ConversationState = "open" | "closed" | "snoozed";
@@ -4663,137 +4729,137 @@ export type ConversationPriority = "none" | "low" | "medium" | "high" | "urgent"
 /** The Conversation Rating object which contains information on the rating and/or remark added by a Contact and the Admin assigned to the conversation. */
 export interface ConversationRating {
   /** The rating, between 1 and 5, for the conversation. */
-  rating?: number;
+  rating?: number | undefined;
   /** An optional field to add a remark to correspond to the number rating */
-  remark?: string;
+  remark?: string | undefined;
   /** The time the rating was requested in the conversation being rated. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the rating was last updated. */
-  updated_at?: number;
-  contact?: ContactReference;
-  teammate?: Reference;
+  updated_at?: number | undefined;
+  contact?: ContactReference | undefined;
+  teammate?: Reference | undefined;
 }
 export interface ConversationSourceRecipientsItem {
   /** The recipient type. One of `to`, `cc`, or `bcc`. */
-  type?: string;
+  type?: string | undefined;
   /** The recipient email address. */
-  email?: string;
+  email?: string | undefined;
   /** The reason this recipient was dropped, if applicable. */
-  drop_reason?: string | null;
+  drop_reason?: string | null | undefined;
 }
 /** The recipients of the source message. Only present for email conversations. */
 export type ConversationSourceRecipientsList = Array<ConversationSourceRecipientsItem>;
 export interface ConversationSourceReplyToItem {
   /** The Reply-To email address. */
-  email?: string;
+  email?: string | undefined;
   /** The display name associated with the Reply-To address. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** The Reply-To header addresses of the source message, where a reply will be routed. Can differ from the sender's From address. Only present for email conversations. */
 export type ConversationSourceReplyToList = Array<ConversationSourceReplyToItem>;
 /** The author who started the conversation. Can be a Contact, Admin, or Bot. */
 export interface ConversationSourceAuthor {
   /** The type of the author. */
-  type?: string;
+  type?: string | undefined;
   /** The id of the author. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The name of the author. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The email of the author. */
-  email?: string | null;
+  email?: string | null | undefined;
 }
 /** A list of attachments for the part. */
 export type ConversationSourceAttachmentsList = Array<PartAttachment>;
 /** Contains data for an email address header for a conversation part that was sent as an email. */
 export interface EmailAddressHeader {
   /** The type of email address header */
-  type?: string;
+  type?: string | undefined;
   /** The email address */
-  email_address?: string;
+  email_address?: string | undefined;
   /** The name associated with the email address */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** A list of an email address headers. */
 export type SourceEmailMessageMetadataEmailAddressHeadersList = Array<EmailAddressHeader>;
 /** Contains metadata if the message was sent as an email */
 export interface SourceEmailMessageMetadata {
   /** The unique identifier for the email message as specified in the Message-ID header */
-  message_id?: string | null;
+  message_id?: string | null | undefined;
   /** The subject of the email */
-  subject?: string;
+  subject?: string | undefined;
   /** A list of an email address headers. */
-  email_address_headers?: SourceEmailMessageMetadataEmailAddressHeadersList;
+  email_address_headers?: SourceEmailMessageMetadataEmailAddressHeadersList | undefined;
   /** The HTML content of any quoted or forwarded email history from the initial inbound message */
-  history?: string;
+  history?: string | undefined;
 }
 /** The type of the conversation part that started this conversation. Can be Contact, Admin, Campaign, Automated or Operator initiated. */
 export interface ConversationSource {
   /** The origin of this conversation. */
-  type?: string;
+  type?: string | undefined;
   /** The id of the source message. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** How the conversation was initiated. */
-  delivered_as?: string;
+  delivered_as?: string | undefined;
   /** The recipients of the source message. Only present for email conversations. */
-  recipients?: ConversationSourceRecipientsList | null;
+  recipients?: ConversationSourceRecipientsList | null | undefined;
   /** The Reply-To header addresses of the source message, where a reply will be routed. Can differ from the sender's From address. Only present for email conversations. */
-  reply_to?: ConversationSourceReplyToList | null;
+  reply_to?: ConversationSourceReplyToList | null | undefined;
   /** Optional. The message subject. For Twitter, this will show a generic message regarding why the subject is obscured. In webhook payloads for API version 2.15+, this field returns plain text. */
-  subject?: string;
+  subject?: string | undefined;
   /** The message body, which may contain HTML. For Twitter, this will show a generic message regarding why the body is obscured. In webhook payloads for API version 2.15+, this field returns plain text. */
-  body?: string;
-  author?: ConversationSourceAuthor;
+  body?: string | undefined;
+  author?: ConversationSourceAuthor | undefined;
   /** A list of attachments for the part. */
-  attachments?: ConversationSourceAttachmentsList;
+  attachments?: ConversationSourceAttachmentsList | undefined;
   /** The URL where the conversation was started. For Twitter, Email, and Bots, this will be blank. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Whether or not the source message has been redacted. Only applicable for contact initiated messages. */
-  redacted?: boolean;
-  email_message_metadata?: SourceEmailMessageMetadata;
+  redacted?: boolean | undefined;
+  email_message_metadata?: SourceEmailMessageMetadata | undefined;
 }
 export type ConversationContactsType = "contact.list";
 /** The list of contacts (users or leads) involved in this conversation. This will only contain one customer unless more were added via the group conversation feature. */
 export type ConversationContactsContactsList = Array<ContactReference>;
 /** The list of contacts (users or leads) involved in this conversation. This will only contain one customer unless more were added via the group conversation feature. */
 export interface ConversationContacts {
-  type?: ConversationContactsType;
+  type?: ConversationContactsType | undefined;
   /** The list of contacts (users or leads) involved in this conversation. This will only contain one customer unless more were added via the group conversation feature. */
-  contacts?: ConversationContactsContactsList;
+  contacts?: ConversationContactsContactsList | undefined;
 }
 /** The list of teammates who participated in the conversation (wrote at least one conversation part). */
 export type ConversationTeammatesTeammatesList = Array<Reference>;
 /** The list of teammates who participated in the conversation (wrote at least one conversation part). */
 export interface ConversationTeammates {
   /** The type of the object - `admin.list`. */
-  type?: string;
+  type?: string | undefined;
   /** The list of teammates who participated in the conversation (wrote at least one conversation part). */
-  teammates?: ConversationTeammatesTeammatesList;
+  teammates?: ConversationTeammatesTeammatesList | undefined;
 }
 /** An object containing information on the first users message. For a contact initiated message this will represent the users original message. */
 export interface ConversationFirstContactReply {
-  created_at?: number;
-  type?: string;
-  url?: string | null;
+  created_at?: number | undefined;
+  type?: string | undefined;
+  url?: string | null | undefined;
 }
 /** SLA statuses: - `hit`: If there's at least one hit event in the underlying sla_events table, and no "missed" or "canceled" events for the conversation. - `missed`: If there are any missed sla_events for the conversation and no canceled events. If there's even a single missed sla event, the status will always be missed. A missed status is not applied when the SLA expires, only the next time a teammate replies. - `active`: An SLA has been applied to a conversation, but has not yet been fulfilled. SLA status is active only if there are no "hit, "missed", or "canceled" events. */
 export type SlaAppliedSlaStatus = "hit" | "missed" | "cancelled" | "active";
 /** The SLA Applied object contains the details for which SLA has been applied to this conversation. Important: if there are any canceled sla_events for the conversation - meaning an SLA has been manually removed from a conversation, the sla_status will always be returned as null. */
 export interface SlaApplied {
   /** object type */
-  type?: string;
+  type?: string | undefined;
   /** The name of the SLA as given by the teammate when it was created. */
-  sla_name?: string;
+  sla_name?: string | undefined;
   /** SLA statuses: - `hit`: If there's at least one hit event in the underlying sla_events table, and no "missed" or "canceled" events for the conversation. - `missed`: If there are any missed sla_events for the conversation and no canceled events. If there's even a single missed sla event, the status will always be missed. A missed status is not applied when the SLA expires, only the next time a teammate replies. - `active`: An SLA has been applied to a conversation, but has not yet been fulfilled. SLA status is active only if there are no "hit, "missed", or "canceled" events. */
-  sla_status?: SlaAppliedSlaStatus;
+  sla_status?: SlaAppliedSlaStatus | undefined;
 }
 /** Details of first response time of assigned team in seconds. */
 export interface ConversationResponseTime {
   /** Id of the assigned team. */
-  team_id?: number;
+  team_id?: number | undefined;
   /** Name of the assigned Team, null if team does not exist, Unassigned if no team is assigned. */
-  team_name?: string;
+  team_name?: string | undefined;
   /** First response time of assigned team in seconds. */
-  response_time?: number;
+  response_time?: number | undefined;
 }
 /** An array of conversation response time objects */
 export type ConversationStatisticsAssignedTeamFirstResponseTimeList =
@@ -4803,67 +4869,71 @@ export type ConversationStatisticsAssignedTeamFirstResponseTimeInOfficeHoursList
   Array<ConversationResponseTime>;
 /** A Statistics object containing all information required for reporting, with timestamps and calculated metrics. */
 export interface ConversationStatistics {
-  type?: string;
+  type?: string | undefined;
   /** Duration until last assignment before first admin reply. In seconds. */
-  time_to_assignment?: number;
+  time_to_assignment?: number | undefined;
   /** Duration until first admin reply. Subtracts out of business hours. In seconds. */
-  time_to_admin_reply?: number;
+  time_to_admin_reply?: number | undefined;
   /** Duration until conversation was closed first time. Subtracts out of business hours. In seconds. */
-  time_to_first_close?: number;
+  time_to_first_close?: number | undefined;
   /** Duration until conversation was closed last time. Subtracts out of business hours. In seconds. */
-  time_to_last_close?: number;
+  time_to_last_close?: number | undefined;
   /** Median based on all admin replies after a contact reply. Subtracts out of business hours. In seconds. */
-  median_time_to_reply?: number;
+  median_time_to_reply?: number | undefined;
   /** Time of first text conversation part from a contact. */
-  first_contact_reply_at?: number;
+  first_contact_reply_at?: number | undefined;
   /** Time of first assignment after first_contact_reply_at. */
-  first_assignment_at?: number;
+  first_assignment_at?: number | undefined;
   /** Time of first admin reply after first_contact_reply_at. */
-  first_admin_reply_at?: number;
+  first_admin_reply_at?: number | undefined;
   /** Time of first close after first_contact_reply_at. */
-  first_close_at?: number;
+  first_close_at?: number | undefined;
   /** Time of last assignment after first_contact_reply_at. */
-  last_assignment_at?: number;
+  last_assignment_at?: number | undefined;
   /** Time of first admin reply since most recent assignment. */
-  last_assignment_admin_reply_at?: number;
+  last_assignment_admin_reply_at?: number | undefined;
   /** Time of the last conversation part from a contact. */
-  last_contact_reply_at?: number;
+  last_contact_reply_at?: number | undefined;
   /** Time of the last conversation part from an admin. */
-  last_admin_reply_at?: number;
+  last_admin_reply_at?: number | undefined;
   /** Time of the last conversation close. */
-  last_close_at?: number;
+  last_close_at?: number | undefined;
   /** The last admin who closed the conversation. Returns a reference to an Admin object. */
-  last_closed_by_id?: string;
+  last_closed_by_id?: string | undefined;
   /** Number of reopens after first_contact_reply_at. */
-  count_reopens?: number;
+  count_reopens?: number | undefined;
   /** Number of assignments after first_contact_reply_at. */
-  count_assignments?: number;
+  count_assignments?: number | undefined;
   /** Total number of conversation parts. */
-  count_conversation_parts?: number;
+  count_conversation_parts?: number | undefined;
   /** An array of conversation response time objects */
-  assigned_team_first_response_time?: ConversationStatisticsAssignedTeamFirstResponseTimeList;
+  assigned_team_first_response_time?:
+    | ConversationStatisticsAssignedTeamFirstResponseTimeList
+    | undefined;
   /** An array of conversation response time objects within office hours */
-  assigned_team_first_response_time_in_office_hours?: ConversationStatisticsAssignedTeamFirstResponseTimeInOfficeHoursList;
+  assigned_team_first_response_time_in_office_hours?:
+    | ConversationStatisticsAssignedTeamFirstResponseTimeInOfficeHoursList
+    | undefined;
   /** Time from conversation assignment to conversation close in seconds. */
-  handling_time?: number;
+  handling_time?: number | undefined;
   /** Adjusted handling time for conversation in seconds. This is the active handling time excluding idle periods when teammates are not actively working on the conversation. */
-  adjusted_handling_time?: number | null;
+  adjusted_handling_time?: number | null | undefined;
 }
 export type ConversationPartsType = "conversation_part.list";
 /** The object who initiated the conversation, which can be a Contact, Admin or Team. Bots and campaigns send messages on behalf of Admins or Teams. For Twitter, this will be blank. */
 export interface ConversationPartAuthor {
   /** The type of the author */
-  type?: string;
+  type?: string | undefined;
   /** The id of the author */
-  id?: string;
-  /** The name of the author */
-  name?: string | null;
-  /** The email of the author */
-  email?: string;
+  id?: string | undefined;
+  /** The name of the author. `null` if the author is a contact that has since been archived or deleted. */
+  name?: string | null | undefined;
+  /** The email of the author. `null` if the author is a contact that has since been archived or deleted. */
+  email?: string | null | undefined;
   /** If this conversation part was sent by the AI Agent */
-  from_ai_agent?: boolean;
+  from_ai_agent?: boolean | undefined;
   /** If this conversation part body was generated by the AI Agent */
-  is_ai_answer?: boolean;
+  is_ai_answer?: boolean | undefined;
 }
 /** A list of attachments for the part. */
 export type ConversationPartAttachmentsList = Array<PartAttachment>;
@@ -4872,11 +4942,11 @@ export type EmailMessageMetadataEmailAddressHeadersList = Array<EmailAddressHead
 /** Contains metadata if the message was sent as an email */
 export interface EmailMessageMetadata {
   /** The subject of the email */
-  subject?: string;
+  subject?: string | undefined;
   /** A list of an email address headers. */
-  email_address_headers?: EmailMessageMetadataEmailAddressHeadersList;
+  email_address_headers?: EmailMessageMetadataEmailAddressHeadersList | undefined;
   /** The unique identifier for the email message as specified in the Message-ID header */
-  message_id?: string | null;
+  message_id?: string | null | undefined;
 }
 export interface ConversationPartMetadataQuickReplyOptionsItem {
   /** The text to display in this quick reply option. */
@@ -4884,7 +4954,7 @@ export interface ConversationPartMetadataQuickReplyOptionsItem {
   /** A unique identifier for this quick reply option. This value will be available within the metadata of the comment conversation part that is created when a user clicks on this reply option. */
   uuid: string;
   /** The translations for the quick reply option. */
-  translations?: unknown | null;
+  translations?: unknown | null | undefined;
 }
 /** The quick reply options sent by the Admin or bot, presented in this conversation part. */
 export type ConversationPartMetadataQuickReplyOptionsList =
@@ -4892,9 +4962,9 @@ export type ConversationPartMetadataQuickReplyOptionsList =
 /** Metadata for a conversation part */
 export interface ConversationPartMetadata {
   /** The quick reply options sent by the Admin or bot, presented in this conversation part. */
-  quick_reply_options?: ConversationPartMetadataQuickReplyOptionsList;
+  quick_reply_options?: ConversationPartMetadataQuickReplyOptionsList | undefined;
   /** The unique identifier for the quick reply option that was clicked by the end user. */
-  quick_reply_uuid?: string;
+  quick_reply_uuid?: string | undefined;
 }
 /** Indicates the current state of conversation when the conversation part was created. */
 export type ConversationPartState = "open" | "closed" | "snoozed";
@@ -4902,82 +4972,82 @@ export type ConversationPartState = "open" | "closed" | "snoozed";
 export type ConversationPartTagsList = Array<TagBasic>;
 export interface ConversationAttributeUpdatedByWorkflowWorkflow {
   /** Name of the workflow */
-  name?: string;
+  name?: string | undefined;
 }
 export interface ConversationAttributeUpdatedByWorkflowAttribute {
   /** Name of the CDA updated */
-  name?: string;
+  name?: string | undefined;
 }
 export interface ConversationAttributeUpdatedByWorkflowValue {
   /** Value of the CDA updated */
-  name?: string;
+  name?: string | undefined;
 }
 /** Contains details about the workflow that was triggered and any Custom Data Attributes (CDAs) that were modified during the workflow execution for conversation part type <code>conversation_attribute_updated_by_workflow</code>. */
 export interface ConversationAttributeUpdatedByWorkflow {
-  workflow?: ConversationAttributeUpdatedByWorkflowWorkflow;
-  attribute?: ConversationAttributeUpdatedByWorkflowAttribute;
-  value?: ConversationAttributeUpdatedByWorkflowValue;
+  workflow?: ConversationAttributeUpdatedByWorkflowWorkflow | undefined;
+  attribute?: ConversationAttributeUpdatedByWorkflowAttribute | undefined;
+  value?: ConversationAttributeUpdatedByWorkflowValue | undefined;
 }
 export type ConversationAttributeUpdatedByAdminAttribute =
   ConversationAttributeUpdatedByWorkflowAttribute;
 export interface ConversationAttributeUpdatedByAdminValue {
   /** Current value of the CDA updated */
-  name?: string;
+  name?: string | undefined;
   /** Previous value of the CDA */
-  previous?: string | null;
+  previous?: string | null | undefined;
 }
 /** Contains details about Custom Data Attributes (CDAs) that were modified by an admin (operator) for conversation part type <code>conversation_attribute_updated_by_admin</code>. */
 export interface ConversationAttributeUpdatedByAdmin {
-  attribute?: ConversationAttributeUpdatedByWorkflowAttribute;
-  value?: ConversationAttributeUpdatedByAdminValue;
+  attribute?: ConversationAttributeUpdatedByWorkflowAttribute | undefined;
+  value?: ConversationAttributeUpdatedByAdminValue | undefined;
 }
 export type ConversationAttributeUpdatedByUserAttribute =
   ConversationAttributeUpdatedByWorkflowAttribute;
 export interface ConversationAttributeUpdatedByUserValue {
   /** Current value of the CDA updated */
-  name?: string;
+  name?: string | undefined;
   /** Previous value of the CDA (null for older events) */
-  previous?: string | null;
+  previous?: string | null | undefined;
 }
 /** Contains details about Custom Data Attributes (CDAs) that were modified by a user for conversation part type <code>conversation_attribute_updated_by_user</code>. */
 export interface ConversationAttributeUpdatedByUser {
-  attribute?: ConversationAttributeUpdatedByWorkflowAttribute;
-  value?: ConversationAttributeUpdatedByUserValue;
+  attribute?: ConversationAttributeUpdatedByWorkflowAttribute | undefined;
+  value?: ConversationAttributeUpdatedByUserValue | undefined;
 }
 export interface CustomActionStartedAction {
   /** Name of the action */
-  name?: string;
+  name?: string | undefined;
 }
 /** Contains details about name of the action that was initiated for conversation part type <code>custom_action_started</code>. */
 export interface CustomActionStarted {
-  action?: CustomActionStartedAction;
+  action?: CustomActionStartedAction | undefined;
 }
 /** Status of the action */
 export type CustomActionFinishedActionResult = "success" | "failed";
 export interface CustomActionFinishedAction {
   /** Name of the action */
-  name?: string;
+  name?: string | undefined;
   /** Status of the action */
-  result?: CustomActionFinishedActionResult;
+  result?: CustomActionFinishedActionResult | undefined;
 }
 /** Contains details about final status of the completed action for conversation part type <code>custom_action_finished</code>. */
 export interface CustomActionFinished {
-  action?: CustomActionFinishedAction;
+  action?: CustomActionFinishedAction | undefined;
 }
 export interface OperatorWorkflowEventWorkflow {
   /** The name of the workflow */
-  name?: string;
+  name?: string | undefined;
 }
 export interface OperatorWorkflowEventEvent {
   /** Type of the workflow event initiated */
-  type?: string;
+  type?: string | undefined;
   /** Result of the workflow event */
-  result?: string;
+  result?: string | undefined;
 }
 /** Contains details about name of the workflow for conversation part type <code>operator_workflow_event</code>. */
 export interface OperatorWorkflowEvent {
-  workflow?: OperatorWorkflowEventWorkflow;
-  event?: OperatorWorkflowEventEvent;
+  workflow?: OperatorWorkflowEventWorkflow | undefined;
+  event?: OperatorWorkflowEventEvent | undefined;
 }
 export type EventDetails =
   | ConversationAttributeUpdatedByWorkflow
@@ -4986,53 +5056,53 @@ export type EventDetails =
   | CustomActionStarted
   | CustomActionFinished
   | OperatorWorkflowEvent;
-/** A map of the reply text keyed by locale code. Backs the `conversation.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale. */
+/** A map of the reply text keyed by locale code. Backs the `conversation.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in, when it is known; every other key holds the reply translated into that locale. */
 export type ConversationPartTranslations = TicketPartTranslations;
 /** A Conversation Part represents a message in the conversation. */
 export interface ConversationPart {
   /** Always conversation_part */
-  type?: string;
+  type?: string | undefined;
   /** The id representing the conversation part. */
-  id?: string;
+  id?: string | undefined;
   /** The type of conversation part. */
-  part_type?: string;
+  part_type?: string | undefined;
   /** The message body, which may contain HTML. For Twitter, this will show a generic message regarding why the body is obscured. In webhook payloads for API version 2.15+, this field returns plain text. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** The time the conversation part was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The last time the conversation part was updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** The time the user was notified with the conversation part. */
-  notified_at?: number;
+  notified_at?: number | undefined;
   /** The assignee this conversation_part assigned the conversation to, as a reference whose `type` is `admin`, `team` or `bot`. When the part unassigned the conversation, `type` is `nobody_admin` and `id` is `null`. Null when the part did not change the assignment, or when the assignee has since been deleted. */
-  assigned_to?: Reference | null;
-  author?: ConversationPartAuthor;
+  assigned_to?: Reference | null | undefined;
+  author?: ConversationPartAuthor | undefined;
   /** A list of attachments for the part. */
-  attachments?: ConversationPartAttachmentsList;
+  attachments?: ConversationPartAttachmentsList | undefined;
   /** The external id of the conversation part */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Whether or not the conversation part has been redacted. */
-  redacted?: boolean;
-  email_message_metadata?: EmailMessageMetadata | null;
-  metadata?: ConversationPartMetadata | null;
+  redacted?: boolean | undefined;
+  email_message_metadata?: EmailMessageMetadata | null | undefined;
+  metadata?: ConversationPartMetadata | null | undefined;
   /** Indicates the current state of conversation when the conversation part was created. */
-  state?: ConversationPartState;
+  state?: ConversationPartState | undefined;
   /** A list of tags objects associated with the conversation part. */
-  tags?: ConversationPartTagsList | null;
-  event_details?: EventDetails | null;
+  tags?: ConversationPartTagsList | null | undefined;
+  event_details?: EventDetails | null | undefined;
   /** The app package code if this part was created via API. null if the part was not created via API. */
-  app_package_code?: string | null;
-  /** A map of the reply text keyed by locale code. Backs the `conversation.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale. */
-  translations?: TicketPartTranslations | null;
+  app_package_code?: string | null | undefined;
+  /** A map of the reply text keyed by locale code. Backs the `conversation.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in, when it is known; every other key holds the reply translated into that locale. */
+  translations?: TicketPartTranslations | null | undefined;
 }
 /** A list of Conversation Part objects for each part message in the conversation. This is only returned when Retrieving a Conversation, and ignored when Listing all Conversations. There is a limit of 500 parts. */
 export type ConversationPartsConversationPartsList = Array<ConversationPart>;
 /** A list of Conversation Part objects for each part message in the conversation. This is only returned when Retrieving a Conversation, and ignored when Listing all Conversations. There is a limit of 500 parts. */
 export interface ConversationParts {
-  type?: ConversationPartsType;
+  type?: ConversationPartsType | undefined;
   /** A list of Conversation Part objects for each part message in the conversation. This is only returned when Retrieving a Conversation, and ignored when Listing all Conversations. There is a limit of 500 parts. */
-  conversation_parts?: ConversationPartsConversationPartsList;
-  total_count?: number;
+  conversation_parts?: ConversationPartsConversationPartsList | undefined;
+  total_count?: number | undefined;
 }
 /** The type of the source that triggered AI Agent involvement in the conversation. */
 export type AiAgentSourceType =
@@ -5061,42 +5131,42 @@ export type ContentSourceContentType =
 /** The content source used by AI Agent in the conversation. */
 export interface ContentSource {
   /** The type of the content source. */
-  content_type?: ContentSourceContentType;
+  content_type?: ContentSourceContentType | undefined;
   /** The internal URL linking to the content source for teammates. */
-  url?: string;
+  url?: string | undefined;
   /** The title of the content source. */
-  title?: string;
+  title?: string | undefined;
   /** The ISO 639 language code of the content source. */
-  locale?: string;
+  locale?: string | undefined;
 }
 /** The content sources used by AI Agent in the conversation. */
 export type ContentSourcesListContentSourcesList = Array<ContentSource>;
 export interface ContentSourcesList {
-  type?: ContentSourcesListType;
+  type?: ContentSourcesListType | undefined;
   /** The total number of content sources used by AI Agent in the conversation. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The content sources used by AI Agent in the conversation. */
-  content_sources?: ContentSourcesListContentSourcesList;
+  content_sources?: ContentSourcesListContentSourcesList | undefined;
 }
 /** Data related to AI Agent involvement in the conversation. */
 export interface AiAgent {
   /** The type of the source that triggered AI Agent involvement in the conversation. */
-  source_type?: AiAgentSourceType | null;
+  source_type?: AiAgentSourceType | null | undefined;
   /** The title of the source that triggered AI Agent involvement in the conversation. If this is `essentials_plan_setup` then it will return `null`. */
-  source_title?: string | null;
+  source_title?: string | null | undefined;
   /** The type of the last answer delivered by AI Agent. If no answer was delivered then this will return `null` */
-  last_answer_type?: AiAgentLastAnswerType | null;
+  last_answer_type?: AiAgentLastAnswerType | null | undefined;
   /** The resolution state of AI Agent. If no AI or custom answer has been delivered then this will return `null`. */
-  resolution_state?: AiAgentResolutionState | null;
+  resolution_state?: AiAgentResolutionState | null | undefined;
   /** The customer satisfaction rating given to AI Agent, from 1-5. */
-  rating?: number | null;
+  rating?: number | null | undefined;
   /** The customer satisfaction rating remark given to AI Agent. */
-  rating_remark?: string | null;
+  rating_remark?: string | null | undefined;
   /** The time when the AI agent rating was created. */
-  created_at?: number | null;
+  created_at?: number | null | undefined;
   /** The time when the AI agent rating was last updated. */
-  updated_at?: number | null;
-  content_sources?: ContentSourcesList;
+  updated_at?: number | null | undefined;
+  content_sources?: ContentSourcesList | undefined;
 }
 /** The fixed outcome of the sales agent interaction, used for billing and tracking. */
 export type SalesAgentOutcome =
@@ -5110,157 +5180,157 @@ export type SalesAgentCollectedDataMap = { [key: string]: string | undefined };
 /** Data related to Sales Agent involvement in the conversation. */
 export interface SalesAgent {
   /** The fixed outcome of the sales agent interaction, used for billing and tracking. */
-  outcome?: SalesAgentOutcome | null;
+  outcome?: SalesAgentOutcome | null | undefined;
   /** The identifier of the user-defined routing outcome selected by the sales agent. */
-  routing_outcome?: string | null;
+  routing_outcome?: string | null | undefined;
   /** A flat key-value map of memory fields collected by the sales agent during the conversation. */
-  collected_data?: SalesAgentCollectedDataMap | null;
+  collected_data?: SalesAgentCollectedDataMap | null | undefined;
 }
 /** The channel through which a conversation was originally initiated and its current channel. */
 export interface ConversationChannel {
   /** The channel through which the conversation was originally initiated. Possible values include `messenger`, `zendesk_sunshine`, `zendesk_ticket`, `twitter`, `email`. Returns `null` if channel data is unavailable. */
-  initial?: string | null;
+  initial?: string | null | undefined;
   /** The current channel of the conversation. May differ from `initial` if the conversation was migrated between channels. Returns `null` if channel data is unavailable. */
-  current?: string | null;
+  current?: string | null | undefined;
 }
 /** A reference linking a conversation to a record in an external helpdesk or CRM system, surfaced for Fin Standalone workspaces. */
 export interface ConversationExternalReference {
   /** The type of external system the reference points to. Possible values include `zendesk_ticket`, `zendesk_sunshine_conversation`, `salesforce_case`, `salesforce_in_app_message_conversation`, `freshdesk_ticket`, `freshchat_conversation`, `hubspot_conversation`, `custom_helpdesk_conversation`, `api_conversation`. */
-  type?: string;
+  type?: string | undefined;
   /** The identifier of the record in the external system. Always serialized as a string, since some external IDs exceed 32-bit integer range. */
-  id?: string;
+  id?: string | undefined;
 }
 /** References linking this conversation to records in an external helpdesk or CRM system. Populated for Fin Standalone workspaces synced from an external platform; an empty array otherwise. Sorted alphabetically by `type` and capped at 20 entries. */
 export type ConversationExternalReferencesList = Array<ConversationExternalReference>;
-/** A QA monitor evaluation that flagged this conversation. Returned in the `monitor_evaluations` array on conversation responses when `include_monitors=true` is passed. */
+/** A QA monitor evaluation of this conversation. Returned in the `monitor_evaluations` array on conversation responses when `include_monitors=true` is passed. */
 export interface ConversationMonitorEvaluation {
   /** The unique identifier of the monitor that produced this evaluation. */
-  monitor_id?: string;
+  monitor_id?: string | undefined;
   /** The name of the monitor at the time of evaluation. Null if the monitor has since been deleted. */
-  monitor_name?: string | null;
+  monitor_name?: string | null | undefined;
   /** The type of the monitor. Null if the monitor has since been deleted. */
-  monitor_type?: string | null;
-  /** The evaluation outcome reported by the monitor. */
-  result?: string;
+  monitor_type?: string | null | undefined;
+  /** The evaluation outcome reported by the monitor: `included` (the conversation matches the monitor's criteria), `excluded`, `error` or `awaiting_async_data`. */
+  result?: string | undefined;
   /** The reasoning provided by the monitor for its result. May be null if no reasoning was generated. */
-  explanation?: string | null;
+  explanation?: string | null | undefined;
   /** The time the monitor evaluated this conversation. Null in the rare case the underlying record's timestamp is not yet set. */
-  evaluated_at?: number | null;
+  evaluated_at?: number | null | undefined;
 }
-/** QA monitor evaluations that flagged this conversation. Only included when `include_monitors=true` is passed as a query parameter. */
+/** The latest QA monitor evaluation for each monitor that has evaluated this conversation, whatever its result. Only included when `include_monitors=true` is passed as a query parameter. */
 export type ConversationMonitorEvaluationsList = Array<ConversationMonitorEvaluation>;
 /** The kind of reviewee. `ai` if the conversation was handled by Fin or scored without a specific teammate; `admin` if a specific teammate was reviewed. */
 export type ConversationScorecardReviewedTeammateType = "ai" | "admin";
 /** The teammate (or AI agent) whose handling of the conversation was reviewed by this scorecard. */
 export interface ConversationScorecardReviewedTeammate {
   /** The kind of reviewee. `ai` if the conversation was handled by Fin or scored without a specific teammate; `admin` if a specific teammate was reviewed. */
-  type?: ConversationScorecardReviewedTeammateType;
+  type?: ConversationScorecardReviewedTeammateType | undefined;
   /** The id of the admin who was reviewed. Present only when `type` is `admin`. */
-  admin_id?: string | null;
+  admin_id?: string | null | undefined;
 }
 /** Identifiers for structured reasons assigned to the result, if any. */
 export type ConversationScorecardEvaluatorResultReasonIdsList = Array<string>;
 /** The outcome of a single evaluator within a scorecard. */
 export interface ConversationScorecardEvaluatorResult {
   /** The evaluator's selected value (typically a label such as `pass`, `fail`, or a category identifier). */
-  value?: string | null;
+  value?: string | null | undefined;
   /** The origin of the result (for example, `ai` or `human`). */
-  source?: string | null;
+  source?: string | null | undefined;
   /** A free-text explanation of the result. */
-  reasoning?: string | null;
+  reasoning?: string | null | undefined;
   /** Identifiers for structured reasons assigned to the result, if any. */
-  reason_ids?: ConversationScorecardEvaluatorResultReasonIdsList | null;
+  reason_ids?: ConversationScorecardEvaluatorResultReasonIdsList | null | undefined;
   /** Free-text entered by the reviewer to supplement or stand in for the structured `reason_ids` -- typically captured when the reviewer selects an "Other" option or adds a custom note. Null when not provided. */
-  other_text?: string | null;
+  other_text?: string | null | undefined;
 }
 /** A single evaluator within a scorecard, including its result for this conversation. */
 export interface ConversationScorecardEvaluator {
   /** The unique identifier of the evaluator (criterion) within the scorecard. */
-  evaluator_id?: string;
+  evaluator_id?: string | undefined;
   /** The evaluator's result for this conversation. Null if the evaluator was not scored. */
-  result?: ConversationScorecardEvaluatorResult | null;
+  result?: ConversationScorecardEvaluatorResult | null | undefined;
 }
 /** Per-evaluator results within this scorecard. */
 export type ConversationScorecardEvaluatorsList = Array<ConversationScorecardEvaluator>;
 /** A QA scorecard result for this conversation. Returned in the `scorecards` array on conversation responses when `include_scorecards=true` is passed. */
 export interface ConversationScorecard {
   /** The unique identifier of the scorecard definition. */
-  scorecard_id?: string;
+  scorecard_id?: string | undefined;
   /** The unique identifier of the specific scorecard version that produced this result. */
-  scorecard_version_id?: string;
+  scorecard_version_id?: string | undefined;
   /** The name of the scorecard. */
-  name?: string;
+  name?: string | undefined;
   /** The type of scorecard. */
-  scorecard_type?: string;
+  scorecard_type?: string | undefined;
   /** Whether the conversation passed the scorecard. Null when the scorecard has not been scored. */
-  passed?: boolean | null;
+  passed?: boolean | null | undefined;
   /** The numeric score for the scorecard. Null when the scorecard has not been scored. */
-  score?: number | null;
+  score?: number | null | undefined;
   /** The numeric score produced by AI evaluation, if applicable. Null when not AI-scored. */
-  ai_score?: number | null;
+  ai_score?: number | null | undefined;
   /** The time the scorecard was last evaluated. Null in the rare case the underlying record's timestamp is not yet set. */
-  evaluated_at?: number | null;
-  reviewed_teammate?: ConversationScorecardReviewedTeammate;
+  evaluated_at?: number | null | undefined;
+  reviewed_teammate?: ConversationScorecardReviewedTeammate | undefined;
   /** Per-evaluator results within this scorecard. */
-  evaluators?: ConversationScorecardEvaluatorsList;
+  evaluators?: ConversationScorecardEvaluatorsList | undefined;
 }
 /** QA scorecard results for this conversation. Only included when `include_scorecards=true` is passed as a query parameter. */
 export type ConversationScorecardsList = Array<ConversationScorecard>;
 /** Conversations are how you can communicate with users in Intercom. They are created when a contact replies to an outbound message, or when one admin directly sends a message to a single contact. */
 export interface Conversation {
   /** Always conversation. */
-  type?: string;
+  type?: string | undefined;
   /** The id representing the conversation. */
-  id?: string;
+  id?: string | undefined;
   /** The title given to the conversation. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The time the conversation was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The last time the conversation was updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** The last time a Contact responded to an Admin. In other words, the time a customer started waiting for a response. Set to null if last reply is from an Admin. */
-  waiting_since?: number | null;
+  waiting_since?: number | null | undefined;
   /** If set this is the time in the future when this conversation will be marked as open. i.e. it will be in a snoozed state until this time. i.e. it will be in a snoozed state until this time. */
-  snoozed_until?: number | null;
+  snoozed_until?: number | null | undefined;
   /** Indicates whether a conversation is open (true) or closed (false). */
-  open?: boolean;
+  open?: boolean | undefined;
   /** Can be set to "open", "closed" or "snoozed". */
-  state?: ConversationState;
+  state?: ConversationState | undefined;
   /** Indicates whether a conversation has been read. */
-  read?: boolean;
+  read?: boolean | undefined;
   /** The priority level of the conversation. Returns one of none, low, medium, high, or urgent. */
-  priority?: ConversationPriority;
+  priority?: ConversationPriority | undefined;
   /** The id of the admin assigned to the conversation. If it's not assigned to an admin it will return 0. */
-  admin_assignee_id?: number;
+  admin_assignee_id?: number | undefined;
   /** The id of the team assigned to the conversation. If it's not assigned to a team it will return 0. */
-  team_assignee_id?: number;
+  team_assignee_id?: number | undefined;
   /** The company associated with the conversation. */
-  company?: Company | null;
-  tags?: Tags;
-  conversation_rating?: ConversationRating | null;
-  source?: ConversationSource;
-  contacts?: ConversationContacts;
-  teammates?: ConversationTeammates | null;
-  custom_attributes?: CustomAttributes;
-  first_contact_reply?: ConversationFirstContactReply | null;
-  sla_applied?: SlaApplied | null;
-  statistics?: ConversationStatistics | null;
-  conversation_parts?: ConversationParts;
-  linked_objects?: LinkedObjectList;
+  company?: Company | null | undefined;
+  tags?: Tags | undefined;
+  conversation_rating?: ConversationRating | null | undefined;
+  source?: ConversationSource | undefined;
+  contacts?: ConversationContacts | undefined;
+  teammates?: ConversationTeammates | null | undefined;
+  custom_attributes?: CustomAttributes | undefined;
+  first_contact_reply?: ConversationFirstContactReply | null | undefined;
+  sla_applied?: SlaApplied | null | undefined;
+  statistics?: ConversationStatistics | null | undefined;
+  conversation_parts?: ConversationParts | undefined;
+  linked_objects?: LinkedObjectList | undefined;
   /** Indicates whether the AI Agent participated in the conversation. */
-  ai_agent_participated?: boolean;
-  ai_agent?: AiAgent | null;
+  ai_agent_participated?: boolean | undefined;
+  ai_agent?: AiAgent | null | undefined;
   /** Indicates whether the Sales Agent participated in the conversation. */
-  sales_agent_participated?: boolean;
-  sales_agent?: SalesAgent | null;
+  sales_agent_participated?: boolean | undefined;
+  sales_agent?: SalesAgent | null | undefined;
   /** The channel through which the conversation was initiated and its current channel. */
-  channel?: ConversationChannel | null;
+  channel?: ConversationChannel | null | undefined;
   /** References linking this conversation to records in an external helpdesk or CRM system. Populated for Fin Standalone workspaces synced from an external platform; an empty array otherwise. Sorted alphabetically by `type` and capped at 20 entries. */
-  external_references?: ConversationExternalReferencesList;
-  /** QA monitor evaluations that flagged this conversation. Only included when `include_monitors=true` is passed as a query parameter. */
-  monitor_evaluations?: ConversationMonitorEvaluationsList;
+  external_references?: ConversationExternalReferencesList | undefined;
+  /** The latest QA monitor evaluation for each monitor that has evaluated this conversation, whatever its result. Only included when `include_monitors=true` is passed as a query parameter. */
+  monitor_evaluations?: ConversationMonitorEvaluationsList | undefined;
   /** QA scorecard results for this conversation. Only included when `include_scorecards=true` is passed as a query parameter. */
-  scorecards?: ConversationScorecardsList;
+  scorecards?: ConversationScorecardsList | undefined;
 }
 export interface GetConversationAttributeRequest {
   /** The conversation attribute id */
@@ -5278,7 +5348,7 @@ export interface GetDataConnectorRequest {
   /** The unique identifier of the data connector. */
   id: string;
   /** Which version of the data connector to return. Defaults to live. */
-  state_version?: GetDataConnectorRequestStateVersion | (string & {});
+  state_version?: GetDataConnectorRequestStateVersion | (string & {}) | undefined;
 }
 export interface GetDataConnectorExecutionResultRequest {
   /** The unique identifier for the data connector. */
@@ -5317,39 +5387,39 @@ export type DataConnectorExecutionResultSourceType =
 /** An execution result from a data connector HTTP request. */
 export interface DataConnectorExecutionResult {
   /** The type of object - `data_connector.execution`. */
-  type?: DataConnectorExecutionResultType;
+  type?: DataConnectorExecutionResultType | undefined;
   /** The unique identifier for the execution result. */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier of the data connector that produced this result. */
-  data_connector_id?: string;
+  data_connector_id?: string | undefined;
   /** Whether the execution was successful. */
-  success?: boolean;
+  success?: boolean | undefined;
   /** The HTTP status code returned by the external API. */
-  http_status?: number | null;
+  http_status?: number | null | undefined;
   /** The HTTP method used for the request. */
-  http_method?: DataConnectorExecutionResultHttpMethod;
+  http_method?: DataConnectorExecutionResultHttpMethod | undefined;
   /** The type of error that occurred, if any. */
-  error_type?: DataConnectorExecutionResultErrorType | null;
+  error_type?: DataConnectorExecutionResultErrorType | null | undefined;
   /** A human-readable error message. Query parameters, userinfo, and fragments in URLs are redacted. */
-  error_message?: string | null;
+  error_message?: string | null | undefined;
   /** The execution time in milliseconds. */
-  execution_time_ms?: number | null;
+  execution_time_ms?: number | null | undefined;
   /** The type of source that triggered this execution. */
-  source_type?: DataConnectorExecutionResultSourceType | null;
+  source_type?: DataConnectorExecutionResultSourceType | null | undefined;
   /** The identifier of the source that triggered this execution. */
-  source_id?: string | null;
+  source_id?: string | null | undefined;
   /** The conversation associated with this execution, if any. */
-  conversation_id?: string | null;
+  conversation_id?: string | null | undefined;
   /** The time the execution occurred. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The request URL. Query parameters, userinfo, and fragments are redacted. */
-  request_url?: string | null;
+  request_url?: string | null | undefined;
   /** The request body sent to the external API. */
-  request_body?: string | null;
+  request_body?: string | null | undefined;
   /** The response body from the external API. */
-  response_body?: string | null;
+  response_body?: string | null | undefined;
   /** The raw (unmapped) response body. */
-  raw_response_body?: string | null;
+  raw_response_body?: string | null | undefined;
 }
 export interface GetDataExportRequest {
   /** job_identifier */
@@ -5367,25 +5437,25 @@ export interface GetEmailRequest {
 /** Represents a sender email address configuration */
 export interface EmailSetting {
   /** The type of object */
-  type?: string;
+  type?: string | undefined;
   /** Unique email setting identifier */
-  id?: string;
+  id?: string | undefined;
   /** Full sender email address */
-  email?: string;
+  email?: string | undefined;
   /** Whether the email address has been verified */
-  verified?: boolean;
+  verified?: boolean | undefined;
   /** Domain portion of the email address */
-  domain?: string;
+  domain?: string | undefined;
   /** Associated brand identifier */
-  brand_id?: string;
+  brand_id?: string | undefined;
   /** Whether email forwarding is active */
-  forwarding_enabled?: boolean;
+  forwarding_enabled?: boolean | undefined;
   /** Unix timestamp of last forwarded email received (null if never) */
-  forwarded_email_last_received_at?: number | null;
+  forwarded_email_last_received_at?: number | null | undefined;
   /** Unix timestamp of creation */
-  created_at?: number;
+  created_at?: number | undefined;
   /** Unix timestamp of last modification */
-  updated_at?: number;
+  updated_at?: number | undefined;
 }
 export interface GetExportReportingDataRequest {
   job_identifier: string;
@@ -5394,10 +5464,10 @@ export interface GetExportReportingDataRequest {
   client_id: string;
 }
 export interface GetExportReportingDataResponse {
-  job_identifier?: string;
-  status?: string;
-  download_url?: string;
-  download_expires_at?: string;
+  job_identifier?: string | undefined;
+  status?: string | undefined;
+  download_url?: string | undefined;
+  download_expires_at?: string | undefined;
 }
 export interface GetExternalPageRequest {
   /** The unique identifier for the external page which is given by Intercom. */
@@ -5412,27 +5482,27 @@ export type HelpCenterLocalesList = Array<string>;
 /** Help Centers contain collections */
 export interface HelpCenter {
   /** The unique identifier for the Help Center which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the workspace which the Help Center belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The time when the Help Center was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time when the Help Center was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** The identifier of the Help Center. This is used in the URL of the Help Center. */
-  identifier?: string;
+  identifier?: string | undefined;
   /** Whether the Help Center is turned on or not. This is controlled in your Help Center settings. */
-  website_turned_on?: boolean;
+  website_turned_on?: boolean | undefined;
   /** The display name of the Help Center only seen by teammates. */
-  display_name?: string;
+  display_name?: string | undefined;
   /** The URL for the help center, if you have a custom domain then this will show the URL using the custom domain. */
-  url?: string;
+  url?: string | undefined;
   /** Custom domain configured for the help center */
-  custom_domain?: string | null;
+  custom_domain?: string | null | undefined;
   /** Whether this help center is the default for the workspace. */
-  default?: boolean;
+  default?: boolean | undefined;
   /** The locales in which the help center is available. */
-  locales?: HelpCenterLocalesList;
+  locales?: HelpCenterLocalesList | undefined;
 }
 export interface GetHelpCenterRedirectRequest {
   /** The unique identifier for the help center. */
@@ -5450,33 +5520,33 @@ export type GetInternalArticleResponseType = "internal_article";
 export type GetInternalArticleResponseAudienceIdsList = Array<number>;
 export interface GetInternalArticleResponse {
   /** The type of object - `internal_article`. */
-  type?: GetInternalArticleResponseType;
+  type?: GetInternalArticleResponseType | undefined;
   /** The unique identifier for the article which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The title of the article. */
-  title?: string;
+  title?: string | undefined;
   /** The body of the article in HTML. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** The body of the article in markdown. */
-  body_markdown?: string | null;
+  body_markdown?: string | null | undefined;
   /** The id of the owner of the article. */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** The id of the author of the article. */
-  author_id?: number;
+  author_id?: number | undefined;
   /** The time when the article was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time when the article was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** The default locale of the article. */
-  locale?: string;
+  locale?: string | undefined;
   /** The list of audience IDs this internal article is targeted to for Fin AI Agent. Empty array means no audience targeting is set. */
-  audience_ids?: GetInternalArticleResponseAudienceIdsList | null;
+  audience_ids?: GetInternalArticleResponseAudienceIdsList | null | undefined;
   /** Whether the internal article is available for AI Chatbot (Fin). */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the internal article is available for AI Copilot. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the internal article is available for AI Sales Agent. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
 }
 export interface GetIpAllowlistRequest {}
 /** List of allowed IP addresses and/or IP ranges in CIDR notation. Examples: - Single IP: `192.168.0.1` - IP range: `192.168.0.1/24` (allows 192.168.0.0 - 192.168.0.255) */
@@ -5484,11 +5554,11 @@ export type IpAllowlistIpAllowlistList = Array<string>;
 /** IP allowlist settings for the workspace. */
 export interface IpAllowlist {
   /** String representing the object's type. Always has the value `ip_allowlist`. */
-  type?: string;
+  type?: string | undefined;
   /** Whether the IP allowlist is enabled for the workspace. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** List of allowed IP addresses and/or IP ranges in CIDR notation. Examples: - Single IP: `192.168.0.1` - IP range: `192.168.0.1/24` (allows 192.168.0.0 - 192.168.0.255) */
-  ip_allowlist?: IpAllowlistIpAllowlistList;
+  ip_allowlist?: IpAllowlistIpAllowlistList | undefined;
 }
 export interface GetMacroRequest {
   /** The unique identifier of the macro */
@@ -5506,25 +5576,25 @@ export type MacroAvailableOnList = Array<MacroAvailableOnItem>;
 /** A macro is a pre-defined response template (saved reply) that can be used to quickly reply to conversations. */
 export interface Macro {
   /** String representing the object's type. Always has the value `macro`. */
-  type?: MacroType;
+  type?: MacroType | undefined;
   /** The unique identifier for the macro. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the macro. */
-  name?: string;
+  name?: string | undefined;
   /** The body of the macro in HTML format with placeholders transformed to XML-like format. */
-  body?: string;
+  body?: string | undefined;
   /** The plain text version of the macro body with original Intercom placeholder format. */
-  body_text?: string;
+  body_text?: string | undefined;
   /** The time the macro was created in ISO 8601 format. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time the macro was last updated in ISO 8601 format. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** Who can view this macro. */
-  visible_to?: MacroVisibleTo;
+  visible_to?: MacroVisibleTo | undefined;
   /** The team IDs that can view this macro when visible_to is set to specific_teams. */
-  visible_to_team_ids?: MacroVisibleToTeamIdsList;
+  visible_to_team_ids?: MacroVisibleToTeamIdsList | undefined;
   /** Where the macro is available for use. */
-  available_on?: MacroAvailableOnList;
+  available_on?: MacroAvailableOnList | undefined;
 }
 export interface GetNewsfeedRequest {
   /** The unique identifier for the news feed item which is given by Intercom. */
@@ -5535,15 +5605,15 @@ export type NewsfeedType = "newsfeed";
 /** A newsfeed is a collection of news items, targeted to a specific audience. Newsfeeds currently cannot be edited through the API, please refer to [this article](https://www.intercom.com/help/en/articles/6362267-getting-started-with-news) to set up your newsfeeds in Intercom. */
 export interface Newsfeed {
   /** The unique identifier for the newsfeed which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The type of object. */
-  type?: NewsfeedType;
+  type?: NewsfeedType | undefined;
   /** The name of the newsfeed. This name will never be visible to your users. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp for when the newsfeed was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** Timestamp for when the newsfeed was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
 }
 export interface GetNewsItemRequest {
   /** The unique identifier for the news item which is given by Intercom. */
@@ -5580,49 +5650,49 @@ export type AdminPriorityLevelSecondaryAdminIdsList = Array<number>;
 /** Admin priority levels for the team */
 export interface AdminPriorityLevel {
   /** The primary admin ids for the team */
-  primary_admin_ids?: AdminPriorityLevelPrimaryAdminIdsList | null;
+  primary_admin_ids?: AdminPriorityLevelPrimaryAdminIdsList | null | undefined;
   /** The secondary admin ids for the team */
-  secondary_admin_ids?: AdminPriorityLevelSecondaryAdminIdsList | null;
+  secondary_admin_ids?: AdminPriorityLevelSecondaryAdminIdsList | null | undefined;
 }
 /** Teams are groups of admins in Intercom. */
 export interface Team {
   /** Value is always "team" */
-  type?: string;
+  type?: string | undefined;
   /** The id of the team */
-  id?: string;
+  id?: string | undefined;
   /** The name of the team */
-  name?: string;
+  name?: string | undefined;
   /** The list of admin IDs that are a part of the team. */
-  admin_ids?: TeamAdminIdsList;
-  admin_priority_level?: AdminPriorityLevel | null;
+  admin_ids?: TeamAdminIdsList | undefined;
+  admin_priority_level?: AdminPriorityLevel | null | undefined;
   /** The assignment limit for the team. This field is only present when the team's distribution type is load balanced. */
-  assignment_limit?: number | null;
+  assignment_limit?: number | null | undefined;
   /** Describes how assignments are distributed among the team members */
-  distribution_method?: string | null;
+  distribution_method?: string | null | undefined;
 }
 export interface GetTeamMetricsRequest {
   /** The unique identifier of the team to retrieve metrics for. Use `GET /teams` to list available team IDs. */
   team_id: string;
   /** The number of seconds after which an open conversation is considered idle. Clamped to the range 1-86400. Defaults to 1800 (30 minutes). */
-  idle_threshold?: number;
+  idle_threshold?: number | undefined;
 }
 /** Per-admin activity metrics within a team. */
 export interface TeamMetric {
-  type?: string;
+  type?: string | undefined;
   /** The unique identifier for the admin. */
-  admin_id?: string;
+  admin_id?: string | undefined;
   /** The number of open conversations assigned to the admin. */
-  open?: number;
+  open?: number | undefined;
   /** The number of idle conversations assigned to the admin. A conversation is idle when it has been open and waiting for an admin reply longer than the idle_threshold. */
-  idle?: number;
+  idle?: number | undefined;
   /** The number of snoozed conversations assigned to the admin. */
-  snoozed?: number;
+  snoozed?: number | undefined;
 }
 export type TeamMetricListDataList = Array<TeamMetric>;
 /** A list of team metrics. */
 export interface TeamMetricList {
-  type?: string;
-  data?: TeamMetricListDataList;
+  type?: string | undefined;
+  data?: TeamMetricListDataList | undefined;
 }
 export interface GetTicketRequest {
   /** The unique identifier for the ticket which is given by Intercom. {% admonition type="info" name="Not the Inbox ticket ID" %} This is the internal `id` field from the API response, not the `ticket_id` displayed in the Intercom Inbox (e.g., #12345). Use the `id` value from the ticket object returned by the API. {% /admonition %} */
@@ -5637,42 +5707,42 @@ export interface GetVisitorWithUserIdRequest {
   user_id: string;
 }
 export interface VisitorAvatar {
-  type?: string;
+  type?: string | undefined;
   /** This object represents the avatar associated with the visitor. */
-  image_url?: string | null;
+  image_url?: string | null | undefined;
 }
 /** The type of the object */
 export type VisitorCompaniesType = "company.list";
 export type VisitorCompaniesCompaniesList = Array<Company>;
 export interface VisitorCompanies {
   /** The type of the object */
-  type?: VisitorCompaniesType;
-  companies?: VisitorCompaniesCompaniesList;
+  type?: VisitorCompaniesType | undefined;
+  companies?: VisitorCompaniesCompaniesList | undefined;
 }
 export interface VisitorLocationData {
-  type?: string;
+  type?: string | undefined;
   /** The city name of the visitor. */
-  city_name?: string;
+  city_name?: string | undefined;
   /** The continent code of the visitor. */
-  continent_code?: string;
+  continent_code?: string | undefined;
   /** The country code of the visitor. */
-  country_code?: string;
+  country_code?: string | undefined;
   /** The country name of the visitor. */
-  country_name?: string;
+  country_name?: string | undefined;
   /** The postal code of the visitor. */
-  postal_code?: string;
+  postal_code?: string | undefined;
   /** The region name of the visitor. */
-  region_name?: string;
+  region_name?: string | undefined;
   /** The timezone of the visitor. */
-  timezone?: string;
+  timezone?: string | undefined;
 }
 /** The type of the object */
 export type VisitorSocialProfilesType = "social_profile.list";
 export type VisitorSocialProfilesSocialProfilesList = Array<string>;
 export interface VisitorSocialProfiles {
   /** The type of the object */
-  type?: VisitorSocialProfilesType;
-  social_profiles?: VisitorSocialProfilesSocialProfilesList;
+  type?: VisitorSocialProfilesType | undefined;
+  social_profiles?: VisitorSocialProfilesSocialProfilesList | undefined;
 }
 /** The type of the object */
 export type VisitorTagsType = "tag.list";
@@ -5680,90 +5750,90 @@ export type VisitorTagsType = "tag.list";
 export type VisitorTagsTagsItemType = "tag";
 export interface VisitorTagsTagsItem {
   /** The type of the object */
-  type?: VisitorTagsTagsItemType;
+  type?: VisitorTagsTagsItemType | undefined;
   /** The id of the tag. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the tag. */
-  name?: string;
+  name?: string | undefined;
 }
 export type VisitorTagsTagsList = Array<VisitorTagsTagsItem>;
 export interface VisitorTags {
   /** The type of the object */
-  type?: VisitorTagsType;
-  tags?: VisitorTagsTagsList;
+  type?: VisitorTagsType | undefined;
+  tags?: VisitorTagsTagsList | undefined;
 }
 /** The type of the object */
 export type VisitorSegmentsType = "segment.list";
 export type VisitorSegmentsSegmentsList = Array<string>;
 export interface VisitorSegments {
   /** The type of the object */
-  type?: VisitorSegmentsType;
-  segments?: VisitorSegmentsSegmentsList;
+  type?: VisitorSegmentsType | undefined;
+  segments?: VisitorSegmentsSegmentsList | undefined;
 }
 /** The custom attributes you have set on the Visitor. */
 export type VisitorCustomAttributesMap = { [key: string]: string | undefined };
 /** Visitors are useful for representing anonymous people that have not yet been identified. They usually represent website visitors. Visitors are not visible in Intercom platform. The Visitors resource provides methods to fetch, update, convert and delete. */
 export interface Visitor {
   /** Value is 'visitor' */
-  type?: string;
+  type?: string | undefined;
   /** The Intercom defined id representing the Visitor. */
-  id?: string;
+  id?: string | undefined;
   /** Automatically generated identifier for the Visitor. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Identifies if this visitor is anonymous. */
-  anonymous?: boolean;
+  anonymous?: boolean | undefined;
   /** The email of the visitor. */
-  email?: string;
+  email?: string | undefined;
   /** The phone number of the visitor. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** The name of the visitor. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The pseudonym of the visitor. */
-  pseudonym?: string | null;
-  avatar?: VisitorAvatar;
+  pseudonym?: string | null | undefined;
+  avatar?: VisitorAvatar | undefined;
   /** The id of the app the visitor is associated with. */
-  app_id?: string;
-  companies?: VisitorCompanies;
-  location_data?: VisitorLocationData;
+  app_id?: string | undefined;
+  companies?: VisitorCompanies | undefined;
+  location_data?: VisitorLocationData | undefined;
   /** The time the Lead last recorded making a request. */
-  las_request_at?: number;
+  las_request_at?: number | undefined;
   /** The time the Visitor was added to Intercom. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time the Visitor was added to Intercom. */
-  remote_created_at?: number;
+  remote_created_at?: number | undefined;
   /** The time the Visitor signed up for your product. */
-  signed_up_at?: number;
+  signed_up_at?: number | undefined;
   /** The last time the Visitor was updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** The number of sessions the Visitor has had. */
-  session_count?: number;
-  social_profiles?: VisitorSocialProfiles;
+  session_count?: number | undefined;
+  social_profiles?: VisitorSocialProfiles | undefined;
   /** The id of the admin that owns the Visitor. */
-  owner_id?: string | null;
+  owner_id?: string | null | undefined;
   /** Whether the Visitor is unsubscribed from emails. */
-  unsubscribed_from_emails?: boolean;
+  unsubscribed_from_emails?: boolean | undefined;
   /** Identifies if this visitor has marked an email as spam. */
-  marked_email_as_spam?: boolean;
+  marked_email_as_spam?: boolean | undefined;
   /** Identifies if this visitor has had a hard bounce. */
-  has_hard_bounced?: boolean;
-  tags?: VisitorTags;
-  segments?: VisitorSegments;
+  has_hard_bounced?: boolean | undefined;
+  tags?: VisitorTags | undefined;
+  segments?: VisitorSegments | undefined;
   /** The custom attributes you have set on the Visitor. */
-  custom_attributes?: VisitorCustomAttributesMap;
+  custom_attributes?: VisitorCustomAttributesMap | undefined;
   /** The referer of the visitor. */
-  referrer?: string | null;
+  referrer?: string | null | undefined;
   /** The utm_campaign of the visitor. */
-  utm_campaign?: string | null;
+  utm_campaign?: string | null | undefined;
   /** The utm_content of the visitor. */
-  utm_content?: string | null;
+  utm_content?: string | null | undefined;
   /** The utm_medium of the visitor. */
-  utm_medium?: string | null;
+  utm_medium?: string | null | undefined;
   /** The utm_source of the visitor. */
-  utm_source?: string | null;
+  utm_source?: string | null | undefined;
   /** The utm_term of the visitor. */
-  utm_term?: string | null;
+  utm_term?: string | null | undefined;
   /** Identifies if this visitor has do not track enabled. */
-  do_not_track?: boolean | null;
+  do_not_track?: boolean | null | undefined;
 }
 export interface GetWhatsAppMessageStatusRequest {
   /** The WhatsApp message ID to check status for */
@@ -5774,43 +5844,43 @@ export type WhatsappMessageStatusStatus = "sent" | "delivered" | "read" | "faile
 /** Error details, present only when status is "failed" */
 export interface WhatsappMessageStatusError {
   /** Error message */
-  message?: string;
+  message?: string | undefined;
   /** Detailed error information */
-  details?: string;
+  details?: string | undefined;
 }
 /** The delivery status of a specific WhatsApp message. */
 export interface WhatsappMessageStatus {
   /** ID of the conversation */
-  conversation_id?: string;
+  conversation_id?: string | undefined;
   /** Current delivery status of the message */
-  status?: WhatsappMessageStatusStatus;
+  status?: WhatsappMessageStatusStatus | undefined;
   /** Event type */
-  type?: string;
+  type?: string | undefined;
   /** Creation timestamp */
-  created_at?: number;
+  created_at?: number | undefined;
   /** Last update timestamp */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Name of the WhatsApp template used */
-  template_name?: string;
+  template_name?: string | undefined;
   /** The WhatsApp message ID */
-  message_id?: string;
+  message_id?: string | undefined;
   /** Error details, present only when status is "failed" */
-  error?: WhatsappMessageStatusError | null;
+  error?: WhatsappMessageStatusError | null | undefined;
 }
 export interface GetWhatsAppMessageStatusRequest2 {
   /** The unique identifier for the set of messages to check status for */
   ruleset_id: string;
   /** Number of results per page (default 50, max 100) */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Cursor for pagination, used to fetch the next page of results */
-  starting_after?: string;
+  starting_after?: string | undefined;
 }
 export type WhatsappMessageStatusListType = "list";
 export type WhatsappMessageStatusListPagesType = "pages";
 /** Information for fetching next page (null if no more pages) */
 export interface WhatsappMessageStatusListPagesNext {
   /** Cursor for the next page */
-  starting_after?: string;
+  starting_after?: string | undefined;
 }
 export interface WhatsappMessageStatusListPages {
   type: WhatsappMessageStatusListPagesType;
@@ -5819,7 +5889,7 @@ export interface WhatsappMessageStatusListPages {
   /** Total number of pages */
   total_pages: number;
   /** Information for fetching next page (null if no more pages) */
-  next?: WhatsappMessageStatusListPagesNext | null;
+  next?: WhatsappMessageStatusListPagesNext | null | undefined;
 }
 /** Current status of the message */
 export type WhatsappMessageStatusListEventsItemStatus = "sent" | "delivered" | "read" | "failed";
@@ -5841,7 +5911,7 @@ export interface WhatsappMessageStatusListEventsItem {
   /** WhatsApp's message identifier */
   whatsapp_message_id: string;
   /** Name of the WhatsApp template used */
-  template_name?: string;
+  template_name?: string | undefined;
 }
 export type WhatsappMessageStatusListEventsList = Array<WhatsappMessageStatusListEventsItem>;
 export interface WhatsappMessageStatusList {
@@ -5859,52 +5929,52 @@ export type AdminWithAppTeamIdsList = Array<number>;
 /** This object represents the avatar associated with the admin. */
 export interface AdminWithAppAvatar {
   /** This is a string that identifies the type of the object. It will always have the value `avatar`. */
-  type?: string;
+  type?: string | undefined;
   /** This object represents the avatar associated with the admin. */
-  image_url?: string | null;
+  image_url?: string | null | undefined;
 }
 /** App is a workspace on Intercom */
 export interface App {
-  type?: string;
+  type?: string | undefined;
   /** The id of the app. */
-  id_code?: string;
+  id_code?: string | undefined;
   /** The name of the app. */
-  name?: string;
+  name?: string | undefined;
   /** The Intercom region the app is located in. */
-  region?: string;
+  region?: string | undefined;
   /** The timezone of the region where the app is located. */
-  timezone?: string;
+  timezone?: string | undefined;
   /** When the app was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** Whether or not the app uses identity verification. */
-  identity_verification?: boolean;
+  identity_verification?: boolean | undefined;
 }
 /** Admins are the teammate accounts that have access to a workspace */
 export interface AdminWithApp {
   /** String representing the object's type. Always has the value `admin`. */
-  type?: string;
+  type?: string | undefined;
   /** The id representing the admin. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the admin. */
-  name?: string;
+  name?: string | undefined;
   /** The email of the admin. */
-  email?: string;
+  email?: string | undefined;
   /** The job title of the admin. */
-  job_title?: string;
+  job_title?: string | undefined;
   /** Identifies if this admin is currently set in away mode. */
-  away_mode_enabled?: boolean;
+  away_mode_enabled?: boolean | undefined;
   /** Identifies if this admin is set to automatically reassign new conversations to the apps default inbox. */
-  away_mode_reassign?: boolean;
+  away_mode_reassign?: boolean | undefined;
   /** Identifies if this admin has a paid inbox seat to restrict/allow features that require them. */
-  has_inbox_seat?: boolean;
+  has_inbox_seat?: boolean | undefined;
   /** This is a list of ids of the teams that this admin is part of. */
-  team_ids?: AdminWithAppTeamIdsList;
+  team_ids?: AdminWithAppTeamIdsList | undefined;
   /** This object represents the avatar associated with the admin. */
-  avatar?: AdminWithAppAvatar;
+  avatar?: AdminWithAppAvatar | undefined;
   /** Identifies if this admin's email is verified. */
-  email_verified?: boolean | null;
+  email_verified?: boolean | null | undefined;
   /** App that the admin belongs to. */
-  app?: App | null;
+  app?: App | null | undefined;
 }
 export interface JobsStatusRequest {
   /** The unique identifier for the job which is given by Intercom */
@@ -5919,9 +5989,9 @@ export interface LinkConversationToTicketRequest {
 export type LisDataAttributesRequestModel = "contact" | "company";
 export interface LisDataAttributesRequest {
   /** Specify the data attribute model to return. For conversation attributes, use GET /conversations/attributes instead. */
-  model?: LisDataAttributesRequestModel | (string & {});
+  model?: LisDataAttributesRequestModel | (string & {}) | undefined;
   /** Include archived attributes in the list. By default we return only non archived data attributes. */
-  include_archived?: boolean;
+  include_archived?: boolean | undefined;
 }
 /** The type of the object */
 export type DataAttributeListType = "list";
@@ -5930,9 +6000,9 @@ export type DataAttributeListDataList = Array<DataAttribute>;
 /** A list of all data attributes belonging to a workspace for contacts or companies. */
 export interface DataAttributeList {
   /** The type of the object */
-  type?: DataAttributeListType;
+  type?: DataAttributeListType | undefined;
   /** A list of data attributes */
-  data?: DataAttributeListDataList;
+  data?: DataAttributeListDataList | undefined;
 }
 export interface LisDataEventsRequestFilterCase0 {
   user_id: string;
@@ -5952,37 +6022,37 @@ export interface LisDataEventsRequest {
   /** The value must be user */
   type: string;
   /** summary flag */
-  summary?: boolean;
+  summary?: boolean | undefined;
 }
 /** The type of the object */
 export type DataEventSummaryType = "event.summary";
 /** This will return a summary of a data event for the App. */
 export interface DataEventSummaryItem {
   /** The name of the event */
-  name?: string;
+  name?: string | undefined;
   /** The first time the event was sent */
-  first?: string;
+  first?: string | undefined;
   /** The last time the event was sent */
-  last?: string;
+  last?: string | undefined;
   /** The number of times the event was sent */
-  count?: number;
+  count?: number | undefined;
   /** The description of the event */
-  description?: string;
+  description?: string | undefined;
 }
 /** A summary of data events */
 export type DataEventSummaryEventsList = Array<DataEventSummaryItem | null>;
 /** This will return a summary of data events for the App. */
 export interface DataEventSummary {
   /** The type of the object */
-  type?: DataEventSummaryType;
+  type?: DataEventSummaryType | undefined;
   /** The email address of the user */
-  email?: string;
+  email?: string | undefined;
   /** The Intercom user ID of the user */
-  intercom_user_id?: string;
+  intercom_user_id?: string | undefined;
   /** The user ID of the user */
-  user_id?: string;
+  user_id?: string | undefined;
   /** A summary of data events */
-  events?: DataEventSummaryEventsList;
+  events?: DataEventSummaryEventsList | undefined;
 }
 export interface ListActivityLogEventTypesRequest {}
 /** An array of activity log event type strings. */
@@ -5990,32 +6060,32 @@ export type ActivityLogEventTypeListEventTypesList = Array<string>;
 /** A list of all activity log event types. */
 export interface ActivityLogEventTypeList {
   /** String representing the object's type. Always has the value `activity_log_event_type.list`. */
-  type?: string;
+  type?: string | undefined;
   /** An array of activity log event type strings. */
-  event_types?: ActivityLogEventTypeListEventTypesList;
+  event_types?: ActivityLogEventTypeListEventTypesList | undefined;
 }
 export interface ListActivityLogsRequest {
   /** The start date that you request data for. It must be formatted as a UNIX timestamp. */
   created_at_after: string;
   /** The end date that you request data for. It must be formatted as a UNIX timestamp. */
-  created_at_before?: string;
+  created_at_before?: string | undefined;
 }
 /** Details about the Admin involved in the activity. */
 export interface ActivityLogPerformedBy {
   /** String representing the object's type. Always has the value `admin`. */
-  type?: string;
+  type?: string | undefined;
   /** The id representing the admin. */
-  id?: string;
+  id?: string | undefined;
   /** The email of the admin. */
-  email?: string;
+  email?: string | undefined;
   /** The IP address of the admin. */
-  ip?: string;
+  ip?: string | undefined;
 }
 export interface ActivityLogMetadataChangesValue {
   /** The value before the change. */
-  before?: unknown;
+  before?: unknown | undefined;
   /** The value after the change. */
-  after?: unknown;
+  after?: unknown | undefined;
 }
 /** The settings altered by the change, keyed by setting name. Only settings whose value actually moved are included, so an unchanged setting is absent rather than present with equal values. */
 export type ActivityLogMetadataChangesMap = {
@@ -6024,64 +6094,64 @@ export type ActivityLogMetadataChangesMap = {
 /** Details about the team whose assignment limit was changed. */
 export interface ActivityLogMetadataTeam {
   /** The ID of the team. */
-  id?: number;
+  id?: number | undefined;
   /** The name of the team. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Additional data provided about Admin activity. */
 export interface ActivityLogMetadata {
   /** The way the admin signed in. */
-  sign_in_method?: string | null;
+  sign_in_method?: string | null | undefined;
   /** The unique identifier for the contact which is provided by the Client. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The away mode status which is set to true when away and false when returned. */
-  away_mode?: boolean | null;
+  away_mode?: boolean | null | undefined;
   /** The reason the Admin is away. */
-  away_status_reason?: string | null;
+  away_status_reason?: string | null | undefined;
   /** Indicates if conversations should be reassigned while an Admin is away. */
-  reassign_conversations?: boolean | null;
+  reassign_conversations?: boolean | null | undefined;
   /** The action that initiated the status change. */
-  source?: string | null;
+  source?: string | null | undefined;
   /** Indicates if the status was changed automatically or manually. */
-  auto_changed?: string | null;
+  auto_changed?: string | null | undefined;
   /** The ID of the Admin who initiated the activity. */
-  update_by?: number | null;
+  update_by?: number | null | undefined;
   /** The name of the Admin who initiated the activity. */
-  update_by_name?: string | null;
-  /** The state before the change. `idle` or `occupied`, and null when the Admin had not been classified yet. */
-  previous_state?: string | null;
-  /** The state after the change. `idle` or `occupied`. */
-  new_state?: string | null;
+  update_by_name?: string | null | undefined;
+  /** The state before the change. `idle` or `occupied` for an occupancy change, and null when the Admin had not been classified yet; `enabled` or `disabled` for an IP allowlist change. */
+  previous_state?: string | null | undefined;
+  /** The state after the change. `idle` or `occupied` for an occupancy change; `enabled` or `disabled` for an IP allowlist change. */
+  new_state?: string | null | undefined;
   /** The inactivity window, in minutes, used to classify the Admin. */
-  threshold_minutes?: number | null;
+  threshold_minutes?: number | null | undefined;
   /** The time of the Admin's last recorded activity. */
-  last_activity_at?: number | null;
+  last_activity_at?: number | null | undefined;
   /** Indicates the state was derived automatically rather than set by an Admin. */
-  auto?: boolean | null;
+  auto?: boolean | null | undefined;
   /** The group of workspace settings the change belongs to, for example `teammate_occupancy` or `automatic_away_mode`. */
-  setting_type?: string | null;
+  setting_type?: string | null | undefined;
   /** The settings altered by the change, keyed by setting name. Only settings whose value actually moved are included, so an unchanged setting is absent rather than present with equal values. */
-  changes?: ActivityLogMetadataChangesMap | null;
+  changes?: ActivityLogMetadataChangesMap | null | undefined;
   /** The conversation assignment limit value for an admin. */
-  conversation_assignment_limit?: number | null;
+  conversation_assignment_limit?: number | null | undefined;
   /** The ticket assignment limit value for an admin. */
-  ticket_assignment_limit?: number | null;
+  ticket_assignment_limit?: number | null | undefined;
   /** Details about the team whose assignment limit was changed. */
-  team?: ActivityLogMetadataTeam | null;
+  team?: ActivityLogMetadataTeam | null | undefined;
   /** The team assignment limit value (null if limit was removed). */
-  team_assignment_limit?: number | null;
+  team_assignment_limit?: number | null | undefined;
   /** Indicates if the setting is enabled or disabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** The mode of the setting (e.g., when_away_only, when_away_and_reassign). */
-  mode?: string | null;
+  mode?: string | null | undefined;
   /** The ID of the impersonation consent. */
-  consent_id?: number | null;
+  consent_id?: number | null | undefined;
   /** The timestamp when the impersonation consent expires. */
-  expired_at?: string | null;
+  expired_at?: string | null | undefined;
   /** The state of settings or values before the change. Structure varies by activity type. */
-  before?: unknown | null;
+  before?: unknown | null | undefined;
   /** The state of settings or values after the change. Structure varies by activity type. */
-  after?: unknown | null;
+  after?: unknown | null | undefined;
 }
 export type ActivityLogActivityType =
   | "admin_conversation_assignment_limit_change"
@@ -6149,6 +6219,7 @@ export type ActivityLogActivityType =
   | "help_center_settings_change"
   | "inbound_conversations_change"
   | "inbox_access_change"
+  | "inbox_bulk_action"
   | "macro_creation"
   | "macro_deletion"
   | "macro_update"
@@ -6201,38 +6272,38 @@ export type ActivityLogActivityType =
 /** Activities performed by Admins. */
 export interface ActivityLog {
   /** The id representing the activity. */
-  id?: string;
+  id?: string | undefined;
   /** Details about the Admin involved in the activity. */
-  performed_by?: ActivityLogPerformedBy;
-  metadata?: ActivityLogMetadata | null;
+  performed_by?: ActivityLogPerformedBy | undefined;
+  metadata?: ActivityLogMetadata | null | undefined;
   /** The time the activity was created. */
-  created_at?: number;
-  activity_type?: ActivityLogActivityType;
+  created_at?: number | undefined;
+  activity_type?: ActivityLogActivityType | undefined;
   /** A sentence or two describing the activity. */
-  activity_description?: string;
+  activity_description?: string | undefined;
 }
 /** An array of activity logs */
 export type ActivityLogListActivityLogsList = Array<ActivityLog | null>;
 /** A paginated list of activity logs. */
 export interface ActivityLogList {
   /** String representing the object's type. Always has the value `activity_log.list`. */
-  type?: string;
-  pages?: CursorPages | null;
+  type?: string | undefined;
+  pages?: CursorPages | null | undefined;
   /** An array of activity logs */
-  activity_logs?: ActivityLogListActivityLogsList;
+  activity_logs?: ActivityLogListActivityLogsList | undefined;
 }
 export interface ListAdminsRequest {
   /** If set to true, the response will include the admin's avatar object containing the image URL. Defaults to false. */
-  display_avatar?: boolean;
+  display_avatar?: boolean | undefined;
 }
 /** A list of admins associated with a given workspace. */
 export type AdminListAdminsList = Array<Admin | null>;
 /** A list of admins associated with a given workspace. */
 export interface AdminList {
   /** String representing the object's type. Always has the value `admin.list`. */
-  type?: string;
+  type?: string | undefined;
   /** A list of admins associated with a given workspace. */
-  admins?: AdminListAdminsList;
+  admins?: AdminListAdminsList | undefined;
 }
 export interface ListAllCollectionsRequest {}
 /** The type of the object - `list`. */
@@ -6242,20 +6313,20 @@ export type CollectionListDataList = Array<Collection>;
 /** This will return a list of Collections for the App. */
 export interface CollectionList {
   /** The type of the object - `list`. */
-  type?: CollectionListType;
-  pages?: CursorPages | null;
+  type?: CollectionListType | undefined;
+  pages?: CursorPages | null | undefined;
   /** A count of the total number of collections. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** An array of collection objects */
-  data?: CollectionListDataList;
+  data?: CollectionListDataList | undefined;
 }
 export interface ListAllCompaniesRequest {
   /** The page of results to fetch. Defaults to first page */
-  page?: number;
+  page?: number | undefined;
   /** How many results to return per page. Defaults to 15 */
-  per_page?: number;
+  per_page?: number | undefined;
   /** `asc` or `desc`. Return the companies in ascending or descending order. Defaults to desc */
-  order?: string;
+  order?: string | undefined;
 }
 export interface ListArticlesRequest {}
 /** The type of the object - `list`. */
@@ -6277,79 +6348,79 @@ export type ArticleListItemHelpCenterAudience =
 /** The data returned about your articles when you list them. */
 export interface ArticleListItem {
   /** The type of object - `article`. */
-  type?: ArticleListItemType;
+  type?: ArticleListItemType | undefined;
   /** The unique identifier for the article which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the workspace which the article belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The title of the article. For multilingual articles, this will be the title of the default language's content. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the article. For multilingual articles, this will be the description of the default language's content. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The body of the article in HTML. For multilingual articles, this will be the body of the default language's content. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** The body of the article in markdown. For multilingual articles, this will be the body of the default language's content. */
-  body_markdown?: string | null;
+  body_markdown?: string | null | undefined;
   /** The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace. */
-  author_id?: number;
+  author_id?: number | undefined;
   /** Whether the article is `published` or is a `draft`. For multilingual articles, this will be the state of the default language's content. */
-  state?: ArticleListItemState;
+  state?: ArticleListItemState | undefined;
   /** The time when the article was created. For multilingual articles, this will be the timestamp of creation of the default language's content in seconds. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time when the article was last updated. For multilingual articles, this will be the timestamp of last update of the default language's content in seconds. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Whether the published article has unpublished changes staged as a draft on top of its live content. For multilingual articles this reflects the default language's content; a pure draft (never published) reports `false`. */
-  has_unpublished_changes?: boolean;
+  has_unpublished_changes?: boolean | undefined;
   /** The time, in seconds, when the staged draft was last edited, or `null` when there is no staged draft. */
-  draft_updated_at?: number | null;
+  draft_updated_at?: number | null | undefined;
   /** The URL of the article. For multilingual articles, this will be the URL of the default language's content. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The ids of the article's parent collections or sections. An article without this field stands alone. */
-  parent_ids?: ArticleListItemParentIdsList;
+  parent_ids?: ArticleListItemParentIdsList | undefined;
   /** Whether the article is available for AI Chatbot. For multilingual articles, this will be the value of the default language's content. */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the article is available for AI Copilot. For multilingual articles, this will be the value of the default language's content. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the article is available for AI Sales Agent. For multilingual articles, this will be the value of the default language's content. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
   /** The ID of the teammate who created the article. For multilingual articles, this will be the creator of the default language's content. */
-  created_by_id?: number | null;
+  created_by_id?: number | null | undefined;
   /** The ID of the teammate who last updated the article. For multilingual articles, this will be the last editor of the default language's content. */
-  updated_by_id?: number | null;
+  updated_by_id?: number | null | undefined;
   /** Whether the article is excluded from Fin AI Agent article suggestions. */
-  exclude_from_article_suggestions?: boolean;
+  exclude_from_article_suggestions?: boolean | undefined;
   /** The audience that can view this article in the Help Center. `everyone` means all users and visitors can view it; `restricted` indicates a custom audience ruleset. For multilingual articles, this is the article-level audience. */
-  help_center_audience?: ArticleListItemHelpCenterAudience | null;
+  help_center_audience?: ArticleListItemHelpCenterAudience | null | undefined;
   /** The Unix timestamp (in seconds) at which the article is scheduled to be published. `null` when no publish is scheduled. Mutually exclusive with `scheduled_unpublish_at` -- at most one pending schedule exists per article. */
-  scheduled_publish_at?: number | null;
+  scheduled_publish_at?: number | null | undefined;
   /** The Unix timestamp (in seconds) at which the article is scheduled to be unpublished. `null` when no unpublish is scheduled. Mutually exclusive with `scheduled_publish_at` -- at most one pending schedule exists per article. */
-  scheduled_unpublish_at?: number | null;
+  scheduled_unpublish_at?: number | null | undefined;
   /** The default locale of the help center. This field is only returned for multilingual help centers. */
-  default_locale?: string;
-  translated_content?: ArticleTranslatedContent | null;
-  tags?: Tags;
+  default_locale?: string | undefined;
+  translated_content?: ArticleTranslatedContent | null | undefined;
+  tags?: Tags | undefined;
 }
 /** An array of Article objects */
 export type ArticleListDataList = Array<ArticleListItem>;
 /** This will return a list of articles for the App. */
 export interface ArticleList {
   /** The type of the object - `list`. */
-  type?: ArticleListType;
-  pages?: CursorPages | null;
+  type?: ArticleListType | undefined;
+  pages?: CursorPages | null | undefined;
   /** A count of the total number of articles. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** An array of Article objects */
-  data?: ArticleListDataList;
+  data?: ArticleListDataList | undefined;
 }
 export interface ListArticleVersionsRequest {
   /** The unique identifier for the article whose versions you are listing. */
   article_id: number;
   /** The page of results to fetch. Defaults to the first page. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results to return per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter versions to a specific locale. Use the locale identifier (for example `en`, `fr`). If the locale is not configured for the workspace, a `400` is returned. */
-  locale?: string;
+  locale?: string | undefined;
 }
 /** The type of the object - `list`. */
 export type ArticleVersionListType = "list";
@@ -6360,39 +6431,39 @@ export type ArticleVersionSummaryState = "published" | "draft";
 /** A metadata summary of an article version, as returned by the version-history list endpoint. Omits the version's body content - fetch a single version to retrieve its `body` and `body_markdown`. */
 export interface ArticleVersionSummary {
   /** String representing the object's type. Always has the value `article_version`. */
-  type?: ArticleVersionSummaryType;
+  type?: ArticleVersionSummaryType | undefined;
   /** The unique identifier for the version. */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier of the article this version belongs to. */
-  article_id?: string;
+  article_id?: string | undefined;
   /** The title of the article at this version. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the article at this version. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The id of the teammate listed as the article's author at this version. */
-  author_id?: string;
+  author_id?: string | undefined;
   /** The id of the teammate who created this version. */
-  created_by_id?: string | null;
+  created_by_id?: string | null | undefined;
   /** How this version was created (for example `web`, `api`). */
-  created_via?: string;
+  created_via?: string | undefined;
   /** The id of the version this version was created from, or `null` if this is the first version. */
-  from_version_id?: string | null;
+  from_version_id?: string | null | undefined;
   /** Whether this version is the currently published version of the article (`published`) or an earlier non-live version (`draft`). */
-  state?: ArticleVersionSummaryState;
+  state?: ArticleVersionSummaryState | undefined;
   /** The time the version was created, as a UTC Unix timestamp. */
-  created_at?: number;
+  created_at?: number | undefined;
 }
 /** An array of Article version summary objects. */
 export type ArticleVersionListDataList = Array<ArticleVersionSummary>;
 /** A paginated list of versions of an article. */
 export interface ArticleVersionList {
   /** The type of the object - `list`. */
-  type?: ArticleVersionListType;
-  pages?: CursorPages | null;
+  type?: ArticleVersionListType | undefined;
+  pages?: CursorPages | null | undefined;
   /** A count of the total number of versions. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** An array of Article version summary objects. */
-  data?: ArticleVersionListDataList;
+  data?: ArticleVersionListDataList | undefined;
 }
 export interface ListAttachedContactsRequest {
   /** The unique identifier for the company which is given by Intercom */
@@ -6405,12 +6476,12 @@ export type CompanyAttachedContactsDataList = Array<Contact>;
 /** A list of Contact Objects */
 export interface CompanyAttachedContacts {
   /** The type of object - `list` */
-  type?: CompanyAttachedContactsType;
+  type?: CompanyAttachedContactsType | undefined;
   /** An array containing Contact Objects */
-  data?: CompanyAttachedContactsDataList;
+  data?: CompanyAttachedContactsDataList | undefined;
   /** The total number of contacts */
-  total_count?: number;
-  pages?: CursorPages | null;
+  total_count?: number | undefined;
+  pages?: CursorPages | null | undefined;
 }
 export interface ListAttachedSegmentsForCompaniesRequest {
   /** The unique identifier for the company which is given by Intercom */
@@ -6423,15 +6494,15 @@ export type CompanyAttachedSegmentsDataList = Array<Segment>;
 /** A list of Segment Objects */
 export interface CompanyAttachedSegments {
   /** The type of object - `list` */
-  type?: CompanyAttachedSegmentsType;
+  type?: CompanyAttachedSegmentsType | undefined;
   /** An array containing Segment Objects */
-  data?: CompanyAttachedSegmentsDataList;
+  data?: CompanyAttachedSegmentsDataList | undefined;
 }
 export interface ListAudiencesRequest {
   /** The page of results to fetch. Defaults to first page. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results to return per page. Defaults to 50. Maximum is 50. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The type of the object. */
 export type AudienceListType = "list";
@@ -6440,72 +6511,72 @@ export type AudienceListDataList = Array<Audience>;
 /** A paginated list of audience objects. */
 export interface AudienceList {
   /** The type of the object. */
-  type?: AudienceListType;
+  type?: AudienceListType | undefined;
   /** A list of audience objects. */
-  data?: AudienceListDataList;
+  data?: AudienceListDataList | undefined;
   /** The total number of audiences. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The current page number. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The total number of pages. */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 export interface ListAwayStatusReasonsRequest {}
 /** The type of the object */
 export type AwayStatusReasonListType = "list";
 export interface AwayStatusReason {
-  type?: string;
+  type?: string | undefined;
   /** The unique identifier for the away status reason */
-  id?: string;
+  id?: string | undefined;
   /** The display text for the away status reason */
-  label?: string;
+  label?: string | undefined;
   /** The emoji associated with the status reason */
-  emoji?: string;
+  emoji?: string | undefined;
   /** The display order of the status reason */
-  order?: number;
+  order?: number | undefined;
   /** Whether the status reason has been soft deleted */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** The Unix timestamp when the status reason was created */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The Unix timestamp when the status reason was last updated */
-  updated_at?: number;
+  updated_at?: number | undefined;
 }
 /** A list of away status reason objects. */
 export type AwayStatusReasonListDataList = Array<AwayStatusReason>;
 /** A list of away status reasons. */
 export interface AwayStatusReasonList {
   /** The type of the object */
-  type?: AwayStatusReasonListType;
+  type?: AwayStatusReasonListType | undefined;
   /** A list of away status reason objects. */
-  data?: AwayStatusReasonListDataList;
+  data?: AwayStatusReasonListDataList | undefined;
 }
 export interface ListBrandsRequest {}
 export type BrandListDataList = Array<Brand>;
 /** A list of brands */
 export interface BrandList {
   /** The type of object */
-  type?: string;
-  data?: BrandListDataList;
+  type?: string | undefined;
+  data?: BrandListDataList | undefined;
 }
 export interface ListCallsRequest {
   /** The page of results to fetch. Defaults to first page */
-  page?: number;
+  page?: number | undefined;
   /** How many results to display per page. Defaults to 25. Max 25. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** A list of calls. */
 export type CallListDataList = Array<Call>;
 /** A paginated list of calls. */
 export interface CallList {
   /** String representing the object's type. Always has the value `list`. */
-  type?: string;
+  type?: string | undefined;
   /** A list of calls. */
-  data?: CallListDataList;
+  data?: CallListDataList | undefined;
   /** Total number of items available. */
-  total_count?: number;
-  pages?: CursorPages | null;
+  total_count?: number | undefined;
+  pages?: CursorPages | null | undefined;
 }
 /** A list of conversation ids to fetch calls for. Maximum 20. */
 export type ListCallsWithTranscriptsRequestConversationIdsList = Array<string>;
@@ -6521,48 +6592,48 @@ export type ListCallsWithTranscriptsResponseDataItemTranscriptList =
   Array<ListCallsWithTranscriptsResponseDataItemTranscriptItemMap>;
 export interface ListCallsWithTranscriptsResponseDataItem {
   /** String representing the object's type. Always has the value `call`. */
-  type?: string;
+  type?: string | undefined;
   /** The id of the call. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the conversation associated with the call, if any. */
-  conversation_id?: string | null;
+  conversation_id?: string | null | undefined;
   /** The id of the admin associated with the call, if any. */
-  admin_id?: string | null;
+  admin_id?: string | null | undefined;
   /** The id of the contact associated with the call, if any. */
-  contact_id?: string | null;
+  contact_id?: string | null | undefined;
   /** The current state of the call. */
-  state?: string;
-  initiated_at?: Datetime;
-  answered_at?: Datetime;
-  ended_at?: Datetime;
-  created_at?: Datetime;
-  updated_at?: Datetime;
+  state?: string | undefined;
+  initiated_at?: Datetime | undefined;
+  answered_at?: Datetime | undefined;
+  ended_at?: Datetime | undefined;
+  created_at?: Datetime | undefined;
+  updated_at?: Datetime | undefined;
   /** API URL to download or redirect to the call recording if available. */
-  recording_url?: string | null;
+  recording_url?: string | null | undefined;
   /** API URL to download or redirect to the call transcript if available. */
-  transcription_url?: string | null;
+  transcription_url?: string | null | undefined;
   /** The type of call. */
-  call_type?: string;
+  call_type?: string | undefined;
   /** The direction of the call. */
-  direction?: string;
+  direction?: string | undefined;
   /** The reason for the call end, if applicable. */
-  ended_reason?: string | null;
+  ended_reason?: string | null | undefined;
   /** The phone number involved in the call, in E.164 format. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** API URL to the AI Agent (Fin) call recording if available. */
-  fin_recording_url?: string | null;
+  fin_recording_url?: string | null | undefined;
   /** API URL to the AI Agent (Fin) call transcript if available. */
-  fin_transcription_url?: string | null;
+  fin_transcription_url?: string | null | undefined;
   /** The call transcript if available, otherwise an empty array. */
-  transcript?: ListCallsWithTranscriptsResponseDataItemTranscriptList;
+  transcript?: ListCallsWithTranscriptsResponseDataItemTranscriptList | undefined;
   /** The status of the transcript if available. */
-  transcript_status?: string | null;
+  transcript_status?: string | null | undefined;
 }
 export type ListCallsWithTranscriptsResponseDataList =
   Array<ListCallsWithTranscriptsResponseDataItem>;
 export interface ListCallsWithTranscriptsResponse {
-  type?: string;
-  data?: ListCallsWithTranscriptsResponseDataList;
+  type?: string | undefined;
+  data?: ListCallsWithTranscriptsResponseDataList | undefined;
 }
 export interface ListCompaniesForAContactRequest {
   /** The unique identifier for the contact which is given by Intercom */
@@ -6575,22 +6646,22 @@ export type ContactAttachedCompaniesCompaniesList = Array<Company>;
 export type PagesLinkType = "pages";
 /** The majority of list resources in the API are paginated to allow clients to traverse data over multiple requests. Their responses are likely to contain a pages object that hosts pagination links which a client can use to paginate through the data without having to construct a query. The link relations for the pages field are as follows. */
 export interface PagesLink {
-  type?: PagesLinkType;
-  page?: number;
+  type?: PagesLinkType | undefined;
+  page?: number | undefined;
   /** A link to the next page of results. A response that does not contain a next link does not have further data to fetch. */
-  next?: string | null;
-  per_page?: number;
-  total_pages?: number;
+  next?: string | null | undefined;
+  per_page?: number | undefined;
+  total_pages?: number | undefined;
 }
 /** A list of Company Objects */
 export interface ContactAttachedCompanies {
   /** The type of object */
-  type?: ContactAttachedCompaniesType;
+  type?: ContactAttachedCompaniesType | undefined;
   /** An array containing Company Objects */
-  companies?: ContactAttachedCompaniesCompaniesList;
+  companies?: ContactAttachedCompaniesCompaniesList | undefined;
   /** The total number of companies associated to this contact */
-  total_count?: number;
-  pages?: PagesLink;
+  total_count?: number | undefined;
+  pages?: PagesLink | undefined;
 }
 export interface ListCompanyNotesRequest {
   /** The unique identifier for the company which is given by Intercom */
@@ -6601,12 +6672,12 @@ export type NoteListDataList = Array<Note>;
 /** A paginated list of notes associated with a contact or a company. */
 export interface NoteList {
   /** String representing the object's type. Always has the value `list`. */
-  type?: string;
+  type?: string | undefined;
   /** An array of notes. */
-  data?: NoteListDataList;
+  data?: NoteListDataList | undefined;
   /** A count of the total number of notes. */
-  total_count?: number;
-  pages?: CursorPages | null;
+  total_count?: number | undefined;
+  pages?: CursorPages | null | undefined;
 }
 export interface ListContactBannersRequest {
   /** The unique identifier of a contact. */
@@ -6614,73 +6685,73 @@ export interface ListContactBannersRequest {
 }
 export interface BannerActionReactionSetItem {
   /** The reaction's position in the set. */
-  index?: number;
+  index?: number | undefined;
   /** The reaction's unicode emoji. */
-  unicode_emoticon?: string;
+  unicode_emoticon?: string | undefined;
 }
 /** For `reaction` actions, the reactions a contact can choose from. */
 export type BannerActionReactionSetList = Array<BannerActionReactionSetItem>;
 /** The action a contact can take on the banner, or `null` when the banner has no action. The fields present depend on `type`: `url` (`label`, `target`), `reaction` (`reaction_set`), `email_collector`, or `product_tour` (`tour_id`, `tour_url`). */
 export interface BannerAction {
   /** The kind of action. One of `url`, `reaction`, `email_collector`, or `product_tour`. */
-  type?: string;
+  type?: string | undefined;
   /** For `url` actions, the label shown on the action link or button. */
-  label?: string | null;
+  label?: string | null | undefined;
   /** For `url` actions, the URL the contact is sent to. */
-  target?: string | null;
+  target?: string | null | undefined;
   /** For `reaction` actions, the reactions a contact can choose from. */
-  reaction_set?: BannerActionReactionSetList;
+  reaction_set?: BannerActionReactionSetList | undefined;
   /** For `product_tour` actions, the id of the product tour to launch. */
-  tour_id?: string | null;
+  tour_id?: string | null | undefined;
   /** For `product_tour` actions, the URL that launches the product tour. */
-  tour_url?: string | null;
+  tour_url?: string | null | undefined;
 }
 /** Reserved for future use. Always `null` in the current version -- banners that depend on client-side targeting rules (such as page URL or time on page) are not returned by this endpoint. */
 export type BannerClientTargetingList = Array<unknown>;
 /** A banner the contact currently matches, with the content and view identifier needed to display and dismiss it. */
 export interface Banner {
   /** String representing the object's type. Always has the value `banner`. */
-  type?: string;
+  type?: string | undefined;
   /** The id of the banner. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the contact's view of this banner. Pass this to the dismiss endpoint to record a dismissal. */
-  view_id?: string;
+  view_id?: string | undefined;
   /** The banner's title. `null` when the banner has no title. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The banner's body content as HTML. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** How the banner is displayed. */
-  style?: string;
+  style?: string | undefined;
   /** Where the banner is positioned. */
-  position?: string;
+  position?: string | undefined;
   /** Whether the banner should display a dismiss control. */
-  show_dismiss_button?: boolean;
+  show_dismiss_button?: boolean | undefined;
   /** The action a contact can take on the banner, or `null` when the banner has no action. The fields present depend on `type`: `url` (`label`, `target`), `reaction` (`reaction_set`), `email_collector`, or `product_tour` (`tour_id`, `tour_url`). */
-  action?: BannerAction | null;
+  action?: BannerAction | null | undefined;
   /** Reserved for future use. Always `null` in the current version -- banners that depend on client-side targeting rules (such as page URL or time on page) are not returned by this endpoint. */
-  client_targeting?: BannerClientTargetingList | null;
+  client_targeting?: BannerClientTargetingList | null | undefined;
   /** The time the contact's view of this banner was created. */
-  created_at?: number;
+  created_at?: number | undefined;
 }
 /** An array of banners. */
 export type BannerListDataList = Array<Banner>;
 /** A list of banners a contact currently matches. */
 export interface BannerList {
   /** String representing the object's type. Always has the value `list`. */
-  type?: string;
+  type?: string | undefined;
   /** An array of banners. */
-  data?: BannerListDataList;
+  data?: BannerListDataList | undefined;
 }
 export type ListContactMergeHistoryRequestOrder = "asc" | "desc";
 export interface ListContactMergeHistoryRequest {
   /** The id of the contact to fetch merge history for. */
   id: string;
   /** A cursor for pagination. Pass the `next_cursor` value from a previous response to fetch the next page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The number of results to return per page (default 50, max 150). */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The order to return results in. Defaults to descending. */
-  order?: ListContactMergeHistoryRequestOrder | (string & {});
+  order?: ListContactMergeHistoryRequestOrder | (string & {}) | undefined;
 }
 /** The type of object. */
 export type MergeHistoryListType = "list";
@@ -6689,17 +6760,17 @@ export type MergeHistoryListDataList = Array<MergeHistoryItem>;
 /** A paginated list of merge history entries for a contact. */
 export interface MergeHistoryList {
   /** The type of object. */
-  type?: MergeHistoryListType;
+  type?: MergeHistoryListType | undefined;
   /** An array of merge history entries. */
-  data?: MergeHistoryListDataList;
+  data?: MergeHistoryListDataList | undefined;
   /** A cursor to pass as the `cursor` query parameter to fetch the next page of results. Absent when there are no more pages. */
-  next_cursor?: string | null;
+  next_cursor?: string | null | undefined;
   /** Whether there are more results to fetch. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 export interface ListContactsRequest {
   /** Pass `true` to include a `merge_history` array on each contact in the response. Only returned for contacts with a `user` role. */
-  include_merge_history?: boolean;
+  include_merge_history?: boolean | undefined;
 }
 /** Always list */
 export type ContactListType = "list";
@@ -6708,12 +6779,12 @@ export type ContactListDataList = Array<Contact>;
 /** Contacts are your users in Intercom. */
 export interface ContactList {
   /** Always list */
-  type?: ContactListType;
+  type?: ContactListType | undefined;
   /** The list of contact objects */
-  data?: ContactListDataList;
+  data?: ContactListDataList | undefined;
   /** A count of the total number of objects. */
-  total_count?: number;
-  pages?: CursorPages | null;
+  total_count?: number | undefined;
+  pages?: CursorPages | null | undefined;
 }
 export interface ListContentImportSourcesRequest {}
 /** The type of the object - `list`. */
@@ -6723,39 +6794,39 @@ export type ContentImportSourcesListDataList = Array<ContentImportSource>;
 /** This will return a list of the content import sources for the App. */
 export interface ContentImportSourcesList {
   /** The type of the object - `list`. */
-  type?: ContentImportSourcesListType;
-  pages?: PagesLink;
+  type?: ContentImportSourcesListType | undefined;
+  pages?: PagesLink | undefined;
   /** A count of the total number of content import sources. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** An array of Content Import Source objects */
-  data?: ContentImportSourcesListDataList;
+  data?: ContentImportSourcesListDataList | undefined;
 }
 export interface ListContentSnippetsRequest {
   /** The page of results to fetch. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results to return per page. Max value of 50. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export type ContentSnippetListType = "list";
 /** An array of content snippet objects. */
 export type ContentSnippetListDataList = Array<ContentSnippet>;
 /** A paginated list of content snippets. */
 export interface ContentSnippetList {
-  type?: ContentSnippetListType;
+  type?: ContentSnippetListType | undefined;
   /** An array of content snippet objects. */
-  data?: ContentSnippetListDataList;
+  data?: ContentSnippetListDataList | undefined;
   /** The total number of content snippets. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The current page number. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The total number of pages. */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 export interface ListConversationAttributesRequest {
   /** Include archived attributes in the list. Default `false`. */
-  include_archived?: boolean;
+  include_archived?: boolean | undefined;
 }
 /** The type of the object. */
 export type ConversationAttributeListType = "list";
@@ -6764,15 +6835,15 @@ export type ConversationAttributeListDataList = Array<ConversationAttribute>;
 /** A list of all conversation attributes belonging to a workspace. */
 export interface ConversationAttributeList {
   /** The type of the object. */
-  type?: ConversationAttributeListType;
+  type?: ConversationAttributeListType | undefined;
   /** A list of conversation attributes. */
-  data?: ConversationAttributeListDataList;
+  data?: ConversationAttributeListDataList | undefined;
 }
 export interface ListConversationsRequest {
   /** How many results per page */
-  per_page?: number;
+  per_page?: number | undefined;
   /** String used to get the next page of conversations. */
-  starting_after?: string;
+  starting_after?: string | undefined;
 }
 /** Always conversation.list */
 export type ConversationListType = "conversation.list";
@@ -6782,90 +6853,90 @@ export type ConversationListItemState = "open" | "closed" | "snoozed";
 export type ConversationListItemPriority = "none" | "low" | "medium" | "high" | "urgent";
 /** References linking this conversation to records in an external helpdesk or CRM system. Populated for Fin Standalone workspaces synced from an external platform; an empty array otherwise. Sorted alphabetically by `type` and capped at 20 entries. */
 export type ConversationListItemExternalReferencesList = Array<ConversationExternalReference>;
-/** QA monitor evaluations that flagged this conversation. Only included when `include_monitors=true` is passed as a query parameter. */
+/** The latest QA monitor evaluation for each monitor that has evaluated this conversation, whatever its result. Only included when `include_monitors=true` is passed as a query parameter. */
 export type ConversationListItemMonitorEvaluationsList = Array<ConversationMonitorEvaluation>;
 /** QA scorecard results for this conversation. Only included when `include_scorecards=true` is passed as a query parameter. */
 export type ConversationListItemScorecardsList = Array<ConversationScorecard>;
 /** The data returned about your conversations when you list or search them. */
 export interface ConversationListItem {
   /** Always conversation. */
-  type?: string;
+  type?: string | undefined;
   /** The id representing the conversation. */
-  id?: string;
+  id?: string | undefined;
   /** The title given to the conversation. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** The time the conversation was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The last time the conversation was updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** The last time a Contact responded to an Admin. In other words, the time a customer started waiting for a response. Set to null if last reply is from an Admin. */
-  waiting_since?: number | null;
+  waiting_since?: number | null | undefined;
   /** If set this is the time in the future when this conversation will be marked as open. i.e. it will be in a snoozed state until this time. i.e. it will be in a snoozed state until this time. */
-  snoozed_until?: number | null;
+  snoozed_until?: number | null | undefined;
   /** Indicates whether a conversation is open (true) or closed (false). */
-  open?: boolean;
+  open?: boolean | undefined;
   /** Can be set to "open", "closed" or "snoozed". */
-  state?: ConversationListItemState;
+  state?: ConversationListItemState | undefined;
   /** Indicates whether a conversation has been read. */
-  read?: boolean;
+  read?: boolean | undefined;
   /** The priority level of the conversation. Returns one of none, low, medium, high, or urgent. */
-  priority?: ConversationListItemPriority;
+  priority?: ConversationListItemPriority | undefined;
   /** The id of the admin assigned to the conversation. If it's not assigned to an admin it will return 0. */
-  admin_assignee_id?: number;
+  admin_assignee_id?: number | undefined;
   /** The id of the team assigned to the conversation. If it's not assigned to a team it will return 0. */
-  team_assignee_id?: number;
+  team_assignee_id?: number | undefined;
   /** The company associated with the conversation. */
-  company?: Company | null;
-  tags?: Tags;
-  conversation_rating?: ConversationRating | null;
-  source?: ConversationSource;
-  contacts?: ConversationContacts;
-  teammates?: ConversationTeammates | null;
-  custom_attributes?: CustomAttributes;
-  first_contact_reply?: ConversationFirstContactReply | null;
-  sla_applied?: SlaApplied | null;
-  statistics?: ConversationStatistics | null;
-  linked_objects?: LinkedObjectList;
+  company?: Company | null | undefined;
+  tags?: Tags | undefined;
+  conversation_rating?: ConversationRating | null | undefined;
+  source?: ConversationSource | undefined;
+  contacts?: ConversationContacts | undefined;
+  teammates?: ConversationTeammates | null | undefined;
+  custom_attributes?: CustomAttributes | undefined;
+  first_contact_reply?: ConversationFirstContactReply | null | undefined;
+  sla_applied?: SlaApplied | null | undefined;
+  statistics?: ConversationStatistics | null | undefined;
+  linked_objects?: LinkedObjectList | undefined;
   /** Indicates whether the AI Agent participated in the conversation. */
-  ai_agent_participated?: boolean;
-  ai_agent?: AiAgent | null;
+  ai_agent_participated?: boolean | undefined;
+  ai_agent?: AiAgent | null | undefined;
   /** Indicates whether the Sales Agent participated in the conversation. */
-  sales_agent_participated?: boolean;
-  sales_agent?: SalesAgent | null;
+  sales_agent_participated?: boolean | undefined;
+  sales_agent?: SalesAgent | null | undefined;
   /** The channel through which the conversation was initiated and its current channel. */
-  channel?: ConversationChannel | null;
+  channel?: ConversationChannel | null | undefined;
   /** References linking this conversation to records in an external helpdesk or CRM system. Populated for Fin Standalone workspaces synced from an external platform; an empty array otherwise. Sorted alphabetically by `type` and capped at 20 entries. */
-  external_references?: ConversationListItemExternalReferencesList;
-  /** QA monitor evaluations that flagged this conversation. Only included when `include_monitors=true` is passed as a query parameter. */
-  monitor_evaluations?: ConversationListItemMonitorEvaluationsList;
+  external_references?: ConversationListItemExternalReferencesList | undefined;
+  /** The latest QA monitor evaluation for each monitor that has evaluated this conversation, whatever its result. Only included when `include_monitors=true` is passed as a query parameter. */
+  monitor_evaluations?: ConversationListItemMonitorEvaluationsList | undefined;
   /** QA scorecard results for this conversation. Only included when `include_scorecards=true` is passed as a query parameter. */
-  scorecards?: ConversationListItemScorecardsList;
+  scorecards?: ConversationListItemScorecardsList | undefined;
 }
 /** The list of conversation objects */
 export type ConversationListConversationsList = Array<ConversationListItem>;
 /** Conversations are how you can communicate with users in Intercom. They are created when a contact replies to an outbound message, or when one admin directly sends a message to a single contact. */
 export interface ConversationList {
   /** Always conversation.list */
-  type?: ConversationListType;
+  type?: ConversationListType | undefined;
   /** The list of conversation objects */
-  conversations?: ConversationListConversationsList;
+  conversations?: ConversationListConversationsList | undefined;
   /** A count of the total number of objects. */
-  total_count?: number;
-  pages?: CursorPages | null;
+  total_count?: number | undefined;
+  pages?: CursorPages | null | undefined;
 }
 export interface ListCustomObjectInstancesRequest {
   /** The unique identifier of the custom object type that defines the structure of the custom object instance. */
   custom_object_type_identifier: string;
   /** Return instances associated with the given contact ID. */
-  references_contact_id?: string;
+  references_contact_id?: string | undefined;
   /** Return instances associated with the given conversation ID. */
-  references_conversation_id?: string;
+  references_conversation_id?: string | undefined;
   /** Return the single instance with this external ID. When provided, the response is a single object rather than a list. */
-  external_id?: string;
+  external_id?: string | undefined;
   /** Page number of results to fetch. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Maximum 150. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The type of the object - `list`. */
 export type CustomObjectInstancesPaginatedListType = "list";
@@ -6874,12 +6945,12 @@ export type CustomObjectInstancesPaginatedListDataList = Array<CustomObjectInsta
 /** A paginated list of custom object instances. */
 export interface CustomObjectInstancesPaginatedList {
   /** The type of the object - `list`. */
-  type?: CustomObjectInstancesPaginatedListType;
-  pages?: PagesLink;
+  type?: CustomObjectInstancesPaginatedListType | undefined;
+  pages?: PagesLink | undefined;
   /** A count of the total number of custom object instances. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** An array of Custom Object Instance objects. */
-  data?: CustomObjectInstancesPaginatedListDataList;
+  data?: CustomObjectInstancesPaginatedListDataList | undefined;
 }
 export type ListDataConnectorExecutionResultsRequestErrorType =
   | "request_configuration_error"
@@ -6897,19 +6968,19 @@ export interface ListDataConnectorExecutionResultsRequest {
   /** The unique identifier for the data connector. */
   data_connector_id: string;
   /** The number of results per page (1-30, default 10). */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Cursor for pagination. Use the value from `pages.next.starting_after` in a previous response. */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Filter by success status. Use `true`, `false`, or omit for all. */
-  success?: boolean;
+  success?: boolean | undefined;
   /** Filter by error type. */
-  error_type?: ListDataConnectorExecutionResultsRequestErrorType | (string & {});
+  error_type?: ListDataConnectorExecutionResultsRequestErrorType | (string & {}) | undefined;
   /** Unix timestamp for start of time range (default 1 hour ago). */
-  start_ts?: number;
+  start_ts?: number | undefined;
   /** Unix timestamp for end of time range (default now). */
-  end_ts?: number;
+  end_ts?: number | undefined;
   /** Include request/response bodies in the response (default false). */
-  include_bodies?: boolean;
+  include_bodies?: boolean | undefined;
 }
 /** The type of object - `list`. */
 export type DataConnectorExecutionResultListType = "list";
@@ -6919,30 +6990,30 @@ export type DataConnectorExecutionResultListPagesType = "pages";
 /** Cursor for the next page of results. */
 export interface DataConnectorExecutionResultListPagesNext {
   /** The cursor value to use for the next page. */
-  starting_after?: string;
+  starting_after?: string | undefined;
 }
 /** Pagination information. */
 export interface DataConnectorExecutionResultListPages {
-  type?: DataConnectorExecutionResultListPagesType;
+  type?: DataConnectorExecutionResultListPagesType | undefined;
   /** The number of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Cursor for the next page of results. */
-  next?: DataConnectorExecutionResultListPagesNext | null;
+  next?: DataConnectorExecutionResultListPagesNext | null | undefined;
 }
 /** A paginated list of data connector execution results. */
 export interface DataConnectorExecutionResultList {
   /** The type of object - `list`. */
-  type?: DataConnectorExecutionResultListType;
+  type?: DataConnectorExecutionResultListType | undefined;
   /** An array of execution result objects. */
-  data?: DataConnectorExecutionResultListDataList;
+  data?: DataConnectorExecutionResultListDataList | undefined;
   /** Pagination information. */
-  pages?: DataConnectorExecutionResultListPages;
+  pages?: DataConnectorExecutionResultListPages | undefined;
 }
 export interface ListDataConnectorsRequest {
   /** The number of results to return per page. Defaults to 20, minimum 1, maximum 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The cursor value from `pages.next.starting_after` in a previous response. Used to paginate through results. */
-  starting_after?: string;
+  starting_after?: string | undefined;
 }
 /** The type of object - `list`. */
 export type DataConnectorListType = "list";
@@ -6955,29 +7026,29 @@ export type DataConnectorHttpMethod = "get" | "post" | "put" | "delete" | "patch
 /** A data connector allows you to make HTTP requests to external APIs from Intercom workflows and AI agents. */
 export interface DataConnector {
   /** The type of object - `data_connector`. */
-  type?: DataConnectorType;
+  type?: DataConnectorType | undefined;
   /** The unique identifier for the data connector. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the data connector. */
-  name?: string;
+  name?: string | undefined;
   /** A description of what this data connector does. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The current state of the data connector. */
-  state?: DataConnectorState;
+  state?: DataConnectorState | undefined;
   /** The HTTP method used by the data connector. */
-  http_method?: DataConnectorHttpMethod;
+  http_method?: DataConnectorHttpMethod | undefined;
   /** Whether this data connector is assigned to Fin for direct usage. */
-  direct_fin_usage?: boolean;
+  direct_fin_usage?: boolean | undefined;
   /** The ID of the admin who created this data connector. */
-  created_by_admin_id?: string;
+  created_by_admin_id?: string | undefined;
   /** The ID of the admin who last updated this data connector. */
-  updated_by_admin_id?: string;
+  updated_by_admin_id?: string | undefined;
   /** The time the data connector was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The time the data connector was last updated. */
-  updated_at?: string;
+  updated_at?: string | undefined;
   /** The URL path to fetch execution results for this connector. */
-  execution_results_url?: string;
+  execution_results_url?: string | undefined;
 }
 /** An array of data connector objects. */
 export type DataConnectorListDataList = Array<DataConnector>;
@@ -6986,82 +7057,82 @@ export type DataConnectorListPagesType = "pages";
 export type DataConnectorListPagesNext = DataConnectorExecutionResultListPagesNext;
 /** Pagination information. */
 export interface DataConnectorListPages {
-  type?: DataConnectorListPagesType;
+  type?: DataConnectorListPagesType | undefined;
   /** The number of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Cursor for the next page of results. */
-  next?: DataConnectorExecutionResultListPagesNext | null;
+  next?: DataConnectorExecutionResultListPagesNext | null | undefined;
 }
 /** A paginated list of data connectors. */
 export interface DataConnectorList {
   /** The type of object - `list`. */
-  type?: DataConnectorListType;
+  type?: DataConnectorListType | undefined;
   /** An array of data connector objects. */
-  data?: DataConnectorListDataList;
+  data?: DataConnectorListDataList | undefined;
   /** Pagination information. */
-  pages?: DataConnectorListPages;
+  pages?: DataConnectorListPages | undefined;
 }
 export interface ListDeletedConversationIdsRequest {
   /** The page of results to fetch. Defaults to first page */
-  page?: number;
+  page?: number | undefined;
   /** How many results per page */
-  per_page?: number;
+  per_page?: number | undefined;
   /** `asc` or `desc`. Returns the conversation IDs in ascending or descending order. Defaults to desc */
-  order?: string;
+  order?: string | undefined;
 }
 /** A deleted conversation record containing its ID, metrics retained status and deletion timestamp. */
 export interface DeletedConversationItem {
   /** String representing the object's type. Always has the value `conversation`. */
-  type?: string;
+  type?: string | undefined;
   /** The ID of the deleted conversation. */
-  id?: string;
+  id?: string | undefined;
   /** Whether reporting metrics are retained for this conversation ID */
-  metrics_retained?: boolean;
+  metrics_retained?: boolean | undefined;
   /** The time when the conversation was deleted. */
-  deleted_at?: number;
+  deleted_at?: number | undefined;
 }
 /** The list of deleted conversation IDs. */
 export type DeletedConversationListConversationsList = Array<DeletedConversationItem>;
 /** A paginated list of deleted conversation IDs. */
 export interface DeletedConversationList {
   /** String representing the object's type. Always has the value `conversations.list`. */
-  type?: string;
+  type?: string | undefined;
   /** The list of deleted conversation IDs. */
-  conversations?: DeletedConversationListConversationsList;
+  conversations?: DeletedConversationListConversationsList | undefined;
   /** Total number of items available. */
-  total_count?: number;
-  pages?: PagesLink;
+  total_count?: number | undefined;
+  pages?: PagesLink | undefined;
 }
 export interface ListEmailsRequest {}
 export type EmailListDataList = Array<EmailSetting>;
 /** A list of email settings */
 export interface EmailList {
   /** The type of object */
-  type?: string;
-  data?: EmailListDataList;
+  type?: string | undefined;
+  data?: EmailListDataList | undefined;
 }
 export interface ListExportReportingDataGetDatasetsRequest {}
 export interface ListExportReportingDataGetDatasetsResponseDataItemAttributesItem {
   /** The simple attribute identifier. Note that this may be ambiguous if the same name exists across different attribute types. Use qualified_id when calling the enqueue endpoint. */
-  id?: string;
+  id?: string | undefined;
   /** A namespaced identifier that uniquely identifies the attribute across all types. Format is "prefix.name" (e.g., "people.Brand", "conversation.Brand"). Required when calling the enqueue endpoint. */
-  qualified_id?: string;
-  name?: string;
+  qualified_id?: string | undefined;
+  name?: string | undefined;
 }
 export type ListExportReportingDataGetDatasetsResponseDataItemAttributesList =
   Array<ListExportReportingDataGetDatasetsResponseDataItemAttributesItem>;
 export interface ListExportReportingDataGetDatasetsResponseDataItem {
-  id?: string;
-  name?: string;
-  description?: string;
-  default_time_attribute_id?: string;
-  attributes?: ListExportReportingDataGetDatasetsResponseDataItemAttributesList;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  default_time_attribute_id?: string | undefined;
+  attributes?: ListExportReportingDataGetDatasetsResponseDataItemAttributesList | undefined;
 }
 export type ListExportReportingDataGetDatasetsResponseDataList =
   Array<ListExportReportingDataGetDatasetsResponseDataItem>;
 export interface ListExportReportingDataGetDatasetsResponse {
-  type?: string;
-  data?: ListExportReportingDataGetDatasetsResponseDataList;
+  type?: string | undefined;
+  data?: ListExportReportingDataGetDatasetsResponseDataList | undefined;
 }
 export interface ListExternalPagesRequest {}
 /** The type of the object - `list`. */
@@ -7071,12 +7142,12 @@ export type ExternalPagesListDataList = Array<ExternalPage>;
 /** This will return a list of external pages for the App. */
 export interface ExternalPagesList {
   /** The type of the object - `list`. */
-  type?: ExternalPagesListType;
-  pages?: PagesLink;
+  type?: ExternalPagesListType | undefined;
+  pages?: PagesLink | undefined;
   /** A count of the total number of external pages. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** An array of External Page objects */
-  data?: ExternalPagesListDataList;
+  data?: ExternalPagesListDataList | undefined;
 }
 /** A hash of attributes associated with the user. Attributes can be used by Fin to target content and responses. Limit to 10 attributes. */
 export type ListFinCapabilitiesRequestUserAttributesMap = { [key: string]: unknown | undefined };
@@ -7084,37 +7155,37 @@ export interface ListFinCapabilitiesRequestUser {
   /** The ID of the user. This value will be used to uniquely identify the user during a conversation with Fin. Maps to the user_id field on the Intercom User object. */
   id: string;
   /** The name of the user. */
-  name?: string;
+  name?: string | undefined;
   /** The email of the user. */
-  email?: string;
+  email?: string | undefined;
   /** A hash of attributes associated with the user. Attributes can be used by Fin to target content and responses. Limit to 10 attributes. */
-  attributes?: ListFinCapabilitiesRequestUserAttributesMap;
+  attributes?: ListFinCapabilitiesRequestUserAttributesMap | undefined;
 }
 export interface ListFinCapabilitiesRequest {
   user: ListFinCapabilitiesRequestUser;
 }
 export interface ListFinCapabilitiesResponseCapabilitiesItem {
   /** The kind of capability -- `procedure` for a runnable procedure, or a static action such as `reply`, `ask`, or `escalate`. */
-  type?: string;
+  type?: string | undefined;
   /** The procedure ID. Present only when `type` is `procedure`. */
-  id?: string;
+  id?: string | undefined;
   /** The procedure name. Present only when `type` is `procedure`. */
-  name?: string;
+  name?: string | undefined;
   /** A human-readable description of the capability. */
-  description?: string;
+  description?: string | undefined;
   /** The endpoint path to call to use this capability. */
-  endpoint?: string;
+  endpoint?: string | undefined;
   /** The HTTP method to use. */
-  method?: string;
+  method?: string | undefined;
 }
 /** The list of capabilities available to this user. */
 export type ListFinCapabilitiesResponseCapabilitiesList =
   Array<ListFinCapabilitiesResponseCapabilitiesItem>;
 export interface ListFinCapabilitiesResponse {
   /** The API version the capabilities document was generated for. */
-  version?: string;
+  version?: string | undefined;
   /** The list of capabilities available to this user. */
-  capabilities?: ListFinCapabilitiesResponseCapabilitiesList;
+  capabilities?: ListFinCapabilitiesResponseCapabilitiesList | undefined;
 }
 export interface ListHandlingEventsRequest {
   /** The identifier for the conversation as given by Intercom. */
@@ -7131,7 +7202,7 @@ export interface TeammateReference {
   /** The display name of the teammate */
   name: string;
   /** The email address of the teammate (optional for teams/bots) */
-  email?: string | null;
+  email?: string | null | undefined;
 }
 /** The type of handling event */
 export type HandlingEventType = "paused" | "resumed";
@@ -7143,22 +7214,22 @@ export interface HandlingEvent {
   /** ISO8601 timestamp when the event occurred */
   timestamp: string;
   /** Optional reason for the event (e.g., "Paused", "Away") */
-  reason?: string | null;
+  reason?: string | null | undefined;
 }
 /** Array of handling events */
 export type HandlingEventListHandlingEventsList = Array<HandlingEvent>;
 /** A list of handling events for a conversation */
 export interface HandlingEventList {
   /** Array of handling events */
-  handling_events?: HandlingEventListHandlingEventsList;
+  handling_events?: HandlingEventListHandlingEventsList | undefined;
 }
 export interface ListHelpCenterRedirectsRequest {
   /** The unique identifier for the help center. */
   help_center_id: string;
   /** The page of results to fetch. Defaults to the first page. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results to return per page. Defaults to 50, maximum 250. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The type of the object - `list`. */
 export type HelpCenterRedirectListType = "list";
@@ -7167,12 +7238,12 @@ export type HelpCenterRedirectListDataList = Array<HelpCenterRedirect>;
 /** This will return a list of redirects for the help center. */
 export interface HelpCenterRedirectList {
   /** The type of the object - `list`. */
-  type?: HelpCenterRedirectListType;
-  pages?: CursorPages | null;
+  type?: HelpCenterRedirectListType | undefined;
+  pages?: CursorPages | null | undefined;
   /** A count of the total number of redirects. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** An array of help center redirect objects. */
-  data?: HelpCenterRedirectListDataList;
+  data?: HelpCenterRedirectListDataList | undefined;
 }
 export interface ListHelpCentersRequest {}
 /** The type of the object - `list`. */
@@ -7182,9 +7253,9 @@ export type HelpCenterListDataList = Array<HelpCenter>;
 /** A list of Help Centers belonging to the App */
 export interface HelpCenterList {
   /** The type of the object - `list`. */
-  type?: HelpCenterListType;
+  type?: HelpCenterListType | undefined;
   /** An array of Help Center objects */
-  data?: HelpCenterListDataList;
+  data?: HelpCenterListDataList | undefined;
 }
 export interface ListInternalArticlesRequest {}
 /** The type of the object - `list`. */
@@ -7196,45 +7267,45 @@ export type InternalArticleListItemAudienceIdsList = Array<number>;
 /** The data returned about your internal articles when you list them. */
 export interface InternalArticleListItem {
   /** The type of object - `internal_article`. */
-  type?: InternalArticleListItemType;
+  type?: InternalArticleListItemType | undefined;
   /** The unique identifier for the article which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The title of the article. */
-  title?: string;
+  title?: string | undefined;
   /** The body of the article in HTML. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** The body of the article in markdown. */
-  body_markdown?: string | null;
+  body_markdown?: string | null | undefined;
   /** The id of the owner of the article. */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** The id of the author of the article. */
-  author_id?: number;
+  author_id?: number | undefined;
   /** The time when the article was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time when the article was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** The default locale of the article. */
-  locale?: string;
+  locale?: string | undefined;
   /** The list of audience IDs this internal article is targeted to for Fin AI Agent. Empty array means no audience targeting is set. */
-  audience_ids?: InternalArticleListItemAudienceIdsList | null;
+  audience_ids?: InternalArticleListItemAudienceIdsList | null | undefined;
   /** Whether the internal article is available for AI Chatbot (Fin). */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the internal article is available for AI Copilot. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the internal article is available for AI Sales Agent. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
 }
 /** An array of Internal Article objects */
 export type InternalArticleListDataList = Array<InternalArticleListItem>;
 /** This will return a list of internal articles for the App. */
 export interface InternalArticleList {
   /** The type of the object - `list`. */
-  type?: InternalArticleListType;
-  pages?: CursorPages | null;
+  type?: InternalArticleListType | undefined;
+  pages?: CursorPages | null | undefined;
   /** A count of the total number of internal articles. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** An array of Internal Article objects */
-  data?: InternalArticleListDataList;
+  data?: InternalArticleListDataList | undefined;
 }
 export interface ListLiveNewsfeedItemsRequest {
   /** The unique identifier for the news feed item which is given by Intercom. */
@@ -7248,20 +7319,20 @@ export type PaginatedResponseDataList = Array<PaginatedResponseDataItem>;
 /** Paginated Response */
 export interface PaginatedResponse {
   /** The type of object */
-  type?: PaginatedResponseType;
-  pages?: CursorPages | null;
+  type?: PaginatedResponseType | undefined;
+  pages?: CursorPages | null | undefined;
   /** A count of the total number of objects. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** An array of Objects */
-  data?: PaginatedResponseDataList;
+  data?: PaginatedResponseDataList | undefined;
 }
 export interface ListMacrosRequest {
   /** The number of results per page */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Base64-encoded cursor containing [updated_at, id] for pagination */
-  starting_after?: string;
+  starting_after?: string | undefined;
   /** Unix timestamp to filter macros updated after this time */
-  updated_since?: number;
+  updated_since?: number | undefined;
 }
 /** Always list */
 export type MacroListType = "list";
@@ -7272,25 +7343,25 @@ export type MacroListPagesType = "pages";
 /** Cursor for the next page */
 export interface MacroListPagesNext {
   /** Base64-encoded cursor containing [updated_at, id] for pagination */
-  starting_after?: string;
+  starting_after?: string | undefined;
 }
 /** Pagination information */
 export interface MacroListPages {
   /** The type of pagination */
-  type?: MacroListPagesType;
+  type?: MacroListPagesType | undefined;
   /** Number of results per page */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Cursor for the next page */
-  next?: MacroListPagesNext | null;
+  next?: MacroListPagesNext | null | undefined;
 }
 /** A paginated list of macros (saved replies) in the workspace. */
 export interface MacroList {
   /** Always list */
-  type?: MacroListType;
+  type?: MacroListType | undefined;
   /** The list of macro objects */
-  data?: MacroListDataList;
+  data?: MacroListDataList | undefined;
   /** Pagination information */
-  pages?: MacroListPages;
+  pages?: MacroListPages | undefined;
 }
 export interface ListNewsfeedsRequest {}
 export interface ListNewsItemsRequest {}
@@ -7307,9 +7378,9 @@ export type OfficeHoursExceptionListDataList = Array<OfficeHoursException>;
 /** A list of office hours exceptions. */
 export interface OfficeHoursExceptionList {
   /** The type of the object - always `office_hours_exception.list`. */
-  type?: string;
+  type?: string | undefined;
   /** An array of office hours exceptions. */
-  data?: OfficeHoursExceptionListDataList;
+  data?: OfficeHoursExceptionListDataList | undefined;
 }
 export interface ListOfficeHoursSchedulesRequest {}
 /** An array of office hours schedules. */
@@ -7317,13 +7388,13 @@ export type OfficeHoursScheduleListDataList = Array<OfficeHoursSchedule>;
 /** A list of office hours schedules. */
 export interface OfficeHoursScheduleList {
   /** The type of the object - always `office_hours_schedule.list`. */
-  type?: string;
+  type?: string | undefined;
   /** An array of office hours schedules. */
-  data?: OfficeHoursScheduleListDataList;
+  data?: OfficeHoursScheduleListDataList | undefined;
 }
 export interface ListSegmentsRequest {
   /** It includes the count of contacts that belong to each segment. */
-  include_count?: boolean;
+  include_count?: boolean | undefined;
 }
 /** The type of the object */
 export type SegmentListType = "segment.list";
@@ -7332,11 +7403,11 @@ export type SegmentListSegmentsList = Array<Segment>;
 /** This will return a list of Segment Objects. The result may also have a pages object if the response is paginated. */
 export interface SegmentList {
   /** The type of the object */
-  type?: SegmentListType;
+  type?: SegmentListType | undefined;
   /** A list of Segment objects */
-  segments?: SegmentListSegmentsList;
+  segments?: SegmentListSegmentsList | undefined;
   /** A pagination object, which may be empty, indicating no further pages to fetch. */
-  pages?: unknown;
+  pages?: unknown | undefined;
 }
 export interface ListSegmentsForAContactRequest {
   /** The unique identifier for the contact which is given by Intercom */
@@ -7349,17 +7420,17 @@ export type ContactSegmentsDataList = Array<Segment>;
 /** A list of segments objects attached to a specific contact. */
 export interface ContactSegments {
   /** The type of the object */
-  type?: ContactSegmentsType;
+  type?: ContactSegmentsType | undefined;
   /** Segment objects associated with the contact. */
-  data?: ContactSegmentsDataList;
+  data?: ContactSegmentsDataList | undefined;
 }
 export interface ListSideConversationsRequest {
   /** The identifier for the conversation as given by Intercom. */
   id: string;
   /** The page number of results to return (starting from 1). */
-  page?: number;
+  page?: number | undefined;
   /** The number of side conversations to return per page (max 50). */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 /** The type of the response object. */
 export type SideConversationListType = "side_conversation.list";
@@ -7368,35 +7439,35 @@ export type SideConversationSummaryConversationPartsList = Array<ConversationPar
 /** A side conversation with its conversation parts. */
 export interface SideConversationSummary {
   /** The unique identifier for the side conversation. */
-  side_conversation_id?: string;
+  side_conversation_id?: string | undefined;
   /** The conversation parts (messages) in this side conversation. */
-  conversation_parts?: SideConversationSummaryConversationPartsList;
+  conversation_parts?: SideConversationSummaryConversationPartsList | undefined;
   /** The total number of conversation parts in this side conversation. */
-  total_count?: number;
+  total_count?: number | undefined;
 }
 /** An array of side conversation objects. */
 export type SideConversationListSideConversationsList = Array<SideConversationSummary>;
 export type SideConversationListPagesType = "pages";
 /** Pagination metadata. */
 export interface SideConversationListPages {
-  type?: SideConversationListPagesType;
+  type?: SideConversationListPagesType | undefined;
   /** The current page number. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The total number of pages. */
-  total_pages?: number;
+  total_pages?: number | undefined;
 }
 /** A paginated list of side conversations for a conversation. */
 export interface SideConversationList {
   /** The type of the response object. */
-  type?: SideConversationListType;
+  type?: SideConversationListType | undefined;
   /** An array of side conversation objects. */
-  side_conversations?: SideConversationListSideConversationsList;
+  side_conversations?: SideConversationListSideConversationsList | undefined;
   /** The total number of side conversations. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** Pagination metadata. */
-  pages?: SideConversationListPages;
+  pages?: SideConversationListPages | undefined;
 }
 export interface ListSubscriptionsForAContactRequest {
   /** The unique identifier for the contact which is given by Intercom */
@@ -7409,9 +7480,9 @@ export type SubscriptionTypeListDataList = Array<SubscriptionType>;
 /** A list of subscription type objects. */
 export interface SubscriptionTypeList {
   /** The type of the object */
-  type?: SubscriptionTypeListType;
+  type?: SubscriptionTypeListType | undefined;
   /** A list of subscription type objects associated with the workspace . */
-  data?: SubscriptionTypeListDataList;
+  data?: SubscriptionTypeListDataList | undefined;
 }
 export interface ListSubscriptionTypesRequest {}
 export interface ListTagsRequest {}
@@ -7422,9 +7493,9 @@ export type TagListDataList = Array<Tag>;
 /** A list of tags objects in the workspace. */
 export interface TagList {
   /** The type of the object */
-  type?: TagListType;
+  type?: TagListType | undefined;
   /** A list of tags objects associated with the workspace . */
-  data?: TagListDataList;
+  data?: TagListDataList | undefined;
 }
 export interface ListTagsForAContactRequest {
   /** The unique identifier for the contact which is given by Intercom */
@@ -7438,9 +7509,9 @@ export type TeamListTeamsList = Array<Team>;
 /** This will return a list of team objects for the App. */
 export interface TeamList {
   /** The type of the object */
-  type?: TeamListType;
+  type?: TeamListType | undefined;
   /** A list of team objects */
-  teams?: TeamListTeamsList;
+  teams?: TeamListTeamsList | undefined;
 }
 export interface ListTicketStatesRequest {}
 /** The category of the ticket state */
@@ -7454,35 +7525,35 @@ export type TicketStateDetailedTicketTypesDataList = Array<TicketType2 | null>;
 /** A list of ticket types associated with a given ticket state. */
 export interface TicketStateDetailedTicketTypes {
   /** String representing the object's type. Always has the value `list`. */
-  type?: string;
+  type?: string | undefined;
   /** A list of ticket type attributes associated with a given ticket type. */
-  data?: TicketStateDetailedTicketTypesDataList;
+  data?: TicketStateDetailedTicketTypesDataList | undefined;
 }
 /** A ticket state, used to define the state of a ticket. */
 export interface TicketStateDetailed {
   /** String representing the object's type. Always has the value `ticket_state`. */
-  type?: string;
+  type?: string | undefined;
   /** The id of the ticket state */
-  id?: string;
+  id?: string | undefined;
   /** The category of the ticket state */
-  category?: TicketStateDetailedCategory;
+  category?: TicketStateDetailedCategory | undefined;
   /** The state the ticket is currently in, in a human readable form - visible in Intercom */
-  internal_label?: string;
+  internal_label?: string | undefined;
   /** The state the ticket is currently in, in a human readable form - visible to customers, in the messenger, email and tickets portal. */
-  external_label?: string;
+  external_label?: string | undefined;
   /** Whether the ticket state is archived */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** A list of ticket types associated with a given ticket state. */
-  ticket_types?: TicketStateDetailedTicketTypes;
+  ticket_types?: TicketStateDetailedTicketTypes | undefined;
 }
 /** A list of ticket states associated with a given ticket type. */
 export type TicketStateListDataList = Array<TicketStateDetailed | null>;
 /** A list of ticket states associated with a given ticket type. */
 export interface TicketStateList {
   /** String representing the object's type. Always has the value `list`. */
-  type?: string;
+  type?: string | undefined;
   /** A list of ticket states associated with a given ticket type. */
-  data?: TicketStateListDataList;
+  data?: TicketStateListDataList | undefined;
 }
 export interface ListTicketTypesRequest {}
 /** A list of ticket_types associated with a given workspace. */
@@ -7490,9 +7561,9 @@ export type TicketTypeListDataList = Array<TicketType2 | null>;
 /** A list of ticket types associated with a given workspace. */
 export interface TicketTypeList {
   /** String representing the object's type. Always has the value `list`. */
-  type?: string;
+  type?: string | undefined;
   /** A list of ticket_types associated with a given workspace. */
-  data?: TicketTypeListDataList;
+  data?: TicketTypeListDataList | undefined;
 }
 export type CloseConversationRequestMessageType = "close";
 export type CloseConversationRequestType = "admin";
@@ -7503,7 +7574,7 @@ export interface CloseConversationRequest {
   /** The id of the admin who is performing the action. */
   admin_id: string;
   /** Optionally you can leave a message in the conversation to provide additional context to the user and other teammates. */
-  body?: string;
+  body?: string | undefined;
 }
 export type SnoozeConversationRequestMessageType = "snoozed";
 /** Payload of the request to snooze a conversation */
@@ -7532,7 +7603,7 @@ export interface AssignConversationRequest {
   /** The `id` of the `admin` or `team` which will be assigned the conversation. A conversation can be assigned both an admin and a team.\nSet `0` if you want this assign to no admin or team (ie. Unassigned). */
   assignee_id: string;
   /** Optionally you can send a response in the conversation when it is assigned. */
-  body?: string;
+  body?: string | undefined;
 }
 export type ManageConversationRequestBody =
   | CloseConversationRequest
@@ -7542,110 +7613,110 @@ export type ManageConversationRequestBody =
 export interface ManageConversationRequest {
   /** The identifier for the conversation as given by Intercom. */
   conversation_id: string;
-  body?: ManageConversationRequestBody;
+  body?: ManageConversationRequestBody | undefined;
 }
 export interface MergeContactRequest {
   /** Pass `true` to include the merge history of the resulting contact in the response. Only returned for contacts with a `user` role. */
-  include_merge_history?: boolean;
+  include_merge_history?: boolean | undefined;
   /** The unique identifier for the contact to merge away from. Must be a lead. */
   from: string;
   /** The unique identifier for the contact to merge into. Must be a user. */
   into: string;
   /** Set to `true` to merge two contacts that are not duplicates (they share no matching email or phone). */
-  skip_duplicate_validation?: boolean;
+  skip_duplicate_validation?: boolean | undefined;
 }
 export type MergeContactResponseAvatar = ContactAvatar;
 /** A list of contacts that were merged into this contact. Only included in the response when `include_merge_history=true` is passed as a query parameter. Only available for contacts with a `user` role. */
 export type MergeContactResponseMergeHistoryList = Array<MergeHistoryItem>;
 export interface MergeContactResponse {
   /** The type of object. */
-  type?: string;
+  type?: string | undefined;
   /** The unique identifier for the contact which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier for the contact which is provided by the Client. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The id of the workspace which the contact belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The role of the contact. */
-  role?: string;
+  role?: string | undefined;
   /** The contact's email. */
-  email?: string;
+  email?: string | undefined;
   /** The contact's email domain. */
-  email_domain?: string;
+  email_domain?: string | undefined;
   /** The contacts phone. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** The contacts name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The id of an admin that has been assigned account ownership of the contact. */
-  owner_id?: string | null;
+  owner_id?: string | null | undefined;
   /** Whether the contact has had an email sent to them hard bounce. */
-  has_hard_bounced?: boolean;
+  has_hard_bounced?: boolean | undefined;
   /** Whether the contact has marked an email sent to them as spam. */
-  marked_email_as_spam?: boolean;
+  marked_email_as_spam?: boolean | undefined;
   /** Whether the contact is unsubscribed from emails. */
-  unsubscribed_from_emails?: boolean;
+  unsubscribed_from_emails?: boolean | undefined;
   /** (Unix timestamp in seconds) The time when the contact was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** (Unix timestamp in seconds) The time specified for when a contact signed up. */
-  signed_up_at?: number | null;
+  signed_up_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last seen (either where the Intercom Messenger was installed or when specified manually). */
-  last_seen_at?: number | null;
+  last_seen_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last messaged in. */
-  last_replied_at?: number | null;
+  last_replied_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last messaged. */
-  last_contacted_at?: number | null;
+  last_contacted_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last opened an email. */
-  last_email_opened_at?: number | null;
+  last_email_opened_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last clicked a link in an email. */
-  last_email_clicked_at?: number | null;
+  last_email_clicked_at?: number | null | undefined;
   /** A preferred language setting for the contact, used by the Intercom Messenger even if their browser settings change. */
-  language_override?: string | null;
+  language_override?: string | null | undefined;
   /** The name of the browser which the contact is using. */
-  browser?: string | null;
+  browser?: string | null | undefined;
   /** The version of the browser which the contact is using. */
-  browser_version?: string | null;
+  browser_version?: string | null | undefined;
   /** The language set by the browser which the contact is using. */
-  browser_language?: string | null;
+  browser_language?: string | null | undefined;
   /** The operating system which the contact is using. */
-  os?: string | null;
+  os?: string | null | undefined;
   /** The name of the Android app which the contact is using. */
-  android_app_name?: string | null;
+  android_app_name?: string | null | undefined;
   /** The version of the Android app which the contact is using. */
-  android_app_version?: string | null;
+  android_app_version?: string | null | undefined;
   /** The Android device which the contact is using. */
-  android_device?: string | null;
+  android_device?: string | null | undefined;
   /** The version of the Android OS which the contact is using. */
-  android_os_version?: string | null;
+  android_os_version?: string | null | undefined;
   /** The version of the Android SDK which the contact is using. */
-  android_sdk_version?: string | null;
+  android_sdk_version?: string | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last seen on an Android device. */
-  android_last_seen_at?: number | null;
+  android_last_seen_at?: number | null | undefined;
   /** The name of the iOS app which the contact is using. */
-  ios_app_name?: string | null;
+  ios_app_name?: string | null | undefined;
   /** The version of the iOS app which the contact is using. */
-  ios_app_version?: string | null;
+  ios_app_version?: string | null | undefined;
   /** The iOS device which the contact is using. */
-  ios_device?: string | null;
+  ios_device?: string | null | undefined;
   /** The version of iOS which the contact is using. */
-  ios_os_version?: string | null;
+  ios_os_version?: string | null | undefined;
   /** The version of the iOS SDK which the contact is using. */
-  ios_sdk_version?: string | null;
+  ios_sdk_version?: string | null | undefined;
   /** (Unix timestamp in seconds) The last time the contact used the iOS app. */
-  ios_last_seen_at?: number | null;
+  ios_last_seen_at?: number | null | undefined;
   /** The custom attributes which are set for the contact. */
-  custom_attributes?: unknown;
-  avatar?: ContactAvatar | null;
-  tags?: ContactTags | null;
-  notes?: ContactNotes;
-  companies?: ContactCompanies;
-  location?: ContactLocation;
-  social_profiles?: ContactSocialProfiles;
+  custom_attributes?: unknown | undefined;
+  avatar?: ContactAvatar | null | undefined;
+  tags?: ContactTags | null | undefined;
+  notes?: ContactNotes | undefined;
+  companies?: ContactCompanies | undefined;
+  location?: ContactLocation | undefined;
+  social_profiles?: ContactSocialProfiles | undefined;
   /** A list of contacts that were merged into this contact. Only included in the response when `include_merge_history=true` is passed as a query parameter. Only available for contacts with a `user` role. */
-  merge_history?: MergeContactResponseMergeHistoryList | null;
+  merge_history?: MergeContactResponseMergeHistoryList | null | undefined;
   /** If the user has enabled push messaging. */
-  enabled_push_messaging?: boolean | null;
+  enabled_push_messaging?: boolean | null | undefined;
 }
 export interface MergeConversationRequest {
   /** The identifier for the secondary (source) conversation to merge away. */
@@ -7659,7 +7730,7 @@ export interface PublishArticleDraftRequest {
   /** The unique identifier for the article which is given by Intercom. */
   id: number;
   /** The locales whose staged drafts should be published. Required on multilingual workspaces; each locale must have a pending draft. */
-  locales?: PublishArticleDraftRequestLocalesList;
+  locales?: PublishArticleDraftRequestLocalesList | undefined;
 }
 /** The type of object - `article`. */
 export type PublishArticleDraftResponseType = "article";
@@ -7677,58 +7748,58 @@ export type PublishArticleDraftResponseHelpCenterAudience =
   | "restricted";
 export interface PublishArticleDraftResponse {
   /** The type of object - `article`. */
-  type?: PublishArticleDraftResponseType;
+  type?: PublishArticleDraftResponseType | undefined;
   /** The unique identifier for the article which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the workspace which the article belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The title of the article. For multilingual articles, this will be the title of the default language's content. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the article. For multilingual articles, this will be the description of the default language's content. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The body of the article in HTML. For multilingual articles, this will be the body of the default language's content. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** The body of the article in markdown. For multilingual articles, this will be the body of the default language's content. */
-  body_markdown?: string | null;
+  body_markdown?: string | null | undefined;
   /** The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace. */
-  author_id?: number;
+  author_id?: number | undefined;
   /** Whether the article is `published` or is a `draft`. For multilingual articles, this will be the state of the default language's content. */
-  state?: PublishArticleDraftResponseState;
+  state?: PublishArticleDraftResponseState | undefined;
   /** The time when the article was created. For multilingual articles, this will be the timestamp of creation of the default language's content in seconds. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time when the article was last updated. For multilingual articles, this will be the timestamp of last update of the default language's content in seconds. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Whether the published article has unpublished changes staged as a draft on top of its live content. For multilingual articles this reflects the default language's content; a pure draft (never published) reports `false`. */
-  has_unpublished_changes?: boolean;
+  has_unpublished_changes?: boolean | undefined;
   /** The time, in seconds, when the staged draft was last edited, or `null` when there is no staged draft. */
-  draft_updated_at?: number | null;
+  draft_updated_at?: number | null | undefined;
   /** The URL of the article. For multilingual articles, this will be the URL of the default language's content. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The ids of the article's parent collections or sections. An article without this field stands alone. */
-  parent_ids?: PublishArticleDraftResponseParentIdsList;
+  parent_ids?: PublishArticleDraftResponseParentIdsList | undefined;
   /** Whether the article is available for AI Chatbot. For multilingual articles, this will be the value of the default language's content. */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the article is available for AI Copilot. For multilingual articles, this will be the value of the default language's content. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the article is available for AI Sales Agent. For multilingual articles, this will be the value of the default language's content. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
   /** The ID of the teammate who created the article. For multilingual articles, this will be the creator of the default language's content. */
-  created_by_id?: number | null;
+  created_by_id?: number | null | undefined;
   /** The ID of the teammate who last updated the article. For multilingual articles, this will be the last editor of the default language's content. */
-  updated_by_id?: number | null;
+  updated_by_id?: number | null | undefined;
   /** Whether the article is excluded from Fin AI Agent article suggestions. */
-  exclude_from_article_suggestions?: boolean;
+  exclude_from_article_suggestions?: boolean | undefined;
   /** The audience that can view this article in the Help Center. `everyone` means all users and visitors can view it; `restricted` indicates a custom audience ruleset. For multilingual articles, this is the article-level audience. */
-  help_center_audience?: PublishArticleDraftResponseHelpCenterAudience | null;
+  help_center_audience?: PublishArticleDraftResponseHelpCenterAudience | null | undefined;
   /** The Unix timestamp (in seconds) at which the article is scheduled to be published. `null` when no publish is scheduled. Mutually exclusive with `scheduled_unpublish_at` -- at most one pending schedule exists per article. */
-  scheduled_publish_at?: number | null;
+  scheduled_publish_at?: number | null | undefined;
   /** The Unix timestamp (in seconds) at which the article is scheduled to be unpublished. `null` when no unpublish is scheduled. Mutually exclusive with `scheduled_publish_at` -- at most one pending schedule exists per article. */
-  scheduled_unpublish_at?: number | null;
+  scheduled_unpublish_at?: number | null | undefined;
   /** The default locale of the help center. This field is only returned for multilingual help centers. */
-  default_locale?: string;
-  translated_content?: ArticleTranslatedContent | null;
-  tags?: Tags;
-  statistics?: ArticleStatistics | null;
+  default_locale?: string | undefined;
+  translated_content?: ArticleTranslatedContent | null | undefined;
+  tags?: Tags | undefined;
+  statistics?: ArticleStatistics | null | undefined;
 }
 /** The type of resource being redacted. */
 export type RedactConversationRequestCase0Type = "conversation_part";
@@ -7756,7 +7827,7 @@ export type RedactConversationRequest =
   | RedactConversationRequestCase0
   | RedactConversationRequestCase1;
 export interface RedactConversationRequest2 {
-  body?: RedactConversationRequest;
+  body?: RedactConversationRequest | undefined;
 }
 /** Source of the call. Can be "five9", "zoom_phone", or defaults to "aws_connect" */
 export type RegisterFinVoiceCallRequestSource = "five9" | "zoom_phone" | "aws_connect";
@@ -7766,9 +7837,9 @@ export interface RegisterFinVoiceCallRequest {
   /** External call identifier from the call provider */
   call_id: string;
   /** Source of the call. Can be "five9", "zoom_phone", or defaults to "aws_connect" */
-  source?: RegisterFinVoiceCallRequestSource | (string & {});
+  source?: RegisterFinVoiceCallRequestSource | (string & {}) | undefined;
   /** Additional metadata about the call */
-  data?: unknown | null;
+  data?: unknown | null | undefined;
 }
 export type ContactReplyIntercomUserIdRequestMessageType = "comment";
 export type ContactReplyIntercomUserIdRequestType = "user";
@@ -7786,11 +7857,11 @@ export type ContactReplyIntercomUserIdRequestReplyOptionsList =
 /** Properties of the attachment files in a conversation part */
 export interface ConversationAttachmentFiles {
   /** The content type of the file */
-  content_type?: string;
+  content_type?: string | undefined;
   /** The base64 encoded file data. */
-  data?: string;
+  data?: string | undefined;
   /** The name of the file. */
-  name?: string;
+  name?: string | undefined;
 }
 /** A list of files that will be added as attachments. */
 export type ContactReplyIntercomUserIdRequestAttachmentFilesList =
@@ -7802,15 +7873,15 @@ export interface ContactReplyIntercomUserIdRequest {
   /** The text body of the comment. */
   body: string;
   /** The time the reply was created. If not provided, the current time will be used. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** A list of image URLs that will be added as attachments. You can include up to 10 URLs. */
-  attachment_urls?: ContactReplyIntercomUserIdRequestAttachmentUrlsList;
+  attachment_urls?: ContactReplyIntercomUserIdRequestAttachmentUrlsList | undefined;
   /** The quick reply selection the contact wishes to respond with. These map to buttons displayed in the Messenger UI if sent by a bot, or the reply options sent by an Admin via the API. */
-  reply_options?: ContactReplyIntercomUserIdRequestReplyOptionsList;
+  reply_options?: ContactReplyIntercomUserIdRequestReplyOptionsList | undefined;
   /** The identifier for the contact as given by Intercom. */
   intercom_user_id: string;
   /** A list of files that will be added as attachments. */
-  attachment_files?: ContactReplyIntercomUserIdRequestAttachmentFilesList;
+  attachment_files?: ContactReplyIntercomUserIdRequestAttachmentFilesList | undefined;
 }
 export type ContactReplyEmailRequestMessageType = "comment";
 export type ContactReplyEmailRequestType = "user";
@@ -7830,15 +7901,15 @@ export interface ContactReplyEmailRequest {
   /** The text body of the comment. */
   body: string;
   /** The time the reply was created. If not provided, the current time will be used. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** A list of image URLs that will be added as attachments. You can include up to 10 URLs. */
-  attachment_urls?: ContactReplyEmailRequestAttachmentUrlsList;
+  attachment_urls?: ContactReplyEmailRequestAttachmentUrlsList | undefined;
   /** The quick reply selection the contact wishes to respond with. These map to buttons displayed in the Messenger UI if sent by a bot, or the reply options sent by an Admin via the API. */
-  reply_options?: ContactReplyEmailRequestReplyOptionsList;
+  reply_options?: ContactReplyEmailRequestReplyOptionsList | undefined;
   /** The email you have defined for the user. */
   email: string;
   /** A list of files that will be added as attachments. */
-  attachment_files?: ContactReplyEmailRequestAttachmentFilesList;
+  attachment_files?: ContactReplyEmailRequestAttachmentFilesList | undefined;
 }
 export type ContactReplyUserIdRequestMessageType = "comment";
 export type ContactReplyUserIdRequestType = "user";
@@ -7858,15 +7929,15 @@ export interface ContactReplyUserIdRequest {
   /** The text body of the comment. */
   body: string;
   /** The time the reply was created. If not provided, the current time will be used. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** A list of image URLs that will be added as attachments. You can include up to 10 URLs. */
-  attachment_urls?: ContactReplyUserIdRequestAttachmentUrlsList;
+  attachment_urls?: ContactReplyUserIdRequestAttachmentUrlsList | undefined;
   /** The quick reply selection the contact wishes to respond with. These map to buttons displayed in the Messenger UI if sent by a bot, or the reply options sent by an Admin via the API. */
-  reply_options?: ContactReplyUserIdRequestReplyOptionsList;
+  reply_options?: ContactReplyUserIdRequestReplyOptionsList | undefined;
   /** The external_id you have defined for the contact. */
   user_id: string;
   /** A list of files that will be added as attachments. You can include up to 10 files. */
-  attachment_files?: ContactReplyUserIdRequestAttachmentFilesList;
+  attachment_files?: ContactReplyUserIdRequestAttachmentFilesList | undefined;
 }
 export type ContactReplyConversationRequest =
   | ContactReplyIntercomUserIdRequest
@@ -7891,19 +7962,19 @@ export interface AdminReplyConversationRequest {
   message_type: AdminReplyConversationRequestMessageType | (string & {});
   type: AdminReplyConversationRequestType;
   /** The text body of the reply. Notes accept some HTML formatting. Must be present for comment and note message types. */
-  body?: string;
+  body?: string | undefined;
   /** The id of the admin who is authoring the comment. */
   admin_id: string;
   /** The time the reply was created. If not provided, the current time will be used. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The quick reply options to display to the end user. Must be present for quick_reply message types. */
-  reply_options?: AdminReplyConversationRequestReplyOptionsList;
+  reply_options?: AdminReplyConversationRequestReplyOptionsList | undefined;
   /** A list of image URLs that will be added as attachments. You can include up to 10 URLs. */
-  attachment_urls?: AdminReplyConversationRequestAttachmentUrlsList;
+  attachment_urls?: AdminReplyConversationRequestAttachmentUrlsList | undefined;
   /** A list of files that will be added as attachments. You can include up to 10 files */
-  attachment_files?: AdminReplyConversationRequestAttachmentFilesList;
+  attachment_files?: AdminReplyConversationRequestAttachmentFilesList | undefined;
   /** Option to disable notifications when replying to a conversation. */
-  skip_notifications?: boolean;
+  skip_notifications?: boolean | undefined;
 }
 export type ReplyConversationRequest =
   | ContactReplyConversationRequest
@@ -7911,12 +7982,12 @@ export type ReplyConversationRequest =
 export interface ReplyConversationRequest2 {
   /** The Intercom provisioned identifier for the conversation or the string "last" to reply to the last part of the conversation */
   conversation_id: string;
-  body?: ReplyConversationRequest;
+  body?: ReplyConversationRequest | undefined;
 }
 export interface ReplyTicketRequest {
   ticket_id: string;
   /** Option to disable notifications when replying to a Ticket. */
-  skip_notifications?: boolean;
+  skip_notifications?: boolean | undefined;
 }
 /** Always ticket_part */
 export type TicketReplyType = "ticket_part";
@@ -7924,29 +7995,29 @@ export type TicketReplyType = "ticket_part";
 export type TicketReplyPartType = "note" | "comment" | "quick_reply";
 /** A list of attachments for the part. */
 export type TicketReplyAttachmentsList = Array<PartAttachment>;
-/** A map of the reply text keyed by locale code. Backs the `ticket.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale. */
+/** A map of the reply text keyed by locale code. Backs the `ticket.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in, when it is known; every other key holds the reply translated into that locale. */
 export type TicketReplyTranslations = TicketPartTranslations;
 /** A Ticket Part representing a note, comment, or quick_reply on a ticket */
 export interface TicketReply {
   /** Always ticket_part */
-  type?: TicketReplyType;
+  type?: TicketReplyType | undefined;
   /** The id representing the part. */
-  id?: string;
+  id?: string | undefined;
   /** Type of the part */
-  part_type?: TicketReplyPartType;
+  part_type?: TicketReplyPartType | undefined;
   /** The message body, which may contain HTML. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** The time the note was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The last time the note was updated. */
-  updated_at?: number;
-  author?: TicketPartAuthor;
+  updated_at?: number | undefined;
+  author?: TicketPartAuthor | undefined;
   /** A list of attachments for the part. */
-  attachments?: TicketReplyAttachmentsList;
+  attachments?: TicketReplyAttachmentsList | undefined;
   /** Whether or not the ticket part has been redacted. */
-  redacted?: boolean;
-  /** A map of the reply text keyed by locale code. Backs the `ticket.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in; every other key holds the reply translated into that locale. */
-  translations?: TicketPartTranslations | null;
+  redacted?: boolean | undefined;
+  /** A map of the reply text keyed by locale code. Backs the `ticket.admin.replied.translated` webhook topic. `original` holds the locale code the reply was written in, when it is known; every other key holds the reply translated into that locale. */
+  translations?: TicketPartTranslations | null | undefined;
 }
 /** An array of attachments to include with the message. Maximum of 10 attachments. */
 export type ReplyToFinRequestAttachmentsList = Array<FinAgentAttachment>;
@@ -7956,7 +8027,7 @@ export interface ReplyToFinRequest {
   message: FinAgentMessage;
   user: FinAgentUser;
   /** An array of attachments to include with the message. Maximum of 10 attachments. */
-  attachments?: ReplyToFinRequestAttachmentsList;
+  attachments?: ReplyToFinRequestAttachmentsList | undefined;
 }
 /** Fin's current status in the conversation workflow. */
 export type ReplyToFinResponseStatus =
@@ -7968,27 +8039,30 @@ export type ReplyToFinResponseStatus =
   | "complete";
 export interface ReplyToFinResponse {
   /** The ID of the conversation. */
-  conversation_id?: string;
+  conversation_id?: string | undefined;
   /** The internal Intercom conversation ID, useful for matching this Agent API session to the conversation in Intercom. */
-  intercom_conversation_id?: string;
+  intercom_conversation_id?: string | undefined;
   /** The ID of the user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Fin's current status in the conversation workflow. */
-  status?: ReplyToFinResponseStatus;
+  status?: ReplyToFinResponseStatus | undefined;
   /** The timestamp the response was created at, with millisecond precision. */
-  created_at_ms?: string;
-  errors?: FinAgentAttributeErrors;
-  /** Optional. A URL to subscribe to Server-Sent Events (SSE) for this conversation, if SSE is enabled. The access token is a JWT with a 3-minute TTL. The token is revoked when Fin sets the conversation to awaiting_user_reply or complete status. When CSAT is enabled and a survey will follow the resolution, `complete` revocation is deferred until the `csat_requested` event is delivered or the token expires. */
-  sse_subscription_url?: string;
+  created_at_ms?: string | undefined;
+  errors?: FinAgentAttributeErrors | undefined;
 }
-/** A hash of conversation attributes. Limit to 10 attributes. */
+export interface RevokeConversationStreamTokensRequest {
+  /** The external ID of the contact whose tokens to revoke. */
+  external_id: string;
+}
+export interface RevokeConversationStreamTokensResponse {}
+/** A hash of conversation attributes. Limit to 20 attributes. */
 export type RunFinProcedureRequestConversationMetadataAttributesMap = {
   [key: string]: unknown | undefined;
 };
 /** Metadata about the conversation. Only attributes are accepted (no history). */
 export interface RunFinProcedureRequestConversationMetadata {
-  /** A hash of conversation attributes. Limit to 10 attributes. */
-  attributes?: RunFinProcedureRequestConversationMetadataAttributesMap;
+  /** A hash of conversation attributes. Limit to 20 attributes. */
+  attributes?: RunFinProcedureRequestConversationMetadataAttributesMap | undefined;
 }
 export interface RunFinProcedureRequest {
   /** The ID of the procedure to run. */
@@ -7996,9 +8070,11 @@ export interface RunFinProcedureRequest {
   /** Your external conversation ID. Fin creates a conversation for this ID. If a conversation already exists for it, use `/fin/reply` instead. */
   conversation_id: string;
   user: FinAgentUser;
-  message?: FinAgentMessage;
+  message?: FinAgentMessage | undefined;
   /** Metadata about the conversation. Only attributes are accepted (no history). */
-  conversation_metadata?: RunFinProcedureRequestConversationMetadata;
+  conversation_metadata?: RunFinProcedureRequestConversationMetadata | undefined;
+  /** The identifier of the environment to start the conversation in, if your Fin for Platforms workspace has environments. Use the same value as `messenger_environment` in your Messenger installation. Defaults to the workspace's default environment; an identifier that matches no environment is rejected. */
+  environment?: string | undefined;
 }
 /** Fin's current status in the conversation workflow. */
 export type RunFinProcedureResponseStatus =
@@ -8010,23 +8086,21 @@ export type RunFinProcedureResponseStatus =
   | "complete";
 export interface RunFinProcedureResponse {
   /** The ID of the conversation. */
-  conversation_id?: string;
+  conversation_id?: string | undefined;
   /** The internal Intercom conversation ID, useful for matching this Agent API session to the conversation in Intercom. */
-  intercom_conversation_id?: string;
+  intercom_conversation_id?: string | undefined;
   /** The ID of the user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** The ID of the procedure that was run. */
-  procedure_id?: string;
+  procedure_id?: string | undefined;
   /** Fin's current status in the conversation workflow. */
-  status?: RunFinProcedureResponseStatus;
+  status?: RunFinProcedureResponseStatus | undefined;
   /** The timestamp the response was created at, with millisecond precision. */
-  created_at_ms?: string;
-  errors?: FinAgentAttributeErrors;
-  /** Optional. A URL to subscribe to Server-Sent Events (SSE) for this conversation, if SSE is enabled. The access token is a JWT with a 3-minute TTL. The token is revoked when Fin sets the conversation to awaiting_user_reply or complete status. When CSAT is enabled and a survey will follow the resolution, `complete` revocation is deferred until the `csat_requested` event is delivered or the token expires. */
-  sse_subscription_url?: string;
+  created_at_ms?: string | undefined;
+  errors?: FinAgentAttributeErrors | undefined;
 }
 export interface ScrollOverAllCompaniesRequest {
-  scroll_param?: string;
+  scroll_param?: string | undefined;
 }
 /** The type of object - `list` */
 export type CompanyScrollType = "list";
@@ -8034,13 +8108,13 @@ export type CompanyScrollDataList = Array<Company>;
 /** Companies allow you to represent organizations using your product. Each company will have its own description and be associated with contacts. You can fetch, create, update and list companies. */
 export interface CompanyScroll {
   /** The type of object - `list` */
-  type?: CompanyScrollType;
-  data?: CompanyScrollDataList;
-  pages?: CursorPages | null;
+  type?: CompanyScrollType | undefined;
+  data?: CompanyScrollDataList | undefined;
+  pages?: CursorPages | null | undefined;
   /** The total number of companies */
-  total_count?: number | null;
+  total_count?: number | null | undefined;
   /** The scroll parameter to use in the next request to fetch the next page of results. */
-  scroll_param?: string;
+  scroll_param?: string | undefined;
 }
 /** An optional list of event types to filter activity logs by. Use the list all activity log event types endpoint to retrieve available values. */
 export type SearchActivityLogsRequestEventTypesList = Array<string>;
@@ -8048,23 +8122,23 @@ export interface SearchActivityLogsRequest {
   /** The start date that you request data for. It must be formatted as a UNIX timestamp. */
   created_at_after: number;
   /** The end date that you request data for. It must be formatted as a UNIX timestamp. */
-  created_at_before?: number;
+  created_at_before?: number | undefined;
   /** An optional list of event types to filter activity logs by. Use the list all activity log event types endpoint to retrieve available values. */
-  event_types?: SearchActivityLogsRequestEventTypesList;
+  event_types?: SearchActivityLogsRequestEventTypesList | undefined;
   /** The page number of results to return. */
-  page?: number;
+  page?: number | undefined;
   /** The number of results per page. Must be between 1 and 250. */
-  per_page?: number;
+  per_page?: number | undefined;
 }
 export interface SearchArticlesRequest {
   /** The phrase within your articles to search for. */
-  phrase?: string;
+  phrase?: string | undefined;
   /** The state of the Articles returned. One of `published`, `draft` or `all`. */
-  state?: string;
+  state?: string | undefined;
   /** The ID of the Help Center to search in. */
-  help_center_id?: number;
+  help_center_id?: number | undefined;
   /** Return a highlighted version of the matching content within your articles. Refer to the response schema for more details. */
-  highlight?: boolean;
+  highlight?: boolean | undefined;
 }
 /** The type of the object - `list`. */
 export type ArticleSearchResponseType = "list";
@@ -8085,58 +8159,58 @@ export type ArticleHelpCenterAudience =
 /** The Articles API is a central place to gather all information and take actions on your articles. Articles can live within collections and sections, or alternatively they can stand alone. */
 export interface Article {
   /** The type of object - `article`. */
-  type?: ArticleType;
+  type?: ArticleType | undefined;
   /** The unique identifier for the article which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the workspace which the article belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The title of the article. For multilingual articles, this will be the title of the default language's content. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the article. For multilingual articles, this will be the description of the default language's content. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The body of the article in HTML. For multilingual articles, this will be the body of the default language's content. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** The body of the article in markdown. For multilingual articles, this will be the body of the default language's content. */
-  body_markdown?: string | null;
+  body_markdown?: string | null | undefined;
   /** The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace. */
-  author_id?: number;
+  author_id?: number | undefined;
   /** Whether the article is `published` or is a `draft`. For multilingual articles, this will be the state of the default language's content. */
-  state?: ArticleState;
+  state?: ArticleState | undefined;
   /** The time when the article was created. For multilingual articles, this will be the timestamp of creation of the default language's content in seconds. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time when the article was last updated. For multilingual articles, this will be the timestamp of last update of the default language's content in seconds. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Whether the published article has unpublished changes staged as a draft on top of its live content. For multilingual articles this reflects the default language's content; a pure draft (never published) reports `false`. */
-  has_unpublished_changes?: boolean;
+  has_unpublished_changes?: boolean | undefined;
   /** The time, in seconds, when the staged draft was last edited, or `null` when there is no staged draft. */
-  draft_updated_at?: number | null;
+  draft_updated_at?: number | null | undefined;
   /** The URL of the article. For multilingual articles, this will be the URL of the default language's content. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The ids of the article's parent collections or sections. An article without this field stands alone. */
-  parent_ids?: ArticleParentIdsList;
+  parent_ids?: ArticleParentIdsList | undefined;
   /** Whether the article is available for AI Chatbot. For multilingual articles, this will be the value of the default language's content. */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the article is available for AI Copilot. For multilingual articles, this will be the value of the default language's content. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the article is available for AI Sales Agent. For multilingual articles, this will be the value of the default language's content. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
   /** The ID of the teammate who created the article. For multilingual articles, this will be the creator of the default language's content. */
-  created_by_id?: number | null;
+  created_by_id?: number | null | undefined;
   /** The ID of the teammate who last updated the article. For multilingual articles, this will be the last editor of the default language's content. */
-  updated_by_id?: number | null;
+  updated_by_id?: number | null | undefined;
   /** Whether the article is excluded from Fin AI Agent article suggestions. */
-  exclude_from_article_suggestions?: boolean;
+  exclude_from_article_suggestions?: boolean | undefined;
   /** The audience that can view this article in the Help Center. `everyone` means all users and visitors can view it; `restricted` indicates a custom audience ruleset. For multilingual articles, this is the article-level audience. */
-  help_center_audience?: ArticleHelpCenterAudience | null;
+  help_center_audience?: ArticleHelpCenterAudience | null | undefined;
   /** The Unix timestamp (in seconds) at which the article is scheduled to be published. `null` when no publish is scheduled. Mutually exclusive with `scheduled_unpublish_at` -- at most one pending schedule exists per article. */
-  scheduled_publish_at?: number | null;
+  scheduled_publish_at?: number | null | undefined;
   /** The Unix timestamp (in seconds) at which the article is scheduled to be unpublished. `null` when no unpublish is scheduled. Mutually exclusive with `scheduled_publish_at` -- at most one pending schedule exists per article. */
-  scheduled_unpublish_at?: number | null;
+  scheduled_unpublish_at?: number | null | undefined;
   /** The default locale of the help center. This field is only returned for multilingual help centers. */
-  default_locale?: string;
-  translated_content?: ArticleTranslatedContent | null;
-  tags?: Tags;
-  statistics?: ArticleStatistics | null;
+  default_locale?: string | undefined;
+  translated_content?: ArticleTranslatedContent | null | undefined;
+  tags?: Tags | undefined;
+  statistics?: ArticleStatistics | null | undefined;
 }
 /** An array of Article objects */
 export type ArticleSearchResponseDataArticlesList = Array<Article>;
@@ -8145,9 +8219,9 @@ export type ArticleSearchHighlightsHighlightedTitleItemType = "highlight" | "pla
 /** A highlighted article title. */
 export interface ArticleSearchHighlightsHighlightedTitleItem {
   /** The type of text - `highlight` or `plain`. */
-  type?: ArticleSearchHighlightsHighlightedTitleItemType;
+  type?: ArticleSearchHighlightsHighlightedTitleItemType | undefined;
   /** The text of the title. */
-  text?: string;
+  text?: string | undefined;
 }
 /** An Article title highlighted. */
 export type ArticleSearchHighlightsHighlightedTitleList =
@@ -8157,9 +8231,9 @@ export type ArticleSearchHighlightsHighlightedSummaryItemItemType = "highlight" 
 /** An instance of highlighted summary text. */
 export interface ArticleSearchHighlightsHighlightedSummaryItemItem {
   /** The type of text - `highlight` or `plain`. */
-  type?: ArticleSearchHighlightsHighlightedSummaryItemItemType;
+  type?: ArticleSearchHighlightsHighlightedSummaryItemItemType | undefined;
   /** The text of the title. */
-  text?: string;
+  text?: string | undefined;
 }
 /** An array containing the highlighted summary text split into chunks of plain and highlighted text. */
 export type ArticleSearchHighlightsHighlightedSummaryItemList =
@@ -8170,30 +8244,30 @@ export type ArticleSearchHighlightsHighlightedSummaryList =
 /** The highlighted results of an Article search. In the examples provided my search query is always "my query". */
 export interface ArticleSearchHighlights {
   /** The ID of the corresponding article. */
-  article_id?: string;
+  article_id?: string | undefined;
   /** An Article title highlighted. */
-  highlighted_title?: ArticleSearchHighlightsHighlightedTitleList;
+  highlighted_title?: ArticleSearchHighlightsHighlightedTitleList | undefined;
   /** An Article description and body text highlighted. */
-  highlighted_summary?: ArticleSearchHighlightsHighlightedSummaryList;
+  highlighted_summary?: ArticleSearchHighlightsHighlightedSummaryList | undefined;
 }
 /** A corresponding array of highlighted Article content */
 export type ArticleSearchResponseDataHighlightsList = Array<ArticleSearchHighlights>;
 /** An object containing the results of the search. */
 export interface ArticleSearchResponseData {
   /** An array of Article objects */
-  articles?: ArticleSearchResponseDataArticlesList;
+  articles?: ArticleSearchResponseDataArticlesList | undefined;
   /** A corresponding array of highlighted Article content */
-  highlights?: ArticleSearchResponseDataHighlightsList;
+  highlights?: ArticleSearchResponseDataHighlightsList | undefined;
 }
 /** The results of an Article search */
 export interface ArticleSearchResponse {
   /** The type of the object - `list`. */
-  type?: ArticleSearchResponseType;
+  type?: ArticleSearchResponseType | undefined;
   /** The total number of Articles matching the search query */
-  total_count?: number;
+  total_count?: number | undefined;
   /** An object containing the results of the search. */
-  data?: ArticleSearchResponseData;
-  pages?: CursorPages | null;
+  data?: ArticleSearchResponseData | undefined;
+  pages?: CursorPages | null | undefined;
 }
 /** The accepted operators you can use to define how you want to search for the value. Operator support depends on the field's data type. The breakdown below is for Contacts search; the other search endpoints that share this schema accept a different set per field: - `string` fields: `=`, `!=`, `IN`, `NIN`, `~`, `!~`, `^`, `$` - `tag_id`: `=` and `!=` only. Every other operator returns an error. - `boolean` fields: `=`, `!=`, `IN`, `NIN` - `integer` fields: `=`, `!=`, `IN`, `NIN`, `<`, `>`, `<=`, `>=` - `date` fields (all standard timestamp attributes and date custom attributes): `=`, `<`, `>` only. `!=`, `<=`, `>=`, `IN`, and `NIN` are not supported and return an error. */
 export type SingleFilterSearchRequestOperator =
@@ -8221,11 +8295,11 @@ export type SingleFilterSearchRequestValue =
 /** Search using Intercoms Search APIs with a single filter. */
 export interface SingleFilterSearchRequest {
   /** The accepted field that you want to search on. */
-  field?: string;
+  field?: string | undefined;
   /** The accepted operators you can use to define how you want to search for the value. Operator support depends on the field's data type. The breakdown below is for Contacts search; the other search endpoints that share this schema accept a different set per field: - `string` fields: `=`, `!=`, `IN`, `NIN`, `~`, `!~`, `^`, `$` - `tag_id`: `=` and `!=` only. Every other operator returns an error. - `boolean` fields: `=`, `!=`, `IN`, `NIN` - `integer` fields: `=`, `!=`, `IN`, `NIN`, `<`, `>`, `<=`, `>=` - `date` fields (all standard timestamp attributes and date custom attributes): `=`, `<`, `>` only. `!=`, `<=`, `>=`, `IN`, and `NIN` are not supported and return an error. */
-  operator?: SingleFilterSearchRequestOperator | (string & {});
+  operator?: SingleFilterSearchRequestOperator | (string & {}) | undefined;
   /** The value that you want to search on. */
-  value?: SingleFilterSearchRequestValue | null;
+  value?: SingleFilterSearchRequestValue | null | undefined;
 }
 /** An operator to allow boolean inspection between multiple fields. */
 export type MultipleFilterSearchRequestOperator = "AND" | "OR";
@@ -8239,8 +8313,8 @@ export type MultipleFilterSearchRequestValue =
 /** Search using Intercoms Search APIs with more than one filter. */
 export interface MultipleFilterSearchRequest {
   /** An operator to allow boolean inspection between multiple fields. */
-  operator?: MultipleFilterSearchRequestOperator | (string & {});
-  value?: MultipleFilterSearchRequestValue;
+  operator?: MultipleFilterSearchRequestOperator | (string & {}) | undefined;
+  value?: MultipleFilterSearchRequestValue | undefined;
 }
 export type SearchContactsRequestQuery = SingleFilterSearchRequest | MultipleFilterSearchRequest;
 /** The order to sort the results in. Defaults to `descending` when omitted. Values other than `ascending` or `descending` return a `400` error with code `invalid_sort_order`. */
@@ -8248,17 +8322,17 @@ export type SearchContactsRequestSortOrder = "ascending" | "descending";
 /** An optional object to sort the results by. */
 export interface SearchContactsRequestSort {
   /** The field to sort the results on. */
-  field?: string;
+  field?: string | undefined;
   /** The order to sort the results in. Defaults to `descending` when omitted. Values other than `ascending` or `descending` return a `400` error with code `invalid_sort_order`. */
-  order?: SearchContactsRequestSortOrder | (string & {});
+  order?: SearchContactsRequestSortOrder | (string & {}) | undefined;
 }
 export interface SearchContactsRequest {
   /** Pass `true` to include a `merge_history` array on each contact in the response. Only returned for contacts with a `user` role. */
-  include_merge_history?: boolean;
+  include_merge_history?: boolean | undefined;
   query: SearchContactsRequestQuery;
-  pagination?: StartingAfterPaging | null;
+  pagination?: StartingAfterPaging | null | undefined;
   /** An optional object to sort the results by. */
-  sort?: SearchContactsRequestSort;
+  sort?: SearchContactsRequestSort | undefined;
 }
 export type SearchContentRequestStatesItem = "published" | "draft";
 export type SearchContentRequestStatesList = Array<SearchContentRequestStatesItem | (string & {})>;
@@ -8284,62 +8358,62 @@ export type SearchContentRequestCreatedByIdsList = Array<number>;
 export type SearchContentRequestLastUpdatedByIdsList = Array<number>;
 export interface SearchContentRequest {
   /** A free-text search term matched against the title and body of each content item. When omitted, returns the most recent content items. */
-  query?: string;
+  query?: string | undefined;
   /** The page number to fetch. Defaults to 1. Values below 1 are clamped to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Defaults to 10. Maximum 50. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter by publication state. Accepts a comma-separated list or repeated params. */
-  states?: SearchContentRequestStatesList;
+  states?: SearchContentRequestStatesList | undefined;
   /** Filter by locale codes (e.g. `en`, `fr`, `de`). Accepts a comma-separated list or repeated params. */
-  locales?: SearchContentRequestLocalesList;
+  locales?: SearchContentRequestLocalesList | undefined;
   /** Filter by tag IDs. Pairs with `tag_operator` to control match semantics. Accepts a comma-separated list or repeated params. */
-  tag_ids?: SearchContentRequestTagIdsList;
+  tag_ids?: SearchContentRequestTagIdsList | undefined;
   /** Match operator paired with `tag_ids`. `IN` returns content matching any of the given tags; `NIN` excludes content matching any of them. */
-  tag_operator?: SearchContentRequestTagOperator | (string & {});
+  tag_operator?: SearchContentRequestTagOperator | (string & {}) | undefined;
   /** Filter by tag IDs using OR semantics -- returns content matching any of the given tags. Alternative to `tag_ids` + `tag_operator`. Accepts a comma-separated list or repeated params. */
-  any_tag_ids?: SearchContentRequestAnyTagIdsList;
+  any_tag_ids?: SearchContentRequestAnyTagIdsList | undefined;
   /** Filter by folder IDs. Must be sent together with `folder_entity_type`. Accepts a comma-separated list or repeated params. */
-  folder_ids?: SearchContentRequestFolderIdsList;
+  folder_ids?: SearchContentRequestFolderIdsList | undefined;
   /** Required when `folder_ids` is provided. Identifies the entity type the folder IDs refer to. */
-  folder_entity_type?: SearchContentRequestFolderEntityType | (string & {});
+  folder_entity_type?: SearchContentRequestFolderEntityType | (string & {}) | undefined;
   /** Restrict the search to specific content types. When provided, this REPLACES the default content type set rather than filtering on top of it. Accepts a comma-separated list or repeated params. */
-  content_types?: SearchContentRequestContentTypesList;
+  content_types?: SearchContentRequestContentTypesList | undefined;
   /** Filter by whether the content is enabled for Copilot. */
-  copilot_state?: SearchContentRequestCopilotState | (string & {});
+  copilot_state?: SearchContentRequestCopilotState | (string & {}) | undefined;
   /** Filter by whether the content is enabled for Fin AI Agent (customer-facing service). */
-  fin_service_state?: SearchContentRequestFinServiceState | (string & {});
+  fin_service_state?: SearchContentRequestFinServiceState | (string & {}) | undefined;
   /** Filter by whether the content is enabled for Fin Sales Agent. */
-  fin_sales_state?: SearchContentRequestFinSalesState | (string & {});
+  fin_sales_state?: SearchContentRequestFinSalesState | (string & {}) | undefined;
   /** Filter by the admin IDs that created the content. Accepts a comma-separated list or repeated params. */
-  created_by_ids?: SearchContentRequestCreatedByIdsList;
+  created_by_ids?: SearchContentRequestCreatedByIdsList | undefined;
   /** Filter by the admin IDs that last updated the content. Accepts a comma-separated list or repeated params. */
-  last_updated_by_ids?: SearchContentRequestLastUpdatedByIdsList;
+  last_updated_by_ids?: SearchContentRequestLastUpdatedByIdsList | undefined;
   /** Return content created at or after this time. Unix epoch seconds. */
-  created_at_after?: number;
+  created_at_after?: number | undefined;
   /** Return content created at or before this time. Unix epoch seconds. */
-  created_at_before?: number;
+  created_at_before?: number | undefined;
   /** Return content last updated at or after this time. Unix epoch seconds. */
-  updated_at_after?: number;
+  updated_at_after?: number | undefined;
   /** Return content last updated at or before this time. Unix epoch seconds. */
-  updated_at_before?: number;
+  updated_at_before?: number | undefined;
 }
 /** Always `list`. */
 export type ContentSearchResponseType = "list";
 export type ContentSearchResponsePagesType = "pages";
 /** Pagination metadata, including links to neighbouring pages. */
 export interface ContentSearchResponsePages {
-  type?: ContentSearchResponsePagesType;
+  type?: ContentSearchResponsePagesType | undefined;
   /** The current page number. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Total number of pages of results. */
-  total_pages?: number;
+  total_pages?: number | undefined;
   /** A link to the next page of results, or null when on the last page. */
-  next?: string | null;
+  next?: string | null | undefined;
   /** A link to the previous page of results, or null when on the first page. */
-  prev?: string | null;
+  prev?: string | null | undefined;
 }
 /** The kind of content item. */
 export type ContentSearchDefaultItemType =
@@ -8352,9 +8426,9 @@ export interface ContentSearchDefaultItem {
   /** The kind of content item. */
   type: ContentSearchDefaultItemType;
   /** The unique identifier of the content item. */
-  id?: string;
+  id?: string | undefined;
   /** The display title of the content item. */
-  title?: string;
+  title?: string | undefined;
 }
 /** Always `article`. */
 export type ContentSearchArticleItemType = "article";
@@ -8363,13 +8437,13 @@ export type ContentSearchArticleContentItemType = "article_content";
 /** A single locale variant of a help center article returned from Knowledge Hub search. */
 export interface ContentSearchArticleContentItem {
   /** Always `article_content`. */
-  type?: ContentSearchArticleContentItemType;
+  type?: ContentSearchArticleContentItemType | undefined;
   /** The unique identifier of the article content. */
-  id?: string;
+  id?: string | undefined;
   /** The localized title of the article. */
-  title?: string;
+  title?: string | undefined;
   /** The locale of this article content. */
-  locale?: string;
+  locale?: string | undefined;
 }
 /** One entry per locale of the article. */
 export type ContentSearchArticleItemContentsList = Array<ContentSearchArticleContentItem>;
@@ -8378,11 +8452,11 @@ export interface ContentSearchArticleItem {
   /** Always `article`. */
   type: ContentSearchArticleItemType;
   /** The unique identifier of the article. */
-  id?: string;
+  id?: string | undefined;
   /** The article's canonical title. */
-  title?: string;
+  title?: string | undefined;
   /** One entry per locale of the article. */
-  contents?: ContentSearchArticleItemContentsList;
+  contents?: ContentSearchArticleItemContentsList | undefined;
 }
 /** A single search result. The `type` field discriminates between the flat shape used for snippets, external pages, files, and internal articles, and the nested shape used for help center articles. */
 export type ContentSearchResult = ContentSearchDefaultItem | ContentSearchArticleItem;
@@ -8391,28 +8465,28 @@ export type ContentSearchResponseDataList = Array<ContentSearchResult>;
 /** A paginated list of Knowledge Hub content results matching a search query. */
 export interface ContentSearchResponse {
   /** Always `list`. */
-  type?: ContentSearchResponseType;
+  type?: ContentSearchResponseType | undefined;
   /** Total number of results matching the query. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** Pagination metadata, including links to neighbouring pages. */
-  pages?: ContentSearchResponsePages;
+  pages?: ContentSearchResponsePages | undefined;
   /** The list of matched content items. Each item's `type` field determines its shape. */
-  data?: ContentSearchResponseDataList;
+  data?: ContentSearchResponseDataList | undefined;
 }
 export type SearchConversationsRequestQuery =
   | SingleFilterSearchRequest
   | MultipleFilterSearchRequest;
 export interface SearchConversationsRequest {
-  /** If set to true, the response will include a `monitor_evaluations` array on each conversation with any QA monitor results that flagged it. */
-  include_monitors?: boolean;
+  /** If set to true, the response will include a `monitor_evaluations` array on each conversation with the latest QA monitor evaluation for each monitor that has evaluated it. */
+  include_monitors?: boolean | undefined;
   /** If set to true, the response will include a `scorecards` array on each conversation with any QA scorecard results. */
-  include_scorecards?: boolean;
+  include_scorecards?: boolean | undefined;
   query: SearchConversationsRequestQuery;
-  pagination?: StartingAfterPaging | null;
+  pagination?: StartingAfterPaging | null | undefined;
 }
 export interface SearchInternalArticlesRequest {
   /** The ID of the folder to search in. */
-  folder_id?: string;
+  folder_id?: string | undefined;
 }
 /** The type of the object - `list`. */
 export type InternalArticleSearchResponseType = "list";
@@ -8421,22 +8495,22 @@ export type InternalArticleSearchResponseDataInternalArticlesList = Array<Intern
 /** An object containing the results of the search. */
 export interface InternalArticleSearchResponseData {
   /** An array of Internal Article objects */
-  internal_articles?: InternalArticleSearchResponseDataInternalArticlesList;
+  internal_articles?: InternalArticleSearchResponseDataInternalArticlesList | undefined;
 }
 /** The results of an Internal Article search */
 export interface InternalArticleSearchResponse {
   /** The type of the object - `list`. */
-  type?: InternalArticleSearchResponseType;
+  type?: InternalArticleSearchResponseType | undefined;
   /** The total number of Internal Articles matching the search query */
-  total_count?: number;
+  total_count?: number | undefined;
   /** An object containing the results of the search. */
-  data?: InternalArticleSearchResponseData;
-  pages?: CursorPages | null;
+  data?: InternalArticleSearchResponseData | undefined;
+  pages?: CursorPages | null | undefined;
 }
 export type SearchTicketsRequestQuery = SingleFilterSearchRequest | MultipleFilterSearchRequest;
 export interface SearchTicketsRequest {
   query: SearchTicketsRequestQuery;
-  pagination?: StartingAfterPaging | null;
+  pagination?: StartingAfterPaging | null | undefined;
 }
 /** Always ticket.list */
 export type TicketListType = "ticket.list";
@@ -8445,12 +8519,12 @@ export type TicketListTicketsList = Array<Ticket | null>;
 /** Tickets are how you track requests from your users. */
 export interface TicketList {
   /** Always ticket.list */
-  type?: TicketListType;
+  type?: TicketListType | undefined;
   /** The list of ticket objects */
-  tickets?: TicketListTicketsList;
+  tickets?: TicketListTicketsList | undefined;
   /** A count of the total number of objects. */
-  total_count?: number;
-  pages?: CursorPages | null;
+  total_count?: number | undefined;
+  pages?: CursorPages | null | undefined;
 }
 export interface SetAwayAdminRequest {
   /** The unique identifier of a given admin */
@@ -8460,7 +8534,7 @@ export interface SetAwayAdminRequest {
   /** Set to "true" to assign any new conversation replies to your default inbox. */
   away_mode_reassign: boolean;
   /** The unique identifier of the away status reason */
-  away_status_reason_id?: number;
+  away_status_reason_id?: number | undefined;
 }
 /** Whether the article will be `published` or will be a `draft`. Omitting this field leaves the publish state unchanged, so a draft stays a draft and an edit to a published article goes live immediately unless that article already has a pending draft or a scheduled publish time is set in the same request. The `PUT /articles/{id}/draft` endpoint ignores this field and always stages a draft. For multilingual articles, this will be the state of the default language's content. */
 export type StageArticleDraftRequestState = "published" | "draft";
@@ -8470,34 +8544,34 @@ export interface StageArticleDraftRequest {
   /** The unique identifier for the article which is given by Intercom. */
   id: number;
   /** The title of the article.For multilingual articles, this will be the title of the default language's content. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the article. For multilingual articles, this will be the description of the default language's content. */
-  description?: string;
+  description?: string | undefined;
   /** The content of the article in HTML. For multilingual articles, this will be the body of the default language's content. Mutually exclusive with `body_markdown`. */
-  body?: string;
+  body?: string | undefined;
   /** The content of the article in markdown. For multilingual articles, this will be the body of the default language's content. An alternative to `body` -- you can provide content as markdown instead of HTML. Mutually exclusive with `body`. */
-  body_markdown?: string;
+  body_markdown?: string | undefined;
   /** The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace. */
-  author_id?: number;
+  author_id?: number | undefined;
   /** Whether the article will be `published` or will be a `draft`. Omitting this field leaves the publish state unchanged, so a draft stays a draft and an edit to a published article goes live immediately unless that article already has a pending draft or a scheduled publish time is set in the same request. The `PUT /articles/{id}/draft` endpoint ignores this field and always stages a draft. For multilingual articles, this will be the state of the default language's content. */
-  state?: StageArticleDraftRequestState | (string & {});
+  state?: StageArticleDraftRequestState | (string & {}) | undefined;
   /** The id of the article's parent collection or section. An article without this field stands alone. */
-  parent_id?: string;
+  parent_id?: string | undefined;
   /** The type of parent, which can either be a `collection` or `section`. */
-  parent_type?: string;
-  translated_content?: ArticleTranslatedContentInput | null;
+  parent_type?: string | undefined;
+  translated_content?: ArticleTranslatedContentInput | null | undefined;
   /** The list of audience IDs to assign to this article for Fin AI Agent targeting. Sending a top-level `audience_ids` broadcasts the same set to every locale. Sending `audience_ids: []` clears all audience memberships from every locale. For per-locale targeting, use `translated_content.<locale>.audience_ids` instead. Sending both top-level and per-locale in the same request causes top-level to win. Unknown audience IDs return a 404 error. No partial commit occurs. */
-  audience_ids?: StageArticleDraftRequestAudienceIdsList | null;
+  audience_ids?: StageArticleDraftRequestAudienceIdsList | null | undefined;
   /** Whether the article should be available for AI Chatbot (Fin). For multilingual articles, this sets the default language's availability. */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the article should be available for AI Copilot. For multilingual articles, this sets the default language's availability. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the article should be available for AI Sales Agent. For multilingual articles, this sets the default language's availability. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
   /** ISO 8601 timestamp at which to schedule a future publish of the article. When set together with `state: "published"`, the article is scheduled instead of published immediately. Setting `null` cancels a pending publish schedule. Timestamps in the past or equal to the current time are rejected with 400 `parameter_invalid` -- the value must be strictly in the future. Combining with `state: "draft"` returns 400 `parameter_invalid`. Sending in the same request as `scheduled_unpublish_at` returns 400 -- only one pending schedule per article. Empty string returns 400 `parameter_invalid`. */
-  scheduled_publish_at?: string | null;
+  scheduled_publish_at?: string | null | undefined;
   /** ISO 8601 timestamp at which to schedule a future unpublish of the article. Setting `null` cancels a pending unpublish schedule. Timestamps in the past or equal to the current time are rejected with 400 `parameter_invalid` -- the value must be strictly in the future. Rejected with 400 `parameter_invalid` if the article has never been published. Sending in the same request as `scheduled_publish_at` returns 400 -- only one pending schedule per article. Empty string returns 400 `parameter_invalid`. */
-  scheduled_unpublish_at?: string | null;
+  scheduled_unpublish_at?: string | null | undefined;
 }
 /** The type of object - `article`. */
 export type StageArticleDraftResponseType = "article";
@@ -8515,58 +8589,58 @@ export type StageArticleDraftResponseHelpCenterAudience =
   | "restricted";
 export interface StageArticleDraftResponse {
   /** The type of object - `article`. */
-  type?: StageArticleDraftResponseType;
+  type?: StageArticleDraftResponseType | undefined;
   /** The unique identifier for the article which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the workspace which the article belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The title of the article. For multilingual articles, this will be the title of the default language's content. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the article. For multilingual articles, this will be the description of the default language's content. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The body of the article in HTML. For multilingual articles, this will be the body of the default language's content. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** The body of the article in markdown. For multilingual articles, this will be the body of the default language's content. */
-  body_markdown?: string | null;
+  body_markdown?: string | null | undefined;
   /** The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace. */
-  author_id?: number;
+  author_id?: number | undefined;
   /** Whether the article is `published` or is a `draft`. For multilingual articles, this will be the state of the default language's content. */
-  state?: StageArticleDraftResponseState;
+  state?: StageArticleDraftResponseState | undefined;
   /** The time when the article was created. For multilingual articles, this will be the timestamp of creation of the default language's content in seconds. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time when the article was last updated. For multilingual articles, this will be the timestamp of last update of the default language's content in seconds. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Whether the published article has unpublished changes staged as a draft on top of its live content. For multilingual articles this reflects the default language's content; a pure draft (never published) reports `false`. */
-  has_unpublished_changes?: boolean;
+  has_unpublished_changes?: boolean | undefined;
   /** The time, in seconds, when the staged draft was last edited, or `null` when there is no staged draft. */
-  draft_updated_at?: number | null;
+  draft_updated_at?: number | null | undefined;
   /** The URL of the article. For multilingual articles, this will be the URL of the default language's content. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The ids of the article's parent collections or sections. An article without this field stands alone. */
-  parent_ids?: StageArticleDraftResponseParentIdsList;
+  parent_ids?: StageArticleDraftResponseParentIdsList | undefined;
   /** Whether the article is available for AI Chatbot. For multilingual articles, this will be the value of the default language's content. */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the article is available for AI Copilot. For multilingual articles, this will be the value of the default language's content. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the article is available for AI Sales Agent. For multilingual articles, this will be the value of the default language's content. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
   /** The ID of the teammate who created the article. For multilingual articles, this will be the creator of the default language's content. */
-  created_by_id?: number | null;
+  created_by_id?: number | null | undefined;
   /** The ID of the teammate who last updated the article. For multilingual articles, this will be the last editor of the default language's content. */
-  updated_by_id?: number | null;
+  updated_by_id?: number | null | undefined;
   /** Whether the article is excluded from Fin AI Agent article suggestions. */
-  exclude_from_article_suggestions?: boolean;
+  exclude_from_article_suggestions?: boolean | undefined;
   /** The audience that can view this article in the Help Center. `everyone` means all users and visitors can view it; `restricted` indicates a custom audience ruleset. For multilingual articles, this is the article-level audience. */
-  help_center_audience?: StageArticleDraftResponseHelpCenterAudience | null;
+  help_center_audience?: StageArticleDraftResponseHelpCenterAudience | null | undefined;
   /** The Unix timestamp (in seconds) at which the article is scheduled to be published. `null` when no publish is scheduled. Mutually exclusive with `scheduled_unpublish_at` -- at most one pending schedule exists per article. */
-  scheduled_publish_at?: number | null;
+  scheduled_publish_at?: number | null | undefined;
   /** The Unix timestamp (in seconds) at which the article is scheduled to be unpublished. `null` when no unpublish is scheduled. Mutually exclusive with `scheduled_publish_at` -- at most one pending schedule exists per article. */
-  scheduled_unpublish_at?: number | null;
+  scheduled_unpublish_at?: number | null | undefined;
   /** The default locale of the help center. This field is only returned for multilingual help centers. */
-  default_locale?: string;
-  translated_content?: ArticleTranslatedContent | null;
-  tags?: Tags;
-  statistics?: ArticleStatistics | null;
+  default_locale?: string | undefined;
+  translated_content?: ArticleTranslatedContent | null | undefined;
+  tags?: Tags | undefined;
+  statistics?: ArticleStatistics | null | undefined;
 }
 /** An array of attachments to include with the message. Maximum of 10 attachments. */
 export type StartFinConversationRequestAttachmentsList = Array<FinAgentAttachment>;
@@ -8576,8 +8650,10 @@ export interface StartFinConversationRequest {
   message: FinAgentMessage;
   user: FinAgentUser;
   /** An array of attachments to include with the message. Maximum of 10 attachments. */
-  attachments?: StartFinConversationRequestAttachmentsList;
-  conversation_metadata?: FinAgentConversationMetadata;
+  attachments?: StartFinConversationRequestAttachmentsList | undefined;
+  conversation_metadata?: FinAgentConversationMetadata | undefined;
+  /** The identifier of the environment to start the conversation in, if your Fin for Platforms workspace has environments. Use the same value as `messenger_environment` in your Messenger installation. Defaults to the workspace's default environment; an identifier that matches no environment is rejected. */
+  environment?: string | undefined;
 }
 /** Fin's current status in the conversation workflow. */
 export type StartFinConversationResponseStatus =
@@ -8589,18 +8665,16 @@ export type StartFinConversationResponseStatus =
   | "complete";
 export interface StartFinConversationResponse {
   /** The ID of the conversation. */
-  conversation_id?: string;
+  conversation_id?: string | undefined;
   /** The internal Intercom conversation ID, useful for matching this Agent API session to the conversation in Intercom. */
-  intercom_conversation_id?: string;
+  intercom_conversation_id?: string | undefined;
   /** The ID of the user. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** Fin's current status in the conversation workflow. */
-  status?: StartFinConversationResponseStatus;
+  status?: StartFinConversationResponseStatus | undefined;
   /** The timestamp the response was created at, with millisecond precision. */
-  created_at_ms?: string;
-  errors?: FinAgentAttributeErrors;
-  /** Optional. A URL to subscribe to Server-Sent Events (SSE) for this conversation, if SSE is enabled. The access token is a JWT with a 3-minute TTL. The token is revoked when Fin sets the conversation to awaiting_user_reply or complete status. When CSAT is enabled and a survey will follow the resolution, `complete` revocation is deferred until the `csat_requested` event is delivered or the token expires. */
-  sse_subscription_url?: string;
+  created_at_ms?: string | undefined;
+  errors?: FinAgentAttributeErrors | undefined;
 }
 /** The rating the user selected -- one of the `key` values from the `csat_requested` event's options. */
 export type SubmitFinCsatRequestRating = "terrible" | "bad" | "ok" | "good" | "amazing";
@@ -8610,7 +8684,7 @@ export interface SubmitFinCsatRequest {
   /** The rating the user selected -- one of the `key` values from the `csat_requested` event's options. */
   rating: SubmitFinCsatRequestRating | (string & {});
   /** Optional free-text comment the user left alongside the rating. Can be added to an already-rated survey, but only once -- the rating locks after a remark is recorded. */
-  remark?: string;
+  remark?: string | undefined;
 }
 /** The rating now recorded on the conversation. */
 export type SubmitFinCsatResponseRating = "terrible" | "bad" | "ok" | "good" | "amazing";
@@ -8618,11 +8692,11 @@ export type SubmitFinCsatResponseRating = "terrible" | "bad" | "ok" | "good" | "
 export type SubmitFinCsatResponseStatus = "rated";
 export interface SubmitFinCsatResponse {
   /** The external ID of the rated conversation. */
-  conversation_id?: string;
+  conversation_id?: string | undefined;
   /** The rating now recorded on the conversation. */
-  rating?: SubmitFinCsatResponseRating;
+  rating?: SubmitFinCsatResponseRating | undefined;
   /** The result of the submission. */
-  status?: SubmitFinCsatResponseStatus;
+  status?: SubmitFinCsatResponseStatus | undefined;
 }
 export interface UnarchiveContactRequest {
   /** contact_id */
@@ -8632,13 +8706,13 @@ export interface UnarchiveContactRequest {
 export type UnarchiveContactResponseType = "contact";
 export interface UnarchiveContactResponse {
   /** always contact */
-  type?: UnarchiveContactResponseType;
+  type?: UnarchiveContactResponseType | undefined;
   /** The unique identifier for the contact which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier for the contact which is provided by the Client. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** Whether the contact is archived or not. */
-  archived?: boolean;
+  archived?: boolean | undefined;
 }
 export interface UnlinkConversationFromTicketRequest {
   /** The unique identifier for the tracker ticket which is given by Intercom. */
@@ -8654,34 +8728,34 @@ export interface UpdateArticleRequest {
   /** The unique identifier for the article which is given by Intercom. */
   article_id: number;
   /** The title of the article.For multilingual articles, this will be the title of the default language's content. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the article. For multilingual articles, this will be the description of the default language's content. */
-  description?: string;
+  description?: string | undefined;
   /** The content of the article in HTML. For multilingual articles, this will be the body of the default language's content. Mutually exclusive with `body_markdown`. */
-  body?: string;
+  body?: string | undefined;
   /** The content of the article in markdown. For multilingual articles, this will be the body of the default language's content. An alternative to `body` -- you can provide content as markdown instead of HTML. Mutually exclusive with `body`. */
-  body_markdown?: string;
+  body_markdown?: string | undefined;
   /** The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace. */
-  author_id?: number;
+  author_id?: number | undefined;
   /** Whether the article will be `published` or will be a `draft`. Omitting this field leaves the publish state unchanged, so a draft stays a draft and an edit to a published article goes live immediately unless that article already has a pending draft or a scheduled publish time is set in the same request. The `PUT /articles/{id}/draft` endpoint ignores this field and always stages a draft. For multilingual articles, this will be the state of the default language's content. */
-  state?: UpdateArticleRequestState | (string & {});
+  state?: UpdateArticleRequestState | (string & {}) | undefined;
   /** The id of the article's parent collection or section. An article without this field stands alone. */
-  parent_id?: string;
+  parent_id?: string | undefined;
   /** The type of parent, which can either be a `collection` or `section`. */
-  parent_type?: string;
-  translated_content?: ArticleTranslatedContentInput | null;
+  parent_type?: string | undefined;
+  translated_content?: ArticleTranslatedContentInput | null | undefined;
   /** The list of audience IDs to assign to this article for Fin AI Agent targeting. Sending a top-level `audience_ids` broadcasts the same set to every locale. Sending `audience_ids: []` clears all audience memberships from every locale. For per-locale targeting, use `translated_content.<locale>.audience_ids` instead. Sending both top-level and per-locale in the same request causes top-level to win. Unknown audience IDs return a 404 error. No partial commit occurs. */
-  audience_ids?: UpdateArticleRequestAudienceIdsList | null;
+  audience_ids?: UpdateArticleRequestAudienceIdsList | null | undefined;
   /** Whether the article should be available for AI Chatbot (Fin). For multilingual articles, this sets the default language's availability. */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the article should be available for AI Copilot. For multilingual articles, this sets the default language's availability. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the article should be available for AI Sales Agent. For multilingual articles, this sets the default language's availability. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
   /** ISO 8601 timestamp at which to schedule a future publish of the article. When set together with `state: "published"`, the article is scheduled instead of published immediately. Setting `null` cancels a pending publish schedule. Timestamps in the past or equal to the current time are rejected with 400 `parameter_invalid` -- the value must be strictly in the future. Combining with `state: "draft"` returns 400 `parameter_invalid`. Sending in the same request as `scheduled_unpublish_at` returns 400 -- only one pending schedule per article. Empty string returns 400 `parameter_invalid`. */
-  scheduled_publish_at?: string | null;
+  scheduled_publish_at?: string | null | undefined;
   /** ISO 8601 timestamp at which to schedule a future unpublish of the article. Setting `null` cancels a pending unpublish schedule. Timestamps in the past or equal to the current time are rejected with 400 `parameter_invalid` -- the value must be strictly in the future. Rejected with 400 `parameter_invalid` if the article has never been published. Sending in the same request as `scheduled_publish_at` returns 400 -- only one pending schedule per article. Empty string returns 400 `parameter_invalid`. */
-  scheduled_unpublish_at?: string | null;
+  scheduled_unpublish_at?: string | null | undefined;
 }
 /** The type of object - `article`. */
 export type UpdateArticleResponseType = "article";
@@ -8699,58 +8773,58 @@ export type UpdateArticleResponseHelpCenterAudience =
   | "restricted";
 export interface UpdateArticleResponse {
   /** The type of object - `article`. */
-  type?: UpdateArticleResponseType;
+  type?: UpdateArticleResponseType | undefined;
   /** The unique identifier for the article which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The id of the workspace which the article belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The title of the article. For multilingual articles, this will be the title of the default language's content. */
-  title?: string;
+  title?: string | undefined;
   /** The description of the article. For multilingual articles, this will be the description of the default language's content. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The body of the article in HTML. For multilingual articles, this will be the body of the default language's content. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** The body of the article in markdown. For multilingual articles, this will be the body of the default language's content. */
-  body_markdown?: string | null;
+  body_markdown?: string | null | undefined;
   /** The id of the author of the article. For multilingual articles, this will be the id of the author of the default language's content. Must be a teammate on the help center's workspace. */
-  author_id?: number;
+  author_id?: number | undefined;
   /** Whether the article is `published` or is a `draft`. For multilingual articles, this will be the state of the default language's content. */
-  state?: UpdateArticleResponseState;
+  state?: UpdateArticleResponseState | undefined;
   /** The time when the article was created. For multilingual articles, this will be the timestamp of creation of the default language's content in seconds. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time when the article was last updated. For multilingual articles, this will be the timestamp of last update of the default language's content in seconds. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** Whether the published article has unpublished changes staged as a draft on top of its live content. For multilingual articles this reflects the default language's content; a pure draft (never published) reports `false`. */
-  has_unpublished_changes?: boolean;
+  has_unpublished_changes?: boolean | undefined;
   /** The time, in seconds, when the staged draft was last edited, or `null` when there is no staged draft. */
-  draft_updated_at?: number | null;
+  draft_updated_at?: number | null | undefined;
   /** The URL of the article. For multilingual articles, this will be the URL of the default language's content. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The ids of the article's parent collections or sections. An article without this field stands alone. */
-  parent_ids?: UpdateArticleResponseParentIdsList;
+  parent_ids?: UpdateArticleResponseParentIdsList | undefined;
   /** Whether the article is available for AI Chatbot. For multilingual articles, this will be the value of the default language's content. */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the article is available for AI Copilot. For multilingual articles, this will be the value of the default language's content. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the article is available for AI Sales Agent. For multilingual articles, this will be the value of the default language's content. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
   /** The ID of the teammate who created the article. For multilingual articles, this will be the creator of the default language's content. */
-  created_by_id?: number | null;
+  created_by_id?: number | null | undefined;
   /** The ID of the teammate who last updated the article. For multilingual articles, this will be the last editor of the default language's content. */
-  updated_by_id?: number | null;
+  updated_by_id?: number | null | undefined;
   /** Whether the article is excluded from Fin AI Agent article suggestions. */
-  exclude_from_article_suggestions?: boolean;
+  exclude_from_article_suggestions?: boolean | undefined;
   /** The audience that can view this article in the Help Center. `everyone` means all users and visitors can view it; `restricted` indicates a custom audience ruleset. For multilingual articles, this is the article-level audience. */
-  help_center_audience?: UpdateArticleResponseHelpCenterAudience | null;
+  help_center_audience?: UpdateArticleResponseHelpCenterAudience | null | undefined;
   /** The Unix timestamp (in seconds) at which the article is scheduled to be published. `null` when no publish is scheduled. Mutually exclusive with `scheduled_unpublish_at` -- at most one pending schedule exists per article. */
-  scheduled_publish_at?: number | null;
+  scheduled_publish_at?: number | null | undefined;
   /** The Unix timestamp (in seconds) at which the article is scheduled to be unpublished. `null` when no unpublish is scheduled. Mutually exclusive with `scheduled_publish_at` -- at most one pending schedule exists per article. */
-  scheduled_unpublish_at?: number | null;
+  scheduled_unpublish_at?: number | null | undefined;
   /** The default locale of the help center. This field is only returned for multilingual help centers. */
-  default_locale?: string;
-  translated_content?: ArticleTranslatedContent | null;
-  tags?: Tags;
-  statistics?: ArticleStatistics | null;
+  default_locale?: string | undefined;
+  translated_content?: ArticleTranslatedContent | null | undefined;
+  tags?: Tags | undefined;
+  statistics?: ArticleStatistics | null | undefined;
 }
 /** The predicates that define which contacts belong to the audience. */
 export type UpdateAudienceRequestPredicatesList = Array<Predicate>;
@@ -8760,22 +8834,22 @@ export interface UpdateAudienceRequest {
   /** The unique identifier for the audience. */
   id: string;
   /** The name of the audience. */
-  name?: string;
+  name?: string | undefined;
   /** The predicates that define which contacts belong to the audience. */
-  predicates?: UpdateAudienceRequestPredicatesList;
+  predicates?: UpdateAudienceRequestPredicatesList | undefined;
   /** Role-based predicates that further filter audience membership by contact role. */
-  role_predicates?: UpdateAudienceRequestRolePredicatesList;
+  role_predicates?: UpdateAudienceRequestRolePredicatesList | undefined;
 }
 export interface UpdateCollectionRequest {
   /** The unique identifier for the collection which is given by Intercom. */
   collection_id: number;
   /** The name of the collection. For multilingual collections, this will be the name of the default language's content. */
-  name?: string;
+  name?: string | undefined;
   /** The description of the collection. For multilingual collections, this will be the description of the default language's content. */
-  description?: string;
-  translated_content?: GroupTranslatedContent | null;
+  description?: string | undefined;
+  translated_content?: GroupTranslatedContent | null | undefined;
   /** The id of the parent collection. If `null` then it will be updated as the first level collection. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
 }
 /** A hash of key/value pairs containing any other data about the company you want Intercom to store. */
 export type UpdateCompanyRequestCustomAttributesMap = { [key: string]: string | undefined };
@@ -8783,146 +8857,146 @@ export interface UpdateCompanyRequest {
   /** The unique identifier for the company which is given by Intercom */
   company_id: string;
   /** The name of the Company */
-  name?: string;
+  name?: string | undefined;
   /** The name of the plan you have associated with the company. */
-  plan?: string;
+  plan?: string | undefined;
   /** The number of employees in this company. */
-  size?: number;
+  size?: number | undefined;
   /** The URL for this company's website. Please note that the value specified here is not validated. Accepts any string. */
-  website?: string;
+  website?: string | undefined;
   /** The industry that this company operates in. */
-  industry?: string;
+  industry?: string | undefined;
   /** A hash of key/value pairs containing any other data about the company you want Intercom to store. */
-  custom_attributes?: UpdateCompanyRequestCustomAttributesMap;
+  custom_attributes?: UpdateCompanyRequestCustomAttributesMap | undefined;
   /** How much revenue the company generates for your business. Note that this will truncate floats. i.e. it only allow for whole integers, 155.98 will be truncated to 155. Note that this has an upper limit of 2**31-1 or 2147483647.. */
-  monthly_spend?: number;
+  monthly_spend?: number | undefined;
 }
 /** You can update a contact */
 export interface UpdateContactRequest {
   /** The role of the contact. */
-  role?: string;
+  role?: string | undefined;
   /** A unique identifier for the contact which is given to Intercom */
-  external_id?: string;
+  external_id?: string | undefined;
   /** The contacts email */
-  email?: string;
+  email?: string | undefined;
   /** Whether the contact has proved they own this email address, for example through a confirmation link or one-time code you sent. Send it together with `email`. `email_verified` without `email` is rejected. Changing a contact's email resets it to not verified. Intercom reuses leads with a verified email when an inbound email, conversation or ticket matches the address. */
-  email_verified?: boolean | null;
+  email_verified?: boolean | null | undefined;
   /** The contacts phone */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** The contacts name */
-  name?: string | null;
+  name?: string | null | undefined;
   /** An image URL containing the avatar of a contact */
-  avatar?: string | null;
+  avatar?: string | null | undefined;
   /** (Unix timestamp in seconds) The time specified for when a contact signed up. */
-  signed_up_at?: number | null;
+  signed_up_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last seen (either where the Intercom Messenger was installed or when specified manually). */
-  last_seen_at?: number | null;
+  last_seen_at?: number | null | undefined;
   /** The id of an admin that has been assigned account ownership of the contact */
-  owner_id?: string | null;
+  owner_id?: string | null | undefined;
   /** Whether the contact is unsubscribed from emails */
-  unsubscribed_from_emails?: boolean | null;
+  unsubscribed_from_emails?: boolean | null | undefined;
   /** The custom attributes which are set for the contact */
-  custom_attributes?: unknown | null;
+  custom_attributes?: unknown | null | undefined;
 }
 export interface UpdateContactRequest2 {
   /** id */
   contact_id: string;
   /** Pass `true` to include the contact's merge history in the response. Only returned for contacts with a `user` role. */
-  include_merge_history?: boolean;
-  body?: UpdateContactRequest;
+  include_merge_history?: boolean | undefined;
+  body?: UpdateContactRequest | undefined;
 }
 export type UpdateContactResponseAvatar = ContactAvatar;
 /** A list of contacts that were merged into this contact. Only included in the response when `include_merge_history=true` is passed as a query parameter. Only available for contacts with a `user` role. */
 export type UpdateContactResponseMergeHistoryList = Array<MergeHistoryItem>;
 export interface UpdateContactResponse {
   /** The type of object. */
-  type?: string;
+  type?: string | undefined;
   /** The unique identifier for the contact which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The unique identifier for the contact which is provided by the Client. */
-  external_id?: string | null;
+  external_id?: string | null | undefined;
   /** The id of the workspace which the contact belongs to. */
-  workspace_id?: string;
+  workspace_id?: string | undefined;
   /** The role of the contact. */
-  role?: string;
+  role?: string | undefined;
   /** The contact's email. */
-  email?: string;
+  email?: string | undefined;
   /** The contact's email domain. */
-  email_domain?: string;
+  email_domain?: string | undefined;
   /** The contacts phone. */
-  phone?: string | null;
+  phone?: string | null | undefined;
   /** The contacts name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The id of an admin that has been assigned account ownership of the contact. */
-  owner_id?: string | null;
+  owner_id?: string | null | undefined;
   /** Whether the contact has had an email sent to them hard bounce. */
-  has_hard_bounced?: boolean;
+  has_hard_bounced?: boolean | undefined;
   /** Whether the contact has marked an email sent to them as spam. */
-  marked_email_as_spam?: boolean;
+  marked_email_as_spam?: boolean | undefined;
   /** Whether the contact is unsubscribed from emails. */
-  unsubscribed_from_emails?: boolean;
+  unsubscribed_from_emails?: boolean | undefined;
   /** (Unix timestamp in seconds) The time when the contact was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** (Unix timestamp in seconds) The time specified for when a contact signed up. */
-  signed_up_at?: number | null;
+  signed_up_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last seen (either where the Intercom Messenger was installed or when specified manually). */
-  last_seen_at?: number | null;
+  last_seen_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last messaged in. */
-  last_replied_at?: number | null;
+  last_replied_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last messaged. */
-  last_contacted_at?: number | null;
+  last_contacted_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last opened an email. */
-  last_email_opened_at?: number | null;
+  last_email_opened_at?: number | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact last clicked a link in an email. */
-  last_email_clicked_at?: number | null;
+  last_email_clicked_at?: number | null | undefined;
   /** A preferred language setting for the contact, used by the Intercom Messenger even if their browser settings change. */
-  language_override?: string | null;
+  language_override?: string | null | undefined;
   /** The name of the browser which the contact is using. */
-  browser?: string | null;
+  browser?: string | null | undefined;
   /** The version of the browser which the contact is using. */
-  browser_version?: string | null;
+  browser_version?: string | null | undefined;
   /** The language set by the browser which the contact is using. */
-  browser_language?: string | null;
+  browser_language?: string | null | undefined;
   /** The operating system which the contact is using. */
-  os?: string | null;
+  os?: string | null | undefined;
   /** The name of the Android app which the contact is using. */
-  android_app_name?: string | null;
+  android_app_name?: string | null | undefined;
   /** The version of the Android app which the contact is using. */
-  android_app_version?: string | null;
+  android_app_version?: string | null | undefined;
   /** The Android device which the contact is using. */
-  android_device?: string | null;
+  android_device?: string | null | undefined;
   /** The version of the Android OS which the contact is using. */
-  android_os_version?: string | null;
+  android_os_version?: string | null | undefined;
   /** The version of the Android SDK which the contact is using. */
-  android_sdk_version?: string | null;
+  android_sdk_version?: string | null | undefined;
   /** (Unix timestamp in seconds) The time when the contact was last seen on an Android device. */
-  android_last_seen_at?: number | null;
+  android_last_seen_at?: number | null | undefined;
   /** The name of the iOS app which the contact is using. */
-  ios_app_name?: string | null;
+  ios_app_name?: string | null | undefined;
   /** The version of the iOS app which the contact is using. */
-  ios_app_version?: string | null;
+  ios_app_version?: string | null | undefined;
   /** The iOS device which the contact is using. */
-  ios_device?: string | null;
+  ios_device?: string | null | undefined;
   /** The version of iOS which the contact is using. */
-  ios_os_version?: string | null;
+  ios_os_version?: string | null | undefined;
   /** The version of the iOS SDK which the contact is using. */
-  ios_sdk_version?: string | null;
+  ios_sdk_version?: string | null | undefined;
   /** (Unix timestamp in seconds) The last time the contact used the iOS app. */
-  ios_last_seen_at?: number | null;
+  ios_last_seen_at?: number | null | undefined;
   /** The custom attributes which are set for the contact. */
-  custom_attributes?: unknown;
-  avatar?: ContactAvatar | null;
-  tags?: ContactTags | null;
-  notes?: ContactNotes;
-  companies?: ContactCompanies;
-  location?: ContactLocation;
-  social_profiles?: ContactSocialProfiles;
+  custom_attributes?: unknown | undefined;
+  avatar?: ContactAvatar | null | undefined;
+  tags?: ContactTags | null | undefined;
+  notes?: ContactNotes | undefined;
+  companies?: ContactCompanies | undefined;
+  location?: ContactLocation | undefined;
+  social_profiles?: ContactSocialProfiles | undefined;
   /** A list of contacts that were merged into this contact. Only included in the response when `include_merge_history=true` is passed as a query parameter. Only available for contacts with a `user` role. */
-  merge_history?: UpdateContactResponseMergeHistoryList | null;
+  merge_history?: UpdateContactResponseMergeHistoryList | null | undefined;
   /** If the user has enabled push messaging. */
-  enabled_push_messaging?: boolean | null;
+  enabled_push_messaging?: boolean | null | undefined;
 }
 /** If you intend to create or update External Pages via the API, this should be set to `api`. You can not change the value to or from api. */
 export type UpdateContentImportSourceRequestSyncBehavior = "api" | "automated" | "manual";
@@ -8939,13 +9013,13 @@ export interface UpdateContentImportSourceRequest {
   /** If you intend to create or update External Pages via the API, this should be set to `api`. You can not change the value to or from api. */
   sync_behavior: UpdateContentImportSourceRequestSyncBehavior | (string & {});
   /** The status of the content import source. */
-  status?: UpdateContentImportSourceRequestStatus | (string & {});
+  status?: UpdateContentImportSourceRequestStatus | (string & {}) | undefined;
   /** The URL of the content import source. This may only be different from the existing value if the sync behavior is API. */
   url: string;
   /** The unique identifiers for the audiences to associate with this content import source. Can be a single integer or an array of integers. Set to null or an empty array to remove all audiences. */
-  audience_ids?: UpdateContentImportSourceRequestAudienceIds | null;
+  audience_ids?: UpdateContentImportSourceRequestAudienceIds | null | undefined;
   /** When true, the audience will be applied to all existing external pages belonging to this content import source. */
-  apply_audience_to_existing_content?: boolean;
+  apply_audience_to_existing_content?: boolean | undefined;
 }
 /** The content blocks that make up the body of the snippet. Mutually exclusive with `body_markdown`. */
 export type UpdateContentSnippetRequestJsonBlocksList = Array<unknown>;
@@ -8955,34 +9029,34 @@ export interface UpdateContentSnippetRequest {
   /** The unique identifier for the content snippet. */
   id: string;
   /** The title of the content snippet. */
-  title?: string;
+  title?: string | undefined;
   /** The content blocks that make up the body of the snippet. Mutually exclusive with `body_markdown`. */
-  json_blocks?: UpdateContentSnippetRequestJsonBlocksList;
+  json_blocks?: UpdateContentSnippetRequestJsonBlocksList | undefined;
   /** The content of the snippet in markdown. An alternative to `json_blocks` -- you can provide content as markdown instead of structured blocks. Mutually exclusive with `json_blocks`. */
-  body_markdown?: string;
+  body_markdown?: string | undefined;
   /** The locale of the content snippet. */
-  locale?: string;
+  locale?: string | undefined;
   /** The list of audience IDs to target this content snippet to for Fin AI Agent. Omitting the field leaves existing audience memberships unchanged (PATCH semantics). Pass `[]` to clear all audience memberships. Unknown audience IDs return a `404` error with no partial commit. */
-  audience_ids?: UpdateContentSnippetRequestAudienceIdsList | null;
+  audience_ids?: UpdateContentSnippetRequestAudienceIdsList | null | undefined;
   /** Whether the content snippet should be available for AI Chatbot (Fin). */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the content snippet should be available for AI Copilot. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the content snippet should be available for AI Sales Agent. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
 }
 export interface UpdateConversationRequest {
   /** The id of the conversation to target */
   conversation_id: number;
   /** Set to plaintext to retrieve conversation messages in plain text. This affects both the body and subject fields. Inline links are rendered as `label (url)`, preserving the link URL alongside the visible text. */
-  display_as?: string;
+  display_as?: string | undefined;
   /** Mark a conversation as read within Intercom. */
-  read?: boolean;
+  read?: boolean | undefined;
   /** The title given to the conversation */
-  title?: string;
-  custom_attributes?: CustomAttributes;
+  title?: string | undefined;
+  custom_attributes?: CustomAttributes | undefined;
   /** The ID of the company that the conversation is associated with. The unique identifier for the company which is given by Intercom. Set to nil to remove company. */
-  company_id?: string;
+  company_id?: string | undefined;
 }
 /** Team IDs that can see this attribute. Empty array means all teams. */
 export type UpdateConversationAttributeRequestVisibleToTeamIdsList = Array<string>;
@@ -8993,23 +9067,23 @@ export interface UpdateConversationAttributeRequestReference {
   /** The cardinality of the relationship: `one` or `many`. */
   type: UpdateConversationAttributeRequestReferenceType | (string & {});
   /** The ID of the related custom object type. */
-  object_type_id?: string;
+  object_type_id?: string | undefined;
 }
 export interface UpdateConversationAttributeRequest {
   /** The conversation attribute id */
   id: number;
   /** Name of the attribute. */
-  name?: string;
+  name?: string | undefined;
   /** Readable description of the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** (String data type only) Whether this string attribute is multiline. */
-  multiline?: boolean;
+  multiline?: boolean | undefined;
   /** Whether this attribute is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Team IDs that can see this attribute. Empty array means all teams. */
-  visible_to_team_ids?: UpdateConversationAttributeRequestVisibleToTeamIdsList;
+  visible_to_team_ids?: UpdateConversationAttributeRequestVisibleToTeamIdsList | undefined;
   /** (Relationship data type only) Reference configuration for related objects. */
-  reference?: UpdateConversationAttributeRequestReference;
+  reference?: UpdateConversationAttributeRequestReference | undefined;
 }
 export type UpdateConversationAttributeResponse = ConversationAttribute;
 export interface UpdateConversationAttributeOptionRequest {
@@ -9025,11 +9099,11 @@ export interface UpdateDataAttributeRequest {
   /** The data attribute id */
   data_attribute_id: number;
   /** Whether the attribute is to be archived or not. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** The readable description you see in the UI for the attribute. */
-  description?: string;
+  description?: string | undefined;
   /** Can this attribute be updated by the Messenger */
-  messenger_writable?: boolean;
+  messenger_writable?: boolean | undefined;
 }
 /** The desired state of the connector. */
 export type UpdateDataConnectorRequestState = "draft" | "live";
@@ -9041,7 +9115,7 @@ export type UpdateDataConnectorRequestAudiencesList = Array<
   UpdateDataConnectorRequestAudiencesItem | (string & {})
 >;
 export type UpdateDataConnectorRequestHeadersItem = CreateDataConnectorRequestHeadersItem;
-/** HTTP headers to include in the request. */
+/** HTTP headers to include in the request. Don't put credentials such as API keys here: header values are recorded unmasked in the connector's execution logs, except `Authorization`, which is always masked. Attach an authentication token with `token_ids` instead; its value is masked in execution logs. */
 export type UpdateDataConnectorRequestHeadersList = Array<CreateDataConnectorRequestHeadersItem>;
 /** The data type of the input. */
 export type UpdateDataConnectorRequestDataInputsItemType =
@@ -9051,15 +9125,15 @@ export type UpdateDataConnectorRequestDataInputsItemType =
   | "boolean";
 export interface UpdateDataConnectorRequestDataInputsItem {
   /** The name of the input parameter. */
-  name?: string;
+  name?: string | undefined;
   /** The data type of the input. */
-  type?: UpdateDataConnectorRequestDataInputsItemType | (string & {});
+  type?: UpdateDataConnectorRequestDataInputsItemType | (string & {}) | undefined;
   /** A description of the input parameter. Required for each input. */
-  description?: string;
+  description?: string | undefined;
   /** Whether this input is required. */
-  required?: boolean;
+  required?: boolean | undefined;
   /** The default value for this input, if any. */
-  default_value?: string;
+  default_value?: string | undefined;
 }
 /** The input parameters accepted by this data connector. Replaces all existing inputs. */
 export type UpdateDataConnectorRequestDataInputsList =
@@ -9070,38 +9144,40 @@ export interface UpdateDataConnectorRequest {
   /** The unique identifier of the data connector. */
   id: string;
   /** The name of the data connector. */
-  name?: string;
+  name?: string | undefined;
   /** A description of what this data connector does. */
-  description?: string;
+  description?: string | undefined;
   /** The desired state of the connector. */
-  state?: UpdateDataConnectorRequestState | (string & {});
+  state?: UpdateDataConnectorRequestState | (string & {}) | undefined;
   /** The HTTP method used by the data connector. */
-  http_method?: UpdateDataConnectorRequestHttpMethod | (string & {});
+  http_method?: UpdateDataConnectorRequestHttpMethod | (string & {}) | undefined;
   /** The URL of the external API endpoint. Supports template variables like `{{order_id}}`. */
-  url?: string;
+  url?: string | undefined;
   /** The request body template. Supports template variables. */
-  body?: string;
+  body?: string | undefined;
   /** Whether this connector is used directly by Fin. */
-  direct_fin_usage?: boolean;
+  direct_fin_usage?: boolean | undefined;
   /** The audience types this connector targets. */
-  audiences?: UpdateDataConnectorRequestAudiencesList;
-  /** HTTP headers to include in the request. */
-  headers?: UpdateDataConnectorRequestHeadersList;
+  audiences?: UpdateDataConnectorRequestAudiencesList | undefined;
+  /** HTTP headers to include in the request. Don't put credentials such as API keys here: header values are recorded unmasked in the connector's execution logs, except `Authorization`, which is always masked. Attach an authentication token with `token_ids` instead; its value is masked in execution logs. */
+  headers?: UpdateDataConnectorRequestHeadersList | undefined;
   /** The input parameters accepted by this data connector. Replaces all existing inputs. */
-  data_inputs?: UpdateDataConnectorRequestDataInputsList;
+  data_inputs?: UpdateDataConnectorRequestDataInputsList | undefined;
   /** Whether OTP authentication is enabled for this connector. */
-  customer_authentication?: boolean;
+  customer_authentication?: boolean | undefined;
   /** Whether authentication is bypassed for this connector. */
-  bypass_authentication?: boolean;
+  bypass_authentication?: boolean | undefined;
   /** Whether to validate missing attributes before execution. */
-  validate_missing_attributes?: boolean;
+  validate_missing_attributes?: boolean | undefined;
   /** A sample JSON response from the external API. Auto-generates `response_fields` and sets `configuration_response_type` to `mock_response_type`. */
-  mock_response?: unknown;
+  mock_response?: unknown | undefined;
   /** IDs of authentication tokens to attach to this data connector. An empty array removes all tokens. */
-  token_ids?: UpdateDataConnectorRequestTokenIdsList;
+  token_ids?: UpdateDataConnectorRequestTokenIdsList | undefined;
 }
 /** Always en */
 export type UpdateExternalPageRequestLocale = "en";
+/** The list of audience IDs to target this external page to for Fin AI Agent. Replaces all existing audience memberships. Omitting the field leaves existing audience memberships unchanged. Pass `[]` to clear all audience memberships. Unknown audience IDs return a `404` error. */
+export type UpdateExternalPageRequestAudienceIdsList = Array<number>;
 export interface UpdateExternalPageRequest {
   /** The unique identifier for the external page which is given by Intercom. */
   page_id: string;
@@ -9112,13 +9188,15 @@ export interface UpdateExternalPageRequest {
   /** The URL of the external page. This will be used by Fin to link end users to the page it based its answer on. */
   url: string;
   /** Whether the external page should be used to answer questions by Fin. */
-  fin_availability?: boolean;
+  fin_availability?: boolean | undefined;
   /** Always en */
   locale: UpdateExternalPageRequestLocale | (string & {});
   /** The unique identifier for the source of the external page which was given by Intercom. Every external page must be associated with a Content Import Source which represents the place it comes from and from which it inherits a default audience (configured in the UI). For a new source, make a POST request to the Content Import Source endpoint and an ID for the source will be returned in the response. */
   source_id: number;
   /** The identifier for the external page which was given by the source. Must be unique for the source. */
-  external_id?: string;
+  external_id?: string | undefined;
+  /** The list of audience IDs to target this external page to for Fin AI Agent. Replaces all existing audience memberships. Omitting the field leaves existing audience memberships unchanged. Pass `[]` to clear all audience memberships. Unknown audience IDs return a `404` error. */
+  audience_ids?: UpdateExternalPageRequestAudienceIdsList | null | undefined;
 }
 /** The list of audience IDs to target this internal article to for Fin AI Agent. Omitting the field leaves existing audience memberships unchanged (PATCH semantics). Pass `[]` to clear all audience memberships. Unknown audience IDs return a `404` error with no partial commit. */
 export type UpdateInternalArticleRequestAudienceIdsList = Array<number>;
@@ -9126,23 +9204,23 @@ export interface UpdateInternalArticleRequest {
   /** The unique identifier for the internal article which is given by Intercom. */
   internal_article_id: number;
   /** The title of the article. */
-  title?: string;
+  title?: string | undefined;
   /** The content of the article in HTML. Mutually exclusive with `body_markdown`. */
-  body?: string;
+  body?: string | undefined;
   /** The content of the article in markdown. An alternative to `body` -- you can provide content as markdown instead of HTML. Mutually exclusive with `body`. */
-  body_markdown?: string;
+  body_markdown?: string | undefined;
   /** The id of the author of the article. */
-  author_id?: number;
+  author_id?: number | undefined;
   /** The id of the author of the article. */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** The list of audience IDs to target this internal article to for Fin AI Agent. Omitting the field leaves existing audience memberships unchanged (PATCH semantics). Pass `[]` to clear all audience memberships. Unknown audience IDs return a `404` error with no partial commit. */
-  audience_ids?: UpdateInternalArticleRequestAudienceIdsList | null;
+  audience_ids?: UpdateInternalArticleRequestAudienceIdsList | null | undefined;
   /** Whether the internal article should be available for AI Chatbot (Fin). */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the internal article should be available for AI Copilot. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the internal article should be available for AI Sales Agent. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
 }
 /** The type of object - `internal_article`. */
 export type UpdateInternalArticleResponseType = "internal_article";
@@ -9150,43 +9228,43 @@ export type UpdateInternalArticleResponseType = "internal_article";
 export type UpdateInternalArticleResponseAudienceIdsList = Array<number>;
 export interface UpdateInternalArticleResponse {
   /** The type of object - `internal_article`. */
-  type?: UpdateInternalArticleResponseType;
+  type?: UpdateInternalArticleResponseType | undefined;
   /** The unique identifier for the article which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** The title of the article. */
-  title?: string;
+  title?: string | undefined;
   /** The body of the article in HTML. */
-  body?: string | null;
+  body?: string | null | undefined;
   /** The body of the article in markdown. */
-  body_markdown?: string | null;
+  body_markdown?: string | null | undefined;
   /** The id of the owner of the article. */
-  owner_id?: number;
+  owner_id?: number | undefined;
   /** The id of the author of the article. */
-  author_id?: number;
+  author_id?: number | undefined;
   /** The time when the article was created. */
-  created_at?: number;
+  created_at?: number | undefined;
   /** The time when the article was last updated. */
-  updated_at?: number;
+  updated_at?: number | undefined;
   /** The default locale of the article. */
-  locale?: string;
+  locale?: string | undefined;
   /** The list of audience IDs this internal article is targeted to for Fin AI Agent. Empty array means no audience targeting is set. */
-  audience_ids?: UpdateInternalArticleResponseAudienceIdsList | null;
+  audience_ids?: UpdateInternalArticleResponseAudienceIdsList | null | undefined;
   /** Whether the internal article is available for AI Chatbot (Fin). */
-  ai_chatbot_availability?: boolean;
+  ai_chatbot_availability?: boolean | undefined;
   /** Whether the internal article is available for AI Copilot. */
-  ai_copilot_availability?: boolean;
+  ai_copilot_availability?: boolean | undefined;
   /** Whether the internal article is available for AI Sales Agent. */
-  ai_sales_agent_availability?: boolean;
+  ai_sales_agent_availability?: boolean | undefined;
 }
 /** List of allowed IP addresses and/or IP ranges in CIDR notation. Examples: - Single IP: `192.168.0.1` - IP range: `192.168.0.1/24` (allows 192.168.0.0 - 192.168.0.255) */
 export type UpdateIpAllowlistRequestIpAllowlistList = Array<string>;
 export interface UpdateIpAllowlistRequest {
   /** String representing the object's type. Always has the value `ip_allowlist`. */
-  type?: string;
+  type?: string | undefined;
   /** Whether the IP allowlist is enabled for the workspace. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** List of allowed IP addresses and/or IP ranges in CIDR notation. Examples: - Single IP: `192.168.0.1` - IP range: `192.168.0.1/24` (allows 192.168.0.0 - 192.168.0.255) */
-  ip_allowlist?: UpdateIpAllowlistRequestIpAllowlistList;
+  ip_allowlist?: UpdateIpAllowlistRequestIpAllowlistList | undefined;
 }
 /** News items will not be visible to your users in the assigned newsfeeds until they are set live. */
 export type UpdateNewsItemRequestState = "draft" | "live";
@@ -9202,19 +9280,19 @@ export interface UpdateNewsItemRequest {
   /** The title of the news item. */
   title: string;
   /** The news item body, which may contain HTML. */
-  body?: string;
+  body?: string | undefined;
   /** The id of the sender of the news item. Must be a teammate on the workspace. */
   sender_id: number;
   /** News items will not be visible to your users in the assigned newsfeeds until they are set live. */
-  state?: UpdateNewsItemRequestState | (string & {});
+  state?: UpdateNewsItemRequestState | (string & {}) | undefined;
   /** When set to `true`, the news item will appear in the messenger newsfeed without showing a notification badge. */
-  deliver_silently?: boolean;
+  deliver_silently?: boolean | undefined;
   /** Label names displayed to users to categorize the news item. */
-  labels?: UpdateNewsItemRequestLabelsList;
+  labels?: UpdateNewsItemRequestLabelsList | undefined;
   /** Ordered list of emoji reactions to the news item. When empty, reactions are disabled. */
-  reactions?: UpdateNewsItemRequestReactionsList;
+  reactions?: UpdateNewsItemRequestReactionsList | undefined;
   /** A list of newsfeed_assignments to assign to the specified newsfeed. */
-  newsfeed_assignments?: UpdateNewsItemRequestNewsfeedAssignmentsList;
+  newsfeed_assignments?: UpdateNewsItemRequestNewsfeedAssignmentsList | undefined;
 }
 /** The type of exception. */
 export type UpdateOfficeHoursExceptionRequestExceptionType = "closed" | "custom_hours";
@@ -9227,15 +9305,15 @@ export interface UpdateOfficeHoursExceptionRequest {
   /** The unique identifier for the office hours exception. */
   id: string;
   /** The date the exception applies to, in `YYYY-MM-DD` format. */
-  exception_date?: string;
+  exception_date?: string | undefined;
   /** The type of exception. */
-  exception_type?: UpdateOfficeHoursExceptionRequestExceptionType | (string & {});
+  exception_type?: UpdateOfficeHoursExceptionRequestExceptionType | (string & {}) | undefined;
   /** An optional name for the exception. */
-  name?: string;
+  name?: string | undefined;
   /** The open intervals for the exception date. Required for `custom_hours`; omit for `closed`. */
-  time_intervals?: UpdateOfficeHoursExceptionRequestTimeIntervalsList | null;
+  time_intervals?: UpdateOfficeHoursExceptionRequestTimeIntervalsList | null | undefined;
   /** Whether the exception repeats every year on the same date. */
-  recurring_annually?: boolean;
+  recurring_annually?: boolean | undefined;
 }
 /** The open intervals for the schedule. `start_minute` and `end_minute` must be on a 15-minute boundary. */
 export type UpdateOfficeHoursScheduleRequestTimeIntervalsList = Array<OfficeHoursTimeIntervalInput>;
@@ -9243,33 +9321,33 @@ export interface UpdateOfficeHoursScheduleRequest {
   /** The unique identifier for the office hours schedule. */
   id: string;
   /** The name of the office hours schedule. */
-  name?: string;
+  name?: string | undefined;
   /** The IANA time zone the schedule's hours are evaluated in. */
-  time_zone_name?: string;
+  time_zone_name?: string | undefined;
   /** The open intervals for the schedule. `start_minute` and `end_minute` must be on a 15-minute boundary. */
-  time_intervals?: UpdateOfficeHoursScheduleRequestTimeIntervalsList;
+  time_intervals?: UpdateOfficeHoursScheduleRequestTimeIntervalsList | undefined;
 }
 export interface UpdateTicketRequest {
   /** The unique identifier for the ticket which is given by Intercom. {% admonition type="info" name="Not the Inbox ticket ID" %} This is the internal `id` field from the API response, not the `ticket_id` displayed in the Intercom Inbox (e.g., #12345). Use the `id` value from the ticket object returned by the API. {% /admonition %} */
   ticket_id: string;
   /** The attributes set on the ticket. */
-  ticket_attributes?: unknown;
+  ticket_attributes?: unknown | undefined;
   /** The ID of the ticket state associated with the ticket type. */
-  ticket_state_id?: string;
+  ticket_state_id?: string | undefined;
   /** The ID of the company that the ticket is associated with. The unique identifier for the company which is given by Intercom. Set to nil to remove company. */
-  company_id?: string;
+  company_id?: string | undefined;
   /** Specify if a ticket is open. Set to false to close a ticket. Closing a ticket will also unsnooze it. */
-  open?: boolean;
+  open?: boolean | undefined;
   /** Specify whether the ticket is visible to users. */
-  is_shared?: boolean;
+  is_shared?: boolean | undefined;
   /** The time you want the ticket to reopen. */
-  snoozed_until?: number;
+  snoozed_until?: number | undefined;
   /** The ID of the admin performing ticket update. Needed for workflows execution and attributing actions to specific admins. */
-  admin_id?: number;
+  admin_id?: number | undefined;
   /** The ID of the admin or team to which the ticket is assigned. Set this 0 to unassign it. */
-  assignee_id?: string;
+  assignee_id?: string | undefined;
   /** Option to disable notifications when a Ticket is updated. */
-  skip_notifications?: boolean;
+  skip_notifications?: boolean | undefined;
 }
 /** Category of the Ticket Type. */
 export type UpdateTicketTypeRequestCategory = "Customer" | "Back-office" | "Tracker";
@@ -9277,17 +9355,17 @@ export interface UpdateTicketTypeRequest {
   /** The unique identifier for the ticket type which is given by Intercom. */
   ticket_type_id: string;
   /** The name of the ticket type. */
-  name?: string;
+  name?: string | undefined;
   /** The description of the ticket type. */
-  description?: string;
+  description?: string | undefined;
   /** Category of the Ticket Type. */
-  category?: UpdateTicketTypeRequestCategory | (string & {});
+  category?: UpdateTicketTypeRequestCategory | (string & {}) | undefined;
   /** The icon of the ticket type. */
-  icon?: string;
+  icon?: string | undefined;
   /** The archived status of the ticket type. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Whether the tickets associated with this ticket type are intended for internal use only or will be shared with customers. This is currently a limited attribute. */
-  is_internal?: boolean;
+  is_internal?: boolean | undefined;
 }
 export interface UpdateTicketTypeAttributeRequest {
   /** The unique identifier for the ticket type which is given by Intercom. */
@@ -9295,37 +9373,37 @@ export interface UpdateTicketTypeAttributeRequest {
   /** The unique identifier for the ticket type attribute which is given by Intercom. */
   attribute_id: string;
   /** The name of the ticket type attribute */
-  name?: string;
+  name?: string | undefined;
   /** The description of the attribute presented to the teammate or contact */
-  description?: string;
+  description?: string | undefined;
   /** Whether the attribute is required to be filled in when teammates are creating the ticket in Inbox. */
-  required_to_create?: boolean;
+  required_to_create?: boolean | undefined;
   /** Whether the attribute is required to be filled in when contacts are creating the ticket in Messenger. */
-  required_to_create_for_contacts?: boolean;
+  required_to_create_for_contacts?: boolean | undefined;
   /** Whether the attribute is visible to teammates when creating a ticket in Inbox. */
-  visible_on_create?: boolean;
+  visible_on_create?: boolean | undefined;
   /** Whether the attribute is visible to contacts when creating a ticket in Messenger. */
-  visible_to_contacts?: boolean;
+  visible_to_contacts?: boolean | undefined;
   /** Whether the attribute allows multiple lines of text (only applicable to string attributes) */
-  multiline?: boolean;
+  multiline?: boolean | undefined;
   /** A comma delimited list of items for the attribute value (only applicable to list attributes) */
-  list_items?: string;
+  list_items?: string | undefined;
   /** Whether the attribute allows multiple files to be attached to it (only applicable to file attributes) */
-  allow_multiple_values?: boolean;
+  allow_multiple_values?: boolean | undefined;
   /** Whether the attribute should be archived and not shown during creation of the ticket (it will still be present on previously created tickets) */
-  archived?: boolean;
+  archived?: boolean | undefined;
 }
 /** The custom attributes which are set for the visitor. */
 export type UpdateVisitorRequestCustomAttributesMap = { [key: string]: string | undefined };
 export interface UpdateVisitorRequest {
   /** A unique identified for the visitor which is given by Intercom. */
-  id?: string;
+  id?: string | undefined;
   /** A unique identified for the visitor which is given by you. */
-  user_id?: string;
+  user_id?: string | undefined;
   /** The visitor's name. */
-  name?: string;
+  name?: string | undefined;
   /** The custom attributes which are set for the visitor. */
-  custom_attributes?: UpdateVisitorRequestCustomAttributesMap;
+  custom_attributes?: UpdateVisitorRequestCustomAttributesMap | undefined;
 }
 export type ArchiveContactError = IntercomOpError;
 /** Archive contact You can archive a single contact. */
@@ -9335,8 +9413,8 @@ export const archiveContact: API.OperationMethod<
   ArchiveContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<ArchiveContactRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<ArchiveContactResponse>,
+  input: __S(8160, __c255, 0) as any as S.Schema<ArchiveContactRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<ArchiveContactResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9345,15 +9423,15 @@ export const archiveContact: API.OperationMethod<
 }));
 
 export type AskFinError = BadRequest | IntercomOpError;
-/** Ask Fin Ask Fin a single, self-contained question and receive one informational answer. Unlike a conversation, `/fin/ask` is non-conversational: Fin will not ask follow-up questions, will not run procedures, and will not escalate to a human on its own. You can still escalate one yourself with `POST /fin/escalate`; the ask conversation is already closed after its one-shot answer, and escalation leaves it closed while routing the handoff separately. Fin's answer is delivered asynchronously via the `fin_replied` event. The conversation ends with a `complete` status -- there is no `awaiting_user_reply` cycle. {% admonition type="warning" %} To request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A). {% /admonition %} */
+/** Ask Fin Ask Fin a single, self-contained question and receive one informational answer. Unlike a conversation, `/fin/ask` is non-conversational: Fin will not ask follow-up questions, will not run procedures, and will not escalate to a human on its own. You can still escalate one yourself with `POST /fin/escalate`; the ask conversation is already closed after its one-shot answer, and escalation leaves it closed while routing the handoff separately. Fin's answer is delivered asynchronously via the `fin_replied` event. The conversation ends with a `complete` status -- there is no `awaiting_user_reply` cycle. {% admonition type="warning" %} To request access to the Fin Agent API, go to **Settings > Integrations > Fin Agent API** in your workspace and tell us about your use case. Once access is granted, **Fin Agent API** appears under **Fin AI Agent > Deploy**. {% /admonition %} */
 export const askFin: API.OperationMethod<
   AskFinRequest,
   AskFinResponse,
   AskFinError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<AskFinRequest>,
-  output: __S(8642, __c270, 2) as any as S.Schema<AskFinResponse>,
+  input: __S(8672, __c271, 0) as any as S.Schema<AskFinRequest>,
+  output: __S(8738, __c273, 2) as any as S.Schema<AskFinResponse>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9369,8 +9447,8 @@ export const attachContactToACompany: API.OperationMethod<
   AttachContactToACompanyError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<AttachContactToACompanyRequest>,
-  output: __S(9413, __c294, 5) as any as S.Schema<Company>,
+  input: __S(9248, __c289, 0) as any as S.Schema<AttachContactToACompanyRequest>,
+  output: __S(9509, __c297, 5) as any as S.Schema<Company>,
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9386,8 +9464,8 @@ export const attachContactToConversation: API.OperationMethod<
   AttachContactToConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9792, __c306, 0) as any as S.Schema<AttachContactToConversationRequest>,
-  output: __S(9826, __c307, 2) as any as S.Schema<ConversationParticipantsResponse>,
+  input: __S(9888, __c309, 0) as any as S.Schema<AttachContactToConversationRequest>,
+  output: __S(9922, __c310, 2) as any as S.Schema<ConversationParticipantsResponse>,
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9403,8 +9481,8 @@ export const attachSubscriptionTypeToContact: API.OperationMethod<
   AttachSubscriptionTypeToContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10208, __c319, 0) as any as S.Schema<AttachSubscriptionTypeToContactRequest>,
-  output: __S(10274, __c321, 2) as any as S.Schema<SubscriptionType>,
+  input: __S(10272, __c321, 0) as any as S.Schema<AttachSubscriptionTypeToContactRequest>,
+  output: __S(10338, __c323, 2) as any as S.Schema<SubscriptionType>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9437,7 +9515,7 @@ export const attachTagToContact: API.OperationMethod<
   AttachTagToContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<AttachTagToContactRequest>,
+  input: __S(576, __c18, 0) as any as S.Schema<AttachTagToContactRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<Tag>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -9471,7 +9549,7 @@ export const attachTagToConversation: API.OperationMethod<
   AttachTagToConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<AttachTagToConversationRequest>,
+  input: __S(1568, __c49, 0) as any as S.Schema<AttachTagToConversationRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<Tag>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -9488,7 +9566,7 @@ export const attachTagToInternalArticle: API.OperationMethod<
   AttachTagToInternalArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<AttachTagToInternalArticleRequest>,
+  input: __S(2016, __c63, 0) as any as S.Schema<AttachTagToInternalArticleRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<Tag>,
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -9522,8 +9600,8 @@ export const blockContact: API.OperationMethod<
   BlockContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<BlockContactRequest>,
-  output: __S(2849, __c89, 1) as any as S.Schema<BlockContactResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<BlockContactRequest>,
+  output: __S(2881, __c90, 1) as any as S.Schema<BlockContactResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9539,8 +9617,8 @@ export const bulkContentActions: API.OperationMethod<
   BulkContentActionsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3268, __c102, 4) as any as S.Schema<BulkContentActionsRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<BulkContentActionsResponse>,
+  input: __S(3300, __c103, 4) as any as S.Schema<BulkContentActionsRequest>,
+  output: __S(3360, __c105, 0) as any as S.Schema<BulkContentActionsResponse>,
   errors: [Forbidden, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9556,8 +9634,8 @@ export const cancelDataExport: API.OperationMethod<
   CancelDataExportError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<CancelDataExportRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<DataExport>,
+  input: __S(3776, __c118, 0) as any as S.Schema<CancelDataExportRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<DataExport>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9590,8 +9668,8 @@ export const collectFinVoiceCallByExternalId: API.OperationMethod<
   CollectFinVoiceCallByExternalIdError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<CollectFinVoiceCallByExternalIdRequest>,
-  output: __S(4832, __c151, 0) as any as S.Schema<AiCallResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<CollectFinVoiceCallByExternalIdRequest>,
+  output: __S(4864, __c152, 0) as any as S.Schema<AiCallResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9607,8 +9685,8 @@ export const collectFinVoiceCallById: API.OperationMethod<
   CollectFinVoiceCallByIdError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5216, __c163, 0) as any as S.Schema<CollectFinVoiceCallByIdRequest>,
-  output: __S(4832, __c151, 0) as any as S.Schema<AiCallResponse>,
+  input: __S(5248, __c164, 0) as any as S.Schema<CollectFinVoiceCallByIdRequest>,
+  output: __S(4864, __c152, 0) as any as S.Schema<AiCallResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9620,12 +9698,12 @@ export type CollectFinVoiceCallByPhoneNumberError = NotFound | IntercomOpError;
 /** Collect Fin Voice call by phone number Retrieve information about a Fin Voice call using the phone number. Returns the most recent matched call for the given phone number, ordered by creation date. */
 export const collectFinVoiceCallByPhoneNumber: API.OperationMethod<
   CollectFinVoiceCallByPhoneNumberRequest,
-  CollectFinVoiceCallByPhoneNumberResponse,
+  AiCallResponse,
   CollectFinVoiceCallByPhoneNumberError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<CollectFinVoiceCallByPhoneNumberRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<CollectFinVoiceCallByPhoneNumberResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<CollectFinVoiceCallByPhoneNumberRequest>,
+  output: __S(4864, __c152, 0) as any as S.Schema<AiCallResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9641,8 +9719,8 @@ export const collectFinVoiceCallsByConversationId: API.OperationMethod<
   CollectFinVoiceCallsByConversationIdError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<CollectFinVoiceCallsByConversationIdRequest>,
-  output: __S(5922, __c185, 2) as any as S.Schema<CollectFinVoiceCallsByConversationIdResponse>,
+  input: __S(5952, __c186, 0) as any as S.Schema<CollectFinVoiceCallsByConversationIdRequest>,
+  output: __S(5954, __c186, 2) as any as S.Schema<CollectFinVoiceCallsByConversationIdResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9658,7 +9736,7 @@ export const convertConversationToTicket: API.OperationMethod<
   ConvertConversationToTicketError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<ConvertConversationToTicketRequest>,
+  input: __S(6304, __c197, 0) as any as S.Schema<ConvertConversationToTicketRequest>,
   output: __S(4359, __c136, 7) as any as S.Schema<Ticket>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -9675,8 +9753,8 @@ export const convertVisitor: API.OperationMethod<
   ConvertVisitorError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<ConvertVisitorRequest>,
-  output: __S(6368, __c199, 0) as any as S.Schema<Contact>,
+  input: __S(6432, __c201, 0) as any as S.Schema<ConvertVisitorRequest>,
+  output: __S(6464, __c202, 0) as any as S.Schema<Contact>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9692,8 +9770,8 @@ export const createArticle: API.OperationMethod<
   CreateArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<CreateArticleRequest>,
-  output: __S(6657, __c208, 1) as any as S.Schema<CreateArticleResponse>,
+  input: __S(6592, __c206, 0) as any as S.Schema<CreateArticleRequest>,
+  output: __S(6753, __c211, 1) as any as S.Schema<CreateArticleResponse>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9709,8 +9787,8 @@ export const createAudience: API.OperationMethod<
   CreateAudienceError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<CreateAudienceRequest>,
-  output: __S(6722, __c210, 2) as any as S.Schema<Audience>,
+  input: __S(6784, __c212, 0) as any as S.Schema<CreateAudienceRequest>,
+  output: __S(6818, __c213, 2) as any as S.Schema<Audience>,
   errors: [UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9726,8 +9804,8 @@ export const createCollection: API.OperationMethod<
   CreateCollectionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<CreateCollectionRequest>,
-  output: __S(6786, __c212, 2) as any as S.Schema<Collection>,
+  input: __S(6848, __c214, 0) as any as S.Schema<CreateCollectionRequest>,
+  output: __S(6882, __c215, 2) as any as S.Schema<Collection>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9743,8 +9821,8 @@ export const createCompanyNote: API.OperationMethod<
   CreateCompanyNoteError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<CreateCompanyNoteRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<Note>,
+  input: __S(6912, __c216, 0) as any as S.Schema<CreateCompanyNoteRequest>,
+  output: __S(6944, __c217, 0) as any as S.Schema<Note>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9760,8 +9838,8 @@ export const createContact: API.OperationMethod<
   CreateContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<CreateContactRequest>,
-  output: __S(6912, __c216, 0) as any as S.Schema<CreateContactResponse>,
+  input: __S(6976, __c218, 0) as any as S.Schema<CreateContactRequest>,
+  output: __S(7008, __c219, 0) as any as S.Schema<CreateContactResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9777,8 +9855,8 @@ export const createContentImportSource: API.OperationMethod<
   CreateContentImportSourceError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6944, __c217, 0) as any as S.Schema<CreateContentImportSourceRequest>,
-  output: __S(6976, __c218, 0) as any as S.Schema<ContentImportSource>,
+  input: __S(7040, __c220, 0) as any as S.Schema<CreateContentImportSourceRequest>,
+  output: __S(7072, __c221, 0) as any as S.Schema<ContentImportSource>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9794,8 +9872,8 @@ export const createContentSnippet: API.OperationMethod<
   CreateContentSnippetError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<CreateContentSnippetRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<ContentSnippet>,
+  input: __S(7104, __c222, 0) as any as S.Schema<CreateContentSnippetRequest>,
+  output: __S(7136, __c223, 0) as any as S.Schema<ContentSnippet>,
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9811,8 +9889,8 @@ export const createConversation: API.OperationMethod<
   CreateConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<CreateConversationRequest>,
-  output: __S(7073, __c221, 1) as any as S.Schema<CreateConversationResponse>,
+  input: __S(7168, __c224, 0) as any as S.Schema<CreateConversationRequest>,
+  output: __S(7169, __c224, 1) as any as S.Schema<CreateConversationResponse>,
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9828,8 +9906,8 @@ export const createConversationAttribute: API.OperationMethod<
   CreateConversationAttributeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<CreateConversationAttributeRequest2>,
-  output: __S(7168, __c224, 0) as any as S.Schema<CreateConversationAttributeResponse>,
+  input: __S(7232, __c226, 0) as any as S.Schema<CreateConversationAttributeRequest2>,
+  output: __S(7264, __c227, 0) as any as S.Schema<CreateConversationAttributeResponse>,
   errors: [UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9848,13 +9926,34 @@ export const createConversationAttributeOption: API.OperationMethod<
   CreateConversationAttributeOptionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<CreateConversationAttributeOptionRequest2>,
-  output: __S(7168, __c224, 0) as any as S.Schema<CreateConversationAttributeOptionResponse>,
+  input: __S(7296, __c228, 0) as any as S.Schema<CreateConversationAttributeOptionRequest2>,
+  output: __S(7264, __c227, 0) as any as S.Schema<CreateConversationAttributeOptionResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateConversationAttributeOption",
+}));
+
+export type CreateConversationStreamTokenError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | IntercomOpError;
+/** Create a conversation stream token Realtime streaming of conversation events uses Server-Sent Events (SSE). It is an opt-in feature, enabled per workspace. Contact Intercom to turn it on. Issue a token that a contact's client uses to subscribe to a realtime stream of that contact's conversation events. Tokens are short-lived, so call this endpoint again before `expires_at` to get a fresh one. Use the `revoke` link in the response to end every active token for the contact. Requires the `read_conversations` permission. */
+export const createConversationStreamToken: API.OperationMethod<
+  CreateConversationStreamTokenRequest,
+  ConversationStreamToken,
+  CreateConversationStreamTokenError,
+  IntercomOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(7328, __c229, 0) as any as S.Schema<CreateConversationStreamTokenRequest>,
+  output: __S(7332, __c229, 4) as any as S.Schema<ConversationStreamToken>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownIntercomError],
+  protocol: IntercomProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateConversationStreamToken",
 }));
 
 export type CreateCustomObjectInstancesError = NotFound | IntercomOpError;
@@ -9865,8 +9964,8 @@ export const createCustomObjectInstances: API.OperationMethod<
   CreateCustomObjectInstancesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<CreateCustomObjectInstancesRequest>,
-  output: __S(7264, __c227, 0) as any as S.Schema<CustomObjectInstance>,
+  input: __S(7360, __c230, 0) as any as S.Schema<CreateCustomObjectInstancesRequest>,
+  output: __S(7392, __c231, 0) as any as S.Schema<CustomObjectInstance>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9882,8 +9981,8 @@ export const createDataAttribute: API.OperationMethod<
   CreateDataAttributeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7296, __c228, 0) as any as S.Schema<CreateDataAttributeRequest>,
-  output: __S(7328, __c229, 0) as any as S.Schema<DataAttribute>,
+  input: __S(7424, __c232, 0) as any as S.Schema<CreateDataAttributeRequest>,
+  output: __S(7456, __c233, 0) as any as S.Schema<DataAttribute>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9899,8 +9998,8 @@ export const createDataConnector: API.OperationMethod<
   CreateDataConnectorError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<CreateDataConnectorRequest>,
-  output: __S(7404, __c231, 12) as any as S.Schema<DataConnectorDetail>,
+  input: __S(7488, __c234, 0) as any as S.Schema<CreateDataConnectorRequest>,
+  output: __S(7532, __c235, 12) as any as S.Schema<DataConnectorDetail>,
   errors: [UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9916,8 +10015,8 @@ export const createDataEvent: API.OperationMethod<
   CreateDataEventError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<CreateDataEventRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<CreateDataEventResponse>,
+  input: __S(7584, __c237, 0) as any as S.Schema<CreateDataEventRequest>,
+  output: __S(3360, __c105, 0) as any as S.Schema<CreateDataEventResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9933,8 +10032,8 @@ export const createDataExport: API.OperationMethod<
   CreateDataExportError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<CreateDataExportRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<DataExport>,
+  input: __S(7616, __c238, 0) as any as S.Schema<CreateDataExportRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<DataExport>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9950,8 +10049,8 @@ export const createExportReportingDataEnqueue: API.OperationMethod<
   CreateExportReportingDataEnqueueError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7520, __c235, 0) as any as S.Schema<CreateExportReportingDataEnqueueRequest>,
-  output: __S(7552, __c236, 0) as any as S.Schema<CreateExportReportingDataEnqueueResponse>,
+  input: __S(7648, __c239, 0) as any as S.Schema<CreateExportReportingDataEnqueueRequest>,
+  output: __S(7680, __c240, 0) as any as S.Schema<CreateExportReportingDataEnqueueResponse>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9967,8 +10066,8 @@ export const createExternalPage: API.OperationMethod<
   CreateExternalPageError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<CreateExternalPageRequest>,
-  output: __S(7616, __c238, 0) as any as S.Schema<ExternalPage>,
+  input: __S(7712, __c241, 0) as any as S.Schema<CreateExternalPageRequest>,
+  output: __S(7744, __c242, 0) as any as S.Schema<ExternalPage>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -9989,8 +10088,8 @@ export const createHelpCenterRedirect: API.OperationMethod<
   CreateHelpCenterRedirectError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<CreateHelpCenterRedirectRequest>,
-  output: __S(7680, __c240, 0) as any as S.Schema<HelpCenterRedirect>,
+  input: __S(7776, __c243, 0) as any as S.Schema<CreateHelpCenterRedirectRequest>,
+  output: __S(7808, __c244, 0) as any as S.Schema<HelpCenterRedirect>,
   errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10006,8 +10105,8 @@ export const createInternalArticle: API.OperationMethod<
   CreateInternalArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<CreateInternalArticleRequest>,
-  output: __S(7744, __c242, 0) as any as S.Schema<CreateInternalArticleResponse>,
+  input: __S(7840, __c245, 0) as any as S.Schema<CreateInternalArticleRequest>,
+  output: __S(7872, __c246, 0) as any as S.Schema<CreateInternalArticleResponse>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10016,15 +10115,15 @@ export const createInternalArticle: API.OperationMethod<
 }));
 
 export type CreateMessageError = BadRequest | Forbidden | UnprocessableEntity | IntercomOpError;
-/** Create a message You can create a message that has been initiated by an admin. The conversation can be either an in-app message, an email or whatsapp. > U+1F6A7 Sending for visitors > > There can be a short delay between when a contact is created and when a contact becomes available to be messaged through the API. A 404 Not Found error will be returned in this case. This will return the Message model that has been created. > U+1F6A7 Retrieving Associated Conversations > > As this is a message, there will be no conversation present until the contact responds. Once they do, you will have to search for a contact's conversations with the id of the message. */
+/** Create a message You can create a message that has been initiated by an admin. The conversation can be either an in-app message, an email or whatsapp. > U+1F6A7 Sending for visitors > > There can be a short delay between when a contact is created and when a contact becomes available to be messaged through the API. A 404 Not Found error will be returned in this case. This will return the Message model that has been created. > U+1F6A7 Retrieving Associated Conversations > > As this is a message, there will be no conversation present until the contact responds. Once they do, you will have to search for a contact's conversations with the id of the message. {% admonition type="warning" name="Messages from contacts" %} `from` should be an admin. A request with a user or lead as `from` is not rejected: it creates a conversation initiated by that contact, as the Create a conversation endpoint (`POST /conversations`) does, and the `to`, `cc` and `bcc` fields are ignored. To create a conversation initiated by a contact, use `POST /conversations`. {% /admonition %} */
 export const createMessage: API.OperationMethod<
   CreateMessageRequest,
   Message,
   CreateMessageError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7777, __c243, 1) as any as S.Schema<CreateMessageRequest>,
-  output: __S(7778, __c243, 2) as any as S.Schema<Message>,
+  input: __S(7905, __c247, 1) as any as S.Schema<CreateMessageRequest>,
+  output: __S(7906, __c247, 2) as any as S.Schema<Message>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10040,8 +10139,8 @@ export const createNewsItem: API.OperationMethod<
   CreateNewsItemError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7808, __c244, 0) as any as S.Schema<CreateNewsItemRequest>,
-  output: __S(7843, __c245, 3) as any as S.Schema<NewsItem>,
+  input: __S(7936, __c248, 0) as any as S.Schema<CreateNewsItemRequest>,
+  output: __S(7971, __c249, 3) as any as S.Schema<NewsItem>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10057,8 +10156,8 @@ export const createNote: API.OperationMethod<
   CreateNoteError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7872, __c246, 0) as any as S.Schema<CreateNoteRequest>,
-  output: __S(6848, __c214, 0) as any as S.Schema<Note>,
+  input: __S(8000, __c250, 0) as any as S.Schema<CreateNoteRequest>,
+  output: __S(6944, __c217, 0) as any as S.Schema<Note>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10074,8 +10173,8 @@ export const createOfficeHoursException: API.OperationMethod<
   CreateOfficeHoursExceptionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7904, __c247, 0) as any as S.Schema<CreateOfficeHoursExceptionRequest>,
-  output: __S(7936, __c248, 0) as any as S.Schema<OfficeHoursException>,
+  input: __S(8032, __c251, 0) as any as S.Schema<CreateOfficeHoursExceptionRequest>,
+  output: __S(8064, __c252, 0) as any as S.Schema<OfficeHoursException>,
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10091,8 +10190,8 @@ export const createOfficeHoursSchedule: API.OperationMethod<
   CreateOfficeHoursScheduleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8032, __c251, 0) as any as S.Schema<CreateOfficeHoursScheduleRequest>,
-  output: __S(8064, __c252, 0) as any as S.Schema<OfficeHoursSchedule>,
+  input: __S(8224, __c257, 0) as any as S.Schema<CreateOfficeHoursScheduleRequest>,
+  output: __S(8256, __c258, 0) as any as S.Schema<OfficeHoursSchedule>,
   errors: [UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10108,8 +10207,8 @@ export const createOrUpdateCompany: API.OperationMethod<
   CreateOrUpdateCompanyError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8160, __c255, 0) as any as S.Schema<CreateOrUpdateCompanyRequest>,
-  output: __S(9413, __c294, 5) as any as S.Schema<Company>,
+  input: __S(8288, __c259, 0) as any as S.Schema<CreateOrUpdateCompanyRequest>,
+  output: __S(9509, __c297, 5) as any as S.Schema<Company>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10125,8 +10224,8 @@ export const createPhoneSwitch: API.OperationMethod<
   CreatePhoneSwitchError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8192, __c256, 0) as any as S.Schema<CreatePhoneSwitchRequest>,
-  output: __S(8193, __c256, 1) as any as S.Schema<PhoneSwitch>,
+  input: __S(8320, __c260, 0) as any as S.Schema<CreatePhoneSwitchRequest>,
+  output: __S(8321, __c260, 1) as any as S.Schema<PhoneSwitch>,
   errors: [BadRequest, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10142,8 +10241,8 @@ export const createTag: API.OperationMethod<
   CreateTagError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c258, 0) as any as S.Schema<CreateTagRequest>,
-  output: __S(8259, __c258, 3) as any as S.Schema<CreateTagResponse>,
+  input: __S(8384, __c262, 0) as any as S.Schema<CreateTagRequest>,
+  output: __S(8387, __c262, 3) as any as S.Schema<CreateTagResponse>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10159,7 +10258,7 @@ export const createTicket: API.OperationMethod<
   CreateTicketError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8289, __c259, 1) as any as S.Schema<CreateTicketRequest>,
+  input: __S(8417, __c263, 1) as any as S.Schema<CreateTicketRequest>,
   output: __S(4359, __c136, 7) as any as S.Schema<Ticket>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -10176,7 +10275,7 @@ export const createTicketType: API.OperationMethod<
   CreateTicketTypeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8352, __c261, 0) as any as S.Schema<CreateTicketTypeRequest>,
+  input: __S(8480, __c265, 0) as any as S.Schema<CreateTicketTypeRequest>,
   output: __S(4389, __c137, 5) as any as S.Schema<TicketType2>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -10193,7 +10292,7 @@ export const createTicketTypeAttribute: API.OperationMethod<
   CreateTicketTypeAttributeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<CreateTicketTypeAttributeRequest>,
+  input: __S(8512, __c266, 0) as any as S.Schema<CreateTicketTypeAttributeRequest>,
   output: __S(4416, __c138, 0) as any as S.Schema<TicketTypeAttribute>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -10210,8 +10309,8 @@ export const dataEventSummaries: API.OperationMethod<
   DataEventSummariesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8417, __c263, 1) as any as S.Schema<DataEventSummariesRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<DataEventSummariesResponse>,
+  input: __S(8545, __c267, 1) as any as S.Schema<DataEventSummariesRequest>,
+  output: __S(3360, __c105, 0) as any as S.Schema<DataEventSummariesResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10227,8 +10326,8 @@ export const deleteArticle: API.OperationMethod<
   DeleteArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<DeleteArticleRequest>,
-  output: __S(8480, __c265, 0) as any as S.Schema<DeletedArticleObject>,
+  input: __S(8576, __c268, 0) as any as S.Schema<DeleteArticleRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<DeletedArticleObject>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10244,8 +10343,8 @@ export const deleteAudience: API.OperationMethod<
   DeleteAudienceError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<DeleteAudienceRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<DeleteAudienceResponse>,
+  input: __S(8640, __c270, 0) as any as S.Schema<DeleteAudienceRequest>,
+  output: __S(3360, __c105, 0) as any as S.Schema<DeleteAudienceResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10261,8 +10360,8 @@ export const deleteCollection: API.OperationMethod<
   DeleteCollectionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<DeleteCollectionRequest>,
-  output: __S(8480, __c265, 0) as any as S.Schema<DeletedCollectionObject>,
+  input: __S(8896, __c278, 0) as any as S.Schema<DeleteCollectionRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<DeletedCollectionObject>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10278,8 +10377,8 @@ export const deleteCompany: API.OperationMethod<
   DeleteCompanyError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<DeleteCompanyRequest>,
-  output: __S(8480, __c265, 0) as any as S.Schema<DeletedCompanyObject>,
+  input: __S(8928, __c279, 0) as any as S.Schema<DeleteCompanyRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<DeletedCompanyObject>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10295,8 +10394,8 @@ export const deleteContact: API.OperationMethod<
   DeleteContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<DeleteContactRequest>,
-  output: __S(8833, __c276, 1) as any as S.Schema<DeleteContactResponse>,
+  input: __S(8960, __c280, 0) as any as S.Schema<DeleteContactRequest>,
+  output: __S(8961, __c280, 1) as any as S.Schema<DeleteContactResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10312,8 +10411,8 @@ export const deleteContentImportSource: API.OperationMethod<
   DeleteContentImportSourceError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8864, __c277, 0) as any as S.Schema<DeleteContentImportSourceRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<DeleteContentImportSourceResponse>,
+  input: __S(8992, __c281, 0) as any as S.Schema<DeleteContentImportSourceRequest>,
+  output: __S(3360, __c105, 0) as any as S.Schema<DeleteContentImportSourceResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10329,8 +10428,8 @@ export const deleteContentSnippet: API.OperationMethod<
   DeleteContentSnippetError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<DeleteContentSnippetRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<DeleteContentSnippetResponse>,
+  input: __S(9024, __c282, 0) as any as S.Schema<DeleteContentSnippetRequest>,
+  output: __S(3360, __c105, 0) as any as S.Schema<DeleteContentSnippetResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10346,8 +10445,8 @@ export const deleteConversation: API.OperationMethod<
   DeleteConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8928, __c279, 0) as any as S.Schema<DeleteConversationRequest>,
-  output: __S(8480, __c265, 0) as any as S.Schema<ConversationDeleted>,
+  input: __S(9056, __c283, 0) as any as S.Schema<DeleteConversationRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<ConversationDeleted>,
   errors: [Forbidden, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10363,8 +10462,8 @@ export const deleteConversationAttribute: API.OperationMethod<
   DeleteConversationAttributeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<DeleteConversationAttributeRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<DeleteConversationAttributeResponse>,
+  input: __S(9088, __c284, 0) as any as S.Schema<DeleteConversationAttributeRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<DeleteConversationAttributeResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10383,8 +10482,8 @@ export const deleteConversationAttributeOption: API.OperationMethod<
   DeleteConversationAttributeOptionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8992, __c281, 0) as any as S.Schema<DeleteConversationAttributeOptionRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<DeleteConversationAttributeOptionResponse>,
+  input: __S(9120, __c285, 0) as any as S.Schema<DeleteConversationAttributeOptionRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<DeleteConversationAttributeOptionResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10400,8 +10499,8 @@ export const deleteCustomObjectInstancesByExternalId: API.OperationMethod<
   DeleteCustomObjectInstancesByExternalIdError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9024, __c282, 0) as any as S.Schema<DeleteCustomObjectInstancesByExternalIdRequest>,
-  output: __S(9056, __c283, 0) as any as S.Schema<CustomObjectInstanceDeleted>,
+  input: __S(9152, __c286, 0) as any as S.Schema<DeleteCustomObjectInstancesByExternalIdRequest>,
+  output: __S(9184, __c287, 0) as any as S.Schema<CustomObjectInstanceDeleted>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10417,8 +10516,8 @@ export const deleteCustomObjectInstancesById: API.OperationMethod<
   DeleteCustomObjectInstancesByIdError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9089, __c284, 1) as any as S.Schema<DeleteCustomObjectInstancesByIdRequest>,
-  output: __S(9056, __c283, 0) as any as S.Schema<CustomObjectInstanceDeleted>,
+  input: __S(9217, __c288, 1) as any as S.Schema<DeleteCustomObjectInstancesByIdRequest>,
+  output: __S(9184, __c287, 0) as any as S.Schema<CustomObjectInstanceDeleted>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10434,8 +10533,8 @@ export const deleteDataConnector: API.OperationMethod<
   DeleteDataConnectorError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c285, 0) as any as S.Schema<DeleteDataConnectorRequest>,
-  output: __S(8480, __c265, 0) as any as S.Schema<DeletedDataConnectorObject>,
+  input: __S(9536, __c298, 0) as any as S.Schema<DeleteDataConnectorRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<DeletedDataConnectorObject>,
   errors: [NotFound, Conflict, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10451,8 +10550,8 @@ export const deleteExternalPage: API.OperationMethod<
   DeleteExternalPageError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9440, __c295, 0) as any as S.Schema<DeleteExternalPageRequest>,
-  output: __S(7616, __c238, 0) as any as S.Schema<ExternalPage>,
+  input: __S(9568, __c299, 0) as any as S.Schema<DeleteExternalPageRequest>,
+  output: __S(7744, __c242, 0) as any as S.Schema<ExternalPage>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10468,8 +10567,8 @@ export const deleteHelpCenterRedirect: API.OperationMethod<
   DeleteHelpCenterRedirectError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<DeleteHelpCenterRedirectRequest>,
-  output: __S(8480, __c265, 0) as any as S.Schema<DeletedHelpCenterRedirectObject>,
+  input: __S(9600, __c300, 0) as any as S.Schema<DeleteHelpCenterRedirectRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<DeletedHelpCenterRedirectObject>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10485,8 +10584,8 @@ export const deleteInternalArticle: API.OperationMethod<
   DeleteInternalArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<DeleteInternalArticleRequest>,
-  output: __S(8480, __c265, 0) as any as S.Schema<DeletedInternalArticleObject>,
+  input: __S(9632, __c301, 0) as any as S.Schema<DeleteInternalArticleRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<DeletedInternalArticleObject>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10502,8 +10601,8 @@ export const deleteNewsItem: API.OperationMethod<
   DeleteNewsItemError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<DeleteNewsItemRequest>,
-  output: __S(8480, __c265, 0) as any as S.Schema<DeletedObject>,
+  input: __S(9664, __c302, 0) as any as S.Schema<DeleteNewsItemRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<DeletedObject>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10519,8 +10618,8 @@ export const deleteOfficeHoursException: API.OperationMethod<
   DeleteOfficeHoursExceptionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<DeleteOfficeHoursExceptionRequest>,
-  output: __S(9600, __c300, 0) as any as S.Schema<DeleteOfficeHoursExceptionResponse>,
+  input: __S(9696, __c303, 0) as any as S.Schema<DeleteOfficeHoursExceptionRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<DeleteOfficeHoursExceptionResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10536,8 +10635,8 @@ export const deleteOfficeHoursSchedule: API.OperationMethod<
   DeleteOfficeHoursScheduleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<DeleteOfficeHoursScheduleRequest>,
-  output: __S(9600, __c300, 0) as any as S.Schema<DeleteOfficeHoursScheduleResponse>,
+  input: __S(9760, __c305, 0) as any as S.Schema<DeleteOfficeHoursScheduleRequest>,
+  output: __S(9728, __c304, 0) as any as S.Schema<DeleteOfficeHoursScheduleResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10553,8 +10652,8 @@ export const deleteTag: API.OperationMethod<
   DeleteTagError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9664, __c302, 0) as any as S.Schema<DeleteTagRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<DeleteTagResponse>,
+  input: __S(9792, __c306, 0) as any as S.Schema<DeleteTagRequest>,
+  output: __S(3360, __c105, 0) as any as S.Schema<DeleteTagResponse>,
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10570,8 +10669,8 @@ export const deleteTicket: API.OperationMethod<
   DeleteTicketError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9696, __c303, 0) as any as S.Schema<DeleteTicketRequest>,
-  output: __S(8480, __c265, 0) as any as S.Schema<TicketDeleted>,
+  input: __S(9824, __c307, 0) as any as S.Schema<DeleteTicketRequest>,
+  output: __S(8608, __c269, 0) as any as S.Schema<TicketDeleted>,
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10587,8 +10686,8 @@ export const detachContactFromACompany: API.OperationMethod<
   DetachContactFromACompanyError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9728, __c304, 0) as any as S.Schema<DetachContactFromACompanyRequest>,
-  output: __S(9413, __c294, 5) as any as S.Schema<Company>,
+  input: __S(9856, __c308, 0) as any as S.Schema<DetachContactFromACompanyRequest>,
+  output: __S(9509, __c297, 5) as any as S.Schema<Company>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10608,8 +10707,8 @@ export const detachContactFromConversation: API.OperationMethod<
   DetachContactFromConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9760, __c305, 0) as any as S.Schema<DetachContactFromConversationRequest>,
-  output: __S(9826, __c307, 2) as any as S.Schema<ConversationParticipantsResponse>,
+  input: __S(9952, __c311, 0) as any as S.Schema<DetachContactFromConversationRequest>,
+  output: __S(9922, __c310, 2) as any as S.Schema<ConversationParticipantsResponse>,
   errors: [Forbidden, NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10625,8 +10724,8 @@ export const detachSubscriptionTypeToContact: API.OperationMethod<
   DetachSubscriptionTypeToContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9856, __c308, 0) as any as S.Schema<DetachSubscriptionTypeToContactRequest>,
-  output: __S(10274, __c321, 2) as any as S.Schema<SubscriptionType>,
+  input: __S(9984, __c312, 0) as any as S.Schema<DetachSubscriptionTypeToContactRequest>,
+  output: __S(10338, __c323, 2) as any as S.Schema<SubscriptionType>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10642,7 +10741,7 @@ export const detachTagFromArticle: API.OperationMethod<
   DetachTagFromArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9888, __c309, 0) as any as S.Schema<DetachTagFromArticleRequest>,
+  input: __S(10016, __c313, 0) as any as S.Schema<DetachTagFromArticleRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<Tag>,
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -10659,7 +10758,7 @@ export const detachTagFromContact: API.OperationMethod<
   DetachTagFromContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9920, __c310, 0) as any as S.Schema<DetachTagFromContactRequest>,
+  input: __S(10048, __c314, 0) as any as S.Schema<DetachTagFromContactRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<Tag>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -10676,7 +10775,7 @@ export const detachTagFromContentSnippet: API.OperationMethod<
   DetachTagFromContentSnippetError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9952, __c311, 0) as any as S.Schema<DetachTagFromContentSnippetRequest>,
+  input: __S(10080, __c315, 0) as any as S.Schema<DetachTagFromContentSnippetRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<Tag>,
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -10693,7 +10792,7 @@ export const detachTagFromConversation: API.OperationMethod<
   DetachTagFromConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9984, __c312, 0) as any as S.Schema<DetachTagFromConversationRequest>,
+  input: __S(10112, __c316, 0) as any as S.Schema<DetachTagFromConversationRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<Tag>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -10710,7 +10809,7 @@ export const detachTagFromInternalArticle: API.OperationMethod<
   DetachTagFromInternalArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10016, __c313, 0) as any as S.Schema<DetachTagFromInternalArticleRequest>,
+  input: __S(10144, __c317, 0) as any as S.Schema<DetachTagFromInternalArticleRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<Tag>,
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -10727,7 +10826,7 @@ export const detachTagFromTicket: API.OperationMethod<
   DetachTagFromTicketError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10048, __c314, 0) as any as S.Schema<DetachTagFromTicketRequest>,
+  input: __S(10176, __c318, 0) as any as S.Schema<DetachTagFromTicketRequest>,
   output: __S(64, __c2, 0) as any as S.Schema<Tag>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -10744,8 +10843,8 @@ export const dismissContactBanner: API.OperationMethod<
   DismissContactBannerError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10080, __c315, 0) as any as S.Schema<DismissContactBannerRequest>,
-  output: __S(10081, __c315, 1) as any as S.Schema<BannerDismiss>,
+  input: __S(10208, __c319, 0) as any as S.Schema<DismissContactBannerRequest>,
+  output: __S(10209, __c319, 1) as any as S.Schema<BannerDismiss>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10761,8 +10860,8 @@ export const downloadDataExport: API.OperationMethod<
   DownloadDataExportError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10112, __c316, 0) as any as S.Schema<DownloadDataExportRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<DownloadDataExportResponse>,
+  input: __S(10240, __c320, 0) as any as S.Schema<DownloadDataExportRequest>,
+  output: __S(3360, __c105, 0) as any as S.Schema<DownloadDataExportResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10778,8 +10877,8 @@ export const enqueueCreateTicket: API.OperationMethod<
   EnqueueCreateTicketError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10145, __c317, 1) as any as S.Schema<EnqueueCreateTicketRequest>,
-  output: __S(10176, __c318, 0) as any as S.Schema<Jobs>,
+  input: __S(10369, __c324, 1) as any as S.Schema<EnqueueCreateTicketRequest>,
+  output: __S(10400, __c325, 0) as any as S.Schema<Jobs>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10788,15 +10887,15 @@ export const enqueueCreateTicket: API.OperationMethod<
 }));
 
 export type EscalateFinConversationError = BadRequest | IntercomOpError;
-/** Escalate to a human Hand a conversation off to a human teammate. If you use the Intercom Helpdesk, the handoff lands in your team inbox. Provide either `conversation_id` or `user`: - `conversation_id` -- escalate an existing agent conversation, including one started with `/fin/ask`. On the Intercom Helpdesk, Fin by default summarises the conversation and opens a new Helpdesk conversation that carries the summary as an internal note. Escalation does not change the original agent conversation's assignment or open/closed state. Configure an escalation Operator Workflow to change this default. - `user` -- escalate on behalf of a user with no prior agent conversation. On the Intercom Helpdesk, a new Helpdesk conversation is created for the teammate. Not supported on Fin for Platforms -- see below. In both cases, pass the optional `context` to give the receiving teammate background your orchestrating agent has and Fin does not. On the Intercom Helpdesk, it appears above the summary in the internal note of the new conversation the teammate picks up. It is never shown to the end user. Escalating an existing conversation also sets its AI Agent resolution state to `escalated`, readable as `ai_agent.resolution_state` on the Conversations API. This is a resolution state, not a billable resolution. On Fin for Platforms, `conversation_id` is required -- `user` is not supported and is rejected, because there is no Intercom Helpdesk in which to create a conversation. There is no Intercom inbox either, so an escalation that no workflow handles does not open a Helpdesk conversation for a teammate. `context` is not surfaced, and the conversation is left open for your platform to hand off and continue driving. You are notified over the existing webhook or SSE channel with an `escalated` status followed by `complete`. The `complete` status signals that Fin is done; it does not close the conversation. On the Intercom Helpdesk, the new human conversation remains open; on Fin for Platforms, the conversation remains open for whoever handles it on your platform. {% admonition type="warning" %} To request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A). {% /admonition %} */
+/** Escalate to a human Hand a conversation off to a human teammate. If you use the Intercom Helpdesk, the handoff lands in your team inbox. Provide either `conversation_id` or `user`: - `conversation_id` -- escalate an existing agent conversation, including one started with `/fin/ask`. On the Intercom Helpdesk, Fin by default summarises the conversation and opens a new Helpdesk conversation that carries the summary as an internal note. Escalation does not change the original agent conversation's assignment or open/closed state. Configure an escalation Operator Workflow to change this default. - `user` -- escalate on behalf of a user with no prior agent conversation. On the Intercom Helpdesk, a new Helpdesk conversation is created for the teammate. Not supported on Fin for Platforms -- see below. In both cases, pass the optional `context` to give the receiving teammate background your orchestrating agent has and Fin does not. On the Intercom Helpdesk, it appears above the summary in the internal note of the new conversation the teammate picks up. It is never shown to the end user. Escalating an existing conversation also sets its AI Agent resolution state to `escalated`, readable as `ai_agent.resolution_state` on the Conversations API. This is a resolution state, not a billable resolution. On Fin for Platforms, `conversation_id` is required -- `user` is not supported and is rejected, because there is no Intercom Helpdesk in which to create a conversation. There is no Intercom inbox either, so an escalation that no workflow handles does not open a Helpdesk conversation for a teammate. `context` is not surfaced, and the conversation is left open for your platform to hand off and continue driving. You are notified via webhooks with an `escalated` status followed by `complete`. The `complete` status signals that Fin is done; it does not close the conversation. On the Intercom Helpdesk, the new human conversation remains open; on Fin for Platforms, the conversation remains open for whoever handles it on your platform. {% admonition type="warning" %} To request access to the Fin Agent API, go to **Settings > Integrations > Fin Agent API** in your workspace and tell us about your use case. Once access is granted, **Fin Agent API** appears under **Fin AI Agent > Deploy**. {% /admonition %} */
 export const escalateFinConversation: API.OperationMethod<
   EscalateFinConversationRequest,
   EscalateFinConversationResponse,
   EscalateFinConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10304, __c322, 0) as any as S.Schema<EscalateFinConversationRequest>,
-  output: __S(10305, __c322, 1) as any as S.Schema<EscalateFinConversationResponse>,
+  input: __S(10432, __c326, 0) as any as S.Schema<EscalateFinConversationRequest>,
+  output: __S(10433, __c326, 1) as any as S.Schema<EscalateFinConversationResponse>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10812,8 +10911,8 @@ export const exportWorkflow: API.OperationMethod<
   ExportWorkflowError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10336, __c323, 0) as any as S.Schema<ExportWorkflowRequest>,
-  output: __S(10338, __c323, 2) as any as S.Schema<WorkflowExport>,
+  input: __S(10464, __c327, 0) as any as S.Schema<ExportWorkflowRequest>,
+  output: __S(10466, __c327, 2) as any as S.Schema<WorkflowExport>,
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10829,8 +10928,8 @@ export const findTag: API.OperationMethod<
   FindTagError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10368, __c324, 0) as any as S.Schema<FindTagRequest>,
-  output: __S(9216, __c288, 0) as any as S.Schema<TagBasic>,
+  input: __S(10496, __c328, 0) as any as S.Schema<FindTagRequest>,
+  output: __S(9312, __c291, 0) as any as S.Schema<TagBasic>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10846,8 +10945,8 @@ export const getACompanyById: API.OperationMethod<
   GetACompanyByIdError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10400, __c325, 0) as any as S.Schema<GetACompanyByIdRequest>,
-  output: __S(9413, __c294, 5) as any as S.Schema<Company>,
+  input: __S(10528, __c329, 0) as any as S.Schema<GetACompanyByIdRequest>,
+  output: __S(9509, __c297, 5) as any as S.Schema<Company>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10863,8 +10962,8 @@ export const getAdmin: API.OperationMethod<
   GetAdminError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10432, __c326, 0) as any as S.Schema<GetAdminRequest>,
-  output: __S(9281, __c290, 1) as any as S.Schema<Admin>,
+  input: __S(10560, __c330, 0) as any as S.Schema<GetAdminRequest>,
+  output: __S(9377, __c293, 1) as any as S.Schema<Admin>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10880,8 +10979,8 @@ export const getArticle: API.OperationMethod<
   GetArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10464, __c327, 0) as any as S.Schema<GetArticleRequest>,
-  output: __S(6657, __c208, 1) as any as S.Schema<GetArticleResponse>,
+  input: __S(10592, __c331, 0) as any as S.Schema<GetArticleRequest>,
+  output: __S(6753, __c211, 1) as any as S.Schema<GetArticleResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10897,8 +10996,8 @@ export const getArticleDraft: API.OperationMethod<
   GetArticleDraftError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10496, __c328, 0) as any as S.Schema<GetArticleDraftRequest>,
-  output: __S(6657, __c208, 1) as any as S.Schema<GetArticleDraftResponse>,
+  input: __S(10624, __c332, 0) as any as S.Schema<GetArticleDraftRequest>,
+  output: __S(6753, __c211, 1) as any as S.Schema<GetArticleDraftResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10914,8 +11013,8 @@ export const getArticleVersion: API.OperationMethod<
   GetArticleVersionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10528, __c329, 0) as any as S.Schema<GetArticleVersionRequest>,
-  output: __S(10529, __c329, 1) as any as S.Schema<ArticleVersion>,
+  input: __S(10656, __c333, 0) as any as S.Schema<GetArticleVersionRequest>,
+  output: __S(10657, __c333, 1) as any as S.Schema<ArticleVersion>,
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10931,8 +11030,8 @@ export const getAudience: API.OperationMethod<
   GetAudienceError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10560, __c330, 0) as any as S.Schema<GetAudienceRequest>,
-  output: __S(6722, __c210, 2) as any as S.Schema<Audience>,
+  input: __S(10688, __c334, 0) as any as S.Schema<GetAudienceRequest>,
+  output: __S(6818, __c213, 2) as any as S.Schema<Audience>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10948,8 +11047,8 @@ export const getBrand: API.OperationMethod<
   GetBrandError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10592, __c331, 0) as any as S.Schema<GetBrandRequest>,
-  output: __S(10624, __c332, 0) as any as S.Schema<Brand>,
+  input: __S(96, __c3, 0) as any as S.Schema<GetBrandRequest>,
+  output: __S(128, __c4, 0) as any as S.Schema<Brand>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10961,8 +11060,8 @@ export type GetCallError = NotFound | IntercomOpError;
 /** Get a call Retrieve a single call by id. */
 export const getCall: API.OperationMethod<GetCallRequest, Call, GetCallError, IntercomOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(96, __c3, 0) as any as S.Schema<GetCallRequest>,
-    output: __S(128, __c4, 0) as any as S.Schema<Call>,
+    input: __S(160, __c5, 0) as any as S.Schema<GetCallRequest>,
+    output: __S(192, __c6, 0) as any as S.Schema<Call>,
     errors: [NotFound, UnknownIntercomError],
     protocol: IntercomProtocol,
     retry: Retry.Retry,
@@ -10978,8 +11077,8 @@ export const getCallRecording: API.OperationMethod<
   GetCallRecordingError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<GetCallRecordingRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<GetCallRecordingResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<GetCallRecordingRequest>,
+  output: __S(3360, __c105, 0) as any as S.Schema<GetCallRecordingResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -10995,8 +11094,8 @@ export const getCallTranscript: API.OperationMethod<
   GetCallTranscriptError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<GetCallTranscriptRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<GetCallTranscriptResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<GetCallTranscriptRequest>,
+  output: __S(3360, __c105, 0) as any as S.Schema<GetCallTranscriptResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11012,8 +11111,8 @@ export const getCollection: API.OperationMethod<
   GetCollectionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<GetCollectionRequest>,
-  output: __S(6786, __c212, 2) as any as S.Schema<Collection>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetCollectionRequest>,
+  output: __S(6882, __c215, 2) as any as S.Schema<Collection>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11029,8 +11128,8 @@ export const getCompany: API.OperationMethod<
   GetCompanyError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<GetCompanyRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<CompanyList>,
+  input: __S(320, __c10, 0) as any as S.Schema<GetCompanyRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<CompanyList>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11046,8 +11145,8 @@ export const getContact: API.OperationMethod<
   GetContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetContactRequest>,
-  output: __S(6912, __c216, 0) as any as S.Schema<GetContactResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<GetContactRequest>,
+  output: __S(7008, __c219, 0) as any as S.Schema<GetContactResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11063,8 +11162,8 @@ export const getContactByExternalId: API.OperationMethod<
   GetContactByExternalIdError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetContactByExternalIdRequest>,
-  output: __S(6912, __c216, 0) as any as S.Schema<GetContactByExternalIdResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<GetContactByExternalIdRequest>,
+  output: __S(7008, __c219, 0) as any as S.Schema<GetContactByExternalIdResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11080,8 +11179,8 @@ export const getContentImportSource: API.OperationMethod<
   GetContentImportSourceError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetContentImportSourceRequest>,
-  output: __S(6976, __c218, 0) as any as S.Schema<ContentImportSource>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetContentImportSourceRequest>,
+  output: __S(7072, __c221, 0) as any as S.Schema<ContentImportSource>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11097,8 +11196,8 @@ export const getContentSnippet: API.OperationMethod<
   GetContentSnippetError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<GetContentSnippetRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<ContentSnippet>,
+  input: __S(544, __c17, 0) as any as S.Schema<GetContentSnippetRequest>,
+  output: __S(7136, __c223, 0) as any as S.Schema<ContentSnippet>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11114,8 +11213,8 @@ export const getConversation: API.OperationMethod<
   GetConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetConversationRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<Conversation>,
+  input: __S(608, __c19, 0) as any as S.Schema<GetConversationRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<Conversation>,
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11131,8 +11230,8 @@ export const getConversationAttribute: API.OperationMethod<
   GetConversationAttributeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetConversationAttributeRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<GetConversationAttributeResponse>,
+  input: __S(768, __c24, 0) as any as S.Schema<GetConversationAttributeRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<GetConversationAttributeResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11148,8 +11247,8 @@ export const getCustomObjectInstance: API.OperationMethod<
   GetCustomObjectInstanceError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetCustomObjectInstanceRequest>,
-  output: __S(7264, __c227, 0) as any as S.Schema<CustomObjectInstance>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetCustomObjectInstanceRequest>,
+  output: __S(7392, __c231, 0) as any as S.Schema<CustomObjectInstance>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11165,8 +11264,8 @@ export const getDataConnector: API.OperationMethod<
   GetDataConnectorError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c24, 0) as any as S.Schema<GetDataConnectorRequest>,
-  output: __S(7404, __c231, 12) as any as S.Schema<DataConnectorDetail>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetDataConnectorRequest>,
+  output: __S(7532, __c235, 12) as any as S.Schema<DataConnectorDetail>,
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11182,8 +11281,8 @@ export const getDataConnectorExecutionResult: API.OperationMethod<
   GetDataConnectorExecutionResultError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetDataConnectorExecutionResultRequest>,
-  output: __S(832, __c26, 0) as any as S.Schema<DataConnectorExecutionResult>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetDataConnectorExecutionResultRequest>,
+  output: __S(896, __c28, 0) as any as S.Schema<DataConnectorExecutionResult>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11199,8 +11298,8 @@ export const getDataExport: API.OperationMethod<
   GetDataExportError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetDataExportRequest>,
-  output: __S(3776, __c118, 0) as any as S.Schema<DataExport>,
+  input: __S(928, __c29, 0) as any as S.Schema<GetDataExportRequest>,
+  output: __S(3808, __c119, 0) as any as S.Schema<DataExport>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11216,8 +11315,8 @@ export const getDownloadReportingData: API.OperationMethod<
   GetDownloadReportingDataError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<GetDownloadReportingDataRequest>,
-  output: __S(3296, __c103, 0) as any as S.Schema<GetDownloadReportingDataResponse>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetDownloadReportingDataRequest>,
+  output: __S(3360, __c105, 0) as any as S.Schema<GetDownloadReportingDataResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11233,8 +11332,8 @@ export const getEmail: API.OperationMethod<
   GetEmailError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<GetEmailRequest>,
-  output: __S(960, __c30, 0) as any as S.Schema<EmailSetting>,
+  input: __S(992, __c31, 0) as any as S.Schema<GetEmailRequest>,
+  output: __S(1024, __c32, 0) as any as S.Schema<EmailSetting>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11250,8 +11349,8 @@ export const getExportReportingData: API.OperationMethod<
   GetExportReportingDataError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetExportReportingDataRequest>,
-  output: __S(7552, __c236, 0) as any as S.Schema<GetExportReportingDataResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetExportReportingDataRequest>,
+  output: __S(7680, __c240, 0) as any as S.Schema<GetExportReportingDataResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11267,8 +11366,8 @@ export const getExternalPage: API.OperationMethod<
   GetExternalPageError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetExternalPageRequest>,
-  output: __S(7616, __c238, 0) as any as S.Schema<ExternalPage>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetExternalPageRequest>,
+  output: __S(7744, __c242, 0) as any as S.Schema<ExternalPage>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11284,8 +11383,8 @@ export const getHelpCenter: API.OperationMethod<
   GetHelpCenterError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetHelpCenterRequest>,
-  output: __S(1088, __c34, 0) as any as S.Schema<HelpCenter>,
+  input: __S(1152, __c36, 0) as any as S.Schema<GetHelpCenterRequest>,
+  output: __S(1184, __c37, 0) as any as S.Schema<HelpCenter>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11301,8 +11400,8 @@ export const getHelpCenterRedirect: API.OperationMethod<
   GetHelpCenterRedirectError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetHelpCenterRedirectRequest>,
-  output: __S(7680, __c240, 0) as any as S.Schema<HelpCenterRedirect>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetHelpCenterRedirectRequest>,
+  output: __S(7808, __c244, 0) as any as S.Schema<HelpCenterRedirect>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11318,8 +11417,8 @@ export const getInternalArticle: API.OperationMethod<
   GetInternalArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<GetInternalArticleRequest>,
-  output: __S(7744, __c242, 0) as any as S.Schema<GetInternalArticleResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<GetInternalArticleRequest>,
+  output: __S(7872, __c246, 0) as any as S.Schema<GetInternalArticleResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11335,8 +11434,8 @@ export const getIpAllowlist: API.OperationMethod<
   GetIpAllowlistError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<GetIpAllowlistRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<IpAllowlist>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetIpAllowlistRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<IpAllowlist>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11352,8 +11451,8 @@ export const getMacro: API.OperationMethod<
   GetMacroError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<GetMacroRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<Macro>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetMacroRequest>,
+  output: __S(1376, __c43, 0) as any as S.Schema<Macro>,
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11369,8 +11468,8 @@ export const getNewsfeed: API.OperationMethod<
   GetNewsfeedError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetNewsfeedRequest>,
-  output: __S(1345, __c42, 1) as any as S.Schema<Newsfeed>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetNewsfeedRequest>,
+  output: __S(1409, __c44, 1) as any as S.Schema<Newsfeed>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11386,8 +11485,8 @@ export const getNewsItem: API.OperationMethod<
   GetNewsItemError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetNewsItemRequest>,
-  output: __S(7843, __c245, 3) as any as S.Schema<NewsItem>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetNewsItemRequest>,
+  output: __S(7971, __c249, 3) as any as S.Schema<NewsItem>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11399,8 +11498,8 @@ export type GetNoteError = NotFound | IntercomOpError;
 /** Retrieve a note You can fetch the details of a single note. */
 export const getNote: API.OperationMethod<GetNoteRequest, Note, GetNoteError, IntercomOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1408, __c44, 0) as any as S.Schema<GetNoteRequest>,
-    output: __S(6848, __c214, 0) as any as S.Schema<Note>,
+    input: __S(1472, __c46, 0) as any as S.Schema<GetNoteRequest>,
+    output: __S(6944, __c217, 0) as any as S.Schema<Note>,
     errors: [NotFound, UnknownIntercomError],
     protocol: IntercomProtocol,
     retry: Retry.Retry,
@@ -11416,8 +11515,8 @@ export const getOfficeHoursException: API.OperationMethod<
   GetOfficeHoursExceptionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<GetOfficeHoursExceptionRequest>,
-  output: __S(7936, __c248, 0) as any as S.Schema<OfficeHoursException>,
+  input: __S(1504, __c47, 0) as any as S.Schema<GetOfficeHoursExceptionRequest>,
+  output: __S(8064, __c252, 0) as any as S.Schema<OfficeHoursException>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11433,8 +11532,8 @@ export const getOfficeHoursSchedule: API.OperationMethod<
   GetOfficeHoursScheduleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetOfficeHoursScheduleRequest>,
-  output: __S(8064, __c252, 0) as any as S.Schema<OfficeHoursSchedule>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetOfficeHoursScheduleRequest>,
+  output: __S(8256, __c258, 0) as any as S.Schema<OfficeHoursSchedule>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11450,8 +11549,8 @@ export const getSegment: API.OperationMethod<
   GetSegmentError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetSegmentRequest>,
-  output: __S(9312, __c291, 0) as any as S.Schema<Segment>,
+  input: __S(1600, __c50, 0) as any as S.Schema<GetSegmentRequest>,
+  output: __S(9408, __c294, 0) as any as S.Schema<Segment>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11463,8 +11562,8 @@ export type GetTeamError = NotFound | IntercomOpError;
 /** Retrieve a team You can fetch the details of a single team, containing an array of admins that belong to this team. */
 export const getTeam: API.OperationMethod<GetTeamRequest, Team, GetTeamError, IntercomOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(1568, __c49, 0) as any as S.Schema<GetTeamRequest>,
-    output: __S(1601, __c50, 1) as any as S.Schema<Team>,
+    input: __S(1632, __c51, 0) as any as S.Schema<GetTeamRequest>,
+    output: __S(1665, __c52, 1) as any as S.Schema<Team>,
     errors: [NotFound, UnknownIntercomError],
     protocol: IntercomProtocol,
     retry: Retry.Retry,
@@ -11480,8 +11579,8 @@ export const getTeamMetrics: API.OperationMethod<
   GetTeamMetricsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<GetTeamMetricsRequest>,
-  output: __S(1635, __c51, 3) as any as S.Schema<TeamMetricList>,
+  input: __S(1696, __c53, 0) as any as S.Schema<GetTeamMetricsRequest>,
+  output: __S(1699, __c53, 3) as any as S.Schema<TeamMetricList>,
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11497,7 +11596,7 @@ export const getTicket: API.OperationMethod<
   GetTicketError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetTicketRequest>,
+  input: __S(1728, __c54, 0) as any as S.Schema<GetTicketRequest>,
   output: __S(4359, __c136, 7) as any as S.Schema<Ticket>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -11514,7 +11613,7 @@ export const getTicketType: API.OperationMethod<
   GetTicketTypeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<GetTicketTypeRequest>,
+  input: __S(1760, __c55, 0) as any as S.Schema<GetTicketTypeRequest>,
   output: __S(4389, __c137, 5) as any as S.Schema<TicketType2>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -11531,8 +11630,8 @@ export const getVisitorWithUserId: API.OperationMethod<
   GetVisitorWithUserIdError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<GetVisitorWithUserIdRequest>,
-  output: __S(1767, __c55, 7) as any as S.Schema<Visitor>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetVisitorWithUserIdRequest>,
+  output: __S(1831, __c57, 7) as any as S.Schema<Visitor>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11548,8 +11647,8 @@ export const getWhatsAppMessageStatus: API.OperationMethod<
   GetWhatsAppMessageStatusError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<GetWhatsAppMessageStatusRequest>,
-  output: __S(1794, __c56, 2) as any as S.Schema<WhatsappMessageStatus>,
+  input: __S(1856, __c58, 0) as any as S.Schema<GetWhatsAppMessageStatusRequest>,
+  output: __S(1858, __c58, 2) as any as S.Schema<WhatsappMessageStatus>,
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11565,8 +11664,8 @@ export const getWhatsAppMessageStatus2: API.OperationMethod<
   GetWhatsAppMessageStatus2Error,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<GetWhatsAppMessageStatusRequest2>,
-  output: __S(1828, __c57, 4) as any as S.Schema<WhatsappMessageStatusList>,
+  input: __S(1888, __c59, 0) as any as S.Schema<GetWhatsAppMessageStatusRequest2>,
+  output: __S(1892, __c59, 4) as any as S.Schema<WhatsappMessageStatusList>,
   errors: [BadRequest, Forbidden, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11582,8 +11681,8 @@ export const identifyAdmin: API.OperationMethod<
   IdentifyAdminError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<IdentifyAdminRequest>,
-  output: __S(1890, __c59, 2) as any as S.Schema<AdminWithApp>,
+  input: __S(1952, __c61, 0) as any as S.Schema<IdentifyAdminRequest>,
+  output: __S(1954, __c61, 2) as any as S.Schema<AdminWithApp>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11599,8 +11698,8 @@ export const jobsStatus2: API.OperationMethod<
   JobsStatus2Error,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<JobsStatusRequest>,
-  output: __S(10176, __c318, 0) as any as S.Schema<Jobs>,
+  input: __S(1984, __c62, 0) as any as S.Schema<JobsStatusRequest>,
+  output: __S(10400, __c325, 0) as any as S.Schema<Jobs>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11616,8 +11715,8 @@ export const linkConversationToTicket: API.OperationMethod<
   LinkConversationToTicketError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<LinkConversationToTicketRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<Conversation>,
+  input: __S(2048, __c64, 0) as any as S.Schema<LinkConversationToTicketRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<Conversation>,
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11633,8 +11732,8 @@ export const lisDataAttributes: API.OperationMethod<
   LisDataAttributesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<LisDataAttributesRequest>,
-  output: __S(2018, __c63, 2) as any as S.Schema<DataAttributeList>,
+  input: __S(2080, __c65, 0) as any as S.Schema<LisDataAttributesRequest>,
+  output: __S(2082, __c65, 2) as any as S.Schema<DataAttributeList>,
   errors: [UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11650,8 +11749,8 @@ export const lisDataEvents: API.OperationMethod<
   LisDataEventsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<LisDataEventsRequest>,
-  output: __S(2051, __c64, 3) as any as S.Schema<DataEventSummary>,
+  input: __S(2112, __c66, 0) as any as S.Schema<LisDataEventsRequest>,
+  output: __S(2115, __c66, 3) as any as S.Schema<DataEventSummary>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11667,8 +11766,8 @@ export const listActivityLogEventTypes: API.OperationMethod<
   ListActivityLogEventTypesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<ListActivityLogEventTypesRequest>,
-  output: __S(2081, __c65, 1) as any as S.Schema<ActivityLogEventTypeList>,
+  input: __S(2144, __c67, 0) as any as S.Schema<ListActivityLogEventTypesRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<ActivityLogEventTypeList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11684,8 +11783,8 @@ export const listActivityLogs: API.OperationMethod<
   ListActivityLogsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<ListActivityLogsRequest>,
-  output: __S(2151, __c67, 7) as any as S.Schema<ActivityLogList>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ListActivityLogsRequest>,
+  output: __S(2215, __c69, 7) as any as S.Schema<ActivityLogList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11701,8 +11800,8 @@ export const listAdmins: API.OperationMethod<
   ListAdminsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<ListAdminsRequest>,
-  output: __S(2178, __c68, 2) as any as S.Schema<AdminList>,
+  input: __S(2240, __c70, 0) as any as S.Schema<ListAdminsRequest>,
+  output: __S(2242, __c70, 2) as any as S.Schema<AdminList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11718,8 +11817,8 @@ export const listAllCollections: API.OperationMethod<
   ListAllCollectionsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ListAllCollectionsRequest>,
-  output: __S(2210, __c69, 2) as any as S.Schema<CollectionList>,
+  input: __S(2272, __c71, 0) as any as S.Schema<ListAllCollectionsRequest>,
+  output: __S(2274, __c71, 2) as any as S.Schema<CollectionList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11735,8 +11834,8 @@ export const listAllCompanies: API.OperationMethod<
   ListAllCompaniesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<ListAllCompaniesRequest>,
-  output: __S(352, __c11, 0) as any as S.Schema<CompanyList>,
+  input: __S(2304, __c72, 0) as any as S.Schema<ListAllCompaniesRequest>,
+  output: __S(416, __c13, 0) as any as S.Schema<CompanyList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11752,8 +11851,8 @@ export const listArticles: API.OperationMethod<
   ListArticlesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ListArticlesRequest>,
-  output: __S(2275, __c71, 3) as any as S.Schema<ArticleList>,
+  input: __S(2336, __c73, 0) as any as S.Schema<ListArticlesRequest>,
+  output: __S(2339, __c73, 3) as any as S.Schema<ArticleList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11769,8 +11868,8 @@ export const listArticleVersions: API.OperationMethod<
   ListArticleVersionsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ListArticleVersionsRequest>,
-  output: __S(2307, __c72, 3) as any as S.Schema<ArticleVersionList>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ListArticleVersionsRequest>,
+  output: __S(2371, __c74, 3) as any as S.Schema<ArticleVersionList>,
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11786,8 +11885,8 @@ export const listAttachedContacts: API.OperationMethod<
   ListAttachedContactsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<ListAttachedContactsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<CompanyAttachedContacts>,
+  input: __S(2432, __c76, 0) as any as S.Schema<ListAttachedContactsRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<CompanyAttachedContacts>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11803,8 +11902,8 @@ export const listAttachedSegmentsForCompanies: API.OperationMethod<
   ListAttachedSegmentsForCompaniesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<ListAttachedSegmentsForCompaniesRequest>,
-  output: __S(2464, __c77, 0) as any as S.Schema<CompanyAttachedSegments>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListAttachedSegmentsForCompaniesRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<CompanyAttachedSegments>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11820,8 +11919,8 @@ export const listAudiences: API.OperationMethod<
   ListAudiencesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<ListAudiencesRequest>,
-  output: __S(2498, __c78, 2) as any as S.Schema<AudienceList>,
+  input: __S(2560, __c80, 0) as any as S.Schema<ListAudiencesRequest>,
+  output: __S(2562, __c80, 2) as any as S.Schema<AudienceList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11837,8 +11936,8 @@ export const listAwayStatusReasons: API.OperationMethod<
   ListAwayStatusReasonsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<ListAwayStatusReasonsRequest>,
-  output: __S(2531, __c79, 3) as any as S.Schema<AwayStatusReasonList>,
+  input: __S(2592, __c81, 0) as any as S.Schema<ListAwayStatusReasonsRequest>,
+  output: __S(2595, __c81, 3) as any as S.Schema<AwayStatusReasonList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11854,8 +11953,8 @@ export const listBrands: API.OperationMethod<
   ListBrandsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<ListBrandsRequest>,
-  output: __S(2562, __c80, 2) as any as S.Schema<BrandList>,
+  input: __S(2624, __c82, 0) as any as S.Schema<ListBrandsRequest>,
+  output: __S(2626, __c82, 2) as any as S.Schema<BrandList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11871,8 +11970,8 @@ export const listCalls: API.OperationMethod<
   ListCallsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<ListCallsRequest>,
-  output: __S(2594, __c81, 2) as any as S.Schema<CallList>,
+  input: __S(2656, __c83, 0) as any as S.Schema<ListCallsRequest>,
+  output: __S(2658, __c83, 2) as any as S.Schema<CallList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11888,8 +11987,8 @@ export const listCallsWithTranscripts: API.OperationMethod<
   ListCallsWithTranscriptsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<ListCallsWithTranscriptsRequest>,
-  output: __S(2628, __c82, 4) as any as S.Schema<ListCallsWithTranscriptsResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<ListCallsWithTranscriptsRequest>,
+  output: __S(2692, __c84, 4) as any as S.Schema<ListCallsWithTranscriptsResponse>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11905,8 +12004,8 @@ export const listCompaniesForAContact: API.OperationMethod<
   ListCompaniesForAContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<ListCompaniesForAContactRequest>,
-  output: __S(2657, __c83, 1) as any as S.Schema<ContactAttachedCompanies>,
+  input: __S(2720, __c85, 0) as any as S.Schema<ListCompaniesForAContactRequest>,
+  output: __S(2721, __c85, 1) as any as S.Schema<ContactAttachedCompanies>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11922,8 +12021,8 @@ export const listCompanyNotes: API.OperationMethod<
   ListCompanyNotesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<ListCompanyNotesRequest>,
-  output: __S(2753, __c86, 1) as any as S.Schema<NoteList>,
+  input: __S(2784, __c87, 0) as any as S.Schema<ListCompanyNotesRequest>,
+  output: __S(2817, __c88, 1) as any as S.Schema<NoteList>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11939,8 +12038,8 @@ export const listContactBanners: API.OperationMethod<
   ListContactBannersError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<ListContactBannersRequest>,
-  output: __S(2790, __c87, 6) as any as S.Schema<BannerList>,
+  input: __S(2848, __c89, 0) as any as S.Schema<ListContactBannersRequest>,
+  output: __S(2854, __c89, 6) as any as S.Schema<BannerList>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11956,8 +12055,8 @@ export const listContactMergeHistory: API.OperationMethod<
   ListContactMergeHistoryError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<ListContactMergeHistoryRequest>,
-  output: __S(2817, __c88, 1) as any as S.Schema<MergeHistoryList>,
+  input: __S(2912, __c91, 0) as any as S.Schema<ListContactMergeHistoryRequest>,
+  output: __S(2913, __c91, 1) as any as S.Schema<MergeHistoryList>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11973,8 +12072,8 @@ export const listContacts: API.OperationMethod<
   ListContactsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<ListContactsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<ContactList>,
+  input: __S(2944, __c92, 0) as any as S.Schema<ListContactsRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<ContactList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -11990,8 +12089,8 @@ export const listContentImportSources: API.OperationMethod<
   ListContentImportSourcesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<ListContentImportSourcesRequest>,
-  output: __S(2914, __c91, 2) as any as S.Schema<ContentImportSourcesList>,
+  input: __S(2976, __c93, 0) as any as S.Schema<ListContentImportSourcesRequest>,
+  output: __S(2978, __c93, 2) as any as S.Schema<ContentImportSourcesList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12007,8 +12106,8 @@ export const listContentSnippets: API.OperationMethod<
   ListContentSnippetsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<ListContentSnippetsRequest>,
-  output: __S(2946, __c92, 2) as any as S.Schema<ContentSnippetList>,
+  input: __S(3008, __c94, 0) as any as S.Schema<ListContentSnippetsRequest>,
+  output: __S(3010, __c94, 2) as any as S.Schema<ContentSnippetList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12024,8 +12123,8 @@ export const listConversationAttributes: API.OperationMethod<
   ListConversationAttributesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<ListConversationAttributesRequest>,
-  output: __S(2978, __c93, 2) as any as S.Schema<ConversationAttributeList>,
+  input: __S(3040, __c95, 0) as any as S.Schema<ListConversationAttributesRequest>,
+  output: __S(3042, __c95, 2) as any as S.Schema<ConversationAttributeList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12041,8 +12140,8 @@ export const listConversations: API.OperationMethod<
   ListConversationsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<ListConversationsRequest>,
-  output: __S(3042, __c95, 2) as any as S.Schema<ConversationList>,
+  input: __S(3072, __c96, 0) as any as S.Schema<ListConversationsRequest>,
+  output: __S(3106, __c97, 2) as any as S.Schema<ConversationList>,
   errors: [Forbidden, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12058,8 +12157,8 @@ export const listCustomObjectInstances: API.OperationMethod<
   ListCustomObjectInstancesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3073, __c96, 1) as any as S.Schema<ListCustomObjectInstancesRequest>,
-  output: __S(3074, __c96, 2) as any as S.Schema<CustomObjectInstancesPaginatedList>,
+  input: __S(3137, __c98, 1) as any as S.Schema<ListCustomObjectInstancesRequest>,
+  output: __S(3138, __c98, 2) as any as S.Schema<CustomObjectInstancesPaginatedList>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12075,8 +12174,8 @@ export const listDataConnectorExecutionResults: API.OperationMethod<
   ListDataConnectorExecutionResultsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<ListDataConnectorExecutionResultsRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<DataConnectorExecutionResultList>,
+  input: __S(3168, __c99, 0) as any as S.Schema<ListDataConnectorExecutionResultsRequest>,
+  output: __S(3170, __c99, 2) as any as S.Schema<DataConnectorExecutionResultList>,
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12092,8 +12191,8 @@ export const listDataConnectors: API.OperationMethod<
   ListDataConnectorsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<ListDataConnectorsRequest>,
-  output: __S(3171, __c99, 3) as any as S.Schema<DataConnectorList>,
+  input: __S(3232, __c101, 0) as any as S.Schema<ListDataConnectorsRequest>,
+  output: __S(3235, __c101, 3) as any as S.Schema<DataConnectorList>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12109,8 +12208,8 @@ export const listDeletedConversationIds: API.OperationMethod<
   ListDeletedConversationIdsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<ListDeletedConversationIdsRequest>,
-  output: __S(3203, __c100, 3) as any as S.Schema<DeletedConversationList>,
+  input: __S(3264, __c102, 0) as any as S.Schema<ListDeletedConversationIdsRequest>,
+  output: __S(3267, __c102, 3) as any as S.Schema<DeletedConversationList>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12126,8 +12225,8 @@ export const listEmails: API.OperationMethod<
   ListEmailsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<ListEmailsRequest>,
-  output: __S(3234, __c101, 2) as any as S.Schema<EmailList>,
+  input: __S(3392, __c106, 0) as any as S.Schema<ListEmailsRequest>,
+  output: __S(3394, __c106, 2) as any as S.Schema<EmailList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12143,8 +12242,8 @@ export const listExportReportingDataGetDatasets: API.OperationMethod<
   ListExportReportingDataGetDatasetsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<ListExportReportingDataGetDatasetsRequest>,
-  output: __S(3365, __c105, 5) as any as S.Schema<ListExportReportingDataGetDatasetsResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<ListExportReportingDataGetDatasetsRequest>,
+  output: __S(3429, __c107, 5) as any as S.Schema<ListExportReportingDataGetDatasetsResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12160,8 +12259,8 @@ export const listExternalPages: API.OperationMethod<
   ListExternalPagesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<ListExternalPagesRequest>,
-  output: __S(3394, __c106, 2) as any as S.Schema<ExternalPagesList>,
+  input: __S(3456, __c108, 0) as any as S.Schema<ListExternalPagesRequest>,
+  output: __S(3458, __c108, 2) as any as S.Schema<ExternalPagesList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12170,15 +12269,15 @@ export const listExternalPages: API.OperationMethod<
 }));
 
 export type ListFinCapabilitiesError = BadRequest | IntercomOpError;
-/** Discover Fin's capabilities Return a machine-readable, per-user list of what Fin can do for a given end user, so an orchestrating agent can decide which endpoint to call. The response is audience-matched to the supplied user: each live, API-triggerable procedure is checked against that user before being included, alongside the static `reply` and `ask` actions. {% admonition type="warning" %} To request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A). {% /admonition %} */
+/** Discover Fin's capabilities Return a machine-readable, per-user list of what Fin can do for a given end user, so an orchestrating agent can decide which endpoint to call. The response is audience-matched to the supplied user: each live, API-triggerable procedure is checked against that user before being included, alongside the static `reply` and `ask` actions. {% admonition type="warning" %} To request access to the Fin Agent API, go to **Settings > Integrations > Fin Agent API** in your workspace and tell us about your use case. Once access is granted, **Fin Agent API** appears under **Fin AI Agent > Deploy**. {% /admonition %} */
 export const listFinCapabilities: API.OperationMethod<
   ListFinCapabilitiesRequest,
   ListFinCapabilitiesResponse,
   ListFinCapabilitiesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<ListFinCapabilitiesRequest>,
-  output: __S(3427, __c107, 3) as any as S.Schema<ListFinCapabilitiesResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<ListFinCapabilitiesRequest>,
+  output: __S(3491, __c109, 3) as any as S.Schema<ListFinCapabilitiesResponse>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12194,8 +12293,8 @@ export const listHandlingEvents: API.OperationMethod<
   ListHandlingEventsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<ListHandlingEventsRequest>,
-  output: __S(3460, __c108, 4) as any as S.Schema<HandlingEventList>,
+  input: __S(3520, __c110, 0) as any as S.Schema<ListHandlingEventsRequest>,
+  output: __S(3524, __c110, 4) as any as S.Schema<HandlingEventList>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12211,8 +12310,8 @@ export const listHelpCenterRedirects: API.OperationMethod<
   ListHelpCenterRedirectsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<ListHelpCenterRedirectsRequest>,
-  output: __S(3490, __c109, 2) as any as S.Schema<HelpCenterRedirectList>,
+  input: __S(3552, __c111, 0) as any as S.Schema<ListHelpCenterRedirectsRequest>,
+  output: __S(3554, __c111, 2) as any as S.Schema<HelpCenterRedirectList>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12228,8 +12327,8 @@ export const listHelpCenters: API.OperationMethod<
   ListHelpCentersError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<ListHelpCentersRequest>,
-  output: __S(3522, __c110, 2) as any as S.Schema<HelpCenterList>,
+  input: __S(3584, __c112, 0) as any as S.Schema<ListHelpCentersRequest>,
+  output: __S(3586, __c112, 2) as any as S.Schema<HelpCenterList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12245,8 +12344,8 @@ export const listInternalArticles: API.OperationMethod<
   ListInternalArticlesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<ListInternalArticlesRequest>,
-  output: __S(3553, __c111, 1) as any as S.Schema<InternalArticleList>,
+  input: __S(3616, __c113, 0) as any as S.Schema<ListInternalArticlesRequest>,
+  output: __S(3617, __c113, 1) as any as S.Schema<InternalArticleList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12262,8 +12361,8 @@ export const listLiveNewsfeedItems: API.OperationMethod<
   ListLiveNewsfeedItemsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<ListLiveNewsfeedItemsRequest>,
-  output: __S(3649, __c114, 1) as any as S.Schema<PaginatedResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<ListLiveNewsfeedItemsRequest>,
+  output: __S(3713, __c116, 1) as any as S.Schema<PaginatedResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12279,8 +12378,8 @@ export const listMacros: API.OperationMethod<
   ListMacrosError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<ListMacrosRequest>,
-  output: __S(3682, __c115, 2) as any as S.Schema<MacroList>,
+  input: __S(3744, __c117, 0) as any as S.Schema<ListMacrosRequest>,
+  output: __S(3746, __c117, 2) as any as S.Schema<MacroList>,
   errors: [BadRequest, Forbidden, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12296,8 +12395,8 @@ export const listNewsfeeds: API.OperationMethod<
   ListNewsfeedsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<ListNewsfeedsRequest>,
-  output: __S(3649, __c114, 1) as any as S.Schema<PaginatedResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<ListNewsfeedsRequest>,
+  output: __S(3713, __c116, 1) as any as S.Schema<PaginatedResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12313,8 +12412,8 @@ export const listNewsItems: API.OperationMethod<
   ListNewsItemsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<ListNewsItemsRequest>,
-  output: __S(3649, __c114, 1) as any as S.Schema<PaginatedResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<ListNewsItemsRequest>,
+  output: __S(3713, __c116, 1) as any as S.Schema<PaginatedResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12330,8 +12429,8 @@ export const listNotes: API.OperationMethod<
   ListNotesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<ListNotesRequest>,
-  output: __S(2753, __c86, 1) as any as S.Schema<NoteList>,
+  input: __S(3904, __c122, 0) as any as S.Schema<ListNotesRequest>,
+  output: __S(2817, __c88, 1) as any as S.Schema<NoteList>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12347,8 +12446,8 @@ export const listOfficeHoursExceptions: API.OperationMethod<
   ListOfficeHoursExceptionsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3872, __c121, 0) as any as S.Schema<ListOfficeHoursExceptionsRequest>,
-  output: __S(3874, __c121, 2) as any as S.Schema<OfficeHoursExceptionList>,
+  input: __S(3936, __c123, 0) as any as S.Schema<ListOfficeHoursExceptionsRequest>,
+  output: __S(3938, __c123, 2) as any as S.Schema<OfficeHoursExceptionList>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12364,8 +12463,8 @@ export const listOfficeHoursSchedules: API.OperationMethod<
   ListOfficeHoursSchedulesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<ListOfficeHoursSchedulesRequest>,
-  output: __S(3906, __c122, 2) as any as S.Schema<OfficeHoursScheduleList>,
+  input: __S(3968, __c124, 0) as any as S.Schema<ListOfficeHoursSchedulesRequest>,
+  output: __S(3970, __c124, 2) as any as S.Schema<OfficeHoursScheduleList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12381,8 +12480,8 @@ export const listSegments: API.OperationMethod<
   ListSegmentsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<ListSegmentsRequest>,
-  output: __S(3937, __c123, 1) as any as S.Schema<SegmentList>,
+  input: __S(4000, __c125, 0) as any as S.Schema<ListSegmentsRequest>,
+  output: __S(4001, __c125, 1) as any as S.Schema<SegmentList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12398,8 +12497,8 @@ export const listSegmentsForAContact: API.OperationMethod<
   ListSegmentsForAContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3968, __c124, 0) as any as S.Schema<ListSegmentsForAContactRequest>,
-  output: __S(2464, __c77, 0) as any as S.Schema<ContactSegments>,
+  input: __S(4032, __c126, 0) as any as S.Schema<ListSegmentsForAContactRequest>,
+  output: __S(2528, __c79, 0) as any as S.Schema<ContactSegments>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12415,8 +12514,8 @@ export const listSideConversations: API.OperationMethod<
   ListSideConversationsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<ListSideConversationsRequest>,
-  output: __S(4004, __c125, 4) as any as S.Schema<SideConversationList>,
+  input: __S(4064, __c127, 0) as any as S.Schema<ListSideConversationsRequest>,
+  output: __S(4068, __c127, 4) as any as S.Schema<SideConversationList>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12432,8 +12531,8 @@ export const listSubscriptionsForAContact: API.OperationMethod<
   ListSubscriptionsForAContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<ListSubscriptionsForAContactRequest>,
-  output: __S(4065, __c127, 1) as any as S.Schema<SubscriptionTypeList>,
+  input: __S(4096, __c128, 0) as any as S.Schema<ListSubscriptionsForAContactRequest>,
+  output: __S(4129, __c129, 1) as any as S.Schema<SubscriptionTypeList>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12449,8 +12548,8 @@ export const listSubscriptionTypes: API.OperationMethod<
   ListSubscriptionTypesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<ListSubscriptionTypesRequest>,
-  output: __S(4065, __c127, 1) as any as S.Schema<SubscriptionTypeList>,
+  input: __S(4160, __c130, 0) as any as S.Schema<ListSubscriptionTypesRequest>,
+  output: __S(4129, __c129, 1) as any as S.Schema<SubscriptionTypeList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12466,8 +12565,8 @@ export const listTags: API.OperationMethod<
   ListTagsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<ListTagsRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<TagList>,
+  input: __S(4448, __c139, 0) as any as S.Schema<ListTagsRequest>,
+  output: __S(4480, __c140, 0) as any as S.Schema<TagList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12483,8 +12582,8 @@ export const listTagsForAContact: API.OperationMethod<
   ListTagsForAContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<ListTagsForAContactRequest>,
-  output: __S(4160, __c130, 0) as any as S.Schema<TagList>,
+  input: __S(4512, __c141, 0) as any as S.Schema<ListTagsForAContactRequest>,
+  output: __S(4480, __c140, 0) as any as S.Schema<TagList>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12500,8 +12599,8 @@ export const listTeams: API.OperationMethod<
   ListTeamsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<ListTeamsRequest>,
-  output: __S(4482, __c140, 2) as any as S.Schema<TeamList>,
+  input: __S(4544, __c142, 0) as any as S.Schema<ListTeamsRequest>,
+  output: __S(4546, __c142, 2) as any as S.Schema<TeamList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12517,8 +12616,8 @@ export const listTicketStates: API.OperationMethod<
   ListTicketStatesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4512, __c141, 0) as any as S.Schema<ListTicketStatesRequest>,
-  output: __S(4515, __c141, 3) as any as S.Schema<TicketStateList>,
+  input: __S(4576, __c143, 0) as any as S.Schema<ListTicketStatesRequest>,
+  output: __S(4579, __c143, 3) as any as S.Schema<TicketStateList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12534,8 +12633,8 @@ export const listTicketTypes: API.OperationMethod<
   ListTicketTypesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<ListTicketTypesRequest>,
-  output: __S(4545, __c142, 1) as any as S.Schema<TicketTypeList>,
+  input: __S(4640, __c145, 0) as any as S.Schema<ListTicketTypesRequest>,
+  output: __S(4609, __c144, 1) as any as S.Schema<TicketTypeList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12551,8 +12650,8 @@ export const manageConversation: API.OperationMethod<
   ManageConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<ManageConversationRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<Conversation>,
+  input: __S(4672, __c146, 0) as any as S.Schema<ManageConversationRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<Conversation>,
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12568,8 +12667,8 @@ export const mergeContact: API.OperationMethod<
   MergeContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<MergeContactRequest>,
-  output: __S(6912, __c216, 0) as any as S.Schema<MergeContactResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<MergeContactRequest>,
+  output: __S(7008, __c219, 0) as any as S.Schema<MergeContactResponse>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12585,8 +12684,8 @@ export const mergeConversation: API.OperationMethod<
   MergeConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<MergeConversationRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<Conversation>,
+  input: __S(4736, __c148, 0) as any as S.Schema<MergeConversationRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<Conversation>,
   errors: [BadRequest, Forbidden, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12602,8 +12701,8 @@ export const publishArticleDraft: API.OperationMethod<
   PublishArticleDraftError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<PublishArticleDraftRequest>,
-  output: __S(6657, __c208, 1) as any as S.Schema<PublishArticleDraftResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<PublishArticleDraftRequest>,
+  output: __S(6753, __c211, 1) as any as S.Schema<PublishArticleDraftResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12619,8 +12718,8 @@ export const redactConversation: API.OperationMethod<
   RedactConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<RedactConversationRequest2>,
-  output: __S(641, __c20, 1) as any as S.Schema<Conversation>,
+  input: __S(4800, __c150, 0) as any as S.Schema<RedactConversationRequest2>,
+  output: __S(737, __c23, 1) as any as S.Schema<Conversation>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12636,8 +12735,8 @@ export const registerFinVoiceCall: API.OperationMethod<
   RegisterFinVoiceCallError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<RegisterFinVoiceCallRequest>,
-  output: __S(4832, __c151, 0) as any as S.Schema<AiCallResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<RegisterFinVoiceCallRequest>,
+  output: __S(4864, __c152, 0) as any as S.Schema<AiCallResponse>,
   errors: [BadRequest, Conflict, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12653,8 +12752,8 @@ export const replyConversation: API.OperationMethod<
   ReplyConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<ReplyConversationRequest2>,
-  output: __S(641, __c20, 1) as any as S.Schema<Conversation>,
+  input: __S(4960, __c155, 0) as any as S.Schema<ReplyConversationRequest2>,
+  output: __S(737, __c23, 1) as any as S.Schema<Conversation>,
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12670,8 +12769,8 @@ export const replyTicket: API.OperationMethod<
   ReplyTicketError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<ReplyTicketRequest>,
-  output: __S(4929, __c154, 1) as any as S.Schema<TicketReply>,
+  input: __S(4992, __c156, 0) as any as S.Schema<ReplyTicketRequest>,
+  output: __S(4993, __c156, 1) as any as S.Schema<TicketReply>,
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12680,15 +12779,15 @@ export const replyTicket: API.OperationMethod<
 }));
 
 export type ReplyToFinError = BadRequest | IntercomOpError;
-/** Reply to Fin Once Fin has returned a response to a user's message, its status will be `awaiting_user_reply`. If a user replies, use this endpoint to send this response to Fin. {% admonition type="warning" %} To request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A). {% /admonition %} */
+/** Reply to Fin Once Fin has returned a response to a user's message, its status will be `awaiting_user_reply`. If a user replies, use this endpoint to send this response to Fin. {% admonition type="warning" %} To request access to the Fin Agent API, go to **Settings > Integrations > Fin Agent API** in your workspace and tell us about your use case. Once access is granted, **Fin Agent API** appears under **Fin AI Agent > Deploy**. {% /admonition %} */
 export const replyToFin: API.OperationMethod<
   ReplyToFinRequest,
   ReplyToFinResponse,
   ReplyToFinError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<ReplyToFinRequest>,
-  output: __S(8642, __c270, 2) as any as S.Schema<ReplyToFinResponse>,
+  input: __S(5024, __c157, 0) as any as S.Schema<ReplyToFinRequest>,
+  output: __S(8738, __c273, 2) as any as S.Schema<ReplyToFinResponse>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12696,16 +12795,37 @@ export const replyToFin: API.OperationMethod<
   span: "ReplyToFin",
 }));
 
+export type RevokeConversationStreamTokensError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | IntercomOpError;
+/** Revoke conversation stream tokens Realtime streaming of conversation events uses Server-Sent Events (SSE). It is an opt-in feature, enabled per workspace. Contact Intercom to turn it on. Revoke every active conversation stream token for a contact. Call this when the contact signs out or you suspect a token has been exposed. Requires the `read_conversations` permission. */
+export const revokeConversationStreamTokens: API.OperationMethod<
+  RevokeConversationStreamTokensRequest,
+  RevokeConversationStreamTokensResponse,
+  RevokeConversationStreamTokensError,
+  IntercomOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(5056, __c158, 0) as any as S.Schema<RevokeConversationStreamTokensRequest>,
+  output: __S(3360, __c105, 0) as any as S.Schema<RevokeConversationStreamTokensResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownIntercomError],
+  protocol: IntercomProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "RevokeConversationStreamTokens",
+}));
+
 export type RunFinProcedureError = BadRequest | IntercomOpError;
-/** Run a Fin procedure Deterministically run a specific procedure on a new conversation. Calling this endpoint guarantees that the named procedure runs -- there is no non-deterministic routing. Fin's progress is delivered asynchronously via events or Server-Sent Events. If the procedure pauses for user input, the conversation status becomes `awaiting_user_reply` -- send the user's response with [`/fin/reply`](/docs/references/rest-api/api.intercom.io/fin-agent/replytofin). {% admonition type="warning" %} To request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A). {% /admonition %} */
+/** Run a Fin procedure Deterministically run a specific procedure on a new conversation. Calling this endpoint guarantees that the named procedure runs -- there is no non-deterministic routing. Fin's progress is delivered asynchronously via events. If the procedure pauses for user input, the conversation status becomes `awaiting_user_reply` -- send the user's response with [`/fin/reply`](/docs/references/rest-api/api.intercom.io/fin-agent/replytofin). {% admonition type="warning" %} To request access to the Fin Agent API, go to **Settings > Integrations > Fin Agent API** in your workspace and tell us about your use case. Once access is granted, **Fin Agent API** appears under **Fin AI Agent > Deploy**. {% /admonition %} */
 export const runFinProcedure: API.OperationMethod<
   RunFinProcedureRequest,
   RunFinProcedureResponse,
   RunFinProcedureError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4993, __c156, 1) as any as S.Schema<RunFinProcedureRequest>,
-  output: __S(4994, __c156, 2) as any as S.Schema<RunFinProcedureResponse>,
+  input: __S(5089, __c159, 1) as any as S.Schema<RunFinProcedureRequest>,
+  output: __S(5090, __c159, 2) as any as S.Schema<RunFinProcedureResponse>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12721,8 +12841,8 @@ export const scrollOverAllCompanies: API.OperationMethod<
   ScrollOverAllCompaniesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<ScrollOverAllCompaniesRequest>,
-  output: __S(5025, __c157, 1) as any as S.Schema<CompanyScroll>,
+  input: __S(5120, __c160, 0) as any as S.Schema<ScrollOverAllCompaniesRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<CompanyScroll>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12738,8 +12858,8 @@ export const searchActivityLogs: API.OperationMethod<
   SearchActivityLogsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<SearchActivityLogsRequest>,
-  output: __S(2151, __c67, 7) as any as S.Schema<ActivityLogList>,
+  input: __S(5152, __c161, 0) as any as S.Schema<SearchActivityLogsRequest>,
+  output: __S(2215, __c69, 7) as any as S.Schema<ActivityLogList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12755,8 +12875,8 @@ export const searchArticles: API.OperationMethod<
   SearchArticlesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5088, __c159, 0) as any as S.Schema<SearchArticlesRequest>,
-  output: __S(5096, __c159, 8) as any as S.Schema<ArticleSearchResponse>,
+  input: __S(5184, __c162, 0) as any as S.Schema<SearchArticlesRequest>,
+  output: __S(5192, __c162, 8) as any as S.Schema<ArticleSearchResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12772,8 +12892,8 @@ export const searchContacts: API.OperationMethod<
   SearchContactsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5121, __c160, 1) as any as S.Schema<SearchContactsRequest>,
-  output: __S(2369, __c74, 1) as any as S.Schema<ContactList>,
+  input: __S(5217, __c163, 1) as any as S.Schema<SearchContactsRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<ContactList>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12789,8 +12909,8 @@ export const searchContent: API.OperationMethod<
   SearchContentError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<SearchContentRequest>,
-  output: __S(5155, __c161, 3) as any as S.Schema<ContentSearchResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<SearchContentRequest>,
+  output: __S(5283, __c165, 3) as any as S.Schema<ContentSearchResponse>,
   errors: [UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12806,8 +12926,8 @@ export const searchConversations: API.OperationMethod<
   SearchConversationsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5184, __c162, 0) as any as S.Schema<SearchConversationsRequest>,
-  output: __S(3042, __c95, 2) as any as S.Schema<ConversationList>,
+  input: __S(5312, __c166, 0) as any as S.Schema<SearchConversationsRequest>,
+  output: __S(3106, __c97, 2) as any as S.Schema<ConversationList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12823,8 +12943,8 @@ export const searchInternalArticles: API.OperationMethod<
   SearchInternalArticlesError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<SearchInternalArticlesRequest>,
-  output: __S(5250, __c164, 2) as any as S.Schema<InternalArticleSearchResponse>,
+  input: __S(5344, __c167, 0) as any as S.Schema<SearchInternalArticlesRequest>,
+  output: __S(5346, __c167, 2) as any as S.Schema<InternalArticleSearchResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12840,8 +12960,8 @@ export const searchTickets: API.OperationMethod<
   SearchTicketsError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5280, __c165, 0) as any as S.Schema<SearchTicketsRequest>,
-  output: __S(5282, __c165, 2) as any as S.Schema<TicketList>,
+  input: __S(5376, __c168, 0) as any as S.Schema<SearchTicketsRequest>,
+  output: __S(5378, __c168, 2) as any as S.Schema<TicketList>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12857,8 +12977,8 @@ export const setAwayAdmin: API.OperationMethod<
   SetAwayAdminError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<SetAwayAdminRequest>,
-  output: __S(9281, __c290, 1) as any as S.Schema<Admin>,
+  input: __S(5408, __c169, 0) as any as S.Schema<SetAwayAdminRequest>,
+  output: __S(9377, __c293, 1) as any as S.Schema<Admin>,
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12874,8 +12994,8 @@ export const stageArticleDraft: API.OperationMethod<
   StageArticleDraftError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<StageArticleDraftRequest>,
-  output: __S(6657, __c208, 1) as any as S.Schema<StageArticleDraftResponse>,
+  input: __S(5440, __c170, 0) as any as S.Schema<StageArticleDraftRequest>,
+  output: __S(6753, __c211, 1) as any as S.Schema<StageArticleDraftResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12884,15 +13004,15 @@ export const stageArticleDraft: API.OperationMethod<
 }));
 
 export type StartFinConversationError = BadRequest | IntercomOpError;
-/** Start a conversation with Fin Initialize Fin by passing it the user's message along with conversation history and user details. These additional pieces of context will be used by Fin to provide a better and more contextual answer to the user. {% admonition type="warning" %} To request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A). {% /admonition %} Once Fin is initialized, it progresses through a series of statuses such as *thinking*, *replying*, *awaiting_user_reply*, or *resolved* before ending with a status of *complete*. During this workflow, the client should allow Fin to continue uninterrupted until a final *complete* status is returned via webhook, at which point control of the conversation passes back to the client. */
+/** Start a conversation with Fin Initialize Fin by passing it the user's message along with conversation history and user details. These additional pieces of context will be used by Fin to provide a better and more contextual answer to the user. {% admonition type="warning" %} To request access to the Fin Agent API, go to **Settings > Integrations > Fin Agent API** in your workspace and tell us about your use case. Once access is granted, **Fin Agent API** appears under **Fin AI Agent > Deploy**. {% /admonition %} Once Fin is initialized, it progresses through a series of statuses such as *thinking*, *replying*, *awaiting_user_reply*, or *resolved* before ending with a status of *complete*. During this workflow, the client should allow Fin to continue uninterrupted until a final *complete* status is returned via webhook, at which point control of the conversation passes back to the client. */
 export const startFinConversation: API.OperationMethod<
   StartFinConversationRequest,
   StartFinConversationResponse,
   StartFinConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5376, __c168, 0) as any as S.Schema<StartFinConversationRequest>,
-  output: __S(8642, __c270, 2) as any as S.Schema<StartFinConversationResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<StartFinConversationRequest>,
+  output: __S(8738, __c273, 2) as any as S.Schema<StartFinConversationResponse>,
   errors: [BadRequest, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12901,15 +13021,15 @@ export const startFinConversation: API.OperationMethod<
 }));
 
 export type SubmitFinCsatError = UnprocessableEntity | IntercomOpError;
-/** Submit a CSAT rating Record a customer's satisfaction rating for a conversation, with an optional free-text remark. Fin decides *when* to ask for a rating -- this reuses the CSAT settings on your Fin workflow, not this API. When Fin asks, it fires a `csat_requested` event over webhooks or SSE carrying the rating options to show the user. Present those options, then submit the user's choice here. Submitting the same rating again, with no new remark, is a no-op and stays successful, so an at-least-once client can safely retry. Submitting a *different* rating updates the stored rating while the update window is still open, and a first remark can be added to an already-rated survey. Once a remark has been recorded the rating is locked and can no longer be changed. {% admonition type="warning" %} To request access to the Fin Agent API, please [fill out this form](https://forms.gle/osy4uyiqyomRCsL2A). {% /admonition %} */
+/** Submit a CSAT rating Record a customer's satisfaction rating for a conversation, with an optional free-text remark. Fin decides *when* to ask for a rating -- this reuses the CSAT settings on your Fin workflow, not this API. When Fin asks, it fires a `csat_requested` event over webhooks carrying the rating options to show the user. Present those options, then submit the user's choice here. Submitting the same rating again, with no new remark, is a no-op and stays successful, so an at-least-once client can safely retry. Submitting a *different* rating updates the stored rating while the update window is still open, and a first remark can be added to an already-rated survey. Once a remark has been recorded the rating is locked and can no longer be changed. {% admonition type="warning" %} To request access to the Fin Agent API, go to **Settings > Integrations > Fin Agent API** in your workspace and tell us about your use case. Once access is granted, **Fin Agent API** appears under **Fin AI Agent > Deploy**. {% /admonition %} */
 export const submitFinCsat: API.OperationMethod<
   SubmitFinCsatRequest,
   SubmitFinCsatResponse,
   SubmitFinCsatError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<SubmitFinCsatRequest>,
-  output: __S(5409, __c169, 1) as any as S.Schema<SubmitFinCsatResponse>,
+  input: __S(5504, __c172, 0) as any as S.Schema<SubmitFinCsatRequest>,
+  output: __S(5505, __c172, 1) as any as S.Schema<SubmitFinCsatResponse>,
   errors: [UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12925,8 +13045,8 @@ export const unarchiveContact: API.OperationMethod<
   UnarchiveContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<UnarchiveContactRequest>,
-  output: __S(8128, __c254, 0) as any as S.Schema<UnarchiveContactResponse>,
+  input: __S(5536, __c173, 0) as any as S.Schema<UnarchiveContactRequest>,
+  output: __S(8192, __c256, 0) as any as S.Schema<UnarchiveContactResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12942,8 +13062,8 @@ export const unlinkConversationFromTicket: API.OperationMethod<
   UnlinkConversationFromTicketError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5472, __c171, 0) as any as S.Schema<UnlinkConversationFromTicketRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<Conversation>,
+  input: __S(5568, __c174, 0) as any as S.Schema<UnlinkConversationFromTicketRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<Conversation>,
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12959,8 +13079,8 @@ export const updateArticle: API.OperationMethod<
   UpdateArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<UpdateArticleRequest>,
-  output: __S(6657, __c208, 1) as any as S.Schema<UpdateArticleResponse>,
+  input: __S(5632, __c176, 0) as any as S.Schema<UpdateArticleRequest>,
+  output: __S(6753, __c211, 1) as any as S.Schema<UpdateArticleResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12976,8 +13096,8 @@ export const updateAudience: API.OperationMethod<
   UpdateAudienceError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<UpdateAudienceRequest>,
-  output: __S(6722, __c210, 2) as any as S.Schema<Audience>,
+  input: __S(5664, __c177, 0) as any as S.Schema<UpdateAudienceRequest>,
+  output: __S(6818, __c213, 2) as any as S.Schema<Audience>,
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -12993,8 +13113,8 @@ export const updateCollection: API.OperationMethod<
   UpdateCollectionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<UpdateCollectionRequest>,
-  output: __S(6786, __c212, 2) as any as S.Schema<Collection>,
+  input: __S(5696, __c178, 0) as any as S.Schema<UpdateCollectionRequest>,
+  output: __S(6882, __c215, 2) as any as S.Schema<Collection>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13010,8 +13130,8 @@ export const updateCompany: API.OperationMethod<
   UpdateCompanyError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<UpdateCompanyRequest>,
-  output: __S(9413, __c294, 5) as any as S.Schema<Company>,
+  input: __S(5728, __c179, 0) as any as S.Schema<UpdateCompanyRequest>,
+  output: __S(9509, __c297, 5) as any as S.Schema<Company>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13027,8 +13147,8 @@ export const updateContact: API.OperationMethod<
   UpdateContactError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5665, __c177, 1) as any as S.Schema<UpdateContactRequest2>,
-  output: __S(6912, __c216, 0) as any as S.Schema<UpdateContactResponse>,
+  input: __S(5761, __c180, 1) as any as S.Schema<UpdateContactRequest2>,
+  output: __S(7008, __c219, 0) as any as S.Schema<UpdateContactResponse>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13044,8 +13164,8 @@ export const updateContentImportSource: API.OperationMethod<
   UpdateContentImportSourceError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<UpdateContentImportSourceRequest>,
-  output: __S(6976, __c218, 0) as any as S.Schema<ContentImportSource>,
+  input: __S(5792, __c181, 0) as any as S.Schema<UpdateContentImportSourceRequest>,
+  output: __S(7072, __c221, 0) as any as S.Schema<ContentImportSource>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13061,8 +13181,8 @@ export const updateContentSnippet: API.OperationMethod<
   UpdateContentSnippetError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<UpdateContentSnippetRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<ContentSnippet>,
+  input: __S(5824, __c182, 0) as any as S.Schema<UpdateContentSnippetRequest>,
+  output: __S(7136, __c223, 0) as any as S.Schema<ContentSnippet>,
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13078,8 +13198,8 @@ export const updateConversation: API.OperationMethod<
   UpdateConversationError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<UpdateConversationRequest>,
-  output: __S(641, __c20, 1) as any as S.Schema<Conversation>,
+  input: __S(5856, __c183, 0) as any as S.Schema<UpdateConversationRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<Conversation>,
   errors: [Forbidden, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13095,8 +13215,8 @@ export const updateConversationAttribute: API.OperationMethod<
   UpdateConversationAttributeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5793, __c181, 1) as any as S.Schema<UpdateConversationAttributeRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<UpdateConversationAttributeResponse>,
+  input: __S(5889, __c184, 1) as any as S.Schema<UpdateConversationAttributeRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<UpdateConversationAttributeResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13115,8 +13235,8 @@ export const updateConversationAttributeOption: API.OperationMethod<
   UpdateConversationAttributeOptionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<UpdateConversationAttributeOptionRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<UpdateConversationAttributeOptionResponse>,
+  input: __S(5920, __c185, 0) as any as S.Schema<UpdateConversationAttributeOptionRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<UpdateConversationAttributeOptionResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13136,8 +13256,8 @@ export const updateDataAttribute: API.OperationMethod<
   UpdateDataAttributeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<UpdateDataAttributeRequest>,
-  output: __S(7328, __c229, 0) as any as S.Schema<DataAttribute>,
+  input: __S(5984, __c187, 0) as any as S.Schema<UpdateDataAttributeRequest>,
+  output: __S(7456, __c233, 0) as any as S.Schema<DataAttribute>,
   errors: [BadRequest, NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13153,8 +13273,8 @@ export const updateDataConnector: API.OperationMethod<
   UpdateDataConnectorError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<UpdateDataConnectorRequest>,
-  output: __S(7404, __c231, 12) as any as S.Schema<DataConnectorDetail>,
+  input: __S(6016, __c188, 0) as any as S.Schema<UpdateDataConnectorRequest>,
+  output: __S(7532, __c235, 12) as any as S.Schema<DataConnectorDetail>,
   errors: [NotFound, Conflict, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13170,8 +13290,8 @@ export const updateExternalPage: API.OperationMethod<
   UpdateExternalPageError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<UpdateExternalPageRequest>,
-  output: __S(7616, __c238, 0) as any as S.Schema<ExternalPage>,
+  input: __S(6048, __c189, 0) as any as S.Schema<UpdateExternalPageRequest>,
+  output: __S(7744, __c242, 0) as any as S.Schema<ExternalPage>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13187,8 +13307,8 @@ export const updateInternalArticle: API.OperationMethod<
   UpdateInternalArticleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<UpdateInternalArticleRequest>,
-  output: __S(7744, __c242, 0) as any as S.Schema<UpdateInternalArticleResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<UpdateInternalArticleRequest>,
+  output: __S(7872, __c246, 0) as any as S.Schema<UpdateInternalArticleResponse>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13204,8 +13324,8 @@ export const updateIpAllowlist: API.OperationMethod<
   UpdateIpAllowlistError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<UpdateIpAllowlistRequest>,
-  output: __S(1248, __c39, 0) as any as S.Schema<IpAllowlist>,
+  input: __S(6112, __c191, 0) as any as S.Schema<UpdateIpAllowlistRequest>,
+  output: __S(1312, __c41, 0) as any as S.Schema<IpAllowlist>,
   errors: [UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13221,8 +13341,8 @@ export const updateNewsItem: API.OperationMethod<
   UpdateNewsItemError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<UpdateNewsItemRequest>,
-  output: __S(7843, __c245, 3) as any as S.Schema<NewsItem>,
+  input: __S(6144, __c192, 0) as any as S.Schema<UpdateNewsItemRequest>,
+  output: __S(7971, __c249, 3) as any as S.Schema<NewsItem>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13238,8 +13358,8 @@ export const updateOfficeHoursException: API.OperationMethod<
   UpdateOfficeHoursExceptionError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<UpdateOfficeHoursExceptionRequest>,
-  output: __S(7936, __c248, 0) as any as S.Schema<OfficeHoursException>,
+  input: __S(6176, __c193, 0) as any as S.Schema<UpdateOfficeHoursExceptionRequest>,
+  output: __S(8064, __c252, 0) as any as S.Schema<OfficeHoursException>,
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13255,8 +13375,8 @@ export const updateOfficeHoursSchedule: API.OperationMethod<
   UpdateOfficeHoursScheduleError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<UpdateOfficeHoursScheduleRequest>,
-  output: __S(8064, __c252, 0) as any as S.Schema<OfficeHoursSchedule>,
+  input: __S(6208, __c194, 0) as any as S.Schema<UpdateOfficeHoursScheduleRequest>,
+  output: __S(8256, __c258, 0) as any as S.Schema<OfficeHoursSchedule>,
   errors: [NotFound, UnprocessableEntity, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13272,7 +13392,7 @@ export const updateTicket: API.OperationMethod<
   UpdateTicketError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<UpdateTicketRequest>,
+  input: __S(6240, __c195, 0) as any as S.Schema<UpdateTicketRequest>,
   output: __S(4359, __c136, 7) as any as S.Schema<Ticket>,
   errors: [BadRequest, NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -13289,7 +13409,7 @@ export const updateTicketType: API.OperationMethod<
   UpdateTicketTypeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<UpdateTicketTypeRequest>,
+  input: __S(6272, __c196, 0) as any as S.Schema<UpdateTicketTypeRequest>,
   output: __S(4389, __c137, 5) as any as S.Schema<TicketType2>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -13306,7 +13426,7 @@ export const updateTicketTypeAttribute: API.OperationMethod<
   UpdateTicketTypeAttributeError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<UpdateTicketTypeAttributeRequest>,
+  input: __S(6368, __c199, 0) as any as S.Schema<UpdateTicketTypeAttributeRequest>,
   output: __S(4416, __c138, 0) as any as S.Schema<TicketTypeAttribute>,
   errors: [UnknownIntercomError],
   protocol: IntercomProtocol,
@@ -13323,8 +13443,8 @@ export const updateVisitor: API.OperationMethod<
   UpdateVisitorError,
   IntercomOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<UpdateVisitorRequest>,
-  output: __S(1767, __c55, 7) as any as S.Schema<Visitor>,
+  input: __S(6400, __c200, 0) as any as S.Schema<UpdateVisitorRequest>,
+  output: __S(1831, __c57, 7) as any as S.Schema<Visitor>,
   errors: [NotFound, UnknownIntercomError],
   protocol: IntercomProtocol,
   retry: Retry.Retry,
@@ -13375,12 +13495,39 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/brands/{id}", code: 200 })),
+      ).annotate({ identifier: "GetBrandRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          is_default: S.optional(S.Boolean),
+          created_at: S.optional(S.Number),
+          updated_at: S.optional(S.Number),
+          help_center_id: S.optional(S.String),
+          default_address_settings_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Brand" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           call_id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/calls/{call_id}", code: 200 })),
       ).annotate({ identifier: "GetCallRequest" });
   }
 }
-function __c4(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13408,7 +13555,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "Call" });
   }
 }
-function __c5(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13418,7 +13565,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GetCallRecordingRequest" });
   }
 }
-function __c6(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13428,7 +13575,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetCallTranscriptRequest" });
   }
 }
-function __c7(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13440,7 +13587,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetCollectionRequest" });
   }
 }
-function __c8(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13455,13 +13602,13 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetCompanyRequest" });
   }
 }
-function __c9(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(9413, __c294, 5));
+      return S.Array(__S(9509, __c297, 5));
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13475,27 +13622,27 @@ function __c10(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           page: S.optional(S.Number),
-          next: S.optional(S.NullOr(__S(320, __c10, 0))),
+          next: S.optional(S.NullOr(__S(384, __c12, 0))),
           per_page: S.optional(S.Number),
           total_pages: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CursorPages" });
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          pages: S.optional(S.NullOr(__S(321, __c10, 1))),
+          pages: S.optional(S.NullOr(__S(385, __c12, 1))),
           total_count: S.optional(S.Number),
-          data: S.optional(__S(288, __c9, 0)),
+          data: S.optional(__S(352, __c11, 0)),
         }),
       ).annotate({ identifier: "CompanyList" });
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13506,7 +13653,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GetContactRequest" });
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13519,7 +13666,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetContactByExternalIdRequest" });
   }
 }
-function __c14(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13531,7 +13678,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetContentImportSourceRequest" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13541,7 +13688,18 @@ function __c15(j: number): any {
       ).annotate({ identifier: "GetContentSnippetRequest" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          contact_id: S.String.pipe(T.Label()),
+          id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/contacts/{contact_id}/tags", code: 200 })),
+      ).annotate({ identifier: "AttachTagToContactRequest" });
+  }
+}
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13553,7 +13711,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetConversationRequest" });
   }
 }
-function __c17(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13564,10 +13722,10 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "EmailAddressHeader" });
     case 1:
-      return S.Array(__S(544, __c17, 0));
+      return S.Array(__S(640, __c20, 0));
   }
 }
-function __c18(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13589,7 +13747,7 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "ConversationSourceRecipientsItem" });
     case 2:
-      return S.Array(__S(577, __c18, 1));
+      return S.Array(__S(673, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -13598,7 +13756,7 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "ConversationSourceReplyToItem" });
     case 4:
-      return S.Array(__S(579, __c18, 3));
+      return S.Array(__S(675, __c21, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -13613,7 +13771,7 @@ function __c18(j: number): any {
         S.Struct({
           message_id: S.optional(S.NullOr(S.String)),
           subject: S.optional(S.String),
-          email_address_headers: S.optional(__S(545, __c17, 1)),
+          email_address_headers: S.optional(__S(641, __c20, 1)),
           history: S.optional(S.String),
         }),
       ).annotate({ identifier: "SourceEmailMessageMetadata" });
@@ -13623,15 +13781,15 @@ function __c18(j: number): any {
           type: S.optional(S.String),
           id: S.optional(S.NullOr(S.String)),
           delivered_as: S.optional(S.String),
-          recipients: S.optional(S.NullOr(__S(578, __c18, 2))),
-          reply_to: S.optional(S.NullOr(__S(580, __c18, 4))),
+          recipients: S.optional(S.NullOr(__S(674, __c21, 2))),
+          reply_to: S.optional(S.NullOr(__S(676, __c21, 4))),
           subject: S.optional(S.String),
           body: S.optional(S.String),
-          author: S.optional(__S(581, __c18, 5)),
+          author: S.optional(__S(677, __c21, 5)),
           attachments: S.optional(__S(4225, __c132, 1)),
           url: S.optional(S.NullOr(S.String)),
           redacted: S.optional(S.Boolean),
-          email_message_metadata: S.optional(__S(582, __c18, 6)),
+          email_message_metadata: S.optional(__S(678, __c21, 6)),
         }),
       ).annotate({ identifier: "ConversationSource" });
     case 8:
@@ -13640,7 +13798,7 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          teammates: S.optional(__S(584, __c18, 8)),
+          teammates: S.optional(__S(680, __c21, 8)),
         }),
       ).annotate({ identifier: "ConversationTeammates" });
     case 10:
@@ -13668,7 +13826,7 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "ConversationResponseTime" });
     case 13:
-      return S.Array(__S(588, __c18, 12));
+      return S.Array(__S(684, __c21, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -13691,8 +13849,8 @@ function __c18(j: number): any {
           count_reopens: S.optional(S.Number),
           count_assignments: S.optional(S.Number),
           count_conversation_parts: S.optional(S.Number),
-          assigned_team_first_response_time: S.optional(__S(589, __c18, 13)),
-          assigned_team_first_response_time_in_office_hours: S.optional(__S(589, __c18, 13)),
+          assigned_team_first_response_time: S.optional(__S(685, __c21, 13)),
+          assigned_team_first_response_time_in_office_hours: S.optional(__S(685, __c21, 13)),
           handling_time: S.optional(S.Number),
           adjusted_handling_time: S.optional(S.NullOr(S.Number)),
         }),
@@ -13707,13 +13865,13 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "ContentSource" });
     case 16:
-      return S.Array(__S(591, __c18, 15));
+      return S.Array(__S(687, __c21, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           total_count: S.optional(S.Number),
-          content_sources: S.optional(__S(592, __c18, 16)),
+          content_sources: S.optional(__S(688, __c21, 16)),
         }),
       ).annotate({ identifier: "ContentSourcesList" });
     case 18:
@@ -13727,7 +13885,7 @@ function __c18(j: number): any {
           rating_remark: S.optional(S.NullOr(S.String)),
           created_at: S.optional(S.NullOr(S.Number)),
           updated_at: S.optional(S.NullOr(S.Number)),
-          content_sources: S.optional(__S(593, __c18, 17)),
+          content_sources: S.optional(__S(689, __c21, 17)),
         }),
       ).annotate({ identifier: "AiAgent" });
     case 19:
@@ -13735,7 +13893,7 @@ function __c18(j: number): any {
         S.Struct({
           outcome: S.optional(S.NullOr(S.String)),
           routing_outcome: S.optional(S.NullOr(S.String)),
-          collected_data: S.optional(S.NullOr(__S(8704, __c272, 0))),
+          collected_data: S.optional(S.NullOr(__S(8800, __c275, 0))),
         }),
       ).annotate({ identifier: "SalesAgent" });
     case 20:
@@ -13746,7 +13904,7 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "ConversationChannel" });
     case 21:
-      return S.Array(__S(9248, __c289, 0));
+      return S.Array(__S(9344, __c292, 0));
     case 22:
       return S.suspend(() =>
         S.Struct({
@@ -13759,7 +13917,7 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "ConversationMonitorEvaluation" });
     case 23:
-      return S.Array(__S(598, __c18, 22));
+      return S.Array(__S(694, __c21, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -13773,7 +13931,7 @@ function __c18(j: number): any {
           value: S.optional(S.NullOr(S.String)),
           source: S.optional(S.NullOr(S.String)),
           reasoning: S.optional(S.NullOr(S.String)),
-          reason_ids: S.optional(S.NullOr(__S(7104, __c222, 0))),
+          reason_ids: S.optional(S.NullOr(__S(7200, __c225, 0))),
           other_text: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ConversationScorecardEvaluatorResult" });
@@ -13781,11 +13939,11 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           evaluator_id: S.optional(S.String),
-          result: S.optional(S.NullOr(__S(601, __c18, 25))),
+          result: S.optional(S.NullOr(__S(697, __c21, 25))),
         }),
       ).annotate({ identifier: "ConversationScorecardEvaluator" });
     case 27:
-      return S.Array(__S(602, __c18, 26));
+      return S.Array(__S(698, __c21, 26));
     case 28:
       return S.suspend(() =>
         S.Struct({
@@ -13797,15 +13955,15 @@ function __c18(j: number): any {
           score: S.optional(S.NullOr(S.Number)),
           ai_score: S.optional(S.NullOr(S.Number)),
           evaluated_at: S.optional(S.NullOr(S.Number)),
-          reviewed_teammate: S.optional(__S(600, __c18, 24)),
-          evaluators: S.optional(__S(603, __c18, 27)),
+          reviewed_teammate: S.optional(__S(696, __c21, 24)),
+          evaluators: S.optional(__S(699, __c21, 27)),
         }),
       ).annotate({ identifier: "ConversationScorecard" });
     case 29:
-      return S.Array(__S(604, __c18, 28));
+      return S.Array(__S(700, __c21, 28));
   }
 }
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13813,7 +13971,7 @@ function __c19(j: number): any {
           type: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.NullOr(S.String)),
-          email: S.optional(S.String),
+          email: S.optional(S.NullOr(S.String)),
           from_ai_agent: S.optional(S.Boolean),
           is_ai_answer: S.optional(S.Boolean),
         }),
@@ -13822,7 +13980,7 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subject: S.optional(S.String),
-          email_address_headers: S.optional(__S(545, __c17, 1)),
+          email_address_headers: S.optional(__S(641, __c20, 1)),
           message_id: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "EmailMessageMetadata" });
@@ -13835,11 +13993,11 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "ConversationPartMetadataQuickReplyOptionsItem" });
     case 3:
-      return S.Array(__S(610, __c19, 2));
+      return S.Array(__S(706, __c22, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          quick_reply_options: S.optional(__S(611, __c19, 3)),
+          quick_reply_options: S.optional(__S(707, __c22, 3)),
           quick_reply_uuid: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConversationPartMetadata" });
@@ -13854,30 +14012,30 @@ function __c19(j: number): any {
           updated_at: S.optional(S.Number),
           notified_at: S.optional(S.Number),
           assigned_to: S.optional(S.NullOr(__S(32, __c1, 0))),
-          author: S.optional(__S(608, __c19, 0)),
+          author: S.optional(__S(704, __c22, 0)),
           attachments: S.optional(__S(4225, __c132, 1)),
           external_id: S.optional(S.NullOr(S.String)),
           redacted: S.optional(S.Boolean),
-          email_message_metadata: S.optional(S.NullOr(__S(609, __c19, 1))),
-          metadata: S.optional(S.NullOr(__S(612, __c19, 4))),
+          email_message_metadata: S.optional(S.NullOr(__S(705, __c22, 1))),
+          metadata: S.optional(S.NullOr(__S(708, __c22, 4))),
           state: S.optional(S.String),
-          tags: S.optional(S.NullOr(__S(9376, __c293, 0))),
+          tags: S.optional(S.NullOr(__S(9472, __c296, 0))),
           event_details: S.optional(S.NullOr(S.Unknown)),
           app_package_code: S.optional(S.NullOr(S.String)),
           translations: S.optional(S.NullOr(__S(4288, __c134, 0))),
         }),
       ).annotate({ identifier: "ConversationPart" });
     case 6:
-      return S.Array(__S(613, __c19, 5));
+      return S.Array(__S(709, __c22, 5));
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          conversation_parts: S.optional(__S(614, __c19, 6)),
+          conversation_parts: S.optional(__S(710, __c22, 6)),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ConversationParts" });
@@ -13897,42 +14055,31 @@ function __c20(j: number): any {
           priority: S.optional(S.String),
           admin_assignee_id: S.optional(S.Number),
           team_assignee_id: S.optional(S.Number),
-          company: S.optional(S.NullOr(__S(9413, __c294, 5))),
-          tags: S.optional(__S(6592, __c206, 0)),
-          conversation_rating: S.optional(S.NullOr(__S(576, __c18, 0))),
-          source: S.optional(__S(583, __c18, 7)),
+          company: S.optional(S.NullOr(__S(9509, __c297, 5))),
+          tags: S.optional(__S(6688, __c209, 0)),
+          conversation_rating: S.optional(S.NullOr(__S(672, __c21, 0))),
+          source: S.optional(__S(679, __c21, 7)),
           contacts: S.optional(__S(4258, __c133, 2)),
-          teammates: S.optional(S.NullOr(__S(585, __c18, 9))),
-          custom_attributes: S.optional(__S(8224, __c257, 0)),
-          first_contact_reply: S.optional(S.NullOr(__S(586, __c18, 10))),
-          sla_applied: S.optional(S.NullOr(__S(587, __c18, 11))),
-          statistics: S.optional(S.NullOr(__S(590, __c18, 14))),
-          conversation_parts: S.optional(__S(640, __c20, 0)),
+          teammates: S.optional(S.NullOr(__S(681, __c21, 9))),
+          custom_attributes: S.optional(__S(8352, __c261, 0)),
+          first_contact_reply: S.optional(S.NullOr(__S(682, __c21, 10))),
+          sla_applied: S.optional(S.NullOr(__S(683, __c21, 11))),
+          statistics: S.optional(S.NullOr(__S(686, __c21, 14))),
+          conversation_parts: S.optional(__S(736, __c23, 0)),
           linked_objects: S.optional(__S(4261, __c133, 5)),
           ai_agent_participated: S.optional(S.Boolean),
-          ai_agent: S.optional(S.NullOr(__S(594, __c18, 18))),
+          ai_agent: S.optional(S.NullOr(__S(690, __c21, 18))),
           sales_agent_participated: S.optional(S.Boolean),
-          sales_agent: S.optional(S.NullOr(__S(595, __c18, 19))),
-          channel: S.optional(S.NullOr(__S(596, __c18, 20))),
-          external_references: S.optional(__S(597, __c18, 21)),
-          monitor_evaluations: S.optional(__S(599, __c18, 23)),
-          scorecards: S.optional(__S(605, __c18, 29)),
+          sales_agent: S.optional(S.NullOr(__S(691, __c21, 19))),
+          channel: S.optional(S.NullOr(__S(692, __c21, 20))),
+          external_references: S.optional(__S(693, __c21, 21)),
+          monitor_evaluations: S.optional(__S(695, __c21, 23)),
+          scorecards: S.optional(__S(701, __c21, 29)),
         }),
       ).annotate({ identifier: "Conversation" });
   }
 }
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          contact_id: S.String.pipe(T.Label()),
-          id: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/contacts/{contact_id}/tags", code: 200 })),
-      ).annotate({ identifier: "AttachTagToContactRequest" });
-  }
-}
-function __c22(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13942,7 +14089,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetConversationAttributeRequest" });
   }
 }
-function __c23(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13959,7 +14106,7 @@ function __c23(j: number): any {
       ).annotate({ identifier: "GetCustomObjectInstanceRequest" });
   }
 }
-function __c24(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13970,7 +14117,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "GetDataConnectorRequest" });
   }
 }
-function __c25(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13987,7 +14134,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "GetDataConnectorExecutionResultRequest" });
   }
 }
-function __c26(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14013,7 +14160,7 @@ function __c26(j: number): any {
       ).annotate({ identifier: "DataConnectorExecutionResult" });
   }
 }
-function __c27(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14023,7 +14170,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "GetDataExportRequest" });
   }
 }
-function __c28(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14036,7 +14183,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetDownloadReportingDataRequest" });
   }
 }
-function __c29(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14046,7 +14193,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "GetEmailRequest" });
   }
 }
-function __c30(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14065,7 +14212,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "EmailSetting" });
   }
 }
-function __c31(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14079,7 +14226,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetExportReportingDataRequest" });
   }
 }
-function __c32(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14087,38 +14234,6 @@ function __c32(j: number): any {
           page_id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/ai/external_pages/{page_id}", code: 200 })),
       ).annotate({ identifier: "GetExternalPageRequest" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          help_center_id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/help_center/help_centers/{help_center_id}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetHelpCenterRequest" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.String),
-          workspace_id: S.optional(S.String),
-          created_at: S.optional(S.Number),
-          updated_at: S.optional(S.Number),
-          identifier: S.optional(S.String),
-          website_turned_on: S.optional(S.Boolean),
-          display_name: S.optional(S.String),
-          url: S.optional(S.String),
-          custom_domain: S.optional(S.NullOr(S.String)),
-          default: S.optional(S.Boolean),
-          locales: S.optional(__S(7104, __c222, 0)),
-        }),
-      ).annotate({ identifier: "HelpCenter" });
   }
 }
 function __c35(j: number): any {
@@ -14140,6 +14255,38 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          help_center_id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/help_center/help_centers/{help_center_id}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetHelpCenterRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          workspace_id: S.optional(S.String),
+          created_at: S.optional(S.Number),
+          updated_at: S.optional(S.Number),
+          identifier: S.optional(S.String),
+          website_turned_on: S.optional(S.Boolean),
+          display_name: S.optional(S.String),
+          url: S.optional(S.String),
+          custom_domain: S.optional(S.NullOr(S.String)),
+          default: S.optional(S.Boolean),
+          locales: S.optional(__S(7200, __c225, 0)),
+        }),
+      ).annotate({ identifier: "HelpCenter" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           help_center_id: S.String.pipe(T.Label()),
           id: S.String.pipe(T.Label()),
         }).pipe(
@@ -14152,7 +14299,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetHelpCenterRedirectRequest" });
   }
 }
-function __c37(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14164,7 +14311,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "GetInternalArticleRequest" });
   }
 }
-function __c38(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14172,19 +14319,19 @@ function __c38(j: number): any {
       ).annotate({ identifier: "GetIpAllowlistRequest" });
   }
 }
-function __c39(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          ip_allowlist: S.optional(__S(7104, __c222, 0)),
+          ip_allowlist: S.optional(__S(7200, __c225, 0)),
         }),
       ).annotate({ identifier: "IpAllowlist" });
   }
 }
-function __c40(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14194,7 +14341,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetMacroRequest" });
   }
 }
-function __c41(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14207,13 +14354,13 @@ function __c41(j: number): any {
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           visible_to: S.optional(S.String),
-          visible_to_team_ids: S.optional(__S(7104, __c222, 0)),
-          available_on: S.optional(__S(10240, __c320, 0)),
+          visible_to_team_ids: S.optional(__S(7200, __c225, 0)),
+          available_on: S.optional(__S(10304, __c322, 0)),
         }),
       ).annotate({ identifier: "Macro" });
   }
 }
-function __c42(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14233,7 +14380,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "Newsfeed" });
   }
 }
-function __c43(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14243,7 +14390,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetNewsItemRequest" });
   }
 }
-function __c44(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14253,7 +14400,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetNoteRequest" });
   }
 }
-function __c45(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14270,7 +14417,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "GetOfficeHoursExceptionRequest" });
   }
 }
-function __c46(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14280,17 +14427,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "GetOfficeHoursScheduleRequest" });
   }
 }
-function __c47(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          segment_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/segments/{segment_id}", code: 200 })),
-      ).annotate({ identifier: "GetSegmentRequest" });
-  }
-}
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14304,7 +14441,17 @@ function __c48(j: number): any {
       ).annotate({ identifier: "AttachTagToConversationRequest" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          segment_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/segments/{segment_id}", code: 200 })),
+      ).annotate({ identifier: "GetSegmentRequest" });
+  }
+}
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14314,13 +14461,13 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetTeamRequest" });
   }
 }
-function __c50(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          primary_admin_ids: S.optional(S.NullOr(__S(9184, __c287, 0))),
-          secondary_admin_ids: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          primary_admin_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
+          secondary_admin_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
         }),
       ).annotate({ identifier: "AdminPriorityLevel" });
     case 1:
@@ -14329,15 +14476,15 @@ function __c50(j: number): any {
           type: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          admin_ids: S.optional(__S(9184, __c287, 0)),
-          admin_priority_level: S.optional(S.NullOr(__S(1600, __c50, 0))),
+          admin_ids: S.optional(__S(9280, __c290, 0)),
+          admin_priority_level: S.optional(S.NullOr(__S(1664, __c52, 0))),
           assignment_limit: S.optional(S.NullOr(S.Number)),
           distribution_method: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "Team" });
   }
 }
-function __c51(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14357,17 +14504,17 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "TeamMetric" });
     case 2:
-      return S.Array(__S(1633, __c51, 1));
+      return S.Array(__S(1697, __c53, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(1634, __c51, 2)),
+          data: S.optional(__S(1698, __c53, 2)),
         }),
       ).annotate({ identifier: "TeamMetricList" });
   }
 }
-function __c52(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14377,7 +14524,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "GetTicketRequest" });
   }
 }
-function __c53(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14387,7 +14534,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetTicketTypeRequest" });
   }
 }
-function __c54(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14397,13 +14544,13 @@ function __c54(j: number): any {
       ).annotate({ identifier: "GetVisitorWithUserIdRequest" });
   }
 }
-function __c55(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          companies: S.optional(__S(288, __c9, 0)),
+          companies: S.optional(__S(352, __c11, 0)),
         }),
       ).annotate({ identifier: "VisitorCompanies" });
     case 1:
@@ -14423,7 +14570,7 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          social_profiles: S.optional(__S(7104, __c222, 0)),
+          social_profiles: S.optional(__S(7200, __c225, 0)),
         }),
       ).annotate({ identifier: "VisitorSocialProfiles" });
     case 3:
@@ -14435,19 +14582,19 @@ function __c55(j: number): any {
         }),
       ).annotate({ identifier: "VisitorTagsTagsItem" });
     case 4:
-      return S.Array(__S(1763, __c55, 3));
+      return S.Array(__S(1827, __c57, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          tags: S.optional(__S(1764, __c55, 4)),
+          tags: S.optional(__S(1828, __c57, 4)),
         }),
       ).annotate({ identifier: "VisitorTags" });
     case 6:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          segments: S.optional(__S(7104, __c222, 0)),
+          segments: S.optional(__S(7200, __c225, 0)),
         }),
       ).annotate({ identifier: "VisitorSegments" });
     case 7:
@@ -14461,24 +14608,24 @@ function __c55(j: number): any {
           phone: S.optional(S.NullOr(S.String)),
           name: S.optional(S.NullOr(S.String)),
           pseudonym: S.optional(S.NullOr(S.String)),
-          avatar: S.optional(__S(6400, __c200, 0)),
+          avatar: S.optional(__S(6496, __c203, 0)),
           app_id: S.optional(S.String),
-          companies: S.optional(__S(1760, __c55, 0)),
-          location_data: S.optional(__S(1761, __c55, 1)),
+          companies: S.optional(__S(1824, __c57, 0)),
+          location_data: S.optional(__S(1825, __c57, 1)),
           las_request_at: S.optional(S.Number),
           created_at: S.optional(S.Number),
           remote_created_at: S.optional(S.Number),
           signed_up_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
           session_count: S.optional(S.Number),
-          social_profiles: S.optional(__S(1762, __c55, 2)),
+          social_profiles: S.optional(__S(1826, __c57, 2)),
           owner_id: S.optional(S.NullOr(S.String)),
           unsubscribed_from_emails: S.optional(S.Boolean),
           marked_email_as_spam: S.optional(S.Boolean),
           has_hard_bounced: S.optional(S.Boolean),
-          tags: S.optional(__S(1765, __c55, 5)),
-          segments: S.optional(__S(1766, __c55, 6)),
-          custom_attributes: S.optional(__S(8704, __c272, 0)),
+          tags: S.optional(__S(1829, __c57, 5)),
+          segments: S.optional(__S(1830, __c57, 6)),
+          custom_attributes: S.optional(__S(8800, __c275, 0)),
           referrer: S.optional(S.NullOr(S.String)),
           utm_campaign: S.optional(S.NullOr(S.String)),
           utm_content: S.optional(S.NullOr(S.String)),
@@ -14490,7 +14637,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "Visitor" });
   }
 }
-function __c56(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14515,12 +14662,12 @@ function __c56(j: number): any {
           updated_at: S.optional(S.Number),
           template_name: S.optional(S.String),
           message_id: S.optional(S.String),
-          error: S.optional(S.NullOr(__S(1793, __c56, 1))),
+          error: S.optional(S.NullOr(__S(1857, __c58, 1))),
         }),
       ).annotate({ identifier: "WhatsappMessageStatus" });
   }
 }
-function __c57(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14536,7 +14683,7 @@ function __c57(j: number): any {
           type: S.String,
           per_page: S.Number,
           total_pages: S.Number,
-          next: S.optional(S.NullOr(__S(1856, __c58, 0))),
+          next: S.optional(S.NullOr(__S(1920, __c60, 0))),
         }),
       ).annotate({ identifier: "WhatsappMessageStatusListPages" });
     case 2:
@@ -14553,20 +14700,20 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "WhatsappMessageStatusListEventsItem" });
     case 3:
-      return S.Array(__S(1826, __c57, 2));
+      return S.Array(__S(1890, __c59, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           ruleset_id: S.String,
-          pages: __S(1825, __c57, 1),
+          pages: __S(1889, __c59, 1),
           total_count: S.Number,
-          events: __S(1827, __c57, 3),
+          events: __S(1891, __c59, 3),
         }),
       ).annotate({ identifier: "WhatsappMessageStatusList" });
   }
 }
-function __c58(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14576,7 +14723,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "WhatsappMessageStatusListPagesNext" });
   }
 }
-function __c59(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14605,15 +14752,15 @@ function __c59(j: number): any {
           away_mode_enabled: S.optional(S.Boolean),
           away_mode_reassign: S.optional(S.Boolean),
           has_inbox_seat: S.optional(S.Boolean),
-          team_ids: S.optional(__S(9184, __c287, 0)),
-          avatar: S.optional(__S(6400, __c200, 0)),
+          team_ids: S.optional(__S(9280, __c290, 0)),
+          avatar: S.optional(__S(6496, __c203, 0)),
           email_verified: S.optional(S.NullOr(S.Boolean)),
-          app: S.optional(S.NullOr(__S(1889, __c59, 1))),
+          app: S.optional(S.NullOr(__S(1953, __c61, 1))),
         }),
       ).annotate({ identifier: "AdminWithApp" });
   }
 }
-function __c60(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14623,20 +14770,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "JobsStatusRequest" });
   }
 }
-function __c61(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ticket_id: S.String.pipe(T.Label()),
-          conversation_id: S.String,
-        }).pipe(
-          T.Http({ method: "POST", uri: "/tickets/{ticket_id}/linked_conversations", code: 200 }),
-        ),
-      ).annotate({ identifier: "LinkConversationToTicketRequest" });
-  }
-}
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14654,7 +14788,20 @@ function __c62(j: number): any {
       ).annotate({ identifier: "AttachTagToInternalArticleRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ticket_id: S.String.pipe(T.Label()),
+          conversation_id: S.String,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/tickets/{ticket_id}/linked_conversations", code: 200 }),
+        ),
+      ).annotate({ identifier: "LinkConversationToTicketRequest" });
+  }
+}
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14664,17 +14811,17 @@ function __c63(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/data_attributes", code: 200 })),
       ).annotate({ identifier: "LisDataAttributesRequest" });
     case 1:
-      return S.Array(__S(7328, __c229, 0));
+      return S.Array(__S(7456, __c233, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(2017, __c63, 1)),
+          data: S.optional(__S(2081, __c65, 1)),
         }),
       ).annotate({ identifier: "DataAttributeList" });
   }
 }
-function __c64(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14695,7 +14842,7 @@ function __c64(j: number): any {
         }),
       ).annotate({ identifier: "DataEventSummaryItem" });
     case 2:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(2049, __c64, 1)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(2113, __c66, 1)));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -14703,12 +14850,12 @@ function __c64(j: number): any {
           email: S.optional(S.String),
           intercom_user_id: S.optional(S.String),
           user_id: S.optional(S.String),
-          events: S.optional(__S(2050, __c64, 2)),
+          events: S.optional(__S(2114, __c66, 2)),
         }),
       ).annotate({ identifier: "DataEventSummary" });
   }
 }
-function __c65(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14720,12 +14867,12 @@ function __c65(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          event_types: S.optional(__S(7104, __c222, 0)),
+          event_types: S.optional(__S(7200, __c225, 0)),
         }),
       ).annotate({ identifier: "ActivityLogEventTypeList" });
   }
 }
-function __c66(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14736,7 +14883,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "ListActivityLogsRequest" });
   }
 }
-function __c67(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14755,7 +14902,7 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "ActivityLogMetadataChangesValue" });
     case 2:
-      return S.Record(S.String, __S(2145, __c67, 1));
+      return S.Record(S.String, __S(2209, __c69, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -14781,10 +14928,10 @@ function __c67(j: number): any {
           last_activity_at: S.optional(S.NullOr(S.Number)),
           auto: S.optional(S.NullOr(S.Boolean)),
           setting_type: S.optional(S.NullOr(S.String)),
-          changes: S.optional(S.NullOr(__S(2146, __c67, 2))),
+          changes: S.optional(S.NullOr(__S(2210, __c69, 2))),
           conversation_assignment_limit: S.optional(S.NullOr(S.Number)),
           ticket_assignment_limit: S.optional(S.NullOr(S.Number)),
-          team: S.optional(S.NullOr(__S(2147, __c67, 3))),
+          team: S.optional(S.NullOr(__S(2211, __c69, 3))),
           team_assignment_limit: S.optional(S.NullOr(S.Number)),
           enabled: S.optional(S.NullOr(S.Boolean)),
           mode: S.optional(S.NullOr(S.String)),
@@ -14798,26 +14945,26 @@ function __c67(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.String),
-          performed_by: S.optional(__S(2144, __c67, 0)),
-          metadata: S.optional(S.NullOr(__S(2148, __c67, 4))),
+          performed_by: S.optional(__S(2208, __c69, 0)),
+          metadata: S.optional(S.NullOr(__S(2212, __c69, 4))),
           created_at: S.optional(S.Number),
           activity_type: S.optional(S.String),
           activity_description: S.optional(S.String),
         }),
       ).annotate({ identifier: "ActivityLog" });
     case 6:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(2149, __c67, 5)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(2213, __c69, 5)));
     case 7:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          pages: S.optional(S.NullOr(__S(321, __c10, 1))),
-          activity_logs: S.optional(__S(2150, __c67, 6)),
+          pages: S.optional(S.NullOr(__S(385, __c12, 1))),
+          activity_logs: S.optional(__S(2214, __c69, 6)),
         }),
       ).annotate({ identifier: "ActivityLogList" });
   }
 }
-function __c68(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14826,36 +14973,36 @@ function __c68(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/admins", code: 200 })),
       ).annotate({ identifier: "ListAdminsRequest" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(9281, __c290, 1)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(9377, __c293, 1)));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          admins: S.optional(__S(2177, __c68, 1)),
+          admins: S.optional(__S(2241, __c70, 1)),
         }),
       ).annotate({ identifier: "AdminList" });
   }
 }
-function __c69(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/help_center/collections", code: 200 })),
       ).annotate({ identifier: "ListAllCollectionsRequest" });
     case 1:
-      return S.Array(__S(6786, __c212, 2));
+      return S.Array(__S(6882, __c215, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          pages: S.optional(S.NullOr(__S(321, __c10, 1))),
+          pages: S.optional(S.NullOr(__S(385, __c12, 1))),
           total_count: S.optional(S.Number),
-          data: S.optional(__S(2209, __c69, 1)),
+          data: S.optional(__S(2273, __c71, 1)),
         }),
       ).annotate({ identifier: "CollectionList" });
   }
 }
-function __c70(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14867,7 +15014,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "ListAllCompaniesRequest" });
   }
 }
-function __c71(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14890,7 +15037,7 @@ function __c71(j: number): any {
           has_unpublished_changes: S.optional(S.Boolean),
           draft_updated_at: S.optional(S.NullOr(S.Number)),
           url: S.optional(S.NullOr(S.String)),
-          parent_ids: S.optional(__S(9184, __c287, 0)),
+          parent_ids: S.optional(__S(9280, __c290, 0)),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -14901,24 +15048,24 @@ function __c71(j: number): any {
           scheduled_publish_at: S.optional(S.NullOr(S.Number)),
           scheduled_unpublish_at: S.optional(S.NullOr(S.Number)),
           default_locale: S.optional(S.String),
-          translated_content: S.optional(S.NullOr(__S(6625, __c207, 1))),
-          tags: S.optional(__S(6592, __c206, 0)),
+          translated_content: S.optional(S.NullOr(__S(6721, __c210, 1))),
+          tags: S.optional(__S(6688, __c209, 0)),
         }),
       ).annotate({ identifier: "ArticleListItem" });
     case 2:
-      return S.Array(__S(2273, __c71, 1));
+      return S.Array(__S(2337, __c73, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          pages: S.optional(S.NullOr(__S(321, __c10, 1))),
+          pages: S.optional(S.NullOr(__S(385, __c12, 1))),
           total_count: S.optional(S.Number),
-          data: S.optional(__S(2274, __c71, 2)),
+          data: S.optional(__S(2338, __c73, 2)),
         }),
       ).annotate({ identifier: "ArticleList" });
   }
 }
-function __c72(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14946,41 +15093,16 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "ArticleVersionSummary" });
     case 2:
-      return S.Array(__S(2305, __c72, 1));
+      return S.Array(__S(2369, __c74, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          pages: S.optional(S.NullOr(__S(321, __c10, 1))),
+          pages: S.optional(S.NullOr(__S(385, __c12, 1))),
           total_count: S.optional(S.Number),
-          data: S.optional(__S(2306, __c72, 2)),
+          data: S.optional(__S(2370, __c74, 2)),
         }),
       ).annotate({ identifier: "ArticleVersionList" });
-  }
-}
-function __c73(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          company_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/companies/{company_id}/contacts", code: 200 })),
-      ).annotate({ identifier: "ListAttachedContactsRequest" });
-  }
-}
-function __c74(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(6368, __c199, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          data: S.optional(__S(2368, __c74, 0)),
-          total_count: S.optional(S.Number),
-          pages: S.optional(S.NullOr(__S(321, __c10, 1))),
-        }),
-      ).annotate({ identifier: "CompanyAttachedContacts" });
   }
 }
 function __c75(j: number): any {
@@ -15001,22 +15123,47 @@ function __c76(j: number): any {
       return S.suspend(() =>
         S.Struct({
           company_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/companies/{company_id}/segments", code: 200 })),
-      ).annotate({ identifier: "ListAttachedSegmentsForCompaniesRequest" });
+        }).pipe(T.Http({ method: "GET", uri: "/companies/{company_id}/contacts", code: 200 })),
+      ).annotate({ identifier: "ListAttachedContactsRequest" });
   }
 }
 function __c77(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(6464, __c202, 0));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(9344, __c292, 0)),
+          data: S.optional(__S(2464, __c77, 0)),
+          total_count: S.optional(S.Number),
+          pages: S.optional(S.NullOr(__S(385, __c12, 1))),
+        }),
+      ).annotate({ identifier: "CompanyAttachedContacts" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          company_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/companies/{company_id}/segments", code: 200 })),
+      ).annotate({ identifier: "ListAttachedSegmentsForCompaniesRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          data: S.optional(__S(9440, __c295, 0)),
         }),
       ).annotate({ identifier: "CompanyAttachedSegments" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15026,12 +15173,12 @@ function __c78(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/audiences", code: 200 })),
       ).annotate({ identifier: "ListAudiencesRequest" });
     case 1:
-      return S.Array(__S(6722, __c210, 2));
+      return S.Array(__S(6818, __c213, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(2497, __c78, 1)),
+          data: S.optional(__S(2561, __c80, 1)),
           total_count: S.optional(S.Number),
           page: S.optional(S.Number),
           per_page: S.optional(S.Number),
@@ -15040,7 +15187,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "AudienceList" });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15060,34 +15207,34 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "AwayStatusReason" });
     case 2:
-      return S.Array(__S(2529, __c79, 1));
+      return S.Array(__S(2593, __c81, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(2530, __c79, 2)),
+          data: S.optional(__S(2594, __c81, 2)),
         }),
       ).annotate({ identifier: "AwayStatusReasonList" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/brands", code: 200 })),
       ).annotate({ identifier: "ListBrandsRequest" });
     case 1:
-      return S.Array(__S(10624, __c332, 0));
+      return S.Array(__S(128, __c4, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(2561, __c80, 1)),
+          data: S.optional(__S(2625, __c82, 1)),
         }),
       ).annotate({ identifier: "BrandList" });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15097,28 +15244,28 @@ function __c81(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/calls", code: 200 })),
       ).annotate({ identifier: "ListCallsRequest" });
     case 1:
-      return S.Array(__S(128, __c4, 0));
+      return S.Array(__S(192, __c6, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(2593, __c81, 1)),
+          data: S.optional(__S(2657, __c83, 1)),
           total_count: S.optional(S.Number),
-          pages: S.optional(S.NullOr(__S(321, __c10, 1))),
+          pages: S.optional(S.NullOr(__S(385, __c12, 1))),
         }),
       ).annotate({ identifier: "CallList" });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          conversation_ids: __S(7104, __c222, 0),
+          conversation_ids: __S(7200, __c225, 0),
         }).pipe(T.Http({ method: "POST", uri: "/calls/search", code: 200 })),
       ).annotate({ identifier: "ListCallsWithTranscriptsRequest" });
     case 1:
-      return S.Array(__S(8736, __c273, 0));
+      return S.Array(__S(8832, __c276, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15141,22 +15288,22 @@ function __c82(j: number): any {
           phone: S.optional(S.NullOr(S.String)),
           fin_recording_url: S.optional(S.NullOr(S.String)),
           fin_transcription_url: S.optional(S.NullOr(S.String)),
-          transcript: S.optional(__S(2625, __c82, 1)),
+          transcript: S.optional(__S(2689, __c84, 1)),
           transcript_status: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "ListCallsWithTranscriptsResponseDataItem" });
     case 3:
-      return S.Array(__S(2626, __c82, 2));
+      return S.Array(__S(2690, __c84, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(2627, __c82, 3)),
+          data: S.optional(__S(2691, __c84, 3)),
         }),
       ).annotate({ identifier: "ListCallsWithTranscriptsResponse" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15168,14 +15315,14 @@ function __c83(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          companies: S.optional(__S(288, __c9, 0)),
+          companies: S.optional(__S(352, __c11, 0)),
           total_count: S.optional(S.Number),
-          pages: S.optional(__S(2688, __c84, 0)),
+          pages: S.optional(__S(2752, __c86, 0)),
         }),
       ).annotate({ identifier: "ContactAttachedCompanies" });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15189,7 +15336,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "PagesLink" });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15199,22 +15346,22 @@ function __c85(j: number): any {
       ).annotate({ identifier: "ListCompanyNotesRequest" });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6848, __c214, 0));
+      return S.Array(__S(6944, __c217, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(2752, __c86, 0)),
+          data: S.optional(__S(2816, __c88, 0)),
           total_count: S.optional(S.Number),
-          pages: S.optional(S.NullOr(__S(321, __c10, 1))),
+          pages: S.optional(S.NullOr(__S(385, __c12, 1))),
         }),
       ).annotate({ identifier: "NoteList" });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15230,14 +15377,14 @@ function __c87(j: number): any {
         }),
       ).annotate({ identifier: "BannerActionReactionSetItem" });
     case 2:
-      return S.Array(__S(2785, __c87, 1));
+      return S.Array(__S(2849, __c89, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           label: S.optional(S.NullOr(S.String)),
           target: S.optional(S.NullOr(S.String)),
-          reaction_set: S.optional(__S(2786, __c87, 2)),
+          reaction_set: S.optional(__S(2850, __c89, 2)),
           tour_id: S.optional(S.NullOr(S.String)),
           tour_url: S.optional(S.NullOr(S.String)),
         }),
@@ -15253,45 +15400,23 @@ function __c87(j: number): any {
           style: S.optional(S.String),
           position: S.optional(S.String),
           show_dismiss_button: S.optional(S.Boolean),
-          action: S.optional(S.NullOr(__S(2787, __c87, 3))),
-          client_targeting: S.optional(S.NullOr(__S(4864, __c152, 0))),
+          action: S.optional(S.NullOr(__S(2851, __c89, 3))),
+          client_targeting: S.optional(S.NullOr(__S(4896, __c153, 0))),
           created_at: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Banner" });
     case 5:
-      return S.Array(__S(2788, __c87, 4));
+      return S.Array(__S(2852, __c89, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(2789, __c87, 5)),
+          data: S.optional(__S(2853, __c89, 5)),
         }),
       ).annotate({ identifier: "BannerList" });
   }
 }
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          per_page: S.optional(S.Number.pipe(T.Query())),
-          order: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/contacts/{id}/merge_history", code: 200 })),
-      ).annotate({ identifier: "ListContactMergeHistoryRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          data: S.optional(__S(6433, __c201, 1)),
-          next_cursor: S.optional(S.NullOr(S.String)),
-          has_more: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "MergeHistoryList" });
-  }
-}
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15310,7 +15435,29 @@ function __c89(j: number): any {
       ).annotate({ identifier: "BlockContactResponse" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          per_page: S.optional(S.Number.pipe(T.Query())),
+          order: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/contacts/{id}/merge_history", code: 200 })),
+      ).annotate({ identifier: "ListContactMergeHistoryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          data: S.optional(__S(6529, __c204, 1)),
+          next_cursor: S.optional(S.NullOr(S.String)),
+          has_more: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "MergeHistoryList" });
+  }
+}
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15320,26 +15467,26 @@ function __c90(j: number): any {
       ).annotate({ identifier: "ListContactsRequest" });
   }
 }
-function __c91(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/ai/content_import_sources", code: 200 })),
       ).annotate({ identifier: "ListContentImportSourcesRequest" });
     case 1:
-      return S.Array(__S(6976, __c218, 0));
+      return S.Array(__S(7072, __c221, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          pages: S.optional(__S(2688, __c84, 0)),
+          pages: S.optional(__S(2752, __c86, 0)),
           total_count: S.optional(S.Number),
-          data: S.optional(__S(2913, __c91, 1)),
+          data: S.optional(__S(2977, __c93, 1)),
         }),
       ).annotate({ identifier: "ContentImportSourcesList" });
   }
 }
-function __c92(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15349,12 +15496,12 @@ function __c92(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/content_snippets", code: 200 })),
       ).annotate({ identifier: "ListContentSnippetsRequest" });
     case 1:
-      return S.Array(__S(7040, __c220, 0));
+      return S.Array(__S(7136, __c223, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(2945, __c92, 1)),
+          data: S.optional(__S(3009, __c94, 1)),
           total_count: S.optional(S.Number),
           page: S.optional(S.Number),
           per_page: S.optional(S.Number),
@@ -15363,7 +15510,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "ContentSnippetList" });
   }
 }
-function __c93(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15377,12 +15524,12 @@ function __c93(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(2977, __c93, 1)),
+          data: S.optional(__S(3041, __c95, 1)),
         }),
       ).annotate({ identifier: "ConversationAttributeList" });
   }
 }
-function __c94(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15393,7 +15540,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "ListConversationsRequest" });
   }
 }
-function __c95(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15411,44 +15558,44 @@ function __c95(j: number): any {
           priority: S.optional(S.String),
           admin_assignee_id: S.optional(S.Number),
           team_assignee_id: S.optional(S.Number),
-          company: S.optional(S.NullOr(__S(9413, __c294, 5))),
-          tags: S.optional(__S(6592, __c206, 0)),
-          conversation_rating: S.optional(S.NullOr(__S(576, __c18, 0))),
-          source: S.optional(__S(583, __c18, 7)),
+          company: S.optional(S.NullOr(__S(9509, __c297, 5))),
+          tags: S.optional(__S(6688, __c209, 0)),
+          conversation_rating: S.optional(S.NullOr(__S(672, __c21, 0))),
+          source: S.optional(__S(679, __c21, 7)),
           contacts: S.optional(__S(4258, __c133, 2)),
-          teammates: S.optional(S.NullOr(__S(585, __c18, 9))),
-          custom_attributes: S.optional(__S(8224, __c257, 0)),
-          first_contact_reply: S.optional(S.NullOr(__S(586, __c18, 10))),
-          sla_applied: S.optional(S.NullOr(__S(587, __c18, 11))),
-          statistics: S.optional(S.NullOr(__S(590, __c18, 14))),
+          teammates: S.optional(S.NullOr(__S(681, __c21, 9))),
+          custom_attributes: S.optional(__S(8352, __c261, 0)),
+          first_contact_reply: S.optional(S.NullOr(__S(682, __c21, 10))),
+          sla_applied: S.optional(S.NullOr(__S(683, __c21, 11))),
+          statistics: S.optional(S.NullOr(__S(686, __c21, 14))),
           linked_objects: S.optional(__S(4261, __c133, 5)),
           ai_agent_participated: S.optional(S.Boolean),
-          ai_agent: S.optional(S.NullOr(__S(594, __c18, 18))),
+          ai_agent: S.optional(S.NullOr(__S(690, __c21, 18))),
           sales_agent_participated: S.optional(S.Boolean),
-          sales_agent: S.optional(S.NullOr(__S(595, __c18, 19))),
-          channel: S.optional(S.NullOr(__S(596, __c18, 20))),
-          external_references: S.optional(__S(597, __c18, 21)),
-          monitor_evaluations: S.optional(__S(599, __c18, 23)),
-          scorecards: S.optional(__S(605, __c18, 29)),
+          sales_agent: S.optional(S.NullOr(__S(691, __c21, 19))),
+          channel: S.optional(S.NullOr(__S(692, __c21, 20))),
+          external_references: S.optional(__S(693, __c21, 21)),
+          monitor_evaluations: S.optional(__S(695, __c21, 23)),
+          scorecards: S.optional(__S(701, __c21, 29)),
         }),
       ).annotate({ identifier: "ConversationListItem" });
     case 1:
-      return S.Array(__S(3040, __c95, 0));
+      return S.Array(__S(3104, __c97, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          conversations: S.optional(__S(3041, __c95, 1)),
+          conversations: S.optional(__S(3105, __c97, 1)),
           total_count: S.optional(S.Number),
-          pages: S.optional(S.NullOr(__S(321, __c10, 1))),
+          pages: S.optional(S.NullOr(__S(385, __c12, 1))),
         }),
       ).annotate({ identifier: "ConversationList" });
   }
 }
-function __c96(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(7264, __c227, 0)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(7392, __c231, 0)));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -15470,14 +15617,14 @@ function __c96(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          pages: S.optional(__S(2688, __c84, 0)),
+          pages: S.optional(__S(2752, __c86, 0)),
           total_count: S.optional(S.Number),
-          data: S.optional(__S(3072, __c96, 0)),
+          data: S.optional(__S(3136, __c98, 0)),
         }),
       ).annotate({ identifier: "CustomObjectInstancesPaginatedList" });
   }
 }
-function __c97(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15499,30 +15646,30 @@ function __c97(j: number): any {
         ),
       ).annotate({ identifier: "ListDataConnectorExecutionResultsRequest" });
     case 1:
-      return S.Array(__S(832, __c26, 0));
+      return S.Array(__S(896, __c28, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(3105, __c97, 1)),
-          pages: S.optional(__S(3136, __c98, 0)),
+          data: S.optional(__S(3169, __c99, 1)),
+          pages: S.optional(__S(3200, __c100, 0)),
         }),
       ).annotate({ identifier: "DataConnectorExecutionResultList" });
   }
 }
-function __c98(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           per_page: S.optional(S.Number),
-          next: S.optional(S.NullOr(__S(1856, __c58, 0))),
+          next: S.optional(S.NullOr(__S(1920, __c60, 0))),
         }),
       ).annotate({ identifier: "DataConnectorExecutionResultListPages" });
   }
 }
-function __c99(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15549,18 +15696,18 @@ function __c99(j: number): any {
         }),
       ).annotate({ identifier: "DataConnector" });
     case 2:
-      return S.Array(__S(3169, __c99, 1));
+      return S.Array(__S(3233, __c101, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(3170, __c99, 2)),
-          pages: S.optional(__S(3136, __c98, 0)),
+          data: S.optional(__S(3234, __c101, 2)),
+          pages: S.optional(__S(3200, __c100, 0)),
         }),
       ).annotate({ identifier: "DataConnectorList" });
   }
 }
-function __c100(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15580,36 +15727,19 @@ function __c100(j: number): any {
         }),
       ).annotate({ identifier: "DeletedConversationItem" });
     case 2:
-      return S.Array(__S(3201, __c100, 1));
+      return S.Array(__S(3265, __c102, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          conversations: S.optional(__S(3202, __c100, 2)),
+          conversations: S.optional(__S(3266, __c102, 2)),
           total_count: S.optional(S.Number),
-          pages: S.optional(__S(2688, __c84, 0)),
+          pages: S.optional(__S(2752, __c86, 0)),
         }),
       ).annotate({ identifier: "DeletedConversationList" });
   }
 }
-function __c101(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/emails", code: 200 })),
-      ).annotate({ identifier: "ListEmailsRequest" });
-    case 1:
-      return S.Array(__S(960, __c30, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          data: S.optional(__S(3233, __c101, 1)),
-        }),
-      ).annotate({ identifier: "EmailList" });
-  }
-}
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(3328, __c104, 0));
@@ -15624,34 +15754,28 @@ function __c102(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          add_segment_ids: S.optional(__S(9184, __c287, 0)),
-          remove_segment_ids: S.optional(__S(9184, __c287, 0)),
+          add_segment_ids: S.optional(__S(9280, __c290, 0)),
+          remove_segment_ids: S.optional(__S(9280, __c290, 0)),
           remove_all: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "BulkContentActionsRequestAudience" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          add_tag_ids: S.optional(__S(9184, __c287, 0)),
-          remove_tag_ids: S.optional(__S(9184, __c287, 0)),
+          add_tag_ids: S.optional(__S(9280, __c290, 0)),
+          remove_tag_ids: S.optional(__S(9280, __c290, 0)),
         }),
       ).annotate({ identifier: "BulkContentActionsRequestTags" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           action: S.String,
-          content_ids: __S(3264, __c102, 0),
-          availability: S.optional(__S(3265, __c102, 1)),
-          audience: S.optional(__S(3266, __c102, 2)),
-          tags: S.optional(__S(3267, __c102, 3)),
+          content_ids: __S(3296, __c103, 0),
+          availability: S.optional(__S(3297, __c103, 1)),
+          audience: S.optional(__S(3298, __c103, 2)),
+          tags: S.optional(__S(3299, __c103, 3)),
         }).pipe(T.Http({ method: "POST", uri: "/content/bulk_actions", code: 200 })),
       ).annotate({ identifier: "BulkContentActionsRequest" });
-  }
-}
-function __c103(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "BulkContentActionsResponse" });
   }
 }
 function __c104(j: number): any {
@@ -15666,6 +15790,29 @@ function __c104(j: number): any {
   }
 }
 function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "BulkContentActionsResponse" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/emails", code: 200 })),
+      ).annotate({ identifier: "ListEmailsRequest" });
+    case 1:
+      return S.Array(__S(1024, __c32, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          data: S.optional(__S(3393, __c106, 1)),
+        }),
+      ).annotate({ identifier: "EmailList" });
+  }
+}
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15684,7 +15831,7 @@ function __c105(j: number): any {
         identifier: "ListExportReportingDataGetDatasetsResponseDataItemAttributesItem",
       });
     case 2:
-      return S.Array(__S(3361, __c105, 1));
+      return S.Array(__S(3425, __c107, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -15692,45 +15839,45 @@ function __c105(j: number): any {
           name: S.optional(S.String),
           description: S.optional(S.String),
           default_time_attribute_id: S.optional(S.String),
-          attributes: S.optional(__S(3362, __c105, 2)),
+          attributes: S.optional(__S(3426, __c107, 2)),
         }),
       ).annotate({ identifier: "ListExportReportingDataGetDatasetsResponseDataItem" });
     case 4:
-      return S.Array(__S(3363, __c105, 3));
+      return S.Array(__S(3427, __c107, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(3364, __c105, 4)),
+          data: S.optional(__S(3428, __c107, 4)),
         }),
       ).annotate({ identifier: "ListExportReportingDataGetDatasetsResponse" });
   }
 }
-function __c106(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/ai/external_pages", code: 200 })),
       ).annotate({ identifier: "ListExternalPagesRequest" });
     case 1:
-      return S.Array(__S(7616, __c238, 0));
+      return S.Array(__S(7744, __c242, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          pages: S.optional(__S(2688, __c84, 0)),
+          pages: S.optional(__S(2752, __c86, 0)),
           total_count: S.optional(S.Number),
-          data: S.optional(__S(3393, __c106, 1)),
+          data: S.optional(__S(3457, __c108, 1)),
         }),
       ).annotate({ identifier: "ExternalPagesList" });
   }
 }
-function __c107(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          user: __S(8768, __c274, 0),
+          user: __S(8864, __c277, 0),
         }).pipe(T.Http({ method: "POST", uri: "/fin/capabilities", code: 200 })),
       ).annotate({ identifier: "ListFinCapabilitiesRequest" });
     case 1:
@@ -15745,17 +15892,17 @@ function __c107(j: number): any {
         }),
       ).annotate({ identifier: "ListFinCapabilitiesResponseCapabilitiesItem" });
     case 2:
-      return S.Array(__S(3425, __c107, 1));
+      return S.Array(__S(3489, __c109, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.String),
-          capabilities: S.optional(__S(3426, __c107, 2)),
+          capabilities: S.optional(__S(3490, __c109, 2)),
         }),
       ).annotate({ identifier: "ListFinCapabilitiesResponse" });
   }
 }
-function __c108(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15775,23 +15922,23 @@ function __c108(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          teammate: __S(3457, __c108, 1),
+          teammate: __S(3521, __c110, 1),
           type: S.String,
           timestamp: S.String,
           reason: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "HandlingEvent" });
     case 3:
-      return S.Array(__S(3458, __c108, 2));
+      return S.Array(__S(3522, __c110, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          handling_events: S.optional(__S(3459, __c108, 3)),
+          handling_events: S.optional(__S(3523, __c110, 3)),
         }),
       ).annotate({ identifier: "HandlingEventList" });
   }
 }
-function __c109(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15808,36 +15955,36 @@ function __c109(j: number): any {
         ),
       ).annotate({ identifier: "ListHelpCenterRedirectsRequest" });
     case 1:
-      return S.Array(__S(7680, __c240, 0));
+      return S.Array(__S(7808, __c244, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          pages: S.optional(S.NullOr(__S(321, __c10, 1))),
+          pages: S.optional(S.NullOr(__S(385, __c12, 1))),
           total_count: S.optional(S.Number),
-          data: S.optional(__S(3489, __c109, 1)),
+          data: S.optional(__S(3553, __c111, 1)),
         }),
       ).annotate({ identifier: "HelpCenterRedirectList" });
   }
 }
-function __c110(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/help_center/help_centers", code: 200 })),
       ).annotate({ identifier: "ListHelpCentersRequest" });
     case 1:
-      return S.Array(__S(1088, __c34, 0));
+      return S.Array(__S(1184, __c37, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(3521, __c110, 1)),
+          data: S.optional(__S(3585, __c112, 1)),
         }),
       ).annotate({ identifier: "HelpCenterList" });
   }
 }
-function __c111(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15847,20 +15994,20 @@ function __c111(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          pages: S.optional(S.NullOr(__S(321, __c10, 1))),
+          pages: S.optional(S.NullOr(__S(385, __c12, 1))),
           total_count: S.optional(S.Number),
-          data: S.optional(__S(3584, __c112, 0)),
+          data: S.optional(__S(3648, __c114, 0)),
         }),
       ).annotate({ identifier: "InternalArticleList" });
   }
 }
-function __c112(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7744, __c242, 0));
+      return S.Array(__S(7872, __c246, 0));
   }
 }
-function __c113(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15870,7 +16017,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "ListLiveNewsfeedItemsRequest" });
   }
 }
-function __c114(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -15878,14 +16025,14 @@ function __c114(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          pages: S.optional(S.NullOr(__S(321, __c10, 1))),
+          pages: S.optional(S.NullOr(__S(385, __c12, 1))),
           total_count: S.optional(S.Number),
-          data: S.optional(__S(3648, __c114, 0)),
+          data: S.optional(__S(3712, __c116, 0)),
         }),
       ).annotate({ identifier: "PaginatedResponse" });
   }
 }
-function __c115(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15896,26 +16043,18 @@ function __c115(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/macros", code: 200 })),
       ).annotate({ identifier: "ListMacrosRequest" });
     case 1:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(1312, __c41, 0)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(1376, __c43, 0)));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(3681, __c115, 1)),
-          pages: S.optional(__S(3136, __c98, 0)),
+          data: S.optional(__S(3745, __c117, 1)),
+          pages: S.optional(__S(3200, __c100, 0)),
         }),
       ).annotate({ identifier: "MacroList" });
   }
 }
-function __c116(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/news/newsfeeds", code: 200 })),
-      ).annotate({ identifier: "ListNewsfeedsRequest" });
-  }
-}
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15925,7 +16064,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "CancelDataExportRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15938,7 +16077,15 @@ function __c118(j: number): any {
       ).annotate({ identifier: "DataExport" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/news/newsfeeds", code: 200 })),
+      ).annotate({ identifier: "ListNewsfeedsRequest" });
+  }
+}
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15946,7 +16093,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "ListNewsItemsRequest" });
   }
 }
-function __c120(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15956,7 +16103,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "ListNotesRequest" });
   }
 }
-function __c121(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15971,34 +16118,34 @@ function __c121(j: number): any {
         ),
       ).annotate({ identifier: "ListOfficeHoursExceptionsRequest" });
     case 1:
-      return S.Array(__S(7936, __c248, 0));
+      return S.Array(__S(8064, __c252, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(3873, __c121, 1)),
+          data: S.optional(__S(3937, __c123, 1)),
         }),
       ).annotate({ identifier: "OfficeHoursExceptionList" });
   }
 }
-function __c122(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/office_hours_schedules", code: 200 })),
       ).annotate({ identifier: "ListOfficeHoursSchedulesRequest" });
     case 1:
-      return S.Array(__S(8064, __c252, 0));
+      return S.Array(__S(8256, __c258, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(3905, __c122, 1)),
+          data: S.optional(__S(3969, __c124, 1)),
         }),
       ).annotate({ identifier: "OfficeHoursScheduleList" });
   }
 }
-function __c123(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16010,13 +16157,13 @@ function __c123(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          segments: S.optional(__S(9344, __c292, 0)),
+          segments: S.optional(__S(9440, __c295, 0)),
           pages: S.optional(S.Unknown),
         }),
       ).annotate({ identifier: "SegmentList" });
   }
 }
-function __c124(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16026,7 +16173,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "ListSegmentsForAContactRequest" });
   }
 }
-function __c125(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16042,12 +16189,12 @@ function __c125(j: number): any {
       return S.suspend(() =>
         S.Struct({
           side_conversation_id: S.optional(S.String),
-          conversation_parts: S.optional(__S(614, __c19, 6)),
+          conversation_parts: S.optional(__S(710, __c22, 6)),
           total_count: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SideConversationSummary" });
     case 2:
-      return S.Array(__S(4001, __c125, 1));
+      return S.Array(__S(4065, __c127, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -16061,14 +16208,14 @@ function __c125(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          side_conversations: S.optional(__S(4002, __c125, 2)),
+          side_conversations: S.optional(__S(4066, __c127, 2)),
           total_count: S.optional(S.Number),
-          pages: S.optional(__S(4003, __c125, 3)),
+          pages: S.optional(__S(4067, __c127, 3)),
         }),
       ).annotate({ identifier: "SideConversationList" });
   }
 }
-function __c126(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16078,44 +16225,25 @@ function __c126(j: number): any {
       ).annotate({ identifier: "ListSubscriptionsForAContactRequest" });
   }
 }
-function __c127(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10274, __c321, 2));
+      return S.Array(__S(10338, __c323, 2));
     case 1:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(4064, __c127, 0)),
+          data: S.optional(__S(4128, __c129, 0)),
         }),
       ).annotate({ identifier: "SubscriptionTypeList" });
-  }
-}
-function __c128(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/subscription_types", code: 200 })),
-      ).annotate({ identifier: "ListSubscriptionTypesRequest" });
-  }
-}
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/tags", code: 200 })),
-      ).annotate({ identifier: "ListTagsRequest" });
   }
 }
 function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          data: S.optional(__S(6560, __c205, 0)),
-        }),
-      ).annotate({ identifier: "TagList" });
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/subscription_types", code: 200 })),
+      ).annotate({ identifier: "ListSubscriptionTypesRequest" });
   }
 }
 function __c131(j: number): any {
@@ -16193,9 +16321,12 @@ function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          original: S.String,
-        }),
+        S.StructWithRest(
+          S.Struct({
+            original: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "TicketPartTranslations" });
   }
 }
@@ -16277,6 +16408,7 @@ function __c136(j: number): any {
           id: S.optional(S.String),
           ticket_id: S.optional(S.String),
           category: S.optional(S.String),
+          channel: S.optional(S.NullOr(S.String)),
           ticket_attributes: S.optional(__S(4352, __c136, 0)),
           ticket_state: S.optional(S.NullOr(__S(4384, __c137, 0))),
           ticket_type: S.optional(S.NullOr(__S(4389, __c137, 5))),
@@ -16374,30 +16506,49 @@ function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          contact_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/contacts/{contact_id}/tags", code: 200 })),
-      ).annotate({ identifier: "ListTagsForAContactRequest" });
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/tags", code: 200 })),
+      ).annotate({ identifier: "ListTagsRequest" });
   }
 }
 function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          data: S.optional(__S(6656, __c208, 0)),
+        }),
+      ).annotate({ identifier: "TagList" });
+  }
+}
+function __c141(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          contact_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/contacts/{contact_id}/tags", code: 200 })),
+      ).annotate({ identifier: "ListTagsForAContactRequest" });
+  }
+}
+function __c142(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/teams", code: 200 })),
       ).annotate({ identifier: "ListTeamsRequest" });
     case 1:
-      return S.Array(__S(1601, __c50, 1));
+      return S.Array(__S(1665, __c52, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          teams: S.optional(__S(4481, __c140, 1)),
+          teams: S.optional(__S(4545, __c142, 1)),
         }),
       ).annotate({ identifier: "TeamList" });
   }
 }
-function __c141(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16412,21 +16563,21 @@ function __c141(j: number): any {
           internal_label: S.optional(S.String),
           external_label: S.optional(S.String),
           archived: S.optional(S.Boolean),
-          ticket_types: S.optional(__S(4545, __c142, 1)),
+          ticket_types: S.optional(__S(4609, __c144, 1)),
         }),
       ).annotate({ identifier: "TicketStateDetailed" });
     case 2:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(4513, __c141, 1)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(4577, __c143, 1)));
     case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(4514, __c141, 2)),
+          data: S.optional(__S(4578, __c143, 2)),
         }),
       ).annotate({ identifier: "TicketStateList" });
   }
 }
-function __c142(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.NullOr(__S(4389, __c137, 5)));
@@ -16434,12 +16585,12 @@ function __c142(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(4544, __c142, 0)),
+          data: S.optional(__S(4608, __c144, 0)),
         }),
       ).annotate({ identifier: "TicketStateDetailedTicketTypes" });
   }
 }
-function __c143(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16447,7 +16598,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "ListTicketTypesRequest" });
   }
 }
-function __c144(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16460,7 +16611,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "ManageConversationRequest" });
   }
 }
-function __c145(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16473,7 +16624,7 @@ function __c145(j: number): any {
       ).annotate({ identifier: "MergeContactRequest" });
   }
 }
-function __c146(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16484,18 +16635,18 @@ function __c146(j: number): any {
       ).annotate({ identifier: "MergeConversationRequest" });
   }
 }
-function __c147(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.Number.pipe(T.Label()),
-          locales: S.optional(__S(7104, __c222, 0)),
+          locales: S.optional(__S(7200, __c225, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/articles/{id}/draft/publish", code: 200 })),
       ).annotate({ identifier: "PublishArticleDraftRequest" });
   }
 }
-function __c148(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16505,7 +16656,43 @@ function __c148(j: number): any {
       ).annotate({ identifier: "RedactConversationRequest2" });
   }
 }
-function __c149(j: number): any {
+function __c151(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          external_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/fin_voice/external_id/{external_id}", code: 200 })),
+      ).annotate({ identifier: "CollectFinVoiceCallByExternalIdRequest" });
+  }
+}
+function __c152(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.Number),
+          app_id: S.optional(S.Number),
+          user_phone_number: S.optional(S.String),
+          status: S.optional(S.String),
+          intercom_call_id: S.optional(S.NullOr(S.String)),
+          external_call_id: S.optional(S.String),
+          intercom_conversation_id: S.optional(S.NullOr(S.String)),
+          call_transcript: S.optional(__S(4896, __c153, 0)),
+          call_summary: S.optional(S.String),
+          intent: S.optional(__S(4896, __c153, 0)),
+          data: S.optional(S.Unknown),
+        }),
+      ).annotate({ identifier: "AiCallResponse" });
+  }
+}
+function __c153(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.Unknown);
+  }
+}
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16518,42 +16705,7 @@ function __c149(j: number): any {
       ).annotate({ identifier: "RegisterFinVoiceCallRequest" });
   }
 }
-function __c150(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          external_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/fin_voice/external_id/{external_id}", code: 200 })),
-      ).annotate({ identifier: "CollectFinVoiceCallByExternalIdRequest" });
-  }
-}
-function __c151(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.Number),
-          app_id: S.optional(S.Number),
-          user_phone_number: S.optional(S.String),
-          status: S.optional(S.String),
-          intercom_call_id: S.optional(S.NullOr(S.String)),
-          external_call_id: S.optional(S.String),
-          intercom_conversation_id: S.optional(S.NullOr(S.String)),
-          call_transcript: S.optional(__S(4864, __c152, 0)),
-          call_summary: S.optional(S.String),
-          intent: S.optional(__S(4864, __c152, 0)),
-        }),
-      ).annotate({ identifier: "AiCallResponse" });
-  }
-}
-function __c152(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.Unknown);
-  }
-}
-function __c153(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16566,7 +16718,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "ReplyConversationRequest2" });
   }
 }
-function __c154(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16592,25 +16744,35 @@ function __c154(j: number): any {
       ).annotate({ identifier: "TicketReply" });
   }
 }
-function __c155(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           conversation_id: S.String,
-          message: __S(8608, __c269, 0),
-          user: __S(8768, __c274, 0),
-          attachments: S.optional(__S(8641, __c270, 1)),
+          message: __S(8704, __c272, 0),
+          user: __S(8864, __c277, 0),
+          attachments: S.optional(__S(8737, __c273, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/fin/reply", code: 200 })),
       ).annotate({ identifier: "ReplyToFinRequest" });
   }
 }
-function __c156(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(8736, __c273, 0)),
+          external_id: S.String.pipe(T.Query()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/conversations/stream/token", code: 200 })),
+      ).annotate({ identifier: "RevokeConversationStreamTokensRequest" });
+  }
+}
+function __c159(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          attributes: S.optional(__S(8832, __c276, 0)),
         }),
       ).annotate({ identifier: "RunFinProcedureRequestConversationMetadata" });
     case 1:
@@ -16618,9 +16780,10 @@ function __c156(j: number): any {
         S.Struct({
           procedure_id: S.String.pipe(T.Label()),
           conversation_id: S.String,
-          user: __S(8768, __c274, 0),
-          message: S.optional(__S(8608, __c269, 0)),
-          conversation_metadata: S.optional(__S(4992, __c156, 0)),
+          user: __S(8864, __c277, 0),
+          message: S.optional(__S(8704, __c272, 0)),
+          conversation_metadata: S.optional(__S(5088, __c159, 0)),
+          environment: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/fin/procedures/{procedure_id}/run", code: 200 })),
       ).annotate({ identifier: "RunFinProcedureRequest" });
     case 2:
@@ -16632,13 +16795,12 @@ function __c156(j: number): any {
           procedure_id: S.optional(S.String),
           status: S.optional(S.String),
           created_at_ms: S.optional(S.String),
-          errors: S.optional(__S(8610, __c269, 2)),
-          sse_subscription_url: S.optional(S.String),
+          errors: S.optional(__S(8706, __c272, 2)),
         }),
       ).annotate({ identifier: "RunFinProcedureResponse" });
   }
 }
-function __c157(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16650,29 +16812,29 @@ function __c157(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          data: S.optional(__S(288, __c9, 0)),
-          pages: S.optional(S.NullOr(__S(321, __c10, 1))),
+          data: S.optional(__S(352, __c11, 0)),
+          pages: S.optional(S.NullOr(__S(385, __c12, 1))),
           total_count: S.optional(S.NullOr(S.Number)),
           scroll_param: S.optional(S.String),
         }),
       ).annotate({ identifier: "CompanyScroll" });
   }
 }
-function __c158(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           created_at_after: S.Number,
           created_at_before: S.optional(S.Number),
-          event_types: S.optional(__S(7104, __c222, 0)),
+          event_types: S.optional(__S(7200, __c225, 0)),
           page: S.optional(S.Number),
           per_page: S.optional(S.Number),
         }).pipe(T.Http({ method: "POST", uri: "/admins/activity_logs/search", code: 200 })),
       ).annotate({ identifier: "SearchActivityLogsRequest" });
   }
 }
-function __c159(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16684,7 +16846,7 @@ function __c159(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/articles/search", code: 200 })),
       ).annotate({ identifier: "SearchArticlesRequest" });
     case 1:
-      return S.Array(__S(6657, __c208, 1));
+      return S.Array(__S(6753, __c211, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16693,24 +16855,24 @@ function __c159(j: number): any {
         }),
       ).annotate({ identifier: "ArticleSearchHighlightsHighlightedTitleItem" });
     case 3:
-      return S.Array(__S(5090, __c159, 2));
+      return S.Array(__S(5186, __c162, 2));
     case 4:
-      return S.Array(__S(5091, __c159, 3));
+      return S.Array(__S(5187, __c162, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           article_id: S.optional(S.String),
-          highlighted_title: S.optional(__S(5091, __c159, 3)),
-          highlighted_summary: S.optional(__S(5092, __c159, 4)),
+          highlighted_title: S.optional(__S(5187, __c162, 3)),
+          highlighted_summary: S.optional(__S(5188, __c162, 4)),
         }),
       ).annotate({ identifier: "ArticleSearchHighlights" });
     case 6:
-      return S.Array(__S(5093, __c159, 5));
+      return S.Array(__S(5189, __c162, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          articles: S.optional(__S(5089, __c159, 1)),
-          highlights: S.optional(__S(5094, __c159, 6)),
+          articles: S.optional(__S(5185, __c162, 1)),
+          highlights: S.optional(__S(5190, __c162, 6)),
         }),
       ).annotate({ identifier: "ArticleSearchResponseData" });
     case 8:
@@ -16718,13 +16880,13 @@ function __c159(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           total_count: S.optional(S.Number),
-          data: S.optional(__S(5095, __c159, 7)),
-          pages: S.optional(S.NullOr(__S(321, __c10, 1))),
+          data: S.optional(__S(5191, __c162, 7)),
+          pages: S.optional(S.NullOr(__S(385, __c12, 1))),
         }),
       ).annotate({ identifier: "ArticleSearchResponse" });
   }
 }
-function __c160(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16738,13 +16900,23 @@ function __c160(j: number): any {
         S.Struct({
           include_merge_history: S.optional(S.Boolean.pipe(T.Query())),
           query: S.Unknown,
-          pagination: S.optional(S.NullOr(__S(320, __c10, 0))),
-          sort: S.optional(__S(5120, __c160, 0)),
+          pagination: S.optional(S.NullOr(__S(384, __c12, 0))),
+          sort: S.optional(__S(5216, __c163, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/contacts/search", code: 200 })),
       ).annotate({ identifier: "SearchContactsRequest" });
   }
 }
-function __c161(j: number): any {
+function __c164(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.Number.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/fin_voice/collect/{id}", code: 200 })),
+      ).annotate({ identifier: "CollectFinVoiceCallByIdRequest" });
+  }
+}
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16752,19 +16924,19 @@ function __c161(j: number): any {
           query: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           per_page: S.optional(S.Number.pipe(T.Query())),
-          states: S.optional(__S(10240, __c320, 0).pipe(T.Query())),
-          locales: S.optional(__S(7104, __c222, 0).pipe(T.Query())),
-          tag_ids: S.optional(__S(9184, __c287, 0).pipe(T.Query())),
+          states: S.optional(__S(10304, __c322, 0).pipe(T.Query())),
+          locales: S.optional(__S(7200, __c225, 0).pipe(T.Query())),
+          tag_ids: S.optional(__S(9280, __c290, 0).pipe(T.Query())),
           tag_operator: S.optional(S.String.pipe(T.Query())),
-          any_tag_ids: S.optional(__S(9184, __c287, 0).pipe(T.Query())),
-          folder_ids: S.optional(__S(9184, __c287, 0).pipe(T.Query())),
+          any_tag_ids: S.optional(__S(9280, __c290, 0).pipe(T.Query())),
+          folder_ids: S.optional(__S(9280, __c290, 0).pipe(T.Query())),
           folder_entity_type: S.optional(S.String.pipe(T.Query())),
-          content_types: S.optional(__S(10240, __c320, 0).pipe(T.Query())),
+          content_types: S.optional(__S(10304, __c322, 0).pipe(T.Query())),
           copilot_state: S.optional(S.String.pipe(T.Query())),
           fin_service_state: S.optional(S.String.pipe(T.Query())),
           fin_sales_state: S.optional(S.String.pipe(T.Query())),
-          created_by_ids: S.optional(__S(9184, __c287, 0).pipe(T.Query())),
-          last_updated_by_ids: S.optional(__S(9184, __c287, 0).pipe(T.Query())),
+          created_by_ids: S.optional(__S(9280, __c290, 0).pipe(T.Query())),
+          last_updated_by_ids: S.optional(__S(9280, __c290, 0).pipe(T.Query())),
           created_at_after: S.optional(S.Number.pipe(T.Query())),
           created_at_before: S.optional(S.Number.pipe(T.Query())),
           updated_at_after: S.optional(S.Number.pipe(T.Query())),
@@ -16789,13 +16961,13 @@ function __c161(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           total_count: S.optional(S.Number),
-          pages: S.optional(__S(5153, __c161, 1)),
-          data: S.optional(__S(5154, __c161, 2)),
+          pages: S.optional(__S(5281, __c165, 1)),
+          data: S.optional(__S(5282, __c165, 2)),
         }),
       ).annotate({ identifier: "ContentSearchResponse" });
   }
 }
-function __c162(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16803,22 +16975,12 @@ function __c162(j: number): any {
           include_monitors: S.optional(S.Boolean.pipe(T.Query())),
           include_scorecards: S.optional(S.Boolean.pipe(T.Query())),
           query: S.Unknown,
-          pagination: S.optional(S.NullOr(__S(320, __c10, 0))),
+          pagination: S.optional(S.NullOr(__S(384, __c12, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/conversations/search", code: 200 })),
       ).annotate({ identifier: "SearchConversationsRequest" });
   }
 }
-function __c163(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.Number.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/fin_voice/collect/{id}", code: 200 })),
-      ).annotate({ identifier: "CollectFinVoiceCallByIdRequest" });
-  }
-}
-function __c164(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16829,7 +16991,7 @@ function __c164(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          internal_articles: S.optional(__S(3584, __c112, 0)),
+          internal_articles: S.optional(__S(3648, __c114, 0)),
         }),
       ).annotate({ identifier: "InternalArticleSearchResponseData" });
     case 2:
@@ -16837,19 +16999,19 @@ function __c164(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           total_count: S.optional(S.Number),
-          data: S.optional(__S(5249, __c164, 1)),
-          pages: S.optional(S.NullOr(__S(321, __c10, 1))),
+          data: S.optional(__S(5345, __c167, 1)),
+          pages: S.optional(S.NullOr(__S(385, __c12, 1))),
         }),
       ).annotate({ identifier: "InternalArticleSearchResponse" });
   }
 }
-function __c165(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           query: S.Unknown,
-          pagination: S.optional(S.NullOr(__S(320, __c10, 0))),
+          pagination: S.optional(S.NullOr(__S(384, __c12, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/tickets/search", code: 200 })),
       ).annotate({ identifier: "SearchTicketsRequest" });
     case 1:
@@ -16858,14 +17020,14 @@ function __c165(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          tickets: S.optional(__S(5281, __c165, 1)),
+          tickets: S.optional(__S(5377, __c168, 1)),
           total_count: S.optional(S.Number),
-          pages: S.optional(S.NullOr(__S(321, __c10, 1))),
+          pages: S.optional(S.NullOr(__S(385, __c12, 1))),
         }),
       ).annotate({ identifier: "TicketList" });
   }
 }
-function __c166(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16878,7 +17040,7 @@ function __c166(j: number): any {
       ).annotate({ identifier: "SetAwayAdminRequest" });
   }
 }
-function __c167(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16892,8 +17054,8 @@ function __c167(j: number): any {
           state: S.optional(S.String),
           parent_id: S.optional(S.String),
           parent_type: S.optional(S.String),
-          translated_content: S.optional(S.NullOr(__S(6529, __c204, 1))),
-          audience_ids: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          translated_content: S.optional(S.NullOr(__S(6625, __c207, 1))),
+          audience_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -16903,21 +17065,22 @@ function __c167(j: number): any {
       ).annotate({ identifier: "StageArticleDraftRequest" });
   }
 }
-function __c168(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           conversation_id: S.String,
-          message: __S(8608, __c269, 0),
-          user: __S(8768, __c274, 0),
-          attachments: S.optional(__S(8641, __c270, 1)),
-          conversation_metadata: S.optional(__S(8673, __c271, 1)),
+          message: __S(8704, __c272, 0),
+          user: __S(8864, __c277, 0),
+          attachments: S.optional(__S(8737, __c273, 1)),
+          conversation_metadata: S.optional(__S(8769, __c274, 1)),
+          environment: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/fin/start", code: 200 })),
       ).annotate({ identifier: "StartFinConversationRequest" });
   }
 }
-function __c169(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16937,7 +17100,7 @@ function __c169(j: number): any {
       ).annotate({ identifier: "SubmitFinCsatResponse" });
   }
 }
-function __c170(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16947,7 +17110,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "UnarchiveContactRequest" });
   }
 }
-function __c171(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16964,7 +17127,19 @@ function __c171(j: number): any {
       ).annotate({ identifier: "UnlinkConversationFromTicketRequest" });
   }
 }
-function __c172(j: number): any {
+function __c175(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          phone_number: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/fin_voice/phone_number/{phone_number}", code: 200 }),
+        ),
+      ).annotate({ identifier: "CollectFinVoiceCallByPhoneNumberRequest" });
+  }
+}
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16978,8 +17153,8 @@ function __c172(j: number): any {
           state: S.optional(S.String),
           parent_id: S.optional(S.String),
           parent_type: S.optional(S.String),
-          translated_content: S.optional(S.NullOr(__S(6529, __c204, 1))),
-          audience_ids: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          translated_content: S.optional(S.NullOr(__S(6625, __c207, 1))),
+          audience_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -16989,32 +17164,20 @@ function __c172(j: number): any {
       ).annotate({ identifier: "UpdateArticleRequest" });
   }
 }
-function __c173(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          predicates: S.optional(__S(6721, __c210, 1)),
-          role_predicates: S.optional(__S(6721, __c210, 1)),
+          predicates: S.optional(__S(6817, __c213, 1)),
+          role_predicates: S.optional(__S(6817, __c213, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/audiences/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateAudienceRequest" });
   }
 }
-function __c174(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          phone_number: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/fin_voice/phone_number/{phone_number}", code: 200 }),
-        ),
-      ).annotate({ identifier: "CollectFinVoiceCallByPhoneNumberRequest" });
-  }
-}
-function __c175(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17022,7 +17185,7 @@ function __c175(j: number): any {
           collection_id: S.Number.pipe(T.Label()),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          translated_content: S.optional(S.NullOr(__S(6785, __c212, 1))),
+          translated_content: S.optional(S.NullOr(__S(6881, __c215, 1))),
           parent_id: S.optional(S.NullOr(S.String)),
         }).pipe(
           T.Http({ method: "PUT", uri: "/help_center/collections/{collection_id}", code: 200 }),
@@ -17030,7 +17193,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "UpdateCollectionRequest" });
   }
 }
-function __c176(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17041,13 +17204,13 @@ function __c176(j: number): any {
           size: S.optional(S.Number),
           website: S.optional(S.String),
           industry: S.optional(S.String),
-          custom_attributes: S.optional(__S(8704, __c272, 0)),
+          custom_attributes: S.optional(__S(8800, __c275, 0)),
           monthly_spend: S.optional(S.Number),
         }).pipe(T.Http({ method: "PUT", uri: "/companies/{company_id}", code: 200 })),
       ).annotate({ identifier: "UpdateCompanyRequest" });
   }
 }
-function __c177(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17071,12 +17234,12 @@ function __c177(j: number): any {
         S.Struct({
           contact_id: S.String.pipe(T.Label()),
           include_merge_history: S.optional(S.Boolean.pipe(T.Query())),
-          body: S.optional(__S(5664, __c177, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(5760, __c180, 0).pipe(T.HttpBody())),
         }).pipe(T.Http({ method: "PUT", uri: "/contacts/{contact_id}", code: 200 })),
       ).annotate({ identifier: "UpdateContactRequest2" });
   }
 }
-function __c178(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17093,17 +17256,17 @@ function __c178(j: number): any {
       ).annotate({ identifier: "UpdateContentImportSourceRequest" });
   }
 }
-function __c179(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String.pipe(T.Label()),
           title: S.optional(S.String),
-          json_blocks: S.optional(__S(4864, __c152, 0)),
+          json_blocks: S.optional(__S(4896, __c153, 0)),
           body_markdown: S.optional(S.String),
           locale: S.optional(S.String),
-          audience_ids: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -17111,7 +17274,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "UpdateContentSnippetRequest" });
   }
 }
-function __c180(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17120,13 +17283,13 @@ function __c180(j: number): any {
           display_as: S.optional(S.String.pipe(T.Query())),
           read: S.optional(S.Boolean),
           title: S.optional(S.String),
-          custom_attributes: S.optional(__S(8224, __c257, 0)),
+          custom_attributes: S.optional(__S(8352, __c261, 0)),
           company_id: S.optional(S.String),
         }).pipe(T.Http({ method: "PUT", uri: "/conversations/{conversation_id}", code: 200 })),
       ).annotate({ identifier: "UpdateConversationRequest" });
   }
 }
-function __c181(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17143,13 +17306,13 @@ function __c181(j: number): any {
           description: S.optional(S.String),
           multiline: S.optional(S.Boolean),
           required: S.optional(S.Boolean),
-          visible_to_team_ids: S.optional(__S(7104, __c222, 0)),
-          reference: S.optional(__S(5792, __c181, 0)),
+          visible_to_team_ids: S.optional(__S(7200, __c225, 0)),
+          reference: S.optional(__S(5888, __c184, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/conversations/attributes/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateConversationAttributeRequest" });
   }
 }
-function __c182(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17167,7 +17330,25 @@ function __c182(j: number): any {
       ).annotate({ identifier: "UpdateConversationAttributeOptionRequest" });
   }
 }
-function __c183(j: number): any {
+function __c186(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          conversation_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/fin_voice/conversation/{conversation_id}", code: 200 }),
+        ),
+      ).annotate({ identifier: "CollectFinVoiceCallsByConversationIdRequest" });
+    case 1:
+      return S.Array(__S(4864, __c152, 0));
+    case 2:
+      return S.suspend(() => __S(5953, __c186, 1).pipe(T.RawResponseRoot())).annotate({
+        identifier: "CollectFinVoiceCallsByConversationIdResponse",
+      });
+  }
+}
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17180,7 +17361,7 @@ function __c183(j: number): any {
       ).annotate({ identifier: "UpdateDataAttributeRequest" });
   }
 }
-function __c184(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17193,37 +17374,19 @@ function __c184(j: number): any {
           url: S.optional(S.String),
           body: S.optional(S.String),
           direct_fin_usage: S.optional(S.Boolean),
-          audiences: S.optional(__S(10240, __c320, 0)),
-          headers: S.optional(__S(7393, __c231, 1)),
-          data_inputs: S.optional(__S(7425, __c232, 1)),
+          audiences: S.optional(__S(10304, __c322, 0)),
+          headers: S.optional(__S(7521, __c235, 1)),
+          data_inputs: S.optional(__S(7553, __c236, 1)),
           customer_authentication: S.optional(S.Boolean),
           bypass_authentication: S.optional(S.Boolean),
           validate_missing_attributes: S.optional(S.Boolean),
           mock_response: S.optional(S.Unknown),
-          token_ids: S.optional(__S(7104, __c222, 0)),
+          token_ids: S.optional(__S(7200, __c225, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/data_connectors/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateDataConnectorRequest" });
   }
 }
-function __c185(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          conversation_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/fin_voice/conversation/{conversation_id}", code: 200 }),
-        ),
-      ).annotate({ identifier: "CollectFinVoiceCallsByConversationIdRequest" });
-    case 1:
-      return S.Array(__S(4832, __c151, 0));
-    case 2:
-      return S.suspend(() => __S(5921, __c185, 1).pipe(T.RawResponseRoot())).annotate({
-        identifier: "CollectFinVoiceCallsByConversationIdResponse",
-      });
-  }
-}
-function __c186(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17236,11 +17399,12 @@ function __c186(j: number): any {
           locale: S.String,
           source_id: S.Number,
           external_id: S.optional(S.String),
+          audience_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
         }).pipe(T.Http({ method: "PUT", uri: "/ai/external_pages/{page_id}", code: 200 })),
       ).annotate({ identifier: "UpdateExternalPageRequest" });
   }
 }
-function __c187(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17251,7 +17415,7 @@ function __c187(j: number): any {
           body_markdown: S.optional(S.String),
           author_id: S.optional(S.Number),
           owner_id: S.optional(S.Number),
-          audience_ids: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -17261,19 +17425,19 @@ function __c187(j: number): any {
       ).annotate({ identifier: "UpdateInternalArticleRequest" });
   }
 }
-function __c188(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          ip_allowlist: S.optional(__S(7104, __c222, 0)),
+          ip_allowlist: S.optional(__S(7200, __c225, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/ip_allowlist", code: 200 })),
       ).annotate({ identifier: "UpdateIpAllowlistRequest" });
   }
 }
-function __c189(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17284,14 +17448,14 @@ function __c189(j: number): any {
           sender_id: S.Number,
           state: S.optional(S.String),
           deliver_silently: S.optional(S.Boolean),
-          labels: S.optional(__S(7104, __c222, 0)),
-          reactions: S.optional(__S(7840, __c245, 0)),
-          newsfeed_assignments: S.optional(__S(7842, __c245, 2)),
+          labels: S.optional(__S(7200, __c225, 0)),
+          reactions: S.optional(__S(7968, __c249, 0)),
+          newsfeed_assignments: S.optional(__S(7970, __c249, 2)),
         }).pipe(T.Http({ method: "PUT", uri: "/news/news_items/{news_item_id}", code: 200 })),
       ).annotate({ identifier: "UpdateNewsItemRequest" });
   }
 }
-function __c190(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17301,7 +17465,7 @@ function __c190(j: number): any {
           exception_date: S.optional(S.String),
           exception_type: S.optional(S.String),
           name: S.optional(S.String),
-          time_intervals: S.optional(S.NullOr(__S(8001, __c250, 1))),
+          time_intervals: S.optional(S.NullOr(__S(8129, __c254, 1))),
           recurring_annually: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -17313,7 +17477,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "UpdateOfficeHoursExceptionRequest" });
   }
 }
-function __c191(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17321,12 +17485,12 @@ function __c191(j: number): any {
           id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
           time_zone_name: S.optional(S.String),
-          time_intervals: S.optional(__S(8001, __c250, 1)),
+          time_intervals: S.optional(__S(8129, __c254, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/office_hours_schedules/{id}", code: 200 })),
       ).annotate({ identifier: "UpdateOfficeHoursScheduleRequest" });
   }
 }
-function __c192(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17345,7 +17509,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "UpdateTicketRequest" });
   }
 }
-function __c193(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17361,7 +17525,28 @@ function __c193(j: number): any {
       ).annotate({ identifier: "UpdateTicketTypeRequest" });
   }
 }
-function __c194(j: number): any {
+function __c197(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          conversation_id: S.Number.pipe(T.Label()),
+          ticket_type_id: S.String,
+          ticket_state_id: S.optional(S.String),
+          attributes: S.optional(__S(6336, __c198, 0)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/conversations/{conversation_id}/convert", code: 200 }),
+        ),
+      ).annotate({ identifier: "ConvertConversationToTicketRequest" });
+  }
+}
+function __c198(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.Unknown);
+  }
+}
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17388,7 +17573,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "UpdateTicketTypeAttributeRequest" });
   }
 }
-function __c195(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17396,33 +17581,12 @@ function __c195(j: number): any {
           id: S.optional(S.String),
           user_id: S.optional(S.String),
           name: S.optional(S.String),
-          custom_attributes: S.optional(__S(8704, __c272, 0)),
+          custom_attributes: S.optional(__S(8800, __c275, 0)),
         }).pipe(T.Http({ method: "PUT", uri: "/visitors", code: 200 })),
       ).annotate({ identifier: "UpdateVisitorRequest" });
   }
 }
-function __c196(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          conversation_id: S.Number.pipe(T.Label()),
-          ticket_type_id: S.String,
-          ticket_state_id: S.optional(S.String),
-          attributes: S.optional(__S(6304, __c197, 0)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/conversations/{conversation_id}/convert", code: 200 }),
-        ),
-      ).annotate({ identifier: "ConvertConversationToTicketRequest" });
-  }
-}
-function __c197(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, S.Unknown);
-  }
-}
-function __c198(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17434,7 +17598,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "ConvertVisitorRequest" });
   }
 }
-function __c199(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17478,18 +17642,18 @@ function __c199(j: number): any {
           ios_sdk_version: S.optional(S.NullOr(S.String)),
           ios_last_seen_at: S.optional(S.NullOr(S.Number)),
           custom_attributes: S.optional(S.Unknown),
-          avatar: S.optional(S.NullOr(__S(6400, __c200, 0))),
-          tags: S.optional(S.NullOr(__S(6466, __c202, 2))),
-          notes: S.optional(__S(6466, __c202, 2)),
-          companies: S.optional(__S(6469, __c202, 5)),
-          location: S.optional(__S(6470, __c202, 6)),
-          social_profiles: S.optional(__S(6473, __c202, 9)),
-          merge_history: S.optional(S.NullOr(__S(6433, __c201, 1))),
+          avatar: S.optional(S.NullOr(__S(6496, __c203, 0))),
+          tags: S.optional(S.NullOr(__S(6562, __c205, 2))),
+          notes: S.optional(__S(6562, __c205, 2)),
+          companies: S.optional(__S(6565, __c205, 5)),
+          location: S.optional(__S(6566, __c205, 6)),
+          social_profiles: S.optional(__S(6569, __c205, 9)),
+          merge_history: S.optional(S.NullOr(__S(6529, __c204, 1))),
         }),
       ).annotate({ identifier: "Contact" });
   }
 }
-function __c200(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17500,7 +17664,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "ContactAvatar" });
   }
 }
-function __c201(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17512,10 +17676,10 @@ function __c201(j: number): any {
         }),
       ).annotate({ identifier: "MergeHistoryItem" });
     case 1:
-      return S.Array(__S(6432, __c201, 0));
+      return S.Array(__S(6528, __c204, 0));
   }
 }
-function __c202(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17526,11 +17690,11 @@ function __c202(j: number): any {
         }),
       ).annotate({ identifier: "AddressableList" });
     case 1:
-      return S.Array(__S(6464, __c202, 0));
+      return S.Array(__S(6560, __c205, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(6465, __c202, 1)),
+          data: S.optional(__S(6561, __c205, 1)),
           url: S.optional(S.String),
           total_count: S.optional(S.Number),
           has_more: S.optional(S.Boolean),
@@ -17545,11 +17709,11 @@ function __c202(j: number): any {
         }),
       ).annotate({ identifier: "CompanyData" });
     case 4:
-      return S.Array(__S(6467, __c202, 3));
+      return S.Array(__S(6563, __c205, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(6468, __c202, 4)),
+          data: S.optional(__S(6564, __c205, 4)),
           url: S.optional(S.String),
           total_count: S.optional(S.Number),
           has_more: S.optional(S.Boolean),
@@ -17573,16 +17737,16 @@ function __c202(j: number): any {
         }),
       ).annotate({ identifier: "SocialProfile" });
     case 8:
-      return S.Array(__S(6471, __c202, 7));
+      return S.Array(__S(6567, __c205, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(__S(6472, __c202, 8)),
+          data: S.optional(__S(6568, __c205, 8)),
         }),
       ).annotate({ identifier: "ContactSocialProfiles" });
   }
 }
-function __c203(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17595,8 +17759,8 @@ function __c203(j: number): any {
           state: S.optional(S.String),
           parent_id: S.optional(S.Number),
           parent_type: S.optional(S.String),
-          translated_content: S.optional(S.NullOr(__S(6529, __c204, 1))),
-          audience_ids: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          translated_content: S.optional(S.NullOr(__S(6625, __c207, 1))),
+          audience_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -17604,91 +17768,6 @@ function __c203(j: number): any {
           scheduled_unpublish_at: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/articles", code: 200 })),
       ).annotate({ identifier: "CreateArticleRequest" });
-  }
-}
-function __c204(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.NullOr(S.String)),
-          title: S.optional(S.String),
-          description: S.optional(S.String),
-          body: S.optional(S.String),
-          body_markdown: S.optional(S.NullOr(S.String)),
-          author_id: S.optional(S.Number),
-          state: S.optional(S.String),
-          created_at: S.optional(S.Number),
-          updated_at: S.optional(S.Number),
-          has_unpublished_changes: S.optional(S.Boolean),
-          draft_updated_at: S.optional(S.NullOr(S.Number)),
-          url: S.optional(S.String),
-          audience_ids: S.optional(S.NullOr(__S(9184, __c287, 0))),
-          ai_chatbot_availability: S.optional(S.Boolean),
-          ai_copilot_availability: S.optional(S.Boolean),
-          ai_sales_agent_availability: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ArticleContentInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.NullOr(S.String)),
-          ar: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          bg: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          bs: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          ca: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          cs: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          da: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          de: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          el: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          en: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          es: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          et: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          fi: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          fr: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          he: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          hr: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          hu: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          id: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          it: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          ja: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          ko: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          lt: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          lv: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          mn: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          nb: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          nl: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          pl: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          pt: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          ro: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          ru: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          sl: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          sr: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          sv: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          tr: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          vi: S.optional(S.NullOr(__S(6528, __c204, 0))),
-          pt_BR: S.optional(S.NullOr(__S(6528, __c204, 0)).pipe(T.Body("pt-BR"))),
-          zh_CN: S.optional(S.NullOr(__S(6528, __c204, 0)).pipe(T.Body("zh-CN"))),
-          zh_TW: S.optional(S.NullOr(__S(6528, __c204, 0)).pipe(T.Body("zh-TW"))),
-        }),
-      ).annotate({ identifier: "ArticleTranslatedContentInput" });
-  }
-}
-function __c205(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(64, __c2, 0));
-  }
-}
-function __c206(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          tags: S.optional(__S(6560, __c205, 0)),
-        }),
-      ).annotate({ identifier: "Tags" });
   }
 }
 function __c207(j: number): any {
@@ -17708,14 +17787,12 @@ function __c207(j: number): any {
           has_unpublished_changes: S.optional(S.Boolean),
           draft_updated_at: S.optional(S.NullOr(S.Number)),
           url: S.optional(S.String),
-          audience_ids: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
-          created_by_id: S.optional(S.NullOr(S.Number)),
-          updated_by_id: S.optional(S.NullOr(S.Number)),
         }),
-      ).annotate({ identifier: "ArticleContent" });
+      ).annotate({ identifier: "ArticleContentInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -17758,10 +17835,97 @@ function __c207(j: number): any {
           zh_CN: S.optional(S.NullOr(__S(6624, __c207, 0)).pipe(T.Body("zh-CN"))),
           zh_TW: S.optional(S.NullOr(__S(6624, __c207, 0)).pipe(T.Body("zh-TW"))),
         }),
-      ).annotate({ identifier: "ArticleTranslatedContent" });
+      ).annotate({ identifier: "ArticleTranslatedContentInput" });
   }
 }
 function __c208(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(64, __c2, 0));
+  }
+}
+function __c209(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          tags: S.optional(__S(6656, __c208, 0)),
+        }),
+      ).annotate({ identifier: "Tags" });
+  }
+}
+function __c210(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.NullOr(S.String)),
+          title: S.optional(S.String),
+          description: S.optional(S.String),
+          body: S.optional(S.String),
+          body_markdown: S.optional(S.NullOr(S.String)),
+          author_id: S.optional(S.Number),
+          state: S.optional(S.String),
+          created_at: S.optional(S.Number),
+          updated_at: S.optional(S.Number),
+          has_unpublished_changes: S.optional(S.Boolean),
+          draft_updated_at: S.optional(S.NullOr(S.Number)),
+          url: S.optional(S.String),
+          audience_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
+          ai_chatbot_availability: S.optional(S.Boolean),
+          ai_copilot_availability: S.optional(S.Boolean),
+          ai_sales_agent_availability: S.optional(S.Boolean),
+          created_by_id: S.optional(S.NullOr(S.Number)),
+          updated_by_id: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "ArticleContent" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.NullOr(S.String)),
+          ar: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          bg: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          bs: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          ca: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          cs: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          da: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          de: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          el: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          en: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          es: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          et: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          fi: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          fr: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          he: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          hr: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          hu: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          id: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          it: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          ja: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          ko: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          lt: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          lv: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          mn: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          nb: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          nl: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          pl: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          pt: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          ro: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          ru: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          sl: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          sr: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          sv: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          tr: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          vi: S.optional(S.NullOr(__S(6720, __c210, 0))),
+          pt_BR: S.optional(S.NullOr(__S(6720, __c210, 0)).pipe(T.Body("pt-BR"))),
+          zh_CN: S.optional(S.NullOr(__S(6720, __c210, 0)).pipe(T.Body("zh-CN"))),
+          zh_TW: S.optional(S.NullOr(__S(6720, __c210, 0)).pipe(T.Body("zh-TW"))),
+        }),
+      ).annotate({ identifier: "ArticleTranslatedContent" });
+  }
+}
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17795,7 +17959,7 @@ function __c208(j: number): any {
           has_unpublished_changes: S.optional(S.Boolean),
           draft_updated_at: S.optional(S.NullOr(S.Number)),
           url: S.optional(S.NullOr(S.String)),
-          parent_ids: S.optional(__S(9184, __c287, 0)),
+          parent_ids: S.optional(__S(9280, __c290, 0)),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -17806,26 +17970,26 @@ function __c208(j: number): any {
           scheduled_publish_at: S.optional(S.NullOr(S.Number)),
           scheduled_unpublish_at: S.optional(S.NullOr(S.Number)),
           default_locale: S.optional(S.String),
-          translated_content: S.optional(S.NullOr(__S(6625, __c207, 1))),
-          tags: S.optional(__S(6592, __c206, 0)),
-          statistics: S.optional(S.NullOr(__S(6656, __c208, 0))),
+          translated_content: S.optional(S.NullOr(__S(6721, __c210, 1))),
+          tags: S.optional(__S(6688, __c209, 0)),
+          statistics: S.optional(S.NullOr(__S(6752, __c211, 0))),
         }),
       ).annotate({ identifier: "CreateArticleResponse" });
   }
 }
-function __c209(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          predicates: S.optional(__S(6721, __c210, 1)),
-          role_predicates: S.optional(__S(6721, __c210, 1)),
+          predicates: S.optional(__S(6817, __c213, 1)),
+          role_predicates: S.optional(__S(6817, __c213, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/audiences", code: 200 })),
       ).annotate({ identifier: "CreateAudienceRequest" });
   }
 }
-function __c210(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17837,36 +18001,36 @@ function __c210(j: number): any {
         }),
       ).annotate({ identifier: "Predicate" });
     case 1:
-      return S.Array(__S(6720, __c210, 0));
+      return S.Array(__S(6816, __c213, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          predicates: S.optional(__S(6721, __c210, 1)),
-          role_predicates: S.optional(__S(6721, __c210, 1)),
+          predicates: S.optional(__S(6817, __c213, 1)),
+          role_predicates: S.optional(__S(6817, __c213, 1)),
           created_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Audience" });
   }
 }
-function __c211(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          translated_content: S.optional(S.NullOr(__S(6785, __c212, 1))),
+          translated_content: S.optional(S.NullOr(__S(6881, __c215, 1))),
           parent_id: S.optional(S.NullOr(S.String)),
           help_center_id: S.optional(S.NullOr(S.Number)),
         }).pipe(T.Http({ method: "POST", uri: "/help_center/collections", code: 200 })),
       ).annotate({ identifier: "CreateCollectionRequest" });
   }
 }
-function __c212(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17880,43 +18044,43 @@ function __c212(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.NullOr(S.String)),
-          ar: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          bg: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          bs: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          ca: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          cs: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          da: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          de: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          el: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          en: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          es: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          et: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          fi: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          fr: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          he: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          hr: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          hu: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          id: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          it: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          ja: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          ko: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          lt: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          lv: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          mn: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          nb: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          nl: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          pl: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          pt: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          ro: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          ru: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          sl: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          sr: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          sv: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          tr: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          vi: S.optional(S.NullOr(__S(6784, __c212, 0))),
-          pt_BR: S.optional(S.NullOr(__S(6784, __c212, 0)).pipe(T.Body("pt-BR"))),
-          zh_CN: S.optional(S.NullOr(__S(6784, __c212, 0)).pipe(T.Body("zh-CN"))),
-          zh_TW: S.optional(S.NullOr(__S(6784, __c212, 0)).pipe(T.Body("zh-TW"))),
+          ar: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          bg: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          bs: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          ca: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          cs: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          da: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          de: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          el: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          en: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          es: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          et: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          fi: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          fr: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          he: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          hr: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          hu: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          id: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          it: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          ja: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          ko: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          lt: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          lv: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          mn: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          nb: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          nl: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          pl: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          pt: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          ro: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          ru: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          sl: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          sr: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          sv: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          tr: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          vi: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          pt_BR: S.optional(S.NullOr(__S(6880, __c215, 0)).pipe(T.Body("pt-BR"))),
+          zh_CN: S.optional(S.NullOr(__S(6880, __c215, 0)).pipe(T.Body("zh-CN"))),
+          zh_TW: S.optional(S.NullOr(__S(6880, __c215, 0)).pipe(T.Body("zh-TW"))),
         }),
       ).annotate({ identifier: "GroupTranslatedContent" });
     case 2:
@@ -17932,14 +18096,14 @@ function __c212(j: number): any {
           icon: S.optional(S.NullOr(S.String)),
           order: S.optional(S.Number),
           default_locale: S.optional(S.String),
-          translated_content: S.optional(S.NullOr(__S(6785, __c212, 1))),
+          translated_content: S.optional(S.NullOr(__S(6881, __c215, 1))),
           parent_id: S.optional(S.NullOr(S.String)),
           help_center_id: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "Collection" });
   }
 }
-function __c213(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17951,7 +18115,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "CreateCompanyNoteRequest" });
   }
 }
-function __c214(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17959,15 +18123,15 @@ function __c214(j: number): any {
           type: S.optional(S.String),
           id: S.optional(S.String),
           created_at: S.optional(S.Number),
-          contact: S.optional(S.NullOr(__S(9248, __c289, 0))),
-          company: S.optional(S.NullOr(__S(9248, __c289, 0))),
-          author: S.optional(S.NullOr(__S(9281, __c290, 1))),
+          contact: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          company: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          author: S.optional(S.NullOr(__S(9377, __c293, 1))),
           body: S.optional(S.String),
         }),
       ).annotate({ identifier: "Note" });
   }
 }
-function __c215(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17975,7 +18139,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "CreateContactRequest" });
   }
 }
-function __c216(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18019,19 +18183,19 @@ function __c216(j: number): any {
           ios_sdk_version: S.optional(S.NullOr(S.String)),
           ios_last_seen_at: S.optional(S.NullOr(S.Number)),
           custom_attributes: S.optional(S.Unknown),
-          avatar: S.optional(S.NullOr(__S(6400, __c200, 0))),
-          tags: S.optional(S.NullOr(__S(6466, __c202, 2))),
-          notes: S.optional(__S(6466, __c202, 2)),
-          companies: S.optional(__S(6469, __c202, 5)),
-          location: S.optional(__S(6470, __c202, 6)),
-          social_profiles: S.optional(__S(6473, __c202, 9)),
-          merge_history: S.optional(S.NullOr(__S(6433, __c201, 1))),
+          avatar: S.optional(S.NullOr(__S(6496, __c203, 0))),
+          tags: S.optional(S.NullOr(__S(6562, __c205, 2))),
+          notes: S.optional(__S(6562, __c205, 2)),
+          companies: S.optional(__S(6565, __c205, 5)),
+          location: S.optional(__S(6566, __c205, 6)),
+          social_profiles: S.optional(__S(6569, __c205, 9)),
+          merge_history: S.optional(S.NullOr(__S(6529, __c204, 1))),
           enabled_push_messaging: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "CreateContactResponse" });
   }
 }
-function __c217(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18044,7 +18208,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "CreateContentImportSourceRequest" });
   }
 }
-function __c218(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18057,21 +18221,21 @@ function __c218(j: number): any {
           url: S.String,
           created_at: S.Number,
           updated_at: S.Number,
-          audience_ids: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
         }),
       ).annotate({ identifier: "ContentImportSource" });
   }
 }
-function __c219(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           title: S.String,
-          json_blocks: S.optional(__S(4864, __c152, 0)),
+          json_blocks: S.optional(__S(4896, __c153, 0)),
           body_markdown: S.optional(S.String),
           locale: S.optional(S.String),
-          audience_ids: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -18079,7 +18243,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "CreateContentSnippetRequest" });
   }
 }
-function __c220(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18088,7 +18252,7 @@ function __c220(j: number): any {
           id: S.optional(S.String),
           title: S.optional(S.NullOr(S.String)),
           locale: S.optional(S.String),
-          json_blocks: S.optional(__S(4864, __c152, 0)),
+          json_blocks: S.optional(__S(4896, __c153, 0)),
           body_markdown: S.optional(S.NullOr(S.String)),
           chatbot_availability: S.optional(S.Number),
           copilot_availability: S.optional(S.Number),
@@ -18097,12 +18261,12 @@ function __c220(j: number): any {
           ai_sales_agent_availability: S.optional(S.Boolean),
           created_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
-          audience_ids: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
         }),
       ).annotate({ identifier: "ContentSnippet" });
   }
 }
-function __c221(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18110,7 +18274,7 @@ function __c221(j: number): any {
           from: __S(3328, __c104, 0),
           body: S.String,
           subject: S.optional(S.String),
-          attachment_urls: S.optional(__S(7104, __c222, 0)),
+          attachment_urls: S.optional(__S(7200, __c225, 0)),
           created_at: S.optional(S.Number),
           brand_id: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/conversations", code: 200 })),
@@ -18129,13 +18293,13 @@ function __c221(j: number): any {
       ).annotate({ identifier: "CreateConversationResponse" });
   }
 }
-function __c222(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c223(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18145,7 +18309,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "CreateConversationAttributeRequest2" });
   }
 }
-function __c224(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
@@ -18153,7 +18317,7 @@ function __c224(j: number): any {
       });
   }
 }
-function __c225(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18166,7 +18330,49 @@ function __c225(j: number): any {
       ).annotate({ identifier: "CreateConversationAttributeOptionRequest2" });
   }
 }
-function __c226(j: number): any {
+function __c229(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          external_id: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/conversations/stream/token", code: 200 })),
+      ).annotate({ identifier: "CreateConversationStreamTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          provider: S.optional(S.String),
+          url: S.optional(S.String),
+          channel: S.optional(S.String),
+          token: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConversationStreamTokenStream" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          href: S.optional(S.String),
+          method: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConversationStreamTokenLinksSelf" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          self: S.optional(__S(7330, __c229, 2)),
+          revoke: S.optional(__S(7330, __c229, 2)),
+        }),
+      ).annotate({ identifier: "ConversationStreamTokenLinks" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          expires_at: S.optional(S.Number),
+          stream: S.optional(__S(7329, __c229, 1)),
+          links: S.optional(__S(7331, __c229, 3)),
+        }),
+      ).annotate({ identifier: "ConversationStreamToken" });
+  }
+}
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18175,7 +18381,7 @@ function __c226(j: number): any {
           external_id: S.optional(S.String),
           external_created_at: S.optional(S.NullOr(S.Number)),
           external_updated_at: S.optional(S.NullOr(S.Number)),
-          custom_attributes: S.optional(S.NullOr(__S(8704, __c272, 0))),
+          custom_attributes: S.optional(S.NullOr(__S(8800, __c275, 0))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -18186,7 +18392,7 @@ function __c226(j: number): any {
       ).annotate({ identifier: "CreateCustomObjectInstancesRequest" });
   }
 }
-function __c227(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18198,12 +18404,12 @@ function __c227(j: number): any {
           created_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
           type: S.optional(S.String),
-          custom_attributes: S.optional(__S(8704, __c272, 0)),
+          custom_attributes: S.optional(__S(8800, __c275, 0)),
         }),
       ).annotate({ identifier: "CustomObjectInstance" });
   }
 }
-function __c228(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18216,7 +18422,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "CreateDataAttributeRequest" });
   }
 }
-function __c229(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18229,7 +18435,7 @@ function __c229(j: number): any {
           label: S.optional(S.String),
           description: S.optional(S.String),
           data_type: S.optional(S.String),
-          options: S.optional(__S(7104, __c222, 0)),
+          options: S.optional(__S(7200, __c225, 0)),
           api_writable: S.optional(S.Boolean),
           messenger_writable: S.optional(S.Boolean),
           ui_writable: S.optional(S.Boolean),
@@ -18242,7 +18448,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "DataAttribute" });
   }
 }
-function __c230(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18253,19 +18459,19 @@ function __c230(j: number): any {
           url: S.optional(S.String),
           body: S.optional(S.String),
           direct_fin_usage: S.optional(S.Boolean),
-          audiences: S.optional(__S(10240, __c320, 0)),
-          headers: S.optional(__S(7393, __c231, 1)),
-          data_inputs: S.optional(__S(7425, __c232, 1)),
+          audiences: S.optional(__S(10304, __c322, 0)),
+          headers: S.optional(__S(7521, __c235, 1)),
+          data_inputs: S.optional(__S(7553, __c236, 1)),
           customer_authentication: S.optional(S.Boolean),
           bypass_authentication: S.optional(S.Boolean),
           validate_missing_attributes: S.optional(S.Boolean),
           mock_response: S.optional(S.Unknown),
-          token_ids: S.optional(__S(7104, __c222, 0)),
+          token_ids: S.optional(__S(7200, __c225, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/data_connectors", code: 200 })),
       ).annotate({ identifier: "CreateDataConnectorRequest" });
   }
 }
-function __c231(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18275,7 +18481,7 @@ function __c231(j: number): any {
         }),
       ).annotate({ identifier: "CreateDataConnectorRequestHeadersItem" });
     case 1:
-      return S.Array(__S(7392, __c231, 0));
+      return S.Array(__S(7520, __c235, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -18287,7 +18493,7 @@ function __c231(j: number): any {
         }),
       ).annotate({ identifier: "DataConnectorDetailDataInputsItem" });
     case 3:
-      return S.Array(__S(7394, __c231, 2));
+      return S.Array(__S(7522, __c235, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -18298,7 +18504,7 @@ function __c231(j: number): any {
         }),
       ).annotate({ identifier: "DataConnectorDetailResponseFieldsItem" });
     case 5:
-      return S.Array(__S(7396, __c231, 4));
+      return S.Array(__S(7524, __c235, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -18308,7 +18514,7 @@ function __c231(j: number): any {
         }),
       ).annotate({ identifier: "DataConnectorDetailObjectMappingsItemAttributeMappingsItem" });
     case 7:
-      return S.Array(__S(7398, __c231, 6));
+      return S.Array(__S(7526, __c235, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -18317,18 +18523,18 @@ function __c231(j: number): any {
         }),
       ).annotate({ identifier: "DataConnectorDetailObjectMappingsItemReferenceMappingsItem" });
     case 9:
-      return S.Array(__S(7400, __c231, 8));
+      return S.Array(__S(7528, __c235, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
           response_object_path: S.optional(S.String),
           intercom_object_type: S.optional(S.String),
-          attribute_mappings: S.optional(__S(7399, __c231, 7)),
-          reference_mappings: S.optional(__S(7401, __c231, 9)),
+          attribute_mappings: S.optional(__S(7527, __c235, 7)),
+          reference_mappings: S.optional(__S(7529, __c235, 9)),
         }),
       ).annotate({ identifier: "DataConnectorDetailObjectMappingsItem" });
     case 11:
-      return S.Array(__S(7402, __c231, 10));
+      return S.Array(__S(7530, __c235, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -18339,19 +18545,19 @@ function __c231(j: number): any {
           state: S.optional(S.String),
           url: S.optional(S.NullOr(S.String)),
           body: S.optional(S.String),
-          headers: S.optional(__S(7393, __c231, 1)),
+          headers: S.optional(__S(7521, __c235, 1)),
           http_method: S.optional(S.String),
           direct_fin_usage: S.optional(S.Boolean),
-          audiences: S.optional(__S(10240, __c320, 0)),
+          audiences: S.optional(__S(10304, __c322, 0)),
           execution_type: S.optional(S.NullOr(S.String)),
           configuration_response_type: S.optional(S.NullOr(S.String)),
           data_transformation_type: S.optional(S.NullOr(S.String)),
           client_function_name: S.optional(S.NullOr(S.String)),
           client_function_timeout_ms: S.optional(S.NullOr(S.Number)),
-          data_inputs: S.optional(__S(7395, __c231, 3)),
-          response_fields: S.optional(__S(7397, __c231, 5)),
-          object_mappings: S.optional(__S(7403, __c231, 11)),
-          token_ids: S.optional(__S(7104, __c222, 0)),
+          data_inputs: S.optional(__S(7523, __c235, 3)),
+          response_fields: S.optional(__S(7525, __c235, 5)),
+          object_mappings: S.optional(__S(7531, __c235, 11)),
+          token_ids: S.optional(__S(7200, __c225, 0)),
           customer_authentication: S.optional(S.Boolean),
           bypass_authentication: S.optional(S.Boolean),
           validate_missing_attributes: S.optional(S.NullOr(S.Boolean)),
@@ -18364,7 +18570,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "DataConnectorDetail" });
   }
 }
-function __c232(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18377,10 +18583,10 @@ function __c232(j: number): any {
         }),
       ).annotate({ identifier: "CreateDataConnectorRequestDataInputsItem" });
     case 1:
-      return S.Array(__S(7424, __c232, 0));
+      return S.Array(__S(7552, __c236, 0));
   }
 }
-function __c233(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18390,12 +18596,12 @@ function __c233(j: number): any {
           user_id: S.optional(S.String),
           id: S.optional(S.String),
           email: S.optional(S.String),
-          metadata: S.optional(__S(8704, __c272, 0)),
+          metadata: S.optional(__S(8800, __c275, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/events", code: 200 })),
       ).annotate({ identifier: "CreateDataEventRequest" });
   }
 }
-function __c234(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18406,20 +18612,20 @@ function __c234(j: number): any {
       ).annotate({ identifier: "CreateDataExportRequest" });
   }
 }
-function __c235(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataset_id: S.String,
-          attribute_ids: __S(7104, __c222, 0),
+          attribute_ids: __S(7200, __c225, 0),
           start_time: S.Number,
           end_time: S.Number,
         }).pipe(T.Http({ method: "POST", uri: "/export/reporting_data/enqueue", code: 200 })),
       ).annotate({ identifier: "CreateExportReportingDataEnqueueRequest" });
   }
 }
-function __c236(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18432,7 +18638,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "CreateExportReportingDataEnqueueResponse" });
   }
 }
-function __c237(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18445,11 +18651,12 @@ function __c237(j: number): any {
           locale: S.String,
           source_id: S.Number,
           external_id: S.String,
+          audience_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/ai/external_pages", code: 200 })),
       ).annotate({ identifier: "CreateExternalPageRequest" });
   }
 }
-function __c238(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18466,6 +18673,7 @@ function __c238(j: number): any {
           locale: S.String,
           source_id: S.Number,
           external_id: S.String,
+          audience_ids: S.optional(__S(9280, __c290, 0)),
           created_at: S.Number,
           updated_at: S.Number,
           last_ingested_at: S.Number,
@@ -18473,7 +18681,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "ExternalPage" });
   }
 }
-function __c239(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18493,7 +18701,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "CreateHelpCenterRedirectRequest" });
   }
 }
-function __c240(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18511,7 +18719,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "HelpCenterRedirect" });
   }
 }
-function __c241(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18521,7 +18729,7 @@ function __c241(j: number): any {
           body_markdown: S.optional(S.String),
           author_id: S.Number,
           owner_id: S.Number,
-          audience_ids: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -18529,7 +18737,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "CreateInternalArticleRequest" });
   }
 }
-function __c242(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18544,7 +18752,7 @@ function __c242(j: number): any {
           created_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
           locale: S.optional(S.String),
-          audience_ids: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          audience_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
           ai_chatbot_availability: S.optional(S.Boolean),
           ai_copilot_availability: S.optional(S.Boolean),
           ai_sales_agent_availability: S.optional(S.Boolean),
@@ -18552,7 +18760,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "CreateInternalArticleResponse" });
   }
 }
-function __c243(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18568,7 +18776,7 @@ function __c243(j: number): any {
           subject: S.optional(S.String),
           body: S.optional(S.String),
           template: S.optional(S.String),
-          from: S.optional(__S(7776, __c243, 0)),
+          from: S.optional(__S(7904, __c247, 0)),
           to: S.optional(S.Unknown),
           cc: S.optional(S.Unknown),
           bcc: S.optional(S.Unknown),
@@ -18590,7 +18798,7 @@ function __c243(j: number): any {
       ).annotate({ identifier: "Message" });
   }
 }
-function __c244(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18600,14 +18808,14 @@ function __c244(j: number): any {
           sender_id: S.Number,
           state: S.optional(S.String),
           deliver_silently: S.optional(S.Boolean),
-          labels: S.optional(__S(7104, __c222, 0)),
-          reactions: S.optional(__S(7840, __c245, 0)),
-          newsfeed_assignments: S.optional(__S(7842, __c245, 2)),
+          labels: S.optional(__S(7200, __c225, 0)),
+          reactions: S.optional(__S(7968, __c249, 0)),
+          newsfeed_assignments: S.optional(__S(7970, __c249, 2)),
         }).pipe(T.Http({ method: "POST", uri: "/news/news_items", code: 200 })),
       ).annotate({ identifier: "CreateNewsItemRequest" });
   }
 }
-function __c245(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.NullOr(S.String));
@@ -18619,7 +18827,7 @@ function __c245(j: number): any {
         }),
       ).annotate({ identifier: "NewsfeedAssignment" });
     case 2:
-      return S.Array(__S(7841, __c245, 1));
+      return S.Array(__S(7969, __c249, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -18630,10 +18838,10 @@ function __c245(j: number): any {
           body: S.optional(S.String),
           sender_id: S.optional(S.Number),
           state: S.optional(S.String),
-          newsfeed_assignments: S.optional(__S(7842, __c245, 2)),
-          labels: S.optional(__S(7840, __c245, 0)),
+          newsfeed_assignments: S.optional(__S(7970, __c249, 2)),
+          labels: S.optional(__S(7968, __c249, 0)),
           cover_image_url: S.optional(S.NullOr(S.String)),
-          reactions: S.optional(__S(7840, __c245, 0)),
+          reactions: S.optional(__S(7968, __c249, 0)),
           deliver_silently: S.optional(S.Boolean),
           created_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
@@ -18641,7 +18849,7 @@ function __c245(j: number): any {
       ).annotate({ identifier: "NewsItem" });
   }
 }
-function __c246(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18653,7 +18861,7 @@ function __c246(j: number): any {
       ).annotate({ identifier: "CreateNoteRequest" });
   }
 }
-function __c247(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18662,7 +18870,7 @@ function __c247(j: number): any {
           exception_date: S.String,
           exception_type: S.String,
           name: S.optional(S.String),
-          time_intervals: S.optional(S.NullOr(__S(8001, __c250, 1))),
+          time_intervals: S.optional(S.NullOr(__S(8129, __c254, 1))),
           recurring_annually: S.optional(S.Boolean),
         }).pipe(
           T.Http({
@@ -18674,7 +18882,7 @@ function __c247(j: number): any {
       ).annotate({ identifier: "CreateOfficeHoursExceptionRequest" });
   }
 }
-function __c248(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18685,7 +18893,7 @@ function __c248(j: number): any {
           exception_date: S.optional(S.String),
           exception_type: S.optional(S.String),
           name: S.optional(S.NullOr(S.String)),
-          time_intervals: S.optional(S.NullOr(__S(7969, __c249, 1))),
+          time_intervals: S.optional(S.NullOr(__S(8097, __c253, 1))),
           recurring_annually: S.optional(S.Boolean),
           created_at: S.optional(S.Number),
           updated_at: S.optional(S.Number),
@@ -18693,7 +18901,7 @@ function __c248(j: number): any {
       ).annotate({ identifier: "OfficeHoursException" });
   }
 }
-function __c249(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18704,10 +18912,10 @@ function __c249(j: number): any {
         }),
       ).annotate({ identifier: "OfficeHoursTimeInterval" });
     case 1:
-      return S.Array(__S(7968, __c249, 0));
+      return S.Array(__S(8096, __c253, 0));
   }
 }
-function __c250(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18717,39 +18925,10 @@ function __c250(j: number): any {
         }),
       ).annotate({ identifier: "OfficeHoursTimeIntervalInput" });
     case 1:
-      return S.Array(__S(8000, __c250, 0));
+      return S.Array(__S(8128, __c254, 0));
   }
 }
-function __c251(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          time_zone_name: S.String,
-          time_intervals: __S(8001, __c250, 1),
-        }).pipe(T.Http({ method: "POST", uri: "/office_hours_schedules", code: 200 })),
-      ).annotate({ identifier: "CreateOfficeHoursScheduleRequest" });
-  }
-}
-function __c252(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          time_zone_name: S.optional(S.String),
-          time_intervals: S.optional(__S(7969, __c249, 1)),
-          twenty_four_seven: S.optional(S.Boolean),
-          created_at: S.optional(S.Number),
-          updated_at: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "OfficeHoursSchedule" });
-  }
-}
-function __c253(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18759,7 +18938,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "ArchiveContactRequest" });
   }
 }
-function __c254(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18772,7 +18951,36 @@ function __c254(j: number): any {
       ).annotate({ identifier: "ArchiveContactResponse" });
   }
 }
-function __c255(j: number): any {
+function __c257(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          time_zone_name: S.String,
+          time_intervals: __S(8129, __c254, 1),
+        }).pipe(T.Http({ method: "POST", uri: "/office_hours_schedules", code: 200 })),
+      ).annotate({ identifier: "CreateOfficeHoursScheduleRequest" });
+  }
+}
+function __c258(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          time_zone_name: S.optional(S.String),
+          time_intervals: S.optional(__S(8097, __c253, 1)),
+          twenty_four_seven: S.optional(S.Boolean),
+          created_at: S.optional(S.Number),
+          updated_at: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "OfficeHoursSchedule" });
+  }
+}
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18783,7 +18991,7 @@ function __c255(j: number): any {
           size: S.optional(S.Number),
           website: S.optional(S.String),
           industry: S.optional(S.String),
-          custom_attributes: S.optional(__S(8704, __c272, 0)),
+          custom_attributes: S.optional(__S(8800, __c275, 0)),
           remote_created_at: S.optional(S.Number),
           update_last_request_at: S.optional(S.Boolean),
           monthly_spend: S.optional(S.Number),
@@ -18791,13 +18999,13 @@ function __c255(j: number): any {
       ).annotate({ identifier: "CreateOrUpdateCompanyRequest" });
   }
 }
-function __c256(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           phone: S.String,
-          custom_attributes: S.optional(__S(8224, __c257, 0)),
+          custom_attributes: S.optional(__S(8352, __c261, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/phone_call_redirects", code: 200 })),
       ).annotate({ identifier: "CreatePhoneSwitchRequest" });
     case 1:
@@ -18809,13 +19017,13 @@ function __c256(j: number): any {
       ).annotate({ identifier: "PhoneSwitch" });
   }
 }
-function __c257(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c258(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18831,20 +19039,20 @@ function __c258(j: number): any {
         }),
       ).annotate({ identifier: "CreateTagResponseUsersItem" });
     case 2:
-      return S.Array(__S(8257, __c258, 1));
+      return S.Array(__S(8385, __c262, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
           id: S.optional(S.String),
           name: S.optional(S.String),
-          users: S.optional(S.NullOr(__S(8258, __c258, 2))),
-          companies: S.optional(S.NullOr(__S(8258, __c258, 2))),
+          users: S.optional(S.NullOr(__S(8386, __c262, 2))),
+          companies: S.optional(S.NullOr(__S(8386, __c262, 2))),
         }),
       ).annotate({ identifier: "CreateTagResponse" });
   }
 }
-function __c259(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -18852,18 +19060,19 @@ function __c259(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ticket_type_id: S.String,
-          contacts: __S(8288, __c259, 0),
+          contacts: __S(8416, __c263, 0),
           conversation_to_link_id: S.optional(S.String),
           company_id: S.optional(S.String),
           created_at: S.optional(S.Number),
-          ticket_attributes: S.optional(__S(6304, __c197, 0)),
-          assignment: S.optional(__S(8320, __c260, 0)),
+          ticket_attributes: S.optional(__S(6336, __c198, 0)),
+          assignment: S.optional(__S(8448, __c264, 0)),
+          channel: S.optional(S.String),
           skip_notifications: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/tickets", code: 200 })),
       ).annotate({ identifier: "CreateTicketRequest" });
   }
 }
-function __c260(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18874,7 +19083,7 @@ function __c260(j: number): any {
       ).annotate({ identifier: "CreateTicketRequestAssignment" });
   }
 }
-function __c261(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18888,7 +19097,7 @@ function __c261(j: number): any {
       ).annotate({ identifier: "CreateTicketTypeRequest" });
   }
 }
-function __c262(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18910,7 +19119,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "CreateTicketTypeAttributeRequest" });
   }
 }
-function __c263(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18925,12 +19134,12 @@ function __c263(j: number): any {
       return S.suspend(() =>
         S.Struct({
           user_id: S.optional(S.String),
-          event_summaries: S.optional(__S(8416, __c263, 0)),
+          event_summaries: S.optional(__S(8544, __c267, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/events/summaries", code: 200 })),
       ).annotate({ identifier: "DataEventSummariesRequest" });
   }
 }
-function __c264(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18940,7 +19149,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "DeleteArticleRequest" });
   }
 }
-function __c265(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18952,7 +19161,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "DeletedArticleObject" });
   }
 }
-function __c266(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18962,33 +19171,22 @@ function __c266(j: number): any {
       ).annotate({ identifier: "DeleteAudienceRequest" });
   }
 }
-function __c267(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          collection_id: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/help_center/collections/{collection_id}", code: 200 }),
-        ),
-      ).annotate({ identifier: "DeleteCollectionRequest" });
-  }
-}
-function __c268(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           conversation_id: S.String,
-          message: __S(8608, __c269, 0),
-          user: __S(8768, __c274, 0),
-          conversation_metadata: S.optional(__S(8673, __c271, 1)),
-          attachments: S.optional(__S(8641, __c270, 1)),
+          message: __S(8704, __c272, 0),
+          user: __S(8864, __c277, 0),
+          conversation_metadata: S.optional(__S(8769, __c274, 1)),
+          attachments: S.optional(__S(8737, __c273, 1)),
+          environment: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/fin/ask", code: 200 })),
       ).annotate({ identifier: "AskFinRequest" });
   }
 }
-function __c269(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19002,19 +19200,19 @@ function __c269(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          attributes: S.optional(__S(8704, __c272, 0)),
+          attributes: S.optional(__S(8800, __c275, 0)),
         }),
       ).annotate({ identifier: "FinAgentAttributeErrorsUser" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          user: S.optional(__S(8609, __c269, 1)),
-          conversation: S.optional(__S(8609, __c269, 1)),
+          user: S.optional(__S(8705, __c272, 1)),
+          conversation: S.optional(__S(8705, __c272, 1)),
         }),
       ).annotate({ identifier: "FinAgentAttributeErrors" });
   }
 }
-function __c270(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19027,7 +19225,7 @@ function __c270(j: number): any {
         }),
       ).annotate({ identifier: "FinAgentAttachment" });
     case 1:
-      return S.Array(__S(8640, __c270, 0));
+      return S.Array(__S(8736, __c273, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -19036,38 +19234,37 @@ function __c270(j: number): any {
           user_id: S.optional(S.String),
           status: S.optional(S.String),
           created_at_ms: S.optional(S.String),
-          errors: S.optional(__S(8610, __c269, 2)),
-          sse_subscription_url: S.optional(S.String),
+          errors: S.optional(__S(8706, __c272, 2)),
         }),
       ).annotate({ identifier: "AskFinResponse" });
   }
 }
-function __c271(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(8608, __c269, 0));
+      return S.Array(__S(8704, __c272, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          history: S.optional(__S(8672, __c271, 0)),
-          attributes: S.optional(__S(8736, __c273, 0)),
+          history: S.optional(__S(8768, __c274, 0)),
+          attributes: S.optional(__S(8832, __c276, 0)),
         }),
       ).annotate({ identifier: "FinAgentConversationMetadata" });
   }
 }
-function __c272(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c273(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c274(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19075,12 +19272,24 @@ function __c274(j: number): any {
           id: S.String,
           name: S.optional(S.String),
           email: S.optional(S.String),
-          attributes: S.optional(__S(8736, __c273, 0)),
+          attributes: S.optional(__S(8832, __c276, 0)),
         }),
       ).annotate({ identifier: "FinAgentUser" });
   }
 }
-function __c275(j: number): any {
+function __c278(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          collection_id: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/help_center/collections/{collection_id}", code: 200 }),
+        ),
+      ).annotate({ identifier: "DeleteCollectionRequest" });
+  }
+}
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19090,7 +19299,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "DeleteCompanyRequest" });
   }
 }
-function __c276(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19109,7 +19318,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "DeleteContactResponse" });
   }
 }
-function __c277(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19121,7 +19330,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "DeleteContentImportSourceRequest" });
   }
 }
-function __c278(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19131,7 +19340,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "DeleteContentSnippetRequest" });
   }
 }
-function __c279(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19142,7 +19351,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "DeleteConversationRequest" });
   }
 }
-function __c280(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19152,7 +19361,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "DeleteConversationAttributeRequest" });
   }
 }
-function __c281(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19169,7 +19378,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "DeleteConversationAttributeOptionRequest" });
   }
 }
-function __c282(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19186,7 +19395,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "DeleteCustomObjectInstancesByExternalIdRequest" });
   }
 }
-function __c283(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19198,7 +19407,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "CustomObjectInstanceDeleted" });
   }
 }
-function __c284(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19210,7 +19419,7 @@ function __c284(j: number): any {
       return S.suspend(() =>
         S.Struct({
           custom_object_type_identifier: S.String.pipe(T.Label()),
-          external_id: __S(9088, __c284, 0).pipe(T.Query()),
+          external_id: __S(9216, __c288, 0).pipe(T.Query()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -19221,17 +19430,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "DeleteCustomObjectInstancesByIdRequest" });
   }
 }
-function __c285(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/data_connectors/{id}", code: 200 })),
-      ).annotate({ identifier: "DeleteDataConnectorRequest" });
-  }
-}
-function __c286(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19242,13 +19441,13 @@ function __c286(j: number): any {
       ).annotate({ identifier: "AttachContactToACompanyRequest" });
   }
 }
-function __c287(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
   }
 }
-function __c288(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19260,7 +19459,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "CompanyPlan" });
   }
 }
-function __c289(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19271,13 +19470,13 @@ function __c289(j: number): any {
       ).annotate({ identifier: "CompanyNoteCompany" });
   }
 }
-function __c290(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          primary_team_ids: S.optional(S.NullOr(__S(9184, __c287, 0))),
-          secondary_team_ids: S.optional(S.NullOr(__S(9184, __c287, 0))),
+          primary_team_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
+          secondary_team_ids: S.optional(S.NullOr(__S(9280, __c290, 0))),
         }),
       ).annotate({ identifier: "TeamPriorityLevel" });
     case 1:
@@ -19292,15 +19491,15 @@ function __c290(j: number): any {
           away_mode_reassign: S.optional(S.Boolean),
           away_status_reason_id: S.optional(S.NullOr(S.Number)),
           has_inbox_seat: S.optional(S.Boolean),
-          team_ids: S.optional(__S(9184, __c287, 0)),
+          team_ids: S.optional(__S(9280, __c290, 0)),
           avatar: S.optional(S.NullOr(S.String)),
-          team_priority_level: S.optional(S.NullOr(__S(9280, __c290, 0))),
-          role: S.optional(S.NullOr(__S(9216, __c288, 0))),
+          team_priority_level: S.optional(S.NullOr(__S(9376, __c293, 0))),
+          role: S.optional(S.NullOr(__S(9312, __c291, 0))),
         }),
       ).annotate({ identifier: "Admin" });
   }
 }
-function __c291(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19316,32 +19515,32 @@ function __c291(j: number): any {
       ).annotate({ identifier: "Segment" });
   }
 }
-function __c292(j: number): any {
+function __c295(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(9408, __c294, 0));
+  }
+}
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(9312, __c291, 0));
   }
 }
-function __c293(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(9216, __c288, 0));
-  }
-}
-function __c294(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          tags: S.optional(__S(9376, __c293, 0)),
+          tags: S.optional(__S(9472, __c296, 0)),
         }),
       ).annotate({ identifier: "CompanyTags" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          segments: S.optional(__S(9344, __c292, 0)),
+          segments: S.optional(__S(9440, __c295, 0)),
         }),
       ).annotate({ identifier: "CompanySegments" });
     case 2:
@@ -19350,18 +19549,18 @@ function __c294(j: number): any {
           type: S.optional(S.String),
           id: S.optional(S.String),
           created_at: S.optional(S.Number),
-          company: S.optional(S.NullOr(__S(9248, __c289, 0))),
-          author: S.optional(S.NullOr(__S(9281, __c290, 1))),
+          company: S.optional(S.NullOr(__S(9344, __c292, 0))),
+          author: S.optional(S.NullOr(__S(9377, __c293, 1))),
           body: S.optional(S.String),
         }),
       ).annotate({ identifier: "CompanyNote" });
     case 3:
-      return S.Array(__S(9410, __c294, 2));
+      return S.Array(__S(9506, __c297, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          notes: S.optional(__S(9411, __c294, 3)),
+          notes: S.optional(__S(9507, __c297, 3)),
         }),
       ).annotate({ identifier: "CompanyNotes" });
     case 5:
@@ -19371,7 +19570,7 @@ function __c294(j: number): any {
           id: S.optional(S.String),
           name: S.optional(S.String),
           app_id: S.optional(S.String),
-          plan: S.optional(__S(9216, __c288, 0)),
+          plan: S.optional(__S(9312, __c291, 0)),
           company_id: S.optional(S.String),
           remote_created_at: S.optional(S.Number),
           created_at: S.optional(S.Number),
@@ -19383,15 +19582,25 @@ function __c294(j: number): any {
           monthly_spend: S.optional(S.Number),
           session_count: S.optional(S.Number),
           user_count: S.optional(S.Number),
-          custom_attributes: S.optional(__S(8704, __c272, 0)),
-          tags: S.optional(__S(9408, __c294, 0)),
-          segments: S.optional(__S(9409, __c294, 1)),
-          notes: S.optional(__S(9412, __c294, 4)),
+          custom_attributes: S.optional(__S(8800, __c275, 0)),
+          tags: S.optional(__S(9504, __c297, 0)),
+          segments: S.optional(__S(9505, __c297, 1)),
+          notes: S.optional(__S(9508, __c297, 4)),
         }),
       ).annotate({ identifier: "Company" });
   }
 }
-function __c295(j: number): any {
+function __c298(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/data_connectors/{id}", code: 200 })),
+      ).annotate({ identifier: "DeleteDataConnectorRequest" });
+  }
+}
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19401,7 +19610,7 @@ function __c295(j: number): any {
       ).annotate({ identifier: "DeleteExternalPageRequest" });
   }
 }
-function __c296(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19418,7 +19627,7 @@ function __c296(j: number): any {
       ).annotate({ identifier: "DeleteHelpCenterRedirectRequest" });
   }
 }
-function __c297(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19430,7 +19639,7 @@ function __c297(j: number): any {
       ).annotate({ identifier: "DeleteInternalArticleRequest" });
   }
 }
-function __c298(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19440,7 +19649,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "DeleteNewsItemRequest" });
   }
 }
-function __c299(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19457,7 +19666,7 @@ function __c299(j: number): any {
       ).annotate({ identifier: "DeleteOfficeHoursExceptionRequest" });
   }
 }
-function __c300(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19469,7 +19678,7 @@ function __c300(j: number): any {
       ).annotate({ identifier: "DeleteOfficeHoursExceptionResponse" });
   }
 }
-function __c301(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19479,7 +19688,7 @@ function __c301(j: number): any {
       ).annotate({ identifier: "DeleteOfficeHoursScheduleRequest" });
   }
 }
-function __c302(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19489,7 +19698,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "DeleteTagRequest" });
   }
 }
-function __c303(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19499,7 +19708,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "DeleteTicketRequest" });
   }
 }
-function __c304(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19516,7 +19725,40 @@ function __c304(j: number): any {
       ).annotate({ identifier: "DetachContactFromACompanyRequest" });
   }
 }
-function __c305(j: number): any {
+function __c309(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          conversation_id: S.String.pipe(T.Label()),
+          admin_id: S.optional(S.String),
+          customer: S.optional(S.Unknown),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/conversations/{conversation_id}/customers", code: 200 }),
+        ),
+      ).annotate({ identifier: "AttachContactToConversationRequest" });
+  }
+}
+function __c310(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          id: S.String,
+        }),
+      ).annotate({ identifier: "ConversationParticipantsResponseCustomersItem" });
+    case 1:
+      return S.Array(__S(9920, __c310, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          customers: __S(9921, __c310, 1),
+        }),
+      ).annotate({ identifier: "ConversationParticipantsResponse" });
+  }
+}
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19534,40 +19776,7 @@ function __c305(j: number): any {
       ).annotate({ identifier: "DetachContactFromConversationRequest" });
   }
 }
-function __c306(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          conversation_id: S.String.pipe(T.Label()),
-          admin_id: S.optional(S.String),
-          customer: S.optional(S.Unknown),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/conversations/{conversation_id}/customers", code: 200 }),
-        ),
-      ).annotate({ identifier: "AttachContactToConversationRequest" });
-  }
-}
-function __c307(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.String,
-          id: S.String,
-        }),
-      ).annotate({ identifier: "ConversationParticipantsResponseCustomersItem" });
-    case 1:
-      return S.Array(__S(9824, __c307, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          customers: __S(9825, __c307, 1),
-        }),
-      ).annotate({ identifier: "ConversationParticipantsResponse" });
-  }
-}
-function __c308(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19584,7 +19793,7 @@ function __c308(j: number): any {
       ).annotate({ identifier: "DetachSubscriptionTypeToContactRequest" });
   }
 }
-function __c309(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19595,7 +19804,7 @@ function __c309(j: number): any {
       ).annotate({ identifier: "DetachTagFromArticleRequest" });
   }
 }
-function __c310(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19608,7 +19817,7 @@ function __c310(j: number): any {
       ).annotate({ identifier: "DetachTagFromContactRequest" });
   }
 }
-function __c311(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19625,7 +19834,7 @@ function __c311(j: number): any {
       ).annotate({ identifier: "DetachTagFromContentSnippetRequest" });
   }
 }
-function __c312(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19643,7 +19852,7 @@ function __c312(j: number): any {
       ).annotate({ identifier: "DetachTagFromConversationRequest" });
   }
 }
-function __c313(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19660,7 +19869,7 @@ function __c313(j: number): any {
       ).annotate({ identifier: "DetachTagFromInternalArticleRequest" });
   }
 }
-function __c314(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19672,7 +19881,7 @@ function __c314(j: number): any {
       ).annotate({ identifier: "DetachTagFromTicketRequest" });
   }
 }
-function __c315(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19693,7 +19902,7 @@ function __c315(j: number): any {
       ).annotate({ identifier: "BannerDismiss" });
   }
 }
-function __c316(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19705,7 +19914,51 @@ function __c316(j: number): any {
       ).annotate({ identifier: "DownloadDataExportRequest" });
   }
 }
-function __c317(j: number): any {
+function __c321(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          contact_id: S.String.pipe(T.Label()),
+          id: S.String,
+          consent_type: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/contacts/{contact_id}/subscriptions", code: 200 })),
+      ).annotate({ identifier: "AttachSubscriptionTypeToContactRequest" });
+  }
+}
+function __c322(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c323(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          locale: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Translation" });
+    case 1:
+      return S.Array(__S(10336, __c323, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          id: S.optional(S.String),
+          state: S.optional(S.String),
+          default_translation: S.optional(__S(10336, __c323, 0)),
+          translations: S.optional(__S(10337, __c323, 1)),
+          consent_type: S.optional(S.String),
+          content_types: S.optional(__S(10304, __c322, 0)),
+        }),
+      ).annotate({ identifier: "SubscriptionType" });
+  }
+}
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -19713,18 +19966,19 @@ function __c317(j: number): any {
       return S.suspend(() =>
         S.Struct({
           ticket_type_id: S.String,
-          contacts: __S(10144, __c317, 0),
+          contacts: __S(10368, __c324, 0),
           conversation_to_link_id: S.optional(S.String),
           company_id: S.optional(S.String),
           created_at: S.optional(S.Number),
-          ticket_attributes: S.optional(__S(6304, __c197, 0)),
-          assignment: S.optional(__S(8320, __c260, 0)),
+          ticket_attributes: S.optional(__S(6336, __c198, 0)),
+          assignment: S.optional(__S(8448, __c264, 0)),
+          channel: S.optional(S.String),
           skip_notifications: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/tickets/enqueue", code: 200 })),
       ).annotate({ identifier: "EnqueueCreateTicketRequest" });
   }
 }
-function __c318(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19740,57 +19994,13 @@ function __c318(j: number): any {
       ).annotate({ identifier: "Jobs" });
   }
 }
-function __c319(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          contact_id: S.String.pipe(T.Label()),
-          id: S.String,
-          consent_type: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/contacts/{contact_id}/subscriptions", code: 200 })),
-      ).annotate({ identifier: "AttachSubscriptionTypeToContactRequest" });
-  }
-}
-function __c320(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c321(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          description: S.optional(S.String),
-          locale: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Translation" });
-    case 1:
-      return S.Array(__S(10272, __c321, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          id: S.optional(S.String),
-          state: S.optional(S.String),
-          default_translation: S.optional(__S(10272, __c321, 0)),
-          translations: S.optional(__S(10273, __c321, 1)),
-          consent_type: S.optional(S.String),
-          content_types: S.optional(__S(10240, __c320, 0)),
-        }),
-      ).annotate({ identifier: "SubscriptionType" });
-  }
-}
-function __c322(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           conversation_id: S.optional(S.String),
-          user: S.optional(__S(8768, __c274, 0)),
+          user: S.optional(__S(8864, __c277, 0)),
           context: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/fin/escalate", code: 200 })),
       ).annotate({ identifier: "EscalateFinConversationRequest" });
@@ -19799,13 +20009,12 @@ function __c322(j: number): any {
         S.Struct({
           conversation_id: S.optional(S.String),
           intercom_conversation_id: S.optional(S.String),
-          sse_subscription_url: S.optional(S.String),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "EscalateFinConversationResponse" });
   }
 }
-function __c323(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19821,14 +20030,14 @@ function __c323(j: number): any {
           description: S.optional(S.NullOr(S.String)),
           trigger_type: S.optional(S.String),
           state: S.optional(S.String),
-          target_channels: S.optional(__S(7104, __c222, 0)),
-          preferred_devices: S.optional(__S(7104, __c222, 0)),
+          target_channels: S.optional(__S(7200, __c225, 0)),
+          preferred_devices: S.optional(__S(7200, __c225, 0)),
           created_at: S.optional(S.String),
           updated_at: S.optional(S.String),
           targeting: S.optional(S.NullOr(S.Unknown)),
           snapshot: S.optional(S.NullOr(S.Unknown)),
-          attributes: S.optional(__S(4864, __c152, 0)),
-          embedded_rules: S.optional(__S(4864, __c152, 0)),
+          attributes: S.optional(__S(4896, __c153, 0)),
+          embedded_rules: S.optional(__S(4896, __c153, 0)),
         }),
       ).annotate({ identifier: "WorkflowExportWorkflow" });
     case 2:
@@ -19837,12 +20046,12 @@ function __c323(j: number): any {
           export_version: S.optional(S.String),
           exported_at: S.optional(S.String),
           app_id: S.optional(S.Number),
-          workflow: S.optional(__S(10337, __c323, 1)),
+          workflow: S.optional(__S(10465, __c327, 1)),
         }),
       ).annotate({ identifier: "WorkflowExport" });
   }
 }
-function __c324(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19852,7 +20061,7 @@ function __c324(j: number): any {
       ).annotate({ identifier: "FindTagRequest" });
   }
 }
-function __c325(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19862,7 +20071,7 @@ function __c325(j: number): any {
       ).annotate({ identifier: "GetACompanyByIdRequest" });
   }
 }
-function __c326(j: number): any {
+function __c330(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19872,7 +20081,7 @@ function __c326(j: number): any {
       ).annotate({ identifier: "GetAdminRequest" });
   }
 }
-function __c327(j: number): any {
+function __c331(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19882,7 +20091,7 @@ function __c327(j: number): any {
       ).annotate({ identifier: "GetArticleRequest" });
   }
 }
-function __c328(j: number): any {
+function __c332(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19892,7 +20101,7 @@ function __c328(j: number): any {
       ).annotate({ identifier: "GetArticleDraftRequest" });
   }
 }
-function __c329(j: number): any {
+function __c333(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19923,7 +20132,7 @@ function __c329(j: number): any {
       ).annotate({ identifier: "ArticleVersion" });
   }
 }
-function __c330(j: number): any {
+function __c334(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19931,33 +20140,6 @@ function __c330(j: number): any {
           id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/audiences/{id}", code: 200 })),
       ).annotate({ identifier: "GetAudienceRequest" });
-  }
-}
-function __c331(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/brands/{id}", code: 200 })),
-      ).annotate({ identifier: "GetBrandRequest" });
-  }
-}
-function __c332(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          id: S.optional(S.String),
-          name: S.optional(S.String),
-          is_default: S.optional(S.Boolean),
-          created_at: S.optional(S.Number),
-          updated_at: S.optional(S.Number),
-          help_center_id: S.optional(S.String),
-          default_address_settings_id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Brand" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

@@ -133,10 +133,17 @@ export interface Maintenance {
   autoUpdate?: MaintenanceAutoUpdate | undefined;
   timeWindow?: TimeWindow | undefined;
 }
-/** CNI to use for the cluster. Only one type of CNI can be used. The type of CNI is immutable after creation. Defaults to calico */
+export interface CiliumHubble {
+  enabled?: boolean | undefined;
+}
+/** Configuration options for the Cilium CNI U+26A0 Note: This feature is in private preview. Enabling Cilium is only possible for enabled accounts. If your account does not have access, the request will be rejected. */
+export interface CiliumConfig {
+  hubble?: CiliumHubble | undefined;
+}
+/** CNI to use for the cluster. Only one type of CNI can be used. The type of CNI is immutable after creation. Defaults to calico. */
 export interface CNI {
-  /** configuration options for the Calico CNI */
   calico?: unknown | undefined;
+  cilium?: CiliumConfig | undefined;
 }
 /** The access scope of the Control Plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area. U+26A0 Warning: Changing the access scope on an existing cluster directly impacts its network exposure (e.g., making a private cluster publicly accessible) U+26A0 Note: This feature is in private preview. Supplying this object is only permitted for enabled accounts. If your account does not have access, the request will be rejected. */
 export type AccessScope = "PUBLIC" | "SNA";
@@ -395,7 +402,11 @@ export interface KubernetesVersion {
   version?: string | undefined;
 }
 export type ProviderOptionsKubernetesVersionsList = Array<KubernetesVersion>;
-export type MachineImageVersionCriList = Array<CRI>;
+export type MachineImageVersionCRIName = "containerd";
+export interface MachineImageVersionCRI {
+  name?: MachineImageVersionCRIName | undefined;
+}
+export type MachineImageVersionCriList = Array<MachineImageVersionCRI>;
 export interface MachineImageVersion {
   cri?: MachineImageVersionCriList | undefined;
   expirationDate?: string | undefined;
@@ -498,7 +509,7 @@ export const createOrUpdateCluster: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c9, 0) as any as S.Schema<CreateOrUpdateClusterRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<Cluster>,
+  output: __S(358, __c11, 6) as any as S.Schema<Cluster>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -532,7 +543,7 @@ export const getCluster: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<GetClusterRequest>,
-  output: __S(354, __c11, 2) as any as S.Schema<Cluster>,
+  output: __S(358, __c11, 6) as any as S.Schema<Cluster>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -600,7 +611,7 @@ export const listProviderOptions: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ListProviderOptionsRequest>,
-  output: __S(12, __c0, 12) as any as S.Schema<ProviderOptions>,
+  output: __S(13, __c0, 13) as any as S.Schema<ProviderOptions>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -722,7 +733,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           expirationDate: S.optional(S.String),
-          featureGates: S.optional(__S(385, __c12, 1)),
+          featureGates: S.optional(__S(384, __c12, 0)),
           state: S.optional(S.String),
           version: S.optional(S.String),
         }),
@@ -730,28 +741,34 @@ function __c0(j: number): any {
     case 4:
       return S.Array(__S(3, __c0, 3));
     case 5:
-      return S.Array(__S(386, __c12, 2));
-    case 6:
       return S.suspend(() =>
         S.Struct({
-          cri: S.optional(__S(5, __c0, 5)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MachineImageVersionCRI" });
+    case 6:
+      return S.Array(__S(5, __c0, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          cri: S.optional(__S(6, __c0, 6)),
           expirationDate: S.optional(S.String),
           state: S.optional(S.String),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "MachineImageVersion" });
-    case 7:
-      return S.Array(__S(6, __c0, 6));
     case 8:
+      return S.Array(__S(7, __c0, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          versions: S.optional(__S(7, __c0, 7)),
+          versions: S.optional(__S(8, __c0, 8)),
         }),
       ).annotate({ identifier: "MachineImage" });
-    case 9:
-      return S.Array(__S(8, __c0, 8));
     case 10:
+      return S.Array(__S(9, __c0, 9));
+    case 11:
       return S.suspend(() =>
         S.Struct({
           architecture: S.optional(S.String),
@@ -761,15 +778,15 @@ function __c0(j: number): any {
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "MachineType" });
-    case 11:
-      return S.Array(__S(10, __c0, 10));
     case 12:
+      return S.Array(__S(11, __c0, 11));
+    case 13:
       return S.suspend(() =>
         S.Struct({
           availabilityZones: S.optional(__S(2, __c0, 2)),
           kubernetesVersions: S.optional(__S(4, __c0, 4)),
-          machineImages: S.optional(__S(9, __c0, 9)),
-          machineTypes: S.optional(__S(11, __c0, 11)),
+          machineImages: S.optional(__S(10, __c0, 10)),
+          machineTypes: S.optional(__S(12, __c0, 12)),
           volumeTypes: S.optional(__S(2, __c0, 2)),
         }),
       ).annotate({ identifier: "ProviderOptions" });
@@ -933,15 +950,15 @@ function __c9(j: number): any {
           region: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           access: S.optional(__S(321, __c10, 1)),
-          audit: S.optional(__S(384, __c12, 0)),
-          extensions: S.optional(__S(326, __c10, 6)),
-          hibernation: S.optional(__S(329, __c10, 9)),
-          kubernetes: __S(330, __c10, 10),
-          labels: S.optional(__S(385, __c12, 1)),
-          maintenance: S.optional(__S(333, __c10, 13)),
-          network: S.optional(__S(336, __c10, 16)),
-          nodepools: __S(344, __c10, 24),
-          status: S.optional(__S(353, __c11, 1)),
+          audit: S.optional(__S(322, __c10, 2)),
+          extensions: S.optional(__S(327, __c10, 7)),
+          hibernation: S.optional(__S(330, __c10, 10)),
+          kubernetes: __S(331, __c10, 11),
+          labels: S.optional(__S(384, __c12, 0)),
+          maintenance: S.optional(__S(334, __c10, 14)),
+          network: S.optional(__S(339, __c10, 19)),
+          nodepools: __S(348, __c10, 28),
+          status: S.optional(__S(357, __c11, 5)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -969,39 +986,45 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "Access" });
     case 2:
-      return S.Array(S.String);
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          allowedCidrs: __S(322, __c10, 2),
+          enabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "Audit" });
+    case 3:
+      return S.Array(S.String);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          allowedCidrs: __S(323, __c10, 3),
           enabled: S.Boolean,
         }),
       ).annotate({ identifier: "ACL" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
           gatewayApi: S.optional(S.Boolean),
-          zones: S.optional(__S(322, __c10, 2)),
+          zones: S.optional(__S(323, __c10, 3)),
         }),
       ).annotate({ identifier: "DNS" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           enabled: S.Boolean,
           instanceId: S.String,
         }),
       ).annotate({ identifier: "Observability" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
-          acl: S.optional(__S(323, __c10, 3)),
-          applicationLoadBalancer: S.optional(__S(384, __c12, 0)),
-          dns: S.optional(__S(324, __c10, 4)),
-          observability: S.optional(__S(325, __c10, 5)),
+          acl: S.optional(__S(324, __c10, 4)),
+          applicationLoadBalancer: S.optional(__S(322, __c10, 2)),
+          dns: S.optional(__S(325, __c10, 5)),
+          observability: S.optional(__S(326, __c10, 6)),
         }),
       ).annotate({ identifier: "Extension" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
           end: S.String,
@@ -1009,84 +1032,104 @@ function __c10(j: number): any {
           timezone: S.optional(S.String),
         }),
       ).annotate({ identifier: "HibernationSchedule" });
-    case 8:
-      return S.Array(__S(327, __c10, 7));
     case 9:
+      return S.Array(__S(328, __c10, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          schedules: __S(328, __c10, 8),
+          schedules: __S(329, __c10, 9),
         }),
       ).annotate({ identifier: "Hibernation" });
-    case 10:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           version: S.String,
         }),
       ).annotate({ identifier: "Kubernetes" });
-    case 11:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           kubernetesVersion: S.optional(S.Boolean),
           machineImageVersion: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MaintenanceAutoUpdate" });
-    case 12:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           end: S.String,
           start: S.String,
         }),
       ).annotate({ identifier: "TimeWindow" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          autoUpdate: S.optional(__S(331, __c10, 11)),
-          timeWindow: S.optional(__S(332, __c10, 12)),
-        }),
-      ).annotate({ identifier: "Maintenance" });
     case 14:
       return S.suspend(() =>
         S.Struct({
+          autoUpdate: S.optional(__S(332, __c10, 12)),
+          timeWindow: S.optional(__S(333, __c10, 13)),
+        }),
+      ).annotate({ identifier: "Maintenance" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          enabled: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CiliumHubble" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          hubble: S.optional(__S(335, __c10, 15)),
+        }),
+      ).annotate({ identifier: "CiliumConfig" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
           calico: S.optional(S.Unknown),
+          cilium: S.optional(__S(336, __c10, 16)),
         }),
       ).annotate({ identifier: "CNI" });
-    case 15:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           accessScope: S.optional(S.String),
         }),
       ).annotate({ identifier: "V2ControlPlaneNetwork" });
-    case 16:
+    case 19:
       return S.suspend(() =>
         S.Struct({
-          cni: S.optional(__S(334, __c10, 14)),
-          controlPlane: S.optional(__S(335, __c10, 15)),
+          cni: S.optional(__S(337, __c10, 17)),
+          controlPlane: S.optional(__S(338, __c10, 18)),
           id: S.optional(S.String),
-          podAddressRanges: S.optional(__S(322, __c10, 2)),
-          serviceAddressRanges: S.optional(__S(322, __c10, 2)),
+          podAddressRanges: S.optional(__S(323, __c10, 3)),
+          serviceAddressRanges: S.optional(__S(323, __c10, 3)),
         }),
       ).annotate({ identifier: "Network" });
-    case 17:
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          kata: S.optional(__S(322, __c10, 2)),
+          name: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CRI" });
+    case 21:
       return S.suspend(() =>
         S.Struct({
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "NodepoolKubernetes" });
-    case 18:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           version: S.String,
         }),
       ).annotate({ identifier: "Image" });
-    case 19:
+    case 23:
       return S.suspend(() =>
         S.Struct({
-          image: __S(338, __c10, 18),
+          image: __S(342, __c10, 22),
           type: S.String,
         }),
       ).annotate({ identifier: "Machine" });
-    case 20:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           effect: S.String,
@@ -1094,36 +1137,36 @@ function __c10(j: number): any {
           value: S.optional(S.String),
         }),
       ).annotate({ identifier: "Taint" });
-    case 21:
-      return S.Array(__S(340, __c10, 20));
-    case 22:
+    case 25:
+      return S.Array(__S(344, __c10, 24));
+    case 26:
       return S.suspend(() =>
         S.Struct({
           size: S.Number,
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Volume" });
-    case 23:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           allowSystemComponents: S.optional(S.Boolean),
-          availabilityZones: __S(322, __c10, 2),
-          cri: S.optional(__S(386, __c12, 2)),
-          kubernetes: S.optional(__S(337, __c10, 17)),
-          labels: S.optional(__S(385, __c12, 1)),
-          machine: __S(339, __c10, 19),
+          availabilityZones: __S(323, __c10, 3),
+          cri: S.optional(__S(340, __c10, 20)),
+          kubernetes: S.optional(__S(341, __c10, 21)),
+          labels: S.optional(__S(384, __c12, 0)),
+          machine: __S(343, __c10, 23),
           maxSurge: S.optional(S.Number),
           maxUnavailable: S.optional(S.Number),
           maximum: S.Number,
           minimum: S.Number,
           name: S.String,
-          taints: S.optional(__S(341, __c10, 21)),
-          volume: __S(342, __c10, 22),
+          taints: S.optional(__S(345, __c10, 25)),
+          volume: __S(346, __c10, 26),
         }),
       ).annotate({ identifier: "Nodepool" });
-    case 24:
-      return S.Array(__S(343, __c10, 23));
-    case 25:
+    case 28:
+      return S.Array(__S(347, __c10, 27));
+    case 29:
       return S.suspend(() =>
         S.Struct({
           lastCompletionTime: S.optional(S.String),
@@ -1131,7 +1174,7 @@ function __c10(j: number): any {
           phase: S.optional(S.String),
         }),
       ).annotate({ identifier: "CredentialsRotationState" });
-    case 26:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
@@ -1139,23 +1182,27 @@ function __c10(j: number): any {
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "RuntimeError" });
-    case 27:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "ClusterError" });
-    case 28:
-      return S.Array(__S(347, __c10, 27));
-    case 29:
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(351, __c10, 31));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           expirationDate: S.optional(S.String),
           version: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExpirationStatusKubernetes" });
-    case 30:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           kubernetesExpirationDate: S.optional(S.String),
@@ -1166,51 +1213,47 @@ function __c10(j: number): any {
           osVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExpirationStatusNodepool" });
-    case 31:
-      return S.Array(__S(350, __c10, 30));
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
+    case 3:
+      return S.Array(__S(354, __c11, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          kubernetes: S.optional(__S(349, __c10, 29)),
-          nodepools: S.optional(__S(351, __c10, 31)),
+          kubernetes: S.optional(__S(353, __c11, 1)),
+          nodepools: S.optional(__S(355, __c11, 3)),
         }),
       ).annotate({ identifier: "ExpirationStatus" });
-    case 1:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           aggregated: S.optional(S.String),
           creationTime: S.optional(S.String),
-          credentialsRotation: S.optional(__S(345, __c10, 25)),
-          egressAddressRanges: S.optional(__S(322, __c10, 2)),
-          error: S.optional(__S(346, __c10, 26)),
-          errors: S.optional(__S(348, __c10, 28)),
-          expiration: S.optional(__S(352, __c11, 0)),
+          credentialsRotation: S.optional(__S(349, __c10, 29)),
+          egressAddressRanges: S.optional(__S(323, __c10, 3)),
+          error: S.optional(__S(350, __c10, 30)),
+          errors: S.optional(__S(352, __c11, 0)),
+          expiration: S.optional(__S(356, __c11, 4)),
           hibernated: S.optional(S.Boolean),
           identity: S.optional(S.String),
-          nodeAddressRanges: S.optional(__S(322, __c10, 2)),
-          podAddressRanges: S.optional(__S(322, __c10, 2)),
+          nodeAddressRanges: S.optional(__S(323, __c10, 3)),
+          podAddressRanges: S.optional(__S(323, __c10, 3)),
           serviceAccountIssuer: S.optional(S.String),
-          serviceAddressRanges: S.optional(__S(322, __c10, 2)),
+          serviceAddressRanges: S.optional(__S(323, __c10, 3)),
         }),
       ).annotate({ identifier: "ClusterStatus" });
-    case 2:
+    case 6:
       return S.suspend(() =>
         S.Struct({
           access: S.optional(__S(321, __c10, 1)),
-          audit: S.optional(__S(384, __c12, 0)),
-          extensions: S.optional(__S(326, __c10, 6)),
-          hibernation: S.optional(__S(329, __c10, 9)),
-          kubernetes: __S(330, __c10, 10),
-          labels: S.optional(__S(385, __c12, 1)),
-          maintenance: S.optional(__S(333, __c10, 13)),
+          audit: S.optional(__S(322, __c10, 2)),
+          extensions: S.optional(__S(327, __c10, 7)),
+          hibernation: S.optional(__S(330, __c10, 10)),
+          kubernetes: __S(331, __c10, 11),
+          labels: S.optional(__S(384, __c12, 0)),
+          maintenance: S.optional(__S(334, __c10, 14)),
           name: S.optional(S.String),
-          network: S.optional(__S(336, __c10, 16)),
-          nodepools: __S(344, __c10, 24),
-          status: S.optional(__S(353, __c11, 1)),
+          network: S.optional(__S(339, __c10, 19)),
+          nodepools: __S(348, __c10, 28),
+          status: S.optional(__S(357, __c11, 5)),
         }),
       ).annotate({ identifier: "Cluster" });
   }
@@ -1218,20 +1261,7 @@ function __c11(j: number): any {
 function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          enabled: S.Boolean,
-        }),
-      ).annotate({ identifier: "Audit" });
-    case 1:
       return S.Record(S.String, S.String);
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          kata: S.optional(__S(384, __c12, 0)),
-          name: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CRI" });
   }
 }
 function __c13(j: number): any {
@@ -1337,7 +1367,7 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "ListClustersRequest" });
     case 1:
-      return S.Array(__S(354, __c11, 2));
+      return S.Array(__S(358, __c11, 6));
     case 2:
       return S.suspend(() =>
         S.Struct({

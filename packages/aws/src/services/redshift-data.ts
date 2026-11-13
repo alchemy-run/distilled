@@ -229,6 +229,7 @@ export interface SubStatementData {
   ResultRows?: number | undefined;
   ResultSize?: number | undefined;
   RedshiftQueryId?: number | undefined;
+  RedshiftQueryUuid?: string | undefined;
   HasResultSet?: boolean | undefined;
 }
 export type SubStatementList = SubStatementData[];
@@ -249,6 +250,7 @@ export interface DescribeStatementResponse {
   ResultRows?: number | undefined;
   ResultSize?: number | undefined;
   RedshiftQueryId?: number | undefined;
+  RedshiftQueryUuid?: string | undefined;
   QueryParameters?: SqlParameter[] | undefined;
   SubStatements?: SubStatementData[] | undefined;
   WorkgroupName?: string | undefined;
@@ -1105,6 +1107,7 @@ function __c5(j: number): any {
           ResultRows: S.optional(S.Number),
           ResultSize: S.optional(S.Number),
           RedshiftQueryId: S.optional(S.Number),
+          RedshiftQueryUuid: S.optional(S.String),
           HasResultSet: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SubStatementData" });
@@ -1129,6 +1132,7 @@ function __c5(j: number): any {
           ResultRows: S.optional(S.Number),
           ResultSize: S.optional(S.Number),
           RedshiftQueryId: S.optional(S.Number),
+          RedshiftQueryUuid: S.optional(S.String),
           QueryParameters: S.optional(__S(9, __c1, 1)),
           SubStatements: S.optional(__S(42, __c5, 2)),
           WorkgroupName: S.optional(S.String),

@@ -811,8 +811,10 @@ export interface GetAnnotationRequest {
 }
 export type AnnotationTagsList = Array<string>;
 export interface Annotation {
+  /** Deprecated. Use alertUID instead. */
   alertId?: number | undefined;
   alertName?: string | undefined;
+  alertUID?: string | undefined;
   avatarUrl?: string | undefined;
   created?: number | undefined;
   /** Deprecated: Use DashboardUID and OrgID instead */
@@ -844,8 +846,6 @@ export interface GetAnnotationsRequest {
   userId?: number | undefined;
   /** Limit response to annotations created by a specific user, identified by UID. */
   userUID?: string | undefined;
-  /** Find annotations for a specified alert rule by its ID. deprecated: AlertID is deprecated and will be removed in future versions. Please use AlertUID instead. */
-  alertId?: number | undefined;
   /** Find annotations for a specified alert rule by its UID. */
   alertUID?: string | undefined;
   /** Find annotations that are scoped to a specific dashboard */
@@ -1885,7 +1885,7 @@ export interface PreferencesQueryHistoryPreference {
   homeTab?: string | undefined;
 }
 export interface PreferencesSpec {
-  /** UID for the home dashboard */
+  /** UID for the home dashboard. The reserved value "global-home" is not a dashboard UID: it selects the instance default home (home_page, the configured home dashboard file, or the built-in home page) instead of falling through to lower-precedence preferences. */
   homeDashboardUID?: string | undefined;
   /** Explicit home URL (NOTE: this can only be modified in the system settings) */
   homeURL?: string | undefined;
@@ -2932,8 +2932,10 @@ export interface SearchUserQueryResult {
 export interface SendReportRequest {
   /** Comma-separated list of emails to which to send the report to. */
   emails?: string | undefined;
-  /** Send the report to the emails specified in the report. Required if emails is not present. */
+  /** Numeric ID of the report. Can send either ID or UID. If both are present, UID takes precedence. */
   id?: string | undefined;
+  /** UID of the report. Can send either ID or UID. If both are present, UID takes precedence. */
+  uid?: string | undefined;
   /** Send the report to the emails specified in the report. Required if emails is not present. */
   useEmailsFromReport?: boolean | undefined;
 }
@@ -4545,7 +4547,7 @@ export const getAnnotation: API.OperationMethod<
   span: "GetAnnotation",
 }));
 
-export type GetAnnotationsError = GrafanaOpError;
+export type GetAnnotationsError = BadRequest | GrafanaOpError;
 /** Find Annotations. Starting in Grafana v6.4 regions annotations are now returned in one entity that now includes the timeEnd property. */
 export const getAnnotations: API.OperationMethod<
   GetAnnotationsRequest,
@@ -4555,7 +4557,7 @@ export const getAnnotations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<GetAnnotationsRequest>,
   output: __S(8706, __c272, 2) as any as S.Schema<GetAnnotationsResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [BadRequest, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10372,6 +10374,7 @@ function __c145(j: number): any {
         S.Struct({
           emails: S.optional(S.String),
           id: S.optional(S.String),
+          uid: S.optional(S.String),
           useEmailsFromReport: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/reports/email", code: 200 })),
       ).annotate({ identifier: "SendReportRequest" });
@@ -12319,6 +12322,7 @@ function __c271(j: number): any {
         S.Struct({
           alertId: S.optional(S.Number),
           alertName: S.optional(S.String),
+          alertUID: S.optional(S.String),
           avatarUrl: S.optional(S.String),
           created: S.optional(S.Number),
           dashboardId: S.optional(S.Number),
@@ -12350,7 +12354,6 @@ function __c272(j: number): any {
           to: S.optional(S.Number.pipe(T.Query())),
           userId: S.optional(S.Number.pipe(T.Query())),
           userUID: S.optional(S.String.pipe(T.Query())),
-          alertId: S.optional(S.Number.pipe(T.Query())),
           alertUID: S.optional(S.String.pipe(T.Query())),
           dashboardId: S.optional(S.Number.pipe(T.Query())),
           dashboardUID: S.optional(S.String.pipe(T.Query())),

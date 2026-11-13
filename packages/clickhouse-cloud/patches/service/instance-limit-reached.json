@@ -1,0 +1,39 @@
+{
+  "description": "Type the 409 POST /v1/organizations/{organizationId}/services answers when the organization already has as many services as its plan allows: {\"status\": 409, \"error\": \"INSTANCE_LIMIT_REACHED\"}. The spec documents no 409 on createService, so it surfaced as the generic Conflict. Observed live 2026-11-12 on a trial organization that already had its two services (request id 86382d05-4229-49f6-a37a-31cf34fe9953).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#InstanceLimitReached",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The organization has as many services as its plan allows (`INSTANCE_LIMIT_REACHED`). Delete a service or raise the `services-per-organization` quota, then retry.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "message": {
+                "includes": "INSTANCE_LIMIT_REACHED"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.service#InstanceCreate/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.service#InstanceLimitReached"
+        }
+      ]
+    }
+  ]
+}

@@ -86,6 +86,14 @@ export interface HttpTrait {
    * 406). Protocols that don't read it fall back to their own default.
    */
   readonly accept?: string;
+  /**
+   * Name of the host the operation runs on, when the API serves it from a
+   * host other than the service's main one (DigitalOcean's `"inference"`
+   * for `inference.do-ai.run`). It names a host and is never a URL: the
+   * protocol maps it to a base URL from its credentials, so the caller's
+   * configuration decides where the request and its credentials go.
+   */
+  readonly server?: string;
 }
 
 export const httpSymbol = /*@__PURE__*/ Symbol.for("@distilled.cloud/core/http");

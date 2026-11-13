@@ -1,0 +1,45 @@
+{
+  "description": "Group responses send null for empty member lists although the description declares required arrays: `resources: null` for groups without network resources (read-only export of a NetBird Cloud account on 2026-10-31) and `peers: null` and `resources: null` for an empty group (self-hosted NetBird 0.82.0).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/io.netbird.api#Group/members/peers/traits/com.distilled.openapi#nullable",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/io.netbird.api#Group/members/resources/traits/com.distilled.openapi#nullable",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/io.netbird.api#GetApiGroupsGroupIdResponse/members/peers/traits/com.distilled.openapi#nullable",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/io.netbird.api#GetApiGroupsGroupIdResponse/members/resources/traits/com.distilled.openapi#nullable",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/io.netbird.api#PostApiGroupsResponse/members/peers/traits/com.distilled.openapi#nullable",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/io.netbird.api#PostApiGroupsResponse/members/resources/traits/com.distilled.openapi#nullable",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/io.netbird.api#PutApiGroupsGroupIdResponse/members/peers/traits/com.distilled.openapi#nullable",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/io.netbird.api#PutApiGroupsGroupIdResponse/members/resources/traits/com.distilled.openapi#nullable",
+      "value": {}
+    }
+  ]
+}

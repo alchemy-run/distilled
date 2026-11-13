@@ -35,56 +35,56 @@ export class SandboxNotRunning
   ) {}
 
 export interface ProcessSelector {
-  pid?: number;
-  tag?: string;
+  pid?: number | undefined;
+  tag?: string | undefined;
 }
 export interface CloseStdinRequest {
-  process?: ProcessSelector;
+  process?: ProcessSelector | undefined;
 }
 export interface CloseStdinResponse {}
 export interface ListRequest {}
 export type StringList = Array<string>;
 export type StringMap = { [key: string]: string | undefined };
 export interface ProcessConfig {
-  cmd?: string;
-  args?: StringList;
-  envs?: StringMap;
-  cwd?: string;
+  cmd: string;
+  args: StringList;
+  envs: StringMap;
+  cwd?: string | undefined;
 }
 export interface ProcessInfo {
-  config?: ProcessConfig;
-  pid?: number;
-  tag?: string;
+  config?: ProcessConfig | undefined;
+  pid: number;
+  tag?: string | undefined;
 }
 export type ProcessInfoList = Array<ProcessInfo>;
 export interface ListResponse {
-  processes?: ProcessInfoList;
+  processes: ProcessInfoList;
 }
 export interface ProcessInput {
-  stdin?: string;
-  pty?: string;
+  stdin?: string | undefined;
+  pty?: string | undefined;
 }
 export interface SendInputRequest {
-  process?: ProcessSelector;
-  input?: ProcessInput;
+  process?: ProcessSelector | undefined;
+  input?: ProcessInput | undefined;
 }
 export interface SendInputResponse {}
 export type Signal = "SIGNAL_UNSPECIFIED" | "SIGNAL_SIGTERM" | "SIGNAL_SIGKILL";
 export interface SendSignalRequest {
-  process?: ProcessSelector;
-  signal?: Signal | (string & {});
+  process?: ProcessSelector | undefined;
+  signal?: Signal | (string & {}) | undefined;
 }
 export interface SendSignalResponse {}
 export interface PTYSize {
-  cols?: number;
-  rows?: number;
+  cols?: number | undefined;
+  rows?: number | undefined;
 }
 export interface PTY {
-  size?: PTYSize;
+  size?: PTYSize | undefined;
 }
 export interface UpdateRequest {
-  process?: ProcessSelector;
-  pty?: PTY;
+  process?: ProcessSelector | undefined;
+  pty?: PTY | undefined;
 }
 export interface UpdateResponse {}
 export type CloseProcessStdinError = SandboxNotRunning | E2BOpError;
@@ -215,9 +215,9 @@ function __c2(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          cmd: S.optional(S.String),
-          args: S.optional(__S(17, __c2, 1)),
-          envs: S.optional(__S(18, __c2, 2)),
+          cmd: S.String,
+          args: __S(17, __c2, 1),
+          envs: __S(18, __c2, 2),
           cwd: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProcessConfig" });
@@ -225,7 +225,7 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           config: S.optional(__S(19, __c2, 3)),
-          pid: S.optional(S.Number),
+          pid: S.Number,
           tag: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProcessInfo" });
@@ -234,7 +234,7 @@ function __c2(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          processes: S.optional(__S(21, __c2, 5)),
+          processes: __S(21, __c2, 5),
         }),
       ).annotate({ identifier: "ListResponse" });
   }
