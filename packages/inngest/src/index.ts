@@ -14,6 +14,7 @@
  */
 export * from "./credentials.ts";
 export * from "./errors.ts";
+export * as Environment from "./environment.ts";
 export * as T from "./traits.ts";
 export { InngestProtocol, type InngestOpError, type InngestOpContext } from "./protocol.ts";
 export { paginateCursor } from "./pagination.ts";

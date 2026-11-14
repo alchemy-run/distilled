@@ -20,6 +20,9 @@ await runOpenApiConvert({
     {
       name: "inngest",
       specPath: "specs/spec-mirror-inngest/specs/v2.json",
+      options: {
+        headerParams: true,
+      },
     },
     {
       name: "v1",
