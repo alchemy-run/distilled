@@ -13,7 +13,7 @@ Several spec submodules are enormous relative to what we read from them:
 | --- | --- | --- | --- |
 | `github` | `github/rest-api-description` | ~6.7 GB | 1 file, 13 MB |
 | `kubernetes` | `kubernetes/kubernetes` | ~1.5 GB | 1 file, 4.3 MB |
-| `azure` | `Azure/azure-rest-api-specs` | 338k files | ~780 files, 56 MB |
+| `azure` | `Azure/azure-rest-api-specs` | 377k files | ~930 files, 74 MB |
 | `stripe` | `stripe/openapi` | whole repo | 1 file, 7.3 MB |
 
 `specs:sync` at the repo root used to be a recursive `submodule update --init`
@@ -109,8 +109,9 @@ Fetching content is the last step, not the first, so the multi-gigabyte working
 tree never exists.
 
 `azure` additionally selects the latest stable api-version per resource
-provider and closes the selection over external `$ref`s, so the mirror is
-self-contained: 338,547 upstream paths in, 777 documents out.
+provider and per data-plane group, and closes the selection over external
+`$ref`s, so the mirror is self-contained: 376,636 upstream paths in, 927
+documents out.
 
 ## Working on a mirror locally
 

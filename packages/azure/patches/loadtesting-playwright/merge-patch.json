@@ -1,0 +1,10 @@
+{
+  "description": "The PATCH operations consume `application/merge-patch+json` (the spec's per-operation consumes, which the converted model drops).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.loadtesting_playwright#TestRunsCreateOrUpdate/traits/smithy.api#http/jsonContentType",
+      "value": "application/merge-patch+json"
+    }
+  ]
+}

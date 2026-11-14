@@ -1,0 +1,16 @@
+{
+  "description": "UploadFile_Start requires `purpose` (\"The intended purpose of the uploaded file\"); the converted request shape dropped it, so every call failed validation.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_openai_authoring#UploadFileStartRequest/members/purpose",
+      "value": {
+        "target": "com.azure.cognitiveservices_openai_authoring#Purpose",
+        "traits": {
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The intended purpose of the uploaded file."
+        }
+      }
+    }
+  ]
+}

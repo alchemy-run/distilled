@@ -1,0 +1,79 @@
+{
+  "description": "Type the 403 Cosmos DB returns when the caller's Entra principal has no data-plane role for the action (`x-ms-substatus` 5301, `... does not have required RBAC permissions to perform action [...]`). It is also what a caller sees while a new role assignment propagates.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_nosql#CosmosRbacPermissionDenied",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message; it names the principal, the data action and the resource."
+            }
+          },
+          "headers": {
+            "target": "com.azure.cosmos_nosql#HeaderMap",
+            "traits": {
+              "smithy.api#documentation": "The response headers: `x-ms-substatus` refines the status, `x-ms-activity-id` identifies the request."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The caller's Entra principal has no Cosmos DB data-plane role that allows the action on this resource (HTTP 403, `x-ms-substatus` 5301). A role assignment can take a few minutes to apply.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "does not have required RBAC permissions"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_nosql#CreateDocument/errors/-",
+      "value": { "target": "com.azure.cosmos_nosql#CosmosRbacPermissionDenied" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_nosql#DeleteDocument/errors/-",
+      "value": { "target": "com.azure.cosmos_nosql#CosmosRbacPermissionDenied" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_nosql#GetDocument/errors/-",
+      "value": { "target": "com.azure.cosmos_nosql#CosmosRbacPermissionDenied" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_nosql#ListDocuments/errors/-",
+      "value": { "target": "com.azure.cosmos_nosql#CosmosRbacPermissionDenied" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_nosql#PatchDocument/errors/-",
+      "value": { "target": "com.azure.cosmos_nosql#CosmosRbacPermissionDenied" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_nosql#QueryDocuments/errors/-",
+      "value": { "target": "com.azure.cosmos_nosql#CosmosRbacPermissionDenied" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_nosql#ReplaceDocument/errors/-",
+      "value": { "target": "com.azure.cosmos_nosql#CosmosRbacPermissionDenied" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cosmos_nosql#UpsertDocument/errors/-",
+      "value": { "target": "com.azure.cosmos_nosql#CosmosRbacPermissionDenied" }
+    }
+  ]
+}

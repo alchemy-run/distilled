@@ -1,0 +1,25 @@
+{
+  "description": "The ledger's PATCH operations consume `application/merge-patch+json`; with `application/json` the ledger answers 415 `Unsupported content type 'application/json'. Expected 'application/merge-patch+json'.` (live).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.confidentialledger_data#CreateOrUpdateLedgerUser/traits/smithy.api#http/jsonContentType",
+      "value": "application/merge-patch+json"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.confidentialledger_data#CreateOrUpdateUser/traits/smithy.api#http/jsonContentType",
+      "value": "application/merge-patch+json"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.confidentialledger_data#UpdateRuntimeOptions/traits/smithy.api#http/jsonContentType",
+      "value": "application/merge-patch+json"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.confidentialledger_data#UpdateUserDefinedRole/traits/smithy.api#http/jsonContentType",
+      "value": "application/merge-patch+json"
+    }
+  ]
+}

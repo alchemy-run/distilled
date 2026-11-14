@@ -1,0 +1,10 @@
+{
+  "description": "UploadTestFile consumes `application/octet-stream` (the spec's consumes); the converted model dropped it, so the string body went out as `text/plain` and the service answered 415 (live-verified). Send it verbatim as `application/octet-stream`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.loadtesting_data#LoadTestAdministrationUploadTestFile/traits/smithy.api#http/bodyMediaType",
+      "value": "application/octet-stream"
+    }
+  ]
+}

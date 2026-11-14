@@ -5854,6 +5854,8 @@ export interface ListApplicationByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags */
 export type ApplicationTagsMap = { [key: string]: string | undefined };
@@ -5887,19 +5889,23 @@ export type ApplicationListResultValueList = Array<Application>;
 /** List of managed applications. */
 export interface ApplicationListResult {
   /** The array of managed applications. */
-  value?: ApplicationListResultValueList | undefined;
+  value: ApplicationListResultValueList;
   /** The URL to use for getting the next set of results. */
   nextLink?: string | undefined;
 }
 export interface ListApplicationBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListApplicationDefinitionByResourceGroupRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags */
 export type ApplicationDefinitionTagsMap = { [key: string]: string | undefined };
@@ -5927,11 +5933,14 @@ export type ApplicationDefinitionListResultValueList = Array<ApplicationDefiniti
 /** List of managed application definitions. */
 export interface ApplicationDefinitionListResult {
   /** The array of managed application definitions. */
-  value?: ApplicationDefinitionListResultValueList | undefined;
+  value: ApplicationDefinitionListResultValueList;
   /** The URL to use for getting the next set of results. */
   nextLink?: string | undefined;
 }
-export interface ListAuthorizationOperationsRequest {}
+export interface ListAuthorizationOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.Authorization */
@@ -5953,7 +5962,7 @@ export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list Microsoft.Authorization operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of Microsoft.Authorization operations. */
-  value?: OperationListResultValueList | undefined;
+  value: OperationListResultValueList;
   /** URL to get the next set of operation list results if there are any. */
   nextLink?: string | undefined;
 }
@@ -5972,6 +5981,8 @@ export interface ListChangesRequest {
   _top?: number | undefined;
   /** (Optional) The page-continuation token */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Change Resource */
 export interface ChangeResourceResult {
@@ -5990,11 +6001,13 @@ export interface ChangeResourceListResult {
   /** The link used to get the next page of Change Resources */
   nextLink?: string | undefined;
   /** The list of resources */
-  value?: ChangeResourceListResultValueList | undefined;
+  value: ChangeResourceListResultValueList;
 }
 export interface ListDataPolicyManifestsRequest {
   /** The filter to apply on the operation. Valid values for $filter are: \"namespace eq '{value}'\". If $filter is not provided, no filtering is performed. If $filter=namespace eq '{value}' is provided, the returned list only includes all data policy manifests that have a namespace matching the provided value. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The data policy manifest. */
 export interface DataPolicyManifest {
@@ -6025,6 +6038,8 @@ export interface ListDeploymentAtManagementGroupScopeRequest {
   _filter?: string | undefined;
   /** The number of results to get. If null is passed, returns all deployments. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Deployment tags */
 export type DeploymentExtendedTagsMap = { [key: string]: string | undefined };
@@ -6061,6 +6076,8 @@ export interface ListDeploymentAtScopeRequest {
   _filter?: string | undefined;
   /** The number of results to get. If null is passed, returns all deployments. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentAtSubscriptionScopeRequest {
   /** The ID of the target subscription. */
@@ -6069,12 +6086,16 @@ export interface ListDeploymentAtSubscriptionScopeRequest {
   _filter?: string | undefined;
   /** The number of results to get. If null is passed, returns all deployments. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentAtTenantScopeRequest {
   /** The filter to apply on the operation. For example, you can use $filter=provisioningState eq '{state}'. */
   _filter?: string | undefined;
   /** The number of results to get. If null is passed, returns all deployments. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -6085,6 +6106,8 @@ export interface ListDeploymentByResourceGroupRequest {
   _filter?: string | undefined;
   /** The number of results to get. If null is passed, returns all deployments. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentOperationAtManagementGroupScopeRequest {
   /** The management group ID. */
@@ -6093,6 +6116,8 @@ export interface ListDeploymentOperationAtManagementGroupScopeRequest {
   deploymentName: string;
   /** The number of results to return. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The DeploymentOperation items on this page */
 export type DeploymentOperationsListResultValueList = Array<DeploymentOperation>;
@@ -6110,6 +6135,8 @@ export interface ListDeploymentOperationAtScopeRequest {
   deploymentName: string;
   /** The number of results to return. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentOperationAtSubscriptionScopeRequest {
   /** The ID of the target subscription. */
@@ -6118,12 +6145,16 @@ export interface ListDeploymentOperationAtSubscriptionScopeRequest {
   deploymentName: string;
   /** The number of results to return. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentOperationAtTenantScopeRequest {
   /** The name of the deployment. */
   deploymentName: string;
   /** The number of results to return. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentOperationsRequest {
   /** The ID of the target subscription. */
@@ -6134,12 +6165,16 @@ export interface ListDeploymentOperationsRequest {
   deploymentName: string;
   /** The number of results to return. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentScriptByResourceGroupRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DeploymentScriptTagsMap = { [key: string]: string | undefined };
@@ -6169,17 +6204,21 @@ export type DeploymentScriptListResultValueList = Array<DeploymentScript>;
 /** List of deployment scripts. */
 export interface DeploymentScriptListResult {
   /** An array of deployment scripts. */
-  value?: DeploymentScriptListResultValueList | undefined;
+  value: DeploymentScriptListResultValueList;
   /** The URL to use for getting the next set of results. */
   nextLink?: string | undefined;
 }
 export interface ListDeploymentScriptBySubscriptionRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentStackAtManagementGroupRequest {
   /** The management group ID. */
   managementGroupId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DeploymentStackTagsMap = { [key: string]: string | undefined };
@@ -6214,14 +6253,20 @@ export interface ListDeploymentStackAtResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentStackAtSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentStacksWhatIfResultsAtManagementGroupRequest {
   /** The management group ID. */
   managementGroupId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DeploymentStacksWhatIfResultTagsMap = { [key: string]: string | undefined };
@@ -6256,21 +6301,27 @@ export interface ListDeploymentStacksWhatIfResultsAtResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDeploymentStacksWhatIfResultsAtSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListFeatureAllRequest {
   /** The Azure subscription ID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The array of features. */
 export type FeatureOperationsListResultValueList = Array<FeatureResult>;
 /** List of previewed features. */
 export interface FeatureOperationsListResult {
   /** The array of features. */
-  value?: FeatureOperationsListResultValueList | undefined;
+  value: FeatureOperationsListResultValueList;
   /** The URL to use for getting the next set of results. */
   nextLink?: string | undefined;
 }
@@ -6279,6 +6330,8 @@ export interface ListFeaturesRequest {
   subscriptionId: string;
   /** The namespace of the resource provider for getting features. */
   resourceProviderNamespace: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListJitRequestByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -6323,13 +6376,15 @@ export interface ListManagementLockAtResourceGroupLevelRequest {
   resourceGroupName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of locks. */
 export type ManagementLockListResultValueList = Array<ManagementLockObject>;
 /** The list of locks. */
 export interface ManagementLockListResult {
   /** The list of locks. */
-  value?: ManagementLockListResultValueList | undefined;
+  value: ManagementLockListResultValueList;
   /** The URL to use for getting the next set of results. */
   nextLink?: string | undefined;
 }
@@ -6348,20 +6403,29 @@ export interface ListManagementLockAtResourceLevelRequest {
   resourceName: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListManagementLockAtSubscriptionLevelRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListManagementLockByScopeRequest {
   /** The scope for the lock. When providing a scope for the assignment, use '/subscriptions/{subscriptionId}' for subscriptions, '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}' for resource groups, and '/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePathIfPresent}/{resourceType}/{resourceName}' for resources. */
   scope: string;
   /** The filter to apply on the operation. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The object that represents the operation. */
 export interface OperationDisplay_2 {
   /** Service provider: Microsoft.Features */
@@ -6383,7 +6447,7 @@ export type OperationListResultValueList_2 = Array<Operation_2>;
 /** Result of the request to list Microsoft.Features operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult_2 {
   /** List of Microsoft.Features operations. */
-  value?: OperationListResultValueList_2 | undefined;
+  value: OperationListResultValueList_2;
   /** URL to get the next set of operation list results if there are any. */
   nextLink?: string | undefined;
 }
@@ -6396,6 +6460,8 @@ export interface ListPolicyAssignmentForManagementGroupRequest {
   _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The policy assignment. */
 export interface PolicyAssignment {
@@ -6442,6 +6508,8 @@ export interface ListPolicyAssignmentForResourceRequest {
   _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPolicyAssignmentForResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6454,6 +6522,8 @@ export interface ListPolicyAssignmentForResourceGroupRequest {
   _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPolicyAssignmentsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6464,12 +6534,16 @@ export interface ListPolicyAssignmentsRequest {
   _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPolicyDefinitionBuiltInRequest {
   /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy definitions whose category match the {value}. */
   _filter?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The policy definition. */
 export interface PolicyDefinition {
@@ -6500,6 +6574,8 @@ export interface ListPolicyDefinitionByManagementGroupRequest {
   _filter?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPolicyDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6508,6 +6584,8 @@ export interface ListPolicyDefinitionsRequest {
   _filter?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPolicyDefinitionVersionAllRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6545,6 +6623,8 @@ export interface ListPolicyDefinitionVersionBuiltInRequest {
   policyDefinitionName: string;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPolicyDefinitionVersionByManagementGroupRequest {
   /** The name of the management group. The name is case insensitive. */
@@ -6553,6 +6633,8 @@ export interface ListPolicyDefinitionVersionByManagementGroupRequest {
   policyDefinitionName: string;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPolicyDefinitionVersionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6561,6 +6643,8 @@ export interface ListPolicyDefinitionVersionsRequest {
   policyDefinitionName: string;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPolicySetDefinitionBuiltInRequest {
   /** The filter to apply on the operation. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering is performed. If $filter=atExactScope() is provided, the returned list only includes all policy set definitions that at the given scope. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy set definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy set definitions whose category match the {value}. */
@@ -6569,6 +6653,8 @@ export interface ListPolicySetDefinitionBuiltInRequest {
   _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The policy set definition. */
 export interface PolicySetDefinition {
@@ -6601,6 +6687,8 @@ export interface ListPolicySetDefinitionByManagementGroupRequest {
   _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPolicySetDefinitionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6611,6 +6699,8 @@ export interface ListPolicySetDefinitionsRequest {
   _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPolicySetDefinitionVersionAllRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6650,6 +6740,8 @@ export interface ListPolicySetDefinitionVersionBuiltInRequest {
   _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPolicySetDefinitionVersionByManagementGroupRequest {
   /** The name of the management group. The name is case insensitive. */
@@ -6660,6 +6752,8 @@ export interface ListPolicySetDefinitionVersionByManagementGroupRequest {
   _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPolicySetDefinitionVersionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6670,6 +6764,8 @@ export interface ListPolicySetDefinitionVersionsRequest {
   _expand?: string | undefined;
   /** Maximum number of records to return. When the $top filter is not provided, it will return 500 records. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkAssociationRequest {
   /** The management group ID. */
@@ -6685,6 +6781,8 @@ export interface PrivateLinkAssociationGetResult {
 export interface ListProviderAtTenantScopeRequest {
   /** The properties to include in the results. */
   _expand?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Provider items on this page */
 export type ProviderListResultValueList = Array<Provider>;
@@ -6717,6 +6815,8 @@ export interface ListProvidersRequest {
   subscriptionId: string;
   /** The properties to include in the results. For example, use &$expand=metadata in the query string to retrieve resource provider metadata. To include property aliases in response, use $expand=resourceTypes/aliases. */
   _expand?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListResourceByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -6729,6 +6829,8 @@ export interface ListResourceByResourceGroupRequest {
   _expand?: string | undefined;
   /** The number of results to return. If null is passed, returns all resources. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags */
 export type GenericResourceExpandedTagsMap = { [key: string]: string | undefined };
@@ -6783,6 +6885,8 @@ export interface ListResourceGroupsRequest {
   _filter?: string | undefined;
   /** The number of results to return. If null is passed, returns all resource groups. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ResourceGroupTagsMap = { [key: string]: string | undefined };
@@ -6820,6 +6924,8 @@ export interface ListResourceLinkAtSourceScopeRequest {
   scope: string;
   /** The filter to apply when getting resource links. To get links only at the specified scope (not below the scope), use Filter.atScope(). */
   _filter?: ListResourceLinkAtSourceScopeRequestFilter | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** An array of resource links. */
 export type ResourceLinkResultValueList = Array<ResourceLink>;
@@ -6835,6 +6941,8 @@ export interface ListResourceLinkAtSubscriptionRequest {
   subscriptionId: string;
   /** The filter to apply on the list resource links operation. The supported filter for list resource links is targetId. For example, $filter=targetId eq {value} */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListResourceManagementPrivateLinkRequest {
   /** The ID of the target subscription. */
@@ -6861,10 +6969,14 @@ export interface ListResourcesRequest {
   _expand?: string | undefined;
   /** The number of recommendations per page if a paged version of this API is being used. */
   _top?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSubscriptionFeatureRegistrationAllBySubscriptionRequest {
   /** The Azure subscription ID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The state. */
 export type SubscriptionFeatureRegistrationPropertiesState =
@@ -6930,19 +7042,23 @@ export interface SubscriptionFeatureRegistrationList {
   /** The link used to get the next page of subscription feature registrations list. */
   nextLink?: string | undefined;
   /** The list of subscription feature registrations. */
-  value?: SubscriptionFeatureRegistrationListValueList | undefined;
+  value: SubscriptionFeatureRegistrationListValueList;
 }
 export interface ListSubscriptionFeatureRegistrationBySubscriptionRequest {
   /** The Azure subscription ID. */
   subscriptionId: string;
   /** The provider namespace. */
   providerNamespace: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSubscriptionLocationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** Whether to include extended locations. */
   includeExtendedLocations?: boolean | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The location type. */
 export type LocationType = "Region" | "EdgeZone";
@@ -7015,11 +7131,14 @@ export type LocationListResultValueList = Array<Location>;
 /** Location list operation response. */
 export interface LocationListResult {
   /** An array of locations. */
-  value?: LocationListResultValueList | undefined;
+  value: LocationListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
-export interface ListSubscriptionsRequest {}
+export interface ListSubscriptionsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The Subscription items on this page */
 export type SubscriptionListResultValueList = Array<Subscription>;
 /** Subscription list operation response. */
@@ -7032,6 +7151,8 @@ export interface SubscriptionListResult {
 export interface ListTagsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Tag count. */
 export interface TagCount {
@@ -7075,6 +7196,8 @@ export type ListTemplateSpecBuiltInsRequestExpand = "versions";
 export interface ListTemplateSpecBuiltInsRequest {
   /** Allows for expansion of additional Template Spec details in the response. Optional. */
   _expand?: ListTemplateSpecBuiltInsRequestExpand | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type TemplateSpecSystemDataCreatedByType =
@@ -7127,7 +7250,7 @@ export type TemplateSpecsListResultValueList = Array<TemplateSpec>;
 /** List of Template Specs. */
 export interface TemplateSpecsListResult {
   /** An array of Template Specs. */
-  value?: TemplateSpecsListResultValueList | undefined;
+  value: TemplateSpecsListResultValueList;
   /** The URL to use for getting the next set of results. */
   nextLink?: string | undefined;
 }
@@ -7139,6 +7262,8 @@ export interface ListTemplateSpecByResourceGroupRequest {
   resourceGroupName: string;
   /** Allows for expansion of additional Template Spec details in the response. Optional. */
   _expand?: ListTemplateSpecByResourceGroupRequestExpand | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export type ListTemplateSpecBySubscriptionRequestExpand = "versions";
 export interface ListTemplateSpecBySubscriptionRequest {
@@ -7146,10 +7271,14 @@ export interface ListTemplateSpecBySubscriptionRequest {
   subscriptionId: string;
   /** Allows for expansion of additional Template Spec details in the response. Optional. */
   _expand?: ListTemplateSpecBySubscriptionRequestExpand | (string & {}) | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListTemplateSpecVersionBuiltInsRequest {
   /** Name of the Template Spec. */
   templateSpecName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type TemplateSpecVersionSystemDataCreatedByType =
@@ -7202,7 +7331,7 @@ export type TemplateSpecVersionsListResultValueList = Array<TemplateSpecVersion>
 /** List of Template Specs versions */
 export interface TemplateSpecVersionsListResult {
   /** An array of Template Spec versions. */
-  value?: TemplateSpecVersionsListResultValueList | undefined;
+  value: TemplateSpecVersionsListResultValueList;
   /** The URL to use for getting the next set of results. */
   nextLink?: string | undefined;
 }
@@ -7213,8 +7342,13 @@ export interface ListTemplateSpecVersionsRequest {
   resourceGroupName: string;
   /** Name of the Template Spec. */
   templateSpecName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListTenantsRequest {}
+export interface ListTenantsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Category of the tenant. */
 export type TenantCategory = "Home" | "ProjectedBy" | "ManagedBy";
 /** The list of domains for the tenant. */
@@ -12188,12 +12322,13 @@ export const JitRequestsCreateOrUpdate: API.OperationMethod<
 
 export type ListApplicationByResourceGroupError = AzureOpError;
 /** Gets all the applications within a resource group. */
-export const ListApplicationByResourceGroup: API.OperationMethod<
+export const ListApplicationByResourceGroup: API.PaginatedOperationMethod<
   ListApplicationByResourceGroupRequest,
   ApplicationListResult,
   ListApplicationByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Application
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1472, __c92, 0) as any as S.Schema<ListApplicationByResourceGroupRequest>,
   output: __S(1489, __c93, 1) as any as S.Schema<ApplicationListResult>,
   errors: [UnknownAzureError],
@@ -12204,16 +12339,23 @@ export const ListApplicationByResourceGroup: API.OperationMethod<
     op: "ListApplicationByResourceGroup",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApplicationBySubscriptionError = AzureOpError;
 /** Gets all the applications within a subscription. */
-export const ListApplicationBySubscription: API.OperationMethod<
+export const ListApplicationBySubscription: API.PaginatedOperationMethod<
   ListApplicationBySubscriptionRequest,
   ApplicationListResult,
   ListApplicationBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Application
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<ListApplicationBySubscriptionRequest>,
   output: __S(1489, __c93, 1) as any as S.Schema<ApplicationListResult>,
   errors: [UnknownAzureError],
@@ -12224,16 +12366,23 @@ export const ListApplicationBySubscription: API.OperationMethod<
     op: "ListApplicationBySubscription",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApplicationDefinitionByResourceGroupError = AzureOpError;
 /** Lists the managed application definitions in a resource group. */
-export const ListApplicationDefinitionByResourceGroup: API.OperationMethod<
+export const ListApplicationDefinitionByResourceGroup: API.PaginatedOperationMethod<
   ListApplicationDefinitionByResourceGroupRequest,
   ApplicationDefinitionListResult,
   ListApplicationDefinitionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApplicationDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1520, __c95, 0) as any as S.Schema<ListApplicationDefinitionByResourceGroupRequest>,
   output: __S(1522, __c95, 2) as any as S.Schema<ApplicationDefinitionListResult>,
   errors: [UnknownAzureError],
@@ -12244,16 +12393,23 @@ export const ListApplicationDefinitionByResourceGroup: API.OperationMethod<
     op: "ListApplicationDefinitionByResourceGroup",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Solutions" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAuthorizationOperationsError = AzureOpError;
 /** Lists all of the available Microsoft.Authorization REST API operations. */
-export const ListAuthorizationOperations: API.OperationMethod<
+export const ListAuthorizationOperations: API.PaginatedOperationMethod<
   ListAuthorizationOperationsRequest,
   OperationListResult,
   ListAuthorizationOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1536, __c96, 0) as any as S.Schema<ListAuthorizationOperationsRequest>,
   output: __S(1555, __c97, 3) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -12264,16 +12420,23 @@ export const ListAuthorizationOperations: API.OperationMethod<
     op: "ListAuthorizationOperations",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListChangesError = AzureOpError;
 /** Obtains a list of change resources from the past 14 days for the target resource */
-export const ListChanges: API.OperationMethod<
+export const ListChanges: API.PaginatedOperationMethod<
   ListChangesRequest,
   ChangeResourceListResult,
   ListChangesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ChangeResourceResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1568, __c98, 0) as any as S.Schema<ListChangesRequest>,
   output: __S(1570, __c98, 2) as any as S.Schema<ChangeResourceListResult>,
   errors: [UnknownAzureError],
@@ -12284,16 +12447,23 @@ export const ListChanges: API.OperationMethod<
     op: "ListChanges",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDataPolicyManifestsError = AzureOpError;
 /** Retrieves data policy manifests. This operation retrieves a list of all the data policy manifests that match the optional given $filter. Valid values for $filter are: \"$filter=namespace eq '{0}'\". If $filter is not provided, the unfiltered list includes all data policy manifests for data resource types. If $filter=namespace is provided, the returned list only includes all data policy manifests that have a namespace matching the provided value. */
-export const ListDataPolicyManifests: API.OperationMethod<
+export const ListDataPolicyManifests: API.PaginatedOperationMethod<
   ListDataPolicyManifestsRequest,
   DataPolicyManifestListResult,
   ListDataPolicyManifestsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataPolicyManifest
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1584, __c99, 0) as any as S.Schema<ListDataPolicyManifestsRequest>,
   output: __S(1586, __c99, 2) as any as S.Schema<DataPolicyManifestListResult>,
   errors: [UnknownAzureError],
@@ -12304,16 +12474,23 @@ export const ListDataPolicyManifests: API.OperationMethod<
     op: "ListDataPolicyManifests",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentAtManagementGroupScopeError = AzureOpError;
 /** Get all the deployments for a management group. */
-export const ListDeploymentAtManagementGroupScope: API.OperationMethod<
+export const ListDeploymentAtManagementGroupScope: API.PaginatedOperationMethod<
   ListDeploymentAtManagementGroupScopeRequest,
   DeploymentListResult,
   ListDeploymentAtManagementGroupScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentExtended
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1600, __c100, 0) as any as S.Schema<ListDeploymentAtManagementGroupScopeRequest>,
   output: __S(1617, __c101, 1) as any as S.Schema<DeploymentListResult>,
   errors: [UnknownAzureError],
@@ -12324,16 +12501,23 @@ export const ListDeploymentAtManagementGroupScope: API.OperationMethod<
     op: "ListDeploymentAtManagementGroupScope",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentAtScopeError = AzureOpError;
 /** Get all the deployments at the given scope. */
-export const ListDeploymentAtScope: API.OperationMethod<
+export const ListDeploymentAtScope: API.PaginatedOperationMethod<
   ListDeploymentAtScopeRequest,
   DeploymentListResult,
   ListDeploymentAtScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentExtended
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1648, __c103, 0) as any as S.Schema<ListDeploymentAtScopeRequest>,
   output: __S(1617, __c101, 1) as any as S.Schema<DeploymentListResult>,
   errors: [UnknownAzureError],
@@ -12347,16 +12531,23 @@ export const ListDeploymentAtScope: API.OperationMethod<
       "url.template": "/{scope}/providers/Microsoft.Resources/deployments",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentAtSubscriptionScopeError = AzureOpError;
 /** Get all the deployments for a subscription. */
-export const ListDeploymentAtSubscriptionScope: API.OperationMethod<
+export const ListDeploymentAtSubscriptionScope: API.PaginatedOperationMethod<
   ListDeploymentAtSubscriptionScopeRequest,
   DeploymentListResult,
   ListDeploymentAtSubscriptionScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentExtended
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1664, __c104, 0) as any as S.Schema<ListDeploymentAtSubscriptionScopeRequest>,
   output: __S(1617, __c101, 1) as any as S.Schema<DeploymentListResult>,
   errors: [UnknownAzureError],
@@ -12367,16 +12558,23 @@ export const ListDeploymentAtSubscriptionScope: API.OperationMethod<
     op: "ListDeploymentAtSubscriptionScope",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentAtTenantScopeError = AzureOpError;
 /** Get all the deployments at the tenant scope. */
-export const ListDeploymentAtTenantScope: API.OperationMethod<
+export const ListDeploymentAtTenantScope: API.PaginatedOperationMethod<
   ListDeploymentAtTenantScopeRequest,
   DeploymentListResult,
   ListDeploymentAtTenantScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentExtended
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1680, __c105, 0) as any as S.Schema<ListDeploymentAtTenantScopeRequest>,
   output: __S(1617, __c101, 1) as any as S.Schema<DeploymentListResult>,
   errors: [UnknownAzureError],
@@ -12387,16 +12585,23 @@ export const ListDeploymentAtTenantScope: API.OperationMethod<
     op: "ListDeploymentAtTenantScope",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentByResourceGroupError = AzureOpError;
 /** Get all the deployments for a resource group. */
-export const ListDeploymentByResourceGroup: API.OperationMethod<
+export const ListDeploymentByResourceGroup: API.PaginatedOperationMethod<
   ListDeploymentByResourceGroupRequest,
   DeploymentListResult,
   ListDeploymentByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentExtended
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1696, __c106, 0) as any as S.Schema<ListDeploymentByResourceGroupRequest>,
   output: __S(1617, __c101, 1) as any as S.Schema<DeploymentListResult>,
   errors: [UnknownAzureError],
@@ -12407,16 +12612,23 @@ export const ListDeploymentByResourceGroup: API.OperationMethod<
     op: "ListDeploymentByResourceGroup",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentOperationAtManagementGroupScopeError = AzureOpError;
 /** Gets all deployments operations for a deployment. */
-export const ListDeploymentOperationAtManagementGroupScope: API.OperationMethod<
+export const ListDeploymentOperationAtManagementGroupScope: API.PaginatedOperationMethod<
   ListDeploymentOperationAtManagementGroupScopeRequest,
   DeploymentOperationsListResult,
   ListDeploymentOperationAtManagementGroupScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentOperation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     1712,
     __c107,
@@ -12431,16 +12643,23 @@ export const ListDeploymentOperationAtManagementGroupScope: API.OperationMethod<
     op: "ListDeploymentOperationAtManagementGroupScope",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentOperationAtScopeError = AzureOpError;
 /** Gets all deployments operations for a deployment. */
-export const ListDeploymentOperationAtScope: API.OperationMethod<
+export const ListDeploymentOperationAtScope: API.PaginatedOperationMethod<
   ListDeploymentOperationAtScopeRequest,
   DeploymentOperationsListResult,
   ListDeploymentOperationAtScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentOperation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1744, __c109, 0) as any as S.Schema<ListDeploymentOperationAtScopeRequest>,
   output: __S(1729, __c108, 1) as any as S.Schema<DeploymentOperationsListResult>,
   errors: [UnknownAzureError],
@@ -12455,16 +12674,23 @@ export const ListDeploymentOperationAtScope: API.OperationMethod<
         "/{scope}/providers/Microsoft.Resources/deployments/{deploymentName}/operations",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentOperationAtSubscriptionScopeError = AzureOpError;
 /** Gets all deployments operations for a deployment. */
-export const ListDeploymentOperationAtSubscriptionScope: API.OperationMethod<
+export const ListDeploymentOperationAtSubscriptionScope: API.PaginatedOperationMethod<
   ListDeploymentOperationAtSubscriptionScopeRequest,
   DeploymentOperationsListResult,
   ListDeploymentOperationAtSubscriptionScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentOperation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1760, __c110, 0) as any as S.Schema<ListDeploymentOperationAtSubscriptionScopeRequest>,
   output: __S(1729, __c108, 1) as any as S.Schema<DeploymentOperationsListResult>,
   errors: [UnknownAzureError],
@@ -12475,16 +12701,23 @@ export const ListDeploymentOperationAtSubscriptionScope: API.OperationMethod<
     op: "ListDeploymentOperationAtSubscriptionScope",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentOperationAtTenantScopeError = AzureOpError;
 /** Gets all deployments operations for a deployment. */
-export const ListDeploymentOperationAtTenantScope: API.OperationMethod<
+export const ListDeploymentOperationAtTenantScope: API.PaginatedOperationMethod<
   ListDeploymentOperationAtTenantScopeRequest,
   DeploymentOperationsListResult,
   ListDeploymentOperationAtTenantScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentOperation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1776, __c111, 0) as any as S.Schema<ListDeploymentOperationAtTenantScopeRequest>,
   output: __S(1729, __c108, 1) as any as S.Schema<DeploymentOperationsListResult>,
   errors: [UnknownAzureError],
@@ -12495,16 +12728,23 @@ export const ListDeploymentOperationAtTenantScope: API.OperationMethod<
     op: "ListDeploymentOperationAtTenantScope",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentOperationsError = AzureOpError;
 /** Gets all deployments operations for a deployment. */
-export const ListDeploymentOperations: API.OperationMethod<
+export const ListDeploymentOperations: API.PaginatedOperationMethod<
   ListDeploymentOperationsRequest,
   DeploymentOperationsListResult,
   ListDeploymentOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentOperation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1792, __c112, 0) as any as S.Schema<ListDeploymentOperationsRequest>,
   output: __S(1729, __c108, 1) as any as S.Schema<DeploymentOperationsListResult>,
   errors: [UnknownAzureError],
@@ -12512,16 +12752,23 @@ export const ListDeploymentOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeploymentOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentScriptByResourceGroupError = AzureOpError;
 /** Lists deployments scripts. */
-export const ListDeploymentScriptByResourceGroup: API.OperationMethod<
+export const ListDeploymentScriptByResourceGroup: API.PaginatedOperationMethod<
   ListDeploymentScriptByResourceGroupRequest,
   DeploymentScriptListResult,
   ListDeploymentScriptByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentScript
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1808, __c113, 0) as any as S.Schema<ListDeploymentScriptByResourceGroupRequest>,
   output: __S(1825, __c114, 1) as any as S.Schema<DeploymentScriptListResult>,
   errors: [UnknownAzureError],
@@ -12532,16 +12779,23 @@ export const ListDeploymentScriptByResourceGroup: API.OperationMethod<
     op: "ListDeploymentScriptByResourceGroup",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentScriptBySubscriptionError = AzureOpError;
 /** Lists all deployment scripts for a given subscription. */
-export const ListDeploymentScriptBySubscription: API.OperationMethod<
+export const ListDeploymentScriptBySubscription: API.PaginatedOperationMethod<
   ListDeploymentScriptBySubscriptionRequest,
   DeploymentScriptListResult,
   ListDeploymentScriptBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentScript
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1872, __c117, 0) as any as S.Schema<ListDeploymentScriptBySubscriptionRequest>,
   output: __S(1825, __c114, 1) as any as S.Schema<DeploymentScriptListResult>,
   errors: [UnknownAzureError],
@@ -12552,16 +12806,23 @@ export const ListDeploymentScriptBySubscription: API.OperationMethod<
     op: "ListDeploymentScriptBySubscription",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentStackAtManagementGroupError = AzureOpError;
 /** Lists Deployment stacks at the specified scope. */
-export const ListDeploymentStackAtManagementGroup: API.OperationMethod<
+export const ListDeploymentStackAtManagementGroup: API.PaginatedOperationMethod<
   ListDeploymentStackAtManagementGroupRequest,
   DeploymentStackListResult,
   ListDeploymentStackAtManagementGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentStack
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1888, __c118, 0) as any as S.Schema<ListDeploymentStackAtManagementGroupRequest>,
   output: __S(1905, __c119, 1) as any as S.Schema<DeploymentStackListResult>,
   errors: [UnknownAzureError],
@@ -12572,16 +12833,23 @@ export const ListDeploymentStackAtManagementGroup: API.OperationMethod<
     op: "ListDeploymentStackAtManagementGroup",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentStackAtResourceGroupError = AzureOpError;
 /** Lists Deployment stacks at the specified scope. */
-export const ListDeploymentStackAtResourceGroup: API.OperationMethod<
+export const ListDeploymentStackAtResourceGroup: API.PaginatedOperationMethod<
   ListDeploymentStackAtResourceGroupRequest,
   DeploymentStackListResult,
   ListDeploymentStackAtResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentStack
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1920, __c120, 0) as any as S.Schema<ListDeploymentStackAtResourceGroupRequest>,
   output: __S(1905, __c119, 1) as any as S.Schema<DeploymentStackListResult>,
   errors: [UnknownAzureError],
@@ -12592,16 +12860,23 @@ export const ListDeploymentStackAtResourceGroup: API.OperationMethod<
     op: "ListDeploymentStackAtResourceGroup",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentStackAtSubscriptionError = AzureOpError;
 /** Lists Deployment stacks at the specified scope. */
-export const ListDeploymentStackAtSubscription: API.OperationMethod<
+export const ListDeploymentStackAtSubscription: API.PaginatedOperationMethod<
   ListDeploymentStackAtSubscriptionRequest,
   DeploymentStackListResult,
   ListDeploymentStackAtSubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentStack
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1936, __c121, 0) as any as S.Schema<ListDeploymentStackAtSubscriptionRequest>,
   output: __S(1905, __c119, 1) as any as S.Schema<DeploymentStackListResult>,
   errors: [UnknownAzureError],
@@ -12612,16 +12887,23 @@ export const ListDeploymentStackAtSubscription: API.OperationMethod<
     op: "ListDeploymentStackAtSubscription",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentStacksWhatIfResultsAtManagementGroupError = AzureOpError;
 /** Lists Deployment stacks at the specified scope. */
-export const ListDeploymentStacksWhatIfResultsAtManagementGroup: API.OperationMethod<
+export const ListDeploymentStacksWhatIfResultsAtManagementGroup: API.PaginatedOperationMethod<
   ListDeploymentStacksWhatIfResultsAtManagementGroupRequest,
   DeploymentStacksWhatIfResultListResult,
   ListDeploymentStacksWhatIfResultsAtManagementGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentStacksWhatIfResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     1952,
     __c122,
@@ -12636,16 +12918,23 @@ export const ListDeploymentStacksWhatIfResultsAtManagementGroup: API.OperationMe
     op: "ListDeploymentStacksWhatIfResultsAtManagementGroup",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentStacksWhatIfResultsAtResourceGroupError = AzureOpError;
 /** Lists Deployment stacks at the specified scope. */
-export const ListDeploymentStacksWhatIfResultsAtResourceGroup: API.OperationMethod<
+export const ListDeploymentStacksWhatIfResultsAtResourceGroup: API.PaginatedOperationMethod<
   ListDeploymentStacksWhatIfResultsAtResourceGroupRequest,
   DeploymentStacksWhatIfResultListResult,
   ListDeploymentStacksWhatIfResultsAtResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentStacksWhatIfResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     1984,
     __c124,
@@ -12660,16 +12949,23 @@ export const ListDeploymentStacksWhatIfResultsAtResourceGroup: API.OperationMeth
     op: "ListDeploymentStacksWhatIfResultsAtResourceGroup",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentStacksWhatIfResultsAtSubscriptionError = AzureOpError;
 /** Lists Deployment stacks at the specified scope. */
-export const ListDeploymentStacksWhatIfResultsAtSubscription: API.OperationMethod<
+export const ListDeploymentStacksWhatIfResultsAtSubscription: API.PaginatedOperationMethod<
   ListDeploymentStacksWhatIfResultsAtSubscriptionRequest,
   DeploymentStacksWhatIfResultListResult,
   ListDeploymentStacksWhatIfResultsAtSubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentStacksWhatIfResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     2000,
     __c125,
@@ -12684,16 +12980,23 @@ export const ListDeploymentStacksWhatIfResultsAtSubscription: API.OperationMetho
     op: "ListDeploymentStacksWhatIfResultsAtSubscription",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFeatureAllError = AzureOpError;
 /** Gets all the preview features that are available through AFEC for the subscription. */
-export const ListFeatureAll: API.OperationMethod<
+export const ListFeatureAll: API.PaginatedOperationMethod<
   ListFeatureAllRequest,
   FeatureOperationsListResult,
   ListFeatureAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FeatureResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2016, __c126, 0) as any as S.Schema<ListFeatureAllRequest>,
   output: __S(2033, __c127, 1) as any as S.Schema<FeatureOperationsListResult>,
   errors: [UnknownAzureError],
@@ -12704,16 +13007,23 @@ export const ListFeatureAll: API.OperationMethod<
     op: "ListFeatureAll",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Features" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFeaturesError = AzureOpError;
 /** Gets all the preview features in a provider namespace that are available through AFEC for the subscription. */
-export const ListFeatures: API.OperationMethod<
+export const ListFeatures: API.PaginatedOperationMethod<
   ListFeaturesRequest,
   FeatureOperationsListResult,
   ListFeaturesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FeatureResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2048, __c128, 0) as any as S.Schema<ListFeaturesRequest>,
   output: __S(2033, __c127, 1) as any as S.Schema<FeatureOperationsListResult>,
   errors: [UnknownAzureError],
@@ -12724,7 +13034,13 @@ export const ListFeatures: API.OperationMethod<
     op: "ListFeatures",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Features" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJitRequestByResourceGroupError = AzureOpError;
 /** Retrieves all JIT requests within the resource group. */
@@ -12768,12 +13084,13 @@ export const ListJitRequestBySubscription: API.OperationMethod<
 
 export type ListManagementLockAtResourceGroupLevelError = AzureOpError;
 /** Gets all the management locks for a resource group. */
-export const ListManagementLockAtResourceGroupLevel: API.OperationMethod<
+export const ListManagementLockAtResourceGroupLevel: API.PaginatedOperationMethod<
   ListManagementLockAtResourceGroupLevelRequest,
   ManagementLockListResult,
   ListManagementLockAtResourceGroupLevelError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagementLockObject
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2128, __c133, 0) as any as S.Schema<ListManagementLockAtResourceGroupLevelRequest>,
   output: __S(2145, __c134, 1) as any as S.Schema<ManagementLockListResult>,
   errors: [UnknownAzureError],
@@ -12784,16 +13101,23 @@ export const ListManagementLockAtResourceGroupLevel: API.OperationMethod<
     op: "ListManagementLockAtResourceGroupLevel",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListManagementLockAtResourceLevelError = AzureOpError;
 /** Gets all the management locks for a resource or any level below resource. */
-export const ListManagementLockAtResourceLevel: API.OperationMethod<
+export const ListManagementLockAtResourceLevel: API.PaginatedOperationMethod<
   ListManagementLockAtResourceLevelRequest,
   ManagementLockListResult,
   ListManagementLockAtResourceLevelError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagementLockObject
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2160, __c135, 0) as any as S.Schema<ListManagementLockAtResourceLevelRequest>,
   output: __S(2145, __c134, 1) as any as S.Schema<ManagementLockListResult>,
   errors: [UnknownAzureError],
@@ -12804,16 +13128,23 @@ export const ListManagementLockAtResourceLevel: API.OperationMethod<
     op: "ListManagementLockAtResourceLevel",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListManagementLockAtSubscriptionLevelError = AzureOpError;
 /** Gets all the management locks for a subscription. */
-export const ListManagementLockAtSubscriptionLevel: API.OperationMethod<
+export const ListManagementLockAtSubscriptionLevel: API.PaginatedOperationMethod<
   ListManagementLockAtSubscriptionLevelRequest,
   ManagementLockListResult,
   ListManagementLockAtSubscriptionLevelError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagementLockObject
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2176, __c136, 0) as any as S.Schema<ListManagementLockAtSubscriptionLevelRequest>,
   output: __S(2145, __c134, 1) as any as S.Schema<ManagementLockListResult>,
   errors: [UnknownAzureError],
@@ -12824,16 +13155,23 @@ export const ListManagementLockAtSubscriptionLevel: API.OperationMethod<
     op: "ListManagementLockAtSubscriptionLevel",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListManagementLockByScopeError = AzureOpError;
 /** Gets all the management locks for a scope. */
-export const ListManagementLockByScope: API.OperationMethod<
+export const ListManagementLockByScope: API.PaginatedOperationMethod<
   ListManagementLockByScopeRequest,
   ManagementLockListResult,
   ListManagementLockByScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ManagementLockObject
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2192, __c137, 0) as any as S.Schema<ListManagementLockByScopeRequest>,
   output: __S(2145, __c134, 1) as any as S.Schema<ManagementLockListResult>,
   errors: [UnknownAzureError],
@@ -12847,16 +13185,23 @@ export const ListManagementLockByScope: API.OperationMethod<
       "url.template": "/{scope}/providers/Microsoft.Authorization/locks",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Microsoft.Features REST API operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult_2,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation_2
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2208, __c138, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1555, __c97, 3) as any as S.Schema<OperationListResult_2>,
   errors: [UnknownAzureError],
@@ -12867,16 +13212,23 @@ export const ListOperations: API.OperationMethod<
     op: "ListOperations",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Features" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicyAssignmentForManagementGroupError = AzureOpError;
 /** Retrieves all policy assignments that apply to a management group. This operation retrieves the list of all policy assignments applicable to the management group that match the given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter=atScope() is provided, the returned list includes all policy assignments that are assigned to the management group or the management group's ancestors. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the management group. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value} that apply to the management group. */
-export const ListPolicyAssignmentForManagementGroup: API.OperationMethod<
+export const ListPolicyAssignmentForManagementGroup: API.PaginatedOperationMethod<
   ListPolicyAssignmentForManagementGroupRequest,
   PolicyAssignmentListResult,
   ListPolicyAssignmentForManagementGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PolicyAssignment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2224, __c139, 0) as any as S.Schema<ListPolicyAssignmentForManagementGroupRequest>,
   output: __S(2241, __c140, 1) as any as S.Schema<PolicyAssignmentListResult>,
   errors: [UnknownAzureError],
@@ -12887,16 +13239,23 @@ export const ListPolicyAssignmentForManagementGroup: API.OperationMethod<
     op: "ListPolicyAssignmentForManagementGroup",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicyAssignmentForResourceError = AzureOpError;
 /** Retrieves all policy assignments that apply to a resource. This operation retrieves the list of all policy assignments associated with the specified resource in the given resource group and subscription that match the optional given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, the unfiltered list includes all policy assignments associated with the resource, including those that apply directly or from all containing scopes, as well as any applied to resources contained within the resource. If $filter=atScope() is provided, the returned list includes all policy assignments that apply to the resource, which is everything in the unfiltered list except those applied to resources contained within the resource. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the resource level. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value} that apply to the resource. Three parameters plus the resource name are used to identify a specific resource. If the resource is not part of a parent resource (the more common case), the parent resource path should not be provided (or provided as ''). For example a web app could be specified as ({resourceProviderNamespace} == 'Microsoft.Web', {parentResourcePath} == '', {resourceType} == 'sites', {resourceName} == 'MyWebApp'). If the resource is part of a parent resource, then all parameters should be provided. For example a virtual machine DNS name could be specified as ({resourceProviderNamespace} == 'Microsoft.Compute', {parentResourcePath} == 'virtualMachines/MyVirtualMachine', {resourceType} == 'domainNames', {resourceName} == 'MyComputerName'). A convenient alternative to providing the namespace and type name separately is to provide both in the {resourceType} parameter, format: ({resourceProviderNamespace} == '', {parentResourcePath} == '', {resourceType} == 'Microsoft.Web/sites', {resourceName} == 'MyWebApp'). */
-export const ListPolicyAssignmentForResource: API.OperationMethod<
+export const ListPolicyAssignmentForResource: API.PaginatedOperationMethod<
   ListPolicyAssignmentForResourceRequest,
   PolicyAssignmentListResult,
   ListPolicyAssignmentForResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PolicyAssignment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<ListPolicyAssignmentForResourceRequest>,
   output: __S(2241, __c140, 1) as any as S.Schema<PolicyAssignmentListResult>,
   errors: [UnknownAzureError],
@@ -12907,16 +13266,23 @@ export const ListPolicyAssignmentForResource: API.OperationMethod<
     op: "ListPolicyAssignmentForResource",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicyAssignmentForResourceGroupError = AzureOpError;
 /** This operation retrieves the list of all policy assignments associated with the given resource group in the given subscription that match the optional given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, the unfiltered list includes all policy assignments associated with the resource group, including those that apply directly or apply from containing scopes, as well as any applied to resources contained within the resource group. If $filter=atScope() is provided, the returned list includes all policy assignments that apply to the resource group, which is everything in the unfiltered list except those applied to resources contained within the resource group. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the resource group. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value} that apply to the resource group. */
-export const ListPolicyAssignmentForResourceGroup: API.OperationMethod<
+export const ListPolicyAssignmentForResourceGroup: API.PaginatedOperationMethod<
   ListPolicyAssignmentForResourceGroupRequest,
   PolicyAssignmentListResult,
   ListPolicyAssignmentForResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PolicyAssignment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2272, __c142, 0) as any as S.Schema<ListPolicyAssignmentForResourceGroupRequest>,
   output: __S(2241, __c140, 1) as any as S.Schema<PolicyAssignmentListResult>,
   errors: [UnknownAzureError],
@@ -12927,16 +13293,23 @@ export const ListPolicyAssignmentForResourceGroup: API.OperationMethod<
     op: "ListPolicyAssignmentForResourceGroup",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicyAssignmentsError = AzureOpError;
 /** Retrieves all policy assignments that apply to a subscription. This operation retrieves the list of all policy assignments associated with the given subscription that match the optional given $filter. Valid values for $filter are: 'atScope()', 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, the unfiltered list includes all policy assignments associated with the subscription, including those that apply directly or from management groups that contain the given subscription, as well as any applied to objects contained within the subscription. If $filter=atScope() is provided, the returned list includes all policy assignments that apply to the subscription, which is everything in the unfiltered list except those applied to objects contained within the subscription. If $filter=atExactScope() is provided, the returned list only includes all policy assignments that at the subscription. If $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy assignments of the policy definition whose id is {value}. */
-export const ListPolicyAssignments: API.OperationMethod<
+export const ListPolicyAssignments: API.PaginatedOperationMethod<
   ListPolicyAssignmentsRequest,
   PolicyAssignmentListResult,
   ListPolicyAssignmentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PolicyAssignment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2288, __c143, 0) as any as S.Schema<ListPolicyAssignmentsRequest>,
   output: __S(2241, __c140, 1) as any as S.Schema<PolicyAssignmentListResult>,
   errors: [UnknownAzureError],
@@ -12947,16 +13320,23 @@ export const ListPolicyAssignments: API.OperationMethod<
     op: "ListPolicyAssignments",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicyDefinitionBuiltInError = AzureOpError;
 /** This operation retrieves a list of all the built-in policy definitions that match the optional given $filter. If $filter='policyType -eq {value}' is provided, the returned list only includes all built-in policy definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all built-in policy definitions whose category match the {value}. */
-export const ListPolicyDefinitionBuiltIn: API.OperationMethod<
+export const ListPolicyDefinitionBuiltIn: API.PaginatedOperationMethod<
   ListPolicyDefinitionBuiltInRequest,
   PolicyDefinitionListResult,
   ListPolicyDefinitionBuiltInError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PolicyDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2320, __c145, 0) as any as S.Schema<ListPolicyDefinitionBuiltInRequest>,
   output: __S(2337, __c146, 1) as any as S.Schema<PolicyDefinitionListResult>,
   errors: [UnknownAzureError],
@@ -12967,16 +13347,23 @@ export const ListPolicyDefinitionBuiltIn: API.OperationMethod<
     op: "ListPolicyDefinitionBuiltIn",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicyDefinitionByManagementGroupError = AzureOpError;
 /** This operation retrieves a list of all the policy definitions in a given management group that match the optional given $filter. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, the unfiltered list includes all policy definitions associated with the management group, including those that apply directly or from management groups that contain the given management group. If $filter=atExactScope() is provided, the returned list only includes all policy definitions that at the given management group. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy definitions whose category match the {value}. */
-export const ListPolicyDefinitionByManagementGroup: API.OperationMethod<
+export const ListPolicyDefinitionByManagementGroup: API.PaginatedOperationMethod<
   ListPolicyDefinitionByManagementGroupRequest,
   PolicyDefinitionListResult,
   ListPolicyDefinitionByManagementGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PolicyDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2352, __c147, 0) as any as S.Schema<ListPolicyDefinitionByManagementGroupRequest>,
   output: __S(2337, __c146, 1) as any as S.Schema<PolicyDefinitionListResult>,
   errors: [UnknownAzureError],
@@ -12987,16 +13374,23 @@ export const ListPolicyDefinitionByManagementGroup: API.OperationMethod<
     op: "ListPolicyDefinitionByManagementGroup",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicyDefinitionsError = AzureOpError;
 /** This operation retrieves a list of all the policy definitions in a given subscription that match the optional given $filter. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, the unfiltered list includes all policy definitions associated with the subscription, including those that apply directly or from management groups that contain the given subscription. If $filter=atExactScope() is provided, the returned list only includes all policy definitions that at the given subscription. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only includes all policy definitions whose category match the {value}. */
-export const ListPolicyDefinitions: API.OperationMethod<
+export const ListPolicyDefinitions: API.PaginatedOperationMethod<
   ListPolicyDefinitionsRequest,
   PolicyDefinitionListResult,
   ListPolicyDefinitionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PolicyDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2368, __c148, 0) as any as S.Schema<ListPolicyDefinitionsRequest>,
   output: __S(2337, __c146, 1) as any as S.Schema<PolicyDefinitionListResult>,
   errors: [UnknownAzureError],
@@ -13007,7 +13401,13 @@ export const ListPolicyDefinitions: API.OperationMethod<
     op: "ListPolicyDefinitions",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicyDefinitionVersionAllError = AzureOpError;
 /** Lists all policy definition versions within a subscription. This operation lists all the policy definition versions for all policy definitions within a subscription. */
@@ -13075,12 +13475,13 @@ export const ListPolicyDefinitionVersionAllBuiltins: API.OperationMethod<
 
 export type ListPolicyDefinitionVersionBuiltInError = AzureOpError;
 /** This operation retrieves a list of all the built-in policy definition versions for the given policy definition. */
-export const ListPolicyDefinitionVersionBuiltIn: API.OperationMethod<
+export const ListPolicyDefinitionVersionBuiltIn: API.PaginatedOperationMethod<
   ListPolicyDefinitionVersionBuiltInRequest,
   PolicyDefinitionVersionListResult,
   ListPolicyDefinitionVersionBuiltInError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PolicyDefinitionVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2448, __c153, 0) as any as S.Schema<ListPolicyDefinitionVersionBuiltInRequest>,
   output: __S(2401, __c150, 1) as any as S.Schema<PolicyDefinitionVersionListResult>,
   errors: [UnknownAzureError],
@@ -13091,16 +13492,23 @@ export const ListPolicyDefinitionVersionBuiltIn: API.OperationMethod<
     op: "ListPolicyDefinitionVersionBuiltIn",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicyDefinitionVersionByManagementGroupError = AzureOpError;
 /** This operation retrieves a list of all the policy definition versions for the given policy definition in the given management group. */
-export const ListPolicyDefinitionVersionByManagementGroup: API.OperationMethod<
+export const ListPolicyDefinitionVersionByManagementGroup: API.PaginatedOperationMethod<
   ListPolicyDefinitionVersionByManagementGroupRequest,
   PolicyDefinitionVersionListResult,
   ListPolicyDefinitionVersionByManagementGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PolicyDefinitionVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     2464,
     __c154,
@@ -13115,16 +13523,23 @@ export const ListPolicyDefinitionVersionByManagementGroup: API.OperationMethod<
     op: "ListPolicyDefinitionVersionByManagementGroup",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicyDefinitionVersionsError = AzureOpError;
 /** This operation retrieves a list of all the policy definition versions for the given policy definition. */
-export const ListPolicyDefinitionVersions: API.OperationMethod<
+export const ListPolicyDefinitionVersions: API.PaginatedOperationMethod<
   ListPolicyDefinitionVersionsRequest,
   PolicyDefinitionVersionListResult,
   ListPolicyDefinitionVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PolicyDefinitionVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2480, __c155, 0) as any as S.Schema<ListPolicyDefinitionVersionsRequest>,
   output: __S(2401, __c150, 1) as any as S.Schema<PolicyDefinitionVersionListResult>,
   errors: [UnknownAzureError],
@@ -13135,16 +13550,23 @@ export const ListPolicyDefinitionVersions: API.OperationMethod<
     op: "ListPolicyDefinitionVersions",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicySetDefinitionBuiltInError = AzureOpError;
 /** This operation retrieves a list of all the built-in policy set definitions that match the optional given $filter. If $filter='category -eq {value}' is provided, the returned list only includes all built-in policy set definitions whose category match the {value}. */
-export const ListPolicySetDefinitionBuiltIn: API.OperationMethod<
+export const ListPolicySetDefinitionBuiltIn: API.PaginatedOperationMethod<
   ListPolicySetDefinitionBuiltInRequest,
   PolicySetDefinitionListResult,
   ListPolicySetDefinitionBuiltInError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PolicySetDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2496, __c156, 0) as any as S.Schema<ListPolicySetDefinitionBuiltInRequest>,
   output: __S(2513, __c157, 1) as any as S.Schema<PolicySetDefinitionListResult>,
   errors: [UnknownAzureError],
@@ -13155,16 +13577,23 @@ export const ListPolicySetDefinitionBuiltIn: API.OperationMethod<
     op: "ListPolicySetDefinitionBuiltIn",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicySetDefinitionByManagementGroupError = AzureOpError;
 /** This operation retrieves a list of all the policy set definitions in a given management group that match the optional given $filter. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, the unfiltered list includes all policy set definitions associated with the management group, including those that apply directly or from management groups that contain the given management group. If $filter=atExactScope() is provided, the returned list only includes all policy set definitions that at the given management group. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy set definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn and Custom. If $filter='category -eq {value}' is provided, the returned list only includes all policy set definitions whose category match the {value}. */
-export const ListPolicySetDefinitionByManagementGroup: API.OperationMethod<
+export const ListPolicySetDefinitionByManagementGroup: API.PaginatedOperationMethod<
   ListPolicySetDefinitionByManagementGroupRequest,
   PolicySetDefinitionListResult,
   ListPolicySetDefinitionByManagementGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PolicySetDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2544, __c159, 0) as any as S.Schema<ListPolicySetDefinitionByManagementGroupRequest>,
   output: __S(2513, __c157, 1) as any as S.Schema<PolicySetDefinitionListResult>,
   errors: [UnknownAzureError],
@@ -13175,16 +13604,23 @@ export const ListPolicySetDefinitionByManagementGroup: API.OperationMethod<
     op: "ListPolicySetDefinitionByManagementGroup",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicySetDefinitionsError = AzureOpError;
 /** This operation retrieves a list of all the policy set definitions in a given subscription that match the optional given $filter. Valid values for $filter are: 'atExactScope()', 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, the unfiltered list includes all policy set definitions associated with the subscription, including those that apply directly or from management groups that contain the given subscription. If $filter=atExactScope() is provided, the returned list only includes all policy set definitions that at the given subscription. If $filter='policyType -eq {value}' is provided, the returned list only includes all policy set definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn and Custom. If $filter='category -eq {value}' is provided, the returned list only includes all policy set definitions whose category match the {value}. */
-export const ListPolicySetDefinitions: API.OperationMethod<
+export const ListPolicySetDefinitions: API.PaginatedOperationMethod<
   ListPolicySetDefinitionsRequest,
   PolicySetDefinitionListResult,
   ListPolicySetDefinitionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PolicySetDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2560, __c160, 0) as any as S.Schema<ListPolicySetDefinitionsRequest>,
   output: __S(2513, __c157, 1) as any as S.Schema<PolicySetDefinitionListResult>,
   errors: [UnknownAzureError],
@@ -13195,7 +13631,13 @@ export const ListPolicySetDefinitions: API.OperationMethod<
     op: "ListPolicySetDefinitions",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicySetDefinitionVersionAllError = AzureOpError;
 /** Lists all policy set definition versions within a subscription. This operation lists all the policy set definition versions for all policy set definitions within a subscription. */
@@ -13263,12 +13705,13 @@ export const ListPolicySetDefinitionVersionAllBuiltins: API.OperationMethod<
 
 export type ListPolicySetDefinitionVersionBuiltInError = AzureOpError;
 /** This operation retrieves a list of all the built-in policy set definition versions for the given built-in policy set definition. */
-export const ListPolicySetDefinitionVersionBuiltIn: API.OperationMethod<
+export const ListPolicySetDefinitionVersionBuiltIn: API.PaginatedOperationMethod<
   ListPolicySetDefinitionVersionBuiltInRequest,
   PolicySetDefinitionVersionListResult,
   ListPolicySetDefinitionVersionBuiltInError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PolicySetDefinitionVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2640, __c165, 0) as any as S.Schema<ListPolicySetDefinitionVersionBuiltInRequest>,
   output: __S(2593, __c162, 1) as any as S.Schema<PolicySetDefinitionVersionListResult>,
   errors: [UnknownAzureError],
@@ -13279,16 +13722,23 @@ export const ListPolicySetDefinitionVersionBuiltIn: API.OperationMethod<
     op: "ListPolicySetDefinitionVersionBuiltIn",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicySetDefinitionVersionByManagementGroupError = AzureOpError;
 /** This operation retrieves a list of all the policy set definition versions for the given policy set definition in a given management group. */
-export const ListPolicySetDefinitionVersionByManagementGroup: API.OperationMethod<
+export const ListPolicySetDefinitionVersionByManagementGroup: API.PaginatedOperationMethod<
   ListPolicySetDefinitionVersionByManagementGroupRequest,
   PolicySetDefinitionVersionListResult,
   ListPolicySetDefinitionVersionByManagementGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PolicySetDefinitionVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     2656,
     __c166,
@@ -13303,16 +13753,23 @@ export const ListPolicySetDefinitionVersionByManagementGroup: API.OperationMetho
     op: "ListPolicySetDefinitionVersionByManagementGroup",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPolicySetDefinitionVersionsError = AzureOpError;
 /** This operation retrieves a list of all the policy set definition versions for the given policy set definition. */
-export const ListPolicySetDefinitionVersions: API.OperationMethod<
+export const ListPolicySetDefinitionVersions: API.PaginatedOperationMethod<
   ListPolicySetDefinitionVersionsRequest,
   PolicySetDefinitionVersionListResult,
   ListPolicySetDefinitionVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PolicySetDefinitionVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2672, __c167, 0) as any as S.Schema<ListPolicySetDefinitionVersionsRequest>,
   output: __S(2593, __c162, 1) as any as S.Schema<PolicySetDefinitionVersionListResult>,
   errors: [UnknownAzureError],
@@ -13323,7 +13780,13 @@ export const ListPolicySetDefinitionVersions: API.OperationMethod<
     op: "ListPolicySetDefinitionVersions",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Authorization" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkAssociationError = AzureOpError;
 /** Get a private link association for a management group scope */
@@ -13347,12 +13810,13 @@ export const ListPrivateLinkAssociation: API.OperationMethod<
 
 export type ListProviderAtTenantScopeError = AzureOpError;
 /** Gets all resource providers for the tenant. */
-export const ListProviderAtTenantScope: API.OperationMethod<
+export const ListProviderAtTenantScope: API.PaginatedOperationMethod<
   ListProviderAtTenantScopeRequest,
   ProviderListResult,
   ListProviderAtTenantScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Provider
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2704, __c169, 0) as any as S.Schema<ListProviderAtTenantScopeRequest>,
   output: __S(2720, __c170, 0) as any as S.Schema<ProviderListResult>,
   errors: [UnknownAzureError],
@@ -13360,7 +13824,13 @@ export const ListProviderAtTenantScope: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProviderAtTenantScope",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProviderResourceTypesError = AzureOpError;
 /** List the resource types for a specified resource provider. */
@@ -13381,12 +13851,13 @@ export const ListProviderResourceTypes: API.OperationMethod<
 
 export type ListProvidersError = AzureOpError;
 /** Gets all resource providers for a subscription. */
-export const ListProviders: API.OperationMethod<
+export const ListProviders: API.PaginatedOperationMethod<
   ListProvidersRequest,
   ProviderListResult,
   ListProvidersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Provider
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2784, __c174, 0) as any as S.Schema<ListProvidersRequest>,
   output: __S(2720, __c170, 0) as any as S.Schema<ProviderListResult>,
   errors: [UnknownAzureError],
@@ -13394,16 +13865,23 @@ export const ListProviders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProviders",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListResourceByResourceGroupError = AzureOpError;
 /** Get all the resources for a resource group. */
-export const ListResourceByResourceGroup: API.OperationMethod<
+export const ListResourceByResourceGroup: API.PaginatedOperationMethod<
   ListResourceByResourceGroupRequest,
   ResourceListResult,
   ListResourceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GenericResourceExpanded
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2800, __c175, 0) as any as S.Schema<ListResourceByResourceGroupRequest>,
   output: __S(2818, __c176, 2) as any as S.Schema<ResourceListResult>,
   errors: [UnknownAzureError],
@@ -13411,16 +13889,23 @@ export const ListResourceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListResourceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListResourceGroupsError = AzureOpError;
 /** Gets all the resource groups for a subscription. */
-export const ListResourceGroups: API.OperationMethod<
+export const ListResourceGroups: API.PaginatedOperationMethod<
   ListResourceGroupsRequest,
   ResourceGroupListResult,
   ListResourceGroupsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2832, __c177, 0) as any as S.Schema<ListResourceGroupsRequest>,
   output: __S(2834, __c177, 2) as any as S.Schema<ResourceGroupListResult>,
   errors: [UnknownAzureError],
@@ -13428,16 +13913,23 @@ export const ListResourceGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListResourceGroups",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListResourceLinkAtSourceScopeError = AzureOpError;
 /** Gets a list of resource links at and below the specified source scope. */
-export const ListResourceLinkAtSourceScope: API.OperationMethod<
+export const ListResourceLinkAtSourceScope: API.PaginatedOperationMethod<
   ListResourceLinkAtSourceScopeRequest,
   ResourceLinkResult,
   ListResourceLinkAtSourceScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceLink
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2848, __c178, 0) as any as S.Schema<ListResourceLinkAtSourceScopeRequest>,
   output: __S(2865, __c179, 1) as any as S.Schema<ResourceLinkResult>,
   errors: [UnknownAzureError],
@@ -13451,16 +13943,23 @@ export const ListResourceLinkAtSourceScope: API.OperationMethod<
       "url.template": "/{scope}/providers/Microsoft.Resources/links",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListResourceLinkAtSubscriptionError = AzureOpError;
 /** Gets all the linked resources for the subscription. */
-export const ListResourceLinkAtSubscription: API.OperationMethod<
+export const ListResourceLinkAtSubscription: API.PaginatedOperationMethod<
   ListResourceLinkAtSubscriptionRequest,
   ResourceLinkResult,
   ListResourceLinkAtSubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceLink
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2880, __c180, 0) as any as S.Schema<ListResourceLinkAtSubscriptionRequest>,
   output: __S(2865, __c179, 1) as any as S.Schema<ResourceLinkResult>,
   errors: [UnknownAzureError],
@@ -13471,7 +13970,13 @@ export const ListResourceLinkAtSubscription: API.OperationMethod<
     op: "ListResourceLinkAtSubscription",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListResourceManagementPrivateLinkError = AzureOpError;
 /** Get all the resource management private links in a subscription. */
@@ -13519,12 +14024,13 @@ export const ListResourceManagementPrivateLinkByResourceGroup: API.OperationMeth
 
 export type ListResourcesError = AzureOpError;
 /** Get all the resources in a subscription. */
-export const ListResources: API.OperationMethod<
+export const ListResources: API.PaginatedOperationMethod<
   ListResourcesRequest,
   ResourceListResult,
   ListResourcesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GenericResourceExpanded
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2944, __c184, 0) as any as S.Schema<ListResourcesRequest>,
   output: __S(2818, __c176, 2) as any as S.Schema<ResourceListResult>,
   errors: [UnknownAzureError],
@@ -13532,16 +14038,23 @@ export const ListResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListResources",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSubscriptionFeatureRegistrationAllBySubscriptionError = AzureOpError;
 /** Returns subscription feature registrations for given subscription. */
-export const ListSubscriptionFeatureRegistrationAllBySubscription: API.OperationMethod<
+export const ListSubscriptionFeatureRegistrationAllBySubscription: API.PaginatedOperationMethod<
   ListSubscriptionFeatureRegistrationAllBySubscriptionRequest,
   SubscriptionFeatureRegistrationList,
   ListSubscriptionFeatureRegistrationAllBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SubscriptionFeatureRegistration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     2960,
     __c185,
@@ -13556,16 +14069,23 @@ export const ListSubscriptionFeatureRegistrationAllBySubscription: API.Operation
     op: "ListSubscriptionFeatureRegistrationAllBySubscription",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Features" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSubscriptionFeatureRegistrationBySubscriptionError = AzureOpError;
 /** Returns subscription feature registrations for given subscription and provider namespace. */
-export const ListSubscriptionFeatureRegistrationBySubscription: API.OperationMethod<
+export const ListSubscriptionFeatureRegistrationBySubscription: API.PaginatedOperationMethod<
   ListSubscriptionFeatureRegistrationBySubscriptionRequest,
   SubscriptionFeatureRegistrationList,
   ListSubscriptionFeatureRegistrationBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SubscriptionFeatureRegistration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     3008,
     __c188,
@@ -13580,16 +14100,23 @@ export const ListSubscriptionFeatureRegistrationBySubscription: API.OperationMet
     op: "ListSubscriptionFeatureRegistrationBySubscription",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Features" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSubscriptionLocationsError = AzureOpError;
 /** Gets all available geo-locations. This operation provides all the locations that are available for resource providers; however, each resource provider may support a subset of this list. */
-export const ListSubscriptionLocations: API.OperationMethod<
+export const ListSubscriptionLocations: API.PaginatedOperationMethod<
   ListSubscriptionLocationsRequest,
   LocationListResult,
   ListSubscriptionLocationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Location
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3024, __c189, 0) as any as S.Schema<ListSubscriptionLocationsRequest>,
   output: __S(3032, __c189, 8) as any as S.Schema<LocationListResult>,
   errors: [UnknownAzureError],
@@ -13597,16 +14124,23 @@ export const ListSubscriptionLocations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSubscriptionLocations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSubscriptionsError = AzureOpError;
 /** Gets all subscriptions for a tenant. */
-export const ListSubscriptions: API.OperationMethod<
+export const ListSubscriptions: API.PaginatedOperationMethod<
   ListSubscriptionsRequest,
   SubscriptionListResult,
   ListSubscriptionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Subscription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3040, __c190, 0) as any as S.Schema<ListSubscriptionsRequest>,
   output: __S(3042, __c190, 2) as any as S.Schema<SubscriptionListResult>,
   errors: [UnknownAzureError],
@@ -13614,16 +14148,23 @@ export const ListSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSubscriptions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTagsError = AzureOpError;
 /** Gets a summary of tag usage under the subscription. This operation performs a union of predefined tags, resource tags, resource group tags and subscription tags, and returns a summary of usage for each tag name and value under the given subscription. In case of a large number of tags, this operation may return a previously cached result. */
-export const ListTags: API.OperationMethod<
+export const ListTags: API.PaginatedOperationMethod<
   ListTagsRequest,
   TagsListResult,
   ListTagsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TagDetails
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3056, __c191, 0) as any as S.Schema<ListTagsRequest>,
   output: __S(3058, __c191, 2) as any as S.Schema<TagsListResult>,
   errors: [UnknownAzureError],
@@ -13631,16 +14172,23 @@ export const ListTags: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTags",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTemplateSpecBuiltInsError = AzureOpError;
 /** Lists built-in Template Specs. */
-export const ListTemplateSpecBuiltIns: API.OperationMethod<
+export const ListTemplateSpecBuiltIns: API.PaginatedOperationMethod<
   ListTemplateSpecBuiltInsRequest,
   TemplateSpecsListResult,
   ListTemplateSpecBuiltInsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TemplateSpec
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3104, __c194, 0) as any as S.Schema<ListTemplateSpecBuiltInsRequest>,
   output: __S(3121, __c195, 1) as any as S.Schema<TemplateSpecsListResult>,
   errors: [UnknownAzureError],
@@ -13651,16 +14199,23 @@ export const ListTemplateSpecBuiltIns: API.OperationMethod<
     op: "ListTemplateSpecBuiltIns",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTemplateSpecByResourceGroupError = AzureOpError;
 /** Lists all the Template Specs within the specified resource group. */
-export const ListTemplateSpecByResourceGroup: API.OperationMethod<
+export const ListTemplateSpecByResourceGroup: API.PaginatedOperationMethod<
   ListTemplateSpecByResourceGroupRequest,
   TemplateSpecsListResult,
   ListTemplateSpecByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TemplateSpec
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3136, __c196, 0) as any as S.Schema<ListTemplateSpecByResourceGroupRequest>,
   output: __S(3121, __c195, 1) as any as S.Schema<TemplateSpecsListResult>,
   errors: [UnknownAzureError],
@@ -13671,16 +14226,23 @@ export const ListTemplateSpecByResourceGroup: API.OperationMethod<
     op: "ListTemplateSpecByResourceGroup",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTemplateSpecBySubscriptionError = AzureOpError;
 /** Lists all the Template Specs within the specified subscriptions. */
-export const ListTemplateSpecBySubscription: API.OperationMethod<
+export const ListTemplateSpecBySubscription: API.PaginatedOperationMethod<
   ListTemplateSpecBySubscriptionRequest,
   TemplateSpecsListResult,
   ListTemplateSpecBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TemplateSpec
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3152, __c197, 0) as any as S.Schema<ListTemplateSpecBySubscriptionRequest>,
   output: __S(3121, __c195, 1) as any as S.Schema<TemplateSpecsListResult>,
   errors: [UnknownAzureError],
@@ -13691,16 +14253,23 @@ export const ListTemplateSpecBySubscription: API.OperationMethod<
     op: "ListTemplateSpecBySubscription",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTemplateSpecVersionBuiltInsError = AzureOpError;
 /** Lists all the Template Spec versions in the specified built-in Template Spec. */
-export const ListTemplateSpecVersionBuiltIns: API.OperationMethod<
+export const ListTemplateSpecVersionBuiltIns: API.PaginatedOperationMethod<
   ListTemplateSpecVersionBuiltInsRequest,
   TemplateSpecVersionsListResult,
   ListTemplateSpecVersionBuiltInsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TemplateSpecVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3168, __c198, 0) as any as S.Schema<ListTemplateSpecVersionBuiltInsRequest>,
   output: __S(3185, __c199, 1) as any as S.Schema<TemplateSpecVersionsListResult>,
   errors: [UnknownAzureError],
@@ -13711,16 +14280,23 @@ export const ListTemplateSpecVersionBuiltIns: API.OperationMethod<
     op: "ListTemplateSpecVersionBuiltIns",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTemplateSpecVersionsError = AzureOpError;
 /** Lists all the Template Spec versions in the specified Template Spec. */
-export const ListTemplateSpecVersions: API.OperationMethod<
+export const ListTemplateSpecVersions: API.PaginatedOperationMethod<
   ListTemplateSpecVersionsRequest,
   TemplateSpecVersionsListResult,
   ListTemplateSpecVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TemplateSpecVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3200, __c200, 0) as any as S.Schema<ListTemplateSpecVersionsRequest>,
   output: __S(3185, __c199, 1) as any as S.Schema<TemplateSpecVersionsListResult>,
   errors: [UnknownAzureError],
@@ -13731,16 +14307,23 @@ export const ListTemplateSpecVersions: API.OperationMethod<
     op: "ListTemplateSpecVersions",
     attributes: { "azure.resource_provider.namespace": "Microsoft.Resources" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTenantsError = AzureOpError;
 /** Gets the tenants for your account. */
-export const ListTenants: API.OperationMethod<
+export const ListTenants: API.PaginatedOperationMethod<
   ListTenantsRequest,
   TenantListResult,
   ListTenantsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  TenantIdDescription
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3216, __c201, 0) as any as S.Schema<ListTenantsRequest>,
   output: __S(3219, __c201, 3) as any as S.Schema<TenantListResult>,
   errors: [UnknownAzureError],
@@ -13748,7 +14331,13 @@ export const ListTenants: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTenants",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ManagementLocksCreateOrUpdateAtResourceGroupLevelError = AzureOpError;
 /** Creates or updates a management lock at the resource group level. When you apply a lock at a parent scope, all child resources inherit the same lock. To create management locks, you must have access to Microsoft.Authorization/* or Microsoft.Authorization/locks/* actions. Of the built-in roles, only Owner and User Access Administrator are granted those actions. */
@@ -17102,12 +17691,14 @@ function __c92(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applications",
             code: 200,
             apiVersion: "2019-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationByResourceGroupRequest" });
@@ -17120,7 +17711,7 @@ function __c93(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1488, __c93, 0)),
+          value: __S(1488, __c93, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplicationListResult" });
@@ -17132,12 +17723,14 @@ function __c94(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Solutions/applications",
             code: 200,
             apiVersion: "2019-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationBySubscriptionRequest" });
@@ -17150,12 +17743,14 @@ function __c95(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Solutions/applicationDefinitions",
             code: 200,
             apiVersion: "2019-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationDefinitionByResourceGroupRequest" });
@@ -17164,7 +17759,7 @@ function __c95(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1521, __c95, 1)),
+          value: __S(1521, __c95, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplicationDefinitionListResult" });
@@ -17174,12 +17769,15 @@ function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Authorization/operations",
             code: 200,
             apiVersion: "2020-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAuthorizationOperationsRequest" });
@@ -17207,7 +17805,7 @@ function __c97(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1554, __c97, 2)),
+          value: __S(1554, __c97, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
@@ -17225,12 +17823,14 @@ function __c98(j: number): any {
           resourceName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Resources/changes",
             code: 200,
             apiVersion: "2022-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListChangesRequest" });
@@ -17240,7 +17840,7 @@ function __c98(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(1569, __c98, 1)),
+          value: __S(1569, __c98, 1),
         }),
       ).annotate({ identifier: "ChangeResourceListResult" });
   }
@@ -17251,12 +17851,14 @@ function __c99(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Authorization/dataPolicyManifests",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDataPolicyManifestsRequest" });
@@ -17279,12 +17881,14 @@ function __c100(j: number): any {
           groupId: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentAtManagementGroupScopeRequest" });
@@ -17330,12 +17934,14 @@ function __c103(j: number): any {
           scope: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{scope+}/providers/Microsoft.Resources/deployments",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentAtScopeRequest" });
@@ -17349,12 +17955,14 @@ function __c104(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentAtSubscriptionScopeRequest" });
@@ -17367,12 +17975,14 @@ function __c105(j: number): any {
         S.Struct({
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Resources/deployments",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentAtTenantScopeRequest" });
@@ -17387,12 +17997,14 @@ function __c106(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deployments",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentByResourceGroupRequest" });
@@ -17406,12 +18018,14 @@ function __c107(j: number): any {
           groupId: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups/{groupId}/providers/Microsoft.Resources/deployments/{deploymentName}/operations",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentOperationAtManagementGroupScopeRequest" });
@@ -17438,12 +18052,14 @@ function __c109(j: number): any {
           scope: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{scope+}/providers/Microsoft.Resources/deployments/{deploymentName}/operations",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentOperationAtScopeRequest" });
@@ -17457,12 +18073,14 @@ function __c110(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deployments/{deploymentName}/operations",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentOperationAtSubscriptionScopeRequest" });
@@ -17475,12 +18093,14 @@ function __c111(j: number): any {
         S.Struct({
           deploymentName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Resources/deployments/{deploymentName}/operations",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentOperationAtTenantScopeRequest" });
@@ -17495,12 +18115,14 @@ function __c112(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           deploymentName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/deployments/{deploymentName}/operations",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentOperationsRequest" });
@@ -17513,12 +18135,14 @@ function __c113(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentScripts",
             code: 200,
             apiVersion: "2023-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentScriptByResourceGroupRequest" });
@@ -17531,7 +18155,7 @@ function __c114(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1824, __c114, 0)),
+          value: __S(1824, __c114, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentScriptListResult" });
@@ -17573,12 +18197,14 @@ function __c117(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentScripts",
             code: 200,
             apiVersion: "2023-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentScriptBySubscriptionRequest" });
@@ -17590,12 +18216,14 @@ function __c118(j: number): any {
       return S.suspend(() =>
         S.Struct({
           managementGroupId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Resources/deploymentStacks",
             code: 200,
             apiVersion: "2025-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentStackAtManagementGroupRequest" });
@@ -17621,12 +18249,14 @@ function __c120(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentStacks",
             code: 200,
             apiVersion: "2025-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentStackAtResourceGroupRequest" });
@@ -17638,12 +18268,14 @@ function __c121(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacks",
             code: 200,
             apiVersion: "2025-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentStackAtSubscriptionRequest" });
@@ -17655,12 +18287,14 @@ function __c122(j: number): any {
       return S.suspend(() =>
         S.Struct({
           managementGroupId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Resources/deploymentStacksWhatIfResults",
             code: 200,
             apiVersion: "2025-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentStacksWhatIfResultsAtManagementGroupRequest" });
@@ -17686,12 +18320,14 @@ function __c124(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/deploymentStacksWhatIfResults",
             code: 200,
             apiVersion: "2025-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentStacksWhatIfResultsAtResourceGroupRequest" });
@@ -17703,12 +18339,14 @@ function __c125(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/deploymentStacksWhatIfResults",
             code: 200,
             apiVersion: "2025-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentStacksWhatIfResultsAtSubscriptionRequest" });
@@ -17720,12 +18358,14 @@ function __c126(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Features/features",
             code: 200,
             apiVersion: "2021-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFeatureAllRequest" });
@@ -17738,7 +18378,7 @@ function __c127(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2032, __c127, 0)),
+          value: __S(2032, __c127, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FeatureOperationsListResult" });
@@ -17751,12 +18391,14 @@ function __c128(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceProviderNamespace: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Features/providers/{resourceProviderNamespace}/features",
             code: 200,
             apiVersion: "2021-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFeaturesRequest" });
@@ -17836,12 +18478,14 @@ function __c133(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/locks",
             code: 200,
             apiVersion: "2020-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagementLockAtResourceGroupLevelRequest" });
@@ -17854,7 +18498,7 @@ function __c134(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2144, __c134, 0)),
+          value: __S(2144, __c134, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagementLockListResult" });
@@ -17872,12 +18516,14 @@ function __c135(j: number): any {
           resourceType: S.String.pipe(T.Label()),
           resourceName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/locks",
             code: 200,
             apiVersion: "2020-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagementLockAtResourceLevelRequest" });
@@ -17890,12 +18536,14 @@ function __c136(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/locks",
             code: 200,
             apiVersion: "2020-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagementLockAtSubscriptionLevelRequest" });
@@ -17908,12 +18556,14 @@ function __c137(j: number): any {
         S.Struct({
           scope: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{scope+}/providers/Microsoft.Authorization/locks",
             code: 200,
             apiVersion: "2020-05-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListManagementLockByScopeRequest" });
@@ -17923,12 +18573,15 @@ function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Features/operations",
             code: 200,
             apiVersion: "2021-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -17943,12 +18596,14 @@ function __c139(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyAssignments",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicyAssignmentForManagementGroupRequest" });
@@ -17981,12 +18636,14 @@ function __c141(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{parentResourcePath}/{resourceType}/{resourceName}/providers/Microsoft.Authorization/policyAssignments",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicyAssignmentForResourceRequest" });
@@ -18002,12 +18659,14 @@ function __c142(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Authorization/policyAssignments",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicyAssignmentForResourceGroupRequest" });
@@ -18022,12 +18681,14 @@ function __c143(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyAssignments",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicyAssignmentsRequest" });
@@ -18058,12 +18719,14 @@ function __c145(j: number): any {
         S.Struct({
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Authorization/policyDefinitions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicyDefinitionBuiltInRequest" });
@@ -18090,12 +18753,14 @@ function __c147(j: number): any {
           managementGroupId: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicyDefinitionByManagementGroupRequest" });
@@ -18109,12 +18774,14 @@ function __c148(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicyDefinitionsRequest" });
@@ -18189,12 +18856,14 @@ function __c153(j: number): any {
         S.Struct({
           policyDefinitionName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicyDefinitionVersionBuiltInRequest" });
@@ -18208,12 +18877,14 @@ function __c154(j: number): any {
           managementGroupName: S.String.pipe(T.Label()),
           policyDefinitionName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicyDefinitionVersionByManagementGroupRequest" });
@@ -18227,12 +18898,14 @@ function __c155(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           policyDefinitionName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}/versions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicyDefinitionVersionsRequest" });
@@ -18246,12 +18919,14 @@ function __c156(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Authorization/policySetDefinitions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicySetDefinitionBuiltInRequest" });
@@ -18297,12 +18972,14 @@ function __c159(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policySetDefinitions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicySetDefinitionByManagementGroupRequest" });
@@ -18317,12 +18994,14 @@ function __c160(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicySetDefinitionsRequest" });
@@ -18398,12 +19077,14 @@ function __c165(j: number): any {
           policySetDefinitionName: S.String.pipe(T.Label()),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicySetDefinitionVersionBuiltInRequest" });
@@ -18418,12 +19099,14 @@ function __c166(j: number): any {
           policySetDefinitionName: S.String.pipe(T.Label()),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/managementGroups/{managementGroupName}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicySetDefinitionVersionByManagementGroupRequest" });
@@ -18438,12 +19121,14 @@ function __c167(j: number): any {
           policySetDefinitionName: S.String.pipe(T.Label()),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Authorization/policySetDefinitions/{policySetDefinitionName}/versions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPolicySetDefinitionVersionsRequest" });
@@ -18480,7 +19165,16 @@ function __c169(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
-        }).pipe(T.Http({ method: "GET", uri: "/providers", code: 200, apiVersion: "2025-04-01" })),
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/providers",
+            code: 200,
+            apiVersion: "2025-04-01",
+            nextLink: "nextLink",
+          }),
+        ),
       ).annotate({ identifier: "ListProviderAtTenantScopeRequest" });
   }
 }
@@ -18565,12 +19259,14 @@ function __c174(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers",
             code: 200,
             apiVersion: "2025-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProvidersRequest" });
@@ -18586,12 +19282,14 @@ function __c175(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/resources",
             code: 200,
             apiVersion: "2025-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListResourceByResourceGroupRequest" });
@@ -18639,12 +19337,14 @@ function __c177(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourcegroups",
             code: 200,
             apiVersion: "2025-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListResourceGroupsRequest" });
@@ -18666,12 +19366,14 @@ function __c178(j: number): any {
         S.Struct({
           scope: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{scope+}/providers/Microsoft.Resources/links",
             code: 200,
             apiVersion: "2016-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListResourceLinkAtSourceScopeRequest" });
@@ -18697,12 +19399,14 @@ function __c180(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/links",
             code: 200,
             apiVersion: "2016-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListResourceLinkAtSubscriptionRequest" });
@@ -18764,12 +19468,14 @@ function __c184(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resources",
             code: 200,
             apiVersion: "2025-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListResourcesRequest" });
@@ -18781,12 +19487,14 @@ function __c185(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Features/subscriptionFeatureRegistrations",
             code: 200,
             apiVersion: "2021-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSubscriptionFeatureRegistrationAllBySubscriptionRequest" });
@@ -18800,7 +19508,7 @@ function __c186(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextLink: S.optional(S.String),
-          value: S.optional(__S(2976, __c186, 0)),
+          value: __S(2976, __c186, 0),
         }),
       ).annotate({ identifier: "SubscriptionFeatureRegistrationList" });
   }
@@ -18831,12 +19539,14 @@ function __c188(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           providerNamespace: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Features/featureProviders/{providerNamespace}/subscriptionFeatureRegistrations",
             code: 200,
             apiVersion: "2021-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSubscriptionFeatureRegistrationBySubscriptionRequest" });
@@ -18849,12 +19559,14 @@ function __c189(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           includeExtendedLocations: S.optional(S.Boolean.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/locations",
             code: 200,
             apiVersion: "2022-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSubscriptionLocationsRequest" });
@@ -18909,7 +19621,7 @@ function __c189(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3031, __c189, 7)),
+          value: __S(3031, __c189, 7),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "LocationListResult" });
@@ -18919,8 +19631,16 @@ function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "GET", uri: "/subscriptions", code: 200, apiVersion: "2022-12-01" }),
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions",
+            code: 200,
+            apiVersion: "2022-12-01",
+            nextLink: "nextLink",
+          }),
         ),
       ).annotate({ identifier: "ListSubscriptionsRequest" });
     case 1:
@@ -18940,12 +19660,14 @@ function __c191(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/tagNames",
             code: 200,
             apiVersion: "2025-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTagsRequest" });
@@ -19000,12 +19722,14 @@ function __c194(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Resources/builtInTemplateSpecs/",
             code: 200,
             apiVersion: "2022-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTemplateSpecBuiltInsRequest" });
@@ -19018,7 +19742,7 @@ function __c195(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3120, __c195, 0)),
+          value: __S(3120, __c195, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TemplateSpecsListResult" });
@@ -19032,12 +19756,14 @@ function __c196(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/templateSpecs/",
             code: 200,
             apiVersion: "2022-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTemplateSpecByResourceGroupRequest" });
@@ -19050,12 +19776,14 @@ function __c197(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Resources/templateSpecs/",
             code: 200,
             apiVersion: "2022-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTemplateSpecBySubscriptionRequest" });
@@ -19067,12 +19795,14 @@ function __c198(j: number): any {
       return S.suspend(() =>
         S.Struct({
           templateSpecName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Resources/builtInTemplateSpecs/{templateSpecName}/versions",
             code: 200,
             apiVersion: "2022-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTemplateSpecVersionBuiltInsRequest" });
@@ -19085,7 +19815,7 @@ function __c199(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3184, __c199, 0)),
+          value: __S(3184, __c199, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "TemplateSpecVersionsListResult" });
@@ -19099,12 +19829,14 @@ function __c200(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           templateSpecName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Resources/templateSpecs/{templateSpecName}/versions",
             code: 200,
             apiVersion: "2022-02-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTemplateSpecVersionsRequest" });
@@ -19114,8 +19846,16 @@ function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
-          T.Http({ method: "GET", uri: "/tenants", code: 200, apiVersion: "2022-12-01" }),
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/tenants",
+            code: 200,
+            apiVersion: "2022-12-01",
+            nextLink: "nextLink",
+          }),
         ),
       ).annotate({ identifier: "ListTenantsRequest" });
     case 1:

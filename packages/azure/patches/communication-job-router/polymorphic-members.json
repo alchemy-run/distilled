@@ -1,0 +1,195 @@
+{
+  "description": "The converter keeps only the discriminator of polymorphic Job Router types (ExceptionTrigger, ExceptionAction, RouterRule): add the scalar members of their sub-types (WaitTimeExceptionTrigger, QueueLengthExceptionTrigger, Cancel/Reclassify/ManualReclassifyExceptionAction, Static/Expression/Function/WebhookRouterRule) so they are encoded and decoded.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#ExceptionTrigger/members/threshold",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "`queueLength` trigger: the queue length at which the exception triggers."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#ExceptionTrigger/members/thresholdSeconds",
+      "value": {
+        "target": "smithy.api#Double",
+        "traits": {
+          "smithy.api#documentation": "`waitTime` trigger: the seconds a job waits before the exception triggers."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#ExceptionAction/members/note",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`cancel` action: a note recorded on the cancelled job."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#ExceptionAction/members/dispositionCode",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`cancel` action: the disposition code set on the cancelled job."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#ExceptionAction/members/classificationPolicyId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`reclassify` action: the classification policy that reclassifies the job."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#ExceptionAction/members/queueId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`manualReclassify` action: the queue the job moves to."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#ExceptionAction/members/priority",
+      "value": {
+        "target": "smithy.api#Integer",
+        "traits": {
+          "smithy.api#documentation": "`manualReclassify` action: the job's new priority."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#RouterRule/members/value",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "`static` rule: the value the rule always returns."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#RouterRule/members/language",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`expression` rule: the expression language (`powerFx`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#RouterRule/members/expression",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`expression` rule: the expression to evaluate."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#RouterRule/members/functionUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`function` rule: URL of the HTTP-triggered Azure Function."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#RouterRule/members/webhookUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`webhook` rule: URL of the webhook."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#RouterRule/members/authorizationServerUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`webhook` rule: URL of the OAuth 2.0 token endpoint."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#RouterRuleCreateOrUpdate/members/value",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "`static` rule: the value the rule always returns."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#RouterRuleCreateOrUpdate/members/language",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`expression` rule: the expression language (`powerFx`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#RouterRuleCreateOrUpdate/members/expression",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`expression` rule: the expression to evaluate."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#RouterRuleCreateOrUpdate/members/functionUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`function` rule: URL of the HTTP-triggered Azure Function."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#RouterRuleCreateOrUpdate/members/webhookUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`webhook` rule: URL of the webhook."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_job_router#RouterRuleCreateOrUpdate/members/authorizationServerUri",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "`webhook` rule: URL of the OAuth 2.0 token endpoint."
+        }
+      }
+    }
+  ]
+}

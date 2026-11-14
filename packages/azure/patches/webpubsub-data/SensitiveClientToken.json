@@ -1,0 +1,10 @@
+{
+  "description": "ClientTokenResponse.token (GenerateClientToken) is a bearer JWT a client uses to connect to the hub, but the spec has no sensitive mark. Mark it sensitive so it decodes as Redacted.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.webpubsub_data#ClientTokenResponse/members/token/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "description": "Translate's sentLen.srcSentLen / transSentLen are arrays of integers ([12, 8]); the swagger models each element as { integer }, which fails to decode when includeSentenceLength is set. Detected-language scores are fractional.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices_translator_text#TranslateResultAllItemTranslationsItemSentLenSrcSentLenList/member/target",
+      "value": "smithy.api#Integer"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices_translator_text#TranslateResultAllItemTranslationsItemSentLenTransSentLenList/member/target",
+      "value": "smithy.api#Integer"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices_translator_text#TranslateResultAllItemDetectedLanguage/members/score/target",
+      "value": "smithy.api#Double"
+    }
+  ]
+}

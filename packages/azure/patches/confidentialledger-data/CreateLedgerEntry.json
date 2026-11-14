@@ -1,0 +1,16 @@
+{
+  "description": "A ledger write answers the new entry's transaction ID only in the `x-ms-ccf-transaction-id` response header (the spec models it as a header but the converted model drops it); without it GetTransactionStatus, GetLedgerEntry and GetReceipt cannot address the write.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.confidentialledger_data#LedgerWriteResult/members/transactionId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-ccf-transaction-id",
+          "smithy.api#documentation": "Transaction ID of the write (`x-ms-ccf-transaction-id`); poll GetTransactionStatus until it is `Committed`."
+        }
+      }
+    }
+  ]
+}

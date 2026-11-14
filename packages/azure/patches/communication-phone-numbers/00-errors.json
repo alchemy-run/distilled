@@ -1,0 +1,305 @@
+{
+  "description": "Type the Phone Numbers errors per operation: `PhoneNumberNotFound` (HTTP 404, target `phonenumber`), `PhoneNumberNotOwned` (HTTP 403 `InsufficientPermissions`), `PhoneNumberReservationNotFound` (HTTP 404 `ReservationNotFound`), `PhoneNumberReservationNotActive` (HTTP 409 `Conflict`, e.g. an expired reservation), `PhoneNumberSearchNotFound` (HTTP 404, target `searchid`), and `PhoneNumberOperationNotFound` (HTTP 404 on an operation ID).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumberNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The communication service does not own the phone number (HTTP 404 `NotFound`, target `phonenumber`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/error/target": "phonenumber"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumberNotOwned",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The communication service does not own the phone number (HTTP 403 `InsufficientPermissions`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/error/code": "InsufficientPermissions"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumberReservationNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The reservation does not exist (HTTP 404 `ReservationNotFound`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/error/code": "ReservationNotFound"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumberReservationNotActive",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The reservation is not active (expired, purchased, or being purchased) (HTTP 409 `Conflict`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/error/code": "Conflict"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumberSearchNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The search does not exist or expired (HTTP 404 `NotFound`, target `searchid`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/error/target": "searchid"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumberOperationNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The phone number operation does not exist or was cancelled (HTTP 404, an ARM `NotFound` or a problem+json body).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumbersGetByNumber/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_phone_numbers#PhoneNumberNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumbersUpdateCapabilities/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_phone_numbers#PhoneNumberNotOwned"
+        },
+        {
+          "target": "com.azure.communication_phone_numbers#PhoneNumberNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumbersGetReservation/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_phone_numbers#PhoneNumberReservationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumbersDeleteReservation/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_phone_numbers#PhoneNumberReservationNotFound"
+        },
+        {
+          "target": "com.azure.communication_phone_numbers#PhoneNumberReservationNotActive"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumbersCreateOrUpdateReservation/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_phone_numbers#PhoneNumberReservationNotActive"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumbersPurchaseReservation/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_phone_numbers#PhoneNumberReservationNotFound"
+        },
+        {
+          "target": "com.azure.communication_phone_numbers#PhoneNumberReservationNotActive"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumbersGetSearchResult/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_phone_numbers#PhoneNumberSearchNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumbersPurchasePhoneNumbers/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_phone_numbers#PhoneNumberSearchNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumbersGetOperation/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_phone_numbers#PhoneNumberOperationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_phone_numbers#PhoneNumbersCancelOperation/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_phone_numbers#PhoneNumberOperationNotFound"
+        }
+      ]
+    }
+  ]
+}

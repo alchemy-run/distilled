@@ -3963,6 +3963,8 @@ export interface ListBigQueryDatasetByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type BigQueryDatasetTagsMap = { [key: string]: string | undefined };
@@ -3995,12 +3997,16 @@ export interface BigQueryDatasetListResult {
 export interface ListBigQueryDatasetBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCloudFunctionByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CloudFunctionTagsMap = { [key: string]: string | undefined };
@@ -4033,10 +4039,14 @@ export interface CloudFunctionListResult {
 export interface ListCloudFunctionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListComputeInstancesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A Microsoft.GCPConnector resource */
 export interface ComputeInstance {
@@ -4063,6 +4073,8 @@ export interface ComputeInstanceListResult {
 export interface ListContainerClustersRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A Microsoft.GCPConnector resource */
 export interface ContainerCluster {
@@ -4086,7 +4098,10 @@ export interface ContainerClusterListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -4119,7 +4134,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -4128,6 +4143,8 @@ export interface ListSQLAdminInstanceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SQLAdminInstanceTagsMap = { [key: string]: string | undefined };
@@ -4160,12 +4177,16 @@ export interface SQLAdminInstanceListResult {
 export interface ListSQLAdminInstanceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListStorageBucketByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type StorageBucketTagsMap = { [key: string]: string | undefined };
@@ -4198,6 +4219,8 @@ export interface StorageBucketListResult {
 export interface ListStorageBucketBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SQLAdminInstancesCreateOrReplaceRequestTagsMap = { [key: string]: string | undefined };
@@ -4761,12 +4784,13 @@ export const GetStorageBucket: API.OperationMethod<
 
 export type ListBigQueryDatasetByResourceGroupError = AzureOpError;
 /** List BigQueryDataset resources by resource group */
-export const ListBigQueryDatasetByResourceGroup: API.OperationMethod<
+export const ListBigQueryDatasetByResourceGroup: API.PaginatedOperationMethod<
   ListBigQueryDatasetByResourceGroupRequest,
   BigQueryDatasetListResult,
   ListBigQueryDatasetByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BigQueryDataset
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<ListBigQueryDatasetByResourceGroupRequest>,
   output: __S(705, __c22, 1) as any as S.Schema<BigQueryDatasetListResult>,
   errors: [UnknownAzureError],
@@ -4774,16 +4798,23 @@ export const ListBigQueryDatasetByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBigQueryDatasetByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBigQueryDatasetBySubscriptionError = AzureOpError;
 /** List BigQueryDataset resources by subscription ID */
-export const ListBigQueryDatasetBySubscription: API.OperationMethod<
+export const ListBigQueryDatasetBySubscription: API.PaginatedOperationMethod<
   ListBigQueryDatasetBySubscriptionRequest,
   BigQueryDatasetListResult,
   ListBigQueryDatasetBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BigQueryDataset
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ListBigQueryDatasetBySubscriptionRequest>,
   output: __S(705, __c22, 1) as any as S.Schema<BigQueryDatasetListResult>,
   errors: [UnknownAzureError],
@@ -4791,16 +4822,23 @@ export const ListBigQueryDatasetBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBigQueryDatasetBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCloudFunctionByResourceGroupError = AzureOpError;
 /** List CloudFunction resources by resource group */
-export const ListCloudFunctionByResourceGroup: API.OperationMethod<
+export const ListCloudFunctionByResourceGroup: API.PaginatedOperationMethod<
   ListCloudFunctionByResourceGroupRequest,
   CloudFunctionListResult,
   ListCloudFunctionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CloudFunction
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListCloudFunctionByResourceGroupRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<CloudFunctionListResult>,
   errors: [UnknownAzureError],
@@ -4808,16 +4846,23 @@ export const ListCloudFunctionByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudFunctionByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCloudFunctionBySubscriptionError = AzureOpError;
 /** List CloudFunction resources by subscription ID */
-export const ListCloudFunctionBySubscription: API.OperationMethod<
+export const ListCloudFunctionBySubscription: API.PaginatedOperationMethod<
   ListCloudFunctionBySubscriptionRequest,
   CloudFunctionListResult,
   ListCloudFunctionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CloudFunction
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListCloudFunctionBySubscriptionRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<CloudFunctionListResult>,
   errors: [UnknownAzureError],
@@ -4825,16 +4870,23 @@ export const ListCloudFunctionBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCloudFunctionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListComputeInstancesError = AzureOpError;
 /** List ComputeInstance resources by parent */
-export const ListComputeInstances: API.OperationMethod<
+export const ListComputeInstances: API.PaginatedOperationMethod<
   ListComputeInstancesRequest,
   ComputeInstanceListResult,
   ListComputeInstancesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ComputeInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(992, __c31, 0) as any as S.Schema<ListComputeInstancesRequest>,
   output: __S(994, __c31, 2) as any as S.Schema<ComputeInstanceListResult>,
   errors: [UnknownAzureError],
@@ -4847,16 +4899,23 @@ export const ListComputeInstances: API.OperationMethod<
       "url.template": "/{resourceUri}/providers/Microsoft.GcpConnector/computeInstances",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListContainerClustersError = AzureOpError;
 /** List ContainerCluster resources by parent */
-export const ListContainerClusters: API.OperationMethod<
+export const ListContainerClusters: API.PaginatedOperationMethod<
   ListContainerClustersRequest,
   ContainerClusterListResult,
   ListContainerClustersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ContainerCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListContainerClustersRequest>,
   output: __S(1026, __c32, 2) as any as S.Schema<ContainerClusterListResult>,
   errors: [UnknownAzureError],
@@ -4869,16 +4928,23 @@ export const ListContainerClusters: API.OperationMethod<
       "url.template": "/{resourceUri}/providers/Microsoft.GcpConnector/containerClusters",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1060, __c33, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -4886,16 +4952,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSQLAdminInstanceByResourceGroupError = AzureOpError;
 /** List SQLAdminInstance resources by resource group */
-export const ListSQLAdminInstanceByResourceGroup: API.OperationMethod<
+export const ListSQLAdminInstanceByResourceGroup: API.PaginatedOperationMethod<
   ListSQLAdminInstanceByResourceGroupRequest,
   SQLAdminInstanceListResult,
   ListSQLAdminInstanceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SQLAdminInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<ListSQLAdminInstanceByResourceGroupRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<SQLAdminInstanceListResult>,
   errors: [UnknownAzureError],
@@ -4903,16 +4976,23 @@ export const ListSQLAdminInstanceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSQLAdminInstanceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSQLAdminInstanceBySubscriptionError = AzureOpError;
 /** List SQLAdminInstance resources by subscription ID */
-export const ListSQLAdminInstanceBySubscription: API.OperationMethod<
+export const ListSQLAdminInstanceBySubscription: API.PaginatedOperationMethod<
   ListSQLAdminInstanceBySubscriptionRequest,
   SQLAdminInstanceListResult,
   ListSQLAdminInstanceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SQLAdminInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<ListSQLAdminInstanceBySubscriptionRequest>,
   output: __S(1121, __c35, 1) as any as S.Schema<SQLAdminInstanceListResult>,
   errors: [UnknownAzureError],
@@ -4920,16 +5000,23 @@ export const ListSQLAdminInstanceBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSQLAdminInstanceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageBucketByResourceGroupError = AzureOpError;
 /** List StorageBucket resources by resource group */
-export const ListStorageBucketByResourceGroup: API.OperationMethod<
+export const ListStorageBucketByResourceGroup: API.PaginatedOperationMethod<
   ListStorageBucketByResourceGroupRequest,
   StorageBucketListResult,
   ListStorageBucketByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageBucket
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1184, __c37, 0) as any as S.Schema<ListStorageBucketByResourceGroupRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<StorageBucketListResult>,
   errors: [UnknownAzureError],
@@ -4937,16 +5024,23 @@ export const ListStorageBucketByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageBucketByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageBucketBySubscriptionError = AzureOpError;
 /** List StorageBucket resources by subscription ID */
-export const ListStorageBucketBySubscription: API.OperationMethod<
+export const ListStorageBucketBySubscription: API.PaginatedOperationMethod<
   ListStorageBucketBySubscriptionRequest,
   StorageBucketListResult,
   ListStorageBucketBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageBucket
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1248, __c39, 0) as any as S.Schema<ListStorageBucketBySubscriptionRequest>,
   output: __S(1217, __c38, 1) as any as S.Schema<StorageBucketListResult>,
   errors: [UnknownAzureError],
@@ -4954,7 +5048,13 @@ export const ListStorageBucketBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageBucketBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type SQLAdminInstancesCreateOrReplaceError = AzureOpError;
 /** Create a SQL admin instance. Please note that end user resource creation is currently restricted, but it will be enabled in the future. */
@@ -6285,12 +6385,14 @@ function __c21(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GcpConnector/bigQueryDatasets",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBigQueryDatasetByResourceGroupRequest" });
@@ -6315,12 +6417,14 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.GcpConnector/bigQueryDatasets",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBigQueryDatasetBySubscriptionRequest" });
@@ -6333,12 +6437,14 @@ function __c24(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GcpConnector/cloudFunctions",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudFunctionByResourceGroupRequest" });
@@ -6363,12 +6469,14 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.GcpConnector/cloudFunctions",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCloudFunctionBySubscriptionRequest" });
@@ -6774,12 +6882,14 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.GcpConnector/computeInstances",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListComputeInstancesRequest" });
@@ -6800,12 +6910,14 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.GcpConnector/containerClusters",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListContainerClustersRequest" });
@@ -6824,12 +6936,15 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.GcpConnector/operations",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -6857,7 +6972,7 @@ function __c33(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1059, __c33, 3)),
+          value: __S(1059, __c33, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -6870,12 +6985,14 @@ function __c34(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GcpConnector/sqlAdminInstances",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSQLAdminInstanceByResourceGroupRequest" });
@@ -6900,12 +7017,14 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.GcpConnector/sqlAdminInstances",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSQLAdminInstanceBySubscriptionRequest" });
@@ -6918,12 +7037,14 @@ function __c37(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.GcpConnector/storageBuckets",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageBucketByResourceGroupRequest" });
@@ -6948,12 +7069,14 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.GcpConnector/storageBuckets",
             code: 200,
             apiVersion: "2027-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageBucketBySubscriptionRequest" });

@@ -1518,6 +1518,8 @@ export interface ListAdvancedThreatProtectionSettingsRequest {
   resourceGroupName: string;
   /** The name of the server. */
   serverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A server's Advanced Threat Protection. */
 export interface AdvancedThreatProtection {
@@ -1537,7 +1539,7 @@ export type AdvancedThreatProtectionListResultValueList = Array<AdvancedThreatPr
 /** The response of a AdvancedThreatProtection list operation. */
 export interface AdvancedThreatProtectionListResult {
   /** The AdvancedThreatProtection items on this page */
-  value?: AdvancedThreatProtectionListResultValueList | undefined;
+  value: AdvancedThreatProtectionListResultValueList;
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
@@ -1548,6 +1550,8 @@ export interface ListAzureADAdministratorByServerRequest {
   resourceGroupName: string;
   /** The name of the server. */
   serverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a Administrator. */
 export interface AzureADAdministrator {
@@ -1567,7 +1571,7 @@ export type AdministratorListResultValueList = Array<AzureADAdministrator>;
 /** A List of azure ad administrators. */
 export interface AdministratorListResult {
   /** The list of azure ad administrator of a server. */
-  value?: AdministratorListResultValueList | undefined;
+  value: AdministratorListResultValueList;
   /** The link used to get the next page of operations. */
   nextLink?: string | undefined;
 }
@@ -1578,6 +1582,8 @@ export interface ListBackupByServerRequest {
   resourceGroupName: string;
   /** The name of the server. */
   serverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Server backup properties */
 export interface ServerBackup {
@@ -1597,7 +1603,7 @@ export type ServerBackupListResultValueList = Array<ServerBackup>;
 /** The response of a ServerBackup list operation. */
 export interface ServerBackupListResult {
   /** The ServerBackup items on this page */
-  value?: ServerBackupListResultValueList | undefined;
+  value: ServerBackupListResultValueList;
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
@@ -1616,6 +1622,8 @@ export interface ListConfigurationByServerRequest {
   page?: number | undefined;
   /** The pageSize of the server configuration. */
   pageSize?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a Configuration. */
 export interface Configuration {
@@ -1635,7 +1643,7 @@ export type ConfigurationListResultValueList = Array<Configuration>;
 /** The response of a Configuration list operation. */
 export interface ConfigurationListResult {
   /** The Configuration items on this page */
-  value?: ConfigurationListResultValueList | undefined;
+  value: ConfigurationListResultValueList;
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
@@ -1646,6 +1654,8 @@ export interface ListDatabaseByServerRequest {
   resourceGroupName: string;
   /** The name of the server. */
   serverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a Database. */
 export interface Database {
@@ -1665,7 +1675,7 @@ export type DatabaseListResultValueList = Array<Database>;
 /** The response of a Database list operation. */
 export interface DatabaseListResult {
   /** The Database items on this page */
-  value?: DatabaseListResultValueList | undefined;
+  value: DatabaseListResultValueList;
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
@@ -1676,6 +1686,8 @@ export interface ListFirewallRuleByServerRequest {
   resourceGroupName: string;
   /** The name of the server. */
   serverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a server firewall rule. */
 export interface FirewallRule {
@@ -1695,7 +1707,7 @@ export type FirewallRuleListResultValueList = Array<FirewallRule>;
 /** The response of a FirewallRule list operation. */
 export interface FirewallRuleListResult {
   /** The FirewallRule items on this page */
-  value?: FirewallRuleListResultValueList | undefined;
+  value: FirewallRuleListResultValueList;
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
@@ -1704,6 +1716,8 @@ export interface ListLocationBasedCapabilitiesRequest {
   subscriptionId: string;
   /** The name of the location. */
   locationName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Supported high availability mode */
 export type CapabilityPropertiesSupportedHAModeList = Array<string>;
@@ -1763,7 +1777,7 @@ export type CapabilitiesListResultValueList = Array<CapabilityProperties>;
 /** location capability */
 export interface CapabilitiesListResult {
   /** The CapabilityProperties items on this page */
-  value?: CapabilitiesListResultValueList | undefined;
+  value: CapabilitiesListResultValueList;
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
@@ -1772,6 +1786,8 @@ export interface ListLocationBasedCapabilitySetRequest {
   subscriptionId: string;
   /** The name of the location. */
   locationName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a location capability set. */
 export interface Capability {
@@ -1791,7 +1807,7 @@ export type CapabilitySetsListValueList = Array<Capability>;
 /** location capability set */
 export interface CapabilitySetsList {
   /** The CapabilitySetsList items on this page */
-  value?: CapabilitySetsListValueList | undefined;
+  value: CapabilitySetsListValueList;
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
@@ -1802,6 +1818,8 @@ export interface ListLogFileByServerRequest {
   resourceGroupName: string;
   /** The name of the server. */
   serverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The properties of a logFile. */
 export interface LogFileProperties {
@@ -1834,7 +1852,7 @@ export type LogFileListResultValueList = Array<LogFile>;
 /** The response of a LogFile list operation. */
 export interface LogFileListResult {
   /** The LogFile items on this page */
-  value?: LogFileListResultValueList | undefined;
+  value: LogFileListResultValueList;
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
@@ -1845,6 +1863,8 @@ export interface ListLongRunningBackupsRequest {
   resourceGroupName: string;
   /** The name of the server. */
   serverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Server backup properties */
 export interface ServerBackupV2 {
@@ -1864,7 +1884,7 @@ export type ServerBackupV2ListResultValueList = Array<ServerBackupV2>;
 /** The response of a ServerBackupV2 list operation. */
 export interface ServerBackupV2ListResult {
   /** The ServerBackupV2 items on this page */
-  value?: ServerBackupV2ListResultValueList | undefined;
+  value: ServerBackupV2ListResultValueList;
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
@@ -1875,6 +1895,8 @@ export interface ListMaintenancesRequest {
   resourceGroupName: string;
   /** The name of the server. */
   serverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The type of this maintenance. */
 export type MaintenanceType =
@@ -1935,11 +1957,14 @@ export type MaintenanceListResultValueList = Array<Maintenance>;
 /** The response of a Maintenance list operation. */
 export interface MaintenanceListResult {
   /** The Maintenance items on this page */
-  value?: MaintenanceListResultValueList | undefined;
+  value: MaintenanceListResultValueList;
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Display metadata associated with the operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1971,7 +1996,7 @@ export type OperationListResultValueList = Array<Operation>;
 /** The static parameters for a resource group based resource */
 export interface OperationListResult {
   /** The Operation items on this page */
-  value?: OperationListResultValueList | undefined;
+  value: OperationListResultValueList;
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
@@ -2030,6 +2055,8 @@ export interface ListReplicasByServerRequest {
   resourceGroupName: string;
   /** The name of the server. */
   serverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ServerTagsMap = { [key: string]: string | undefined };
@@ -2059,7 +2086,7 @@ export type ServerListResultValueList = Array<Server>;
 /** The response of a Server list operation. */
 export interface ServerListResult {
   /** The Server items on this page */
-  value?: ServerListResultValueList | undefined;
+  value: ServerListResultValueList;
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
@@ -2068,6 +2095,8 @@ export interface ListServerByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListServerKeysRequest {
   /** The ID of the target subscription. */
@@ -2076,6 +2105,8 @@ export interface ListServerKeysRequest {
   resourceGroupName: string;
   /** The name of the server. */
   serverName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A MySQL Server key. */
 export interface ServerKey {
@@ -2095,13 +2126,15 @@ export type ServerKeyListResultValueList = Array<ServerKey>;
 /** A list of MySQL Server keys. */
 export interface ServerKeyListResult {
   /** A list of MySQL Server keys. */
-  value?: ServerKeyListResultValueList | undefined;
+  value: ServerKeyListResultValueList;
   /** Link to retrieve next page of results. */
   nextLink?: string | undefined;
 }
 export interface ListServersRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The private endpoint resource. */
 export type PrivateEndpointInput = UserAssignedIdentityInput;
@@ -3148,12 +3181,13 @@ export const GetServerKey: API.OperationMethod<
 
 export type ListAdvancedThreatProtectionSettingsError = AzureOpError;
 /** Gets a list of server's Advanced Threat Protection states. */
-export const ListAdvancedThreatProtectionSettings: API.OperationMethod<
+export const ListAdvancedThreatProtectionSettings: API.PaginatedOperationMethod<
   ListAdvancedThreatProtectionSettingsRequest,
   AdvancedThreatProtectionListResult,
   ListAdvancedThreatProtectionSettingsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AdvancedThreatProtection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<ListAdvancedThreatProtectionSettingsRequest>,
   output: __S(818, __c51, 2) as any as S.Schema<AdvancedThreatProtectionListResult>,
   errors: [UnknownAzureError],
@@ -3161,16 +3195,23 @@ export const ListAdvancedThreatProtectionSettings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAdvancedThreatProtectionSettings",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAzureADAdministratorByServerError = AzureOpError;
 /** List all the AAD administrators in a given server. */
-export const ListAzureADAdministratorByServer: API.OperationMethod<
+export const ListAzureADAdministratorByServer: API.PaginatedOperationMethod<
   ListAzureADAdministratorByServerRequest,
   AdministratorListResult,
   ListAzureADAdministratorByServerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AzureADAdministrator
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<ListAzureADAdministratorByServerRequest>,
   output: __S(834, __c52, 2) as any as S.Schema<AdministratorListResult>,
   errors: [UnknownAzureError],
@@ -3178,16 +3219,23 @@ export const ListAzureADAdministratorByServer: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAzureADAdministratorByServer",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBackupByServerError = AzureOpError;
 /** List all the backups for a given server. */
-export const ListBackupByServer: API.OperationMethod<
+export const ListBackupByServer: API.PaginatedOperationMethod<
   ListBackupByServerRequest,
   ServerBackupListResult,
   ListBackupByServerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ServerBackup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<ListBackupByServerRequest>,
   output: __S(850, __c53, 2) as any as S.Schema<ServerBackupListResult>,
   errors: [UnknownAzureError],
@@ -3195,16 +3243,23 @@ export const ListBackupByServer: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupByServer",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigurationByServerError = AzureOpError;
 /** List all the configurations in a given server. */
-export const ListConfigurationByServer: API.OperationMethod<
+export const ListConfigurationByServer: API.PaginatedOperationMethod<
   ListConfigurationByServerRequest,
   ConfigurationListResult,
   ListConfigurationByServerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Configuration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<ListConfigurationByServerRequest>,
   output: __S(865, __c54, 1) as any as S.Schema<ConfigurationListResult>,
   errors: [UnknownAzureError],
@@ -3212,16 +3267,23 @@ export const ListConfigurationByServer: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigurationByServer",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDatabaseByServerError = AzureOpError;
 /** List all the databases in a given server. */
-export const ListDatabaseByServer: API.OperationMethod<
+export const ListDatabaseByServer: API.PaginatedOperationMethod<
   ListDatabaseByServerRequest,
   DatabaseListResult,
   ListDatabaseByServerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Database
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<ListDatabaseByServerRequest>,
   output: __S(898, __c56, 2) as any as S.Schema<DatabaseListResult>,
   errors: [UnknownAzureError],
@@ -3229,16 +3291,23 @@ export const ListDatabaseByServer: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDatabaseByServer",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFirewallRuleByServerError = AzureOpError;
 /** List all the firewall rules in a given server. */
-export const ListFirewallRuleByServer: API.OperationMethod<
+export const ListFirewallRuleByServer: API.PaginatedOperationMethod<
   ListFirewallRuleByServerRequest,
   FirewallRuleListResult,
   ListFirewallRuleByServerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  FirewallRule
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<ListFirewallRuleByServerRequest>,
   output: __S(914, __c57, 2) as any as S.Schema<FirewallRuleListResult>,
   errors: [UnknownAzureError],
@@ -3246,16 +3315,23 @@ export const ListFirewallRuleByServer: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFirewallRuleByServer",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLocationBasedCapabilitiesError = AzureOpError;
 /** Get capabilities at specified location in a given subscription. */
-export const ListLocationBasedCapabilities: API.OperationMethod<
+export const ListLocationBasedCapabilities: API.PaginatedOperationMethod<
   ListLocationBasedCapabilitiesRequest,
   CapabilitiesListResult,
   ListLocationBasedCapabilitiesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CapabilityProperties
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<ListLocationBasedCapabilitiesRequest>,
   output: __S(937, __c58, 9) as any as S.Schema<CapabilitiesListResult>,
   errors: [UnknownAzureError],
@@ -3263,16 +3339,23 @@ export const ListLocationBasedCapabilities: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLocationBasedCapabilities",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLocationBasedCapabilitySetError = AzureOpError;
 /** Get capabilities at specified location in a given subscription. */
-export const ListLocationBasedCapabilitySet: API.OperationMethod<
+export const ListLocationBasedCapabilitySet: API.PaginatedOperationMethod<
   ListLocationBasedCapabilitySetRequest,
   CapabilitySetsList,
   ListLocationBasedCapabilitySetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Capability
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<ListLocationBasedCapabilitySetRequest>,
   output: __S(978, __c61, 2) as any as S.Schema<CapabilitySetsList>,
   errors: [UnknownAzureError],
@@ -3280,16 +3363,23 @@ export const ListLocationBasedCapabilitySet: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLocationBasedCapabilitySet",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLogFileByServerError = AzureOpError;
 /** List all the server log files in a given server. */
-export const ListLogFileByServer: API.OperationMethod<
+export const ListLogFileByServer: API.PaginatedOperationMethod<
   ListLogFileByServerRequest,
   LogFileListResult,
   ListLogFileByServerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LogFile
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<ListLogFileByServerRequest>,
   output: __S(996, __c62, 4) as any as S.Schema<LogFileListResult>,
   errors: [UnknownAzureError],
@@ -3297,16 +3387,23 @@ export const ListLogFileByServer: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLogFileByServer",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLongRunningBackupsError = AzureOpError;
 /** List all the backups for a given server. */
-export const ListLongRunningBackups: API.OperationMethod<
+export const ListLongRunningBackups: API.PaginatedOperationMethod<
   ListLongRunningBackupsRequest,
   ServerBackupV2ListResult,
   ListLongRunningBackupsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ServerBackupV2
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<ListLongRunningBackupsRequest>,
   output: __S(1010, __c63, 2) as any as S.Schema<ServerBackupV2ListResult>,
   errors: [UnknownAzureError],
@@ -3314,16 +3411,23 @@ export const ListLongRunningBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLongRunningBackups",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMaintenancesError = AzureOpError;
 /** List maintenances. */
-export const ListMaintenances: API.OperationMethod<
+export const ListMaintenances: API.PaginatedOperationMethod<
   ListMaintenancesRequest,
   MaintenanceListResult,
   ListMaintenancesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Maintenance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<ListMaintenancesRequest>,
   output: __S(1026, __c64, 2) as any as S.Schema<MaintenanceListResult>,
   errors: [UnknownAzureError],
@@ -3331,16 +3435,23 @@ export const ListMaintenances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMaintenances",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1072, __c67, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1076, __c67, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -3348,7 +3459,13 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionByServerError = AzureOpError;
 /** Gets all private endpoint connections on a server. */
@@ -3386,12 +3503,13 @@ export const ListPrivateLinkResourceByServer: API.OperationMethod<
 
 export type ListReplicasByServerError = AzureOpError;
 /** List all the replicas for a given server. */
-export const ListReplicasByServer: API.OperationMethod<
+export const ListReplicasByServer: API.PaginatedOperationMethod<
   ListReplicasByServerRequest,
   ServerListResult,
   ListReplicasByServerError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Server
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1120, __c70, 0) as any as S.Schema<ListReplicasByServerRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<ServerListResult>,
   errors: [UnknownAzureError],
@@ -3399,16 +3517,23 @@ export const ListReplicasByServer: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReplicasByServer",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServerByResourceGroupError = AzureOpError;
 /** List all the servers in a given resource group. */
-export const ListServerByResourceGroup: API.OperationMethod<
+export const ListServerByResourceGroup: API.PaginatedOperationMethod<
   ListServerByResourceGroupRequest,
   ServerListResult,
   ListServerByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Server
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1152, __c72, 0) as any as S.Schema<ListServerByResourceGroupRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<ServerListResult>,
   errors: [UnknownAzureError],
@@ -3416,16 +3541,23 @@ export const ListServerByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServerByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServerKeysError = AzureOpError;
 /** Gets a list of Server keys. */
-export const ListServerKeys: API.OperationMethod<
+export const ListServerKeys: API.PaginatedOperationMethod<
   ListServerKeysRequest,
   ServerKeyListResult,
   ListServerKeysError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ServerKey
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1168, __c73, 0) as any as S.Schema<ListServerKeysRequest>,
   output: __S(1170, __c73, 2) as any as S.Schema<ServerKeyListResult>,
   errors: [UnknownAzureError],
@@ -3433,16 +3565,23 @@ export const ListServerKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServerKeys",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServersError = AzureOpError;
 /** List all the servers in a given subscription. */
-export const ListServers: API.OperationMethod<
+export const ListServers: API.PaginatedOperationMethod<
   ListServersRequest,
   ServerListResult,
   ListServersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Server
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1312, __c82, 0) as any as S.Schema<ListServersRequest>,
   output: __S(1137, __c71, 1) as any as S.Schema<ServerListResult>,
   errors: [UnknownAzureError],
@@ -3450,7 +3589,13 @@ export const ListServers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PrivateEndpointConnectionsCreateOrUpdateError = AzureOpError;
 /** Approve or reject a private endpoint connection with a given name. */
@@ -4894,12 +5039,14 @@ function __c51(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/advancedThreatProtectionSettings",
             code: 200,
             apiVersion: "2024-12-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAdvancedThreatProtectionSettingsRequest" });
@@ -4908,7 +5055,7 @@ function __c51(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(817, __c51, 1)),
+          value: __S(817, __c51, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdvancedThreatProtectionListResult" });
@@ -4922,12 +5069,14 @@ function __c52(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/administrators",
             code: 200,
             apiVersion: "2024-12-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAzureADAdministratorByServerRequest" });
@@ -4936,7 +5085,7 @@ function __c52(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(833, __c52, 1)),
+          value: __S(833, __c52, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AdministratorListResult" });
@@ -4950,12 +5099,14 @@ function __c53(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/backups",
             code: 200,
             apiVersion: "2024-12-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBackupByServerRequest" });
@@ -4964,7 +5115,7 @@ function __c53(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(849, __c53, 1)),
+          value: __S(849, __c53, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerBackupListResult" });
@@ -4982,19 +5133,21 @@ function __c54(j: number): any {
           keyword: S.optional(S.String.pipe(T.Query())),
           page: S.optional(S.Number.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/configurations",
             code: 200,
             apiVersion: "2024-12-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigurationByServerRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(880, __c55, 0)),
+          value: __S(880, __c55, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigurationListResult" });
@@ -5014,12 +5167,14 @@ function __c56(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/databases",
             code: 200,
             apiVersion: "2024-12-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDatabaseByServerRequest" });
@@ -5028,7 +5183,7 @@ function __c56(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(897, __c56, 1)),
+          value: __S(897, __c56, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DatabaseListResult" });
@@ -5042,12 +5197,14 @@ function __c57(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/firewallRules",
             code: 200,
             apiVersion: "2024-12-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFirewallRuleByServerRequest" });
@@ -5056,7 +5213,7 @@ function __c57(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(913, __c57, 1)),
+          value: __S(913, __c57, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FirewallRuleListResult" });
@@ -5069,12 +5226,14 @@ function __c58(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           locationName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/locations/{locationName}/capabilities",
             code: 200,
             apiVersion: "2024-12-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLocationBasedCapabilitiesRequest" });
@@ -5122,7 +5281,7 @@ function __c58(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(936, __c58, 8)),
+          value: __S(936, __c58, 8),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CapabilitiesListResult" });
@@ -5182,12 +5341,14 @@ function __c61(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           locationName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/locations/{locationName}/capabilitySets",
             code: 200,
             apiVersion: "2024-12-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLocationBasedCapabilitySetRequest" });
@@ -5196,7 +5357,7 @@ function __c61(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(977, __c61, 1)),
+          value: __S(977, __c61, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CapabilitySetsList" });
@@ -5210,12 +5371,14 @@ function __c62(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/logFiles",
             code: 200,
             apiVersion: "2024-12-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLogFileByServerRequest" });
@@ -5244,7 +5407,7 @@ function __c62(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(995, __c62, 3)),
+          value: __S(995, __c62, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogFileListResult" });
@@ -5258,12 +5421,14 @@ function __c63(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/backupsV2",
             code: 200,
             apiVersion: "2024-12-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLongRunningBackupsRequest" });
@@ -5272,7 +5437,7 @@ function __c63(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1009, __c63, 1)),
+          value: __S(1009, __c63, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerBackupV2ListResult" });
@@ -5286,12 +5451,14 @@ function __c64(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/maintenances",
             code: 200,
             apiVersion: "2024-12-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMaintenancesRequest" });
@@ -5300,7 +5467,7 @@ function __c64(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1025, __c64, 1)),
+          value: __S(1025, __c64, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "MaintenanceListResult" });
@@ -5344,12 +5511,15 @@ function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.DBforMySQL/operations",
             code: 200,
             apiVersion: "2024-12-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -5376,7 +5546,7 @@ function __c67(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1075, __c67, 3)),
+          value: __S(1075, __c67, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
@@ -5443,12 +5613,14 @@ function __c70(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers/{serverName}/replicas",
             code: 200,
             apiVersion: "2024-12-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListReplicasByServerRequest" });
@@ -5461,7 +5633,7 @@ function __c71(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1136, __c71, 0)),
+          value: __S(1136, __c71, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerListResult" });
@@ -5474,12 +5646,14 @@ function __c72(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/flexibleServers",
             code: 200,
             apiVersion: "2024-12-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServerByResourceGroupRequest" });
@@ -5493,12 +5667,14 @@ function __c73(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serverName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMySQL/servers/{serverName}/keys",
             code: 200,
             apiVersion: "2020-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServerKeysRequest" });
@@ -5507,7 +5683,7 @@ function __c73(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1169, __c73, 1)),
+          value: __S(1169, __c73, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServerKeyListResult" });
@@ -5802,12 +5978,14 @@ function __c82(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DBforMySQL/flexibleServers",
             code: 200,
             apiVersion: "2024-12-30",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServersRequest" });

@@ -1,0 +1,765 @@
+{
+  "description": "Microsoft.DeviceRegistry does not serve the stable 2026-11-01 api-version yet (\"No registered resource provider found for location 'eastus' and API version '2026-11-01' for type 'namespaces'. The supported api-versions are '2025-10-01, 2026-04-01, 2026-11-02-preview'\"). Pin every operation whose path exists in stable 2026-04-01 to it, and the certificateAuthorities, certificatePolicies, registryDevices, and asyncOperationStatuses operations (new in 2026-11-01) to 2026-11-02-preview, whose schemas for them match.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#OperationsList/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#OperationsList/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetEndpointProfilesListBySubscription/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetEndpointProfilesListBySubscription/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetsListBySubscription/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetsListBySubscription/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#BillingContainersListBySubscription/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#BillingContainersListBySubscription/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#BillingContainersGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#BillingContainersGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AsyncOperationStatusGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AsyncOperationStatusGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#OperationStatusGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#OperationStatusGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespacesListBySubscription/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespacesListBySubscription/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaRegistriesListBySubscription/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaRegistriesListBySubscription/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetEndpointProfilesListByResourceGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetEndpointProfilesListByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetEndpointProfilesGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetEndpointProfilesGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetEndpointProfilesCreateOrReplace/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetEndpointProfilesCreateOrReplace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetEndpointProfilesUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetEndpointProfilesUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetEndpointProfilesDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetEndpointProfilesDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetsListByResourceGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetsListByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetsGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetsGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetsCreateOrReplace/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetsCreateOrReplace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetsUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetsUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetsDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#AssetsDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespacesListByResourceGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespacesListByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespacesGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespacesGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespacesCreateOrReplace/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespacesCreateOrReplace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespacesUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespacesUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespacesDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespacesDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceAssetsListByNamespace/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceAssetsListByNamespace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceAssetsGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceAssetsGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceAssetsCreateOrReplace/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceAssetsCreateOrReplace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceAssetsUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceAssetsUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceAssetsDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceAssetsDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceAssetsExecuteAction/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceAssetsExecuteAction/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificateAuthoritiesListByNamespace/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificateAuthoritiesListByNamespace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificateAuthoritiesGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificateAuthoritiesGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificateAuthoritiesCreateOrReplace/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificateAuthoritiesCreateOrReplace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificateAuthoritiesUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificateAuthoritiesUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificateAuthoritiesDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificateAuthoritiesDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificateAuthoritiesActivate/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificateAuthoritiesActivate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificatePoliciesListByCertificateAuthority/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificatePoliciesListByCertificateAuthority/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificatePoliciesGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificatePoliciesGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificatePoliciesCreateOrReplace/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificatePoliciesCreateOrReplace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificatePoliciesUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificatePoliciesUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificatePoliciesDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificatePoliciesDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificateAuthoritiesRevokeAndRotate/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#CertificateAuthoritiesRevokeAndRotate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDevicesListByNamespace/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDevicesListByNamespace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDevicesGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDevicesGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDevicesCreateOrReplace/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDevicesCreateOrReplace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDevicesUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDevicesUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDevicesDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDevicesDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredAssetsListByNamespace/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredAssetsListByNamespace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredAssetsGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredAssetsGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredAssetsCreateOrReplace/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredAssetsCreateOrReplace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredAssetsUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredAssetsUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredAssetsDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredAssetsDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredDevicesListByNamespace/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredDevicesListByNamespace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredDevicesGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredDevicesGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredDevicesCreateOrReplace/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredDevicesCreateOrReplace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredDevicesUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredDevicesUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredDevicesDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespaceDiscoveredDevicesDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespacesMigrate/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#NamespacesMigrate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#RegistryDevicesListByNamespace/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#RegistryDevicesListByNamespace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#RegistryDevicesGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#RegistryDevicesGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#RegistryDevicesCreateOrReplace/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#RegistryDevicesCreateOrReplace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#RegistryDevicesUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#RegistryDevicesUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#RegistryDevicesDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#RegistryDevicesDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-11-02-preview"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaRegistriesListByResourceGroup/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaRegistriesListByResourceGroup/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaRegistriesGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaRegistriesGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaRegistriesCreateOrReplace/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaRegistriesCreateOrReplace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaRegistriesUpdate/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaRegistriesUpdate/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaRegistriesDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaRegistriesDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemasListBySchemaRegistry/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemasListBySchemaRegistry/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemasGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemasGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemasCreateOrReplace/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemasCreateOrReplace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemasDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemasDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaVersionsListBySchema/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaVersionsListBySchema/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaVersionsGet/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaVersionsGet/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaVersionsCreateOrReplace/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaVersionsCreateOrReplace/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaVersionsDelete/traits/smithy.api#http/apiVersion",
+      "value": "2026-04-01"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.deviceregistry#SchemaVersionsDelete/traits/com.distilled.openapi#apiVersion",
+      "value": "2026-04-01"
+    }
+  ]
+}

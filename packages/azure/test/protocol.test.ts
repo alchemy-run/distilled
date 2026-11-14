@@ -66,7 +66,11 @@ const subscriptionId = "00000000-0000-0000-0000-000000000001";
 const credentials = (apiBaseUrl = "https://management.azure.com", token = "arm-token") =>
   Layer.succeed(
     Credentials,
-    Effect.succeed({ bearerToken: Redacted.make(token), subscriptionId, apiBaseUrl }),
+    Effect.succeed({
+      token: () => Effect.succeed(Redacted.make(token)),
+      subscriptionId,
+      apiBaseUrl,
+    }),
   );
 
 const run = <A, E>(
@@ -100,11 +104,14 @@ describe("request encoding", () => {
     let n = 0;
     const rotating = Layer.succeed(
       Credentials,
-      Effect.sync(() => ({
-        bearerToken: Redacted.make(`t${++n}`),
-        subscriptionId,
-        apiBaseUrl: "https://management.azure.com",
-      })),
+      Effect.sync(() => {
+        const token = Redacted.make(`t${++n}`);
+        return {
+          token: () => Effect.succeed(token),
+          subscriptionId,
+          apiBaseUrl: "https://management.azure.com",
+        };
+      }),
     );
     await run(GetResourceGroup(rg), layer, rotating);
     await run(GetResourceGroup(rg), layer, rotating);

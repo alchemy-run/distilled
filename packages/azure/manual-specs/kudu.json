@@ -1,0 +1,797 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "note": "Hand-authored: Kudu has no Swagger. Transcribed from learn.microsoft.com/azure/app-service/deploy-zip (Kudu publish API reference) and learn.microsoft.com/azure/azure-functions/deployment-zip-push (zipdeploy, isAsync, /api/deployments). `RemoteBuild` and `Deployer` match what alchemy's Website.AppDeployment and Functions.Function send. The host is the SCM host name rather than the site name, because regional default host names (`<site>-<hash>.<region>.azurewebsites.net`) put `scm` after the first label.",
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ]
+  },
+  "shapes": {
+    "com.azure.kudu#DeployArtifact": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.kudu#DeployArtifactRequest"
+      },
+      "output": {
+        "target": "com.azure.kudu#DeployArtifactResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/publish",
+          "code": 200,
+          "host": "https://{scmHostName}",
+          "bodyMediaType": "application/octet-stream"
+        },
+        "smithy.api#documentation": "Deploy an artifact with OneDeploy (`POST /api/publish?type=…`): a zip package, a static file, a WAR/JAR/EAR, a library or a startup script."
+      },
+      "errors": [
+        {
+          "target": "com.azure.kudu#KuduDeploymentInProgress"
+        }
+      ]
+    },
+    "com.azure.kudu#DeployArtifactRequest": {
+      "type": "structure",
+      "members": {
+        "scmHostName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The site's SCM host: the default host name with `scm` after the first label (`my-app.scm.azurewebsites.net`, `my-app-abc123.scm.eastus-01.azurewebsites.net`)."
+          }
+        },
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The artifact."
+          }
+        },
+        "contentType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Content-Type",
+            "smithy.api#documentation": "The artifact's content type (`application/zip`). Default `application/octet-stream`."
+          }
+        },
+        "type": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "type",
+            "smithy.api#documentation": "The artifact type: `zip`, `static`, `war`, `jar`, `ear`, `lib` or `startup`."
+          }
+        },
+        "path": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "path",
+            "smithy.api#documentation": "The absolute target path (`/home/site/wwwroot/index.html`); `type` sets the default."
+          }
+        },
+        "restart": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "restart",
+            "smithy.api#documentation": "Restart the app after the deployment. Default true."
+          }
+        },
+        "clean": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "clean",
+            "smithy.api#documentation": "Delete the target before deploying."
+          }
+        },
+        "ignorestack": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "ignorestack",
+            "smithy.api#documentation": "Ignore the language stack's defaults (`WEBSITE_STACK`)."
+          }
+        },
+        "RemoteBuild": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "RemoteBuild",
+            "smithy.api#documentation": "Run the build (`npm install`, Oryx) on the server."
+          }
+        },
+        "Deployer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "Deployer",
+            "smithy.api#documentation": "The deployer name recorded with the deployment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.kudu#DeployArtifactResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The deployment status URL of an asynchronous deployment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.kudu#DeployResult": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deployment id."
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "0 pending, 1 building, 2 deploying, 3 failed, 4 succeeded."
+          }
+        },
+        "statusText": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "status_text",
+            "smithy.api#documentation": "The status in words."
+          }
+        },
+        "authorEmail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "author_email",
+            "smithy.api#documentation": "The author's email."
+          }
+        },
+        "author": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The author."
+          }
+        },
+        "deployer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deployer (`alchemy`, `ZipDeploy`, `OneDeploy`)."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deployment message."
+          }
+        },
+        "progress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The current step."
+          }
+        },
+        "receivedTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "received_time",
+            "smithy.api#documentation": "When the deployment was received."
+          }
+        },
+        "startTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "start_time",
+            "smithy.api#documentation": "When it started."
+          }
+        },
+        "endTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "end_time",
+            "smithy.api#documentation": "When it ended."
+          }
+        },
+        "lastSuccessEndTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "last_success_end_time",
+            "smithy.api#documentation": "When the last successful deployment ended."
+          }
+        },
+        "complete": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The deployment finished (succeeded or failed)."
+          }
+        },
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "This is the deployment the site runs."
+          }
+        },
+        "isTemp": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#jsonName": "is_temp",
+            "smithy.api#documentation": "A temporary deployment record."
+          }
+        },
+        "isReadonly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#jsonName": "is_readonly",
+            "smithy.api#documentation": "The record cannot be redeployed."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The status URL."
+          }
+        },
+        "logUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "log_url",
+            "smithy.api#documentation": "The log URL."
+          }
+        },
+        "siteName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "site_name",
+            "smithy.api#documentation": "The site name."
+          }
+        }
+      }
+    },
+    "com.azure.kudu#DeployResultList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.kudu#DeployResult"
+      }
+    },
+    "com.azure.kudu#DeployZip": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.kudu#DeployZipRequest"
+      },
+      "output": {
+        "target": "com.azure.kudu#DeployZipResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/api/zipdeploy",
+          "code": 200,
+          "host": "https://{scmHostName}",
+          "bodyMediaType": "application/zip"
+        },
+        "smithy.api#documentation": "Deploy a zip package (`POST /api/zipdeploy`). With `isAsync`, the service answers once the upload is in, and `location` names the status URL."
+      },
+      "errors": [
+        {
+          "target": "com.azure.kudu#KuduDeploymentInProgress"
+        }
+      ]
+    },
+    "com.azure.kudu#DeployZipRequest": {
+      "type": "structure",
+      "members": {
+        "scmHostName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The site's SCM host: the default host name with `scm` after the first label (`my-app.scm.azurewebsites.net`, `my-app-abc123.scm.eastus-01.azurewebsites.net`)."
+          }
+        },
+        "body": {
+          "target": "smithy.api#Blob",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The zip package."
+          }
+        },
+        "isAsync": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#httpQuery": "isAsync",
+            "smithy.api#documentation": "Return as soon as the package is uploaded (HTTP 202 with `location`)."
+          }
+        },
+        "Deployer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpQuery": "Deployer",
+            "smithy.api#documentation": "The deployer name recorded with the deployment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.kudu#DeployZipResponse": {
+      "type": "structure",
+      "members": {
+        "location": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Location",
+            "smithy.api#documentation": "The deployment status URL of an asynchronous deployment."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.kudu#GetDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.kudu#GetDeploymentRequest"
+      },
+      "output": {
+        "target": "com.azure.kudu#GetDeploymentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/deployments/{id}",
+          "code": 200,
+          "host": "https://{scmHostName}"
+        },
+        "smithy.api#documentation": "Read a deployment's status (`GET /api/deployments/{id}`): HTTP 202 while it runs, 200 once it ended."
+      }
+    },
+    "com.azure.kudu#GetDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "scmHostName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The site's SCM host: the default host name with `scm` after the first label (`my-app.scm.azurewebsites.net`, `my-app-abc123.scm.eastus-01.azurewebsites.net`)."
+          }
+        },
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The deployment id."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.kudu#GetDeploymentResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deployment id."
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "0 pending, 1 building, 2 deploying, 3 failed, 4 succeeded."
+          }
+        },
+        "statusText": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "status_text",
+            "smithy.api#documentation": "The status in words."
+          }
+        },
+        "authorEmail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "author_email",
+            "smithy.api#documentation": "The author's email."
+          }
+        },
+        "author": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The author."
+          }
+        },
+        "deployer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deployer (`alchemy`, `ZipDeploy`, `OneDeploy`)."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deployment message."
+          }
+        },
+        "progress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The current step."
+          }
+        },
+        "receivedTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "received_time",
+            "smithy.api#documentation": "When the deployment was received."
+          }
+        },
+        "startTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "start_time",
+            "smithy.api#documentation": "When it started."
+          }
+        },
+        "endTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "end_time",
+            "smithy.api#documentation": "When it ended."
+          }
+        },
+        "lastSuccessEndTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "last_success_end_time",
+            "smithy.api#documentation": "When the last successful deployment ended."
+          }
+        },
+        "complete": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The deployment finished (succeeded or failed)."
+          }
+        },
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "This is the deployment the site runs."
+          }
+        },
+        "isTemp": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#jsonName": "is_temp",
+            "smithy.api#documentation": "A temporary deployment record."
+          }
+        },
+        "isReadonly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#jsonName": "is_readonly",
+            "smithy.api#documentation": "The record cannot be redeployed."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The status URL."
+          }
+        },
+        "logUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "log_url",
+            "smithy.api#documentation": "The log URL."
+          }
+        },
+        "siteName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "site_name",
+            "smithy.api#documentation": "The site name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.kudu#GetLatestDeployment": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.kudu#GetLatestDeploymentRequest"
+      },
+      "output": {
+        "target": "com.azure.kudu#GetLatestDeploymentResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/deployments/latest",
+          "code": 200,
+          "host": "https://{scmHostName}"
+        },
+        "smithy.api#documentation": "Read the latest deployment's status (`GET /api/deployments/latest`)."
+      }
+    },
+    "com.azure.kudu#GetLatestDeploymentRequest": {
+      "type": "structure",
+      "members": {
+        "scmHostName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The site's SCM host: the default host name with `scm` after the first label (`my-app.scm.azurewebsites.net`, `my-app-abc123.scm.eastus-01.azurewebsites.net`)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.kudu#GetLatestDeploymentResponse": {
+      "type": "structure",
+      "members": {
+        "id": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deployment id."
+          }
+        },
+        "status": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#documentation": "0 pending, 1 building, 2 deploying, 3 failed, 4 succeeded."
+          }
+        },
+        "statusText": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "status_text",
+            "smithy.api#documentation": "The status in words."
+          }
+        },
+        "authorEmail": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "author_email",
+            "smithy.api#documentation": "The author's email."
+          }
+        },
+        "author": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The author."
+          }
+        },
+        "deployer": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deployer (`alchemy`, `ZipDeploy`, `OneDeploy`)."
+          }
+        },
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The deployment message."
+          }
+        },
+        "progress": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The current step."
+          }
+        },
+        "receivedTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "received_time",
+            "smithy.api#documentation": "When the deployment was received."
+          }
+        },
+        "startTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "start_time",
+            "smithy.api#documentation": "When it started."
+          }
+        },
+        "endTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "end_time",
+            "smithy.api#documentation": "When it ended."
+          }
+        },
+        "lastSuccessEndTime": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "last_success_end_time",
+            "smithy.api#documentation": "When the last successful deployment ended."
+          }
+        },
+        "complete": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "The deployment finished (succeeded or failed)."
+          }
+        },
+        "active": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#documentation": "This is the deployment the site runs."
+          }
+        },
+        "isTemp": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#jsonName": "is_temp",
+            "smithy.api#documentation": "A temporary deployment record."
+          }
+        },
+        "isReadonly": {
+          "target": "smithy.api#Boolean",
+          "traits": {
+            "smithy.api#jsonName": "is_readonly",
+            "smithy.api#documentation": "The record cannot be redeployed."
+          }
+        },
+        "url": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The status URL."
+          }
+        },
+        "logUrl": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "log_url",
+            "smithy.api#documentation": "The log URL."
+          }
+        },
+        "siteName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "site_name",
+            "smithy.api#documentation": "The site name."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.kudu#Kudu": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.azure.kudu#DeployArtifact"
+        },
+        {
+          "target": "com.azure.kudu#DeployZip"
+        },
+        {
+          "target": "com.azure.kudu#GetDeployment"
+        },
+        {
+          "target": "com.azure.kudu#GetLatestDeployment"
+        },
+        {
+          "target": "com.azure.kudu#ListDeployments"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Azure App Service Kudu deployment",
+        "smithy.api#documentation": "Kudu, the App Service deployment endpoint on a site's SCM host: OneDeploy, zip deploy and deployment status. Hand-authored from the App Service and Azure Functions deployment docs; authenticates with a Microsoft Entra token for https://management.azure.com/.default.",
+        "com.azure.protocols#host": {
+          "template": "https://{scmHostName}",
+          "parameters": [
+            {
+              "name": "scmHostName"
+            }
+          ]
+        },
+        "com.azure.protocols#audience": "https://management.azure.com/.default"
+      }
+    },
+    "com.azure.kudu#KuduDeploymentInProgress": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error detail."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 409,
+        "smithy.api#documentation": "Another deployment, or the site's first start, is still running (HTTP 409); retry later.",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 409
+          }
+        ]
+      }
+    },
+    "com.azure.kudu#ListDeployments": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.kudu#ListDeploymentsRequest"
+      },
+      "output": {
+        "target": "com.azure.kudu#ListDeploymentsResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "GET",
+          "uri": "/api/deployments",
+          "code": 200,
+          "host": "https://{scmHostName}"
+        },
+        "smithy.api#documentation": "List the site's deployments, newest first (`GET /api/deployments`)."
+      }
+    },
+    "com.azure.kudu#ListDeploymentsRequest": {
+      "type": "structure",
+      "members": {
+        "scmHostName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The site's SCM host: the default host name with `scm` after the first label (`my-app.scm.azurewebsites.net`, `my-app-abc123.scm.eastus-01.azurewebsites.net`)."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.kudu#ListDeploymentsResponse": {
+      "type": "structure",
+      "members": {
+        "value": {
+          "target": "com.azure.kudu#DeployResultList",
+          "traits": {
+            "com.distilled.openapi#rawResponse": {},
+            "smithy.api#documentation": "The deployments."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#output": {}
+      }
+    }
+  }
+}

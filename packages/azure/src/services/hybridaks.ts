@@ -785,6 +785,8 @@ export interface GetVMSkusResponse {
 export interface ListAgentPoolByProvisionedClusterRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
   connectedClusterResourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags */
 export type AgentPoolTagsMap = { [key: string]: string | undefined };
@@ -806,12 +808,14 @@ export interface AgentPool {
 export type AgentPoolListResultValueList = Array<AgentPool>;
 /** List of all agent pool resources associated with the provisioned cluster. */
 export interface AgentPoolListResult {
-  value?: AgentPoolListResultValueList | undefined;
+  value: AgentPoolListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListHybridIdentityMetadataByClusterRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
   connectedClusterResourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Defines the hybridIdentityMetadata. */
 export interface HybridIdentityMetadata {
@@ -838,6 +842,8 @@ export interface HybridIdentityMetadataList {
 export interface ListKubernetesVersionsRequest {
   /** The fully qualified Azure Resource Manager identifier of the custom location resource. */
   customLocationResourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** List of supported Kubernetes versions */
 export type KubernetesVersionProfilePropertiesValuesList = Array<KubernetesVersionProperties>;
@@ -862,10 +868,13 @@ export interface KubernetesVersionProfile {
 export type KubernetesVersionProfileListValueList = Array<KubernetesVersionProfile>;
 /** List of supported kubernetes versions. */
 export interface KubernetesVersionProfileList {
-  value?: KubernetesVersionProfileListValueList | undefined;
+  value: KubernetesVersionProfileListValueList;
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -898,7 +907,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -939,6 +948,8 @@ export interface ListCredentialResponse {
 export interface ListProvisionedClusterInstancesRequest {
   /** The fully qualified Azure Resource Manager identifier of the connected cluster resource. */
   connectedClusterResourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The provisioned cluster resource definition. */
 export interface ProvisionedCluster {
@@ -956,7 +967,7 @@ export interface ProvisionedCluster {
 export type ProvisionedClusterListResultValueList = Array<ProvisionedCluster>;
 /** Lists the ProvisionedClusterInstance resource associated with the ConnectedCluster. */
 export interface ProvisionedClusterListResult {
-  value?: ProvisionedClusterListResultValueList | undefined;
+  value: ProvisionedClusterListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListProvisionedClusterInstanceUserKubeconfigRequest {
@@ -968,6 +979,8 @@ export interface ListVirtualNetworkByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type VirtualNetworkTagsMap = { [key: string]: string | undefined };
@@ -1001,16 +1014,20 @@ export interface VirtualNetwork {
 export type VirtualNetworksListResultValueList = Array<VirtualNetwork>;
 /** A list of virtual network resources. */
 export interface VirtualNetworksListResult {
-  value?: VirtualNetworksListResultValueList | undefined;
+  value: VirtualNetworksListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListVirtualNetworkBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListVMSkusRequest {
   /** The fully qualified Azure Resource Manager identifier of the custom location resource. */
   customLocationResourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** List of supported VM SKUs. */
 export type VmSkuProfilePropertiesValuesList = Array<VmSkuProperties>;
@@ -1035,7 +1052,7 @@ export interface VmSkuProfile {
 export type VmSkuProfileListValueList = Array<VmSkuProfile>;
 /** The list of supported VM SKUs. */
 export interface VmSkuProfileList {
-  value?: VmSkuProfileListValueList | undefined;
+  value: VmSkuProfileListValueList;
   nextLink?: string | undefined;
 }
 /** The node labels to be persisted across all nodes in agent pool. */
@@ -1664,12 +1681,13 @@ export const GetVMSkus: API.OperationMethod<
 
 export type ListAgentPoolByProvisionedClusterError = AzureOpError;
 /** Gets the list of agent pools in the specified provisioned cluster Gets the list of agent pools in the specified provisioned cluster */
-export const ListAgentPoolByProvisionedCluster: API.OperationMethod<
+export const ListAgentPoolByProvisionedCluster: API.PaginatedOperationMethod<
   ListAgentPoolByProvisionedClusterRequest,
   AgentPoolListResult,
   ListAgentPoolByProvisionedClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AgentPool
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<ListAgentPoolByProvisionedClusterRequest>,
   output: __S(546, __c17, 2) as any as S.Schema<AgentPoolListResult>,
   errors: [UnknownAzureError],
@@ -1683,16 +1701,23 @@ export const ListAgentPoolByProvisionedCluster: API.OperationMethod<
         "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHybridIdentityMetadataByClusterError = AzureOpError;
 /** Lists the hybrid identity metadata resources in a provisioned cluster instance Lists the hybrid identity metadata proxy resource in a provisioned cluster instance. */
-export const ListHybridIdentityMetadataByCluster: API.OperationMethod<
+export const ListHybridIdentityMetadataByCluster: API.PaginatedOperationMethod<
   ListHybridIdentityMetadataByClusterRequest,
   HybridIdentityMetadataList,
   ListHybridIdentityMetadataByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HybridIdentityMetadata
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c18, 0) as any as S.Schema<ListHybridIdentityMetadataByClusterRequest>,
   output: __S(578, __c18, 2) as any as S.Schema<HybridIdentityMetadataList>,
   errors: [UnknownAzureError],
@@ -1706,16 +1731,23 @@ export const ListHybridIdentityMetadataByCluster: API.OperationMethod<
         "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListKubernetesVersionsError = AzureOpError;
 /** Lists the supported kubernetes versions Lists the supported kubernetes versions for the specified custom location */
-export const ListKubernetesVersions: API.OperationMethod<
+export const ListKubernetesVersions: API.PaginatedOperationMethod<
   ListKubernetesVersionsRequest,
   KubernetesVersionProfileList,
   ListKubernetesVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  KubernetesVersionProfile
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<ListKubernetesVersionsRequest>,
   output: __S(610, __c19, 2) as any as S.Schema<KubernetesVersionProfileList>,
   errors: [UnknownAzureError],
@@ -1729,16 +1761,23 @@ export const ListKubernetesVersions: API.OperationMethod<
         "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/kubernetesVersions",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists the supported operations Lists the supported operations */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(644, __c20, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -1746,7 +1785,13 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProvisionedClusterInstanceAdminKubeconfigError = AzureOpError;
 /** Lists the admin credentials of the provisioned cluster (can only be used within private network) Lists the admin credentials of the provisioned cluster (can only be used within private network) */
@@ -1777,12 +1822,13 @@ export const ListProvisionedClusterInstanceAdminKubeconfig: API.OperationMethod<
 
 export type ListProvisionedClusterInstancesError = AzureOpError;
 /** Lists the ProvisionedClusterInstance resource associated with the ConnectedCluster Lists the ProvisionedClusterInstance resource associated with the ConnectedCluster */
-export const ListProvisionedClusterInstances: API.OperationMethod<
+export const ListProvisionedClusterInstances: API.PaginatedOperationMethod<
   ListProvisionedClusterInstancesRequest,
   ProvisionedClusterListResult,
   ListProvisionedClusterInstancesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ProvisionedCluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(736, __c23, 0) as any as S.Schema<ListProvisionedClusterInstancesRequest>,
   output: __S(738, __c23, 2) as any as S.Schema<ProvisionedClusterListResult>,
   errors: [UnknownAzureError],
@@ -1796,7 +1842,13 @@ export const ListProvisionedClusterInstances: API.OperationMethod<
         "/{connectedClusterResourceUri}/providers/Microsoft.HybridContainerService/provisionedClusterInstances",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListProvisionedClusterInstanceUserKubeconfigError = AzureOpError;
 /** Lists the user credentials of the provisioned cluster (can only be used within private network) Lists the user credentials of the provisioned cluster (can only be used within private network) */
@@ -1823,12 +1875,13 @@ export const ListProvisionedClusterInstanceUserKubeconfig: API.OperationMethod<
 
 export type ListVirtualNetworkByResourceGroupError = AzureOpError;
 /** Lists the virtual networks in the specified resource group Lists the virtual networks in the specified resource group */
-export const ListVirtualNetworkByResourceGroup: API.OperationMethod<
+export const ListVirtualNetworkByResourceGroup: API.PaginatedOperationMethod<
   ListVirtualNetworkByResourceGroupRequest,
   VirtualNetworksListResult,
   ListVirtualNetworkByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualNetwork
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListVirtualNetworkByResourceGroupRequest>,
   output: __S(865, __c27, 1) as any as S.Schema<VirtualNetworksListResult>,
   errors: [UnknownAzureError],
@@ -1836,16 +1889,23 @@ export const ListVirtualNetworkByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualNetworkByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualNetworkBySubscriptionError = AzureOpError;
 /** Lists the virtual networks in the specified subscription Lists the virtual networks in the specified subscription */
-export const ListVirtualNetworkBySubscription: API.OperationMethod<
+export const ListVirtualNetworkBySubscription: API.PaginatedOperationMethod<
   ListVirtualNetworkBySubscriptionRequest,
   VirtualNetworksListResult,
   ListVirtualNetworkBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualNetwork
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListVirtualNetworkBySubscriptionRequest>,
   output: __S(865, __c27, 1) as any as S.Schema<VirtualNetworksListResult>,
   errors: [UnknownAzureError],
@@ -1853,16 +1913,23 @@ export const ListVirtualNetworkBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualNetworkBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVMSkusError = AzureOpError;
 /** Lists the supported VM skus Lists the supported VM skus for the specified custom location */
-export const ListVMSkus: API.OperationMethod<
+export const ListVMSkus: API.PaginatedOperationMethod<
   ListVMSkusRequest,
   VmSkuProfileList,
   ListVMSkusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VmSkuProfile
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListVMSkusRequest>,
   output: __S(930, __c29, 2) as any as S.Schema<VmSkuProfileList>,
   errors: [UnknownAzureError],
@@ -1876,7 +1943,13 @@ export const ListVMSkus: API.OperationMethod<
         "/{customLocationResourceUri}/providers/Microsoft.HybridContainerService/skus",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ProvisionedClusterInstancesCreateOrUpdateError = AzureOpError;
 /** Creates or updates the provisioned cluster instance Creates or updates the provisioned cluster instance */
@@ -2607,12 +2680,14 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           connectedClusterResourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/agentPools",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAgentPoolByProvisionedClusterRequest" });
@@ -2621,7 +2696,7 @@ function __c17(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(545, __c17, 1)),
+          value: __S(545, __c17, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentPoolListResult" });
@@ -2633,12 +2708,14 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           connectedClusterResourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances/default/hybridIdentityMetadata",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHybridIdentityMetadataByClusterRequest" });
@@ -2659,12 +2736,14 @@ function __c19(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customLocationResourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/kubernetesVersions",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListKubernetesVersionsRequest" });
@@ -2673,7 +2752,7 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(609, __c19, 1)),
+          value: __S(609, __c19, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "KubernetesVersionProfileList" });
@@ -2683,12 +2762,15 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.HybridContainerService/operations",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2716,7 +2798,7 @@ function __c20(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(643, __c20, 3)),
+          value: __S(643, __c20, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -2767,12 +2849,14 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           connectedClusterResourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{connectedClusterResourceUri+}/providers/Microsoft.HybridContainerService/provisionedClusterInstances",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListProvisionedClusterInstancesRequest" });
@@ -2781,7 +2865,7 @@ function __c23(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(737, __c23, 1)),
+          value: __S(737, __c23, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProvisionedClusterListResult" });
@@ -2828,12 +2912,14 @@ function __c26(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridContainerService/virtualNetworks",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualNetworkByResourceGroupRequest" });
@@ -2846,7 +2932,7 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(864, __c27, 0)),
+          value: __S(864, __c27, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualNetworksListResult" });
@@ -2858,12 +2944,14 @@ function __c28(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridContainerService/virtualNetworks",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualNetworkBySubscriptionRequest" });
@@ -2875,12 +2963,14 @@ function __c29(j: number): any {
       return S.suspend(() =>
         S.Struct({
           customLocationResourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{customLocationResourceUri+}/providers/Microsoft.HybridContainerService/skus",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVMSkusRequest" });
@@ -2889,7 +2979,7 @@ function __c29(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(929, __c29, 1)),
+          value: __S(929, __c29, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VmSkuProfileList" });

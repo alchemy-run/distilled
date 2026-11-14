@@ -1,0 +1,20 @@
+{
+  "description": "The spec's `Endpoint` host parameter lacks `x-ms-skip-url-encoding` (LanguageAnalyzeText has it), so the full `https://…` endpoint is percent-encoded into the host and every call fails with InvalidUrl. Send it raw, as the other Language data planes do.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_language_analyze_documents#AnalyzeDocumentsSubmitJob/traits/smithy.api#http/hostRaw",
+      "value": ["endpoint"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_language_analyze_documents#AnalyzeDocumentsJobStatus/traits/smithy.api#http/hostRaw",
+      "value": ["endpoint"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_language_analyze_documents#AnalyzeDocumentsCancelJob/traits/smithy.api#http/hostRaw",
+      "value": ["endpoint"]
+    }
+  ]
+}

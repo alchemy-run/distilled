@@ -1,0 +1,84 @@
+{
+  "description": "Rooms answers an unknown room ID with HTTP 404 `{\"error\":{\"code\":\"NotFound\"}}`; type it per operation that addresses a room.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_rooms#RoomNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The room does not exist (HTTP 404 `NotFound`, \"Meeting is not found in DB\").",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/error/code": "NotFound"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_rooms#RoomsGet/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_rooms#RoomNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_rooms#RoomsUpdate/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_rooms#RoomNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_rooms#RoomsDelete/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_rooms#RoomNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_rooms#ParticipantsList/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_rooms#RoomNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_rooms#ParticipantsUpdate/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_rooms#RoomNotFound"
+        }
+      ]
+    }
+  ]
+}

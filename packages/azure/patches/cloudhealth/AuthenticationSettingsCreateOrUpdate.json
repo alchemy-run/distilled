@@ -1,0 +1,25 @@
+{
+  "description": "AuthenticationSettingProperties is polymorphic on `authenticationKind` (ManagedIdentity); the converted model keeps only the discriminator, so S.Struct strips `managedIdentityName` on encode and decode. Add the subtype member.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#AuthenticationSettingPropertiesInput/members/managedIdentityName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Name of the managed identity to use (ManagedIdentity). Either 'SystemAssigned' or the resource ID of a user-assigned identity."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cloudhealth#AuthenticationSettingProperties/members/managedIdentityName",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Name of the managed identity to use (ManagedIdentity). Either 'SystemAssigned' or the resource ID of a user-assigned identity."
+        }
+      }
+    }
+  ]
+}

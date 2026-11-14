@@ -1,0 +1,41 @@
+{
+  "description": "Detect answers one detection per input ({ language, score, isTranslationSupported, isTransliterationSupported, alternatives }); the swagger models each item as the request's { text }, so every field decoded away.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_translator_text#DetectAlternative",
+      "value": {
+        "type": "structure",
+        "members": {
+          "language": { "target": "smithy.api#String" },
+          "score": { "target": "smithy.api#Double" },
+          "isTranslationSupported": { "target": "smithy.api#Boolean" },
+          "isTransliterationSupported": { "target": "smithy.api#Boolean" }
+        },
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_translator_text#DetectAlternativesList",
+      "value": {
+        "type": "list",
+        "member": { "target": "com.azure.cognitiveservices_translator_text#DetectAlternative" },
+        "traits": {}
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices_translator_text#DetectResultItem/members",
+      "value": {
+        "language": { "target": "smithy.api#String" },
+        "score": { "target": "smithy.api#Double" },
+        "isTranslationSupported": { "target": "smithy.api#Boolean" },
+        "isTransliterationSupported": { "target": "smithy.api#Boolean" },
+        "alternatives": {
+          "target": "com.azure.cognitiveservices_translator_text#DetectAlternativesList"
+        }
+      }
+    }
+  ]
+}

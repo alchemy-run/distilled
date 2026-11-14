@@ -1,0 +1,75 @@
+{
+  "description": "SMS answers a sender number the resource does not own with HTTP 401 `{\"error\":{\"code\":\"Unauthorized\",\"message\":\"\"}}` (a rejected token answers code `Denied`). Type it on the operations that take `from`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_sms#SmsSenderNotAuthorized",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 401,
+          "smithy.api#documentation": "The caller is authenticated but may not send from `from`: the number is not one the Communication Services resource owns (HTTP 401 `{\"error\":{\"code\":\"Unauthorized\"}}`; a rejected token answers `Denied`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 401,
+              "body": {
+                "/error/code": "Unauthorized"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_sms#SmsSend/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_sms#SmsSenderNotAuthorized"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_sms#OptOutsAdd/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_sms#SmsSenderNotAuthorized"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_sms#OptOutsRemove/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_sms#SmsSenderNotAuthorized"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.communication_sms#OptOutsCheck/errors",
+      "value": [
+        {
+          "target": "com.azure.communication_sms#SmsSenderNotAuthorized"
+        }
+      ]
+    }
+  ]
+}

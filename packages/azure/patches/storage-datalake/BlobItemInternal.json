@@ -1,0 +1,13 @@
+{
+  "description": "List Blobs (ListFileSystemBlobHierarchySegment) omits <Deleted> and <Snapshot> for live, base blobs (they appear only with include=deleted / include=snapshots; seen live), so the swagger's `required` types them as always present. Make both optional, as in storage-blob.",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.storage_datalake#BlobItemInternal/members/Deleted/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.storage_datalake#BlobItemInternal/members/Snapshot/traits/smithy.api#required"
+    }
+  ]
+}

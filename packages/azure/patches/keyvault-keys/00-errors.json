@@ -1,0 +1,228 @@
+{
+  "description": "Key Vault answers a missing key, key version, or deleted key with HTTP 404 `{\"error\":{\"code\":\"KeyNotFound\"}}`. The client-level code map cannot own `KeyNotFound` (ARM's Microsoft.KeyVault GetKey uses the same code and alchemy treats it as a plain 404 there), so type it per operation on every keyvault-keys operation that addresses an existing key.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#KeyVaultKeyNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The Key Vault error code (`KeyNotFound`)."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The key, the key version, or the deleted key does not exist (HTTP 404 `KeyNotFound`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/error/code": "KeyNotFound"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#GetKey/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#GetKeyVersions/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#UpdateKey/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#GetKeyRotationPolicy/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#UpdateKeyRotationPolicy/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#GetKeyAttestation/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#BackupKey/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#DeleteKey/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#GetDeletedKey/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#RecoverDeletedKey/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#PurgeDeletedKey/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#Encrypt/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#Decrypt/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#WrapKey/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#UnwrapKey/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#Sign/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#Verify/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#Release/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#RotateKey/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#Securewrapkey/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.keyvault_keys#Secureunwrapkey/errors",
+      "value": [
+        {
+          "target": "com.azure.keyvault_keys#KeyVaultKeyNotFound"
+        }
+      ]
+    }
+  ]
+}

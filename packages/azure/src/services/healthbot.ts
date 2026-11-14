@@ -217,6 +217,8 @@ export interface ListBotByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type HealthBotTagsMap = { [key: string]: string | undefined };
@@ -253,6 +255,8 @@ export interface BotResponseList {
 export interface ListBotsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListBotSecretsRequest {
   /** The ID of the target subscription. */
@@ -276,7 +280,10 @@ export interface HealthBotKeysResponse {
   /** Array of Azure Health Bot Secrets. */
   secrets?: HealthBotKeysResponseSecretsList | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Operation display payload */
 export interface OperationDisplay {
   /** Resource provider of the operation */
@@ -416,12 +423,13 @@ export const GetBot: API.OperationMethod<
 
 export type ListBotByResourceGroupError = AzureOpError;
 /** Returns all the resources of a particular type belonging to a resource group */
-export const ListBotByResourceGroup: API.OperationMethod<
+export const ListBotByResourceGroup: API.PaginatedOperationMethod<
   ListBotByResourceGroupRequest,
   BotResponseList,
   ListBotByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HealthBot
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ListBotByResourceGroupRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<BotResponseList>,
   errors: [UnknownAzureError],
@@ -429,16 +437,23 @@ export const ListBotByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBotByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBotsError = AzureOpError;
 /** Returns all the resources of a particular type belonging to a subscription. */
-export const ListBots: API.OperationMethod<
+export const ListBots: API.PaginatedOperationMethod<
   ListBotsRequest,
   BotResponseList,
   ListBotsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HealthBot
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ListBotsRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<BotResponseList>,
   errors: [UnknownAzureError],
@@ -446,7 +461,13 @@ export const ListBots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBots",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBotSecretsError = AzureOpError;
 /** List all secrets of a HealthBot. */
@@ -467,12 +488,13 @@ export const ListBotSecrets: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** Lists all the available Azure Health Bot operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   AvailableOperations,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationDetail
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(92, __c11, 4) as any as S.Schema<AvailableOperations>,
   errors: [UnknownAzureError],
@@ -480,7 +502,13 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RegenerateBotApiJwtSecretError = AzureOpError;
 /** Regenerate the API JWT Secret of a HealthBot. */
@@ -706,12 +734,14 @@ function __c6(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthBot/healthBots",
             code: 200,
             apiVersion: "2025-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBotByResourceGroupRequest" });
@@ -736,12 +766,14 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HealthBot/healthBots",
             code: 200,
             apiVersion: "2025-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBotsRequest" });
@@ -789,12 +821,15 @@ function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.HealthBot/operations",
             code: 200,
             apiVersion: "2025-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });

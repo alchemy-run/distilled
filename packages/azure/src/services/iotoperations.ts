@@ -2676,6 +2676,8 @@ export interface ListAkriConnectorByTemplateRequest {
   instanceName: string;
   /** Name of AkriConnectorTemplate resource. */
   akriConnectorTemplateName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** AkriConnector resource. */
 export interface AkriConnectorResource {
@@ -2708,6 +2710,8 @@ export interface ListAkriConnectorTemplateByInstanceResourceRequest {
   resourceGroupName: string;
   /** Name of instance. */
   instanceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** AkriConnectorTemplate resource. */
 export interface AkriConnectorTemplateResource {
@@ -2740,6 +2744,8 @@ export interface ListAkriServiceByInstanceResourceRequest {
   resourceGroupName: string;
   /** Name of instance. */
   instanceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** AkriService resource. */
 export interface AkriServiceResource {
@@ -2774,6 +2780,8 @@ export interface ListBrokerAuthenticationByResourceGroupRequest {
   instanceName: string;
   /** Name of broker. */
   brokerName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Instance broker authentication resource */
 export interface BrokerAuthenticationResource {
@@ -2808,6 +2816,8 @@ export interface ListBrokerAuthorizationByResourceGroupRequest {
   instanceName: string;
   /** Name of broker. */
   brokerName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Instance broker authorizations resource */
 export interface BrokerAuthorizationResource {
@@ -2840,6 +2850,8 @@ export interface ListBrokerByResourceGroupRequest {
   resourceGroupName: string;
   /** Name of instance. */
   instanceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Instance broker resource */
 export interface BrokerResource {
@@ -2874,6 +2886,8 @@ export interface ListBrokerListenerByResourceGroupRequest {
   instanceName: string;
   /** Name of broker. */
   brokerName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Instance broker resource */
 export interface BrokerListenerResource {
@@ -2908,6 +2922,8 @@ export interface ListDataflowByProfileResourceRequest {
   instanceName: string;
   /** Name of Instance dataflowProfile resource */
   dataflowProfileName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Instance dataflowProfile dataflow resource */
 export interface DataflowResource {
@@ -2940,6 +2956,8 @@ export interface ListDataflowEndpointByResourceGroupRequest {
   resourceGroupName: string;
   /** Name of instance. */
   instanceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Instance dataflowEndpoint resource */
 export interface DataflowEndpointResource {
@@ -2974,6 +2992,8 @@ export interface ListDataflowGraphByDataflowProfileRequest {
   instanceName: string;
   /** Name of Instance dataflowProfile resource */
   dataflowProfileName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Instance dataflowEndpoint resource. */
 export interface DataflowGraphResource {
@@ -3006,6 +3026,8 @@ export interface ListDataflowProfileByResourceGroupRequest {
   resourceGroupName: string;
   /** Name of instance. */
   instanceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Instance dataflowProfile resource */
 export interface DataflowProfileResource {
@@ -3036,6 +3058,8 @@ export interface ListInstanceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type InstanceResourceTagsMap = { [key: string]: string | undefined };
@@ -3076,8 +3100,13 @@ export interface InstanceResourceListResult {
 export interface ListInstanceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -3110,7 +3139,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -3121,6 +3150,8 @@ export interface ListRegistryEndpointByInstanceResourceRequest {
   resourceGroupName: string;
   /** Name of instance. */
   instanceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** RegistryEndpoint resource */
 export interface RegistryEndpointResource {
@@ -3880,12 +3911,13 @@ export const InstanceCreateOrUpdate: API.OperationMethod<
 
 export type ListAkriConnectorByTemplateError = AzureOpError;
 /** List AkriConnectorResource resources by AkriConnectorTemplateResource */
-export const ListAkriConnectorByTemplate: API.OperationMethod<
+export const ListAkriConnectorByTemplate: API.PaginatedOperationMethod<
   ListAkriConnectorByTemplateRequest,
   AkriConnectorResourceListResult,
   ListAkriConnectorByTemplateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AkriConnectorResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ListAkriConnectorByTemplateRequest>,
   output: __S(1986, __c62, 2) as any as S.Schema<AkriConnectorResourceListResult>,
   errors: [UnknownAzureError],
@@ -3893,16 +3925,23 @@ export const ListAkriConnectorByTemplate: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAkriConnectorByTemplate",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAkriConnectorTemplateByInstanceResourceError = AzureOpError;
 /** List AkriConnectorTemplateResource resources by InstanceResource */
-export const ListAkriConnectorTemplateByInstanceResource: API.OperationMethod<
+export const ListAkriConnectorTemplateByInstanceResource: API.PaginatedOperationMethod<
   ListAkriConnectorTemplateByInstanceResourceRequest,
   AkriConnectorTemplateResourceListResult,
   ListAkriConnectorTemplateByInstanceResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AkriConnectorTemplateResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2016, __c63, 0) as any as S.Schema<ListAkriConnectorTemplateByInstanceResourceRequest>,
   output: __S(2018, __c63, 2) as any as S.Schema<AkriConnectorTemplateResourceListResult>,
   errors: [UnknownAzureError],
@@ -3910,16 +3949,23 @@ export const ListAkriConnectorTemplateByInstanceResource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAkriConnectorTemplateByInstanceResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAkriServiceByInstanceResourceError = AzureOpError;
 /** List AkriServiceResource resources by InstanceResource */
-export const ListAkriServiceByInstanceResource: API.OperationMethod<
+export const ListAkriServiceByInstanceResource: API.PaginatedOperationMethod<
   ListAkriServiceByInstanceResourceRequest,
   AkriServiceResourceListResult,
   ListAkriServiceByInstanceResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AkriServiceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2112, __c66, 0) as any as S.Schema<ListAkriServiceByInstanceResourceRequest>,
   output: __S(2114, __c66, 2) as any as S.Schema<AkriServiceResourceListResult>,
   errors: [UnknownAzureError],
@@ -3927,16 +3973,23 @@ export const ListAkriServiceByInstanceResource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAkriServiceByInstanceResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBrokerAuthenticationByResourceGroupError = AzureOpError;
 /** List BrokerAuthenticationResource resources by BrokerResource */
-export const ListBrokerAuthenticationByResourceGroup: API.OperationMethod<
+export const ListBrokerAuthenticationByResourceGroup: API.PaginatedOperationMethod<
   ListBrokerAuthenticationByResourceGroupRequest,
   BrokerAuthenticationResourceListResult,
   ListBrokerAuthenticationByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BrokerAuthenticationResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ListBrokerAuthenticationByResourceGroupRequest>,
   output: __S(2146, __c67, 2) as any as S.Schema<BrokerAuthenticationResourceListResult>,
   errors: [UnknownAzureError],
@@ -3944,16 +3997,23 @@ export const ListBrokerAuthenticationByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBrokerAuthenticationByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBrokerAuthorizationByResourceGroupError = AzureOpError;
 /** List BrokerAuthorizationResource resources by BrokerResource */
-export const ListBrokerAuthorizationByResourceGroup: API.OperationMethod<
+export const ListBrokerAuthorizationByResourceGroup: API.PaginatedOperationMethod<
   ListBrokerAuthorizationByResourceGroupRequest,
   BrokerAuthorizationResourceListResult,
   ListBrokerAuthorizationByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BrokerAuthorizationResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<ListBrokerAuthorizationByResourceGroupRequest>,
   output: __S(2178, __c68, 2) as any as S.Schema<BrokerAuthorizationResourceListResult>,
   errors: [UnknownAzureError],
@@ -3961,16 +4021,23 @@ export const ListBrokerAuthorizationByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBrokerAuthorizationByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBrokerByResourceGroupError = AzureOpError;
 /** List BrokerResource resources by InstanceResource */
-export const ListBrokerByResourceGroup: API.OperationMethod<
+export const ListBrokerByResourceGroup: API.PaginatedOperationMethod<
   ListBrokerByResourceGroupRequest,
   BrokerResourceListResult,
   ListBrokerByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BrokerResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2208, __c69, 0) as any as S.Schema<ListBrokerByResourceGroupRequest>,
   output: __S(2210, __c69, 2) as any as S.Schema<BrokerResourceListResult>,
   errors: [UnknownAzureError],
@@ -3978,16 +4045,23 @@ export const ListBrokerByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBrokerByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBrokerListenerByResourceGroupError = AzureOpError;
 /** List BrokerListenerResource resources by BrokerResource */
-export const ListBrokerListenerByResourceGroup: API.OperationMethod<
+export const ListBrokerListenerByResourceGroup: API.PaginatedOperationMethod<
   ListBrokerListenerByResourceGroupRequest,
   BrokerListenerResourceListResult,
   ListBrokerListenerByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BrokerListenerResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListBrokerListenerByResourceGroupRequest>,
   output: __S(2242, __c70, 2) as any as S.Schema<BrokerListenerResourceListResult>,
   errors: [UnknownAzureError],
@@ -3995,16 +4069,23 @@ export const ListBrokerListenerByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBrokerListenerByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDataflowByProfileResourceError = AzureOpError;
 /** List DataflowResource resources by DataflowProfileResource */
-export const ListDataflowByProfileResource: API.OperationMethod<
+export const ListDataflowByProfileResource: API.PaginatedOperationMethod<
   ListDataflowByProfileResourceRequest,
   DataflowResourceListResult,
   ListDataflowByProfileResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataflowResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2272, __c71, 0) as any as S.Schema<ListDataflowByProfileResourceRequest>,
   output: __S(2274, __c71, 2) as any as S.Schema<DataflowResourceListResult>,
   errors: [UnknownAzureError],
@@ -4012,16 +4093,23 @@ export const ListDataflowByProfileResource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDataflowByProfileResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDataflowEndpointByResourceGroupError = AzureOpError;
 /** List DataflowEndpointResource resources by InstanceResource */
-export const ListDataflowEndpointByResourceGroup: API.OperationMethod<
+export const ListDataflowEndpointByResourceGroup: API.PaginatedOperationMethod<
   ListDataflowEndpointByResourceGroupRequest,
   DataflowEndpointResourceListResult,
   ListDataflowEndpointByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataflowEndpointResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ListDataflowEndpointByResourceGroupRequest>,
   output: __S(2306, __c72, 2) as any as S.Schema<DataflowEndpointResourceListResult>,
   errors: [UnknownAzureError],
@@ -4029,16 +4117,23 @@ export const ListDataflowEndpointByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDataflowEndpointByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDataflowGraphByDataflowProfileError = AzureOpError;
 /** List DataflowGraphResource resources by DataflowProfileResource */
-export const ListDataflowGraphByDataflowProfile: API.OperationMethod<
+export const ListDataflowGraphByDataflowProfile: API.PaginatedOperationMethod<
   ListDataflowGraphByDataflowProfileRequest,
   DataflowGraphResourceListResult,
   ListDataflowGraphByDataflowProfileError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataflowGraphResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListDataflowGraphByDataflowProfileRequest>,
   output: __S(2338, __c73, 2) as any as S.Schema<DataflowGraphResourceListResult>,
   errors: [UnknownAzureError],
@@ -4046,16 +4141,23 @@ export const ListDataflowGraphByDataflowProfile: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDataflowGraphByDataflowProfile",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDataflowProfileByResourceGroupError = AzureOpError;
 /** List DataflowProfileResource resources by InstanceResource */
-export const ListDataflowProfileByResourceGroup: API.OperationMethod<
+export const ListDataflowProfileByResourceGroup: API.PaginatedOperationMethod<
   ListDataflowProfileByResourceGroupRequest,
   DataflowProfileResourceListResult,
   ListDataflowProfileByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DataflowProfileResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<ListDataflowProfileByResourceGroupRequest>,
   output: __S(2370, __c74, 2) as any as S.Schema<DataflowProfileResourceListResult>,
   errors: [UnknownAzureError],
@@ -4063,16 +4165,23 @@ export const ListDataflowProfileByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDataflowProfileByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListInstanceByResourceGroupError = AzureOpError;
 /** List InstanceResource resources by resource group */
-export const ListInstanceByResourceGroup: API.OperationMethod<
+export const ListInstanceByResourceGroup: API.PaginatedOperationMethod<
   ListInstanceByResourceGroupRequest,
   InstanceResourceListResult,
   ListInstanceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  InstanceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2400, __c75, 0) as any as S.Schema<ListInstanceByResourceGroupRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<InstanceResourceListResult>,
   errors: [UnknownAzureError],
@@ -4080,16 +4189,23 @@ export const ListInstanceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInstanceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListInstanceBySubscriptionError = AzureOpError;
 /** List InstanceResource resources by subscription ID */
-export const ListInstanceBySubscription: API.OperationMethod<
+export const ListInstanceBySubscription: API.PaginatedOperationMethod<
   ListInstanceBySubscriptionRequest,
   InstanceResourceListResult,
   ListInstanceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  InstanceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<ListInstanceBySubscriptionRequest>,
   output: __S(2433, __c76, 1) as any as S.Schema<InstanceResourceListResult>,
   errors: [UnknownAzureError],
@@ -4097,16 +4213,23 @@ export const ListInstanceBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInstanceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2660, __c83, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -4114,16 +4237,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistryEndpointByInstanceResourceError = AzureOpError;
 /** List RegistryEndpointResource resources by InstanceResource */
-export const ListRegistryEndpointByInstanceResource: API.OperationMethod<
+export const ListRegistryEndpointByInstanceResource: API.PaginatedOperationMethod<
   ListRegistryEndpointByInstanceResourceRequest,
   RegistryEndpointResourceListResult,
   ListRegistryEndpointByInstanceResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RegistryEndpointResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2688, __c84, 0) as any as S.Schema<ListRegistryEndpointByInstanceResourceRequest>,
   output: __S(2690, __c84, 2) as any as S.Schema<RegistryEndpointResourceListResult>,
   errors: [UnknownAzureError],
@@ -4131,7 +4261,13 @@ export const ListRegistryEndpointByInstanceResource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRegistryEndpointByInstanceResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RegistryEndpointCreateOrUpdateError = AzureOpError;
 /** Create a RegistryEndpointResource */
@@ -5547,12 +5683,14 @@ function __c62(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           instanceName: S.String.pipe(T.Label()),
           akriConnectorTemplateName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates/{akriConnectorTemplateName}/connectors",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAkriConnectorByTemplateRequest" });
@@ -5575,12 +5713,14 @@ function __c63(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           instanceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriConnectorTemplates",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAkriConnectorTemplateByInstanceResourceRequest" });
@@ -5704,12 +5844,14 @@ function __c66(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           instanceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/akriServices",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAkriServiceByInstanceResourceRequest" });
@@ -5733,12 +5875,14 @@ function __c67(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           instanceName: S.String.pipe(T.Label()),
           brokerName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authentications",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBrokerAuthenticationByResourceGroupRequest" });
@@ -5762,12 +5906,14 @@ function __c68(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           instanceName: S.String.pipe(T.Label()),
           brokerName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/authorizations",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBrokerAuthorizationByResourceGroupRequest" });
@@ -5790,12 +5936,14 @@ function __c69(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           instanceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBrokerByResourceGroupRequest" });
@@ -5819,12 +5967,14 @@ function __c70(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           instanceName: S.String.pipe(T.Label()),
           brokerName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/brokers/{brokerName}/listeners",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBrokerListenerByResourceGroupRequest" });
@@ -5848,12 +5998,14 @@ function __c71(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           instanceName: S.String.pipe(T.Label()),
           dataflowProfileName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflows",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDataflowByProfileResourceRequest" });
@@ -5876,12 +6028,14 @@ function __c72(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           instanceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowEndpoints",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDataflowEndpointByResourceGroupRequest" });
@@ -5905,12 +6059,14 @@ function __c73(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           instanceName: S.String.pipe(T.Label()),
           dataflowProfileName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles/{dataflowProfileName}/dataflowGraphs",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDataflowGraphByDataflowProfileRequest" });
@@ -5933,12 +6089,14 @@ function __c74(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           instanceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/dataflowProfiles",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDataflowProfileByResourceGroupRequest" });
@@ -5960,12 +6118,14 @@ function __c75(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListInstanceByResourceGroupRequest" });
@@ -6287,12 +6447,14 @@ function __c82(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.IoTOperations/instances",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListInstanceBySubscriptionRequest" });
@@ -6302,12 +6464,15 @@ function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.IoTOperations/operations",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -6335,7 +6500,7 @@ function __c83(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2659, __c83, 3)),
+          value: __S(2659, __c83, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -6349,12 +6514,14 @@ function __c84(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           instanceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.IoTOperations/instances/{instanceName}/registryEndpoints",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistryEndpointByInstanceResourceRequest" });

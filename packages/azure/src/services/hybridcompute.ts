@@ -2112,6 +2112,8 @@ export interface ListExtensionMetadataRequest {
   publisher: string;
   /** The extensionType of the Extension being received. */
   extensionType: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Describes a Extension Metadata */
 export interface ExtensionValue {
@@ -2131,7 +2133,7 @@ export type ExtensionValueListResultValueList = Array<ExtensionValue>;
 /** The List Extension Metadata response. */
 export interface ExtensionValueListResult {
   /** The list of extension metadata */
-  value?: ExtensionValueListResultValueList | undefined;
+  value: ExtensionValueListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -2142,6 +2144,8 @@ export interface ListExtensionMetadataV2Request {
   publisher: string;
   /** The extensionType of the Extension being received. */
   extensionType: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Describes an Extension Metadata. */
 export interface ExtensionValueV2 {
@@ -2168,6 +2172,8 @@ export interface ExtensionValueListResultV2 {
 export interface ListExtensionPublisherRequest {
   /** The name of the Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Describes an Extension Publisher. */
 export interface ExtensionPublisher {
@@ -2190,6 +2196,8 @@ export interface ListExtensionTypeRequest {
   location: string;
   /** The publisher of the Extension being received. */
   publisher: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Describes an Extension Type. */
 export interface ExtensionType {
@@ -2212,6 +2220,8 @@ export interface ListGatewayByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type GatewayTagsMap = { [key: string]: string | undefined };
@@ -2244,12 +2254,16 @@ export interface GatewaysListResult {
 export interface ListGatewayBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListLicenseByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The License items on this page */
 export type LicensesListResultValueList = Array<License>;
@@ -2263,6 +2277,8 @@ export interface LicensesListResult {
 export interface ListLicenseBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListLicenseProfilesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2271,6 +2287,8 @@ export interface ListLicenseProfilesRequest {
   resourceGroupName: string;
   /** The name of the hybrid machine. */
   machineName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type LicenseProfileTagsMap = { [key: string]: string | undefined };
@@ -2307,6 +2325,8 @@ export interface ListMachineByResourceGroupRequest {
   resourceGroupName: string;
   /** Expands referenced resources. */
   _expand?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type MachineTagsMap = { [key: string]: string | undefined };
@@ -2361,6 +2381,8 @@ export interface MachineListResult {
 export interface ListMachineBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListMachineExtensionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2371,6 +2393,8 @@ export interface ListMachineExtensionsRequest {
   machineName: string;
   /** The expand expression to apply on the operation. */
   _expand?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The MachineExtension items on this page */
 export type MachineExtensionsListResultValueList = Array<MachineExtension>;
@@ -2390,6 +2414,8 @@ export interface ListMachineRunCommandsRequest {
   machineName: string;
   /** The expand expression to apply on the operation. */
   _expand?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type MachineRunCommandTagsMap = { [key: string]: string | undefined };
@@ -2426,6 +2452,8 @@ export interface ListNetworkSecurityPerimeterConfigurationByPrivateLinkScopeRequ
   resourceGroupName: string;
   /** The name of the Azure Arc PrivateLinkScope resource. */
   scopeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Properties that define a Network Security Perimeter resource. */
 export interface NetworkSecurityPerimeterConfiguration {
@@ -2450,7 +2478,10 @@ export interface NetworkSecurityPerimeterConfigurationListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Describes the properties of a Hybrid Compute Operation Value Display. */
 export interface OperationValueDisplay {
   /** The display name of the compute operation. */
@@ -2478,7 +2509,7 @@ export type OperationListResultValueList = Array<OperationValue>;
 /** The List of Operations. */
 export interface OperationListResult {
   /** The list of operations. */
-  value?: OperationListResultValueList | undefined;
+  value: OperationListResultValueList;
   /** The URL to get the next set of results. */
   nextLink?: string | undefined;
 }
@@ -2489,6 +2520,8 @@ export interface ListPrivateEndpointConnectionByPrivateLinkScopeRequest {
   resourceGroupName: string;
   /** The name of the Azure Arc PrivateLinkScope resource. */
   scopeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A private endpoint connection */
 export interface PrivateEndpointConnection {
@@ -2519,6 +2552,8 @@ export interface ListPrivateLinkResourceByPrivateLinkScopeRequest {
   resourceGroupName: string;
   /** The name of the Azure Arc PrivateLinkScope resource. */
   scopeName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A private link resource */
 export interface PrivateLinkResource {
@@ -2547,6 +2582,8 @@ export interface ListPrivateLinkScopeByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type HybridComputePrivateLinkScopeTagsMap = { [key: string]: string | undefined };
@@ -2579,6 +2616,8 @@ export interface HybridComputePrivateLinkScopeListResult {
 export interface ListPrivateLinkScopesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListVmApplicationsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2591,6 +2630,8 @@ export interface ListVmApplicationsRequest {
   _top?: number | undefined;
   /** The continuation token for the next page of results. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type VmApplicationTagsMap = { [key: string]: string | undefined };
@@ -4256,12 +4297,13 @@ export const LicensesCreateOrUpdate: API.OperationMethod<
 
 export type ListExtensionMetadataError = AzureOpError;
 /** Gets all Extension versions based on location, publisher, extensionType */
-export const ListExtensionMetadata: API.OperationMethod<
+export const ListExtensionMetadata: API.PaginatedOperationMethod<
   ListExtensionMetadataRequest,
   ExtensionValueListResult,
   ListExtensionMetadataError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ExtensionValue
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<ListExtensionMetadataRequest>,
   output: __S(1826, __c57, 2) as any as S.Schema<ExtensionValueListResult>,
   errors: [UnknownAzureError],
@@ -4269,16 +4311,23 @@ export const ListExtensionMetadata: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExtensionMetadata",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListExtensionMetadataV2Error = AzureOpError;
 /** Gets all Extension versions based on location, publisher, extensionType */
-export const ListExtensionMetadataV2: API.OperationMethod<
+export const ListExtensionMetadataV2: API.PaginatedOperationMethod<
   ListExtensionMetadataV2Request,
   ExtensionValueListResultV2,
   ListExtensionMetadataV2Error,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ExtensionValueV2
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<ListExtensionMetadataV2Request>,
   output: __S(1858, __c58, 2) as any as S.Schema<ExtensionValueListResultV2>,
   errors: [UnknownAzureError],
@@ -4286,16 +4335,23 @@ export const ListExtensionMetadataV2: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExtensionMetadataV2",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListExtensionPublisherError = AzureOpError;
 /** Gets all Extension publishers based on the location */
-export const ListExtensionPublisher: API.OperationMethod<
+export const ListExtensionPublisher: API.PaginatedOperationMethod<
   ListExtensionPublisherRequest,
   ExtensionPublisherListResult,
   ListExtensionPublisherError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ExtensionPublisher
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<ListExtensionPublisherRequest>,
   output: __S(1922, __c60, 2) as any as S.Schema<ExtensionPublisherListResult>,
   errors: [UnknownAzureError],
@@ -4303,16 +4359,23 @@ export const ListExtensionPublisher: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExtensionPublisher",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListExtensionTypeError = AzureOpError;
 /** Gets all Extension types based on location and publisher */
-export const ListExtensionType: API.OperationMethod<
+export const ListExtensionType: API.PaginatedOperationMethod<
   ListExtensionTypeRequest,
   ExtensionTypeListResult,
   ListExtensionTypeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ExtensionType
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1952, __c61, 0) as any as S.Schema<ListExtensionTypeRequest>,
   output: __S(1922, __c60, 2) as any as S.Schema<ExtensionTypeListResult>,
   errors: [UnknownAzureError],
@@ -4320,16 +4383,23 @@ export const ListExtensionType: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExtensionType",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGatewayByResourceGroupError = AzureOpError;
 /** The operation to get all gateways of a non-Azure machine */
-export const ListGatewayByResourceGroup: API.OperationMethod<
+export const ListGatewayByResourceGroup: API.PaginatedOperationMethod<
   ListGatewayByResourceGroupRequest,
   GatewaysListResult,
   ListGatewayByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Gateway
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<ListGatewayByResourceGroupRequest>,
   output: __S(2017, __c63, 1) as any as S.Schema<GatewaysListResult>,
   errors: [UnknownAzureError],
@@ -4337,16 +4407,23 @@ export const ListGatewayByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGatewayByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGatewayBySubscriptionError = AzureOpError;
 /** The operation to get all gateways of a non-Azure machine */
-export const ListGatewayBySubscription: API.OperationMethod<
+export const ListGatewayBySubscription: API.PaginatedOperationMethod<
   ListGatewayBySubscriptionRequest,
   GatewaysListResult,
   ListGatewayBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Gateway
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2048, __c64, 0) as any as S.Schema<ListGatewayBySubscriptionRequest>,
   output: __S(2017, __c63, 1) as any as S.Schema<GatewaysListResult>,
   errors: [UnknownAzureError],
@@ -4354,16 +4431,23 @@ export const ListGatewayBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGatewayBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLicenseByResourceGroupError = AzureOpError;
 /** The operation to get all licenses of a non-Azure machine */
-export const ListLicenseByResourceGroup: API.OperationMethod<
+export const ListLicenseByResourceGroup: API.PaginatedOperationMethod<
   ListLicenseByResourceGroupRequest,
   LicensesListResult,
   ListLicenseByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  License
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2080, __c65, 0) as any as S.Schema<ListLicenseByResourceGroupRequest>,
   output: __S(2113, __c66, 1) as any as S.Schema<LicensesListResult>,
   errors: [UnknownAzureError],
@@ -4371,16 +4455,23 @@ export const ListLicenseByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLicenseByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLicenseBySubscriptionError = AzureOpError;
 /** The operation to get all licenses of a non-Azure machine */
-export const ListLicenseBySubscription: API.OperationMethod<
+export const ListLicenseBySubscription: API.PaginatedOperationMethod<
   ListLicenseBySubscriptionRequest,
   LicensesListResult,
   ListLicenseBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  License
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ListLicenseBySubscriptionRequest>,
   output: __S(2113, __c66, 1) as any as S.Schema<LicensesListResult>,
   errors: [UnknownAzureError],
@@ -4388,16 +4479,23 @@ export const ListLicenseBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLicenseBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLicenseProfilesError = AzureOpError;
 /** The operation to get all license profiles of a non-Azure machine */
-export const ListLicenseProfiles: API.OperationMethod<
+export const ListLicenseProfiles: API.PaginatedOperationMethod<
   ListLicenseProfilesRequest,
   LicenseProfilesListResult,
   ListLicenseProfilesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LicenseProfile
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2176, __c68, 0) as any as S.Schema<ListLicenseProfilesRequest>,
   output: __S(2178, __c68, 2) as any as S.Schema<LicenseProfilesListResult>,
   errors: [UnknownAzureError],
@@ -4405,16 +4503,23 @@ export const ListLicenseProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLicenseProfiles",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMachineByResourceGroupError = AzureOpError;
 /** Lists all the hybrid machines in the specified resource group. Use the nextLink property in the response to get the next page of hybrid machines. */
-export const ListMachineByResourceGroup: API.OperationMethod<
+export const ListMachineByResourceGroup: API.PaginatedOperationMethod<
   ListMachineByResourceGroupRequest,
   MachineListResult,
   ListMachineByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Machine
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListMachineByResourceGroupRequest>,
   output: __S(2273, __c71, 1) as any as S.Schema<MachineListResult>,
   errors: [UnknownAzureError],
@@ -4422,16 +4527,23 @@ export const ListMachineByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMachineByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMachineBySubscriptionError = AzureOpError;
 /** Lists all the hybrid machines in the specified subscription. Use the nextLink property in the response to get the next page of hybrid machines. */
-export const ListMachineBySubscription: API.OperationMethod<
+export const ListMachineBySubscription: API.PaginatedOperationMethod<
   ListMachineBySubscriptionRequest,
   MachineListResult,
   ListMachineBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Machine
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2304, __c72, 0) as any as S.Schema<ListMachineBySubscriptionRequest>,
   output: __S(2273, __c71, 1) as any as S.Schema<MachineListResult>,
   errors: [UnknownAzureError],
@@ -4439,16 +4551,23 @@ export const ListMachineBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMachineBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMachineExtensionsError = AzureOpError;
 /** The operation to get all extensions of a non-Azure machine */
-export const ListMachineExtensions: API.OperationMethod<
+export const ListMachineExtensions: API.PaginatedOperationMethod<
   ListMachineExtensionsRequest,
   MachineExtensionsListResult,
   ListMachineExtensionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MachineExtension
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListMachineExtensionsRequest>,
   output: __S(2337, __c73, 1) as any as S.Schema<MachineExtensionsListResult>,
   errors: [UnknownAzureError],
@@ -4456,16 +4575,23 @@ export const ListMachineExtensions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMachineExtensions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMachineRunCommandsError = AzureOpError;
 /** The operation to get all the run commands of a non-Azure machine. */
-export const ListMachineRunCommands: API.OperationMethod<
+export const ListMachineRunCommands: API.PaginatedOperationMethod<
   ListMachineRunCommandsRequest,
   MachineRunCommandsListResult,
   ListMachineRunCommandsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MachineRunCommand
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<ListMachineRunCommandsRequest>,
   output: __S(2370, __c74, 2) as any as S.Schema<MachineRunCommandsListResult>,
   errors: [UnknownAzureError],
@@ -4473,16 +4599,23 @@ export const ListMachineRunCommands: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMachineRunCommands",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkSecurityPerimeterConfigurationByPrivateLinkScopeError = AzureOpError;
 /** Lists the network security perimeter configurations for a private link scope. */
-export const ListNetworkSecurityPerimeterConfigurationByPrivateLinkScope: API.OperationMethod<
+export const ListNetworkSecurityPerimeterConfigurationByPrivateLinkScope: API.PaginatedOperationMethod<
   ListNetworkSecurityPerimeterConfigurationByPrivateLinkScopeRequest,
   NetworkSecurityPerimeterConfigurationListResult,
   ListNetworkSecurityPerimeterConfigurationByPrivateLinkScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkSecurityPerimeterConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     2400,
     __c75,
@@ -4494,16 +4627,23 @@ export const ListNetworkSecurityPerimeterConfigurationByPrivateLinkScope: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkSecurityPerimeterConfigurationByPrivateLinkScope",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Gets a list of hybrid compute operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationValue
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2432, __c76, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(2436, __c76, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -4511,16 +4651,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateEndpointConnectionByPrivateLinkScopeError = AzureOpError;
 /** Gets all private endpoint connections on a private link scope. */
-export const ListPrivateEndpointConnectionByPrivateLinkScope: API.OperationMethod<
+export const ListPrivateEndpointConnectionByPrivateLinkScope: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionByPrivateLinkScopeRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionByPrivateLinkScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     2464,
     __c77,
@@ -4532,16 +4679,23 @@ export const ListPrivateEndpointConnectionByPrivateLinkScope: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionByPrivateLinkScope",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourceByPrivateLinkScopeError = AzureOpError;
 /** Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope. */
-export const ListPrivateLinkResourceByPrivateLinkScope: API.OperationMethod<
+export const ListPrivateLinkResourceByPrivateLinkScope: API.PaginatedOperationMethod<
   ListPrivateLinkResourceByPrivateLinkScopeRequest,
   PrivateLinkResourceListResult,
   ListPrivateLinkResourceByPrivateLinkScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2496, __c78, 0) as any as S.Schema<ListPrivateLinkResourceByPrivateLinkScopeRequest>,
   output: __S(2498, __c78, 2) as any as S.Schema<PrivateLinkResourceListResult>,
   errors: [UnknownAzureError],
@@ -4549,16 +4703,23 @@ export const ListPrivateLinkResourceByPrivateLinkScope: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResourceByPrivateLinkScope",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkScopeByResourceGroupError = AzureOpError;
 /** Gets a list of Azure Arc PrivateLinkScopes within a resource group. */
-export const ListPrivateLinkScopeByResourceGroup: API.OperationMethod<
+export const ListPrivateLinkScopeByResourceGroup: API.PaginatedOperationMethod<
   ListPrivateLinkScopeByResourceGroupRequest,
   HybridComputePrivateLinkScopeListResult,
   ListPrivateLinkScopeByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HybridComputePrivateLinkScope
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2528, __c79, 0) as any as S.Schema<ListPrivateLinkScopeByResourceGroupRequest>,
   output: __S(2561, __c80, 1) as any as S.Schema<HybridComputePrivateLinkScopeListResult>,
   errors: [UnknownAzureError],
@@ -4566,16 +4727,23 @@ export const ListPrivateLinkScopeByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkScopeByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkScopesError = AzureOpError;
 /** Gets a list of all Azure Arc PrivateLinkScopes within a subscription. */
-export const ListPrivateLinkScopes: API.OperationMethod<
+export const ListPrivateLinkScopes: API.PaginatedOperationMethod<
   ListPrivateLinkScopesRequest,
   HybridComputePrivateLinkScopeListResult,
   ListPrivateLinkScopesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HybridComputePrivateLinkScope
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2592, __c81, 0) as any as S.Schema<ListPrivateLinkScopesRequest>,
   output: __S(2561, __c80, 1) as any as S.Schema<HybridComputePrivateLinkScopeListResult>,
   errors: [UnknownAzureError],
@@ -4583,16 +4751,23 @@ export const ListPrivateLinkScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkScopes",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVmApplicationsError = AzureOpError;
 /** Lists the VM applications installed on a hybrid machine. */
-export const ListVmApplications: API.OperationMethod<
+export const ListVmApplications: API.PaginatedOperationMethod<
   ListVmApplicationsRequest,
   VmApplicationsListResult,
   ListVmApplicationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VmApplication
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<ListVmApplicationsRequest>,
   output: __S(2658, __c83, 2) as any as S.Schema<VmApplicationsListResult>,
   errors: [UnknownAzureError],
@@ -4600,7 +4775,13 @@ export const ListVmApplications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVmApplications",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MachineExtensionsCreateOrUpdateError = AzureOpError;
 /** The operation to create or update the extension. */
@@ -6591,12 +6772,14 @@ function __c57(j: number): any {
           location: S.String.pipe(T.Label()),
           publisher: S.String.pipe(T.Label()),
           extensionType: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/locations/{location}/publishers/{publisher}/extensionTypes/{extensionType}/versions",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListExtensionMetadataRequest" });
@@ -6605,7 +6788,7 @@ function __c57(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1825, __c57, 1)),
+          value: __S(1825, __c57, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExtensionValueListResult" });
@@ -6619,12 +6802,14 @@ function __c58(j: number): any {
           location: S.String.pipe(T.Label()),
           publisher: S.String.pipe(T.Label()),
           extensionType: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.HybridCompute/locations/{location}/publishers/{publisher}/extensionTypes/{extensionType}/versions",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListExtensionMetadataV2Request" });
@@ -6645,12 +6830,14 @@ function __c59(j: number): any {
       return S.suspend(() =>
         S.Struct({
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.HybridCompute/locations/{location}/publishers",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListExtensionPublisherRequest" });
@@ -6683,12 +6870,14 @@ function __c61(j: number): any {
         S.Struct({
           location: S.String.pipe(T.Label()),
           publisher: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.HybridCompute/locations/{location}/publishers/{publisher}/extensionTypes",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListExtensionTypeRequest" });
@@ -6701,12 +6890,14 @@ function __c62(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/gateways",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGatewayByResourceGroupRequest" });
@@ -6731,12 +6922,14 @@ function __c64(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/gateways",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGatewayBySubscriptionRequest" });
@@ -6749,12 +6942,14 @@ function __c65(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/licenses",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLicenseByResourceGroupRequest" });
@@ -6779,12 +6974,14 @@ function __c67(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/licenses",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLicenseBySubscriptionRequest" });
@@ -6798,12 +6995,14 @@ function __c68(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           machineName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/licenseProfiles",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLicenseProfilesRequest" });
@@ -6846,12 +7045,14 @@ function __c70(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMachineByResourceGroupRequest" });
@@ -6876,12 +7077,14 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/machines",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMachineBySubscriptionRequest" });
@@ -6896,12 +7099,14 @@ function __c73(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           machineName: S.String.pipe(T.Label()),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMachineExtensionsRequest" });
@@ -6923,12 +7128,14 @@ function __c74(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           machineName: S.String.pipe(T.Label()),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/runCommands",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMachineRunCommandsRequest" });
@@ -6951,12 +7158,14 @@ function __c75(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           scopeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}/networkSecurityPerimeterConfigurations",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -6977,12 +7186,15 @@ function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.HybridCompute/operations",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -7009,7 +7221,7 @@ function __c76(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(2435, __c76, 3)),
+          value: __S(2435, __c76, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
@@ -7023,12 +7235,14 @@ function __c77(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           scopeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByPrivateLinkScopeRequest" });
@@ -7051,12 +7265,14 @@ function __c78(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           scopeName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}/privateLinkResources",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceByPrivateLinkScopeRequest" });
@@ -7078,12 +7294,14 @@ function __c79(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkScopeByResourceGroupRequest" });
@@ -7108,12 +7326,14 @@ function __c81(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/privateLinkScopes",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkScopesRequest" });
@@ -7149,12 +7369,14 @@ function __c83(j: number): any {
           machineName: S.String.pipe(T.Label()),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/applications",
             code: 200,
             apiVersion: "2026-09-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVmApplicationsRequest" });

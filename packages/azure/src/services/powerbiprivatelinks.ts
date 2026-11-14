@@ -327,7 +327,10 @@ export interface AsyncOperationDetail {
   /** The error detail. */
   error?: AsyncOperationDetailError | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -360,7 +363,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -382,13 +385,15 @@ export interface ListPrivateEndpointConnectionByResourceRequest {
   resourceGroupName: string;
   /** The name of the powerbi resource. */
   azureResourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Specifies the name of the private endpoint connection. */
 export type PrivateEndpointConnectionListResultValueList = Array<PrivateEndpointConnection>;
 /** List of private endpoint connections. */
 export interface PrivateEndpointConnectionListResult {
   /** Specifies the name of the private endpoint connection. */
-  value?: PrivateEndpointConnectionListResultValueList | undefined;
+  value: PrivateEndpointConnectionListResultValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -399,13 +404,15 @@ export interface ListPrivateLinkResourceByResourceRequest {
   resourceGroupName: string;
   /** The name of the Azure resource. */
   azureResourceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A collection of private endpoint connection resources. */
 export type PrivateLinkResourcesListResultValueList = Array<PrivateLinkResource>;
 /** Specifies list of the private link resource. */
 export interface PrivateLinkResourcesListResult {
   /** A collection of private endpoint connection resources. */
-  value?: PrivateLinkResourcesListResultValueList | undefined;
+  value: PrivateLinkResourcesListResultValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -563,12 +570,13 @@ export const GetPrivateLinkServiceResourceOperationResult: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Power BI RP operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(132, __c16, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -576,7 +584,13 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPowerBIResourceByResourceNameError = AzureOpError;
 /** Gets all the private link resources for the given Azure resource. */
@@ -597,12 +611,13 @@ export const ListPowerBIResourceByResourceName: API.OperationMethod<
 
 export type ListPrivateEndpointConnectionByResourceError = AzureOpError;
 /** Lists all private endpoint connections under a resource. Gets private endpoint connection for Power BI. */
-export const ListPrivateEndpointConnectionByResource: API.OperationMethod<
+export const ListPrivateEndpointConnectionByResource: API.PaginatedOperationMethod<
   ListPrivateEndpointConnectionByResourceRequest,
   PrivateEndpointConnectionListResult,
   ListPrivateEndpointConnectionByResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateEndpointConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<ListPrivateEndpointConnectionByResourceRequest>,
   output: __S(153, __c19, 1) as any as S.Schema<PrivateEndpointConnectionListResult>,
   errors: [UnknownAzureError],
@@ -610,16 +625,23 @@ export const ListPrivateEndpointConnectionByResource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateEndpointConnectionByResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkResourceByResourceError = AzureOpError;
 /** List private link Power BI resource. List private link resources under a specific Power BI resource. */
-export const ListPrivateLinkResourceByResource: API.OperationMethod<
+export const ListPrivateLinkResourceByResource: API.PaginatedOperationMethod<
   ListPrivateLinkResourceByResourceRequest,
   PrivateLinkResourcesListResult,
   ListPrivateLinkResourceByResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PrivateLinkResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ListPrivateLinkResourceByResourceRequest>,
   output: __S(50, __c6, 2) as any as S.Schema<PrivateLinkResourcesListResult>,
   errors: [UnknownAzureError],
@@ -627,7 +649,13 @@ export const ListPrivateLinkResourceByResource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPrivateLinkResourceByResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPrivateLinkServiceByResourceGroupError = AzureOpError;
 /** Gets all the private link resources for the given resource group. */
@@ -837,12 +865,14 @@ function __c6(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           azureResourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBI/privateLinkServicesForPowerBI/{azureResourceName}/privateLinkResources",
             code: 200,
             apiVersion: "2020-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateLinkResourceByResourceRequest" });
@@ -851,7 +881,7 @@ function __c6(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(49, __c6, 1)),
+          value: __S(49, __c6, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateLinkResourcesListResult" });
@@ -1092,12 +1122,15 @@ function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.PowerBI/operations",
             code: 200,
             apiVersion: "2020-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1125,7 +1158,7 @@ function __c16(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(131, __c16, 3)),
+          value: __S(131, __c16, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -1168,19 +1201,21 @@ function __c19(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           azureResourceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.PowerBI/privateLinkServicesForPowerBI/{azureResourceName}/privateEndpointConnections",
             code: 200,
             apiVersion: "2020-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPrivateEndpointConnectionByResourceRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(32, __c4, 0)),
+          value: __S(32, __c4, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PrivateEndpointConnectionListResult" });

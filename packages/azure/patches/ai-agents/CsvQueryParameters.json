@@ -1,0 +1,35 @@
+{
+  "description": "The spec sends these query arrays with `collectionFormat: csv` (one comma-separated value), but the generated client repeats the key per item, so the service reads only the first item (Image Analysis returned only `tags` for `features=tags&features=read`). Type them as the comma-separated string the service expects.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_agents#RunsCreateRunRequest/members/include__/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_agents#RunsCreateRunRequest/members/include__/traits/smithy.api#documentation",
+      "value": "A list of additional fields to include in the response.\nCurrently the only supported value is `step_details.tool_calls[*].file_search.results[*].content`\nto fetch the file search result content. Comma-separated (`step_details.tool_calls[*].file_search.results[*].content`)."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_agents#RunStepsGetRunStepRequest/members/include__/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_agents#RunStepsGetRunStepRequest/members/include__/traits/smithy.api#documentation",
+      "value": "A list of additional fields to include in the response.\nCurrently the only supported value is `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content. Comma-separated (`step_details.tool_calls[*].file_search.results[*].content`)."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_agents#RunStepsListRunStepsRequest/members/include__/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_agents#RunStepsListRunStepsRequest/members/include__/traits/smithy.api#documentation",
+      "value": "A list of additional fields to include in the response.\nCurrently the only supported value is `step_details.tool_calls[*].file_search.results[*].content` to fetch the file search result content. Comma-separated (`step_details.tool_calls[*].file_search.results[*].content`)."
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+{
+  "description": "The Timezone service answers in PascalCase (`{\"Version\":\"2026c\",\"TimeZones\":[{\"Id\":...}]}`), but the spec declares camelCase properties, so every decoded member came back undefined. Map each member to its PascalCase wire name.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneResult/members/version/traits/smithy.api#jsonName",
+      "value": "Version"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneResult/members/referenceUtcTimestamp/traits/smithy.api#jsonName",
+      "value": "ReferenceUtcTimestamp"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneResult/members/timeZones/traits/smithy.api#jsonName",
+      "value": "TimeZones"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneIanaVersionResult/members/version/traits/smithy.api#jsonName",
+      "value": "Version"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneId/members/id/traits/smithy.api#jsonName",
+      "value": "Id"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneId/members/aliases/traits/smithy.api#jsonName",
+      "value": "Aliases"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneId/members/countries/traits/smithy.api#jsonName",
+      "value": "Countries"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneId/members/names/traits/smithy.api#jsonName",
+      "value": "Names"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneId/members/referenceTime/traits/smithy.api#jsonName",
+      "value": "ReferenceTime"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneId/members/representativePoint/traits/smithy.api#jsonName",
+      "value": "RepresentativePoint"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneId/members/timeTransitions/traits/smithy.api#jsonName",
+      "value": "TimeTransitions"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneNames/members/iso6391LanguageCode/traits/smithy.api#jsonName",
+      "value": "ISO6391LanguageCode"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneNames/members/generic/traits/smithy.api#jsonName",
+      "value": "Generic"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneNames/members/standard/traits/smithy.api#jsonName",
+      "value": "Standard"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneNames/members/daylight/traits/smithy.api#jsonName",
+      "value": "Daylight"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#ReferenceTime/members/tag/traits/smithy.api#jsonName",
+      "value": "Tag"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#ReferenceTime/members/standardOffset/traits/smithy.api#jsonName",
+      "value": "StandardOffset"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#ReferenceTime/members/daylightSavings/traits/smithy.api#jsonName",
+      "value": "DaylightSavings"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#ReferenceTime/members/wallTime/traits/smithy.api#jsonName",
+      "value": "WallTime"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#ReferenceTime/members/posixTzValidYear/traits/smithy.api#jsonName",
+      "value": "PosixTzValidYear"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#ReferenceTime/members/posixTz/traits/smithy.api#jsonName",
+      "value": "PosixTz"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#ReferenceTime/members/sunrise/traits/smithy.api#jsonName",
+      "value": "Sunrise"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#ReferenceTime/members/sunset/traits/smithy.api#jsonName",
+      "value": "Sunset"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#RepresentativePoint/members/latitude/traits/smithy.api#jsonName",
+      "value": "Latitude"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#RepresentativePoint/members/longitude/traits/smithy.api#jsonName",
+      "value": "Longitude"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimeTransition/members/tag/traits/smithy.api#jsonName",
+      "value": "Tag"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimeTransition/members/standardOffset/traits/smithy.api#jsonName",
+      "value": "StandardOffset"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimeTransition/members/daylightSavings/traits/smithy.api#jsonName",
+      "value": "DaylightSavings"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimeTransition/members/utcStart/traits/smithy.api#jsonName",
+      "value": "UtcStart"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimeTransition/members/utcEnd/traits/smithy.api#jsonName",
+      "value": "UtcEnd"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#CountryRecord/members/name/traits/smithy.api#jsonName",
+      "value": "Name"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#CountryRecord/members/code/traits/smithy.api#jsonName",
+      "value": "Code"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#IanaId/members/id/traits/smithy.api#jsonName",
+      "value": "Id"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#IanaId/members/isAlias/traits/smithy.api#jsonName",
+      "value": "IsAlias"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#IanaId/members/aliasOf/traits/smithy.api#jsonName",
+      "value": "AliasOf"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#IanaId/members/hasZone1970Location/traits/smithy.api#jsonName",
+      "value": "HasZone1970Location"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneWindows/members/windowsId/traits/smithy.api#jsonName",
+      "value": "WindowsId"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneWindows/members/territory/traits/smithy.api#jsonName",
+      "value": "Territory"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_timezone#TimezoneWindows/members/ianaIds/traits/smithy.api#jsonName",
+      "value": "IanaIds"
+    }
+  ]
+}

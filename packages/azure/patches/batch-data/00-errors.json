@@ -1,0 +1,964 @@
+{
+  "description": "Type the Batch data plane's errors per operation: `JobNotFound`, `TaskNotFound`, `JobScheduleNotFound` and `PoolNotFound` (HTTP 404, top-level `code` in the Batch error body), and the HTTP 403 every operation answers when the caller's role does not grant it (or has not propagated).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#BatchJobNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The job does not exist, or finished deleting (HTTP 404 `JobNotFound`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/code": "JobNotFound"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#BatchTaskNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The task does not exist in the job (HTTP 404 `TaskNotFound`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/code": "TaskNotFound"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#BatchJobScheduleNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The job schedule does not exist, or finished deleting (HTTP 404 `JobScheduleNotFound`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/code": "JobScheduleNotFound"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#BatchPoolNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The pool does not exist in the account (HTTP 404 `PoolNotFound`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/code": "PoolNotFound"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#BatchPermissionDenied",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error code."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The caller's Entra identity has no role granting this operation on the account, or a new role assignment has not propagated yet (HTTP 403).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobsGetJob/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobsReplaceJob/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobsUpdateJob/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobsDeleteJob/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobsTerminateJob/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobsDisableJob/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobsEnableJob/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobsGetJobTaskCounts/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobsListJobPreparationAndReleaseTaskStatus/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#TasksCreateTask/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#TasksCreateTaskCollection/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#TasksListTasks/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#TasksGetTask/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchTaskNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#TasksReplaceTask/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchTaskNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#TasksDeleteTask/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchTaskNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#TasksTerminateTask/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchTaskNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#TasksReactivateTask/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchTaskNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#TasksListSubTasks/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchTaskNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#TasksListTaskFiles/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchTaskNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#TasksGetTaskFile/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchTaskNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#TasksGetTaskFileProperties/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchTaskNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#TasksDeleteTaskFile/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchTaskNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobSchedulesGetJobSchedule/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobScheduleNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobSchedulesReplaceJobSchedule/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobScheduleNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobSchedulesUpdateJobSchedule/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobScheduleNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobSchedulesDeleteJobSchedule/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobScheduleNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobSchedulesTerminateJobSchedule/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobScheduleNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobSchedulesDisableJobSchedule/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobScheduleNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobSchedulesEnableJobSchedule/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobScheduleNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobsListJobsFromSchedule/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchJobScheduleNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsGetPool/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPoolNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsUpdatePool/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPoolNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsReplacePoolProperties/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPoolNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsDeletePool/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPoolNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsResizePool/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPoolNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsStopPoolResize/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPoolNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsEnablePoolAutoScale/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPoolNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsDisablePoolAutoScale/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPoolNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsEvaluatePoolAutoScale/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPoolNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsRemoveNodes/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPoolNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesListNodes/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPoolNotFound"
+        },
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#ApplicationsListApplications/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#ApplicationsGetApplication/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobsListJobs/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobsCreateJob/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobSchedulesListJobSchedules/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobSchedulesCreateJobSchedule/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#JobSchedulesJobScheduleExists/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsListPoolNodeCounts/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsListPools/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsCreatePool/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsPoolExists/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesGetNode/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesDeallocateNode/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesDisableNodeScheduling/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesEnableNodeScheduling/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesListNodeExtensions/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesGetNodeExtension/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesListNodeFiles/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesGetNodeFile/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesDeleteNodeFile/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesGetNodeFileProperties/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesRebootNode/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesReimageNode/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesGetNodeRemoteLoginSettings/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesStartNode/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesUploadNodeLogs/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesCreateNodeUser/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesReplaceNodeUser/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#NodesDeleteNodeUser/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.batch_data#PoolsListSupportedImages/errors",
+      "value": [
+        {
+          "target": "com.azure.batch_data#BatchPermissionDenied"
+        }
+      ]
+    }
+  ]
+}

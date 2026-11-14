@@ -1,0 +1,143 @@
+{
+  "description": "Type the runtime-action rejections Data Factory answers with no specific error code: an unknown trigger run (HTTP 400 `BadRequest` \"Trigger run with id … does not exist\"), a rerun of a trigger that is not a tumbling window trigger (HTTP 400 `BadRequest` \"Invalid trigger type: …\"), and start/stop of an integration runtime that is not managed (HTTP 405 with an empty body; only Azure-SSIS runtimes start and stop).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#TriggerRunNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The Data Factory error code (`BadRequest`)."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The trigger has no run with this run ID (HTTP 400 `BadRequest`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "matches": "^Trigger run with id .* does not exist"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#TriggerRerunNotSupported",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The Data Factory error code (`BadRequest`)."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "Only tumbling window trigger runs can be rerun (HTTP 400 `BadRequest` \"Invalid trigger type: …\").",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "Invalid trigger type"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#IntegrationRuntimeNotManaged",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The Data Factory error code, if any (the body is empty)."
+            }
+          },
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error message, if any."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 405,
+          "smithy.api#documentation": "Start and stop apply only to managed (Azure-SSIS) integration runtimes; a self-hosted or Azure runtime answers HTTP 405 with an empty body.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 405
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#TriggerRunsCancel/errors",
+      "value": [
+        {
+          "target": "com.azure.datafactory#TriggerRunNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#TriggerRunsRerun/errors",
+      "value": [
+        {
+          "target": "com.azure.datafactory#TriggerRunNotFound"
+        },
+        {
+          "target": "com.azure.datafactory#TriggerRerunNotSupported"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#IntegrationRuntimesStart/errors",
+      "value": [
+        {
+          "target": "com.azure.datafactory#IntegrationRuntimeNotManaged"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.datafactory#IntegrationRuntimesStop/errors",
+      "value": [
+        {
+          "target": "com.azure.datafactory#IntegrationRuntimeNotManaged"
+        }
+      ]
+    }
+  ]
+}

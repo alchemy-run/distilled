@@ -1,0 +1,717 @@
+{
+  "smithy": "2.0",
+  "metadata": {
+    "note": "Hand-authored: Event Hubs has no Swagger for its publishing runtime. Transcribed from learn.microsoft.com/rest/api/eventhub (event-hubs-runtime-rest, send-event, send-batch-events, send-partition-event, send-event-with-publisher-id). Error matchers checked against the live service on 2026-10-23.",
+    "suppressions": [
+      {
+        "id": "HttpUriConflict",
+        "namespace": "*"
+      },
+      {
+        "id": "HttpMethodSemantics",
+        "namespace": "*"
+      },
+      {
+        "id": "UnreferencedShape",
+        "namespace": "*"
+      }
+    ]
+  },
+  "shapes": {
+    "com.azure.eventhubs_messaging#BatchEvent": {
+      "type": "structure",
+      "members": {
+        "body": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#jsonName": "Body",
+            "smithy.api#documentation": "The event body."
+          }
+        },
+        "userProperties": {
+          "target": "com.azure.eventhubs_messaging#UserProperties",
+          "traits": {
+            "smithy.api#jsonName": "UserProperties",
+            "smithy.api#documentation": "The event's custom properties."
+          }
+        },
+        "brokerProperties": {
+          "target": "com.azure.eventhubs_messaging#EventBrokerProperties",
+          "traits": {
+            "smithy.api#jsonName": "BrokerProperties",
+            "smithy.api#documentation": "The event's broker properties."
+          }
+        }
+      }
+    },
+    "com.azure.eventhubs_messaging#BatchEventList": {
+      "type": "list",
+      "member": {
+        "target": "com.azure.eventhubs_messaging#BatchEvent"
+      }
+    },
+    "com.azure.eventhubs_messaging#BatchPartitionKeyMismatch": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error detail."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 405,
+        "smithy.api#documentation": "The events of one batch name different partition keys; a batch goes to one partition (HTTP 405 `must have the same partition key`).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 405,
+            "message": {
+              "includes": "must have the same partition key"
+            }
+          }
+        ]
+      }
+    },
+    "com.azure.eventhubs_messaging#EventBody": {
+      "type": "union",
+      "members": {
+        "text": {
+          "target": "smithy.api#String"
+        },
+        "bytes": {
+          "target": "smithy.api#Blob"
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "The event payload: text is sent as UTF-8, bytes as they are."
+      }
+    },
+    "com.azure.eventhubs_messaging#EventBrokerProperties": {
+      "type": "structure",
+      "members": {
+        "partitionKey": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#jsonName": "PartitionKey",
+            "smithy.api#documentation": "Events with the same partition key land in the same partition."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#documentation": "Broker properties, sent and returned as the JSON `BrokerProperties` header."
+      }
+    },
+    "com.azure.eventhubs_messaging#EventhubsMessaging": {
+      "type": "service",
+      "version": "1.0",
+      "operations": [
+        {
+          "target": "com.azure.eventhubs_messaging#SendEvent"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#SendEventBatch"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#SendPartitionEvent"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#SendPublisherEvent"
+        }
+      ],
+      "traits": {
+        "smithy.api#title": "Azure Event Hubs messaging",
+        "smithy.api#documentation": "Azure Event Hubs event publishing over HTTPS (send, send batch, send to a partition or publisher). Hand-authored from the Event Hubs REST reference; authenticates with a Microsoft Entra token for https://eventhubs.azure.net/.default.",
+        "com.azure.protocols#host": {
+          "template": "https://{namespaceName}.servicebus.windows.net",
+          "parameters": [
+            {
+              "name": "namespaceName"
+            }
+          ]
+        },
+        "com.azure.protocols#audience": "https://eventhubs.azure.net/.default"
+      }
+    },
+    "com.azure.eventhubs_messaging#HeaderMap": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    "com.azure.eventhubs_messaging#InvalidPartition": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error detail."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 400,
+        "smithy.api#documentation": "The partition ID is not one of the event hub's partitions (HTTP 400 `The specified partition is invalid`).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 400,
+            "message": {
+              "includes": "The specified partition is invalid"
+            }
+          }
+        ]
+      }
+    },
+    "com.azure.eventhubs_messaging#MessageTooLarge": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error detail."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 413,
+        "smithy.api#documentation": "The event exceeds the maximum event size, 1 MB on Standard (HTTP 413).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 413
+          }
+        ]
+      }
+    },
+    "com.azure.eventhubs_messaging#MessagingEntityNotFound": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error detail."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 404,
+        "smithy.api#documentation": "The event hub does not exist (HTTP 404 `No service is hosted at the specified address`, or 410).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 404,
+            "message": {
+              "includes": "No service is hosted at the specified address"
+            }
+          },
+          {
+            "status": 410
+          }
+        ]
+      }
+    },
+    "com.azure.eventhubs_messaging#MessagingUnauthorized": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error detail."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 401,
+        "smithy.api#documentation": "The token is missing, expired, for another audience, or the principal lacks the Send data role (HTTP 401).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 401
+          }
+        ]
+      }
+    },
+    "com.azure.eventhubs_messaging#QuotaExceeded": {
+      "type": "structure",
+      "members": {
+        "message": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#documentation": "The service's error detail."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#error": "client",
+        "smithy.api#httpError": 403,
+        "smithy.api#documentation": "A namespace quota (throughput units, publisher or entity limits) is exceeded (HTTP 403).",
+        "com.distilled.openapi#errorMatchers": [
+          {
+            "status": 403
+          }
+        ]
+      }
+    },
+    "com.azure.eventhubs_messaging#SendEvent": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.eventhubs_messaging#SendEventRequest"
+      },
+      "output": {
+        "target": "com.azure.eventhubs_messaging#SendEventResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{eventHubName}/messages",
+          "code": 201,
+          "host": "https://{namespaceName}.servicebus.windows.net",
+          "apiVersion": "2014-01",
+          "accept": "*/*",
+          "bodyMediaType": "application/atom+xml;type=entry;charset=utf-8"
+        },
+        "smithy.api#documentation": "Send one event to an event hub (`POST /{eventHubName}/messages`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.eventhubs_messaging#MessagingEntityNotFound"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#InvalidPartition"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#QuotaExceeded"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#MessageTooLarge"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#MessagingUnauthorized"
+        }
+      ]
+    },
+    "com.azure.eventhubs_messaging#SendEventBatch": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.eventhubs_messaging#SendEventBatchRequest"
+      },
+      "output": {
+        "target": "com.azure.eventhubs_messaging#SendEventBatchResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{eventHubName}/messages",
+          "code": 201,
+          "host": "https://{namespaceName}.servicebus.windows.net",
+          "apiVersion": "2014-01",
+          "accept": "*/*",
+          "jsonContentType": "application/vnd.microsoft.servicebus.json"
+        },
+        "smithy.api#documentation": "Send several events to an event hub in one request (`POST /{eventHubName}/messages`, `application/vnd.microsoft.servicebus.json`). Custom properties go on each event as `userProperties`."
+      },
+      "errors": [
+        {
+          "target": "com.azure.eventhubs_messaging#BatchPartitionKeyMismatch"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#MessagingEntityNotFound"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#InvalidPartition"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#QuotaExceeded"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#MessageTooLarge"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#MessagingUnauthorized"
+        }
+      ]
+    },
+    "com.azure.eventhubs_messaging#SendEventBatchRequest": {
+      "type": "structure",
+      "members": {
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Event Hubs namespace name (`<namespaceName>.servicebus.windows.net`)."
+          }
+        },
+        "eventHubName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The event hub name."
+          }
+        },
+        "events": {
+          "target": "com.azure.eventhubs_messaging#BatchEventList",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The events. Every event of a batch must name the same partition key, or none."
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "timeout",
+            "smithy.api#documentation": "Seconds the service waits for the send to complete."
+          }
+        },
+        "retryPolicy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-retrypolicy",
+            "smithy.api#documentation": "`NoRetry` disables the service's automatic retry of a transient send failure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.eventhubs_messaging#SendEventBatchResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.eventhubs_messaging#SendEventRequest": {
+      "type": "structure",
+      "members": {
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Event Hubs namespace name (`<namespaceName>.servicebus.windows.net`)."
+          }
+        },
+        "eventHubName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The event hub name."
+          }
+        },
+        "body": {
+          "target": "com.azure.eventhubs_messaging#EventBody",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The event payload."
+          }
+        },
+        "contentType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Content-Type",
+            "smithy.api#documentation": "The payload's content type. Default `application/atom+xml;type=entry;charset=utf-8`."
+          }
+        },
+        "brokerProperties": {
+          "target": "com.azure.eventhubs_messaging#EventBrokerProperties",
+          "traits": {
+            "com.azure.protocols#jsonHeader": "BrokerProperties",
+            "smithy.api#documentation": "Broker properties of the event (`BrokerProperties` header)."
+          }
+        },
+        "userProperties": {
+          "target": "com.azure.eventhubs_messaging#HeaderMap",
+          "traits": {
+            "smithy.api#httpPrefixHeaders": "",
+            "smithy.api#documentation": "Custom event properties, one header each."
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "timeout",
+            "smithy.api#documentation": "Seconds the service waits for the send to complete."
+          }
+        },
+        "retryPolicy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-retrypolicy",
+            "smithy.api#documentation": "`NoRetry` disables the service's automatic retry of a transient send failure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.eventhubs_messaging#SendEventResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.eventhubs_messaging#SendPartitionEvent": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.eventhubs_messaging#SendPartitionEventRequest"
+      },
+      "output": {
+        "target": "com.azure.eventhubs_messaging#SendPartitionEventResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{eventHubName}/partitions/{partitionId}/messages",
+          "code": 201,
+          "host": "https://{namespaceName}.servicebus.windows.net",
+          "apiVersion": "2014-01",
+          "accept": "*/*",
+          "bodyMediaType": "application/atom+xml;type=entry;charset=utf-8"
+        },
+        "smithy.api#documentation": "Send one event to one partition of an event hub (`POST /{eventHubName}/partitions/{partitionId}/messages`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.eventhubs_messaging#MessagingEntityNotFound"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#InvalidPartition"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#QuotaExceeded"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#MessageTooLarge"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#MessagingUnauthorized"
+        }
+      ]
+    },
+    "com.azure.eventhubs_messaging#SendPartitionEventRequest": {
+      "type": "structure",
+      "members": {
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Event Hubs namespace name (`<namespaceName>.servicebus.windows.net`)."
+          }
+        },
+        "eventHubName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The event hub name."
+          }
+        },
+        "partitionId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The partition ID (`0`, `1`, …)."
+          }
+        },
+        "body": {
+          "target": "com.azure.eventhubs_messaging#EventBody",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The event payload."
+          }
+        },
+        "contentType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Content-Type",
+            "smithy.api#documentation": "The payload's content type. Default `application/atom+xml;type=entry;charset=utf-8`."
+          }
+        },
+        "brokerProperties": {
+          "target": "com.azure.eventhubs_messaging#EventBrokerProperties",
+          "traits": {
+            "com.azure.protocols#jsonHeader": "BrokerProperties",
+            "smithy.api#documentation": "Broker properties of the event (`BrokerProperties` header)."
+          }
+        },
+        "userProperties": {
+          "target": "com.azure.eventhubs_messaging#HeaderMap",
+          "traits": {
+            "smithy.api#httpPrefixHeaders": "",
+            "smithy.api#documentation": "Custom event properties, one header each."
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "timeout",
+            "smithy.api#documentation": "Seconds the service waits for the send to complete."
+          }
+        },
+        "retryPolicy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-retrypolicy",
+            "smithy.api#documentation": "`NoRetry` disables the service's automatic retry of a transient send failure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.eventhubs_messaging#SendPartitionEventResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.eventhubs_messaging#SendPublisherEvent": {
+      "type": "operation",
+      "input": {
+        "target": "com.azure.eventhubs_messaging#SendPublisherEventRequest"
+      },
+      "output": {
+        "target": "com.azure.eventhubs_messaging#SendPublisherEventResponse"
+      },
+      "traits": {
+        "smithy.api#http": {
+          "method": "POST",
+          "uri": "/{eventHubName}/publishers/{publisherId}/messages",
+          "code": 201,
+          "host": "https://{namespaceName}.servicebus.windows.net",
+          "apiVersion": "2014-01",
+          "accept": "*/*",
+          "bodyMediaType": "application/atom+xml;type=entry;charset=utf-8"
+        },
+        "smithy.api#documentation": "Send one event under a publisher identity (`POST /{eventHubName}/publishers/{publisherId}/messages`)."
+      },
+      "errors": [
+        {
+          "target": "com.azure.eventhubs_messaging#MessagingEntityNotFound"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#InvalidPartition"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#QuotaExceeded"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#MessageTooLarge"
+        },
+        {
+          "target": "com.azure.eventhubs_messaging#MessagingUnauthorized"
+        }
+      ]
+    },
+    "com.azure.eventhubs_messaging#SendPublisherEventRequest": {
+      "type": "structure",
+      "members": {
+        "namespaceName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "com.azure.protocols#hostLabel": {},
+            "smithy.api#documentation": "The Event Hubs namespace name (`<namespaceName>.servicebus.windows.net`)."
+          }
+        },
+        "eventHubName": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The event hub name."
+          }
+        },
+        "publisherId": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpLabel": {},
+            "smithy.api#documentation": "The publisher name."
+          }
+        },
+        "body": {
+          "target": "com.azure.eventhubs_messaging#EventBody",
+          "traits": {
+            "smithy.api#required": {},
+            "smithy.api#httpPayload": {},
+            "smithy.api#documentation": "The event payload."
+          }
+        },
+        "contentType": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "Content-Type",
+            "smithy.api#documentation": "The payload's content type. Default `application/atom+xml;type=entry;charset=utf-8`."
+          }
+        },
+        "brokerProperties": {
+          "target": "com.azure.eventhubs_messaging#EventBrokerProperties",
+          "traits": {
+            "com.azure.protocols#jsonHeader": "BrokerProperties",
+            "smithy.api#documentation": "Broker properties of the event (`BrokerProperties` header)."
+          }
+        },
+        "userProperties": {
+          "target": "com.azure.eventhubs_messaging#HeaderMap",
+          "traits": {
+            "smithy.api#httpPrefixHeaders": "",
+            "smithy.api#documentation": "Custom event properties, one header each."
+          }
+        },
+        "timeout": {
+          "target": "smithy.api#Integer",
+          "traits": {
+            "smithy.api#httpQuery": "timeout",
+            "smithy.api#documentation": "Seconds the service waits for the send to complete."
+          }
+        },
+        "retryPolicy": {
+          "target": "smithy.api#String",
+          "traits": {
+            "smithy.api#httpHeader": "x-ms-retrypolicy",
+            "smithy.api#documentation": "`NoRetry` disables the service's automatic retry of a transient send failure."
+          }
+        }
+      },
+      "traits": {
+        "smithy.api#input": {}
+      }
+    },
+    "com.azure.eventhubs_messaging#SendPublisherEventResponse": {
+      "type": "structure",
+      "members": {},
+      "traits": {
+        "smithy.api#output": {}
+      }
+    },
+    "com.azure.eventhubs_messaging#UserProperties": {
+      "type": "map",
+      "key": {
+        "target": "smithy.api#String"
+      },
+      "value": {
+        "target": "smithy.api#Document"
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "description": "The spec sends these query arrays with `collectionFormat: csv` (one comma-separated value), but the generated client repeats the key per item, so the service reads only the first item (Image Analysis returned only `tags` for `features=tags&features=read`). Type them as the comma-separated string the service expects.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_image_analysis#AnalyzeFromImageDataRequest/members/features/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_image_analysis#AnalyzeFromImageDataRequest/members/features/traits/smithy.api#documentation",
+      "value": "A list of visual features to analyze.\nSeven visual features are supported: Caption, DenseCaptions, Read (OCR), Tags, Objects, SmartCrops, and People.\nAt least one visual feature must be specified. Comma-separated (`tags`, `caption`, `denseCaptions`, `objects`, `read`, `smartCrops`, `people`)."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_image_analysis#AnalyzeFromImageDataRequest/members/smartcrops_aspect_ratios/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_image_analysis#AnalyzeFromImageDataRequest/members/smartcrops_aspect_ratios/traits/smithy.api#documentation",
+      "value": "A list of aspect ratios to use for smart cropping.\nAspect ratios are calculated by dividing the target crop width in pixels by the height in pixels.\nSupported values are between 0.75 and 1.8 (inclusive).\nIf this parameter is not specified, the service will return one crop region with an aspect\nratio it sees fit between 0.5 and 2.0 (inclusive). Comma-separated."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_image_analysis#AnalyzeFromUrlRequest/members/features/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_image_analysis#AnalyzeFromUrlRequest/members/features/traits/smithy.api#documentation",
+      "value": "A list of visual features to analyze.\nSeven visual features are supported: Caption, DenseCaptions, Read (OCR), Tags, Objects, SmartCrops, and People.\nAt least one visual feature must be specified. Comma-separated (`tags`, `caption`, `denseCaptions`, `objects`, `read`, `smartCrops`, `people`)."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_image_analysis#AnalyzeFromUrlRequest/members/smartcrops_aspect_ratios/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.ai_image_analysis#AnalyzeFromUrlRequest/members/smartcrops_aspect_ratios/traits/smithy.api#documentation",
+      "value": "A list of aspect ratios to use for smart cropping.\nAspect ratios are calculated by dividing the target crop width in pixels by the height in pixels.\nSupported values are between 0.75 and 1.8 (inclusive).\nIf this parameter is not specified, the service will return one crop region with an aspect\nratio it sees fit between 0.5 and 2.0 (inclusive). Comma-separated."
+    }
+  ]
+}

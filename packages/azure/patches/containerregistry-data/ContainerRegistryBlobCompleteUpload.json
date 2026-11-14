@@ -1,0 +1,26 @@
+{
+  "description": "Complete Upload sends the (last) raw blob bytes as `application/octet-stream`; the swagger types the body as a string, which the client JSON-encodes. Read the stored digest from `Docker-Content-Digest`.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryBlobCompleteUploadRequest/members/body/target",
+      "value": "smithy.api#Blob"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryBlobCompleteUpload/traits/smithy.api#http/bodyMediaType",
+      "value": "application/octet-stream"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.containerregistry_data#ContainerRegistryBlobCompleteUploadResponse/members/dockerContentDigest",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "Docker-Content-Digest",
+          "smithy.api#documentation": "Digest of the content the registry stored or returned."
+        }
+      }
+    }
+  ]
+}

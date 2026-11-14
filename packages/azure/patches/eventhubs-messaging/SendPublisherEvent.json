@@ -1,0 +1,40 @@
+{
+  "description": "Type the 400 Event Hubs returns for a publisher send on a Basic namespace (`Sending to '...' via publisher '...' is not allowed because the namespace is of Basic tier`). Publisher endpoints need Standard or higher.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventhubs_messaging#PublisherRequiresStandardTier",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The service's error detail."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "smithy.api#documentation": "The namespace is on the Basic tier, which has no publisher endpoints; use Standard or higher (HTTP 400 `is not allowed because the namespace is of Basic tier`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "message": {
+                "includes": "is not allowed because the namespace is of Basic tier"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.eventhubs_messaging#SendPublisherEvent/errors/-",
+      "value": {
+        "target": "com.azure.eventhubs_messaging#PublisherRequiresStandardTier"
+      }
+    }
+  ]
+}

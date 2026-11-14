@@ -1134,6 +1134,8 @@ export interface ListConnectionByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ConnectionTagsMap = { [key: string]: string | undefined };
@@ -1170,6 +1172,8 @@ export interface ConnectionListResult {
 export interface ListConnectionBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListFlowByConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1178,6 +1182,8 @@ export interface ListFlowByConnectionRequest {
   resourceGroupName: string;
   /** The name for the connection to perform the operation on. */
   connectionName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type FlowTagsMap = { [key: string]: string | undefined };
@@ -1250,6 +1256,8 @@ export interface ListListPendingConnectionsRequest {
   resourceGroupName: string;
   /** The name for the connection to perform the operation on. */
   connectionName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Force disablement status of the current connection */
 export type PendingConnectionForceDisabledStatusList = Array<ForceDisabledStatus>;
@@ -1365,6 +1373,8 @@ export interface ListListPendingFlowsRequest {
   resourceGroupName: string;
   /** The name for the connection to perform the operation on. */
   connectionName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Force disablement status of the current flow */
 export type PendingFlowForceDisabledStatusList = Array<ForceDisabledStatus>;
@@ -1509,7 +1519,10 @@ export interface ListListSchemasRequest {
   /** The Schema Type */
   schemaType?: SchemaType | (string & {}) | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1542,7 +1555,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1551,6 +1564,8 @@ export interface ListPipelineByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PipelineTagsMap = { [key: string]: string | undefined };
@@ -1587,6 +1602,8 @@ export interface PipelineListResult {
 export interface ListPipelineBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PipelinesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2386,12 +2403,13 @@ export const ListAzureDataTransferApprovedSchemas: API.OperationMethod<
 
 export type ListConnectionByResourceGroupError = AzureOpError;
 /** Gets connections in a resource group. */
-export const ListConnectionByResourceGroup: API.OperationMethod<
+export const ListConnectionByResourceGroup: API.PaginatedOperationMethod<
   ListConnectionByResourceGroupRequest,
   ConnectionListResult,
   ListConnectionByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Connection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<ListConnectionByResourceGroupRequest>,
   output: __S(209, __c26, 1) as any as S.Schema<ConnectionListResult>,
   errors: [UnknownAzureError],
@@ -2399,16 +2417,23 @@ export const ListConnectionByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnectionByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConnectionBySubscriptionError = AzureOpError;
 /** Gets connections in a subscription. */
-export const ListConnectionBySubscription: API.OperationMethod<
+export const ListConnectionBySubscription: API.PaginatedOperationMethod<
   ListConnectionBySubscriptionRequest,
   ConnectionListResult,
   ListConnectionBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Connection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(216, __c27, 0) as any as S.Schema<ListConnectionBySubscriptionRequest>,
   output: __S(209, __c26, 1) as any as S.Schema<ConnectionListResult>,
   errors: [UnknownAzureError],
@@ -2416,16 +2441,23 @@ export const ListConnectionBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConnectionBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFlowByConnectionError = AzureOpError;
 /** Gets flows in a connection. */
-export const ListFlowByConnection: API.OperationMethod<
+export const ListFlowByConnection: API.PaginatedOperationMethod<
   ListFlowByConnectionRequest,
   FlowListResult,
   ListFlowByConnectionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Flow
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<ListFlowByConnectionRequest>,
   output: __S(225, __c28, 1) as any as S.Schema<FlowListResult>,
   errors: [UnknownAzureError],
@@ -2433,7 +2465,13 @@ export const ListFlowByConnection: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFlowByConnection",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListListFlowsByPipelineError = AzureOpError;
 /** Lists all Flows associated with the specified Pipeline. */
@@ -2454,12 +2492,13 @@ export const ListListFlowsByPipeline: API.OperationMethod<
 
 export type ListListPendingConnectionsError = AzureOpError;
 /** Lists all pending remote connections that are linkable to this connection. */
-export const ListListPendingConnections: API.OperationMethod<
+export const ListListPendingConnections: API.PaginatedOperationMethod<
   ListListPendingConnectionsRequest,
   PendingConnectionListResult,
   ListListPendingConnectionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PendingConnection
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<ListListPendingConnectionsRequest>,
   output: __S(251, __c31, 3) as any as S.Schema<PendingConnectionListResult>,
   errors: [UnknownAzureError],
@@ -2467,16 +2506,23 @@ export const ListListPendingConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListListPendingConnections",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListListPendingFlowsError = AzureOpError;
 /** Lists all remote flows that have not yet been linked to local flows */
-export const ListListPendingFlows: API.OperationMethod<
+export const ListListPendingFlows: API.PaginatedOperationMethod<
   ListListPendingFlowsRequest,
   PendingFlowListResult,
   ListListPendingFlowsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PendingFlow
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(256, __c32, 0) as any as S.Schema<ListListPendingFlowsRequest>,
   output: __S(259, __c32, 3) as any as S.Schema<PendingFlowListResult>,
   errors: [UnknownAzureError],
@@ -2484,7 +2530,13 @@ export const ListListPendingFlows: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListListPendingFlows",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListListSchemasError = AzureOpError;
 /** Lists the schemas associated with a specific connection in the Pipeline. This operation has reached end of life support starting version 2025-05-30-preview. For schema support please create and use a FlowProfile resource. */
@@ -2505,12 +2557,13 @@ export const ListListSchemas: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(272, __c34, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(276, __c34, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -2518,16 +2571,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPipelineByResourceGroupError = AzureOpError;
 /** Lists all Pipeline resources within the specified resource group. */
-export const ListPipelineByResourceGroup: API.OperationMethod<
+export const ListPipelineByResourceGroup: API.PaginatedOperationMethod<
   ListPipelineByResourceGroupRequest,
   PipelineListResult,
   ListPipelineByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Pipeline
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(280, __c35, 0) as any as S.Schema<ListPipelineByResourceGroupRequest>,
   output: __S(289, __c36, 1) as any as S.Schema<PipelineListResult>,
   errors: [UnknownAzureError],
@@ -2535,16 +2595,23 @@ export const ListPipelineByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPipelineByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPipelineBySubscriptionError = AzureOpError;
 /** Lists all Pipeline resources within the current subscription. */
-export const ListPipelineBySubscription: API.OperationMethod<
+export const ListPipelineBySubscription: API.PaginatedOperationMethod<
   ListPipelineBySubscriptionRequest,
   PipelineListResult,
   ListPipelineBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Pipeline
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<ListPipelineBySubscriptionRequest>,
   output: __S(289, __c36, 1) as any as S.Schema<PipelineListResult>,
   errors: [UnknownAzureError],
@@ -2552,7 +2619,13 @@ export const ListPipelineBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPipelineBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PipelinesCreateOrUpdateError = AzureOpError;
 /** Creates a new Pipeline resource or updates an existing one. This operation is asynchronous and returns the resulting Pipeline. */
@@ -3240,12 +3313,14 @@ function __c25(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureDataTransfer/connections",
             code: 200,
             apiVersion: "2025-05-21",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectionByResourceGroupRequest" });
@@ -3270,12 +3345,14 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureDataTransfer/connections",
             code: 200,
             apiVersion: "2025-05-21",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConnectionBySubscriptionRequest" });
@@ -3289,12 +3366,14 @@ function __c28(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureDataTransfer/connections/{connectionName}/flows",
             code: 200,
             apiVersion: "2025-05-21",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFlowByConnectionRequest" });
@@ -3356,12 +3435,14 @@ function __c31(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureDataTransfer/connections/{connectionName}/listPendingConnections",
             code: 200,
             apiVersion: "2025-05-21",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListListPendingConnectionsRequest" });
@@ -3416,12 +3497,14 @@ function __c32(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           connectionName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureDataTransfer/connections/{connectionName}/listPendingFlows",
             code: 200,
             apiVersion: "2025-05-21",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListListPendingFlowsRequest" });
@@ -3509,12 +3592,15 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.AzureDataTransfer/operations",
             code: 200,
             apiVersion: "2025-05-21",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -3542,7 +3628,7 @@ function __c34(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(275, __c34, 3)),
+          value: __S(275, __c34, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -3555,12 +3641,14 @@ function __c35(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureDataTransfer/pipelines",
             code: 200,
             apiVersion: "2025-05-21",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPipelineByResourceGroupRequest" });
@@ -3585,12 +3673,14 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureDataTransfer/pipelines",
             code: 200,
             apiVersion: "2025-05-21",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPipelineBySubscriptionRequest" });

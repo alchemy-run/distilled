@@ -1,0 +1,10 @@
+{
+  "description": "The Playwright data plane (`https://{region}.api.playwright.microsoft.com`) rejects tokens for the spec's `https://playwright.microsoft.com` audience (401 `invalid_token`, issuer invalid) and accepts Entra tokens for `https://management.core.windows.net` (live-verified on the access-token and browsers routes).",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.loadtesting_playwright#LoadtestingPlaywright/traits/com.azure.protocols#audience",
+      "value": "https://management.core.windows.net/.default"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "description": "Files_Upload is multipart/form-data with a required `purpose` field and the `file` part (the swagger models the body as a formData pair the converter drops), so the generated request carried only the endpoint and sent an empty JSON body. Send multipart with both members; `file` is a Document so a File keeps its filename (Azure validates the .jsonl extension).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_openai_authoring#FilesUpload/traits/smithy.api#http/contentType",
+      "value": "multipart"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_openai_authoring#FilesUpload/traits/com.distilled.openapi#contentType",
+      "value": "multipart"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_openai_authoring#FilesUploadRequest/members/purpose",
+      "value": {
+        "target": "com.azure.cognitiveservices_openai_authoring#Purpose",
+        "traits": {
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The intended purpose of the uploaded file: \"fine-tune\" for fine-tuning, \"batch\" for batch requests."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_openai_authoring#FilesUploadRequest/members/file",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The file to upload: a File (its name is the uploaded filename, e.g. training.jsonl) or a Blob."
+        }
+      }
+    }
+  ]
+}

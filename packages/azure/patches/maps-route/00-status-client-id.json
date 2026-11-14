@@ -1,0 +1,16 @@
+{
+  "description": "Every other Route operation takes the `x-ms-client-id` header that Microsoft Entra ID calls must send (the Maps account's unique ID), but the spec omits it on Get Route Operations Status, so an Entra-authenticated client cannot poll its own async matrix. Add the header member.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.maps_route#RouteGetRouteOperationsStatusRequest/members/xMsClientId",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-client-id",
+          "smithy.api#documentation": "Indicates the account intended for use with the Microsoft Entra ID security model: the Azure Maps account's unique ID."
+        }
+      }
+    }
+  ]
+}

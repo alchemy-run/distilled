@@ -349,7 +349,10 @@ export interface SubscriptionAliasListResult {
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.Subscription */
@@ -375,17 +378,20 @@ export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of operations. */
-  value?: OperationListResultValueList | undefined;
+  value: OperationListResultValueList;
   /** URL to get the next set of operation list results if there are any. */
   nextLink?: string | undefined;
 }
-export interface ListSubscriptionPolicyPolicyForTenantRequest {}
+export interface ListSubscriptionPolicyPolicyForTenantRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The list of tenant policies. */
 export type GetTenantPolicyListResponseValueList = Array<GetTenantPolicyResponse>;
 /** Tenant policy information list. */
 export interface GetTenantPolicyListResponse {
   /** The list of tenant policies. */
-  value?: GetTenantPolicyListResponseValueList | undefined;
+  value: GetTenantPolicyListResponseValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
 }
@@ -601,12 +607,13 @@ export const ListAlias: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available Microsoft.Subscription API operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(36, __c4, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -614,16 +621,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSubscriptionPolicyPolicyForTenantError = AzureOpError;
 /** Get the subscription tenant policy for the user's tenant. */
-export const ListSubscriptionPolicyPolicyForTenant: API.OperationMethod<
+export const ListSubscriptionPolicyPolicyForTenant: API.PaginatedOperationMethod<
   ListSubscriptionPolicyPolicyForTenantRequest,
   GetTenantPolicyListResponse,
   ListSubscriptionPolicyPolicyForTenantError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GetTenantPolicyResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ListSubscriptionPolicyPolicyForTenantRequest>,
   output: __S(42, __c5, 2) as any as S.Schema<GetTenantPolicyListResponse>,
   errors: [UnknownAzureError],
@@ -631,7 +645,13 @@ export const ListSubscriptionPolicyPolicyForTenant: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSubscriptionPolicyPolicyForTenant",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RenameSubscriptionError = AzureOpError;
 /** The operation to rename a subscription */
@@ -764,12 +784,15 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Subscription/operations",
             code: 200,
             apiVersion: "2021-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -795,7 +818,7 @@ function __c4(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(35, __c4, 3)),
+          value: __S(35, __c4, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationListResult" });
@@ -805,12 +828,15 @@ function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Subscription/policies",
             code: 200,
             apiVersion: "2021-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSubscriptionPolicyPolicyForTenantRequest" });
@@ -819,7 +845,7 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(41, __c5, 1)),
+          value: __S(41, __c5, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetTenantPolicyListResponse" });

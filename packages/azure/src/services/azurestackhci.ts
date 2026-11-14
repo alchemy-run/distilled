@@ -6238,6 +6238,8 @@ export interface ListArcSettingsByClusterRequest {
   resourceGroupName: string;
   /** The name of the cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** ArcSetting details. */
 export interface ArcSetting {
@@ -6266,6 +6268,8 @@ export interface ListClusterByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ClusterTagsMap = { [key: string]: string | undefined };
@@ -6316,6 +6320,8 @@ export interface ClusterList {
 export interface ListClusterBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListClusterJobsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6324,6 +6330,8 @@ export interface ListClusterJobsRequest {
   resourceGroupName: string;
   /** The name of the cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Cluster Jobs resource */
 export interface ClusterJob {
@@ -6354,6 +6362,8 @@ export interface ListDeploymentSettingsByClustersRequest {
   resourceGroupName: string;
   /** The name of the cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Edge device resource */
 export interface DeploymentSetting {
@@ -6382,6 +6392,8 @@ export interface ListEdgeDeviceJobByEdgeDeviceRequest {
   resourceUri: string;
   /** Name of Device */
   edgeDeviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** EdgeDevice Jobs resource */
 export interface EdgeDeviceJob {
@@ -6408,6 +6420,8 @@ export interface EdgeDeviceJobListResult {
 export interface ListEdgeDevicesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Edge device resource. */
 export interface EdgeDevice {
@@ -6438,6 +6452,8 @@ export interface ListEdgeMachineByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type EdgeMachineTagsMap = { [key: string]: string | undefined };
@@ -6486,6 +6502,8 @@ export interface EdgeMachineListResult {
 export interface ListEdgeMachineBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListEdgeMachineDeploymentSettingsByEdgeMachineRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -6494,6 +6512,8 @@ export interface ListEdgeMachineDeploymentSettingsByEdgeMachineRequest {
   resourceGroupName: string;
   /** Name of Device */
   edgeMachineName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Deployment setting resource for an Edge Machine. */
 export interface EdgeMachineDeploymentSetting {
@@ -6526,6 +6546,8 @@ export interface ListEdgeMachineDiskJobsRequest {
   edgeMachineName: string;
   /** The name of the EdgeMachineDisk */
   diskName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Disk Job resource for managing operations on disks. */
 export interface EdgeMachineDiskJob {
@@ -6558,6 +6580,8 @@ export interface ListEdgeMachineDiskPrivilegedJobsRequest {
   edgeMachineName: string;
   /** The name of the EdgeMachineDisk */
   diskName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Disk Privileged Job resource for managing privileged operations on disk volumes. */
 export interface EdgeMachineDiskPrivilegedJob {
@@ -6588,6 +6612,8 @@ export interface ListEdgeMachineDisksRequest {
   resourceGroupName: string;
   /** Name of Device */
   edgeMachineName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Disk resource representing a physical disk on an Edge Machine. */
 export interface EdgeMachineDisk {
@@ -6618,6 +6644,8 @@ export interface ListEdgeMachineJobsRequest {
   resourceGroupName: string;
   /** Name of Device */
   edgeMachineName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Cluster Jobs resource */
 export interface EdgeMachineJob {
@@ -6650,6 +6678,8 @@ export interface ListEdgeMachineNetworkAdapterJobsRequest {
   edgeMachineName: string;
   /** The name of the EdgeMachineNetworkAdapter */
   networkAdapterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Job for an Edge Machine Network Adapter. */
 export interface EdgeMachineNetworkAdapterJob {
@@ -6680,6 +6710,8 @@ export interface ListEdgeMachineNetworkAdaptersRequest {
   resourceGroupName: string;
   /** Name of Device */
   edgeMachineName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Edge Machine Network Adapter Resource. */
 export interface EdgeMachineNetworkAdapter {
@@ -6710,6 +6742,8 @@ export interface ListEdgeMachineSecuritySettingsOperationByEdgeMachineRequest {
   resourceGroupName: string;
   /** Name of Device */
   edgeMachineName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Edge Machine Security Settings proxy resource */
 export interface EdgeMachineSecuritySettings {
@@ -6740,6 +6774,8 @@ export interface ListEdgeMachineVolumesRequest {
   resourceGroupName: string;
   /** Name of Device */
   edgeMachineName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Volume resource representing a storage volume on an Edge Machine. */
 export interface EdgeMachineVolume {
@@ -6772,6 +6808,8 @@ export interface ListExtensionByArcSettingRequest {
   clusterName: string;
   /** The name of the proxy resource holding details of HCI ArcSetting information. */
   arcSettingName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Details of a particular extension in HCI Cluster. */
 export interface Extension {
@@ -6798,6 +6836,8 @@ export interface ExtensionList {
 export interface ListGalleryImageAllRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type GalleryImagesTagsMap = { [key: string]: string | undefined };
@@ -6824,7 +6864,7 @@ export interface GalleryImages {
 export type GalleryImagesListResultValueList = Array<GalleryImages>;
 /** List of gallery images. */
 export interface GalleryImagesListResult {
-  value?: GalleryImagesListResultValueList | undefined;
+  value: GalleryImagesListResultValueList;
   /** Link to the next set of results. */
   nextLink?: string | undefined;
 }
@@ -6833,10 +6873,14 @@ export interface ListGalleryImagesRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListGuestAgentsRequest {
   /** The fully qualified Azure Resource manager identifier of the Hybrid Compute machine resource to be extended. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Defines the GuestAgent. */
 export interface GuestAgent {
@@ -6863,6 +6907,8 @@ export interface GuestAgentList {
 export interface ListHybridIdentityMetadataRequest {
   /** The fully qualified Azure Resource manager identifier of the Hybrid Compute machine resource to be extended. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Defines the HybridIdentityMetadata. */
 export interface HybridIdentityMetadata {
@@ -6889,6 +6935,8 @@ export interface HybridIdentityMetadataList {
 export interface ListLogicalNetworkAllRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type LogicalNetworksTagsMap = { [key: string]: string | undefined };
@@ -6914,7 +6962,7 @@ export interface LogicalNetworks {
 }
 export type LogicalNetworksListResultValueList = Array<LogicalNetworks>;
 export interface LogicalNetworksListResult {
-  value?: LogicalNetworksListResultValueList | undefined;
+  value: LogicalNetworksListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListLogicalNetworksRequest {
@@ -6922,10 +6970,14 @@ export interface ListLogicalNetworksRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListMarketplaceGalleryImageAllRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type MarketplaceGalleryImagesTagsMap = { [key: string]: string | undefined };
@@ -6952,7 +7004,7 @@ export interface MarketplaceGalleryImages {
 }
 export type MarketplaceGalleryImagesListResultValueList = Array<MarketplaceGalleryImages>;
 export interface MarketplaceGalleryImagesListResult {
-  value?: MarketplaceGalleryImagesListResultValueList | undefined;
+  value: MarketplaceGalleryImagesListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListMarketplaceGalleryImagesRequest {
@@ -6960,10 +7012,14 @@ export interface ListMarketplaceGalleryImagesRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListNetworkInterfaceAllRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NetworkInterfacesTagsMap = { [key: string]: string | undefined };
@@ -6989,7 +7045,7 @@ export interface NetworkInterfaces {
 }
 export type NetworkInterfacesListResultValueList = Array<NetworkInterfaces>;
 export interface NetworkInterfacesListResult {
-  value?: NetworkInterfacesListResultValueList | undefined;
+  value: NetworkInterfacesListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListNetworkInterfacesRequest {
@@ -6997,6 +7053,8 @@ export interface ListNetworkInterfacesRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListOfferByClusterRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7007,6 +7065,8 @@ export interface ListOfferByClusterRequest {
   clusterName: string;
   /** Specify $expand=content,contentVersion to populate additional fields related to the marketplace offer. */
   _expand?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Offer details. */
 export interface Offer {
@@ -7041,8 +7101,13 @@ export interface ListOfferByPublisherRequest {
   publisherName: string;
   /** Specify $expand=content,contentVersion to populate additional fields related to the marketplace offer. */
   _expand?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -7075,7 +7140,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -7084,6 +7149,8 @@ export interface ListOsImageBySubscriptionLocationResourceRequest {
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a os image resource. */
 export interface OsImage {
@@ -7114,6 +7181,8 @@ export interface ListSecuritySettingsByClustersRequest {
   resourceGroupName: string;
   /** The name of the cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Security settings proxy resource */
 export interface SecuritySetting {
@@ -7150,6 +7219,8 @@ export interface ListSkusByOfferRequest {
   offerName: string;
   /** Specify $expand=content,contentVersion to populate additional fields related to the marketplace offer. */
   _expand?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Sku details. */
 export interface Sku {
@@ -7176,6 +7247,8 @@ export interface SkuList {
 export interface ListStorageContainerAllRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type StorageContainersTagsMap = { [key: string]: string | undefined };
@@ -7201,7 +7274,7 @@ export interface StorageContainers {
 }
 export type StorageContainersListResultValueList = Array<StorageContainers>;
 export interface StorageContainersListResult {
-  value?: StorageContainersListResultValueList | undefined;
+  value: StorageContainersListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListStorageContainersRequest {
@@ -7209,6 +7282,8 @@ export interface ListStorageContainersRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListUpdateRunsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -7219,6 +7294,8 @@ export interface ListUpdateRunsRequest {
   clusterName: string;
   /** The name of the Update */
   updateName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Details of an Update run */
 export interface UpdateRun {
@@ -7251,6 +7328,8 @@ export interface ListUpdatesRequest {
   resourceGroupName: string;
   /** The name of the cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Update details */
 export interface Update {
@@ -7283,6 +7362,8 @@ export interface ListUpdateSummariesRequest {
   resourceGroupName: string;
   /** The name of the cluster. */
   clusterName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Get the update summaries for the cluster */
 export interface UpdateSummaries {
@@ -7313,6 +7394,8 @@ export interface ListValidatedSolutionRecipeBySubscriptionLocationResourceReques
   subscriptionId: string;
   /** The name of the Azure region. */
   location: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a validated solution recipe resource. */
 export interface ValidatedSolutionRecipe {
@@ -7339,6 +7422,8 @@ export interface ValidatedSolutionRecipeListResult {
 export interface ListVirtualHardDiskAllRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type VirtualHardDisksTagsMap = { [key: string]: string | undefined };
@@ -7364,7 +7449,7 @@ export interface VirtualHardDisks {
 }
 export type VirtualHardDisksListResultValueList = Array<VirtualHardDisks>;
 export interface VirtualHardDisksListResult {
-  value?: VirtualHardDisksListResultValueList | undefined;
+  value: VirtualHardDisksListResultValueList;
   nextLink?: string | undefined;
 }
 export interface ListVirtualHardDisksRequest {
@@ -7372,10 +7457,14 @@ export interface ListVirtualHardDisksRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListVirtualMachineInstancesRequest {
   /** The fully qualified Azure Resource manager identifier of the Hybrid Compute machine resource to be extended. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The complex type of the extended location. */
 export type VirtualMachineInstanceExtendedLocation =
@@ -7409,7 +7498,7 @@ export interface VirtualMachineInstance {
 }
 export type VirtualMachineInstanceListResultValueList = Array<VirtualMachineInstance>;
 export interface VirtualMachineInstanceListResult {
-  value?: VirtualMachineInstanceListResultValueList | undefined;
+  value: VirtualMachineInstanceListResultValueList;
   nextLink?: string | undefined;
 }
 /** Resource tags. */
@@ -10748,12 +10837,13 @@ export const GetVirtualMachineInstance: API.OperationMethod<
 
 export type ListArcSettingsByClusterError = AzureOpError;
 /** Get ArcSetting resources of HCI Cluster. */
-export const ListArcSettingsByCluster: API.OperationMethod<
+export const ListArcSettingsByCluster: API.PaginatedOperationMethod<
   ListArcSettingsByClusterRequest,
   ArcSettingList,
   ListArcSettingsByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ArcSetting
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(8352, __c261, 0) as any as S.Schema<ListArcSettingsByClusterRequest>,
   output: __S(8354, __c261, 2) as any as S.Schema<ArcSettingList>,
   errors: [UnknownAzureError],
@@ -10761,16 +10851,23 @@ export const ListArcSettingsByCluster: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListArcSettingsByCluster",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterByResourceGroupError = AzureOpError;
 /** List all HCI clusters in a resource group. */
-export const ListClusterByResourceGroup: API.OperationMethod<
+export const ListClusterByResourceGroup: API.PaginatedOperationMethod<
   ListClusterByResourceGroupRequest,
   ClusterList,
   ListClusterByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(8384, __c262, 0) as any as S.Schema<ListClusterByResourceGroupRequest>,
   output: __S(8417, __c263, 1) as any as S.Schema<ClusterList>,
   errors: [UnknownAzureError],
@@ -10778,16 +10875,23 @@ export const ListClusterByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterBySubscriptionError = AzureOpError;
 /** List all HCI clusters in a subscription. */
-export const ListClusterBySubscription: API.OperationMethod<
+export const ListClusterBySubscription: API.PaginatedOperationMethod<
   ListClusterBySubscriptionRequest,
   ClusterList,
   ListClusterBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Cluster
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(8448, __c264, 0) as any as S.Schema<ListClusterBySubscriptionRequest>,
   output: __S(8417, __c263, 1) as any as S.Schema<ClusterList>,
   errors: [UnknownAzureError],
@@ -10795,16 +10899,23 @@ export const ListClusterBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListClusterJobsError = AzureOpError;
 /** List ClusterJob resources by Clusters */
-export const ListClusterJobs: API.OperationMethod<
+export const ListClusterJobs: API.PaginatedOperationMethod<
   ListClusterJobsRequest,
   ClusterJobListResult,
   ListClusterJobsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ClusterJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(8480, __c265, 0) as any as S.Schema<ListClusterJobsRequest>,
   output: __S(8482, __c265, 2) as any as S.Schema<ClusterJobListResult>,
   errors: [UnknownAzureError],
@@ -10812,16 +10923,23 @@ export const ListClusterJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListClusterJobs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentSettingsByClustersError = AzureOpError;
 /** List DeploymentSetting resources by Clusters */
-export const ListDeploymentSettingsByClusters: API.OperationMethod<
+export const ListDeploymentSettingsByClusters: API.PaginatedOperationMethod<
   ListDeploymentSettingsByClustersRequest,
   DeploymentSettingListResult,
   ListDeploymentSettingsByClustersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentSetting
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(8512, __c266, 0) as any as S.Schema<ListDeploymentSettingsByClustersRequest>,
   output: __S(8514, __c266, 2) as any as S.Schema<DeploymentSettingListResult>,
   errors: [UnknownAzureError],
@@ -10829,16 +10947,23 @@ export const ListDeploymentSettingsByClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeploymentSettingsByClusters",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEdgeDeviceJobByEdgeDeviceError = AzureOpError;
 /** List EdgeDeviceJob resources by EdgeDevice */
-export const ListEdgeDeviceJobByEdgeDevice: API.OperationMethod<
+export const ListEdgeDeviceJobByEdgeDevice: API.PaginatedOperationMethod<
   ListEdgeDeviceJobByEdgeDeviceRequest,
   EdgeDeviceJobListResult,
   ListEdgeDeviceJobByEdgeDeviceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EdgeDeviceJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(8544, __c267, 0) as any as S.Schema<ListEdgeDeviceJobByEdgeDeviceRequest>,
   output: __S(8546, __c267, 2) as any as S.Schema<EdgeDeviceJobListResult>,
   errors: [UnknownAzureError],
@@ -10852,16 +10977,23 @@ export const ListEdgeDeviceJobByEdgeDevice: API.OperationMethod<
         "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEdgeDevicesError = AzureOpError;
 /** List EdgeDevice resources by parent */
-export const ListEdgeDevices: API.OperationMethod<
+export const ListEdgeDevices: API.PaginatedOperationMethod<
   ListEdgeDevicesRequest,
   EdgeDeviceListResult,
   ListEdgeDevicesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EdgeDevice
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(8576, __c268, 0) as any as S.Schema<ListEdgeDevicesRequest>,
   output: __S(8578, __c268, 2) as any as S.Schema<EdgeDeviceListResult>,
   errors: [UnknownAzureError],
@@ -10872,16 +11004,23 @@ export const ListEdgeDevices: API.OperationMethod<
     op: "ListEdgeDevices",
     attributes: { "url.template": "/{resourceUri}/providers/Microsoft.AzureStackHCI/edgeDevices" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEdgeMachineByResourceGroupError = AzureOpError;
 /** List all edge machines in a resource group. */
-export const ListEdgeMachineByResourceGroup: API.OperationMethod<
+export const ListEdgeMachineByResourceGroup: API.PaginatedOperationMethod<
   ListEdgeMachineByResourceGroupRequest,
   EdgeMachineListResult,
   ListEdgeMachineByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EdgeMachine
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(8608, __c269, 0) as any as S.Schema<ListEdgeMachineByResourceGroupRequest>,
   output: __S(8641, __c270, 1) as any as S.Schema<EdgeMachineListResult>,
   errors: [UnknownAzureError],
@@ -10889,16 +11028,23 @@ export const ListEdgeMachineByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEdgeMachineByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEdgeMachineBySubscriptionError = AzureOpError;
 /** List all edge machines in a subscription. */
-export const ListEdgeMachineBySubscription: API.OperationMethod<
+export const ListEdgeMachineBySubscription: API.PaginatedOperationMethod<
   ListEdgeMachineBySubscriptionRequest,
   EdgeMachineListResult,
   ListEdgeMachineBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EdgeMachine
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(8672, __c271, 0) as any as S.Schema<ListEdgeMachineBySubscriptionRequest>,
   output: __S(8641, __c270, 1) as any as S.Schema<EdgeMachineListResult>,
   errors: [UnknownAzureError],
@@ -10906,16 +11052,23 @@ export const ListEdgeMachineBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEdgeMachineBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEdgeMachineDeploymentSettingsByEdgeMachineError = AzureOpError;
 /** List Edge Machine Deployment Setting resources by Edge Machine. */
-export const ListEdgeMachineDeploymentSettingsByEdgeMachine: API.OperationMethod<
+export const ListEdgeMachineDeploymentSettingsByEdgeMachine: API.PaginatedOperationMethod<
   ListEdgeMachineDeploymentSettingsByEdgeMachineRequest,
   EdgeMachineDeploymentSettingListResult,
   ListEdgeMachineDeploymentSettingsByEdgeMachineError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EdgeMachineDeploymentSetting
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     224,
     __c7,
@@ -10927,16 +11080,23 @@ export const ListEdgeMachineDeploymentSettingsByEdgeMachine: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEdgeMachineDeploymentSettingsByEdgeMachine",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEdgeMachineDiskJobsError = AzureOpError;
 /** List all jobs for a disk. */
-export const ListEdgeMachineDiskJobs: API.OperationMethod<
+export const ListEdgeMachineDiskJobs: API.PaginatedOperationMethod<
   ListEdgeMachineDiskJobsRequest,
   EdgeMachineDiskJobListResult,
   ListEdgeMachineDiskJobsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EdgeMachineDiskJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<ListEdgeMachineDiskJobsRequest>,
   output: __S(289, __c9, 1) as any as S.Schema<EdgeMachineDiskJobListResult>,
   errors: [UnknownAzureError],
@@ -10944,16 +11104,23 @@ export const ListEdgeMachineDiskJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEdgeMachineDiskJobs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEdgeMachineDiskPrivilegedJobsError = AzureOpError;
 /** List all privileged jobs for a disk. */
-export const ListEdgeMachineDiskPrivilegedJobs: API.OperationMethod<
+export const ListEdgeMachineDiskPrivilegedJobs: API.PaginatedOperationMethod<
   ListEdgeMachineDiskPrivilegedJobsRequest,
   EdgeMachineDiskPrivilegedJobListResult,
   ListEdgeMachineDiskPrivilegedJobsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EdgeMachineDiskPrivilegedJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<ListEdgeMachineDiskPrivilegedJobsRequest>,
   output: __S(289, __c9, 1) as any as S.Schema<EdgeMachineDiskPrivilegedJobListResult>,
   errors: [UnknownAzureError],
@@ -10961,16 +11128,23 @@ export const ListEdgeMachineDiskPrivilegedJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEdgeMachineDiskPrivilegedJobs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEdgeMachineDisksError = AzureOpError;
 /** List all disks on an Edge Machine. */
-export const ListEdgeMachineDisks: API.OperationMethod<
+export const ListEdgeMachineDisks: API.PaginatedOperationMethod<
   ListEdgeMachineDisksRequest,
   EdgeMachineDiskListResult,
   ListEdgeMachineDisksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EdgeMachineDisk
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c11, 0) as any as S.Schema<ListEdgeMachineDisksRequest>,
   output: __S(354, __c11, 2) as any as S.Schema<EdgeMachineDiskListResult>,
   errors: [UnknownAzureError],
@@ -10978,16 +11152,23 @@ export const ListEdgeMachineDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEdgeMachineDisks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEdgeMachineJobsError = AzureOpError;
 /** List EdgeMachineJob resources by EdgeMachines */
-export const ListEdgeMachineJobs: API.OperationMethod<
+export const ListEdgeMachineJobs: API.PaginatedOperationMethod<
   ListEdgeMachineJobsRequest,
   EdgeMachineJobListResult,
   ListEdgeMachineJobsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EdgeMachineJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(384, __c12, 0) as any as S.Schema<ListEdgeMachineJobsRequest>,
   output: __S(386, __c12, 2) as any as S.Schema<EdgeMachineJobListResult>,
   errors: [UnknownAzureError],
@@ -10995,16 +11176,23 @@ export const ListEdgeMachineJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEdgeMachineJobs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEdgeMachineNetworkAdapterJobsError = AzureOpError;
 /** List all jobs for a network adapter. */
-export const ListEdgeMachineNetworkAdapterJobs: API.OperationMethod<
+export const ListEdgeMachineNetworkAdapterJobs: API.PaginatedOperationMethod<
   ListEdgeMachineNetworkAdapterJobsRequest,
   EdgeMachineNetworkAdapterJobListResult,
   ListEdgeMachineNetworkAdapterJobsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EdgeMachineNetworkAdapterJob
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c13, 0) as any as S.Schema<ListEdgeMachineNetworkAdapterJobsRequest>,
   output: __S(418, __c13, 2) as any as S.Schema<EdgeMachineNetworkAdapterJobListResult>,
   errors: [UnknownAzureError],
@@ -11012,16 +11200,23 @@ export const ListEdgeMachineNetworkAdapterJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEdgeMachineNetworkAdapterJobs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEdgeMachineNetworkAdaptersError = AzureOpError;
 /** List all network adapters on an Edge Machine. */
-export const ListEdgeMachineNetworkAdapters: API.OperationMethod<
+export const ListEdgeMachineNetworkAdapters: API.PaginatedOperationMethod<
   ListEdgeMachineNetworkAdaptersRequest,
   EdgeMachineNetworkAdapterListResult,
   ListEdgeMachineNetworkAdaptersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EdgeMachineNetworkAdapter
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c14, 0) as any as S.Schema<ListEdgeMachineNetworkAdaptersRequest>,
   output: __S(450, __c14, 2) as any as S.Schema<EdgeMachineNetworkAdapterListResult>,
   errors: [UnknownAzureError],
@@ -11029,16 +11224,23 @@ export const ListEdgeMachineNetworkAdapters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEdgeMachineNetworkAdapters",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEdgeMachineSecuritySettingsOperationByEdgeMachineError = AzureOpError;
 /** List EdgeMachineSecuritySettings by EdgeMachine */
-export const ListEdgeMachineSecuritySettingsOperationByEdgeMachine: API.OperationMethod<
+export const ListEdgeMachineSecuritySettingsOperationByEdgeMachine: API.PaginatedOperationMethod<
   ListEdgeMachineSecuritySettingsOperationByEdgeMachineRequest,
   EdgeMachineSecuritySettingsListResult,
   ListEdgeMachineSecuritySettingsOperationByEdgeMachineError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EdgeMachineSecuritySettings
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     480,
     __c15,
@@ -11050,16 +11252,23 @@ export const ListEdgeMachineSecuritySettingsOperationByEdgeMachine: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEdgeMachineSecuritySettingsOperationByEdgeMachine",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListEdgeMachineVolumesError = AzureOpError;
 /** List all volumes on an Edge Machine. */
-export const ListEdgeMachineVolumes: API.OperationMethod<
+export const ListEdgeMachineVolumes: API.PaginatedOperationMethod<
   ListEdgeMachineVolumesRequest,
   EdgeMachineVolumeListResult,
   ListEdgeMachineVolumesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  EdgeMachineVolume
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c16, 0) as any as S.Schema<ListEdgeMachineVolumesRequest>,
   output: __S(514, __c16, 2) as any as S.Schema<EdgeMachineVolumeListResult>,
   errors: [UnknownAzureError],
@@ -11067,16 +11276,23 @@ export const ListEdgeMachineVolumes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEdgeMachineVolumes",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListExtensionByArcSettingError = AzureOpError;
 /** List all Extensions under ArcSetting resource. */
-export const ListExtensionByArcSetting: API.OperationMethod<
+export const ListExtensionByArcSetting: API.PaginatedOperationMethod<
   ListExtensionByArcSettingRequest,
   ExtensionList,
   ListExtensionByArcSettingError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Extension
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c17, 0) as any as S.Schema<ListExtensionByArcSettingRequest>,
   output: __S(546, __c17, 2) as any as S.Schema<ExtensionList>,
   errors: [UnknownAzureError],
@@ -11084,16 +11300,23 @@ export const ListExtensionByArcSetting: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExtensionByArcSetting",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGalleryImageAllError = AzureOpError;
 /** Lists all of the gallery images in the specified subscription. Use the nextLink property in the response to get the next page of gallery images. */
-export const ListGalleryImageAll: API.OperationMethod<
+export const ListGalleryImageAll: API.PaginatedOperationMethod<
   ListGalleryImageAllRequest,
   GalleryImagesListResult,
   ListGalleryImageAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GalleryImages
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<ListGalleryImageAllRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<GalleryImagesListResult>,
   errors: [UnknownAzureError],
@@ -11101,16 +11324,23 @@ export const ListGalleryImageAll: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGalleryImageAll",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGalleryImagesError = AzureOpError;
 /** Lists all of the gallery images in the specified resource group. Use the nextLink property in the response to get the next page of gallery images. */
-export const ListGalleryImages: API.OperationMethod<
+export const ListGalleryImages: API.PaginatedOperationMethod<
   ListGalleryImagesRequest,
   GalleryImagesListResult,
   ListGalleryImagesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GalleryImages
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListGalleryImagesRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<GalleryImagesListResult>,
   errors: [UnknownAzureError],
@@ -11118,16 +11348,23 @@ export const ListGalleryImages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGalleryImages",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGuestAgentsError = AzureOpError;
 /** Implements GET GuestAgent in a vm. Returns the list of GuestAgent of the given vm. */
-export const ListGuestAgents: API.OperationMethod<
+export const ListGuestAgents: API.PaginatedOperationMethod<
   ListGuestAgentsRequest,
   GuestAgentList,
   ListGuestAgentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GuestAgent
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<ListGuestAgentsRequest>,
   output: __S(802, __c25, 2) as any as S.Schema<GuestAgentList>,
   errors: [UnknownAzureError],
@@ -11141,16 +11378,23 @@ export const ListGuestAgents: API.OperationMethod<
         "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHybridIdentityMetadataError = AzureOpError;
 /** Implements GET HybridIdentityMetadata in a vm. Returns the list of HybridIdentityMetadata of the given vm. */
-export const ListHybridIdentityMetadata: API.OperationMethod<
+export const ListHybridIdentityMetadata: API.PaginatedOperationMethod<
   ListHybridIdentityMetadataRequest,
   HybridIdentityMetadataList,
   ListHybridIdentityMetadataError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HybridIdentityMetadata
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListHybridIdentityMetadataRequest>,
   output: __S(834, __c26, 2) as any as S.Schema<HybridIdentityMetadataList>,
   errors: [UnknownAzureError],
@@ -11164,16 +11408,23 @@ export const ListHybridIdentityMetadata: API.OperationMethod<
         "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/hybridIdentityMetadata",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLogicalNetworkAllError = AzureOpError;
 /** Lists all of the logical networks in the specified subscription. Use the nextLink property in the response to get the next page of logical networks. */
-export const ListLogicalNetworkAll: API.OperationMethod<
+export const ListLogicalNetworkAll: API.PaginatedOperationMethod<
   ListLogicalNetworkAllRequest,
   LogicalNetworksListResult,
   ListLogicalNetworkAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LogicalNetworks
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListLogicalNetworkAllRequest>,
   output: __S(897, __c28, 1) as any as S.Schema<LogicalNetworksListResult>,
   errors: [UnknownAzureError],
@@ -11181,16 +11432,23 @@ export const ListLogicalNetworkAll: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLogicalNetworkAll",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListLogicalNetworksError = AzureOpError;
 /** Lists all of the logical networks in the specified resource group. Use the nextLink property in the response to get the next page of logical networks. */
-export const ListLogicalNetworks: API.OperationMethod<
+export const ListLogicalNetworks: API.PaginatedOperationMethod<
   ListLogicalNetworksRequest,
   LogicalNetworksListResult,
   ListLogicalNetworksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  LogicalNetworks
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListLogicalNetworksRequest>,
   output: __S(897, __c28, 1) as any as S.Schema<LogicalNetworksListResult>,
   errors: [UnknownAzureError],
@@ -11198,16 +11456,23 @@ export const ListLogicalNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListLogicalNetworks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMarketplaceGalleryImageAllError = AzureOpError;
 /** Lists all of the marketplace gallery images in the specified subscription. Use the nextLink property in the response to get the next page of marketplace gallery images. */
-export const ListMarketplaceGalleryImageAll: API.OperationMethod<
+export const ListMarketplaceGalleryImageAll: API.PaginatedOperationMethod<
   ListMarketplaceGalleryImageAllRequest,
   MarketplaceGalleryImagesListResult,
   ListMarketplaceGalleryImageAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MarketplaceGalleryImages
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListMarketplaceGalleryImageAllRequest>,
   output: __S(993, __c31, 1) as any as S.Schema<MarketplaceGalleryImagesListResult>,
   errors: [UnknownAzureError],
@@ -11215,16 +11480,23 @@ export const ListMarketplaceGalleryImageAll: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMarketplaceGalleryImageAll",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMarketplaceGalleryImagesError = AzureOpError;
 /** Lists all of the marketplace gallery images in the specified resource group. Use the nextLink property in the response to get the next page of marketplace gallery images. */
-export const ListMarketplaceGalleryImages: API.OperationMethod<
+export const ListMarketplaceGalleryImages: API.PaginatedOperationMethod<
   ListMarketplaceGalleryImagesRequest,
   MarketplaceGalleryImagesListResult,
   ListMarketplaceGalleryImagesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MarketplaceGalleryImages
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListMarketplaceGalleryImagesRequest>,
   output: __S(993, __c31, 1) as any as S.Schema<MarketplaceGalleryImagesListResult>,
   errors: [UnknownAzureError],
@@ -11232,16 +11504,23 @@ export const ListMarketplaceGalleryImages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMarketplaceGalleryImages",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkInterfaceAllError = AzureOpError;
 /** Lists all of the network interfaces in the specified subscription. Use the nextLink property in the response to get the next page of network interfaces. */
-export const ListNetworkInterfaceAll: API.OperationMethod<
+export const ListNetworkInterfaceAll: API.PaginatedOperationMethod<
   ListNetworkInterfaceAllRequest,
   NetworkInterfacesListResult,
   ListNetworkInterfaceAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkInterfaces
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1056, __c33, 0) as any as S.Schema<ListNetworkInterfaceAllRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<NetworkInterfacesListResult>,
   errors: [UnknownAzureError],
@@ -11249,16 +11528,23 @@ export const ListNetworkInterfaceAll: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkInterfaceAll",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListNetworkInterfacesError = AzureOpError;
 /** Lists all of the network interfaces in the specified resource group. Use the nextLink property in the response to get the next page of network interfaces. */
-export const ListNetworkInterfaces: API.OperationMethod<
+export const ListNetworkInterfaces: API.PaginatedOperationMethod<
   ListNetworkInterfacesRequest,
   NetworkInterfacesListResult,
   ListNetworkInterfacesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  NetworkInterfaces
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<ListNetworkInterfacesRequest>,
   output: __S(1089, __c34, 1) as any as S.Schema<NetworkInterfacesListResult>,
   errors: [UnknownAzureError],
@@ -11266,16 +11552,23 @@ export const ListNetworkInterfaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkInterfaces",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOfferByClusterError = AzureOpError;
 /** List Offers available across publishers for the HCI Cluster. */
-export const ListOfferByCluster: API.OperationMethod<
+export const ListOfferByCluster: API.PaginatedOperationMethod<
   ListOfferByClusterRequest,
   OfferList,
   ListOfferByClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Offer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1216, __c38, 0) as any as S.Schema<ListOfferByClusterRequest>,
   output: __S(1249, __c39, 1) as any as S.Schema<OfferList>,
   errors: [UnknownAzureError],
@@ -11283,16 +11576,23 @@ export const ListOfferByCluster: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOfferByCluster",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOfferByPublisherError = AzureOpError;
 /** List Offers available for a publisher within the HCI Cluster. */
-export const ListOfferByPublisher: API.OperationMethod<
+export const ListOfferByPublisher: API.PaginatedOperationMethod<
   ListOfferByPublisherRequest,
   OfferList,
   ListOfferByPublisherError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Offer
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<ListOfferByPublisherRequest>,
   output: __S(1249, __c39, 1) as any as S.Schema<OfferList>,
   errors: [UnknownAzureError],
@@ -11300,16 +11600,23 @@ export const ListOfferByPublisher: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOfferByPublisher",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1312, __c41, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(1316, __c41, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -11317,16 +11624,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOsImageBySubscriptionLocationResourceError = AzureOpError;
 /** List all os images. */
-export const ListOsImageBySubscriptionLocationResource: API.OperationMethod<
+export const ListOsImageBySubscriptionLocationResource: API.PaginatedOperationMethod<
   ListOsImageBySubscriptionLocationResourceRequest,
   OsImageListResult,
   ListOsImageBySubscriptionLocationResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OsImage
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1344, __c42, 0) as any as S.Schema<ListOsImageBySubscriptionLocationResourceRequest>,
   output: __S(1346, __c42, 2) as any as S.Schema<OsImageListResult>,
   errors: [UnknownAzureError],
@@ -11334,16 +11648,23 @@ export const ListOsImageBySubscriptionLocationResource: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOsImageBySubscriptionLocationResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSecuritySettingsByClustersError = AzureOpError;
 /** List SecuritySetting resources by Clusters */
-export const ListSecuritySettingsByClusters: API.OperationMethod<
+export const ListSecuritySettingsByClusters: API.PaginatedOperationMethod<
   ListSecuritySettingsByClustersRequest,
   SecuritySettingListResult,
   ListSecuritySettingsByClustersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SecuritySetting
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1376, __c43, 0) as any as S.Schema<ListSecuritySettingsByClustersRequest>,
   output: __S(1378, __c43, 2) as any as S.Schema<SecuritySettingListResult>,
   errors: [UnknownAzureError],
@@ -11351,16 +11672,23 @@ export const ListSecuritySettingsByClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSecuritySettingsByClusters",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSkusByOfferError = AzureOpError;
 /** List Skus available for a offer within the HCI Cluster. */
-export const ListSkusByOffer: API.OperationMethod<
+export const ListSkusByOffer: API.PaginatedOperationMethod<
   ListSkusByOfferRequest,
   SkuList,
   ListSkusByOfferError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Sku
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<ListSkusByOfferRequest>,
   output: __S(1410, __c44, 2) as any as S.Schema<SkuList>,
   errors: [UnknownAzureError],
@@ -11368,16 +11696,23 @@ export const ListSkusByOffer: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSkusByOffer",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageContainerAllError = AzureOpError;
 /** Lists all of the storage containers in the specified subscription. Use the nextLink property in the response to get the next page of storage containers. */
-export const ListStorageContainerAll: API.OperationMethod<
+export const ListStorageContainerAll: API.PaginatedOperationMethod<
   ListStorageContainerAllRequest,
   StorageContainersListResult,
   ListStorageContainerAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageContainers
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<ListStorageContainerAllRequest>,
   output: __S(1473, __c46, 1) as any as S.Schema<StorageContainersListResult>,
   errors: [UnknownAzureError],
@@ -11385,16 +11720,23 @@ export const ListStorageContainerAll: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageContainerAll",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStorageContainersError = AzureOpError;
 /** Lists all of the storage containers in the specified resource group. Use the nextLink property in the response to get the next page of storage containers. */
-export const ListStorageContainers: API.OperationMethod<
+export const ListStorageContainers: API.PaginatedOperationMethod<
   ListStorageContainersRequest,
   StorageContainersListResult,
   ListStorageContainersError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageContainers
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1504, __c47, 0) as any as S.Schema<ListStorageContainersRequest>,
   output: __S(1473, __c46, 1) as any as S.Schema<StorageContainersListResult>,
   errors: [UnknownAzureError],
@@ -11402,16 +11744,23 @@ export const ListStorageContainers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorageContainers",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUpdateRunsError = AzureOpError;
 /** List all Update runs for a specified update */
-export const ListUpdateRuns: API.OperationMethod<
+export const ListUpdateRuns: API.PaginatedOperationMethod<
   ListUpdateRunsRequest,
   UpdateRunList,
   ListUpdateRunsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  UpdateRun
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1536, __c48, 0) as any as S.Schema<ListUpdateRunsRequest>,
   output: __S(1538, __c48, 2) as any as S.Schema<UpdateRunList>,
   errors: [UnknownAzureError],
@@ -11419,16 +11768,23 @@ export const ListUpdateRuns: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUpdateRuns",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUpdatesError = AzureOpError;
 /** List all Updates */
-export const ListUpdates: API.OperationMethod<
+export const ListUpdates: API.PaginatedOperationMethod<
   ListUpdatesRequest,
   UpdateList,
   ListUpdatesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Update
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1568, __c49, 0) as any as S.Schema<ListUpdatesRequest>,
   output: __S(1570, __c49, 2) as any as S.Schema<UpdateList>,
   errors: [UnknownAzureError],
@@ -11436,16 +11792,23 @@ export const ListUpdates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUpdates",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListUpdateSummariesError = AzureOpError;
 /** List all Update summaries under the HCI cluster */
-export const ListUpdateSummaries: API.OperationMethod<
+export const ListUpdateSummaries: API.PaginatedOperationMethod<
   ListUpdateSummariesRequest,
   UpdateSummariesList,
   ListUpdateSummariesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  UpdateSummaries
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1664, __c52, 0) as any as S.Schema<ListUpdateSummariesRequest>,
   output: __S(1666, __c52, 2) as any as S.Schema<UpdateSummariesList>,
   errors: [UnknownAzureError],
@@ -11453,16 +11816,23 @@ export const ListUpdateSummaries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUpdateSummaries",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListValidatedSolutionRecipeBySubscriptionLocationResourceError = AzureOpError;
 /** List all validated solution recipes. */
-export const ListValidatedSolutionRecipeBySubscriptionLocationResource: API.OperationMethod<
+export const ListValidatedSolutionRecipeBySubscriptionLocationResource: API.PaginatedOperationMethod<
   ListValidatedSolutionRecipeBySubscriptionLocationResourceRequest,
   ValidatedSolutionRecipeListResult,
   ListValidatedSolutionRecipeBySubscriptionLocationResourceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ValidatedSolutionRecipe
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     1696,
     __c53,
@@ -11474,16 +11844,23 @@ export const ListValidatedSolutionRecipeBySubscriptionLocationResource: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListValidatedSolutionRecipeBySubscriptionLocationResource",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualHardDiskAllError = AzureOpError;
 /** Lists all of the virtual hard disks in the specified subscription. Use the nextLink property in the response to get the next page of virtual hard disks. */
-export const ListVirtualHardDiskAll: API.OperationMethod<
+export const ListVirtualHardDiskAll: API.PaginatedOperationMethod<
   ListVirtualHardDiskAllRequest,
   VirtualHardDisksListResult,
   ListVirtualHardDiskAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualHardDisks
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ListVirtualHardDiskAllRequest>,
   output: __S(1761, __c55, 1) as any as S.Schema<VirtualHardDisksListResult>,
   errors: [UnknownAzureError],
@@ -11491,16 +11868,23 @@ export const ListVirtualHardDiskAll: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualHardDiskAll",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualHardDisksError = AzureOpError;
 /** Lists all of the virtual hard disks in the specified resource group. Use the nextLink property in the response to get the next page of virtual hard disks. */
-export const ListVirtualHardDisks: API.OperationMethod<
+export const ListVirtualHardDisks: API.PaginatedOperationMethod<
   ListVirtualHardDisksRequest,
   VirtualHardDisksListResult,
   ListVirtualHardDisksError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualHardDisks
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1792, __c56, 0) as any as S.Schema<ListVirtualHardDisksRequest>,
   output: __S(1761, __c55, 1) as any as S.Schema<VirtualHardDisksListResult>,
   errors: [UnknownAzureError],
@@ -11508,16 +11892,23 @@ export const ListVirtualHardDisks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualHardDisks",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualMachineInstancesError = AzureOpError;
 /** Lists all of the virtual machine instances within the specified parent resource. */
-export const ListVirtualMachineInstances: API.OperationMethod<
+export const ListVirtualMachineInstances: API.PaginatedOperationMethod<
   ListVirtualMachineInstancesRequest,
   VirtualMachineInstanceListResult,
   ListVirtualMachineInstancesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  VirtualMachineInstance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1824, __c57, 0) as any as S.Schema<ListVirtualMachineInstancesRequest>,
   output: __S(1826, __c57, 2) as any as S.Schema<VirtualMachineInstanceListResult>,
   errors: [UnknownAzureError],
@@ -11530,7 +11921,13 @@ export const ListVirtualMachineInstances: API.OperationMethod<
       "url.template": "/{resourceUri}/providers/Microsoft.AzureStackHCI/virtualMachineInstances",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type LogicalNetworksCreateOrUpdateError = AzureOpError;
 /** The operation to create or update a logical network. Please note some properties can be set only during logical network creation. */
@@ -12328,12 +12725,14 @@ function __c7(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           edgeMachineName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/edgeMachines/{edgeMachineName}/deploymentSettings",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEdgeMachineDeploymentSettingsByEdgeMachineRequest" });
@@ -12357,12 +12756,14 @@ function __c8(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           edgeMachineName: S.String.pipe(T.Label()),
           diskName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/edgeMachines/{edgeMachineName}/disks/{diskName}/jobs",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEdgeMachineDiskJobsRequest" });
@@ -12390,12 +12791,14 @@ function __c10(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           edgeMachineName: S.String.pipe(T.Label()),
           diskName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/edgeMachines/{edgeMachineName}/disks/{diskName}/privilegedJobs",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEdgeMachineDiskPrivilegedJobsRequest" });
@@ -12409,12 +12812,14 @@ function __c11(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           edgeMachineName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/edgeMachines/{edgeMachineName}/disks",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEdgeMachineDisksRequest" });
@@ -12437,12 +12842,14 @@ function __c12(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           edgeMachineName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/edgeMachines/{edgeMachineName}/jobs",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEdgeMachineJobsRequest" });
@@ -12466,12 +12873,14 @@ function __c13(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           edgeMachineName: S.String.pipe(T.Label()),
           networkAdapterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/edgeMachines/{edgeMachineName}/networkAdapters/{networkAdapterName}/jobs",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEdgeMachineNetworkAdapterJobsRequest" });
@@ -12494,12 +12903,14 @@ function __c14(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           edgeMachineName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/edgeMachines/{edgeMachineName}/networkAdapters",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEdgeMachineNetworkAdaptersRequest" });
@@ -12522,12 +12933,14 @@ function __c15(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           edgeMachineName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/edgeMachines/{edgeMachineName}/securitySettings",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEdgeMachineSecuritySettingsOperationByEdgeMachineRequest" });
@@ -12550,12 +12963,14 @@ function __c16(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           edgeMachineName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/edgeMachines/{edgeMachineName}/volumes",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEdgeMachineVolumesRequest" });
@@ -12579,12 +12994,14 @@ function __c17(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           arcSettingName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListExtensionByArcSettingRequest" });
@@ -12711,12 +13128,14 @@ function __c22(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/galleryImages",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGalleryImageAllRequest" });
@@ -12729,7 +13148,7 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(736, __c23, 0)),
+          value: __S(736, __c23, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "GalleryImagesListResult" });
@@ -12742,12 +13161,14 @@ function __c24(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/galleryImages",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGalleryImagesRequest" });
@@ -12759,12 +13180,14 @@ function __c25(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/guestAgents",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGuestAgentsRequest" });
@@ -12785,12 +13208,14 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/virtualMachineInstances/default/hybridIdentityMetadata",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHybridIdentityMetadataRequest" });
@@ -12811,12 +13236,14 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/logicalNetworks",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLogicalNetworkAllRequest" });
@@ -12829,7 +13256,7 @@ function __c28(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(896, __c28, 0)),
+          value: __S(896, __c28, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogicalNetworksListResult" });
@@ -12842,12 +13269,14 @@ function __c29(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/logicalNetworks",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListLogicalNetworksRequest" });
@@ -12859,12 +13288,14 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMarketplaceGalleryImageAllRequest" });
@@ -12877,7 +13308,7 @@ function __c31(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(992, __c31, 0)),
+          value: __S(992, __c31, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "MarketplaceGalleryImagesListResult" });
@@ -12890,12 +13321,14 @@ function __c32(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/marketplaceGalleryImages",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMarketplaceGalleryImagesRequest" });
@@ -12907,12 +13340,14 @@ function __c33(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/networkInterfaces",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkInterfaceAllRequest" });
@@ -12925,7 +13360,7 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1088, __c34, 0)),
+          value: __S(1088, __c34, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "NetworkInterfacesListResult" });
@@ -12938,12 +13373,14 @@ function __c35(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/networkInterfaces",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListNetworkInterfacesRequest" });
@@ -13013,12 +13450,14 @@ function __c38(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/offers",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOfferByClusterRequest" });
@@ -13047,12 +13486,14 @@ function __c40(j: number): any {
           clusterName: S.String.pipe(T.Label()),
           publisherName: S.String.pipe(T.Label()),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/publishers/{publisherName}/offers",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOfferByPublisherRequest" });
@@ -13062,12 +13503,15 @@ function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.AzureStackHCI/operations",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -13095,7 +13539,7 @@ function __c41(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1315, __c41, 3)),
+          value: __S(1315, __c41, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -13108,12 +13552,14 @@ function __c42(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/locations/{location}/osImages",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOsImageBySubscriptionLocationResourceRequest" });
@@ -13136,12 +13582,14 @@ function __c43(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/securitySettings",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSecuritySettingsByClustersRequest" });
@@ -13167,12 +13615,14 @@ function __c44(j: number): any {
           publisherName: S.String.pipe(T.Label()),
           offerName: S.String.pipe(T.Label()),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/publishers/{publisherName}/offers/{offerName}/skus",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSkusByOfferRequest" });
@@ -13193,12 +13643,14 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/storageContainers",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageContainerAllRequest" });
@@ -13211,7 +13663,7 @@ function __c46(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1472, __c46, 0)),
+          value: __S(1472, __c46, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageContainersListResult" });
@@ -13224,12 +13676,14 @@ function __c47(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/storageContainers",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStorageContainersRequest" });
@@ -13244,12 +13698,14 @@ function __c48(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
           updateName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/updates/{updateName}/updateRuns",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUpdateRunsRequest" });
@@ -13272,12 +13728,14 @@ function __c49(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/updates",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUpdatesRequest" });
@@ -13331,12 +13789,14 @@ function __c52(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/updateSummaries",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListUpdateSummariesRequest" });
@@ -13358,12 +13818,14 @@ function __c53(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           location: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/locations/{location}/validatedSolutionRecipes",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -13386,12 +13848,14 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/virtualHardDisks",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualHardDiskAllRequest" });
@@ -13404,7 +13868,7 @@ function __c55(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1760, __c55, 0)),
+          value: __S(1760, __c55, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualHardDisksListResult" });
@@ -13417,12 +13881,14 @@ function __c56(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/virtualHardDisks",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualHardDisksRequest" });
@@ -13434,12 +13900,14 @@ function __c57(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/virtualMachineInstances",
             code: 200,
             apiVersion: "2024-01-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualMachineInstancesRequest" });
@@ -13448,7 +13916,7 @@ function __c57(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1825, __c57, 1)),
+          value: __S(1825, __c57, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "VirtualMachineInstanceListResult" });
@@ -19533,12 +20001,14 @@ function __c261(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListArcSettingsByClusterRequest" });
@@ -19560,12 +20030,14 @@ function __c262(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterByResourceGroupRequest" });
@@ -19590,12 +20062,14 @@ function __c264(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/clusters",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterBySubscriptionRequest" });
@@ -19609,12 +20083,14 @@ function __c265(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/jobs",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListClusterJobsRequest" });
@@ -19637,12 +20113,14 @@ function __c266(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           clusterName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/deploymentSettings",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentSettingsByClustersRequest" });
@@ -19664,12 +20142,14 @@ function __c267(j: number): any {
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
           edgeDeviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/edgeDevices/{edgeDeviceName}/jobs",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEdgeDeviceJobByEdgeDeviceRequest" });
@@ -19690,12 +20170,14 @@ function __c268(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.AzureStackHCI/edgeDevices",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEdgeDevicesRequest" });
@@ -19717,12 +20199,14 @@ function __c269(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/edgeMachines",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEdgeMachineByResourceGroupRequest" });
@@ -19747,12 +20231,14 @@ function __c271(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AzureStackHCI/edgeMachines",
             code: 200,
             apiVersion: "2026-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListEdgeMachineBySubscriptionRequest" });

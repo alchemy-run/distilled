@@ -1,0 +1,10 @@
+{
+  "description": "Every Administration operation (local RBAC, full backup/restore, settings, EKM) is served by a Managed HSM (`https://{name}.managedhsm.azure.net`), which only accepts tokens for the `https://managedhsm.azure.net` audience. The spec names the Key Vault audience.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.keyvault_administration#KeyvaultAdministration/traits/com.azure.protocols#audience",
+      "value": "https://managedhsm.azure.net/.default"
+    }
+  ]
+}

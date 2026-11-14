@@ -198,6 +198,8 @@ export interface ListDiscoverySolutionRequest {
   _filter?: string | undefined;
   /** Skiptoken is only used if a previous operation returned a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skiptoken parameter that specifies a starting point to use for subsequent calls. */
   _skiptoken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export type SolutionMetadataPropertiesRequiredParameterSetsItemList = Array<string>;
 /** Required parameters for invoking this particular solution. */
@@ -232,11 +234,14 @@ export type DiscoveryResponseValueList = Array<SolutionMetadataResource>;
 /** Discovery response. */
 export interface DiscoveryResponse {
   /** The list of solution metadata. */
-  value?: DiscoveryResponseValueList | undefined;
+  value: DiscoveryResponseValueList;
   /** The link used to get the next page of solution metadata. */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -269,7 +274,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -339,12 +344,13 @@ export const GetDiagnostic: API.OperationMethod<
 
 export type ListDiscoverySolutionError = AzureOpError;
 /** Solutions Discovery is the initial point of entry within Help API, which helps you identify the relevant solutions for your Azure issue.<br/><br/> You can discover solutions using resourceUri OR resourceUri + problemClassificationId.<br/><br/>We will do our best in returning relevant diagnostics for your Azure issue.<br/><br/> Get the problemClassificationId(s) using this [reference](https://learn.microsoft.com/rest/api/support/problem-classifications/list?tabs=HTTP).<br/><br/> <b>Note: </b> 'requiredParameterSets' from Solutions Discovery API response must be passed via 'additionalParameters' as an input to Diagnostics API. */
-export const ListDiscoverySolution: API.OperationMethod<
+export const ListDiscoverySolution: API.PaginatedOperationMethod<
   ListDiscoverySolutionRequest,
   DiscoveryResponse,
   ListDiscoverySolutionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SolutionMetadataResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<ListDiscoverySolutionRequest>,
   output: __S(86, __c5, 6) as any as S.Schema<DiscoveryResponse>,
   errors: [UnknownAzureError],
@@ -355,16 +361,23 @@ export const ListDiscoverySolution: API.OperationMethod<
     op: "ListDiscoverySolution",
     attributes: { "url.template": "/{scope}/providers/Microsoft.Help/discoverySolutions" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Returns list of operations. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c6, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(100, __c6, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -372,7 +385,13 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
@@ -537,12 +556,14 @@ function __c5(j: number): any {
           scope: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skiptoken: S.optional(S.String.pipe(T.Query("$skiptoken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{scope+}/providers/Microsoft.Help/discoverySolutions",
             code: 200,
             apiVersion: "2023-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDiscoverySolutionRequest" });
@@ -574,7 +595,7 @@ function __c5(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(85, __c5, 5)),
+          value: __S(85, __c5, 5),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiscoveryResponse" });
@@ -584,12 +605,15 @@ function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Help/operations",
             code: 200,
             apiVersion: "2023-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -617,7 +641,7 @@ function __c6(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(99, __c6, 3)),
+          value: __S(99, __c6, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });

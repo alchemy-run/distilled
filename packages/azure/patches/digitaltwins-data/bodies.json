@@ -1,0 +1,85 @@
+{
+  "description": "The converter drops free-form object body parameters (`twin`, `relationship`, `telemetry`), so AddDigitalTwin, AddDigitalTwinRelationship and the telemetry operations send no payload. Restore them as `body` payload members. The PATCH operations consume `application/json-patch+json` (the spec's consumes).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#Telemetry",
+      "value": {
+        "type": "map",
+        "key": { "target": "smithy.api#String" },
+        "value": { "target": "smithy.api#Document" },
+        "traits": {
+          "smithy.api#documentation": "Telemetry message: a JSON object matching the twin's (or component's) DTDL telemetry."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinsAddRequest/members/body",
+      "value": {
+        "target": "com.azure.digitaltwins_data#DigitalTwin",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The digital twin: `$metadata.$model` plus its property values."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinsAddRelationshipRequest/members/body",
+      "value": {
+        "target": "com.azure.digitaltwins_data#Relationship",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The relationship: `$relationshipName`, `$targetId`, and its property values."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinsSendTelemetryRequest/members/body",
+      "value": {
+        "target": "com.azure.digitaltwins_data#Telemetry",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The telemetry message."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinsSendComponentTelemetryRequest/members/body",
+      "value": {
+        "target": "com.azure.digitaltwins_data#Telemetry",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "The telemetry message."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinsUpdate/traits/smithy.api#http/jsonContentType",
+      "value": "application/json-patch+json"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinsUpdateComponent/traits/smithy.api#http/jsonContentType",
+      "value": "application/json-patch+json"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinsUpdateRelationship/traits/smithy.api#http/jsonContentType",
+      "value": "application/json-patch+json"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.digitaltwins_data#DigitalTwinModelsUpdate/traits/smithy.api#http/jsonContentType",
+      "value": "application/json-patch+json"
+    }
+  ]
+}

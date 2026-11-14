@@ -1,0 +1,25 @@
+{
+  "description": "The analyze-documents long-running tasks and their results are polymorphic on `kind`; the converted model keeps only the base members, so the request drops `parameters` on encode and the job status drops `results` on decode. Add them as untyped documents.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_language_analyze_documents#AnalyzeDocumentsLROTask/members/parameters",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Task parameters for `kind` (e.g. `{ piiCategories, redactionPolicy }` for PiiEntityRecognition)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_language_analyze_documents#AnalyzeDocumentsLROResult/members/results",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Results of the task: `{ documents, errors, modelVersion }`, each document with its `source` and `targets` locations."
+        }
+      }
+    }
+  ]
+}

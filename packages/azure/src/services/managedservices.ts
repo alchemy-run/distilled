@@ -401,6 +401,8 @@ export interface ListMarketplaceRegistrationDefinitionsRequest {
   scope: string;
   /** The filter query parameter to filter managed services resources by. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of marketplace registration definitions. */
 export type MarketplaceRegistrationDefinitionListValueList =
@@ -408,13 +410,15 @@ export type MarketplaceRegistrationDefinitionListValueList =
 /** The list of marketplace registration definitions. */
 export interface MarketplaceRegistrationDefinitionList {
   /** The list of marketplace registration definitions. */
-  value?: MarketplaceRegistrationDefinitionListValueList | undefined;
+  value: MarketplaceRegistrationDefinitionListValueList;
   /** The link to the next page of marketplace registration definitions. */
   nextLink?: string | undefined;
 }
 export interface ListMarketplaceRegistrationDefinitionsWithoutScopeRequest {
   /** The filter query parameter to filter managed services resources by. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
@@ -453,13 +457,15 @@ export interface ListRegistrationAssignmentsRequest {
   _expandRegistrationDefinition?: boolean | undefined;
   /** The filter query parameter to filter managed services resources by. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of registration assignments. */
 export type RegistrationAssignmentListValueList = Array<RegistrationAssignment>;
 /** The list of registration assignments. */
 export interface RegistrationAssignmentList {
   /** The list of registration assignments. */
-  value?: RegistrationAssignmentListValueList | undefined;
+  value: RegistrationAssignmentListValueList;
   /** The link to the next page of registration assignments. */
   nextLink?: string | undefined;
 }
@@ -468,13 +474,15 @@ export interface ListRegistrationDefinitionsRequest {
   scope: string;
   /** The filter query parameter to filter managed services resources by. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of registration definitions. */
 export type RegistrationDefinitionListValueList = Array<RegistrationDefinition>;
 /** The list of registration definitions. */
 export interface RegistrationDefinitionList {
   /** The list of registration definitions. */
-  value?: RegistrationDefinitionListValueList | undefined;
+  value: RegistrationDefinitionListValueList;
   /** The link to the next page of registration definitions. */
   nextLink?: string | undefined;
 }
@@ -659,12 +667,13 @@ export const GetRegistrationDefinition: API.OperationMethod<
 
 export type ListMarketplaceRegistrationDefinitionsError = AzureOpError;
 /** Gets a list of the marketplace registration definitions for the marketplace identifier. */
-export const ListMarketplaceRegistrationDefinitions: API.OperationMethod<
+export const ListMarketplaceRegistrationDefinitions: API.PaginatedOperationMethod<
   ListMarketplaceRegistrationDefinitionsRequest,
   MarketplaceRegistrationDefinitionList,
   ListMarketplaceRegistrationDefinitionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MarketplaceRegistrationDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(256, __c16, 0) as any as S.Schema<ListMarketplaceRegistrationDefinitionsRequest>,
   output: __S(273, __c17, 1) as any as S.Schema<MarketplaceRegistrationDefinitionList>,
   errors: [UnknownAzureError],
@@ -678,16 +687,23 @@ export const ListMarketplaceRegistrationDefinitions: API.OperationMethod<
         "/{scope}/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMarketplaceRegistrationDefinitionsWithoutScopeError = AzureOpError;
 /** Gets a list of the marketplace registration definitions for the marketplace identifier. */
-export const ListMarketplaceRegistrationDefinitionsWithoutScope: API.OperationMethod<
+export const ListMarketplaceRegistrationDefinitionsWithoutScope: API.PaginatedOperationMethod<
   ListMarketplaceRegistrationDefinitionsWithoutScopeRequest,
   MarketplaceRegistrationDefinitionList,
   ListMarketplaceRegistrationDefinitionsWithoutScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MarketplaceRegistrationDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     288,
     __c18,
@@ -699,7 +715,13 @@ export const ListMarketplaceRegistrationDefinitionsWithoutScope: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMarketplaceRegistrationDefinitionsWithoutScope",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Gets a list of the operations. */
@@ -740,12 +762,13 @@ export const ListOperationsWithScope: API.OperationMethod<
 
 export type ListRegistrationAssignmentsError = AzureOpError;
 /** Gets a list of the registration assignments. */
-export const ListRegistrationAssignments: API.OperationMethod<
+export const ListRegistrationAssignments: API.PaginatedOperationMethod<
   ListRegistrationAssignmentsRequest,
   RegistrationAssignmentList,
   ListRegistrationAssignmentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RegistrationAssignment
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<ListRegistrationAssignmentsRequest>,
   output: __S(50, __c3, 2) as any as S.Schema<RegistrationAssignmentList>,
   errors: [UnknownAzureError],
@@ -758,16 +781,23 @@ export const ListRegistrationAssignments: API.OperationMethod<
       "url.template": "/{scope}/providers/Microsoft.ManagedServices/registrationAssignments",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRegistrationDefinitionsError = AzureOpError;
 /** Gets a list of the registration definitions. */
-export const ListRegistrationDefinitions: API.OperationMethod<
+export const ListRegistrationDefinitions: API.PaginatedOperationMethod<
   ListRegistrationDefinitionsRequest,
   RegistrationDefinitionList,
   ListRegistrationDefinitionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RegistrationDefinition
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<ListRegistrationDefinitionsRequest>,
   output: __S(66, __c4, 2) as any as S.Schema<RegistrationDefinitionList>,
   errors: [UnknownAzureError],
@@ -780,7 +810,13 @@ export const ListRegistrationDefinitions: API.OperationMethod<
       "url.template": "/{scope}/providers/Microsoft.ManagedServices/registrationDefinitions",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RegistrationAssignmentsCreateOrUpdateError = AzureOpError;
 /** Creates or updates a registration assignment. */
@@ -883,12 +919,14 @@ function __c3(j: number): any {
             S.Boolean.pipe(T.Query("$expandRegistrationDefinition")),
           ),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationAssignments",
             code: 200,
             apiVersion: "2022-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistrationAssignmentsRequest" });
@@ -897,7 +935,7 @@ function __c3(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(49, __c3, 1)),
+          value: __S(49, __c3, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistrationAssignmentList" });
@@ -910,12 +948,14 @@ function __c4(j: number): any {
         S.Struct({
           scope: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{scope+}/providers/Microsoft.ManagedServices/registrationDefinitions",
             code: 200,
             apiVersion: "2022-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListRegistrationDefinitionsRequest" });
@@ -924,7 +964,7 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(65, __c4, 1)),
+          value: __S(65, __c4, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistrationDefinitionList" });
@@ -1240,12 +1280,14 @@ function __c16(j: number): any {
         S.Struct({
           scope: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{scope+}/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions",
             code: 200,
             apiVersion: "2022-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMarketplaceRegistrationDefinitionsRequest" });
@@ -1258,7 +1300,7 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(272, __c17, 0)),
+          value: __S(272, __c17, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "MarketplaceRegistrationDefinitionList" });
@@ -1270,12 +1312,14 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.ManagedServices/marketplaceRegistrationDefinitions",
             code: 200,
             apiVersion: "2022-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMarketplaceRegistrationDefinitionsWithoutScopeRequest" });

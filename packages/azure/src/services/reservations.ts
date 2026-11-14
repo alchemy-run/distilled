@@ -86,6 +86,8 @@ export interface GetCatalogRequest {
   _skip?: number | undefined;
   /** To number of reservations to return */
   _take?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represent the billing plans. */
 export type ReservationBillingPlan = "Upfront" | "Monthly";
@@ -571,7 +573,10 @@ export interface GetReservationOrderResponse {
   properties?: ReservationOrderProperties | undefined;
   etag?: number | undefined;
 }
-export interface ListOperationRequest {}
+export interface ListOperationRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Information about an operation */
 export interface OperationDisplay {
   provider?: string | undefined;
@@ -594,13 +599,15 @@ export interface OperationResponse {
 }
 export type OperationListValueList = Array<OperationResponse>;
 export interface OperationList {
-  value?: OperationListValueList | undefined;
+  value: OperationListValueList;
   /** Url to get the next page of items. */
   nextLink?: string | undefined;
 }
 export interface ListReservationRequest {
   /** Order Id of the reservation */
   reservationOrderId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The ReservationResponse items on this page */
 export type ReservationListValueList = Array<ReservationResponse>;
@@ -624,6 +631,8 @@ export interface ListReservationAllRequest {
   selectedState?: string | undefined;
   /** To number of reservations to return */
   take?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of reservations. */
 export type ReservationsListResultValueList = Array<ReservationResponse>;
@@ -651,13 +660,16 @@ export interface ReservationSummary {
 /** The list of reservations and summary of roll out count of reservations in each state. */
 export interface ReservationsListResult {
   /** The list of reservations. */
-  value?: ReservationsListResultValueList | undefined;
+  value: ReservationsListResultValueList;
   /** The link (url) to the next page of results. */
   nextLink?: string | undefined;
   /** The roll out count summary of the reservations */
   summary?: ReservationSummary | undefined;
 }
-export interface ListReservationOrderRequest {}
+export interface ListReservationOrderRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Details of a reservation order being returned. */
 export interface ReservationOrderResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -686,6 +698,8 @@ export interface ListReservationRevisionsRequest {
   reservationOrderId: string;
   /** Id of the reservation item */
   reservationId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Format of the resource id should be /providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId} */
 export type MergePropertiesSourcesList = Array<string>;
@@ -1401,12 +1415,13 @@ export const GetAppliedReservationList: API.OperationMethod<
 
 export type GetCatalogError = AzureOpError;
 /** Get the regions and skus that are available for RI purchase for the specified Azure subscription. Get the regions and skus that are available for RI purchase for the specified Azure subscription. */
-export const GetCatalog: API.OperationMethod<
+export const GetCatalog: API.PaginatedOperationMethod<
   GetCatalogRequest,
   CatalogsResult,
   GetCatalogError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Catalog
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<GetCatalogRequest>,
   output: __S(298, __c18, 10) as any as S.Schema<CatalogsResult>,
   errors: [UnknownAzureError],
@@ -1414,7 +1429,13 @@ export const GetCatalog: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCatalog",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type GetReservationError = AzureOpError;
 /** Get `Reservation` details. Get specific `Reservation` details. */
@@ -1452,12 +1473,13 @@ export const GetReservationOrder: API.OperationMethod<
 
 export type ListOperationError = AzureOpError;
 /** Get operations. List all the operations. */
-export const ListOperation: API.OperationMethod<
+export const ListOperation: API.PaginatedOperationMethod<
   ListOperationRequest,
   OperationList,
   ListOperationError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListOperationRequest>,
   output: __S(532, __c33, 4) as any as S.Schema<OperationList>,
   errors: [UnknownAzureError],
@@ -1465,16 +1487,23 @@ export const ListOperation: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperation",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListReservationError = AzureOpError;
 /** Get `Reservation`s in a given reservation Order List `Reservation`s within a single `ReservationOrder`. */
-export const ListReservation: API.OperationMethod<
+export const ListReservation: API.PaginatedOperationMethod<
   ListReservationRequest,
   ReservationList,
   ListReservationError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ReservationResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(544, __c34, 0) as any as S.Schema<ListReservationRequest>,
   output: __S(560, __c35, 0) as any as S.Schema<ReservationList>,
   errors: [UnknownAzureError],
@@ -1482,16 +1511,23 @@ export const ListReservation: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReservation",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListReservationAllError = AzureOpError;
 /** List the reservations and the roll up counts of reservations group by provisioning states that the user has access to in the current tenant. */
-export const ListReservationAll: API.OperationMethod<
+export const ListReservationAll: API.PaginatedOperationMethod<
   ListReservationAllRequest,
   ReservationsListResult,
   ListReservationAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ReservationResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(576, __c36, 0) as any as S.Schema<ListReservationAllRequest>,
   output: __S(578, __c36, 2) as any as S.Schema<ReservationsListResult>,
   errors: [UnknownAzureError],
@@ -1499,16 +1535,23 @@ export const ListReservationAll: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReservationAll",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListReservationOrderError = AzureOpError;
 /** Get all `ReservationOrder`s. List of all the `ReservationOrder`s that the user has access to in the current tenant. */
-export const ListReservationOrder: API.OperationMethod<
+export const ListReservationOrder: API.PaginatedOperationMethod<
   ListReservationOrderRequest,
   ReservationOrderList,
   ListReservationOrderError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ReservationOrderResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(592, __c37, 0) as any as S.Schema<ListReservationOrderRequest>,
   output: __S(594, __c37, 2) as any as S.Schema<ReservationOrderList>,
   errors: [UnknownAzureError],
@@ -1516,16 +1559,23 @@ export const ListReservationOrder: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReservationOrder",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListReservationRevisionsError = AzureOpError;
 /** Get `Reservation` revisions. List of all the revisions for the `Reservation`. */
-export const ListReservationRevisions: API.OperationMethod<
+export const ListReservationRevisions: API.PaginatedOperationMethod<
   ListReservationRevisionsRequest,
   ReservationList,
   ListReservationRevisionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ReservationResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<ListReservationRevisionsRequest>,
   output: __S(560, __c35, 0) as any as S.Schema<ReservationList>,
   errors: [UnknownAzureError],
@@ -1533,7 +1583,13 @@ export const ListReservationRevisions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReservationRevisions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MergeReservationError = AzureOpError;
 /** Merges two `Reservation`s. Merge the specified `Reservation`s into a new `Reservation`. The two `Reservation`s being merged must have same properties. */
@@ -2385,12 +2441,14 @@ function __c18(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
           _take: S.optional(S.Number.pipe(T.Query("$take"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Capacity/catalogs",
             code: 200,
             apiVersion: "2022-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "GetCatalogRequest" });
@@ -2834,12 +2892,15 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Capacity/operations",
             code: 200,
             apiVersion: "2022-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationRequest" });
@@ -2867,7 +2928,7 @@ function __c33(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(531, __c33, 3)),
+          value: __S(531, __c33, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationList" });
@@ -2879,12 +2940,14 @@ function __c34(j: number): any {
       return S.suspend(() =>
         S.Struct({
           reservationOrderId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations",
             code: 200,
             apiVersion: "2022-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListReservationRequest" });
@@ -2912,12 +2975,14 @@ function __c36(j: number): any {
           _skiptoken: S.optional(S.Number.pipe(T.Query("$skiptoken"))),
           selectedState: S.optional(S.String.pipe(T.Query())),
           take: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Capacity/reservations",
             code: 200,
             apiVersion: "2022-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListReservationAllRequest" });
@@ -2938,7 +3003,7 @@ function __c36(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(464, __c29, 0)),
+          value: __S(464, __c29, 0),
           nextLink: S.optional(S.String),
           summary: S.optional(__S(577, __c36, 1)),
         }),
@@ -2949,12 +3014,15 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Capacity/reservationOrders",
             code: 200,
             apiVersion: "2022-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListReservationOrderRequest" });
@@ -2976,12 +3044,14 @@ function __c38(j: number): any {
         S.Struct({
           reservationOrderId: S.String.pipe(T.Label()),
           reservationId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Capacity/reservationOrders/{reservationOrderId}/reservations/{reservationId}/revisions",
             code: 200,
             apiVersion: "2022-11-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListReservationRevisionsRequest" });

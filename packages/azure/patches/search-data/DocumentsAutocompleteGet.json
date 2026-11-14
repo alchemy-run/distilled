@@ -1,0 +1,15 @@
+{
+  "description": "The spec declares `searchFields` with `collectionFormat: csv`, but they convert to lists the protocol sends as repeated query parameters, which Azure AI Search rejects (`Found duplicate query string parameters that are not allowed: '$select'`). Model each as one comma-separated string.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.search_data#DocumentsAutocompleteGetRequest/members/searchFields/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.search_data#DocumentsAutocompleteGetRequest/members/searchFields/traits/smithy.api#documentation",
+      "value": "The list of field names to consider when querying for auto-completed terms. Target fields must be included in the specified suggester. Comma-separated."
+    }
+  ]
+}

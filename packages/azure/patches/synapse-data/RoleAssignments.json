@@ -1,0 +1,364 @@
+{
+  "description": "The Synapse access-control data plane (`specification/synapse/data-plane/Microsoft.Synapse/stable/2020-12-01/roleAssignments.json`) is missing from the mirror, which keeps only the latest stable folder (2021-04-01, SyMS). Bindings on a workspace need it: SyMS authorizes callers by Synapse RBAC, not Azure RBAC. Add create, get, list and delete of role assignments (api-version 2020-12-01; shapes from the 2020-12-01 swagger, 404 code `RoleAssignmentNotFound` live 2026-10-25).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#RoleAssignmentDetails",
+      "value": {
+        "type": "structure",
+        "members": {
+          "id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Role assignment ID."
+            }
+          },
+          "roleDefinitionId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Synapse role definition ID."
+            }
+          },
+          "principalId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Object ID of the Microsoft Entra principal."
+            }
+          },
+          "scope": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Scope of the assignment, e.g. `workspaces/{workspaceName}`."
+            }
+          },
+          "principalType": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Type of the principal: `User`, `Group` or `ServicePrincipal`."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A Synapse RBAC role assignment."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#CreateRoleAssignmentRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "endpoint": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The workspace development endpoint, for example `https://myworkspace.dev.azuresynapse.net`.",
+              "com.azure.protocols#hostLabel": {}
+            }
+          },
+          "roleAssignmentId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Synapse role assignment ID (a GUID the caller chooses)."
+            }
+          },
+          "roleId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Synapse role definition ID.",
+              "smithy.api#required": {}
+            }
+          },
+          "principalId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Object ID of the Microsoft Entra principal.",
+              "smithy.api#required": {}
+            }
+          },
+          "scope": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Scope of the assignment, e.g. `workspaces/{workspaceName}`.",
+              "smithy.api#required": {}
+            }
+          },
+          "principalType": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Type of the principal: `User`, `Group` or `ServicePrincipal`."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#CreateRoleAssignment",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.azure.synapse_data#CreateRoleAssignmentRequest"
+        },
+        "output": {
+          "target": "com.azure.synapse_data#RoleAssignmentDetails"
+        },
+        "traits": {
+          "smithy.api#http": {
+            "method": "PUT",
+            "uri": "/roleAssignments/{roleAssignmentId}",
+            "code": 200,
+            "host": "{endpoint}",
+            "hostRaw": ["endpoint"],
+            "apiVersion": "2020-12-01"
+          },
+          "smithy.api#documentation": "Create a Synapse RBAC role assignment.\n\nAssigns a Synapse role to a principal at a workspace (or item) scope."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#GetRoleAssignmentByIdRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "endpoint": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The workspace development endpoint, for example `https://myworkspace.dev.azuresynapse.net`.",
+              "com.azure.protocols#hostLabel": {}
+            }
+          },
+          "roleAssignmentId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Synapse role assignment ID (a GUID the caller chooses)."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#GetRoleAssignmentById",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.azure.synapse_data#GetRoleAssignmentByIdRequest"
+        },
+        "output": {
+          "target": "com.azure.synapse_data#RoleAssignmentDetails"
+        },
+        "traits": {
+          "smithy.api#http": {
+            "method": "GET",
+            "uri": "/roleAssignments/{roleAssignmentId}",
+            "code": 200,
+            "host": "{endpoint}",
+            "hostRaw": ["endpoint"],
+            "apiVersion": "2020-12-01"
+          },
+          "smithy.api#documentation": "Get a Synapse RBAC role assignment.\n\nAnswers 404 `RoleAssignmentNotFound` for an unknown ID."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#DeleteRoleAssignmentByIdRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "endpoint": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The workspace development endpoint, for example `https://myworkspace.dev.azuresynapse.net`.",
+              "com.azure.protocols#hostLabel": {}
+            }
+          },
+          "roleAssignmentId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {},
+              "smithy.api#documentation": "Synapse role assignment ID (a GUID the caller chooses)."
+            }
+          },
+          "scope": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "Scope of the assignment.",
+              "smithy.api#httpQuery": "scope"
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#DeleteRoleAssignmentById",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.azure.synapse_data#DeleteRoleAssignmentByIdRequest"
+        },
+        "output": {
+          "target": "smithy.api#Unit"
+        },
+        "traits": {
+          "smithy.api#http": {
+            "method": "DELETE",
+            "uri": "/roleAssignments/{roleAssignmentId}",
+            "code": 200,
+            "host": "{endpoint}",
+            "hostRaw": ["endpoint"],
+            "apiVersion": "2020-12-01"
+          },
+          "smithy.api#documentation": "Delete a Synapse RBAC role assignment.\n\nAnswers 404 `RoleAssignmentNotFound` once it is gone."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#SynapseData/operations/-",
+      "value": {
+        "target": "com.azure.synapse_data#CreateRoleAssignment"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#SynapseData/operations/-",
+      "value": {
+        "target": "com.azure.synapse_data#GetRoleAssignmentById"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#SynapseData/operations/-",
+      "value": {
+        "target": "com.azure.synapse_data#DeleteRoleAssignmentById"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#RoleAssignmentDetailsList",
+      "value": {
+        "type": "list",
+        "member": {
+          "target": "com.azure.synapse_data#RoleAssignmentDetails"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#RoleAssignmentDetailsListResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "count": {
+            "target": "smithy.api#Integer",
+            "traits": {
+              "smithy.api#documentation": "Number of assignments on this page."
+            }
+          },
+          "value": {
+            "target": "com.azure.synapse_data#RoleAssignmentDetailsList",
+            "traits": {
+              "smithy.api#documentation": "The role assignments."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#documentation": "A page of Synapse RBAC role assignments."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#ListRoleAssignmentsRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "endpoint": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {},
+              "smithy.api#documentation": "The workspace development endpoint, for example `https://myworkspace.dev.azuresynapse.net`.",
+              "com.azure.protocols#hostLabel": {}
+            }
+          },
+          "roleId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpQuery": "roleId",
+              "smithy.api#documentation": "Only assignments of this Synapse role."
+            }
+          },
+          "principalId": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpQuery": "principalId",
+              "smithy.api#documentation": "Only assignments of this principal."
+            }
+          },
+          "scope": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpQuery": "scope",
+              "smithy.api#documentation": "Only assignments at this scope."
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#ListRoleAssignments",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.azure.synapse_data#ListRoleAssignmentsRequest"
+        },
+        "output": {
+          "target": "com.azure.synapse_data#RoleAssignmentDetailsListResponse"
+        },
+        "traits": {
+          "smithy.api#http": {
+            "method": "GET",
+            "uri": "/roleAssignments",
+            "code": 200,
+            "host": "{endpoint}",
+            "hostRaw": ["endpoint"],
+            "apiVersion": "2020-12-01"
+          },
+          "smithy.api#documentation": "List Synapse RBAC role assignments.\n\nAnswers `{ count, value }`; filter by role, principal or scope."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.synapse_data#SynapseData/operations/-",
+      "value": {
+        "target": "com.azure.synapse_data#ListRoleAssignments"
+      }
+    }
+  ]
+}

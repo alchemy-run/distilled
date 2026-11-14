@@ -966,6 +966,8 @@ export interface ListAzureMonitorWorkspaceByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type AzureMonitorWorkspaceResourceTagsMap = { [key: string]: string | undefined };
@@ -1018,6 +1020,8 @@ export interface AzureMonitorWorkspaceResourceListResult {
 export interface ListAzureMonitorWorkspaceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListIssueRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1026,6 +1030,8 @@ export interface ListIssueRequest {
   resourceGroupName: string;
   /** The name of the Azure Monitor Workspace. The name is case insensitive */
   azureMonitorWorkspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The Issue resource */
 export interface IssueResource {
@@ -1098,6 +1104,8 @@ export interface ListMetricsContainerByAzureMonitorWorkspaceRequest {
   resourceGroupName: string;
   /** The name of the Azure Monitor Workspace. The name is case insensitive */
   azureMonitorWorkspaceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Metrics container resource for an Azure Monitor Workspace. */
 export interface MetricsContainerResource {
@@ -1121,7 +1129,10 @@ export interface MetricsContainerResourceListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -1154,7 +1165,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -1163,6 +1174,8 @@ export interface ListPipelineGroupByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type PipelineGroupTagsMap = { [key: string]: string | undefined };
@@ -1197,6 +1210,8 @@ export interface PipelineGroupListResult {
 export interface ListPipelineGroupBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Properties of a metrics container. */
 export interface MetricsContainerInput {
@@ -1729,12 +1744,13 @@ export const IssueAddOrUpdateResources: API.OperationMethod<
 
 export type ListAzureMonitorWorkspaceByResourceGroupError = AzureOpError;
 /** Lists all Azure Monitor Workspaces in the specified resource group */
-export const ListAzureMonitorWorkspaceByResourceGroup: API.OperationMethod<
+export const ListAzureMonitorWorkspaceByResourceGroup: API.PaginatedOperationMethod<
   ListAzureMonitorWorkspaceByResourceGroupRequest,
   AzureMonitorWorkspaceResourceListResult,
   ListAzureMonitorWorkspaceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AzureMonitorWorkspaceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<ListAzureMonitorWorkspaceByResourceGroupRequest>,
   output: __S(641, __c20, 1) as any as S.Schema<AzureMonitorWorkspaceResourceListResult>,
   errors: [UnknownAzureError],
@@ -1742,16 +1758,23 @@ export const ListAzureMonitorWorkspaceByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAzureMonitorWorkspaceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAzureMonitorWorkspaceBySubscriptionError = AzureOpError;
 /** Lists all Azure Monitor Workspaces in the specified subscription */
-export const ListAzureMonitorWorkspaceBySubscription: API.OperationMethod<
+export const ListAzureMonitorWorkspaceBySubscription: API.PaginatedOperationMethod<
   ListAzureMonitorWorkspaceBySubscriptionRequest,
   AzureMonitorWorkspaceResourceListResult,
   ListAzureMonitorWorkspaceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AzureMonitorWorkspaceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<ListAzureMonitorWorkspaceBySubscriptionRequest>,
   output: __S(641, __c20, 1) as any as S.Schema<AzureMonitorWorkspaceResourceListResult>,
   errors: [UnknownAzureError],
@@ -1759,16 +1782,23 @@ export const ListAzureMonitorWorkspaceBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAzureMonitorWorkspaceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIssueError = AzureOpError;
 /** List all issues under the parent */
-export const ListIssue: API.OperationMethod<
+export const ListIssue: API.PaginatedOperationMethod<
   ListIssueRequest,
   IssueResourceListResult,
   ListIssueError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  IssueResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<ListIssueRequest>,
   output: __S(706, __c22, 2) as any as S.Schema<IssueResourceListResult>,
   errors: [UnknownAzureError],
@@ -1776,7 +1806,13 @@ export const ListIssue: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIssue",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListIssueAlertsError = AzureOpError;
 /** List all alerts in the issue - this method uses pagination to return all alerts */
@@ -1814,12 +1850,13 @@ export const ListIssueResources: API.OperationMethod<
 
 export type ListMetricsContainerByAzureMonitorWorkspaceError = AzureOpError;
 /** Lists metrics containers for a monitoring account. */
-export const ListMetricsContainerByAzureMonitorWorkspace: API.OperationMethod<
+export const ListMetricsContainerByAzureMonitorWorkspace: API.PaginatedOperationMethod<
   ListMetricsContainerByAzureMonitorWorkspaceRequest,
   MetricsContainerResourceListResult,
   ListMetricsContainerByAzureMonitorWorkspaceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  MetricsContainerResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListMetricsContainerByAzureMonitorWorkspaceRequest>,
   output: __S(834, __c26, 2) as any as S.Schema<MetricsContainerResourceListResult>,
   errors: [UnknownAzureError],
@@ -1827,16 +1864,23 @@ export const ListMetricsContainerByAzureMonitorWorkspace: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMetricsContainerByAzureMonitorWorkspace",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(928, __c29, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(932, __c29, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -1844,16 +1888,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPipelineGroupByResourceGroupError = AzureOpError;
 /** Lists all workspaces in the specified resource group */
-export const ListPipelineGroupByResourceGroup: API.OperationMethod<
+export const ListPipelineGroupByResourceGroup: API.PaginatedOperationMethod<
   ListPipelineGroupByResourceGroupRequest,
   PipelineGroupListResult,
   ListPipelineGroupByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PipelineGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(960, __c30, 0) as any as S.Schema<ListPipelineGroupByResourceGroupRequest>,
   output: __S(993, __c31, 1) as any as S.Schema<PipelineGroupListResult>,
   errors: [UnknownAzureError],
@@ -1861,16 +1912,23 @@ export const ListPipelineGroupByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPipelineGroupByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPipelineGroupBySubscriptionError = AzureOpError;
 /** Lists all workspaces in the specified subscription */
-export const ListPipelineGroupBySubscription: API.OperationMethod<
+export const ListPipelineGroupBySubscription: API.PaginatedOperationMethod<
   ListPipelineGroupBySubscriptionRequest,
   PipelineGroupListResult,
   ListPipelineGroupBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PipelineGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1024, __c32, 0) as any as S.Schema<ListPipelineGroupBySubscriptionRequest>,
   output: __S(993, __c31, 1) as any as S.Schema<PipelineGroupListResult>,
   errors: [UnknownAzureError],
@@ -1878,7 +1936,13 @@ export const ListPipelineGroupBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPipelineGroupBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MetricsContainersCreateOrUpdateError = AzureOpError;
 /** Creates or updates metrics container settings for a monitoring account. */
@@ -2582,12 +2646,14 @@ function __c19(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Monitor/accounts",
             code: 200,
             apiVersion: "2025-10-03",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAzureMonitorWorkspaceByResourceGroupRequest" });
@@ -2612,12 +2678,14 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Monitor/accounts",
             code: 200,
             apiVersion: "2025-10-03",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAzureMonitorWorkspaceBySubscriptionRequest" });
@@ -2631,12 +2699,14 @@ function __c22(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           azureMonitorWorkspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Monitor/accounts/{azureMonitorWorkspaceName}/issues",
             code: 200,
             apiVersion: "2025-10-03",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListIssueRequest" });
@@ -2712,12 +2782,14 @@ function __c26(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           azureMonitorWorkspaceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Monitor/accounts/{azureMonitorWorkspaceName}/metricsContainers",
             code: 200,
             apiVersion: "2025-10-03",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMetricsContainerByAzureMonitorWorkspaceRequest" });
@@ -2839,12 +2911,15 @@ function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Monitor/operations",
             code: 200,
             apiVersion: "2025-10-03",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2872,7 +2947,7 @@ function __c29(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(931, __c29, 3)),
+          value: __S(931, __c29, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -2885,12 +2960,14 @@ function __c30(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Monitor/pipelineGroups",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPipelineGroupByResourceGroupRequest" });
@@ -2915,12 +2992,14 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Monitor/pipelineGroups",
             code: 200,
             apiVersion: "2026-04-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPipelineGroupBySubscriptionRequest" });

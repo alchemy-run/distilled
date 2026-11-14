@@ -2585,6 +2585,8 @@ export interface GetSubscriptionCatalogGroupsOpsResponse {
 export interface ListApplicableMaccsRequest {
   /** The billing account Id at which the benefits are listed. Accepted format is: {rootId:orgId}. */
   billingAccountId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Applicable MACC. */
 export interface ApplicableMacc {
@@ -2604,7 +2606,7 @@ export type ApplicableMaccListValueList = Array<ApplicableMacc>;
 /** Applicable MACC list */
 export interface ApplicableMaccList {
   /** List Applicable MACCs. */
-  value?: ApplicableMaccListValueList | undefined;
+  value: ApplicableMaccListValueList;
   /** Url to get the next page. */
   nextLink?: string | undefined;
 }
@@ -2613,6 +2615,8 @@ export interface ListBillingAccountCatalogGroupsOpsRequest {
   billingAccountName: string;
   /** OData filter expression to narrow the list of catalog groups. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** A catalog group represents a BenefitResourceType + Namespace grouping used for benefit SKU discovery. */
 export interface CatalogGroup {
@@ -2643,12 +2647,16 @@ export interface ListBillingProfileCatalogGroupsOpsRequest {
   billingProfileName: string;
   /** OData filter expression to narrow the list of catalog groups. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListConditionalCreditByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ConditionalCreditTagsMap = { [key: string]: string | undefined };
@@ -2707,12 +2715,16 @@ export interface ConditionalCreditList {
 export interface ListConditionalCreditBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListConditionalCreditContributorFromApplicableConditionalCreditRequest {
   /** The billing account Id at which the benefits are listed. Accepted format is: {rootId:orgId}. */
   billingAccountId: string;
   /** System ID of the primary MACC. */
   systemId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Conditional credit contributor */
 export interface ConditionalCreditContributor {
@@ -2743,10 +2755,14 @@ export interface ListConditionalCreditContributorFromPrimaryRequest {
   resourceGroupName: string;
   /** Name of the conditional credit */
   conditionalCreditName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListConditionalCreditsScopeRequest {
   /** The scope at which the benefits are listed. */
   scope: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListConditionalCreditTransactionByParentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2755,6 +2771,8 @@ export interface ListConditionalCreditTransactionByParentRequest {
   resourceGroupName: string;
   /** Name of the conditional credit */
   conditionalCreditName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Transaction resource definition for ConditionalCredits */
 export interface ConditionalCreditTransaction {
@@ -2783,6 +2801,8 @@ export interface ListContributorFromApplicableMaccRequest {
   billingAccountId: string;
   /** System ID of the primary MACC. */
   systemId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** MACC contributor */
 export interface Contributor {
@@ -2813,10 +2833,14 @@ export interface ListContributorFromPrimaryRequest {
   resourceGroupName: string;
   /** Name of primary MACC. */
   maccName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCreditApplicableRequest {
   /** The scope at which the benefits are listed. */
   scope: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CreditTagsMap = { [key: string]: string | undefined };
@@ -2877,10 +2901,14 @@ export interface ListCreditByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCreditBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListCreditTransactionByParentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2889,6 +2917,8 @@ export interface ListCreditTransactionByParentRequest {
   resourceGroupName: string;
   /** Name of the credit */
   creditName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Transaction resource definition for Credits */
 export type CreditTransaction = ConditionalCreditTransaction;
@@ -2906,6 +2936,8 @@ export interface ListDiscountsResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DiscountTagsMap = { [key: string]: string | undefined };
@@ -2950,16 +2982,22 @@ export interface DiscountList {
 export interface ListDiscountsScopeRequest {
   /** The scope at which the benefits are listed. */
   scope: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDiscountsSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListFreeServiceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type FreeServicesTagsMap = { [key: string]: string | undefined };
@@ -3011,19 +3049,23 @@ export type FreeServicesListValueList = Array<FreeServices>;
 /** This operation lists the free services that are available under the specified subscription. */
 export interface FreeServicesList {
   /** The list of free services */
-  value?: FreeServicesListValueList | undefined;
+  value: FreeServicesListValueList;
   /** The URL to get the next set of results */
   nextLink?: string | undefined;
 }
 export interface ListFreeServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListMaccByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type MaccTagsMap = { [key: string]: string | undefined };
@@ -3082,6 +3124,8 @@ export interface MaccList {
 export interface ListMaccBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListMaccTransactionByParentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3090,6 +3134,8 @@ export interface ListMaccTransactionByParentRequest {
   resourceGroupName: string;
   /** Name of primary MACC. */
   maccName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Transaction resource definition for Maccs */
 export type MaccTransaction = ConditionalCreditTransaction;
@@ -3102,7 +3148,10 @@ export interface MaccTransactionsList {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -3135,13 +3184,15 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
 export interface ListSavingsPlanRequest {
   /** Order ID of the savings plan */
   savingsPlanOrderId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Savings plan */
 export interface SavingsPlanModel {
@@ -3180,6 +3231,8 @@ export interface ListSavingsPlanAllRequest {
   selectedState?: string | undefined;
   /** To number of savings plans to return */
   take?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The list of savings plans. */
 export type SavingsPlanModelListResultValueList = Array<SavingsPlanModel>;
@@ -3216,13 +3269,16 @@ export type SavingsPlanModelListResultAdditionalPropertiesList = Array<SavingsPl
 /** Represents the result of listing savings plan models */
 export interface SavingsPlanModelListResult {
   /** The list of savings plans. */
-  value?: SavingsPlanModelListResultValueList | undefined;
+  value: SavingsPlanModelListResultValueList;
   /** Url to get the next page. */
   nextLink?: string | undefined;
   /** The roll out count summary of the savings plans */
   additionalProperties?: SavingsPlanModelListResultAdditionalPropertiesList | undefined;
 }
-export interface ListSavingsPlanOrderRequest {}
+export interface ListSavingsPlanOrderRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Savings plan order */
 export interface SavingsPlanOrderModel {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
@@ -3273,6 +3329,8 @@ export interface ListSourceByCreditRequest {
   resourceGroupName: string;
   /** Name of the credit */
   creditName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type CreditSourceTagsMap = { [key: string]: string | undefined };
@@ -3333,6 +3391,8 @@ export interface ListSubscriptionCatalogGroupsOpsRequest {
   subscriptionId: string;
   /** OData filter expression to narrow the list of catalog groups. */
   _filter?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface MaccsChargeShortfallRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4153,8 +4213,8 @@ export const CreateCredit: API.OperationMethod<
   CreateCreditError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1345, __c84, 1) as any as S.Schema<CreateCreditRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<CreateCreditResponse>,
+  input: __S(1329, __c83, 1) as any as S.Schema<CreateCreditRequest>,
+  output: __S(1344, __c84, 0) as any as S.Schema<CreateCreditResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4170,8 +4230,8 @@ export const CreateDiscount: API.OperationMethod<
   CreateDiscountError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1603, __c100, 3) as any as S.Schema<CreateDiscountRequest>,
-  output: __S(1604, __c100, 4) as any as S.Schema<CreateDiscountResponse>,
+  input: __S(1587, __c99, 3) as any as S.Schema<CreateDiscountRequest>,
+  output: __S(1588, __c99, 4) as any as S.Schema<CreateDiscountResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4187,8 +4247,8 @@ export const CreateFreeService: API.OperationMethod<
   CreateFreeServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1793, __c112, 1) as any as S.Schema<CreateFreeServiceRequest>,
-  output: __S(1794, __c112, 2) as any as S.Schema<CreateFreeServiceResponse>,
+  input: __S(1777, __c111, 1) as any as S.Schema<CreateFreeServiceRequest>,
+  output: __S(1778, __c111, 2) as any as S.Schema<CreateFreeServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4204,8 +4264,8 @@ export const CreateMacc: API.OperationMethod<
   CreateMaccError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1985, __c124, 1) as any as S.Schema<CreateMaccRequest>,
-  output: __S(1986, __c124, 2) as any as S.Schema<CreateMaccResponse>,
+  input: __S(1969, __c123, 1) as any as S.Schema<CreateMaccRequest>,
+  output: __S(1970, __c123, 2) as any as S.Schema<CreateMaccResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4221,8 +4281,8 @@ export const CreateReservationOrderAlias: API.OperationMethod<
   CreateReservationOrderAliasError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2001, __c125, 1) as any as S.Schema<CreateReservationOrderAliasRequest>,
-  output: __S(2002, __c125, 2) as any as S.Schema<CreateReservationOrderAliasResponse>,
+  input: __S(1985, __c124, 1) as any as S.Schema<CreateReservationOrderAliasRequest>,
+  output: __S(1986, __c124, 2) as any as S.Schema<CreateReservationOrderAliasResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4691,29 +4751,37 @@ export const GetSubscriptionCatalogGroupsOps: API.OperationMethod<
 
 export type ListApplicableMaccsError = AzureOpError;
 /** List maccs that are applicable for a given billing account. */
-export const ListApplicableMaccs: API.OperationMethod<
+export const ListApplicableMaccs: API.PaginatedOperationMethod<
   ListApplicableMaccsRequest,
   ApplicableMaccList,
   ListApplicableMaccsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApplicableMacc
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<ListApplicableMaccsRequest>,
-  output: __S(977, __c61, 1) as any as S.Schema<ApplicableMaccList>,
+  output: __S(993, __c62, 1) as any as S.Schema<ApplicableMaccList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplicableMaccs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBillingAccountCatalogGroupsOpsError = AzureOpError;
 /** List catalog groups at the target scope. */
-export const ListBillingAccountCatalogGroupsOps: API.OperationMethod<
+export const ListBillingAccountCatalogGroupsOps: API.PaginatedOperationMethod<
   ListBillingAccountCatalogGroupsOpsRequest,
   CatalogGroupListResult,
   ListBillingAccountCatalogGroupsOpsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CatalogGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<ListBillingAccountCatalogGroupsOpsRequest>,
   output: __S(1025, __c64, 1) as any as S.Schema<CatalogGroupListResult>,
   errors: [UnknownAzureError],
@@ -4721,16 +4789,23 @@ export const ListBillingAccountCatalogGroupsOps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBillingAccountCatalogGroupsOps",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBillingProfileCatalogGroupsOpsError = AzureOpError;
 /** List catalog groups at the target scope. */
-export const ListBillingProfileCatalogGroupsOps: API.OperationMethod<
+export const ListBillingProfileCatalogGroupsOps: API.PaginatedOperationMethod<
   ListBillingProfileCatalogGroupsOpsRequest,
   CatalogGroupListResult,
   ListBillingProfileCatalogGroupsOpsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CatalogGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<ListBillingProfileCatalogGroupsOpsRequest>,
   output: __S(1025, __c64, 1) as any as S.Schema<CatalogGroupListResult>,
   errors: [UnknownAzureError],
@@ -4738,16 +4813,23 @@ export const ListBillingProfileCatalogGroupsOps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBillingProfileCatalogGroupsOps",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConditionalCreditByResourceGroupError = AzureOpError;
 /** List conditional credits by resource group. */
-export const ListConditionalCreditByResourceGroup: API.OperationMethod<
+export const ListConditionalCreditByResourceGroup: API.PaginatedOperationMethod<
   ListConditionalCreditByResourceGroupRequest,
   ConditionalCreditList,
   ListConditionalCreditByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConditionalCredit
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1104, __c69, 0) as any as S.Schema<ListConditionalCreditByResourceGroupRequest>,
   output: __S(1121, __c70, 1) as any as S.Schema<ConditionalCreditList>,
   errors: [UnknownAzureError],
@@ -4755,16 +4837,23 @@ export const ListConditionalCreditByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConditionalCreditByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConditionalCreditBySubscriptionError = AzureOpError;
 /** List conditional credits by subscription. */
-export const ListConditionalCreditBySubscription: API.OperationMethod<
+export const ListConditionalCreditBySubscription: API.PaginatedOperationMethod<
   ListConditionalCreditBySubscriptionRequest,
   ConditionalCreditList,
   ListConditionalCreditBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConditionalCredit
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1136, __c71, 0) as any as S.Schema<ListConditionalCreditBySubscriptionRequest>,
   output: __S(1121, __c70, 1) as any as S.Schema<ConditionalCreditList>,
   errors: [UnknownAzureError],
@@ -4772,16 +4861,23 @@ export const ListConditionalCreditBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConditionalCreditBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConditionalCreditContributorFromApplicableConditionalCreditError = AzureOpError;
 /** List contributors under applicable conditional credits for a given billing account. */
-export const ListConditionalCreditContributorFromApplicableConditionalCredit: API.OperationMethod<
+export const ListConditionalCreditContributorFromApplicableConditionalCredit: API.PaginatedOperationMethod<
   ListConditionalCreditContributorFromApplicableConditionalCreditRequest,
   ConditionalCreditContributorList,
   ListConditionalCreditContributorFromApplicableConditionalCreditError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConditionalCreditContributor
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     1152,
     __c72,
@@ -4796,16 +4892,23 @@ export const ListConditionalCreditContributorFromApplicableConditionalCredit: AP
     op: "ListConditionalCreditContributorFromApplicableConditionalCredit",
     attributes: { "azure.resource_provider.namespace": "microsoft.BillingBenefits" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConditionalCreditContributorFromPrimaryError = AzureOpError;
 /** List contributors under a primary conditional credit for primary service admin */
-export const ListConditionalCreditContributorFromPrimary: API.OperationMethod<
+export const ListConditionalCreditContributorFromPrimary: API.PaginatedOperationMethod<
   ListConditionalCreditContributorFromPrimaryRequest,
   ConditionalCreditContributorList,
   ListConditionalCreditContributorFromPrimaryError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConditionalCreditContributor
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1184, __c74, 0) as any as S.Schema<ListConditionalCreditContributorFromPrimaryRequest>,
   output: __S(1169, __c73, 1) as any as S.Schema<ConditionalCreditContributorList>,
   errors: [UnknownAzureError],
@@ -4813,16 +4916,23 @@ export const ListConditionalCreditContributorFromPrimary: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConditionalCreditContributorFromPrimary",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConditionalCreditsScopeError = AzureOpError;
 /** List conditional credits that are applicable for a given scope. Currently supported scopes: billing accounts */
-export const ListConditionalCreditsScope: API.OperationMethod<
+export const ListConditionalCreditsScope: API.PaginatedOperationMethod<
   ListConditionalCreditsScopeRequest,
   ConditionalCreditList,
   ListConditionalCreditsScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConditionalCredit
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<ListConditionalCreditsScopeRequest>,
   output: __S(1121, __c70, 1) as any as S.Schema<ConditionalCreditList>,
   errors: [UnknownAzureError],
@@ -4835,16 +4945,23 @@ export const ListConditionalCreditsScope: API.OperationMethod<
       "url.template": "/{scope}/providers/Microsoft.BillingBenefits/applicableConditionalCredits",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConditionalCreditTransactionByParentError = AzureOpError;
 /** List all transactions for a conditional credit. */
-export const ListConditionalCreditTransactionByParent: API.OperationMethod<
+export const ListConditionalCreditTransactionByParent: API.PaginatedOperationMethod<
   ListConditionalCreditTransactionByParentRequest,
   ConditionalCreditTransactionsList,
   ListConditionalCreditTransactionByParentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConditionalCreditTransaction
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<ListConditionalCreditTransactionByParentRequest>,
   output: __S(1233, __c77, 1) as any as S.Schema<ConditionalCreditTransactionsList>,
   errors: [UnknownAzureError],
@@ -4852,18 +4969,25 @@ export const ListConditionalCreditTransactionByParent: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConditionalCreditTransactionByParent",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListContributorFromApplicableMaccError = AzureOpError;
 /** List contributors under applicable MACCs for a given billing account. */
-export const ListContributorFromApplicableMacc: API.OperationMethod<
+export const ListContributorFromApplicableMacc: API.PaginatedOperationMethod<
   ListContributorFromApplicableMaccRequest,
   ContributorList,
   ListContributorFromApplicableMaccError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Contributor
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1248, __c78, 0) as any as S.Schema<ListContributorFromApplicableMaccRequest>,
-  output: __S(1264, __c79, 0) as any as S.Schema<ContributorList>,
+  output: __S(993, __c62, 1) as any as S.Schema<ContributorList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4872,35 +4996,49 @@ export const ListContributorFromApplicableMacc: API.OperationMethod<
     op: "ListContributorFromApplicableMacc",
     attributes: { "azure.resource_provider.namespace": "microsoft.BillingBenefits" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListContributorFromPrimaryError = AzureOpError;
 /** List contributors under a MACC for primary service admin */
-export const ListContributorFromPrimary: API.OperationMethod<
+export const ListContributorFromPrimary: API.PaginatedOperationMethod<
   ListContributorFromPrimaryRequest,
   ContributorList,
   ListContributorFromPrimaryError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c80, 0) as any as S.Schema<ListContributorFromPrimaryRequest>,
-  output: __S(1264, __c79, 0) as any as S.Schema<ContributorList>,
+  AzureOpContext,
+  Contributor
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1264, __c79, 0) as any as S.Schema<ListContributorFromPrimaryRequest>,
+  output: __S(993, __c62, 1) as any as S.Schema<ContributorList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListContributorFromPrimary",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCreditApplicableError = AzureOpError;
 /** List applicable credits for the provided scope. Currently supported scopes: BillingAccountResourceId */
-export const ListCreditApplicable: API.OperationMethod<
+export const ListCreditApplicable: API.PaginatedOperationMethod<
   ListCreditApplicableRequest,
   CreditsList,
   ListCreditApplicableError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<ListCreditApplicableRequest>,
-  output: __S(1313, __c82, 1) as any as S.Schema<CreditsList>,
+  AzureOpContext,
+  Credit
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1280, __c80, 0) as any as S.Schema<ListCreditApplicableRequest>,
+  output: __S(1297, __c81, 1) as any as S.Schema<CreditsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -4911,86 +5049,121 @@ export const ListCreditApplicable: API.OperationMethod<
       "url.template": "/{scope}/providers/Microsoft.BillingBenefits/applicableCredits",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCreditByResourceGroupError = AzureOpError;
 /** List Credits under a resource group from primary service admin. */
-export const ListCreditByResourceGroup: API.OperationMethod<
+export const ListCreditByResourceGroup: API.PaginatedOperationMethod<
   ListCreditByResourceGroupRequest,
   CreditsList,
   ListCreditByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<ListCreditByResourceGroupRequest>,
-  output: __S(1313, __c82, 1) as any as S.Schema<CreditsList>,
+  AzureOpContext,
+  Credit
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1312, __c82, 0) as any as S.Schema<ListCreditByResourceGroupRequest>,
+  output: __S(1297, __c81, 1) as any as S.Schema<CreditsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCreditByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCreditBySubscriptionError = AzureOpError;
 /** List credits under a subscription from primary service tenant. */
-export const ListCreditBySubscription: API.OperationMethod<
+export const ListCreditBySubscription: API.PaginatedOperationMethod<
   ListCreditBySubscriptionRequest,
   CreditsList,
   ListCreditBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<ListCreditBySubscriptionRequest>,
-  output: __S(1313, __c82, 1) as any as S.Schema<CreditsList>,
+  AzureOpContext,
+  Credit
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1360, __c85, 0) as any as S.Schema<ListCreditBySubscriptionRequest>,
+  output: __S(1297, __c81, 1) as any as S.Schema<CreditsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCreditBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCreditTransactionByParentError = AzureOpError;
 /** List all transactions for a credit. */
-export const ListCreditTransactionByParent: API.OperationMethod<
+export const ListCreditTransactionByParent: API.PaginatedOperationMethod<
   ListCreditTransactionByParentRequest,
   TransactionsList,
   ListCreditTransactionByParentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<ListCreditTransactionByParentRequest>,
+  AzureOpContext,
+  ConditionalCreditTransaction
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1376, __c86, 0) as any as S.Schema<ListCreditTransactionByParentRequest>,
   output: __S(1233, __c77, 1) as any as S.Schema<TransactionsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCreditTransactionByParent",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDiscountsResourceGroupError = AzureOpError;
 /** List discounts at resource group level */
-export const ListDiscountsResourceGroup: API.OperationMethod<
+export const ListDiscountsResourceGroup: API.PaginatedOperationMethod<
   ListDiscountsResourceGroupRequest,
   DiscountList,
   ListDiscountsResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<ListDiscountsResourceGroupRequest>,
-  output: __S(1425, __c89, 1) as any as S.Schema<DiscountList>,
+  AzureOpContext,
+  Discount
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1392, __c87, 0) as any as S.Schema<ListDiscountsResourceGroupRequest>,
+  output: __S(1409, __c88, 1) as any as S.Schema<DiscountList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDiscountsResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDiscountsScopeError = AzureOpError;
 /** List discounts that are applicable for a given scope. Currently supported scopes: billing accounts */
-export const ListDiscountsScope: API.OperationMethod<
+export const ListDiscountsScope: API.PaginatedOperationMethod<
   ListDiscountsScopeRequest,
   DiscountList,
   ListDiscountsScopeError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<ListDiscountsScopeRequest>,
-  output: __S(1425, __c89, 1) as any as S.Schema<DiscountList>,
+  AzureOpContext,
+  Discount
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1424, __c89, 0) as any as S.Schema<ListDiscountsScopeRequest>,
+  output: __S(1409, __c88, 1) as any as S.Schema<DiscountList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5001,177 +5174,253 @@ export const ListDiscountsScope: API.OperationMethod<
       "url.template": "/{scope}/providers/Microsoft.BillingBenefits/applicableDiscounts",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDiscountsSubscriptionError = AzureOpError;
 /** List discounts at subscription level */
-export const ListDiscountsSubscription: API.OperationMethod<
+export const ListDiscountsSubscription: API.PaginatedOperationMethod<
   ListDiscountsSubscriptionRequest,
   DiscountList,
   ListDiscountsSubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<ListDiscountsSubscriptionRequest>,
-  output: __S(1425, __c89, 1) as any as S.Schema<DiscountList>,
+  AzureOpContext,
+  Discount
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1440, __c90, 0) as any as S.Schema<ListDiscountsSubscriptionRequest>,
+  output: __S(1409, __c88, 1) as any as S.Schema<DiscountList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDiscountsSubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFreeServiceByResourceGroupError = AzureOpError;
 /** This operation lists the free services that are available under the specified resource group. */
-export const ListFreeServiceByResourceGroup: API.OperationMethod<
+export const ListFreeServiceByResourceGroup: API.PaginatedOperationMethod<
   ListFreeServiceByResourceGroupRequest,
   FreeServicesList,
   ListFreeServiceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<ListFreeServiceByResourceGroupRequest>,
-  output: __S(1489, __c93, 1) as any as S.Schema<FreeServicesList>,
+  AzureOpContext,
+  FreeServices
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1456, __c91, 0) as any as S.Schema<ListFreeServiceByResourceGroupRequest>,
+  output: __S(1473, __c92, 1) as any as S.Schema<FreeServicesList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFreeServiceByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListFreeServiceBySubscriptionError = AzureOpError;
 /** This operation lists free services that are available under the specified subscription. */
-export const ListFreeServiceBySubscription: API.OperationMethod<
+export const ListFreeServiceBySubscription: API.PaginatedOperationMethod<
   ListFreeServiceBySubscriptionRequest,
   FreeServicesList,
   ListFreeServiceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<ListFreeServiceBySubscriptionRequest>,
-  output: __S(1489, __c93, 1) as any as S.Schema<FreeServicesList>,
+  AzureOpContext,
+  FreeServices
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1488, __c93, 0) as any as S.Schema<ListFreeServiceBySubscriptionRequest>,
+  output: __S(1473, __c92, 1) as any as S.Schema<FreeServicesList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFreeServiceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMaccByResourceGroupError = AzureOpError;
 /** List MACCs under a resource group for primary service admin. */
-export const ListMaccByResourceGroup: API.OperationMethod<
+export const ListMaccByResourceGroup: API.PaginatedOperationMethod<
   ListMaccByResourceGroupRequest,
   MaccList,
   ListMaccByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<ListMaccByResourceGroupRequest>,
-  output: __S(1536, __c96, 0) as any as S.Schema<MaccList>,
+  AzureOpContext,
+  Macc
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1504, __c94, 0) as any as S.Schema<ListMaccByResourceGroupRequest>,
+  output: __S(1520, __c95, 0) as any as S.Schema<MaccList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMaccByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMaccBySubscriptionError = AzureOpError;
 /** List MACCs under a subscription from primary service tenant. */
-export const ListMaccBySubscription: API.OperationMethod<
+export const ListMaccBySubscription: API.PaginatedOperationMethod<
   ListMaccBySubscriptionRequest,
   MaccList,
   ListMaccBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<ListMaccBySubscriptionRequest>,
-  output: __S(1536, __c96, 0) as any as S.Schema<MaccList>,
+  AzureOpContext,
+  Macc
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1552, __c97, 0) as any as S.Schema<ListMaccBySubscriptionRequest>,
+  output: __S(1520, __c95, 0) as any as S.Schema<MaccList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMaccBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListMaccTransactionByParentError = AzureOpError;
 /** List all transactions for a MACC. */
-export const ListMaccTransactionByParent: API.OperationMethod<
+export const ListMaccTransactionByParent: API.PaginatedOperationMethod<
   ListMaccTransactionByParentRequest,
   MaccTransactionsList,
   ListMaccTransactionByParentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1584, __c99, 0) as any as S.Schema<ListMaccTransactionByParentRequest>,
+  AzureOpContext,
+  ConditionalCreditTransaction
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1568, __c98, 0) as any as S.Schema<ListMaccTransactionByParentRequest>,
   output: __S(1233, __c77, 1) as any as S.Schema<MaccTransactionsList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMaccTransactionByParent",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<ListOperationsRequest>,
-  output: __S(1620, __c101, 4) as any as S.Schema<ListOperationsResponse>,
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1600, __c100, 0) as any as S.Schema<ListOperationsRequest>,
+  output: __S(1604, __c100, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSavingsPlanError = AzureOpError;
 /** List savings plans in an order. */
-export const ListSavingsPlan: API.OperationMethod<
+export const ListSavingsPlan: API.PaginatedOperationMethod<
   ListSavingsPlanRequest,
   SavingsPlanModelList,
   ListSavingsPlanError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<ListSavingsPlanRequest>,
-  output: __S(1633, __c102, 1) as any as S.Schema<SavingsPlanModelList>,
+  AzureOpContext,
+  SavingsPlanModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1616, __c101, 0) as any as S.Schema<ListSavingsPlanRequest>,
+  output: __S(1617, __c101, 1) as any as S.Schema<SavingsPlanModelList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSavingsPlan",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSavingsPlanAllError = AzureOpError;
 /** List savings plans. */
-export const ListSavingsPlanAll: API.OperationMethod<
+export const ListSavingsPlanAll: API.PaginatedOperationMethod<
   ListSavingsPlanAllRequest,
   SavingsPlanModelListResult,
   ListSavingsPlanAllError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<ListSavingsPlanAllRequest>,
-  output: __S(1668, __c104, 4) as any as S.Schema<SavingsPlanModelListResult>,
+  AzureOpContext,
+  SavingsPlanModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1648, __c103, 0) as any as S.Schema<ListSavingsPlanAllRequest>,
+  output: __S(1652, __c103, 4) as any as S.Schema<SavingsPlanModelListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSavingsPlanAll",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSavingsPlanOrderError = AzureOpError;
 /** List all Savings plan orders. */
-export const ListSavingsPlanOrder: API.OperationMethod<
+export const ListSavingsPlanOrder: API.PaginatedOperationMethod<
   ListSavingsPlanOrderRequest,
   SavingsPlanOrderModelList,
   ListSavingsPlanOrderError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<ListSavingsPlanOrderRequest>,
-  output: __S(1682, __c105, 2) as any as S.Schema<SavingsPlanOrderModelList>,
+  AzureOpContext,
+  SavingsPlanOrderModel
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1664, __c104, 0) as any as S.Schema<ListSavingsPlanOrderRequest>,
+  output: __S(1666, __c104, 2) as any as S.Schema<SavingsPlanOrderModelList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSavingsPlanOrder",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSellerResourceError = AzureOpError;
 /** List maccs by billing account */
@@ -5181,8 +5430,8 @@ export const ListSellerResource: API.OperationMethod<
   ListSellerResourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1697, __c106, 1) as any as S.Schema<ListSellerResourceRequest>,
-  output: __S(1698, __c106, 2) as any as S.Schema<ListSellerResourceResponse>,
+  input: __S(1681, __c105, 1) as any as S.Schema<ListSellerResourceRequest>,
+  output: __S(1682, __c105, 2) as any as S.Schema<ListSellerResourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5192,37 +5441,51 @@ export const ListSellerResource: API.OperationMethod<
 
 export type ListSourceByCreditError = AzureOpError;
 /** List credit sources for a credit under a resource group from primary service admin. */
-export const ListSourceByCredit: API.OperationMethod<
+export const ListSourceByCredit: API.PaginatedOperationMethod<
   ListSourceByCreditRequest,
   CreditSourcesList,
   ListSourceByCreditError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1712, __c107, 0) as any as S.Schema<ListSourceByCreditRequest>,
-  output: __S(1714, __c107, 2) as any as S.Schema<CreditSourcesList>,
+  AzureOpContext,
+  CreditSource
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1696, __c106, 0) as any as S.Schema<ListSourceByCreditRequest>,
+  output: __S(1698, __c106, 2) as any as S.Schema<CreditSourcesList>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSourceByCredit",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSubscriptionCatalogGroupsOpsError = AzureOpError;
 /** List catalog groups at the target scope. */
-export const ListSubscriptionCatalogGroupsOps: API.OperationMethod<
+export const ListSubscriptionCatalogGroupsOps: API.PaginatedOperationMethod<
   ListSubscriptionCatalogGroupsOpsRequest,
   CatalogGroupListResult,
   ListSubscriptionCatalogGroupsOpsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<ListSubscriptionCatalogGroupsOpsRequest>,
+  AzureOpContext,
+  CatalogGroup
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(1712, __c107, 0) as any as S.Schema<ListSubscriptionCatalogGroupsOpsRequest>,
   output: __S(1025, __c64, 1) as any as S.Schema<CatalogGroupListResult>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSubscriptionCatalogGroupsOps",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MaccsChargeShortfallError = AzureOpError;
 /** Operation to charge shortfall to a customer's account, ensuring they are charged for the outstanding amount of MACC credit. */
@@ -5232,7 +5495,7 @@ export const MaccsChargeShortfall: API.OperationMethod<
   MaccsChargeShortfallError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<MaccsChargeShortfallRequest>,
+  input: __S(1728, __c108, 0) as any as S.Schema<MaccsChargeShortfallRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<MaccsChargeShortfallResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -5249,7 +5512,7 @@ export const MaccsWriteOff: API.OperationMethod<
   MaccsWriteOffError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<MaccsWriteOffRequest>,
+  input: __S(1744, __c109, 0) as any as S.Schema<MaccsWriteOffRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<MaccsWriteOffResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -5266,8 +5529,8 @@ export const SavingsPlanOrderElevate: API.OperationMethod<
   SavingsPlanOrderElevateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<SavingsPlanOrderElevateRequest>,
-  output: __S(1778, __c111, 2) as any as S.Schema<RoleAssignmentEntity>,
+  input: __S(1760, __c110, 0) as any as S.Schema<SavingsPlanOrderElevateRequest>,
+  output: __S(1762, __c110, 2) as any as S.Schema<RoleAssignmentEntity>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5283,8 +5546,8 @@ export const SavingsPlanValidateUpdate: API.OperationMethod<
   SavingsPlanValidateUpdateError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1825, __c114, 1) as any as S.Schema<SavingsPlanValidateUpdateRequest>,
-  output: __S(1828, __c114, 4) as any as S.Schema<SavingsPlanValidateResponse>,
+  input: __S(1809, __c113, 1) as any as S.Schema<SavingsPlanValidateUpdateRequest>,
+  output: __S(1812, __c113, 4) as any as S.Schema<SavingsPlanValidateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5300,7 +5563,7 @@ export const UpdateConditionalCredit: API.OperationMethod<
   UpdateConditionalCreditError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1860, __c116, 4) as any as S.Schema<UpdateConditionalCreditRequest>,
+  input: __S(1844, __c115, 4) as any as S.Schema<UpdateConditionalCreditRequest>,
   output: __S(112, __c7, 0) as any as S.Schema<UpdateConditionalCreditResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -5317,8 +5580,8 @@ export const UpdateCredit: API.OperationMethod<
   UpdateCreditError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1873, __c117, 1) as any as S.Schema<UpdateCreditRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<UpdateCreditResponse>,
+  input: __S(1857, __c116, 1) as any as S.Schema<UpdateCreditRequest>,
+  output: __S(1344, __c84, 0) as any as S.Schema<UpdateCreditResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5334,7 +5597,7 @@ export const UpdateDiscount: API.OperationMethod<
   UpdateDiscountError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1889, __c118, 1) as any as S.Schema<UpdateDiscountRequest>,
+  input: __S(1873, __c117, 1) as any as S.Schema<UpdateDiscountRequest>,
   output: __S(448, __c28, 0) as any as S.Schema<UpdateDiscountResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -5351,8 +5614,8 @@ export const UpdateFreeService: API.OperationMethod<
   UpdateFreeServiceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1905, __c119, 1) as any as S.Schema<UpdateFreeServiceRequest>,
-  output: __S(1906, __c119, 2) as any as S.Schema<UpdateFreeServiceResponse>,
+  input: __S(1889, __c118, 1) as any as S.Schema<UpdateFreeServiceRequest>,
+  output: __S(1890, __c118, 2) as any as S.Schema<UpdateFreeServiceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5368,7 +5631,7 @@ export const UpdateMacc: API.OperationMethod<
   UpdateMaccError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1921, __c120, 1) as any as S.Schema<UpdateMaccRequest>,
+  input: __S(1905, __c119, 1) as any as S.Schema<UpdateMaccRequest>,
   output: __S(768, __c48, 0) as any as S.Schema<UpdateMaccResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -5385,8 +5648,8 @@ export const UpdateSavingsPlan: API.OperationMethod<
   UpdateSavingsPlanError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<UpdateSavingsPlanRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<UpdateSavingsPlanResponse>,
+  input: __S(1920, __c120, 0) as any as S.Schema<UpdateSavingsPlanRequest>,
+  output: __S(1921, __c120, 1) as any as S.Schema<UpdateSavingsPlanResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5402,7 +5665,7 @@ export const UpdateSource: API.OperationMethod<
   UpdateSourceError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<UpdateSourceRequest>,
+  input: __S(1936, __c121, 0) as any as S.Schema<UpdateSourceRequest>,
   output: __S(225, __c14, 1) as any as S.Schema<UpdateSourceResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
@@ -5419,8 +5682,8 @@ export const ValidateBenefit: API.OperationMethod<
   ValidateBenefitError,
   AzureOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1970, __c123, 2) as any as S.Schema<ValidateBenefitRequest>,
-  output: __S(1973, __c123, 5) as any as S.Schema<BenefitValidateResponse>,
+  input: __S(1954, __c122, 2) as any as S.Schema<ValidateBenefitRequest>,
+  output: __S(1957, __c122, 5) as any as S.Schema<BenefitValidateResponse>,
   errors: [UnknownAzureError],
   protocol: AzureProtocol,
   retry: Retry.Retry,
@@ -5719,7 +5982,7 @@ function __c11(j: number): any {
           term: S.optional(S.String),
           billingPlan: S.optional(S.String),
           appliedScopeType: S.optional(S.String),
-          appliedScopeProperties: S.optional(__S(2032, __c127, 0)),
+          appliedScopeProperties: S.optional(__S(2016, __c126, 0)),
           commitment: S.optional(__S(144, __c9, 0)),
           renew: S.optional(S.Boolean),
         }),
@@ -5729,7 +5992,7 @@ function __c11(j: number): any {
         S.Struct({
           savingsPlanOrderAliasName: S.String.pipe(T.Label()),
           properties: S.optional(__S(176, __c11, 0)),
-          sku: __S(2016, __c126, 0),
+          sku: __S(2000, __c125, 0),
           kind: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -5748,7 +6011,7 @@ function __c11(j: number): any {
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c2, 0)),
           properties: S.optional(__S(192, __c12, 0)),
-          sku: __S(2016, __c126, 0),
+          sku: __S(2000, __c125, 0),
           kind: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -5768,7 +6031,7 @@ function __c12(j: number): any {
           term: S.optional(S.String),
           billingPlan: S.optional(S.String),
           appliedScopeType: S.optional(S.String),
-          appliedScopeProperties: S.optional(__S(2032, __c127, 0)),
+          appliedScopeProperties: S.optional(__S(2016, __c126, 0)),
           commitment: S.optional(__S(144, __c9, 0)),
           renew: S.optional(S.Boolean),
         }),
@@ -6502,7 +6765,7 @@ function __c44(j: number): any {
           systemData: S.optional(__S(32, __c2, 0)),
           tags: S.optional(__S(16, __c1, 0)),
           location: S.String,
-          properties: S.optional(__S(1808, __c113, 0)),
+          properties: S.optional(__S(1792, __c112, 0)),
           managedBy: S.optional(S.String),
           kind: S.optional(S.String),
           etag: S.optional(S.String),
@@ -6704,8 +6967,8 @@ function __c51(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(2049, __c128, 1)),
-          sku: __S(2016, __c126, 0),
+          properties: S.optional(__S(2033, __c127, 1)),
+          sku: __S(2000, __c125, 0),
           location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetReservationOrderAliasResponse" });
@@ -6751,7 +7014,7 @@ function __c54(j: number): any {
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c2, 0)),
           properties: S.optional(__S(886, __c55, 6)),
-          sku: __S(2016, __c126, 0),
+          sku: __S(2000, __c125, 0),
         }),
       ).annotate({ identifier: "GetSavingsPlanResponse" });
   }
@@ -6788,13 +7051,13 @@ function __c55(j: number): any {
           effectiveDateTime: S.optional(S.String),
           renew: S.optional(S.Boolean),
           renewAction: S.optional(S.String),
-          appliedScopeProperties: S.optional(__S(2032, __c127, 0)),
+          appliedScopeProperties: S.optional(__S(2016, __c126, 0)),
         }),
       ).annotate({ identifier: "PurchaseRequestProperties" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          sku: S.optional(__S(2016, __c126, 0)),
+          sku: S.optional(__S(2000, __c125, 0)),
           properties: S.optional(__S(883, __c55, 3)),
         }),
       ).annotate({ identifier: "PurchaseRequest" });
@@ -6818,7 +7081,7 @@ function __c55(j: number): any {
           billingPlan: S.optional(S.String),
           appliedScopeType: S.optional(S.String),
           userFriendlyAppliedScopeType: S.optional(S.String),
-          appliedScopeProperties: S.optional(__S(2032, __c127, 0)),
+          appliedScopeProperties: S.optional(__S(2016, __c126, 0)),
           commitment: S.optional(__S(144, __c9, 0)),
           effectiveDateTime: S.optional(S.String),
           expiryDateTime: S.optional(S.String),
@@ -6903,7 +7166,7 @@ function __c57(j: number): any {
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c2, 0)),
           properties: S.optional(__S(915, __c57, 3)),
-          sku: __S(2016, __c126, 0),
+          sku: __S(2000, __c125, 0),
         }),
       ).annotate({ identifier: "GetSavingsPlanOrderResponse" });
   }
@@ -6931,7 +7194,7 @@ function __c58(j: number): any {
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c2, 0)),
           properties: S.optional(__S(192, __c12, 0)),
-          sku: __S(2016, __c126, 0),
+          sku: __S(2000, __c125, 0),
           kind: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSavingsPlanOrderAliasResponse" });
@@ -6981,28 +7244,30 @@ function __c61(j: number): any {
       return S.suspend(() =>
         S.Struct({
           billingAccountId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.BillingBenefits/applicableMaccs",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicableMaccsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          value: S.optional(__S(992, __c62, 0)),
-          nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ApplicableMaccList" });
   }
 }
 function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(592, __c37, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          value: __S(992, __c62, 0),
+          nextLink: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ApplicableMaccList" });
   }
 }
 function __c63(j: number): any {
@@ -7012,12 +7277,14 @@ function __c63(j: number): any {
         S.Struct({
           billingAccountName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/providers/Microsoft.BillingBenefits/catalogGroups",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBillingAccountCatalogGroupsOpsRequest" });
@@ -7044,12 +7311,14 @@ function __c65(j: number): any {
           billingAccountName: S.String.pipe(T.Label()),
           billingProfileName: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/providers/Microsoft.BillingBenefits/catalogGroups",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBillingProfileCatalogGroupsOpsRequest" });
@@ -7143,12 +7412,14 @@ function __c69(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/conditionalCredits",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConditionalCreditByResourceGroupRequest" });
@@ -7173,12 +7444,14 @@ function __c71(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.BillingBenefits/conditionalCredits",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConditionalCreditBySubscriptionRequest" });
@@ -7191,12 +7464,14 @@ function __c72(j: number): any {
         S.Struct({
           billingAccountId: S.String.pipe(T.Label()),
           systemId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.BillingBenefits/applicableConditionalCredits/{systemId}/providers/microsoft.BillingBenefits/applicableContributors",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({
@@ -7225,12 +7500,14 @@ function __c74(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           conditionalCreditName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/conditionalCredits/{conditionalCreditName}/contributors",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConditionalCreditContributorFromPrimaryRequest" });
@@ -7242,12 +7519,14 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scope: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{scope+}/providers/Microsoft.BillingBenefits/applicableConditionalCredits",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConditionalCreditsScopeRequest" });
@@ -7261,12 +7540,14 @@ function __c76(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           conditionalCreditName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/conditionalCredits/{conditionalCreditName}/transactions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConditionalCreditTransactionByParentRequest" });
@@ -7292,12 +7573,14 @@ function __c78(j: number): any {
         S.Struct({
           billingAccountId: S.String.pipe(T.Label()),
           systemId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/microsoft.Billing/billingAccounts/{billingAccountId}/providers/Microsoft.BillingBenefits/applicableMaccs/{systemId}/providers/microsoft.BillingBenefits/applicableContributors",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListContributorFromApplicableMaccRequest" });
@@ -7308,10 +7591,20 @@ function __c79(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: __S(992, __c62, 0),
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          maccName: S.String.pipe(T.Label()),
           nextLink: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ContributorList" });
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/maccs/{maccName}/contributors",
+            code: 200,
+            apiVersion: "2026-06-01",
+            nextLink: "nextLink",
+          }),
+        ),
+      ).annotate({ identifier: "ListContributorFromPrimaryRequest" });
   }
 }
 function __c80(j: number): any {
@@ -7319,69 +7612,54 @@ function __c80(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-          maccName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/maccs/{maccName}/contributors",
-            code: 200,
-            apiVersion: "2026-06-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListContributorFromPrimaryRequest" });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           scope: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{scope+}/providers/Microsoft.BillingBenefits/applicableCredits",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCreditApplicableRequest" });
   }
 }
-function __c82(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(624, __c39, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1312, __c82, 0),
+          value: __S(1296, __c81, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreditsList" });
   }
 }
-function __c83(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/credits",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCreditByResourceGroupRequest" });
   }
 }
-function __c84(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7410,7 +7688,7 @@ function __c84(j: number): any {
           creditName: S.String.pipe(T.Label()),
           tags: S.optional(__S(16, __c1, 0)),
           location: S.String,
-          properties: S.optional(__S(1344, __c84, 0)),
+          properties: S.optional(__S(1328, __c83, 0)),
           managedBy: S.optional(S.String),
           kind: S.optional(S.String),
           identity: S.optional(__S(1089, __c68, 1)),
@@ -7427,7 +7705,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "CreateCreditRequest" });
   }
 }
-function __c85(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7452,21 +7730,44 @@ function __c85(j: number): any {
       ).annotate({ identifier: "CreateCreditResponse" });
   }
 }
-function __c86(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.BillingBenefits/credits",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCreditBySubscriptionRequest" });
+  }
+}
+function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          creditName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/credits/{creditName}/transactions",
+            code: 200,
+            apiVersion: "2026-06-01",
+            nextLink: "nextLink",
+          }),
+        ),
+      ).annotate({ identifier: "ListCreditTransactionByParentRequest" });
   }
 }
 function __c87(j: number): any {
@@ -7476,47 +7777,49 @@ function __c87(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
-          creditName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/credits/{creditName}/transactions",
-            code: 200,
-            apiVersion: "2026-06-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListCreditTransactionByParentRequest" });
-  }
-}
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/discounts",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDiscountsResourceGroupRequest" });
   }
 }
-function __c89(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(672, __c42, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1424, __c89, 0),
+          value: __S(1408, __c88, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DiscountList" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          scope: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/{scope+}/providers/Microsoft.BillingBenefits/applicableDiscounts",
+            code: 200,
+            apiVersion: "2026-06-01",
+            nextLink: "nextLink",
+          }),
+        ),
+      ).annotate({ identifier: "ListDiscountsScopeRequest" });
   }
 }
 function __c90(j: number): any {
@@ -7524,16 +7827,18 @@ function __c90(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scope: S.String.pipe(T.Label()),
+          subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/{scope+}/providers/Microsoft.BillingBenefits/applicableDiscounts",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.BillingBenefits/discounts",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
-      ).annotate({ identifier: "ListDiscountsScopeRequest" });
+      ).annotate({ identifier: "ListDiscountsSubscriptionRequest" });
   }
 }
 function __c91(j: number): any {
@@ -7542,46 +7847,50 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.BillingBenefits/discounts",
-            code: 200,
-            apiVersion: "2026-06-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListDiscountsSubscriptionRequest" });
-  }
-}
-function __c92(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/freeServices",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListFreeServiceByResourceGroupRequest" });
   }
 }
-function __c93(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(704, __c44, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1488, __c93, 0)),
+          value: __S(1472, __c92, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "FreeServicesList" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.BillingBenefits/freeServices",
+            code: 200,
+            apiVersion: "2026-06-01",
+            nextLink: "nextLink",
+          }),
+        ),
+      ).annotate({ identifier: "ListFreeServiceBySubscriptionRequest" });
   }
 }
 function __c94(j: number): any {
@@ -7590,15 +7899,18 @@ function __c94(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.BillingBenefits/freeServices",
+            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/maccs",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
-      ).annotate({ identifier: "ListFreeServiceBySubscriptionRequest" });
+      ).annotate({ identifier: "ListMaccByResourceGroupRequest" });
   }
 }
 function __c95(j: number): any {
@@ -7606,34 +7918,35 @@ function __c95(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
-          resourceGroupName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/maccs",
-            code: 200,
-            apiVersion: "2026-06-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListMaccByResourceGroupRequest" });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          value: __S(1552, __c97, 0),
+          value: __S(1536, __c96, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "MaccList" });
   }
 }
-function __c97(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(736, __c46, 0));
+  }
+}
+function __c97(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.BillingBenefits/maccs",
+            code: 200,
+            apiVersion: "2026-06-01",
+            nextLink: "nextLink",
+          }),
+        ),
+      ).annotate({ identifier: "ListMaccBySubscriptionRequest" });
   }
 }
 function __c98(j: number): any {
@@ -7642,37 +7955,22 @@ function __c98(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/subscriptions/{subscriptionId}/providers/Microsoft.BillingBenefits/maccs",
-            code: 200,
-            apiVersion: "2026-06-01",
-          }),
-        ),
-      ).annotate({ identifier: "ListMaccBySubscriptionRequest" });
-  }
-}
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           maccName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/maccs/{maccName}/transactions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListMaccTransactionByParentRequest" });
   }
 }
-function __c100(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7693,7 +7991,7 @@ function __c100(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          userAssignedIdentities: S.optional(__S(1601, __c100, 1)),
+          userAssignedIdentities: S.optional(__S(1585, __c99, 1)),
         }),
       ).annotate({ identifier: "ManagedServiceIdentityInput" });
     case 3:
@@ -7704,10 +8002,10 @@ function __c100(j: number): any {
           discountName: S.String.pipe(T.Label()),
           tags: S.optional(__S(16, __c1, 0)),
           location: S.String,
-          properties: S.optional(__S(1600, __c100, 0)),
+          properties: S.optional(__S(1584, __c99, 0)),
           managedBy: S.optional(S.String),
           kind: S.optional(S.String),
-          identity: S.optional(__S(1602, __c100, 2)),
+          identity: S.optional(__S(1586, __c99, 2)),
           sku: S.optional(__S(18, __c1, 2)),
           plan: S.optional(__S(19, __c1, 3)),
         }).pipe(
@@ -7741,16 +8039,19 @@ function __c100(j: number): any {
       ).annotate({ identifier: "CreateDiscountResponse" });
   }
 }
-function __c101(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.BillingBenefits/operations",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -7768,53 +8069,55 @@ function __c101(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           isDataAction: S.optional(S.Boolean),
-          display: S.optional(__S(1617, __c101, 1)),
+          display: S.optional(__S(1601, __c100, 1)),
           origin: S.optional(S.String),
           actionType: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
     case 3:
-      return S.Array(__S(1618, __c101, 2));
+      return S.Array(__S(1602, __c100, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1619, __c101, 3)),
+          value: __S(1603, __c100, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
 }
-function __c102(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           savingsPlanOrderId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.BillingBenefits/savingsPlanOrders/{savingsPlanOrderId}/savingsPlans",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSavingsPlanRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1648, __c103, 0),
+          value: __S(1632, __c102, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SavingsPlanModelList" });
   }
 }
-function __c103(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(864, __c54, 0));
   }
 }
-function __c104(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7825,12 +8128,14 @@ function __c104(j: number): any {
           _skiptoken: S.optional(S.Number.pipe(T.Query("$skiptoken"))),
           selectedState: S.optional(S.String.pipe(T.Query())),
           take: S.optional(S.Number.pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.BillingBenefits/savingsPlans",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSavingsPlanAllRequest" });
@@ -7852,31 +8157,34 @@ function __c104(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
-          value: S.optional(__S(1665, __c104, 1)),
+          value: S.optional(__S(1649, __c103, 1)),
         }),
       ).annotate({ identifier: "SavingsPlanSummary" });
     case 3:
-      return S.Array(__S(1666, __c104, 2));
+      return S.Array(__S(1650, __c103, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(1648, __c103, 0)),
+          value: __S(1632, __c102, 0),
           nextLink: S.optional(S.String),
-          additionalProperties: S.optional(__S(1667, __c104, 3)),
+          additionalProperties: S.optional(__S(1651, __c103, 3)),
         }),
       ).annotate({ identifier: "SavingsPlanModelListResult" });
   }
 }
-function __c105(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.BillingBenefits/savingsPlanOrders",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSavingsPlanOrderRequest" });
@@ -7885,13 +8193,13 @@ function __c105(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1681, __c105, 1),
+          value: __S(1665, __c104, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SavingsPlanOrderModelList" });
   }
 }
-function __c106(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7906,7 +8214,7 @@ function __c106(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1696, __c106, 0)),
+          properties: S.optional(__S(1680, __c105, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -7917,12 +8225,12 @@ function __c106(j: number): any {
         ),
       ).annotate({ identifier: "ListSellerResourceRequest" });
     case 2:
-      return S.suspend(() => __S(1552, __c97, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1536, __c96, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListSellerResourceResponse",
       });
   }
 }
-function __c107(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7930,12 +8238,14 @@ function __c107(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           creditName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.BillingBenefits/credits/{creditName}/sources",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSourceByCreditRequest" });
@@ -7944,31 +8254,33 @@ function __c107(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: __S(1713, __c107, 1),
+          value: __S(1697, __c106, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreditSourcesList" });
   }
 }
-function __c108(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.BillingBenefits/catalogGroups",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSubscriptionCatalogGroupsOpsRequest" });
   }
 }
-function __c109(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7988,7 +8300,7 @@ function __c109(j: number): any {
       ).annotate({ identifier: "MaccsChargeShortfallRequest" });
   }
 }
-function __c110(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8007,7 +8319,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "MaccsWriteOffRequest" });
   }
 }
-function __c111(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8035,12 +8347,12 @@ function __c111(j: number): any {
         S.Struct({
           id: S.optional(S.String),
           name: S.optional(S.String),
-          properties: S.optional(__S(1777, __c111, 1)),
+          properties: S.optional(__S(1761, __c110, 1)),
         }),
       ).annotate({ identifier: "RoleAssignmentEntity" });
   }
 }
-function __c112(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8062,7 +8374,7 @@ function __c112(j: number): any {
           freeServiceName: S.String.pipe(T.Label()),
           tags: S.optional(__S(16, __c1, 0)),
           location: S.String,
-          properties: S.optional(__S(1792, __c112, 0)),
+          properties: S.optional(__S(1776, __c111, 0)),
           managedBy: S.optional(S.String),
           kind: S.optional(S.String),
           identity: S.optional(__S(1089, __c68, 1)),
@@ -8086,7 +8398,7 @@ function __c112(j: number): any {
           systemData: S.optional(__S(32, __c2, 0)),
           tags: S.optional(__S(16, __c1, 0)),
           location: S.String,
-          properties: S.optional(__S(1808, __c113, 0)),
+          properties: S.optional(__S(1792, __c112, 0)),
           managedBy: S.optional(S.String),
           kind: S.optional(S.String),
           etag: S.optional(S.String),
@@ -8099,7 +8411,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "CreateFreeServiceResponse" });
   }
 }
-function __c113(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8120,16 +8432,16 @@ function __c113(j: number): any {
       ).annotate({ identifier: "FreeServicesProperties" });
   }
 }
-function __c114(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1843, __c115, 3));
+      return S.Array(__S(1827, __c114, 3));
     case 1:
       return S.suspend(() =>
         S.Struct({
           savingsPlanOrderId: S.String.pipe(T.Label()),
           savingsPlanId: S.String.pipe(T.Label()),
-          benefits: S.optional(__S(1824, __c114, 0)),
+          benefits: S.optional(__S(1808, __c113, 0)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8148,17 +8460,17 @@ function __c114(j: number): any {
         }),
       ).annotate({ identifier: "SavingsPlanValidResponseProperty" });
     case 3:
-      return S.Array(__S(1826, __c114, 2));
+      return S.Array(__S(1810, __c113, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          benefits: S.optional(__S(1827, __c114, 3)),
+          benefits: S.optional(__S(1811, __c113, 3)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SavingsPlanValidateResponse" });
   }
 }
-function __c115(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8171,20 +8483,20 @@ function __c115(j: number): any {
           commitment: S.optional(__S(144, __c9, 0)),
           renew: S.optional(S.Boolean),
           renewAction: S.optional(S.String),
-          appliedScopeProperties: S.optional(__S(2032, __c127, 0)),
+          appliedScopeProperties: S.optional(__S(2016, __c126, 0)),
         }),
       ).annotate({ identifier: "PurchaseRequestPropertiesInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sku: S.optional(__S(2016, __c126, 0)),
-          properties: S.optional(__S(1840, __c115, 0)),
+          sku: S.optional(__S(2000, __c125, 0)),
+          properties: S.optional(__S(1824, __c114, 0)),
         }),
       ).annotate({ identifier: "PurchaseRequestInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          purchaseProperties: S.optional(__S(1841, __c115, 1)),
+          purchaseProperties: S.optional(__S(1825, __c114, 1)),
         }),
       ).annotate({ identifier: "RenewPropertiesInput" });
     case 3:
@@ -8192,14 +8504,14 @@ function __c115(j: number): any {
         S.Struct({
           displayName: S.optional(S.String),
           appliedScopeType: S.optional(S.String),
-          appliedScopeProperties: S.optional(__S(2032, __c127, 0)),
+          appliedScopeProperties: S.optional(__S(2016, __c126, 0)),
           renew: S.optional(S.Boolean),
-          renewProperties: S.optional(__S(1842, __c115, 2)),
+          renewProperties: S.optional(__S(1826, __c114, 2)),
         }),
       ).annotate({ identifier: "SavingsPlanUpdateRequestPropertiesInput" });
   }
 }
-function __c116(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8218,18 +8530,18 @@ function __c116(j: number): any {
           status: S.optional(S.String),
           endAt: S.optional(S.String),
           spendTarget: S.optional(__S(64, __c4, 0)),
-          award: S.optional(__S(1856, __c116, 0)),
+          award: S.optional(__S(1840, __c115, 0)),
         }),
       ).annotate({ identifier: "ConditionalCreditMilestoneInput" });
     case 2:
-      return S.Array(__S(1857, __c116, 1));
+      return S.Array(__S(1841, __c115, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           displayName: S.optional(S.String),
           endAt: S.optional(S.String),
           allowContributors: S.optional(S.String),
-          milestones: S.optional(__S(1858, __c116, 2)),
+          milestones: S.optional(__S(1842, __c115, 2)),
         }),
       ).annotate({ identifier: "ConditionalCreditPatchRequestPropertiesInput" });
     case 4:
@@ -8238,7 +8550,7 @@ function __c116(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           conditionalCreditName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1859, __c116, 3)),
+          properties: S.optional(__S(1843, __c115, 3)),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({
@@ -8251,7 +8563,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "UpdateConditionalCreditRequest" });
   }
 }
-function __c117(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8268,7 +8580,7 @@ function __c117(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           creditName: S.String.pipe(T.Label()),
           tags: S.optional(__S(16, __c1, 0)),
-          properties: S.optional(__S(1872, __c117, 0)),
+          properties: S.optional(__S(1856, __c116, 0)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8280,7 +8592,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "UpdateCreditRequest" });
   }
 }
-function __c118(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8295,7 +8607,7 @@ function __c118(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           discountName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1888, __c118, 0)),
+          properties: S.optional(__S(1872, __c117, 0)),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({
@@ -8308,7 +8620,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "UpdateDiscountRequest" });
   }
 }
-function __c119(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8322,7 +8634,7 @@ function __c119(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           freeServiceName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1904, __c119, 0)),
+          properties: S.optional(__S(1888, __c118, 0)),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({
@@ -8342,7 +8654,7 @@ function __c119(j: number): any {
           systemData: S.optional(__S(32, __c2, 0)),
           tags: S.optional(__S(16, __c1, 0)),
           location: S.String,
-          properties: S.optional(__S(1808, __c113, 0)),
+          properties: S.optional(__S(1792, __c112, 0)),
           managedBy: S.optional(S.String),
           kind: S.optional(S.String),
           etag: S.optional(S.String),
@@ -8356,7 +8668,7 @@ function __c119(j: number): any {
       ).annotate({ identifier: "UpdateFreeServiceResponse" });
   }
 }
-function __c120(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8379,7 +8691,7 @@ function __c120(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           maccName: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1920, __c120, 0)),
+          properties: S.optional(__S(1904, __c119, 0)),
           tags: S.optional(__S(16, __c1, 0)),
         }).pipe(
           T.Http({
@@ -8392,14 +8704,14 @@ function __c120(j: number): any {
       ).annotate({ identifier: "UpdateMaccRequest" });
   }
 }
-function __c121(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           savingsPlanOrderId: S.String.pipe(T.Label()),
           savingsPlanId: S.String.pipe(T.Label()),
-          properties: S.optional(__S(1843, __c115, 3)),
+          properties: S.optional(__S(1827, __c114, 3)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -8417,13 +8729,13 @@ function __c121(j: number): any {
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c2, 0)),
           properties: S.optional(__S(886, __c55, 6)),
-          sku: __S(2016, __c126, 0),
+          sku: __S(2000, __c125, 0),
           location: S.optional(S.String.pipe(T.Header("Location"))),
         }),
       ).annotate({ identifier: "UpdateSavingsPlanResponse" });
   }
 }
-function __c122(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8444,7 +8756,7 @@ function __c122(j: number): any {
       ).annotate({ identifier: "UpdateSourceRequest" });
   }
 }
-function __c123(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8453,11 +8765,11 @@ function __c123(j: number): any {
         }),
       ).annotate({ identifier: "BenefitValidateModel" });
     case 1:
-      return S.Array(__S(1968, __c123, 0));
+      return S.Array(__S(1952, __c122, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          benefits: S.optional(__S(1969, __c123, 1)),
+          benefits: S.optional(__S(1953, __c122, 1)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -8477,17 +8789,17 @@ function __c123(j: number): any {
         }),
       ).annotate({ identifier: "BenefitValidateResponseProperty" });
     case 4:
-      return S.Array(__S(1971, __c123, 3));
+      return S.Array(__S(1955, __c122, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          benefits: S.optional(__S(1972, __c123, 4)),
+          benefits: S.optional(__S(1956, __c122, 4)),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "BenefitValidateResponse" });
   }
 }
-function __c124(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8521,7 +8833,7 @@ function __c124(j: number): any {
           maccName: S.String.pipe(T.Label()),
           tags: S.optional(__S(16, __c1, 0)),
           location: S.String,
-          properties: S.optional(__S(1984, __c124, 0)),
+          properties: S.optional(__S(1968, __c123, 0)),
           managedBy: S.optional(S.String),
           kind: S.optional(S.String),
           identity: S.optional(__S(1089, __c68, 1)),
@@ -8558,7 +8870,7 @@ function __c124(j: number): any {
       ).annotate({ identifier: "CreateMaccResponse" });
   }
 }
-function __c125(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8568,23 +8880,23 @@ function __c125(j: number): any {
           term: S.optional(S.String),
           billingPlan: S.optional(S.String),
           appliedScopeType: S.optional(S.String),
-          appliedScopeProperties: S.optional(__S(2032, __c127, 0)),
+          appliedScopeProperties: S.optional(__S(2016, __c126, 0)),
           quantity: S.optional(S.Number),
           renew: S.optional(S.Boolean),
           renewAction: S.optional(S.String),
           reservedResourceType: S.optional(S.String),
           reviewDateTime: S.optional(S.String),
           benefitStartTime: S.optional(S.String),
-          reservedResourceProperties: S.optional(__S(2048, __c128, 0)),
+          reservedResourceProperties: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "ReservationOrderAliasRequestProperties" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           reservationOrderAliasName: S.String.pipe(T.Label()),
-          sku: __S(2016, __c126, 0),
+          sku: __S(2000, __c125, 0),
           location: S.optional(S.String),
-          properties: S.optional(__S(2000, __c125, 0)),
+          properties: S.optional(__S(1984, __c124, 0)),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -8601,8 +8913,8 @@ function __c125(j: number): any {
           name: S.optional(S.String),
           type: S.optional(S.String),
           systemData: S.optional(__S(32, __c2, 0)),
-          properties: S.optional(__S(2049, __c128, 1)),
-          sku: __S(2016, __c126, 0),
+          properties: S.optional(__S(2033, __c127, 1)),
+          sku: __S(2000, __c125, 0),
           location: S.optional(S.String),
           azureAsyncOperation: S.optional(S.String.pipe(T.Header("Azure-AsyncOperation"))),
           retryAfter: S.optional(S.Number.pipe(T.Header("Retry-After"))),
@@ -8610,7 +8922,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "CreateReservationOrderAliasResponse" });
   }
 }
-function __c126(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8620,7 +8932,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "ResourceSku" });
   }
 }
-function __c127(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8635,7 +8947,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "AppliedScopeProperties" });
   }
 }
-function __c128(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8655,7 +8967,7 @@ function __c128(j: number): any {
           term: S.optional(S.String),
           billingPlan: S.optional(S.String),
           appliedScopeType: S.optional(S.String),
-          appliedScopeProperties: S.optional(__S(2032, __c127, 0)),
+          appliedScopeProperties: S.optional(__S(2016, __c126, 0)),
           quantity: S.optional(S.Number),
           renew: S.optional(S.Boolean),
           renewAction: S.optional(S.String),
@@ -8663,7 +8975,7 @@ function __c128(j: number): any {
           reservedResourceType: S.optional(S.String),
           reviewDateTime: S.optional(S.String),
           benefitStartTime: S.optional(S.String),
-          reservedResourceProperties: S.optional(__S(2048, __c128, 0)),
+          reservedResourceProperties: S.optional(__S(2032, __c127, 0)),
         }),
       ).annotate({ identifier: "ReservationOrderAliasResponseProperties" });
   }

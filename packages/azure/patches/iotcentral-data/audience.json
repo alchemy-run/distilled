@@ -1,0 +1,10 @@
+{
+  "description": "The spec declares no OAuth2 scope. IoT Central accepts Microsoft Entra ID tokens for the `https://apps.azureiotcentral.com` resource (Microsoft Learn: \"Authenticate and authorize IoT Central REST API calls\").",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.iotcentral_data#IotcentralData/traits/com.azure.protocols#audience",
+      "value": "https://apps.azureiotcentral.com/.default"
+    }
+  ]
+}

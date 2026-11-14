@@ -1,0 +1,68 @@
+{
+  "description": "The analyze-conversations task, its long-running tasks, their results, and conversations are polymorphic on `kind`/`modality`; the converted model keeps only the base members, so the request drops `analysisInput`/`parameters` and `conversationItems` on encode and the responses drop `result`/`results` on decode. Add them as untyped documents.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_language_analyze_conversations#AnalyzeConversationsRequest/members/analysisInput",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "The conversation item to analyze, e.g. `{ conversationItem: { id, participantId, text } }`.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_language_analyze_conversations#AnalyzeConversationsRequest/members/parameters",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Task parameters, e.g. `{ projectName, deploymentName, stringIndexType }` for a Conversation (CLU) task.",
+          "smithy.api#required": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_language_analyze_conversations#AnalyzeConversationTaskResult/members/result",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "The prediction for the conversation item: `{ query, prediction }`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_language_analyze_conversations#AnalyzeConversationLROTask/members/parameters",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Task parameters for `kind` (e.g. `{ summaryAspects }` for ConversationalSummarizationTask)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_language_analyze_conversations#AnalyzeConversationJobResult/members/results",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "Results of the task: `{ conversations, errors, modelVersion }`; each conversation's shape depends on `kind`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.cognitiveservices_language_analyze_conversations#Conversation/members/conversationItems",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "The conversation's items: `[{ id, participantId, text, role? }]` for text, `[{ id, participantId, itn, maskedItn, text, lexical, audioTimings? }]` for transcripts.",
+          "smithy.api#required": {}
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "description": "RequiredAction is polymorphic on `type` (SubmitToolOutputsAction `submit_tool_outputs`), but the converted model keeps only the discriminator, so a run's required tool calls are dropped. Add the subtype member.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.ai_agents#RequiredAction/members/submit_tool_outputs",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "For `type: \"submit_tool_outputs\"`: the tool calls the run waits for."
+        }
+      }
+    }
+  ]
+}

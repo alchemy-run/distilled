@@ -3346,6 +3346,8 @@ export interface ListArtifactByParentRequest {
   name: string;
   /** The name of the Image */
   imageName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Disconnected operations artifact resource. */
 export interface Artifact {
@@ -3374,6 +3376,8 @@ export interface ListConfigTemplateByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ConfigTemplateTagsMap = { [key: string]: string | undefined };
@@ -3408,6 +3412,8 @@ export interface ConfigTemplateListResult {
 export interface ListConfigTemplateBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListConfigTemplateMetadatasByConfigTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3416,6 +3422,8 @@ export interface ListConfigTemplateMetadatasByConfigTemplateRequest {
   resourceGroupName: string;
   /** The name of the ConfigTemplate */
   configTemplateName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** ConfigTemplateMetadata Resource */
 export interface ConfigTemplateMetadata {
@@ -3450,6 +3458,8 @@ export interface ListConfigTemplateSchemaByConfigTemplateVersionRequest {
   configTemplateName: string;
   /** The name of the ConfigTemplateVersion */
   configTemplateVersionName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** SolutionSchema Resource */
 export interface ConfigTemplateSchema {
@@ -3482,6 +3492,8 @@ export interface ListConfigTemplateVersionByConfigTemplateRequest {
   resourceGroupName: string;
   /** The name of the ConfigTemplate */
   configTemplateName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Config Template Version Resource */
 export interface ConfigTemplateVersion {
@@ -3512,6 +3524,8 @@ export interface ListConfigurationByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ConfigurationTagsMap = { [key: string]: string | undefined };
@@ -3544,10 +3558,14 @@ export interface ConfigurationListResult {
 export interface ListConfigurationBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListConfigurationReferencesRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** ConfigurationReference Resource */
 export interface ConfigurationReference {
@@ -3576,6 +3594,8 @@ export interface ListContextByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ContextTagsMap = { [key: string]: string | undefined };
@@ -3608,12 +3628,16 @@ export interface ContextListResult {
 export interface ListContextBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDiagnosticByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DiagnosticTagsMap = { [key: string]: string | undefined };
@@ -3650,12 +3674,16 @@ export interface DiagnosticListResult {
 export interface ListDiagnosticBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDisconnectedOperationByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type DisconnectedOperationTagsMap = { [key: string]: string | undefined };
@@ -3688,6 +3716,8 @@ export interface DisconnectedOperationListResult {
 export interface ListDisconnectedOperationBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDisconnectedOperationDeploymentManifestRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -3725,6 +3755,8 @@ export interface ListDynamicConfigurationByConfigurationRequest {
   resourceGroupName: string;
   /** Name of the Configuration */
   configurationName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Dynamic Configuration Resource */
 export interface DynamicConfiguration {
@@ -3757,6 +3789,8 @@ export interface ListDynamicConfigurationVersionByDynamicConfigurationRequest {
   configurationName: string;
   /** Name of the dynamic configuration */
   dynamicConfigurationName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Dynamic Configuration Resource */
 export interface DynamicConfigurationVersion {
@@ -3787,6 +3821,8 @@ export interface ListDynamicSchemaBySchemaRequest {
   resourceGroupName: string;
   /** The name of the Schema */
   schemaName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** DynamicSchema Resource */
 export interface DynamicSchema {
@@ -3821,6 +3857,8 @@ export interface ListDynamicSchemaVersionByDynamicSchemaRequest {
   schemaName: string;
   /** The name of the DynamicSchema */
   dynamicSchemaName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Dynamic Schema Version Resource */
 export interface DynamicSchemaVersion {
@@ -3857,6 +3895,8 @@ export interface ListExecutionByWorkflowVersionRequest {
   workflowName: string;
   /** The name of the workflowVersion. */
   versionName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Execution Resource */
 export interface Execution {
@@ -3891,6 +3931,8 @@ export interface ListHardwareSettingsByParentRequest {
   resourceGroupName: string;
   /** Name of the resource */
   name: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Hardware settings resource. */
 export interface HardwareSetting {
@@ -3917,6 +3959,8 @@ export interface HardwareSettingListResult {
 export interface ListHierarchyConfigurationMetadatasByParentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Hierarchy Configuration Metadata Resource attached to a Target or Site */
 export interface HierarchyConfigurationMetadata {
@@ -3946,6 +3990,8 @@ export interface ListHierarchyConfigurationMetadataVersionByParentRequest {
   resourceUri: string;
   /** Name of the hierarchy configuration metadata */
   hierarchyConfigurationMetadataName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Configuration Metadata Version Resource */
 export interface HierarchyConfigurationMetadataVersion {
@@ -3983,6 +4029,8 @@ export interface ListImageByDisconnectedOperationRequest {
   _top?: number | undefined;
   /** The number of result items to skip. */
   _skip?: number | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Holds the release information of a disconnected operations image. */
 export interface Image {
@@ -4015,6 +4063,8 @@ export interface ListInstanceBySolutionRequest {
   targetName: string;
   /** Name of the solution */
   solutionName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Instance Resource. Represents a deployment object. */
 export interface Instance {
@@ -4053,6 +4103,8 @@ export interface ListInstanceHistoryByInstanceRequest {
   solutionName: string;
   /** Name of the instance */
   instanceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** InstanceHistory Resource */
 export interface InstanceHistory {
@@ -4083,6 +4135,8 @@ export interface InstanceHistoryListResult {
 export interface ListJobByTargetRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Job extension resource for tracking job execution and substatuses. */
 export interface Job {
@@ -4108,7 +4162,10 @@ export interface JobListResult {
   /** The link to the next page of items */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -4141,7 +4198,7 @@ export interface Operation {
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList | undefined;
+  value: ListOperationsResponseValueList;
   /** URL to get the next set of operation list results (if there are any). */
   nextLink?: string | undefined;
 }
@@ -4150,6 +4207,8 @@ export interface ListSchemaByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SchemaTagsMap = { [key: string]: string | undefined };
@@ -4184,10 +4243,14 @@ export interface SchemaListResult {
 export interface ListSchemaBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSchemaReferenceByResourceGroupRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Schema Reference Resource */
 export interface SchemaReference {
@@ -4220,6 +4283,8 @@ export interface ListSchemaVersionBySchemaRequest {
   resourceGroupName: string;
   /** The name of the Schema */
   schemaName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Schema Version Resource */
 export type SchemaVersion = DynamicSchemaVersion;
@@ -4237,6 +4302,8 @@ export interface ListSiteByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Site as Extension Resource */
 export interface Site {
@@ -4267,6 +4334,8 @@ export interface ListSiteReferenceByContextRequest {
   resourceGroupName: string;
   /** The name of the Context. */
   contextName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Site Reference Resource */
 export interface SiteReference {
@@ -4293,10 +4362,14 @@ export interface SiteReferenceListResult {
 export interface ListSitesByServiceGroupByServiceGroupRequest {
   /** The name of the service group */
   servicegroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSitesBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSolutionByTargetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4305,6 +4378,8 @@ export interface ListSolutionByTargetRequest {
   resourceGroupName: string;
   /** Name of the target */
   targetName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Solution Resource attached to a Target */
 export interface Solution {
@@ -4335,6 +4410,8 @@ export interface SolutionListResult {
 export interface ListSolutionMetadatasByParentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   resourceUri: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Solution Metadata Resource attached to a Target or Site */
 export interface SolutionMetadata {
@@ -4363,6 +4440,8 @@ export interface ListSolutionMetadataVersionByParentRequest {
   resourceUri: string;
   /** Name of the solution metadata */
   solutionMetadataName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Solution Metadata Version Resource */
 export interface SolutionMetadataVersion {
@@ -4395,6 +4474,8 @@ export interface ListSolutionSchemaBySolutionTemplateVersionRequest {
   solutionTemplateName: string;
   /** The name of the SolutionTemplateVersion */
   solutionTemplateVersionName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** SolutionSchema Resource */
 export interface SolutionSchema {
@@ -4425,6 +4506,8 @@ export interface ListSolutionTemplateByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type SolutionTemplateTagsMap = { [key: string]: string | undefined };
@@ -4459,6 +4542,8 @@ export interface SolutionTemplateListResult {
 export interface ListSolutionTemplateBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListSolutionTemplateVersionBySolutionTemplateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4467,6 +4552,8 @@ export interface ListSolutionTemplateVersionBySolutionTemplateRequest {
   resourceGroupName: string;
   /** The name of the SolutionTemplate */
   solutionTemplateName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Solution Template Version Resource. Contains configurations that use expressions which can be resolved hierarchically along with edge specifications. */
 export interface SolutionTemplateVersion {
@@ -4501,6 +4588,8 @@ export interface ListSolutionVersionBySolutionRequest {
   targetName: string;
   /** Name of the solution */
   solutionName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Solution Version Resource. It has the resolved configuration along with edge specification. */
 export interface SolutionVersion {
@@ -4533,6 +4622,8 @@ export interface ListTargetByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type TargetTagsMap = { [key: string]: string | undefined };
@@ -4569,6 +4660,8 @@ export interface TargetListResult {
 export interface ListTargetBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListWorkflowByContextRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -4577,6 +4670,8 @@ export interface ListWorkflowByContextRequest {
   resourceGroupName: string;
   /** The name of the Context. */
   contextName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Workflow Resource */
 export interface Workflow {
@@ -4613,6 +4708,8 @@ export interface ListWorkflowVersionByWorkflowRequest {
   contextName: string;
   /** Name of the workflow */
   workflowName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Workflow Version Resource */
 export interface WorkflowVersion {
@@ -8155,12 +8252,13 @@ export const InstancesCreateOrUpdate: API.OperationMethod<
 
 export type ListArtifactByParentError = AzureOpError;
 /** List by parent */
-export const ListArtifactByParent: API.OperationMethod<
+export const ListArtifactByParent: API.PaginatedOperationMethod<
   ListArtifactByParentRequest,
   ArtifactListResult,
   ListArtifactByParentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Artifact
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2232, __c279, 0) as any as S.Schema<ListArtifactByParentRequest>,
   output: __S(2234, __c279, 2) as any as S.Schema<ArtifactListResult>,
   errors: [UnknownAzureError],
@@ -8168,16 +8266,23 @@ export const ListArtifactByParent: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListArtifactByParent",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigTemplateByResourceGroupError = AzureOpError;
 /** List by specified resource group */
-export const ListConfigTemplateByResourceGroup: API.OperationMethod<
+export const ListConfigTemplateByResourceGroup: API.PaginatedOperationMethod<
   ListConfigTemplateByResourceGroupRequest,
   ConfigTemplateListResult,
   ListConfigTemplateByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigTemplate
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c280, 0) as any as S.Schema<ListConfigTemplateByResourceGroupRequest>,
   output: __S(2249, __c281, 1) as any as S.Schema<ConfigTemplateListResult>,
   errors: [UnknownAzureError],
@@ -8185,16 +8290,23 @@ export const ListConfigTemplateByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigTemplateByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigTemplateBySubscriptionError = AzureOpError;
 /** List by subscription */
-export const ListConfigTemplateBySubscription: API.OperationMethod<
+export const ListConfigTemplateBySubscription: API.PaginatedOperationMethod<
   ListConfigTemplateBySubscriptionRequest,
   ConfigTemplateListResult,
   ListConfigTemplateBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigTemplate
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2256, __c282, 0) as any as S.Schema<ListConfigTemplateBySubscriptionRequest>,
   output: __S(2249, __c281, 1) as any as S.Schema<ConfigTemplateListResult>,
   errors: [UnknownAzureError],
@@ -8202,16 +8314,23 @@ export const ListConfigTemplateBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigTemplateBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigTemplateMetadatasByConfigTemplateError = AzureOpError;
 /** List by ConfigTemplate */
-export const ListConfigTemplateMetadatasByConfigTemplate: API.OperationMethod<
+export const ListConfigTemplateMetadatasByConfigTemplate: API.PaginatedOperationMethod<
   ListConfigTemplateMetadatasByConfigTemplateRequest,
   ConfigTemplateMetadataListResult,
   ListConfigTemplateMetadatasByConfigTemplateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigTemplateMetadata
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     2264,
     __c283,
@@ -8223,16 +8342,23 @@ export const ListConfigTemplateMetadatasByConfigTemplate: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigTemplateMetadatasByConfigTemplate",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigTemplateSchemaByConfigTemplateVersionError = AzureOpError;
 /** List by ConfigTemplateVersion */
-export const ListConfigTemplateSchemaByConfigTemplateVersion: API.OperationMethod<
+export const ListConfigTemplateSchemaByConfigTemplateVersion: API.PaginatedOperationMethod<
   ListConfigTemplateSchemaByConfigTemplateVersionRequest,
   ConfigTemplateSchemaListResult,
   ListConfigTemplateSchemaByConfigTemplateVersionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigTemplateSchema
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     2272,
     __c284,
@@ -8244,16 +8370,23 @@ export const ListConfigTemplateSchemaByConfigTemplateVersion: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigTemplateSchemaByConfigTemplateVersion",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigTemplateVersionByConfigTemplateError = AzureOpError;
 /** List Config Template Version Resources */
-export const ListConfigTemplateVersionByConfigTemplate: API.OperationMethod<
+export const ListConfigTemplateVersionByConfigTemplate: API.PaginatedOperationMethod<
   ListConfigTemplateVersionByConfigTemplateRequest,
   ConfigTemplateVersionListResult,
   ListConfigTemplateVersionByConfigTemplateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigTemplateVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2280, __c285, 0) as any as S.Schema<ListConfigTemplateVersionByConfigTemplateRequest>,
   output: __S(2282, __c285, 2) as any as S.Schema<ConfigTemplateVersionListResult>,
   errors: [UnknownAzureError],
@@ -8261,16 +8394,23 @@ export const ListConfigTemplateVersionByConfigTemplate: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigTemplateVersionByConfigTemplate",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigurationByResourceGroupError = AzureOpError;
 /** List by specified resource group */
-export const ListConfigurationByResourceGroup: API.OperationMethod<
+export const ListConfigurationByResourceGroup: API.PaginatedOperationMethod<
   ListConfigurationByResourceGroupRequest,
   ConfigurationListResult,
   ListConfigurationByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Configuration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2288, __c286, 0) as any as S.Schema<ListConfigurationByResourceGroupRequest>,
   output: __S(2297, __c287, 1) as any as S.Schema<ConfigurationListResult>,
   errors: [UnknownAzureError],
@@ -8278,16 +8418,23 @@ export const ListConfigurationByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigurationByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigurationBySubscriptionError = AzureOpError;
 /** List by subscription */
-export const ListConfigurationBySubscription: API.OperationMethod<
+export const ListConfigurationBySubscription: API.PaginatedOperationMethod<
   ListConfigurationBySubscriptionRequest,
   ConfigurationListResult,
   ListConfigurationBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Configuration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2304, __c288, 0) as any as S.Schema<ListConfigurationBySubscriptionRequest>,
   output: __S(2297, __c287, 1) as any as S.Schema<ConfigurationListResult>,
   errors: [UnknownAzureError],
@@ -8295,16 +8442,23 @@ export const ListConfigurationBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigurationBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigurationReferencesError = AzureOpError;
 /** List ConfigurationReference resources by parent */
-export const ListConfigurationReferences: API.OperationMethod<
+export const ListConfigurationReferences: API.PaginatedOperationMethod<
   ListConfigurationReferencesRequest,
   ConfigurationReferenceListResult,
   ListConfigurationReferencesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigurationReference
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ListConfigurationReferencesRequest>,
   output: __S(42, __c5, 2) as any as S.Schema<ConfigurationReferenceListResult>,
   errors: [UnknownAzureError],
@@ -8317,16 +8471,23 @@ export const ListConfigurationReferences: API.OperationMethod<
       "url.template": "/{resourceUri}/providers/Microsoft.Edge/configurationReferences",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListContextByResourceGroupError = AzureOpError;
 /** List by specified resource group */
-export const ListContextByResourceGroup: API.OperationMethod<
+export const ListContextByResourceGroup: API.PaginatedOperationMethod<
   ListContextByResourceGroupRequest,
   ContextListResult,
   ListContextByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Context
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(48, __c6, 0) as any as S.Schema<ListContextByResourceGroupRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<ContextListResult>,
   errors: [UnknownAzureError],
@@ -8334,16 +8495,23 @@ export const ListContextByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListContextByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListContextBySubscriptionError = AzureOpError;
 /** List by subscription */
-export const ListContextBySubscription: API.OperationMethod<
+export const ListContextBySubscription: API.PaginatedOperationMethod<
   ListContextBySubscriptionRequest,
   ContextListResult,
   ListContextBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Context
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c8, 0) as any as S.Schema<ListContextBySubscriptionRequest>,
   output: __S(57, __c7, 1) as any as S.Schema<ContextListResult>,
   errors: [UnknownAzureError],
@@ -8351,16 +8519,23 @@ export const ListContextBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListContextBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDiagnosticByResourceGroupError = AzureOpError;
 /** Returns a collection of Diagnostic resources within the resource group. */
-export const ListDiagnosticByResourceGroup: API.OperationMethod<
+export const ListDiagnosticByResourceGroup: API.PaginatedOperationMethod<
   ListDiagnosticByResourceGroupRequest,
   DiagnosticListResult,
   ListDiagnosticByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Diagnostic
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(72, __c9, 0) as any as S.Schema<ListDiagnosticByResourceGroupRequest>,
   output: __S(81, __c10, 1) as any as S.Schema<DiagnosticListResult>,
   errors: [UnknownAzureError],
@@ -8368,16 +8543,23 @@ export const ListDiagnosticByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDiagnosticByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDiagnosticBySubscriptionError = AzureOpError;
 /** Lists Diagnostics resources within an Azure subscription. */
-export const ListDiagnosticBySubscription: API.OperationMethod<
+export const ListDiagnosticBySubscription: API.PaginatedOperationMethod<
   ListDiagnosticBySubscriptionRequest,
   DiagnosticListResult,
   ListDiagnosticBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Diagnostic
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(88, __c11, 0) as any as S.Schema<ListDiagnosticBySubscriptionRequest>,
   output: __S(81, __c10, 1) as any as S.Schema<DiagnosticListResult>,
   errors: [UnknownAzureError],
@@ -8385,16 +8567,23 @@ export const ListDiagnosticBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDiagnosticBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDisconnectedOperationByResourceGroupError = AzureOpError;
 /** List DisconnectedOperation resources by resource group */
-export const ListDisconnectedOperationByResourceGroup: API.OperationMethod<
+export const ListDisconnectedOperationByResourceGroup: API.PaginatedOperationMethod<
   ListDisconnectedOperationByResourceGroupRequest,
   DisconnectedOperationListResult,
   ListDisconnectedOperationByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DisconnectedOperation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(96, __c12, 0) as any as S.Schema<ListDisconnectedOperationByResourceGroupRequest>,
   output: __S(105, __c13, 1) as any as S.Schema<DisconnectedOperationListResult>,
   errors: [UnknownAzureError],
@@ -8402,16 +8591,23 @@ export const ListDisconnectedOperationByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDisconnectedOperationByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDisconnectedOperationBySubscriptionError = AzureOpError;
 /** List DisconnectedOperation resources by subscription ID */
-export const ListDisconnectedOperationBySubscription: API.OperationMethod<
+export const ListDisconnectedOperationBySubscription: API.PaginatedOperationMethod<
   ListDisconnectedOperationBySubscriptionRequest,
   DisconnectedOperationListResult,
   ListDisconnectedOperationBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DisconnectedOperation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(112, __c14, 0) as any as S.Schema<ListDisconnectedOperationBySubscriptionRequest>,
   output: __S(105, __c13, 1) as any as S.Schema<DisconnectedOperationListResult>,
   errors: [UnknownAzureError],
@@ -8419,7 +8615,13 @@ export const ListDisconnectedOperationBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDisconnectedOperationBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDisconnectedOperationDeploymentManifestError = AzureOpError;
 /** get deployment manifest. */
@@ -8440,12 +8642,13 @@ export const ListDisconnectedOperationDeploymentManifest: API.OperationMethod<
 
 export type ListDynamicConfigurationByConfigurationError = AzureOpError;
 /** List Dynamic Configuration Resources */
-export const ListDynamicConfigurationByConfiguration: API.OperationMethod<
+export const ListDynamicConfigurationByConfiguration: API.PaginatedOperationMethod<
   ListDynamicConfigurationByConfigurationRequest,
   DynamicConfigurationListResult,
   ListDynamicConfigurationByConfigurationError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DynamicConfiguration
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c16, 0) as any as S.Schema<ListDynamicConfigurationByConfigurationRequest>,
   output: __S(130, __c16, 2) as any as S.Schema<DynamicConfigurationListResult>,
   errors: [UnknownAzureError],
@@ -8453,16 +8656,23 @@ export const ListDynamicConfigurationByConfiguration: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDynamicConfigurationByConfiguration",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDynamicConfigurationVersionByDynamicConfigurationError = AzureOpError;
 /** List Dynamic Configuration Version Resource */
-export const ListDynamicConfigurationVersionByDynamicConfiguration: API.OperationMethod<
+export const ListDynamicConfigurationVersionByDynamicConfiguration: API.PaginatedOperationMethod<
   ListDynamicConfigurationVersionByDynamicConfigurationRequest,
   DynamicConfigurationVersionListResult,
   ListDynamicConfigurationVersionByDynamicConfigurationError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DynamicConfigurationVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     136,
     __c17,
@@ -8474,16 +8684,23 @@ export const ListDynamicConfigurationVersionByDynamicConfiguration: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDynamicConfigurationVersionByDynamicConfiguration",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDynamicSchemaBySchemaError = AzureOpError;
 /** List by Schema */
-export const ListDynamicSchemaBySchema: API.OperationMethod<
+export const ListDynamicSchemaBySchema: API.PaginatedOperationMethod<
   ListDynamicSchemaBySchemaRequest,
   DynamicSchemaListResult,
   ListDynamicSchemaBySchemaError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DynamicSchema
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(168, __c21, 0) as any as S.Schema<ListDynamicSchemaBySchemaRequest>,
   output: __S(170, __c21, 2) as any as S.Schema<DynamicSchemaListResult>,
   errors: [UnknownAzureError],
@@ -8491,16 +8708,23 @@ export const ListDynamicSchemaBySchema: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDynamicSchemaBySchema",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDynamicSchemaVersionByDynamicSchemaError = AzureOpError;
 /** List by Dynamic Schema */
-export const ListDynamicSchemaVersionByDynamicSchema: API.OperationMethod<
+export const ListDynamicSchemaVersionByDynamicSchema: API.PaginatedOperationMethod<
   ListDynamicSchemaVersionByDynamicSchemaRequest,
   DynamicSchemaVersionListResult,
   ListDynamicSchemaVersionByDynamicSchemaError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DynamicSchemaVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(176, __c22, 0) as any as S.Schema<ListDynamicSchemaVersionByDynamicSchemaRequest>,
   output: __S(185, __c23, 1) as any as S.Schema<DynamicSchemaVersionListResult>,
   errors: [UnknownAzureError],
@@ -8508,16 +8732,23 @@ export const ListDynamicSchemaVersionByDynamicSchema: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDynamicSchemaVersionByDynamicSchema",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListExecutionByWorkflowVersionError = AzureOpError;
 /** List Execution Resources */
-export const ListExecutionByWorkflowVersion: API.OperationMethod<
+export const ListExecutionByWorkflowVersion: API.PaginatedOperationMethod<
   ListExecutionByWorkflowVersionRequest,
   ExecutionListResult,
   ListExecutionByWorkflowVersionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Execution
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c24, 0) as any as S.Schema<ListExecutionByWorkflowVersionRequest>,
   output: __S(194, __c24, 2) as any as S.Schema<ExecutionListResult>,
   errors: [UnknownAzureError],
@@ -8525,16 +8756,23 @@ export const ListExecutionByWorkflowVersion: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListExecutionByWorkflowVersion",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHardwareSettingsByParentError = AzureOpError;
 /** List by parent */
-export const ListHardwareSettingsByParent: API.OperationMethod<
+export const ListHardwareSettingsByParent: API.PaginatedOperationMethod<
   ListHardwareSettingsByParentRequest,
   HardwareSettingListResult,
   ListHardwareSettingsByParentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HardwareSetting
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(200, __c25, 0) as any as S.Schema<ListHardwareSettingsByParentRequest>,
   output: __S(202, __c25, 2) as any as S.Schema<HardwareSettingListResult>,
   errors: [UnknownAzureError],
@@ -8542,16 +8780,23 @@ export const ListHardwareSettingsByParent: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHardwareSettingsByParent",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHierarchyConfigurationMetadatasByParentError = AzureOpError;
 /** List Solution resources */
-export const ListHierarchyConfigurationMetadatasByParent: API.OperationMethod<
+export const ListHierarchyConfigurationMetadatasByParent: API.PaginatedOperationMethod<
   ListHierarchyConfigurationMetadatasByParentRequest,
   HierarchyConfigurationMetadataListResult,
   ListHierarchyConfigurationMetadatasByParentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HierarchyConfigurationMetadata
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(208, __c26, 0) as any as S.Schema<ListHierarchyConfigurationMetadatasByParentRequest>,
   output: __S(210, __c26, 2) as any as S.Schema<HierarchyConfigurationMetadataListResult>,
   errors: [UnknownAzureError],
@@ -8564,16 +8809,23 @@ export const ListHierarchyConfigurationMetadatasByParent: API.OperationMethod<
       "url.template": "/{resourceUri}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListHierarchyConfigurationMetadataVersionByParentError = AzureOpError;
 /** List Hierarchy Configuration Metadata Version resources */
-export const ListHierarchyConfigurationMetadataVersionByParent: API.OperationMethod<
+export const ListHierarchyConfigurationMetadataVersionByParent: API.PaginatedOperationMethod<
   ListHierarchyConfigurationMetadataVersionByParentRequest,
   HierarchyConfigurationMetadataVersionListResult,
   ListHierarchyConfigurationMetadataVersionByParentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  HierarchyConfigurationMetadataVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     216,
     __c27,
@@ -8591,16 +8843,23 @@ export const ListHierarchyConfigurationMetadataVersionByParent: API.OperationMet
         "/{resourceUri}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}/versions",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListImageByDisconnectedOperationError = AzureOpError;
 /** List by disconnected operation. */
-export const ListImageByDisconnectedOperation: API.OperationMethod<
+export const ListImageByDisconnectedOperation: API.PaginatedOperationMethod<
   ListImageByDisconnectedOperationRequest,
   ImageListResult,
   ListImageByDisconnectedOperationError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Image
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c28, 0) as any as S.Schema<ListImageByDisconnectedOperationRequest>,
   output: __S(226, __c28, 2) as any as S.Schema<ImageListResult>,
   errors: [UnknownAzureError],
@@ -8608,16 +8867,23 @@ export const ListImageByDisconnectedOperation: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListImageByDisconnectedOperation",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListInstanceBySolutionError = AzureOpError;
 /** List Instance Resources */
-export const ListInstanceBySolution: API.OperationMethod<
+export const ListInstanceBySolution: API.PaginatedOperationMethod<
   ListInstanceBySolutionRequest,
   InstanceListResult,
   ListInstanceBySolutionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Instance
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(232, __c29, 0) as any as S.Schema<ListInstanceBySolutionRequest>,
   output: __S(234, __c29, 2) as any as S.Schema<InstanceListResult>,
   errors: [UnknownAzureError],
@@ -8625,16 +8891,23 @@ export const ListInstanceBySolution: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInstanceBySolution",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListInstanceHistoryByInstanceError = AzureOpError;
 /** List InstanceHistory Resources */
-export const ListInstanceHistoryByInstance: API.OperationMethod<
+export const ListInstanceHistoryByInstance: API.PaginatedOperationMethod<
   ListInstanceHistoryByInstanceRequest,
   InstanceHistoryListResult,
   ListInstanceHistoryByInstanceError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  InstanceHistory
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(240, __c30, 0) as any as S.Schema<ListInstanceHistoryByInstanceRequest>,
   output: __S(242, __c30, 2) as any as S.Schema<InstanceHistoryListResult>,
   errors: [UnknownAzureError],
@@ -8642,16 +8915,23 @@ export const ListInstanceHistoryByInstance: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInstanceHistoryByInstance",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobByTargetError = AzureOpError;
 /** List Jobs by parent resource */
-export const ListJobByTarget: API.OperationMethod<
+export const ListJobByTarget: API.PaginatedOperationMethod<
   ListJobByTargetRequest,
   JobListResult,
   ListJobByTargetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Job
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(248, __c31, 0) as any as S.Schema<ListJobByTargetRequest>,
   output: __S(250, __c31, 2) as any as S.Schema<JobListResult>,
   errors: [UnknownAzureError],
@@ -8662,16 +8942,23 @@ export const ListJobByTarget: API.OperationMethod<
     op: "ListJobByTarget",
     attributes: { "url.template": "/{resourceUri}/providers/Microsoft.Edge/jobs" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   ListOperationsResponse,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c36, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(292, __c36, 4) as any as S.Schema<ListOperationsResponse>,
   errors: [UnknownAzureError],
@@ -8679,16 +8966,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSchemaByResourceGroupError = AzureOpError;
 /** List by specified resource group */
-export const ListSchemaByResourceGroup: API.OperationMethod<
+export const ListSchemaByResourceGroup: API.PaginatedOperationMethod<
   ListSchemaByResourceGroupRequest,
   SchemaListResult,
   ListSchemaByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Schema
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(296, __c37, 0) as any as S.Schema<ListSchemaByResourceGroupRequest>,
   output: __S(306, __c38, 2) as any as S.Schema<SchemaListResult>,
   errors: [UnknownAzureError],
@@ -8696,16 +8990,23 @@ export const ListSchemaByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSchemaByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSchemaBySubscriptionError = AzureOpError;
 /** List by subscription */
-export const ListSchemaBySubscription: API.OperationMethod<
+export const ListSchemaBySubscription: API.PaginatedOperationMethod<
   ListSchemaBySubscriptionRequest,
   SchemaListResult,
   ListSchemaBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Schema
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(312, __c39, 0) as any as S.Schema<ListSchemaBySubscriptionRequest>,
   output: __S(306, __c38, 2) as any as S.Schema<SchemaListResult>,
   errors: [UnknownAzureError],
@@ -8713,16 +9014,23 @@ export const ListSchemaBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSchemaBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSchemaReferenceByResourceGroupError = AzureOpError;
 /** List by specified resource group */
-export const ListSchemaReferenceByResourceGroup: API.OperationMethod<
+export const ListSchemaReferenceByResourceGroup: API.PaginatedOperationMethod<
   ListSchemaReferenceByResourceGroupRequest,
   SchemaReferenceListResult,
   ListSchemaReferenceByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SchemaReference
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c40, 0) as any as S.Schema<ListSchemaReferenceByResourceGroupRequest>,
   output: __S(322, __c40, 2) as any as S.Schema<SchemaReferenceListResult>,
   errors: [UnknownAzureError],
@@ -8733,16 +9041,23 @@ export const ListSchemaReferenceByResourceGroup: API.OperationMethod<
     op: "ListSchemaReferenceByResourceGroup",
     attributes: { "url.template": "/{resourceUri}/providers/Microsoft.Edge/schemaReferences" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSchemaVersionBySchemaError = AzureOpError;
 /** List by specified resource group */
-export const ListSchemaVersionBySchema: API.OperationMethod<
+export const ListSchemaVersionBySchema: API.PaginatedOperationMethod<
   ListSchemaVersionBySchemaRequest,
   SchemaVersionListResult,
   ListSchemaVersionBySchemaError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DynamicSchemaVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(328, __c41, 0) as any as S.Schema<ListSchemaVersionBySchemaRequest>,
   output: __S(185, __c23, 1) as any as S.Schema<SchemaVersionListResult>,
   errors: [UnknownAzureError],
@@ -8750,16 +9065,23 @@ export const ListSchemaVersionBySchema: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSchemaVersionBySchema",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSiteByResourceGroupError = AzureOpError;
 /** List Site resources by scope */
-export const ListSiteByResourceGroup: API.OperationMethod<
+export const ListSiteByResourceGroup: API.PaginatedOperationMethod<
   ListSiteByResourceGroupRequest,
   SiteListResult,
   ListSiteByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Site
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c42, 0) as any as S.Schema<ListSiteByResourceGroupRequest>,
   output: __S(345, __c43, 1) as any as S.Schema<SiteListResult>,
   errors: [UnknownAzureError],
@@ -8767,16 +9089,23 @@ export const ListSiteByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSiteByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSiteReferenceByContextError = AzureOpError;
 /** List Site Reference Resources */
-export const ListSiteReferenceByContext: API.OperationMethod<
+export const ListSiteReferenceByContext: API.PaginatedOperationMethod<
   ListSiteReferenceByContextRequest,
   SiteReferenceListResult,
   ListSiteReferenceByContextError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SiteReference
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c44, 0) as any as S.Schema<ListSiteReferenceByContextRequest>,
   output: __S(354, __c44, 2) as any as S.Schema<SiteReferenceListResult>,
   errors: [UnknownAzureError],
@@ -8784,16 +9113,23 @@ export const ListSiteReferenceByContext: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSiteReferenceByContext",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSitesByServiceGroupByServiceGroupError = AzureOpError;
 /** List Site resources by scope */
-export const ListSitesByServiceGroupByServiceGroup: API.OperationMethod<
+export const ListSitesByServiceGroupByServiceGroup: API.PaginatedOperationMethod<
   ListSitesByServiceGroupByServiceGroupRequest,
   SiteListResult,
   ListSitesByServiceGroupByServiceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Site
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(360, __c45, 0) as any as S.Schema<ListSitesByServiceGroupByServiceGroupRequest>,
   output: __S(345, __c43, 1) as any as S.Schema<SiteListResult>,
   errors: [UnknownAzureError],
@@ -8801,16 +9137,23 @@ export const ListSitesByServiceGroupByServiceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSitesByServiceGroupByServiceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSitesBySubscriptionError = AzureOpError;
 /** List Site resources by scope */
-export const ListSitesBySubscription: API.OperationMethod<
+export const ListSitesBySubscription: API.PaginatedOperationMethod<
   ListSitesBySubscriptionRequest,
   SiteListResult,
   ListSitesBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Site
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(368, __c46, 0) as any as S.Schema<ListSitesBySubscriptionRequest>,
   output: __S(345, __c43, 1) as any as S.Schema<SiteListResult>,
   errors: [UnknownAzureError],
@@ -8818,16 +9161,23 @@ export const ListSitesBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSitesBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSolutionByTargetError = AzureOpError;
 /** List Solution resources */
-export const ListSolutionByTarget: API.OperationMethod<
+export const ListSolutionByTarget: API.PaginatedOperationMethod<
   ListSolutionByTargetRequest,
   SolutionListResult,
   ListSolutionByTargetError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Solution
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(376, __c47, 0) as any as S.Schema<ListSolutionByTargetRequest>,
   output: __S(378, __c47, 2) as any as S.Schema<SolutionListResult>,
   errors: [UnknownAzureError],
@@ -8835,16 +9185,23 @@ export const ListSolutionByTarget: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSolutionByTarget",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSolutionMetadatasByParentError = AzureOpError;
 /** List Solution resources */
-export const ListSolutionMetadatasByParent: API.OperationMethod<
+export const ListSolutionMetadatasByParent: API.PaginatedOperationMethod<
   ListSolutionMetadatasByParentRequest,
   SolutionMetadataListResult,
   ListSolutionMetadatasByParentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SolutionMetadata
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(392, __c49, 0) as any as S.Schema<ListSolutionMetadatasByParentRequest>,
   output: __S(394, __c49, 2) as any as S.Schema<SolutionMetadataListResult>,
   errors: [UnknownAzureError],
@@ -8855,16 +9212,23 @@ export const ListSolutionMetadatasByParent: API.OperationMethod<
     op: "ListSolutionMetadatasByParent",
     attributes: { "url.template": "/{resourceUri}/providers/Microsoft.Edge/solutionMetadatas" },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSolutionMetadataVersionByParentError = AzureOpError;
 /** List Solution resources */
-export const ListSolutionMetadataVersionByParent: API.OperationMethod<
+export const ListSolutionMetadataVersionByParent: API.PaginatedOperationMethod<
   ListSolutionMetadataVersionByParentRequest,
   SolutionMetadataVersionListResult,
   ListSolutionMetadataVersionByParentError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SolutionMetadataVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(400, __c50, 0) as any as S.Schema<ListSolutionMetadataVersionByParentRequest>,
   output: __S(402, __c50, 2) as any as S.Schema<SolutionMetadataVersionListResult>,
   errors: [UnknownAzureError],
@@ -8878,16 +9242,23 @@ export const ListSolutionMetadataVersionByParent: API.OperationMethod<
         "/{resourceUri}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}/versions",
     },
   },
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSolutionSchemaBySolutionTemplateVersionError = AzureOpError;
 /** List by SolutionTemplateVersion */
-export const ListSolutionSchemaBySolutionTemplateVersion: API.OperationMethod<
+export const ListSolutionSchemaBySolutionTemplateVersion: API.PaginatedOperationMethod<
   ListSolutionSchemaBySolutionTemplateVersionRequest,
   SolutionSchemaListResult,
   ListSolutionSchemaBySolutionTemplateVersionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SolutionSchema
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(408, __c51, 0) as any as S.Schema<ListSolutionSchemaBySolutionTemplateVersionRequest>,
   output: __S(410, __c51, 2) as any as S.Schema<SolutionSchemaListResult>,
   errors: [UnknownAzureError],
@@ -8895,16 +9266,23 @@ export const ListSolutionSchemaBySolutionTemplateVersion: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSolutionSchemaBySolutionTemplateVersion",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSolutionTemplateByResourceGroupError = AzureOpError;
 /** List by specified resource group */
-export const ListSolutionTemplateByResourceGroup: API.OperationMethod<
+export const ListSolutionTemplateByResourceGroup: API.PaginatedOperationMethod<
   ListSolutionTemplateByResourceGroupRequest,
   SolutionTemplateListResult,
   ListSolutionTemplateByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SolutionTemplate
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(416, __c52, 0) as any as S.Schema<ListSolutionTemplateByResourceGroupRequest>,
   output: __S(425, __c53, 1) as any as S.Schema<SolutionTemplateListResult>,
   errors: [UnknownAzureError],
@@ -8912,16 +9290,23 @@ export const ListSolutionTemplateByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSolutionTemplateByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSolutionTemplateBySubscriptionError = AzureOpError;
 /** List by subscription */
-export const ListSolutionTemplateBySubscription: API.OperationMethod<
+export const ListSolutionTemplateBySubscription: API.PaginatedOperationMethod<
   ListSolutionTemplateBySubscriptionRequest,
   SolutionTemplateListResult,
   ListSolutionTemplateBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SolutionTemplate
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(432, __c54, 0) as any as S.Schema<ListSolutionTemplateBySubscriptionRequest>,
   output: __S(425, __c53, 1) as any as S.Schema<SolutionTemplateListResult>,
   errors: [UnknownAzureError],
@@ -8929,16 +9314,23 @@ export const ListSolutionTemplateBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSolutionTemplateBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSolutionTemplateVersionBySolutionTemplateError = AzureOpError;
 /** List Solution Template Version Resources */
-export const ListSolutionTemplateVersionBySolutionTemplate: API.OperationMethod<
+export const ListSolutionTemplateVersionBySolutionTemplate: API.PaginatedOperationMethod<
   ListSolutionTemplateVersionBySolutionTemplateRequest,
   SolutionTemplateVersionListResult,
   ListSolutionTemplateVersionBySolutionTemplateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SolutionTemplateVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     440,
     __c55,
@@ -8950,16 +9342,23 @@ export const ListSolutionTemplateVersionBySolutionTemplate: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSolutionTemplateVersionBySolutionTemplate",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListSolutionVersionBySolutionError = AzureOpError;
 /** List Solution Version Resources */
-export const ListSolutionVersionBySolution: API.OperationMethod<
+export const ListSolutionVersionBySolution: API.PaginatedOperationMethod<
   ListSolutionVersionBySolutionRequest,
   SolutionVersionListResult,
   ListSolutionVersionBySolutionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SolutionVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c56, 0) as any as S.Schema<ListSolutionVersionBySolutionRequest>,
   output: __S(450, __c56, 2) as any as S.Schema<SolutionVersionListResult>,
   errors: [UnknownAzureError],
@@ -8967,16 +9366,23 @@ export const ListSolutionVersionBySolution: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSolutionVersionBySolution",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTargetByResourceGroupError = AzureOpError;
 /** List by specified resource group */
-export const ListTargetByResourceGroup: API.OperationMethod<
+export const ListTargetByResourceGroup: API.PaginatedOperationMethod<
   ListTargetByResourceGroupRequest,
   TargetListResult,
   ListTargetByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Target
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(456, __c57, 0) as any as S.Schema<ListTargetByResourceGroupRequest>,
   output: __S(465, __c58, 1) as any as S.Schema<TargetListResult>,
   errors: [UnknownAzureError],
@@ -8984,16 +9390,23 @@ export const ListTargetByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTargetByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTargetBySubscriptionError = AzureOpError;
 /** List by subscription */
-export const ListTargetBySubscription: API.OperationMethod<
+export const ListTargetBySubscription: API.PaginatedOperationMethod<
   ListTargetBySubscriptionRequest,
   TargetListResult,
   ListTargetBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Target
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(472, __c59, 0) as any as S.Schema<ListTargetBySubscriptionRequest>,
   output: __S(465, __c58, 1) as any as S.Schema<TargetListResult>,
   errors: [UnknownAzureError],
@@ -9001,16 +9414,23 @@ export const ListTargetBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTargetBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkflowByContextError = AzureOpError;
 /** List Workflow resources */
-export const ListWorkflowByContext: API.OperationMethod<
+export const ListWorkflowByContext: API.PaginatedOperationMethod<
   ListWorkflowByContextRequest,
   WorkflowListResult,
   ListWorkflowByContextError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Workflow
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(480, __c60, 0) as any as S.Schema<ListWorkflowByContextRequest>,
   output: __S(482, __c60, 2) as any as S.Schema<WorkflowListResult>,
   errors: [UnknownAzureError],
@@ -9018,16 +9438,23 @@ export const ListWorkflowByContext: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkflowByContext",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListWorkflowVersionByWorkflowError = AzureOpError;
 /** List Workflow Version Resources */
-export const ListWorkflowVersionByWorkflow: API.OperationMethod<
+export const ListWorkflowVersionByWorkflow: API.PaginatedOperationMethod<
   ListWorkflowVersionByWorkflowRequest,
   WorkflowVersionListResult,
   ListWorkflowVersionByWorkflowError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  WorkflowVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(496, __c62, 0) as any as S.Schema<ListWorkflowVersionByWorkflowRequest>,
   output: __S(498, __c62, 2) as any as S.Schema<WorkflowVersionListResult>,
   errors: [UnknownAzureError],
@@ -9035,7 +9462,13 @@ export const ListWorkflowVersionByWorkflow: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkflowVersionByWorkflow",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type PublishTargetSolutionVersionError = AzureOpError;
 /** Post request to publish */
@@ -10119,12 +10552,14 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.Edge/configurationReferences",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigurationReferencesRequest" });
@@ -10146,12 +10581,14 @@ function __c6(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListContextByResourceGroupRequest" });
@@ -10176,12 +10613,14 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/contexts",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListContextBySubscriptionRequest" });
@@ -10194,12 +10633,14 @@ function __c9(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/diagnostics",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDiagnosticByResourceGroupRequest" });
@@ -10224,12 +10665,14 @@ function __c11(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/diagnostics",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDiagnosticBySubscriptionRequest" });
@@ -10242,12 +10685,14 @@ function __c12(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/disconnectedOperations",
             code: 200,
             apiVersion: "2026-03-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDisconnectedOperationByResourceGroupRequest" });
@@ -10272,12 +10717,14 @@ function __c14(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/disconnectedOperations",
             code: 200,
             apiVersion: "2026-03-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDisconnectedOperationBySubscriptionRequest" });
@@ -10324,12 +10771,14 @@ function __c16(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           configurationName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDynamicConfigurationByConfigurationRequest" });
@@ -10353,12 +10802,14 @@ function __c17(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           configurationName: S.String.pipe(T.Label()),
           dynamicConfigurationName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations/{configurationName}/dynamicConfigurations/{dynamicConfigurationName}/versions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDynamicConfigurationVersionByDynamicConfigurationRequest" });
@@ -10443,12 +10894,14 @@ function __c21(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           schemaName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDynamicSchemaBySchemaRequest" });
@@ -10472,12 +10925,14 @@ function __c22(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           schemaName: S.String.pipe(T.Label()),
           dynamicSchemaName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/dynamicSchemas/{dynamicSchemaName}/versions",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDynamicSchemaVersionByDynamicSchemaRequest" });
@@ -10506,12 +10961,14 @@ function __c24(j: number): any {
           contextName: S.String.pipe(T.Label()),
           workflowName: S.String.pipe(T.Label()),
           versionName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListExecutionByWorkflowVersionRequest" });
@@ -10534,12 +10991,14 @@ function __c25(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/disconnectedOperations/{name}/hardwareSettings",
             code: 200,
             apiVersion: "2026-03-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHardwareSettingsByParentRequest" });
@@ -10560,12 +11019,14 @@ function __c26(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHierarchyConfigurationMetadatasByParentRequest" });
@@ -10587,12 +11048,14 @@ function __c27(j: number): any {
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
           hierarchyConfigurationMetadataName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.Edge/hierarchyConfigurationMetadatas/{hierarchyConfigurationMetadataName}/versions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListHierarchyConfigurationMetadataVersionByParentRequest" });
@@ -10618,12 +11081,14 @@ function __c28(j: number): any {
           _filter: S.optional(S.String.pipe(T.Query("$filter"))),
           _top: S.optional(S.Number.pipe(T.Query("$top"))),
           _skip: S.optional(S.Number.pipe(T.Query("$skip"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/disconnectedOperations/{name}/images",
             code: 200,
             apiVersion: "2026-03-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListImageByDisconnectedOperationRequest" });
@@ -10647,12 +11112,14 @@ function __c29(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           targetName: S.String.pipe(T.Label()),
           solutionName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListInstanceBySolutionRequest" });
@@ -10677,12 +11144,14 @@ function __c30(j: number): any {
           targetName: S.String.pipe(T.Label()),
           solutionName: S.String.pipe(T.Label()),
           instanceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/instances/{instanceName}/histories",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListInstanceHistoryByInstanceRequest" });
@@ -10703,12 +11172,14 @@ function __c31(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.Edge/jobs",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobByTargetRequest" });
@@ -10800,12 +11271,15 @@ function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Edge/operations",
             code: 200,
             apiVersion: "2025-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -10833,7 +11307,7 @@ function __c36(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(291, __c36, 3)),
+          value: __S(291, __c36, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
@@ -10846,12 +11320,14 @@ function __c37(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSchemaByResourceGroupRequest" });
@@ -10889,12 +11365,14 @@ function __c39(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/schemas",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSchemaBySubscriptionRequest" });
@@ -10906,12 +11384,14 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.Edge/schemaReferences",
             code: 200,
             apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSchemaReferenceByResourceGroupRequest" });
@@ -10934,12 +11414,14 @@ function __c41(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           schemaName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/schemas/{schemaName}/versions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSchemaVersionBySchemaRequest" });
@@ -10952,12 +11434,14 @@ function __c42(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/sites",
             code: 200,
             apiVersion: "2025-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSiteByResourceGroupRequest" });
@@ -10984,12 +11468,14 @@ function __c44(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           contextName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/siteReferences",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSiteReferenceByContextRequest" });
@@ -11010,12 +11496,14 @@ function __c45(j: number): any {
       return S.suspend(() =>
         S.Struct({
           servicegroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.Management/serviceGroups/{servicegroupName}/providers/Microsoft.Edge/sites",
             code: 200,
             apiVersion: "2025-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSitesByServiceGroupByServiceGroupRequest" });
@@ -11027,12 +11515,14 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/sites",
             code: 200,
             apiVersion: "2025-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSitesBySubscriptionRequest" });
@@ -11046,12 +11536,14 @@ function __c47(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           targetName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSolutionByTargetRequest" });
@@ -11091,12 +11583,14 @@ function __c49(j: number): any {
       return S.suspend(() =>
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.Edge/solutionMetadatas",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSolutionMetadatasByParentRequest" });
@@ -11118,12 +11612,14 @@ function __c50(j: number): any {
         S.Struct({
           resourceUri: S.String.pipe(T.Label()),
           solutionMetadataName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/{resourceUri+}/providers/Microsoft.Edge/solutionMetadatas/{solutionMetadataName}/versions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSolutionMetadataVersionByParentRequest" });
@@ -11147,12 +11643,14 @@ function __c51(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           solutionTemplateName: S.String.pipe(T.Label()),
           solutionTemplateVersionName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions/{solutionTemplateVersionName}/solutionSchemas",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSolutionSchemaBySolutionTemplateVersionRequest" });
@@ -11174,12 +11672,14 @@ function __c52(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSolutionTemplateByResourceGroupRequest" });
@@ -11204,12 +11704,14 @@ function __c54(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/solutionTemplates",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSolutionTemplateBySubscriptionRequest" });
@@ -11223,12 +11725,14 @@ function __c55(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           solutionTemplateName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/solutionTemplates/{solutionTemplateName}/versions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSolutionTemplateVersionBySolutionTemplateRequest" });
@@ -11252,12 +11756,14 @@ function __c56(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           targetName: S.String.pipe(T.Label()),
           solutionName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets/{targetName}/solutions/{solutionName}/versions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSolutionVersionBySolutionRequest" });
@@ -11279,12 +11785,14 @@ function __c57(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/targets",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTargetByResourceGroupRequest" });
@@ -11309,12 +11817,14 @@ function __c59(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/targets",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTargetBySubscriptionRequest" });
@@ -11328,12 +11838,14 @@ function __c60(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           contextName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkflowByContextRequest" });
@@ -11377,12 +11889,14 @@ function __c62(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           contextName: S.String.pipe(T.Label()),
           workflowName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListWorkflowVersionByWorkflowRequest" });
@@ -12560,7 +13074,7 @@ function __c106(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "UpdateExecutionRequest" });
@@ -13045,7 +13559,7 @@ function __c123(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "UpdateWorkflowRequest" });
@@ -13088,7 +13602,7 @@ function __c124(j: number): any {
             method: "PATCH",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "UpdateWorkflowVersionRequest" });
@@ -13124,7 +13638,7 @@ function __c125(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "WorkflowsCreateOrUpdateRequest" });
@@ -13168,7 +13682,7 @@ function __c126(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "WorkflowVersionsCreateOrUpdateRequest" });
@@ -13395,7 +13909,7 @@ function __c137(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteExecutionRequest" });
@@ -13772,7 +14286,7 @@ function __c156(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteWorkflowRequest" });
@@ -13793,7 +14307,7 @@ function __c157(j: number): any {
             method: "DELETE",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "DeleteWorkflowVersionRequest" });
@@ -14176,7 +14690,7 @@ function __c171(j: number): any {
             method: "PUT",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "ExecutionsCreateOrUpdateRequest" });
@@ -14805,7 +15319,7 @@ function __c203(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}/executions/{executionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "GetExecutionRequest" });
@@ -16102,7 +16616,7 @@ function __c267(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "GetWorkflowRequest" });
@@ -16150,7 +16664,7 @@ function __c270(j: number): any {
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/contexts/{contextName}/workflows/{workflowName}/versions/{versionName}",
             code: 200,
-            apiVersion: "2026-06-01",
+            apiVersion: "2025-08-01",
           }),
         ),
       ).annotate({ identifier: "GetWorkflowVersionRequest" });
@@ -16457,12 +16971,14 @@ function __c279(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           name: S.String.pipe(T.Label()),
           imageName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/disconnectedOperations/{name}/images/{imageName}/artifacts",
             code: 200,
             apiVersion: "2026-03-15",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListArtifactByParentRequest" });
@@ -16484,12 +17000,14 @@ function __c280(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigTemplateByResourceGroupRequest" });
@@ -16514,12 +17032,14 @@ function __c282(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/configTemplates",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigTemplateBySubscriptionRequest" });
@@ -16533,12 +17053,14 @@ function __c283(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           configTemplateName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/configTemplateMetadatas",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigTemplateMetadatasByConfigTemplateRequest" });
@@ -16562,12 +17084,14 @@ function __c284(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           configTemplateName: S.String.pipe(T.Label()),
           configTemplateVersionName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions/{configTemplateVersionName}/configTemplateSchemas",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigTemplateSchemaByConfigTemplateVersionRequest" });
@@ -16590,12 +17114,14 @@ function __c285(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           configTemplateName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configTemplates/{configTemplateName}/versions",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigTemplateVersionByConfigTemplateRequest" });
@@ -16617,12 +17143,14 @@ function __c286(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Edge/configurations",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigurationByResourceGroupRequest" });
@@ -16647,12 +17175,14 @@ function __c288(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.Edge/configurations",
             code: 200,
             apiVersion: "2026-06-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigurationBySubscriptionRequest" });

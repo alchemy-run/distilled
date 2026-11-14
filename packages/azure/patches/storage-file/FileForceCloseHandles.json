@@ -1,0 +1,19 @@
+{
+  "description": "FileForceCloseHandles addresses a file as /{shareName}/{directory}/{fileName}, so a file at the share root (empty directory) becomes /share//file and fails InvalidResourceName. Address it by one greedy fileName path relative to the share root (dir/sub/file.txt) and drop the directory label.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storage_file#FileForceCloseHandles/traits/smithy.api#http/uri",
+      "value": "/{shareName}/{fileName+}"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.azure.storage_file#FileForceCloseHandlesRequest/members/directory"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.storage_file#FileForceCloseHandlesRequest/members/fileName/traits/smithy.api#documentation",
+      "value": "Path of the target file relative to the share root, e.g. `reports/2026/q1.csv`; `/` separates directories."
+    }
+  ]
+}

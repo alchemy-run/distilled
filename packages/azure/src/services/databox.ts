@@ -926,6 +926,8 @@ export interface ListJobByResourceGroupRequest {
   resourceGroupName: string;
   /** $skipToken is supported on Get list of jobs, which provides the next page in the list of jobs. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type JobResourceTagsMap = { [key: string]: string | undefined };
@@ -966,6 +968,8 @@ export interface ListJobCredentialsRequest {
   resourceGroupName: string;
   /** The name of the job Resource within the specified resource group. job names must be between 3 and 24 characters in length and use any alphanumeric and underscore only */
   jobName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Dc access security code */
 export interface DcAccessSecurityCode {
@@ -1004,8 +1008,13 @@ export interface ListJobsRequest {
   subscriptionId: string;
   /** $skipToken is supported on Get list of jobs, which provides the next page in the list of jobs. */
   _skipToken?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Operation display */
 export interface OperationDisplay {
   /** Provider name. */
@@ -1035,7 +1044,7 @@ export type OperationListValueList = Array<Operation>;
 /** The paginated list of connected cluster API operations. */
 export interface OperationList {
   /** The list of connected cluster API operations. */
-  value?: OperationListValueList | undefined;
+  value: OperationListValueList;
   /** The link to fetch the next page of connected cluster API operations. */
   nextLink?: string | undefined;
 }
@@ -1056,6 +1065,8 @@ export interface ListServiceAvailableSkusByResourceGroupRequest {
   country: string;
   /** Sku Names to filter for available skus */
   skuNames?: ListServiceAvailableSkusByResourceGroupRequestSkuNamesList | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Map of data location to service location */
 export interface DataLocationToServiceLocationMap {
@@ -1506,12 +1517,13 @@ export const JobsMarkDevicesShipped: API.OperationMethod<
 
 export type ListJobByResourceGroupError = AzureOpError;
 /** Lists all the jobs available under the given resource group. */
-export const ListJobByResourceGroup: API.OperationMethod<
+export const ListJobByResourceGroup: API.PaginatedOperationMethod<
   ListJobByResourceGroupRequest,
   JobResourceList,
   ListJobByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListJobByResourceGroupRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<JobResourceList>,
   errors: [UnknownAzureError],
@@ -1519,16 +1531,23 @@ export const ListJobByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobCredentialsError = AzureOpError;
 /** This method gets the unencrypted secrets related to the job. */
-export const ListJobCredentials: API.OperationMethod<
+export const ListJobCredentials: API.PaginatedOperationMethod<
   ListJobCredentialsRequest,
   UnencryptedCredentialsList,
   ListJobCredentialsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  UnencryptedCredentials
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c26, 0) as any as S.Schema<ListJobCredentialsRequest>,
   output: __S(837, __c26, 5) as any as S.Schema<UnencryptedCredentialsList>,
   errors: [UnknownAzureError],
@@ -1536,16 +1555,23 @@ export const ListJobCredentials: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobCredentials",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListJobsError = AzureOpError;
 /** Lists all the jobs available under the subscription. */
-export const ListJobs: API.OperationMethod<
+export const ListJobs: API.PaginatedOperationMethod<
   ListJobsRequest,
   JobResourceList,
   ListJobsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  JobResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c27, 0) as any as S.Schema<ListJobsRequest>,
   output: __S(801, __c25, 1) as any as S.Schema<JobResourceList>,
   errors: [UnknownAzureError],
@@ -1553,16 +1579,23 @@ export const ListJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** List the operations for the provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationList,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c28, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(900, __c28, 4) as any as S.Schema<OperationList>,
   errors: [UnknownAzureError],
@@ -1570,16 +1603,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceAvailableSkusByResourceGroupError = AzureOpError;
 /** This method provides the list of available skus for the given subscription, resource group and location. */
-export const ListServiceAvailableSkusByResourceGroup: API.OperationMethod<
+export const ListServiceAvailableSkusByResourceGroup: API.PaginatedOperationMethod<
   ListServiceAvailableSkusByResourceGroupRequest,
   AvailableSkusResult,
   ListServiceAvailableSkusByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SkuInformation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(320, __c10, 0) as any as S.Schema<ListServiceAvailableSkusByResourceGroupRequest>,
   output: __S(329, __c10, 9) as any as S.Schema<AvailableSkusResult>,
   errors: [UnknownAzureError],
@@ -1587,7 +1627,13 @@ export const ListServiceAvailableSkusByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceAvailableSkusByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MitigateError = AzureOpError;
 /** Request to mitigate for a given job */
@@ -2225,12 +2271,14 @@ function __c10(j: number): any {
           transferType: S.String,
           country: S.String,
           skuNames: S.optional(__S(192, __c6, 0)),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/locations/{location}/availableSkus",
             code: 200,
             apiVersion: "2025-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceAvailableSkusByResourceGroupRequest" });
@@ -2682,12 +2730,14 @@ function __c24(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs",
             code: 200,
             apiVersion: "2025-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobByResourceGroupRequest" });
@@ -2714,12 +2764,14 @@ function __c26(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           jobName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/jobs/{jobName}/listCredentials",
             code: 200,
             apiVersion: "2025-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobCredentialsRequest" });
@@ -2763,12 +2815,14 @@ function __c27(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           _skipToken: S.optional(S.String.pipe(T.Query("$skipToken"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.DataBox/jobs",
             code: 200,
             apiVersion: "2025-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListJobsRequest" });
@@ -2778,12 +2832,15 @@ function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.DataBox/operations",
             code: 200,
             apiVersion: "2025-07-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -2811,7 +2868,7 @@ function __c28(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(899, __c28, 3)),
+          value: __S(899, __c28, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "OperationList" });

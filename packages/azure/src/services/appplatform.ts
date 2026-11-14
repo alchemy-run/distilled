@@ -3652,6 +3652,8 @@ export interface ListApiPortalCustomDomainsRequest {
   serviceName: string;
   /** The name of API portal. */
   apiPortalName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Custom domain of the API portal */
 export interface ApiPortalCustomDomainResource {
@@ -3669,7 +3671,7 @@ export type ApiPortalCustomDomainResourceCollectionValueList = Array<ApiPortalCu
 /** Object that includes an array of API portal custom domain resources and a possible link for next set */
 export interface ApiPortalCustomDomainResourceCollection {
   /** Collection of API portal custom domain resources */
-  value?: ApiPortalCustomDomainResourceCollectionValueList | undefined;
+  value: ApiPortalCustomDomainResourceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -3680,6 +3682,8 @@ export interface ListApiPortalsRequest {
   resourceGroupName: string;
   /** The name of the Service resource. */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** API portal resource */
 export interface ApiPortalResource {
@@ -3699,7 +3703,7 @@ export type ApiPortalResourceCollectionValueList = Array<ApiPortalResource>;
 /** Object that includes an array of API portal resources and a possible link for next set */
 export interface ApiPortalResourceCollection {
   /** Collection of API portal resources */
-  value?: ApiPortalResourceCollectionValueList | undefined;
+  value: ApiPortalResourceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -3710,6 +3714,8 @@ export interface ListApmsRequest {
   resourceGroupName: string;
   /** The name of the Service resource. */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** APM Resource object */
 export interface ApmResource {
@@ -3728,7 +3734,7 @@ export type ApmResourceCollectionValueList = Array<ApmResource>;
 /** Object that includes an array of APM resources and a possible link for next set */
 export interface ApmResourceCollection {
   /** Collection of APM resources */
-  value?: ApmResourceCollectionValueList | undefined;
+  value: ApmResourceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -3756,6 +3762,8 @@ export interface ListApplicationAcceleratorsRequest {
   resourceGroupName: string;
   /** The name of the Service resource. */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Application accelerator resource */
 export interface ApplicationAcceleratorResource {
@@ -3776,7 +3784,7 @@ export type ApplicationAcceleratorResourceCollectionValueList =
 /** Object that includes an array of application accelerator resources and a possible link for next set */
 export interface ApplicationAcceleratorResourceCollection {
   /** Collection of application accelerator resources */
-  value?: ApplicationAcceleratorResourceCollectionValueList | undefined;
+  value: ApplicationAcceleratorResourceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -3787,6 +3795,8 @@ export interface ListApplicationLiveViewsRequest {
   resourceGroupName: string;
   /** The name of the Service resource. */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Application Live View resource */
 export interface ApplicationLiveViewResource {
@@ -3804,7 +3814,7 @@ export type ApplicationLiveViewResourceCollectionValueList = Array<ApplicationLi
 /** Object that includes an array of Application Live View resources and a possible link for next set */
 export interface ApplicationLiveViewResourceCollection {
   /** Collection of Application Live View resources */
-  value?: ApplicationLiveViewResourceCollectionValueList | undefined;
+  value: ApplicationLiveViewResourceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -3815,6 +3825,8 @@ export interface ListAppsRequest {
   resourceGroupName: string;
   /** The name of the Service resource. */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** App resource payload */
 export interface AppResource {
@@ -3837,7 +3849,7 @@ export type AppResourceCollectionValueList = Array<AppResource>;
 /** Object that includes an array of App resources and a possible link for next set */
 export interface AppResourceCollection {
   /** Collection of App resources */
-  value?: AppResourceCollectionValueList | undefined;
+  value: AppResourceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -3850,6 +3862,8 @@ export interface ListBindingsRequest {
   serviceName: string;
   /** The name of the App resource. */
   appName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Binding resource payload */
 export interface BindingResource {
@@ -3868,7 +3882,7 @@ export type BindingResourceCollectionValueList = Array<BindingResource>;
 /** Object that includes an array of Binding resources and a possible link for next set */
 export interface BindingResourceCollection {
   /** Collection of Binding resources */
-  value?: BindingResourceCollectionValueList | undefined;
+  value: BindingResourceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -3883,6 +3897,8 @@ export interface ListBuildpackBindingRequest {
   buildServiceName: string;
   /** The name of the builder resource. */
   builderName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Buildpack Binding Resource object */
 export interface BuildpackBindingResource {
@@ -3901,7 +3917,7 @@ export type BuildpackBindingResourceCollectionValueList = Array<BuildpackBinding
 /** Object that includes an array of BuildpackBinding resources and a possible link for next set */
 export interface BuildpackBindingResourceCollection {
   /** Collection of BuildpackBinding resources */
-  value?: BuildpackBindingResourceCollectionValueList | undefined;
+  value: BuildpackBindingResourceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -3912,6 +3928,8 @@ export interface ListBuildpackBindingForClusterRequest {
   resourceGroupName: string;
   /** The name of the Service resource. */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListBuildServiceAgentPoolRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -3922,6 +3940,8 @@ export interface ListBuildServiceAgentPoolRequest {
   serviceName: string;
   /** The name of the build service resource. */
   buildServiceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** The build service agent pool resource */
 export interface BuildServiceAgentPoolResource {
@@ -3940,7 +3960,7 @@ export type BuildServiceAgentPoolResourceCollectionValueList = Array<BuildServic
 /** Object that includes an array of build service agent pool resources and a possible link for next set */
 export interface BuildServiceAgentPoolResourceCollection {
   /** Collection of build service agent pool resource */
-  value?: BuildServiceAgentPoolResourceCollectionValueList | undefined;
+  value: BuildServiceAgentPoolResourceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -3953,6 +3973,8 @@ export interface ListBuildServiceBuilderRequest {
   serviceName: string;
   /** The name of the build service resource. */
   buildServiceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** KPack Builder resource */
 export interface BuilderResource {
@@ -3971,7 +3993,7 @@ export type BuilderResourceCollectionValueList = Array<BuilderResource>;
 /** Object that includes an array of Builder resources and a possible link for next set */
 export interface BuilderResourceCollection {
   /** Collection of Builder resources */
-  value?: BuilderResourceCollectionValueList | undefined;
+  value: BuilderResourceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -4005,6 +4027,8 @@ export interface ListBuildServiceBuildResultsRequest {
   buildServiceName: string;
   /** The name of the build resource. */
   buildName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Build result resource payload */
 export interface BuildResult {
@@ -4023,7 +4047,7 @@ export type BuildResultCollectionValueList = Array<BuildResult>;
 /** Object that includes an array of Build result resources and a possible link for next set */
 export interface BuildResultCollection {
   /** Collection of Build result resources */
-  value?: BuildResultCollectionValueList | undefined;
+  value: BuildResultCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -4036,6 +4060,8 @@ export interface ListBuildServiceBuildsRequest {
   serviceName: string;
   /** The name of the build service resource. */
   buildServiceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Build resource payload */
 export interface Build {
@@ -4054,7 +4080,7 @@ export type BuildCollectionValueList = Array<Build>;
 /** Object that includes an array of Build resources and a possible link for next set */
 export interface BuildCollection {
   /** Collection of Build resources */
-  value?: BuildCollectionValueList | undefined;
+  value: BuildCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -4065,6 +4091,8 @@ export interface ListBuildServiceBuildServicesRequest {
   resourceGroupName: string;
   /** The name of the Service resource. */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Build service resource payload */
 export interface BuildService {
@@ -4083,7 +4111,7 @@ export type BuildServiceCollectionValueList = Array<BuildService>;
 /** Object that includes an array of Build service resources and a possible link for next set */
 export interface BuildServiceCollection {
   /** Collection of Build service resources */
-  value?: BuildServiceCollectionValueList | undefined;
+  value: BuildServiceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -4154,6 +4182,8 @@ export interface ListCertificatesRequest {
   resourceGroupName: string;
   /** The name of the Service resource. */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Certificate resource payload. */
 export interface CertificateResource {
@@ -4172,7 +4202,7 @@ export type CertificateResourceCollectionValueList = Array<CertificateResource>;
 /** Collection compose of certificate resources list and a possible link for next page. */
 export interface CertificateResourceCollection {
   /** The certificate resources list. */
-  value?: CertificateResourceCollectionValueList | undefined;
+  value: CertificateResourceCollectionValueList;
   /** The link to next page of certificate list. */
   nextLink?: string | undefined;
 }
@@ -4183,6 +4213,8 @@ export interface ListConfigurationServicesRequest {
   resourceGroupName: string;
   /** The name of the Service resource. */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Application Configuration Service resource */
 export interface ConfigurationServiceResource {
@@ -4200,7 +4232,7 @@ export type ConfigurationServiceResourceCollectionValueList = Array<Configuratio
 /** Object that includes an array of configuration service resources and a possible link for next set */
 export interface ConfigurationServiceResourceCollection {
   /** Collection of configuration service resources */
-  value?: ConfigurationServiceResourceCollectionValueList | undefined;
+  value: ConfigurationServiceResourceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -4211,6 +4243,8 @@ export interface ListContainerRegistriesRequest {
   resourceGroupName: string;
   /** The name of the Service resource. */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Container registry resource payload. */
 export interface ContainerRegistryResource {
@@ -4229,7 +4263,7 @@ export type ContainerRegistryResourceCollectionValueList = Array<ContainerRegist
 /** Collection compose of container registry resources list and a possible link for next page. */
 export interface ContainerRegistryResourceCollection {
   /** The container registry resources list. */
-  value?: ContainerRegistryResourceCollectionValueList | undefined;
+  value: ContainerRegistryResourceCollectionValueList;
   /** The link to next page of storage list. */
   nextLink?: string | undefined;
 }
@@ -4242,6 +4276,8 @@ export interface ListCustomDomainsRequest {
   serviceName: string;
   /** The name of the App resource. */
   appName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Custom domain resource payload. */
 export interface CustomDomainResource {
@@ -4260,7 +4296,7 @@ export type CustomDomainResourceCollectionValueList = Array<CustomDomainResource
 /** Collection compose of a custom domain resources list and a possible link for next page. */
 export interface CustomDomainResourceCollection {
   /** The custom domain resources list. */
-  value?: CustomDomainResourceCollectionValueList | undefined;
+  value: CustomDomainResourceCollectionValueList;
   /** The link to next page of custom domain list. */
   nextLink?: string | undefined;
 }
@@ -4273,6 +4309,8 @@ export interface ListCustomizedAcceleratorsRequest {
   serviceName: string;
   /** The name of the application accelerator. */
   applicationAcceleratorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Customized accelerator resource */
 export interface CustomizedAcceleratorResource {
@@ -4289,7 +4327,7 @@ export interface CustomizedAcceleratorResource {
 }
 export type CustomizedAcceleratorResourceCollectionValueList = Array<CustomizedAcceleratorResource>;
 export interface CustomizedAcceleratorResourceCollection {
-  value?: CustomizedAcceleratorResourceCollectionValueList | undefined;
+  value: CustomizedAcceleratorResourceCollectionValueList;
   nextLink?: string | undefined;
 }
 export type ListDeploymentForClusterRequestVersionList = Array<string>;
@@ -4304,6 +4342,8 @@ export interface ListDeploymentForClusterRequest {
   version?: ListDeploymentForClusterRequestVersionList | undefined;
   /** The expand expression to apply on the operation. */
   _expand?: string | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Deployment resource payload */
 export interface DeploymentResource {
@@ -4324,7 +4364,7 @@ export type DeploymentResourceCollectionValueList = Array<DeploymentResource>;
 /** Object that includes an array of App resources and a possible link for next set */
 export interface DeploymentResourceCollection {
   /** Collection of Deployment resources */
-  value?: DeploymentResourceCollectionValueList | undefined;
+  value: DeploymentResourceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -4340,6 +4380,8 @@ export interface ListDeploymentsRequest {
   appName: string;
   /** Version of the deployments to be listed */
   version?: ListDeploymentsRequestVersionList | undefined;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListDevToolPortalsRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4348,6 +4390,8 @@ export interface ListDevToolPortalsRequest {
   resourceGroupName: string;
   /** The name of the Service resource. */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Dev Tool Portal resource */
 export interface DevToolPortalResource {
@@ -4365,7 +4409,7 @@ export type DevToolPortalResourceCollectionValueList = Array<DevToolPortalResour
 /** Object that includes an array of Dev Tool Portal resources and a possible link for next set */
 export interface DevToolPortalResourceCollection {
   /** Collection of Dev Tool Portal resources */
-  value?: DevToolPortalResourceCollectionValueList | undefined;
+  value: DevToolPortalResourceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -4378,6 +4422,8 @@ export interface ListGatewayCustomDomainsRequest {
   serviceName: string;
   /** The name of Spring Cloud Gateway. */
   gatewayName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Custom domain of the Spring Cloud Gateway */
 export type GatewayCustomDomainResource = ApiPortalCustomDomainResource;
@@ -4386,7 +4432,7 @@ export type GatewayCustomDomainResourceCollectionValueList = Array<ApiPortalCust
 /** Object that includes an array of Spring Cloud Gateway custom domain resources and a possible link for next set */
 export interface GatewayCustomDomainResourceCollection {
   /** Collection of Spring Cloud Gateway custom domain resources */
-  value?: GatewayCustomDomainResourceCollectionValueList | undefined;
+  value: GatewayCustomDomainResourceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -4412,6 +4458,8 @@ export interface ListGatewayRouteConfigsRequest {
   serviceName: string;
   /** The name of Spring Cloud Gateway. */
   gatewayName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Spring Cloud Gateway route config resource */
 export interface GatewayRouteConfigResource {
@@ -4429,7 +4477,7 @@ export type GatewayRouteConfigResourceCollectionValueList = Array<GatewayRouteCo
 /** Object that includes an array of Spring Cloud Gateway route config resources and a possible link for next set */
 export interface GatewayRouteConfigResourceCollection {
   /** Collection of Spring Cloud Gateway route config resources */
-  value?: GatewayRouteConfigResourceCollectionValueList | undefined;
+  value: GatewayRouteConfigResourceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -4440,6 +4488,8 @@ export interface ListGatewaysRequest {
   resourceGroupName: string;
   /** The name of the Service resource. */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Spring Cloud Gateway resource */
 export interface GatewayResource {
@@ -4459,11 +4509,14 @@ export type GatewayResourceCollectionValueList = Array<GatewayResource>;
 /** Object that includes an array of gateway resources and a possible link for next set */
 export interface GatewayResourceCollection {
   /** Collection of gateway resources */
-  value?: GatewayResourceCollectionValueList | undefined;
+  value: GatewayResourceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** Operation display payload */
 export interface OperationDisplay {
   /** Resource provider of the operation */
@@ -4562,7 +4615,7 @@ export type AvailableOperationsValueList = Array<OperationDetail>;
 /** Available operations of the service */
 export interface AvailableOperations {
   /** Collection of available operation details */
-  value?: AvailableOperationsValueList | undefined;
+  value: AvailableOperationsValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -4575,6 +4628,8 @@ export interface ListPredefinedAcceleratorsRequest {
   serviceName: string;
   /** The name of the application accelerator. */
   applicationAcceleratorName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Predefined accelerator resource */
 export interface PredefinedAcceleratorResource {
@@ -4591,7 +4646,7 @@ export interface PredefinedAcceleratorResource {
 }
 export type PredefinedAcceleratorResourceCollectionValueList = Array<PredefinedAcceleratorResource>;
 export interface PredefinedAcceleratorResourceCollection {
-  value?: PredefinedAcceleratorResourceCollectionValueList | undefined;
+  value: PredefinedAcceleratorResourceCollectionValueList;
   nextLink?: string | undefined;
 }
 export interface ListRuntimeVersionRuntimeVersionsRequest {}
@@ -4617,6 +4672,8 @@ export interface AvailableRuntimeVersions {
 export interface ListServiceBySubscriptionRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Tags of the service which is a list of key value pairs that describe the resource. */
 export type ServiceResourceTagsMap = { [key: string]: string | undefined };
@@ -4643,7 +4700,7 @@ export type ServiceResourceListValueList = Array<ServiceResource>;
 /** Object that includes an array of Service resources and a possible link for next set */
 export interface ServiceResourceList {
   /** Collection of Service resources */
-  value?: ServiceResourceListValueList | undefined;
+  value: ServiceResourceListValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -4669,6 +4726,8 @@ export interface ListServiceRegistriesRequest {
   resourceGroupName: string;
   /** The name of the Service resource. */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Service Registry resource */
 export interface ServiceRegistryResource {
@@ -4686,7 +4745,7 @@ export type ServiceRegistryResourceCollectionValueList = Array<ServiceRegistryRe
 /** Object that includes an array of Service Registry resources and a possible link for next set */
 export interface ServiceRegistryResourceCollection {
   /** Collection of Service Registry resources */
-  value?: ServiceRegistryResourceCollectionValueList | undefined;
+  value: ServiceRegistryResourceCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -4695,6 +4754,8 @@ export interface ListServicesRequest {
   subscriptionId: string;
   /** The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface ListServiceSupportedApmTypesRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -4703,6 +4764,8 @@ export interface ListServiceSupportedApmTypesRequest {
   resourceGroupName: string;
   /** The name of the Service resource. */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Supported APM type */
 export interface SupportedApmType {
@@ -4714,7 +4777,7 @@ export type SupportedApmTypesValueList = Array<SupportedApmType>;
 /** Supported APM types payload */
 export interface SupportedApmTypes {
   /** Collection of the supported APM type */
-  value?: SupportedApmTypesValueList | undefined;
+  value: SupportedApmTypesValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -4725,6 +4788,8 @@ export interface ListServiceSupportedServerVersionsRequest {
   resourceGroupName: string;
   /** The name of the Service resource. */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Supported server version. */
 export interface SupportedServerVersion {
@@ -4740,7 +4805,7 @@ export type SupportedServerVersionsValueList = Array<SupportedServerVersion>;
 /** Supported server versions. */
 export interface SupportedServerVersions {
   /** Collection of the supported server versions. */
-  value?: SupportedServerVersionsValueList | undefined;
+  value: SupportedServerVersionsValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -4755,6 +4820,8 @@ export interface ListServiceTestKeysRequest {
 export interface ListSkusRequest {
   /** Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Gets or sets the type of the scale. */
 export type SkuCapacityScaleType = "None" | "Manual" | "Automatic";
@@ -4855,7 +4922,7 @@ export type ResourceSkuCollectionValueList = Array<ResourceSku>;
 /** Object that includes an array of Azure Spring Apps SKU and a possible link for next set */
 export interface ResourceSkuCollection {
   /** Collection of resource SKU */
-  value?: ResourceSkuCollectionValueList | undefined;
+  value: ResourceSkuCollectionValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -4866,6 +4933,8 @@ export interface ListStoragesRequest {
   resourceGroupName: string;
   /** The name of the Service resource. */
   serviceName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Storage resource payload. */
 export interface StorageResource {
@@ -4884,7 +4953,7 @@ export type StorageResourceCollectionValueList = Array<StorageResource>;
 /** Collection compose of storage resources list and a possible link for next page. */
 export interface StorageResourceCollection {
   /** The storage resources list. */
-  value?: StorageResourceCollectionValueList | undefined;
+  value: StorageResourceCollectionValueList;
   /** The link to next page of storage list. */
   nextLink?: string | undefined;
 }
@@ -7123,12 +7192,13 @@ export const GetStorage: API.OperationMethod<
 
 export type ListApiPortalCustomDomainsError = AzureOpError;
 /** Handle requests to list all API portal custom domains. */
-export const ListApiPortalCustomDomains: API.OperationMethod<
+export const ListApiPortalCustomDomains: API.PaginatedOperationMethod<
   ListApiPortalCustomDomainsRequest,
   ApiPortalCustomDomainResourceCollection,
   ListApiPortalCustomDomainsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApiPortalCustomDomainResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3616, __c226, 0) as any as S.Schema<ListApiPortalCustomDomainsRequest>,
   output: __S(3633, __c227, 1) as any as S.Schema<ApiPortalCustomDomainResourceCollection>,
   errors: [UnknownAzureError],
@@ -7136,16 +7206,23 @@ export const ListApiPortalCustomDomains: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApiPortalCustomDomains",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApiPortalsError = AzureOpError;
 /** Handles requests to list all resources in a Service. */
-export const ListApiPortals: API.OperationMethod<
+export const ListApiPortals: API.PaginatedOperationMethod<
   ListApiPortalsRequest,
   ApiPortalResourceCollection,
   ListApiPortalsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApiPortalResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3648, __c228, 0) as any as S.Schema<ListApiPortalsRequest>,
   output: __S(3650, __c228, 2) as any as S.Schema<ApiPortalResourceCollection>,
   errors: [UnknownAzureError],
@@ -7153,16 +7230,23 @@ export const ListApiPortals: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApiPortals",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApmsError = AzureOpError;
 /** Get collection of APMs. */
-export const ListApms: API.OperationMethod<
+export const ListApms: API.PaginatedOperationMethod<
   ListApmsRequest,
   ApmResourceCollection,
   ListApmsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApmResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3664, __c229, 0) as any as S.Schema<ListApmsRequest>,
   output: __S(3666, __c229, 2) as any as S.Schema<ApmResourceCollection>,
   errors: [UnknownAzureError],
@@ -7170,7 +7254,13 @@ export const ListApms: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApms",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApmSecretKeysError = AzureOpError;
 /** List keys of APM sensitive properties. */
@@ -7191,12 +7281,13 @@ export const ListApmSecretKeys: API.OperationMethod<
 
 export type ListApplicationAcceleratorsError = AzureOpError;
 /** Handle requests to list all application accelerator. */
-export const ListApplicationAccelerators: API.OperationMethod<
+export const ListApplicationAccelerators: API.PaginatedOperationMethod<
   ListApplicationAcceleratorsRequest,
   ApplicationAcceleratorResourceCollection,
   ListApplicationAcceleratorsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApplicationAcceleratorResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(3712, __c232, 0) as any as S.Schema<ListApplicationAcceleratorsRequest>,
   output: __S(3714, __c232, 2) as any as S.Schema<ApplicationAcceleratorResourceCollection>,
   errors: [UnknownAzureError],
@@ -7204,16 +7295,23 @@ export const ListApplicationAccelerators: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplicationAccelerators",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListApplicationLiveViewsError = AzureOpError;
 /** Handles requests to list all resources in a Service. */
-export const ListApplicationLiveViews: API.OperationMethod<
+export const ListApplicationLiveViews: API.PaginatedOperationMethod<
   ListApplicationLiveViewsRequest,
   ApplicationLiveViewResourceCollection,
   ListApplicationLiveViewsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApplicationLiveViewResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(192, __c12, 0) as any as S.Schema<ListApplicationLiveViewsRequest>,
   output: __S(194, __c12, 2) as any as S.Schema<ApplicationLiveViewResourceCollection>,
   errors: [UnknownAzureError],
@@ -7221,16 +7319,23 @@ export const ListApplicationLiveViews: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApplicationLiveViews",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListAppsError = AzureOpError;
 /** Handles requests to list all resources in a Service. */
-export const ListApps: API.OperationMethod<
+export const ListApps: API.PaginatedOperationMethod<
   ListAppsRequest,
   AppResourceCollection,
   ListAppsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  AppResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(208, __c13, 0) as any as S.Schema<ListAppsRequest>,
   output: __S(210, __c13, 2) as any as S.Schema<AppResourceCollection>,
   errors: [UnknownAzureError],
@@ -7238,16 +7343,23 @@ export const ListApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListApps",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBindingsError = AzureOpError;
 /** Handles requests to list all resources in an App. */
-export const ListBindings: API.OperationMethod<
+export const ListBindings: API.PaginatedOperationMethod<
   ListBindingsRequest,
   BindingResourceCollection,
   ListBindingsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BindingResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(224, __c14, 0) as any as S.Schema<ListBindingsRequest>,
   output: __S(226, __c14, 2) as any as S.Schema<BindingResourceCollection>,
   errors: [UnknownAzureError],
@@ -7255,16 +7367,23 @@ export const ListBindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBindings",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBuildpackBindingError = AzureOpError;
 /** Handles requests to list all buildpack bindings in a builder. */
-export const ListBuildpackBinding: API.OperationMethod<
+export const ListBuildpackBinding: API.PaginatedOperationMethod<
   ListBuildpackBindingRequest,
   BuildpackBindingResourceCollection,
   ListBuildpackBindingError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BuildpackBindingResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(240, __c15, 0) as any as S.Schema<ListBuildpackBindingRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<BuildpackBindingResourceCollection>,
   errors: [UnknownAzureError],
@@ -7272,16 +7391,23 @@ export const ListBuildpackBinding: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBuildpackBinding",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBuildpackBindingForClusterError = AzureOpError;
 /** Get collection of buildpack bindings under all builders. */
-export const ListBuildpackBindingForCluster: API.OperationMethod<
+export const ListBuildpackBindingForCluster: API.PaginatedOperationMethod<
   ListBuildpackBindingForClusterRequest,
   BuildpackBindingResourceCollection,
   ListBuildpackBindingForClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BuildpackBindingResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<ListBuildpackBindingForClusterRequest>,
   output: __S(257, __c16, 1) as any as S.Schema<BuildpackBindingResourceCollection>,
   errors: [UnknownAzureError],
@@ -7289,16 +7415,23 @@ export const ListBuildpackBindingForCluster: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBuildpackBindingForCluster",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBuildServiceAgentPoolError = AzureOpError;
 /** List build service agent pool. */
-export const ListBuildServiceAgentPool: API.OperationMethod<
+export const ListBuildServiceAgentPool: API.PaginatedOperationMethod<
   ListBuildServiceAgentPoolRequest,
   BuildServiceAgentPoolResourceCollection,
   ListBuildServiceAgentPoolError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BuildServiceAgentPoolResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<ListBuildServiceAgentPoolRequest>,
   output: __S(290, __c18, 2) as any as S.Schema<BuildServiceAgentPoolResourceCollection>,
   errors: [UnknownAzureError],
@@ -7306,16 +7439,23 @@ export const ListBuildServiceAgentPool: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBuildServiceAgentPool",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBuildServiceBuilderError = AzureOpError;
 /** List KPack builders result. */
-export const ListBuildServiceBuilder: API.OperationMethod<
+export const ListBuildServiceBuilder: API.PaginatedOperationMethod<
   ListBuildServiceBuilderRequest,
   BuilderResourceCollection,
   ListBuildServiceBuilderError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BuilderResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<ListBuildServiceBuilderRequest>,
   output: __S(306, __c19, 2) as any as S.Schema<BuilderResourceCollection>,
   errors: [UnknownAzureError],
@@ -7323,7 +7463,13 @@ export const ListBuildServiceBuilder: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBuildServiceBuilder",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBuildServiceBuilderDeploymentsError = AzureOpError;
 /** List deployments that are using the builder. */
@@ -7344,12 +7490,13 @@ export const ListBuildServiceBuilderDeployments: API.OperationMethod<
 
 export type ListBuildServiceBuildResultsError = AzureOpError;
 /** List KPack build results. */
-export const ListBuildServiceBuildResults: API.OperationMethod<
+export const ListBuildServiceBuildResults: API.PaginatedOperationMethod<
   ListBuildServiceBuildResultsRequest,
   BuildResultCollection,
   ListBuildServiceBuildResultsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BuildResult
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<ListBuildServiceBuildResultsRequest>,
   output: __S(338, __c21, 2) as any as S.Schema<BuildResultCollection>,
   errors: [UnknownAzureError],
@@ -7357,16 +7504,23 @@ export const ListBuildServiceBuildResults: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBuildServiceBuildResults",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBuildServiceBuildsError = AzureOpError;
 /** List KPack builds. */
-export const ListBuildServiceBuilds: API.OperationMethod<
+export const ListBuildServiceBuilds: API.PaginatedOperationMethod<
   ListBuildServiceBuildsRequest,
   BuildCollection,
   ListBuildServiceBuildsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Build
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<ListBuildServiceBuildsRequest>,
   output: __S(354, __c22, 2) as any as S.Schema<BuildCollection>,
   errors: [UnknownAzureError],
@@ -7374,16 +7528,23 @@ export const ListBuildServiceBuilds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBuildServiceBuilds",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBuildServiceBuildServicesError = AzureOpError;
 /** List build services resource. */
-export const ListBuildServiceBuildServices: API.OperationMethod<
+export const ListBuildServiceBuildServices: API.PaginatedOperationMethod<
   ListBuildServiceBuildServicesRequest,
   BuildServiceCollection,
   ListBuildServiceBuildServicesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  BuildService
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<ListBuildServiceBuildServicesRequest>,
   output: __S(402, __c25, 2) as any as S.Schema<BuildServiceCollection>,
   errors: [UnknownAzureError],
@@ -7391,7 +7552,13 @@ export const ListBuildServiceBuildServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBuildServiceBuildServices",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListBuildServiceSupportedBuildpacksError = AzureOpError;
 /** Get all supported buildpacks. */
@@ -7429,12 +7596,13 @@ export const ListBuildServiceSupportedStacks: API.OperationMethod<
 
 export type ListCertificatesError = AzureOpError;
 /** List all the certificates of one user. */
-export const ListCertificates: API.OperationMethod<
+export const ListCertificates: API.PaginatedOperationMethod<
   ListCertificatesRequest,
   CertificateResourceCollection,
   ListCertificatesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CertificateResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(448, __c28, 0) as any as S.Schema<ListCertificatesRequest>,
   output: __S(450, __c28, 2) as any as S.Schema<CertificateResourceCollection>,
   errors: [UnknownAzureError],
@@ -7442,16 +7610,23 @@ export const ListCertificates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCertificates",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListConfigurationServicesError = AzureOpError;
 /** Handles requests to list all resources in a Service. */
-export const ListConfigurationServices: API.OperationMethod<
+export const ListConfigurationServices: API.PaginatedOperationMethod<
   ListConfigurationServicesRequest,
   ConfigurationServiceResourceCollection,
   ListConfigurationServicesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ConfigurationServiceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ListConfigurationServicesRequest>,
   output: __S(466, __c29, 2) as any as S.Schema<ConfigurationServiceResourceCollection>,
   errors: [UnknownAzureError],
@@ -7459,16 +7634,23 @@ export const ListConfigurationServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListConfigurationServices",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListContainerRegistriesError = AzureOpError;
 /** List container registries resource. */
-export const ListContainerRegistries: API.OperationMethod<
+export const ListContainerRegistries: API.PaginatedOperationMethod<
   ListContainerRegistriesRequest,
   ContainerRegistryResourceCollection,
   ListContainerRegistriesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ContainerRegistryResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ListContainerRegistriesRequest>,
   output: __S(482, __c30, 2) as any as S.Schema<ContainerRegistryResourceCollection>,
   errors: [UnknownAzureError],
@@ -7476,16 +7658,23 @@ export const ListContainerRegistries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListContainerRegistries",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCustomDomainsError = AzureOpError;
 /** List the custom domains of one lifecycle application. */
-export const ListCustomDomains: API.OperationMethod<
+export const ListCustomDomains: API.PaginatedOperationMethod<
   ListCustomDomainsRequest,
   CustomDomainResourceCollection,
   ListCustomDomainsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CustomDomainResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ListCustomDomainsRequest>,
   output: __S(498, __c31, 2) as any as S.Schema<CustomDomainResourceCollection>,
   errors: [UnknownAzureError],
@@ -7493,16 +7682,23 @@ export const ListCustomDomains: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCustomDomains",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListCustomizedAcceleratorsError = AzureOpError;
 /** Handle requests to list all customized accelerators. */
-export const ListCustomizedAccelerators: API.OperationMethod<
+export const ListCustomizedAccelerators: API.PaginatedOperationMethod<
   ListCustomizedAcceleratorsRequest,
   CustomizedAcceleratorResourceCollection,
   ListCustomizedAcceleratorsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  CustomizedAcceleratorResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<ListCustomizedAcceleratorsRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<CustomizedAcceleratorResourceCollection>,
   errors: [UnknownAzureError],
@@ -7510,16 +7706,23 @@ export const ListCustomizedAccelerators: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCustomizedAccelerators",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentForClusterError = AzureOpError;
 /** List deployments for a certain service */
-export const ListDeploymentForCluster: API.OperationMethod<
+export const ListDeploymentForCluster: API.PaginatedOperationMethod<
   ListDeploymentForClusterRequest,
   DeploymentResourceCollection,
   ListDeploymentForClusterError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListDeploymentForClusterRequest>,
   output: __S(545, __c34, 1) as any as S.Schema<DeploymentResourceCollection>,
   errors: [UnknownAzureError],
@@ -7527,16 +7730,23 @@ export const ListDeploymentForCluster: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeploymentForCluster",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDeploymentsError = AzureOpError;
 /** Handles requests to list all resources in an App. */
-export const ListDeployments: API.OperationMethod<
+export const ListDeployments: API.PaginatedOperationMethod<
   ListDeploymentsRequest,
   DeploymentResourceCollection,
   ListDeploymentsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DeploymentResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<ListDeploymentsRequest>,
   output: __S(545, __c34, 1) as any as S.Schema<DeploymentResourceCollection>,
   errors: [UnknownAzureError],
@@ -7544,16 +7754,23 @@ export const ListDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeployments",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListDevToolPortalsError = AzureOpError;
 /** Handles requests to list all resources in a Service. */
-export const ListDevToolPortals: API.OperationMethod<
+export const ListDevToolPortals: API.PaginatedOperationMethod<
   ListDevToolPortalsRequest,
   DevToolPortalResourceCollection,
   ListDevToolPortalsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  DevToolPortalResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<ListDevToolPortalsRequest>,
   output: __S(626, __c39, 2) as any as S.Schema<DevToolPortalResourceCollection>,
   errors: [UnknownAzureError],
@@ -7561,16 +7778,23 @@ export const ListDevToolPortals: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDevToolPortals",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGatewayCustomDomainsError = AzureOpError;
 /** Handle requests to list all Spring Cloud Gateway custom domains. */
-export const ListGatewayCustomDomains: API.OperationMethod<
+export const ListGatewayCustomDomains: API.PaginatedOperationMethod<
   ListGatewayCustomDomainsRequest,
   GatewayCustomDomainResourceCollection,
   ListGatewayCustomDomainsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ApiPortalCustomDomainResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c40, 0) as any as S.Schema<ListGatewayCustomDomainsRequest>,
   output: __S(3633, __c227, 1) as any as S.Schema<GatewayCustomDomainResourceCollection>,
   errors: [UnknownAzureError],
@@ -7578,7 +7802,13 @@ export const ListGatewayCustomDomains: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGatewayCustomDomains",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGatewayEnvSecretsError = AzureOpError;
 /** List sensitive environment variables of Spring Cloud Gateway. */
@@ -7599,12 +7829,13 @@ export const ListGatewayEnvSecrets: API.OperationMethod<
 
 export type ListGatewayRouteConfigsError = AzureOpError;
 /** Handle requests to list all Spring Cloud Gateway route configs. */
-export const ListGatewayRouteConfigs: API.OperationMethod<
+export const ListGatewayRouteConfigs: API.PaginatedOperationMethod<
   ListGatewayRouteConfigsRequest,
   GatewayRouteConfigResourceCollection,
   ListGatewayRouteConfigsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GatewayRouteConfigResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<ListGatewayRouteConfigsRequest>,
   output: __S(674, __c42, 2) as any as S.Schema<GatewayRouteConfigResourceCollection>,
   errors: [UnknownAzureError],
@@ -7612,16 +7843,23 @@ export const ListGatewayRouteConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGatewayRouteConfigs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListGatewaysError = AzureOpError;
 /** Handles requests to list all resources in a Service. */
-export const ListGateways: API.OperationMethod<
+export const ListGateways: API.PaginatedOperationMethod<
   ListGatewaysRequest,
   GatewayResourceCollection,
   ListGatewaysError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GatewayResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<ListGatewaysRequest>,
   output: __S(690, __c43, 2) as any as S.Schema<GatewayResourceCollection>,
   errors: [UnknownAzureError],
@@ -7629,16 +7867,23 @@ export const ListGateways: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGateways",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists all of the available REST API operations of the Microsoft.AppPlatform provider. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   AvailableOperations,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationDetail
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(704, __c44, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(716, __c44, 12) as any as S.Schema<AvailableOperations>,
   errors: [UnknownAzureError],
@@ -7646,16 +7891,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListPredefinedAcceleratorsError = AzureOpError;
 /** Handle requests to list all predefined accelerators. */
-export const ListPredefinedAccelerators: API.OperationMethod<
+export const ListPredefinedAccelerators: API.PaginatedOperationMethod<
   ListPredefinedAcceleratorsRequest,
   PredefinedAcceleratorResourceCollection,
   ListPredefinedAcceleratorsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  PredefinedAcceleratorResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<ListPredefinedAcceleratorsRequest>,
   output: __S(722, __c45, 2) as any as S.Schema<PredefinedAcceleratorResourceCollection>,
   errors: [UnknownAzureError],
@@ -7663,7 +7915,13 @@ export const ListPredefinedAccelerators: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPredefinedAccelerators",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListRuntimeVersionRuntimeVersionsError = AzureOpError;
 /** Lists all of the available runtime versions supported by Microsoft.AppPlatform provider. */
@@ -7684,12 +7942,13 @@ export const ListRuntimeVersionRuntimeVersions: API.OperationMethod<
 
 export type ListServiceBySubscriptionError = AzureOpError;
 /** Handles requests to list all resources in a subscription. */
-export const ListServiceBySubscription: API.OperationMethod<
+export const ListServiceBySubscription: API.PaginatedOperationMethod<
   ListServiceBySubscriptionRequest,
   ServiceResourceList,
   ListServiceBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ServiceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<ListServiceBySubscriptionRequest>,
   output: __S(769, __c48, 1) as any as S.Schema<ServiceResourceList>,
   errors: [UnknownAzureError],
@@ -7697,7 +7956,13 @@ export const ListServiceBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceBySubscription",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceGloballyEnabledApmsError = AzureOpError;
 /** List globally enabled APMs for a Service. */
@@ -7718,12 +7983,13 @@ export const ListServiceGloballyEnabledApms: API.OperationMethod<
 
 export type ListServiceRegistriesError = AzureOpError;
 /** Handles requests to list all resources in a Service. */
-export const ListServiceRegistries: API.OperationMethod<
+export const ListServiceRegistries: API.PaginatedOperationMethod<
   ListServiceRegistriesRequest,
   ServiceRegistryResourceCollection,
   ListServiceRegistriesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ServiceRegistryResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<ListServiceRegistriesRequest>,
   output: __S(818, __c51, 2) as any as S.Schema<ServiceRegistryResourceCollection>,
   errors: [UnknownAzureError],
@@ -7731,16 +7997,23 @@ export const ListServiceRegistries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceRegistries",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServicesError = AzureOpError;
 /** Handles requests to list all resources in a resource group. */
-export const ListServices: API.OperationMethod<
+export const ListServices: API.PaginatedOperationMethod<
   ListServicesRequest,
   ServiceResourceList,
   ListServicesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ServiceResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<ListServicesRequest>,
   output: __S(769, __c48, 1) as any as S.Schema<ServiceResourceList>,
   errors: [UnknownAzureError],
@@ -7748,16 +8021,23 @@ export const ListServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServices",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceSupportedApmTypesError = AzureOpError;
 /** List supported APM types for a Service. */
-export const ListServiceSupportedApmTypes: API.OperationMethod<
+export const ListServiceSupportedApmTypes: API.PaginatedOperationMethod<
   ListServiceSupportedApmTypesRequest,
   SupportedApmTypes,
   ListServiceSupportedApmTypesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SupportedApmType
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(848, __c53, 0) as any as S.Schema<ListServiceSupportedApmTypesRequest>,
   output: __S(850, __c53, 2) as any as S.Schema<SupportedApmTypes>,
   errors: [UnknownAzureError],
@@ -7765,16 +8045,23 @@ export const ListServiceSupportedApmTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceSupportedApmTypes",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceSupportedServerVersionsError = AzureOpError;
 /** Lists all of the available server versions supported by Microsoft.AppPlatform provider. */
-export const ListServiceSupportedServerVersions: API.OperationMethod<
+export const ListServiceSupportedServerVersions: API.PaginatedOperationMethod<
   ListServiceSupportedServerVersionsRequest,
   SupportedServerVersions,
   ListServiceSupportedServerVersionsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  SupportedServerVersion
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<ListServiceSupportedServerVersionsRequest>,
   output: __S(867, __c54, 3) as any as S.Schema<SupportedServerVersions>,
   errors: [UnknownAzureError],
@@ -7782,7 +8069,13 @@ export const ListServiceSupportedServerVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServiceSupportedServerVersions",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListServiceTestKeysError = AzureOpError;
 /** List test keys for a Service. */
@@ -7803,12 +8096,13 @@ export const ListServiceTestKeys: API.OperationMethod<
 
 export type ListSkusError = AzureOpError;
 /** Lists all of the available skus of the Microsoft.AppPlatform provider. */
-export const ListSkus: API.OperationMethod<
+export const ListSkus: API.PaginatedOperationMethod<
   ListSkusRequest,
   ResourceSkuCollection,
   ListSkusError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ResourceSku
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<ListSkusRequest>,
   output: __S(909, __c56, 13) as any as S.Schema<ResourceSkuCollection>,
   errors: [UnknownAzureError],
@@ -7816,16 +8110,23 @@ export const ListSkus: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSkus",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListStoragesError = AzureOpError;
 /** List all the storages of one Azure Spring Apps resource. */
-export const ListStorages: API.OperationMethod<
+export const ListStorages: API.PaginatedOperationMethod<
   ListStoragesRequest,
   StorageResourceCollection,
   ListStoragesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  StorageResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<ListStoragesRequest>,
   output: __S(914, __c57, 2) as any as S.Schema<StorageResourceCollection>,
   errors: [UnknownAzureError],
@@ -7833,7 +8134,13 @@ export const ListStorages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListStorages",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type MonitoringSettingsUpdatePatchError = AzureOpError;
 /** Update the Monitoring Setting. */
@@ -8553,12 +8860,14 @@ function __c12(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationLiveViews",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationLiveViewsRequest" });
@@ -8567,7 +8876,7 @@ function __c12(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(193, __c12, 1)),
+          value: __S(193, __c12, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplicationLiveViewResourceCollection" });
@@ -8581,12 +8890,14 @@ function __c13(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListAppsRequest" });
@@ -8595,7 +8906,7 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(209, __c13, 1)),
+          value: __S(209, __c13, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AppResourceCollection" });
@@ -8610,12 +8921,14 @@ function __c14(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           appName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/bindings",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBindingsRequest" });
@@ -8624,7 +8937,7 @@ function __c14(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(225, __c14, 1)),
+          value: __S(225, __c14, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "BindingResourceCollection" });
@@ -8640,12 +8953,14 @@ function __c15(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           buildServiceName: S.String.pipe(T.Label()),
           builderName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders/{builderName}/buildpackBindings",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBuildpackBindingRequest" });
@@ -8658,7 +8973,7 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(256, __c16, 0)),
+          value: __S(256, __c16, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "BuildpackBindingResourceCollection" });
@@ -8672,12 +8987,14 @@ function __c17(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildpackBindings",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBuildpackBindingForClusterRequest" });
@@ -8692,12 +9009,14 @@ function __c18(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           buildServiceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/agentPools",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBuildServiceAgentPoolRequest" });
@@ -8706,7 +9025,7 @@ function __c18(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(289, __c18, 1)),
+          value: __S(289, __c18, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "BuildServiceAgentPoolResourceCollection" });
@@ -8721,12 +9040,14 @@ function __c19(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           buildServiceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builders",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBuildServiceBuilderRequest" });
@@ -8735,7 +9056,7 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(305, __c19, 1)),
+          value: __S(305, __c19, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "BuilderResourceCollection" });
@@ -8778,12 +9099,14 @@ function __c21(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           buildServiceName: S.String.pipe(T.Label()),
           buildName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds/{buildName}/results",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBuildServiceBuildResultsRequest" });
@@ -8792,7 +9115,7 @@ function __c21(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(337, __c21, 1)),
+          value: __S(337, __c21, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "BuildResultCollection" });
@@ -8807,12 +9130,14 @@ function __c22(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           buildServiceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBuildServiceBuildsRequest" });
@@ -8821,7 +9146,7 @@ function __c22(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(353, __c22, 1)),
+          value: __S(353, __c22, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "BuildCollection" });
@@ -8886,12 +9211,14 @@ function __c25(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListBuildServiceBuildServicesRequest" });
@@ -8900,7 +9227,7 @@ function __c25(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(401, __c25, 1)),
+          value: __S(401, __c25, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "BuildServiceCollection" });
@@ -8972,12 +9299,14 @@ function __c28(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/certificates",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCertificatesRequest" });
@@ -8986,7 +9315,7 @@ function __c28(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(449, __c28, 1)),
+          value: __S(449, __c28, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CertificateResourceCollection" });
@@ -9000,12 +9329,14 @@ function __c29(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListConfigurationServicesRequest" });
@@ -9014,7 +9345,7 @@ function __c29(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(465, __c29, 1)),
+          value: __S(465, __c29, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigurationServiceResourceCollection" });
@@ -9028,12 +9359,14 @@ function __c30(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/containerRegistries",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListContainerRegistriesRequest" });
@@ -9042,7 +9375,7 @@ function __c30(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(481, __c30, 1)),
+          value: __S(481, __c30, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ContainerRegistryResourceCollection" });
@@ -9057,12 +9390,14 @@ function __c31(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           appName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/domains",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCustomDomainsRequest" });
@@ -9071,7 +9406,7 @@ function __c31(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(497, __c31, 1)),
+          value: __S(497, __c31, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomDomainResourceCollection" });
@@ -9086,12 +9421,14 @@ function __c32(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           applicationAcceleratorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}/customizedAccelerators",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListCustomizedAcceleratorsRequest" });
@@ -9100,7 +9437,7 @@ function __c32(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(513, __c32, 1)),
+          value: __S(513, __c32, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomizedAcceleratorResourceCollection" });
@@ -9116,12 +9453,14 @@ function __c33(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           version: S.optional(__S(112, __c7, 0).pipe(T.Query())),
           _expand: S.optional(S.String.pipe(T.Query("$expand"))),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/deployments",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentForClusterRequest" });
@@ -9134,7 +9473,7 @@ function __c34(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(544, __c34, 0)),
+          value: __S(544, __c34, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DeploymentResourceCollection" });
@@ -9150,12 +9489,14 @@ function __c35(j: number): any {
           serviceName: S.String.pipe(T.Label()),
           appName: S.String.pipe(T.Label()),
           version: S.optional(__S(112, __c7, 0).pipe(T.Query())),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDeploymentsRequest" });
@@ -9254,12 +9595,14 @@ function __c39(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/devToolPortals",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListDevToolPortalsRequest" });
@@ -9268,7 +9611,7 @@ function __c39(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(625, __c39, 1)),
+          value: __S(625, __c39, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "DevToolPortalResourceCollection" });
@@ -9283,12 +9626,14 @@ function __c40(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           gatewayName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/domains",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGatewayCustomDomainsRequest" });
@@ -9327,12 +9672,14 @@ function __c42(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           gatewayName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways/{gatewayName}/routeConfigs",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGatewayRouteConfigsRequest" });
@@ -9341,7 +9688,7 @@ function __c42(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(673, __c42, 1)),
+          value: __S(673, __c42, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "GatewayRouteConfigResourceCollection" });
@@ -9355,12 +9702,14 @@ function __c43(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/gateways",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListGatewaysRequest" });
@@ -9369,7 +9718,7 @@ function __c43(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(689, __c43, 1)),
+          value: __S(689, __c43, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "GatewayResourceCollection" });
@@ -9379,12 +9728,15 @@ function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.AppPlatform/operations",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -9464,7 +9816,7 @@ function __c44(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(715, __c44, 11)),
+          value: __S(715, __c44, 11),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AvailableOperations" });
@@ -9479,12 +9831,14 @@ function __c45(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           applicationAcceleratorName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators/{applicationAcceleratorName}/predefinedAccelerators",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListPredefinedAcceleratorsRequest" });
@@ -9493,7 +9847,7 @@ function __c45(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(721, __c45, 1)),
+          value: __S(721, __c45, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "PredefinedAcceleratorResourceCollection" });
@@ -9536,12 +9890,14 @@ function __c47(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AppPlatform/Spring",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceBySubscriptionRequest" });
@@ -9554,7 +9910,7 @@ function __c48(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(768, __c48, 0)),
+          value: __S(768, __c48, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceResourceList" });
@@ -9607,12 +9963,14 @@ function __c51(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/serviceRegistries",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceRegistriesRequest" });
@@ -9621,7 +9979,7 @@ function __c51(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(817, __c51, 1)),
+          value: __S(817, __c51, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ServiceRegistryResourceCollection" });
@@ -9634,12 +9992,14 @@ function __c52(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServicesRequest" });
@@ -9653,12 +10013,14 @@ function __c53(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/supportedApmTypes",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceSupportedApmTypesRequest" });
@@ -9667,7 +10029,7 @@ function __c53(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(849, __c53, 1)),
+          value: __S(849, __c53, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SupportedApmTypes" });
@@ -9681,12 +10043,14 @@ function __c54(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/supportedServerVersions",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListServiceSupportedServerVersionsRequest" });
@@ -9703,7 +10067,7 @@ function __c54(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(866, __c54, 2)),
+          value: __S(866, __c54, 2),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "SupportedServerVersions" });
@@ -9734,12 +10098,14 @@ function __c56(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.AppPlatform/skus",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListSkusRequest" });
@@ -9815,7 +10181,7 @@ function __c56(j: number): any {
     case 13:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(908, __c56, 12)),
+          value: __S(908, __c56, 12),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceSkuCollection" });
@@ -9829,12 +10195,14 @@ function __c57(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/storages",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListStoragesRequest" });
@@ -9843,7 +10211,7 @@ function __c57(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(913, __c57, 1)),
+          value: __S(913, __c57, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "StorageResourceCollection" });
@@ -13767,12 +14135,14 @@ function __c226(j: number): any {
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
           apiPortalName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals/{apiPortalName}/domains",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApiPortalCustomDomainsRequest" });
@@ -13785,7 +14155,7 @@ function __c227(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3632, __c227, 0)),
+          value: __S(3632, __c227, 0),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiPortalCustomDomainResourceCollection" });
@@ -13799,12 +14169,14 @@ function __c228(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apiPortals",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApiPortalsRequest" });
@@ -13813,7 +14185,7 @@ function __c228(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3649, __c228, 1)),
+          value: __S(3649, __c228, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApiPortalResourceCollection" });
@@ -13827,12 +14199,14 @@ function __c229(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apms",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApmsRequest" });
@@ -13841,7 +14215,7 @@ function __c229(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3665, __c229, 1)),
+          value: __S(3665, __c229, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApmResourceCollection" });
@@ -13885,12 +14259,14 @@ function __c232(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           serviceName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/applicationAccelerators",
             code: 200,
             apiVersion: "2023-12-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListApplicationAcceleratorsRequest" });
@@ -13899,7 +14275,7 @@ function __c232(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(3713, __c232, 1)),
+          value: __S(3713, __c232, 1),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "ApplicationAcceleratorResourceCollection" });

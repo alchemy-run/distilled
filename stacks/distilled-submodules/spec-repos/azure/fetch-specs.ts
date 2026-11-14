@@ -12,6 +12,13 @@
  *   specification/<service>/resource-manager/<Microsoft.Provider>/stable/<version>/*.json
  *   specification/<service>/resource-manager/<Microsoft.Provider>/<sub>/stable/<version>/*.json
  *
+ * and, for every data plane, the `*.json` swagger documents in the LATEST
+ * stable api-version directory of each group (groups that only ship preview
+ * versions are skipped):
+ *
+ *   specification/<service>/data-plane/<group>/stable/<version>/*.json
+ *   specification/<service>/data-plane/<group>/<sub>/stable/<version>/*.json
+ *
  * Those documents `$ref` other documents (`common-types`, siblings, other
  * providers), and the converter resolves those refs off disk, so the mirror
  * also has to be `$ref`-closed. This script therefore:
@@ -25,8 +32,8 @@
  *   4. follows external `$ref`s in what it just checked out and repeats until
  *      the set is closed.
  *
- * Preview api-versions, data-plane specs, `x-ms-examples` payloads and every
- * superseded stable version are never transferred.
+ * Preview api-versions, `x-ms-examples` payloads and every superseded stable
+ * version are never transferred.
  *
  * Usage:
  *   node fetch-specs.ts
@@ -76,6 +83,22 @@ const git = async (cwd: string, args: string[], stdin?: string) => {
 const API_VERSION = /^\d{4}-\d{2}-\d{2}/;
 
 /**
+ * Data planes name their version directories freely: dates (`2025-07-01`,
+ * `2021-05`, `2024-07-01.20.0`), dotted numbers (`7.6`, `1.0`) and
+ * `v`-prefixed ones (`v3.2`, `v1`). A group that moved from numbered to
+ * dated versions (Key Vault `7.6` → `2025-07-01`, App Configuration `1.0` →
+ * `2023-10-01`) is newest on its dates, so a dated version ranks above any
+ * other; within a kind, versions compare numerically. Mirrors
+ * `compareDataPlaneVersions` in the distilled azure converter — keep the two
+ * in step.
+ */
+const DATED_VERSION = /^\d{4}-\d{2}/;
+const compareDataPlaneVersions = (a: string, b: string): number => {
+  const rank = (v: string) => (DATED_VERSION.test(v) ? 1 : 0);
+  return rank(a) - rank(b) || a.localeCompare(b, "en", { numeric: true });
+};
+
+/**
  * The swagger documents to keep, chosen from the repository's file list
  * alone. Mirrors `discoverSpecs`/`findLatestStableSpecs` in the distilled
  * azure converter — keep the two in step.
@@ -85,6 +108,8 @@ function selectSpecs(allPaths: string[]): Set<string> {
 
   // stable-directory prefix -> version -> files directly inside it
   const stables = new Map<string, Map<string, string[]>>();
+  // the same, for data-plane groups
+  const dataPlaneStables = new Map<string, Map<string, string[]>>();
 
   for (const path of allPaths) {
     if (!path.startsWith(`${ROOT}/`)) continue;
@@ -99,6 +124,24 @@ function selectSpecs(allPaths: string[]): Set<string> {
     if (!path.endsWith(".json")) continue;
 
     const segments = path.split("/");
+
+    // specification/<service>/data-plane/<group>/[<sub>/]stable/<version>/<file>
+    if (segments[2] === "data-plane") {
+      const depth = segments.length;
+      const stableAt = depth - 3;
+      if (segments[stableAt] !== "stable") continue;
+      if (stableAt !== 4 && stableAt !== 5) continue;
+      const version = segments[depth - 2]!;
+      if (version.includes("preview")) continue;
+      const file = segments[depth - 1]!;
+      if (file.startsWith("examples")) continue;
+      const stableDir = segments.slice(0, stableAt + 1).join("/");
+      const versions = dataPlaneStables.get(stableDir) ?? new Map<string, string[]>();
+      dataPlaneStables.set(stableDir, versions);
+      versions.set(version, [...(versions.get(version) ?? []), path]);
+      continue;
+    }
+
     // specification/<service>/resource-manager/<provider>/[<sub>/]stable/<version>/<file>
     if (segments[2] !== "resource-manager") continue;
 
@@ -130,6 +173,11 @@ function selectSpecs(allPaths: string[]): Set<string> {
   for (const versions of stables.values()) {
     // Same ordering as the converter: plain lexicographic, last wins.
     const latest = [...versions.keys()].sort((a, b) => a.localeCompare(b)).at(-1)!;
+    for (const path of versions.get(latest)!) wanted.add(path);
+  }
+
+  for (const versions of dataPlaneStables.values()) {
+    const latest = [...versions.keys()].sort(compareDataPlaneVersions).at(-1)!;
     for (const path of versions.get(latest)!) wanted.add(path);
   }
 
@@ -195,7 +243,7 @@ async function main() {
     console.log(`  ${allPaths.length} paths upstream.`);
 
     const wanted = selectSpecs(allPaths);
-    console.log(`  ${wanted.size} selected (latest stable + common-types).`);
+    console.log(`  ${wanted.size} selected (latest stable ARM + data-plane + common-types).`);
 
     console.log("Checking out the selection...");
     await setSparse(repo, wanted);

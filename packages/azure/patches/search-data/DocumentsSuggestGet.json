@@ -1,0 +1,35 @@
+{
+  "description": "The spec declares `$orderby`, `searchFields`, `$select` with `collectionFormat: csv`, but they convert to lists the protocol sends as repeated query parameters, which Azure AI Search rejects (`Found duplicate query string parameters that are not allowed: '$select'`). Model each as one comma-separated string.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.search_data#DocumentsSuggestGetRequest/members/_orderby/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.search_data#DocumentsSuggestGetRequest/members/_orderby/traits/smithy.api#documentation",
+      "value": "The list of OData $orderby expressions by which to sort the results. Each expression can be either a field name or a call to either the geo.distance() or the search.score() functions. Each expression can be followed by asc to indicate ascending, or desc to indicate descending. The default is ascending order. Ties will be broken by the match scores of documents. If no $orderby is specified, the default sort order is descending by document match score. There can be at most 32 $orderby clauses. Comma-separated."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.search_data#DocumentsSuggestGetRequest/members/searchFields/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.search_data#DocumentsSuggestGetRequest/members/searchFields/traits/smithy.api#documentation",
+      "value": "The list of field names to search for the specified search text. Target fields must be included in the specified suggester. Comma-separated."
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.search_data#DocumentsSuggestGetRequest/members/_select/target",
+      "value": "smithy.api#String"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.search_data#DocumentsSuggestGetRequest/members/_select/traits/smithy.api#documentation",
+      "value": "The list of fields to retrieve. If unspecified, only the key field will be included in the results. Comma-separated."
+    }
+  ]
+}

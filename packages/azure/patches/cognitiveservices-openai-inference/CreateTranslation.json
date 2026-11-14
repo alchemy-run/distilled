@@ -1,0 +1,10 @@
+{
+  "description": "The audio `file` multipart part is binary (swagger `format: binary`), but the converted model types it as a string, so no audio could be sent. Make it a Document so a File (whose name carries the audio extension, e.g. speech.wav) or Blob passes through to the form.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.azure.cognitiveservices_openai_inference#TranslationsCreateRequest/members/file/target",
+      "value": "smithy.api#Document"
+    }
+  ]
+}

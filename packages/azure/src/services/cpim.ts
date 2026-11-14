@@ -287,7 +287,7 @@ export type B2CTenantResourceListValueList = Array<B2CTenantResource>;
 /** The collection of Azure AD B2C tenant resources */
 export interface B2CTenantResourceList {
   /** List of Azure AD B2C tenant resources */
-  value?: B2CTenantResourceListValueList | undefined;
+  value: B2CTenantResourceListValueList;
 }
 export interface ListB2CTenantBySubscriptionRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -304,7 +304,7 @@ export type GuestUsagesResourceListValueList = Array<GuestUsagesResource>;
 /** The collection of guest usages resources */
 export interface GuestUsagesResourceList {
   /** List of guest usages resources */
-  value?: GuestUsagesResourceListValueList | undefined;
+  value: GuestUsagesResourceListValueList;
 }
 export interface ListGuestUsageBySubscriptionRequest {
   /** Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call. */
@@ -338,7 +338,7 @@ export type AvailableOperationsValueList = Array<OperationDetail>;
 /** Available operations of the service */
 export interface AvailableOperations {
   /** Collection of available operation details */
-  value?: AvailableOperationsValueList | undefined;
+  value: AvailableOperationsValueList;
   /** URL client should use to fetch the next page (per server side paging). It's null for now, added for future use. */
   nextLink?: string | undefined;
 }
@@ -507,12 +507,13 @@ export const GetGuestUsage: API.OperationMethod<
 
 export type ListB2CTenantByResourceGroupError = AzureOpError;
 /** Get all the Azure AD B2C tenant resources in a resource group. */
-export const ListB2CTenantByResourceGroup: API.OperationMethod<
+export const ListB2CTenantByResourceGroup: API.PaginatedOperationMethod<
   ListB2CTenantByResourceGroupRequest,
   B2CTenantResourceList,
   ListB2CTenantByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  B2CTenantResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(120, __c15, 0) as any as S.Schema<ListB2CTenantByResourceGroupRequest>,
   output: __S(129, __c16, 1) as any as S.Schema<B2CTenantResourceList>,
   errors: [UnknownAzureError],
@@ -520,16 +521,18 @@ export const ListB2CTenantByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListB2CTenantByResourceGroup",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListB2CTenantBySubscriptionError = AzureOpError;
 /** Get all the Azure AD B2C tenant resources in a subscription. */
-export const ListB2CTenantBySubscription: API.OperationMethod<
+export const ListB2CTenantBySubscription: API.PaginatedOperationMethod<
   ListB2CTenantBySubscriptionRequest,
   B2CTenantResourceList,
   ListB2CTenantBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  B2CTenantResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(136, __c17, 0) as any as S.Schema<ListB2CTenantBySubscriptionRequest>,
   output: __S(129, __c16, 1) as any as S.Schema<B2CTenantResourceList>,
   errors: [UnknownAzureError],
@@ -537,16 +540,18 @@ export const ListB2CTenantBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListB2CTenantBySubscription",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListGuestUsageByResourceGroupError = AzureOpError;
 /** Gets Guest Usages resources under resource group Gets Guest Usages resources under a resource group for the Microsoft.AzureActiveDirectory resource provider */
-export const ListGuestUsageByResourceGroup: API.OperationMethod<
+export const ListGuestUsageByResourceGroup: API.PaginatedOperationMethod<
   ListGuestUsageByResourceGroupRequest,
   GuestUsagesResourceList,
   ListGuestUsageByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GuestUsagesResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(144, __c18, 0) as any as S.Schema<ListGuestUsageByResourceGroupRequest>,
   output: __S(153, __c19, 1) as any as S.Schema<GuestUsagesResourceList>,
   errors: [UnknownAzureError],
@@ -554,16 +559,18 @@ export const ListGuestUsageByResourceGroup: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGuestUsageByResourceGroup",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListGuestUsageBySubscriptionError = AzureOpError;
 /** Gets Guest Usages resources under a subscription Gets Guest Usages resources under a subscription for the Microsoft.AzureActiveDirectory resource provider */
-export const ListGuestUsageBySubscription: API.OperationMethod<
+export const ListGuestUsageBySubscription: API.PaginatedOperationMethod<
   ListGuestUsageBySubscriptionRequest,
   GuestUsagesResourceList,
   ListGuestUsageBySubscriptionError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  GuestUsagesResource
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(32, __c4, 0) as any as S.Schema<ListGuestUsageBySubscriptionRequest>,
   output: __S(153, __c19, 1) as any as S.Schema<GuestUsagesResourceList>,
   errors: [UnknownAzureError],
@@ -571,16 +578,18 @@ export const ListGuestUsageBySubscription: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListGuestUsageBySubscription",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type ListOperationsError = AzureOpError;
 /** Lists the operations available from this provider. */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   AvailableOperations,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  OperationDetail
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(40, __c5, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(44, __c5, 4) as any as S.Schema<AvailableOperations>,
   errors: [UnknownAzureError],
@@ -588,7 +597,8 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: { mode: "single", items: "value" } as const,
+})) as any;
 
 export type UpdateB2CTenantError = AzureOpError;
 /** Update the Azure AD B2C tenant resource. */
@@ -798,7 +808,7 @@ function __c5(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(43, __c5, 3)),
+          value: __S(43, __c5, 3),
           nextLink: S.optional(S.String),
         }),
       ).annotate({ identifier: "AvailableOperations" });
@@ -1030,7 +1040,7 @@ function __c16(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(128, __c16, 0)),
+          value: __S(128, __c16, 0),
         }),
       ).annotate({ identifier: "B2CTenantResourceList" });
   }
@@ -1077,7 +1087,7 @@ function __c19(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(__S(152, __c19, 0)),
+          value: __S(152, __c19, 0),
         }),
       ).annotate({ identifier: "GuestUsagesResourceList" });
   }

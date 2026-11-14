@@ -515,7 +515,10 @@ export interface GetVirtualMachineImageTemplateRunOutputResponse {
   /** The properties of the run output */
   properties?: RunOutputProperties | undefined;
 }
-export interface ListOperationsRequest {}
+export interface ListOperationsRequest {
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
+}
 /** The object that describes the operation. */
 export interface OperationDisplay {
   /** Friendly name of the resource provider. */
@@ -556,6 +559,8 @@ export interface ListTriggerByImageTemplateRequest {
   resourceGroupName: string;
   /** The name of the image Template */
   imageTemplateName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents a trigger that can invoke an image template build. */
 export interface Trigger {
@@ -584,6 +589,8 @@ export interface ListVirtualMachineImageTemplateByResourceGroupRequest {
   subscriptionId: string;
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ImageTemplateTagsMap = { [key: string]: string | undefined };
@@ -622,6 +629,8 @@ export interface ListVirtualMachineImageTemplateRunOutputsRequest {
   resourceGroupName: string;
   /** The name of the image Template */
   imageTemplateName: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 /** Represents an output that was created by running an image template. */
 export interface RunOutput {
@@ -648,6 +657,8 @@ export interface RunOutputCollection {
 export interface ListVirtualMachineImageTemplatesRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
+  /** The absolute URL of a page returned by a previous call; when set, every other member is ignored. */
+  nextLink?: string | undefined;
 }
 export interface RunVirtualMachineImageTemplateRequest {
   /** The ID of the target subscription. */
@@ -951,12 +962,13 @@ export const GetVirtualMachineImageTemplateRunOutput: API.OperationMethod<
 
 export type ListOperationsError = AzureOpError;
 /** Lists available operations for the Microsoft.VirtualMachineImages provider */
-export const ListOperations: API.OperationMethod<
+export const ListOperations: API.PaginatedOperationMethod<
   ListOperationsRequest,
   OperationListResult,
   ListOperationsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Operation
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(640, __c20, 0) as any as S.Schema<ListOperationsRequest>,
   output: __S(644, __c20, 4) as any as S.Schema<OperationListResult>,
   errors: [UnknownAzureError],
@@ -964,16 +976,23 @@ export const ListOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOperations",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListTriggerByImageTemplateError = AzureOpError;
 /** List all triggers for the specified Image Template resource */
-export const ListTriggerByImageTemplate: API.OperationMethod<
+export const ListTriggerByImageTemplate: API.PaginatedOperationMethod<
   ListTriggerByImageTemplateRequest,
   TriggerCollection,
   ListTriggerByImageTemplateError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  Trigger
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<ListTriggerByImageTemplateRequest>,
   output: __S(674, __c21, 2) as any as S.Schema<TriggerCollection>,
   errors: [UnknownAzureError],
@@ -981,16 +1000,23 @@ export const ListTriggerByImageTemplate: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTriggerByImageTemplate",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualMachineImageTemplateByResourceGroupError = AzureOpError;
 /** Gets information about the VM image templates associated with the specified resource group. */
-export const ListVirtualMachineImageTemplateByResourceGroup: API.OperationMethod<
+export const ListVirtualMachineImageTemplateByResourceGroup: API.PaginatedOperationMethod<
   ListVirtualMachineImageTemplateByResourceGroupRequest,
   ImageTemplateListResult,
   ListVirtualMachineImageTemplateByResourceGroupError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ImageTemplate
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
     704,
     __c22,
@@ -1002,16 +1028,23 @@ export const ListVirtualMachineImageTemplateByResourceGroup: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualMachineImageTemplateByResourceGroup",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualMachineImageTemplateRunOutputsError = AzureOpError;
 /** List all run outputs for the specified Image Template resource */
-export const ListVirtualMachineImageTemplateRunOutputs: API.OperationMethod<
+export const ListVirtualMachineImageTemplateRunOutputs: API.PaginatedOperationMethod<
   ListVirtualMachineImageTemplateRunOutputsRequest,
   RunOutputCollection,
   ListVirtualMachineImageTemplateRunOutputsError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  RunOutput
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(768, __c24, 0) as any as S.Schema<ListVirtualMachineImageTemplateRunOutputsRequest>,
   output: __S(770, __c24, 2) as any as S.Schema<RunOutputCollection>,
   errors: [UnknownAzureError],
@@ -1019,16 +1052,23 @@ export const ListVirtualMachineImageTemplateRunOutputs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualMachineImageTemplateRunOutputs",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type ListVirtualMachineImageTemplatesError = AzureOpError;
 /** Gets information about the VM image templates associated with the subscription. */
-export const ListVirtualMachineImageTemplates: API.OperationMethod<
+export const ListVirtualMachineImageTemplates: API.PaginatedOperationMethod<
   ListVirtualMachineImageTemplatesRequest,
   ImageTemplateListResult,
   ListVirtualMachineImageTemplatesError,
-  AzureOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  AzureOpContext,
+  ImageTemplate
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(128, __c4, 0) as any as S.Schema<ListVirtualMachineImageTemplatesRequest>,
   output: __S(737, __c23, 1) as any as S.Schema<ImageTemplateListResult>,
   errors: [UnknownAzureError],
@@ -1036,7 +1076,13 @@ export const ListVirtualMachineImageTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVirtualMachineImageTemplates",
-}));
+  pagination: {
+    mode: "cursor",
+    inputToken: "nextLink",
+    outputToken: "nextLink",
+    items: "value",
+  } as const,
+})) as any;
 
 export type RunVirtualMachineImageTemplateError = AzureOpError;
 /** Create artifacts from a existing image template */
@@ -1175,12 +1221,14 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/providers/Microsoft.VirtualMachineImages/imageTemplates",
             code: 200,
             apiVersion: "2025-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualMachineImageTemplatesRequest" });
@@ -1725,12 +1773,15 @@ function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({}).pipe(
+        S.Struct({
+          nextLink: S.optional(S.String),
+        }).pipe(
           T.Http({
             method: "GET",
             uri: "/providers/Microsoft.VirtualMachineImages/operations",
             code: 200,
             apiVersion: "2025-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListOperationsRequest" });
@@ -1772,12 +1823,14 @@ function __c21(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           imageTemplateName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VirtualMachineImages/imageTemplates/{imageTemplateName}/triggers",
             code: 200,
             apiVersion: "2025-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListTriggerByImageTemplateRequest" });
@@ -1799,12 +1852,14 @@ function __c22(j: number): any {
         S.Struct({
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VirtualMachineImages/imageTemplates",
             code: 200,
             apiVersion: "2025-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualMachineImageTemplateByResourceGroupRequest" });
@@ -1831,12 +1886,14 @@ function __c24(j: number): any {
           subscriptionId: S.String.pipe(T.Label()),
           resourceGroupName: S.String.pipe(T.Label()),
           imageTemplateName: S.String.pipe(T.Label()),
+          nextLink: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "GET",
             uri: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VirtualMachineImages/imageTemplates/{imageTemplateName}/runOutputs",
             code: 200,
             apiVersion: "2025-10-01",
+            nextLink: "nextLink",
           }),
         ),
       ).annotate({ identifier: "ListVirtualMachineImageTemplateRunOutputsRequest" });

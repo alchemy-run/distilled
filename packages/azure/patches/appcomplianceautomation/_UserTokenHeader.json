@@ -1,0 +1,401 @@
+{
+  "description": "Every Microsoft.AppComplianceAutomation operation needs the caller's token a second time in the `x-ms-aad-user-token` header (documented in the ACAT CI/CD guide, absent from the spec); without it even GET /reports fails with HTTP 502 `BearerFallbackDisabled`. Add an optional sensitive `userToken` header member to every operation input.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#EvidenceCreateOrUpdateRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#EvidenceDeleteRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#EvidenceDownloadRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#EvidenceGetRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#EvidenceListByReportRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ProviderActionsCheckNameAvailabilityRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ProviderActionsGetCollectionCountRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ProviderActionsGetOverviewStatusRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ProviderActionsListInUseStorageAccountsRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ProviderActionsOnboardRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ProviderActionsTriggerEvaluationRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ReportCreateOrUpdateRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ReportDeleteRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ReportFixRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ReportGetRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ReportGetScopingQuestionsRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ReportListRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ReportNestedResourceCheckNameAvailabilityRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ReportSyncCertRecordRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ReportUpdateRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ReportVerifyRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ScopingConfigurationCreateOrUpdateRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ScopingConfigurationDeleteRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ScopingConfigurationGetRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#ScopingConfigurationListRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#SnapshotDownloadRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#SnapshotGetRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#SnapshotListRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#WebhookCreateOrUpdateRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#WebhookDeleteRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#WebhookGetRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#WebhookListRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.azure.appcomplianceautomation#WebhookUpdateRequest/members/userToken",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-ms-aad-user-token",
+          "smithy.api#sensitive": {},
+          "smithy.api#documentation": "The caller's Microsoft Entra token, `Bearer <token>`. Microsoft.AppComplianceAutomation acts on behalf of this token and refuses requests without it (HTTP 502 `BearerFallbackDisabled`)."
+        }
+      }
+    }
+  ]
+}
