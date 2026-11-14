@@ -410,7 +410,7 @@ export interface DeleteAiGatewayByokCredentialRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
 }
-export type DeleteAiGatewayByokCredentialResponse = unknown;
+export type DeleteAiGatewayByokCredentialResponse = unknown | null;
 export interface DeleteAiGatewayRuleRequest {
   ruleId: string;
   /** The Team identifier to perform the request on behalf of. */
@@ -418,7 +418,7 @@ export interface DeleteAiGatewayRuleRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
 }
-export type DeleteAiGatewayRuleResponse = unknown;
+export type DeleteAiGatewayRuleResponse = unknown | null;
 export interface DeleteAiGatewayVirtualModelConfigRequest {
   ownerId?: string | undefined;
   virtualModelSlug: string;
@@ -430,7 +430,7 @@ export interface DeleteAiGatewayVirtualModelConfigRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
 }
-export type DeleteAiGatewayVirtualModelConfigResponse = unknown;
+export type DeleteAiGatewayVirtualModelConfigResponse = unknown | null;
 export interface DeleteAiGatewayVirtualModelConfigBySlugRequest {
   vmcSlug: string;
   ownerId?: string | undefined;
@@ -442,7 +442,7 @@ export interface DeleteAiGatewayVirtualModelConfigBySlugRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
 }
-export type DeleteAiGatewayVirtualModelConfigBySlugResponse = unknown;
+export type DeleteAiGatewayVirtualModelConfigBySlugResponse = unknown | null;
 export interface GetAiGatewayByokCredentialRequest {
   /** The unique ID of the credential */
   credentialId: string;
@@ -2041,7 +2041,7 @@ function __c33(j: number): any {
 function __c34(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(S.Unknown).pipe(T.RawResponseRoot())).annotate({
         identifier: "DeleteAiGatewayByokCredentialResponse",
       });
   }

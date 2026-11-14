@@ -347,7 +347,7 @@ const decodeResponse = (
       // Strict mode checks the mapped body against the output schema first,
       // and parse errors withhold a body that can hold a secret (core
       // `checkSuccess`).
-      const body: unknown = nonJson ? text : (json ?? {});
+      const body: unknown = nonJson ? text : json === undefined ? {} : json;
       const checked = checkSuccess(context, outputAst, {
         value: mapsVerbatim(outputAst, "decode") ? body : mapKeys(outputAst, body, "decode"),
         body: nonJson ? text : json,

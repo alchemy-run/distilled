@@ -572,7 +572,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     outputAst: AST.AST,
   ): Decoded => {
     const plan = decodePlanFor(outputAst);
-    let body: unknown = nonJson ? text : (json ?? (plan.text ? "" : {}));
+    let body: unknown = nonJson ? text : json === undefined ? (plan.text ? "" : {}) : json;
     if (options.transformResponse) body = options.transformResponse(body);
     const mapped =
       plan.bodyMember !== undefined

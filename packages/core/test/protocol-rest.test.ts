@@ -514,6 +514,19 @@ describe("makeRestProtocol success decoding", () => {
     expect(out).toEqual({});
   });
 
+  test("a 200 response whose body is JSON null returns null, in strict mode too", async () => {
+    const nullableOp = API.make(() => ({
+      input: ThingInput,
+      output: S.NullOr(S.Struct({ id: S.String })),
+      protocol: DefaultProtocol,
+    }));
+    const respond = fakeClient(() => json(null));
+    expect(await succeed(nullableOp({ id: "t1" }), respond, creds())).toBeNull();
+    expect(
+      await succeed(nullableOp({ id: "t1" }), respond, creds(), ResponseValidation.strict),
+    ).toBeNull();
+  });
+
   test("an empty 200 body decodes to an empty string when the output is a string", async () => {
     const getText = API.make(() => ({
       input: S.Struct({ id: S.String.pipe(T.Label()) }).pipe(

@@ -563,7 +563,8 @@ const decodeSpritesResponse = ({
     // Strict mode checks the mapped body (or parsed exec frames) against the
     // output schema, and parse errors withhold a body that can hold a secret
     // (core `validateSuccess`).
-    const body: unknown = execFrames ?? parseMaybeNdjson(nonJson ? text : (json ?? {}));
+    const body: unknown =
+      execFrames ?? parseMaybeNdjson(nonJson ? text : json === undefined ? {} : json);
     return yield* validateSuccess(
       outputAst,
       {

@@ -314,7 +314,7 @@ export interface GetEdgeConfigSchemaRequest {
   /** The Team slug to perform the request on behalf of. */
   slug?: string | undefined;
 }
-export type GetEdgeConfigSchemaResponse = unknown;
+export type GetEdgeConfigSchemaResponse = unknown | null;
 export interface GetEdgeConfigTokenRequest {
   edgeConfigId: string;
   token: string;
@@ -386,7 +386,7 @@ export interface PatchEdgeConfigSchemaRequest {
   slug?: string | undefined;
   definition: unknown;
 }
-export type PatchEdgeConfigSchemaResponse = unknown;
+export type PatchEdgeConfigSchemaResponse = unknown | null;
 export interface RestoreEdgeConfigBackupRequest {
   edgeConfigId: string;
   edgeConfigBackupVersionId: string;
@@ -949,7 +949,7 @@ function __c7(j: number): any {
 function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(S.Unknown).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetEdgeConfigSchemaResponse",
       });
   }
