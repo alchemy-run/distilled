@@ -1,0 +1,39 @@
+{
+  "description": "The spec types the bulk request body only as application/x-ndjson, which the OpenAPI converter does not read, so the operations had no body member and could not send one. Add a required string body sent verbatim as application/x-ndjson, the way cloudflare vectorize/insertIndex-ndjson-body does. Source: the requestBodies.bulk entry of the official spec, and https://docs.opensearch.org/latest/api-reference/document-apis/bulk/ for the line format.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/org.opensearch.api#Bulk0/traits/smithy.api#http/bodyMediaType",
+      "value": "application/x-ndjson"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.opensearch.api#Bulk0Request/members/body",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Actions and documents as newline-delimited JSON (application/x-ndjson): an action line (`{\"index\":{\"_id\":\"1\"}}`), then the document line for actions that take one. End the body with a newline."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.opensearch.api#Bulk2/traits/smithy.api#http/bodyMediaType",
+      "value": "application/x-ndjson"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/org.opensearch.api#Bulk2Request/members/body",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpPayload": {},
+          "smithy.api#required": {},
+          "smithy.api#documentation": "Actions and documents as newline-delimited JSON (application/x-ndjson): an action line (`{\"index\":{\"_id\":\"1\"}}`), then the document line for actions that take one. End the body with a newline."
+        }
+      }
+    }
+  ]
+}

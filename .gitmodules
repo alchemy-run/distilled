@@ -563,3 +563,8 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-clickhouse-cloud.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/opensearch/specs/spec-mirror-opensearch"]
+	path = packages/opensearch/specs/spec-mirror-opensearch
+	url = https://github.com/distilled-mirror/spec-mirror-opensearch.git
+	ignore = dirty
+	shallow = true
