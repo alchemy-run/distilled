@@ -462,6 +462,13 @@
       "path": "./packages/metabase/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/microsoft-graph/tsconfig.json"
+    },
+    { "path": "./packages/microsoft-graph/tsconfig.test.json" },
+    {
+      "path": "./packages/microsoft-graph/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/onepassword/tsconfig.json"
     },
     { "path": "./packages/onepassword/tsconfig.test.json" },
