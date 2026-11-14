@@ -1,0 +1,181 @@
+{
+  "description": "Geo Routes: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#WaypointOptimizationOptimizedWaypoint/members/DepartureTime/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteFerryLegDetails/members/AfterTravelSteps/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteFerryLegDetails/members/BeforeTravelSteps/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteFerryLegDetails/members/Notices/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteFerryLegDetails/members/PassThroughWaypoints/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteFerryLegDetails/members/Spans/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteFerryLegDetails/members/TravelSteps/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RoutePedestrianLegDetails/members/AfterTravelSteps/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RoutePedestrianLegDetails/members/Notices/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RoutePedestrianLegDetails/members/PassThroughWaypoints/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RoutePedestrianLegDetails/members/Spans/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RoutePedestrianLegDetails/members/TravelSteps/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteRentalLegDetails/members/AfterTravelSteps/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteRentalLegDetails/members/Attributions/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteRentalLegDetails/members/BeforeTravelSteps/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteRentalLegDetails/members/BookingWebLinks/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteRentalLegDetails/members/TravelSteps/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteTaxiLegDetails/members/AfterTravelSteps/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteTaxiLegDetails/members/Attributions/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteTaxiLegDetails/members/BeforeTravelSteps/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteTaxiLegDetails/members/BookingWebLinks/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteTaxiLegDetails/members/Notices/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteTaxiLegDetails/members/TravelSteps/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteTransitLegDetails/members/AfterTravelSteps/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteTransitLegDetails/members/Attributions/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteTransitLegDetails/members/BeforeTravelSteps/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteTransitLegDetails/members/BookingWebLinks/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteTransitLegDetails/members/Incidents/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteTransitLegDetails/members/IntermediateStops/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteTransitLegDetails/members/NextDepartures/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteTransitLegDetails/members/Notices/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteTransitLegDetails/members/PassThroughWaypoints/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteTransitLegDetails/members/Spans/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteTransitLegDetails/members/TravelSteps/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteVehicleLegDetails/members/AfterTravelSteps/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteVehicleLegDetails/members/Incidents/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteVehicleLegDetails/members/Notices/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteVehicleLegDetails/members/PassThroughWaypoints/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteVehicleLegDetails/members/Spans/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteVehicleLegDetails/members/Tolls/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteVehicleLegDetails/members/TollSystems/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteVehicleLegDetails/members/TravelSteps/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteVehicleLegDetails/members/TruckRoadTypes/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.georoutes#RouteVehicleLegDetails/members/Zones/traits/smithy.api#required"
+    }
+  ]
+}

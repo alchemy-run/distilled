@@ -1,0 +1,10 @@
+{
+  "description": "MediaLive: Members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.medialive#StaticKeySettings/members/StaticKeyValue/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

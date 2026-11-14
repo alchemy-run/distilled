@@ -1,0 +1,159 @@
+{
+  "description": "SQS: Errors operations return that the model does not list; per-operation retry policies.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#ReceiveMessage/traits/distilled.retry#policy",
+      "value": {
+        "longPoll": true
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#CancelMessageMoveTask/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#CancelMessageMoveTask/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#InvalidParameterValueException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#StartMessageMoveTask/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#StartMessageMoveTask/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#CommonServiceException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#StartMessageMoveTask/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#InvalidParameterValueException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#CreateQueue/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#CreateQueue/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#InvalidParameterValueException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#ListMessageMoveTasks/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#ListMessageMoveTasks/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#InvalidParameterValueException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#SendMessage/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#SendMessage/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#InvalidParameterValueException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#SendMessage/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#MissingRequiredParameterException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#SendMessageBatch/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#SendMessageBatch/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#InvalidParameterValueException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#SendMessageBatch/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#ParseError"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#ReceiveMessage/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#ReceiveMessage/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#InvalidParameterValueException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#SetQueueAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#InvalidParameterValueException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#SetQueueAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#SetQueueAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#CommonServiceException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#SetQueueAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.sqs#MissingRequiredParameterException"
+      }
+    }
+  ]
+}

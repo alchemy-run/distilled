@@ -1,0 +1,19 @@
+{
+  "description": "CloudWatch: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.cloudwatch#DescribeAlarmContributors/errors/-",
+      "value": {
+        "target": "com.amazonaws.cloudwatch#ValidationException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.cloudwatch#DescribeInsightRules/errors/-",
+      "value": {
+        "target": "com.amazonaws.cloudwatch#UnsupportedOperation"
+      }
+    }
+  ]
+}

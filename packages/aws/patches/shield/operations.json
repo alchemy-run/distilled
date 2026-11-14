@@ -1,0 +1,110 @@
+{
+  "description": "Shield: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.shield#DescribeSubscription/errors/-",
+      "value": {
+        "target": "com.amazonaws.shield#SubscriptionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.shield#UpdateSubscription/errors/-",
+      "value": {
+        "target": "com.amazonaws.shield#SubscriptionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.shield#DeleteSubscription/errors/-",
+      "value": {
+        "target": "com.amazonaws.shield#SubscriptionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.shield#CreateProtection/errors/-",
+      "value": {
+        "target": "com.amazonaws.shield#SubscriptionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.shield#DescribeProtection/errors/-",
+      "value": {
+        "target": "com.amazonaws.shield#SubscriptionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.shield#DeleteProtection/errors/-",
+      "value": {
+        "target": "com.amazonaws.shield#SubscriptionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.shield#ListProtections/errors/-",
+      "value": {
+        "target": "com.amazonaws.shield#SubscriptionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.shield#CreateProtectionGroup/errors/-",
+      "value": {
+        "target": "com.amazonaws.shield#SubscriptionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.shield#DescribeProtectionGroup/errors/-",
+      "value": {
+        "target": "com.amazonaws.shield#SubscriptionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.shield#UpdateProtectionGroup/errors/-",
+      "value": {
+        "target": "com.amazonaws.shield#SubscriptionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.shield#DeleteProtectionGroup/errors/-",
+      "value": {
+        "target": "com.amazonaws.shield#SubscriptionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.shield#ListProtectionGroups/errors/-",
+      "value": {
+        "target": "com.amazonaws.shield#SubscriptionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.shield#ListTagsForResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.shield#SubscriptionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.shield#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.shield#SubscriptionNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.shield#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.shield#SubscriptionNotFound"
+      }
+    }
+  ]
+}

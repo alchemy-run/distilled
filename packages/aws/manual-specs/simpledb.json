@@ -2,7 +2,7 @@
   "smithy": "2.0",
   "metadata": {
     "note": "Hand-authored: classic Amazon SimpleDB (2009-04-15) predates Smithy and AWS never published a model for it (it survives only in botocore / SDK v2), so scripts/generate.ts cannot derive it from specs/api-models-aws. The published `simpledbv2` model covers ONLY the domain-export migration API. Shapes and wire names transcribed from the SimpleDB API reference and the botocore `sdb-2009-04-15` model; the protocol details (SigV2-only auth, EC2-style error envelope) were verified against the live endpoint.",
-    "httpErrorNote": "Errors returning 404 (AttributeDoesNotExist) or 409 (the Number*Exceeded quota errors) deliberately carry no `smithy.api#httpError`: the generator derives category decorators from that code, and 404 would add BadRequest while 409 would add Conflict — neither of which SimpleDB's error semantics warrant. Their categories come from patches/simpledb.json instead."
+    "httpErrorNote": "Errors returning 404 (AttributeDoesNotExist) or 409 (the Number*Exceeded quota errors) deliberately carry no `smithy.api#httpError`: the generator derives category decorators from that code, and 404 would add BadRequest while 409 would add Conflict — neither of which SimpleDB's error semantics warrant. Their categories come from the distilled.errors#categories trait instead."
   },
   "shapes": {
     "com.amazonaws.simpledb#AmazonSimpleDB": {
@@ -490,6 +490,7 @@
         "BoxUsage": { "target": "smithy.api#String" }
       },
       "traits": {
+        "distilled.errors#categories": ["NotFoundError"],
         "smithy.api#error": "client",
         "smithy.api#httpError": 400,
         "smithy.api#documentation": "The specified domain does not exist."
@@ -526,6 +527,7 @@
         "BoxUsage": { "target": "smithy.api#String" }
       },
       "traits": {
+        "distilled.errors#categories": ["QuotaError"],
         "smithy.api#error": "client",
         "smithy.api#documentation": "Too many domains exist for this account."
       }
@@ -549,6 +551,7 @@
         "BoxUsage": { "target": "smithy.api#String" }
       },
       "traits": {
+        "distilled.errors#categories": ["NotFoundError"],
         "smithy.api#error": "client",
         "smithy.api#documentation": "The specified attribute does not exist."
       }
@@ -632,6 +635,7 @@
         "BoxUsage": { "target": "smithy.api#String" }
       },
       "traits": {
+        "distilled.errors#categories": ["QuotaError"],
         "smithy.api#error": "client",
         "smithy.api#documentation": "Too many attributes in this domain."
       }
@@ -643,6 +647,7 @@
         "BoxUsage": { "target": "smithy.api#String" }
       },
       "traits": {
+        "distilled.errors#categories": ["QuotaError"],
         "smithy.api#error": "client",
         "smithy.api#documentation": "Too many bytes in this domain."
       }
@@ -654,6 +659,7 @@
         "BoxUsage": { "target": "smithy.api#String" }
       },
       "traits": {
+        "distilled.errors#categories": ["QuotaError"],
         "smithy.api#error": "client",
         "smithy.api#documentation": "Too many attributes in this item."
       }
@@ -665,6 +671,7 @@
         "BoxUsage": { "target": "smithy.api#String" }
       },
       "traits": {
+        "distilled.errors#categories": ["QuotaError"],
         "smithy.api#error": "client",
         "smithy.api#documentation": "Too many attributes exist in a single call."
       }
@@ -676,6 +683,7 @@
         "BoxUsage": { "target": "smithy.api#String" }
       },
       "traits": {
+        "distilled.errors#categories": ["QuotaError"],
         "smithy.api#error": "client",
         "smithy.api#documentation": "Too many items exist in a single call."
       }

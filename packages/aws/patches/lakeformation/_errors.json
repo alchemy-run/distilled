@@ -1,0 +1,57 @@
+{
+  "description": "LakeFormation: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#LastServiceLinkedRoleRegistration",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidInputException",
+            "message": {
+              "includes": "Must manually delete service-linked role"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.lakeformation#InvalidInputException/members",
+      "path": "/shapes/com.amazonaws.lakeformation#LastServiceLinkedRoleRegistration/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#InvalidLakeFormationPrincipal",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidInputException",
+            "message": {
+              "includes": "Invalid principal"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.lakeformation#InvalidInputException/members",
+      "path": "/shapes/com.amazonaws.lakeformation#InvalidLakeFormationPrincipal/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#LastServiceLinkedRoleRegistration/traits/distilled.errors#categories",
+      "value": ["ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lakeformation#InvalidLakeFormationPrincipal/traits/distilled.errors#categories",
+      "value": ["BadRequestError", "RetryableError"]
+    }
+  ]
+}

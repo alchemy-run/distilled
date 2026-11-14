@@ -1,0 +1,19 @@
+{
+  "description": "IoT: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iot#GetTopicRule/errors/-",
+      "value": {
+        "target": "com.amazonaws.iot#TopicRuleNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iot#DeleteTopicRule/errors/-",
+      "value": {
+        "target": "com.amazonaws.iot#TopicRuleNotFound"
+      }
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "description": "AppRunner: Enum values the API returns.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.apprunner#AutoScalingConfigurationStatus/members/active",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "active"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.apprunner#AutoScalingConfigurationStatus/members/inactive",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "inactive"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.apprunner#VpcConnectorStatus/members/active",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "active"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.apprunner#VpcConnectorStatus/members/inactive",
+      "value": {
+        "target": "smithy.api#Unit",
+        "traits": {
+          "smithy.api#enumValue": "inactive"
+        }
+      }
+    }
+  ]
+}

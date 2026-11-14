@@ -1,0 +1,33 @@
+{
+  "description": "QuickSight: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.quicksight#CreateDataSource/errors/-",
+      "value": {
+        "target": "com.amazonaws.quicksight#QuickSightSubscriptionRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.quicksight#CreateDataSet/errors/-",
+      "value": {
+        "target": "com.amazonaws.quicksight#QuickSightSubscriptionRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.quicksight#CreateDashboard/errors/-",
+      "value": {
+        "target": "com.amazonaws.quicksight#QuickSightSubscriptionRequired"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.quicksight#CreateAnalysis/errors/-",
+      "value": {
+        "target": "com.amazonaws.quicksight#QuickSightSubscriptionRequired"
+      }
+    }
+  ]
+}

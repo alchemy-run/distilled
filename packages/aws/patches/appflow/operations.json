@@ -1,0 +1,19 @@
+{
+  "description": "Appflow: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appflow#CreateConnectorProfile/errors/-",
+      "value": {
+        "target": "com.amazonaws.appflow#ConnectorServerException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appflow#UpdateConnectorProfile/errors/-",
+      "value": {
+        "target": "com.amazonaws.appflow#ConnectorServerException"
+      }
+    }
+  ]
+}

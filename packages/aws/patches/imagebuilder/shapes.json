@@ -1,0 +1,9 @@
+{
+  "description": "imagebuilder: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.imagebuilder#DistributionConfiguration/members/timeoutMinutes/traits/smithy.api#required"
+    }
+  ]
+}

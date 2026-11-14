@@ -463,3 +463,43 @@ describe("service errors", () => {
     expect(code).toContain("  errors: [Missing, Denied],");
   });
 });
+
+describe("error categories trait", () => {
+  const model = (categories: unknown) => ({
+    smithy: "2.0",
+    shapes: {
+      "com.example.cat#Example": {
+        type: "service",
+        version: "2024-01-01",
+        operations: [{ target: "com.example.cat#CreateThing" }],
+      },
+      "com.example.cat#CreateThing": {
+        type: "operation",
+        input: { target: "smithy.api#Unit" },
+        output: { target: "smithy.api#Unit" },
+        errors: [{ target: "com.example.cat#ThingExists" }],
+        traits: { "smithy.api#http": { method: "POST", uri: "/thing" } },
+      },
+      "com.example.cat#ThingExists": {
+        type: "structure",
+        members: {},
+        traits: {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "distilled.errors#categories": categories,
+        },
+      },
+    },
+  });
+
+  test("adds the declared categories after the status's", () => {
+    const { code } = generateService(model(["AlreadyExistsError"]), spec);
+    expect(code).toContain(".pipe(C.withConflictError, C.withAlreadyExistsError)");
+  });
+
+  test("rejects a category core does not define", () => {
+    expect(() => generateService(model(["AlreadyExists"]), spec)).toThrow(
+      /distilled\.errors#categories/,
+    );
+  });
+});

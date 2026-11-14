@@ -1,0 +1,348 @@
+{
+  "description": "DataBrew: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#BatchDeleteRecipeVersion/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#CreateDataset/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#CreateProfileJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#CreateProfileJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#DataBrewRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#CreateProject/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#CreateProject/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#DataBrewRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#CreateRecipe/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#CreateRecipeJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#CreateRecipeJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#DataBrewRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#CreateRuleset/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#CreateSchedule/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#DeleteDataset/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#DeleteJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#DeleteProject/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#DeleteRecipeVersion/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#DeleteRuleset/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#DeleteSchedule/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#DescribeDataset/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#DescribeJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#DescribeJobRun/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#DescribeProject/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#DescribeRecipe/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#DescribeRuleset/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#DescribeSchedule/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#ListDatasets/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#ListJobRuns/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#ListJobs/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#ListProjects/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#ListRecipeVersions/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#ListRecipeVersions/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#ListRecipes/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#ListRulesets/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#ListSchedules/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#ListTagsForResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#PublishRecipe/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#StartJobRun/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#StopJobRun/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#UpdateDataset/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#UpdateProfileJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#UpdateProfileJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#DataBrewRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#UpdateProject/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#UpdateProject/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#DataBrewRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#UpdateRecipe/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#UpdateRecipeJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#UpdateRecipeJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#DataBrewRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#UpdateRuleset/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.databrew#UpdateSchedule/errors/-",
+      "value": {
+        "target": "com.amazonaws.databrew#TooManyRequestsException"
+      }
+    }
+  ]
+}

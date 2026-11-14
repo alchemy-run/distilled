@@ -1,0 +1,109 @@
+{
+  "description": "DataSync: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#LocationRoleNotAssumable",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidRequestException",
+            "message": {
+              "includes": "Invalid IAM role"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.datasync#InvalidRequestException/members",
+      "path": "/shapes/com.amazonaws.datasync#LocationRoleNotAssumable/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#LocationAccessTestFailed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidRequestException",
+            "message": {
+              "includes": "location access test failed"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.datasync#InvalidRequestException/members",
+      "path": "/shapes/com.amazonaws.datasync#LocationAccessTestFailed/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#LocationNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidRequestException",
+            "message": {
+              "matches": "^Location .* is not found"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.datasync#InvalidRequestException/members",
+      "path": "/shapes/com.amazonaws.datasync#LocationNotFound/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#TaskNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidRequestException",
+            "message": {
+              "matches": "^Task .* is not found"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.datasync#InvalidRequestException/members",
+      "path": "/shapes/com.amazonaws.datasync#TaskNotFound/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#LocationNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#TaskNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#LocationRoleNotAssumable/traits/distilled.errors#categories",
+      "value": ["RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.datasync#LocationAccessTestFailed/traits/distilled.errors#categories",
+      "value": ["RetryableError"]
+    }
+  ]
+}

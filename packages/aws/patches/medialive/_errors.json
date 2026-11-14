@@ -1,0 +1,31 @@
+{
+  "description": "MediaLive: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.medialive#MediaLiveRoleNotYetTrusted",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "UnprocessableEntityException",
+            "message": {
+              "includes": "is a trusted service"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.medialive#UnprocessableEntityException/members",
+      "path": "/shapes/com.amazonaws.medialive#MediaLiveRoleNotYetTrusted/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.medialive#MediaLiveRoleNotYetTrusted/traits/distilled.errors#categories",
+      "value": ["RetryableError"]
+    }
+  ]
+}

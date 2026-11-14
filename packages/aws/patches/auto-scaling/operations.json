@@ -1,0 +1,61 @@
+{
+  "description": "Auto Scaling: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.autoscaling#CreateAutoScalingGroup/errors/-",
+      "value": {
+        "target": "com.amazonaws.autoscaling#InvalidIamInstanceProfile"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.autoscaling#UpdateAutoScalingGroup/errors/-",
+      "value": {
+        "target": "com.amazonaws.autoscaling#InvalidIamInstanceProfile"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.autoscaling#DescribeScheduledActions/errors/-",
+      "value": {
+        "target": "com.amazonaws.autoscaling#AutoScalingGroupNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.autoscaling#PutScheduledUpdateGroupAction/errors/-",
+      "value": {
+        "target": "com.amazonaws.autoscaling#AutoScalingGroupNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.autoscaling#DeleteScheduledAction/errors/-",
+      "value": {
+        "target": "com.amazonaws.autoscaling#AutoScalingGroupNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.autoscaling#DescribeLifecycleHooks/errors/-",
+      "value": {
+        "target": "com.amazonaws.autoscaling#AutoScalingGroupNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.autoscaling#PutLifecycleHook/errors/-",
+      "value": {
+        "target": "com.amazonaws.autoscaling#AutoScalingGroupNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.autoscaling#DeleteLifecycleHook/errors/-",
+      "value": {
+        "target": "com.amazonaws.autoscaling#AutoScalingGroupNotFound"
+      }
+    }
+  ]
+}

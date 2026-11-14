@@ -1,0 +1,12 @@
+{
+  "description": "Location: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.location#CancelJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.location#ResourceNotFoundException"
+      }
+    }
+  ]
+}

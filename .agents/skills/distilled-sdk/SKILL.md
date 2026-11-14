@@ -539,10 +539,9 @@ segment, which is why every package's declared path is
 A path that reads through some other layout resolves to a file the mirror
 does not have, and `resolveSpecPath` says so rather than failing later.
 
-`aws` convert reads the spec-mirror Smithy models, applies the typed
-`patches/{sdkId}.json` config (`applyAwsSpecPatches`), copies
-`partitions.json`, and writes the `<sdkId>.json` models. generate
-compiles those and reads the patch file only for `errorCategories`. `cloudflare`
+`aws` convert reads the spec-mirror Smithy models, copies
+`partitions.json`, and writes the `<sdkId>.json` models; `finalizeConvert`
+applies `patches/<sdkId>/` like every other package's patches. `cloudflare`
 takes its spec root as a `--specs` flag whose default is the mirror path, and
 resolves it through `resolveSpecPath` like everything else.
 

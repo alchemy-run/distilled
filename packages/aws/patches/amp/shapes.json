@@ -1,0 +1,13 @@
+{
+  "description": "amp: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.amp#RuleGroupsNamespaceDescription/members/data/traits/smithy.api#required"
+    },
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.amp#AlertManagerDefinitionDescription/members/data/traits/smithy.api#required"
+    }
+  ]
+}

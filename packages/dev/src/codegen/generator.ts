@@ -78,10 +78,15 @@ const PAGINATED_TRAIT = "smithy.api#paginated";
  *
  * and the error class is emitted with `.pipe(C.withNotFoundError)`. A model
  * with no `httpError` gets no categories — the same as today.
+ *
+ * A category the status can't say (an AWS 400 that means "not found", a
+ * conflict that means "already exists") goes in {@link ERROR_CATEGORIES_TRAIT}:
+ *
+ *   "traits": { "distilled.errors#categories": ["AlreadyExistsError"] }
  */
 export const errorCategories = (
   traits: Record<string, any> | undefined,
-  /** Categories a provider knows that the traits don't say (AWS's spec file). */
+  /** Categories a provider derives that the traits don't say (AWS's name rules). */
   extra: readonly string[] = [],
 ): string[] => {
   const categories: string[] = [];
@@ -113,9 +118,41 @@ export const errorCategories = (
     add("RetryableError");
     if (retryable?.throttling) add("ThrottlingError");
   }
+  const declared = traits?.[ERROR_CATEGORIES_TRAIT];
+  if (declared !== undefined) {
+    if (!Array.isArray(declared) || declared.some((name) => !ERROR_CATEGORY_NAMES.has(name))) {
+      throw new Error(
+        `${ERROR_CATEGORIES_TRAIT} must list categories from core category.ts (${[...ERROR_CATEGORY_NAMES].join(", ")}), got ${JSON.stringify(declared)}`,
+      );
+    }
+    for (const name of declared) add(name);
+  }
   for (const name of extra) add(name);
   return categories;
 };
+
+/** Error categories a model states that its error traits can't (see {@link errorCategories}). */
+export const ERROR_CATEGORIES_TRAIT = "distilled.errors#categories";
+
+/** The categories core `category.ts` has a `with<Name>` for. */
+const ERROR_CATEGORY_NAMES = new Set([
+  "AuthError",
+  "BadRequestError",
+  "ConflictError",
+  "NotFoundError",
+  "QuotaError",
+  "ServerError",
+  "ThrottlingError",
+  "NetworkError",
+  "ParseError",
+  "ConfigurationError",
+  "TimeoutError",
+  "RetryableError",
+  "LockedError",
+  "AbortedError",
+  "AlreadyExistsError",
+  "DependencyViolationError",
+]);
 
 /** `["NotFoundError"]` → `C.withNotFoundError`. */
 const categoryPipes = (traits: Record<string, any> | undefined): string[] =>

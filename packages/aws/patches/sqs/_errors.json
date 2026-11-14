@@ -1,0 +1,112 @@
+{
+  "description": "SQS: Error shapes the model does not declare, for the errors operations.json list; members the error responses carry; categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#RequestLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#InvalidParameterValueException",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#CommonServiceException",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#MissingRequiredParameterException",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#ParseError",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#InvalidParameterValueException/members/message",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#RequestThrottled/traits/distilled.errors#categories",
+      "value": ["ThrottlingError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#KmsThrottled/traits/distilled.errors#categories",
+      "value": ["ThrottlingError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#OverLimit/traits/distilled.errors#categories",
+      "value": ["QuotaError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#PurgeQueueInProgress/traits/distilled.errors#categories",
+      "value": ["ConflictError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#InvalidParameterValueException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#InvalidAttributeName/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#InvalidAttributeValue/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#InvalidIdFormat/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#MissingRequiredParameterException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#InvalidMessageContents/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sqs#CommonServiceException/traits/distilled.errors#categories",
+      "value": ["ServerError"]
+    }
+  ]
+}

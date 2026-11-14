@@ -1,0 +1,471 @@
+{
+  "description": "S3: Error shapes the model does not declare, for the errors operations.json and service.json list; members the error responses carry; categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#RequestLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#SlowDown",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#IllegalLocationConstraintException",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#InvalidArgument",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#InvalidBucketName",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#InvalidLocationConstraint",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#BucketNotEmpty",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#BucketHasAccessPointsAttached",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PermanentRedirect",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#MalformedXML",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#InvalidBucketState",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#InvalidDigest",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#MalformedPolicy",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#SignatureDoesNotMatch",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ParseError",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#NoSuchBucketPolicy",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#NoSuchTagSet",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#NoSuchLifecycleConfiguration",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#NoSuchCORSConfiguration",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PreconditionFailed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ConditionalRequestConflict",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#NoSuchPublicAccessBlockConfiguration",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#NoSuchConfiguration",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ReplicationConfigurationNotFoundError",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#OwnershipControlsNotFoundError",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#NoSuchWebsiteConfiguration",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ObjectLockConfigurationNotFoundError",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#NoSuchVersion",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#MethodNotAllowed",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#RequestError",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#InvalidAccessKeyId",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#NoSuchVersion/members/Message",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#NoSuchVersion/members/Key",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#NoSuchVersion/members/VersionId",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#MethodNotAllowed/members/Message",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#MethodNotAllowed/members/Method",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#MethodNotAllowed/members/ResourceType",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#MethodNotAllowed/members/DeleteMarker",
+      "value": {
+        "target": "smithy.api#Boolean",
+        "traits": {
+          "smithy.api#httpHeader": "x-amz-delete-marker"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#MethodNotAllowed/members/LastModified",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "last-modified"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#NoSuchBucket/members/Message",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#NoSuchBucket/members/BucketName",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PermanentRedirect/members/BucketRegion",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#httpHeader": "x-amz-bucket-region"
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PermanentRedirect/members/Endpoint",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PermanentRedirect/members/Bucket",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PermanentRedirect/members/Message",
+      "value": {
+        "target": "smithy.api#String"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#SlowDown/traits/distilled.errors#categories",
+      "value": ["ThrottlingError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#BucketNotEmpty/traits/distilled.errors#categories",
+      "value": ["ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#BucketHasAccessPointsAttached/traits/distilled.errors#categories",
+      "value": ["ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#BucketAlreadyOwnedByYou/traits/distilled.errors#categories",
+      "value": ["AlreadyExistsError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#MalformedXML/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#MalformedPolicy/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#InvalidArgument/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#InvalidBucketName/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#InvalidLocationConstraint/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#InvalidRequest/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#InvalidDigest/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#InvalidBucketState/traits/distilled.errors#categories",
+      "value": ["ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#IllegalLocationConstraintException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#PreconditionFailed/traits/distilled.errors#categories",
+      "value": ["ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#ConditionalRequestConflict/traits/distilled.errors#categories",
+      "value": ["ConflictError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3#InvalidAccessKeyId/traits/distilled.errors#categories",
+      "value": ["AuthError"]
+    }
+  ]
+}

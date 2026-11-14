@@ -1,0 +1,138 @@
+{
+  "description": "imagebuilder: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#GetComponent/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#GetImage/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#DeleteImage/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#CancelImageCreation/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#GetImageRecipe/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#GetImagePipeline/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#GetInfrastructureConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#GetDistributionConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#DeleteComponent/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#DeleteImageRecipe/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#DeleteImagePipeline/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#DeleteInfrastructureConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#DeleteDistributionConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#UpdateImagePipeline/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#UpdateDistributionConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#ListComponentBuildVersions/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#CreateInfrastructureConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#InvalidParameterValueException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#UpdateInfrastructureConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#ResourceNotFoundException"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.imagebuilder#UpdateInfrastructureConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.imagebuilder#InvalidParameterValueException"
+      }
+    }
+  ]
+}

@@ -1,7 +1,0 @@
-{
-  "operations": {
-    "deletePolicyStoreAlias": {
-      "errors": ["ResourceNotFoundException"]
-    }
-  }
-}

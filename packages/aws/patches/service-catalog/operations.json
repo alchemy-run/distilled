@@ -1,0 +1,12 @@
+{
+  "description": "Service Catalog: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.servicecatalog#ExecuteProvisionedProductServiceAction/errors/-",
+      "value": {
+        "target": "com.amazonaws.servicecatalog#ProvisionedProductNotFound"
+      }
+    }
+  ]
+}

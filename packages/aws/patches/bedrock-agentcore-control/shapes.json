@@ -1,0 +1,9 @@
+{
+  "description": "Bedrock AgentCore Control: Members the API leaves out (not required).",
+  "patches": [
+    {
+      "op": "remove",
+      "path": "/shapes/com.amazonaws.bedrockagentcorecontrol#WorkloadIdentityDetails/members/workloadIdentityArn/traits/smithy.api#required"
+    }
+  ]
+}

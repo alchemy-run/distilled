@@ -1,0 +1,50 @@
+{
+  "description": "ECR: Categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecr#RepositoryAlreadyExistsException/traits/distilled.errors#categories",
+      "value": ["ConflictError", "AlreadyExistsError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecr#RepositoryNotFoundException/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecr#RepositoryNotEmptyException/traits/distilled.errors#categories",
+      "value": ["ConflictError", "DependencyViolationError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecr#LifecyclePolicyNotFoundException/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecr#RepositoryPolicyNotFoundException/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecr#LimitExceededException/traits/distilled.errors#categories",
+      "value": ["QuotaError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecr#TooManyTagsException/traits/distilled.errors#categories",
+      "value": ["QuotaError", "BadRequestError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecr#ServerException/traits/distilled.errors#categories",
+      "value": ["ServerError", "RetryableError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.ecr#InvalidParameterException/traits/distilled.errors#categories",
+      "value": ["BadRequestError"]
+    }
+  ]
+}

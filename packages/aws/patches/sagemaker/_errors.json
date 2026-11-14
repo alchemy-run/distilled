@@ -1,0 +1,131 @@
+{
+  "description": "SageMaker: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#ModelAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ValidationException",
+            "message": {
+              "includes": "Cannot create already existing model"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#ModelNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ValidationException",
+            "message": {
+              "includes": "Could not find model"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#EndpointConfigAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ValidationException",
+            "message": {
+              "includes": "Cannot create already existing endpoint configuration"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#EndpointConfigNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ValidationException",
+            "message": {
+              "includes": "Could not find endpoint configuration"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#EndpointAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ValidationException",
+            "message": {
+              "includes": "Cannot create already existing endpoint"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#EndpointNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "ValidationException",
+            "message": {
+              "includes": "Could not find endpoint \""
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#ModelNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#ModelAlreadyExists/traits/distilled.errors#categories",
+      "value": ["AlreadyExistsError", "ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#EndpointConfigNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#EndpointConfigAlreadyExists/traits/distilled.errors#categories",
+      "value": ["AlreadyExistsError", "ConflictError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#EndpointNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sagemaker#EndpointAlreadyExists/traits/distilled.errors#categories",
+      "value": ["AlreadyExistsError", "ConflictError"]
+    }
+  ]
+}

@@ -1,0 +1,327 @@
+{
+  "description": "SNS: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#GetTopicAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#GetTopicAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#DeleteTopic/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#DeleteTopic/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#SetTopicAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#SetTopicAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#Subscribe/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#Subscribe/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#ListTagsForResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#ListTagsForResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#GetDataProtectionPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#GetDataProtectionPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#GetDataProtectionPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidAction"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#GetDataProtectionPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#FifoTopicDataProtectionUnsupported"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#PutDataProtectionPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#PutDataProtectionPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#PutDataProtectionPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidAction"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#PutDataProtectionPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#FifoTopicDataProtectionUnsupported"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#AddPermission/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#AddPermission/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#RemovePermission/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#RemovePermission/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#GetPlatformApplicationAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#GetPlatformApplicationAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#DeletePlatformApplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#DeletePlatformApplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#CreatePlatformEndpoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#CreatePlatformEndpoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#SetPlatformApplicationAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#SetPlatformApplicationAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#ListSubscriptionsByTopic/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#ListSubscriptionsByTopic/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#ListEndpointsByPlatformApplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#ListEndpointsByPlatformApplication/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#Publish/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#Publish/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#GetEndpointAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#GetEndpointAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#SetEndpointAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#SetEndpointAttributes/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#DeleteEndpoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#RequestLimitExceeded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.sns#DeleteEndpoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.sns#InvalidClientTokenId"
+      }
+    }
+  ]
+}

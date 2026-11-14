@@ -1,0 +1,83 @@
+{
+  "description": "Athena: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.athena#WorkGroupNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidRequestException",
+            "message": {
+              "matches": "WorkGroup.*not found"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.athena#InvalidRequestException/members",
+      "path": "/shapes/com.amazonaws.athena#WorkGroupNotFound/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.athena#NamedQueryNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidRequestException",
+            "message": {
+              "matches": "NamedQuery.*does not exist"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.athena#InvalidRequestException/members",
+      "path": "/shapes/com.amazonaws.athena#NamedQueryNotFound/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.athena#DataCatalogNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidRequestException",
+            "message": {
+              "matches": "DataCatalog.*not found"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.athena#InvalidRequestException/members",
+      "path": "/shapes/com.amazonaws.athena#DataCatalogNotFound/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.athena#WorkGroupNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.athena#NamedQueryNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.athena#DataCatalogNotFound/traits/distilled.errors#categories",
+      "value": ["NotFoundError"]
+    }
+  ]
+}

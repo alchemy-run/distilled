@@ -1,0 +1,55 @@
+{
+  "description": "IoT Wireless: Members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotwireless#OtaaV1_1/members/AppKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotwireless#OtaaV1_1/members/NwkKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotwireless#OtaaV1_0_x/members/AppKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotwireless#OtaaV1_0_x/members/GenAppKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotwireless#SessionKeysAbpV1_1/members/FNwkSIntKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotwireless#SessionKeysAbpV1_1/members/SNwkSIntKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotwireless#SessionKeysAbpV1_1/members/NwkSEncKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotwireless#SessionKeysAbpV1_1/members/AppSKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotwireless#SessionKeysAbpV1_0_x/members/NwkSKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.iotwireless#SessionKeysAbpV1_0_x/members/AppSKey/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

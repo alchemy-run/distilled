@@ -1,9 +1,0 @@
-{
-  "structures": {
-    "Credentials": {
-      "members": {
-        "SessionToken": { "sensitive": true }
-      }
-    }
-  }
-}

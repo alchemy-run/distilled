@@ -1,0 +1,15 @@
+{
+  "description": "EKS Auth: Members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eksauth#Credentials/members/secretAccessKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.eksauth#Credentials/members/sessionToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

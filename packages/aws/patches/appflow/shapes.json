@@ -1,0 +1,55 @@
+{
+  "description": "Appflow: Members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appflow#DatadogConnectorProfileCredentials/members/applicationKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appflow#DynatraceConnectorProfileCredentials/members/apiToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appflow#InforNexusConnectorProfileCredentials/members/secretAccessKey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appflow#InforNexusConnectorProfileCredentials/members/datakey/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appflow#GoogleAnalyticsConnectorProfileCredentials/members/refreshToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appflow#HoneycodeConnectorProfileCredentials/members/refreshToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appflow#SalesforceConnectorProfileCredentials/members/refreshToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appflow#OAuth2Credentials/members/refreshToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appflow#OAuthCredentials/members/refreshToken/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.appflow#PardotConnectorProfileCredentials/members/refreshToken/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

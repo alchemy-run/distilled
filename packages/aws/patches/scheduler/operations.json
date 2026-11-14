@@ -1,0 +1,19 @@
+{
+  "description": "Scheduler: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.scheduler#CreateSchedule/errors/-",
+      "value": {
+        "target": "com.amazonaws.scheduler#ExecutionRoleNotAssumable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.scheduler#UpdateSchedule/errors/-",
+      "value": {
+        "target": "com.amazonaws.scheduler#ExecutionRoleNotAssumable"
+      }
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "description": "Timestream Query: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.timestreamquery#DescribeEndpoints/errors/-",
+      "value": {
+        "target": "com.amazonaws.timestreamquery#TimestreamNotOnboarded"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.timestreamquery#Query/errors/-",
+      "value": {
+        "target": "com.amazonaws.timestreamquery#TimestreamNotOnboarded"
+      }
+    }
+  ]
+}

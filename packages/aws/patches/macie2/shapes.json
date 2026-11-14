@@ -1,0 +1,10 @@
+{
+  "description": "Macie2: Members that hold secrets (sensitive).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.macie2#DetectedDataDetails/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

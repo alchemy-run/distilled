@@ -1,0 +1,173 @@
+{
+  "description": "Lambda: Error shapes the model does not declare, for the errors operations.json list (a shape with aws.codegen#synthetic matches its base wire error by message); categories (distilled.errors#categories) the error traits do not express.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#LambdaInternalKmsError",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidParameterValueException",
+            "message": "Internal KMS service error. Try again."
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.lambda#InvalidParameterValueException/members",
+      "path": "/shapes/com.amazonaws.lambda#LambdaInternalKmsError/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#ExecutionRoleNotAssumable",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidParameterValueException",
+            "message": {
+              "matches": "cannot be assumed by Lambda|Please add Lambda as a Trusted Entity"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.lambda#InvalidParameterValueException/members",
+      "path": "/shapes/com.amazonaws.lambda#ExecutionRoleNotAssumable/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#ExecutionRoleMissingVpcPermissions",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidParameterValueException",
+            "message": {
+              "includes": "does not have permissions to call CreateNetworkInterface"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.lambda#InvalidParameterValueException/members",
+      "path": "/shapes/com.amazonaws.lambda#ExecutionRoleMissingVpcPermissions/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#KmsGrantPrincipalNotReady",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidParameterValueException",
+            "message": {
+              "matches": "KMS key is invalid for CreateGrant[\\s\\S]*ARN does not refer to a valid principal"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.lambda#InvalidParameterValueException/members",
+      "path": "/shapes/com.amazonaws.lambda#KmsGrantPrincipalNotReady/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#SecurityGroupNotFound",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidParameterValueException",
+            "message": {
+              "includes": "InvalidGroup.NotFound"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.lambda#InvalidParameterValueException/members",
+      "path": "/shapes/com.amazonaws.lambda#SecurityGroupNotFound/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#RequestLimitExceeded",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#ExecutionRoleMissingPermissions",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidParameterValueException",
+            "message": {
+              "matches": "The function execution role does not have permissions to call|Cannot access stream|Please ensure the role can perform the GetRecords"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.lambda#InvalidParameterValueException/members",
+      "path": "/shapes/com.amazonaws.lambda#ExecutionRoleMissingPermissions/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#QueueVisibilityTimeoutTooShort",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {
+          "aws.codegen#synthetic": {
+            "from": "InvalidParameterValueException",
+            "message": {
+              "includes": "is less than Function timeout"
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "copy",
+      "from": "/shapes/com.amazonaws.lambda#InvalidParameterValueException/members",
+      "path": "/shapes/com.amazonaws.lambda#QueueVisibilityTimeoutTooShort/members"
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#ParseError",
+      "value": {
+        "type": "structure",
+        "members": {},
+        "traits": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.lambda#LambdaInternalKmsError/traits/distilled.errors#categories",
+      "value": ["RetryableError"]
+    }
+  ]
+}

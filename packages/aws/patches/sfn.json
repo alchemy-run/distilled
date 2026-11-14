@@ -1,9 +1,0 @@
-{
-  "operations": {
-    "getActivityTask": {
-      "retryPolicy": {
-        "longPoll": true
-      }
-    }
-  }
-}

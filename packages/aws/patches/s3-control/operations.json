@@ -1,0 +1,355 @@
+{
+  "description": "S3 Control: Errors operations return that the model does not list.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#CreateAccessPoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#AccessPointAlreadyOwnedByYou"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#CreateAccessPoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#GetAccessPoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#DeleteAccessPoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#GetAccessPointPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#GetAccessPointPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPointPolicy"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#PutAccessPointPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#PutAccessPointPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#MalformedPolicy"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#DeleteAccessPointPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#DeleteAccessPointPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPointPolicy"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#GetAccessPointPolicyStatus/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#GetAccessPointPolicyStatus/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPointPolicy"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#TagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#UntagResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#ListTagsForResource/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#CreateAccessPointForObjectLambda/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#AccessPointAlreadyOwnedByYou"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#CreateAccessPointForObjectLambda/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#CreateAccessPointForObjectLambda/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#CreateAccessPointForObjectLambda/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#ObjectLambdaNotAvailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#GetAccessPointForObjectLambda/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#DeleteAccessPointForObjectLambda/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#GetAccessPointConfigurationForObjectLambda/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#PutAccessPointConfigurationForObjectLambda/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#PutAccessPointConfigurationForObjectLambda/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#GetAccessPointPolicyForObjectLambda/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#GetAccessPointPolicyForObjectLambda/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPointPolicy"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#PutAccessPointPolicyForObjectLambda/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#PutAccessPointPolicyForObjectLambda/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#MalformedPolicy"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#DeleteAccessPointPolicyForObjectLambda/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#DeleteAccessPointPolicyForObjectLambda/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchAccessPointPolicy"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#PutStorageLensConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#PutStorageLensConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#MissingBucketLevelActivityMetrics"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#GetStorageLensConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchConfiguration"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#DeleteStorageLensConfiguration/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchConfiguration"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#GetStorageLensConfigurationTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchConfiguration"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#PutStorageLensConfigurationTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchConfiguration"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#DeleteStorageLensConfigurationTagging/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchConfiguration"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#CreateMultiRegionAccessPoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#GetMultiRegionAccessPoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchMultiRegionAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#DeleteMultiRegionAccessPoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchMultiRegionAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#DeleteMultiRegionAccessPoint/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#DescribeMultiRegionAccessPointOperation/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#GetMultiRegionAccessPointPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchMultiRegionAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#PutMultiRegionAccessPointPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#NoSuchMultiRegionAccessPoint"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#PutMultiRegionAccessPointPolicy/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#UpdateJobStatus/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#UpdateJobStatus/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#JobStatusTransitionForbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#UpdateJobPriority/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#InvalidRequest"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#UpdateJobPriority/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#JobStatusTransitionForbidden"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.amazonaws.s3control#CreateJob/errors/-",
+      "value": {
+        "target": "com.amazonaws.s3control#InvalidRequest"
+      }
+    }
+  ]
+}
