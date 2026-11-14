@@ -362,6 +362,8 @@ export default Alchemy.Stack(
               Action: ["schemas:ListSchemas", "schemas:DescribeSchema"],
               Resource: [
                 "arn:aws:schemas:*:*:registry/aws.events",
+                // ListSchemas is authorized on the registry's schema prefix.
+                "arn:aws:schemas:*:*:schema/aws.events",
                 "arn:aws:schemas:*:*:schema/aws.events/*",
               ],
             },
