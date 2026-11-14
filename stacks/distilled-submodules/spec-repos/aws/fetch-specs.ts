@@ -143,6 +143,9 @@ const env = (name: string) => {
  * standard chain when the environment names credentials, and skip otherwise.
  */
 const eventSchemaCredentials = () => {
+  // Environment credentials take their region from AWS_REGION and ignore
+  // `Region.of`; the Actions secrets carry no region, so name the registry's.
+  process.env.AWS_REGION ??= EVENT_REGISTRY_REGION;
   if (process.env.GITHUB_ACTIONS === "true") return Credentials.fromEnv();
   const named =
     env("AWS_PROFILE") !== undefined ||
