@@ -849,6 +849,7 @@ export const createFoldersLocationsAuditSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateFoldersLocationsAuditSchedules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsLocationsAuditSchedulesError =
@@ -871,6 +872,7 @@ export const createOrganizationsLocationsAuditSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsLocationsAuditSchedules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsAuditSchedulesError =
@@ -893,6 +895,7 @@ export const createProjectsLocationsAuditSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsAuditSchedules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteOrganizationsLocationsOperationsError =
@@ -959,6 +962,7 @@ export const enrollResourceFoldersLocations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnrollResourceFoldersLocations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type EnrollResourceOrganizationsLocationsError =
@@ -981,6 +985,7 @@ export const enrollResourceOrganizationsLocations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnrollResourceOrganizationsLocations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type EnrollResourceProjectsLocationsError =
@@ -1003,6 +1008,7 @@ export const enrollResourceProjectsLocations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnrollResourceProjectsLocations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GenerateFoldersLocationsAuditReportsError =
@@ -1025,6 +1031,7 @@ export const generateFoldersLocationsAuditReports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateFoldersLocationsAuditReports",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GenerateFoldersLocationsAuditScopeReportsError =
@@ -1047,6 +1054,7 @@ export const generateFoldersLocationsAuditScopeReports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateFoldersLocationsAuditScopeReports",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GenerateOrganizationsLocationsAuditReportsError =
@@ -1069,6 +1077,7 @@ export const generateOrganizationsLocationsAuditReports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateOrganizationsLocationsAuditReports",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GenerateOrganizationsLocationsAuditScopeReportsError =
@@ -1095,6 +1104,7 @@ export const generateOrganizationsLocationsAuditScopeReports: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateOrganizationsLocationsAuditScopeReports",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GenerateProjectsLocationsAuditReportsError =
@@ -1117,6 +1127,7 @@ export const generateProjectsLocationsAuditReports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateProjectsLocationsAuditReports",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GenerateProjectsLocationsAuditScopeReportsError =
@@ -1139,6 +1150,7 @@ export const generateProjectsLocationsAuditScopeReports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateProjectsLocationsAuditScopeReports",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetFoldersLocationsAuditReportsError = NotFound | Forbidden | GcpOpError;
@@ -1759,6 +1771,7 @@ export const patchFoldersLocationsAuditSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchFoldersLocationsAuditSchedules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchOrganizationsLocationsAuditSchedulesError =
@@ -1781,6 +1794,7 @@ export const patchOrganizationsLocationsAuditSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsLocationsAuditSchedules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsAuditSchedulesError =
@@ -1803,6 +1817,7 @@ export const patchProjectsLocationsAuditSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsAuditSchedules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

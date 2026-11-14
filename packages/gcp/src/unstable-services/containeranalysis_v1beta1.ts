@@ -2622,6 +2622,7 @@ export const getIamPolicyProjectsLocationsNotes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIamPolicyProjectsLocationsNotes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetIamPolicyProjectsLocationsOccurrencesError =
@@ -2644,6 +2645,7 @@ export const getIamPolicyProjectsLocationsOccurrences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIamPolicyProjectsLocationsOccurrences",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetIamPolicyProjectsNotesError =
@@ -2666,6 +2668,7 @@ export const getIamPolicyProjectsNotes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIamPolicyProjectsNotes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetIamPolicyProjectsOccurrencesError =
@@ -2688,6 +2691,7 @@ export const getIamPolicyProjectsOccurrences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIamPolicyProjectsOccurrences",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetNotesProjectsLocationsOccurrencesError = NotFound | Forbidden | GcpOpError;
@@ -3050,6 +3054,7 @@ export const setIamPolicyProjectsLocationsNotes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsLocationsNotes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsLocationsOccurrencesError =
@@ -3072,6 +3077,7 @@ export const setIamPolicyProjectsLocationsOccurrences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsLocationsOccurrences",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsNotesError =
@@ -3094,6 +3100,7 @@ export const setIamPolicyProjectsNotes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsNotes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsOccurrencesError =
@@ -3116,6 +3123,7 @@ export const setIamPolicyProjectsOccurrences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsOccurrences",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsLocationsNotesError =
@@ -3138,6 +3146,7 @@ export const testIamPermissionsProjectsLocationsNotes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestIamPermissionsProjectsLocationsNotes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsLocationsOccurrencesError =
@@ -3164,6 +3173,7 @@ export const testIamPermissionsProjectsLocationsOccurrences: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestIamPermissionsProjectsLocationsOccurrences",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsNotesError =
@@ -3186,6 +3196,7 @@ export const testIamPermissionsProjectsNotes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestIamPermissionsProjectsNotes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsOccurrencesError =
@@ -3208,6 +3219,7 @@ export const testIamPermissionsProjectsOccurrences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestIamPermissionsProjectsOccurrences",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -2162,6 +2162,7 @@ export const createProjectsLocationsKeyHandles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsKeyHandles",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsKeyRingsError =
@@ -2232,6 +2233,7 @@ export const createProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsKeyRingsImportJobsError =
@@ -3112,6 +3114,7 @@ export const importProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ImportTrustedKeyWrappedCryptoKeyVersionProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =

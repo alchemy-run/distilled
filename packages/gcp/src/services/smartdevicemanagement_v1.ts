@@ -200,6 +200,7 @@ export const executeCommandEnterprisesDevices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteCommandEnterprisesDevices",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetEnterprisesDevicesError = NotFound | Forbidden | GcpOpError;

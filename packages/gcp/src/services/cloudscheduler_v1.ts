@@ -435,6 +435,7 @@ export const createProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsJobsError =
@@ -626,6 +627,7 @@ export const patchProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PauseProjectsLocationsJobsError =
@@ -648,6 +650,7 @@ export const pauseProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PauseProjectsLocationsJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ResumeProjectsLocationsJobsError =
@@ -670,6 +673,7 @@ export const resumeProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeProjectsLocationsJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RunProjectsLocationsJobsError =
@@ -692,6 +696,7 @@ export const runProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunProjectsLocationsJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateCmekConfigProjectsLocationsError =

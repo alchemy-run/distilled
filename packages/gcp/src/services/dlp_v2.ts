@@ -4903,6 +4903,7 @@ export const activateProjectsJobTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ActivateProjectsJobTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ActivateProjectsLocationsJobTriggersError =
@@ -4925,6 +4926,7 @@ export const activateProjectsLocationsJobTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ActivateProjectsLocationsJobTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CancelProjectsDlpJobsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4942,6 +4944,7 @@ export const cancelProjectsDlpJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsDlpJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CancelProjectsLocationsDlpJobsError =
@@ -4964,6 +4967,7 @@ export const cancelProjectsLocationsDlpJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsDlpJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsDeidentifyTemplatesError =
@@ -4986,6 +4990,7 @@ export const createOrganizationsDeidentifyTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsDeidentifyTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsInspectTemplatesError =
@@ -5008,6 +5013,7 @@ export const createOrganizationsInspectTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsInspectTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsLocationsConnectionsError =
@@ -5056,6 +5062,7 @@ export const createOrganizationsLocationsDeidentifyTemplates: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsLocationsDeidentifyTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsLocationsDiscoveryConfigsError =
@@ -5078,6 +5085,7 @@ export const createOrganizationsLocationsDiscoveryConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsLocationsDiscoveryConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsLocationsInspectTemplatesError =
@@ -5104,6 +5112,7 @@ export const createOrganizationsLocationsInspectTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsLocationsInspectTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsLocationsJobTriggersError =
@@ -5126,6 +5135,7 @@ export const createOrganizationsLocationsJobTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsLocationsJobTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsLocationsStoredInfoTypesError =
@@ -5148,6 +5158,7 @@ export const createOrganizationsLocationsStoredInfoTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsLocationsStoredInfoTypes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsStoredInfoTypesError =
@@ -5170,6 +5181,7 @@ export const createOrganizationsStoredInfoTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsStoredInfoTypes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsDeidentifyTemplatesError =
@@ -5192,6 +5204,7 @@ export const createProjectsDeidentifyTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsDeidentifyTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsDlpJobsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5209,6 +5222,7 @@ export const createProjectsDlpJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsDlpJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsInspectTemplatesError =
@@ -5231,6 +5245,7 @@ export const createProjectsInspectTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsInspectTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsJobTriggersError =
@@ -5253,6 +5268,7 @@ export const createProjectsJobTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsJobTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsConnectionsError =
@@ -5319,6 +5335,7 @@ export const createProjectsLocationsDeidentifyTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDeidentifyTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsDiscoveryConfigsError =
@@ -5341,6 +5358,7 @@ export const createProjectsLocationsDiscoveryConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDiscoveryConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsDlpJobsError =
@@ -5363,6 +5381,7 @@ export const createProjectsLocationsDlpJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDlpJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsInspectTemplatesError =
@@ -5385,6 +5404,7 @@ export const createProjectsLocationsInspectTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsInspectTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsJobTriggersError =
@@ -5407,6 +5427,7 @@ export const createProjectsLocationsJobTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsJobTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsStoredInfoTypesError =
@@ -5429,6 +5450,7 @@ export const createProjectsLocationsStoredInfoTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsStoredInfoTypes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsStoredInfoTypesError =
@@ -5451,6 +5473,7 @@ export const createProjectsStoredInfoTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsStoredInfoTypes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeidentifyProjectsContentError =
@@ -6112,6 +6135,7 @@ export const finishProjectsLocationsDlpJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FinishProjectsLocationsDlpJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetOrganizationsDeidentifyTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -6660,6 +6684,7 @@ export const hybridInspectProjectsLocationsDlpJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "HybridInspectProjectsLocationsDlpJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type HybridInspectProjectsLocationsJobTriggersError =
@@ -6682,6 +6707,7 @@ export const hybridInspectProjectsLocationsJobTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "HybridInspectProjectsLocationsJobTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type InspectProjectsContentError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7435,6 +7461,7 @@ export const patchOrganizationsDeidentifyTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsDeidentifyTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchOrganizationsInspectTemplatesError =
@@ -7457,6 +7484,7 @@ export const patchOrganizationsInspectTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsInspectTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchOrganizationsLocationsConnectionsError =
@@ -7505,6 +7533,7 @@ export const patchOrganizationsLocationsDeidentifyTemplates: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsLocationsDeidentifyTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchOrganizationsLocationsDiscoveryConfigsError =
@@ -7527,6 +7556,7 @@ export const patchOrganizationsLocationsDiscoveryConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsLocationsDiscoveryConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchOrganizationsLocationsInspectTemplatesError =
@@ -7549,6 +7579,7 @@ export const patchOrganizationsLocationsInspectTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsLocationsInspectTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchOrganizationsLocationsJobTriggersError =
@@ -7571,6 +7602,7 @@ export const patchOrganizationsLocationsJobTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsLocationsJobTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchOrganizationsLocationsStoredInfoTypesError =
@@ -7593,6 +7625,7 @@ export const patchOrganizationsLocationsStoredInfoTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsLocationsStoredInfoTypes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchOrganizationsStoredInfoTypesError =
@@ -7615,6 +7648,7 @@ export const patchOrganizationsStoredInfoTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsStoredInfoTypes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsDeidentifyTemplatesError =
@@ -7637,6 +7671,7 @@ export const patchProjectsDeidentifyTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsDeidentifyTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsInspectTemplatesError =
@@ -7659,6 +7694,7 @@ export const patchProjectsInspectTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsInspectTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsJobTriggersError =
@@ -7681,6 +7717,7 @@ export const patchProjectsJobTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsJobTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsConnectionsError =
@@ -7747,6 +7784,7 @@ export const patchProjectsLocationsDeidentifyTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsDeidentifyTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsDiscoveryConfigsError =
@@ -7769,6 +7807,7 @@ export const patchProjectsLocationsDiscoveryConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsDiscoveryConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsInspectTemplatesError =
@@ -7791,6 +7830,7 @@ export const patchProjectsLocationsInspectTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsInspectTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsJobTriggersError =
@@ -7813,6 +7853,7 @@ export const patchProjectsLocationsJobTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsJobTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsStoredInfoTypesError =
@@ -7835,6 +7876,7 @@ export const patchProjectsLocationsStoredInfoTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsStoredInfoTypes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsStoredInfoTypesError =
@@ -7857,6 +7899,7 @@ export const patchProjectsStoredInfoTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsStoredInfoTypes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RedactProjectsImageError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;

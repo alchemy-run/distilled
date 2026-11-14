@@ -518,6 +518,7 @@ export const createProjectsLocationsServers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsServers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsServersUsersError =
@@ -540,6 +541,7 @@ export const createProjectsLocationsServersUsers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsServersUsers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -584,6 +586,7 @@ export const deleteProjectsLocationsServers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsServers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsServersUsersError =
@@ -606,6 +609,7 @@ export const deleteProjectsLocationsServersUsers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsServersUsers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -772,6 +776,7 @@ export const patchProjectsLocationsServers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsServers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsServersUsersError =
@@ -794,6 +799,7 @@ export const patchProjectsLocationsServersUsers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsServersUsers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StartProjectsLocationsServersError =
@@ -816,6 +822,7 @@ export const startProjectsLocationsServers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartProjectsLocationsServers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StopProjectsLocationsServersError =
@@ -838,6 +845,7 @@ export const stopProjectsLocationsServers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsServers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

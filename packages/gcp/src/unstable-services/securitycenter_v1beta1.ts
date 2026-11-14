@@ -430,6 +430,7 @@ export const createOrganizationsSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsSources",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsSourcesFindingsError =
@@ -451,6 +452,7 @@ export const createOrganizationsSourcesFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsSourcesFindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteOrganizationsOperationsError =
@@ -676,6 +678,7 @@ export const patchOrganizationsSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsSources",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchOrganizationsSourcesFindingsError =
@@ -697,6 +700,7 @@ export const patchOrganizationsSourcesFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsSourcesFindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RunDiscoveryOrganizationsAssetsError =
@@ -718,6 +722,7 @@ export const runDiscoveryOrganizationsAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunDiscoveryOrganizationsAssets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyOrganizationsSourcesError =
@@ -739,6 +744,7 @@ export const setIamPolicyOrganizationsSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyOrganizationsSources",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetStateOrganizationsSourcesFindingsError =
@@ -760,6 +766,7 @@ export const setStateOrganizationsSourcesFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetStateOrganizationsSourcesFindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsOrganizationsSourcesError =
@@ -802,6 +809,7 @@ export const updateOrganizationSettingsOrganizations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateOrganizationSettingsOrganizations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateSecurityMarksOrganizationsAssetsError =
@@ -823,6 +831,7 @@ export const updateSecurityMarksOrganizationsAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSecurityMarksOrganizationsAssets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateSecurityMarksOrganizationsSourcesFindingsError =
@@ -848,6 +857,7 @@ export const updateSecurityMarksOrganizationsSourcesFindings: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSecurityMarksOrganizationsSourcesFindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

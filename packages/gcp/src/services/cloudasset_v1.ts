@@ -1918,6 +1918,7 @@ export const analyzeIamPolicyLongrunningV1: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnalyzeIamPolicyLongrunningV1",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type AnalyzeIamPolicyV1Error = NotFound | Forbidden | GcpOpError;
@@ -2060,6 +2061,7 @@ export const createFeeds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateFeeds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateSavedQueriesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2077,6 +2079,7 @@ export const createSavedQueries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSavedQueries",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteFeedsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2128,6 +2131,7 @@ export const exportAssetsV1: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportAssetsV1",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetFeedsError = NotFound | Forbidden | GcpOpError;
@@ -2247,6 +2251,7 @@ export const patchFeeds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchFeeds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchSavedQueriesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2264,6 +2269,7 @@ export const patchSavedQueries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchSavedQueries",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type QueryAssetsV1Error = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;

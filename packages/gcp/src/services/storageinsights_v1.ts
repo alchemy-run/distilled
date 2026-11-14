@@ -613,6 +613,7 @@ export const createProjectsLocationsReportConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsReportConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsDatasetConfigsError =
@@ -679,6 +680,7 @@ export const deleteProjectsLocationsReportConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsReportConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -932,6 +934,7 @@ export const patchProjectsLocationsReportConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsReportConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UnlinkDatasetProjectsLocationsDatasetConfigsError =

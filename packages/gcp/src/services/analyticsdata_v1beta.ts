@@ -980,6 +980,7 @@ export const batchRunPivotReportsProperties: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchRunPivotReportsProperties",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type BatchRunReportsPropertiesError =
@@ -1002,6 +1003,7 @@ export const batchRunReportsProperties: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchRunReportsProperties",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CheckCompatibilityPropertiesError =
@@ -1024,6 +1026,7 @@ export const checkCompatibilityProperties: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckCompatibilityProperties",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreatePropertiesAudienceExportsError =
@@ -1143,6 +1146,7 @@ export const runPivotReportProperties: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunPivotReportProperties",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RunRealtimeReportPropertiesError =
@@ -1165,6 +1169,7 @@ export const runRealtimeReportProperties: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunRealtimeReportProperties",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RunReportPropertiesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1182,6 +1187,7 @@ export const runReportProperties: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunReportProperties",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

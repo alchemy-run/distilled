@@ -2214,6 +2214,7 @@ export const batchCreateProjectsLocationsNotes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsLocationsNotes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type BatchCreateProjectsLocationsOccurrencesError =
@@ -2236,6 +2237,7 @@ export const batchCreateProjectsLocationsOccurrences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsLocationsOccurrences",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type BatchCreateProjectsNotesError =
@@ -2258,6 +2260,7 @@ export const batchCreateProjectsNotes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsNotes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type BatchCreateProjectsOccurrencesError =
@@ -2280,6 +2283,7 @@ export const batchCreateProjectsOccurrences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsOccurrences",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsNotesError =
@@ -2302,6 +2306,7 @@ export const createProjectsLocationsNotes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsNotes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsOccurrencesError =
@@ -2324,6 +2329,7 @@ export const createProjectsLocationsOccurrences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsOccurrences",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsNotesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2341,6 +2347,7 @@ export const createProjectsNotes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsNotes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsOccurrencesError =
@@ -2363,6 +2370,7 @@ export const createProjectsOccurrences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsOccurrences",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsNotesError =
@@ -2857,6 +2865,7 @@ export const patchProjectsLocationsNotes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsNotes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsOccurrencesError =
@@ -2879,6 +2888,7 @@ export const patchProjectsLocationsOccurrences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsOccurrences",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsNotesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2896,6 +2906,7 @@ export const patchProjectsNotes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsNotes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsOccurrencesError =
@@ -2918,6 +2929,7 @@ export const patchProjectsOccurrences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsOccurrences",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsLocationsNotesError =

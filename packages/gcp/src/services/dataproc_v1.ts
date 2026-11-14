@@ -4818,6 +4818,7 @@ export const createProjectsLocationsAutoscalingPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsAutoscalingPolicies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsBatchesError =
@@ -4928,6 +4929,7 @@ export const createProjectsRegionsAutoscalingPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsRegionsAutoscalingPolicies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsRegionsClustersError =
@@ -5016,6 +5018,7 @@ export const deleteProjectsLocationsAutoscalingPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsAutoscalingPolicies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsBatchesError =
@@ -5148,6 +5151,7 @@ export const deleteProjectsRegionsAutoscalingPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsRegionsAutoscalingPolicies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsRegionsClustersError =

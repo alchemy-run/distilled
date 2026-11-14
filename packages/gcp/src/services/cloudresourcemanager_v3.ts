@@ -1150,6 +1150,7 @@ export const createFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateFolders",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateFoldersBoundariesError =
@@ -1272,6 +1273,7 @@ export const createProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsCapabilityConfigsError =
@@ -1311,6 +1313,7 @@ export const createTagBindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTagBindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateTagKeysError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1328,6 +1331,7 @@ export const createTagKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTagKeys",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateTagValuesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1345,6 +1349,7 @@ export const createTagValues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTagValues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateTagValuesTagHoldsError =
@@ -1390,6 +1395,7 @@ export const deleteFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteFolders",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteFoldersBoundariesError =
@@ -1518,6 +1524,7 @@ export const deleteProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsCapabilityConfigsError =
@@ -1557,6 +1564,7 @@ export const deleteTagBindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTagBindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteTagKeysError =
@@ -1580,6 +1588,7 @@ export const deleteTagKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTagKeys",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteTagValuesError =
@@ -1603,6 +1612,7 @@ export const deleteTagValues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTagValues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteTagValuesTagHoldsError =
@@ -2339,6 +2349,7 @@ export const moveFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveFolders",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MoveProjectsError =
@@ -2362,6 +2373,7 @@ export const moveProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchFoldersError =
@@ -2385,6 +2397,7 @@ export const patchFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchFolders",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchFoldersBoundariesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2535,6 +2548,7 @@ export const patchProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsCapabilityConfigsError =
@@ -2580,6 +2594,7 @@ export const patchTagKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchTagKeys",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchTagValuesError =
@@ -2603,6 +2618,7 @@ export const patchTagValues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchTagValues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SearchFoldersError = NotFound | Forbidden | GcpOpError;
@@ -2677,6 +2693,7 @@ export const setIamPolicyFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyFolders",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyOrganizationsError =
@@ -2699,6 +2716,7 @@ export const setIamPolicyOrganizations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyOrganizations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2716,6 +2734,7 @@ export const setIamPolicyProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyTagKeysError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2733,6 +2752,7 @@ export const setIamPolicyTagKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyTagKeys",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyTagValuesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2750,6 +2770,7 @@ export const setIamPolicyTagValues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyTagValues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsFoldersError =
@@ -2883,6 +2904,7 @@ export const undeleteFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteFolders",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UndeleteProjectsError =
@@ -2906,6 +2928,7 @@ export const undeleteProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateBoundaryConfigFoldersError =

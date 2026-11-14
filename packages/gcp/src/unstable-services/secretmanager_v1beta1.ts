@@ -400,6 +400,7 @@ export const addVersionProjectsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddVersionProjectsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsSecretsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -417,6 +418,7 @@ export const createProjectsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsSecretsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -434,6 +436,7 @@ export const deleteProjectsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DestroyProjectsSecretsVersionsError =
@@ -456,6 +459,7 @@ export const destroyProjectsSecretsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DestroyProjectsSecretsVersions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DisableProjectsSecretsVersionsError =
@@ -478,6 +482,7 @@ export const disableProjectsSecretsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableProjectsSecretsVersions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type EnableProjectsSecretsVersionsError =
@@ -500,6 +505,7 @@ export const enableProjectsSecretsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableProjectsSecretsVersions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetIamPolicyProjectsSecretsError = NotFound | Forbidden | GcpOpError;
@@ -642,6 +648,7 @@ export const patchProjectsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsSecretsError =
@@ -664,6 +671,7 @@ export const setIamPolicyProjectsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsSecretsError =
@@ -686,6 +694,7 @@ export const testIamPermissionsProjectsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestIamPermissionsProjectsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

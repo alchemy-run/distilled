@@ -940,6 +940,7 @@ export const createProjectsLocationsTransferConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsTransferConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsTransferConfigsError =
@@ -962,6 +963,7 @@ export const createProjectsTransferConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsTransferConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsTransferConfigsError =
@@ -1499,6 +1501,7 @@ export const patchProjectsLocationsTransferConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsTransferConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsTransferConfigsError =
@@ -1521,6 +1524,7 @@ export const patchProjectsTransferConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsTransferConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ScheduleRunsProjectsLocationsTransferConfigsError =
@@ -1543,6 +1547,7 @@ export const scheduleRunsProjectsLocationsTransferConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ScheduleRunsProjectsLocationsTransferConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ScheduleRunsProjectsTransferConfigsError =
@@ -1565,6 +1570,7 @@ export const scheduleRunsProjectsTransferConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ScheduleRunsProjectsTransferConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StartManualRunsProjectsLocationsTransferConfigsError =

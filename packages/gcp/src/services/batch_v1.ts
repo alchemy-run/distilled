@@ -951,6 +951,7 @@ export const cancelProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -995,6 +996,7 @@ export const createProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsJobsError =
@@ -1017,6 +1019,7 @@ export const deleteProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =

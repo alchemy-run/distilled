@@ -2703,6 +2703,7 @@ export const createProjectsSubscribers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsSubscribers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsSubscribersSubscriptionsError =
@@ -2725,6 +2726,7 @@ export const createProjectsSubscribersSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsSubscribersSubscriptions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateUsersDataTypesDataPointsError =
@@ -2747,6 +2749,7 @@ export const createUsersDataTypesDataPoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateUsersDataTypesDataPoints",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DailyRollUpUsersDataTypesDataPointsError =
@@ -3060,6 +3063,7 @@ export const patchProjectsSubscribers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsSubscribers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsSubscribersSubscriptionsError =
@@ -3082,6 +3086,7 @@ export const patchProjectsSubscribersSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsSubscribersSubscriptions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchUsersDataTypesDataPointsError =
@@ -3104,6 +3109,7 @@ export const patchUsersDataTypesDataPoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchUsersDataTypesDataPoints",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ReconcileUsersDataTypesDataPointsError = NotFound | Forbidden | GcpOpError;
@@ -3162,6 +3168,7 @@ export const updateProfileUsers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProfileUsers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateSettingsUsersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3179,6 +3186,7 @@ export const updateSettingsUsers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSettingsUsers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

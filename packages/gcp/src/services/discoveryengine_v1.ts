@@ -9043,6 +9043,7 @@ export const createProjectsLocationsCollectionsEnginesAssistants: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsCollectionsEnginesAssistants",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1TasksPushNotificationConfigsError =
@@ -9776,6 +9777,7 @@ export const deleteProjectsLocationsCollectionsEnginesAssistants: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsCollectionsEnginesAssistants",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1TasksPushNotificationConfigsError =
@@ -13401,6 +13403,7 @@ export const patchProjectsLocationsCollectionsEnginesAssistants: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsCollectionsEnginesAssistants",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsCollectionsEnginesControlsError =

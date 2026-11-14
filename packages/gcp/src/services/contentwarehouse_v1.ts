@@ -2197,6 +2197,7 @@ export const createProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsDocumentSchemasError =
@@ -2220,6 +2221,7 @@ export const createProjectsLocationsDocumentSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDocumentSchemas",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsDocumentsDocumentLinksError =
@@ -2247,6 +2249,7 @@ export const createProjectsLocationsDocumentsDocumentLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDocumentsDocumentLinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsRuleSetsError =
@@ -2270,6 +2273,7 @@ export const createProjectsLocationsRuleSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRuleSets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsSynonymSetsError =
@@ -2293,6 +2297,7 @@ export const createProjectsLocationsSynonymSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsSynonymSets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsDocumentsError =
@@ -2316,6 +2321,7 @@ export const deleteProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsDocumentSchemasError =
@@ -2339,6 +2345,7 @@ export const deleteProjectsLocationsDocumentSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDocumentSchemas",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsDocumentsDocumentLinksError =
@@ -2362,6 +2369,7 @@ export const deleteProjectsLocationsDocumentsDocumentLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDocumentsDocumentLinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsDocumentsReferenceIdError =
@@ -2385,6 +2393,7 @@ export const deleteProjectsLocationsDocumentsReferenceId: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDocumentsReferenceId",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsRuleSetsError =
@@ -2408,6 +2417,7 @@ export const deleteProjectsLocationsRuleSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRuleSets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsSynonymSetsError =
@@ -2431,6 +2441,7 @@ export const deleteProjectsLocationsSynonymSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsSynonymSets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type FetchAclProjectsError =
@@ -2670,6 +2681,7 @@ export const linkedSourcesProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LinkedSourcesProjectsLocationsDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type LinkedTargetsProjectsLocationsDocumentsError =
@@ -2697,6 +2709,7 @@ export const linkedTargetsProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LinkedTargetsProjectsLocationsDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ListProjectsLocationsDocumentSchemasError =
@@ -2824,6 +2837,7 @@ export const patchProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsDocumentSchemasError =
@@ -2847,6 +2861,7 @@ export const patchProjectsLocationsDocumentSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsDocumentSchemas",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsDocumentsReferenceIdError =
@@ -2874,6 +2889,7 @@ export const patchProjectsLocationsDocumentsReferenceId: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsDocumentsReferenceId",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsRuleSetsError =
@@ -2897,6 +2913,7 @@ export const patchProjectsLocationsRuleSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRuleSets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsSynonymSetsError =
@@ -2920,6 +2937,7 @@ export const patchProjectsLocationsSynonymSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsSynonymSets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RunPipelineProjectsLocationsError =
@@ -2970,6 +2988,7 @@ export const searchProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetAclProjectsError =
@@ -2993,6 +3012,7 @@ export const setAclProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetAclProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetAclProjectsLocationsDocumentsError =
@@ -3016,6 +3036,7 @@ export const setAclProjectsLocationsDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetAclProjectsLocationsDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

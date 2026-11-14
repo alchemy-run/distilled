@@ -1879,6 +1879,7 @@ export const bulkDeleteDocumentsProjectsDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BulkDeleteDocumentsProjectsDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CancelProjectsDatabasesOperationsError =
@@ -1918,6 +1919,7 @@ export const cloneProjectsDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CloneProjectsDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CommitProjectsDatabasesDocumentsError =
@@ -1985,6 +1987,7 @@ export const createProjectsDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsDatabasesBackupSchedulesError =
@@ -2055,6 +2058,7 @@ export const createProjectsDatabasesCollectionGroupsIndexes: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsDatabasesCollectionGroupsIndexes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsDatabasesUserCredsError =
@@ -2347,6 +2351,7 @@ export const exportDocumentsProjectsDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportDocumentsProjectsDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetProjectsDatabasesError = NotFound | Forbidden | GcpOpError;
@@ -2543,6 +2548,7 @@ export const importDocumentsProjectsDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportDocumentsProjectsDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ListCollectionIdsProjectsDatabasesDocumentsError =
@@ -2873,6 +2879,7 @@ export const patchProjectsDatabasesCollectionGroupsFields: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsDatabasesCollectionGroupsFields",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsDatabasesDocumentsError =
@@ -2940,6 +2947,7 @@ export const restoreProjectsDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RollbackProjectsDatabasesDocumentsError =
@@ -3032,6 +3040,7 @@ export const writeProjectsDatabasesDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WriteProjectsDatabasesDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

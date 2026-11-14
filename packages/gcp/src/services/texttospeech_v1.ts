@@ -470,6 +470,7 @@ export const synthesizeLongAudioProjectsLocations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SynthesizeLongAudioProjectsLocations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SynthesizeTextError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;

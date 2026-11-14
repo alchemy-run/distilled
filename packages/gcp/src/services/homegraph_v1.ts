@@ -427,6 +427,7 @@ export const reportStateAndNotificationDevices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReportStateAndNotificationDevices",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RequestSyncDevicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -444,6 +445,7 @@ export const requestSyncDevices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RequestSyncDevices",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SyncDevicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;

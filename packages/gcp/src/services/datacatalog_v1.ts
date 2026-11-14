@@ -632,6 +632,7 @@ export const createProjectsLocationsTaxonomies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsTaxonomies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsTaxonomiesPolicyTagsError =
@@ -654,6 +655,7 @@ export const createProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsTaxonomiesPolicyTags",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -698,6 +700,7 @@ export const deleteProjectsLocationsTaxonomies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsTaxonomies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsTaxonomiesPolicyTagsError =
@@ -720,6 +723,7 @@ export const deleteProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsTaxonomiesPolicyTags",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ExportProjectsLocationsTaxonomiesError = NotFound | Forbidden | GcpOpError;
@@ -810,6 +814,7 @@ export const getIamPolicyProjectsLocationsTaxonomies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIamPolicyProjectsLocationsTaxonomies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetIamPolicyProjectsLocationsTaxonomiesPolicyTagsError =
@@ -836,6 +841,7 @@ export const getIamPolicyProjectsLocationsTaxonomiesPolicyTags: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIamPolicyProjectsLocationsTaxonomiesPolicyTags",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -909,6 +915,7 @@ export const importProjectsLocationsTaxonomies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsTaxonomies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ListProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -988,6 +995,7 @@ export const patchProjectsLocationsTaxonomies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsTaxonomies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsTaxonomiesPolicyTagsError =
@@ -1010,6 +1018,7 @@ export const patchProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsTaxonomiesPolicyTags",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ReplaceProjectsLocationsTaxonomiesError =
@@ -1032,6 +1041,7 @@ export const replaceProjectsLocationsTaxonomies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReplaceProjectsLocationsTaxonomies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SearchCatalogError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1115,6 +1125,7 @@ export const setIamPolicyProjectsLocationsTaxonomies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsLocationsTaxonomies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsLocationsTaxonomiesPolicyTagsError =
@@ -1141,6 +1152,7 @@ export const setIamPolicyProjectsLocationsTaxonomiesPolicyTags: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsLocationsTaxonomiesPolicyTags",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsLocationsTaxonomiesError =
@@ -1167,6 +1179,7 @@ export const testIamPermissionsProjectsLocationsTaxonomies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestIamPermissionsProjectsLocationsTaxonomies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsLocationsTaxonomiesPolicyTagsError =
@@ -1193,6 +1206,7 @@ export const testIamPermissionsProjectsLocationsTaxonomiesPolicyTags: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestIamPermissionsProjectsLocationsTaxonomiesPolicyTags",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

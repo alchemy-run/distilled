@@ -2375,6 +2375,7 @@ export const adaptMessageProjectsInstancesDatabasesSessions: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AdaptMessageProjectsInstancesDatabasesSessions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type AddSplitPointsProjectsInstancesDatabasesError =
@@ -2447,6 +2448,7 @@ export const batchWriteProjectsInstancesDatabasesSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchWriteProjectsInstancesDatabasesSessions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type BeginTransactionProjectsInstancesDatabasesSessionsError =
@@ -2683,6 +2685,7 @@ export const copyProjectsInstancesBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CopyProjectsInstancesBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsInstanceConfigsError =
@@ -2727,6 +2730,7 @@ export const createProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsInstances",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsInstancesBackupsError =
@@ -2749,6 +2753,7 @@ export const createProjectsInstancesBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsInstancesBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsInstancesDatabasesError =
@@ -2771,6 +2776,7 @@ export const createProjectsInstancesDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsInstancesDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsInstancesDatabasesBackupSchedulesError =
@@ -3230,6 +3236,7 @@ export const executeStreamingSqlProjectsInstancesDatabasesSessions: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteStreamingSqlProjectsInstancesDatabasesSessions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetDdlProjectsInstancesDatabasesError = NotFound | Forbidden | GcpOpError;
@@ -4115,6 +4122,7 @@ export const patchProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsInstances",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsInstancesBackupsError =
@@ -4256,6 +4264,7 @@ export const restoreProjectsInstancesDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsInstancesDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RollbackProjectsInstancesDatabasesSessionsError =
@@ -4302,6 +4311,7 @@ export const setIamPolicyProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsInstances",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsInstancesBackupsError =
@@ -4324,6 +4334,7 @@ export const setIamPolicyProjectsInstancesBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsInstancesBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsInstancesDatabasesError =
@@ -4346,6 +4357,7 @@ export const setIamPolicyProjectsInstancesDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsInstancesDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsInstancesDatabasesBackupSchedulesError =
@@ -4372,6 +4384,7 @@ export const setIamPolicyProjectsInstancesDatabasesBackupSchedules: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsInstancesDatabasesBackupSchedules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StreamingReadProjectsInstancesDatabasesSessionsError =
@@ -4399,6 +4412,7 @@ export const streamingReadProjectsInstancesDatabasesSessions: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamingReadProjectsInstancesDatabasesSessions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsInstancesError =
@@ -4421,6 +4435,7 @@ export const testIamPermissionsProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestIamPermissionsProjectsInstances",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsInstancesBackupsError =
@@ -4443,6 +4458,7 @@ export const testIamPermissionsProjectsInstancesBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestIamPermissionsProjectsInstancesBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsInstancesDatabasesError =
@@ -4465,6 +4481,7 @@ export const testIamPermissionsProjectsInstancesDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestIamPermissionsProjectsInstancesDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsInstancesDatabasesBackupSchedulesError =
@@ -4491,6 +4508,7 @@ export const testIamPermissionsProjectsInstancesDatabasesBackupSchedules: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestIamPermissionsProjectsInstancesDatabasesBackupSchedules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsInstancesDatabasesDatabaseRolesError =
@@ -4517,6 +4535,7 @@ export const testIamPermissionsProjectsInstancesDatabasesDatabaseRoles: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestIamPermissionsProjectsInstancesDatabasesDatabaseRoles",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateDdlProjectsInstancesDatabasesError =

@@ -1959,6 +1959,7 @@ export const createProjectsLocationsEvaluations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsEvaluations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsDeploymentsError =
@@ -2028,6 +2029,7 @@ export const deleteProjectsLocationsEvaluations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsEvaluations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsEvaluationsExecutionsError =
@@ -2051,6 +2053,7 @@ export const deleteProjectsLocationsEvaluationsExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsEvaluationsExecutions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsInsightsError =
@@ -2512,6 +2515,7 @@ export const patchProjectsLocationsEvaluations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsEvaluations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RunProjectsLocationsEvaluationsExecutionsError =
@@ -2535,6 +2539,7 @@ export const runProjectsLocationsEvaluationsExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunProjectsLocationsEvaluationsExecutions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type WriteInsightProjectsLocationsInsightsError =

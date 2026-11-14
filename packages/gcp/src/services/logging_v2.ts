@@ -2866,6 +2866,7 @@ export const createBillingAccountsExclusions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateBillingAccountsExclusions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateBillingAccountsLocationsBucketsError =
@@ -2976,6 +2977,7 @@ export const createBillingAccountsSinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateBillingAccountsSinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateExclusionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2993,6 +2995,7 @@ export const createExclusions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateExclusions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateFoldersExclusionsError =
@@ -3015,6 +3018,7 @@ export const createFoldersExclusions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateFoldersExclusions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateFoldersLocationsBucketsError =
@@ -3142,6 +3146,7 @@ export const createFoldersSinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateFoldersSinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateLocationsBucketsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3225,6 +3230,7 @@ export const createOrganizationsExclusions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsExclusions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsLocationsBucketsError =
@@ -3357,6 +3363,7 @@ export const createOrganizationsSinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsSinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsExclusionsError =
@@ -3379,6 +3386,7 @@ export const createProjectsExclusions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsExclusions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsBucketsError =
@@ -3506,6 +3514,7 @@ export const createProjectsMetrics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsMetrics",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsSinksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3523,6 +3532,7 @@ export const createProjectsSinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsSinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateSinksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3540,6 +3550,7 @@ export const createSinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteBillingAccountsExclusionsError =
@@ -6446,6 +6457,7 @@ export const patchBillingAccountsExclusions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchBillingAccountsExclusions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchBillingAccountsLocationsBucketsError =
@@ -6551,6 +6563,7 @@ export const patchExclusions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchExclusions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchFoldersExclusionsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6568,6 +6581,7 @@ export const patchFoldersExclusions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchFoldersExclusions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchFoldersLocationsBucketsError =
@@ -6734,6 +6748,7 @@ export const patchOrganizationsExclusions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsExclusions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchOrganizationsLocationsBucketsError =
@@ -6866,6 +6881,7 @@ export const patchProjectsExclusions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsExclusions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsBucketsError =

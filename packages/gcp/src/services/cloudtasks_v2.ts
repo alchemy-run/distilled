@@ -712,6 +712,7 @@ export const createProjectsLocationsQueues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsQueues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsQueuesTasksError =
@@ -734,6 +735,7 @@ export const createProjectsLocationsQueuesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsQueuesTasks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsQueuesError =
@@ -964,6 +966,7 @@ export const patchProjectsLocationsQueues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsQueues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PauseProjectsLocationsQueuesError =
@@ -986,6 +989,7 @@ export const pauseProjectsLocationsQueues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PauseProjectsLocationsQueues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PurgeProjectsLocationsQueuesError =
@@ -1008,6 +1012,7 @@ export const purgeProjectsLocationsQueues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsQueues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ResumeProjectsLocationsQueuesError =
@@ -1030,6 +1035,7 @@ export const resumeProjectsLocationsQueues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeProjectsLocationsQueues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RunProjectsLocationsQueuesTasksError =
@@ -1052,6 +1058,7 @@ export const runProjectsLocationsQueuesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunProjectsLocationsQueuesTasks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsLocationsQueuesError =
@@ -1074,6 +1081,7 @@ export const setIamPolicyProjectsLocationsQueues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsLocationsQueues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsLocationsQueuesError =
@@ -1118,6 +1126,7 @@ export const updateCmekConfigProjectsLocations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateCmekConfigProjectsLocations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

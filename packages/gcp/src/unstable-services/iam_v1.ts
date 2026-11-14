@@ -2303,6 +2303,7 @@ export const createProjectsServiceAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsServiceAccounts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsServiceAccountsKeysError =
@@ -2325,6 +2326,7 @@ export const createProjectsServiceAccountsKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsServiceAccountsKeys",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteLocationsWorkforcePoolsError =
@@ -2906,6 +2908,7 @@ export const getIamPolicyProjectsServiceAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIamPolicyProjectsServiceAccounts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetLocationsWorkforcePoolsError = NotFound | Forbidden | GcpOpError;
@@ -4240,6 +4243,7 @@ export const queryGrantableRolesRoles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryGrantableRolesRoles",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type QueryTestablePermissionsPermissionsError =
@@ -4488,6 +4492,7 @@ export const setIamPolicyProjectsServiceAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsServiceAccounts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SignBlobProjectsServiceAccountsError =
@@ -4510,6 +4515,7 @@ export const signBlobProjectsServiceAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SignBlobProjectsServiceAccounts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SignJwtProjectsServiceAccountsError =
@@ -4532,6 +4538,7 @@ export const signJwtProjectsServiceAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SignJwtProjectsServiceAccounts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsLocationsWorkforcePoolsError =
@@ -4628,6 +4635,7 @@ export const testIamPermissionsProjectsServiceAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestIamPermissionsProjectsServiceAccounts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UndeleteLocationsWorkforcePoolsError =

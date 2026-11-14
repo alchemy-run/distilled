@@ -59,6 +59,10 @@ describe("loadRetryTraits", () => {
             },
           },
           {
+            name: [{ service: "google.example.v1.Things", method: "CreateThing" }],
+            timeout: "60s",
+          },
+          {
             name: [{ service: "google.example.v1.Things", method: "GetThing" }],
             retryPolicy: {
               maxAttempts: 5,
@@ -76,6 +80,7 @@ describe("loadRetryTraits", () => {
       JSON.stringify({
         "google.example.v1.Things/GetThing": [{ method: "GET", path: "/v1/{name=things/*}" }],
         "google.example.v1.Things/ListThings": [{ method: "GET", path: "/v1/things" }],
+        "google.example.v1.Things/CreateThing": [{ method: "POST", path: "/v1/things" }],
       }),
     );
     fs.writeFileSync(
@@ -93,6 +98,36 @@ describe("loadRetryTraits", () => {
       capMs: 60_000,
       factor: 2,
     });
+    expect(retryOf("example.googleapis.com", "GET", "v1/things")).toBeUndefined();
+  });
+
+  test("a method listed with no retryPolicy gets one attempt", () => {
+    const retryOf = loadRetryTraits(mirror());
+    expect(retryOf("example.googleapis.com", "POST", "v1/things")).toEqual({ maxAttempts: 1 });
+  });
+
+  test("a GET with no retryPolicy keeps the default", () => {
+    const specs = mirror();
+    const rules = path.join(specs, "googleapis", "http-rules.json");
+    const r = JSON.parse(fs.readFileSync(rules, "utf8"));
+    r["google.example.v1.Things/CreateThing"] = [{ method: "GET", path: "/v1/things:new" }];
+    fs.writeFileSync(rules, JSON.stringify(r));
+    expect(
+      loadRetryTraits(specs)("example.googleapis.com", "GET", "v1/things:new"),
+    ).toBeUndefined();
+  });
+
+  test("a config that retries nothing changes nothing", () => {
+    const specs = mirror();
+    const dir = path.join(specs, "googleapis", "google", "example", "v1");
+    fs.writeFileSync(
+      path.join(dir, "example_grpc_service_config.json"),
+      JSON.stringify({
+        methodConfig: [{ name: [{ service: "google.example.v1.Things" }], timeout: "60s" }],
+      }),
+    );
+    const retryOf = loadRetryTraits(specs);
+    expect(retryOf("example.googleapis.com", "POST", "v1/things")).toBeUndefined();
     expect(retryOf("example.googleapis.com", "GET", "v1/things")).toBeUndefined();
   });
 

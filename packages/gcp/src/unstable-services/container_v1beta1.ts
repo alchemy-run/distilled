@@ -4424,6 +4424,7 @@ export const addonsProjectsZonesClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddonsProjectsZonesClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type AutoscalingProjectsZonesClustersNodePoolsError =
@@ -4446,6 +4447,7 @@ export const autoscalingProjectsZonesClustersNodePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AutoscalingProjectsZonesClustersNodePools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -4468,6 +4470,7 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsOperations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CancelProjectsZonesOperationsError =
@@ -4490,6 +4493,7 @@ export const cancelProjectsZonesOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsZonesOperations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CheckAutopilotCompatibilityProjectsLocationsClustersError =
@@ -4588,6 +4592,7 @@ export const completeIpRotationProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CompleteIpRotationProjectsLocationsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CompleteIpRotationProjectsZonesClustersError =
@@ -4610,6 +4615,7 @@ export const completeIpRotationProjectsZonesClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CompleteIpRotationProjectsZonesClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CompleteUpgradeProjectsLocationsClustersNodePoolsError =
@@ -4658,6 +4664,7 @@ export const createProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsClustersNodePoolsError =
@@ -4680,6 +4687,7 @@ export const createProjectsLocationsClustersNodePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsClustersNodePools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsZonesClustersError =
@@ -4702,6 +4710,7 @@ export const createProjectsZonesClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsZonesClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsZonesClustersNodePoolsError =
@@ -4724,6 +4733,7 @@ export const createProjectsZonesClustersNodePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsZonesClustersNodePools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsClustersError =
@@ -5104,6 +5114,7 @@ export const legacyAbacProjectsZonesClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LegacyAbacProjectsZonesClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ListProjectsAggregatedUsableSubnetworksError = NotFound | Forbidden | GcpOpError;
@@ -5264,6 +5275,7 @@ export const locationsProjectsZonesClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LocationsProjectsZonesClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type LoggingProjectsZonesClustersError =
@@ -5286,6 +5298,7 @@ export const loggingProjectsZonesClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LoggingProjectsZonesClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MasterProjectsZonesClustersError =
@@ -5308,6 +5321,7 @@ export const masterProjectsZonesClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MasterProjectsZonesClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MonitoringProjectsZonesClustersError =
@@ -5330,6 +5344,7 @@ export const monitoringProjectsZonesClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MonitoringProjectsZonesClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ResourceLabelsProjectsZonesClustersError =
@@ -5352,6 +5367,7 @@ export const resourceLabelsProjectsZonesClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResourceLabelsProjectsZonesClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RollbackProjectsLocationsClustersNodePoolsError =
@@ -5374,6 +5390,7 @@ export const rollbackProjectsLocationsClustersNodePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackProjectsLocationsClustersNodePools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RollbackProjectsZonesClustersNodePoolsError =
@@ -5396,6 +5413,7 @@ export const rollbackProjectsZonesClustersNodePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackProjectsZonesClustersNodePools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetAddonsProjectsLocationsClustersError =
@@ -5418,6 +5436,7 @@ export const setAddonsProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetAddonsProjectsLocationsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetAutoscalingProjectsLocationsClustersNodePoolsError =
@@ -5444,6 +5463,7 @@ export const setAutoscalingProjectsLocationsClustersNodePools: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetAutoscalingProjectsLocationsClustersNodePools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetLegacyAbacProjectsLocationsClustersError =
@@ -5466,6 +5486,7 @@ export const setLegacyAbacProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLegacyAbacProjectsLocationsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetLocationsProjectsLocationsClustersError =
@@ -5488,6 +5509,7 @@ export const setLocationsProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLocationsProjectsLocationsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetLoggingProjectsLocationsClustersError =
@@ -5510,6 +5532,7 @@ export const setLoggingProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLoggingProjectsLocationsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetMaintenancePolicyProjectsLocationsClustersError =
@@ -5536,6 +5559,7 @@ export const setMaintenancePolicyProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetMaintenancePolicyProjectsLocationsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetMaintenancePolicyProjectsZonesClustersError =
@@ -5558,6 +5582,7 @@ export const setMaintenancePolicyProjectsZonesClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetMaintenancePolicyProjectsZonesClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetManagementProjectsLocationsClustersNodePoolsError =
@@ -5584,6 +5609,7 @@ export const setManagementProjectsLocationsClustersNodePools: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetManagementProjectsLocationsClustersNodePools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetManagementProjectsZonesClustersNodePoolsError =
@@ -5610,6 +5636,7 @@ export const setManagementProjectsZonesClustersNodePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetManagementProjectsZonesClustersNodePools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetMasterAuthProjectsLocationsClustersError =
@@ -5632,6 +5659,7 @@ export const setMasterAuthProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetMasterAuthProjectsLocationsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetMasterAuthProjectsZonesClustersError =
@@ -5654,6 +5682,7 @@ export const setMasterAuthProjectsZonesClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetMasterAuthProjectsZonesClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetMonitoringProjectsLocationsClustersError =
@@ -5676,6 +5705,7 @@ export const setMonitoringProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetMonitoringProjectsLocationsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetNetworkPolicyProjectsLocationsClustersError =
@@ -5698,6 +5728,7 @@ export const setNetworkPolicyProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetNetworkPolicyProjectsLocationsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetNetworkPolicyProjectsZonesClustersError =
@@ -5720,6 +5751,7 @@ export const setNetworkPolicyProjectsZonesClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetNetworkPolicyProjectsZonesClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetResourceLabelsProjectsLocationsClustersError =
@@ -5742,6 +5774,7 @@ export const setResourceLabelsProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetResourceLabelsProjectsLocationsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetSizeProjectsLocationsClustersNodePoolsError =
@@ -5764,6 +5797,7 @@ export const setSizeProjectsLocationsClustersNodePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSizeProjectsLocationsClustersNodePools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetSizeProjectsZonesClustersNodePoolsError =
@@ -5786,6 +5820,7 @@ export const setSizeProjectsZonesClustersNodePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSizeProjectsZonesClustersNodePools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StartIpRotationProjectsLocationsClustersError =
@@ -5808,6 +5843,7 @@ export const startIpRotationProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartIpRotationProjectsLocationsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StartIpRotationProjectsZonesClustersError =
@@ -5830,6 +5866,7 @@ export const startIpRotationProjectsZonesClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartIpRotationProjectsZonesClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateMasterProjectsLocationsClustersError =
@@ -5852,6 +5889,7 @@ export const updateMasterProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateMasterProjectsLocationsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateProjectsLocationsClustersError =
@@ -5874,6 +5912,7 @@ export const updateProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProjectsLocationsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateProjectsLocationsClustersNodePoolsError =
@@ -5896,6 +5935,7 @@ export const updateProjectsLocationsClustersNodePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProjectsLocationsClustersNodePools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateProjectsZonesClustersError =
@@ -5918,6 +5958,7 @@ export const updateProjectsZonesClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProjectsZonesClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateProjectsZonesClustersNodePoolsError =
@@ -5940,6 +5981,7 @@ export const updateProjectsZonesClustersNodePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProjectsZonesClustersNodePools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

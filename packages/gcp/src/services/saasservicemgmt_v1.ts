@@ -1246,6 +1246,7 @@ export const createProjectsLocationsReleases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsReleases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsRolloutKindsError =
@@ -1268,6 +1269,7 @@ export const createProjectsLocationsRolloutKinds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRolloutKinds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsRolloutsError =
@@ -1290,6 +1292,7 @@ export const createProjectsLocationsRollouts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRollouts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsSaasError =
@@ -1312,6 +1315,7 @@ export const createProjectsLocationsSaas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsSaas",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsTenantsError =
@@ -1335,6 +1339,7 @@ export const createProjectsLocationsTenants: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsTenants",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsUnitKindsError =
@@ -1358,6 +1363,7 @@ export const createProjectsLocationsUnitKinds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsUnitKinds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsUnitOperationsError =
@@ -1380,6 +1386,7 @@ export const createProjectsLocationsUnitOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsUnitOperations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsUnitsError =
@@ -1402,6 +1409,7 @@ export const createProjectsLocationsUnits: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsUnits",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsReleasesError =
@@ -1925,6 +1933,7 @@ export const patchProjectsLocationsReleases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsReleases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsRolloutKindsError =
@@ -1947,6 +1956,7 @@ export const patchProjectsLocationsRolloutKinds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRolloutKinds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsRolloutsError =
@@ -1969,6 +1979,7 @@ export const patchProjectsLocationsRollouts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRollouts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsSaasError =
@@ -1991,6 +2002,7 @@ export const patchProjectsLocationsSaas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsSaas",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsTenantsError =
@@ -2014,6 +2026,7 @@ export const patchProjectsLocationsTenants: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsTenants",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsUnitKindsError =
@@ -2037,6 +2050,7 @@ export const patchProjectsLocationsUnitKinds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsUnitKinds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsUnitOperationsError =
@@ -2059,6 +2073,7 @@ export const patchProjectsLocationsUnitOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsUnitOperations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsUnitsError =
@@ -2081,6 +2096,7 @@ export const patchProjectsLocationsUnits: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsUnits",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -636,6 +636,7 @@ export const createProjectsLocationsGlobalHubs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsGlobalHubs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsInternalRangesError =
@@ -680,6 +681,7 @@ export const createProjectsLocationsSpokes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsSpokes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsGlobalHubsError =
@@ -702,6 +704,7 @@ export const deleteProjectsLocationsGlobalHubs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsGlobalHubs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsInternalRangesError =
@@ -768,6 +771,7 @@ export const deleteProjectsLocationsSpokes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsSpokes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetIamPolicyProjectsLocationsGlobalHubsError = NotFound | Forbidden | GcpOpError;
@@ -1021,6 +1025,7 @@ export const patchProjectsLocationsGlobalHubs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsGlobalHubs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsInternalRangesError =
@@ -1065,6 +1070,7 @@ export const patchProjectsLocationsSpokes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsSpokes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsLocationsGlobalHubsError =

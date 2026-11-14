@@ -654,6 +654,7 @@ export const createProjectsLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsBuckets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsBucketsDatasetsLinksError =
@@ -676,6 +677,7 @@ export const createProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsBucketsDatasetsLinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsTraceScopesError =
@@ -698,6 +700,7 @@ export const createProjectsLocationsTraceScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsTraceScopes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteFoldersLocationsOperationsError =
@@ -764,6 +767,7 @@ export const deleteProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsBucketsDatasetsLinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -808,6 +812,7 @@ export const deleteProjectsLocationsTraceScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsTraceScopes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetFoldersLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1294,6 +1299,7 @@ export const patchProjectsLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsBuckets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsBucketsDatasetsLinksError =
@@ -1316,6 +1322,7 @@ export const patchProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsBucketsDatasetsLinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsScopesError =
@@ -1338,6 +1345,7 @@ export const patchProjectsLocationsScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsScopes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsTraceScopesError =
@@ -1360,6 +1368,7 @@ export const patchProjectsLocationsTraceScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsTraceScopes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ReprovisionProjectsLocationsBucketsError =
@@ -1404,6 +1413,7 @@ export const updateSettingsFoldersLocations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSettingsFoldersLocations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateSettingsOrganizationsLocationsError =
@@ -1426,6 +1436,7 @@ export const updateSettingsOrganizationsLocations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSettingsOrganizationsLocations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateSettingsProjectsLocationsError =
@@ -1448,6 +1459,7 @@ export const updateSettingsProjectsLocations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSettingsProjectsLocations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

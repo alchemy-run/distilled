@@ -275,6 +275,7 @@ export const createSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSubscriptions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteSubscriptionsError =
@@ -305,6 +306,7 @@ export const deleteSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteSubscriptions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
@@ -396,6 +398,7 @@ export const patchSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchSubscriptions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ReactivateSubscriptionsError =
@@ -426,6 +429,7 @@ export const reactivateSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReactivateSubscriptions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

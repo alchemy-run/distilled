@@ -1103,6 +1103,7 @@ export const batchCreateProjectsTenantsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsTenantsJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type BatchDeleteProjectsTenantsJobsError =
@@ -1125,6 +1126,7 @@ export const batchDeleteProjectsTenantsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchDeleteProjectsTenantsJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type BatchUpdateProjectsTenantsJobsError =
@@ -1147,6 +1149,7 @@ export const batchUpdateProjectsTenantsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchUpdateProjectsTenantsJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CompleteQueryProjectsTenantsError = NotFound | Forbidden | GcpOpError;
@@ -1194,6 +1197,7 @@ export const createProjectsTenants: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsTenants",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsTenantsClientEventsError =
@@ -1216,6 +1220,7 @@ export const createProjectsTenantsClientEvents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsTenantsClientEvents",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsTenantsCompaniesError =
@@ -1246,6 +1251,7 @@ export const createProjectsTenantsCompanies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsTenantsCompanies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsTenantsJobsError =
@@ -1276,6 +1282,7 @@ export const createProjectsTenantsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsTenantsJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsTenantsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1516,6 +1523,7 @@ export const patchProjectsTenants: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsTenants",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsTenantsCompaniesError =
@@ -1546,6 +1554,7 @@ export const patchProjectsTenantsCompanies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsTenantsCompanies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsTenantsJobsError =
@@ -1576,6 +1585,7 @@ export const patchProjectsTenantsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsTenantsJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SearchForAlertProjectsTenantsJobsError =
@@ -1620,6 +1630,7 @@ export const searchProjectsTenantsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsTenantsJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

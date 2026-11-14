@@ -1813,6 +1813,7 @@ export const activateAccountsCustomersEntitlements: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ActivateAccountsCustomersEntitlements",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CancelAccountsCustomersEntitlementsError =
@@ -1835,6 +1836,7 @@ export const cancelAccountsCustomersEntitlements: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelAccountsCustomersEntitlements",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CancelOperationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1874,6 +1876,7 @@ export const changeOfferAccountsCustomersEntitlements: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ChangeOfferAccountsCustomersEntitlements",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ChangeParametersAccountsCustomersEntitlementsError =
@@ -1900,6 +1903,7 @@ export const changeParametersAccountsCustomersEntitlements: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ChangeParametersAccountsCustomersEntitlements",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ChangeRenewalSettingsAccountsCustomersEntitlementsError =
@@ -1926,6 +1930,7 @@ export const changeRenewalSettingsAccountsCustomersEntitlements: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ChangeRenewalSettingsAccountsCustomersEntitlements",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CheckCloudIdentityAccountsExistAccountsError =
@@ -2092,6 +2097,7 @@ export const createAccountsCustomersEntitlements: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAccountsCustomersEntitlements",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteAccountsChannelPartnerLinksChannelPartnerRepricingConfigsError =
@@ -2973,6 +2979,7 @@ export const provisionCloudIdentityAccountsCustomers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ProvisionCloudIdentityAccountsCustomers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type QueryEligibleBillingAccountsAccountsCustomersError = NotFound | Forbidden | GcpOpError;
@@ -3080,6 +3087,7 @@ export const startPaidServiceAccountsCustomersEntitlements: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartPaidServiceAccountsCustomersEntitlements",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SuspendAccountsCustomersEntitlementsError =
@@ -3102,6 +3110,7 @@ export const suspendAccountsCustomersEntitlements: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SuspendAccountsCustomersEntitlements",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TransferEntitlementsAccountsCustomersError =
@@ -3124,6 +3133,7 @@ export const transferEntitlementsAccountsCustomers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TransferEntitlementsAccountsCustomers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TransferEntitlementsToGoogleAccountsCustomersError =
@@ -3150,6 +3160,7 @@ export const transferEntitlementsToGoogleAccountsCustomers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TransferEntitlementsToGoogleAccountsCustomers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UnregisterAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;

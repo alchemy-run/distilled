@@ -412,6 +412,7 @@ export const createFoldersContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateFoldersContacts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsContactsError =
@@ -434,6 +435,7 @@ export const createOrganizationsContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsContacts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsContactsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -451,6 +453,7 @@ export const createProjectsContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsContacts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteFoldersContactsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -468,6 +471,7 @@ export const deleteFoldersContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteFoldersContacts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteOrganizationsContactsError =
@@ -490,6 +494,7 @@ export const deleteOrganizationsContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteOrganizationsContacts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsContactsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -507,6 +512,7 @@ export const deleteProjectsContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsContacts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetFoldersContactsError = NotFound | Forbidden | GcpOpError;
@@ -632,6 +638,7 @@ export const patchFoldersContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchFoldersContacts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchOrganizationsContactsError =
@@ -654,6 +661,7 @@ export const patchOrganizationsContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsContacts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsContactsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -671,6 +679,7 @@ export const patchProjectsContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsContacts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SendTestMessageFoldersContactsError =
@@ -693,6 +702,7 @@ export const sendTestMessageFoldersContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SendTestMessageFoldersContacts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SendTestMessageOrganizationsContactsError =
@@ -715,6 +725,7 @@ export const sendTestMessageOrganizationsContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SendTestMessageOrganizationsContacts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SendTestMessageProjectsContactsError =
@@ -737,6 +748,7 @@ export const sendTestMessageProjectsContacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SendTestMessageProjectsContacts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

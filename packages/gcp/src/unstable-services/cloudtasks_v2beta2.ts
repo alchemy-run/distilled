@@ -745,6 +745,7 @@ export const acknowledgeProjectsLocationsQueuesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AcknowledgeProjectsLocationsQueuesTasks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type BatchCreateProjectsLocationsQueuesTasksError =
@@ -833,6 +834,7 @@ export const cancelLeaseProjectsLocationsQueuesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelLeaseProjectsLocationsQueuesTasks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsQueuesError =
@@ -855,6 +857,7 @@ export const createProjectsLocationsQueues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsQueues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsQueuesTasksError =
@@ -877,6 +880,7 @@ export const createProjectsLocationsQueuesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsQueuesTasks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsQueuesError =
@@ -1050,6 +1054,7 @@ export const leaseProjectsLocationsQueuesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LeaseProjectsLocationsQueuesTasks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1129,6 +1134,7 @@ export const patchProjectsLocationsQueues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsQueues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PauseProjectsLocationsQueuesError =
@@ -1151,6 +1157,7 @@ export const pauseProjectsLocationsQueues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PauseProjectsLocationsQueues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PurgeProjectsLocationsQueuesError =
@@ -1173,6 +1180,7 @@ export const purgeProjectsLocationsQueues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsQueues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RenewLeaseProjectsLocationsQueuesTasksError =
@@ -1195,6 +1203,7 @@ export const renewLeaseProjectsLocationsQueuesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RenewLeaseProjectsLocationsQueuesTasks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ResumeProjectsLocationsQueuesError =
@@ -1217,6 +1226,7 @@ export const resumeProjectsLocationsQueues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeProjectsLocationsQueues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RunProjectsLocationsQueuesTasksError =
@@ -1239,6 +1249,7 @@ export const runProjectsLocationsQueuesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunProjectsLocationsQueuesTasks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsLocationsQueuesError =
@@ -1261,6 +1272,7 @@ export const setIamPolicyProjectsLocationsQueues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsLocationsQueues",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsLocationsQueuesError =

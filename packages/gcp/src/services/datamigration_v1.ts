@@ -3057,6 +3057,7 @@ export const applyProjectsLocationsConversionWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ApplyProjectsLocationsConversionWorkspaces",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -3101,6 +3102,7 @@ export const commitProjectsLocationsConversionWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CommitProjectsLocationsConversionWorkspaces",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ConvertProjectsLocationsConversionWorkspacesError =
@@ -3127,6 +3129,7 @@ export const convertProjectsLocationsConversionWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConvertProjectsLocationsConversionWorkspaces",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsConnectionProfilesError =
@@ -3149,6 +3152,7 @@ export const createProjectsLocationsConnectionProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsConnectionProfiles",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsConversionWorkspacesError =
@@ -3171,6 +3175,7 @@ export const createProjectsLocationsConversionWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsConversionWorkspaces",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsConversionWorkspacesMappingRulesError =
@@ -3219,6 +3224,7 @@ export const createProjectsLocationsMigrationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsMigrationJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsPrivateConnectionsError =
@@ -3241,6 +3247,7 @@ export const createProjectsLocationsPrivateConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsPrivateConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsConnectionProfilesError =
@@ -3263,6 +3270,7 @@ export const deleteProjectsLocationsConnectionProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsConnectionProfiles",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsConversionWorkspacesError =
@@ -3285,6 +3293,7 @@ export const deleteProjectsLocationsConversionWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsConversionWorkspaces",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsConversionWorkspacesMappingRulesError =
@@ -3333,6 +3342,7 @@ export const deleteProjectsLocationsMigrationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsMigrationJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -3377,6 +3387,7 @@ export const deleteProjectsLocationsPrivateConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsPrivateConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DemoteDestinationProjectsLocationsMigrationJobsError =
@@ -3574,6 +3585,7 @@ export const generateSshScriptProjectsLocationsMigrationJobs: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateSshScriptProjectsLocationsMigrationJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GenerateTcpProxyScriptProjectsLocationsMigrationJobsError =
@@ -3882,6 +3894,7 @@ export const importProjectsLocationsConversionWorkspacesMappingRules: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsConversionWorkspacesMappingRules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -4085,6 +4098,7 @@ export const patchProjectsLocationsConnectionProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsConnectionProfiles",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsConversionWorkspacesError =
@@ -4107,6 +4121,7 @@ export const patchProjectsLocationsConversionWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsConversionWorkspaces",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsMigrationJobsError =
@@ -4129,6 +4144,7 @@ export const patchProjectsLocationsMigrationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsMigrationJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PromoteProjectsLocationsMigrationJobsError =
@@ -4151,6 +4167,7 @@ export const promoteProjectsLocationsMigrationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PromoteProjectsLocationsMigrationJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RestartProjectsLocationsMigrationJobsError =
@@ -4173,6 +4190,7 @@ export const restartProjectsLocationsMigrationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestartProjectsLocationsMigrationJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ResumeProjectsLocationsMigrationJobsError =
@@ -4195,6 +4213,7 @@ export const resumeProjectsLocationsMigrationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeProjectsLocationsMigrationJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RollbackProjectsLocationsConversionWorkspacesError =
@@ -4221,6 +4240,7 @@ export const rollbackProjectsLocationsConversionWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackProjectsLocationsConversionWorkspaces",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SearchBackgroundJobsProjectsLocationsConversionWorkspacesError =
@@ -4267,6 +4287,7 @@ export const seedProjectsLocationsConversionWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SeedProjectsLocationsConversionWorkspaces",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetDraftEntityDdlProjectsLocationsConversionWorkspacesError =
@@ -4441,6 +4462,7 @@ export const startProjectsLocationsMigrationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartProjectsLocationsMigrationJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StopProjectsLocationsMigrationJobsError =
@@ -4463,6 +4485,7 @@ export const stopProjectsLocationsMigrationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsMigrationJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsLocationsConnectionProfilesError =
@@ -4615,6 +4638,7 @@ export const verifyProjectsLocationsMigrationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "VerifyProjectsLocationsMigrationJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -761,6 +761,7 @@ export const createFoldersLocationsReplays: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateFoldersLocationsReplays",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsLocationsOrgPolicyViolationsPreviewsError =
@@ -787,6 +788,7 @@ export const createOrganizationsLocationsOrgPolicyViolationsPreviews: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsLocationsOrgPolicyViolationsPreviews",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsLocationsReplaysError =
@@ -809,6 +811,7 @@ export const createOrganizationsLocationsReplays: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsLocationsReplays",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsReplaysError =
@@ -831,6 +834,7 @@ export const createProjectsLocationsReplays: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsReplays",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetFoldersLocationsAccessPolicySimulationsOperationsError =

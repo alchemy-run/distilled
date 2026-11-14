@@ -735,6 +735,7 @@ export const createTransferJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTransferJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsAgentPoolsError =

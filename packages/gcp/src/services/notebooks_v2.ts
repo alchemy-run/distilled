@@ -891,6 +891,7 @@ export const createProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsInstances",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsInstancesError =
@@ -913,6 +914,7 @@ export const deleteProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsInstances",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -1187,6 +1189,7 @@ export const resetProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResetProjectsLocationsInstances",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ResizeDiskProjectsLocationsInstancesError =
@@ -1253,6 +1256,7 @@ export const rollbackProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackProjectsLocationsInstances",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsLocationsInstancesError =
@@ -1297,6 +1301,7 @@ export const startProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartProjectsLocationsInstances",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StopProjectsLocationsInstancesError =
@@ -1319,6 +1324,7 @@ export const stopProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsInstances",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsLocationsInstancesError =
@@ -1363,6 +1369,7 @@ export const upgradeProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpgradeProjectsLocationsInstances",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpgradeSystemProjectsLocationsInstancesError =

@@ -5018,6 +5018,7 @@ export const cancelProjectsLocationsLakesTasksJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsLakesTasksJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CancelProjectsLocationsMetadataJobsError =
@@ -5110,6 +5111,7 @@ export const createProjectsLocationsAspectTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsAspectTypes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsDataDomainsError =
@@ -5246,6 +5248,7 @@ export const createProjectsLocationsEntryGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsEntryGroups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsEntryGroupsEntriesError =
@@ -5268,6 +5271,7 @@ export const createProjectsLocationsEntryGroupsEntries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsEntryGroupsEntries",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsEntryGroupsEntryLinksError =
@@ -5294,6 +5298,7 @@ export const createProjectsLocationsEntryGroupsEntryLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsEntryGroupsEntryLinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsEntryTypesError =
@@ -5316,6 +5321,7 @@ export const createProjectsLocationsEntryTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsEntryTypes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsGlossariesError =
@@ -5408,6 +5414,7 @@ export const createProjectsLocationsLakes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsLakes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsLakesTasksError =
@@ -5430,6 +5437,7 @@ export const createProjectsLocationsLakesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsLakesTasks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsLakesZonesError =
@@ -5452,6 +5460,7 @@ export const createProjectsLocationsLakesZones: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsLakesZones",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsLakesZonesAssetsError =
@@ -5474,6 +5483,7 @@ export const createProjectsLocationsLakesZonesAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsLakesZonesAssets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsLakesZonesEntitiesError =
@@ -5496,6 +5506,7 @@ export const createProjectsLocationsLakesZonesEntities: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsLakesZonesEntities",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsLakesZonesEntitiesPartitionsError =
@@ -5522,6 +5533,7 @@ export const createProjectsLocationsLakesZonesEntitiesPartitions: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsLakesZonesEntitiesPartitions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsMetadataFeedsError =
@@ -5636,6 +5648,7 @@ export const deleteProjectsLocationsAspectTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsAspectTypes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsChangeRequestsError =
@@ -5794,6 +5807,7 @@ export const deleteProjectsLocationsEntryGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsEntryGroups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsEntryGroupsEntriesError =
@@ -5816,6 +5830,7 @@ export const deleteProjectsLocationsEntryGroupsEntries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsEntryGroupsEntries",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsEntryGroupsEntryLinksError =
@@ -5842,6 +5857,7 @@ export const deleteProjectsLocationsEntryGroupsEntryLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsEntryGroupsEntryLinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsEntryTypesError =
@@ -5864,6 +5880,7 @@ export const deleteProjectsLocationsEntryTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsEntryTypes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsGlossariesError =
@@ -5956,6 +5973,7 @@ export const deleteProjectsLocationsLakes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsLakes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsLakesTasksError =
@@ -5978,6 +5996,7 @@ export const deleteProjectsLocationsLakesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsLakesTasks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsLakesZonesError =
@@ -6000,6 +6019,7 @@ export const deleteProjectsLocationsLakesZones: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsLakesZones",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsLakesZonesAssetsError =
@@ -6022,6 +6042,7 @@ export const deleteProjectsLocationsLakesZonesAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsLakesZonesAssets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsLakesZonesEntitiesError =
@@ -6044,6 +6065,7 @@ export const deleteProjectsLocationsLakesZonesEntities: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsLakesZonesEntities",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsLakesZonesEntitiesPartitionsError =
@@ -6070,6 +6092,7 @@ export const deleteProjectsLocationsLakesZonesEntitiesPartitions: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsLakesZonesEntitiesPartitions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsMetadataFeedsError =
@@ -7783,6 +7806,7 @@ export const patchProjectsLocationsAspectTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsAspectTypes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsChangeRequestsError =
@@ -7919,6 +7943,7 @@ export const patchProjectsLocationsEntryGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsEntryGroups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsEntryGroupsEntriesError =
@@ -7985,6 +8010,7 @@ export const patchProjectsLocationsEntryTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsEntryTypes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsGlossariesError =
@@ -8073,6 +8099,7 @@ export const patchProjectsLocationsLakes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsLakes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsLakesTasksError =
@@ -8095,6 +8122,7 @@ export const patchProjectsLocationsLakesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsLakesTasks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsLakesZonesError =
@@ -8117,6 +8145,7 @@ export const patchProjectsLocationsLakesZones: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsLakesZones",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsLakesZonesAssetsError =
@@ -8139,6 +8168,7 @@ export const patchProjectsLocationsLakesZonesAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsLakesZonesAssets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsMetadataFeedsError =
@@ -9369,6 +9399,7 @@ export const updateProjectsLocationsLakesZonesEntities: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProjectsLocationsLakesZonesEntities",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

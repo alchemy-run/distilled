@@ -1860,6 +1860,7 @@ export const cancelProjectsBuilds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsBuilds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CancelProjectsLocationsBuildsError =
@@ -1882,6 +1883,7 @@ export const cancelProjectsLocationsBuilds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsBuilds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -1921,6 +1923,7 @@ export const createProjectsBuilds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsBuilds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsGithubEnterpriseConfigsError =
@@ -1987,6 +1990,7 @@ export const createProjectsLocationsBuilds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsBuilds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsGithubEnterpriseConfigsError =
@@ -2035,6 +2039,7 @@ export const createProjectsLocationsTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsWorkerPoolsError =
@@ -2057,6 +2062,7 @@ export const createProjectsLocationsWorkerPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsWorkerPools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsTriggersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2074,6 +2080,7 @@ export const createProjectsTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsGithubEnterpriseConfigsError =
@@ -2192,6 +2199,7 @@ export const deleteProjectsLocationsWorkerPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsWorkerPools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsTriggersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2670,6 +2678,7 @@ export const patchProjectsLocationsTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsWorkerPoolsError =
@@ -2692,6 +2701,7 @@ export const patchProjectsLocationsWorkerPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsWorkerPools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsTriggersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2709,6 +2719,7 @@ export const patchProjectsTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ReceiveGithubDotComWebhookError =
@@ -2796,6 +2807,7 @@ export const retryProjectsBuilds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RetryProjectsBuilds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RetryProjectsLocationsBuildsError =
@@ -2818,6 +2830,7 @@ export const retryProjectsLocationsBuilds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RetryProjectsLocationsBuilds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RunProjectsLocationsTriggersError =
@@ -2840,6 +2853,7 @@ export const runProjectsLocationsTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunProjectsLocationsTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RunProjectsTriggersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2857,6 +2871,7 @@ export const runProjectsTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunProjectsTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type WebhookProjectsLocationsTriggersError =

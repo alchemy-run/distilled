@@ -254,6 +254,7 @@ export const addPublicKeyUsersEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddPublicKeyUsersEnvironments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type AuthorizeUsersEnvironmentsError =
@@ -276,6 +277,7 @@ export const authorizeUsersEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AuthorizeUsersEnvironments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CancelOperationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -402,6 +404,7 @@ export const removePublicKeyUsersEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemovePublicKeyUsersEnvironments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StartUsersEnvironmentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -419,6 +422,7 @@ export const startUsersEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartUsersEnvironments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

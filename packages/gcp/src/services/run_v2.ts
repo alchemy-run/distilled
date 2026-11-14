@@ -2329,6 +2329,7 @@ export const createProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsServices",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsWorkerPoolsError =
@@ -2461,6 +2462,7 @@ export const deleteProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsServices",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsServicesRevisionsError =
@@ -3100,6 +3102,7 @@ export const patchProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsServices",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsWorkerPoolsError =

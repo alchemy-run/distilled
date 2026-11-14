@@ -485,6 +485,7 @@ export const createProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsConnectionsError =
@@ -529,6 +530,7 @@ export const getIamPolicyProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIamPolicyProjectsLocationsConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetProjectsLocationsConnectionsError = NotFound | Forbidden | GcpOpError;
@@ -587,6 +589,7 @@ export const patchProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsLocationsConnectionsError =
@@ -609,6 +612,7 @@ export const setIamPolicyProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsLocationsConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsLocationsConnectionsError =
@@ -631,6 +635,7 @@ export const testIamPermissionsProjectsLocationsConnections: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestIamPermissionsProjectsLocationsConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

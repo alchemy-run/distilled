@@ -1565,6 +1565,7 @@ export const createProjectsLocationsBackupChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsBackupChannels",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsBackupPlansError =
@@ -1587,6 +1588,7 @@ export const createProjectsLocationsBackupPlans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsBackupPlans",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsBackupPlansBackupsError =
@@ -1609,6 +1611,7 @@ export const createProjectsLocationsBackupPlansBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsBackupPlansBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsRestoreChannelsError =
@@ -1631,6 +1634,7 @@ export const createProjectsLocationsRestoreChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRestoreChannels",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsRestorePlansError =
@@ -1653,6 +1657,7 @@ export const createProjectsLocationsRestorePlans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRestorePlans",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsRestorePlansRestoresError =
@@ -1675,6 +1680,7 @@ export const createProjectsLocationsRestorePlansRestores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRestorePlansRestores",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsBackupChannelsError =
@@ -1697,6 +1703,7 @@ export const deleteProjectsLocationsBackupChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsBackupChannels",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsBackupPlansError =
@@ -1719,6 +1726,7 @@ export const deleteProjectsLocationsBackupPlans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsBackupPlans",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsBackupPlansBackupsError =
@@ -1741,6 +1749,7 @@ export const deleteProjectsLocationsBackupPlansBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsBackupPlansBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -1785,6 +1794,7 @@ export const deleteProjectsLocationsRestoreChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRestoreChannels",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsRestorePlansError =
@@ -1807,6 +1817,7 @@ export const deleteProjectsLocationsRestorePlans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRestorePlans",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsRestorePlansRestoresError =
@@ -1829,6 +1840,7 @@ export const deleteProjectsLocationsRestorePlansRestores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRestorePlansRestores",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetBackupIndexDownloadUrlProjectsLocationsBackupPlansBackupsError =
@@ -2527,6 +2539,7 @@ export const patchProjectsLocationsBackupChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsBackupChannels",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsBackupPlansError =
@@ -2549,6 +2562,7 @@ export const patchProjectsLocationsBackupPlans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsBackupPlans",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsBackupPlansBackupsError =
@@ -2571,6 +2585,7 @@ export const patchProjectsLocationsBackupPlansBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsBackupPlansBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsRestoreChannelsError =
@@ -2593,6 +2608,7 @@ export const patchProjectsLocationsRestoreChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRestoreChannels",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsRestorePlansError =
@@ -2615,6 +2631,7 @@ export const patchProjectsLocationsRestorePlans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRestorePlans",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsRestorePlansRestoresError =
@@ -2637,6 +2654,7 @@ export const patchProjectsLocationsRestorePlansRestores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRestorePlansRestores",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsLocationsBackupPlansError =

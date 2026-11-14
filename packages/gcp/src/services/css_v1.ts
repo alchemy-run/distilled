@@ -557,6 +557,7 @@ export const createAccountsLabels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAccountsLabels",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteAccountsCssProductInputsError =
@@ -579,6 +580,7 @@ export const deleteAccountsCssProductInputs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteAccountsCssProductInputs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteAccountsLabelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -596,6 +598,7 @@ export const deleteAccountsLabels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteAccountsLabels",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetAccountsError = NotFound | Forbidden | GcpOpError;
@@ -652,6 +655,7 @@ export const insertAccountsCssProductInputs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InsertAccountsCssProductInputs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ListAccountsCssProductsError = NotFound | Forbidden | GcpOpError;
@@ -750,6 +754,7 @@ export const patchAccountsCssProductInputs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchAccountsCssProductInputs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchAccountsLabelsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -767,6 +772,7 @@ export const patchAccountsLabels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchAccountsLabels",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateLabelsAccountsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -784,6 +790,7 @@ export const updateLabelsAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateLabelsAccounts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
