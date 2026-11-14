@@ -83,6 +83,22 @@
     },
     {
       "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ScriptsScriptAndVersionSettingsEditRequestSettingsBindingsItemJson/members/json/traits/com.cloudflare.protocols#keyDictionary",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.workers#ScriptsScriptAndVersionSettingsEditRequestSettingsBindingsItemService/members/props",
+      "value": {
+        "target": "smithy.api#Document",
+        "traits": {
+          "smithy.api#documentation": "JSON object the bound entrypoint reads as `ctx.props`, kept with its keys as written.",
+          "com.cloudflare.protocols#keyDictionary": {}
+        }
+      }
+    },
+    {
+      "op": "add",
       "path": "/shapes/com.cloudflare.workers#ScriptsScriptAndVersionSettingsEditResponseBindingsItemJson/members/json/traits/com.cloudflare.protocols#keyDictionary",
       "value": {}
     },
