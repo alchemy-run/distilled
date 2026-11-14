@@ -1301,6 +1301,10 @@ export interface GetStorageLayoutBucketsRequest {
 }
 export type BucketStorageLayoutCustomPlacementConfig = BucketCustomPlacementConfig;
 export type BucketStorageLayoutHierarchicalNamespace = BucketHierarchicalNamespace;
+export interface BucketStorageLayoutRapidCacheInfo {
+  /** The type of cache in the bucket. Set to `rapid-cache` or `rapid-cache-ultra`, only if there is a cache present. */
+  cacheType?: string | undefined;
+}
 /** The storage layout configuration of a bucket. */
 export interface BucketStorageLayout {
   /** The name of the bucket. */
@@ -1315,6 +1319,8 @@ export interface BucketStorageLayout {
   location?: string | undefined;
   /** The type of the bucket location. */
   locationType?: string | undefined;
+  /** The Rapid Cache configuration for the bucket. */
+  rapidCacheInfo?: BucketStorageLayoutRapidCacheInfo | undefined;
 }
 export interface InsertAnywhereCachesRequest extends Omit<AnywhereCache, "bucket"> {
   /** Name of the parent bucket. */
@@ -2807,7 +2813,7 @@ export const getStorageLayoutBuckets: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetStorageLayoutBucketsRequest>,
-  output: __S(1601, __c50, 1) as any as S.Schema<BucketStorageLayout>,
+  output: __S(1602, __c50, 2) as any as S.Schema<BucketStorageLayout>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -3447,7 +3453,7 @@ export const restoreObjects: API.OperationMethod<
 }));
 
 export type ResumeAnywhereCachesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
-/** Resumes a paused or disabled Anywhere Cache instance. */
+/** Resumes a disabled Anywhere Cache instance. */
 export const resumeAnywhereCaches: API.OperationMethod<
   ResumeAnywhereCachesRequest,
   AnywhereCache,
@@ -5026,12 +5032,19 @@ function __c50(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          cacheType: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "BucketStorageLayoutRapidCacheInfo" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
           bucket: S.optional(S.String),
           customPlacementConfig: S.optional(__S(896, __c28, 0)),
           hierarchicalNamespace: S.optional(__S(928, __c29, 0)),
           kind: S.optional(S.String),
           location: S.optional(S.String),
           locationType: S.optional(S.String),
+          rapidCacheInfo: S.optional(__S(1601, __c50, 1)),
         }),
       ).annotate({ identifier: "BucketStorageLayout" });
   }

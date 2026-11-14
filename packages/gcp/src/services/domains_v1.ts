@@ -83,40 +83,46 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type ConfigureContactSettingsRequestContactNoticesItemEnum =
+  | "CONTACT_NOTICE_UNSPECIFIED"
+  | "PUBLIC_CONTACT_DATA_ACKNOWLEDGEMENT";
+export type ConfigureContactSettingsRequestContactNoticesItemEnumList = Array<
+  ConfigureContactSettingsRequestContactNoticesItemEnum | (string & {})
+>;
 export type StringList = Array<string>;
 /** Represents a postal address, such as for postal delivery or payments addresses. With a postal address, a postal service can deliver items to a premise, P.O. box, or similar. A postal address is not intended to model geographical locations like roads, towns, or mountains. In typical usage, an address would be created by user input or from importing existing data, depending on the type of process. Advice on address input or editing: - Use an internationalization-ready address widget such as https://github.com/google/libaddressinput. - Users should not be presented with UI elements for input or editing of fields outside countries where that field is used. For more guidance on how to use this schema, see: https://support.google.com/business/answer/6397478. */
 export interface PostalAddress {
-  /** The schema revision of the `PostalAddress`. This must be set to 0, which is the latest revision. All new revisions **must** be backward compatible with old revisions. */
-  revision?: number | undefined;
-  /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
-  sortingCode?: string | undefined;
-  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. For example, this can be a state, a province, an oblast, or a prefecture. For Spain, this is the province and not the autonomous community (for example, "Barcelona" and not "Catalonia"). Many countries don't use an administrative area in postal addresses. For example, in Switzerland, this should be left unpopulated. */
-  administrativeArea?: string | undefined;
   /** Optional. The name of the organization at the address. */
   organization?: string | undefined;
-  /** Optional. Postal code of the address. Not all countries use or require postal codes to be present, but where they are used, they may trigger additional validation with other parts of the address (for example, state or zip code validation in the United States). */
-  postalCode?: string | undefined;
-  /** Required. CLDR region code of the country/region of the address. This is never inferred and it is up to the user to ensure the value is correct. See https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. */
-  regionCode?: string | undefined;
-  /** Unstructured address lines describing the lower levels of an address. Because values in `address_lines` do not have type information and may sometimes contain multiple values in a single field (for example, "Austin, TX"), it is important that the line order is clear. The order of address lines should be "envelope order" for the country or region of the address. In places where this can vary (for example, Japan), `address_language` is used to make it explicit (for example, "ja" for large-to-small ordering and "ja-Latn" or "en" for small-to-large). In this way, the most specific line of an address can be selected based on the language. The minimum permitted structural representation of an address consists of a `region_code` with all remaining information placed in the `address_lines`. It would be possible to format such an address very approximately without geocoding, but no semantic reasoning could be made about any of the address components until it was at least partially resolved. Creating an address only containing a `region_code` and `address_lines` and then geocoding is the recommended way to handle completely unstructured addresses (as opposed to guessing which parts of the address should be localities or administrative areas). */
-  addressLines?: StringList | undefined;
-  /** Optional. The recipient at the address. This field may, under certain circumstances, contain multiline information. For example, it might contain "care of" information. */
-  recipients?: StringList | undefined;
-  /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty and use `address_lines`. */
-  locality?: string | undefined;
   /** Optional. Sublocality of the address. For example, this can be a neighborhood, borough, or district. */
   sublocality?: string | undefined;
+  /** Unstructured address lines describing the lower levels of an address. Because values in `address_lines` do not have type information and may sometimes contain multiple values in a single field (for example, "Austin, TX"), it is important that the line order is clear. The order of address lines should be "envelope order" for the country or region of the address. In places where this can vary (for example, Japan), `address_language` is used to make it explicit (for example, "ja" for large-to-small ordering and "ja-Latn" or "en" for small-to-large). In this way, the most specific line of an address can be selected based on the language. The minimum permitted structural representation of an address consists of a `region_code` with all remaining information placed in the `address_lines`. It would be possible to format such an address very approximately without geocoding, but no semantic reasoning could be made about any of the address components until it was at least partially resolved. Creating an address only containing a `region_code` and `address_lines` and then geocoding is the recommended way to handle completely unstructured addresses (as opposed to guessing which parts of the address should be localities or administrative areas). */
+  addressLines?: StringList | undefined;
+  /** The schema revision of the `PostalAddress`. This must be set to 0, which is the latest revision. All new revisions **must** be backward compatible with old revisions. */
+  revision?: number | undefined;
+  /** Optional. Highest administrative subdivision which is used for postal addresses of a country or region. For example, this can be a state, a province, an oblast, or a prefecture. For Spain, this is the province and not the autonomous community (for example, "Barcelona" and not "Catalonia"). Many countries don't use an administrative area in postal addresses. For example, in Switzerland, this should be left unpopulated. */
+  administrativeArea?: string | undefined;
+  /** Optional. The recipient at the address. This field may, under certain circumstances, contain multiline information. For example, it might contain "care of" information. */
+  recipients?: StringList | undefined;
   /** Optional. BCP-47 language code of the contents of this address (if known). This is often the UI language of the input form or is expected to match one of the languages used in the address' country/region, or their transliterated equivalents. This can affect formatting in certain countries, but is not critical to the correctness of the data and will never affect any validation or other non-formatting related operations. If this value is not known, it should be omitted (rather than specifying a possibly incorrect default). Examples: "zh-Hant", "ja", "ja-Latn", "en". */
   languageCode?: string | undefined;
+  /** Required. CLDR region code of the country/region of the address. This is never inferred and it is up to the user to ensure the value is correct. See https://cldr.unicode.org/ and https://www.unicode.org/cldr/charts/30/supplemental/territory_information.html for details. Example: "CH" for Switzerland. */
+  regionCode?: string | undefined;
+  /** Optional. Generally refers to the city or town portion of the address. Examples: US city, IT comune, UK post town. In regions of the world where localities are not well defined or do not fit into this structure well, leave `locality` empty and use `address_lines`. */
+  locality?: string | undefined;
+  /** Optional. Additional, country-specific, sorting code. This is not used in most regions. Where it is used, the value is either a string like "CEDEX", optionally followed by a number (for example, "CEDEX 7"), or just a number alone, representing the "sector code" (Jamaica), "delivery area indicator" (Malawi) or "post office indicator" (Côte d'Ivoire). */
+  sortingCode?: string | undefined;
+  /** Optional. Postal code of the address. Not all countries use or require postal codes to be present, but where they are used, they may trigger additional validation with other parts of the address (for example, state or zip code validation in the United States). */
+  postalCode?: string | undefined;
 }
 /** Details required for a contact associated with a `Registration`. */
 export interface Contact {
-  /** Required. Postal address of the contact. */
-  postalAddress?: PostalAddress | undefined;
-  /** Required. Email address of the contact. */
-  email?: string | undefined;
   /** Required. Phone number of the contact in international format. For example, `"+1-800-555-0123"`. */
   phoneNumber?: string | undefined;
+  /** Required. Email address of the contact. */
+  email?: string | undefined;
+  /** Required. Postal address of the contact. */
+  postalAddress?: PostalAddress | undefined;
   /** Fax number of the contact in international format. For example, `"+1-800-555-0123"`. */
   faxNumber?: string | undefined;
 }
@@ -131,27 +137,21 @@ export interface ContactSettings {
   adminContact?: Contact | undefined;
   /** Required. Privacy setting for the contacts associated with the `Registration`. */
   privacy?: ContactSettingsPrivacyEnum | (string & {}) | undefined;
-  /** Required. The technical contact for the `Registration`. */
-  technicalContact?: Contact | undefined;
   /** Required. The registrant contact for the `Registration`. *Caution: Anyone with access to this email address, phone number, and/or postal address can take control of the domain.* *Warning: For new `Registration`s, the registrant receives an email confirmation that they must complete within 15 days to avoid domain suspension.* */
   registrantContact?: Contact | undefined;
+  /** Required. The technical contact for the `Registration`. */
+  technicalContact?: Contact | undefined;
 }
-export type ConfigureContactSettingsRequestContactNoticesItemEnum =
-  | "CONTACT_NOTICE_UNSPECIFIED"
-  | "PUBLIC_CONTACT_DATA_ACKNOWLEDGEMENT";
-export type ConfigureContactSettingsRequestContactNoticesItemEnumList = Array<
-  ConfigureContactSettingsRequestContactNoticesItemEnum | (string & {})
->;
 /** Request for the `ConfigureContactSettings` method. */
 export interface ConfigureContactSettingsRequest {
-  /** Required. The field mask describing which fields to update as a comma-separated list. For example, if only the registrant contact is being updated, the `update_mask` is `"registrant_contact"`. */
-  updateMask?: string | undefined;
-  /** Fields of the `ContactSettings` to update. */
-  contactSettings?: ContactSettings | undefined;
   /** Validate the request without actually updating the contact settings. */
   validateOnly?: boolean | undefined;
+  /** Required. The field mask describing which fields to update as a comma-separated list. For example, if only the registrant contact is being updated, the `update_mask` is `"registrant_contact"`. */
+  updateMask?: string | undefined;
   /** The list of contact notices that the caller acknowledges. The notices needed here depend on the values specified in `contact_settings`. */
   contactNotices?: ConfigureContactSettingsRequestContactNoticesItemEnumList | undefined;
+  /** Fields of the `ContactSettings` to update. */
+  contactSettings?: ContactSettings | undefined;
 }
 export interface ConfigureContactSettingsProjectsLocationsRegistrationsRequest extends ConfigureContactSettingsRequest {
   /** Required. The name of the `Registration` whose contact settings are being updated, in the format `projects/*\/locations/*\/registrations/*`. */
@@ -161,30 +161,32 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
 }
-export type GoogleDomainsDnsDsStateEnum =
-  | "DS_STATE_UNSPECIFIED"
-  | "DS_RECORDS_UNPUBLISHED"
-  | "DS_RECORDS_PUBLISHED";
+export type DsRecordDigestTypeEnum =
+  | "DIGEST_TYPE_UNSPECIFIED"
+  | "SHA1"
+  | "SHA256"
+  | "GOST3411"
+  | "SHA384";
 export type DsRecordAlgorithmEnum =
   | "ALGORITHM_UNSPECIFIED"
   | "RSAMD5"
@@ -204,24 +206,29 @@ export type DsRecordAlgorithmEnum =
   | "INDIRECT"
   | "PRIVATEDNS"
   | "PRIVATEOID";
-export type DsRecordDigestTypeEnum =
-  | "DIGEST_TYPE_UNSPECIFIED"
-  | "SHA1"
-  | "SHA256"
-  | "GOST3411"
-  | "SHA384";
 /** Defines a Delegation Signer (DS) record, which is needed to enable DNSSEC for a domain. It contains a digest (hash) of a DNSKEY record that must be present in the domain's DNS zone. */
 export interface DsRecord {
-  /** The algorithm used to generate the referenced DNSKEY. */
-  algorithm?: DsRecordAlgorithmEnum | (string & {}) | undefined;
-  /** The key tag of the record. Must be set in range 0 -- 65535. */
-  keyTag?: number | undefined;
   /** The hash function used to generate the digest of the referenced DNSKEY. */
   digestType?: DsRecordDigestTypeEnum | (string & {}) | undefined;
   /** The digest generated from the referenced DNSKEY. */
   digest?: string | undefined;
+  /** The algorithm used to generate the referenced DNSKEY. */
+  algorithm?: DsRecordAlgorithmEnum | (string & {}) | undefined;
+  /** The key tag of the record. Must be set in range 0 -- 65535. */
+  keyTag?: number | undefined;
 }
 export type DsRecordList = Array<DsRecord>;
+/** Configuration for an arbitrary DNS provider. */
+export interface CustomDns {
+  /** Required. A list of name servers that store the DNS zone for this domain. Each name server is a domain name, with Unicode domain names expressed in Punycode format. */
+  nameServers?: StringList | undefined;
+  /** The list of DS records for this domain, which are used to enable DNSSEC. The domain's DNS provider can provide the values to set here. If this field is empty, DNSSEC is disabled. */
+  dsRecords?: DsRecordList | undefined;
+}
+export type GoogleDomainsDnsDsStateEnum =
+  | "DS_STATE_UNSPECIFIED"
+  | "DS_RECORDS_UNPUBLISHED"
+  | "DS_RECORDS_PUBLISHED";
 /** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations). Configuration for using the free DNS zone provided by Google Domains as a `Registration`'s `dns_provider`. You cannot configure the DNS zone itself using the API. To configure the DNS zone, go to [Google Domains](https://domains.google/). */
 export interface GoogleDomainsDns {
   /** Output only. A list of name servers that store the DNS zone for this domain. Each name server is a domain name, with Unicode domain names expressed in Punycode format. This field is automatically populated with the name servers assigned to the Google Domains DNS zone. */
@@ -231,87 +238,80 @@ export interface GoogleDomainsDns {
   /** Output only. The list of DS records published for this domain. The list is automatically populated when `ds_state` is `DS_RECORDS_PUBLISHED`, otherwise it remains empty. */
   dsRecords?: DsRecordList | undefined;
 }
-/** Configuration for an arbitrary DNS provider. */
-export interface CustomDns {
-  /** The list of DS records for this domain, which are used to enable DNSSEC. The domain's DNS provider can provide the values to set here. If this field is empty, DNSSEC is disabled. */
-  dsRecords?: DsRecordList | undefined;
-  /** Required. A list of name servers that store the DNS zone for this domain. Each name server is a domain name, with Unicode domain names expressed in Punycode format. */
-  nameServers?: StringList | undefined;
-}
 /** Defines a host on your domain that is a DNS name server for your domain and/or other domains. Glue records are a way of making the IP address of a name server known, even when it serves DNS queries for its parent domain. For example, when `ns.example.com` is a name server for `example.com`, the host `ns.example.com` must have a glue record to break the circular DNS reference. */
 export interface GlueRecord {
+  /** Required. Domain name of the host in Punycode format. */
+  hostName?: string | undefined;
   /** List of IPv4 addresses corresponding to this host in the standard decimal format (e.g. `198.51.100.1`). At least one of `ipv4_address` and `ipv6_address` must be set. */
   ipv4Addresses?: StringList | undefined;
   /** List of IPv6 addresses corresponding to this host in the standard hexadecimal format (e.g. `2001:db8::`). At least one of `ipv4_address` and `ipv6_address` must be set. */
   ipv6Addresses?: StringList | undefined;
-  /** Required. Domain name of the host in Punycode format. */
-  hostName?: string | undefined;
 }
 export type GlueRecordList = Array<GlueRecord>;
 /** Defines the DNS configuration of a `Registration`, including name servers, DNSSEC, and glue records. */
 export interface DnsSettings {
-  /** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations). The free DNS zone provided by [Google Domains](https://domains.google/). */
-  googleDomainsDns?: GoogleDomainsDns | undefined;
-  /** Output only. Indicates if this `Registration` has configured one of the following deprecated Google Domains DNS features: * Domain forwarding (HTTP `301` and `302` response status codes), * Email forwarding. See https://cloud.google.com/domains/docs/deprecations/feature-deprecations for more details. If any of these features is enabled call the `RetrieveGoogleDomainsForwardingConfig` method to get details about the feature's configuration. A forwarding configuration might not work correctly if required DNS records are not present in the domain's authoritative DNS Zone. */
-  googleDomainsRedirectsDataAvailable?: boolean | undefined;
   /** An arbitrary DNS provider identified by its name servers. */
   customDns?: CustomDns | undefined;
+  /** Output only. Indicates if this `Registration` has configured one of the following deprecated Google Domains DNS features: * Domain forwarding (HTTP `301` and `302` response status codes), * Email forwarding. See https://cloud.google.com/domains/docs/deprecations/feature-deprecations for more details. If any of these features is enabled call the `RetrieveGoogleDomainsForwardingConfig` method to get details about the feature's configuration. A forwarding configuration might not work correctly if required DNS records are not present in the domain's authoritative DNS Zone. */
+  googleDomainsRedirectsDataAvailable?: boolean | undefined;
+  /** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations). The free DNS zone provided by [Google Domains](https://domains.google/). */
+  googleDomainsDns?: GoogleDomainsDns | undefined;
   /** The list of glue records for this `Registration`. Commonly empty. */
   glueRecords?: GlueRecordList | undefined;
 }
 /** Request for the `ConfigureDnsSettings` method. */
 export interface ConfigureDnsSettingsRequest {
-  /** Fields of the `DnsSettings` to update. */
-  dnsSettings?: DnsSettings | undefined;
   /** Validate the request without actually updating the DNS settings. */
   validateOnly?: boolean | undefined;
   /** Required. The field mask describing which fields to update as a comma-separated list. For example, if only the name servers are being updated for an existing Custom DNS configuration, the `update_mask` is `"custom_dns.name_servers"`. When changing the DNS provider from one type to another, pass the new provider's field name as part of the field mask. For example, when changing from a Google Domains DNS configuration to a Custom DNS configuration, the `update_mask` is `"custom_dns"`. // */
   updateMask?: string | undefined;
+  /** Fields of the `DnsSettings` to update. */
+  dnsSettings?: DnsSettings | undefined;
 }
 export interface ConfigureDnsSettingsProjectsLocationsRegistrationsRequest extends ConfigureDnsSettingsRequest {
   /** Required. The name of the `Registration` whose DNS settings are being updated, in the format `projects/*\/locations/*\/registrations/*`. */
   registration: string;
 }
-export type ManagementSettingsEffectiveTransferLockStateEnum =
-  | "TRANSFER_LOCK_STATE_UNSPECIFIED"
-  | "UNLOCKED"
-  | "LOCKED";
-export type ManagementSettingsRenewalMethodEnum =
-  | "RENEWAL_METHOD_UNSPECIFIED"
-  | "AUTOMATIC_RENEWAL"
-  | "MANUAL_RENEWAL"
-  | "RENEWAL_DISABLED";
-export type ManagementSettingsTransferLockStateEnum =
-  | "TRANSFER_LOCK_STATE_UNSPECIFIED"
-  | "UNLOCKED"
-  | "LOCKED";
 export type ManagementSettingsPreferredRenewalMethodEnum =
   | "RENEWAL_METHOD_UNSPECIFIED"
   | "AUTOMATIC_RENEWAL"
   | "MANUAL_RENEWAL"
   | "RENEWAL_DISABLED";
+export type ManagementSettingsRenewalMethodEnum =
+  | "RENEWAL_METHOD_UNSPECIFIED"
+  | "AUTOMATIC_RENEWAL"
+  | "MANUAL_RENEWAL"
+  | "RENEWAL_DISABLED";
+export type ManagementSettingsEffectiveTransferLockStateEnum =
+  | "TRANSFER_LOCK_STATE_UNSPECIFIED"
+  | "UNLOCKED"
+  | "LOCKED";
+export type ManagementSettingsTransferLockStateEnum =
+  | "TRANSFER_LOCK_STATE_UNSPECIFIED"
+  | "UNLOCKED"
+  | "LOCKED";
 /** Defines renewal, billing, and transfer settings for a `Registration`. */
 export interface ManagementSettings {
+  /** Optional. The desired renewal method for this `Registration`. The actual `renewal_method` is automatically updated to reflect this choice. If unset or equal to `RENEWAL_METHOD_UNSPECIFIED`, the actual `renewalMethod` is treated as if it were set to `AUTOMATIC_RENEWAL`. You cannot use `RENEWAL_DISABLED` during resource creation, and you can update the renewal status only when the `Registration` resource has state `ACTIVE` or `SUSPENDED`. When `preferred_renewal_method` is set to `AUTOMATIC_RENEWAL`, the actual `renewal_method` can be set to `RENEWAL_DISABLED` in case of problems with the billing account or reported domain abuse. In such cases, check the `issues` field on the `Registration`. After the problem is resolved, the `renewal_method` is automatically updated to `preferred_renewal_method` in a few hours. */
+  preferredRenewalMethod?: ManagementSettingsPreferredRenewalMethodEnum | (string & {}) | undefined;
+  /** Output only. The actual renewal method for this `Registration`. When `preferred_renewal_method` is set to `AUTOMATIC_RENEWAL`, the actual `renewal_method` can be equal to `RENEWAL_DISABLED`--for example, when there are problems with the billing account or reported domain abuse. In such cases, check the `issues` field on the `Registration`. After the problem is resolved, the `renewal_method` is automatically updated to `preferred_renewal_method` in a few hours. */
+  renewalMethod?: ManagementSettingsRenewalMethodEnum | (string & {}) | undefined;
   /** Output only. The actual transfer lock state for this `Registration`. */
   effectiveTransferLockState?:
     | ManagementSettingsEffectiveTransferLockStateEnum
     | (string & {})
     | undefined;
-  /** Output only. The actual renewal method for this `Registration`. When `preferred_renewal_method` is set to `AUTOMATIC_RENEWAL`, the actual `renewal_method` can be equal to `RENEWAL_DISABLED`--for example, when there are problems with the billing account or reported domain abuse. In such cases, check the `issues` field on the `Registration`. After the problem is resolved, the `renewal_method` is automatically updated to `preferred_renewal_method` in a few hours. */
-  renewalMethod?: ManagementSettingsRenewalMethodEnum | (string & {}) | undefined;
   /** This is the desired transfer lock state for this `Registration`. A transfer lock controls whether the domain can be transferred to another registrar. The transfer lock state of the domain is returned in the `effective_transfer_lock_state` property. The transfer lock state values might be different for the following reasons: * `transfer_lock_state` was updated only a short time ago. * Domains with the `TRANSFER_LOCK_UNSUPPORTED_BY_REGISTRY` state are in the list of `domain_properties`. These domains are always in the `UNLOCKED` state. */
   transferLockState?: ManagementSettingsTransferLockStateEnum | (string & {}) | undefined;
-  /** Optional. The desired renewal method for this `Registration`. The actual `renewal_method` is automatically updated to reflect this choice. If unset or equal to `RENEWAL_METHOD_UNSPECIFIED`, the actual `renewalMethod` is treated as if it were set to `AUTOMATIC_RENEWAL`. You cannot use `RENEWAL_DISABLED` during resource creation, and you can update the renewal status only when the `Registration` resource has state `ACTIVE` or `SUSPENDED`. When `preferred_renewal_method` is set to `AUTOMATIC_RENEWAL`, the actual `renewal_method` can be set to `RENEWAL_DISABLED` in case of problems with the billing account or reported domain abuse. In such cases, check the `issues` field on the `Registration`. After the problem is resolved, the `renewal_method` is automatically updated to `preferred_renewal_method` in a few hours. */
-  preferredRenewalMethod?: ManagementSettingsPreferredRenewalMethodEnum | (string & {}) | undefined;
 }
 /** Request for the `ConfigureManagementSettings` method. */
 export interface ConfigureManagementSettingsRequest {
+  /** Required. The field mask describing which fields to update as a comma-separated list. For example, if only the transfer lock is being updated, the `update_mask` is `"transfer_lock_state"`. */
+  updateMask?: string | undefined;
   /** Fields of the `ManagementSettings` to update. */
   managementSettings?: ManagementSettings | undefined;
   /** Optional. If set, validates the request without actually updating the management settings. */
   validateOnly?: boolean | undefined;
-  /** Required. The field mask describing which fields to update as a comma-separated list. For example, if only the transfer lock is being updated, the `update_mask` is `"transfer_lock_state"`. */
-  updateMask?: string | undefined;
 }
 export interface ConfigureManagementSettingsProjectsLocationsRegistrationsRequest extends ConfigureManagementSettingsRequest {
   /** Required. The name of the `Registration` whose management settings are being updated, in the format `projects/*\/locations/*\/registrations/*`. */
@@ -339,35 +339,35 @@ export interface AuthorizationCode {
   code?: string | undefined;
 }
 export interface GetGoogleDomainsDnsRecordsProjectsLocationsRegistrationsRequest {
-  /** Optional. When set to the `next_page_token` from a prior response, provides the next page of results. */
-  pageToken?: string | undefined;
   /** Required. The name of the `Registration` whose Google Domains DNS records details you are retrieving, in the format `projects/*\/locations/*\/registrations/*`. */
   registration: string;
+  /** Optional. When set to the `next_page_token` from a prior response, provides the next page of results. */
+  pageToken?: string | undefined;
   /** Optional. Maximum number of results to return. */
   pageSize?: number | undefined;
 }
-export type LoadBalancerTargetIpProtocolEnum = "UNDEFINED" | "TCP" | "UDP";
 export type LoadBalancerTargetLoadBalancerTypeEnum =
   | "NONE"
   | "GLOBAL_L7ILB"
   | "REGIONAL_L4ILB"
   | "REGIONAL_L7ILB";
+export type LoadBalancerTargetIpProtocolEnum = "UNDEFINED" | "TCP" | "UDP";
 /** The configuration for an individual load balancer to health check. */
 export interface LoadBalancerTarget {
+  /** The region in which the load balancer is located. */
+  region?: string | undefined;
+  /** The type of load balancer specified by this target. This value must match the configuration of the load balancer located at the LoadBalancerTarget's IP address, port, and region. Use the following: - *regionalL4ilb*: for a regional internal passthrough Network Load Balancer. - *regionalL7ilb*: for a regional internal Application Load Balancer. - *globalL7ilb*: for a global internal Application Load Balancer. */
+  loadBalancerType?: LoadBalancerTargetLoadBalancerTypeEnum | undefined;
   /** The protocol of the load balancer to health check. */
   ipProtocol?: LoadBalancerTargetIpProtocolEnum | undefined;
+  /** The configured port of the load balancer. */
+  port?: string | undefined;
   /** The frontend IP address of the load balancer to health check. */
   ipAddress?: string | undefined;
   /** The project ID in which the load balancer is located. */
   project?: string | undefined;
-  /** The type of load balancer specified by this target. This value must match the configuration of the load balancer located at the LoadBalancerTarget's IP address, port, and region. Use the following: - *regionalL4ilb*: for a regional internal passthrough Network Load Balancer. - *regionalL7ilb*: for a regional internal Application Load Balancer. - *globalL7ilb*: for a global internal Application Load Balancer. */
-  loadBalancerType?: LoadBalancerTargetLoadBalancerTypeEnum | undefined;
   /** The fully qualified URL of the network that the load balancer is attached to. This should be formatted like `https://www.googleapis.com/compute/v1/projects/{project}/global/networks/{network}`. */
   networkUrl?: string | undefined;
-  /** The region in which the load balancer is located. */
-  region?: string | undefined;
-  /** The configured port of the load balancer. */
-  port?: string | undefined;
 }
 export type LoadBalancerTargetList = Array<LoadBalancerTarget>;
 /** HealthCheckTargets describes endpoints to health-check when responding to Routing Policy queries. Only the healthy endpoints will be included in the response. Set either `internal_load_balancer` or `external_endpoints`. Do not set both. */
@@ -379,13 +379,13 @@ export interface HealthCheckTargets {
 }
 /** ResourceRecordSet data for one geo location. */
 export interface GeoPolicyItem {
-  /** The geo-location granularity is a GCP region. This location string should correspond to a GCP region. e.g. "us-east1", "southamerica-east1", "asia-east1", etc. */
-  location?: string | undefined;
+  rrdata?: StringList | undefined;
   /** For A and AAAA types only. Endpoints to return in the query result only if they are healthy. These can be specified along with `rrdata` within this item. */
   healthCheckedTargets?: HealthCheckTargets | undefined;
   /** DNSSEC generated signatures for all the `rrdata` within this item. When using health-checked targets for DNSSEC-enabled zones, you can only use at most one health-checked IP address per item. */
   signatureRrdata?: StringList | undefined;
-  rrdata?: StringList | undefined;
+  /** The geo-location granularity is a GCP region. This location string should correspond to a GCP region. e.g. "us-east1", "southamerica-east1", "asia-east1", etc. */
+  location?: string | undefined;
 }
 export type GeoPolicyItemList = Array<GeoPolicyItem>;
 /** Configures a `RRSetRoutingPolicy` that routes based on the geo location of the querying user. */
@@ -397,22 +397,22 @@ export interface GeoPolicy {
 }
 /** Configures a RRSetRoutingPolicy such that all queries are responded with the primary_targets if they are healthy. And if all of them are unhealthy, then we fallback to a geo localized policy. */
 export interface PrimaryBackupPolicy {
-  /** When serving state is `PRIMARY`, this field provides the option of sending a small percentage of the traffic to the backup targets. */
-  trickleTraffic?: number | undefined;
   /** Backup targets provide a regional failover policy for the otherwise global primary targets. If serving state is set to `BACKUP`, this policy essentially becomes a geo routing policy. */
   backupGeoTargets?: GeoPolicy | undefined;
+  /** When serving state is `PRIMARY`, this field provides the option of sending a small percentage of the traffic to the backup targets. */
+  trickleTraffic?: number | undefined;
   /** Endpoints that are health checked before making the routing decision. Unhealthy endpoints are omitted from the results. If all endpoints are unhealthy, we serve a response based on the `backup_geo_targets`. */
   primaryTargets?: HealthCheckTargets | undefined;
 }
 /** A routing block which contains the routing information for one WRR item. */
 export interface WrrPolicyItem {
-  /** DNSSEC generated signatures for all the `rrdata` within this item. When using health-checked targets for DNSSEC-enabled zones, you can only use at most one health-checked IP address per item. */
-  signatureRrdata?: StringList | undefined;
   /** Endpoints that are health checked before making the routing decision. The unhealthy endpoints are omitted from the result. If all endpoints within a bucket are unhealthy, we choose a different bucket (sampled with respect to its weight) for responding. If DNSSEC is enabled for this zone, only one of `rrdata` or `health_checked_targets` can be set. */
   healthCheckedTargets?: HealthCheckTargets | undefined;
   /** The weight corresponding to this `WrrPolicyItem` object. When multiple `WrrPolicyItem` objects are configured, the probability of returning an `WrrPolicyItem` object's data is proportional to its weight relative to the sum of weights configured for all items. This weight must be non-negative. */
   weight?: number | undefined;
   rrdata?: StringList | undefined;
+  /** DNSSEC generated signatures for all the `rrdata` within this item. When using health-checked targets for DNSSEC-enabled zones, you can only use at most one health-checked IP address per item. */
+  signatureRrdata?: StringList | undefined;
 }
 export type WrrPolicyItemList = Array<WrrPolicyItem>;
 /** Configures a RRSetRoutingPolicy that routes in a weighted round robin fashion. */
@@ -421,28 +421,28 @@ export interface WrrPolicy {
 }
 /** A RRSetRoutingPolicy represents ResourceRecordSet data that is returned dynamically with the response varying based on configured properties such as geolocation or by weighted random selection. */
 export interface RRSetRoutingPolicy {
-  geoPolicy?: GeoPolicy | undefined;
-  primaryBackup?: PrimaryBackupPolicy | undefined;
   /** The fully qualified URL of the HealthCheck to use for this RRSetRoutingPolicy. Format this URL like `https://www.googleapis.com/compute/v1/projects/{project}/global/healthChecks/{healthCheck}`. https://cloud.google.com/compute/docs/reference/rest/v1/healthChecks */
   healthCheck?: string | undefined;
+  primaryBackup?: PrimaryBackupPolicy | undefined;
+  geoPolicy?: GeoPolicy | undefined;
   wrrPolicy?: WrrPolicy | undefined;
-  geo?: GeoPolicy | undefined;
   wrr?: WrrPolicy | undefined;
+  geo?: GeoPolicy | undefined;
 }
 /** A unit of data that is returned by the DNS servers. */
 export interface ResourceRecordSet {
-  /** As defined in RFC 1035 (section 5) and RFC 1034 (section 3.6.1) -- see examples. */
-  rrdata?: StringList | undefined;
-  /** As defined in RFC 4034 (section 3.2). */
-  signatureRrdata?: StringList | undefined;
-  /** For example, www.example.com. */
-  name?: string | undefined;
   /** Configures dynamic query responses based on either the geo location of the querying user or a weighted round robin based routing policy. A valid `ResourceRecordSet` contains only `rrdata` (for static resolution) or a `routing_policy` (for dynamic resolution). */
   routingPolicy?: RRSetRoutingPolicy | undefined;
-  /** The identifier of a supported record type. See the list of Supported DNS record types. */
-  type?: string | undefined;
+  /** As defined in RFC 4034 (section 3.2). */
+  signatureRrdata?: StringList | undefined;
+  /** As defined in RFC 1035 (section 5) and RFC 1034 (section 3.6.1) -- see examples. */
+  rrdata?: StringList | undefined;
+  /** For example, www.example.com. */
+  name?: string | undefined;
   /** Number of seconds that this `ResourceRecordSet` can be cached by resolvers. */
   ttl?: number | undefined;
+  /** The identifier of a supported record type. See the list of Supported DNS record types. */
+  type?: string | undefined;
 }
 export type ResourceRecordSetList = Array<ResourceRecordSet>;
 /** Response for the `RetrieveGoogleDomainsDnsRecords` method. */
@@ -464,16 +464,16 @@ export type DomainForwardingRedirectTypeEnum =
 export interface DomainForwarding {
   /** If true, forwards the path after the domain name to the same path at the new address. */
   pathForwarding?: boolean | undefined;
-  /** The subdomain of the registered domain that is being forwarded. E.g. `www.example.com`, `example.com` (i.e. the registered domain itself) or `*.example.com` (i.e. all subdomains). */
-  subdomain?: string | undefined;
+  /** If true, the forwarding works also over HTTPS. */
+  sslEnabled?: boolean | undefined;
   /** The redirect type. */
   redirectType?: DomainForwardingRedirectTypeEnum | undefined;
   /** The target of the domain forwarding, i.e. the path to redirect the `subdomain` to. */
   targetUri?: string | undefined;
   /** The PEM-encoded certificate chain. */
   pemCertificate?: string | undefined;
-  /** If true, the forwarding works also over HTTPS. */
-  sslEnabled?: boolean | undefined;
+  /** The subdomain of the registered domain that is being forwarded. E.g. `www.example.com`, `example.com` (i.e. the registered domain itself) or `*.example.com` (i.e. all subdomains). */
+  subdomain?: string | undefined;
 }
 export type DomainForwardingList = Array<DomainForwarding>;
 /** Email forwarding configuration. */
@@ -497,27 +497,6 @@ export interface GetIamPolicyProjectsLocationsRegistrationsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number | undefined;
 }
-/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
-export interface Expr {
-  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string | undefined;
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string | undefined;
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string | undefined;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string | undefined;
-}
-/** Associates `members`, or principals, with a `role`. */
-export interface Binding {
-  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string | undefined;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr | undefined;
-  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList | undefined;
-}
-export type BindingList = Array<Binding>;
 export type AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
   | "ADMIN_READ"
@@ -533,39 +512,51 @@ export interface AuditLogConfig {
 export type AuditLogConfigList = Array<AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface AuditConfig {
-  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string | undefined;
   /** The configuration for logging of each type of permission. */
   auditLogConfigs?: AuditLogConfigList | undefined;
+  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
+  service?: string | undefined;
 }
 export type AuditConfigList = Array<AuditConfig>;
+/** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
+export interface Expr {
+  /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
+  location?: string | undefined;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
+}
+/** Associates `members`, or principals, with a `role`. */
+export interface Binding {
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr | undefined;
+  /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
+  role?: string | undefined;
+  /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
+  members?: StringList | undefined;
+}
+export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
   etag?: string | undefined;
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: AuditConfigList | undefined;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: BindingList | undefined;
 }
 export interface GetImportableDomainsProjectsLocationsRegistrationsRequest {
-  /** When set to the `next_page_token` from a prior response, provides the next page of results. */
-  pageToken?: string | undefined;
-  /** Maximum number of results to return. */
-  pageSize?: number | undefined;
   /** Required. The location. Must be in the format `projects/*\/locations/*`. */
   location: string;
-}
-/** Represents an amount of money with its currency type. */
-export interface Money {
-  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string | undefined;
-  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number | undefined;
-  /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string | undefined;
+  /** Maximum number of results to return. */
+  pageSize?: number | undefined;
+  /** When set to the `next_page_token` from a prior response, provides the next page of results. */
+  pageToken?: string | undefined;
 }
 export type DomainResourceStateEnum =
   | "RESOURCE_STATE_UNSPECIFIED"
@@ -574,22 +565,31 @@ export type DomainResourceStateEnum =
   | "SUSPENDED"
   | "EXPIRED"
   | "DELETED";
+/** Represents an amount of money with its currency type. */
+export interface Money {
+  /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
+  nanos?: number | undefined;
+  /** The three-letter currency code defined in ISO 4217. */
+  currencyCode?: string | undefined;
+  /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
+  units?: string | undefined;
+}
 /** A domain that the calling user manages in Google Domains. */
 export interface Domain {
-  /** Price to renew the domain for one year. Only set when `resource_state` is `IMPORTABLE`. */
-  yearlyPrice?: Money | undefined;
-  /** The domain name. Unicode domain names are expressed in Punycode format. */
-  domainName?: string | undefined;
   /** The state of this domain as a `Registration` resource. */
   resourceState?: DomainResourceStateEnum | undefined;
+  /** The domain name. Unicode domain names are expressed in Punycode format. */
+  domainName?: string | undefined;
+  /** Price to renew the domain for one year. Only set when `resource_state` is `IMPORTABLE`. */
+  yearlyPrice?: Money | undefined;
 }
 export type DomainList = Array<Domain>;
 /** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations). Response for the `RetrieveImportableDomains` method. */
 export interface RetrieveImportableDomainsResponse {
-  /** A list of domains that the calling user manages in Google Domains. */
-  domains?: DomainList | undefined;
   /** When present, there are more results to retrieve. Set `page_token` to this value on a subsequent call to get the next page of results. */
   nextPageToken?: string | undefined;
+  /** A list of domains that the calling user manages in Google Domains. */
+  domains?: DomainList | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -600,14 +600,14 @@ export type StringMap = { [key: string]: string | undefined };
 export interface Location {
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string | undefined;
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap | undefined;
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
   name?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -617,6 +617,37 @@ export interface GetProjectsLocationsRegistrationsRequest {
   /** Required. The name of the `Registration` to get, in the format `projects/*\/locations/*\/registrations/*`. */
   name: string;
 }
+export type RegistrationDomainPropertiesItemEnum =
+  | "DOMAIN_PROPERTY_UNSPECIFIED"
+  | "TRANSFER_LOCK_UNSUPPORTED_BY_REGISTRY"
+  | "REQUIRE_PUSH_TRANSFER";
+export type RegistrationDomainPropertiesItemEnumList = Array<
+  RegistrationDomainPropertiesItemEnum | (string & {})
+>;
+export type RegistrationIssuesItemEnum =
+  | "ISSUE_UNSPECIFIED"
+  | "CONTACT_SUPPORT"
+  | "UNVERIFIED_EMAIL"
+  | "PROBLEM_WITH_BILLING"
+  | "DNS_NOT_ACTIVATED"
+  | "AUTO_RENEWAL_UPDATE_NOT_EFFECTIVE";
+export type RegistrationIssuesItemEnumList = Array<RegistrationIssuesItemEnum | (string & {})>;
+export type RegistrationStateEnum =
+  | "STATE_UNSPECIFIED"
+  | "REGISTRATION_PENDING"
+  | "REGISTRATION_FAILED"
+  | "TRANSFER_PENDING"
+  | "TRANSFER_FAILED"
+  | "IMPORT_PENDING"
+  | "ACTIVE"
+  | "SUSPENDED"
+  | "EXPORTED"
+  | "EXPIRED";
+export type RegistrationRegisterFailureReasonEnum =
+  | "REGISTER_FAILURE_REASON_UNSPECIFIED"
+  | "REGISTER_FAILURE_REASON_UNKNOWN"
+  | "DOMAIN_NOT_AVAILABLE"
+  | "INVALID_CONTACTS";
 export type RegistrationTransferFailureReasonEnum =
   | "TRANSFER_FAILURE_REASON_UNSPECIFIED"
   | "TRANSFER_FAILURE_REASON_UNKNOWN"
@@ -629,21 +660,6 @@ export type RegistrationTransferFailureReasonEnum =
   | "INVALID_REGISTRANT_EMAIL_ADDRESS"
   | "DOMAIN_NOT_ELIGIBLE_FOR_TRANSFER"
   | "TRANSFER_ALREADY_PENDING";
-export type RegistrationIssuesItemEnum =
-  | "ISSUE_UNSPECIFIED"
-  | "CONTACT_SUPPORT"
-  | "UNVERIFIED_EMAIL"
-  | "PROBLEM_WITH_BILLING"
-  | "DNS_NOT_ACTIVATED"
-  | "AUTO_RENEWAL_UPDATE_NOT_EFFECTIVE";
-export type RegistrationIssuesItemEnumList = Array<RegistrationIssuesItemEnum | (string & {})>;
-export type RegistrationDomainPropertiesItemEnum =
-  | "DOMAIN_PROPERTY_UNSPECIFIED"
-  | "TRANSFER_LOCK_UNSUPPORTED_BY_REGISTRY"
-  | "REQUIRE_PUSH_TRANSFER";
-export type RegistrationDomainPropertiesItemEnumList = Array<
-  RegistrationDomainPropertiesItemEnum | (string & {})
->;
 export type RegistrationSupportedPrivacyItemEnum =
   | "CONTACT_PRIVACY_UNSPECIFIED"
   | "PUBLIC_CONTACT_DATA"
@@ -652,60 +668,44 @@ export type RegistrationSupportedPrivacyItemEnum =
 export type RegistrationSupportedPrivacyItemEnumList = Array<
   RegistrationSupportedPrivacyItemEnum | (string & {})
 >;
-export type RegistrationRegisterFailureReasonEnum =
-  | "REGISTER_FAILURE_REASON_UNSPECIFIED"
-  | "REGISTER_FAILURE_REASON_UNKNOWN"
-  | "DOMAIN_NOT_AVAILABLE"
-  | "INVALID_CONTACTS";
-export type RegistrationStateEnum =
-  | "STATE_UNSPECIFIED"
-  | "REGISTRATION_PENDING"
-  | "REGISTRATION_FAILED"
-  | "TRANSFER_PENDING"
-  | "TRANSFER_FAILED"
-  | "IMPORT_PENDING"
-  | "ACTIVE"
-  | "SUSPENDED"
-  | "EXPORTED"
-  | "EXPIRED";
 /** The `Registration` resource facilitates managing and configuring domain name registrations. There are several ways to create a new `Registration` resource: To create a new `Registration` resource, find a suitable domain name by calling the `SearchDomains` method with a query to see available domain name options. After choosing a name, call `RetrieveRegisterParameters` to ensure availability and obtain information like pricing, which is needed to build a call to `RegisterDomain`. Another way to create a new `Registration` is to transfer an existing domain from another registrar (Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations)). First, go to the current registrar to unlock the domain for transfer and retrieve the domain's transfer authorization code. Then call `RetrieveTransferParameters` to confirm that the domain is unlocked and to get values needed to build a call to `TransferDomain`. Finally, you can create a new `Registration` by importing an existing domain managed with [Google Domains](https://domains.google/) (Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations)). First, call `RetrieveImportableDomains` to list domains to which the calling user has sufficient access. Then call `ImportDomain` on any domain names you want to use with Cloud Domains. */
 export interface Registration {
+  /** Output only. Special properties of the domain. */
+  domainProperties?: RegistrationDomainPropertiesItemEnumList | undefined;
+  /** Output only. The expiration timestamp of the `Registration`. */
+  expireTime?: string | undefined;
+  /** Output only. The set of issues with the `Registration` that require attention. */
+  issues?: RegistrationIssuesItemEnumList | undefined;
+  /** Output only. The state of the `Registration` */
+  state?: RegistrationStateEnum | (string & {}) | undefined;
+  /** Set of labels associated with the `Registration`. */
+  labels?: StringMap | undefined;
+  /** Output only. The creation timestamp of the `Registration` resource. */
+  createTime?: string | undefined;
   /** Settings for management of the `Registration`, including renewal, billing, and transfer. You cannot update these with the `UpdateRegistration` method. To update these settings, use the `ConfigureManagementSettings` method. */
   managementSettings?: ManagementSettings | undefined;
-  /** Required. Settings for contact information linked to the `Registration`. You cannot update these with the `UpdateRegistration` method. To update these settings, use the `ConfigureContactSettings` method. */
-  contactSettings?: ContactSettings | undefined;
+  /** Output only. The reason the domain registration failed. Only set for domains in REGISTRATION_FAILED state. */
+  registerFailureReason?: RegistrationRegisterFailureReasonEnum | (string & {}) | undefined;
   /** Output only. Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations). The reason the domain transfer failed. Only set for domains in TRANSFER_FAILED state. */
   transferFailureReason?: RegistrationTransferFailureReasonEnum | (string & {}) | undefined;
   /** Settings controlling the DNS configuration of the `Registration`. You cannot update these with the `UpdateRegistration` method. To update these settings, use the `ConfigureDnsSettings` method. */
   dnsSettings?: DnsSettings | undefined;
-  /** Output only. The set of issues with the `Registration` that require attention. */
-  issues?: RegistrationIssuesItemEnumList | undefined;
-  /** Output only. The creation timestamp of the `Registration` resource. */
-  createTime?: string | undefined;
-  /** Output only. Special properties of the domain. */
-  domainProperties?: RegistrationDomainPropertiesItemEnumList | undefined;
-  /** Set of labels associated with the `Registration`. */
-  labels?: StringMap | undefined;
   /** Output only. Set of options for the `contact_settings.privacy` field that this `Registration` supports. */
   supportedPrivacy?: RegistrationSupportedPrivacyItemEnumList | undefined;
-  /** Output only. The reason the domain registration failed. Only set for domains in REGISTRATION_FAILED state. */
-  registerFailureReason?: RegistrationRegisterFailureReasonEnum | (string & {}) | undefined;
-  /** Output only. The state of the `Registration` */
-  state?: RegistrationStateEnum | (string & {}) | undefined;
-  /** Output only. Name of the `Registration` resource, in the format `projects/*\/locations/*\/registrations/`. */
-  name?: string | undefined;
   /** Required. Immutable. The domain name. Unicode domain names must be expressed in Punycode format. */
   domainName?: string | undefined;
+  /** Output only. Name of the `Registration` resource, in the format `projects/*\/locations/*\/registrations/`. */
+  name?: string | undefined;
   /** Output only. Pending contact settings for the `Registration`. Updates to the `contact_settings` field that change its `registrant_contact` or `privacy` fields require email confirmation by the `registrant_contact` before taking effect. This field is set only if there are pending updates to the `contact_settings` that have not been confirmed. To confirm the changes, the `registrant_contact` must follow the instructions in the email they receive. */
   pendingContactSettings?: ContactSettings | undefined;
-  /** Output only. The expiration timestamp of the `Registration`. */
-  expireTime?: string | undefined;
+  /** Required. Settings for contact information linked to the `Registration`. You cannot update these with the `UpdateRegistration` method. To update these settings, use the `ConfigureContactSettings` method. */
+  contactSettings?: ContactSettings | undefined;
 }
 export interface GetRegisterParametersProjectsLocationsRegistrationsRequest {
-  /** Required. The domain name. Unicode domain names must be expressed in Punycode format. */
-  domainName?: string | undefined;
   /** Required. The location. Must be in the format `projects/*\/locations/*`. */
   location: string;
+  /** Required. The domain name. Unicode domain names must be expressed in Punycode format. */
+  domainName?: string | undefined;
 }
 export type RegisterParametersAvailabilityEnum =
   | "AVAILABILITY_UNSPECIFIED"
@@ -744,11 +744,15 @@ export interface RetrieveRegisterParametersResponse {
   registerParameters?: RegisterParameters | undefined;
 }
 export interface GetTransferParametersProjectsLocationsRegistrationsRequest {
-  /** Required. The location. Must be in the format `projects/*\/locations/*`. */
-  location: string;
   /** Required. The domain name. Unicode domain names must be expressed in Punycode format. */
   domainName?: string | undefined;
+  /** Required. The location. Must be in the format `projects/*\/locations/*`. */
+  location: string;
 }
+export type TransferParametersTransferLockStateEnum =
+  | "TRANSFER_LOCK_STATE_UNSPECIFIED"
+  | "UNLOCKED"
+  | "LOCKED";
 export type TransferParametersSupportedPrivacyItemEnum =
   | "CONTACT_PRIVACY_UNSPECIFIED"
   | "PUBLIC_CONTACT_DATA"
@@ -756,26 +760,22 @@ export type TransferParametersSupportedPrivacyItemEnum =
   | "REDACTED_CONTACT_DATA";
 export type TransferParametersSupportedPrivacyItemEnumList =
   Array<TransferParametersSupportedPrivacyItemEnum>;
-export type TransferParametersTransferLockStateEnum =
-  | "TRANSFER_LOCK_STATE_UNSPECIFIED"
-  | "UNLOCKED"
-  | "LOCKED";
 /** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations). Parameters required to transfer a domain from another registrar. */
 export interface TransferParameters {
-  /** Contact privacy options that the domain supports. */
-  supportedPrivacy?: TransferParametersSupportedPrivacyItemEnumList | undefined;
-  /** Indicates whether the domain is protected by a transfer lock. For a transfer to succeed, this must show `UNLOCKED`. To unlock a domain, go to its current registrar. */
-  transferLockState?: TransferParametersTransferLockStateEnum | undefined;
-  /** The registrar that currently manages the domain. */
-  currentRegistrar?: string | undefined;
-  /** Price to transfer or renew the domain for one year. */
-  yearlyPrice?: Money | undefined;
-  /** The name servers that currently store the configuration of the domain. */
-  nameServers?: StringList | undefined;
-  /** The domain name. Unicode domain names are expressed in Punycode format. */
-  domainName?: string | undefined;
   /** The URL of the registrar that currently manages the domain. */
   currentRegistrarUri?: string | undefined;
+  /** Indicates whether the domain is protected by a transfer lock. For a transfer to succeed, this must show `UNLOCKED`. To unlock a domain, go to its current registrar. */
+  transferLockState?: TransferParametersTransferLockStateEnum | undefined;
+  /** Price to transfer or renew the domain for one year. */
+  yearlyPrice?: Money | undefined;
+  /** Contact privacy options that the domain supports. */
+  supportedPrivacy?: TransferParametersSupportedPrivacyItemEnumList | undefined;
+  /** The domain name. Unicode domain names are expressed in Punycode format. */
+  domainName?: string | undefined;
+  /** The registrar that currently manages the domain. */
+  currentRegistrar?: string | undefined;
+  /** The name servers that currently store the configuration of the domain. */
+  nameServers?: StringList | undefined;
 }
 /** Deprecated: For more information, see [Cloud Domains feature deprecation](https://cloud.google.com/domains/docs/deprecations/feature-deprecations). Response for the `RetrieveTransferParameters` method. */
 export interface RetrieveTransferParametersResponse {
@@ -805,70 +805,70 @@ export interface InitiatePushTransferProjectsLocationsRegistrationsRequest exten
   registration: string;
 }
 export interface ListProjectsLocationsRequest {
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string | undefined;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number | undefined;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
-  /** The standard List next-page token. */
-  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
   locations?: LocationList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list filter. */
   filter?: string | undefined;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList | undefined;
 }
 export interface ListProjectsLocationsRegistrationsRequest {
-  /** Filter expression to restrict the `Registration`s returned. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, a boolean, or an enum value. The comparison operator should be one of =, !=, >, <, >=, <=, or : for prefix or wildcard matches. For example, to filter to a specific domain name, use an expression like `domainName="example.com"`. You can also check for the existence of a field; for example, to find domains using custom DNS settings, use an expression like `dnsSettings.customDns:*`. You can also create compound filters by combining expressions with the `AND` and `OR` operators. For example, to find domains that are suspended or have specific issues flagged, use an expression like `(state=SUSPENDED) OR (issue:*)`. */
-  filter?: string | undefined;
   /** Maximum number of results to return. */
   pageSize?: number | undefined;
-  /** When set to the `next_page_token` from a prior response, provides the next page of results. */
-  pageToken?: string | undefined;
+  /** Filter expression to restrict the `Registration`s returned. The expression must specify the field name, a comparison operator, and the value that you want to use for filtering. The value must be a string, a number, a boolean, or an enum value. The comparison operator should be one of =, !=, >, <, >=, <=, or : for prefix or wildcard matches. For example, to filter to a specific domain name, use an expression like `domainName="example.com"`. You can also check for the existence of a field; for example, to find domains using custom DNS settings, use an expression like `dnsSettings.customDns:*`. You can also create compound filters by combining expressions with the `AND` and `OR` operators. For example, to find domains that are suspended or have specific issues flagged, use an expression like `(state=SUSPENDED) OR (issue:*)`. */
+  filter?: string | undefined;
   /** Required. The project and location from which to list `Registration`s, specified in the format `projects/*\/locations/*`. */
   parent: string;
+  /** When set to the `next_page_token` from a prior response, provides the next page of results. */
+  pageToken?: string | undefined;
 }
 export type RegistrationList = Array<Registration>;
 /** Response for the `ListRegistrations` method. */
 export interface ListRegistrationsResponse {
-  /** A list of `Registration`s. */
-  registrations?: RegistrationList | undefined;
   /** When present, there are more results to retrieve. Set `page_token` to this value on a subsequent call to get the next page of results. */
   nextPageToken?: string | undefined;
+  /** A list of `Registration`s. */
+  registrations?: RegistrationList | undefined;
 }
 export interface PatchProjectsLocationsRegistrationsRequest extends Omit<Registration, "name"> {
-  /** Required. The field mask describing which fields to update as a comma-separated list. For example, if only the labels are being updated, the `update_mask` is `"labels"`. */
-  updateMask?: string | undefined;
   /** Optional. If set, validates the request without actually updating the registration. */
   validateOnly?: boolean | undefined;
+  /** Required. The field mask describing which fields to update as a comma-separated list. For example, if only the labels are being updated, the `update_mask` is `"labels"`. */
+  updateMask?: string | undefined;
   /** Output only. Name of the `Registration` resource, in the format `projects/*\/locations/*\/registrations/`. */
   name: string;
 }
@@ -888,14 +888,14 @@ export type RegisterDomainRequestDomainNoticesItemEnumList = Array<
 export interface RegisterDomainRequest {
   /** The list of contact notices that the caller acknowledges. The notices needed here depend on the values specified in `registration.contact_settings`. */
   contactNotices?: RegisterDomainRequestContactNoticesItemEnumList | undefined;
-  /** Required. Yearly price to register or renew the domain. The value that should be put here can be obtained from RetrieveRegisterParameters or SearchDomains calls. */
-  yearlyPrice?: Money | undefined;
-  /** The list of domain notices that you acknowledge. Call `RetrieveRegisterParameters` to see the notices that need acknowledgement. */
-  domainNotices?: RegisterDomainRequestDomainNoticesItemEnumList | undefined;
   /** When true, only validation is performed, without actually registering the domain. Follows: https://cloud.google.com/apis/design/design_patterns#request_validation */
   validateOnly?: boolean | undefined;
   /** Required. The complete `Registration` resource to be created. */
   registration?: Registration | undefined;
+  /** Required. Yearly price to register or renew the domain. The value that should be put here can be obtained from RetrieveRegisterParameters or SearchDomains calls. */
+  yearlyPrice?: Money | undefined;
+  /** The list of domain notices that you acknowledge. Call `RetrieveRegisterParameters` to see the notices that need acknowledgement. */
+  domainNotices?: RegisterDomainRequestDomainNoticesItemEnumList | undefined;
 }
 export interface RegisterProjectsLocationsRegistrationsRequest extends RegisterDomainRequest {
   /** Required. The parent resource of the `Registration`. Must be in the format `projects/*\/locations/*`. */
@@ -903,10 +903,10 @@ export interface RegisterProjectsLocationsRegistrationsRequest extends RegisterD
 }
 /** Request for the `RenewDomain` method. */
 export interface RenewDomainRequest {
-  /** Optional. When true, only validation is performed, without actually renewing the domain. For more information, see [Request validation](https://cloud.google.com/apis/design/design_patterns#request_validation) */
-  validateOnly?: boolean | undefined;
   /** Required. Acknowledgement of the price to renew the domain for one year. To get the price, see [Cloud Domains pricing](https://cloud.google.com/domains/pricing). If not provided, the expected price is returned in the error message. */
   yearlyPrice?: Money | undefined;
+  /** Optional. When true, only validation is performed, without actually renewing the domain. For more information, see [Request validation](https://cloud.google.com/apis/design/design_patterns#request_validation) */
+  validateOnly?: boolean | undefined;
 }
 export interface RenewDomainProjectsLocationsRegistrationsRequest extends RenewDomainRequest {
   /** Required. The name of the `Registration` whish is being renewed, in the format `projects/*\/locations/*\/registrations/*`. */
@@ -934,10 +934,10 @@ export interface SearchDomainsResponse {
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
-  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy | undefined;
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
   updateMask?: string | undefined;
+  /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsRegistrationsRequest extends SetIamPolicyRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
@@ -967,14 +967,14 @@ export type TransferDomainRequestContactNoticesItemEnumList = Array<
 export interface TransferDomainRequest {
   /** The list of contact notices that you acknowledge. The notices needed here depend on the values specified in `registration.contact_settings`. */
   contactNotices?: TransferDomainRequestContactNoticesItemEnumList | undefined;
-  /** Required. Acknowledgement of the price to transfer or renew the domain for one year. Call `RetrieveTransferParameters` to obtain the price, which you must acknowledge. */
-  yearlyPrice?: Money | undefined;
   /** The domain's transfer authorization code. You can obtain this from the domain's current registrar. */
   authorizationCode?: AuthorizationCode | undefined;
-  /** Required. The complete `Registration` resource to be created. You can leave `registration.dns_settings` unset to import the domain's current DNS configuration from its current registrar. Use this option only if you are sure that the domain's current DNS service does not cease upon transfer, as is often the case for DNS services provided for free by the registrar. */
-  registration?: Registration | undefined;
   /** Validate the request without actually transferring the domain. */
   validateOnly?: boolean | undefined;
+  /** Required. Acknowledgement of the price to transfer or renew the domain for one year. Call `RetrieveTransferParameters` to obtain the price, which you must acknowledge. */
+  yearlyPrice?: Money | undefined;
+  /** Required. The complete `Registration` resource to be created. You can leave `registration.dns_settings` unset to import the domain's current DNS configuration from its current registrar. Use this option only if you are sure that the domain's current DNS service does not cease upon transfer, as is often the case for DNS services provided for free by the registrar. */
+  registration?: Registration | undefined;
 }
 export interface TransferProjectsLocationsRegistrationsRequest extends TransferDomainRequest {
   /** Required. The parent resource of the `Registration`. Must be in the format `projects/*\/locations/*`. */
@@ -1608,8 +1608,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           registration: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1622,13 +1622,13 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          region: S.optional(S.String),
+          loadBalancerType: S.optional(S.String),
           ipProtocol: S.optional(S.String),
+          port: S.optional(S.String),
           ipAddress: S.optional(S.String),
           project: S.optional(S.String),
-          loadBalancerType: S.optional(S.String),
           networkUrl: S.optional(S.String),
-          region: S.optional(S.String),
-          port: S.optional(S.String),
         }),
       ).annotate({ identifier: "LoadBalancerTarget" });
     case 2:
@@ -1643,10 +1643,10 @@ function __c0(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          location: S.optional(S.String),
+          rrdata: S.optional(__S(496, __c31, 0)),
           healthCheckedTargets: S.optional(__S(3, __c0, 3)),
           signatureRrdata: S.optional(__S(496, __c31, 0)),
-          rrdata: S.optional(__S(496, __c31, 0)),
+          location: S.optional(S.String),
         }),
       ).annotate({ identifier: "GeoPolicyItem" });
     case 5:
@@ -1661,18 +1661,18 @@ function __c0(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          trickleTraffic: S.optional(S.Number),
           backupGeoTargets: S.optional(__S(6, __c0, 6)),
+          trickleTraffic: S.optional(S.Number),
           primaryTargets: S.optional(__S(3, __c0, 3)),
         }),
       ).annotate({ identifier: "PrimaryBackupPolicy" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          signatureRrdata: S.optional(__S(496, __c31, 0)),
           healthCheckedTargets: S.optional(__S(3, __c0, 3)),
           weight: S.optional(S.Number),
           rrdata: S.optional(__S(496, __c31, 0)),
+          signatureRrdata: S.optional(__S(496, __c31, 0)),
         }),
       ).annotate({ identifier: "WrrPolicyItem" });
     case 9:
@@ -1686,23 +1686,23 @@ function __c0(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          geoPolicy: S.optional(__S(6, __c0, 6)),
-          primaryBackup: S.optional(__S(7, __c0, 7)),
           healthCheck: S.optional(S.String),
+          primaryBackup: S.optional(__S(7, __c0, 7)),
+          geoPolicy: S.optional(__S(6, __c0, 6)),
           wrrPolicy: S.optional(__S(10, __c0, 10)),
-          geo: S.optional(__S(6, __c0, 6)),
           wrr: S.optional(__S(10, __c0, 10)),
+          geo: S.optional(__S(6, __c0, 6)),
         }),
       ).annotate({ identifier: "RRSetRoutingPolicy" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          rrdata: S.optional(__S(496, __c31, 0)),
-          signatureRrdata: S.optional(__S(496, __c31, 0)),
-          name: S.optional(S.String),
           routingPolicy: S.optional(__S(11, __c0, 11)),
-          type: S.optional(S.String),
+          signatureRrdata: S.optional(__S(496, __c31, 0)),
+          rrdata: S.optional(__S(496, __c31, 0)),
+          name: S.optional(S.String),
           ttl: S.optional(S.Number),
+          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceRecordSet" });
     case 13:
@@ -1736,11 +1736,11 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pathForwarding: S.optional(S.Boolean),
-          subdomain: S.optional(S.String),
+          sslEnabled: S.optional(S.Boolean),
           redirectType: S.optional(S.String),
           targetUri: S.optional(S.String),
           pemCertificate: S.optional(S.String),
-          sslEnabled: S.optional(S.Boolean),
+          subdomain: S.optional(S.String),
         }),
       ).annotate({ identifier: "DomainForwarding" });
     case 2:
@@ -1785,38 +1785,38 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          logType: S.optional(S.String),
+          exemptedMembers: S.optional(__S(496, __c31, 0)),
+        }),
+      ).annotate({ identifier: "AuditLogConfig" });
+    case 1:
+      return S.Array(__S(48, __c3, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          auditLogConfigs: S.optional(__S(49, __c3, 1)),
+          service: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AuditConfig" });
+    case 3:
+      return S.Array(__S(50, __c3, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           location: S.optional(S.String),
           expression: S.optional(S.String),
           title: S.optional(S.String),
           description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          role: S.optional(S.String),
-          condition: S.optional(__S(48, __c3, 0)),
-          members: S.optional(__S(496, __c31, 0)),
-        }),
-      ).annotate({ identifier: "Binding" });
-    case 2:
-      return S.Array(__S(49, __c3, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          logType: S.optional(S.String),
-          exemptedMembers: S.optional(__S(496, __c31, 0)),
-        }),
-      ).annotate({ identifier: "AuditLogConfig" });
-    case 4:
-      return S.Array(__S(51, __c3, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          service: S.optional(S.String),
-          auditLogConfigs: S.optional(__S(52, __c3, 4)),
+          condition: S.optional(__S(52, __c3, 4)),
+          role: S.optional(S.String),
+          members: S.optional(__S(496, __c31, 0)),
         }),
-      ).annotate({ identifier: "AuditConfig" });
+      ).annotate({ identifier: "Binding" });
     case 6:
       return S.Array(__S(53, __c3, 5));
     case 7:
@@ -1824,8 +1824,8 @@ function __c3(j: number): any {
         S.Struct({
           version: S.optional(S.Number),
           etag: S.optional(S.String),
-          bindings: S.optional(__S(50, __c3, 2)),
-          auditConfigs: S.optional(__S(54, __c3, 6)),
+          auditConfigs: S.optional(__S(51, __c3, 3)),
+          bindings: S.optional(__S(54, __c3, 6)),
         }),
       ).annotate({ identifier: "Policy" });
   }
@@ -1835,9 +1835,9 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           location: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1849,9 +1849,9 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          yearlyPrice: S.optional(__S(80, __c5, 0)),
-          domainName: S.optional(S.String),
           resourceState: S.optional(S.String),
+          domainName: S.optional(S.String),
+          yearlyPrice: S.optional(__S(80, __c5, 0)),
         }),
       ).annotate({ identifier: "Domain" });
     case 2:
@@ -1859,8 +1859,8 @@ function __c4(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          domains: S.optional(__S(66, __c4, 2)),
           nextPageToken: S.optional(S.String),
+          domains: S.optional(__S(66, __c4, 2)),
         }),
       ).annotate({ identifier: "RetrieveImportableDomainsResponse" });
   }
@@ -1870,9 +1870,9 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          units: S.optional(S.String),
           nanos: S.optional(S.Number),
           currencyCode: S.optional(S.String),
+          units: S.optional(S.String),
         }),
       ).annotate({ identifier: "Money" });
   }
@@ -1901,10 +1901,10 @@ function __c8(j: number): any {
       return S.suspend(() =>
         S.Struct({
           locationId: S.optional(S.String),
-          metadata: S.optional(__S(512, __c32, 0)),
-          labels: S.optional(__S(112, __c7, 0)),
           name: S.optional(S.String),
           displayName: S.optional(S.String),
+          labels: S.optional(__S(112, __c7, 0)),
+          metadata: S.optional(__S(512, __c32, 0)),
         }),
       ).annotate({ identifier: "Location" });
   }
@@ -1938,21 +1938,21 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          domainProperties: S.optional(__S(464, __c29, 0)),
+          expireTime: S.optional(S.String),
+          issues: S.optional(__S(464, __c29, 0)),
+          state: S.optional(S.String),
+          labels: S.optional(__S(112, __c7, 0)),
+          createTime: S.optional(S.String),
           managementSettings: S.optional(__S(592, __c37, 0)),
-          contactSettings: S.optional(__S(482, __c30, 2)),
+          registerFailureReason: S.optional(S.String),
           transferFailureReason: S.optional(S.String),
           dnsSettings: S.optional(__S(566, __c35, 6)),
-          issues: S.optional(__S(464, __c29, 0)),
-          createTime: S.optional(S.String),
-          domainProperties: S.optional(__S(464, __c29, 0)),
-          labels: S.optional(__S(112, __c7, 0)),
           supportedPrivacy: S.optional(__S(464, __c29, 0)),
-          registerFailureReason: S.optional(S.String),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
           domainName: S.optional(S.String),
+          name: S.optional(S.String),
           pendingContactSettings: S.optional(__S(482, __c30, 2)),
-          expireTime: S.optional(S.String),
+          contactSettings: S.optional(__S(482, __c30, 2)),
         }),
       ).annotate({ identifier: "Registration" });
   }
@@ -1962,8 +1962,8 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          domainName: S.optional(S.String.pipe(T.Query())),
           location: S.String.pipe(T.Label()),
+          domainName: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1999,8 +1999,8 @@ function __c14(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          location: S.String.pipe(T.Label()),
           domainName: S.optional(S.String.pipe(T.Query())),
+          location: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2012,13 +2012,13 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          supportedPrivacy: S.optional(__S(464, __c29, 0)),
-          transferLockState: S.optional(S.String),
-          currentRegistrar: S.optional(S.String),
-          yearlyPrice: S.optional(__S(80, __c5, 0)),
-          nameServers: S.optional(__S(496, __c31, 0)),
-          domainName: S.optional(S.String),
           currentRegistrarUri: S.optional(S.String),
+          transferLockState: S.optional(S.String),
+          yearlyPrice: S.optional(__S(80, __c5, 0)),
+          supportedPrivacy: S.optional(__S(464, __c29, 0)),
+          domainName: S.optional(S.String),
+          currentRegistrar: S.optional(S.String),
+          nameServers: S.optional(__S(496, __c31, 0)),
         }),
       ).annotate({ identifier: "TransferParameters" });
     case 2:
@@ -2086,11 +2086,11 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           extraLocationTypes: S.optional(__S(496, __c31, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2104,8 +2104,8 @@ function __c17(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           locations: S.optional(__S(273, __c17, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListLocationsResponse" });
   }
@@ -2116,10 +2116,10 @@ function __c18(j: number): any {
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2133,9 +2133,9 @@ function __c18(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          operations: S.optional(__S(289, __c18, 1)),
           unreachable: S.optional(__S(496, __c31, 0)),
           nextPageToken: S.optional(S.String),
-          operations: S.optional(__S(289, __c18, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -2145,10 +2145,10 @@ function __c19(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2162,8 +2162,8 @@ function __c19(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          registrations: S.optional(__S(305, __c19, 1)),
           nextPageToken: S.optional(S.String),
+          registrations: S.optional(__S(305, __c19, 1)),
         }),
       ).annotate({ identifier: "ListRegistrationsResponse" });
   }
@@ -2175,8 +2175,8 @@ function __c20(j: number): any {
         S.Extend(
           __S(176, __c11, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             validateOnly: S.optional(S.Boolean.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
           }),
         ).pipe(
@@ -2195,10 +2195,10 @@ function __c21(j: number): any {
       return S.suspend(() =>
         S.Struct({
           contactNotices: S.optional(__S(464, __c29, 0)),
-          yearlyPrice: S.optional(__S(80, __c5, 0)),
-          domainNotices: S.optional(__S(464, __c29, 0)),
           validateOnly: S.optional(S.Boolean),
           registration: S.optional(__S(176, __c11, 0)),
+          yearlyPrice: S.optional(__S(80, __c5, 0)),
+          domainNotices: S.optional(__S(464, __c29, 0)),
         }),
       ).annotate({ identifier: "RegisterDomainRequest" });
     case 1:
@@ -2223,8 +2223,8 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          validateOnly: S.optional(S.Boolean),
           yearlyPrice: S.optional(__S(80, __c5, 0)),
+          validateOnly: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "RenewDomainRequest" });
     case 1:
@@ -2291,8 +2291,8 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          policy: S.optional(__S(55, __c3, 7)),
           updateMask: S.optional(S.String),
+          policy: S.optional(__S(55, __c3, 7)),
         }),
       ).annotate({ identifier: "SetIamPolicyRequest" });
     case 1:
@@ -2343,10 +2343,10 @@ function __c27(j: number): any {
       return S.suspend(() =>
         S.Struct({
           contactNotices: S.optional(__S(464, __c29, 0)),
-          yearlyPrice: S.optional(__S(80, __c5, 0)),
           authorizationCode: S.optional(__S(672, __c42, 0)),
-          registration: S.optional(__S(176, __c11, 0)),
           validateOnly: S.optional(S.Boolean),
+          yearlyPrice: S.optional(__S(80, __c5, 0)),
+          registration: S.optional(__S(176, __c11, 0)),
         }),
       ).annotate({ identifier: "TransferDomainRequest" });
     case 1:
@@ -2371,10 +2371,10 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          updateMask: S.optional(S.String),
-          contactSettings: S.optional(__S(482, __c30, 2)),
           validateOnly: S.optional(S.Boolean),
+          updateMask: S.optional(S.String),
           contactNotices: S.optional(__S(464, __c29, 0)),
+          contactSettings: S.optional(__S(482, __c30, 2)),
         }),
       ).annotate({ identifier: "ConfigureContactSettingsRequest" });
     case 1:
@@ -2405,25 +2405,25 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          revision: S.optional(S.Number),
-          sortingCode: S.optional(S.String),
-          administrativeArea: S.optional(S.String),
           organization: S.optional(S.String),
-          postalCode: S.optional(S.String),
-          regionCode: S.optional(S.String),
-          addressLines: S.optional(__S(496, __c31, 0)),
-          recipients: S.optional(__S(496, __c31, 0)),
-          locality: S.optional(S.String),
           sublocality: S.optional(S.String),
+          addressLines: S.optional(__S(496, __c31, 0)),
+          revision: S.optional(S.Number),
+          administrativeArea: S.optional(S.String),
+          recipients: S.optional(__S(496, __c31, 0)),
           languageCode: S.optional(S.String),
+          regionCode: S.optional(S.String),
+          locality: S.optional(S.String),
+          sortingCode: S.optional(S.String),
+          postalCode: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostalAddress" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          postalAddress: S.optional(__S(480, __c30, 0)),
-          email: S.optional(S.String),
           phoneNumber: S.optional(S.String),
+          email: S.optional(S.String),
+          postalAddress: S.optional(__S(480, __c30, 0)),
           faxNumber: S.optional(S.String),
         }),
       ).annotate({ identifier: "Contact" });
@@ -2432,8 +2432,8 @@ function __c30(j: number): any {
         S.Struct({
           adminContact: S.optional(__S(481, __c30, 1)),
           privacy: S.optional(S.String),
-          technicalContact: S.optional(__S(481, __c30, 1)),
           registrantContact: S.optional(__S(481, __c30, 1)),
+          technicalContact: S.optional(__S(481, __c30, 1)),
         }),
       ).annotate({ identifier: "ContactSettings" });
   }
@@ -2457,19 +2457,19 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          details: S.optional(__S(528, __c33, 0)),
-          message: S.optional(S.String),
           code: S.optional(S.Number),
+          message: S.optional(S.String),
+          details: S.optional(__S(528, __c33, 0)),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          done: S.optional(S.Boolean),
-          metadata: S.optional(__S(512, __c32, 0)),
-          response: S.optional(__S(512, __c32, 0)),
-          error: S.optional(__S(529, __c33, 1)),
           name: S.optional(S.String),
+          response: S.optional(__S(512, __c32, 0)),
+          metadata: S.optional(__S(512, __c32, 0)),
+          error: S.optional(__S(529, __c33, 1)),
+          done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -2479,9 +2479,9 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dnsSettings: S.optional(__S(566, __c35, 6)),
           validateOnly: S.optional(S.Boolean),
           updateMask: S.optional(S.String),
+          dnsSettings: S.optional(__S(566, __c35, 6)),
         }),
       ).annotate({ identifier: "ConfigureDnsSettingsRequest" });
     case 1:
@@ -2506,10 +2506,10 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          algorithm: S.optional(S.String),
-          keyTag: S.optional(S.Number),
           digestType: S.optional(S.String),
           digest: S.optional(S.String),
+          algorithm: S.optional(S.String),
+          keyTag: S.optional(S.Number),
         }),
       ).annotate({ identifier: "DsRecord" });
     case 1:
@@ -2518,23 +2518,23 @@ function __c35(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nameServers: S.optional(__S(496, __c31, 0)),
+          dsRecords: S.optional(__S(561, __c35, 1)),
+        }),
+      ).annotate({ identifier: "CustomDns" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          nameServers: S.optional(__S(496, __c31, 0)),
           dsState: S.optional(S.String),
           dsRecords: S.optional(__S(561, __c35, 1)),
         }),
       ).annotate({ identifier: "GoogleDomainsDns" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          dsRecords: S.optional(__S(561, __c35, 1)),
-          nameServers: S.optional(__S(496, __c31, 0)),
-        }),
-      ).annotate({ identifier: "CustomDns" });
     case 4:
       return S.suspend(() =>
         S.Struct({
+          hostName: S.optional(S.String),
           ipv4Addresses: S.optional(__S(496, __c31, 0)),
           ipv6Addresses: S.optional(__S(496, __c31, 0)),
-          hostName: S.optional(S.String),
         }),
       ).annotate({ identifier: "GlueRecord" });
     case 5:
@@ -2542,9 +2542,9 @@ function __c35(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          googleDomainsDns: S.optional(__S(562, __c35, 2)),
+          customDns: S.optional(__S(562, __c35, 2)),
           googleDomainsRedirectsDataAvailable: S.optional(S.Boolean),
-          customDns: S.optional(__S(563, __c35, 3)),
+          googleDomainsDns: S.optional(__S(563, __c35, 3)),
           glueRecords: S.optional(__S(565, __c35, 5)),
         }),
       ).annotate({ identifier: "DnsSettings" });
@@ -2555,9 +2555,9 @@ function __c36(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          updateMask: S.optional(S.String),
           managementSettings: S.optional(__S(592, __c37, 0)),
           validateOnly: S.optional(S.Boolean),
-          updateMask: S.optional(S.String),
         }),
       ).annotate({ identifier: "ConfigureManagementSettingsRequest" });
     case 1:
@@ -2584,10 +2584,10 @@ function __c37(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          effectiveTransferLockState: S.optional(S.String),
-          renewalMethod: S.optional(S.String),
-          transferLockState: S.optional(S.String),
           preferredRenewalMethod: S.optional(S.String),
+          renewalMethod: S.optional(S.String),
+          effectiveTransferLockState: S.optional(S.String),
+          transferLockState: S.optional(S.String),
         }),
       ).annotate({ identifier: "ManagementSettings" });
   }

@@ -93,12 +93,14 @@ export interface CancelProjectsLocationsOperationsRequest {
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
+export type StringList = Array<string>;
 export type EndpointStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
   | "READY"
   | "DELETING"
   | "UPDATING";
+export type StringMap = { [key: string]: string | undefined };
 export type EndpointSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
   | "INFORMATIONAL"
@@ -106,38 +108,36 @@ export type EndpointSeverityEnum =
   | "MEDIUM"
   | "HIGH"
   | "CRITICAL";
-export type StringList = Array<string>;
-export type StringMap = { [key: string]: string | undefined };
 /** Endpoint describes a single IDS endpoint. It defines a forwarding rule to which packets can be sent for IDS inspection. */
 export interface Endpoint {
-  /** Output only. The create time timestamp. */
-  createTime?: string | undefined;
-  /** Output only. The fully qualified URL of the endpoint's ILB Forwarding Rule. */
-  endpointForwardingRule?: string | undefined;
-  /** Output only. Current state of the endpoint. */
-  state?: EndpointStateEnum | (string & {}) | undefined;
-  /** Whether the endpoint should report traffic logs in addition to threat logs. */
-  trafficLogs?: boolean | undefined;
-  /** Required. The fully qualified URL of the network to which the IDS Endpoint is attached. */
-  network?: string | undefined;
-  /** Required. Lowest threat severity that this endpoint will alert on. */
-  severity?: EndpointSeverityEnum | (string & {}) | undefined;
-  /** Output only. The name of the endpoint. */
-  name?: string | undefined;
-  /** Output only. [Output Only] Reserved for future use. */
-  satisfiesPzi?: boolean | undefined;
-  /** Output only. The update time timestamp. */
-  updateTime?: string | undefined;
   /** List of threat IDs to be excepted from generating alerts. */
   threatExceptions?: StringList | undefined;
   /** Output only. [Output Only] Reserved for future use. */
+  satisfiesPzi?: boolean | undefined;
+  /** Required. The fully qualified URL of the network to which the IDS Endpoint is attached. */
+  network?: string | undefined;
+  /** Output only. [Output Only] Reserved for future use. */
   satisfiesPzs?: boolean | undefined;
-  /** The labels of the endpoint. */
-  labels?: StringMap | undefined;
+  /** Whether the endpoint should report traffic logs in addition to threat logs. */
+  trafficLogs?: boolean | undefined;
   /** User-provided description of the endpoint */
   description?: string | undefined;
+  /** Output only. Current state of the endpoint. */
+  state?: EndpointStateEnum | (string & {}) | undefined;
+  /** Output only. The create time timestamp. */
+  createTime?: string | undefined;
+  /** The labels of the endpoint. */
+  labels?: StringMap | undefined;
+  /** Output only. The fully qualified URL of the endpoint's ILB Forwarding Rule. */
+  endpointForwardingRule?: string | undefined;
   /** Output only. The IP address of the IDS Endpoint's ILB. */
   endpointIp?: string | undefined;
+  /** Required. Lowest threat severity that this endpoint will alert on. */
+  severity?: EndpointSeverityEnum | (string & {}) | undefined;
+  /** Output only. The update time timestamp. */
+  updateTime?: string | undefined;
+  /** Output only. The name of the endpoint. */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsEndpointsRequest extends Endpoint {
   /** Required. The endpoint's parent. */
@@ -151,25 +151,25 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
   metadata?: DocumentMap | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
 }
 export interface DeleteProjectsLocationsEndpointsRequest {
   /** Required. The name of the endpoint to delete. */
@@ -187,16 +187,16 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string | undefined;
-  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap | undefined;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string | undefined;
+  /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsEndpointsRequest {
   /** Required. The name of the endpoint to retrieve. Format: projects/{project}/locations/{location}/endpoints/{endpoint} */
@@ -207,16 +207,16 @@ export interface GetProjectsLocationsOperationsRequest {
   name: string;
 }
 export interface ListProjectsLocationsRequest {
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
+  /** The resource that owns the locations collection, if applicable. */
+  name: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
-  /** The resource that owns the locations collection, if applicable. */
-  name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string | undefined;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
@@ -229,53 +229,53 @@ export interface ListLocationsResponse {
 export interface ListProjectsLocationsEndpointsRequest {
   /** Optional. The filter expression, following the syntax outlined in https://google.aip.dev/160. */
   filter?: string | undefined;
-  /** Required. The parent, which owns this collection of endpoints. */
-  parent: string;
   /** Optional. The maximum number of endpoints to return. The service may return fewer than this value. */
   pageSize?: number | undefined;
   /** Optional. One or more fields to compare and use to sort the output. See https://google.aip.dev/132#ordering. */
   orderBy?: string | undefined;
   /** Optional. A page token, received from a previous `ListEndpoints` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListEndpoints` must match the call that provided the page token. */
   pageToken?: string | undefined;
+  /** Required. The parent, which owns this collection of endpoints. */
+  parent: string;
 }
 export type EndpointList = Array<Endpoint>;
 export interface ListEndpointsResponse {
+  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
+  nextPageToken?: string | undefined;
   /** The list of endpoints response. */
   endpoints?: EndpointList | undefined;
   /** Locations that could not be reached. */
   unreachable?: StringList | undefined;
-  /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
-  /** The standard list filter. */
-  filter?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
-  /** The standard List next-page token. */
-  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
   unreachable?: StringList | undefined;
+  /** The standard List next-page token. */
+  nextPageToken?: string | undefined;
 }
 export interface PatchProjectsLocationsEndpointsRequest extends Omit<Endpoint, "name"> {
   /** Output only. The name of the endpoint. */
   name: string;
-  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Field mask is used to specify the fields to be overwritten in the Endpoint resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
   updateMask?: string | undefined;
+  /** An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
@@ -513,11 +513,11 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           extraLocationTypes: S.optional(__S(44, __c11, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -543,10 +543,10 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -560,9 +560,9 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          nextPageToken: S.optional(S.String),
           endpoints: S.optional(__S(9, __c2, 1)),
           unreachable: S.optional(__S(44, __c11, 0)),
-          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListEndpointsResponse" });
   }
@@ -573,10 +573,10 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -591,8 +591,8 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           operations: S.optional(__S(13, __c3, 1)),
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(44, __c11, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -605,8 +605,8 @@ function __c4(j: number): any {
           __S(48, __c12, 0),
           S.Struct({
             name: S.String.pipe(T.Label()),
-            requestId: S.optional(S.String.pipe(T.Query())),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://ids.googleapis.com/" }),
@@ -665,19 +665,19 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          code: S.optional(S.Number),
           details: S.optional(__S(32, __c8, 0)),
+          code: S.optional(S.Number),
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(36, __c9, 0)),
           name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          error: S.optional(__S(33, __c8, 1)),
           metadata: S.optional(__S(36, __c9, 0)),
+          error: S.optional(__S(33, __c8, 1)),
+          response: S.optional(__S(36, __c9, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -705,20 +705,20 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createTime: S.optional(S.String),
-          endpointForwardingRule: S.optional(S.String),
-          state: S.optional(S.String),
-          trafficLogs: S.optional(S.Boolean),
-          network: S.optional(S.String),
-          severity: S.optional(S.String),
-          name: S.optional(S.String),
-          satisfiesPzi: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
           threatExceptions: S.optional(__S(44, __c11, 0)),
+          satisfiesPzi: S.optional(S.Boolean),
+          network: S.optional(S.String),
           satisfiesPzs: S.optional(S.Boolean),
-          labels: S.optional(__S(40, __c10, 0)),
+          trafficLogs: S.optional(S.Boolean),
           description: S.optional(S.String),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          labels: S.optional(__S(40, __c10, 0)),
+          endpointForwardingRule: S.optional(S.String),
           endpointIp: S.optional(S.String),
+          severity: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Endpoint" });
   }
@@ -765,11 +765,11 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
           labels: S.optional(__S(40, __c10, 0)),
+          name: S.optional(S.String),
           metadata: S.optional(__S(36, __c9, 0)),
           locationId: S.optional(S.String),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
   }

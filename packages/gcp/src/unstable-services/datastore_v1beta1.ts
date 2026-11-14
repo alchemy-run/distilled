@@ -83,6 +83,7 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type StringMap = { [key: string]: string | undefined };
 export type StringList = Array<string>;
 /** Identifies a subset of entities in a project. This is specified as combinations of kinds and namespaces (either or both of which may be all, as described in the following examples). Example usage: Entire project: kinds=[], namespace_ids=[] Kinds Foo and Bar in all namespaces: kinds=['Foo', 'Bar'], namespace_ids=[] Kinds Foo and Bar only in the default namespace: kinds=['Foo', 'Bar'], namespace_ids=[''] Kinds Foo and Bar in both the default and Baz namespaces: kinds=['Foo', 'Bar'], namespace_ids=['', 'Baz'] The entire Baz namespace: kinds=[], namespace_ids=['Baz'] */
 export interface GoogleDatastoreAdminV1beta1EntityFilter {
@@ -91,15 +92,14 @@ export interface GoogleDatastoreAdminV1beta1EntityFilter {
   /** An empty list represents all namespaces. This is the preferred usage for projects that don't use namespaces. An empty string element represents the default namespace. This should be used if the project has data in non-default namespaces, but doesn't want to include them. Each namespace in this list must be unique. */
   namespaceIds?: StringList | undefined;
 }
-export type StringMap = { [key: string]: string | undefined };
 /** The request for google.datastore.admin.v1beta1.DatastoreAdmin.ExportEntities. */
 export interface GoogleDatastoreAdminV1beta1ExportEntitiesRequest {
+  /** Client-assigned labels. */
+  labels?: StringMap | undefined;
   /** Description of what data from the project is included in the export. */
   entityFilter?: GoogleDatastoreAdminV1beta1EntityFilter | undefined;
   /** Location for the export metadata and data files. The full resource URL of the external storage location. Currently, only Google Cloud Storage is supported. So output_url_prefix should be of the form: `gs://BUCKET_NAME[/NAMESPACE_PATH]`, where `BUCKET_NAME` is the name of the Cloud Storage bucket and `NAMESPACE_PATH` is an optional Cloud Storage namespace path (this is not a Cloud Datastore namespace). For more information about Cloud Storage namespace paths, see [Object name considerations](https://cloud.google.com/storage/docs/naming#object-considerations). The resulting files will be nested deeper than the specified URL prefix. The final output URL will be provided in the google.datastore.admin.v1beta1.ExportEntitiesResponse.output_url field. That value should be used for subsequent ImportEntities operations. By nesting the data files deeper, the same Cloud Storage bucket can be used in multiple ExportEntities operations without conflict. */
   outputUrlPrefix?: string | undefined;
-  /** Client-assigned labels. */
-  labels?: StringMap | undefined;
 }
 export interface ExportProjectsRequest extends GoogleDatastoreAdminV1beta1ExportEntitiesRequest {
   /** Project ID against which to make the request. */
@@ -109,25 +109,25 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
-  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
+  /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
+  response?: DocumentMap | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
 }
 /** The request for google.datastore.admin.v1beta1.DatastoreAdmin.ImportEntities. */
 export interface GoogleDatastoreAdminV1beta1ImportEntitiesRequest {
@@ -182,9 +182,9 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          entityFilter: S.optional(__S(9, __c1, 1)),
+          labels: S.optional(__S(8, __c1, 0)),
+          entityFilter: S.optional(__S(10, __c1, 2)),
           outputUrlPrefix: S.optional(S.String),
-          labels: S.optional(__S(10, __c1, 2)),
         }),
       ).annotate({ identifier: "GoogleDatastoreAdminV1beta1ExportEntitiesRequest" });
     case 1:
@@ -207,16 +207,16 @@ function __c0(j: number): any {
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.Record(S.String, S.String);
     case 1:
+      return S.Array(S.String);
+    case 2:
       return S.suspend(() =>
         S.Struct({
-          kinds: S.optional(__S(8, __c1, 0)),
-          namespaceIds: S.optional(__S(8, __c1, 0)),
+          kinds: S.optional(__S(9, __c1, 1)),
+          namespaceIds: S.optional(__S(9, __c1, 1)),
         }),
       ).annotate({ identifier: "GoogleDatastoreAdminV1beta1EntityFilter" });
-    case 2:
-      return S.Record(S.String, S.String);
     case 3:
       return S.Record(S.String, S.Unknown);
     case 4:
@@ -224,19 +224,19 @@ function __c1(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
+          message: S.optional(S.String),
           code: S.optional(S.Number),
           details: S.optional(__S(12, __c1, 4)),
-          message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(13, __c1, 5)),
           name: S.optional(S.String),
-          metadata: S.optional(__S(11, __c1, 3)),
-          response: S.optional(__S(11, __c1, 3)),
           done: S.optional(S.Boolean),
+          error: S.optional(__S(13, __c1, 5)),
+          response: S.optional(__S(11, __c1, 3)),
+          metadata: S.optional(__S(11, __c1, 3)),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
   }
@@ -247,8 +247,8 @@ function __c2(j: number): any {
       return S.suspend(() =>
         S.Struct({
           inputUrl: S.optional(S.String),
-          entityFilter: S.optional(__S(9, __c1, 1)),
-          labels: S.optional(__S(10, __c1, 2)),
+          entityFilter: S.optional(__S(10, __c1, 2)),
+          labels: S.optional(__S(8, __c1, 0)),
         }),
       ).annotate({ identifier: "GoogleDatastoreAdminV1beta1ImportEntitiesRequest" });
     case 1:

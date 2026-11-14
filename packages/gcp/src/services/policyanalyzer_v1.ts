@@ -58,61 +58,61 @@ export class NotFound
   ) {}
 
 export interface QueryFoldersLocationsActivityTypesActivitiesRequest {
-  /** Optional. The maximum number of results to return from this request. Max limit is 1000. Non-positive values are ignored. The presence of `nextPageToken` in the response indicates that more results might be available. */
-  pageSize?: number | undefined;
   /** Required. The container resource on which to execute the request. Acceptable formats: `projects/[PROJECT_ID|PROJECT_NUMBER]/locations/[LOCATION]/activityTypes/[ACTIVITY_TYPE]` LOCATION here refers to Google Cloud Locations: https://cloud.google.com/about/locations/ */
   parent: string;
-  /** Optional. Filter expression to restrict the activities returned. For serviceAccountLastAuthentication activities, supported filters are: - `activities.full_resource_name {=} [STRING]` - `activities.fullResourceName {=} [STRING]` where `[STRING]` is the full resource name of the service account. For serviceAccountKeyLastAuthentication activities, supported filters are: - `activities.full_resource_name {=} [STRING]` - `activities.fullResourceName {=} [STRING]` where `[STRING]` is the full resource name of the service account key. */
-  filter?: string | undefined;
   /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. `pageToken` must be the value of `nextPageToken` from the previous response. The values of other method parameters should be identical to those in the previous call. */
   pageToken?: string | undefined;
+  /** Optional. Filter expression to restrict the activities returned. For serviceAccountLastAuthentication activities, supported filters are: - `activities.full_resource_name {=} [STRING]` - `activities.fullResourceName {=} [STRING]` where `[STRING]` is the full resource name of the service account. For serviceAccountKeyLastAuthentication activities, supported filters are: - `activities.full_resource_name {=} [STRING]` - `activities.fullResourceName {=} [STRING]` where `[STRING]` is the full resource name of the service account key. */
+  filter?: string | undefined;
+  /** Optional. The maximum number of results to return from this request. Max limit is 1000. Non-positive values are ignored. The presence of `nextPageToken` in the response indicates that more results might be available. */
+  pageSize?: number | undefined;
 }
 /** Represents data observation period. */
 export interface GoogleCloudPolicyanalyzerV1ObservationPeriod {
-  /** The observation start time. The time in this timestamp is always `07:00:00Z`. */
-  startTime?: string | undefined;
   /** The observation end time. The time in this timestamp is always `07:00:00Z`. */
   endTime?: string | undefined;
+  /** The observation start time. The time in this timestamp is always `07:00:00Z`. */
+  startTime?: string | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 /** Represents Activity on a GCP resource over specific observation period. */
 export interface GoogleCloudPolicyanalyzerV1Activity {
+  /** The data observation period to build the activity. */
+  observationPeriod?: GoogleCloudPolicyanalyzerV1ObservationPeriod | undefined;
   /** The type of the activity. */
   activityType?: string | undefined;
   /** The full resource name that identifies the resource. For examples of full resource names for Google Cloud services, see https://cloud.google.com/iam/help/troubleshooter/full-resource-names. */
   fullResourceName?: string | undefined;
-  /** The data observation period to build the activity. */
-  observationPeriod?: GoogleCloudPolicyanalyzerV1ObservationPeriod | undefined;
   /** A struct of custom fields to explain the activity. */
   activity?: DocumentMap | undefined;
 }
 export type GoogleCloudPolicyanalyzerV1ActivityList = Array<GoogleCloudPolicyanalyzerV1Activity>;
 /** Response to the `QueryActivity` method. */
 export interface GoogleCloudPolicyanalyzerV1QueryActivityResponse {
-  /** If there might be more results than those appearing in this response, then `nextPageToken` is included. To get the next set of results, call this method again using the value of `nextPageToken` as `pageToken`. */
-  nextPageToken?: string | undefined;
   /** The set of activities that match the filter included in the request. */
   activities?: GoogleCloudPolicyanalyzerV1ActivityList | undefined;
+  /** If there might be more results than those appearing in this response, then `nextPageToken` is included. To get the next set of results, call this method again using the value of `nextPageToken` as `pageToken`. */
+  nextPageToken?: string | undefined;
 }
 export interface QueryOrganizationsLocationsActivityTypesActivitiesRequest {
+  /** Optional. Filter expression to restrict the activities returned. For serviceAccountLastAuthentication activities, supported filters are: - `activities.full_resource_name {=} [STRING]` - `activities.fullResourceName {=} [STRING]` where `[STRING]` is the full resource name of the service account. For serviceAccountKeyLastAuthentication activities, supported filters are: - `activities.full_resource_name {=} [STRING]` - `activities.fullResourceName {=} [STRING]` where `[STRING]` is the full resource name of the service account key. */
+  filter?: string | undefined;
   /** Optional. The maximum number of results to return from this request. Max limit is 1000. Non-positive values are ignored. The presence of `nextPageToken` in the response indicates that more results might be available. */
   pageSize?: number | undefined;
   /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. `pageToken` must be the value of `nextPageToken` from the previous response. The values of other method parameters should be identical to those in the previous call. */
   pageToken?: string | undefined;
   /** Required. The container resource on which to execute the request. Acceptable formats: `projects/[PROJECT_ID|PROJECT_NUMBER]/locations/[LOCATION]/activityTypes/[ACTIVITY_TYPE]` LOCATION here refers to Google Cloud Locations: https://cloud.google.com/about/locations/ */
   parent: string;
-  /** Optional. Filter expression to restrict the activities returned. For serviceAccountLastAuthentication activities, supported filters are: - `activities.full_resource_name {=} [STRING]` - `activities.fullResourceName {=} [STRING]` where `[STRING]` is the full resource name of the service account. For serviceAccountKeyLastAuthentication activities, supported filters are: - `activities.full_resource_name {=} [STRING]` - `activities.fullResourceName {=} [STRING]` where `[STRING]` is the full resource name of the service account key. */
-  filter?: string | undefined;
 }
 export interface QueryProjectsLocationsActivityTypesActivitiesRequest {
   /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. `pageToken` must be the value of `nextPageToken` from the previous response. The values of other method parameters should be identical to those in the previous call. */
   pageToken?: string | undefined;
-  /** Optional. The maximum number of results to return from this request. Max limit is 1000. Non-positive values are ignored. The presence of `nextPageToken` in the response indicates that more results might be available. */
-  pageSize?: number | undefined;
-  /** Required. The container resource on which to execute the request. Acceptable formats: `projects/[PROJECT_ID|PROJECT_NUMBER]/locations/[LOCATION]/activityTypes/[ACTIVITY_TYPE]` LOCATION here refers to Google Cloud Locations: https://cloud.google.com/about/locations/ */
-  parent: string;
   /** Optional. Filter expression to restrict the activities returned. For serviceAccountLastAuthentication activities, supported filters are: - `activities.full_resource_name {=} [STRING]` - `activities.fullResourceName {=} [STRING]` where `[STRING]` is the full resource name of the service account. For serviceAccountKeyLastAuthentication activities, supported filters are: - `activities.full_resource_name {=} [STRING]` - `activities.fullResourceName {=} [STRING]` where `[STRING]` is the full resource name of the service account key. */
   filter?: string | undefined;
+  /** Required. The container resource on which to execute the request. Acceptable formats: `projects/[PROJECT_ID|PROJECT_NUMBER]/locations/[LOCATION]/activityTypes/[ACTIVITY_TYPE]` LOCATION here refers to Google Cloud Locations: https://cloud.google.com/about/locations/ */
+  parent: string;
+  /** Optional. The maximum number of results to return from this request. Max limit is 1000. Non-positive values are ignored. The presence of `nextPageToken` in the response indicates that more results might be available. */
+  pageSize?: number | undefined;
 }
 export type QueryFoldersLocationsActivityTypesActivitiesError = NotFound | Forbidden | GcpOpError;
 /** Queries policy activities on Google Cloud resources. */
@@ -184,10 +184,10 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -203,8 +203,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          startTime: S.optional(S.String),
           endTime: S.optional(S.String),
+          startTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicyanalyzerV1ObservationPeriod" });
     case 1:
@@ -212,9 +212,9 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          observationPeriod: S.optional(__S(8, __c1, 0)),
           activityType: S.optional(S.String),
           fullResourceName: S.optional(S.String),
-          observationPeriod: S.optional(__S(8, __c1, 0)),
           activity: S.optional(__S(9, __c1, 1)),
         }),
       ).annotate({ identifier: "GoogleCloudPolicyanalyzerV1Activity" });
@@ -223,8 +223,8 @@ function __c1(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           activities: S.optional(__S(11, __c1, 3)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleCloudPolicyanalyzerV1QueryActivityResponse" });
   }
@@ -234,10 +234,10 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -254,9 +254,9 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

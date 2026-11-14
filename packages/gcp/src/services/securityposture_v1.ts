@@ -111,26 +111,27 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
 }
+export type StringMap = { [key: string]: string | undefined };
 export type PostureDeploymentStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
@@ -140,7 +141,6 @@ export type PostureDeploymentStateEnum =
   | "CREATE_FAILED"
   | "UPDATE_FAILED"
   | "DELETE_FAILED";
-export type StringMap = { [key: string]: string | undefined };
 export type PostureDeploymentCategoriesItemEnum =
   | "CATEGORY_UNSPECIFIED"
   | "AI"
@@ -152,53 +152,73 @@ export type PostureDeploymentCategoriesItemEnumList = Array<
 >;
 /** Details for a Posture deployment on an organization, folder, or project. You can deploy at most one posture to each organization, folder, or project. The parent resource for a posture deployment is always the organization, even if the deployment applies to a folder or project. */
 export interface PostureDeployment {
-  /** Required. Identifier. The name of the posture deployment, in the format `organizations/{organization}/locations/global/postureDeployments/{deployment_id}`. */
-  name?: string | undefined;
-  /** Required. The posture used in the deployment, in the format `organizations/{organization}/locations/global/postures/{posture_id}`. */
-  postureId?: string | undefined;
-  /** Output only. The state of the posture deployment. */
-  state?: PostureDeploymentStateEnum | (string & {}) | undefined;
-  /** Required. The organization, folder, or project where the posture is deployed. Uses one of the following formats: * `organizations/{organization_number}` * `folders/{folder_number}` * `projects/{project_number}` */
-  targetResource?: string | undefined;
-  /** Required. The revision ID of the posture used in the deployment. */
-  postureRevisionId?: string | undefined;
-  /** Output only. The time at which the posture deployment was created. */
-  createTime?: string | undefined;
-  /** Optional. A description of the posture deployment. */
-  description?: string | undefined;
-  /** Output only. Whether the posture deployment is in the process of being updated. */
-  reconciling?: boolean | undefined;
-  /** Output only. The time at which the posture deployment was last updated. */
-  updateTime?: string | undefined;
   /** Optional. The user-specified annotations for the posture deployment. For details about the values you can use in an annotation, see [AIP-148: Standard fields](https://google.aip.dev/148#annotations). */
   annotations?: StringMap | undefined;
-  /** Output only. The posture ID that was specified for the deployment. Present only if the posture deployment is in a failed state. */
-  desiredPostureId?: string | undefined;
   /** Output only. The revision ID of the posture that was specified for the deployment. Present only if the deployment is in a failed state. */
   desiredPostureRevisionId?: string | undefined;
   /** Output only. A description of why the posture deployment failed. Present only if the deployment is in a failed state. */
   failureMessage?: string | undefined;
+  /** Output only. The state of the posture deployment. */
+  state?: PostureDeploymentStateEnum | (string & {}) | undefined;
+  /** Output only. The time at which the posture deployment was created. */
+  createTime?: string | undefined;
+  /** Required. The organization, folder, or project where the posture is deployed. Uses one of the following formats: * `organizations/{organization_number}` * `folders/{folder_number}` * `projects/{project_number}` */
+  targetResource?: string | undefined;
+  /** Required. The revision ID of the posture used in the deployment. */
+  postureRevisionId?: string | undefined;
   /** Optional. An opaque identifier for the current version of the posture deployment. To prevent concurrent updates from overwriting each other, always provide the `etag` when you update a posture deployment. You can also provide the `etag` when you delete a posture deployment, to help ensure that you're deleting the intended posture deployment. */
   etag?: string | undefined;
+  /** Required. Identifier. The name of the posture deployment, in the format `organizations/{organization}/locations/global/postureDeployments/{deployment_id}`. */
+  name?: string | undefined;
+  /** Required. The posture used in the deployment, in the format `organizations/{organization}/locations/global/postures/{posture_id}`. */
+  postureId?: string | undefined;
+  /** Output only. The time at which the posture deployment was last updated. */
+  updateTime?: string | undefined;
   /** Output only. The categories that the posture deployment belongs to, as determined by the Security Posture API. */
   categories?: PostureDeploymentCategoriesItemEnumList | undefined;
+  /** Output only. Whether the posture deployment is in the process of being updated. */
+  reconciling?: boolean | undefined;
+  /** Optional. A description of the posture deployment. */
+  description?: string | undefined;
+  /** Output only. The posture ID that was specified for the deployment. Present only if the posture deployment is in a failed state. */
+  desiredPostureId?: string | undefined;
 }
 export interface CreateOrganizationsLocationsPostureDeploymentsRequest extends PostureDeployment {
-  /** Required. An identifier for the posture deployment. */
-  postureDeploymentId?: string | undefined;
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
   parent: string;
+  /** Required. An identifier for the posture deployment. */
+  postureDeploymentId?: string | undefined;
 }
+export type PostureCategoriesItemEnum = "CATEGORY_UNSPECIFIED" | "AI" | "AWS" | "GCP" | "AZURE";
+export type PostureCategoriesItemEnumList = Array<PostureCategoriesItemEnum | (string & {})>;
+export type SecurityHealthAnalyticsModuleModuleEnablementStateEnum =
+  | "ENABLEMENT_STATE_UNSPECIFIED"
+  | "ENABLED"
+  | "DISABLED";
+/** A built-in detector for Security Health Analytics. */
+export interface SecurityHealthAnalyticsModule {
+  /** Required. The name of the detector. For example, `BIGQUERY_TABLE_CMEK_DISABLED`. This field is also used as the finding category for all the asset violation findings that the detector returns. */
+  moduleName?: string | undefined;
+  /** Whether the detector is enabled at a specified level of the resource hierarchy. */
+  moduleEnablementState?:
+    | SecurityHealthAnalyticsModuleModuleEnablementStateEnum
+    | (string & {})
+    | undefined;
+}
+export type SecurityHealthAnalyticsCustomModuleModuleEnablementStateEnum =
+  | "ENABLEMENT_STATE_UNSPECIFIED"
+  | "ENABLED"
+  | "DISABLED";
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string | undefined;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
   title?: string | undefined;
+  /** Textual representation of an expression in Common Expression Language syntax. */
+  expression?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
 }
 /** A name-value pair used as a custom source property. */
 export interface Property {
@@ -213,43 +233,35 @@ export interface CustomOutputSpec {
   /** Optional. The custom source properties that can appear in findings. */
   properties?: PropertyList | undefined;
 }
-export type CustomConfigSeverityEnum =
-  | "SEVERITY_UNSPECIFIED"
-  | "CRITICAL"
-  | "HIGH"
-  | "MEDIUM"
-  | "LOW";
 export type StringList = Array<string>;
 /** A selector for the resource types to run the detector on. */
 export interface ResourceSelector {
   /** Required. The resource types to run the detector on. Each custom module can specify up to 5 resource types. */
   resourceTypes?: StringList | undefined;
 }
+export type CustomConfigSeverityEnum =
+  | "SEVERITY_UNSPECIFIED"
+  | "CRITICAL"
+  | "HIGH"
+  | "MEDIUM"
+  | "LOW";
 /** A custom module configuration for Security Health Analytics. Use `CustomConfig` to create custom detectors that generate custom findings for resources that you specify. */
 export interface CustomConfig {
-  /** Required. The Common Expression Language (CEL) expression to evaluate. When the expression evaluates to `true` for a resource, a finding is generated. */
-  predicate?: Expr | undefined;
   /** Optional. Definitions of custom source properties to include in findings. */
   customOutput?: CustomOutputSpec | undefined;
+  /** Required. The Common Expression Language (CEL) expression to evaluate. When the expression evaluates to `true` for a resource, a finding is generated. */
+  predicate?: Expr | undefined;
+  /** Required. The resource types that the custom module operates on. */
+  resourceSelector?: ResourceSelector | undefined;
   /** Optional. A description of the vulnerability or misconfiguration that the custom module detects. The description appears in each finding. Provide enough information to help an investigator understand the finding. The value must be enclosed in quotation marks. */
   description?: string | undefined;
   /** Required. An explanation of the steps that security teams can take to resolve the detected issue. The explanation appears in each finding. */
   recommendation?: string | undefined;
   /** Required. The severity of findings generated by the custom module. */
   severity?: CustomConfigSeverityEnum | (string & {}) | undefined;
-  /** Required. The resource types that the custom module operates on. */
-  resourceSelector?: ResourceSelector | undefined;
 }
-export type SecurityHealthAnalyticsCustomModuleModuleEnablementStateEnum =
-  | "ENABLEMENT_STATE_UNSPECIFIED"
-  | "ENABLED"
-  | "DISABLED";
 /** A custom module for Security Health Analytics. */
 export interface SecurityHealthAnalyticsCustomModule {
-  /** Optional. The display name of the custom module. This value is used as the finding category for all the asset violation findings that the custom module returns. The display name must contain between 1 and 128 alphanumeric characters or underscores, and it must start with a lowercase letter. */
-  displayName?: string | undefined;
-  /** Required. Configuration settings for the custom module. */
-  config?: CustomConfig | undefined;
   /** Output only. Immutable. The unique identifier for the custom module. Contains 1 to 20 digits. */
   id?: string | undefined;
   /** Whether the custom module is enabled at a specified level of the resource hierarchy. */
@@ -257,40 +269,10 @@ export interface SecurityHealthAnalyticsCustomModule {
     | SecurityHealthAnalyticsCustomModuleModuleEnablementStateEnum
     | (string & {})
     | undefined;
-}
-export type GoogleCloudSecuritypostureV1CustomConstraintMethodTypesItemEnum =
-  | "METHOD_TYPE_UNSPECIFIED"
-  | "CREATE"
-  | "UPDATE"
-  | "DELETE";
-export type GoogleCloudSecuritypostureV1CustomConstraintMethodTypesItemEnumList = Array<
-  GoogleCloudSecuritypostureV1CustomConstraintMethodTypesItemEnum | (string & {})
->;
-export type GoogleCloudSecuritypostureV1CustomConstraintActionTypeEnum =
-  | "ACTION_TYPE_UNSPECIFIED"
-  | "ALLOW"
-  | "DENY";
-/** A custom, user-defined constraint. You can apply the constraint only to the resource types specified in the constraint, and only within the organization where the constraint is defined. _When you create a custom constraint, it is not enforced automatically._ You must use an organization policy to [enforce the constraint](https://cloud.google.com/resource-manager/help/organization-policy/constraints/enforce). */
-export interface GoogleCloudSecuritypostureV1CustomConstraint {
-  /** Immutable. The resource type that the constraint applies to, in the format `{canonical_service_name}/{resource_type_name}`. For example, `compute.googleapis.com/Instance`. */
-  resourceTypes?: StringList | undefined;
-  /** A Common Expression Language (CEL) condition expression that must evaluate to `true` for the constraint to be enforced. The maximum length is 1000 characters. For example: + `resource.instanceName.matches('(production|test)_(.+_)?[\d]+')`: Evaluates to `true` if the resource's `instanceName` attribute contains the following: + The prefix `production` or `test` + An underscore (`_`) + Optional: One or more characters, followed by an underscore (`_`) + One or more digits + `resource.management.auto_upgrade == true`: Evaluates to `true` if the resource's `management.auto_upgrade` attribute is `true`. */
-  condition?: string | undefined;
-  /** Output only. The last time at which the constraint was updated or created. */
-  updateTime?: string | undefined;
-  /** Immutable. The name of the constraint, in the format `organizations/{organization_id}/customConstraints/custom.{custom_constraint_id}`. For example, `organizations/123456789012/customConstraints/custom.createOnlyE2TypeVms`. Must contain 1 to 62 characters, excluding the prefix `organizations/{organization_id}/customConstraints/custom.`. */
-  name?: string | undefined;
-  /** The types of operations that the constraint applies to. */
-  methodTypes?: GoogleCloudSecuritypostureV1CustomConstraintMethodTypesItemEnumList | undefined;
-  /** A display name for the constraint. The maximum length is 200 characters. */
+  /** Required. Configuration settings for the custom module. */
+  config?: CustomConfig | undefined;
+  /** Optional. The display name of the custom module. This value is used as the finding category for all the asset violation findings that the custom module returns. The display name must contain between 1 and 128 alphanumeric characters or underscores, and it must start with a lowercase letter. */
   displayName?: string | undefined;
-  /** A description of the constraint. The maximum length is 2000 characters. */
-  description?: string | undefined;
-  /** Whether to allow or deny the action. */
-  actionType?:
-    | GoogleCloudSecuritypostureV1CustomConstraintActionTypeEnum
-    | (string & {})
-    | undefined;
 }
 /** Set multiple resource types for one policy, for example: ``` resourceTypes: included: - compute.googleapis.com/Instance - compute.googleapis.com/Disk ``` Constraint definition contains an empty resource type in order to support multiple resource types in the policy. Only supports managed constraints. Method type is `GOVERN_TAGS`. */
 export interface ResourceTypes {
@@ -306,8 +288,10 @@ export interface GoogleCloudSecuritypostureV1PolicyRuleStringValues {
 }
 /** A rule that defines the allowed and denied values for an organization policy constraint. */
 export interface GoogleCloudSecuritypostureV1PolicyRule {
-  /** Optional. Required for managed constraints if parameters are defined. Passes parameter values when policy enforcement is enabled. Ensure that parameter value types match those defined in the constraint definition. For example: ``` { "allowedLocations": ["us-east1", "us-west1"], "allowAll": true } ``` */
-  parameters?: DocumentMap | undefined;
+  /** Optional. The resource types policies can support, only used for managed constraints. Method type is `GOVERN_TAGS`. */
+  resourceTypes?: ResourceTypes | undefined;
+  /** The allowed and denied values for a list constraint. Valid only for list constraints. */
+  values?: GoogleCloudSecuritypostureV1PolicyRuleStringValues | undefined;
   /** Whether to deny all values for a list constraint. Valid only for list constraints. */
   denyAll?: boolean | undefined;
   /** Whether to enforce the constraint. Valid only for boolean constraints. */
@@ -316,34 +300,11 @@ export interface GoogleCloudSecuritypostureV1PolicyRule {
   allowAll?: boolean | undefined;
   /** A condition that determines whether this rule is used to evaluate the policy. When set, the google.type.Expr.expression field must contain 1 to 10 subexpressions, joined by the `||` or `&&` operators. Each subexpression must use the `resource.matchTag()`, `resource.matchTagId()`, `resource.hasTagKey()`, or `resource.hasTagKeyId()` Common Expression Language (CEL) function. The `resource.matchTag()` function takes the following arguments: * `key_name`: the namespaced name of the tag key, with the organization ID and a slash (`/`) as a prefix; for example, `123456789012/environment` * `value_name`: the short name of the tag value For example: `resource.matchTag('123456789012/environment, 'prod')` The `resource.matchTagId()` function takes the following arguments: * `key_id`: the permanent ID of the tag key; for example, `tagKeys/123456789012` * `value_id`: the permanent ID of the tag value; for example, `tagValues/567890123456` For example: `resource.matchTagId('tagKeys/123456789012', 'tagValues/567890123456')` The `resource.hasTagKey()` function takes the following argument: * `key_name`: the namespaced name of the tag key, with the organization ID and a slash (`/`) as a prefix; for example, `123456789012/environment` For example: `resource.hasTagKey('123456789012/environment')` The `resource.hasTagKeyId()` function takes the following arguments: * `key_id`: the permanent ID of the tag key; for example, `tagKeys/123456789012` For example: `resource.hasTagKeyId('tagKeys/123456789012')` */
   condition?: Expr | undefined;
-  /** Optional. The resource types policies can support, only used for managed constraints. Method type is `GOVERN_TAGS`. */
-  resourceTypes?: ResourceTypes | undefined;
-  /** The allowed and denied values for a list constraint. Valid only for list constraints. */
-  values?: GoogleCloudSecuritypostureV1PolicyRuleStringValues | undefined;
+  /** Optional. Required for managed constraints if parameters are defined. Passes parameter values when policy enforcement is enabled. Ensure that parameter value types match those defined in the constraint definition. For example: ``` { "allowedLocations": ["us-east1", "us-west1"], "allowAll": true } ``` */
+  parameters?: DocumentMap | undefined;
 }
 export type GoogleCloudSecuritypostureV1PolicyRuleList =
   Array<GoogleCloudSecuritypostureV1PolicyRule>;
-/** A custom organization policy constraint. */
-export interface OrgPolicyConstraintCustom {
-  /** Required. Metadata for the constraint. */
-  customConstraint?: GoogleCloudSecuritypostureV1CustomConstraint | undefined;
-  /** Required. The rules enforced by the constraint. */
-  policyRules?: GoogleCloudSecuritypostureV1PolicyRuleList | undefined;
-}
-export type SecurityHealthAnalyticsModuleModuleEnablementStateEnum =
-  | "ENABLEMENT_STATE_UNSPECIFIED"
-  | "ENABLED"
-  | "DISABLED";
-/** A built-in detector for Security Health Analytics. */
-export interface SecurityHealthAnalyticsModule {
-  /** Required. The name of the detector. For example, `BIGQUERY_TABLE_CMEK_DISABLED`. This field is also used as the finding category for all the asset violation findings that the detector returns. */
-  moduleName?: string | undefined;
-  /** Whether the detector is enabled at a specified level of the resource hierarchy. */
-  moduleEnablementState?:
-    | SecurityHealthAnalyticsModuleModuleEnablementStateEnum
-    | (string & {})
-    | undefined;
-}
 /** A predefined organization policy constraint. */
 export interface OrgPolicyConstraint {
   /** Required. The rules enforced by the constraint. */
@@ -351,16 +312,57 @@ export interface OrgPolicyConstraint {
   /** Required. A unique identifier for the constraint. */
   cannedConstraintId?: string | undefined;
 }
+export type GoogleCloudSecuritypostureV1CustomConstraintMethodTypesItemEnum =
+  | "METHOD_TYPE_UNSPECIFIED"
+  | "CREATE"
+  | "UPDATE"
+  | "DELETE";
+export type GoogleCloudSecuritypostureV1CustomConstraintMethodTypesItemEnumList = Array<
+  GoogleCloudSecuritypostureV1CustomConstraintMethodTypesItemEnum | (string & {})
+>;
+export type GoogleCloudSecuritypostureV1CustomConstraintActionTypeEnum =
+  | "ACTION_TYPE_UNSPECIFIED"
+  | "ALLOW"
+  | "DENY";
+/** A custom, user-defined constraint. You can apply the constraint only to the resource types specified in the constraint, and only within the organization where the constraint is defined. _When you create a custom constraint, it is not enforced automatically._ You must use an organization policy to [enforce the constraint](https://cloud.google.com/resource-manager/help/organization-policy/constraints/enforce). */
+export interface GoogleCloudSecuritypostureV1CustomConstraint {
+  /** The types of operations that the constraint applies to. */
+  methodTypes?: GoogleCloudSecuritypostureV1CustomConstraintMethodTypesItemEnumList | undefined;
+  /** Output only. The last time at which the constraint was updated or created. */
+  updateTime?: string | undefined;
+  /** A display name for the constraint. The maximum length is 200 characters. */
+  displayName?: string | undefined;
+  /** A description of the constraint. The maximum length is 2000 characters. */
+  description?: string | undefined;
+  /** Whether to allow or deny the action. */
+  actionType?:
+    | GoogleCloudSecuritypostureV1CustomConstraintActionTypeEnum
+    | (string & {})
+    | undefined;
+  /** A Common Expression Language (CEL) condition expression that must evaluate to `true` for the constraint to be enforced. The maximum length is 1000 characters. For example: + `resource.instanceName.matches('(production|test)_(.+_)?[\d]+')`: Evaluates to `true` if the resource's `instanceName` attribute contains the following: + The prefix `production` or `test` + An underscore (`_`) + Optional: One or more characters, followed by an underscore (`_`) + One or more digits + `resource.management.auto_upgrade == true`: Evaluates to `true` if the resource's `management.auto_upgrade` attribute is `true`. */
+  condition?: string | undefined;
+  /** Immutable. The name of the constraint, in the format `organizations/{organization_id}/customConstraints/custom.{custom_constraint_id}`. For example, `organizations/123456789012/customConstraints/custom.createOnlyE2TypeVms`. Must contain 1 to 62 characters, excluding the prefix `organizations/{organization_id}/customConstraints/custom.`. */
+  name?: string | undefined;
+  /** Immutable. The resource type that the constraint applies to, in the format `{canonical_service_name}/{resource_type_name}`. For example, `compute.googleapis.com/Instance`. */
+  resourceTypes?: StringList | undefined;
+}
+/** A custom organization policy constraint. */
+export interface OrgPolicyConstraintCustom {
+  /** Required. Metadata for the constraint. */
+  customConstraint?: GoogleCloudSecuritypostureV1CustomConstraint | undefined;
+  /** Required. The rules enforced by the constraint. */
+  policyRules?: GoogleCloudSecuritypostureV1PolicyRuleList | undefined;
+}
 /** Metadata for a constraint in a Policy. */
 export interface Constraint {
-  /** Optional. A custom module for Security Health Analytics. */
-  securityHealthAnalyticsCustomModule?: SecurityHealthAnalyticsCustomModule | undefined;
-  /** Optional. A custom organization policy constraint. */
-  orgPolicyConstraintCustom?: OrgPolicyConstraintCustom | undefined;
   /** Optional. A built-in detector for Security Health Analytics. */
   securityHealthAnalyticsModule?: SecurityHealthAnalyticsModule | undefined;
+  /** Optional. A custom module for Security Health Analytics. */
+  securityHealthAnalyticsCustomModule?: SecurityHealthAnalyticsCustomModule | undefined;
   /** Optional. A predefined organization policy constraint. */
   orgPolicyConstraint?: OrgPolicyConstraint | undefined;
+  /** Optional. A custom organization policy constraint. */
+  orgPolicyConstraintCustom?: OrgPolicyConstraintCustom | undefined;
 }
 /** Information about a compliance standard that the policy helps enforce. */
 export interface ComplianceStandard {
@@ -374,12 +376,12 @@ export type ComplianceStandardList = Array<ComplianceStandard>;
 export interface Policy {
   /** Required. The constraints that the policy includes. */
   constraint?: Constraint | undefined;
-  /** Optional. A description of the policy. */
-  description?: string | undefined;
   /** Required. A user-specified identifier for the policy. In a PolicySet, each policy must have a unique identifier. */
   policyId?: string | undefined;
   /** Optional. The compliance standards that the policy helps enforce. */
   complianceStandards?: ComplianceStandardList | undefined;
+  /** Optional. A description of the policy. */
+  description?: string | undefined;
 }
 export type PolicyList = Array<Policy>;
 /** A group of one or more Policy resources. */
@@ -392,33 +394,31 @@ export interface PolicySet {
   description?: string | undefined;
 }
 export type PolicySetList = Array<PolicySet>;
-export type PostureCategoriesItemEnum = "CATEGORY_UNSPECIFIED" | "AI" | "AWS" | "GCP" | "AZURE";
-export type PostureCategoriesItemEnumList = Array<PostureCategoriesItemEnum | (string & {})>;
 export type PostureStateEnum = "STATE_UNSPECIFIED" | "DEPRECATED" | "DRAFT" | "ACTIVE";
 /** The details of a posture. */
 export interface Posture {
+  /** Output only. Whether the posture is in the process of being updated. */
+  reconciling?: boolean | undefined;
   /** Output only. Immutable. An opaque eight-character string that identifies the revision of the posture. A posture can have multiple revisions; when you deploy a posture, you deploy a specific revision of the posture. */
   revisionId?: string | undefined;
-  /** Output only. The time at which the posture was last updated. */
-  updateTime?: string | undefined;
-  /** Required. Identifier. The name of the posture, in the format `organizations/{organization}/locations/global/postures/{posture_id}`. */
-  name?: string | undefined;
-  /** Output only. The time at which the posture was created. */
-  createTime?: string | undefined;
   /** Optional. A description of the posture. */
   description?: string | undefined;
+  /** Required. Identifier. The name of the posture, in the format `organizations/{organization}/locations/global/postures/{posture_id}`. */
+  name?: string | undefined;
+  /** Optional. An opaque identifier for the current version of the posture at the specified `revision_id`. To prevent concurrent updates from overwriting each other, always provide the `etag` when you update a posture. You can also provide the `etag` when you delete a posture, to help ensure that you're deleting the intended version of the posture. */
+  etag?: string | undefined;
+  /** Output only. The time at which the posture was created. */
+  createTime?: string | undefined;
+  /** Output only. The categories that the posture belongs to, as determined by the Security Posture API. */
+  categories?: PostureCategoriesItemEnumList | undefined;
+  /** Output only. The time at which the posture was last updated. */
+  updateTime?: string | undefined;
   /** Required. The PolicySet resources that the posture includes. */
   policySets?: PolicySetList | undefined;
   /** Optional. The user-specified annotations for the posture. For details about the values you can use in an annotation, see [AIP-148: Standard fields](https://google.aip.dev/148#annotations). */
   annotations?: StringMap | undefined;
-  /** Output only. The categories that the posture belongs to, as determined by the Security Posture API. */
-  categories?: PostureCategoriesItemEnumList | undefined;
   /** Required. The state of the posture at the specified `revision_id`. */
   state?: PostureStateEnum | (string & {}) | undefined;
-  /** Output only. Whether the posture is in the process of being updated. */
-  reconciling?: boolean | undefined;
-  /** Optional. An opaque identifier for the current version of the posture at the specified `revision_id`. To prevent concurrent updates from overwriting each other, always provide the `etag` when you update a posture. You can also provide the `etag` when you delete a posture, to help ensure that you're deleting the intended version of the posture. */
-  etag?: string | undefined;
 }
 export interface CreateOrganizationsLocationsPosturesRequest extends Posture {
   /** Required. An identifier for the posture. */
@@ -431,23 +431,23 @@ export interface DeleteOrganizationsLocationsOperationsRequest {
   name: string;
 }
 export interface DeleteOrganizationsLocationsPostureDeploymentsRequest {
-  /** Optional. An opaque identifier for the current version of the posture deployment. If you provide this value, then it must match the existing value. If the values don't match, then the request fails with an ABORTED error. If you omit this value, then the posture deployment is deleted regardless of its current `etag` value. */
-  etag?: string | undefined;
   /** Required. The name of the posture deployment, in the format `organizations/{organization}/locations/global/postureDeployments/{posture_id}`. */
   name: string;
+  /** Optional. An opaque identifier for the current version of the posture deployment. If you provide this value, then it must match the existing value. If the values don't match, then the request fails with an ABORTED error. If you omit this value, then the posture deployment is deleted regardless of its current `etag` value. */
+  etag?: string | undefined;
 }
 export interface DeleteOrganizationsLocationsPosturesRequest {
-  /** Optional. An opaque identifier for the current version of the posture. If you provide this value, then it must match the existing value. If the values don't match, then the request fails with an ABORTED error. If you omit this value, then the posture is deleted regardless of its current `etag` value. */
-  etag?: string | undefined;
   /** Required. The name of the Posture, in the format `organizations/{organization}/locations/global/postures/{posture_id}`. */
   name: string;
+  /** Optional. An opaque identifier for the current version of the posture. If you provide this value, then it must match the existing value. If the values don't match, then the request fails with an ABORTED error. If you omit this value, then the posture is deleted regardless of its current `etag` value. */
+  etag?: string | undefined;
 }
 /** Request message for ExtractPosture. */
 export interface ExtractPostureRequest {
-  /** Required. An identifier for the posture. */
-  postureId?: string | undefined;
   /** Required. The organization, folder, or project from which policies are extracted. Must be within the organization defined in parent. Use one of the following formats: * `organization/{organization_number}` * `folder/{folder_number}` * `project/{project_number}` */
   workload?: string | undefined;
+  /** Required. An identifier for the posture. */
+  postureId?: string | undefined;
 }
 export interface ExtractOrganizationsLocationsPosturesRequest extends ExtractPostureRequest {
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
@@ -459,14 +459,14 @@ export interface GetOrganizationsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
   labels?: StringMap | undefined;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string | undefined;
+  /** Service-specific metadata. For example the available capacity at the given location. */
+  metadata?: DocumentMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string | undefined;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
 }
@@ -479,10 +479,10 @@ export interface GetOrganizationsLocationsPostureDeploymentsRequest {
   name: string;
 }
 export interface GetOrganizationsLocationsPosturesRequest {
-  /** Optional. The posture revision to retrieve. If not specified, the most recently updated revision is retrieved. */
-  revisionId?: string | undefined;
   /** Required. The name of the Posture, in the format `organizations/{organization}/locations/global/postures/{posture_id}`. */
   name: string;
+  /** Optional. The posture revision to retrieve. If not specified, the most recently updated revision is retrieved. */
+  revisionId?: string | undefined;
 }
 export interface GetOrganizationsLocationsPostureTemplatesRequest {
   /** Required. The name of the PostureTemplate, in the format `organizations/{organization}/locations/global/postureTemplates/{posture_template}`. */
@@ -490,6 +490,7 @@ export interface GetOrganizationsLocationsPostureTemplatesRequest {
   /** Optional. The posture template revision to retrieve. If not specified, the most recently updated revision is retrieved. */
   revisionId?: string | undefined;
 }
+export type PostureTemplateStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DEPRECATED";
 export type PostureTemplateCategoriesItemEnum =
   | "CATEGORY_UNSPECIFIED"
   | "AI"
@@ -497,21 +498,20 @@ export type PostureTemplateCategoriesItemEnum =
   | "GCP"
   | "AZURE";
 export type PostureTemplateCategoriesItemEnumList = Array<PostureTemplateCategoriesItemEnum>;
-export type PostureTemplateStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "DEPRECATED";
 /** The details of a posture template. */
 export interface PostureTemplate {
-  /** Output only. The categories that the posture template belongs to, as determined by the Security Posture API. */
-  categories?: PostureTemplateCategoriesItemEnumList | undefined;
-  /** Output only. The PolicySet resources that the posture template includes. */
-  policySets?: PolicySetList | undefined;
-  /** Output only. A description of the posture template. */
-  description?: string | undefined;
   /** Output only. The state of the posture template at the specified `revision_id`. */
   state?: PostureTemplateStateEnum | undefined;
+  /** Output only. The PolicySet resources that the posture template includes. */
+  policySets?: PolicySetList | undefined;
   /** Output only. A string that identifies the revision of the posture template. */
   revisionId?: string | undefined;
+  /** Output only. A description of the posture template. */
+  description?: string | undefined;
   /** Output only. Identifier. The name of the posture template, in the format `organizations/{organization}/locations/global/postureTemplates/{posture_template}`. */
   name?: string | undefined;
+  /** Output only. The categories that the posture template belongs to, as determined by the Security Posture API. */
+  categories?: PostureTemplateCategoriesItemEnumList | undefined;
 }
 export interface GetOrganizationsLocationsReportsRequest {
   /** Required. The name of the report, in the format `organizations/{organization}/locations/global/reports/{report_id}`. */
@@ -528,13 +528,27 @@ export type PolicyDetailsConstraintTypeEnum =
 export interface PolicyDetails {
   /** A description of the policy. */
   description?: string | undefined;
-  /** Information about the constraint that was violated. The format of this information can change at any time without prior notice. Your application must not depend on this information in any way. */
-  constraint?: string | undefined;
-  /** The type of constraint that was violated. */
-  constraintType?: PolicyDetailsConstraintTypeEnum | undefined;
   /** The compliance standards that the policy maps to. For example, `CIS-2.0 1.15`. */
   complianceStandards?: StringList | undefined;
+  /** The type of constraint that was violated. */
+  constraintType?: PolicyDetailsConstraintTypeEnum | undefined;
+  /** Information about the constraint that was violated. The format of this information can change at any time without prior notice. Your application must not depend on this information in any way. */
+  constraint?: string | undefined;
 }
+/** Details of a posture deployment. */
+export interface PostureDetails {
+  /** The name of the posture deployment, in the format `organizations/{organization}/locations/global/postureDeployments/{deployment_id}`. */
+  postureDeployment?: string | undefined;
+  /** The posture used in the deployment, in the format `organizations/{organization}/locations/global/postures/{posture_id}`. */
+  posture?: string | undefined;
+  /** The identifier for the PolicySet that the relevant policy belongs to. */
+  policySet?: string | undefined;
+  /** The organization, folder, or project where the posture is deployed. Uses one of the following formats: * `organizations/{organization_number}` * `folders/{folder_number}` * `projects/{project_number}` */
+  postureDeploymentTargetResource?: string | undefined;
+  /** The revision ID of the posture used in the deployment. */
+  postureRevisionId?: string | undefined;
+}
+export type ViolationSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
 /** Details of a Cloud Asset Inventory asset that caused a violation. */
 export interface AssetDetails {
   /** Information about the Cloud Asset Inventory asset that violated a policy. The format of this information can change at any time without prior notice. Your application must not depend on this information in any way. */
@@ -542,67 +556,53 @@ export interface AssetDetails {
   /** The type of Cloud Asset Inventory asset. For a list of asset types, see [Supported asset types](https://cloud.google.com/asset-inventory/docs/supported-asset-types). */
   assetType?: string | undefined;
 }
-export type ViolationSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
-/** Details of a posture deployment. */
-export interface PostureDetails {
-  /** The identifier for the PolicySet that the relevant policy belongs to. */
-  policySet?: string | undefined;
-  /** The revision ID of the posture used in the deployment. */
-  postureRevisionId?: string | undefined;
-  /** The posture used in the deployment, in the format `organizations/{organization}/locations/global/postures/{posture_id}`. */
-  posture?: string | undefined;
-  /** The organization, folder, or project where the posture is deployed. Uses one of the following formats: * `organizations/{organization_number}` * `folders/{folder_number}` * `projects/{project_number}` */
-  postureDeploymentTargetResource?: string | undefined;
-  /** The name of the posture deployment, in the format `organizations/{organization}/locations/global/postureDeployments/{deployment_id}`. */
-  postureDeployment?: string | undefined;
-}
 /** Details of a violation. */
 export interface Violation {
   /** The full resource name of the asset that caused the violation. For details about the format of the full resource name for each asset type, see [Resource name format](https://cloud.google.com/asset-inventory/docs/resource-name-format). */
   assetId?: string | undefined;
   /** Details of the policy that was violated. */
   violatedPolicy?: PolicyDetails | undefined;
+  /** Details for the posture that was violated. This field is present only if the violated policy belongs to a deployed posture. */
+  violatedPosture?: PostureDetails | undefined;
+  /** A description of the steps that you can take to fix the violation. */
+  nextSteps?: string | undefined;
+  /** The severity of the violation. */
+  severity?: ViolationSeverityEnum | undefined;
   /** Details of the Cloud Asset Inventory asset that caused the violation. */
   violatedAsset?: AssetDetails | undefined;
   /** The policy that was violated. */
   policyId?: string | undefined;
-  /** The severity of the violation. */
-  severity?: ViolationSeverityEnum | undefined;
-  /** A description of the steps that you can take to fix the violation. */
-  nextSteps?: string | undefined;
-  /** Details for the posture that was violated. This field is present only if the violated policy belongs to a deployed posture. */
-  violatedPosture?: PostureDetails | undefined;
 }
 export type ViolationList = Array<Violation>;
 /** Details of an infrastructure-as-code (IaC) validation report. */
 export interface IaCValidationReport {
-  /** Additional information about the report. */
-  note?: string | undefined;
   /** A list of every Violation found in the IaC configuration. */
   violations?: ViolationList | undefined;
+  /** Additional information about the report. */
+  note?: string | undefined;
 }
 /** Details of a report. */
 export interface Report {
-  /** Required. The name of the report, in the format `organizations/{organization}/locations/global/reports/{report_id}`. */
-  name?: string | undefined;
-  /** Output only. An infrastructure-as-code (IaC) validation report. */
-  iacValidationReport?: IaCValidationReport | undefined;
   /** Output only. The time at which the report was created. */
   createTime?: string | undefined;
+  /** Output only. An infrastructure-as-code (IaC) validation report. */
+  iacValidationReport?: IaCValidationReport | undefined;
   /** Output only. The time at which the report was last updated. */
   updateTime?: string | undefined;
+  /** Required. The name of the report, in the format `organizations/{organization}/locations/global/reports/{report_id}`. */
+  name?: string | undefined;
 }
 export interface ListOrganizationsLocationsRequest {
-  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
   extraLocationTypes?: StringList | undefined;
-  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
   pageSize?: number | undefined;
+  /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
+  filter?: string | undefined;
+  /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
+  pageToken?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
@@ -613,56 +613,56 @@ export interface ListLocationsResponse {
   locations?: LocationList | undefined;
 }
 export interface ListOrganizationsLocationsOperationsRequest {
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
   /** The standard list filter. */
   filter?: string | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
   pageSize?: number | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList | undefined;
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
 }
 export interface ListOrganizationsLocationsPostureDeploymentsRequest {
   /** Optional. A pagination token returned from a previous request to list posture deployments. Provide this token to retrieve the next page of results. */
   pageToken?: string | undefined;
-  /** Optional. The maximum number of posture deployments to return. The default value is `500`. If you exceed the maximum value of `1000`, then the service uses the maximum value. */
-  pageSize?: number | undefined;
-  /** Optional. A filter to apply to the list of postures, in the format defined in [AIP-160: Filtering](https://google.aip.dev/160). */
-  filter?: string | undefined;
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
   parent: string;
+  /** Optional. A filter to apply to the list of postures, in the format defined in [AIP-160: Filtering](https://google.aip.dev/160). */
+  filter?: string | undefined;
+  /** Optional. The maximum number of posture deployments to return. The default value is `500`. If you exceed the maximum value of `1000`, then the service uses the maximum value. */
+  pageSize?: number | undefined;
 }
 export type PostureDeploymentList = Array<PostureDeployment>;
 /** Response message for ListPostureDeployments. */
 export interface ListPostureDeploymentsResponse {
-  /** The list of PostureDeployment resources. */
-  postureDeployments?: PostureDeploymentList | undefined;
-  /** A pagination token. To retrieve the next page of results, call the method again with this token. */
-  nextPageToken?: string | undefined;
   /** Locations that were temporarily unavailable and could not be reached. */
   unreachable?: StringList | undefined;
+  /** A pagination token. To retrieve the next page of results, call the method again with this token. */
+  nextPageToken?: string | undefined;
+  /** The list of PostureDeployment resources. */
+  postureDeployments?: PostureDeploymentList | undefined;
 }
 export interface ListOrganizationsLocationsPosturesRequest {
   /** A pagination token returned from a previous request to list postures. Provide this token to retrieve the next page of results. */
   pageToken?: string | undefined;
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
   parent: string;
-  /** The maximum number of postures to return. The default value is `500`. If you exceed the maximum value of `1000`, then the service uses the maximum value. */
-  pageSize?: number | undefined;
   /** Optional. A filter to apply to the list of postures, in the format defined in [AIP-160: Filtering](https://google.aip.dev/160). */
   filter?: string | undefined;
+  /** The maximum number of postures to return. The default value is `500`. If you exceed the maximum value of `1000`, then the service uses the maximum value. */
+  pageSize?: number | undefined;
 }
 export type PostureList = Array<Posture>;
 /** Response message for ListPostures. */
@@ -675,28 +675,28 @@ export interface ListPosturesResponse {
   unreachable?: StringList | undefined;
 }
 export interface ListOrganizationsLocationsPostureTemplatesRequest {
-  /** Optional. A filter to apply to the list of postures, in the format defined in [AIP-160: Filtering](https://google.aip.dev/160). */
-  filter?: string | undefined;
   /** Optional. The maximum number of posture templates to return. The default value is `500`. If you exceed the maximum value of `1000`, then the service uses the maximum value. */
   pageSize?: number | undefined;
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
   parent: string;
+  /** Optional. A filter to apply to the list of postures, in the format defined in [AIP-160: Filtering](https://google.aip.dev/160). */
+  filter?: string | undefined;
   /** Optional. A pagination token returned from a previous request to list posture templates. Provide this token to retrieve the next page of results. */
   pageToken?: string | undefined;
 }
 export type PostureTemplateList = Array<PostureTemplate>;
 /** Response message for ListPostureTemplates. */
 export interface ListPostureTemplatesResponse {
-  /** The list of PostureTemplate resources. */
-  postureTemplates?: PostureTemplateList | undefined;
   /** A pagination token. To retrieve the next page of results, call the method again with this token. */
   nextPageToken?: string | undefined;
+  /** The list of PostureTemplate resources. */
+  postureTemplates?: PostureTemplateList | undefined;
 }
 export interface ListOrganizationsLocationsReportsRequest {
-  /** Optional. A pagination token returned from a previous request to list reports. Provide this token to retrieve the next page of results. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of reports to return. The default value is `500`. If you exceed the maximum value of `1000`, then the service uses the maximum value. */
   pageSize?: number | undefined;
+  /** Optional. A pagination token returned from a previous request to list reports. Provide this token to retrieve the next page of results. */
+  pageToken?: string | undefined;
   /** Required. The parent resource name, in the format `organizations/{organization}/locations/global`. */
   parent: string;
   /** Optional. A filter to apply to the list of reports, in the format defined in [AIP-160: Filtering](https://google.aip.dev/160). */
@@ -705,20 +705,20 @@ export interface ListOrganizationsLocationsReportsRequest {
 export type ReportList = Array<Report>;
 /** Response message for ListReports. */
 export interface ListReportsResponse {
+  /** The list of Report resources. */
+  reports?: ReportList | undefined;
   /** Locations that were temporarily unavailable and could not be reached. */
   unreachable?: StringList | undefined;
   /** A pagination token. To retrieve the next page of results, call the method again with this token. */
   nextPageToken?: string | undefined;
-  /** The list of Report resources. */
-  reports?: ReportList | undefined;
 }
 export interface ListRevisionsOrganizationsLocationsPosturesRequest {
+  /** Optional. A pagination token from a previous request to list posture revisions. Provide this token to retrieve the next page of results. */
+  pageToken?: string | undefined;
   /** Required. The name of the Posture, in the format `organizations/{organization}/locations/global/postures/{posture_id}`. */
   name: string;
   /** Optional. The maximum number of posture revisions to return. The default value is `500`. If you exceed the maximum value of `1000`, then the service uses the maximum value. */
   pageSize?: number | undefined;
-  /** Optional. A pagination token from a previous request to list posture revisions. Provide this token to retrieve the next page of results. */
-  pageToken?: string | undefined;
 }
 /** Response message for ListPostureRevisions. */
 export interface ListPostureRevisionsResponse {
@@ -731,19 +731,19 @@ export interface PatchOrganizationsLocationsPostureDeploymentsRequest extends Om
   PostureDeployment,
   "name"
 > {
-  /** Required. Identifier. The name of the posture deployment, in the format `organizations/{organization}/locations/global/postureDeployments/{deployment_id}`. */
-  name: string;
   /** Required. The fields in the PostureDeployment to update. You can update only the following fields: * PostureDeployment.posture_id * PostureDeployment.posture_revision_id */
   updateMask?: string | undefined;
+  /** Required. Identifier. The name of the posture deployment, in the format `organizations/{organization}/locations/global/postureDeployments/{deployment_id}`. */
+  name: string;
 }
 export interface PatchOrganizationsLocationsPosturesRequest extends Omit<
   Posture,
   "revisionId" | "name"
 > {
-  /** Required. The fields in the Posture to update. You can update only the following fields: * Posture.description * Posture.policy_sets * Posture.state */
-  updateMask?: string | undefined;
   /** Required. Identifier. The name of the posture, in the format `organizations/{organization}/locations/global/postures/{posture_id}`. */
   name: string;
+  /** Required. The fields in the Posture to update. You can update only the following fields: * Posture.description * Posture.policy_sets * Posture.state */
+  updateMask?: string | undefined;
   /** Required. The revision ID of the posture to update. If the posture revision that you update is currently deployed, then a new revision of the posture is created. */
   revisionId?: string | undefined;
 }
@@ -1224,8 +1224,8 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          etag: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -1241,8 +1241,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          postureId: S.optional(S.String),
           workload: S.optional(S.String),
+          postureId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ExtractPostureRequest" });
     case 1:
@@ -1283,10 +1283,10 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(768, __c24, 0)),
           labels: S.optional(__S(896, __c28, 0)),
-          name: S.optional(S.String),
+          metadata: S.optional(__S(768, __c24, 0)),
           locationId: S.optional(S.String),
+          name: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
@@ -1329,8 +1329,8 @@ function __c6(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          revisionId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          revisionId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1363,12 +1363,12 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          categories: S.optional(__S(928, __c29, 0)),
-          policySets: S.optional(__S(1045, __c32, 21)),
-          description: S.optional(S.String),
           state: S.optional(S.String),
+          policySets: S.optional(__S(1045, __c32, 21)),
           revisionId: S.optional(S.String),
+          description: S.optional(S.String),
           name: S.optional(S.String),
+          categories: S.optional(__S(928, __c29, 0)),
         }),
       ).annotate({ identifier: "PostureTemplate" });
   }
@@ -1395,38 +1395,38 @@ function __c10(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          constraint: S.optional(S.String),
-          constraintType: S.optional(S.String),
           complianceStandards: S.optional(__S(992, __c31, 0)),
+          constraintType: S.optional(S.String),
+          constraint: S.optional(S.String),
         }),
       ).annotate({ identifier: "PolicyDetails" });
     case 1:
+      return S.suspend(() =>
+        S.Struct({
+          postureDeployment: S.optional(S.String),
+          posture: S.optional(S.String),
+          policySet: S.optional(S.String),
+          postureDeploymentTargetResource: S.optional(S.String),
+          postureRevisionId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PostureDetails" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           asset: S.optional(S.String),
           assetType: S.optional(S.String),
         }),
       ).annotate({ identifier: "AssetDetails" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          policySet: S.optional(S.String),
-          postureRevisionId: S.optional(S.String),
-          posture: S.optional(S.String),
-          postureDeploymentTargetResource: S.optional(S.String),
-          postureDeployment: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PostureDetails" });
     case 3:
       return S.suspend(() =>
         S.Struct({
           assetId: S.optional(S.String),
           violatedPolicy: S.optional(__S(320, __c10, 0)),
-          violatedAsset: S.optional(__S(321, __c10, 1)),
-          policyId: S.optional(S.String),
-          severity: S.optional(S.String),
+          violatedPosture: S.optional(__S(321, __c10, 1)),
           nextSteps: S.optional(S.String),
-          violatedPosture: S.optional(__S(322, __c10, 2)),
+          severity: S.optional(S.String),
+          violatedAsset: S.optional(__S(322, __c10, 2)),
+          policyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Violation" });
     case 4:
@@ -1434,17 +1434,17 @@ function __c10(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          note: S.optional(S.String),
           violations: S.optional(__S(324, __c10, 4)),
+          note: S.optional(S.String),
         }),
       ).annotate({ identifier: "IaCValidationReport" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          iacValidationReport: S.optional(__S(325, __c10, 5)),
           createTime: S.optional(S.String),
+          iacValidationReport: S.optional(__S(325, __c10, 5)),
           updateTime: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Report" });
   }
@@ -1454,11 +1454,11 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           extraLocationTypes: S.optional(__S(992, __c31, 0).pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1483,11 +1483,11 @@ function __c12(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1501,9 +1501,9 @@ function __c12(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(992, __c31, 0)),
-          operations: S.optional(__S(385, __c12, 1)),
           nextPageToken: S.optional(S.String),
+          operations: S.optional(__S(385, __c12, 1)),
+          unreachable: S.optional(__S(992, __c31, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -1514,9 +1514,9 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1530,9 +1530,9 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          postureDeployments: S.optional(__S(417, __c13, 1)),
-          nextPageToken: S.optional(S.String),
           unreachable: S.optional(__S(992, __c31, 0)),
+          nextPageToken: S.optional(S.String),
+          postureDeployments: S.optional(__S(417, __c13, 1)),
         }),
       ).annotate({ identifier: "ListPostureDeploymentsResponse" });
   }
@@ -1544,8 +1544,8 @@ function __c14(j: number): any {
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1575,9 +1575,9 @@ function __c16(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -1592,8 +1592,8 @@ function __c16(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          postureTemplates: S.optional(__S(513, __c16, 1)),
           nextPageToken: S.optional(S.String),
+          postureTemplates: S.optional(__S(513, __c16, 1)),
         }),
       ).annotate({ identifier: "ListPostureTemplatesResponse" });
   }
@@ -1603,8 +1603,8 @@ function __c17(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
@@ -1620,9 +1620,9 @@ function __c17(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          reports: S.optional(__S(545, __c17, 1)),
           unreachable: S.optional(__S(992, __c31, 0)),
           nextPageToken: S.optional(S.String),
-          reports: S.optional(__S(545, __c17, 1)),
         }),
       ).annotate({ identifier: "ListReportsResponse" });
   }
@@ -1632,9 +1632,9 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1659,8 +1659,8 @@ function __c19(j: number): any {
         S.Extend(
           __S(864, __c27, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -1679,8 +1679,8 @@ function __c20(j: number): any {
         S.Extend(
           __S(1056, __c33, 0),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
+            updateMask: S.optional(S.String.pipe(T.Query())),
             revisionId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
@@ -1760,19 +1760,19 @@ function __c25(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.Number),
           message: S.optional(S.String),
           details: S.optional(__S(800, __c25, 0)),
-          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(__S(768, __c24, 0)),
           error: S.optional(__S(801, __c25, 1)),
-          name: S.optional(S.String),
+          metadata: S.optional(__S(768, __c24, 0)),
           response: S.optional(__S(768, __c24, 0)),
           done: S.optional(S.Boolean),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -1784,8 +1784,8 @@ function __c26(j: number): any {
         S.Extend(
           __S(864, __c27, 0),
           S.Struct({
-            postureDeploymentId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            postureDeploymentId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -1802,21 +1802,21 @@ function __c27(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          postureId: S.optional(S.String),
-          state: S.optional(S.String),
-          targetResource: S.optional(S.String),
-          postureRevisionId: S.optional(S.String),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          updateTime: S.optional(S.String),
           annotations: S.optional(__S(896, __c28, 0)),
-          desiredPostureId: S.optional(S.String),
           desiredPostureRevisionId: S.optional(S.String),
           failureMessage: S.optional(S.String),
+          state: S.optional(S.String),
+          createTime: S.optional(S.String),
+          targetResource: S.optional(S.String),
+          postureRevisionId: S.optional(S.String),
           etag: S.optional(S.String),
+          name: S.optional(S.String),
+          postureId: S.optional(S.String),
+          updateTime: S.optional(S.String),
           categories: S.optional(__S(928, __c29, 0)),
+          reconciling: S.optional(S.Boolean),
+          description: S.optional(S.String),
+          desiredPostureId: S.optional(S.String),
         }),
       ).annotate({ identifier: "PostureDeployment" });
   }
@@ -1864,66 +1864,60 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          expression: S.optional(S.String),
-          description: S.optional(S.String),
-          title: S.optional(S.String),
-          location: S.optional(S.String),
+          moduleName: S.optional(S.String),
+          moduleEnablementState: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Expr" });
+      ).annotate({ identifier: "SecurityHealthAnalyticsModule" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          valueExpression: S.optional(__S(1024, __c32, 0)),
+          title: S.optional(S.String),
+          expression: S.optional(S.String),
+          location: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Expr" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          valueExpression: S.optional(__S(1025, __c32, 1)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Property" });
-    case 2:
-      return S.Array(__S(1025, __c32, 1));
     case 3:
+      return S.Array(__S(1026, __c32, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
-          properties: S.optional(__S(1026, __c32, 2)),
+          properties: S.optional(__S(1027, __c32, 3)),
         }),
       ).annotate({ identifier: "CustomOutputSpec" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           resourceTypes: S.optional(__S(992, __c31, 0)),
         }),
       ).annotate({ identifier: "ResourceSelector" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          predicate: S.optional(__S(1024, __c32, 0)),
-          customOutput: S.optional(__S(1027, __c32, 3)),
-          description: S.optional(S.String),
-          recommendation: S.optional(S.String),
-          severity: S.optional(S.String),
-          resourceSelector: S.optional(__S(1028, __c32, 4)),
-        }),
-      ).annotate({ identifier: "CustomConfig" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          config: S.optional(__S(1029, __c32, 5)),
-          id: S.optional(S.String),
-          moduleEnablementState: S.optional(S.String),
+          customOutput: S.optional(__S(1028, __c32, 4)),
+          predicate: S.optional(__S(1025, __c32, 1)),
+          resourceSelector: S.optional(__S(1029, __c32, 5)),
+          description: S.optional(S.String),
+          recommendation: S.optional(S.String),
+          severity: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SecurityHealthAnalyticsCustomModule" });
+      ).annotate({ identifier: "CustomConfig" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          resourceTypes: S.optional(__S(992, __c31, 0)),
-          condition: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          methodTypes: S.optional(__S(928, __c29, 0)),
+          id: S.optional(S.String),
+          moduleEnablementState: S.optional(S.String),
+          config: S.optional(__S(1030, __c32, 6)),
           displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          actionType: S.optional(S.String),
         }),
-      ).annotate({ identifier: "GoogleCloudSecuritypostureV1CustomConstraint" });
+      ).annotate({ identifier: "SecurityHealthAnalyticsCustomModule" });
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -1940,13 +1934,13 @@ function __c32(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          parameters: S.optional(__S(768, __c24, 0)),
+          resourceTypes: S.optional(__S(1032, __c32, 8)),
+          values: S.optional(__S(1033, __c32, 9)),
           denyAll: S.optional(S.Boolean),
           enforce: S.optional(S.Boolean),
           allowAll: S.optional(S.Boolean),
-          condition: S.optional(__S(1024, __c32, 0)),
-          resourceTypes: S.optional(__S(1032, __c32, 8)),
-          values: S.optional(__S(1033, __c32, 9)),
+          condition: S.optional(__S(1025, __c32, 1)),
+          parameters: S.optional(__S(768, __c24, 0)),
         }),
       ).annotate({ identifier: "GoogleCloudSecuritypostureV1PolicyRule" });
     case 11:
@@ -1954,31 +1948,37 @@ function __c32(j: number): any {
     case 12:
       return S.suspend(() =>
         S.Struct({
-          customConstraint: S.optional(__S(1031, __c32, 7)),
-          policyRules: S.optional(__S(1035, __c32, 11)),
-        }),
-      ).annotate({ identifier: "OrgPolicyConstraintCustom" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          moduleName: S.optional(S.String),
-          moduleEnablementState: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "SecurityHealthAnalyticsModule" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
           policyRules: S.optional(__S(1035, __c32, 11)),
           cannedConstraintId: S.optional(S.String),
         }),
       ).annotate({ identifier: "OrgPolicyConstraint" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          methodTypes: S.optional(__S(928, __c29, 0)),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          description: S.optional(S.String),
+          actionType: S.optional(S.String),
+          condition: S.optional(S.String),
+          name: S.optional(S.String),
+          resourceTypes: S.optional(__S(992, __c31, 0)),
+        }),
+      ).annotate({ identifier: "GoogleCloudSecuritypostureV1CustomConstraint" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          customConstraint: S.optional(__S(1037, __c32, 13)),
+          policyRules: S.optional(__S(1035, __c32, 11)),
+        }),
+      ).annotate({ identifier: "OrgPolicyConstraintCustom" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          securityHealthAnalyticsCustomModule: S.optional(__S(1030, __c32, 6)),
-          orgPolicyConstraintCustom: S.optional(__S(1036, __c32, 12)),
-          securityHealthAnalyticsModule: S.optional(__S(1037, __c32, 13)),
-          orgPolicyConstraint: S.optional(__S(1038, __c32, 14)),
+          securityHealthAnalyticsModule: S.optional(__S(1024, __c32, 0)),
+          securityHealthAnalyticsCustomModule: S.optional(__S(1031, __c32, 7)),
+          orgPolicyConstraint: S.optional(__S(1036, __c32, 12)),
+          orgPolicyConstraintCustom: S.optional(__S(1038, __c32, 14)),
         }),
       ).annotate({ identifier: "Constraint" });
     case 16:
@@ -1994,9 +1994,9 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           constraint: S.optional(__S(1039, __c32, 15)),
-          description: S.optional(S.String),
           policyId: S.optional(S.String),
           complianceStandards: S.optional(__S(1041, __c32, 17)),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Policy" });
     case 19:
@@ -2018,17 +2018,17 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          reconciling: S.optional(S.Boolean),
           revisionId: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          name: S.optional(S.String),
-          createTime: S.optional(S.String),
           description: S.optional(S.String),
+          name: S.optional(S.String),
+          etag: S.optional(S.String),
+          createTime: S.optional(S.String),
+          categories: S.optional(__S(928, __c29, 0)),
+          updateTime: S.optional(S.String),
           policySets: S.optional(__S(1045, __c32, 21)),
           annotations: S.optional(__S(896, __c28, 0)),
-          categories: S.optional(__S(928, __c29, 0)),
           state: S.optional(S.String),
-          reconciling: S.optional(S.Boolean),
-          etag: S.optional(S.String),
         }),
       ).annotate({ identifier: "Posture" });
   }
@@ -2054,8 +2054,8 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          etag: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          etag: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",

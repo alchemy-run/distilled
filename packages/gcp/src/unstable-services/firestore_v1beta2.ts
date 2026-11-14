@@ -83,43 +83,43 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export type GoogleFirestoreAdminV1beta2IndexQueryScopeEnum =
+  | "QUERY_SCOPE_UNSPECIFIED"
+  | "COLLECTION"
+  | "COLLECTION_GROUP";
 export type GoogleFirestoreAdminV1beta2IndexStateEnum =
   | "STATE_UNSPECIFIED"
   | "CREATING"
   | "READY"
   | "NEEDS_REPAIR";
+export type GoogleFirestoreAdminV1beta2IndexFieldArrayConfigEnum =
+  | "ARRAY_CONFIG_UNSPECIFIED"
+  | "CONTAINS";
 export type GoogleFirestoreAdminV1beta2IndexFieldOrderEnum =
   | "ORDER_UNSPECIFIED"
   | "ASCENDING"
   | "DESCENDING";
-export type GoogleFirestoreAdminV1beta2IndexFieldArrayConfigEnum =
-  | "ARRAY_CONFIG_UNSPECIFIED"
-  | "CONTAINS";
 /** A field in an index. The field_path describes which field is indexed, the value_mode describes how the field value is indexed. */
 export interface GoogleFirestoreAdminV1beta2IndexField {
+  /** Indicates that this field supports operations on `array_value`s. */
+  arrayConfig?: GoogleFirestoreAdminV1beta2IndexFieldArrayConfigEnum | (string & {}) | undefined;
   /** Indicates that this field supports ordering by the specified order or comparing using =, <, <=, >, >=. */
   order?: GoogleFirestoreAdminV1beta2IndexFieldOrderEnum | (string & {}) | undefined;
   /** Can be __name__. For single field indexes, this must match the name of the field or may be omitted. */
   fieldPath?: string | undefined;
-  /** Indicates that this field supports operations on `array_value`s. */
-  arrayConfig?: GoogleFirestoreAdminV1beta2IndexFieldArrayConfigEnum | (string & {}) | undefined;
 }
 export type GoogleFirestoreAdminV1beta2IndexFieldList =
   Array<GoogleFirestoreAdminV1beta2IndexField>;
-export type GoogleFirestoreAdminV1beta2IndexQueryScopeEnum =
-  | "QUERY_SCOPE_UNSPECIFIED"
-  | "COLLECTION"
-  | "COLLECTION_GROUP";
 /** Cloud Firestore indexes enable simple and complex queries against documents in a database. */
 export interface GoogleFirestoreAdminV1beta2Index {
-  /** Output only. A server defined name for this index. The form of this name for composite indexes will be: `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/indexes/{composite_index_id}` For single field indexes, this field will be empty. */
-  name?: string | undefined;
-  /** Output only. The serving state of the index. */
-  state?: GoogleFirestoreAdminV1beta2IndexStateEnum | (string & {}) | undefined;
-  /** The fields supported by this index. For composite indexes, this is always 2 or more fields. The last field entry is always for the field path `__name__`. If, on creation, `__name__` was not specified as the last field, it will be added automatically with the same direction as that of the last field defined. If the final field in a composite index is not directional, the `__name__` will be ordered ASCENDING (unless explicitly specified). For single field indexes, this will always be exactly one entry with a field path equal to the field path of the associated field. */
-  fields?: GoogleFirestoreAdminV1beta2IndexFieldList | undefined;
   /** Indexes with a collection query scope specified allow queries against a collection that is the child of a specific document, specified at query time, and that has the same collection id. Indexes with a collection group query scope specified allow queries against all collections descended from a specific document, specified at query time, and that have the same collection id as this index. */
   queryScope?: GoogleFirestoreAdminV1beta2IndexQueryScopeEnum | (string & {}) | undefined;
+  /** Output only. The serving state of the index. */
+  state?: GoogleFirestoreAdminV1beta2IndexStateEnum | (string & {}) | undefined;
+  /** Output only. A server defined name for this index. The form of this name for composite indexes will be: `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/indexes/{composite_index_id}` For single field indexes, this field will be empty. */
+  name?: string | undefined;
+  /** The fields supported by this index. For composite indexes, this is always 2 or more fields. The last field entry is always for the field path `__name__`. If, on creation, `__name__` was not specified as the last field, it will be added automatically with the same direction as that of the last field defined. If the final field in a composite index is not directional, the `__name__` will be ordered ASCENDING (unless explicitly specified). For single field indexes, this will always be exactly one entry with a field path equal to the field path of the associated field. */
+  fields?: GoogleFirestoreAdminV1beta2IndexFieldList | undefined;
 }
 export interface CreateProjectsDatabasesCollectionGroupsIndexesRequest extends GoogleFirestoreAdminV1beta2Index {
   /** A parent name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}` */
@@ -131,23 +131,23 @@ export type DocumentMapList = Array<DocumentMap>;
 export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
 }
 export interface DeleteProjectsDatabasesCollectionGroupsIndexesRequest {
   /** A name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/indexes/{index_id}` */
@@ -158,10 +158,10 @@ export interface Empty {}
 export type StringList = Array<string>;
 /** The request for FirestoreAdmin.ExportDocuments. */
 export interface GoogleFirestoreAdminV1beta2ExportDocumentsRequest {
-  /** The output URI. Currently only supports Google Cloud Storage URIs of the form: `gs://BUCKET_NAME[/NAMESPACE_PATH]`, where `BUCKET_NAME` is the name of the Google Cloud Storage bucket and `NAMESPACE_PATH` is an optional Google Cloud Storage namespace path. When choosing a name, be sure to consider Google Cloud Storage naming guidelines: https://cloud.google.com/storage/docs/naming. If the URI is a bucket (without a namespace path), a prefix will be generated based on the start time. */
-  outputUriPrefix?: string | undefined;
   /** Which collection ids to export. Unspecified means all collections. */
   collectionIds?: StringList | undefined;
+  /** The output URI. Currently only supports Google Cloud Storage URIs of the form: `gs://BUCKET_NAME[/NAMESPACE_PATH]`, where `BUCKET_NAME` is the name of the Google Cloud Storage bucket and `NAMESPACE_PATH` is an optional Google Cloud Storage namespace path. When choosing a name, be sure to consider Google Cloud Storage naming guidelines: https://cloud.google.com/storage/docs/naming. If the URI is a bucket (without a namespace path), a prefix will be generated based on the start time. */
+  outputUriPrefix?: string | undefined;
 }
 export interface ExportDocumentsProjectsDatabasesRequest extends GoogleFirestoreAdminV1beta2ExportDocumentsRequest {
   /** Database to export. Should be of the form: `projects/{project_id}/databases/{database_id}`. */
@@ -174,12 +174,12 @@ export interface GetProjectsDatabasesCollectionGroupsFieldsRequest {
 export type GoogleFirestoreAdminV1beta2IndexList = Array<GoogleFirestoreAdminV1beta2Index>;
 /** The index configuration for this field. */
 export interface GoogleFirestoreAdminV1beta2IndexConfig {
-  /** Output only When true, the `Field`'s index configuration is in the process of being reverted. Once complete, the index config will transition to the same state as the field specified by `ancestor_field`, at which point `uses_ancestor_config` will be `true` and `reverting` will be `false`. */
-  reverting?: boolean | undefined;
   /** Output only. When true, the `Field`'s index configuration is set from the configuration specified by the `ancestor_field`. When false, the `Field`'s index configuration is defined explicitly. */
   usesAncestorConfig?: boolean | undefined;
   /** Output only. Specifies the resource name of the `Field` from which this field's index configuration is set (when `uses_ancestor_config` is true), or from which it *would* be set if this field had no index configuration (when `uses_ancestor_config` is false). */
   ancestorField?: string | undefined;
+  /** Output only When true, the `Field`'s index configuration is in the process of being reverted. Once complete, the index config will transition to the same state as the field specified by `ancestor_field`, at which point `uses_ancestor_config` will be `true` and `reverting` will be `false`. */
+  reverting?: boolean | undefined;
   /** The indexes supported for this field. */
   indexes?: GoogleFirestoreAdminV1beta2IndexList | undefined;
 }
@@ -206,14 +206,14 @@ export interface ImportDocumentsProjectsDatabasesRequest extends GoogleFirestore
   name: string;
 }
 export interface ListProjectsDatabasesCollectionGroupsFieldsRequest {
-  /** The number of results to return. */
-  pageSize?: number | undefined;
   /** A page token, returned from a previous call to FirestoreAdmin.ListFields, that may be used to get the next page of results. */
   pageToken?: string | undefined;
-  /** A parent name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}` */
-  parent: string;
+  /** The number of results to return. */
+  pageSize?: number | undefined;
   /** The filter to apply to list results. Currently, FirestoreAdmin.ListFields only supports listing fields that have been explicitly overridden. To issue this query, call FirestoreAdmin.ListFields with the filter set to `indexConfig.usesAncestorConfig:false`. */
   filter?: string | undefined;
+  /** A parent name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}` */
+  parent: string;
 }
 export type GoogleFirestoreAdminV1beta2FieldList = Array<GoogleFirestoreAdminV1beta2Field>;
 /** The response for FirestoreAdmin.ListFields. */
@@ -224,30 +224,30 @@ export interface GoogleFirestoreAdminV1beta2ListFieldsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsDatabasesCollectionGroupsIndexesRequest {
-  /** A parent name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}` */
-  parent: string;
-  /** The filter to apply to list results. */
-  filter?: string | undefined;
   /** A page token, returned from a previous call to FirestoreAdmin.ListIndexes, that may be used to get the next page of results. */
   pageToken?: string | undefined;
+  /** The filter to apply to list results. */
+  filter?: string | undefined;
   /** The number of results to return. */
   pageSize?: number | undefined;
+  /** A parent name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}` */
+  parent: string;
 }
 /** The response for FirestoreAdmin.ListIndexes. */
 export interface GoogleFirestoreAdminV1beta2ListIndexesResponse {
-  /** A page token that may be used to request another page of results. If blank, this is the last page. */
-  nextPageToken?: string | undefined;
   /** The requested indexes. */
   indexes?: GoogleFirestoreAdminV1beta2IndexList | undefined;
+  /** A page token that may be used to request another page of results. If blank, this is the last page. */
+  nextPageToken?: string | undefined;
 }
 export interface PatchProjectsDatabasesCollectionGroupsFieldsRequest extends Omit<
   GoogleFirestoreAdminV1beta2Field,
   "name"
 > {
-  /** A field name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_path}` A field path may be a simple field name, e.g. `address` or a path to fields within map_value , e.g. `address.city`, or a special field path. The only valid special field is `*`, which represents any field. Field paths may be quoted using ` (backtick). The only character that needs to be escaped within a quoted field path is the backtick character itself, escaped using a backslash. Special characters in field paths that must be quoted include: `*`, `.`, ``` (backtick), `[`, `]`, as well as any ascii symbolic characters. Examples: (Note: Comments here are written in markdown syntax, so there is an additional layer of backticks to represent a code block) `\`address.city\`` represents a field named `address.city`, not the map key `city` in the field `address`. `\`*\`` represents a field named `*`, not any field. A special `Field` contains the default indexing settings for all fields. This field's resource name is: `projects/{project_id}/databases/{database_id}/collectionGroups/__default__/fields/*` Indexes defined on this `Field` will be applied to all fields which do not have their own `Field` index configuration. */
-  name: string;
   /** A mask, relative to the field. If specified, only configuration specified by this field_mask will be updated in the field. */
   updateMask?: string | undefined;
+  /** A field name of the form `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_path}` A field path may be a simple field name, e.g. `address` or a path to fields within map_value , e.g. `address.city`, or a special field path. The only valid special field is `*`, which represents any field. Field paths may be quoted using ` (backtick). The only character that needs to be escaped within a quoted field path is the backtick character itself, escaped using a backslash. Special characters in field paths that must be quoted include: `*`, `.`, ``` (backtick), `[`, `]`, as well as any ascii symbolic characters. Examples: (Note: Comments here are written in markdown syntax, so there is an additional layer of backticks to represent a code block) `\`address.city\`` represents a field named `address.city`, not the map key `city` in the field `address`. `\`*\`` represents a field named `*`, not any field. A special `Field` contains the default indexing settings for all fields. This field's resource name is: `projects/{project_id}/databases/{database_id}/collectionGroups/__default__/fields/*` Indexes defined on this `Field` will be applied to all fields which do not have their own `Field` index configuration. */
+  name: string;
 }
 export type CreateProjectsDatabasesCollectionGroupsIndexesError =
   | NotFound
@@ -437,10 +437,10 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -465,10 +465,10 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -480,8 +480,8 @@ function __c1(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           indexes: S.optional(__S(40, __c10, 0)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirestoreAdminV1beta2ListIndexesResponse" });
   }
@@ -493,8 +493,8 @@ function __c2(j: number): any {
         S.Extend(
           __S(45, __c11, 1),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -535,18 +535,18 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           details: S.optional(__S(17, __c4, 1)),
-          code: S.optional(S.Number),
           message: S.optional(S.String),
+          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          metadata: S.optional(__S(16, __c4, 0)),
           error: S.optional(__S(18, __c4, 2)),
-          done: S.optional(S.Boolean),
           response: S.optional(__S(16, __c4, 0)),
+          metadata: S.optional(__S(16, __c4, 0)),
+          name: S.optional(S.String),
+          done: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GoogleLongrunningOperation" });
   }
@@ -556,9 +556,9 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          arrayConfig: S.optional(S.String),
           order: S.optional(S.String),
           fieldPath: S.optional(S.String),
-          arrayConfig: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirestoreAdminV1beta2IndexField" });
     case 1:
@@ -566,10 +566,10 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          state: S.optional(S.String),
-          fields: S.optional(__S(21, __c5, 1)),
           queryScope: S.optional(S.String),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+          fields: S.optional(__S(21, __c5, 1)),
         }),
       ).annotate({ identifier: "GoogleFirestoreAdminV1beta2Index" });
   }
@@ -597,8 +597,8 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          outputUriPrefix: S.optional(S.String),
           collectionIds: S.optional(__S(32, __c8, 0)),
+          outputUriPrefix: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleFirestoreAdminV1beta2ExportDocumentsRequest" });
     case 1:
@@ -651,9 +651,9 @@ function __c11(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          reverting: S.optional(S.Boolean),
           usesAncestorConfig: S.optional(S.Boolean),
           ancestorField: S.optional(S.String),
+          reverting: S.optional(S.Boolean),
           indexes: S.optional(__S(40, __c10, 0)),
         }),
       ).annotate({ identifier: "GoogleFirestoreAdminV1beta2IndexConfig" });

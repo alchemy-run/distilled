@@ -92,10 +92,10 @@ export interface OutputConfig {
 export interface TraceSink {
   /** Output only. A service account name for exporting the data. This field is set by sinks.create and sinks.update. The service account will need to be granted write access to the destination specified in the output configuration, see [Granting access for a resource](/iam/docs/granting-roles-to-service-accounts#granting_access_to_a_service_account_for_a_resource). To create tables and to write data, this account needs the `dataEditor` role. Read more about roles in the [BigQuery documentation](https://cloud.google.com/bigquery/docs/access-control). E.g.: "service-00000001@00000002.iam.gserviceaccount.com" */
   writerIdentity?: string | undefined;
-  /** Identifier. The canonical sink resource name, unique within the project. Must be of the form: projects/[PROJECT_NUMBER]/traceSinks/[SINK_ID]. E.g.: `"projects/12345/traceSinks/my-project-trace-sink"`. Sink identifiers are limited to 256 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, and periods. */
-  name?: string | undefined;
   /** Required. The export destination. */
   outputConfig?: OutputConfig | undefined;
+  /** Identifier. The canonical sink resource name, unique within the project. Must be of the form: projects/[PROJECT_NUMBER]/traceSinks/[SINK_ID]. E.g.: `"projects/12345/traceSinks/my-project-trace-sink"`. Sink identifiers are limited to 256 characters and can include only the following characters: upper and lower-case alphanumeric characters, underscores, hyphens, and periods. */
+  name?: string | undefined;
 }
 export interface CreateProjectsTraceSinksRequest extends TraceSink {
   /** Required. The resource in which to create the sink (currently only project sinks are supported): "projects/[PROJECT_ID]" Examples: `"projects/my-trace-project"`, `"projects/123456789"`. */
@@ -112,12 +112,12 @@ export interface GetProjectsTraceSinksRequest {
   name: string;
 }
 export interface ListProjectsTraceSinksRequest {
+  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. */
+  pageSize?: number | undefined;
   /** Optional. If present, then retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of other method parameters should be identical to those in the previous call. */
   pageToken?: string | undefined;
   /** Required. The parent resource whose sinks are to be listed (currently only project parent resources are supported): "projects/[PROJECT_ID]" */
   parent: string;
-  /** Optional. The maximum number of results to return from this request. Non-positive values are ignored. The presence of `next_page_token` in the response indicates that more results might be available. */
-  pageSize?: number | undefined;
 }
 export type TraceSinkList = Array<TraceSink>;
 /** Result returned from `ListTraceSinks`. */
@@ -267,8 +267,8 @@ function __c1(j: number): any {
       return S.suspend(() =>
         S.Struct({
           writerIdentity: S.optional(S.String),
-          name: S.optional(S.String),
           outputConfig: S.optional(__S(4, __c1, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "TraceSink" });
   }
@@ -312,9 +312,9 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",

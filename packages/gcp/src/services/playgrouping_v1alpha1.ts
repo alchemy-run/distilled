@@ -85,16 +85,16 @@ export class NotFound
 
 /** A tag is associated with exactly one package name and user. */
 export interface Tag {
-  /** A signed 64-bit integer value of the tag. */
-  int64Value?: string | undefined;
-  /** A time value of the tag. */
-  timeValue?: string | undefined;
-  /** A boolean value of the tag. */
-  booleanValue?: boolean | undefined;
   /** Required. Key for the tag. */
   key?: string | undefined;
   /** A string value of the tag. */
   stringValue?: string | undefined;
+  /** A time value of the tag. */
+  timeValue?: string | undefined;
+  /** A boolean value of the tag. */
+  booleanValue?: boolean | undefined;
+  /** A signed 64-bit integer value of the tag. */
+  int64Value?: string | undefined;
 }
 export type TagList = Array<Tag>;
 /** Request message for CreateOrUpdateTags. VerifyToken. */
@@ -171,11 +171,11 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          int64Value: S.optional(S.String),
-          timeValue: S.optional(S.String),
-          booleanValue: S.optional(S.Boolean),
           key: S.optional(S.String),
           stringValue: S.optional(S.String),
+          timeValue: S.optional(S.String),
+          booleanValue: S.optional(S.Boolean),
+          int64Value: S.optional(S.String),
         }),
       ).annotate({ identifier: "Tag" });
     case 1:

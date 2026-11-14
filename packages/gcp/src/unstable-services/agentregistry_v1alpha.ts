@@ -96,12 +96,12 @@ export interface Empty {}
 export type StringList = Array<string>;
 /** The AuthProvider of the Binding. */
 export interface AuthProviderBinding {
+  /** Required. The resource name of the target AuthProvider. Format: * `projects/{project}/locations/{location}/authProviders/{auth_provider}` */
+  authProvider?: string | undefined;
   /** Optional. The list of OAuth2 scopes of the AuthProvider. */
   scopes?: StringList | undefined;
   /** Optional. The continue URI of the AuthProvider. The URI is used to reauthenticate the user and finalize the managed OAuth flow. */
   continueUri?: string | undefined;
-  /** Required. The resource name of the target AuthProvider. Format: * `projects/{project}/locations/{location}/authProviders/{auth_provider}` */
-  authProvider?: string | undefined;
 }
 /** The target of the Binding. */
 export interface Target {
@@ -115,30 +115,30 @@ export interface Source {
 }
 /** Represents a user-defined Binding. */
 export interface Binding {
-  /** The binding for AuthProvider. */
-  authProviderBinding?: AuthProviderBinding | undefined;
   /** Required. Identifier. The resource name of the Binding. Format: `projects/{project}/locations/{location}/bindings/{binding}`. */
   name?: string | undefined;
+  /** The binding for AuthProvider. */
+  authProviderBinding?: AuthProviderBinding | undefined;
   /** Required. The target Agent Registry Resource of the Binding. */
   target?: Target | undefined;
-  /** Output only. Timestamp when this binding was last updated. */
-  updateTime?: string | undefined;
-  /** Optional. The source Agent of the Binding. */
-  source?: Source | undefined;
-  /** Output only. Timestamp when this binding was created. */
-  createTime?: string | undefined;
-  /** Optional. User-defined display name for the Binding. Can have a maximum length of `63` characters. */
-  displayName?: string | undefined;
   /** Optional. User-defined description of a Binding. Can have a maximum length of `2048` characters. */
   description?: string | undefined;
+  /** Optional. User-defined display name for the Binding. Can have a maximum length of `63` characters. */
+  displayName?: string | undefined;
+  /** Output only. Timestamp when this binding was created. */
+  createTime?: string | undefined;
+  /** Optional. The source Agent of the Binding. */
+  source?: Source | undefined;
+  /** Output only. Timestamp when this binding was last updated. */
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsBindingsRequest extends Binding {
+  /** Required. The project and location to create the Binding in. Expected format: `projects/{project}/locations/{location}`. */
+  parent: string;
   /** Required. The ID to use for the binding, which will become the final component of the binding's resource name. This value should be 4-63 characters, and must conform to RFC-1034. Specifically, it must match the regular expression `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$`. */
   bindingId?: string | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
-  /** Required. The project and location to create the Binding in. Expected format: `projects/{project}/locations/{location}`. */
-  parent: string;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
@@ -153,32 +153,16 @@ export interface Status {
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
-}
-export type EndpointSpecTypeEnum = "TYPE_UNSPECIFIED" | "NO_SPEC";
-/** The spec of the endpoint. */
-export interface EndpointSpec {
-  /** Optional. The content of the endpoint spec. Reserved for future use. */
-  content?: DocumentMap | undefined;
-  /** Required. Immutable. The type of the endpoint spec content. */
-  type?: EndpointSpecTypeEnum | (string & {}) | undefined;
-}
-export type McpServerSpecTypeEnum = "TYPE_UNSPECIFIED" | "NO_SPEC" | "TOOL_SPEC";
-/** The spec of the MCP Server. */
-export interface McpServerSpec {
-  /** Required. Immutable. The type of the MCP Server spec content. */
-  type?: McpServerSpecTypeEnum | (string & {}) | undefined;
-  /** Optional. The content of the MCP Server spec. This payload is validated against the schema for the specified type. The content size is limited to `10KB`. */
-  content?: DocumentMap | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
 }
 export type InterfaceProtocolBindingEnum =
   | "PROTOCOL_BINDING_UNSPECIFIED"
@@ -193,45 +177,82 @@ export interface Interface {
   url?: string | undefined;
 }
 export type InterfaceList = Array<Interface>;
+export type EndpointSpecTypeEnum = "TYPE_UNSPECIFIED" | "NO_SPEC";
+/** The spec of the endpoint. */
+export interface EndpointSpec {
+  /** Optional. The content of the endpoint spec. Reserved for future use. */
+  content?: DocumentMap | undefined;
+  /** Required. Immutable. The type of the endpoint spec content. */
+  type?: EndpointSpecTypeEnum | (string & {}) | undefined;
+}
+export type McpServerSpecTypeEnum = "TYPE_UNSPECIFIED" | "NO_SPEC" | "TOOL_SPEC";
+/** The spec of the MCP Server. */
+export interface McpServerSpec {
+  /** Optional. The content of the MCP Server spec. This payload is validated against the schema for the specified type. The content size is limited to `10KB`. */
+  content?: DocumentMap | undefined;
+  /** Required. Immutable. The type of the MCP Server spec content. */
+  type?: McpServerSpecTypeEnum | (string & {}) | undefined;
+}
 export type AgentSpecTypeEnum = "TYPE_UNSPECIFIED" | "NO_SPEC" | "A2A_AGENT_CARD";
 /** The spec of the agent. */
 export interface AgentSpec {
-  /** Optional. The content of the Agent spec in the JSON format. This payload is validated against the schema for the specified type. The content size is limited to `10KB`. */
-  content?: DocumentMap | undefined;
   /** Required. Immutable. The type of the agent spec content. */
   type?: AgentSpecTypeEnum | (string & {}) | undefined;
+  /** Optional. The content of the Agent spec in the JSON format. This payload is validated against the schema for the specified type. The content size is limited to `10KB`. */
+  content?: DocumentMap | undefined;
 }
 /** Represents a user-defined Service. */
 export interface Service {
-  /** Output only. Update time. */
-  updateTime?: string | undefined;
-  /** Optional. The spec of the Endpoint. When `endpoint_spec` is set, the type of the service is Endpoint. */
-  endpointSpec?: EndpointSpec | undefined;
-  /** Optional. The spec of the MCP Server. When `mcp_server_spec` is set, the type of the service is MCP Server. */
-  mcpServerSpec?: McpServerSpec | undefined;
-  /** Output only. Create time. */
-  createTime?: string | undefined;
-  /** Optional. User-defined description of an Service. Can have a maximum length of `2048` characters. */
-  description?: string | undefined;
   /** Identifier. The resource name of the Service. Format: `projects/{project}/locations/{location}/services/{service}`. */
   name?: string | undefined;
   /** Optional. The connection details for the Service. */
   interfaces?: InterfaceList | undefined;
-  /** Output only. The resource name of the resulting Agent, MCP Server, or Endpoint. Format: * `projects/{project}/locations/{location}/mcpServers/{mcp_server}` * `projects/{project}/locations/{location}/agents/{agent}` * `projects/{project}/locations/{location}/endpoints/{endpoint}` */
-  registryResource?: string | undefined;
+  /** Optional. The spec of the Endpoint. When `endpoint_spec` is set, the type of the service is Endpoint. */
+  endpointSpec?: EndpointSpec | undefined;
+  /** Output only. Update time. */
+  updateTime?: string | undefined;
+  /** Optional. The spec of the MCP Server. When `mcp_server_spec` is set, the type of the service is MCP Server. */
+  mcpServerSpec?: McpServerSpec | undefined;
+  /** Optional. User-defined description of an Service. Can have a maximum length of `2048` characters. */
+  description?: string | undefined;
   /** Optional. The spec of the Agent. When `agent_spec` is set, the type of the service is Agent. */
   agentSpec?: AgentSpec | undefined;
   /** Optional. User-defined display name for the Service. Can have a maximum length of `63` characters. */
   displayName?: string | undefined;
+  /** Output only. The resource name of the resulting Agent, MCP Server, or Endpoint. Format: * `projects/{project}/locations/{location}/mcpServers/{mcp_server}` * `projects/{project}/locations/{location}/agents/{agent}` * `projects/{project}/locations/{location}/endpoints/{endpoint}` */
+  registryResource?: string | undefined;
+  /** Output only. Create time. */
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsServicesRequest extends Service {
   /** Required. The project and location to create the Service in. Expected format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. The ID to use for the service, which will become the final component of the service's resource name. This value should be 4-63 characters, and valid characters are `/a-z-/`. */
   serviceId?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
+export type StringMap = { [key: string]: string | undefined };
+/** Structured metadata attributes extracted from the package's local SKILL.md frontmatter. */
+export interface Frontmatter {
+  /** Optional. Extensible flattened map mapping custom tags, authors, and version parameters. */
+  metadata?: StringMap | undefined;
+  /** Required. The name of the skill. */
+  name?: string | undefined;
+  /** Optional. Environmental dependencies or local sidecars. */
+  compatibility?: string | undefined;
+  /** Optional. License. */
+  license?: string | undefined;
+  /** Required. Functional description. */
+  description?: string | undefined;
+}
+export type SkillTargetStateEnum =
+  | "TARGET_STATE_UNSPECIFIED"
+  | "TARGET_STATE_DRAFT"
+  | "TARGET_STATE_ACTIVE"
+  | "TARGET_STATE_DISABLED"
+  | "TARGET_STATE_DEPRECATED"
+  | "TARGET_STATE_DECOMMISSIONED";
 export type ScanningConfigPolicyEnum =
   | "POLICY_UNSPECIFIED"
   | "DISABLED"
@@ -242,27 +263,6 @@ export interface ScanningConfig {
   /** Optional. The security scanning policy. */
   policy?: ScanningConfigPolicyEnum | (string & {}) | undefined;
 }
-export type StringMap = { [key: string]: string | undefined };
-/** Structured metadata attributes extracted from the package's local SKILL.md frontmatter. */
-export interface Frontmatter {
-  /** Optional. Extensible flattened map mapping custom tags, authors, and version parameters. */
-  metadata?: StringMap | undefined;
-  /** Optional. License. */
-  license?: string | undefined;
-  /** Required. The name of the skill. */
-  name?: string | undefined;
-  /** Required. Functional description. */
-  description?: string | undefined;
-  /** Optional. Environmental dependencies or local sidecars. */
-  compatibility?: string | undefined;
-}
-export type SkillTargetStateEnum =
-  | "TARGET_STATE_UNSPECIFIED"
-  | "TARGET_STATE_DRAFT"
-  | "TARGET_STATE_ACTIVE"
-  | "TARGET_STATE_DISABLED"
-  | "TARGET_STATE_DEPRECATED"
-  | "TARGET_STATE_DECOMMISSIONED";
 export type SkillStateEnum =
   | "STATE_UNSPECIFIED"
   | "STATE_CREATING"
@@ -284,12 +284,12 @@ export type ScanResultScanStateEnum =
 export interface ScanResult {
   /** Output only. The error message if the scan failed. */
   errorMessage?: string | undefined;
-  /** Output only. The state of the vulnerability check. */
-  scanState?: ScanResultScanStateEnum | (string & {}) | undefined;
-  /** Output only. The time when the scan was completed. */
-  scanTime?: string | undefined;
   /** Output only. The finding resource names for the skill revision. */
   findings?: StringList | undefined;
+  /** Output only. The time when the scan was completed. */
+  scanTime?: string | undefined;
+  /** Output only. The state of the vulnerability check. */
+  scanState?: ScanResultScanStateEnum | (string & {}) | undefined;
 }
 export type SkillRevisionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -311,22 +311,22 @@ export interface ArchiveUploadSource {
 }
 /** Represents an immutable, versioned snapshot of a Skill package. */
 export interface SkillRevision {
-  /** Output only. Extracted YAML frontmatter configuration snapshot. */
-  frontmatter?: Frontmatter | undefined;
-  /** Output only. Scan result of the skill revision. */
-  scanResult?: ScanResult | undefined;
-  /** Output only. The system-managed lifecycle state of this revision. */
-  state?: SkillRevisionStateEnum | (string & {}) | undefined;
-  /** Identifier. Resource name of the SkillRevision. Format: `projects/{project}/locations/{location}/skills/{skill}/revisions/{revision}` */
-  name?: string | undefined;
   /** Output only. Revision creation timestamp. */
   createTime?: string | undefined;
-  /** Output only. Cryptographic SHA-256 integrity and deduplication digest of the payload zip. */
-  sha256Hash?: string | undefined;
   /** Output only. Size of the compiled zip payload in bytes (assists client download progress). */
   sizeBytes?: string | undefined;
+  /** Output only. Cryptographic SHA-256 integrity and deduplication digest of the payload zip. */
+  sha256Hash?: string | undefined;
   /** Output only. Universally unique identifier (UUID4) for the skill revision. */
   uid?: string | undefined;
+  /** Output only. Scan result of the skill revision. */
+  scanResult?: ScanResult | undefined;
+  /** Output only. Extracted YAML frontmatter configuration snapshot. */
+  frontmatter?: Frontmatter | undefined;
+  /** Identifier. Resource name of the SkillRevision. Format: `projects/{project}/locations/{location}/skills/{skill}/revisions/{revision}` */
+  name?: string | undefined;
+  /** Output only. The system-managed lifecycle state of this revision. */
+  state?: SkillRevisionStateEnum | (string & {}) | undefined;
   /** Optional. Immutable. Cloud Storage object generation URI. */
   gcsSource?: GcsSource | undefined;
   /** Optional. Immutable. Direct write-only raw archive upload source. */
@@ -334,52 +334,52 @@ export interface SkillRevision {
 }
 /** Represents an Executable Agent Skill or a Composite Tool Suite (Bundle). Sibling resource with Agent and McpServer under agentregistry.googleapis.com. */
 export interface Skill {
-  /** Optional. Optional. Scanning configuration for the skill. */
-  scanningConfig?: ScanningConfig | undefined;
   /** Output only. Lightweight frontmatter metadata attributes copied from the default revision. */
   frontmatter?: Frontmatter | undefined;
-  /** Required. User-managed target state of the skill. */
-  targetState?: SkillTargetStateEnum | (string & {}) | undefined;
-  /** Output only. The system-managed state of the skill. */
-  state?: SkillStateEnum | (string & {}) | undefined;
+  /** Optional. The publisher resource associated with this skill. Format: `projects/{project}/locations/{location}/publishers/{publisher}` The publisher dictates the allowed namespace prefixes for the skill's name and logical `skill_id` (e.g., Publisher `google` authorizes the `google-*` prefix). */
+  publisher?: string | undefined;
   /** Optional. Human-readable display name of the skill. Maximum length is 128 characters. */
   displayName?: string | undefined;
+  /** Required. User-managed target state of the skill. */
+  targetState?: SkillTargetStateEnum | (string & {}) | undefined;
+  /** Output only. A stable, globally unique logical identifier for the skill. It is securely constructed by the backend by combining the associated `publisher`'s verified namespace and the skill's resource ID to enforce strict ownership. For example, the prefix `google-` is reserved exclusively for first-party Google publishers to prevent namespace squatting. Example: `urn:skill:google-workspace:create-docs` */
+  skillId?: string | undefined;
+  /** Optional. Optional. Scanning configuration for the skill. */
+  scanningConfig?: ScanningConfig | undefined;
+  /** Output only. The system-managed state of the skill. */
+  state?: SkillStateEnum | (string & {}) | undefined;
+  /** Identifier. Resource name of the Skill. Format: `projects/{project}/locations/{location}/skills/{skill}` The `{skill}` segment acts as the resource ID. If the skill is associated with a Publisher, this segment typically uses a hyphenated namespace prefix corresponding to the publisher (e.g., `google-workspace-create-docs`). */
+  name?: string | undefined;
+  /** Output only. Universally unique identifier (UUID4) for the logical container. */
+  uid?: string | undefined;
+  /** Optional. Brief summary describing the capabilities of the skill. Maximum length is 2048 characters. */
+  description?: string | undefined;
   /** Required. Structural deployment type (SIMPLE leaf vs COMPOSITE bundle). */
   type?: SkillTypeEnum | (string & {}) | undefined;
   /** Output only. Create time. */
   createTime?: string | undefined;
-  /** Optional. Brief summary describing the capabilities of the skill. Maximum length is 2048 characters. */
-  description?: string | undefined;
-  /** Optional. The full resource name of the revision currently served by default (floating track). Format: `projects/{project}/locations/{location}/skills/{skill}/revisions/{revision}` */
-  defaultRevision?: string | undefined;
-  /** Identifier. Resource name of the Skill. Format: `projects/{project}/locations/{location}/skills/{skill}` The `{skill}` segment acts as the resource ID. If the skill is associated with a Publisher, this segment typically uses a hyphenated namespace prefix corresponding to the publisher (e.g., `google-workspace-create-docs`). */
-  name?: string | undefined;
   /** Output only. Update time. */
   updateTime?: string | undefined;
   /** Optional. Input only. Optional nested initial revision payload to support standard one-shot creation. The server processes this field on input during creation but must never return it in responses. */
   initialRevision?: SkillRevision | undefined;
-  /** Output only. A stable, globally unique logical identifier for the skill. It is securely constructed by the backend by combining the associated `publisher`'s verified namespace and the skill's resource ID to enforce strict ownership. For example, the prefix `google-` is reserved exclusively for first-party Google publishers to prevent namespace squatting. Example: `urn:skill:google-workspace:create-docs` */
-  skillId?: string | undefined;
-  /** Output only. Universally unique identifier (UUID4) for the logical container. */
-  uid?: string | undefined;
-  /** Optional. The publisher resource associated with this skill. Format: `projects/{project}/locations/{location}/publishers/{publisher}` The publisher dictates the allowed namespace prefixes for the skill's name and logical `skill_id` (e.g., Publisher `google` authorizes the `google-*` prefix). */
-  publisher?: string | undefined;
+  /** Optional. The full resource name of the revision currently served by default (floating track). Format: `projects/{project}/locations/{location}/skills/{skill}/revisions/{revision}` */
+  defaultRevision?: string | undefined;
 }
 export interface CreateProjectsLocationsSkillsRequest extends Omit<Skill, "skillId"> {
   /** Required. Custom, user-defined unique container identifier. Must be unique within the parent project and location. This value should be 4-64 characters, and valid characters are `/a-z-/`. */
   skillId?: string | undefined;
-  /** Optional. Signed UUID request idempotency token. */
-  requestId?: string | undefined;
   /** Required. The project and location location to bootstrap. */
   parent: string;
+  /** Optional. Signed UUID request idempotency token. */
+  requestId?: string | undefined;
 }
 export interface CreateProjectsLocationsSkillsRevisionsRequest extends SkillRevision {
+  /** Optional. Custom, user-defined unique revision identifier. Format: 4-63 characters, matching regex `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$` */
+  skillRevisionId?: string | undefined;
   /** Optional. Signed UUID request idempotency token. */
   requestId?: string | undefined;
   /** Required. Parent logical container name. */
   parent: string;
-  /** Optional. Custom, user-defined unique revision identifier. Format: 4-63 characters, matching regex `^[a-z]([a-z0-9-]{0,61}[a-z0-9])?$` */
-  skillRevisionId?: string | undefined;
 }
 export interface DeleteProjectsLocationsBindingsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
@@ -392,44 +392,44 @@ export interface DeleteProjectsLocationsOperationsRequest {
   name: string;
 }
 export interface DeleteProjectsLocationsServicesRequest {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. The name of the Service. Format: `projects/{project}/locations/{location}/services/{service}`. */
   name: string;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsSkillsRequest {
+  /** Required. Target Skill container name to remove. */
+  name: string;
   /** Optional. If set to true, any child SkillRevisions under this Skill will also be deleted. Otherwise, the request will only succeed if the Skill has no child SkillRevisions. */
   force?: boolean | undefined;
   /** Optional. Signed UUID request idempotency token. */
   requestId?: string | undefined;
-  /** Required. Target Skill container name to remove. */
-  name: string;
 }
 export interface DeleteProjectsLocationsSkillsRevisionsRequest {
-  /** Optional. Signed UUID request idempotency token. */
-  requestId?: string | undefined;
   /** Required. Target revision name to remove. */
   name: string;
+  /** Optional. Signed UUID request idempotency token. */
+  requestId?: string | undefined;
 }
 export interface FetchAvailableProjectsLocationsBindingsRequest {
-  /** Optional. Requested page size. Server may return fewer items than requested. Page size is 500 if unspecified and is capped at `500` even if a larger value is given. */
-  pageSize?: number | undefined;
   /** The identifier of the source Agent. Format: * `urn:agent:{publisher}:{namespace}:{name}` */
   sourceIdentifier?: string | undefined;
-  /** Optional. The identifier of the target Agent, MCP Server, or Endpoint. Format: * `urn:agent:{publisher}:{namespace}:{name}` * `urn:mcp:{publisher}:{namespace}:{name}` * `urn:endpoint:{publisher}:{namespace}:{name}` */
-  targetIdentifier?: string | undefined;
   /** Required. The parent, in the format `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
+  /** Optional. Requested page size. Server may return fewer items than requested. Page size is 500 if unspecified and is capped at `500` even if a larger value is given. */
+  pageSize?: number | undefined;
+  /** Optional. The identifier of the target Agent, MCP Server, or Endpoint. Format: * `urn:agent:{publisher}:{namespace}:{name}` * `urn:mcp:{publisher}:{namespace}:{name}` * `urn:endpoint:{publisher}:{namespace}:{name}` */
+  targetIdentifier?: string | undefined;
 }
 export type BindingList = Array<Binding>;
 /** Message for response to fetching available Bindings. */
 export interface FetchAvailableBindingsResponse {
-  /** The list of Bindings. */
-  bindings?: BindingList | undefined;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
+  /** The list of Bindings. */
+  bindings?: BindingList | undefined;
 }
 export interface GetIamPolicyProjectsLocationsAiApplicationsRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
@@ -452,31 +452,31 @@ export interface GoogleIamV1AuditLogConfig {
 export type GoogleIamV1AuditLogConfigList = Array<GoogleIamV1AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface GoogleIamV1AuditConfig {
-  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string | undefined;
   /** The configuration for logging of each type of permission. */
   auditLogConfigs?: GoogleIamV1AuditLogConfigList | undefined;
+  /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
+  service?: string | undefined;
 }
 export type GoogleIamV1AuditConfigList = Array<GoogleIamV1AuditConfig>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
-  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string | undefined;
-  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
   expression?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
   location?: string | undefined;
+  /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
+  description?: string | undefined;
+  /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
+  title?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface GoogleIamV1Binding {
+  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
+  condition?: Expr | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
   members?: StringList | undefined;
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
   role?: string | undefined;
-  /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr | undefined;
 }
 export type GoogleIamV1BindingList = Array<GoogleIamV1Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
@@ -485,16 +485,16 @@ export interface GoogleIamV1Policy {
   etag?: string | undefined;
   /** Specifies cloud audit logging configuration for this policy. */
   auditConfigs?: GoogleIamV1AuditConfigList | undefined;
-  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: GoogleIamV1BindingList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   version?: number | undefined;
+  /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
+  bindings?: GoogleIamV1BindingList | undefined;
 }
 export interface GetIamPolicyProjectsLocationsSkillsRequest {
-  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
-  resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
   "options.requestedPolicyVersion"?: number | undefined;
+  /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
+  resource: string;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -502,14 +502,14 @@ export interface GetProjectsLocationsRequest {
 }
 /** A resource that represents a Google Cloud location. */
 export interface Location {
-  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
   locationId?: string | undefined;
-  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
   metadata?: DocumentMap | undefined;
+  /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
+  labels?: StringMap | undefined;
+  /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
+  name?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
   displayName?: string | undefined;
 }
@@ -517,32 +517,18 @@ export interface GetProjectsLocationsAgentsRequest {
   /** Required. Name of the resource */
   name: string;
 }
-export type DocumentMapMap = { [key: string]: DocumentMap | undefined };
 export type ProtocolTypeEnum = "TYPE_UNSPECIFIED" | "A2A_AGENT" | "CUSTOM";
 /** Represents the protocol of an Agent. */
 export interface Protocol {
-  /** Output only. The type of the protocol. */
-  type?: ProtocolTypeEnum | undefined;
   /** Output only. The version of the protocol, for example, the A2A Agent Card version. */
   protocolVersion?: string | undefined;
+  /** Output only. The type of the protocol. */
+  type?: ProtocolTypeEnum | undefined;
   /** Output only. The connection details for the Agent. */
   interfaces?: InterfaceList | undefined;
 }
 export type ProtocolList = Array<Protocol>;
-/** Represents the skills of an Agent. */
-export interface A2ASkill {
-  /** Output only. A unique identifier for the agent's skill. */
-  id?: string | undefined;
-  /** Output only. Keywords describing the skill. */
-  tags?: StringList | undefined;
-  /** Output only. Example prompts or scenarios this skill can handle. */
-  examples?: StringList | undefined;
-  /** Output only. A human-readable name for the agent's skill. */
-  name?: string | undefined;
-  /** Output only. A more detailed description of the skill. */
-  description?: string | undefined;
-}
-export type A2ASkillList = Array<A2ASkill>;
+export type DocumentMapMap = { [key: string]: DocumentMap | undefined };
 export type CardTypeEnum = "TYPE_UNSPECIFIED" | "A2A_AGENT_CARD";
 /** Full Agent Card payload, often obtained from the A2A Agent Card. */
 export interface Card {
@@ -551,40 +537,66 @@ export interface Card {
   /** Output only. The content of the agent card. */
   content?: DocumentMap | undefined;
 }
+/** Represents the skills of an Agent. */
+export interface A2ASkill {
+  /** Output only. A more detailed description of the skill. */
+  description?: string | undefined;
+  /** Output only. Keywords describing the skill. */
+  tags?: StringList | undefined;
+  /** Output only. A unique identifier for the agent's skill. */
+  id?: string | undefined;
+  /** Output only. A human-readable name for the agent's skill. */
+  name?: string | undefined;
+  /** Output only. Example prompts or scenarios this skill can handle. */
+  examples?: StringList | undefined;
+}
+export type A2ASkillList = Array<A2ASkill>;
 /** Represents an Agent. "A2A" below refers to the Agent-to-Agent protocol. */
 export interface Agent {
-  /** Identifier. The resource name of an Agent. Format: `projects/{project}/locations/{location}/agents/{agent}`. */
-  name?: string | undefined;
-  /** Output only. The location where agent is hosted. The value is defined by the hosting environment (i.e. cloud provider). */
-  location?: string | undefined;
-  /** Output only. A stable, globally unique identifier for agents. */
-  agentId?: string | undefined;
-  /** Output only. Attributes of the Agent. Valid values: * `agentregistry.googleapis.com/system/Framework`: {"framework": "google-adk"} - the agent framework used to develop the Agent. Example values: "google-adk", "langchain", "custom". * `agentregistry.googleapis.com/system/RuntimeIdentity`: {"principal": "principal://..."} - the runtime identity associated with the Agent. * `agentregistry.googleapis.com/system/RuntimeReference`: {"uri": "//..."} - the URI of the underlying resource hosting the Agent, for example, the Reasoning Engine URI. */
-  attributes?: DocumentMapMap | undefined;
-  /** Output only. Create time. */
-  createTime?: string | undefined;
-  /** Output only. The display name of the agent, often obtained from the A2A Agent Card. */
-  displayName?: string | undefined;
   /** Output only. A universally unique identifier for the Agent. */
   uid?: string | undefined;
+  /** Output only. Create time. */
+  createTime?: string | undefined;
+  /** Output only. The location where agent is hosted. The value is defined by the hosting environment (i.e. cloud provider). */
+  location?: string | undefined;
   /** Output only. The connection details for the Agent. */
   protocols?: ProtocolList | undefined;
-  /** Output only. The description of the Agent, often obtained from the A2A Agent Card. Empty if Agent Card has no description. */
-  description?: string | undefined;
   /** Output only. Update time. */
   updateTime?: string | undefined;
-  /** Output only. Skills the agent possesses, often obtained from the A2A Agent Card. */
-  skills?: A2ASkillList | undefined;
+  /** Output only. A stable, globally unique identifier for agents. */
+  agentId?: string | undefined;
+  /** Output only. The display name of the agent, often obtained from the A2A Agent Card. */
+  displayName?: string | undefined;
+  /** Output only. Attributes of the Agent. Valid values: * `agentregistry.googleapis.com/system/Framework`: {"framework": "google-adk"} - the agent framework used to develop the Agent. Example values: "google-adk", "langchain", "custom". * `agentregistry.googleapis.com/system/RuntimeIdentity`: {"principal": "principal://..."} - the runtime identity associated with the Agent. * `agentregistry.googleapis.com/system/RuntimeReference`: {"uri": "//..."} - the URI of the underlying resource hosting the Agent, for example, the Reasoning Engine URI. */
+  attributes?: DocumentMapMap | undefined;
   /** Output only. Full Agent Card payload, when available. */
   card?: Card | undefined;
+  /** Output only. Skills the agent possesses, often obtained from the A2A Agent Card. */
+  skills?: A2ASkillList | undefined;
   /** Output only. The version of the Agent, often obtained from the A2A Agent Card. Empty if Agent Card has no version or agent is not an A2A Agent. */
   version?: string | undefined;
+  /** Output only. The description of the Agent, often obtained from the A2A Agent Card. Empty if Agent Card has no description. */
+  description?: string | undefined;
+  /** Identifier. The resource name of an Agent. Format: `projects/{project}/locations/{location}/agents/{agent}`. */
+  name?: string | undefined;
 }
 export interface GetProjectsLocationsAiApplicationsRequest {
   /** Required. Target AI Application resource name. Format: `projects/{project}/locations/{location}/aiApplications/{ai_application}` */
   name: string;
 }
-export type AiApplicationStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "DELETING";
+export type EnvironmentTypeEnum =
+  | "TYPE_UNSPECIFIED"
+  | "PRODUCTION"
+  | "STAGING"
+  | "TEST"
+  | "DEVELOPMENT";
+/** Environment of the Application, Service, or Workload */
+export interface Environment {
+  /** Required. Environment Type. */
+  type?: EnvironmentTypeEnum | undefined;
+  /** Optional. Environment name. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead. */
+  environment?: string | undefined;
+}
 /** Separate message to accommodate custom formats across IRC and Slack. */
 export interface Channel {
   /** Required. URI of the channel. */
@@ -594,25 +606,12 @@ export interface Channel {
 export interface ContactInfo {
   /** Optional. Contact's name. Can have a maximum length of 63 characters. */
   displayName?: string | undefined;
-  /** Optional. Communication channel of the contacts. */
-  channel?: Channel | undefined;
   /** Required. Email address of the contacts. */
   email?: string | undefined;
+  /** Optional. Communication channel of the contacts. */
+  channel?: Channel | undefined;
 }
 export type ContactInfoList = Array<ContactInfo>;
-export type EnvironmentTypeEnum =
-  | "TYPE_UNSPECIFIED"
-  | "PRODUCTION"
-  | "STAGING"
-  | "TEST"
-  | "DEVELOPMENT";
-/** Environment of the Application, Service, or Workload */
-export interface Environment {
-  /** Optional. Environment name. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead. */
-  environment?: string | undefined;
-  /** Required. Environment Type. */
-  type?: EnvironmentTypeEnum | undefined;
-}
 export type CriticalityTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "MISSION_CRITICAL"
@@ -623,24 +622,25 @@ export type CriticalityTypeEnum =
 export interface Criticality {
   /** Optional. Criticality level. Can contain only lowercase letters, numeric characters, underscores, and dashes. Can have a maximum length of 63 characters. Deprecated: Please refer to type instead. */
   level?: string | undefined;
-  /** Required. Criticality Type. */
-  type?: CriticalityTypeEnum | undefined;
   /** Optional. Indicates mission-critical Application, Service, or Workload. Deprecated: Please refer to type instead. */
   missionCritical?: boolean | undefined;
+  /** Required. Criticality Type. */
+  type?: CriticalityTypeEnum | undefined;
 }
 /** Consumer provided attributes. */
 export interface Attributes {
-  /** Optional. Operator team that ensures runtime and operations. */
-  operatorOwners?: ContactInfoList | undefined;
   /** Optional. User-defined environment information. */
   environment?: Environment | undefined;
-  /** Optional. Business team that ensures user needs are met and value is delivered */
-  businessOwners?: ContactInfoList | undefined;
+  /** Optional. Operator team that ensures runtime and operations. */
+  operatorOwners?: ContactInfoList | undefined;
   /** Optional. User-defined criticality information. */
   criticality?: Criticality | undefined;
   /** Optional. Developer team that owns development and coding. */
   developerOwners?: ContactInfoList | undefined;
+  /** Optional. Business team that ensures user needs are met and value is delivered */
+  businessOwners?: ContactInfoList | undefined;
 }
+export type AiApplicationStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE" | "DELETING";
 /** Additional metadata for a Service or Workload. */
 export interface ExtendedMetadata {
   /** Output only. The metadata contents. */
@@ -654,24 +654,24 @@ export interface ApplicationProperties {
 }
 /** Represents an AI Application. */
 export interface AiApplication {
-  /** Output only. The current state of the AI Application. */
-  state?: AiApplicationStateEnum | undefined;
-  /** Identifier. Resource name of the AI Application. Format: `projects/{project}/locations/{location}/aiApplications/{ai_application}` */
-  name?: string | undefined;
-  /** Output only. Universally unique identifier (UUID4) for the AI Application. */
-  uid?: string | undefined;
-  /** Optional. User-defined name for the AI Application. */
-  displayName?: string | undefined;
-  /** Output only. Last update time. */
-  updateTime?: string | undefined;
-  /** Optional. Consumer provided attributes. */
-  attributes?: Attributes | undefined;
-  /** Output only. Properties of an underlying cloud resource that can comprise an AI Application. */
-  applicationProperties?: ApplicationProperties | undefined;
-  /** Optional. User-defined description of the AI Application. */
-  description?: string | undefined;
   /** Output only. Creation time. */
   createTime?: string | undefined;
+  /** Optional. Consumer provided attributes. */
+  attributes?: Attributes | undefined;
+  /** Output only. Last update time. */
+  updateTime?: string | undefined;
+  /** Optional. User-defined name for the AI Application. */
+  displayName?: string | undefined;
+  /** Output only. Universally unique identifier (UUID4) for the AI Application. */
+  uid?: string | undefined;
+  /** Optional. User-defined description of the AI Application. */
+  description?: string | undefined;
+  /** Identifier. Resource name of the AI Application. Format: `projects/{project}/locations/{location}/aiApplications/{ai_application}` */
+  name?: string | undefined;
+  /** Output only. The current state of the AI Application. */
+  state?: AiApplicationStateEnum | undefined;
+  /** Output only. Properties of an underlying cloud resource that can comprise an AI Application. */
+  applicationProperties?: ApplicationProperties | undefined;
 }
 export interface GetProjectsLocationsAiApplicationsAgentsRequest {
   /** Required. Name of the resource. Format: `projects/{project}/locations/{location}/aiApplications/{ai_application}/agents/{agent}` */
@@ -683,22 +683,22 @@ export interface GetProjectsLocationsAiApplicationsEndpointsRequest {
 }
 /** Represents an Endpoint. */
 export interface Endpoint {
-  /** Identifier. The resource name of the Endpoint. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}`. */
-  name?: string | undefined;
-  /** Output only. Display name for the Endpoint. */
-  displayName?: string | undefined;
-  /** Output only. Description of an Endpoint. */
-  description?: string | undefined;
-  /** Output only. Create time. */
-  createTime?: string | undefined;
-  /** Output only. Update time. */
-  updateTime?: string | undefined;
-  /** Output only. Attributes of the Endpoint. Valid values: * `agentregistry.googleapis.com/system/RuntimeReference`: {"uri": "//..."} - the URI of the underlying resource hosting the Endpoint, for example, the GKE Deployment. */
-  attributes?: DocumentMapMap | undefined;
   /** Output only. A stable, globally unique identifier for Endpoint. */
   endpointId?: string | undefined;
   /** Required. The connection details for the Endpoint. */
   interfaces?: InterfaceList | undefined;
+  /** Identifier. The resource name of the Endpoint. Format: `projects/{project}/locations/{location}/endpoints/{endpoint}`. */
+  name?: string | undefined;
+  /** Output only. Description of an Endpoint. */
+  description?: string | undefined;
+  /** Output only. Update time. */
+  updateTime?: string | undefined;
+  /** Output only. Attributes of the Endpoint. Valid values: * `agentregistry.googleapis.com/system/RuntimeReference`: {"uri": "//..."} - the URI of the underlying resource hosting the Endpoint, for example, the GKE Deployment. */
+  attributes?: DocumentMapMap | undefined;
+  /** Output only. Display name for the Endpoint. */
+  displayName?: string | undefined;
+  /** Output only. Create time. */
+  createTime?: string | undefined;
 }
 export interface GetProjectsLocationsAiApplicationsMcpServersRequest {
   /** Required. Name of the resource. Format: `projects/{project}/locations/{location}/aiApplications/{ai_application}/mcpServers/{mcp_server}` */
@@ -706,49 +706,49 @@ export interface GetProjectsLocationsAiApplicationsMcpServersRequest {
 }
 /** Annotations describing the characteristics and behavior of a tool or operation. */
 export interface Annotations {
-  /** Output only. If true, calling the tool repeatedly with the same arguments will have no additional effect on its environment. NOTE: This property is meaningful only when `read_only_hint == false` Default: false */
-  idempotentHint?: boolean | undefined;
-  /** Output only. If true, the tool does not modify its environment. Default: false */
-  readOnlyHint?: boolean | undefined;
+  /** Output only. If true, the tool may perform destructive updates to its environment. If false, the tool performs only additive updates. NOTE: This property is meaningful only when `read_only_hint == false` Default: true */
+  destructiveHint?: boolean | undefined;
   /** Output only. If true, this tool may interact with an "open world" of external entities. If false, the tool's domain of interaction is closed. For example, the world of a web search tool is open, whereas that of a memory tool is not. Default: true */
   openWorldHint?: boolean | undefined;
   /** Output only. A human-readable title for the tool. */
   title?: string | undefined;
-  /** Output only. If true, the tool may perform destructive updates to its environment. If false, the tool performs only additive updates. NOTE: This property is meaningful only when `read_only_hint == false` Default: true */
-  destructiveHint?: boolean | undefined;
+  /** Output only. If true, calling the tool repeatedly with the same arguments will have no additional effect on its environment. NOTE: This property is meaningful only when `read_only_hint == false` Default: false */
+  idempotentHint?: boolean | undefined;
+  /** Output only. If true, the tool does not modify its environment. Default: false */
+  readOnlyHint?: boolean | undefined;
 }
 /** Represents a single tool provided by an MCP Server. */
 export interface Tool {
   /** Output only. Annotations associated with the tool. */
   annotations?: Annotations | undefined;
+  /** Output only. Human-readable name of the tool. */
+  name?: string | undefined;
   /** Output only. Protocol-level tool metadata conforming to MCP _meta specification. Output only. */
   _meta?: DocumentMap | undefined;
   /** Output only. Description of what the tool does. */
   description?: string | undefined;
-  /** Output only. Human-readable name of the tool. */
-  name?: string | undefined;
 }
 export type ToolList = Array<Tool>;
 /** Represents an MCP (Model Context Protocol) Server. */
 export interface McpServer {
-  /** Output only. The connection details for the MCP Server. */
-  interfaces?: InterfaceList | undefined;
-  /** Identifier. The resource name of the MCP Server. Format: `projects/{project}/locations/{location}/mcpServers/{mcp_server}`. */
-  name?: string | undefined;
-  /** Output only. The display name of the MCP Server. */
-  displayName?: string | undefined;
-  /** Output only. Tools provided by the MCP Server. */
-  tools?: ToolList | undefined;
-  /** Output only. Update time. */
-  updateTime?: string | undefined;
   /** Output only. Attributes of the MCP Server. Valid values: * `agentregistry.googleapis.com/system/RuntimeIdentity`: {"principal": "principal://..."} - the runtime identity associated with the MCP Server. * `agentregistry.googleapis.com/system/RuntimeReference`: {"uri": "//..."} - the URI of the underlying resource hosting the MCP Server, for example, the GKE Deployment. */
   attributes?: DocumentMapMap | undefined;
-  /** Output only. A stable, globally unique identifier for MCP Servers. */
-  mcpServerId?: string | undefined;
-  /** Output only. The description of the MCP Server. */
-  description?: string | undefined;
   /** Output only. Create time. */
   createTime?: string | undefined;
+  /** Identifier. The resource name of the MCP Server. Format: `projects/{project}/locations/{location}/mcpServers/{mcp_server}`. */
+  name?: string | undefined;
+  /** Output only. Tools provided by the MCP Server. */
+  tools?: ToolList | undefined;
+  /** Output only. A stable, globally unique identifier for MCP Servers. */
+  mcpServerId?: string | undefined;
+  /** Output only. Update time. */
+  updateTime?: string | undefined;
+  /** Output only. The description of the MCP Server. */
+  description?: string | undefined;
+  /** Output only. The connection details for the MCP Server. */
+  interfaces?: InterfaceList | undefined;
+  /** Output only. The display name of the MCP Server. */
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsBindingsRequest {
   /** Required. The name of the Binding. Format: `projects/{project}/locations/{location}/bindings/{binding}`. */
@@ -762,6 +762,7 @@ export interface GetProjectsLocationsFindingsRequest {
   /** Required. The name of the Finding to retrieve. Format: `projects/{project}/locations/{location}/findings/{finding}`. */
   name: string;
 }
+export type FindingFindingClassEnum = "FINDING_CLASS_UNSPECIFIED" | "VULNERABILITY" | "SECRET";
 export type FindingSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
   | "SEVERITY_CRITICAL"
@@ -776,27 +777,26 @@ export interface File {
   lineNumber?: string | undefined;
 }
 export type FileList = Array<File>;
-export type FindingFindingClassEnum = "FINDING_CLASS_UNSPECIFIED" | "VULNERABILITY" | "SECRET";
 /** Represents a security Finding. */
 export interface Finding {
-  /** Identifier. Resource name of the Finding. Format: `projects/{project}/locations/{location}/findings/{finding}`. */
-  name?: string | undefined;
+  /** Output only. Universally unique identifier (UUID4) for the Finding. */
+  uid?: string | undefined;
+  /** Optional. Class of the finding. */
+  findingClass?: FindingFindingClassEnum | undefined;
   /** Output only. Create time. */
   createTime?: string | undefined;
   /** Optional. Severity of the finding. */
   severity?: FindingSeverityEnum | undefined;
+  /** Optional. Detailed description of the finding. */
+  detail?: string | undefined;
+  /** Identifier. Resource name of the Finding. Format: `projects/{project}/locations/{location}/findings/{finding}`. */
+  name?: string | undefined;
+  /** Optional. File associated with the finding. */
+  files?: FileList | undefined;
   /** Optional. The resource that the finding is associated with. */
   resource?: string | undefined;
   /** Output only. Update time. */
   updateTime?: string | undefined;
-  /** Optional. Detailed description of the finding. */
-  detail?: string | undefined;
-  /** Output only. Universally unique identifier (UUID4) for the Finding. */
-  uid?: string | undefined;
-  /** Optional. File associated with the finding. */
-  files?: FileList | undefined;
-  /** Optional. Class of the finding. */
-  findingClass?: FindingFindingClassEnum | undefined;
 }
 export interface GetProjectsLocationsMcpServersRequest {
   /** Required. Name of the resource */
@@ -817,18 +817,18 @@ export type PublisherPublisherTierEnum =
   | "PRIVATE";
 /** Represents a verified Publisher of Skills. Prepopulated publishers include `publishers/cloud.google.com` and `publishers/workspace.google.com`. */
 export interface Publisher {
-  /** Identifier. Resource name of the publisher. Format: `projects/{project}/locations/{location}/publishers/{publisher}` */
-  name?: string | undefined;
-  /** Optional. URI pointing to the support portal or email. */
-  supportUri?: string | undefined;
-  /** Output only. The curation tier of the publisher. */
-  publisherTier?: PublisherPublisherTierEnum | undefined;
   /** Required. The verified prefix (e.g. "snowflake-", "google-") associated with this publisher. The system uses this prefix to enforce name-squatting rules during Skill registration. Must be globally unique across all publishers. */
   verifiedPrefix?: string | undefined;
-  /** Optional. Human readable display name of the publisher. */
-  displayName?: string | undefined;
+  /** Output only. The curation tier of the publisher. */
+  publisherTier?: PublisherPublisherTierEnum | undefined;
   /** Optional. URI pointing to official publisher documentation. */
   documentationUri?: string | undefined;
+  /** Identifier. Resource name of the publisher. Format: `projects/{project}/locations/{location}/publishers/{publisher}` */
+  name?: string | undefined;
+  /** Optional. Human readable display name of the publisher. */
+  displayName?: string | undefined;
+  /** Optional. URI pointing to the support portal or email. */
+  supportUri?: string | undefined;
 }
 export interface GetProjectsLocationsServicesRequest {
   /** Required. The name of the Service. Format: `projects/{project}/locations/{location}/services/{service}`. */
@@ -845,14 +845,14 @@ export interface GetProjectsLocationsSkillsRevisionsRequest {
 export interface ListProjectsLocationsRequest {
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
   filter?: string | undefined;
-  /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number | undefined;
-  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
   pageToken?: string | undefined;
+  /** The maximum number of results to return. If not set, the service selects a default. */
+  pageSize?: number | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
+  /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
+  extraLocationTypes?: StringList | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
@@ -863,85 +863,85 @@ export interface ListLocationsResponse {
   locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsAgentsRequest {
+  /** Optional. Hint for how to order the results */
+  orderBy?: string | undefined;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
   /** Optional. Filtering results */
   filter?: string | undefined;
-  /** Optional. Hint for how to order the results */
-  orderBy?: string | undefined;
   /** Required. Parent value for ListAgentsRequest */
   parent: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
 }
 export type AgentList = Array<Agent>;
 /** Message for response to listing Agents */
 export interface ListAgentsResponse {
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string | undefined;
   /** The list of Agents. */
   agents?: AgentList | undefined;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsAiApplicationsRequest {
   /** Optional. Filtering results. */
   filter?: string | undefined;
-  /** Optional. Hint for how to order the results. */
-  orderBy?: string | undefined;
   /** Required. Parent project and location to query. Format: `projects/{project}/locations/{location}` */
   parent: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
+  /** Optional. Hint for how to order the results. */
+  orderBy?: string | undefined;
 }
 export type AiApplicationList = Array<AiApplication>;
 /** Message for response to listing AiApplications. */
 export interface ListAiApplicationsResponse {
-  /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList | undefined;
-  /** A token identifying a page of results the server should return. */
-  nextPageToken?: string | undefined;
   /** The list of AiApplications. */
   aiApplications?: AiApplicationList | undefined;
+  /** A token identifying a page of results the server should return. */
+  nextPageToken?: string | undefined;
+  /** Unordered list. Locations that could not be reached. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsAiApplicationsAgentsRequest {
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
-  /** Required. Parent value (AI Application) for ListAiApplicationAgentsRequest. Format: `projects/{project}/locations/{location}/aiApplications/{ai_application}` */
-  parent: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
+  /** Required. Parent value (AI Application) for ListAiApplicationAgentsRequest. Format: `projects/{project}/locations/{location}/aiApplications/{ai_application}` */
+  parent: string;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
 }
 /** Message for response to listing Agents under an AI Application. */
 export interface ListAiApplicationAgentsResponse {
-  /** The list of Agents. */
-  agents?: AgentList | undefined;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
+  /** The list of Agents. */
+  agents?: AgentList | undefined;
 }
 export interface ListProjectsLocationsAiApplicationsEndpointsRequest {
   /** Required. Parent value (AI Application) for ListAiApplicationEndpointsRequest. Format: `projects/{project}/locations/{location}/aiApplications/{ai_application}` */
   parent: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
   pageSize?: number | undefined;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
 }
 export type EndpointList = Array<Endpoint>;
 /** Message for response to listing Endpoints under an AI Application. */
 export interface ListAiApplicationEndpointsResponse {
-  /** The list of Endpoints. */
-  endpoints?: EndpointList | undefined;
   /** A token identifying a page of results the server should return. */
   nextPageToken?: string | undefined;
+  /** The list of Endpoints. */
+  endpoints?: EndpointList | undefined;
 }
 export interface ListProjectsLocationsAiApplicationsMcpServersRequest {
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
   /** Required. Parent value (AI Application) for ListAiApplicationMcpServersRequest. Format: `projects/{project}/locations/{location}/aiApplications/{ai_application}` */
   parent: string;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
 }
 export type McpServerList = Array<McpServer>;
 /** Message for response to listing McpServers under an AI Application. */
@@ -952,16 +952,16 @@ export interface ListAiApplicationMcpServersResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsBindingsRequest {
-  /** Required. The project and location to list bindings in. Expected format: `projects/{project}/locations/{location}`. */
-  parent: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. Page size is 500 if unspecified and is capped at `500` even if a larger value is given. */
-  pageSize?: number | undefined;
-  /** Optional. A query string used to filter the list of bindings returned. The filter expression must follow AIP-160 syntax. */
-  filter?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
+  /** Optional. Requested page size. Server may return fewer items than requested. Page size is 500 if unspecified and is capped at `500` even if a larger value is given. */
+  pageSize?: number | undefined;
   /** Optional. Hint for how to order the results */
   orderBy?: string | undefined;
+  /** Required. The project and location to list bindings in. Expected format: `projects/{project}/locations/{location}`. */
+  parent: string;
+  /** Optional. A query string used to filter the list of bindings returned. The filter expression must follow AIP-160 syntax. */
+  filter?: string | undefined;
 }
 /** Message for response to listing Bindings */
 export interface ListBindingsResponse {
@@ -988,16 +988,16 @@ export interface ListEndpointsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsFindingsRequest {
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string | undefined;
   /** Optional. Filtering results */
   filter?: string | undefined;
   /** Required. Parent value for ListFindingsRequest. Format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
-  /** Optional. Hint for how to order the results */
-  orderBy?: string | undefined;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
 }
 export type FindingList = Array<Finding>;
 /** Message for response to listing Findings. */
@@ -1010,14 +1010,14 @@ export interface ListFindingsResponse {
 export interface ListProjectsLocationsMcpServersRequest {
   /** Optional. A token identifying a page of results the server should return. */
   pageToken?: string | undefined;
-  /** Optional. Filtering results */
-  filter?: string | undefined;
   /** Required. Parent value for ListMcpServersRequest. Format: `projects/{project}/locations/{location}`. */
   parent: string;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
   /** Optional. Hint for how to order the results */
   orderBy?: string | undefined;
+  /** Optional. Filtering results */
+  filter?: string | undefined;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
 }
 /** Message for response to listing McpServers */
 export interface ListMcpServersResponse {
@@ -1029,32 +1029,32 @@ export interface ListMcpServersResponse {
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
-  /** The standard list filter. */
-  filter?: string | undefined;
-  /** The standard list page token. */
-  pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
   returnPartialSuccess?: boolean | undefined;
+  /** The standard list page token. */
+  pageToken?: string | undefined;
+  /** The standard list filter. */
+  filter?: string | undefined;
   /** The standard list page size. */
   pageSize?: number | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsPublishersRequest {
   /** Optional. Page limit size. */
   pageSize?: number | undefined;
-  /** Optional. Page offset token. */
-  pageToken?: string | undefined;
   /** Required. Parent location to query. Format: `projects/{project}/locations/{location}` */
   parent: string;
+  /** Optional. Page offset token. */
+  pageToken?: string | undefined;
 }
 export type PublisherList = Array<Publisher>;
 /** Response listing Publishers. */
@@ -1077,22 +1077,22 @@ export interface ListProjectsLocationsServicesRequest {
 export type ServiceList = Array<Service>;
 /** Message for response to listing Services */
 export interface ListServicesResponse {
-  /** A token identifying a page of results the server should return. Used in page_token. */
-  nextPageToken?: string | undefined;
   /** The list of Service resources matching the parent and filter criteria in the request. Each Service resource follows the format: `projects/{project}/locations/{location}/services/{service}`. */
   services?: ServiceList | undefined;
+  /** A token identifying a page of results the server should return. Used in page_token. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsSkillsRequest {
-  /** Optional. Hint for how to order the results */
-  orderBy?: string | undefined;
-  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number | undefined;
-  /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string | undefined;
   /** Required. Parent value for ListSkillsRequest */
   parent: string;
+  /** Optional. A token identifying a page of results the server should return. */
+  pageToken?: string | undefined;
   /** Optional. Use this field to specify filter criteria on list results. Filter expressions can be used to restrict results based upon filterable fields, where equality operators can be used. See [instructions](https://docs.cloud.google.com/agent-registry/search-agents-and-tools) for more details. Allowed operators: `=`, `<`, `>`, `NOT`, `AND`, `OR`, and `()`. | Field | `=` | `<`, `>` | |--------------|-----|----------| | state | Yes | No | | targetState | Yes | No | | createTime | Yes | Yes | | updateTime | Yes | Yes | Examples: * `state=ACTIVE` to restrict results to skills in the `ACTIVE` state. */
   filter?: string | undefined;
+  /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
+  pageSize?: number | undefined;
+  /** Optional. Hint for how to order the results */
+  orderBy?: string | undefined;
 }
 export type SkillList = Array<Skill>;
 /** Response structure listing logical Skills. */
@@ -1105,36 +1105,36 @@ export interface ListSkillsResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsSkillsRevisionsRequest {
-  /** Required. Parent logical container name to query. */
-  parent: string;
-  /** Optional. Page limit size. */
-  pageSize?: number | undefined;
   /** Optional. Page offset token. */
   pageToken?: string | undefined;
+  /** Optional. Page limit size. */
+  pageSize?: number | undefined;
+  /** Required. Parent logical container name to query. */
+  parent: string;
 }
 export type SkillRevisionList = Array<SkillRevision>;
 /** Response listing Revisions. */
 export interface ListSkillRevisionsResponse {
-  /** Returned version snapshot list. */
-  skillRevisions?: SkillRevisionList | undefined;
   /** Page offset continuation token. */
   nextPageToken?: string | undefined;
+  /** Returned version snapshot list. */
+  skillRevisions?: SkillRevisionList | undefined;
 }
 export interface PatchProjectsLocationsBindingsRequest extends Omit<Binding, "name"> {
-  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string | undefined;
   /** Required. Identifier. The resource name of the Binding. Format: `projects/{project}/locations/{location}/bindings/{binding}`. */
   name: string;
   /** Optional. Field mask is used to specify the fields to be overwritten in the Binding resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
   updateMask?: string | undefined;
+  /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
+  requestId?: string | undefined;
 }
 export interface PatchProjectsLocationsServicesRequest extends Omit<Service, "name"> {
-  /** Optional. Field mask is used to specify the fields to be overwritten in the Service resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
-  updateMask?: string | undefined;
   /** Identifier. The resource name of the Service. Format: `projects/{project}/locations/{location}/services/{service}`. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
   requestId?: string | undefined;
+  /** Optional. Field mask is used to specify the fields to be overwritten in the Service resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields present in the request will be overwritten. */
+  updateMask?: string | undefined;
 }
 export interface PatchProjectsLocationsSkillsRequest extends Omit<Skill, "name"> {
   /** Identifier. Resource name of the Skill. Format: `projects/{project}/locations/{location}/skills/{skill}` The `{skill}` segment acts as the resource ID. If the skill is associated with a Publisher, this segment typically uses a hyphenated namespace prefix corresponding to the publisher (e.g., `google-workspace-create-docs`). */
@@ -1148,10 +1148,10 @@ export interface PatchProjectsLocationsSkillsRequest extends Omit<Skill, "name">
 export interface SearchAgentsRequest {
   /** Optional. Search criteria used to select the Agents to return. If no search criteria is specified then all accessible Agents will be returned. Search expressions can be used to restrict results based upon searchable fields, where the operators can be used along with the suffix wildcard symbol `*`. See [instructions](https://docs.cloud.google.com/agent-registry/search-agents-and-tools) for more details. Allowed operators: `=`, `:`, `NOT`, `AND`, `OR`, and `()`. Searchable fields: | Field | `=` | `:` | `*` | Keyword Search | |--------------------|-----|-----|-----|----------------| | agentId | Yes | Yes | Yes | Included | | name | No | Yes | Yes | Included | | displayName | No | Yes | Yes | Included | | description | No | Yes | No | Included | | skills | No | Yes | No | Included | | skills.id | No | Yes | No | Included | | skills.name | No | Yes | No | Included | | skills.description | No | Yes | No | Included | | skills.tags | No | Yes | No | Included | | skills.examples | No | Yes | No | Included | Examples: * `agentId="urn:agent:projects-123:projects:123:locations:us-central1:aiplatform:reasoningEngines:1234"` to find the agent with the specified agent ID. * `name:important` to find agents whose name contains `important` as a word. * `displayName:works*` to find agents whose display name contains words that start with `works`. * `skills.tags:test` to find agents whose skills tags contain `test`. * `planner OR booking` to find agents whose metadata contains the words `planner` or `booking`. */
   searchString?: string | undefined;
-  /** Optional. If present, retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of all other method parameters, must be identical to those in the previous call. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of search results to return per page. The page size is capped at `100`, even if a larger value is specified. A negative value will result in an `INVALID_ARGUMENT` error. If unspecified or set to `0`, a default value of `20` will be used. The server may return fewer results than requested. */
   pageSize?: number | undefined;
+  /** Optional. If present, retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of all other method parameters, must be identical to those in the previous call. */
+  pageToken?: string | undefined;
 }
 export interface SearchProjectsLocationsAgentsRequest extends SearchAgentsRequest {
   /** Required. Parent value for SearchAgentsRequest. Format: `projects/{project}/locations/{location}`. */
@@ -1166,12 +1166,12 @@ export interface SearchAgentsResponse {
 }
 /** Message for searching MCP Servers */
 export interface SearchMcpServersRequest {
-  /** Optional. The maximum number of search results to return per page. The page size is capped at `100`, even if a larger value is specified. A negative value will result in an `INVALID_ARGUMENT` error. If unspecified or set to `0`, a default value of `20` will be used. The server may return fewer results than requested. */
-  pageSize?: number | undefined;
-  /** Optional. Search criteria used to select the MCP Servers to return. If no search criteria is specified then all accessible MCP Servers will be returned. Search expressions can be used to restrict results based upon searchable fields, where the operators can be used along with the suffix wildcard symbol `*`. See [instructions](https://docs.cloud.google.com/agent-registry/search-agents-and-tools) for more details. Allowed operators: `=`, `:`, `NOT`, `AND`, `OR`, and `()`. Searchable fields: | Field | `=` | `:` | `*` | Keyword Search | |--------------------|-----|-----|-----|----------------| | mcpServerId | Yes | Yes | Yes | Included | | name | No | Yes | Yes | Included | | displayName | No | Yes | Yes | Included | Examples: * `mcpServerId="urn:mcp:projects-123:projects:123:locations:us-central1:agentregistry:services:service-id"` to find the MCP Server with the specified MCP Server ID. * `name:important` to find MCP Servers whose name contains `important` as a word. * `displayName:works*` to find MCP Servers whose display name contains words that start with `works`. * `planner OR booking` to find MCP Servers whose metadata contains the words `planner` or `booking`. * `mcpServerId:service-id AND (displayName:planner OR displayName:booking)` to find MCP Servers whose MCP Server ID contains `service-id` and whose display name contains `planner` or `booking`. */
-  searchString?: string | undefined;
   /** Optional. If present, retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of all other method parameters, must be identical to those in the previous call. */
   pageToken?: string | undefined;
+  /** Optional. Search criteria used to select the MCP Servers to return. If no search criteria is specified then all accessible MCP Servers will be returned. Search expressions can be used to restrict results based upon searchable fields, where the operators can be used along with the suffix wildcard symbol `*`. See [instructions](https://docs.cloud.google.com/agent-registry/search-agents-and-tools) for more details. Allowed operators: `=`, `:`, `NOT`, `AND`, `OR`, and `()`. Searchable fields: | Field | `=` | `:` | `*` | Keyword Search | |--------------------|-----|-----|-----|----------------| | mcpServerId | Yes | Yes | Yes | Included | | name | No | Yes | Yes | Included | | displayName | No | Yes | Yes | Included | Examples: * `mcpServerId="urn:mcp:projects-123:projects:123:locations:us-central1:agentregistry:services:service-id"` to find the MCP Server with the specified MCP Server ID. * `name:important` to find MCP Servers whose name contains `important` as a word. * `displayName:works*` to find MCP Servers whose display name contains words that start with `works`. * `planner OR booking` to find MCP Servers whose metadata contains the words `planner` or `booking`. * `mcpServerId:service-id AND (displayName:planner OR displayName:booking)` to find MCP Servers whose MCP Server ID contains `service-id` and whose display name contains `planner` or `booking`. */
+  searchString?: string | undefined;
+  /** Optional. The maximum number of search results to return per page. The page size is capped at `100`, even if a larger value is specified. A negative value will result in an `INVALID_ARGUMENT` error. If unspecified or set to `0`, a default value of `20` will be used. The server may return fewer results than requested. */
+  pageSize?: number | undefined;
 }
 export interface SearchProjectsLocationsMcpServersRequest extends SearchMcpServersRequest {
   /** Required. Parent value for SearchMcpServersRequest. Format: `projects/{project}/locations/{location}`. */
@@ -1179,28 +1179,28 @@ export interface SearchProjectsLocationsMcpServersRequest extends SearchMcpServe
 }
 /** Message for response to searching MCP Servers */
 export interface SearchMcpServersResponse {
-  /** If there are more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
-  nextPageToken?: string | undefined;
   /** A list of McpServers that match the `search_string`. */
   mcpServers?: McpServerList | undefined;
+  /** If there are more results than those appearing in this response, then `next_page_token` is included. To get the next set of results, call this method again using the value of `next_page_token` as `page_token`. */
+  nextPageToken?: string | undefined;
 }
 export type SearchProjectsLocationsSkillsSearchTypeEnum =
   | "SEARCH_TYPE_UNSPECIFIED"
   | "KEYWORD"
   | "SEMANTIC";
 export interface SearchProjectsLocationsSkillsRequest {
-  /** Optional. Use this field to specify additional filter criteria on search results. Filter expressions can be used to restrict results based upon filterable fields, where equality operators can be used. See [instructions](https://docs.cloud.google.com/agent-registry/search-agents-and-tools) for more details. Allowed operators: `=`, `<`, `>`, `NOT`, `AND`, `OR`, and `()`. | Field | `=` | `<`, `>` | |--------------|-----|----------| | state | Yes | No | | targetState | Yes | No | | createTime | Yes | Yes | | updateTime | Yes | Yes | Examples: * `state=ACTIVE` to restrict results to skills in the `ACTIVE` state. */
-  filter?: string | undefined;
+  /** Optional. The maximum number of search results to return per page. The page size is capped at `100`, even if a larger value is specified. A negative value will result in an `INVALID_ARGUMENT` error. If unspecified or set to `0`, a default value of `20` will be used. The server may return fewer results than requested. */
+  pageSize?: number | undefined;
   /** Optional. If present, retrieve the next batch of results from the preceding call to this method. `page_token` must be the value of `next_page_token` from the previous response. The values of all other method parameters, must be identical to those in the previous call. */
   pageToken?: string | undefined;
   /** Optional. The type of search. */
   searchType?: SearchProjectsLocationsSkillsSearchTypeEnum | (string & {}) | undefined;
+  /** Optional. Use this field to specify additional filter criteria on search results. Filter expressions can be used to restrict results based upon filterable fields, where equality operators can be used. See [instructions](https://docs.cloud.google.com/agent-registry/search-agents-and-tools) for more details. Allowed operators: `=`, `<`, `>`, `NOT`, `AND`, `OR`, and `()`. | Field | `=` | `<`, `>` | |--------------|-----|----------| | state | Yes | No | | targetState | Yes | No | | createTime | Yes | Yes | | updateTime | Yes | Yes | Examples: * `state=ACTIVE` to restrict results to skills in the `ACTIVE` state. */
+  filter?: string | undefined;
   /** Required. Parent value for SearchSkillsRequest. Format: `projects/{project}/locations/{location}`. */
   parent: string;
   /** Optional. Search criteria used to select the Skills to return. If no search criteria is specified then all accessible Skills will be returned. Search expressions can be used to restrict results based upon searchable fields, where the operators can be used along with the suffix wildcard symbol `*`. See [instructions](https://docs.cloud.google.com/agent-registry/search-agents-and-tools) for more details. Allowed operators: `=`, `:`, `NOT`, `AND`, `OR`, and `()`. Searchable fields: | Field | `=` | `:` | `*` | Keyword Search | |---------------------------|-----|-----|-----|----------------| | skillId | Yes | Yes | Yes | Included | | name | No | Yes | Yes | Included | | displayName | No | Yes | Yes | Included | | description | No | Yes | No | Included | | frontmatter.name | No | Yes | No | Included | | frontmatter.description | No | Yes | No | Included | | frontmatter.compatibility | No | Yes | No | Included | | frontmatter.license | No | Yes | No | Included | Examples: * `skillId="urn:skill:projects-1234:locations:global:private-important-skill"` to find the skill with the specified skill ID. * `name:important` to find skills whose name contains `important` as a word. * `displayName:works*` to find skills whose display name contains words that start with `works`. */
   searchString?: string | undefined;
-  /** Optional. The maximum number of search results to return per page. The page size is capped at `100`, even if a larger value is specified. A negative value will result in an `INVALID_ARGUMENT` error. If unspecified or set to `0`, a default value of `20` will be used. The server may return fewer results than requested. */
-  pageSize?: number | undefined;
 }
 /** Response listing searched Skills. */
 export interface SearchSkillsResponse {
@@ -1255,8 +1255,8 @@ export const cancelProjectsLocationsOperations: API.OperationMethod<
   CancelProjectsLocationsOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<Empty>,
+  input: __S(720, __c45, 0) as any as S.Schema<CancelProjectsLocationsOperationsRequest>,
+  output: __S(736, __c46, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1388,7 +1388,7 @@ export const deleteProjectsLocationsOperations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteProjectsLocationsOperationsRequest>,
-  output: __S(720, __c45, 0) as any as S.Schema<Empty>,
+  output: __S(736, __c46, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1472,7 +1472,7 @@ export const fetchAvailableProjectsLocationsBindings: API.PaginatedOperationMeth
   FetchAvailableBindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(64, __c4, 0) as any as S.Schema<FetchAvailableProjectsLocationsBindingsRequest>,
-  output: __S(65, __c4, 1) as any as S.Schema<FetchAvailableBindingsResponse>,
+  output: __S(81, __c5, 1) as any as S.Schema<FetchAvailableBindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1799,7 +1799,7 @@ export const listProjectsLocationsAgents: API.PaginatedOperationMethod<
   ListAgentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(528, __c33, 0) as any as S.Schema<ListProjectsLocationsAgentsRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<ListAgentsResponse>,
+  output: __S(529, __c33, 1) as any as S.Schema<ListAgentsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1817,8 +1817,8 @@ export const listProjectsLocationsAiApplications: API.PaginatedOperationMethod<
   GcpOpContext,
   ListAiApplicationsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<ListProjectsLocationsAiApplicationsRequest>,
-  output: __S(578, __c36, 2) as any as S.Schema<ListAiApplicationsResponse>,
+  input: __S(560, __c35, 0) as any as S.Schema<ListProjectsLocationsAiApplicationsRequest>,
+  output: __S(562, __c35, 2) as any as S.Schema<ListAiApplicationsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1836,8 +1836,8 @@ export const listProjectsLocationsAiApplicationsAgents: API.PaginatedOperationMe
   GcpOpContext,
   ListAiApplicationAgentsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<ListProjectsLocationsAiApplicationsAgentsRequest>,
-  output: __S(593, __c37, 1) as any as S.Schema<ListAiApplicationAgentsResponse>,
+  input: __S(576, __c36, 0) as any as S.Schema<ListProjectsLocationsAiApplicationsAgentsRequest>,
+  output: __S(592, __c37, 0) as any as S.Schema<ListAiApplicationAgentsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1856,7 +1856,7 @@ export const listProjectsLocationsAiApplicationsEndpoints: API.PaginatedOperatio
   ListAiApplicationEndpointsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<ListProjectsLocationsAiApplicationsEndpointsRequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<ListAiApplicationEndpointsResponse>,
+  output: __S(609, __c38, 1) as any as S.Schema<ListAiApplicationEndpointsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1879,7 +1879,7 @@ export const listProjectsLocationsAiApplicationsMcpServers: API.PaginatedOperati
     __c40,
     0,
   ) as any as S.Schema<ListProjectsLocationsAiApplicationsMcpServersRequest>,
-  output: __S(641, __c40, 1) as any as S.Schema<ListAiApplicationMcpServersResponse>,
+  output: __S(672, __c42, 0) as any as S.Schema<ListAiApplicationMcpServersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1897,8 +1897,8 @@ export const listProjectsLocationsBindings: API.PaginatedOperationMethod<
   GcpOpContext,
   ListBindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<ListProjectsLocationsBindingsRequest>,
-  output: __S(673, __c42, 1) as any as S.Schema<ListBindingsResponse>,
+  input: __S(688, __c43, 0) as any as S.Schema<ListProjectsLocationsBindingsRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<ListBindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1916,8 +1916,8 @@ export const listProjectsLocationsEndpoints: API.PaginatedOperationMethod<
   GcpOpContext,
   ListEndpointsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<ListProjectsLocationsEndpointsRequest>,
-  output: __S(625, __c39, 1) as any as S.Schema<ListEndpointsResponse>,
+  input: __S(704, __c44, 0) as any as S.Schema<ListProjectsLocationsEndpointsRequest>,
+  output: __S(705, __c44, 1) as any as S.Schema<ListEndpointsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1935,8 +1935,8 @@ export const listProjectsLocationsFindings: API.PaginatedOperationMethod<
   GcpOpContext,
   ListFindingsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(736, __c46, 0) as any as S.Schema<ListProjectsLocationsFindingsRequest>,
-  output: __S(738, __c46, 2) as any as S.Schema<ListFindingsResponse>,
+  input: __S(752, __c47, 0) as any as S.Schema<ListProjectsLocationsFindingsRequest>,
+  output: __S(754, __c47, 2) as any as S.Schema<ListFindingsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1954,8 +1954,8 @@ export const listProjectsLocationsMcpServers: API.PaginatedOperationMethod<
   GcpOpContext,
   ListMcpServersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(752, __c47, 0) as any as S.Schema<ListProjectsLocationsMcpServersRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<ListMcpServersResponse>,
+  input: __S(768, __c48, 0) as any as S.Schema<ListProjectsLocationsMcpServersRequest>,
+  output: __S(769, __c48, 1) as any as S.Schema<ListMcpServersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2139,7 +2139,7 @@ export const searchProjectsLocationsAgents: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1009, __c63, 1) as any as S.Schema<SearchProjectsLocationsAgentsRequest>,
-  output: __S(560, __c35, 0) as any as S.Schema<SearchAgentsResponse>,
+  output: __S(592, __c37, 0) as any as S.Schema<SearchAgentsResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2161,7 +2161,7 @@ export const searchProjectsLocationsMcpServers: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1025, __c64, 1) as any as S.Schema<SearchProjectsLocationsMcpServersRequest>,
-  output: __S(768, __c48, 0) as any as S.Schema<SearchMcpServersResponse>,
+  output: __S(672, __c42, 0) as any as S.Schema<SearchMcpServersResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -2302,8 +2302,8 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2319,9 +2319,9 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          name: S.String.pipe(T.Label()),
           force: S.optional(S.Boolean.pipe(T.Query())),
           requestId: S.optional(S.String.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2337,8 +2337,8 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          requestId: S.optional(S.String.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          requestId: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "DELETE",
@@ -2354,11 +2354,11 @@ function __c4(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           sourceIdentifier: S.optional(S.String.pipe(T.Query())),
-          targetIdentifier: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          targetIdentifier: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2367,19 +2367,19 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "FetchAvailableProjectsLocationsBindingsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          bindings: S.optional(__S(80, __c5, 0)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FetchAvailableBindingsResponse" });
   }
 }
 function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(946, __c59, 2));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          bindings: S.optional(__S(80, __c5, 0)),
+        }),
+      ).annotate({ identifier: "FetchAvailableBindingsResponse" });
   }
 }
 function __c6(j: number): any {
@@ -2413,8 +2413,8 @@ function __c7(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          service: S.optional(S.String),
           auditLogConfigs: S.optional(__S(113, __c7, 1)),
+          service: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleIamV1AuditConfig" });
     case 3:
@@ -2422,18 +2422,18 @@ function __c7(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          title: S.optional(S.String),
-          description: S.optional(S.String),
           expression: S.optional(S.String),
           location: S.optional(S.String),
+          description: S.optional(S.String),
+          title: S.optional(S.String),
         }),
       ).annotate({ identifier: "Expr" });
     case 5:
       return S.suspend(() =>
         S.Struct({
+          condition: S.optional(__S(116, __c7, 4)),
           members: S.optional(__S(992, __c62, 0)),
           role: S.optional(S.String),
-          condition: S.optional(__S(116, __c7, 4)),
         }),
       ).annotate({ identifier: "GoogleIamV1Binding" });
     case 6:
@@ -2443,8 +2443,8 @@ function __c7(j: number): any {
         S.Struct({
           etag: S.optional(S.String),
           auditConfigs: S.optional(__S(115, __c7, 3)),
-          bindings: S.optional(__S(118, __c7, 6)),
           version: S.optional(S.Number),
+          bindings: S.optional(__S(118, __c7, 6)),
         }),
       ).annotate({ identifier: "GoogleIamV1Policy" });
   }
@@ -2454,8 +2454,8 @@ function __c8(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          resource: S.String.pipe(T.Label()),
           "options.requestedPolicyVersion": S.optional(S.Number.pipe(T.Query())),
+          resource: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2487,10 +2487,10 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1248, __c78, 0)),
           locationId: S.optional(S.String),
-          name: S.optional(S.String),
           metadata: S.optional(__S(960, __c60, 0)),
+          labels: S.optional(__S(1248, __c78, 0)),
+          name: S.optional(S.String),
           displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Location" });
@@ -2523,8 +2523,8 @@ function __c13(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
           protocolVersion: S.optional(S.String),
+          type: S.optional(S.String),
           interfaces: S.optional(__S(1169, __c73, 1)),
         }),
       ).annotate({ identifier: "Protocol" });
@@ -2533,11 +2533,11 @@ function __c13(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
-          tags: S.optional(__S(992, __c62, 0)),
-          examples: S.optional(__S(992, __c62, 0)),
-          name: S.optional(S.String),
           description: S.optional(S.String),
+          tags: S.optional(__S(992, __c62, 0)),
+          id: S.optional(S.String),
+          name: S.optional(S.String),
+          examples: S.optional(__S(992, __c62, 0)),
         }),
       ).annotate({ identifier: "A2ASkill" });
     case 3:
@@ -2545,19 +2545,19 @@ function __c13(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          location: S.optional(S.String),
-          agentId: S.optional(S.String),
-          attributes: S.optional(__S(192, __c12, 0)),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
           uid: S.optional(S.String),
+          createTime: S.optional(S.String),
+          location: S.optional(S.String),
           protocols: S.optional(__S(209, __c13, 1)),
-          description: S.optional(S.String),
           updateTime: S.optional(S.String),
-          skills: S.optional(__S(211, __c13, 3)),
+          agentId: S.optional(S.String),
+          displayName: S.optional(S.String),
+          attributes: S.optional(__S(192, __c12, 0)),
           card: S.optional(__S(1184, __c74, 0)),
+          skills: S.optional(__S(211, __c13, 3)),
           version: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Agent" });
   }
@@ -2583,42 +2583,42 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          uri: S.optional(S.String),
+          type: S.optional(S.String),
+          environment: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Channel" });
+      ).annotate({ identifier: "Environment" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          displayName: S.optional(S.String),
-          channel: S.optional(__S(240, __c15, 0)),
-          email: S.optional(S.String),
+          uri: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ContactInfo" });
+      ).annotate({ identifier: "Channel" });
     case 2:
-      return S.Array(__S(241, __c15, 1));
-    case 3:
       return S.suspend(() =>
         S.Struct({
-          environment: S.optional(S.String),
-          type: S.optional(S.String),
+          displayName: S.optional(S.String),
+          email: S.optional(S.String),
+          channel: S.optional(__S(241, __c15, 1)),
         }),
-      ).annotate({ identifier: "Environment" });
+      ).annotate({ identifier: "ContactInfo" });
+    case 3:
+      return S.Array(__S(242, __c15, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           level: S.optional(S.String),
-          type: S.optional(S.String),
           missionCritical: S.optional(S.Boolean),
+          type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Criticality" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          operatorOwners: S.optional(__S(242, __c15, 2)),
-          environment: S.optional(__S(243, __c15, 3)),
-          businessOwners: S.optional(__S(242, __c15, 2)),
+          environment: S.optional(__S(240, __c15, 0)),
+          operatorOwners: S.optional(__S(243, __c15, 3)),
           criticality: S.optional(__S(244, __c15, 4)),
-          developerOwners: S.optional(__S(242, __c15, 2)),
+          developerOwners: S.optional(__S(243, __c15, 3)),
+          businessOwners: S.optional(__S(243, __c15, 3)),
         }),
       ).annotate({ identifier: "Attributes" });
     case 6:
@@ -2638,15 +2638,15 @@ function __c15(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(S.String),
-          name: S.optional(S.String),
-          uid: S.optional(S.String),
-          displayName: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          attributes: S.optional(__S(245, __c15, 5)),
-          applicationProperties: S.optional(__S(248, __c15, 8)),
-          description: S.optional(S.String),
           createTime: S.optional(S.String),
+          attributes: S.optional(__S(245, __c15, 5)),
+          updateTime: S.optional(S.String),
+          displayName: S.optional(S.String),
+          uid: S.optional(S.String),
+          description: S.optional(S.String),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
+          applicationProperties: S.optional(__S(248, __c15, 8)),
         }),
       ).annotate({ identifier: "AiApplication" });
   }
@@ -2688,14 +2688,14 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          description: S.optional(S.String),
-          createTime: S.optional(S.String),
-          updateTime: S.optional(S.String),
-          attributes: S.optional(__S(192, __c12, 0)),
           endpointId: S.optional(S.String),
           interfaces: S.optional(__S(1169, __c73, 1)),
+          name: S.optional(S.String),
+          description: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          attributes: S.optional(__S(192, __c12, 0)),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Endpoint" });
   }
@@ -2721,20 +2721,20 @@ function __c20(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          idempotentHint: S.optional(S.Boolean),
-          readOnlyHint: S.optional(S.Boolean),
+          destructiveHint: S.optional(S.Boolean),
           openWorldHint: S.optional(S.Boolean),
           title: S.optional(S.String),
-          destructiveHint: S.optional(S.Boolean),
+          idempotentHint: S.optional(S.Boolean),
+          readOnlyHint: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Annotations" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           annotations: S.optional(__S(320, __c20, 0)),
+          name: S.optional(S.String),
           _meta: S.optional(__S(960, __c60, 0)),
           description: S.optional(S.String),
-          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Tool" });
     case 2:
@@ -2742,15 +2742,15 @@ function __c20(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          interfaces: S.optional(__S(1169, __c73, 1)),
-          name: S.optional(S.String),
-          displayName: S.optional(S.String),
-          tools: S.optional(__S(322, __c20, 2)),
-          updateTime: S.optional(S.String),
           attributes: S.optional(__S(192, __c12, 0)),
-          mcpServerId: S.optional(S.String),
-          description: S.optional(S.String),
           createTime: S.optional(S.String),
+          name: S.optional(S.String),
+          tools: S.optional(__S(322, __c20, 2)),
+          mcpServerId: S.optional(S.String),
+          updateTime: S.optional(S.String),
+          description: S.optional(S.String),
+          interfaces: S.optional(__S(1169, __c73, 1)),
+          displayName: S.optional(S.String),
         }),
       ).annotate({ identifier: "McpServer" });
   }
@@ -2817,15 +2817,15 @@ function __c24(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
+          uid: S.optional(S.String),
+          findingClass: S.optional(S.String),
           createTime: S.optional(S.String),
           severity: S.optional(S.String),
+          detail: S.optional(S.String),
+          name: S.optional(S.String),
+          files: S.optional(__S(385, __c24, 1)),
           resource: S.optional(S.String),
           updateTime: S.optional(S.String),
-          detail: S.optional(S.String),
-          uid: S.optional(S.String),
-          files: S.optional(__S(385, __c24, 1)),
-          findingClass: S.optional(S.String),
         }),
       ).annotate({ identifier: "Finding" });
   }
@@ -2883,12 +2883,12 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          supportUri: S.optional(S.String),
-          publisherTier: S.optional(S.String),
           verifiedPrefix: S.optional(S.String),
-          displayName: S.optional(S.String),
+          publisherTier: S.optional(S.String),
           documentationUri: S.optional(S.String),
+          name: S.optional(S.String),
+          displayName: S.optional(S.String),
+          supportUri: S.optional(S.String),
         }),
       ).annotate({ identifier: "Publisher" });
   }
@@ -2947,10 +2947,10 @@ function __c32(j: number): any {
       return S.suspend(() =>
         S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          extraLocationTypes: S.optional(__S(992, __c62, 0).pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          extraLocationTypes: S.optional(__S(992, __c62, 0).pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2975,11 +2975,11 @@ function __c33(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          orderBy: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2988,6 +2988,13 @@ function __c33(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListProjectsLocationsAgentsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          agents: S.optional(__S(544, __c34, 0)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListAgentsResponse" });
   }
 }
 function __c34(j: number): any {
@@ -3001,22 +3008,11 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
-          agents: S.optional(__S(544, __c34, 0)),
-        }),
-      ).annotate({ identifier: "ListAgentsResponse" });
-  }
-}
-function __c36(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
           filter: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3030,21 +3026,21 @@ function __c36(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(992, __c62, 0)),
+          aiApplications: S.optional(__S(561, __c35, 1)),
           nextPageToken: S.optional(S.String),
-          aiApplications: S.optional(__S(577, __c36, 1)),
+          unreachable: S.optional(__S(992, __c62, 0)),
         }),
       ).annotate({ identifier: "ListAiApplicationsResponse" });
   }
 }
-function __c37(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3053,11 +3049,15 @@ function __c37(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListProjectsLocationsAiApplicationsAgentsRequest" });
-    case 1:
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          agents: S.optional(__S(544, __c34, 0)),
           nextPageToken: S.optional(S.String),
+          agents: S.optional(__S(544, __c34, 0)),
         }),
       ).annotate({ identifier: "ListAiApplicationAgentsResponse" });
   }
@@ -3068,8 +3068,8 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3078,19 +3078,19 @@ function __c38(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListProjectsLocationsAiApplicationsEndpointsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          nextPageToken: S.optional(S.String),
+          endpoints: S.optional(__S(624, __c39, 0)),
+        }),
+      ).annotate({ identifier: "ListAiApplicationEndpointsResponse" });
   }
 }
 function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(288, __c18, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          endpoints: S.optional(__S(624, __c39, 0)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListAiApplicationEndpointsResponse" });
   }
 }
 function __c40(j: number): any {
@@ -3098,9 +3098,9 @@ function __c40(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3109,13 +3109,6 @@ function __c40(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListProjectsLocationsAiApplicationsMcpServersRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          mcpServers: S.optional(__S(656, __c41, 0)),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListAiApplicationMcpServersResponse" });
   }
 }
 function __c41(j: number): any {
@@ -3129,11 +3122,22 @@ function __c42(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
+          mcpServers: S.optional(__S(656, __c41, 0)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListAiApplicationMcpServersResponse" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
+          filter: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3142,16 +3146,9 @@ function __c42(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListProjectsLocationsBindingsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          bindings: S.optional(__S(80, __c5, 0)),
-        }),
-      ).annotate({ identifier: "ListBindingsResponse" });
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -3168,15 +3165,22 @@ function __c43(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListProjectsLocationsEndpointsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          endpoints: S.optional(__S(624, __c39, 0)),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListEndpointsResponse" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          body: S.optional(__S(720, __c45, 0).pipe(T.HttpBody())),
+          body: S.optional(__S(736, __c46, 0).pipe(T.HttpBody())),
         }).pipe(
           T.Http({
             method: "POST",
@@ -3187,22 +3191,22 @@ function __c44(j: number): any {
       ).annotate({ identifier: "CancelProjectsLocationsOperationsRequest" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "CancelOperationRequest" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3216,22 +3220,22 @@ function __c46(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          findings: S.optional(__S(737, __c46, 1)),
+          findings: S.optional(__S(753, __c47, 1)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListFindingsResponse" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           pageToken: S.optional(S.String.pipe(T.Query())),
-          filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           orderBy: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3240,11 +3244,7 @@ function __c47(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ListProjectsLocationsMcpServersRequest" });
-  }
-}
-function __c48(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
@@ -3259,9 +3259,9 @@ function __c49(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-          filter: S.optional(S.String.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -3276,9 +3276,9 @@ function __c49(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unreachable: S.optional(__S(992, __c62, 0)),
           operations: S.optional(__S(785, __c49, 1)),
           nextPageToken: S.optional(S.String),
+          unreachable: S.optional(__S(992, __c62, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -3289,8 +3289,8 @@ function __c50(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3332,8 +3332,8 @@ function __c51(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           services: S.optional(__S(817, __c51, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListServicesResponse" });
   }
@@ -3343,11 +3343,11 @@ function __c52(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3377,9 +3377,9 @@ function __c54(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3393,8 +3393,8 @@ function __c54(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          skillRevisions: S.optional(__S(865, __c54, 1)),
           nextPageToken: S.optional(S.String),
+          skillRevisions: S.optional(__S(865, __c54, 1)),
         }),
       ).annotate({ identifier: "ListSkillRevisionsResponse" });
   }
@@ -3406,9 +3406,9 @@ function __c55(j: number): any {
         S.Extend(
           __S(946, __c59, 2),
           S.Struct({
-            requestId: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -3427,9 +3427,9 @@ function __c56(j: number): any {
         S.Extend(
           __S(1201, __c75, 1),
           S.Struct({
-            updateMask: S.optional(S.String.pipe(T.Query())),
             name: S.String.pipe(T.Label()),
             requestId: S.optional(S.String.pipe(T.Query())),
+            updateMask: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -3469,9 +3469,9 @@ function __c58(j: number): any {
         S.Extend(
           __S(946, __c59, 2),
           S.Struct({
+            parent: S.String.pipe(T.Label()),
             bindingId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
-            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -3488,9 +3488,9 @@ function __c59(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          authProvider: S.optional(S.String),
           scopes: S.optional(__S(992, __c62, 0)),
           continueUri: S.optional(S.String),
-          authProvider: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthProviderBinding" });
     case 1:
@@ -3502,14 +3502,14 @@ function __c59(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          authProviderBinding: S.optional(__S(944, __c59, 0)),
           name: S.optional(S.String),
+          authProviderBinding: S.optional(__S(944, __c59, 0)),
           target: S.optional(__S(945, __c59, 1)),
-          updateTime: S.optional(S.String),
-          source: S.optional(__S(945, __c59, 1)),
-          createTime: S.optional(S.String),
-          displayName: S.optional(S.String),
           description: S.optional(S.String),
+          displayName: S.optional(S.String),
+          createTime: S.optional(S.String),
+          source: S.optional(__S(945, __c59, 1)),
+          updateTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Binding" });
   }
@@ -3535,11 +3535,11 @@ function __c61(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          error: S.optional(__S(977, __c61, 1)),
-          metadata: S.optional(__S(960, __c60, 0)),
-          done: S.optional(S.Boolean),
           name: S.optional(S.String),
+          done: S.optional(S.Boolean),
+          metadata: S.optional(__S(960, __c60, 0)),
           response: S.optional(__S(960, __c60, 0)),
+          error: S.optional(__S(977, __c61, 1)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -3556,8 +3556,8 @@ function __c63(j: number): any {
       return S.suspend(() =>
         S.Struct({
           searchString: S.optional(S.String),
-          pageToken: S.optional(S.String),
           pageSize: S.optional(S.Number),
+          pageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchAgentsRequest" });
     case 1:
@@ -3582,9 +3582,9 @@ function __c64(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number),
-          searchString: S.optional(S.String),
           pageToken: S.optional(S.String),
+          searchString: S.optional(S.String),
+          pageSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "SearchMcpServersRequest" });
     case 1:
@@ -3609,12 +3609,12 @@ function __c65(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
           searchType: S.optional(S.String.pipe(T.Query())),
+          filter: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
           searchString: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -3737,8 +3737,8 @@ function __c72(j: number): any {
           __S(1201, __c75, 1),
           S.Struct({
             parent: S.String.pipe(T.Label()),
-            requestId: S.optional(S.String.pipe(T.Query())),
             serviceId: S.optional(S.String.pipe(T.Query())),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -3771,7 +3771,7 @@ function __c74(j: number): any {
           type: S.optional(S.String),
           content: S.optional(__S(960, __c60, 0)),
         }),
-      ).annotate({ identifier: "McpServerSpec" });
+      ).annotate({ identifier: "AgentSpec" });
   }
 }
 function __c75(j: number): any {
@@ -3786,16 +3786,16 @@ function __c75(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          updateTime: S.optional(S.String),
-          endpointSpec: S.optional(__S(1200, __c75, 0)),
-          mcpServerSpec: S.optional(__S(1184, __c74, 0)),
-          createTime: S.optional(S.String),
-          description: S.optional(S.String),
           name: S.optional(S.String),
           interfaces: S.optional(__S(1169, __c73, 1)),
-          registryResource: S.optional(S.String),
-          agentSpec: S.optional(__S(1200, __c75, 0)),
+          endpointSpec: S.optional(__S(1200, __c75, 0)),
+          updateTime: S.optional(S.String),
+          mcpServerSpec: S.optional(__S(1200, __c75, 0)),
+          description: S.optional(S.String),
+          agentSpec: S.optional(__S(1184, __c74, 0)),
           displayName: S.optional(S.String),
+          registryResource: S.optional(S.String),
+          createTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "Service" });
   }
@@ -3808,8 +3808,8 @@ function __c76(j: number): any {
           __S(1233, __c77, 1),
           S.Struct({
             skillId: S.optional(S.String.pipe(T.Query())),
-            requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            requestId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -3832,21 +3832,21 @@ function __c77(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          scanningConfig: S.optional(__S(1232, __c77, 0)),
           frontmatter: S.optional(__S(1264, __c79, 0)),
-          targetState: S.optional(S.String),
-          state: S.optional(S.String),
+          publisher: S.optional(S.String),
           displayName: S.optional(S.String),
+          targetState: S.optional(S.String),
+          skillId: S.optional(S.String),
+          scanningConfig: S.optional(__S(1232, __c77, 0)),
+          state: S.optional(S.String),
+          name: S.optional(S.String),
+          uid: S.optional(S.String),
+          description: S.optional(S.String),
           type: S.optional(S.String),
           createTime: S.optional(S.String),
-          description: S.optional(S.String),
-          defaultRevision: S.optional(S.String),
-          name: S.optional(S.String),
           updateTime: S.optional(S.String),
           initialRevision: S.optional(__S(1268, __c79, 4)),
-          skillId: S.optional(S.String),
-          uid: S.optional(S.String),
-          publisher: S.optional(S.String),
+          defaultRevision: S.optional(S.String),
         }),
       ).annotate({ identifier: "Skill" });
   }
@@ -3863,19 +3863,19 @@ function __c79(j: number): any {
       return S.suspend(() =>
         S.Struct({
           metadata: S.optional(__S(1248, __c78, 0)),
-          license: S.optional(S.String),
           name: S.optional(S.String),
-          description: S.optional(S.String),
           compatibility: S.optional(S.String),
+          license: S.optional(S.String),
+          description: S.optional(S.String),
         }),
       ).annotate({ identifier: "Frontmatter" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           errorMessage: S.optional(S.String),
-          scanState: S.optional(S.String),
-          scanTime: S.optional(S.String),
           findings: S.optional(__S(992, __c62, 0)),
+          scanTime: S.optional(S.String),
+          scanState: S.optional(S.String),
         }),
       ).annotate({ identifier: "ScanResult" });
     case 2:
@@ -3894,14 +3894,14 @@ function __c79(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          frontmatter: S.optional(__S(1264, __c79, 0)),
-          scanResult: S.optional(__S(1265, __c79, 1)),
-          state: S.optional(S.String),
-          name: S.optional(S.String),
           createTime: S.optional(S.String),
-          sha256Hash: S.optional(S.String),
           sizeBytes: S.optional(S.String),
+          sha256Hash: S.optional(S.String),
           uid: S.optional(S.String),
+          scanResult: S.optional(__S(1265, __c79, 1)),
+          frontmatter: S.optional(__S(1264, __c79, 0)),
+          name: S.optional(S.String),
+          state: S.optional(S.String),
           gcsSource: S.optional(__S(1266, __c79, 2)),
           archiveUploadSource: S.optional(__S(1267, __c79, 3)),
         }),
@@ -3915,9 +3915,9 @@ function __c80(j: number): any {
         S.Extend(
           __S(1268, __c79, 4),
           S.Struct({
+            skillRevisionId: S.optional(S.String.pipe(T.Query())),
             requestId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
-            skillRevisionId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({

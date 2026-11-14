@@ -106,31 +106,31 @@ export type DeviceIdentifierDeviceTypeEnum =
   | "DEVICE_TYPE_CHROME_OS";
 /** Encapsulates hardware and product IDs to identify a manufactured device. To understand requirements on identifier sets, read [Identifiers](https://developers.google.com/zero-touch/guides/identifiers). */
 export interface DeviceIdentifier {
-  /** An identifier provided by OEMs, carried through the production and sales process. Only applicable to Chrome OS devices. */
-  chromeOsAttestedDeviceId?: string | undefined;
+  /** The manufacturer's serial number for the device. This value might not be unique across different device models. */
+  serialNumber?: string | undefined;
+  /** The device's second MEID number. */
+  meid2?: string | undefined;
+  /** The device model's name. Allowed values are listed in [Android models](/zero-touch/resources/manufacturer-names#model-names) and [Chrome OS models](https://support.google.com/chrome/a/answer/10130175#identify_compatible). */
+  model?: string | undefined;
   /** The device manufacturer's name. Matches the device's built-in value returned from `android.os.Build.MANUFACTURER`. Allowed values are listed in [Android manufacturers](/zero-touch/resources/manufacturer-names#manufacturers-names). */
   manufacturer?: string | undefined;
   /** The device's second IMEI number. */
   imei2?: string | undefined;
-  /** The device's IMEI number. Validated on input. */
-  imei?: string | undefined;
-  /** The device model's name. Allowed values are listed in [Android models](/zero-touch/resources/manufacturer-names#model-names) and [Chrome OS models](https://support.google.com/chrome/a/answer/10130175#identify_compatible). */
-  model?: string | undefined;
-  /** The device's MEID number. */
-  meid?: string | undefined;
   /** The type of the device */
   deviceType?: DeviceIdentifierDeviceTypeEnum | (string & {}) | undefined;
-  /** The device's second MEID number. */
-  meid2?: string | undefined;
-  /** The manufacturer's serial number for the device. This value might not be unique across different device models. */
-  serialNumber?: string | undefined;
+  /** The device's MEID number. */
+  meid?: string | undefined;
+  /** The device's IMEI number. Validated on input. */
+  imei?: string | undefined;
+  /** An identifier provided by OEMs, carried through the production and sales process. Only applicable to Chrome OS devices. */
+  chromeOsAttestedDeviceId?: string | undefined;
 }
 /** A `DeviceReference` is an API abstraction that lets you supply a _device_ argument to a method using one of the following identifier types: * A numeric API resource ID. * Real-world hardware IDs, such as IMEI number, belonging to the manufactured device. Methods that operate on devices take a `DeviceReference` as a parameter type because it's more flexible for the caller. To learn more about device identifiers, read [Identifiers](https://developers.google.com/zero-touch/guides/identifiers). */
 export interface DeviceReference {
-  /** The hardware IDs of the device. */
-  deviceIdentifier?: DeviceIdentifier | undefined;
   /** The ID of the device. */
   deviceId?: string | undefined;
+  /** The hardware IDs of the device. */
+  deviceIdentifier?: DeviceIdentifier | undefined;
 }
 /** Request message for customer to assign a configuration to device. */
 export interface CustomerApplyConfigurationRequest {
@@ -145,34 +145,34 @@ export interface ApplyConfigurationCustomersDevicesRequest extends CustomerApply
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
+export type PartnerClaimSectionTypeEnum =
+  | "SECTION_TYPE_UNSPECIFIED"
+  | "SECTION_TYPE_SIM_LOCK"
+  | "SECTION_TYPE_ZERO_TOUCH";
 export type StringMap = { [key: string]: string | undefined };
 /** Metadata entries that can be attached to a `Device`. To learn more, read [Device metadata](https://developers.google.com/zero-touch/guides/metadata). */
 export interface DeviceMetadata {
   /** Metadata entries recorded as key-value pairs. */
   entries?: StringMap | undefined;
 }
-export type PartnerClaimSectionTypeEnum =
-  | "SECTION_TYPE_UNSPECIFIED"
-  | "SECTION_TYPE_SIM_LOCK"
-  | "SECTION_TYPE_ZERO_TOUCH";
 /** Identifies one claim request. */
 export interface PartnerClaim {
-  /** Required. The metadata to attach to the device at claim. */
-  deviceMetadata?: DeviceMetadata | undefined;
-  /** Optional. Must and can only be set when DeviceProvisioningSectionType is SECTION_TYPE_SIM_LOCK. The unique identifier of the SimLock profile. */
-  simlockProfileId?: string | undefined;
-  /** Optional. The ID of the configuration applied to the device section. */
-  configurationId?: string | undefined;
-  /** The Google Workspace customer ID. */
-  googleWorkspaceCustomerId?: string | undefined;
-  /** The ID of the customer for whom the device is being claimed. */
-  customerId?: string | undefined;
   /** Optional. Must and can only be set for Chrome OS devices. */
   preProvisioningToken?: string | undefined;
-  /** Required. The section type of the device's provisioning record. */
-  sectionType?: PartnerClaimSectionTypeEnum | (string & {}) | undefined;
+  /** Optional. Must and can only be set when DeviceProvisioningSectionType is SECTION_TYPE_SIM_LOCK. The unique identifier of the SimLock profile. */
+  simlockProfileId?: string | undefined;
   /** Required. Required. Device identifier of the device. */
   deviceIdentifier?: DeviceIdentifier | undefined;
+  /** The Google Workspace customer ID. */
+  googleWorkspaceCustomerId?: string | undefined;
+  /** Required. The section type of the device's provisioning record. */
+  sectionType?: PartnerClaimSectionTypeEnum | (string & {}) | undefined;
+  /** Required. The metadata to attach to the device at claim. */
+  deviceMetadata?: DeviceMetadata | undefined;
+  /** The ID of the customer for whom the device is being claimed. */
+  customerId?: string | undefined;
+  /** Optional. The ID of the configuration applied to the device section. */
+  configurationId?: string | undefined;
 }
 export type PartnerClaimList = Array<PartnerClaim>;
 /** Request to claim devices asynchronously in batch. Claiming a device adds the device to zero-touch enrollment and shows the device in the customer's view of the portal. */
@@ -188,25 +188,25 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
   code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
+  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
+  done?: boolean | undefined;
   /** This field will contain a `DevicesLongRunningOperationResponse` object if the operation is created by `claimAsync`, `unclaimAsync`, or `updateMetadataAsync`. */
   response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
   name?: string | undefined;
-  /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean | undefined;
-  /** This field will contain a `DevicesLongRunningOperationMetadata` object if the operation is created by `claimAsync`, `unclaimAsync`, or `updateMetadataAsync`. */
-  metadata?: DocumentMap | undefined;
   /** This field will always be not set if the operation is created by `claimAsync`, `unclaimAsync`, or `updateMetadataAsync`. In this case, error information for each device is set in `response.perDeviceStatus.result.status`. */
   error?: Status | undefined;
+  /** This field will contain a `DevicesLongRunningOperationMetadata` object if the operation is created by `claimAsync`, `unclaimAsync`, or `updateMetadataAsync`. */
+  metadata?: DocumentMap | undefined;
 }
 export type ClaimDeviceRequestSectionTypeEnum =
   | "SECTION_TYPE_UNSPECIFIED"
@@ -214,22 +214,22 @@ export type ClaimDeviceRequestSectionTypeEnum =
   | "SECTION_TYPE_ZERO_TOUCH";
 /** Request message to claim a device on behalf of a customer. */
 export interface ClaimDeviceRequest {
-  /** Optional. The ID of the configuration applied to the device section. */
-  configurationId?: string | undefined;
-  /** Optional. Must and can only be set for Chrome OS devices. */
-  preProvisioningToken?: string | undefined;
+  /** Required. Required. The device identifier of the device to claim. */
+  deviceIdentifier?: DeviceIdentifier | undefined;
   /** The Google Workspace customer ID. */
   googleWorkspaceCustomerId?: string | undefined;
+  /** Optional. The ID of the configuration applied to the device section. */
+  configurationId?: string | undefined;
+  /** The ID of the customer for whom the device is being claimed. */
+  customerId?: string | undefined;
+  /** Optional. Must and can only be set for Chrome OS devices. */
+  preProvisioningToken?: string | undefined;
   /** Optional. Must and can only be set when DeviceProvisioningSectionType is SECTION_TYPE_SIM_LOCK. The unique identifier of the SimLock profile. */
   simlockProfileId?: string | undefined;
   /** Required. The section type of the device's provisioning record. */
   sectionType?: ClaimDeviceRequestSectionTypeEnum | (string & {}) | undefined;
   /** Optional. The metadata to attach to the device. */
   deviceMetadata?: DeviceMetadata | undefined;
-  /** The ID of the customer for whom the device is being claimed. */
-  customerId?: string | undefined;
-  /** Required. Required. The device identifier of the device to claim. */
-  deviceIdentifier?: DeviceIdentifier | undefined;
 }
 export interface ClaimPartnersDevicesRequest extends ClaimDeviceRequest {
   /** Required. The ID of the reseller partner. */
@@ -246,64 +246,64 @@ export interface ClaimDeviceResponse {
 export interface Configuration {
   /** Required. The telephone number that device users can call, using another device, to get help. Zero-touch enrollment shows this number to device users before device provisioning. Accepts numerals, spaces, the plus sign, hyphens, and parentheses. */
   contactPhone?: string | undefined;
-  /** Optional. The timeout before forcing factory reset the device if the device doesn't go through provisioning in the setup wizard, usually due to lack of network connectivity during setup wizard. Ranges from 0-6 hours, with 2 hours being the default if unset. */
-  forcedResetTime?: string | undefined;
-  /** The JSON-formatted EMM provisioning extras that are passed to the DPC. */
-  dpcExtras?: string | undefined;
-  /** Required. Whether this is the default configuration that zero-touch enrollment applies to any new devices the organization purchases in the future. Only one customer configuration can be the default. Setting this value to `true`, changes the previous default configuration's `isDefault` value to `false`. */
-  isDefault?: boolean | undefined;
-  /** Output only. The ID of the configuration. Assigned by the server. */
-  configurationId?: string | undefined;
-  /** Required. The name of the organization. Zero-touch enrollment shows this organization name to device users during device provisioning. */
-  companyName?: string | undefined;
-  /** Required. A short name that describes the configuration's purpose. For example, _Sales team_ or _Temporary employees_. The zero-touch enrollment portal displays this name to IT admins. */
-  configurationName?: string | undefined;
   /** Output only. The API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. Assigned by the server. */
   name?: string | undefined;
-  /** A message, containing one or two sentences, to help device users get help or give them more details about what's happening to their device. Zero-touch enrollment shows this message before the device is provisioned. */
-  customMessage?: string | undefined;
-  /** Required. The resource name of the selected DPC (device policy controller) in the format `customers/[CUSTOMER_ID]/dpcs/*`. To list the supported DPCs, call `customers.dpcs.list`. */
-  dpcResourcePath?: string | undefined;
+  /** Required. Whether this is the default configuration that zero-touch enrollment applies to any new devices the organization purchases in the future. Only one customer configuration can be the default. Setting this value to `true`, changes the previous default configuration's `isDefault` value to `false`. */
+  isDefault?: boolean | undefined;
   /** Required. The email address that device users can contact to get help. Zero-touch enrollment shows this email address to device users before device provisioning. The value is validated on input. */
   contactEmail?: string | undefined;
+  /** A message, containing one or two sentences, to help device users get help or give them more details about what's happening to their device. Zero-touch enrollment shows this message before the device is provisioned. */
+  customMessage?: string | undefined;
+  /** Output only. The ID of the configuration. Assigned by the server. */
+  configurationId?: string | undefined;
+  /** Required. The resource name of the selected DPC (device policy controller) in the format `customers/[CUSTOMER_ID]/dpcs/*`. To list the supported DPCs, call `customers.dpcs.list`. */
+  dpcResourcePath?: string | undefined;
+  /** Required. A short name that describes the configuration's purpose. For example, _Sales team_ or _Temporary employees_. The zero-touch enrollment portal displays this name to IT admins. */
+  configurationName?: string | undefined;
+  /** Optional. The timeout before forcing factory reset the device if the device doesn't go through provisioning in the setup wizard, usually due to lack of network connectivity during setup wizard. Ranges from 0-6 hours, with 2 hours being the default if unset. */
+  forcedResetTime?: string | undefined;
+  /** Required. The name of the organization. Zero-touch enrollment shows this organization name to device users during device provisioning. */
+  companyName?: string | undefined;
+  /** The JSON-formatted EMM provisioning extras that are passed to the DPC. */
+  dpcExtras?: string | undefined;
 }
 export interface CreateCustomersConfigurationsRequest extends Configuration {
   /** Required. The customer that manages the configuration. An API resource name in the format `customers/[CUSTOMER_ID]`. This field has custom validation in CreateConfigurationRequestValidator */
   parent: string;
 }
 export type StringList = Array<string>;
+/** A Google Workspace customer. */
+export interface GoogleWorkspaceAccount {
+  /** Output only. The pre-provisioning tokens previously used to claim devices. */
+  preProvisioningTokens?: StringList | undefined;
+  /** Required. The customer ID. */
+  customerId?: string | undefined;
+}
 export type CompanyTermsStatusEnum =
   | "TERMS_STATUS_UNSPECIFIED"
   | "TERMS_STATUS_NOT_ACCEPTED"
   | "TERMS_STATUS_ACCEPTED"
   | "TERMS_STATUS_STALE";
-/** A Google Workspace customer. */
-export interface GoogleWorkspaceAccount {
-  /** Required. The customer ID. */
-  customerId?: string | undefined;
-  /** Output only. The pre-provisioning tokens previously used to claim devices. */
-  preProvisioningTokens?: StringList | undefined;
-}
 /** A reseller, vendor, or customer in the zero-touch reseller and customer APIs. */
 export interface Company {
   /** Optional. Email address of customer's users in the admin role. Each email address must be associated with a Google Account. */
   adminEmails?: StringList | undefined;
+  /** Output only. The Google Workspace account associated with this customer. Only used for customer Companies. */
+  googleWorkspaceAccount?: GoogleWorkspaceAccount | undefined;
   /** Output only. Whether any user from the company has accepted the latest Terms of Service (ToS). See TermsStatus. */
   termsStatus?: CompanyTermsStatusEnum | (string & {}) | undefined;
+  /** Required. Input only. Email address of customer's users in the owner role. At least one `owner_email` is required. Owners share the same access as admins but can also add, delete, and edit your organization's portal users. */
+  ownerEmails?: StringList | undefined;
+  /** Output only. The ID of the company. Assigned by the server. */
+  companyId?: string | undefined;
   /** Required. The name of the company. For example _XYZ Corp_. Displayed to the company's employees in the zero-touch enrollment portal. */
   companyName?: string | undefined;
-  /** Output only. The API resource name of the company. The resource name is one of the following formats: * `partners/[PARTNER_ID]/customers/[CUSTOMER_ID]` * `partners/[PARTNER_ID]/vendors/[VENDOR_ID]` * `partners/[PARTNER_ID]/vendors/[VENDOR_ID]/customers/[CUSTOMER_ID]` Assigned by the server. */
-  name?: string | undefined;
   /** Input only. The preferred locale of the customer represented as a BCP47 language code. This field is validated on input and requests containing unsupported language codes will be rejected. Supported language codes: Arabic (ar) Chinese (Hong Kong) (zh-HK) Chinese (Simplified) (zh-CN) Chinese (Traditional) (zh-TW) Czech (cs) Danish (da) Dutch (nl) English (UK) (en-GB) English (US) (en-US) Filipino (fil) Finnish (fi) French (fr) German (de) Hebrew (iw) Hindi (hi) Hungarian (hu) Indonesian (id) Italian (it) Japanese (ja) Korean (ko) Norwegian (Bokmal) (no) Polish (pl) Portuguese (Brazil) (pt-BR) Portuguese (Portugal) (pt-PT) Russian (ru) Spanish (es) Spanish (Latin America) (es-419) Swedish (sv) Thai (th) Turkish (tr) Ukrainian (uk) Vietnamese (vi) */
   languageCode?: string | undefined;
   /** Input only. Deprecated: This field is no longer supported and is ignored by the server. */
   skipWelcomeEmail?: boolean | undefined;
-  /** Output only. The Google Workspace account associated with this customer. Only used for customer Companies. */
-  googleWorkspaceAccount?: GoogleWorkspaceAccount | undefined;
-  /** Output only. The ID of the company. Assigned by the server. */
-  companyId?: string | undefined;
-  /** Required. Input only. Email address of customer's users in the owner role. At least one `owner_email` is required. Owners share the same access as admins but can also add, delete, and edit your organization's portal users. */
-  ownerEmails?: StringList | undefined;
+  /** Output only. The API resource name of the company. The resource name is one of the following formats: * `partners/[PARTNER_ID]/customers/[CUSTOMER_ID]` * `partners/[PARTNER_ID]/vendors/[VENDOR_ID]` * `partners/[PARTNER_ID]/vendors/[VENDOR_ID]/customers/[CUSTOMER_ID]` Assigned by the server. */
+  name?: string | undefined;
 }
 /** Request message to create a customer. */
 export interface CreateCustomerRequest {
@@ -320,36 +320,36 @@ export interface DeleteCustomersConfigurationsRequest {
 }
 /** Request to find devices. */
 export interface FindDevicesByDeviceIdentifierRequest {
+  /** Required. The maximum number of devices to show in a page of results. Must be between 1 and 100 inclusive. */
+  limit?: string | undefined;
   /** Required. Required. The device identifier to search for. If serial number is provided then case insensitive serial number matches are allowed. */
   deviceIdentifier?: DeviceIdentifier | undefined;
   /** A token specifying which result page to return. */
   pageToken?: string | undefined;
-  /** Required. The maximum number of devices to show in a page of results. Must be between 1 and 100 inclusive. */
-  limit?: string | undefined;
 }
 export interface FindByIdentifierPartnersDevicesRequest extends FindDevicesByDeviceIdentifierRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
 }
+export type DeviceClaimAdditionalServiceEnum =
+  | "ADDITIONAL_SERVICE_UNSPECIFIED"
+  | "DEVICE_PROTECTION";
 export type DeviceClaimSectionTypeEnum =
   | "SECTION_TYPE_UNSPECIFIED"
   | "SECTION_TYPE_SIM_LOCK"
   | "SECTION_TYPE_ZERO_TOUCH";
-export type DeviceClaimAdditionalServiceEnum =
-  | "ADDITIONAL_SERVICE_UNSPECIFIED"
-  | "DEVICE_PROTECTION";
 /** A record of a device claimed by a reseller for a customer. Devices claimed for zero-touch enrollment have a claim with the type `SECTION_TYPE_ZERO_TOUCH`. To learn more, read [Claim devices for customers](/zero-touch/guides/how-it-works#claim). */
 export interface DeviceClaim {
-  /** Output only. The type of claim made on the device. */
-  sectionType?: DeviceClaimSectionTypeEnum | undefined;
-  /** The ID of the Google Workspace account that owns the Chrome OS device. */
-  googleWorkspaceCustomerId?: string | undefined;
-  /** The timestamp when the device was put into 'vacation mode'. This value is present iff the device is in 'vacation mode'. */
-  vacationModeStartTime?: string | undefined;
-  /** The Additional service registered for the device. */
-  additionalService?: DeviceClaimAdditionalServiceEnum | undefined;
   /** The ID of the reseller that claimed the device. */
   resellerId?: string | undefined;
+  /** The Additional service registered for the device. */
+  additionalService?: DeviceClaimAdditionalServiceEnum | undefined;
+  /** The ID of the Google Workspace account that owns the Chrome OS device. */
+  googleWorkspaceCustomerId?: string | undefined;
+  /** Output only. The type of claim made on the device. */
+  sectionType?: DeviceClaimSectionTypeEnum | undefined;
+  /** The timestamp when the device was put into 'vacation mode'. This value is present iff the device is in 'vacation mode'. */
+  vacationModeStartTime?: string | undefined;
   /** The ID of the Customer that purchased the device. */
   ownerCompanyId?: string | undefined;
   /** The timestamp when the device will exit 'vacation mode'. This value is present iff the device is in 'vacation mode'. */
@@ -358,28 +358,28 @@ export interface DeviceClaim {
 export type DeviceClaimList = Array<DeviceClaim>;
 /** An Android or Chrome OS device registered for zero-touch enrollment. */
 export interface Device {
-  /** The hardware IDs that identify a manufactured device. To learn more, read [Identifiers](https://developers.google.com/zero-touch/guides/identifiers). */
-  deviceIdentifier?: DeviceIdentifier | undefined;
+  /** Output only. The API resource name in the format `partners/[PARTNER_ID]/devices/[DEVICE_ID]`. Assigned by the server. */
+  name?: string | undefined;
   /** Output only. The ID of the device. Assigned by the server. */
   deviceId?: string | undefined;
   /** The metadata attached to the device. Structured as key-value pairs. To learn more, read [Device metadata](https://developers.google.com/zero-touch/guides/metadata). */
   deviceMetadata?: DeviceMetadata | undefined;
   /** Output only. The provisioning claims for a device. Devices claimed for zero-touch enrollment have a claim with the type `SECTION_TYPE_ZERO_TOUCH`. Call `partners.devices.unclaim` or `partners.devices.unclaimAsync` to remove the device from zero-touch enrollment. */
   claims?: DeviceClaimList | undefined;
-  /** Output only. The API resource name in the format `partners/[PARTNER_ID]/devices/[DEVICE_ID]`. Assigned by the server. */
-  name?: string | undefined;
   /** Not available to resellers. */
   configuration?: string | undefined;
+  /** The hardware IDs that identify a manufactured device. To learn more, read [Identifiers](https://developers.google.com/zero-touch/guides/identifiers). */
+  deviceIdentifier?: DeviceIdentifier | undefined;
 }
 export type DeviceList = Array<Device>;
 /** Response containing found devices. */
 export interface FindDevicesByDeviceIdentifierResponse {
-  /** The total count of items in the list irrespective of pagination. */
-  totalSize?: number | undefined;
-  /** A token used to access the next page of results. Omitted if no further results are available. */
-  nextPageToken?: string | undefined;
   /** Found devices. */
   devices?: DeviceList | undefined;
+  /** A token used to access the next page of results. Omitted if no further results are available. */
+  nextPageToken?: string | undefined;
+  /** The total count of items in the list irrespective of pagination. */
+  totalSize?: number | undefined;
 }
 export type FindDevicesByOwnerRequestSectionTypeEnum =
   | "SECTION_TYPE_UNSPECIFIED"
@@ -387,16 +387,16 @@ export type FindDevicesByOwnerRequestSectionTypeEnum =
   | "SECTION_TYPE_ZERO_TOUCH";
 /** Request to find devices by customers. */
 export interface FindDevicesByOwnerRequest {
-  /** Required. The maximum number of devices to show in a page of results. Must be between 1 and 100 inclusive. */
-  limit?: string | undefined;
-  /** The list of IDs of Google Workspace accounts to search for. */
-  googleWorkspaceCustomerId?: StringList | undefined;
   /** The list of customer IDs to search for. */
   customerId?: StringList | undefined;
-  /** Required. The section type of the device's provisioning record. */
-  sectionType?: FindDevicesByOwnerRequestSectionTypeEnum | (string & {}) | undefined;
   /** A token specifying which result page to return. */
   pageToken?: string | undefined;
+  /** The list of IDs of Google Workspace accounts to search for. */
+  googleWorkspaceCustomerId?: StringList | undefined;
+  /** Required. The section type of the device's provisioning record. */
+  sectionType?: FindDevicesByOwnerRequestSectionTypeEnum | (string & {}) | undefined;
+  /** Required. The maximum number of devices to show in a page of results. Must be between 1 and 100 inclusive. */
+  limit?: string | undefined;
 }
 export interface FindByOwnerPartnersDevicesRequest extends FindDevicesByOwnerRequest {
   /** Required. The ID of the reseller partner. */
@@ -404,12 +404,12 @@ export interface FindByOwnerPartnersDevicesRequest extends FindDevicesByOwnerReq
 }
 /** Response containing found devices. */
 export interface FindDevicesByOwnerResponse {
+  /** The customer's devices. */
+  devices?: DeviceList | undefined;
   /** A token used to access the next page of results. Omitted if no further results are available. */
   nextPageToken?: string | undefined;
   /** The total count of items in the list irrespective of pagination. */
   totalSize?: number | undefined;
-  /** The customer's devices. */
-  devices?: DeviceList | undefined;
 }
 export interface GetCustomersConfigurationsRequest {
   /** Required. The configuration to get. An API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. */
@@ -446,18 +446,18 @@ export interface GetDeviceSimLockStateResponse {
   simLockState?: GetDeviceSimLockStateResponseSimLockStateEnum | undefined;
 }
 export interface ListCustomersRequest {
-  /** Required. The maximum number of customers to show in a page of results. A number between 1 and 100 (inclusive). */
-  pageSize?: number | undefined;
   /** A token specifying which result page to return. This field has custom validations in ListCustomersRequestValidator */
   pageToken?: string | undefined;
+  /** Required. The maximum number of customers to show in a page of results. A number between 1 and 100 (inclusive). */
+  pageSize?: number | undefined;
 }
 export type CompanyList = Array<Company>;
 /** Response message for listing my customers. */
 export interface CustomerListCustomersResponse {
-  /** The customer accounts the calling user is a member of. */
-  customers?: CompanyList | undefined;
   /** A token used to access the next page of results. Omitted if no further results are available. */
   nextPageToken?: string | undefined;
+  /** The customer accounts the calling user is a member of. */
+  customers?: CompanyList | undefined;
 }
 export interface ListCustomersConfigurationsRequest {
   /** Required. The customer that manages the listed configurations. An API resource name in the format `customers/[CUSTOMER_ID]`. */
@@ -470,12 +470,12 @@ export interface CustomerListConfigurationsResponse {
   configurations?: ConfigurationList | undefined;
 }
 export interface ListCustomersDevicesRequest {
-  /** Required. The customer managing the devices. An API resource name in the format `customers/[CUSTOMER_ID]`. */
-  parent: string;
-  /** A token specifying which result page to return. */
-  pageToken?: string | undefined;
   /** Optional. The maximum number of devices to show in a page of results. If unset or `0`, defaults to `5000`. If a value greater than `10000` is specified, it will be coerced to `10000`. */
   pageSize?: string | undefined;
+  /** A token specifying which result page to return. */
+  pageToken?: string | undefined;
+  /** Required. The customer managing the devices. An API resource name in the format `customers/[CUSTOMER_ID]`. */
+  parent: string;
 }
 /** Response message of customer's liting devices. */
 export interface CustomerListDevicesResponse {
@@ -490,12 +490,12 @@ export interface ListCustomersDpcsRequest {
 }
 /** An EMM's DPC ([device policy controller](http://developer.android.com/work/dpc/build-dpc.html)). Zero-touch enrollment installs a DPC (listed in the `Configuration`) on a device to maintain the customer's mobile policies. All the DPCs listed by the API support zero-touch enrollment and are available in Google Play. */
 export interface Dpc {
-  /** Output only. The API resource name in the format `customers/[CUSTOMER_ID]/dpcs/[DPC_ID]`. Assigned by the server. To maintain a reference to a DPC across customer accounts, persist and match the last path component (`DPC_ID`). */
-  name?: string | undefined;
-  /** Output only. The DPC's Android application ID that looks like a Java package name. Zero-touch enrollment installs the DPC app onto a device using this identifier. */
-  packageName?: string | undefined;
   /** Output only. The title of the DPC app in Google Play. For example, _Google Apps Device Policy_. Useful in an application's user interface. */
   dpcName?: string | undefined;
+  /** Output only. The DPC's Android application ID that looks like a Java package name. Zero-touch enrollment installs the DPC app onto a device using this identifier. */
+  packageName?: string | undefined;
+  /** Output only. The API resource name in the format `customers/[CUSTOMER_ID]/dpcs/[DPC_ID]`. Assigned by the server. To maintain a reference to a DPC across customer accounts, persist and match the last path component (`DPC_ID`). */
+  name?: string | undefined;
 }
 export type DpcList = Array<Dpc>;
 /** Response message of customer's listing DPCs. */
@@ -506,53 +506,53 @@ export interface CustomerListDpcsResponse {
 export interface ListPartnersCustomersRequest {
   /** Required. The ID of the reseller partner. */
   partnerId: string;
-  /** The maximum number of results to be returned. If not specified or 0, all the records are returned. */
-  pageSize?: number | undefined;
   /** A token identifying a page of results returned by the server. */
   pageToken?: string | undefined;
+  /** The maximum number of results to be returned. If not specified or 0, all the records are returned. */
+  pageSize?: number | undefined;
 }
 /** Response message of all customers related to this partner. */
 export interface ListCustomersResponse {
-  /** List of customers related to this reseller partner. */
-  customers?: CompanyList | undefined;
   /** The total count of items in the list irrespective of pagination. */
   totalSize?: number | undefined;
+  /** List of customers related to this reseller partner. */
+  customers?: CompanyList | undefined;
   /** A token to retrieve the next page of results. Omitted if no further results are available. */
   nextPageToken?: string | undefined;
 }
 export interface ListPartnersVendorsRequest {
   /** Required. The resource name in the format `partners/[PARTNER_ID]`. */
   parent: string;
-  /** A token identifying a page of results returned by the server. */
-  pageToken?: string | undefined;
   /** The maximum number of results to be returned. */
   pageSize?: number | undefined;
+  /** A token identifying a page of results returned by the server. */
+  pageToken?: string | undefined;
 }
 /** Response message to list vendors of the partner. */
 export interface ListVendorsResponse {
   /** A token to retrieve the next page of results. Omitted if no further results are available. */
   nextPageToken?: string | undefined;
-  /** List of vendors of the reseller partner. Fields `name`, `companyId` and `companyName` are populated to the Company object. */
-  vendors?: CompanyList | undefined;
   /** The total count of items in the list irrespective of pagination. */
   totalSize?: number | undefined;
+  /** List of vendors of the reseller partner. Fields `name`, `companyId` and `companyName` are populated to the Company object. */
+  vendors?: CompanyList | undefined;
 }
 export interface ListPartnersVendorsCustomersRequest {
-  /** A token identifying a page of results returned by the server. */
-  pageToken?: string | undefined;
-  /** The maximum number of results to be returned. */
-  pageSize?: number | undefined;
   /** Required. The resource name in the format `partners/[PARTNER_ID]/vendors/[VENDOR_ID]`. */
   parent: string;
+  /** The maximum number of results to be returned. */
+  pageSize?: number | undefined;
+  /** A token identifying a page of results returned by the server. */
+  pageToken?: string | undefined;
 }
 /** Response message to list customers of the vendor. */
 export interface ListVendorCustomersResponse {
   /** A token to retrieve the next page of results. Omitted if no further results are available. */
   nextPageToken?: string | undefined;
-  /** List of customers of the vendor. */
-  customers?: CompanyList | undefined;
   /** The total count of items in the list irrespective of pagination. */
   totalSize?: number | undefined;
+  /** List of customers of the vendor. */
+  customers?: CompanyList | undefined;
 }
 /** Request to set metadata for a device. */
 export interface UpdateDeviceMetadataRequest {
@@ -566,10 +566,10 @@ export interface MetadataPartnersDevicesRequest extends UpdateDeviceMetadataRequ
   metadataOwnerId: string;
 }
 export interface PatchCustomersConfigurationsRequest extends Omit<Configuration, "name"> {
-  /** Output only. The API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. Assigned by the server. */
-  name: string;
   /** Required. The field mask applied to the target `Configuration` before updating the fields. To learn more about using field masks, read [FieldMask](/protocol-buffers/docs/reference/google.protobuf#fieldmask) in the Protocol Buffers documentation. */
   updateMask?: string | undefined;
+  /** Output only. The API resource name in the format `customers/[CUSTOMER_ID]/configurations/[CONFIGURATION_ID]`. Assigned by the server. */
+  name: string;
 }
 /** Request message for customer to remove the configuration from device. */
 export interface CustomerRemoveConfigurationRequest {
@@ -622,14 +622,14 @@ export type UnclaimDeviceRequestSectionTypeEnum =
   | "SECTION_TYPE_ZERO_TOUCH";
 /** Request message to unclaim a device. */
 export interface UnclaimDeviceRequest {
+  /** The duration of the vacation unlock starting from when the request is processed. (1 day is treated as 24 hours) */
+  vacationModeDays?: number | undefined;
   /** Required. The device identifier you used when you claimed this device. */
   deviceIdentifier?: DeviceIdentifier | undefined;
   /** Required. The section type of the device's provisioning record. */
   sectionType?: UnclaimDeviceRequestSectionTypeEnum | (string & {}) | undefined;
   /** Required. The device ID returned by `ClaimDevice`. */
   deviceId?: string | undefined;
-  /** The duration of the vacation unlock starting from when the request is processed. (1 day is treated as 24 hours) */
-  vacationModeDays?: number | undefined;
   /** The expiration time of the vacation unlock. */
   vacationModeExpireTime?: string | undefined;
 }
@@ -639,12 +639,12 @@ export interface UnclaimPartnersDevicesRequest extends UnclaimDeviceRequest {
 }
 /** Identifies metadata updates to one device. */
 export interface UpdateMetadataArguments {
+  /** Required. Device identifier. */
+  deviceIdentifier?: DeviceIdentifier | undefined;
   /** Required. Device ID of the device. */
   deviceId?: string | undefined;
   /** Required. The metadata to update. */
   deviceMetadata?: DeviceMetadata | undefined;
-  /** Required. Device identifier. */
-  deviceIdentifier?: DeviceIdentifier | undefined;
 }
 export type UpdateMetadataArgumentsList = Array<UpdateMetadataArguments>;
 /** Request to update device metadata in batch. */
@@ -669,8 +669,8 @@ export const applyConfigurationCustomersDevices: API.OperationMethod<
   ApplyConfigurationCustomersDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(105, __c26, 1) as any as S.Schema<ApplyConfigurationCustomersDevicesRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<Empty>,
+  input: __S(109, __c27, 1) as any as S.Schema<ApplyConfigurationCustomersDevicesRequest>,
+  output: __S(112, __c28, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -691,8 +691,8 @@ export const claimAsyncPartnersDevices: API.OperationMethod<
   ClaimAsyncPartnersDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(123, __c30, 3) as any as S.Schema<ClaimAsyncPartnersDevicesRequest>,
-  output: __S(127, __c31, 3) as any as S.Schema<Operation>,
+  input: __S(127, __c31, 3) as any as S.Schema<ClaimAsyncPartnersDevicesRequest>,
+  output: __S(131, __c32, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -708,8 +708,8 @@ export const claimPartnersDevices: API.OperationMethod<
   ClaimPartnersDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(133, __c33, 1) as any as S.Schema<ClaimPartnersDevicesRequest>,
-  output: __S(134, __c33, 2) as any as S.Schema<ClaimDeviceResponse>,
+  input: __S(137, __c34, 1) as any as S.Schema<ClaimPartnersDevicesRequest>,
+  output: __S(138, __c34, 2) as any as S.Schema<ClaimDeviceResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -731,8 +731,8 @@ export const createCustomersConfigurations: API.OperationMethod<
   CreateCustomersConfigurationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c34, 0) as any as S.Schema<CreateCustomersConfigurationsRequest>,
-  output: __S(140, __c35, 0) as any as S.Schema<Configuration>,
+  input: __S(140, __c35, 0) as any as S.Schema<CreateCustomersConfigurationsRequest>,
+  output: __S(144, __c36, 0) as any as S.Schema<Configuration>,
   errors: [
     NotFound,
     Forbidden,
@@ -760,8 +760,8 @@ export const createPartnersCustomers: API.OperationMethod<
   CreatePartnersCustomersError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(145, __c36, 1) as any as S.Schema<CreatePartnersCustomersRequest>,
-  output: __S(153, __c38, 1) as any as S.Schema<Company>,
+  input: __S(149, __c37, 1) as any as S.Schema<CreatePartnersCustomersRequest>,
+  output: __S(157, __c39, 1) as any as S.Schema<Company>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -784,7 +784,7 @@ export const deleteCustomersConfigurations: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteCustomersConfigurationsRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<Empty>,
+  output: __S(112, __c28, 0) as any as S.Schema<Empty>,
   errors: [
     NotFound,
     Forbidden,
@@ -813,7 +813,7 @@ export const findByIdentifierPartnersDevices: API.OperationMethod<
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(5, __c1, 1) as any as S.Schema<FindByIdentifierPartnersDevicesRequest>,
-  output: __S(6, __c1, 2) as any as S.Schema<FindDevicesByDeviceIdentifierResponse>,
+  output: __S(8, __c2, 0) as any as S.Schema<FindDevicesByDeviceIdentifierResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -834,8 +834,8 @@ export const findByOwnerPartnersDevices: API.OperationMethod<
   FindByOwnerPartnersDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(17, __c4, 1) as any as S.Schema<FindByOwnerPartnersDevicesRequest>,
-  output: __S(18, __c4, 2) as any as S.Schema<FindDevicesByOwnerResponse>,
+  input: __S(21, __c5, 1) as any as S.Schema<FindByOwnerPartnersDevicesRequest>,
+  output: __S(8, __c2, 0) as any as S.Schema<FindDevicesByOwnerResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -855,8 +855,8 @@ export const getCustomersConfigurations: API.OperationMethod<
   GetCustomersConfigurationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<GetCustomersConfigurationsRequest>,
-  output: __S(140, __c35, 0) as any as S.Schema<Configuration>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetCustomersConfigurationsRequest>,
+  output: __S(144, __c36, 0) as any as S.Schema<Configuration>,
   errors: [NotFound, Forbidden, InsufficientAuthenticationScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -872,8 +872,8 @@ export const getCustomersDevices: API.OperationMethod<
   GetCustomersDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetCustomersDevicesRequest>,
-  output: __S(10, __c2, 2) as any as S.Schema<Device>,
+  input: __S(28, __c7, 0) as any as S.Schema<GetCustomersDevicesRequest>,
+  output: __S(14, __c3, 2) as any as S.Schema<Device>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -889,8 +889,8 @@ export const getOperations: API.OperationMethod<
   GetOperationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<GetOperationsRequest>,
-  output: __S(127, __c31, 3) as any as S.Schema<Operation>,
+  input: __S(32, __c8, 0) as any as S.Schema<GetOperationsRequest>,
+  output: __S(131, __c32, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -906,8 +906,8 @@ export const getPartnersDevices: API.OperationMethod<
   GetPartnersDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c8, 0) as any as S.Schema<GetPartnersDevicesRequest>,
-  output: __S(10, __c2, 2) as any as S.Schema<Device>,
+  input: __S(36, __c9, 0) as any as S.Schema<GetPartnersDevicesRequest>,
+  output: __S(14, __c3, 2) as any as S.Schema<Device>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -928,8 +928,8 @@ export const getSimLockStatePartnersDevices: API.OperationMethod<
   GetSimLockStatePartnersDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(37, __c9, 1) as any as S.Schema<GetSimLockStatePartnersDevicesRequest>,
-  output: __S(38, __c9, 2) as any as S.Schema<GetDeviceSimLockStateResponse>,
+  input: __S(41, __c10, 1) as any as S.Schema<GetSimLockStatePartnersDevicesRequest>,
+  output: __S(42, __c10, 2) as any as S.Schema<GetDeviceSimLockStateResponse>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -950,8 +950,8 @@ export const listCustomers: API.PaginatedOperationMethod<
   GcpOpContext,
   CustomerListCustomersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<ListCustomersRequest>,
-  output: __S(41, __c10, 1) as any as S.Schema<CustomerListCustomersResponse>,
+  input: __S(44, __c11, 0) as any as S.Schema<ListCustomersRequest>,
+  output: __S(45, __c11, 1) as any as S.Schema<CustomerListCustomersResponse>,
   errors: [NotFound, Forbidden, InsufficientAuthenticationScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -972,8 +972,8 @@ export const listCustomersConfigurations: API.OperationMethod<
   ListCustomersConfigurationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<ListCustomersConfigurationsRequest>,
-  output: __S(50, __c12, 2) as any as S.Schema<CustomerListConfigurationsResponse>,
+  input: __S(52, __c13, 0) as any as S.Schema<ListCustomersConfigurationsRequest>,
+  output: __S(54, __c13, 2) as any as S.Schema<CustomerListConfigurationsResponse>,
   errors: [NotFound, Forbidden, InsufficientAuthenticationScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -990,8 +990,8 @@ export const listCustomersDevices: API.PaginatedOperationMethod<
   GcpOpContext,
   CustomerListDevicesResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<ListCustomersDevicesRequest>,
-  output: __S(53, __c13, 1) as any as S.Schema<CustomerListDevicesResponse>,
+  input: __S(56, __c14, 0) as any as S.Schema<ListCustomersDevicesRequest>,
+  output: __S(57, __c14, 1) as any as S.Schema<CustomerListDevicesResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1012,8 +1012,8 @@ export const listCustomersDpcs: API.OperationMethod<
   ListCustomersDpcsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c14, 0) as any as S.Schema<ListCustomersDpcsRequest>,
-  output: __S(59, __c14, 3) as any as S.Schema<CustomerListDpcsResponse>,
+  input: __S(60, __c15, 0) as any as S.Schema<ListCustomersDpcsRequest>,
+  output: __S(63, __c15, 3) as any as S.Schema<CustomerListDpcsResponse>,
   errors: [NotFound, Forbidden, InsufficientAuthenticationScopes, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1030,8 +1030,8 @@ export const listPartnersCustomers: API.PaginatedOperationMethod<
   GcpOpContext,
   ListCustomersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<ListPartnersCustomersRequest>,
-  output: __S(61, __c15, 1) as any as S.Schema<ListCustomersResponse>,
+  input: __S(64, __c16, 0) as any as S.Schema<ListPartnersCustomersRequest>,
+  output: __S(65, __c16, 1) as any as S.Schema<ListCustomersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1049,8 +1049,8 @@ export const listPartnersVendors: API.PaginatedOperationMethod<
   GcpOpContext,
   ListVendorsResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(64, __c16, 0) as any as S.Schema<ListPartnersVendorsRequest>,
-  output: __S(65, __c16, 1) as any as S.Schema<ListVendorsResponse>,
+  input: __S(68, __c17, 0) as any as S.Schema<ListPartnersVendorsRequest>,
+  output: __S(69, __c17, 1) as any as S.Schema<ListVendorsResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1068,8 +1068,8 @@ export const listPartnersVendorsCustomers: API.PaginatedOperationMethod<
   GcpOpContext,
   ListVendorCustomersResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(68, __c17, 0) as any as S.Schema<ListPartnersVendorsCustomersRequest>,
-  output: __S(69, __c17, 1) as any as S.Schema<ListVendorCustomersResponse>,
+  input: __S(72, __c18, 0) as any as S.Schema<ListPartnersVendorsCustomersRequest>,
+  output: __S(73, __c18, 1) as any as S.Schema<ListVendorCustomersResponse>,
   errors: [NotFound, Forbidden, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1091,8 +1091,8 @@ export const metadataPartnersDevices: API.OperationMethod<
   MetadataPartnersDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(73, __c18, 1) as any as S.Schema<MetadataPartnersDevicesRequest>,
-  output: __S(129, __c32, 1) as any as S.Schema<DeviceMetadata>,
+  input: __S(77, __c19, 1) as any as S.Schema<MetadataPartnersDevicesRequest>,
+  output: __S(133, __c33, 1) as any as S.Schema<DeviceMetadata>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1114,8 +1114,8 @@ export const patchCustomersConfigurations: API.OperationMethod<
   PatchCustomersConfigurationsError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(76, __c19, 0) as any as S.Schema<PatchCustomersConfigurationsRequest>,
-  output: __S(140, __c35, 0) as any as S.Schema<Configuration>,
+  input: __S(80, __c20, 0) as any as S.Schema<PatchCustomersConfigurationsRequest>,
+  output: __S(144, __c36, 0) as any as S.Schema<Configuration>,
   errors: [
     NotFound,
     Forbidden,
@@ -1143,8 +1143,8 @@ export const removeConfigurationCustomersDevices: API.OperationMethod<
   RemoveConfigurationCustomersDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<RemoveConfigurationCustomersDevicesRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<Empty>,
+  input: __S(84, __c21, 0) as any as S.Schema<RemoveConfigurationCustomersDevicesRequest>,
+  output: __S(112, __c28, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1165,8 +1165,8 @@ export const unclaimAsyncPartnersDevices: API.OperationMethod<
   UnclaimAsyncPartnersDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(91, __c22, 3) as any as S.Schema<UnclaimAsyncPartnersDevicesRequest>,
-  output: __S(127, __c31, 3) as any as S.Schema<Operation>,
+  input: __S(95, __c23, 3) as any as S.Schema<UnclaimAsyncPartnersDevicesRequest>,
+  output: __S(131, __c32, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1187,8 +1187,8 @@ export const unclaimCustomersDevices: API.OperationMethod<
   UnclaimCustomersDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(92, __c23, 0) as any as S.Schema<UnclaimCustomersDevicesRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<Empty>,
+  input: __S(96, __c24, 0) as any as S.Schema<UnclaimCustomersDevicesRequest>,
+  output: __S(112, __c28, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1204,8 +1204,8 @@ export const unclaimPartnersDevices: API.OperationMethod<
   UnclaimPartnersDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(97, __c24, 1) as any as S.Schema<UnclaimPartnersDevicesRequest>,
-  output: __S(108, __c27, 0) as any as S.Schema<Empty>,
+  input: __S(101, __c25, 1) as any as S.Schema<UnclaimPartnersDevicesRequest>,
+  output: __S(112, __c28, 0) as any as S.Schema<Empty>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1226,8 +1226,8 @@ export const updateMetadataAsyncPartnersDevices: API.OperationMethod<
   UpdateMetadataAsyncPartnersDevicesError,
   GcpOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(103, __c25, 3) as any as S.Schema<UpdateMetadataAsyncPartnersDevicesRequest>,
-  output: __S(127, __c31, 3) as any as S.Schema<Operation>,
+  input: __S(107, __c26, 3) as any as S.Schema<UpdateMetadataAsyncPartnersDevicesRequest>,
+  output: __S(131, __c32, 3) as any as S.Schema<Operation>,
   errors: [NotFound, Forbidden, BadRequest, Conflict, UnknownGCPError],
   protocol: GcpProtocol,
   retry: Retry.Retry,
@@ -1257,9 +1257,9 @@ function __c1(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deviceIdentifier: S.optional(__S(116, __c29, 0)),
-          pageToken: S.optional(S.String),
           limit: S.optional(S.String),
+          deviceIdentifier: S.optional(__S(120, __c30, 0)),
+          pageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "FindDevicesByDeviceIdentifierRequest" });
     case 1:
@@ -1277,14 +1277,6 @@ function __c1(j: number): any {
           }),
         ),
       ).annotate({ identifier: "FindByIdentifierPartnersDevicesRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          totalSize: S.optional(S.Number),
-          nextPageToken: S.optional(S.String),
-          devices: S.optional(__S(12, __c3, 0)),
-        }),
-      ).annotate({ identifier: "FindDevicesByDeviceIdentifierResponse" });
   }
 }
 function __c2(j: number): any {
@@ -1292,52 +1284,64 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          sectionType: S.optional(S.String),
-          googleWorkspaceCustomerId: S.optional(S.String),
-          vacationModeStartTime: S.optional(S.String),
-          additionalService: S.optional(S.String),
-          resellerId: S.optional(S.String),
-          ownerCompanyId: S.optional(S.String),
-          vacationModeExpireTime: S.optional(S.String),
+          devices: S.optional(__S(16, __c4, 0)),
+          nextPageToken: S.optional(S.String),
+          totalSize: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "DeviceClaim" });
-    case 1:
-      return S.Array(__S(8, __c2, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          deviceIdentifier: S.optional(__S(116, __c29, 0)),
-          deviceId: S.optional(S.String),
-          deviceMetadata: S.optional(__S(129, __c32, 1)),
-          claims: S.optional(__S(9, __c2, 1)),
-          name: S.optional(S.String),
-          configuration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Device" });
+      ).annotate({ identifier: "FindDevicesByDeviceIdentifierResponse" });
   }
 }
 function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(10, __c2, 2));
+      return S.suspend(() =>
+        S.Struct({
+          resellerId: S.optional(S.String),
+          additionalService: S.optional(S.String),
+          googleWorkspaceCustomerId: S.optional(S.String),
+          sectionType: S.optional(S.String),
+          vacationModeStartTime: S.optional(S.String),
+          ownerCompanyId: S.optional(S.String),
+          vacationModeExpireTime: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeviceClaim" });
+    case 1:
+      return S.Array(__S(12, __c3, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.optional(S.String),
+          deviceId: S.optional(S.String),
+          deviceMetadata: S.optional(__S(133, __c33, 1)),
+          claims: S.optional(__S(13, __c3, 1)),
+          configuration: S.optional(S.String),
+          deviceIdentifier: S.optional(__S(120, __c30, 0)),
+        }),
+      ).annotate({ identifier: "Device" });
   }
 }
 function __c4(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(14, __c3, 2));
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          limit: S.optional(S.String),
-          googleWorkspaceCustomerId: S.optional(__S(148, __c37, 0)),
-          customerId: S.optional(__S(148, __c37, 0)),
-          sectionType: S.optional(S.String),
+          customerId: S.optional(__S(152, __c38, 0)),
           pageToken: S.optional(S.String),
+          googleWorkspaceCustomerId: S.optional(__S(152, __c38, 0)),
+          sectionType: S.optional(S.String),
+          limit: S.optional(S.String),
         }),
       ).annotate({ identifier: "FindDevicesByOwnerRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(16, __c4, 0),
+          __S(20, __c5, 0),
           S.Struct({
             partnerId: S.String.pipe(T.Label()),
           }),
@@ -1349,30 +1353,6 @@ function __c4(j: number): any {
           }),
         ),
       ).annotate({ identifier: "FindByOwnerPartnersDevicesRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          nextPageToken: S.optional(S.String),
-          totalSize: S.optional(S.Number),
-          devices: S.optional(__S(12, __c3, 0)),
-        }),
-      ).annotate({ identifier: "FindDevicesByOwnerResponse" });
-  }
-}
-function __c5(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "v1/{+name}",
-            baseUrl: "https://androiddeviceprovisioning.googleapis.com/",
-          }),
-        ),
-      ).annotate({ identifier: "GetCustomersConfigurationsRequest" });
   }
 }
 function __c6(j: number): any {
@@ -1388,7 +1368,7 @@ function __c6(j: number): any {
             baseUrl: "https://androiddeviceprovisioning.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetCustomersDevicesRequest" });
+      ).annotate({ identifier: "GetCustomersConfigurationsRequest" });
   }
 }
 function __c7(j: number): any {
@@ -1404,7 +1384,7 @@ function __c7(j: number): any {
             baseUrl: "https://androiddeviceprovisioning.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetOperationsRequest" });
+      ).annotate({ identifier: "GetCustomersDevicesRequest" });
   }
 }
 function __c8(j: number): any {
@@ -1420,7 +1400,7 @@ function __c8(j: number): any {
             baseUrl: "https://androiddeviceprovisioning.googleapis.com/",
           }),
         ),
-      ).annotate({ identifier: "GetPartnersDevicesRequest" });
+      ).annotate({ identifier: "GetOperationsRequest" });
   }
 }
 function __c9(j: number): any {
@@ -1428,13 +1408,29 @@ function __c9(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deviceIdentifier: S.optional(__S(116, __c29, 0)),
+          name: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "v1/{+name}",
+            baseUrl: "https://androiddeviceprovisioning.googleapis.com/",
+          }),
+        ),
+      ).annotate({ identifier: "GetPartnersDevicesRequest" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          deviceIdentifier: S.optional(__S(120, __c30, 0)),
         }),
       ).annotate({ identifier: "GetDeviceSimLockStateRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(36, __c9, 0),
+          __S(40, __c10, 0),
           S.Struct({
             partnerId: S.String.pipe(T.Label()),
           }),
@@ -1454,13 +1450,13 @@ function __c9(j: number): any {
       ).annotate({ identifier: "GetDeviceSimLockStateResponse" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1472,19 +1468,19 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          customers: S.optional(__S(44, __c11, 0)),
           nextPageToken: S.optional(S.String),
+          customers: S.optional(__S(48, __c12, 0)),
         }),
       ).annotate({ identifier: "CustomerListCustomersResponse" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(153, __c38, 1));
+      return S.Array(__S(157, __c39, 1));
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1499,23 +1495,23 @@ function __c12(j: number): any {
         ),
       ).annotate({ identifier: "ListCustomersConfigurationsRequest" });
     case 1:
-      return S.Array(__S(140, __c35, 0));
+      return S.Array(__S(144, __c36, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          configurations: S.optional(__S(49, __c12, 1)),
+          configurations: S.optional(__S(53, __c13, 1)),
         }),
       ).annotate({ identifier: "CustomerListConfigurationsResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1527,13 +1523,13 @@ function __c13(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          devices: S.optional(__S(12, __c3, 0)),
+          devices: S.optional(__S(16, __c4, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerListDevicesResponse" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1550,29 +1546,29 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          packageName: S.optional(S.String),
           dpcName: S.optional(S.String),
+          packageName: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Dpc" });
     case 2:
-      return S.Array(__S(57, __c14, 1));
+      return S.Array(__S(61, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          dpcs: S.optional(__S(58, __c14, 2)),
+          dpcs: S.optional(__S(62, __c15, 2)),
         }),
       ).annotate({ identifier: "CustomerListDpcsResponse" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           partnerId: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1584,21 +1580,21 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          customers: S.optional(__S(44, __c11, 0)),
           totalSize: S.optional(S.Number),
+          customers: S.optional(__S(48, __c12, 0)),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCustomersResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parent: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1611,20 +1607,20 @@ function __c16(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          vendors: S.optional(__S(44, __c11, 0)),
           totalSize: S.optional(S.Number),
+          vendors: S.optional(__S(48, __c12, 0)),
         }),
       ).annotate({ identifier: "ListVendorsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -1637,24 +1633,24 @@ function __c17(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          customers: S.optional(__S(44, __c11, 0)),
           totalSize: S.optional(S.Number),
+          customers: S.optional(__S(48, __c12, 0)),
         }),
       ).annotate({ identifier: "ListVendorCustomersResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deviceMetadata: S.optional(__S(129, __c32, 1)),
+          deviceMetadata: S.optional(__S(133, __c33, 1)),
         }),
       ).annotate({ identifier: "UpdateDeviceMetadataRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(72, __c18, 0),
+          __S(76, __c19, 0),
           S.Struct({
             deviceId: S.String.pipe(T.Label()),
             metadataOwnerId: S.String.pipe(T.Label()),
@@ -1669,15 +1665,15 @@ function __c18(j: number): any {
       ).annotate({ identifier: "MetadataPartnersDevicesRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(140, __c35, 0),
+          __S(144, __c36, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -1689,12 +1685,12 @@ function __c19(j: number): any {
       ).annotate({ identifier: "PatchCustomersConfigurationsRequest" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(84, __c21, 0),
+          __S(88, __c22, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -1708,40 +1704,40 @@ function __c20(j: number): any {
       ).annotate({ identifier: "RemoveConfigurationCustomersDevicesRequest" });
   }
 }
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          device: S.optional(__S(112, __c28, 0)),
-        }),
-      ).annotate({ identifier: "CustomerRemoveConfigurationRequest" });
-  }
-}
 function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          device: S.optional(__S(116, __c29, 0)),
+        }),
+      ).annotate({ identifier: "CustomerRemoveConfigurationRequest" });
+  }
+}
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           vacationModeExpireTime: S.optional(S.String),
-          deviceIdentifier: S.optional(__S(116, __c29, 0)),
+          deviceIdentifier: S.optional(__S(120, __c30, 0)),
           sectionType: S.optional(S.String),
           deviceId: S.optional(S.String),
           vacationModeDays: S.optional(S.Number),
         }),
       ).annotate({ identifier: "PartnerUnclaim" });
     case 1:
-      return S.Array(__S(88, __c22, 0));
+      return S.Array(__S(92, __c23, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          unclaims: S.optional(__S(89, __c22, 1)),
+          unclaims: S.optional(__S(93, __c23, 1)),
         }),
       ).annotate({ identifier: "UnclaimDevicesRequest" });
     case 3:
       return S.suspend(() =>
         S.Extend(
-          __S(90, __c22, 2),
+          __S(94, __c23, 2),
           S.Struct({
             partnerId: S.String.pipe(T.Label()),
           }),
@@ -1755,12 +1751,12 @@ function __c22(j: number): any {
       ).annotate({ identifier: "UnclaimAsyncPartnersDevicesRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(84, __c21, 0),
+          __S(88, __c22, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -1774,22 +1770,22 @@ function __c23(j: number): any {
       ).annotate({ identifier: "UnclaimCustomersDevicesRequest" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deviceIdentifier: S.optional(__S(116, __c29, 0)),
+          vacationModeDays: S.optional(S.Number),
+          deviceIdentifier: S.optional(__S(120, __c30, 0)),
           sectionType: S.optional(S.String),
           deviceId: S.optional(S.String),
-          vacationModeDays: S.optional(S.Number),
           vacationModeExpireTime: S.optional(S.String),
         }),
       ).annotate({ identifier: "UnclaimDeviceRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(96, __c24, 0),
+          __S(100, __c25, 0),
           S.Struct({
             partnerId: S.String.pipe(T.Label()),
           }),
@@ -1803,28 +1799,28 @@ function __c24(j: number): any {
       ).annotate({ identifier: "UnclaimPartnersDevicesRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          deviceIdentifier: S.optional(__S(120, __c30, 0)),
           deviceId: S.optional(S.String),
-          deviceMetadata: S.optional(__S(129, __c32, 1)),
-          deviceIdentifier: S.optional(__S(116, __c29, 0)),
+          deviceMetadata: S.optional(__S(133, __c33, 1)),
         }),
       ).annotate({ identifier: "UpdateMetadataArguments" });
     case 1:
-      return S.Array(__S(100, __c25, 0));
+      return S.Array(__S(104, __c26, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          updates: S.optional(__S(101, __c25, 1)),
+          updates: S.optional(__S(105, __c26, 1)),
         }),
       ).annotate({ identifier: "UpdateDeviceMetadataInBatchRequest" });
     case 3:
       return S.suspend(() =>
         S.Extend(
-          __S(102, __c25, 2),
+          __S(106, __c26, 2),
           S.Struct({
             partnerId: S.String.pipe(T.Label()),
           }),
@@ -1838,19 +1834,19 @@ function __c25(j: number): any {
       ).annotate({ identifier: "UpdateMetadataAsyncPartnersDevicesRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          device: S.optional(__S(112, __c28, 0)),
+          device: S.optional(__S(116, __c29, 0)),
           configuration: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomerApplyConfigurationRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(104, __c26, 0),
+          __S(108, __c27, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -1864,21 +1860,10 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ApplyConfigurationCustomersDevicesRequest" });
   }
 }
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
-  }
-}
 function __c28(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          deviceIdentifier: S.optional(__S(116, __c29, 0)),
-          deviceId: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DeviceReference" });
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "Empty" });
   }
 }
 function __c29(j: number): any {
@@ -1886,17 +1871,10 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          chromeOsAttestedDeviceId: S.optional(S.String),
-          manufacturer: S.optional(S.String),
-          imei2: S.optional(S.String),
-          imei: S.optional(S.String),
-          model: S.optional(S.String),
-          meid: S.optional(S.String),
-          deviceType: S.optional(S.String),
-          meid2: S.optional(S.String),
-          serialNumber: S.optional(S.String),
+          deviceId: S.optional(S.String),
+          deviceIdentifier: S.optional(__S(120, __c30, 0)),
         }),
-      ).annotate({ identifier: "DeviceIdentifier" });
+      ).annotate({ identifier: "DeviceReference" });
   }
 }
 function __c30(j: number): any {
@@ -1904,28 +1882,46 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          deviceMetadata: S.optional(__S(129, __c32, 1)),
-          simlockProfileId: S.optional(S.String),
-          configurationId: S.optional(S.String),
-          googleWorkspaceCustomerId: S.optional(S.String),
-          customerId: S.optional(S.String),
+          serialNumber: S.optional(S.String),
+          meid2: S.optional(S.String),
+          model: S.optional(S.String),
+          manufacturer: S.optional(S.String),
+          imei2: S.optional(S.String),
+          deviceType: S.optional(S.String),
+          meid: S.optional(S.String),
+          imei: S.optional(S.String),
+          chromeOsAttestedDeviceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeviceIdentifier" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           preProvisioningToken: S.optional(S.String),
+          simlockProfileId: S.optional(S.String),
+          deviceIdentifier: S.optional(__S(120, __c30, 0)),
+          googleWorkspaceCustomerId: S.optional(S.String),
           sectionType: S.optional(S.String),
-          deviceIdentifier: S.optional(__S(116, __c29, 0)),
+          deviceMetadata: S.optional(__S(133, __c33, 1)),
+          customerId: S.optional(S.String),
+          configurationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "PartnerClaim" });
     case 1:
-      return S.Array(__S(120, __c30, 0));
+      return S.Array(__S(124, __c31, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          claims: S.optional(__S(121, __c30, 1)),
+          claims: S.optional(__S(125, __c31, 1)),
         }),
       ).annotate({ identifier: "ClaimDevicesRequest" });
     case 3:
       return S.suspend(() =>
         S.Extend(
-          __S(122, __c30, 2),
+          __S(126, __c31, 2),
           S.Struct({
             partnerId: S.String.pipe(T.Label()),
           }),
@@ -1939,63 +1935,63 @@ function __c30(j: number): any {
       ).annotate({ identifier: "ClaimAsyncPartnersDevicesRequest" });
   }
 }
-function __c31(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
     case 1:
-      return S.Array(__S(124, __c31, 0));
+      return S.Array(__S(128, __c32, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
+          details: S.optional(__S(129, __c32, 1)),
           message: S.optional(S.String),
-          details: S.optional(__S(125, __c31, 1)),
           code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          response: S.optional(__S(124, __c31, 0)),
-          name: S.optional(S.String),
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(124, __c31, 0)),
-          error: S.optional(__S(126, __c31, 2)),
+          response: S.optional(__S(128, __c32, 0)),
+          name: S.optional(S.String),
+          error: S.optional(__S(130, __c32, 2)),
+          metadata: S.optional(__S(128, __c32, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
 }
-function __c32(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          entries: S.optional(__S(128, __c32, 0)),
+          entries: S.optional(__S(132, __c33, 0)),
         }),
       ).annotate({ identifier: "DeviceMetadata" });
   }
 }
-function __c33(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          configurationId: S.optional(S.String),
-          preProvisioningToken: S.optional(S.String),
+          deviceIdentifier: S.optional(__S(120, __c30, 0)),
           googleWorkspaceCustomerId: S.optional(S.String),
+          configurationId: S.optional(S.String),
+          customerId: S.optional(S.String),
+          preProvisioningToken: S.optional(S.String),
           simlockProfileId: S.optional(S.String),
           sectionType: S.optional(S.String),
-          deviceMetadata: S.optional(__S(129, __c32, 1)),
-          customerId: S.optional(S.String),
-          deviceIdentifier: S.optional(__S(116, __c29, 0)),
+          deviceMetadata: S.optional(__S(133, __c33, 1)),
         }),
       ).annotate({ identifier: "ClaimDeviceRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(132, __c33, 0),
+          __S(136, __c34, 0),
           S.Struct({
             partnerId: S.String.pipe(T.Label()),
           }),
@@ -2016,12 +2012,12 @@ function __c33(j: number): any {
       ).annotate({ identifier: "ClaimDeviceResponse" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Extend(
-          __S(140, __c35, 0),
+          __S(144, __c36, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -2035,38 +2031,38 @@ function __c34(j: number): any {
       ).annotate({ identifier: "CreateCustomersConfigurationsRequest" });
   }
 }
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          contactPhone: S.optional(S.String),
-          forcedResetTime: S.optional(S.String),
-          dpcExtras: S.optional(S.String),
-          isDefault: S.optional(S.Boolean),
-          configurationId: S.optional(S.String),
-          companyName: S.optional(S.String),
-          configurationName: S.optional(S.String),
-          name: S.optional(S.String),
-          customMessage: S.optional(S.String),
-          dpcResourcePath: S.optional(S.String),
-          contactEmail: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Configuration" });
-  }
-}
 function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          customer: S.optional(__S(153, __c38, 1)),
+          contactPhone: S.optional(S.String),
+          name: S.optional(S.String),
+          isDefault: S.optional(S.Boolean),
+          contactEmail: S.optional(S.String),
+          customMessage: S.optional(S.String),
+          configurationId: S.optional(S.String),
+          dpcResourcePath: S.optional(S.String),
+          configurationName: S.optional(S.String),
+          forcedResetTime: S.optional(S.String),
+          companyName: S.optional(S.String),
+          dpcExtras: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Configuration" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          customer: S.optional(__S(157, __c39, 1)),
         }),
       ).annotate({ identifier: "CreateCustomerRequest" });
     case 1:
       return S.suspend(() =>
         S.Extend(
-          __S(144, __c36, 0),
+          __S(148, __c37, 0),
           S.Struct({
             parent: S.String.pipe(T.Label()),
           }),
@@ -2080,33 +2076,33 @@ function __c36(j: number): any {
       ).annotate({ identifier: "CreatePartnersCustomersRequest" });
   }
 }
-function __c37(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          preProvisioningTokens: S.optional(__S(152, __c38, 0)),
           customerId: S.optional(S.String),
-          preProvisioningTokens: S.optional(__S(148, __c37, 0)),
         }),
       ).annotate({ identifier: "GoogleWorkspaceAccount" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          adminEmails: S.optional(__S(148, __c37, 0)),
+          adminEmails: S.optional(__S(152, __c38, 0)),
+          googleWorkspaceAccount: S.optional(__S(156, __c39, 0)),
           termsStatus: S.optional(S.String),
+          ownerEmails: S.optional(__S(152, __c38, 0)),
+          companyId: S.optional(S.String),
           companyName: S.optional(S.String),
-          name: S.optional(S.String),
           languageCode: S.optional(S.String),
           skipWelcomeEmail: S.optional(S.Boolean),
-          googleWorkspaceAccount: S.optional(__S(152, __c38, 0)),
-          companyId: S.optional(S.String),
-          ownerEmails: S.optional(__S(148, __c37, 0)),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "Company" });
   }

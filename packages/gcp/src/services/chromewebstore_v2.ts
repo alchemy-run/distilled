@@ -94,16 +94,16 @@ export interface CancelSubmissionPublishersItemsRequest {
 /** Response message for `CancelSubmission`. */
 export interface CancelSubmissionResponse {}
 export interface FetchReviewsPublishersItemsRequest {
-  /** Optional. A page token, received from a previous `FetchItemReviews` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchItemReviews` must match the call that provided the page token. */
-  pageToken?: string | undefined;
-  /** Optional. An optional comma-separated list of fields by which to sort the results. The default sort order is ascending (`asc`). Supported fields are: - `rating`: Supported orders are `asc` (default) and `desc`. - `create_time`: Only `desc` (most recent first) is supported; `desc` must be explicitly specified since the default is `asc`. Example: `rating desc`, `create_time desc`, or `rating desc, create_time desc`. */
-  orderBy?: string | undefined;
-  /** Optional. The maximum number of reviews to return. The service may return fewer than this value. If unspecified, at most 50 reviews will be returned. The maximum value is 200; values above 200 will be coerced to 200. */
-  pageSize?: number | undefined;
   /** Required. The item resource name whose reviews are being fetched. Format: publishers/{publisher_id}/items/{item_id} */
   name: string;
+  /** Optional. The maximum number of reviews to return. The service may return fewer than this value. If unspecified, at most 50 reviews will be returned. The maximum value is 200; values above 200 will be coerced to 200. */
+  pageSize?: number | undefined;
+  /** Optional. An optional comma-separated list of fields by which to sort the results. The default sort order is ascending (`asc`). Supported fields are: - `rating`: Supported orders are `asc` (default) and `desc`. - `create_time`: Only `desc` (most recent first) is supported; `desc` must be explicitly specified since the default is `asc`. Example: `rating desc`, `create_time desc`, or `rating desc, create_time desc`. */
+  orderBy?: string | undefined;
   /** Optional. A filter to apply to the reviews. Only equality comparison on rating is supported, e.g. `rating = 5`. */
   filter?: string | undefined;
+  /** Optional. A page token, received from a previous `FetchItemReviews` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchItemReviews` must match the call that provided the page token. */
+  pageToken?: string | undefined;
 }
 /** Info on the author of the review. */
 export interface AuthorInfo {
@@ -112,39 +112,31 @@ export interface AuthorInfo {
 }
 /** A review written by a user to rate an item in the Chrome Web Store. */
 export interface Review {
-  /** Identifier. Review resource name. Format: reviews/{reviewId} */
-  name?: string | undefined;
   /** Rating of the item, between 1 and 5. */
   rating?: number | undefined;
-  /** Output only. The item that this review evaluates. Format: publishers/{publisher}/items/{item} */
-  item?: string | undefined;
-  /** Output only. When the review was posted. */
-  createTime?: string | undefined;
   /** Content of the review. */
   comment?: string | undefined;
+  /** Identifier. Review resource name. Format: reviews/{reviewId} */
+  name?: string | undefined;
   /** Info on the author of the review. */
   authorInfo?: AuthorInfo | undefined;
+  /** Output only. When the review was posted. */
+  createTime?: string | undefined;
+  /** Output only. The item that this review evaluates. Format: publishers/{publisher}/items/{item} */
+  item?: string | undefined;
 }
 export type ReviewList = Array<Review>;
 /** Response message for FetchItemReviews. */
 export interface FetchItemReviewsResponse {
-  /** The list of reviews. */
-  reviews?: ReviewList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The list of reviews. */
+  reviews?: ReviewList | undefined;
 }
 export interface FetchStatusPublishersItemsRequest {
   /** Required. Name of the item to retrieve the status of in the form `publishers/{publisherId}/items/{itemId}` */
   name: string;
 }
-export type ItemRevisionStatusStateEnum =
-  | "ITEM_STATE_UNSPECIFIED"
-  | "PENDING_REVIEW"
-  | "STAGED"
-  | "PUBLISHED"
-  | "PUBLISHED_TO_TESTERS"
-  | "REJECTED"
-  | "CANCELLED";
 /** Deployment information for a specific release channel */
 export interface DistributionChannel {
   /** The current deploy percentage for the release channel (nonnegative number between 0 and 100). */
@@ -153,12 +145,20 @@ export interface DistributionChannel {
   crxVersion?: string | undefined;
 }
 export type DistributionChannelList = Array<DistributionChannel>;
+export type ItemRevisionStatusStateEnum =
+  | "ITEM_STATE_UNSPECIFIED"
+  | "PENDING_REVIEW"
+  | "STAGED"
+  | "PUBLISHED"
+  | "PUBLISHED_TO_TESTERS"
+  | "REJECTED"
+  | "CANCELLED";
 /** Details on the status of an item revision. */
 export interface ItemRevisionStatus {
-  /** Output only. Current state of the item */
-  state?: ItemRevisionStatusStateEnum | undefined;
   /** Details on the package of the item */
   distributionChannels?: DistributionChannelList | undefined;
+  /** Output only. Current state of the item */
+  state?: ItemRevisionStatusStateEnum | undefined;
 }
 export type FetchItemStatusResponseLastAsyncUploadStateEnum =
   | "UPLOAD_STATE_UNSPECIFIED"
@@ -168,20 +168,20 @@ export type FetchItemStatusResponseLastAsyncUploadStateEnum =
   | "NOT_FOUND";
 /** Response message for `FetchItemStatus`. */
 export interface FetchItemStatusResponse {
-  /** Status of the item revision submitted to be published. Will be unset if the item has not been submitted for publishing since the last successful publish. */
-  submittedItemRevisionStatus?: ItemRevisionStatus | undefined;
-  /** If true, the item has been taken down for a policy violation. Check the developer dashboard for details. */
-  takenDown?: boolean | undefined;
   /** Output only. Status of the current published revision of the item. Will be unset if the item is not published. */
   publishedItemRevisionStatus?: ItemRevisionStatus | undefined;
-  /** The public key of the item, which may be generated by the store. */
-  publicKey?: string | undefined;
+  /** If true, the item has been taken down for a policy violation. Check the developer dashboard for details. */
+  takenDown?: boolean | undefined;
   /** The name of the requested item. */
   name?: string | undefined;
-  /** Output only. The ID of the item. */
-  itemId?: string | undefined;
   /** If true, the item has been warned for a policy violation and will be taken down if not resolved. Check the developer dashboard for details. */
   warned?: boolean | undefined;
+  /** The public key of the item, which may be generated by the store. */
+  publicKey?: string | undefined;
+  /** Output only. The ID of the item. */
+  itemId?: string | undefined;
+  /** Status of the item revision submitted to be published. Will be unset if the item has not been submitted for publishing since the last successful publish. */
+  submittedItemRevisionStatus?: ItemRevisionStatus | undefined;
   /** Output only. The state of the last async upload for an item. Only set when there has been an async upload for the item in the past 24 hours. */
   lastAsyncUploadState?: FetchItemStatusResponseLastAsyncUploadStateEnum | undefined;
 }
@@ -191,50 +191,58 @@ export interface GetRatingSummaryPublishersItemsRequest {
 }
 /** Singleton resource for the rating summary of an item. */
 export interface RatingSummary {
-  /** The number of four star ratings. */
-  fourStarRatingCount?: string | undefined;
-  /** The rating of the item as shown on the store page, expressed as a double between 1 and 5. */
-  rating?: number | undefined;
-  /** The number of one star ratings. */
-  oneStarRatingCount?: string | undefined;
-  /** The number of five star ratings. */
-  fiveStarRatingCount?: string | undefined;
-  /** Identifier. Item rating summary resource name Format: publishers/{publisher}/items/{item}/ratingSummary */
-  name?: string | undefined;
-  /** The number of two star ratings. */
-  twoStarRatingCount?: string | undefined;
   /** The number of ratings with a non-empty review text. */
   nonEmptyReviewCount?: string | undefined;
+  /** Identifier. Item rating summary resource name Format: publishers/{publisher}/items/{item}/ratingSummary */
+  name?: string | undefined;
   /** The total number of ratings for the item. */
   ratingCount?: string | undefined;
   /** The number of three star ratings. */
   threeStarRatingCount?: string | undefined;
+  /** The number of four star ratings. */
+  fourStarRatingCount?: string | undefined;
+  /** The number of five star ratings. */
+  fiveStarRatingCount?: string | undefined;
+  /** The rating of the item as shown on the store page, expressed as a double between 1 and 5. */
+  rating?: number | undefined;
+  /** The number of one star ratings. */
+  oneStarRatingCount?: string | undefined;
+  /** The number of two star ratings. */
+  twoStarRatingCount?: string | undefined;
 }
-export type PublishItemRequestPublishTypeEnum =
-  | "PUBLISH_TYPE_UNSPECIFIED"
-  | "DEFAULT_PUBLISH"
-  | "STAGED_PUBLISH";
 /** Deployment information for a specific release channel. Used in requests to update deployment parameters. */
 export interface DeployInfo {
   /** Required. The current deploy percentage for the release channel (nonnegative number between 0 and 100). */
   deployPercentage?: number | undefined;
 }
 export type DeployInfoList = Array<DeployInfo>;
+export type PublishItemRequestPublishTypeEnum =
+  | "PUBLISH_TYPE_UNSPECIFIED"
+  | "DEFAULT_PUBLISH"
+  | "STAGED_PUBLISH";
 /** Request message for PublishItem. */
 export interface PublishItemRequest {
-  /** Optional. When set to true the request will fail if there are any warnings during validation and the details will be included in the `error.details`. Otherwise warnings are treated as non-blocking and will be ignored for validation but will be included in the response for inspection. Defaults to `false` if unset. */
-  blockOnWarnings?: boolean | undefined;
+  /** Optional. Additional deploy information including the desired initial percentage rollout. Defaults to the current value saved in the developer dashboard if unset. */
+  deployInfos?: DeployInfoList | undefined;
   /** Optional. Use this to control if the item is published immediately on approval or staged for publishing in the future. Defaults to `DEFAULT_PUBLISH` if unset. */
   publishType?: PublishItemRequestPublishTypeEnum | (string & {}) | undefined;
   /** Optional. Whether to attempt to skip item review. The API will validate if the item qualifies and return a validation error if the item requires review. Defaults to `false` if unset. */
   skipReview?: boolean | undefined;
-  /** Optional. Additional deploy information including the desired initial percentage rollout. Defaults to the current value saved in the developer dashboard if unset. */
-  deployInfos?: DeployInfoList | undefined;
+  /** Optional. When set to true the request will fail if there are any warnings during validation and the details will be included in the `error.details`. Otherwise warnings are treated as non-blocking and will be ignored for validation but will be included in the response for inspection. Defaults to `false` if unset. */
+  blockOnWarnings?: boolean | undefined;
 }
 export interface PublishPublishersItemsRequest extends PublishItemRequest {
   /** Required. Name of the item in the form `publishers/{publisherId}/items/{itemId}` */
   name: string;
 }
+export type PublishItemResponseStateEnum =
+  | "ITEM_STATE_UNSPECIFIED"
+  | "PENDING_REVIEW"
+  | "STAGED"
+  | "PUBLISHED"
+  | "PUBLISHED_TO_TESTERS"
+  | "REJECTED"
+  | "CANCELLED";
 /** Represents a single warning encountered during the request. */
 export interface Warning {
   /** A description of the warning. Developers should use this message to understand the warning and take appropriate action to resolve the issue. */
@@ -248,96 +256,88 @@ export interface WarningsInfo {
   /** All warnings encountered during the request. */
   warnings?: WarningList | undefined;
 }
-export type PublishItemResponseStateEnum =
-  | "ITEM_STATE_UNSPECIFIED"
-  | "PENDING_REVIEW"
-  | "STAGED"
-  | "PUBLISHED"
-  | "PUBLISHED_TO_TESTERS"
-  | "REJECTED"
-  | "CANCELLED";
 /** Response message for `PublishItem`. */
 export interface PublishItemResponse {
-  /** Output only. The ID of the item. */
-  itemId?: string | undefined;
-  /** Output only. Non-blocking warnings encountered during the request. */
-  warningInfo?: WarningsInfo | undefined;
   /** Output only. The current state of the submission. */
   state?: PublishItemResponseStateEnum | undefined;
+  /** Output only. The ID of the item. */
+  itemId?: string | undefined;
   /** The name of the item that was submitted */
   name?: string | undefined;
+  /** Output only. Non-blocking warnings encountered during the request. */
+  warningInfo?: WarningsInfo | undefined;
 }
 export type StringList = Array<string>;
 export interface QueryMetricsPublishersItemsRequest {
-  /** Required. The metrics to query the metric set for. **Supported metrics:** - installs: Count of item installs. - installs-7d: Count of item installs in the last 7 days. - uninstalls: Count of item uninstalls. - users: Count of daily active users of the item. - users-7d: Count of 7-day active users of the item. - impressions: Count of item impressions across the entire store front. - page-views: Count of individual views of the item's detail page. */
-  metrics?: StringList | undefined;
+  /** Optional. The maximum number of rows to return. If unspecified, at most 100 rows will be returned. The maximum value is 1000; Values above 1000 will be coerced to 1000. */
+  pageSize?: number | undefined;
+  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
+  "timeSpec.lastDate.month"?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   "timeSpec.lastDate.day"?: number | undefined;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "timeSpec.firstDate.year"?: number | undefined;
-  /** Required. The name of the item to query the metrics for. Format: publishers/{publisher}/items/{item} */
-  name: string;
-  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  "timeSpec.firstDate.day"?: number | undefined;
   /** Optional. Dimensions to slice the metrics by. At most one dimension can be specified. **Supported dimensions:** - os: The operating system of the user. - app-version: The version of the item. - country: The country of the user. - install-source: The source of the install. - install-type: The type of install (from webstore, inline, or other). - language: The language of the user. - enabled: If the item is enabled or disabled. - utm-campaign: The UTM campaign of the user. - utm-content: The UTM content of the user. - utm-medium: The UTM medium of the user. - utm-source: The UTM source of the user. - utm-term: The UTM term of the user. */
   dimensions?: StringList | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   "timeSpec.firstDate.month"?: number | undefined;
-  /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  "timeSpec.lastDate.month"?: number | undefined;
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  "timeSpec.lastDate.year"?: number | undefined;
+  "timeSpec.firstDate.year"?: number | undefined;
+  /** Required. The metrics to query the metric set for. **Supported metrics:** - installs: Count of item installs. - installs-7d: Count of item installs in the last 7 days. - uninstalls: Count of item uninstalls. - users: Count of daily active users of the item. - users-7d: Count of 7-day active users of the item. - impressions: Count of item impressions across the entire store front. - page-views: Count of individual views of the item's detail page. */
+  metrics?: StringList | undefined;
+  /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
+  "timeSpec.firstDate.day"?: number | undefined;
   /** Optional. A page token, received from a previous call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to the request must match the call that provided the page token. */
   pageToken?: string | undefined;
-  /** Optional. The maximum number of rows to return. If unspecified, at most 100 rows will be returned. The maximum value is 1000; Values above 1000 will be coerced to 1000. */
-  pageSize?: number | undefined;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  "timeSpec.lastDate.year"?: number | undefined;
+  /** Required. The name of the item to query the metrics for. Format: publishers/{publisher}/items/{item} */
+  name: string;
 }
-/** Represents the value of a single metric */
-export interface MetricValue {
-  /** The name of the metric */
-  metric?: string | undefined;
-  /** The unique user count associated with the metric (if applicable). */
-  uniqueUserCount?: string | undefined;
-  /** The value of the metric. */
-  value?: string | undefined;
-}
-export type MetricValueList = Array<MetricValue>;
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Chromewebstore_Date {
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
   day?: number | undefined;
-  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
   month?: number | undefined;
+  /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
+  year?: number | undefined;
 }
+/** Represents the value of a single metric */
+export interface MetricValue {
+  /** The value of the metric. */
+  value?: string | undefined;
+  /** The unique user count associated with the metric (if applicable). */
+  uniqueUserCount?: string | undefined;
+  /** The name of the metric */
+  metric?: string | undefined;
+}
+export type MetricValueList = Array<MetricValue>;
 /** A single row of metrics and dimension values. */
 export interface MetricRow {
-  /** Metric columns for the row. */
-  metricValues?: MetricValueList | undefined;
   /** The date of the record. */
   date?: Chromewebstore_Date | undefined;
+  /** Metric columns for the row. */
+  metricValues?: MetricValueList | undefined;
   /** Dimension value columns for the row. */
   dimensionValues?: StringList | undefined;
 }
 export type MetricRowList = Array<MetricRow>;
 /** Response message for QueryItemMetrics. */
 export interface QueryItemMetricsResponse {
-  /** The metric rows. */
-  metricRows?: MetricRowList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
   nextPageToken?: string | undefined;
+  /** The metric rows. */
+  metricRows?: MetricRowList | undefined;
 }
 /** Request message for RollbackItem. */
 export interface RollbackItemRequest {
-  /** Required. The new version to assign to the package being rolled back to. This effectively "rolls forward" the previous package by giving it a higher version number than the currently-published package. E.g. if the current published version is 1.1, the new version could be 1.1.1 or 1.2 but not 1.0. */
-  newVersion?: string | undefined;
-  /** Required. The target previously published CRX version to roll back to. If unset, defaults to the last published CRX version. */
-  targetCrxVersion?: string | undefined;
   /** Optional. If set, validate and dry run the request but do not actually initiate the rollback */
   validateOnly?: boolean | undefined;
   /** Required. The reason for the rollback that will be used for internal auditing and developer dashboard visibility. */
   rollbackReason?: string | undefined;
+  /** Required. The target previously published CRX version to roll back to. If unset, defaults to the last published CRX version. */
+  targetCrxVersion?: string | undefined;
+  /** Required. The new version to assign to the package being rolled back to. This effectively "rolls forward" the previous package by giving it a higher version number than the currently-published package. E.g. if the current published version is 1.1, the new version could be 1.1.1 or 1.2 but not 1.0. */
+  newVersion?: string | undefined;
 }
 export interface RollbackPublishersItemsRequest extends RollbackItemRequest {
   /** Required. Name of the item to rollback in the form `publishers/{publisherId}/items/{itemId}` */
@@ -372,14 +372,14 @@ export type UploadItemPackageResponseUploadStateEnum =
   | "NOT_FOUND";
 /** Response message for `UploadItemPackage`. */
 export interface UploadItemPackageResponse {
-  /** Output only. The state of the upload. If `upload_state` is `UPLOAD_IN_PROGRESS`, you can poll for updates using the fetchStatus method. */
-  uploadState?: UploadItemPackageResponseUploadStateEnum | undefined;
-  /** The extension version provided in the manifest of the uploaded package. This will not be set if the upload is still in progress (`upload_state` is `UPLOAD_IN_PROGRESS`). */
-  crxVersion?: string | undefined;
   /** The name of the item the package was uploaded to. */
   name?: string | undefined;
+  /** Output only. The state of the upload. If `upload_state` is `UPLOAD_IN_PROGRESS`, you can poll for updates using the fetchStatus method. */
+  uploadState?: UploadItemPackageResponseUploadStateEnum | undefined;
   /** Output only. The ID of the item the package was uploaded to. */
   itemId?: string | undefined;
+  /** The extension version provided in the manifest of the uploaded package. This will not be set if the upload is still in progress (`upload_state` is `UPLOAD_IN_PROGRESS`). */
+  crxVersion?: string | undefined;
 }
 export type CancelSubmissionPublishersItemsError =
   | NotFound
@@ -559,10 +559,10 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          newVersion: S.optional(S.String),
-          targetCrxVersion: S.optional(S.String),
           validateOnly: S.optional(S.Boolean),
           rollbackReason: S.optional(S.String),
+          targetCrxVersion: S.optional(S.String),
+          newVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "RollbackItemRequest" });
     case 1:
@@ -619,10 +619,10 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          uploadState: S.optional(S.String),
-          crxVersion: S.optional(S.String),
           name: S.optional(S.String),
+          uploadState: S.optional(S.String),
           itemId: S.optional(S.String),
+          crxVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "UploadItemPackageResponse" });
   }
@@ -655,11 +655,11 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          orderBy: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          orderBy: S.optional(S.String.pipe(T.Query())),
           filter: S.optional(S.String.pipe(T.Query())),
+          pageToken: S.optional(S.String.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -677,12 +677,12 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
           rating: S.optional(S.Number),
-          item: S.optional(S.String),
-          createTime: S.optional(S.String),
           comment: S.optional(S.String),
+          name: S.optional(S.String),
           authorInfo: S.optional(__S(41, __c5, 1)),
+          createTime: S.optional(S.String),
+          item: S.optional(S.String),
         }),
       ).annotate({ identifier: "Review" });
     case 3:
@@ -690,8 +690,8 @@ function __c5(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          reviews: S.optional(__S(43, __c5, 3)),
           nextPageToken: S.optional(S.String),
+          reviews: S.optional(__S(43, __c5, 3)),
         }),
       ).annotate({ identifier: "FetchItemReviewsResponse" });
   }
@@ -722,20 +722,20 @@ function __c6(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          state: S.optional(S.String),
           distributionChannels: S.optional(__S(50, __c6, 2)),
+          state: S.optional(S.String),
         }),
       ).annotate({ identifier: "ItemRevisionStatus" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          submittedItemRevisionStatus: S.optional(__S(51, __c6, 3)),
-          takenDown: S.optional(S.Boolean),
           publishedItemRevisionStatus: S.optional(__S(51, __c6, 3)),
-          publicKey: S.optional(S.String),
+          takenDown: S.optional(S.Boolean),
           name: S.optional(S.String),
-          itemId: S.optional(S.String),
           warned: S.optional(S.Boolean),
+          publicKey: S.optional(S.String),
+          itemId: S.optional(S.String),
+          submittedItemRevisionStatus: S.optional(__S(51, __c6, 3)),
           lastAsyncUploadState: S.optional(S.String),
         }),
       ).annotate({ identifier: "FetchItemStatusResponse" });
@@ -758,15 +758,15 @@ function __c7(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          fourStarRatingCount: S.optional(S.String),
-          rating: S.optional(S.Number),
-          oneStarRatingCount: S.optional(S.String),
-          fiveStarRatingCount: S.optional(S.String),
-          name: S.optional(S.String),
-          twoStarRatingCount: S.optional(S.String),
           nonEmptyReviewCount: S.optional(S.String),
+          name: S.optional(S.String),
           ratingCount: S.optional(S.String),
           threeStarRatingCount: S.optional(S.String),
+          fourStarRatingCount: S.optional(S.String),
+          fiveStarRatingCount: S.optional(S.String),
+          rating: S.optional(S.Number),
+          oneStarRatingCount: S.optional(S.String),
+          twoStarRatingCount: S.optional(S.String),
         }),
       ).annotate({ identifier: "RatingSummary" });
   }
@@ -778,10 +778,10 @@ function __c8(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          blockOnWarnings: S.optional(S.Boolean),
+          deployInfos: S.optional(__S(64, __c8, 0)),
           publishType: S.optional(S.String),
           skipReview: S.optional(S.Boolean),
-          deployInfos: S.optional(__S(64, __c8, 0)),
+          blockOnWarnings: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PublishItemRequest" });
     case 2:
@@ -817,10 +817,10 @@ function __c8(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          itemId: S.optional(S.String),
-          warningInfo: S.optional(__S(69, __c8, 5)),
           state: S.optional(S.String),
+          itemId: S.optional(S.String),
           name: S.optional(S.String),
+          warningInfo: S.optional(__S(69, __c8, 5)),
         }),
       ).annotate({ identifier: "PublishItemResponse" });
   }
@@ -842,17 +842,17 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          metrics: S.optional(__S(80, __c10, 0).pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          "timeSpec.lastDate.month": S.optional(S.Number.pipe(T.Query())),
           "timeSpec.lastDate.day": S.optional(S.Number.pipe(T.Query())),
-          "timeSpec.firstDate.year": S.optional(S.Number.pipe(T.Query())),
-          name: S.String.pipe(T.Label()),
-          "timeSpec.firstDate.day": S.optional(S.Number.pipe(T.Query())),
           dimensions: S.optional(__S(80, __c10, 0).pipe(T.Query())),
           "timeSpec.firstDate.month": S.optional(S.Number.pipe(T.Query())),
-          "timeSpec.lastDate.month": S.optional(S.Number.pipe(T.Query())),
-          "timeSpec.lastDate.year": S.optional(S.Number.pipe(T.Query())),
+          "timeSpec.firstDate.year": S.optional(S.Number.pipe(T.Query())),
+          metrics: S.optional(__S(80, __c10, 0).pipe(T.Query())),
+          "timeSpec.firstDate.day": S.optional(S.Number.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
+          "timeSpec.lastDate.year": S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
         }).pipe(
           T.Http({
             method: "GET",
@@ -864,26 +864,26 @@ function __c10(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          metric: S.optional(S.String),
-          uniqueUserCount: S.optional(S.String),
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "MetricValue" });
-    case 3:
-      return S.Array(__S(82, __c10, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
           day: S.optional(S.Number),
-          year: S.optional(S.Number),
           month: S.optional(S.Number),
+          year: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Chromewebstore_Date" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          value: S.optional(S.String),
+          uniqueUserCount: S.optional(S.String),
+          metric: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MetricValue" });
+    case 4:
+      return S.Array(__S(83, __c10, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          metricValues: S.optional(__S(83, __c10, 3)),
-          date: S.optional(__S(84, __c10, 4)),
+          date: S.optional(__S(82, __c10, 2)),
+          metricValues: S.optional(__S(84, __c10, 4)),
           dimensionValues: S.optional(__S(80, __c10, 0)),
         }),
       ).annotate({ identifier: "MetricRow" });
@@ -892,8 +892,8 @@ function __c10(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          metricRows: S.optional(__S(86, __c10, 6)),
           nextPageToken: S.optional(S.String),
+          metricRows: S.optional(__S(86, __c10, 6)),
         }),
       ).annotate({ identifier: "QueryItemMetricsResponse" });
   }

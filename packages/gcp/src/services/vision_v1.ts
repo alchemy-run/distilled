@@ -108,7 +108,20 @@ export interface AddProductProjectsLocationsProductSetsRequest extends AddProduc
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
-export type StringMap = { [key: string]: string | undefined };
+/** The Google Cloud Storage location where the input will be read from. */
+export interface GcsSource {
+  /** Google Cloud Storage URI for the input file. This must only be a Google Cloud Storage object. Wildcards are not currently supported. */
+  uri?: string | undefined;
+}
+/** The desired input location and metadata. */
+export interface InputConfig {
+  /** The Google Cloud Storage location to read the input from. */
+  gcsSource?: GcsSource | undefined;
+  /** The type of the file. Currently only "application/pdf", "image/tiff" and "image/gif" are supported. Wildcards are not supported. */
+  mimeType?: string | undefined;
+  /** File content, represented as a stream of bytes. Note: As with all `bytes` fields, protobuffers use a pure binary representation, whereas JSON representations use base64. Currently, this field only works for BatchAnnotateFiles requests. It does not work for AsyncBatchAnnotateFiles requests. */
+  content?: string | undefined;
+}
 export type FeatureTypeEnum =
   | "TYPE_UNSPECIFIED"
   | "FACE_DETECTION"
@@ -133,6 +146,7 @@ export interface Feature {
   type?: FeatureTypeEnum | (string & {}) | undefined;
 }
 export type FeatureList = Array<Feature>;
+export type IntegerList = Array<number>;
 export type StringList = Array<string>;
 /** Parameters for text detections. This is used to control TEXT_DETECTION and DOCUMENT_TEXT_DETECTION features. */
 export interface TextDetectionParams {
@@ -161,14 +175,25 @@ export interface BoundingPoly {
 }
 /** Parameters for a product search request. */
 export interface ProductSearchParams {
-  /** The filtering expression. This can be used to restrict search results based on Product labels. We currently support an AND of OR of key-value expressions, where each expression within an OR must have the same key. An '=' should be used to connect the key and value. For example, "(color = red OR color = blue) AND brand = Google" is acceptable, but "(color = red OR brand = Google)" is not acceptable. "color: red" is not acceptable because it uses a ':' instead of an '='. */
-  filter?: string | undefined;
-  /** The list of product categories to search in. Currently, we only consider the first category, and either "homegoods-v2", "apparel-v2", "toys-v2", "packagedgoods-v1", or "general-v1" should be specified. The legacy categories "homegoods", "apparel", and "toys" are still supported but will be deprecated. For new products, please use "homegoods-v2", "apparel-v2", or "toys-v2" for better product search accuracy. It is recommended to migrate existing products to these categories as well. */
-  productCategories?: StringList | undefined;
-  /** The resource name of a ProductSet to be searched for similar images. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID`. */
-  productSet?: string | undefined;
   /** The bounding polygon around the area of interest in the image. If it is not specified, system discretion will be applied. */
   boundingPoly?: BoundingPoly | undefined;
+  /** The filtering expression. This can be used to restrict search results based on Product labels. We currently support an AND of OR of key-value expressions, where each expression within an OR must have the same key. An '=' should be used to connect the key and value. For example, "(color = red OR color = blue) AND brand = Google" is acceptable, but "(color = red OR brand = Google)" is not acceptable. "color: red" is not acceptable because it uses a ':' instead of an '='. */
+  filter?: string | undefined;
+  /** The resource name of a ProductSet to be searched for similar images. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID`. */
+  productSet?: string | undefined;
+  /** The list of product categories to search in. Currently, we only consider the first category, and either "homegoods-v2", "apparel-v2", "toys-v2", "packagedgoods-v1", or "general-v1" should be specified. The legacy categories "homegoods", "apparel", and "toys" are still supported but will be deprecated. For new products, please use "homegoods-v2", "apparel-v2", or "toys-v2" for better product search accuracy. It is recommended to migrate existing products to these categories as well. */
+  productCategories?: StringList | undefined;
+}
+export type DoubleList = Array<number>;
+/** Parameters for crop hints annotation request. */
+export interface CropHintsParams {
+  /** Aspect ratios in floats, representing the ratio of the width to the height of the image. For example, if the desired aspect ratio is 4/3, the corresponding float value should be 1.33333. If not specified, the best possible crop is returned. The number of provided aspect ratios is limited to a maximum of 16; any aspect ratios provided after the 16th are ignored. */
+  aspectRatios?: DoubleList | undefined;
+}
+/** Parameters for web detection request. */
+export interface WebDetectionParams {
+  /** This field has no effect on results. */
+  includeGeoResults?: boolean | undefined;
 }
 /** An object that represents a latitude/longitude pair. This is expressed as a pair of doubles to represent degrees latitude and degrees longitude. Unless specified otherwise, this object must conform to the WGS84 standard. Values must be within normalized ranges. */
 export interface LatLng {
@@ -179,127 +204,444 @@ export interface LatLng {
 }
 /** Rectangle determined by min and max `LatLng` pairs. */
 export interface LatLongRect {
-  /** Min lat/long pair. */
-  minLatLng?: LatLng | undefined;
   /** Max lat/long pair. */
   maxLatLng?: LatLng | undefined;
-}
-/** Parameters for web detection request. */
-export interface WebDetectionParams {
-  /** This field has no effect on results. */
-  includeGeoResults?: boolean | undefined;
-}
-export type DoubleList = Array<number>;
-/** Parameters for crop hints annotation request. */
-export interface CropHintsParams {
-  /** Aspect ratios in floats, representing the ratio of the width to the height of the image. For example, if the desired aspect ratio is 4/3, the corresponding float value should be 1.33333. If not specified, the best possible crop is returned. The number of provided aspect ratios is limited to a maximum of 16; any aspect ratios provided after the 16th are ignored. */
-  aspectRatios?: DoubleList | undefined;
+  /** Min lat/long pair. */
+  minLatLng?: LatLng | undefined;
 }
 /** Image context and/or feature-specific parameters. */
 export interface ImageContext {
   /** Parameters for text detection and document text detection. */
   textDetectionParams?: TextDetectionParams | undefined;
-  /** Parameters for product search. */
-  productSearchParams?: ProductSearchParams | undefined;
-  /** Not used. */
-  latLongRect?: LatLongRect | undefined;
-  /** Parameters for web detection. */
-  webDetectionParams?: WebDetectionParams | undefined;
-  /** Parameters for crop hints annotation request. */
-  cropHintsParams?: CropHintsParams | undefined;
   /** List of languages to use for TEXT_DETECTION. In most cases, an empty value yields the best results since it enables automatic language detection. For languages based on the Latin alphabet, setting `language_hints` is not needed. In rare cases, when the language of the text in the image is known, setting a hint will help get better results (although it will be a significant hindrance if the hint is wrong). Text detection returns an error if one or more of the specified languages is not one of the [supported languages](https://cloud.google.com/vision/docs/languages). */
   languageHints?: StringList | undefined;
-}
-export type IntegerList = Array<number>;
-/** The Google Cloud Storage location where the input will be read from. */
-export interface GcsSource {
-  /** Google Cloud Storage URI for the input file. This must only be a Google Cloud Storage object. Wildcards are not currently supported. */
-  uri?: string | undefined;
-}
-/** The desired input location and metadata. */
-export interface InputConfig {
-  /** The type of the file. Currently only "application/pdf", "image/tiff" and "image/gif" are supported. Wildcards are not supported. */
-  mimeType?: string | undefined;
-  /** The Google Cloud Storage location to read the input from. */
-  gcsSource?: GcsSource | undefined;
-  /** File content, represented as a stream of bytes. Note: As with all `bytes` fields, protobuffers use a pure binary representation, whereas JSON representations use base64. Currently, this field only works for BatchAnnotateFiles requests. It does not work for AsyncBatchAnnotateFiles requests. */
-  content?: string | undefined;
+  /** Parameters for product search. */
+  productSearchParams?: ProductSearchParams | undefined;
+  /** Parameters for crop hints annotation request. */
+  cropHintsParams?: CropHintsParams | undefined;
+  /** Parameters for web detection. */
+  webDetectionParams?: WebDetectionParams | undefined;
+  /** Not used. */
+  latLongRect?: LatLongRect | undefined;
 }
 /** A request to annotate one single file, e.g. a PDF, TIFF or GIF file. */
 export interface AnnotateFileRequest {
-  /** Required. Requested features. */
-  features?: FeatureList | undefined;
-  /** Additional context that may accompany the image(s) in the file. */
-  imageContext?: ImageContext | undefined;
-  /** Pages of the file to perform image annotation. Pages starts from 1, we assume the first page of the file is page 1. At most 5 pages are supported per request. Pages can be negative. Page 1 means the first page. Page 2 means the second page. Page -1 means the last page. Page -2 means the second to the last page. If the file is GIF instead of PDF or TIFF, page refers to GIF frames. If this field is empty, by default the service performs image annotation for the first 5 pages of the file. */
-  pages?: IntegerList | undefined;
   /** Required. Information about the input file. */
   inputConfig?: InputConfig | undefined;
+  /** Required. Requested features. */
+  features?: FeatureList | undefined;
+  /** Pages of the file to perform image annotation. Pages starts from 1, we assume the first page of the file is page 1. At most 5 pages are supported per request. Pages can be negative. Page 1 means the first page. Page 2 means the second page. Page -1 means the last page. Page -2 means the second to the last page. If the file is GIF instead of PDF or TIFF, page refers to GIF frames. If this field is empty, by default the service performs image annotation for the first 5 pages of the file. */
+  pages?: IntegerList | undefined;
+  /** Additional context that may accompany the image(s) in the file. */
+  imageContext?: ImageContext | undefined;
 }
 export type AnnotateFileRequestList = Array<AnnotateFileRequest>;
+export type StringMap = { [key: string]: string | undefined };
 /** A list of requests to annotate files using the BatchAnnotateFiles API. */
 export interface BatchAnnotateFilesRequest {
+  /** Required. The list of file annotation requests. Right now we support only one AnnotateFileRequest in BatchAnnotateFilesRequest. */
+  requests?: AnnotateFileRequestList | undefined;
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent?: string | undefined;
   /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. */
   labels?: StringMap | undefined;
-  /** Required. The list of file annotation requests. Right now we support only one AnnotateFileRequest in BatchAnnotateFilesRequest. */
-  requests?: AnnotateFileRequestList | undefined;
 }
 export interface AnnotateFilesRequest extends BatchAnnotateFilesRequest {}
+export type DocumentMap = { [key: string]: unknown | undefined };
+export type DocumentMapList = Array<DocumentMap>;
+/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
+export interface Status {
+  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
+  message?: string | undefined;
+  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
+  details?: DocumentMapList | undefined;
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
+}
+/** If an image was produced from a file (e.g. a PDF), this message gives information about the source of that image. */
+export interface ImageAnnotationContext {
+  /** The URI of the file used to produce the image. */
+  uri?: string | undefined;
+  /** If the file was a PDF or TIFF, this field gives the page number within the file used to produce the image. */
+  pageNumber?: number | undefined;
+}
+/** Metadata for online images. */
+export interface WebImage {
+  /** The result image URL. */
+  url?: string | undefined;
+  /** (Deprecated) Overall relevancy score for the image. */
+  score?: number | undefined;
+}
+export type WebImageList = Array<WebImage>;
+/** Metadata for web pages. */
+export interface WebPage {
+  /** Fully matching images on the page. Can include resized copies of the query image. */
+  fullMatchingImages?: WebImageList | undefined;
+  /** The result web page URL. */
+  url?: string | undefined;
+  /** Partial matching images on the page. Those images are similar enough to share some key-point features. For example an original image will likely have partial matching for its crops. */
+  partialMatchingImages?: WebImageList | undefined;
+  /** (Deprecated) Overall relevancy score for the web page. */
+  score?: number | undefined;
+  /** Title for the web page, may contain HTML markups. */
+  pageTitle?: string | undefined;
+}
+export type WebPageList = Array<WebPage>;
+/** Entity deduced from similar images on the Internet. */
+export interface WebEntity {
+  /** Opaque entity ID. */
+  entityId?: string | undefined;
+  /** Overall relevancy score for the entity. Not normalized and not comparable across different image queries. */
+  score?: number | undefined;
+  /** Canonical description of the entity, in English. */
+  description?: string | undefined;
+}
+export type WebEntityList = Array<WebEntity>;
+/** Label to provide extra metadata for the web detection. */
+export interface WebLabel {
+  /** The BCP-47 language code for `label`, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
+  languageCode?: string | undefined;
+  /** Label for extra metadata. */
+  label?: string | undefined;
+}
+export type WebLabelList = Array<WebLabel>;
+/** Relevant information for the image from the Internet. */
+export interface WebDetection {
+  /** Web pages containing the matching images from the Internet. */
+  pagesWithMatchingImages?: WebPageList | undefined;
+  /** Deduced entities from similar images on the Internet. */
+  webEntities?: WebEntityList | undefined;
+  /** Fully matching images from the Internet. Can include resized copies of the query image. */
+  fullMatchingImages?: WebImageList | undefined;
+  /** Partial matching images from the Internet. Those images are similar enough to share some key-point features. For example an original image will likely have partial matching for its crops. */
+  partialMatchingImages?: WebImageList | undefined;
+  /** The service's best guess as to the topic of the request image. Inferred from similar images on the open web. */
+  bestGuessLabels?: WebLabelList | undefined;
+  /** The visually similar image results. */
+  visuallySimilarImages?: WebImageList | undefined;
+}
+/** A `Property` consists of a user-supplied name/value pair. */
+export interface Property {
+  /** Name of the property. */
+  name?: string | undefined;
+  /** Value of the property. */
+  value?: string | undefined;
+  /** Value of numeric properties. */
+  uint64Value?: string | undefined;
+}
+export type PropertyList = Array<Property>;
 /** Detected entity location information. */
 export interface LocationInfo {
   /** lat/long location coordinates. */
   latLng?: LatLng | undefined;
 }
 export type LocationInfoList = Array<LocationInfo>;
-/** A `Property` consists of a user-supplied name/value pair. */
-export interface Property {
-  /** Value of the property. */
-  value?: string | undefined;
-  /** Name of the property. */
-  name?: string | undefined;
-  /** Value of numeric properties. */
-  uint64Value?: string | undefined;
-}
-export type PropertyList = Array<Property>;
 /** Set of detected entity features. */
 export interface EntityAnnotation {
+  /** Image region to which this entity belongs. Not produced for `LABEL_DETECTION` features. */
+  boundingPoly?: BoundingPoly | undefined;
+  /** The relevancy of the ICA (Image Content Annotation) label to the image. For example, the relevancy of "tower" is likely higher to an image containing the detected "Eiffel Tower" than to an image containing a detected distant towering building, even though the confidence that there is a tower in each image may be the same. Range [0, 1]. */
+  topicality?: number | undefined;
+  /** The language code for the locale in which the entity textual `description` is expressed. */
+  locale?: string | undefined;
+  /** Overall score of the result. Range [0, 1]. */
+  score?: number | undefined;
+  /** **Deprecated. Use `score` instead.** The accuracy of the entity detection in an image. For example, for an image in which the "Eiffel Tower" entity is detected, this field represents the confidence that there is a tower in the query image. Range [0, 1]. */
+  confidence?: number | undefined;
+  /** Entity textual description, expressed in its `locale` language. */
+  description?: string | undefined;
+  /** Some entities may have optional user-supplied `Property` (name/value) fields, such a score or string that qualifies the entity. */
+  properties?: PropertyList | undefined;
   /** The location information for the detected entity. Multiple `LocationInfo` elements can be present because one location may indicate the location of the scene in the image, and another location may indicate the location of the place where the image was taken. Location information is usually present for landmarks. */
   locations?: LocationInfoList | undefined;
   /** Opaque entity ID. Some IDs may be available in [Google Knowledge Graph Search API](https://developers.google.com/knowledge-graph/). */
   mid?: string | undefined;
-  /** Image region to which this entity belongs. Not produced for `LABEL_DETECTION` features. */
-  boundingPoly?: BoundingPoly | undefined;
-  /** Overall score of the result. Range [0, 1]. */
-  score?: number | undefined;
-  /** The language code for the locale in which the entity textual `description` is expressed. */
-  locale?: string | undefined;
-  /** Entity textual description, expressed in its `locale` language. */
-  description?: string | undefined;
-  /** **Deprecated. Use `score` instead.** The accuracy of the entity detection in an image. For example, for an image in which the "Eiffel Tower" entity is detected, this field represents the confidence that there is a tower in the query image. Range [0, 1]. */
-  confidence?: number | undefined;
-  /** Some entities may have optional user-supplied `Property` (name/value) fields, such a score or string that qualifies the entity. */
-  properties?: PropertyList | undefined;
-  /** The relevancy of the ICA (Image Content Annotation) label to the image. For example, the relevancy of "tower" is likely higher to an image containing the detected "Eiffel Tower" than to an image containing a detected distant towering building, even though the confidence that there is a tower in each image may be the same. Range [0, 1]. */
-  topicality?: number | undefined;
 }
 export type EntityAnnotationList = Array<EntityAnnotation>;
-/** Single crop hint that is used to generate a new crop when serving an image. */
-export interface CropHint {
-  /** Confidence of this being a salient region. Range [0, 1]. */
-  confidence?: number | undefined;
-  /** The bounding polygon for the crop region. The coordinates of the bounding box are in the original image's scale. */
+export type SafeSearchAnnotationRacyEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+export type SafeSearchAnnotationViolenceEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+export type SafeSearchAnnotationAdultEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+export type SafeSearchAnnotationSpoofEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+export type SafeSearchAnnotationMedicalEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+/** Set of features pertaining to the image, computed by computer vision methods over safe-search verticals (for example, adult, spoof, medical, violence). */
+export interface SafeSearchAnnotation {
+  /** Likelihood that the request image contains racy content. Racy content may include (but is not limited to) skimpy or sheer clothing, strategically covered nudity, lewd or provocative poses, or close-ups of sensitive body areas. */
+  racy?: SafeSearchAnnotationRacyEnum | undefined;
+  /** Likelihood that this image contains violent content. Violent content may include death, serious harm, or injury to individuals or groups of individuals. */
+  violence?: SafeSearchAnnotationViolenceEnum | undefined;
+  /** Represents the adult content likelihood for the image. Adult content may contain elements such as nudity, pornographic images or cartoons, or sexual activities. */
+  adult?: SafeSearchAnnotationAdultEnum | undefined;
+  /** Spoof likelihood. The likelihood that an modification was made to the image's canonical version to make it appear funny or offensive. */
+  spoof?: SafeSearchAnnotationSpoofEnum | undefined;
+  /** Likelihood that this is a medical image. */
+  medical?: SafeSearchAnnotationMedicalEnum | undefined;
+}
+/** Represents a color in the RGBA color space. This representation is designed for simplicity of conversion to and from color representations in various languages over compactness. For example, the fields of this representation can be trivially provided to the constructor of `java.awt.Color` in Java; it can also be trivially provided to UIColor's `+colorWithRed:green:blue:alpha` method in iOS; and, with just a little work, it can be easily formatted into a CSS `rgba()` string in JavaScript. This reference page doesn't have information about the absolute color space that should be used to interpret the RGB value--for example, sRGB, Adobe RGB, DCI-P3, and BT.2020. By default, applications should assume the sRGB color space. When color equality needs to be decided, implementations, unless documented otherwise, treat two colors as equal if all their red, green, blue, and alpha values each differ by at most `1e-5`. Example (Java): import com.google.type.Color; // ... public static java.awt.Color fromProto(Color protocolor) { float alpha = protocolor.hasAlpha() ? protocolor.getAlpha().getValue() : 1.0; return new java.awt.Color( protocolor.getRed(), protocolor.getGreen(), protocolor.getBlue(), alpha); } public static Color toProto(java.awt.Color color) { float red = (float) color.getRed(); float green = (float) color.getGreen(); float blue = (float) color.getBlue(); float denominator = 255.0; Color.Builder resultBuilder = Color .newBuilder() .setRed(red / denominator) .setGreen(green / denominator) .setBlue(blue / denominator); int alpha = color.getAlpha(); if (alpha != 255) { result.setAlpha( FloatValue .newBuilder() .setValue(((float) alpha) / denominator) .build()); } return resultBuilder.build(); } // ... Example (iOS / Obj-C): // ... static UIColor* fromProto(Color* protocolor) { float red = [protocolor red]; float green = [protocolor green]; float blue = [protocolor blue]; FloatValue* alpha_wrapper = [protocolor alpha]; float alpha = 1.0; if (alpha_wrapper != nil) { alpha = [alpha_wrapper value]; } return [UIColor colorWithRed:red green:green blue:blue alpha:alpha]; } static Color* toProto(UIColor* color) { CGFloat red, green, blue, alpha; if (![color getRed:&red green:&green blue:&blue alpha:&alpha]) { return nil; } Color* result = [[Color alloc] init]; [result setRed:red]; [result setGreen:green]; [result setBlue:blue]; if (alpha <= 0.9999) { [result setAlpha:floatWrapperWithValue(alpha)]; } [result autorelease]; return result; } // ... Example (JavaScript): // ... var protoToCssColor = function(rgb_color) { var redFrac = rgb_color.red || 0.0; var greenFrac = rgb_color.green || 0.0; var blueFrac = rgb_color.blue || 0.0; var red = Math.floor(redFrac * 255); var green = Math.floor(greenFrac * 255); var blue = Math.floor(blueFrac * 255); if (!('alpha' in rgb_color)) { return rgbToCssColor(red, green, blue); } var alphaFrac = rgb_color.alpha.value || 0.0; var rgbParams = [red, green, blue].join(','); return ['rgba(', rgbParams, ',', alphaFrac, ')'].join(''); }; var rgbToCssColor = function(red, green, blue) { var rgbNumber = new Number((red << 16) | (green << 8) | blue); var hexString = rgbNumber.toString(16); var missingZeros = 6 - hexString.length; var resultBuilder = ['#']; for (var i = 0; i < missingZeros; i++) { resultBuilder.push('0'); } resultBuilder.push(hexString); return resultBuilder.join(''); }; // ... */
+export interface Color {
+  /** The amount of red in the color as a value in the interval [0, 1]. */
+  red?: number | undefined;
+  /** The amount of green in the color as a value in the interval [0, 1]. */
+  green?: number | undefined;
+  /** The fraction of this color that should be applied to the pixel. That is, the final pixel color is defined by the equation: `pixel color = alpha * (this color) + (1.0 - alpha) * (background color)` This means that a value of 1.0 corresponds to a solid color, whereas a value of 0.0 corresponds to a completely transparent color. This uses a wrapper message rather than a simple float scalar so that it is possible to distinguish between a default value and the value being unset. If omitted, this color object is rendered as a solid color (as if the alpha value had been explicitly given a value of 1.0). */
+  alpha?: number | undefined;
+  /** The amount of blue in the color as a value in the interval [0, 1]. */
+  blue?: number | undefined;
+}
+/** Color information consists of RGB channels, score, and the fraction of the image that the color occupies in the image. */
+export interface ColorInfo {
+  /** Image-specific score for this color. Value in range [0, 1]. */
+  score?: number | undefined;
+  /** RGB components of the color. */
+  color?: Color | undefined;
+  /** The fraction of pixels the color occupies in the image. Value in range [0, 1]. */
+  pixelFraction?: number | undefined;
+}
+export type ColorInfoList = Array<ColorInfo>;
+/** Set of dominant colors and their corresponding scores. */
+export interface DominantColorsAnnotation {
+  /** RGB color values with their score and pixel fraction. */
+  colors?: ColorInfoList | undefined;
+}
+/** Stores image properties, such as dominant colors. */
+export interface ImageProperties {
+  /** If present, dominant colors completed successfully. */
+  dominantColors?: DominantColorsAnnotation | undefined;
+}
+/** A product label represented as a key-value pair. */
+export interface KeyValue {
+  /** The key of the label attached to the product. Cannot be empty and cannot exceed 128 bytes. */
+  key?: string | undefined;
+  /** The value of the label attached to the product. Cannot be empty and cannot exceed 128 bytes. */
+  value?: string | undefined;
+}
+export type KeyValueList = Array<KeyValue>;
+/** A Product contains ReferenceImages. */
+export interface Product {
+  /** The user-provided name for this Product. Must not be empty. Must be at most 4096 characters long. */
+  displayName?: string | undefined;
+  /** User-provided metadata to be stored with this product. Must be at most 4096 characters long. */
+  description?: string | undefined;
+  /** Immutable. The category for the product identified by the reference image. This should be one of "homegoods-v2", "apparel-v2", "toys-v2", "packagedgoods-v1" or "general-v1". The legacy categories "homegoods", "apparel", and "toys" are still supported, but these should not be used for new products. */
+  productCategory?: string | undefined;
+  /** The resource name of the product. Format is: `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID`. This field is ignored when creating a product. */
+  name?: string | undefined;
+  /** Key-value pairs that can be attached to a product. At query time, constraints can be specified based on the product_labels. Note that integer values can be provided as strings, e.g. "1199". Only strings with integer values can match a range-based restriction which is to be supported soon. Multiple values can be assigned to the same key. One product may have up to 500 product_labels. Notice that the total number of distinct product_labels over all products in one ProductSet cannot exceed 1M, otherwise the product search pipeline will refuse to work for that ProductSet. */
+  productLabels?: KeyValueList | undefined;
+}
+/** Information about a product. */
+export interface Result {
+  /** A confidence level on the match, ranging from 0 (no confidence) to 1 (full confidence). */
+  score?: number | undefined;
+  /** The resource name of the image from the product that is the closest match to the query. */
+  image?: string | undefined;
+  /** The Product. */
+  product?: Product | undefined;
+}
+export type ResultList = Array<Result>;
+/** Prediction for what the object in the bounding box is. */
+export interface ObjectAnnotation {
+  /** Object name, expressed in its `language_code` language. */
+  name?: string | undefined;
+  /** Object ID that should align with EntityAnnotation mid. */
+  mid?: string | undefined;
+  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
+  languageCode?: string | undefined;
+  /** Score of the result. Range [0, 1]. */
+  score?: number | undefined;
+}
+export type ObjectAnnotationList = Array<ObjectAnnotation>;
+/** Information about the products similar to a single product in a query image. */
+export interface GroupedResult {
+  /** List of results, one for each product match. */
+  results?: ResultList | undefined;
+  /** The bounding polygon around the product detected in the query image. */
   boundingPoly?: BoundingPoly | undefined;
-  /** Fraction of importance of this salient region with respect to the original image. */
-  importanceFraction?: number | undefined;
+  /** List of generic predictions for the object in the bounding box. */
+  objectAnnotations?: ObjectAnnotationList | undefined;
 }
-export type CropHintList = Array<CropHint>;
-/** Set of crop hints that are used to generate new crops when serving images. */
-export interface CropHintsAnnotation {
-  /** Crop hint results. */
-  cropHints?: CropHintList | undefined;
+export type GroupedResultList = Array<GroupedResult>;
+/** Results for a product search request. */
+export interface ProductSearchResults {
+  /** List of results, one for each product match. */
+  results?: ResultList | undefined;
+  /** Timestamp of the index which provided these results. Products added to the product set and products removed from the product set after this time are not reflected in the current results. */
+  indexTime?: string | undefined;
+  /** List of results grouped by products detected in the query image. Each entry corresponds to one bounding polygon in the query image, and contains the matching products specific to that region. There may be duplicate product matches in the union of all the per-product results. */
+  productGroupedResults?: GroupedResultList | undefined;
 }
+/** Detected language for a structural component. */
+export interface DetectedLanguage {
+  /** Confidence of detected language. Range [0, 1]. */
+  confidence?: number | undefined;
+  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
+  languageCode?: string | undefined;
+}
+export type DetectedLanguageList = Array<DetectedLanguage>;
+export type DetectedBreakTypeEnum =
+  | "UNKNOWN"
+  | "SPACE"
+  | "SURE_SPACE"
+  | "EOL_SURE_SPACE"
+  | "HYPHEN"
+  | "LINE_BREAK";
+/** Detected start or end of a structural component. */
+export interface DetectedBreak {
+  /** Detected break type. */
+  type?: DetectedBreakTypeEnum | undefined;
+  /** True if break prepends the element. */
+  isPrefix?: boolean | undefined;
+}
+/** Additional information detected on the structural component. */
+export interface TextProperty {
+  /** A list of detected languages together with confidence. */
+  detectedLanguages?: DetectedLanguageList | undefined;
+  /** Detected start or end of a text segment. */
+  detectedBreak?: DetectedBreak | undefined;
+}
+export type BlockBlockTypeEnum = "UNKNOWN" | "TEXT" | "TABLE" | "PICTURE" | "RULER" | "BARCODE";
+/** A single symbol representation. */
+export interface Vision_Symbol {
+  /** The actual UTF-8 representation of the symbol. */
+  text?: string | undefined;
+  /** The bounding box for the symbol. The vertices are in the order of top-left, top-right, bottom-right, bottom-left. When a rotation of the bounding box is detected the rotation is represented as around the top-left corner as defined when the text is read in the 'natural' orientation. For example: * when the text is horizontal it might look like: 0----1 | | 3----2 * when it's rotated 180 degrees around the top-left corner it becomes: 2----3 | | 1----0 and the vertex order will still be (0, 1, 2, 3). */
+  boundingBox?: BoundingPoly | undefined;
+  /** Confidence of the OCR results for the symbol. Range [0, 1]. */
+  confidence?: number | undefined;
+  /** Additional information detected for the symbol. */
+  property?: TextProperty | undefined;
+}
+export type Vision_SymbolList = Array<Vision_Symbol>;
+/** A word representation. */
+export interface Word {
+  /** List of symbols in the word. The order of the symbols follows the natural reading order. */
+  symbols?: Vision_SymbolList | undefined;
+  /** Additional information detected for the word. */
+  property?: TextProperty | undefined;
+  /** The bounding box for the word. The vertices are in the order of top-left, top-right, bottom-right, bottom-left. When a rotation of the bounding box is detected the rotation is represented as around the top-left corner as defined when the text is read in the 'natural' orientation. For example: * when the text is horizontal it might look like: 0----1 | | 3----2 * when it's rotated 180 degrees around the top-left corner it becomes: 2----3 | | 1----0 and the vertex order will still be (0, 1, 2, 3). */
+  boundingBox?: BoundingPoly | undefined;
+  /** Confidence of the OCR results for the word. Range [0, 1]. */
+  confidence?: number | undefined;
+}
+export type WordList = Array<Word>;
+/** Structural unit of text representing a number of words in certain order. */
+export interface Paragraph {
+  /** List of all words in this paragraph. */
+  words?: WordList | undefined;
+  /** Confidence of the OCR results for the paragraph. Range [0, 1]. */
+  confidence?: number | undefined;
+  /** Additional information detected for the paragraph. */
+  property?: TextProperty | undefined;
+  /** The bounding box for the paragraph. The vertices are in the order of top-left, top-right, bottom-right, bottom-left. When a rotation of the bounding box is detected the rotation is represented as around the top-left corner as defined when the text is read in the 'natural' orientation. For example: * when the text is horizontal it might look like: 0----1 | | 3----2 * when it's rotated 180 degrees around the top-left corner it becomes: 2----3 | | 1----0 and the vertex order will still be (0, 1, 2, 3). */
+  boundingBox?: BoundingPoly | undefined;
+}
+export type ParagraphList = Array<Paragraph>;
+/** Logical element on the page. */
+export interface Block {
+  /** The bounding box for the block. The vertices are in the order of top-left, top-right, bottom-right, bottom-left. When a rotation of the bounding box is detected the rotation is represented as around the top-left corner as defined when the text is read in the 'natural' orientation. For example: * when the text is horizontal it might look like: 0----1 | | 3----2 * when it's rotated 180 degrees around the top-left corner it becomes: 2----3 | | 1----0 and the vertex order will still be (0, 1, 2, 3). */
+  boundingBox?: BoundingPoly | undefined;
+  /** Detected block type (text, image etc) for this block. */
+  blockType?: BlockBlockTypeEnum | undefined;
+  /** Confidence of the OCR results on the block. Range [0, 1]. */
+  confidence?: number | undefined;
+  /** Additional information detected for the block. */
+  property?: TextProperty | undefined;
+  /** List of paragraphs in this block (if this blocks is of type text). */
+  paragraphs?: ParagraphList | undefined;
+}
+export type BlockList = Array<Block>;
+/** Detected page from OCR. */
+export interface Page {
+  /** Page width. For PDFs the unit is points. For images (including TIFFs) the unit is pixels. */
+  width?: number | undefined;
+  /** Additional information detected on the page. */
+  property?: TextProperty | undefined;
+  /** Page height. For PDFs the unit is points. For images (including TIFFs) the unit is pixels. */
+  height?: number | undefined;
+  /** List of blocks of text, images etc on this page. */
+  blocks?: BlockList | undefined;
+  /** Confidence of the OCR results on the page. Range [0, 1]. */
+  confidence?: number | undefined;
+}
+export type PageList = Array<Page>;
+/** TextAnnotation contains a structured representation of OCR extracted text. The hierarchy of an OCR extracted text structure is like this: TextAnnotation -> Page -> Block -> Paragraph -> Word -> Symbol Each structural component, starting from Page, may further have their own properties. Properties describe detected languages, breaks etc.. Please refer to the TextAnnotation.TextProperty message definition below for more detail. */
+export interface TextAnnotation {
+  /** List of pages detected by OCR. */
+  pages?: PageList | undefined;
+  /** UTF-8 text detected on the pages. */
+  text?: string | undefined;
+}
+/** Set of detected objects with bounding boxes. */
+export interface LocalizedObjectAnnotation {
+  /** Object ID that should align with EntityAnnotation mid. */
+  mid?: string | undefined;
+  /** Image region to which this object belongs. This must be populated. */
+  boundingPoly?: BoundingPoly | undefined;
+  /** Object name, expressed in its `language_code` language. */
+  name?: string | undefined;
+  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
+  languageCode?: string | undefined;
+  /** Score of the result. Range [0, 1]. */
+  score?: number | undefined;
+}
+export type LocalizedObjectAnnotationList = Array<LocalizedObjectAnnotation>;
+export type FaceAnnotationSurpriseLikelihoodEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+export type FaceAnnotationUnderExposedLikelihoodEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+export type FaceAnnotationAngerLikelihoodEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
+export type FaceAnnotationJoyLikelihoodEnum =
+  | "UNKNOWN"
+  | "VERY_UNLIKELY"
+  | "UNLIKELY"
+  | "POSSIBLE"
+  | "LIKELY"
+  | "VERY_LIKELY";
 export type LandmarkTypeEnum =
   | "UNKNOWN_LANDMARK"
   | "LEFT_EYE"
@@ -340,12 +682,12 @@ export type LandmarkTypeEnum =
   | "RIGHT_CHEEK_CENTER";
 /** A 3D position in the image, used primarily for Face detection landmarks. A valid Position must have both x and y coordinates. The position coordinates are in the same scale as the original image. */
 export interface Position {
+  /** Z coordinate (or depth). */
+  z?: number | undefined;
   /** X coordinate. */
   x?: number | undefined;
   /** Y coordinate. */
   y?: number | undefined;
-  /** Z coordinate (or depth). */
-  z?: number | undefined;
 }
 /** A face-specific landmark (for example, a face feature). Landmark positions may fall outside the bounds of the image if the face is near one or more edges of the image. Therefore it is NOT guaranteed that `0 <= x < width` or `0 <= y < height`. */
 export interface Landmark {
@@ -355,14 +697,7 @@ export interface Landmark {
   position?: Position | undefined;
 }
 export type LandmarkList = Array<Landmark>;
-export type FaceAnnotationSurpriseLikelihoodEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-export type FaceAnnotationJoyLikelihoodEnum =
+export type FaceAnnotationHeadwearLikelihoodEnum =
   | "UNKNOWN"
   | "VERY_UNLIKELY"
   | "UNLIKELY"
@@ -383,432 +718,97 @@ export type FaceAnnotationBlurredLikelihoodEnum =
   | "POSSIBLE"
   | "LIKELY"
   | "VERY_LIKELY";
-export type FaceAnnotationAngerLikelihoodEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-export type FaceAnnotationUnderExposedLikelihoodEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-export type FaceAnnotationHeadwearLikelihoodEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
 /** A face annotation object contains the results of face detection. */
 export interface FaceAnnotation {
-  /** Detected face landmarks. */
-  landmarks?: LandmarkList | undefined;
-  /** Pitch angle, which indicates the upwards/downwards angle that the face is pointing relative to the image's horizontal plane. Range [-180,180]. */
-  tiltAngle?: number | undefined;
   /** Deprecated: No longer populated. */
   surpriseLikelihood?: FaceAnnotationSurpriseLikelihoodEnum | undefined;
+  /** Detection confidence. Range [0, 1]. */
+  detectionConfidence?: number | undefined;
+  /** Yaw angle, which indicates the leftward/rightward angle that the face is pointing relative to the vertical plane perpendicular to the image. Range [-180,180]. */
+  panAngle?: number | undefined;
+  /** Under-exposed likelihood. */
+  underExposedLikelihood?: FaceAnnotationUnderExposedLikelihoodEnum | undefined;
+  /** Pitch angle, which indicates the upwards/downwards angle that the face is pointing relative to the image's horizontal plane. Range [-180,180]. */
+  tiltAngle?: number | undefined;
+  /** Roll angle, which indicates the amount of clockwise/anti-clockwise rotation of the face relative to the image vertical about the axis perpendicular to the face. Range [-180,180]. */
+  rollAngle?: number | undefined;
+  /** The bounding polygon around the face. The coordinates of the bounding box are in the original image's scale. The bounding box is computed to "frame" the face in accordance with human expectations. It is based on the landmarker results. Note that one or more x and/or y coordinates may not be generated in the `BoundingPoly` (the polygon will be unbounded) if only a partial face appears in the image to be annotated. */
+  boundingPoly?: BoundingPoly | undefined;
+  /** Deprecated: No longer populated. */
+  angerLikelihood?: FaceAnnotationAngerLikelihoodEnum | undefined;
+  /** Face landmarking confidence. Range [0, 1]. */
+  landmarkingConfidence?: number | undefined;
   /** Deprecated: No longer populated. */
   joyLikelihood?: FaceAnnotationJoyLikelihoodEnum | undefined;
+  /** Detected face landmarks. */
+  landmarks?: LandmarkList | undefined;
+  /** Headwear likelihood. */
+  headwearLikelihood?: FaceAnnotationHeadwearLikelihoodEnum | undefined;
   /** The `fd_bounding_poly` bounding polygon is tighter than the `boundingPoly`, and encloses only the skin part of the face. Typically, it is used to eliminate the face from any image analysis that detects the "amount of skin" visible in an image. It is not based on the landmarker results, only on the initial face detection, hence the fd (face detection) prefix. */
   fdBoundingPoly?: BoundingPoly | undefined;
   /** Deprecated: No longer populated. */
   sorrowLikelihood?: FaceAnnotationSorrowLikelihoodEnum | undefined;
   /** Blurred likelihood. */
   blurredLikelihood?: FaceAnnotationBlurredLikelihoodEnum | undefined;
-  /** Yaw angle, which indicates the leftward/rightward angle that the face is pointing relative to the vertical plane perpendicular to the image. Range [-180,180]. */
-  panAngle?: number | undefined;
-  /** The bounding polygon around the face. The coordinates of the bounding box are in the original image's scale. The bounding box is computed to "frame" the face in accordance with human expectations. It is based on the landmarker results. Note that one or more x and/or y coordinates may not be generated in the `BoundingPoly` (the polygon will be unbounded) if only a partial face appears in the image to be annotated. */
-  boundingPoly?: BoundingPoly | undefined;
-  /** Detection confidence. Range [0, 1]. */
-  detectionConfidence?: number | undefined;
-  /** Deprecated: No longer populated. */
-  angerLikelihood?: FaceAnnotationAngerLikelihoodEnum | undefined;
-  /** Face landmarking confidence. Range [0, 1]. */
-  landmarkingConfidence?: number | undefined;
-  /** Under-exposed likelihood. */
-  underExposedLikelihood?: FaceAnnotationUnderExposedLikelihoodEnum | undefined;
-  /** Roll angle, which indicates the amount of clockwise/anti-clockwise rotation of the face relative to the image vertical about the axis perpendicular to the face. Range [-180,180]. */
-  rollAngle?: number | undefined;
-  /** Headwear likelihood. */
-  headwearLikelihood?: FaceAnnotationHeadwearLikelihoodEnum | undefined;
 }
 export type FaceAnnotationList = Array<FaceAnnotation>;
-export type SafeSearchAnnotationRacyEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-export type SafeSearchAnnotationMedicalEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-export type SafeSearchAnnotationViolenceEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-export type SafeSearchAnnotationSpoofEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-export type SafeSearchAnnotationAdultEnum =
-  | "UNKNOWN"
-  | "VERY_UNLIKELY"
-  | "UNLIKELY"
-  | "POSSIBLE"
-  | "LIKELY"
-  | "VERY_LIKELY";
-/** Set of features pertaining to the image, computed by computer vision methods over safe-search verticals (for example, adult, spoof, medical, violence). */
-export interface SafeSearchAnnotation {
-  /** Likelihood that the request image contains racy content. Racy content may include (but is not limited to) skimpy or sheer clothing, strategically covered nudity, lewd or provocative poses, or close-ups of sensitive body areas. */
-  racy?: SafeSearchAnnotationRacyEnum | undefined;
-  /** Likelihood that this is a medical image. */
-  medical?: SafeSearchAnnotationMedicalEnum | undefined;
-  /** Likelihood that this image contains violent content. Violent content may include death, serious harm, or injury to individuals or groups of individuals. */
-  violence?: SafeSearchAnnotationViolenceEnum | undefined;
-  /** Spoof likelihood. The likelihood that an modification was made to the image's canonical version to make it appear funny or offensive. */
-  spoof?: SafeSearchAnnotationSpoofEnum | undefined;
-  /** Represents the adult content likelihood for the image. Adult content may contain elements such as nudity, pornographic images or cartoons, or sexual activities. */
-  adult?: SafeSearchAnnotationAdultEnum | undefined;
-}
-/** Set of detected objects with bounding boxes. */
-export interface LocalizedObjectAnnotation {
-  /** Object ID that should align with EntityAnnotation mid. */
-  mid?: string | undefined;
-  /** Score of the result. Range [0, 1]. */
-  score?: number | undefined;
-  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
-  languageCode?: string | undefined;
-  /** Image region to which this object belongs. This must be populated. */
+/** Single crop hint that is used to generate a new crop when serving an image. */
+export interface CropHint {
+  /** Confidence of this being a salient region. Range [0, 1]. */
+  confidence?: number | undefined;
+  /** The bounding polygon for the crop region. The coordinates of the bounding box are in the original image's scale. */
   boundingPoly?: BoundingPoly | undefined;
-  /** Object name, expressed in its `language_code` language. */
-  name?: string | undefined;
+  /** Fraction of importance of this salient region with respect to the original image. */
+  importanceFraction?: number | undefined;
 }
-export type LocalizedObjectAnnotationList = Array<LocalizedObjectAnnotation>;
-/** Represents a color in the RGBA color space. This representation is designed for simplicity of conversion to and from color representations in various languages over compactness. For example, the fields of this representation can be trivially provided to the constructor of `java.awt.Color` in Java; it can also be trivially provided to UIColor's `+colorWithRed:green:blue:alpha` method in iOS; and, with just a little work, it can be easily formatted into a CSS `rgba()` string in JavaScript. This reference page doesn't have information about the absolute color space that should be used to interpret the RGB value--for example, sRGB, Adobe RGB, DCI-P3, and BT.2020. By default, applications should assume the sRGB color space. When color equality needs to be decided, implementations, unless documented otherwise, treat two colors as equal if all their red, green, blue, and alpha values each differ by at most `1e-5`. Example (Java): import com.google.type.Color; // ... public static java.awt.Color fromProto(Color protocolor) { float alpha = protocolor.hasAlpha() ? protocolor.getAlpha().getValue() : 1.0; return new java.awt.Color( protocolor.getRed(), protocolor.getGreen(), protocolor.getBlue(), alpha); } public static Color toProto(java.awt.Color color) { float red = (float) color.getRed(); float green = (float) color.getGreen(); float blue = (float) color.getBlue(); float denominator = 255.0; Color.Builder resultBuilder = Color .newBuilder() .setRed(red / denominator) .setGreen(green / denominator) .setBlue(blue / denominator); int alpha = color.getAlpha(); if (alpha != 255) { result.setAlpha( FloatValue .newBuilder() .setValue(((float) alpha) / denominator) .build()); } return resultBuilder.build(); } // ... Example (iOS / Obj-C): // ... static UIColor* fromProto(Color* protocolor) { float red = [protocolor red]; float green = [protocolor green]; float blue = [protocolor blue]; FloatValue* alpha_wrapper = [protocolor alpha]; float alpha = 1.0; if (alpha_wrapper != nil) { alpha = [alpha_wrapper value]; } return [UIColor colorWithRed:red green:green blue:blue alpha:alpha]; } static Color* toProto(UIColor* color) { CGFloat red, green, blue, alpha; if (![color getRed:&red green:&green blue:&blue alpha:&alpha]) { return nil; } Color* result = [[Color alloc] init]; [result setRed:red]; [result setGreen:green]; [result setBlue:blue]; if (alpha <= 0.9999) { [result setAlpha:floatWrapperWithValue(alpha)]; } [result autorelease]; return result; } // ... Example (JavaScript): // ... var protoToCssColor = function(rgb_color) { var redFrac = rgb_color.red || 0.0; var greenFrac = rgb_color.green || 0.0; var blueFrac = rgb_color.blue || 0.0; var red = Math.floor(redFrac * 255); var green = Math.floor(greenFrac * 255); var blue = Math.floor(blueFrac * 255); if (!('alpha' in rgb_color)) { return rgbToCssColor(red, green, blue); } var alphaFrac = rgb_color.alpha.value || 0.0; var rgbParams = [red, green, blue].join(','); return ['rgba(', rgbParams, ',', alphaFrac, ')'].join(''); }; var rgbToCssColor = function(red, green, blue) { var rgbNumber = new Number((red << 16) | (green << 8) | blue); var hexString = rgbNumber.toString(16); var missingZeros = 6 - hexString.length; var resultBuilder = ['#']; for (var i = 0; i < missingZeros; i++) { resultBuilder.push('0'); } resultBuilder.push(hexString); return resultBuilder.join(''); }; // ... */
-export interface Color {
-  /** The amount of green in the color as a value in the interval [0, 1]. */
-  green?: number | undefined;
-  /** The amount of red in the color as a value in the interval [0, 1]. */
-  red?: number | undefined;
-  /** The fraction of this color that should be applied to the pixel. That is, the final pixel color is defined by the equation: `pixel color = alpha * (this color) + (1.0 - alpha) * (background color)` This means that a value of 1.0 corresponds to a solid color, whereas a value of 0.0 corresponds to a completely transparent color. This uses a wrapper message rather than a simple float scalar so that it is possible to distinguish between a default value and the value being unset. If omitted, this color object is rendered as a solid color (as if the alpha value had been explicitly given a value of 1.0). */
-  alpha?: number | undefined;
-  /** The amount of blue in the color as a value in the interval [0, 1]. */
-  blue?: number | undefined;
-}
-/** Color information consists of RGB channels, score, and the fraction of the image that the color occupies in the image. */
-export interface ColorInfo {
-  /** Image-specific score for this color. Value in range [0, 1]. */
-  score?: number | undefined;
-  /** RGB components of the color. */
-  color?: Color | undefined;
-  /** The fraction of pixels the color occupies in the image. Value in range [0, 1]. */
-  pixelFraction?: number | undefined;
-}
-export type ColorInfoList = Array<ColorInfo>;
-/** Set of dominant colors and their corresponding scores. */
-export interface DominantColorsAnnotation {
-  /** RGB color values with their score and pixel fraction. */
-  colors?: ColorInfoList | undefined;
-}
-/** Stores image properties, such as dominant colors. */
-export interface ImageProperties {
-  /** If present, dominant colors completed successfully. */
-  dominantColors?: DominantColorsAnnotation | undefined;
-}
-/** A product label represented as a key-value pair. */
-export interface KeyValue {
-  /** The value of the label attached to the product. Cannot be empty and cannot exceed 128 bytes. */
-  value?: string | undefined;
-  /** The key of the label attached to the product. Cannot be empty and cannot exceed 128 bytes. */
-  key?: string | undefined;
-}
-export type KeyValueList = Array<KeyValue>;
-/** A Product contains ReferenceImages. */
-export interface Product {
-  /** Key-value pairs that can be attached to a product. At query time, constraints can be specified based on the product_labels. Note that integer values can be provided as strings, e.g. "1199". Only strings with integer values can match a range-based restriction which is to be supported soon. Multiple values can be assigned to the same key. One product may have up to 500 product_labels. Notice that the total number of distinct product_labels over all products in one ProductSet cannot exceed 1M, otherwise the product search pipeline will refuse to work for that ProductSet. */
-  productLabels?: KeyValueList | undefined;
-  /** User-provided metadata to be stored with this product. Must be at most 4096 characters long. */
-  description?: string | undefined;
-  /** The user-provided name for this Product. Must not be empty. Must be at most 4096 characters long. */
-  displayName?: string | undefined;
-  /** The resource name of the product. Format is: `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID`. This field is ignored when creating a product. */
-  name?: string | undefined;
-  /** Immutable. The category for the product identified by the reference image. This should be one of "homegoods-v2", "apparel-v2", "toys-v2", "packagedgoods-v1" or "general-v1". The legacy categories "homegoods", "apparel", and "toys" are still supported, but these should not be used for new products. */
-  productCategory?: string | undefined;
-}
-/** Information about a product. */
-export interface Result {
-  /** The Product. */
-  product?: Product | undefined;
-  /** A confidence level on the match, ranging from 0 (no confidence) to 1 (full confidence). */
-  score?: number | undefined;
-  /** The resource name of the image from the product that is the closest match to the query. */
-  image?: string | undefined;
-}
-export type ResultList = Array<Result>;
-/** Prediction for what the object in the bounding box is. */
-export interface ObjectAnnotation {
-  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
-  languageCode?: string | undefined;
-  /** Object ID that should align with EntityAnnotation mid. */
-  mid?: string | undefined;
-  /** Score of the result. Range [0, 1]. */
-  score?: number | undefined;
-  /** Object name, expressed in its `language_code` language. */
-  name?: string | undefined;
-}
-export type ObjectAnnotationList = Array<ObjectAnnotation>;
-/** Information about the products similar to a single product in a query image. */
-export interface GroupedResult {
-  /** List of results, one for each product match. */
-  results?: ResultList | undefined;
-  /** List of generic predictions for the object in the bounding box. */
-  objectAnnotations?: ObjectAnnotationList | undefined;
-  /** The bounding polygon around the product detected in the query image. */
-  boundingPoly?: BoundingPoly | undefined;
-}
-export type GroupedResultList = Array<GroupedResult>;
-/** Results for a product search request. */
-export interface ProductSearchResults {
-  /** List of results, one for each product match. */
-  results?: ResultList | undefined;
-  /** List of results grouped by products detected in the query image. Each entry corresponds to one bounding polygon in the query image, and contains the matching products specific to that region. There may be duplicate product matches in the union of all the per-product results. */
-  productGroupedResults?: GroupedResultList | undefined;
-  /** Timestamp of the index which provided these results. Products added to the product set and products removed from the product set after this time are not reflected in the current results. */
-  indexTime?: string | undefined;
-}
-export type DocumentMap = { [key: string]: unknown | undefined };
-export type DocumentMapList = Array<DocumentMap>;
-/** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
-export interface Status {
-  /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
-  /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string | undefined;
-}
-/** If an image was produced from a file (e.g. a PDF), this message gives information about the source of that image. */
-export interface ImageAnnotationContext {
-  /** If the file was a PDF or TIFF, this field gives the page number within the file used to produce the image. */
-  pageNumber?: number | undefined;
-  /** The URI of the file used to produce the image. */
-  uri?: string | undefined;
-}
-/** Metadata for online images. */
-export interface WebImage {
-  /** (Deprecated) Overall relevancy score for the image. */
-  score?: number | undefined;
-  /** The result image URL. */
-  url?: string | undefined;
-}
-export type WebImageList = Array<WebImage>;
-/** Label to provide extra metadata for the web detection. */
-export interface WebLabel {
-  /** The BCP-47 language code for `label`, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
-  languageCode?: string | undefined;
-  /** Label for extra metadata. */
-  label?: string | undefined;
-}
-export type WebLabelList = Array<WebLabel>;
-/** Entity deduced from similar images on the Internet. */
-export interface WebEntity {
-  /** Overall relevancy score for the entity. Not normalized and not comparable across different image queries. */
-  score?: number | undefined;
-  /** Opaque entity ID. */
-  entityId?: string | undefined;
-  /** Canonical description of the entity, in English. */
-  description?: string | undefined;
-}
-export type WebEntityList = Array<WebEntity>;
-/** Metadata for web pages. */
-export interface WebPage {
-  /** Title for the web page, may contain HTML markups. */
-  pageTitle?: string | undefined;
-  /** The result web page URL. */
-  url?: string | undefined;
-  /** Fully matching images on the page. Can include resized copies of the query image. */
-  fullMatchingImages?: WebImageList | undefined;
-  /** Partial matching images on the page. Those images are similar enough to share some key-point features. For example an original image will likely have partial matching for its crops. */
-  partialMatchingImages?: WebImageList | undefined;
-  /** (Deprecated) Overall relevancy score for the web page. */
-  score?: number | undefined;
-}
-export type WebPageList = Array<WebPage>;
-/** Relevant information for the image from the Internet. */
-export interface WebDetection {
-  /** Fully matching images from the Internet. Can include resized copies of the query image. */
-  fullMatchingImages?: WebImageList | undefined;
-  /** Partial matching images from the Internet. Those images are similar enough to share some key-point features. For example an original image will likely have partial matching for its crops. */
-  partialMatchingImages?: WebImageList | undefined;
-  /** The service's best guess as to the topic of the request image. Inferred from similar images on the open web. */
-  bestGuessLabels?: WebLabelList | undefined;
-  /** Deduced entities from similar images on the Internet. */
-  webEntities?: WebEntityList | undefined;
-  /** Web pages containing the matching images from the Internet. */
-  pagesWithMatchingImages?: WebPageList | undefined;
-  /** The visually similar image results. */
-  visuallySimilarImages?: WebImageList | undefined;
-}
-export type DetectedBreakTypeEnum =
-  | "UNKNOWN"
-  | "SPACE"
-  | "SURE_SPACE"
-  | "EOL_SURE_SPACE"
-  | "HYPHEN"
-  | "LINE_BREAK";
-/** Detected start or end of a structural component. */
-export interface DetectedBreak {
-  /** True if break prepends the element. */
-  isPrefix?: boolean | undefined;
-  /** Detected break type. */
-  type?: DetectedBreakTypeEnum | undefined;
-}
-/** Detected language for a structural component. */
-export interface DetectedLanguage {
-  /** The BCP-47 language code, such as "en-US" or "sr-Latn". For more information, see http://www.unicode.org/reports/tr35/#Unicode_locale_identifier. */
-  languageCode?: string | undefined;
-  /** Confidence of detected language. Range [0, 1]. */
-  confidence?: number | undefined;
-}
-export type DetectedLanguageList = Array<DetectedLanguage>;
-/** Additional information detected on the structural component. */
-export interface TextProperty {
-  /** Detected start or end of a text segment. */
-  detectedBreak?: DetectedBreak | undefined;
-  /** A list of detected languages together with confidence. */
-  detectedLanguages?: DetectedLanguageList | undefined;
-}
-/** A single symbol representation. */
-export interface Vision_Symbol {
-  /** The bounding box for the symbol. The vertices are in the order of top-left, top-right, bottom-right, bottom-left. When a rotation of the bounding box is detected the rotation is represented as around the top-left corner as defined when the text is read in the 'natural' orientation. For example: * when the text is horizontal it might look like: 0----1 | | 3----2 * when it's rotated 180 degrees around the top-left corner it becomes: 2----3 | | 1----0 and the vertex order will still be (0, 1, 2, 3). */
-  boundingBox?: BoundingPoly | undefined;
-  /** Confidence of the OCR results for the symbol. Range [0, 1]. */
-  confidence?: number | undefined;
-  /** The actual UTF-8 representation of the symbol. */
-  text?: string | undefined;
-  /** Additional information detected for the symbol. */
-  property?: TextProperty | undefined;
-}
-export type Vision_SymbolList = Array<Vision_Symbol>;
-/** A word representation. */
-export interface Word {
-  /** Confidence of the OCR results for the word. Range [0, 1]. */
-  confidence?: number | undefined;
-  /** Additional information detected for the word. */
-  property?: TextProperty | undefined;
-  /** The bounding box for the word. The vertices are in the order of top-left, top-right, bottom-right, bottom-left. When a rotation of the bounding box is detected the rotation is represented as around the top-left corner as defined when the text is read in the 'natural' orientation. For example: * when the text is horizontal it might look like: 0----1 | | 3----2 * when it's rotated 180 degrees around the top-left corner it becomes: 2----3 | | 1----0 and the vertex order will still be (0, 1, 2, 3). */
-  boundingBox?: BoundingPoly | undefined;
-  /** List of symbols in the word. The order of the symbols follows the natural reading order. */
-  symbols?: Vision_SymbolList | undefined;
-}
-export type WordList = Array<Word>;
-/** Structural unit of text representing a number of words in certain order. */
-export interface Paragraph {
-  /** Confidence of the OCR results for the paragraph. Range [0, 1]. */
-  confidence?: number | undefined;
-  /** The bounding box for the paragraph. The vertices are in the order of top-left, top-right, bottom-right, bottom-left. When a rotation of the bounding box is detected the rotation is represented as around the top-left corner as defined when the text is read in the 'natural' orientation. For example: * when the text is horizontal it might look like: 0----1 | | 3----2 * when it's rotated 180 degrees around the top-left corner it becomes: 2----3 | | 1----0 and the vertex order will still be (0, 1, 2, 3). */
-  boundingBox?: BoundingPoly | undefined;
-  /** Additional information detected for the paragraph. */
-  property?: TextProperty | undefined;
-  /** List of all words in this paragraph. */
-  words?: WordList | undefined;
-}
-export type ParagraphList = Array<Paragraph>;
-export type BlockBlockTypeEnum = "UNKNOWN" | "TEXT" | "TABLE" | "PICTURE" | "RULER" | "BARCODE";
-/** Logical element on the page. */
-export interface Block {
-  /** List of paragraphs in this block (if this blocks is of type text). */
-  paragraphs?: ParagraphList | undefined;
-  /** Confidence of the OCR results on the block. Range [0, 1]. */
-  confidence?: number | undefined;
-  /** Detected block type (text, image etc) for this block. */
-  blockType?: BlockBlockTypeEnum | undefined;
-  /** The bounding box for the block. The vertices are in the order of top-left, top-right, bottom-right, bottom-left. When a rotation of the bounding box is detected the rotation is represented as around the top-left corner as defined when the text is read in the 'natural' orientation. For example: * when the text is horizontal it might look like: 0----1 | | 3----2 * when it's rotated 180 degrees around the top-left corner it becomes: 2----3 | | 1----0 and the vertex order will still be (0, 1, 2, 3). */
-  boundingBox?: BoundingPoly | undefined;
-  /** Additional information detected for the block. */
-  property?: TextProperty | undefined;
-}
-export type BlockList = Array<Block>;
-/** Detected page from OCR. */
-export interface Page {
-  /** Page width. For PDFs the unit is points. For images (including TIFFs) the unit is pixels. */
-  width?: number | undefined;
-  /** Confidence of the OCR results on the page. Range [0, 1]. */
-  confidence?: number | undefined;
-  /** List of blocks of text, images etc on this page. */
-  blocks?: BlockList | undefined;
-  /** Page height. For PDFs the unit is points. For images (including TIFFs) the unit is pixels. */
-  height?: number | undefined;
-  /** Additional information detected on the page. */
-  property?: TextProperty | undefined;
-}
-export type PageList = Array<Page>;
-/** TextAnnotation contains a structured representation of OCR extracted text. The hierarchy of an OCR extracted text structure is like this: TextAnnotation -> Page -> Block -> Paragraph -> Word -> Symbol Each structural component, starting from Page, may further have their own properties. Properties describe detected languages, breaks etc.. Please refer to the TextAnnotation.TextProperty message definition below for more detail. */
-export interface TextAnnotation {
-  /** List of pages detected by OCR. */
-  pages?: PageList | undefined;
-  /** UTF-8 text detected on the pages. */
-  text?: string | undefined;
+export type CropHintList = Array<CropHint>;
+/** Set of crop hints that are used to generate new crops when serving images. */
+export interface CropHintsAnnotation {
+  /** Crop hint results. */
+  cropHints?: CropHintList | undefined;
 }
 /** Response to an image annotation request. */
 export interface AnnotateImageResponse {
-  /** If present, landmark detection has completed successfully. */
-  landmarkAnnotations?: EntityAnnotationList | undefined;
-  /** If present, label detection has completed successfully. */
-  labelAnnotations?: EntityAnnotationList | undefined;
-  /** If present, crop hints have completed successfully. */
-  cropHintsAnnotation?: CropHintsAnnotation | undefined;
-  /** If present, face detection has completed successfully. */
-  faceAnnotations?: FaceAnnotationList | undefined;
-  /** If present, safe-search annotation has completed successfully. */
-  safeSearchAnnotation?: SafeSearchAnnotation | undefined;
-  /** If present, localized object detection has completed successfully. This will be sorted descending by confidence score. */
-  localizedObjectAnnotations?: LocalizedObjectAnnotationList | undefined;
-  /** If present, image properties were extracted successfully. */
-  imagePropertiesAnnotation?: ImageProperties | undefined;
-  /** If present, logo detection has completed successfully. */
-  logoAnnotations?: EntityAnnotationList | undefined;
-  /** If present, product search has completed successfully. */
-  productSearchResults?: ProductSearchResults | undefined;
-  /** If set, represents the error message for the operation. Note that filled-in image annotations are guaranteed to be correct, even when `error` is set. */
-  error?: Status | undefined;
-  /** If present, text (OCR) detection has completed successfully. */
-  textAnnotations?: EntityAnnotationList | undefined;
   /** If present, contextual information is needed to understand where this image comes from. */
   context?: ImageAnnotationContext | undefined;
   /** If present, web detection has completed successfully. */
   webDetection?: WebDetection | undefined;
+  /** If present, text (OCR) detection has completed successfully. */
+  textAnnotations?: EntityAnnotationList | undefined;
+  /** If present, safe-search annotation has completed successfully. */
+  safeSearchAnnotation?: SafeSearchAnnotation | undefined;
+  /** If present, logo detection has completed successfully. */
+  logoAnnotations?: EntityAnnotationList | undefined;
+  /** If present, image properties were extracted successfully. */
+  imagePropertiesAnnotation?: ImageProperties | undefined;
+  /** If set, represents the error message for the operation. Note that filled-in image annotations are guaranteed to be correct, even when `error` is set. */
+  error?: Status | undefined;
+  /** If present, product search has completed successfully. */
+  productSearchResults?: ProductSearchResults | undefined;
   /** If present, text (OCR) detection or document (OCR) text detection has completed successfully. This annotation provides the structural hierarchy for the OCR detected text. */
   fullTextAnnotation?: TextAnnotation | undefined;
+  /** If present, localized object detection has completed successfully. This will be sorted descending by confidence score. */
+  localizedObjectAnnotations?: LocalizedObjectAnnotationList | undefined;
+  /** If present, face detection has completed successfully. */
+  faceAnnotations?: FaceAnnotationList | undefined;
+  /** If present, label detection has completed successfully. */
+  labelAnnotations?: EntityAnnotationList | undefined;
+  /** If present, landmark detection has completed successfully. */
+  landmarkAnnotations?: EntityAnnotationList | undefined;
+  /** If present, crop hints have completed successfully. */
+  cropHintsAnnotation?: CropHintsAnnotation | undefined;
 }
 export type AnnotateImageResponseList = Array<AnnotateImageResponse>;
 /** Response to a single file annotation request. A file may contain one or more images, which individually have their own responses. */
 export interface AnnotateFileResponse {
-  /** Individual responses to images found within the file. This field will be empty if the `error` field is set. */
-  responses?: AnnotateImageResponseList | undefined;
   /** This field gives the total number of pages in the file. */
   totalPages?: number | undefined;
-  /** If set, represents the error message for the failed request. The `responses` field will not be set in this case. */
-  error?: Status | undefined;
   /** Information about the file for which this response is generated. */
   inputConfig?: InputConfig | undefined;
+  /** If set, represents the error message for the failed request. The `responses` field will not be set in this case. */
+  error?: Status | undefined;
+  /** Individual responses to images found within the file. This field will be empty if the `error` field is set. */
+  responses?: AnnotateImageResponseList | undefined;
 }
 export type AnnotateFileResponseList = Array<AnnotateFileResponse>;
 /** A list of file annotation responses. */
@@ -825,10 +825,10 @@ export interface ImageSource {
 }
 /** Client image to perform Google Cloud Vision API tasks over. */
 export interface Image {
-  /** Google Cloud Storage image location, or publicly-accessible image URL. If both `content` and `source` are provided for an image, `content` takes precedence and is used to perform the image annotation request. */
-  source?: ImageSource | undefined;
   /** Image content, represented as a stream of bytes. Note: As with all `bytes` fields, protobuffers use a pure binary representation, whereas JSON representations use base64. Currently, this field only works for BatchAnnotateImages requests. It does not work for AsyncBatchAnnotateImages requests. */
   content?: string | undefined;
+  /** Google Cloud Storage image location, or publicly-accessible image URL. If both `content` and `source` are provided for an image, `content` takes precedence and is used to perform the image annotation request. */
+  source?: ImageSource | undefined;
 }
 /** Request for performing Google Cloud Vision API tasks over a user-provided image, with user-requested features, and with context information. */
 export interface AnnotateImageRequest {
@@ -844,10 +844,10 @@ export type AnnotateImageRequestList = Array<AnnotateImageRequest>;
 export interface BatchAnnotateImagesRequest {
   /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. */
   labels?: StringMap | undefined;
-  /** Required. Individual image annotation requests for this batch. */
-  requests?: AnnotateImageRequestList | undefined;
   /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
   parent?: string | undefined;
+  /** Required. Individual image annotation requests for this batch. */
+  requests?: AnnotateImageRequestList | undefined;
 }
 export interface AnnotateImagesRequest extends BatchAnnotateImagesRequest {}
 /** Response to a batch image annotation request. */
@@ -891,49 +891,49 @@ export interface OutputConfig {
 }
 /** An offline file annotation request. */
 export interface AsyncAnnotateFileRequest {
-  /** Required. Information about the input file. */
-  inputConfig?: InputConfig | undefined;
   /** Required. The desired output location and metadata (e.g. format). */
   outputConfig?: OutputConfig | undefined;
   /** Required. Requested features. */
   features?: FeatureList | undefined;
+  /** Required. Information about the input file. */
+  inputConfig?: InputConfig | undefined;
   /** Additional context that may accompany the image(s) in the file. */
   imageContext?: ImageContext | undefined;
 }
 export type AsyncAnnotateFileRequestList = Array<AsyncAnnotateFileRequest>;
 /** Multiple async file annotation requests are batched into a single service call. */
 export interface AsyncBatchAnnotateFilesRequest {
+  /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  parent?: string | undefined;
   /** Required. Individual async file annotation requests for this batch. */
   requests?: AsyncAnnotateFileRequestList | undefined;
   /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. */
   labels?: StringMap | undefined;
-  /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
-  parent?: string | undefined;
 }
 export interface AsyncBatchAnnotateFilesRequest_ extends AsyncBatchAnnotateFilesRequest {}
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
-  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string | undefined;
-  /** The error result of the operation in case of failure or cancellation. */
-  error?: Status | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
+  /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
+  name?: string | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
+  /** The error result of the operation in case of failure or cancellation. */
+  error?: Status | undefined;
 }
 /** Request for async image annotation for a list of images. */
 export interface AsyncBatchAnnotateImagesRequest {
-  /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
-  parent?: string | undefined;
-  /** Required. The desired output location and metadata (e.g. format). */
-  outputConfig?: OutputConfig | undefined;
-  /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. */
-  labels?: StringMap | undefined;
   /** Required. Individual image annotation requests for this batch. */
   requests?: AnnotateImageRequestList | undefined;
+  /** Optional. The labels with user-defined metadata for the request. Label keys and values can be no longer than 63 characters (Unicode codepoints), can only contain lowercase letters, numeric characters, underscores and dashes. International characters are allowed. Label values are optional. Label keys must start with a letter. */
+  labels?: StringMap | undefined;
+  /** Required. The desired output location and metadata (e.g. format). */
+  outputConfig?: OutputConfig | undefined;
+  /** Optional. Target project and location to make a call. Format: `projects/{project-id}/locations/{location-id}`. If no parent is specified, a region will be chosen automatically. Supported location-ids: `us`: USA country only, `asia`: East asia areas, like Japan, Taiwan, `eu`: The European Union. Example: `projects/project-A/locations/eu`. */
+  parent?: string | undefined;
 }
 export interface AsyncBatchAnnotateImagesRequest_ extends AsyncBatchAnnotateImagesRequest {}
 export interface AsyncBatchAnnotateProjectsFilesRequest extends Omit<
@@ -973,21 +973,21 @@ export interface CancelOperationsRequest {
   body?: CancelOperationRequest | undefined;
 }
 export interface CreateProjectsLocationsProductsRequest extends Product {
-  /** A user-supplied resource id for this Product. If set, the server will attempt to use this value as the resource id. If it is already in use, an error is returned with code ALREADY_EXISTS. Must be at most 128 characters long. It cannot contain the character `/`. */
-  productId?: string | undefined;
   /** Required. The project in which the Product should be created. Format is `projects/PROJECT_ID/locations/LOC_ID`. */
   parent: string;
+  /** A user-supplied resource id for this Product. If set, the server will attempt to use this value as the resource id. If it is already in use, an error is returned with code ALREADY_EXISTS. Must be at most 128 characters long. It cannot contain the character `/`. */
+  productId?: string | undefined;
 }
 /** A ProductSet contains Products. A ProductSet can contain a maximum of 1 million reference images. If the limit is exceeded, periodic indexing will fail. */
 export interface ProductSet {
-  /** Output only. If there was an error with indexing the product set, the field is populated. This field is ignored when creating a ProductSet. */
-  indexError?: Status | undefined;
-  /** The resource name of the ProductSet. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID`. This field is ignored when creating a ProductSet. */
-  name?: string | undefined;
-  /** Output only. The time at which this ProductSet was last indexed. Query results will reflect all updates before this time. If this ProductSet has never been indexed, this timestamp is the default value "1970-01-01T00:00:00Z". This field is ignored when creating a ProductSet. */
-  indexTime?: string | undefined;
   /** The user-provided name for this ProductSet. Must not be empty. Must be at most 4096 characters long. */
   displayName?: string | undefined;
+  /** Output only. If there was an error with indexing the product set, the field is populated. This field is ignored when creating a ProductSet. */
+  indexError?: Status | undefined;
+  /** Output only. The time at which this ProductSet was last indexed. Query results will reflect all updates before this time. If this ProductSet has never been indexed, this timestamp is the default value "1970-01-01T00:00:00Z". This field is ignored when creating a ProductSet. */
+  indexTime?: string | undefined;
+  /** The resource name of the ProductSet. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID`. This field is ignored when creating a ProductSet. */
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsProductSetsRequest extends ProductSet {
   /** Required. The project in which the ProductSet should be created. Format is `projects/PROJECT_ID/locations/LOC_ID`. */
@@ -1006,10 +1006,10 @@ export interface ReferenceImage {
   uri?: string | undefined;
 }
 export interface CreateProjectsLocationsProductsReferenceImagesRequest extends ReferenceImage {
-  /** Required. Resource name of the product in which to create the reference image. Format is `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID`. */
-  parent: string;
   /** A user-supplied resource id for the ReferenceImage to be added. If set, the server will attempt to use this value as the resource id. If it is already in use, an error is returned with code ALREADY_EXISTS. Must be at most 128 characters long. It cannot contain the character `/`. */
   referenceImageId?: string | undefined;
+  /** Required. Resource name of the product in which to create the reference image. Format is `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID`. */
+  parent: string;
 }
 export interface DeleteOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -1075,32 +1075,32 @@ export interface ImportProjectsLocationsProductSetsRequest extends ImportProduct
   parent: string;
 }
 export interface ListOperationsRequest {
-  /** The name of the operation's parent resource. */
-  name: string;
-  /** The standard list page size. */
-  pageSize?: number | undefined;
-  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
   pageToken?: string | undefined;
+  /** The standard list page size. */
+  pageSize?: number | undefined;
+  /** The name of the operation's parent resource. */
+  name: string;
   /** The standard list filter. */
   filter?: string | undefined;
+  /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
+  returnPartialSuccess?: boolean | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
-  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
   operations?: OperationList | undefined;
+  /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsProductsRequest {
-  /** The next_page_token returned from a previous List request, if any. */
-  pageToken?: string | undefined;
   /** Required. The project OR ProductSet from which Products should be listed. Format: `projects/PROJECT_ID/locations/LOC_ID` */
   parent: string;
+  /** The next_page_token returned from a previous List request, if any. */
+  pageToken?: string | undefined;
   /** The maximum number of items to return. Default 10, maximum 100. */
   pageSize?: number | undefined;
 }
@@ -1123,18 +1123,18 @@ export interface ListProjectsLocationsProductSetsRequest {
 export type ProductSetList = Array<ProductSet>;
 /** Response message for the `ListProductSets` method. */
 export interface ListProductSetsResponse {
-  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string | undefined;
   /** List of ProductSets. */
   productSets?: ProductSetList | undefined;
+  /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsProductSetsProductsRequest {
+  /** The maximum number of items to return. Default 10, maximum 100. */
+  pageSize?: number | undefined;
   /** Required. The ProductSet resource for which to retrieve Products. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID` */
   name: string;
   /** The next_page_token returned from a previous List request, if any. */
   pageToken?: string | undefined;
-  /** The maximum number of items to return. Default 10, maximum 100. */
-  pageSize?: number | undefined;
 }
 /** Response message for the `ListProductsInProductSet` method. */
 export interface ListProductsInProductSetResponse {
@@ -1144,20 +1144,20 @@ export interface ListProductsInProductSetResponse {
   nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsProductsReferenceImagesRequest {
-  /** Required. Resource name of the product containing the reference images. Format is `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID`. */
-  parent: string;
   /** A token identifying a page of results to be returned. This is the value of `nextPageToken` returned in a previous reference image list request. Defaults to the first page if not specified. */
   pageToken?: string | undefined;
+  /** Required. Resource name of the product containing the reference images. Format is `projects/PROJECT_ID/locations/LOC_ID/products/PRODUCT_ID`. */
+  parent: string;
   /** The maximum number of items to return. Default 10, maximum 100. */
   pageSize?: number | undefined;
 }
 export type ReferenceImageList = Array<ReferenceImage>;
 /** Response message for the `ListReferenceImages` method. */
 export interface ListReferenceImagesResponse {
-  /** The maximum number of items to return. Default 10, maximum 100. */
-  pageSize?: number | undefined;
   /** The list of reference images. */
   referenceImages?: ReferenceImageList | undefined;
+  /** The maximum number of items to return. Default 10, maximum 100. */
+  pageSize?: number | undefined;
   /** The next_page_token returned from a previous List request, if any. */
   nextPageToken?: string | undefined;
 }
@@ -1168,10 +1168,10 @@ export interface PatchProjectsLocationsProductsRequest extends Omit<Product, "na
   name: string;
 }
 export interface PatchProjectsLocationsProductSetsRequest extends Omit<ProductSet, "name"> {
-  /** The resource name of the ProductSet. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID`. This field is ignored when creating a ProductSet. */
-  name: string;
   /** The FieldMask that specifies which fields to update. If update_mask isn't specified, all mutable fields are to be updated. Valid mask path is `display_name`. */
   updateMask?: string | undefined;
+  /** The resource name of the ProductSet. Format is: `projects/PROJECT_ID/locations/LOC_ID/productSets/PRODUCT_SET_ID`. This field is ignored when creating a ProductSet. */
+  name: string;
 }
 /** Config to control which ProductSet contains the Products to be deleted. */
 export interface ProductSetPurgeConfig {
@@ -1182,10 +1182,10 @@ export interface ProductSetPurgeConfig {
 export interface PurgeProductsRequest {
   /** Specify which ProductSet contains the Products to be deleted. */
   productSetPurgeConfig?: ProductSetPurgeConfig | undefined;
-  /** If delete_orphan_products is true, all Products that are not in any ProductSet will be deleted. */
-  deleteOrphanProducts?: boolean | undefined;
   /** The default value is false. Override this value to true to actually perform the purge. */
   force?: boolean | undefined;
+  /** If delete_orphan_products is true, all Products that are not in any ProductSet will be deleted. */
+  deleteOrphanProducts?: boolean | undefined;
 }
 export interface PurgeProjectsLocationsProductsRequest extends PurgeProductsRequest {
   /** Required. The project and location in which the Products should be deleted. Format is `projects/PROJECT_ID/locations/LOC_ID`. */
@@ -2041,10 +2041,10 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           done: S.optional(S.Boolean),
-          metadata: S.optional(__S(1504, __c47, 0)),
-          name: S.optional(S.String),
-          error: S.optional(__S(1506, __c47, 2)),
           response: S.optional(__S(1504, __c47, 0)),
+          name: S.optional(S.String),
+          metadata: S.optional(__S(1504, __c47, 0)),
+          error: S.optional(__S(1506, __c47, 2)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -2054,10 +2054,10 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          inputConfig: S.optional(__S(1696, __c53, 0)),
           outputConfig: S.optional(__S(96, __c3, 0)),
-          features: S.optional(__S(1474, __c46, 2)),
-          imageContext: S.optional(__S(1482, __c46, 10)),
+          features: S.optional(__S(1473, __c46, 1)),
+          inputConfig: S.optional(__S(1696, __c53, 0)),
+          imageContext: S.optional(__S(1481, __c46, 9)),
         }),
       ).annotate({ identifier: "AsyncAnnotateFileRequest" });
     case 1:
@@ -2065,9 +2065,9 @@ function __c5(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          requests: S.optional(__S(161, __c5, 1)),
-          labels: S.optional(__S(1472, __c46, 0)),
           parent: S.optional(S.String),
+          requests: S.optional(__S(161, __c5, 1)),
+          labels: S.optional(__S(1482, __c46, 10)),
         }),
       ).annotate({ identifier: "AsyncBatchAnnotateFilesRequest" });
   }
@@ -2091,10 +2091,10 @@ function __c7(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.optional(S.String),
-          outputConfig: S.optional(__S(96, __c3, 0)),
-          labels: S.optional(__S(1472, __c46, 0)),
           requests: S.optional(__S(1795, __c56, 3)),
+          labels: S.optional(__S(1482, __c46, 10)),
+          outputConfig: S.optional(__S(96, __c3, 0)),
+          parent: S.optional(S.String),
         }),
       ).annotate({ identifier: "AsyncBatchAnnotateImagesRequest" });
   }
@@ -2199,8 +2199,8 @@ function __c13(j: number): any {
         S.Extend(
           __S(1602, __c50, 2),
           S.Struct({
-            productId: S.optional(S.String.pipe(T.Query())),
             parent: S.String.pipe(T.Label()),
+            productId: S.optional(S.String.pipe(T.Query())),
           }),
         ).pipe(
           T.Http({
@@ -2237,10 +2237,10 @@ function __c15(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          indexError: S.optional(__S(1506, __c47, 2)),
-          name: S.optional(S.String),
-          indexTime: S.optional(S.String),
           displayName: S.optional(S.String),
+          indexError: S.optional(__S(1506, __c47, 2)),
+          indexTime: S.optional(S.String),
+          name: S.optional(S.String),
         }),
       ).annotate({ identifier: "ProductSet" });
   }
@@ -2252,8 +2252,8 @@ function __c16(j: number): any {
         S.Extend(
           __S(545, __c17, 1),
           S.Struct({
-            parent: S.String.pipe(T.Label()),
             referenceImageId: S.optional(S.String.pipe(T.Query())),
+            parent: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({
@@ -2469,11 +2469,11 @@ function __c30(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+          name: S.String.pipe(T.Label()),
           filter: S.optional(S.String.pipe(T.Query())),
+          returnPartialSuccess: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({ method: "GET", uri: "v1/{+name}", baseUrl: "https://vision.googleapis.com/" }),
         ),
@@ -2484,8 +2484,8 @@ function __c30(j: number): any {
       return S.suspend(() =>
         S.Struct({
           nextPageToken: S.optional(S.String),
-          unreachable: S.optional(__S(1568, __c49, 0)),
           operations: S.optional(__S(961, __c30, 1)),
+          unreachable: S.optional(__S(1568, __c49, 0)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
@@ -2495,8 +2495,8 @@ function __c31(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          pageToken: S.optional(S.String.pipe(T.Query())),
           parent: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2542,8 +2542,8 @@ function __c33(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          nextPageToken: S.optional(S.String),
           productSets: S.optional(__S(1057, __c33, 1)),
+          nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListProductSetsResponse" });
   }
@@ -2553,9 +2553,9 @@ function __c34(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          pageSize: S.optional(S.Number.pipe(T.Query())),
           name: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
             method: "GET",
@@ -2571,8 +2571,8 @@ function __c35(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          parent: S.String.pipe(T.Label()),
           pageToken: S.optional(S.String.pipe(T.Query())),
+          parent: S.String.pipe(T.Label()),
           pageSize: S.optional(S.Number.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -2587,8 +2587,8 @@ function __c35(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          pageSize: S.optional(S.Number),
           referenceImages: S.optional(__S(1121, __c35, 1)),
+          pageSize: S.optional(S.Number),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListReferenceImagesResponse" });
@@ -2617,8 +2617,8 @@ function __c37(j: number): any {
         S.Extend(
           __S(480, __c15, 0),
           S.Struct({
-            name: S.String.pipe(T.Label()),
             updateMask: S.optional(S.String.pipe(T.Query())),
+            name: S.String.pipe(T.Label()),
           }),
         ).pipe(
           T.Http({ method: "PATCH", uri: "v1/{+name}", baseUrl: "https://vision.googleapis.com/" }),
@@ -2638,8 +2638,8 @@ function __c38(j: number): any {
       return S.suspend(() =>
         S.Struct({
           productSetPurgeConfig: S.optional(__S(1216, __c38, 0)),
-          deleteOrphanProducts: S.optional(S.Boolean),
           force: S.optional(S.Boolean),
+          deleteOrphanProducts: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "PurgeProductsRequest" });
     case 2:
@@ -2732,119 +2732,110 @@ function __c44(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          latLng: S.optional(__S(1477, __c46, 5)),
+          uri: S.optional(S.String),
+          pageNumber: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "LocationInfo" });
+      ).annotate({ identifier: "ImageAnnotationContext" });
     case 1:
-      return S.Array(__S(1408, __c44, 0));
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
-          name: S.optional(S.String),
-          uint64Value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Property" });
-    case 3:
-      return S.Array(__S(1410, __c44, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          locations: S.optional(__S(1409, __c44, 1)),
-          mid: S.optional(S.String),
-          boundingPoly: S.optional(__S(1538, __c48, 2)),
+          url: S.optional(S.String),
           score: S.optional(S.Number),
-          locale: S.optional(S.String),
-          description: S.optional(S.String),
-          confidence: S.optional(S.Number),
-          properties: S.optional(__S(1411, __c44, 3)),
-          topicality: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "EntityAnnotation" });
+      ).annotate({ identifier: "WebImage" });
+    case 2:
+      return S.Array(__S(1409, __c44, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          fullMatchingImages: S.optional(__S(1410, __c44, 2)),
+          url: S.optional(S.String),
+          partialMatchingImages: S.optional(__S(1410, __c44, 2)),
+          score: S.optional(S.Number),
+          pageTitle: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WebPage" });
+    case 4:
+      return S.Array(__S(1411, __c44, 3));
     case 5:
-      return S.Array(__S(1412, __c44, 4));
+      return S.suspend(() =>
+        S.Struct({
+          entityId: S.optional(S.String),
+          score: S.optional(S.Number),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "WebEntity" });
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          confidence: S.optional(S.Number),
-          boundingPoly: S.optional(__S(1538, __c48, 2)),
-          importanceFraction: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "CropHint" });
+      return S.Array(__S(1413, __c44, 5));
     case 7:
-      return S.Array(__S(1414, __c44, 6));
-    case 8:
       return S.suspend(() =>
         S.Struct({
-          cropHints: S.optional(__S(1415, __c44, 7)),
+          languageCode: S.optional(S.String),
+          label: S.optional(S.String),
         }),
-      ).annotate({ identifier: "CropHintsAnnotation" });
+      ).annotate({ identifier: "WebLabel" });
+    case 8:
+      return S.Array(__S(1415, __c44, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          x: S.optional(S.Number),
-          y: S.optional(S.Number),
-          z: S.optional(S.Number),
+          pagesWithMatchingImages: S.optional(__S(1412, __c44, 4)),
+          webEntities: S.optional(__S(1414, __c44, 6)),
+          fullMatchingImages: S.optional(__S(1410, __c44, 2)),
+          partialMatchingImages: S.optional(__S(1410, __c44, 2)),
+          bestGuessLabels: S.optional(__S(1416, __c44, 8)),
+          visuallySimilarImages: S.optional(__S(1410, __c44, 2)),
         }),
-      ).annotate({ identifier: "Position" });
+      ).annotate({ identifier: "WebDetection" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          type: S.optional(S.String),
-          position: S.optional(__S(1417, __c44, 9)),
+          name: S.optional(S.String),
+          value: S.optional(S.String),
+          uint64Value: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Landmark" });
+      ).annotate({ identifier: "Property" });
     case 11:
       return S.Array(__S(1418, __c44, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          landmarks: S.optional(__S(1419, __c44, 11)),
-          tiltAngle: S.optional(S.Number),
-          surpriseLikelihood: S.optional(S.String),
-          joyLikelihood: S.optional(S.String),
-          fdBoundingPoly: S.optional(__S(1538, __c48, 2)),
-          sorrowLikelihood: S.optional(S.String),
-          blurredLikelihood: S.optional(S.String),
-          panAngle: S.optional(S.Number),
-          boundingPoly: S.optional(__S(1538, __c48, 2)),
-          detectionConfidence: S.optional(S.Number),
-          angerLikelihood: S.optional(S.String),
-          landmarkingConfidence: S.optional(S.Number),
-          underExposedLikelihood: S.optional(S.String),
-          rollAngle: S.optional(S.Number),
-          headwearLikelihood: S.optional(S.String),
+          latLng: S.optional(__S(1479, __c46, 7)),
         }),
-      ).annotate({ identifier: "FaceAnnotation" });
+      ).annotate({ identifier: "LocationInfo" });
     case 13:
       return S.Array(__S(1420, __c44, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          racy: S.optional(S.String),
-          medical: S.optional(S.String),
-          violence: S.optional(S.String),
-          spoof: S.optional(S.String),
-          adult: S.optional(S.String),
+          boundingPoly: S.optional(__S(1538, __c48, 2)),
+          topicality: S.optional(S.Number),
+          locale: S.optional(S.String),
+          score: S.optional(S.Number),
+          confidence: S.optional(S.Number),
+          description: S.optional(S.String),
+          properties: S.optional(__S(1419, __c44, 11)),
+          locations: S.optional(__S(1421, __c44, 13)),
+          mid: S.optional(S.String),
         }),
-      ).annotate({ identifier: "SafeSearchAnnotation" });
+      ).annotate({ identifier: "EntityAnnotation" });
     case 15:
+      return S.Array(__S(1422, __c44, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
-          mid: S.optional(S.String),
-          score: S.optional(S.Number),
-          languageCode: S.optional(S.String),
-          boundingPoly: S.optional(__S(1538, __c48, 2)),
-          name: S.optional(S.String),
+          racy: S.optional(S.String),
+          violence: S.optional(S.String),
+          adult: S.optional(S.String),
+          spoof: S.optional(S.String),
+          medical: S.optional(S.String),
         }),
-      ).annotate({ identifier: "LocalizedObjectAnnotation" });
-    case 16:
-      return S.Array(__S(1423, __c44, 15));
+      ).annotate({ identifier: "SafeSearchAnnotation" });
     case 17:
       return S.suspend(() =>
         S.Struct({
-          green: S.optional(S.Number),
           red: S.optional(S.Number),
+          green: S.optional(S.Number),
           alpha: S.optional(S.Number),
           blue: S.optional(S.Number),
         }),
@@ -2874,9 +2865,9 @@ function __c44(j: number): any {
     case 22:
       return S.suspend(() =>
         S.Struct({
-          product: S.optional(__S(1602, __c50, 2)),
           score: S.optional(S.Number),
           image: S.optional(S.String),
+          product: S.optional(__S(1602, __c50, 2)),
         }),
       ).annotate({ identifier: "Result" });
     case 23:
@@ -2884,10 +2875,10 @@ function __c44(j: number): any {
     case 24:
       return S.suspend(() =>
         S.Struct({
-          languageCode: S.optional(S.String),
-          mid: S.optional(S.String),
-          score: S.optional(S.Number),
           name: S.optional(S.String),
+          mid: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          score: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ObjectAnnotation" });
     case 25:
@@ -2896,8 +2887,8 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           results: S.optional(__S(1431, __c44, 23)),
-          objectAnnotations: S.optional(__S(1433, __c44, 25)),
           boundingPoly: S.optional(__S(1538, __c48, 2)),
+          objectAnnotations: S.optional(__S(1433, __c44, 25)),
         }),
       ).annotate({ identifier: "GroupedResult" });
     case 27:
@@ -2906,26 +2897,26 @@ function __c44(j: number): any {
       return S.suspend(() =>
         S.Struct({
           results: S.optional(__S(1431, __c44, 23)),
-          productGroupedResults: S.optional(__S(1435, __c44, 27)),
           indexTime: S.optional(S.String),
+          productGroupedResults: S.optional(__S(1435, __c44, 27)),
         }),
       ).annotate({ identifier: "ProductSearchResults" });
     case 29:
       return S.suspend(() =>
         S.Struct({
-          pageNumber: S.optional(S.Number),
-          uri: S.optional(S.String),
+          confidence: S.optional(S.Number),
+          languageCode: S.optional(S.String),
         }),
-      ).annotate({ identifier: "ImageAnnotationContext" });
+      ).annotate({ identifier: "DetectedLanguage" });
     case 30:
+      return S.Array(__S(1437, __c44, 29));
+    case 31:
       return S.suspend(() =>
         S.Struct({
-          score: S.optional(S.Number),
-          url: S.optional(S.String),
+          type: S.optional(S.String),
+          isPrefix: S.optional(S.Boolean),
         }),
-      ).annotate({ identifier: "WebImage" });
-    case 31:
-      return S.Array(__S(1438, __c44, 30));
+      ).annotate({ identifier: "DetectedBreak" });
   }
 }
 function __c45(j: number): any {
@@ -2933,149 +2924,158 @@ function __c45(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          languageCode: S.optional(S.String),
-          label: S.optional(S.String),
+          detectedLanguages: S.optional(__S(1438, __c44, 30)),
+          detectedBreak: S.optional(__S(1439, __c44, 31)),
         }),
-      ).annotate({ identifier: "WebLabel" });
+      ).annotate({ identifier: "TextProperty" });
     case 1:
-      return S.Array(__S(1440, __c45, 0));
+      return S.suspend(() =>
+        S.Struct({
+          text: S.optional(S.String),
+          boundingBox: S.optional(__S(1538, __c48, 2)),
+          confidence: S.optional(S.Number),
+          property: S.optional(__S(1440, __c45, 0)),
+        }),
+      ).annotate({ identifier: "Vision_Symbol" });
     case 2:
-      return S.suspend(() =>
-        S.Struct({
-          score: S.optional(S.Number),
-          entityId: S.optional(S.String),
-          description: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "WebEntity" });
+      return S.Array(__S(1441, __c45, 1));
     case 3:
-      return S.Array(__S(1442, __c45, 2));
+      return S.suspend(() =>
+        S.Struct({
+          symbols: S.optional(__S(1442, __c45, 2)),
+          property: S.optional(__S(1440, __c45, 0)),
+          boundingBox: S.optional(__S(1538, __c48, 2)),
+          confidence: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Word" });
     case 4:
-      return S.suspend(() =>
-        S.Struct({
-          pageTitle: S.optional(S.String),
-          url: S.optional(S.String),
-          fullMatchingImages: S.optional(__S(1439, __c44, 31)),
-          partialMatchingImages: S.optional(__S(1439, __c44, 31)),
-          score: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "WebPage" });
+      return S.Array(__S(1443, __c45, 3));
     case 5:
-      return S.Array(__S(1444, __c45, 4));
-    case 6:
       return S.suspend(() =>
         S.Struct({
-          fullMatchingImages: S.optional(__S(1439, __c44, 31)),
-          partialMatchingImages: S.optional(__S(1439, __c44, 31)),
-          bestGuessLabels: S.optional(__S(1441, __c45, 1)),
-          webEntities: S.optional(__S(1443, __c45, 3)),
-          pagesWithMatchingImages: S.optional(__S(1445, __c45, 5)),
-          visuallySimilarImages: S.optional(__S(1439, __c44, 31)),
+          words: S.optional(__S(1444, __c45, 4)),
+          confidence: S.optional(S.Number),
+          property: S.optional(__S(1440, __c45, 0)),
+          boundingBox: S.optional(__S(1538, __c48, 2)),
         }),
-      ).annotate({ identifier: "WebDetection" });
+      ).annotate({ identifier: "Paragraph" });
+    case 6:
+      return S.Array(__S(1445, __c45, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          isPrefix: S.optional(S.Boolean),
-          type: S.optional(S.String),
+          boundingBox: S.optional(__S(1538, __c48, 2)),
+          blockType: S.optional(S.String),
+          confidence: S.optional(S.Number),
+          property: S.optional(__S(1440, __c45, 0)),
+          paragraphs: S.optional(__S(1446, __c45, 6)),
         }),
-      ).annotate({ identifier: "DetectedBreak" });
+      ).annotate({ identifier: "Block" });
     case 8:
+      return S.Array(__S(1447, __c45, 7));
+    case 9:
       return S.suspend(() =>
         S.Struct({
-          languageCode: S.optional(S.String),
+          width: S.optional(S.Number),
+          property: S.optional(__S(1440, __c45, 0)),
+          height: S.optional(S.Number),
+          blocks: S.optional(__S(1448, __c45, 8)),
           confidence: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "DetectedLanguage" });
-    case 9:
-      return S.Array(__S(1448, __c45, 8));
+      ).annotate({ identifier: "Page" });
     case 10:
-      return S.suspend(() =>
-        S.Struct({
-          detectedBreak: S.optional(__S(1447, __c45, 7)),
-          detectedLanguages: S.optional(__S(1449, __c45, 9)),
-        }),
-      ).annotate({ identifier: "TextProperty" });
+      return S.Array(__S(1449, __c45, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          boundingBox: S.optional(__S(1538, __c48, 2)),
-          confidence: S.optional(S.Number),
+          pages: S.optional(__S(1450, __c45, 10)),
           text: S.optional(S.String),
-          property: S.optional(__S(1450, __c45, 10)),
         }),
-      ).annotate({ identifier: "Vision_Symbol" });
+      ).annotate({ identifier: "TextAnnotation" });
     case 12:
-      return S.Array(__S(1451, __c45, 11));
-    case 13:
       return S.suspend(() =>
         S.Struct({
-          confidence: S.optional(S.Number),
-          property: S.optional(__S(1450, __c45, 10)),
-          boundingBox: S.optional(__S(1538, __c48, 2)),
-          symbols: S.optional(__S(1452, __c45, 12)),
+          mid: S.optional(S.String),
+          boundingPoly: S.optional(__S(1538, __c48, 2)),
+          name: S.optional(S.String),
+          languageCode: S.optional(S.String),
+          score: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "Word" });
+      ).annotate({ identifier: "LocalizedObjectAnnotation" });
+    case 13:
+      return S.Array(__S(1452, __c45, 12));
     case 14:
-      return S.Array(__S(1453, __c45, 13));
+      return S.suspend(() =>
+        S.Struct({
+          z: S.optional(S.Number),
+          x: S.optional(S.Number),
+          y: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "Position" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          confidence: S.optional(S.Number),
-          boundingBox: S.optional(__S(1538, __c48, 2)),
-          property: S.optional(__S(1450, __c45, 10)),
-          words: S.optional(__S(1454, __c45, 14)),
+          type: S.optional(S.String),
+          position: S.optional(__S(1454, __c45, 14)),
         }),
-      ).annotate({ identifier: "Paragraph" });
+      ).annotate({ identifier: "Landmark" });
     case 16:
       return S.Array(__S(1455, __c45, 15));
     case 17:
       return S.suspend(() =>
         S.Struct({
-          paragraphs: S.optional(__S(1456, __c45, 16)),
-          confidence: S.optional(S.Number),
-          blockType: S.optional(S.String),
-          boundingBox: S.optional(__S(1538, __c48, 2)),
-          property: S.optional(__S(1450, __c45, 10)),
+          surpriseLikelihood: S.optional(S.String),
+          detectionConfidence: S.optional(S.Number),
+          panAngle: S.optional(S.Number),
+          underExposedLikelihood: S.optional(S.String),
+          tiltAngle: S.optional(S.Number),
+          rollAngle: S.optional(S.Number),
+          boundingPoly: S.optional(__S(1538, __c48, 2)),
+          angerLikelihood: S.optional(S.String),
+          landmarkingConfidence: S.optional(S.Number),
+          joyLikelihood: S.optional(S.String),
+          landmarks: S.optional(__S(1456, __c45, 16)),
+          headwearLikelihood: S.optional(S.String),
+          fdBoundingPoly: S.optional(__S(1538, __c48, 2)),
+          sorrowLikelihood: S.optional(S.String),
+          blurredLikelihood: S.optional(S.String),
         }),
-      ).annotate({ identifier: "Block" });
+      ).annotate({ identifier: "FaceAnnotation" });
     case 18:
       return S.Array(__S(1457, __c45, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          width: S.optional(S.Number),
           confidence: S.optional(S.Number),
-          blocks: S.optional(__S(1458, __c45, 18)),
-          height: S.optional(S.Number),
-          property: S.optional(__S(1450, __c45, 10)),
+          boundingPoly: S.optional(__S(1538, __c48, 2)),
+          importanceFraction: S.optional(S.Number),
         }),
-      ).annotate({ identifier: "Page" });
+      ).annotate({ identifier: "CropHint" });
     case 20:
       return S.Array(__S(1459, __c45, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
-          pages: S.optional(__S(1460, __c45, 20)),
-          text: S.optional(S.String),
+          cropHints: S.optional(__S(1460, __c45, 20)),
         }),
-      ).annotate({ identifier: "TextAnnotation" });
+      ).annotate({ identifier: "CropHintsAnnotation" });
     case 22:
       return S.suspend(() =>
         S.Struct({
-          landmarkAnnotations: S.optional(__S(1413, __c44, 5)),
-          labelAnnotations: S.optional(__S(1413, __c44, 5)),
-          cropHintsAnnotation: S.optional(__S(1416, __c44, 8)),
-          faceAnnotations: S.optional(__S(1421, __c44, 13)),
-          safeSearchAnnotation: S.optional(__S(1422, __c44, 14)),
-          localizedObjectAnnotations: S.optional(__S(1424, __c44, 16)),
+          context: S.optional(__S(1408, __c44, 0)),
+          webDetection: S.optional(__S(1417, __c44, 9)),
+          textAnnotations: S.optional(__S(1423, __c44, 15)),
+          safeSearchAnnotation: S.optional(__S(1424, __c44, 16)),
+          logoAnnotations: S.optional(__S(1423, __c44, 15)),
           imagePropertiesAnnotation: S.optional(__S(1429, __c44, 21)),
-          logoAnnotations: S.optional(__S(1413, __c44, 5)),
-          productSearchResults: S.optional(__S(1436, __c44, 28)),
           error: S.optional(__S(1506, __c47, 2)),
-          textAnnotations: S.optional(__S(1413, __c44, 5)),
-          context: S.optional(__S(1437, __c44, 29)),
-          webDetection: S.optional(__S(1446, __c45, 6)),
-          fullTextAnnotation: S.optional(__S(1461, __c45, 21)),
+          productSearchResults: S.optional(__S(1436, __c44, 28)),
+          fullTextAnnotation: S.optional(__S(1451, __c45, 11)),
+          localizedObjectAnnotations: S.optional(__S(1453, __c45, 13)),
+          faceAnnotations: S.optional(__S(1458, __c45, 18)),
+          labelAnnotations: S.optional(__S(1423, __c44, 15)),
+          landmarkAnnotations: S.optional(__S(1423, __c44, 15)),
+          cropHintsAnnotation: S.optional(__S(1461, __c45, 21)),
         }),
       ).annotate({ identifier: "AnnotateImageResponse" });
     case 23:
@@ -3085,8 +3085,6 @@ function __c45(j: number): any {
 function __c46(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
-    case 1:
       return S.suspend(() =>
         S.Struct({
           model: S.optional(S.String),
@@ -3094,8 +3092,10 @@ function __c46(j: number): any {
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "Feature" });
+    case 1:
+      return S.Array(__S(1472, __c46, 0));
     case 2:
-      return S.Array(__S(1473, __c46, 1));
+      return S.Array(S.Number);
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -3106,51 +3106,51 @@ function __c46(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          filter: S.optional(S.String),
-          productCategories: S.optional(__S(1568, __c49, 0)),
-          productSet: S.optional(S.String),
           boundingPoly: S.optional(__S(1538, __c48, 2)),
+          filter: S.optional(S.String),
+          productSet: S.optional(S.String),
+          productCategories: S.optional(__S(1568, __c49, 0)),
         }),
       ).annotate({ identifier: "ProductSearchParams" });
     case 5:
+      return S.suspend(() =>
+        S.Struct({
+          aspectRatios: S.optional(__S(1474, __c46, 2)),
+        }),
+      ).annotate({ identifier: "CropHintsParams" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          includeGeoResults: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "WebDetectionParams" });
+    case 7:
       return S.suspend(() =>
         S.Struct({
           longitude: S.optional(S.Number),
           latitude: S.optional(S.Number),
         }),
       ).annotate({ identifier: "LatLng" });
-    case 6:
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          minLatLng: S.optional(__S(1477, __c46, 5)),
-          maxLatLng: S.optional(__S(1477, __c46, 5)),
+          maxLatLng: S.optional(__S(1479, __c46, 7)),
+          minLatLng: S.optional(__S(1479, __c46, 7)),
         }),
       ).annotate({ identifier: "LatLongRect" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          includeGeoResults: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "WebDetectionParams" });
-    case 8:
-      return S.Array(S.Number);
     case 9:
       return S.suspend(() =>
         S.Struct({
-          aspectRatios: S.optional(__S(1480, __c46, 8)),
-        }),
-      ).annotate({ identifier: "CropHintsParams" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
           textDetectionParams: S.optional(__S(1475, __c46, 3)),
-          productSearchParams: S.optional(__S(1476, __c46, 4)),
-          latLongRect: S.optional(__S(1478, __c46, 6)),
-          webDetectionParams: S.optional(__S(1479, __c46, 7)),
-          cropHintsParams: S.optional(__S(1481, __c46, 9)),
           languageHints: S.optional(__S(1568, __c49, 0)),
+          productSearchParams: S.optional(__S(1476, __c46, 4)),
+          cropHintsParams: S.optional(__S(1477, __c46, 5)),
+          webDetectionParams: S.optional(__S(1478, __c46, 6)),
+          latLongRect: S.optional(__S(1480, __c46, 8)),
         }),
       ).annotate({ identifier: "ImageContext" });
+    case 10:
+      return S.Record(S.String, S.String);
   }
 }
 function __c47(j: number): any {
@@ -3162,9 +3162,9 @@ function __c47(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          message: S.optional(S.String),
           details: S.optional(__S(1505, __c47, 1)),
           code: S.optional(S.Number),
-          message: S.optional(S.String),
         }),
       ).annotate({ identifier: "Status" });
   }
@@ -3200,8 +3200,8 @@ function __c50(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          value: S.optional(S.String),
           key: S.optional(S.String),
+          value: S.optional(S.String),
         }),
       ).annotate({ identifier: "KeyValue" });
     case 1:
@@ -3209,11 +3209,11 @@ function __c50(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          productLabels: S.optional(__S(1601, __c50, 1)),
-          description: S.optional(S.String),
           displayName: S.optional(S.String),
-          name: S.optional(S.String),
+          description: S.optional(S.String),
           productCategory: S.optional(S.String),
+          name: S.optional(S.String),
+          productLabels: S.optional(__S(1601, __c50, 1)),
         }),
       ).annotate({ identifier: "Product" });
   }
@@ -3223,10 +3223,10 @@ function __c51(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          features: S.optional(__S(1474, __c46, 2)),
-          imageContext: S.optional(__S(1482, __c46, 10)),
-          pages: S.optional(__S(1480, __c46, 8)),
           inputConfig: S.optional(__S(1696, __c53, 0)),
+          features: S.optional(__S(1473, __c46, 1)),
+          pages: S.optional(__S(1474, __c46, 2)),
+          imageContext: S.optional(__S(1481, __c46, 9)),
         }),
       ).annotate({ identifier: "AnnotateFileRequest" });
     case 1:
@@ -3234,18 +3234,18 @@ function __c51(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          parent: S.optional(S.String),
-          labels: S.optional(__S(1472, __c46, 0)),
           requests: S.optional(__S(1633, __c51, 1)),
+          parent: S.optional(S.String),
+          labels: S.optional(__S(1482, __c46, 10)),
         }),
       ).annotate({ identifier: "BatchAnnotateFilesRequest" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          responses: S.optional(__S(1463, __c45, 23)),
           totalPages: S.optional(S.Number),
-          error: S.optional(__S(1506, __c47, 2)),
           inputConfig: S.optional(__S(1696, __c53, 0)),
+          error: S.optional(__S(1506, __c47, 2)),
+          responses: S.optional(__S(1463, __c45, 23)),
         }),
       ).annotate({ identifier: "AnnotateFileResponse" });
     case 4:
@@ -3273,8 +3273,8 @@ function __c53(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          mimeType: S.optional(S.String),
           gcsSource: S.optional(__S(1664, __c52, 0)),
+          mimeType: S.optional(S.String),
           content: S.optional(S.String),
         }),
       ).annotate({ identifier: "InputConfig" });
@@ -3299,9 +3299,9 @@ function __c55(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          labels: S.optional(__S(1472, __c46, 0)),
-          requests: S.optional(__S(1795, __c56, 3)),
+          labels: S.optional(__S(1482, __c46, 10)),
           parent: S.optional(S.String),
+          requests: S.optional(__S(1795, __c56, 3)),
         }),
       ).annotate({ identifier: "BatchAnnotateImagesRequest" });
     case 1:
@@ -3324,16 +3324,16 @@ function __c56(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          source: S.optional(__S(1792, __c56, 0)),
           content: S.optional(S.String),
+          source: S.optional(__S(1792, __c56, 0)),
         }),
       ).annotate({ identifier: "Image" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          imageContext: S.optional(__S(1482, __c46, 10)),
+          imageContext: S.optional(__S(1481, __c46, 9)),
           image: S.optional(__S(1793, __c56, 1)),
-          features: S.optional(__S(1474, __c46, 2)),
+          features: S.optional(__S(1473, __c46, 1)),
         }),
       ).annotate({ identifier: "AnnotateImageRequest" });
     case 3:

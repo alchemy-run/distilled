@@ -65,12 +65,12 @@ export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
+  /** The status code, which should be an enum value of google.rpc.Code. */
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
   message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
   details?: DocumentMapList | undefined;
-  /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
@@ -78,12 +78,12 @@ export interface Operation {
   name?: string | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
   response?: DocumentMap | undefined;
+  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
+  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
   done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
   error?: Status | undefined;
-  /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap | undefined;
 }
 export interface ListOperationsRequest {
   /** The standard list page size. */
@@ -94,10 +94,10 @@ export interface ListOperationsRequest {
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
-  /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList | undefined;
   /** The standard List next-page token. */
   nextPageToken?: string | undefined;
+  /** A list of operations that matches the specified filter in the request. */
+  operations?: OperationList | undefined;
 }
 export interface WaitOperationsRequest {
   /** The name of the operation resource to wait on. */
@@ -184,9 +184,9 @@ function __c1(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
+          code: S.optional(S.Number),
           message: S.optional(S.String),
           details: S.optional(__S(5, __c1, 1)),
-          code: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Status" });
     case 3:
@@ -194,9 +194,9 @@ function __c1(j: number): any {
         S.Struct({
           name: S.optional(S.String),
           response: S.optional(__S(4, __c1, 0)),
+          metadata: S.optional(__S(4, __c1, 0)),
           done: S.optional(S.Boolean),
           error: S.optional(__S(6, __c1, 2)),
-          metadata: S.optional(__S(4, __c1, 0)),
         }),
       ).annotate({ identifier: "Operation" });
   }
@@ -221,8 +221,8 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          operations: S.optional(__S(9, __c2, 1)),
           nextPageToken: S.optional(S.String),
+          operations: S.optional(__S(9, __c2, 1)),
         }),
       ).annotate({ identifier: "ListOperationsResponse" });
   }
