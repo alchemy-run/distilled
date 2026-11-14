@@ -6,7 +6,7 @@
  *   carried (`x-amz-retry-after` / `x-distilled-retry-after`);
  * - a count of successful responses per host, which refills the budget.
  *
- * `Telemetry.execute` writes both for every protocol that sends through it.
+ * `send` (`./send.ts`) writes both for every protocol that sends through it.
  * The module imports nothing heavy: every bundle that sends a request loads
  * it.
  */

@@ -95,7 +95,7 @@ export class Locked
   extends /*@__PURE__*/ Schema.TaggedError<Locked>()("Locked", {
     message: Schema.String,
     retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
-  }).pipe(Category.withLockedError) {}
+  }).pipe(Category.withLockedError, /*@__PURE__*/ Category.withRetryable()) {}
 
 /**
  * InternalServerError - Server error.
@@ -110,7 +110,7 @@ export class InternalServerError
     message: Schema.String,
     code: /*@__PURE__*/ Schema.optional(Schema.Number),
     retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
-  }).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
 /**
  * BadGateway - Bad gateway (502).
@@ -119,7 +119,7 @@ export class BadGateway
   extends /*@__PURE__*/ Schema.TaggedError<BadGateway>()("BadGateway", {
     message: Schema.String,
     retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
-  }).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
 /**
  * ServiceUnavailable - Service unavailable (503).
@@ -137,7 +137,7 @@ export class GatewayTimeout
   extends /*@__PURE__*/ Schema.TaggedError<GatewayTimeout>()("GatewayTimeout", {
     message: Schema.String,
     retryAfter: /*@__PURE__*/ Schema.optional(DurationSchema),
-  }).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
 // Defined with the config readers (core's `base` bundle group, which every
 // program loads) so they can fail with it without importing this module.

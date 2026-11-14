@@ -30,7 +30,7 @@ import {
   unwrapRedactedDeep,
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
-import * as Telemetry from "@distilled.cloud/core/telemetry";
+import * as Send from "@distilled.cloud/core/send";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Headers from "effect/http/Headers";
@@ -256,11 +256,7 @@ export const TechnitiumProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ Layer
       Effect.withFiber((fiber) => {
         const context = fiber.context as Context.Context<any>;
         return Effect.flatMap(encode(context, input, operation.inputAst), (request) =>
-          Telemetry.execute(
-            context,
-            Context.getUnsafe(context, HttpClient.HttpClient),
-            request,
-          ).pipe(
+          Send.send(context, Context.getUnsafe(context, HttpClient.HttpClient), request).pipe(
             Effect.catch((error) => fail(withoutCredentials(error))),
             Effect.flatMap((response) => decode(response, operation.outputAst)),
           ),

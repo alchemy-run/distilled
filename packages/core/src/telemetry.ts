@@ -42,7 +42,6 @@ import type * as AST from "effect/SchemaAST";
 import type * as Stream from "effect/Stream";
 import * as Tracer from "effect/Tracer";
 import { getAnn, getProps } from "./annotations.ts";
-import * as RetryState from "./retry-state.ts";
 
 /**
  * Debug mode's implementation, provided by `TelemetryDebug.layer`
@@ -550,20 +549,7 @@ export const execute = (
   request: HttpClientRequest.HttpClientRequest,
 ): Effect.Effect<HttpClientResponse.HttpClientResponse, HttpClientError.HttpClientError> => {
   const debug = Context.get(context, Debug);
-  // Recorded when the request runs: the retry layer runs this effect again.
-  const sent = Effect.map(
-    Effect.suspend(() => {
-      RetryState.recordRequest(request.url);
-      return tracedExecute(context, client, request);
-    }),
-    (response) => {
-      RetryState.recordResponse(
-        response.status,
-        response.headers as Readonly<Record<string, string | undefined>>,
-      );
-      return response;
-    },
-  );
+  const sent = tracedExecute(context, client, request);
   return debug === undefined ? sent : debug.http(request, sent);
 };
 

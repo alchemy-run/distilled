@@ -28,6 +28,7 @@ import {
   resolveServerRetryHintCapMs,
 } from "./retry.ts";
 import { SdkError } from "./sdk-error.ts";
+import * as Send from "./send.ts";
 import * as Telemetry from "./telemetry.ts";
 
 //#region Protocol
@@ -433,7 +434,7 @@ const retryWith = (
     const last = takeLastRequest();
     return Effect.flatMap(backoffDelay(b, n, e, last.hintMs), (ms) => {
       if (ms === undefined) return Effect.fail(e);
-      // No host: the request went out without `Telemetry.execute`, so no
+      // No host: the request went out without `send` (`./send.ts`), so no
       // success would ever refill a bucket. Such calls are not budgeted.
       const budgeted = budget !== undefined && last.host !== "";
       const cost = budgeted ? budget.withdraw(last.host, isThrottling(e)) : undefined;
@@ -571,7 +572,7 @@ const runWith = (
     const context = fiber.context as Context.Context<any>;
     const client = Context.get(context, HttpClient.HttpClient);
     return Effect.flatMap(protocol.encode({ input, inputAst, config: cfg }), (request) =>
-      Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
+      Effect.flatMap(Send.send(context, client, request), (response) =>
         protocol.decode({ response, outputAst, errors, config: cfg }),
       ),
     );

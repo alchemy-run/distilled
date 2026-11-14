@@ -177,17 +177,17 @@ class RetryableMarked extends Schema.TaggedError<RetryableMarked>()("RetryableMa
 
 const transient = [
   new TooManyRequests({ message: "" }),
+  new Locked({ message: "" }),
+  new InternalServerError({ message: "" }),
+  new BadGateway({ message: "" }),
   new ServiceUnavailable({ message: "" }),
+  new GatewayTimeout({ message: "" }),
   new RetryableMarked({ message: "" }),
   transportError,
 ];
 
-// A status or a category describes an error; only a mark retries it.
+// A category describes an error; only a mark retries it.
 const permanent = [
-  new Locked({ message: "" }),
-  new InternalServerError({ message: "" }),
-  new BadGateway({ message: "" }),
-  new GatewayTimeout({ message: "" }),
   new CategorizedNetworkError({ message: "" }),
   new CategorizedTimeoutError({ message: "" }),
   new BadRequest({ message: "" }),
@@ -284,12 +284,13 @@ describe("makeDefault schedule", () => {
     expect(delays(http.times())).toEqual([25, 50]);
   });
 
-  test("does not retry an error only its status calls a server error", async () => {
-    for (const code of [500, 502, 504, 408, 423]) {
+  test("retries the statuses core's error classes mark: 500, 502, 503, 504, 408, 423", async () => {
+    for (const code of [500, 502, 503, 504, 408, 423]) {
+      Retry.defaultBudget.reset();
       const http = scripted(() => status(code));
       const result = await runVirtual(getThing({}), http.layer);
       expect(result._tag).toBe("Failure");
-      expect(http.attempts).toHaveLength(1);
+      expect(http.attempts).toHaveLength(3);
     }
   });
 
@@ -352,8 +353,8 @@ describe("retry budget", () => {
     expect(budget.withdraw("b.test", false)).toBe(14);
   });
 
-  test("a call that sends without Telemetry.execute is not budgeted", async () => {
-    // A protocol with its own `call` bypasses Telemetry.execute: no host is
+  test("a call that sends without core send is not budgeted", async () => {
+    // A protocol with its own `call` bypasses `send`: no host is
     // recorded and no success would refill a bucket.
     let attempts = 0;
     const RawProtocol = Layer.succeed(API.Protocol, {
@@ -519,7 +520,7 @@ describe("bounded server hints (x-amz-retry-after, x-distilled-retry-after)", ()
 
     test(`${header} does not make an error retryable`, async () => {
       expect(await delayFor(400, { [header]: "3000" })).toEqual([]);
-      expect(await delayFor(500, { [header]: "3000" })).toEqual([]);
+      expect(await delayFor(404, { [header]: "3000" })).toEqual([]);
     });
   }
 

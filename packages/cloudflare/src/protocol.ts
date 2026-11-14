@@ -30,6 +30,7 @@ import {
 } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus, parseServerRetryHint } from "@distilled.cloud/core/retry-after";
 import type { SdkError } from "@distilled.cloud/core/sdk-error";
+import * as Send from "@distilled.cloud/core/send";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
 import {
   bodySymbol,
@@ -706,7 +707,7 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
       return withCredentials(context, (creds) => {
         const client = Context.get(context, HttpClient.HttpClient);
         return Effect.flatMap(requestFor(context, creds, input, op.inputAst), (request) =>
-          Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
+          Effect.flatMap(Send.send(context, client, request), (response) =>
             Telemetry.phase(
               context,
               "cloudflare.decode",

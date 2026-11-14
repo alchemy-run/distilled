@@ -32,7 +32,7 @@ const EasAppNoDevDomainNameSpec: ErrorSpec<EasAppNoDevDomainName> = errorSpec(
 export class EasBuildDownForMaintenance extends S.TaggedError<EasBuildDownForMaintenance>()(
   "EasBuildDownForMaintenance",
   errorFields,
-).pipe(Category.withServerError) {}
+).pipe(Category.withServerError, Category.withRetryable()) {}
 const EasBuildDownForMaintenanceSpec: ErrorSpec<EasBuildDownForMaintenance> = errorSpec(
   EasBuildDownForMaintenance,
   "EasBuildDownForMaintenance",

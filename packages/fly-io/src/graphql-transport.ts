@@ -4,7 +4,7 @@ import {
   type CompiledOperation,
   type RawGraphQLError,
 } from "@distilled.cloud/core/graphql";
-import * as Telemetry from "@distilled.cloud/core/telemetry";
+import * as Send from "@distilled.cloud/core/send";
 import type * as Context from "effect/Context";
 /**
  * Fly {@link GqlTransport}: POST https://api.fly.io/graphql with the same
@@ -44,7 +44,7 @@ export const GraphQLLive = /*@__PURE__*/ Layer.succeed(GqlTransport, {
       const context = yield* Effect.withFiber((fiber) =>
         Effect.succeed(fiber.context as Context.Context<any>),
       );
-      const response = yield* Telemetry.execute(
+      const response = yield* Send.send(
         context,
         http,
         HttpClientRequest.post(GRAPHQL_URL).pipe(

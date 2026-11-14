@@ -61,7 +61,7 @@ import {
 import { InvalidInput, matchTypedError } from "./protocol-http.ts";
 import { makeRestProtocol, type RestProtocolOptions } from "./protocol-rest.ts";
 import { SdkError } from "./sdk-error.ts";
-import * as Telemetry from "./telemetry.ts";
+import * as Send from "./send.ts";
 
 /** gRPC status code -> name. */
 export const GRPC_STATUS_NAMES: Readonly<Record<number, string>> = {
@@ -496,7 +496,7 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
                 : HttpClientRequest.setHeader(encoded, "grpc-timeout", grpcTimeout(ms));
             const client =
               Context.get(context, GrpcTransport) ?? Context.get(context, HttpClient.HttpClient);
-            return Telemetry.execute(context, client, request);
+            return Send.send(context, client, request);
           },
         );
 

@@ -37,10 +37,11 @@ export class IncompleteSignature
     message: ErrorMessage,
   }).pipe(Category.withAuthError) {}
 
+/** AWS retries every 500, 502, 503 and 504 (Retry Behavior 2.1). */
 export class InternalFailure
   extends /*@__PURE__*/ S.TaggedError<InternalFailure>()("InternalFailure", {
     message: ErrorMessage,
-  }).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
 export class MalformedHttpRequestException
   extends /*@__PURE__*/ S.TaggedError<MalformedHttpRequestException>()(
@@ -83,7 +84,7 @@ export class RequestTimeoutException
 export class ServiceUnavailable
   extends /*@__PURE__*/ S.TaggedError<ServiceUnavailable>()("ServiceUnavailable", {
     message: ErrorMessage,
-  }).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
 export class ThrottlingException
   extends /*@__PURE__*/ S.TaggedError<ThrottlingException>()("ThrottlingException", {
@@ -173,7 +174,7 @@ export class TransientFetchError
 export class InternalError
   extends /*@__PURE__*/ S.TaggedError<InternalError>()("InternalError", {
     message: ErrorMessage,
-  }).pipe(Category.withServerError) {}
+  }).pipe(Category.withServerError, /*@__PURE__*/ Category.withRetryable()) {}
 
 /**
  * The endpoint rules reject the call's parameters (e.g. a region that is not
