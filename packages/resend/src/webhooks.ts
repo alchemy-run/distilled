@@ -5,8 +5,9 @@
  * `svix-timestamp` and `svix-signature` headers (the `webhook-*` names are
  * accepted too), an HMAC-SHA256 over `${id}.${timestamp}.${body}` keyed by
  * the base64 part of the endpoint's `whsec_...` signing secret, and a
- * space-separated `v1,<base64>` signature list. Uses WebCrypto only, so it
- * runs on Node, Bun and workerd alike.
+ * space-separated `v1,<base64>` signature list. The HMAC runs on core's
+ * `Crypto` service (`node:crypto` where the runtime has it, WebCrypto
+ * elsewhere), so it runs on Node, Bun and workerd alike.
  *
  * @example
  * ```ts
@@ -20,6 +21,7 @@
  * if (event.type === "email.bounced") event.data.bounce.type;
  * ```
  */
+import * as CoreCrypto from "@distilled.cloud/core/crypto";
 import * as Effect from "effect/Effect";
 import * as Redacted from "effect/Redacted";
 import { ResendWebhookPayloadParseError, ResendWebhookSignatureError } from "./errors.ts";
@@ -114,22 +116,17 @@ const secretKeyBytes = (secret: WebhookSecret): Uint8Array<ArrayBuffer> | undefi
 };
 
 const hmacSha256 = (
-  key: Uint8Array<ArrayBuffer>,
-  content: Uint8Array<ArrayBuffer>,
+  key: Uint8Array,
+  content: Uint8Array,
 ): Effect.Effect<Uint8Array, ResendWebhookSignatureError> =>
-  Effect.tryPromise({
-    try: async () => {
-      const cryptoKey = await crypto.subtle.importKey(
-        "raw",
-        key,
-        { name: "HMAC", hash: "SHA-256" },
-        false,
-        ["sign"],
-      );
-      return new Uint8Array(await crypto.subtle.sign("HMAC", cryptoKey, content));
-    },
-    catch: (cause) => signatureError("Unable to compute the Resend webhook signature", cause),
-  });
+  Effect.flatMap(CoreCrypto.Crypto, (c) =>
+    c.importHmacKey(key).pipe(
+      Effect.flatMap((hmacKey) => c.hmacSha256(hmacKey, content)),
+      Effect.mapError((cause) =>
+        signatureError("Unable to compute the Resend webhook signature", cause),
+      ),
+    ),
+  );
 
 const signedContent = (
   id: string,
@@ -211,8 +208,18 @@ export const verifySignature = ({
     }
   });
 
-const isRecord = (value: unknown): value is Record<string, unknown> =>
-  typeof value === "object" && value !== null && !Array.isArray(value);
+/**
+ * The envelope check: a JSON object with a string `type`. The payload is
+ * typed from the spec, not decoded, so this is the only runtime check.
+ */
+const isWebhookEvent = (value: unknown): value is WebhookEvent =>
+  typeof value === "object" &&
+  value !== null &&
+  !Array.isArray(value) &&
+  typeof (value as { readonly type?: unknown }).type === "string";
+
+const payloadParseError = (message: string, cause?: unknown) =>
+  new ResendWebhookPayloadParseError({ message, cause });
 
 /**
  * Verifies the signature, then parses the body as a {@link WebhookEvent}.
@@ -222,21 +229,17 @@ const isRecord = (value: unknown): value is Record<string, unknown> =>
 export const constructEvent = (
   options: ConstructEventOptions,
 ): Effect.Effect<WebhookEvent, ResendWebhookSignatureError | ResendWebhookPayloadParseError> =>
-  verifySignature(options).pipe(
-    Effect.flatMap(() =>
-      Effect.try({
-        try: () => {
-          const parsed = JSON.parse(payloadToString(options.payload)) as unknown;
-          if (!isRecord(parsed) || typeof parsed.type !== "string") {
-            throw new Error("Resend webhook payload must be a JSON object with a string `type`");
-          }
-          return parsed as unknown as WebhookEvent;
-        },
-        catch: (cause) =>
-          new ResendWebhookPayloadParseError({
-            message: "Unable to parse the Resend webhook payload as JSON",
-            cause,
-          }),
-      }),
-    ),
-  );
+  Effect.gen(function* () {
+    yield* verifySignature(options);
+    const parsed: unknown = yield* Effect.try({
+      try: () => JSON.parse(payloadToString(options.payload)),
+      catch: (cause) =>
+        payloadParseError("Unable to parse the Resend webhook payload as JSON", cause),
+    });
+    if (!isWebhookEvent(parsed)) {
+      return yield* payloadParseError(
+        "Resend webhook payload must be a JSON object with a string `type`",
+      );
+    }
+    return parsed;
+  });
