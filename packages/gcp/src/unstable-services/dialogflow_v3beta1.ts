@@ -6580,6 +6580,7 @@ export const serverStreamingDetectIntentProjectsLocationsAgentsEnvironmentsSessi
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ServerStreamingDetectIntentProjectsLocationsAgentsEnvironmentsSessions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ServerStreamingDetectIntentProjectsLocationsAgentsSessionsError =
@@ -6609,6 +6610,7 @@ export const serverStreamingDetectIntentProjectsLocationsAgentsSessions: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ServerStreamingDetectIntentProjectsLocationsAgentsSessions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StartProjectsLocationsAgentsEnvironmentsExperimentsError =

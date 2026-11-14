@@ -263,6 +263,7 @@ export const createProjectsLocationsConnectors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsConnectors",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsConnectorsError =
@@ -285,6 +286,7 @@ export const deleteProjectsLocationsConnectors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsConnectors",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetProjectsLocationsConnectorsError = NotFound | Forbidden | GcpOpError;

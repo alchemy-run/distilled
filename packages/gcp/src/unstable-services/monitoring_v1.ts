@@ -1170,6 +1170,7 @@ export const createProjectsDashboards: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsDashboards",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteLocationsGlobalMetricsScopesProjectsError =
@@ -1214,6 +1215,7 @@ export const deleteProjectsDashboards: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsDashboards",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetLocationsGlobalMetricsScopesError = NotFound | Forbidden | GcpOpError;
@@ -1369,6 +1371,7 @@ export const patchProjectsDashboards: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsDashboards",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type Query_exemplarsProjectsLocationPrometheusApiV1Error =

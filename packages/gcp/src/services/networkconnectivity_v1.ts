@@ -2817,6 +2817,7 @@ export const createProjectsLocationsGlobalHubs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsGlobalHubs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsGlobalPolicyBasedRoutesError =
@@ -2839,6 +2840,7 @@ export const createProjectsLocationsGlobalPolicyBasedRoutes: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsGlobalPolicyBasedRoutes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsInternalRangesError =
@@ -2861,6 +2863,7 @@ export const createProjectsLocationsInternalRanges: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsInternalRanges",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsMulticloudDataTransferConfigsError =
@@ -2887,6 +2890,7 @@ export const createProjectsLocationsMulticloudDataTransferConfigs: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsMulticloudDataTransferConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsMulticloudDataTransferConfigsDestinationsError =
@@ -2913,6 +2917,7 @@ export const createProjectsLocationsMulticloudDataTransferConfigsDestinations: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsMulticloudDataTransferConfigsDestinations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsPscAuthorizationPoliciesError =
@@ -3057,6 +3062,7 @@ export const createProjectsLocationsSpokes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsSpokes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsSpokesGatewayAdvertisedRoutesError =
@@ -3149,6 +3155,7 @@ export const deleteProjectsLocationsGlobalHubs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsGlobalHubs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsGlobalPolicyBasedRoutesError =
@@ -3175,6 +3182,7 @@ export const deleteProjectsLocationsGlobalPolicyBasedRoutes: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsGlobalPolicyBasedRoutes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsInternalRangesError =
@@ -3197,6 +3205,7 @@ export const deleteProjectsLocationsInternalRanges: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsInternalRanges",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsMulticloudDataTransferConfigsError =
@@ -3223,6 +3232,7 @@ export const deleteProjectsLocationsMulticloudDataTransferConfigs: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsMulticloudDataTransferConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsMulticloudDataTransferConfigsDestinationsError =
@@ -3249,6 +3259,7 @@ export const deleteProjectsLocationsMulticloudDataTransferConfigsDestinations: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsMulticloudDataTransferConfigsDestinations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -3437,6 +3448,7 @@ export const deleteProjectsLocationsSpokes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsSpokes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsSpokesGatewayAdvertisedRoutesError =
@@ -4516,6 +4528,7 @@ export const patchProjectsLocationsGlobalHubs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsGlobalHubs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsGlobalHubsGroupsError =
@@ -4560,6 +4573,7 @@ export const patchProjectsLocationsInternalRanges: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsInternalRanges",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsMulticloudDataTransferConfigsError =
@@ -4586,6 +4600,7 @@ export const patchProjectsLocationsMulticloudDataTransferConfigs: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsMulticloudDataTransferConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsMulticloudDataTransferConfigsDestinationsError =
@@ -4612,6 +4627,7 @@ export const patchProjectsLocationsMulticloudDataTransferConfigsDestinations: AP
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsMulticloudDataTransferConfigsDestinations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsServiceClassesError =
@@ -4708,6 +4724,7 @@ export const patchProjectsLocationsSpokes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsSpokes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsSpokesGatewayAdvertisedRoutesError =

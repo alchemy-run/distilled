@@ -1191,6 +1191,7 @@ export const markAcceptedBillingAccountsLocationsInsightTypesInsights: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkAcceptedBillingAccountsLocationsInsightTypesInsights",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MarkAcceptedFoldersLocationsInsightTypesInsightsError =
@@ -1217,6 +1218,7 @@ export const markAcceptedFoldersLocationsInsightTypesInsights: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkAcceptedFoldersLocationsInsightTypesInsights",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MarkAcceptedOrganizationsLocationsInsightTypesInsightsError =
@@ -1243,6 +1245,7 @@ export const markAcceptedOrganizationsLocationsInsightTypesInsights: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkAcceptedOrganizationsLocationsInsightTypesInsights",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MarkAcceptedProjectsLocationsInsightTypesInsightsError =
@@ -1269,6 +1272,7 @@ export const markAcceptedProjectsLocationsInsightTypesInsights: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkAcceptedProjectsLocationsInsightTypesInsights",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MarkClaimedBillingAccountsLocationsRecommendersRecommendationsError =
@@ -1295,6 +1299,7 @@ export const markClaimedBillingAccountsLocationsRecommendersRecommendations: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkClaimedBillingAccountsLocationsRecommendersRecommendations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MarkClaimedFoldersLocationsRecommendersRecommendationsError =
@@ -1321,6 +1326,7 @@ export const markClaimedFoldersLocationsRecommendersRecommendations: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkClaimedFoldersLocationsRecommendersRecommendations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MarkClaimedOrganizationsLocationsRecommendersRecommendationsError =
@@ -1347,6 +1353,7 @@ export const markClaimedOrganizationsLocationsRecommendersRecommendations: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkClaimedOrganizationsLocationsRecommendersRecommendations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MarkClaimedProjectsLocationsRecommendersRecommendationsError =
@@ -1373,6 +1380,7 @@ export const markClaimedProjectsLocationsRecommendersRecommendations: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkClaimedProjectsLocationsRecommendersRecommendations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MarkDismissedBillingAccountsLocationsRecommendersRecommendationsError =
@@ -1503,6 +1511,7 @@ export const markFailedBillingAccountsLocationsRecommendersRecommendations: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkFailedBillingAccountsLocationsRecommendersRecommendations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MarkFailedFoldersLocationsRecommendersRecommendationsError =
@@ -1529,6 +1538,7 @@ export const markFailedFoldersLocationsRecommendersRecommendations: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkFailedFoldersLocationsRecommendersRecommendations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MarkFailedOrganizationsLocationsRecommendersRecommendationsError =
@@ -1555,6 +1565,7 @@ export const markFailedOrganizationsLocationsRecommendersRecommendations: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkFailedOrganizationsLocationsRecommendersRecommendations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MarkFailedProjectsLocationsRecommendersRecommendationsError =
@@ -1581,6 +1592,7 @@ export const markFailedProjectsLocationsRecommendersRecommendations: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkFailedProjectsLocationsRecommendersRecommendations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MarkSucceededBillingAccountsLocationsRecommendersRecommendationsError =
@@ -1607,6 +1619,7 @@ export const markSucceededBillingAccountsLocationsRecommendersRecommendations: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkSucceededBillingAccountsLocationsRecommendersRecommendations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MarkSucceededFoldersLocationsRecommendersRecommendationsError =
@@ -1633,6 +1646,7 @@ export const markSucceededFoldersLocationsRecommendersRecommendations: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkSucceededFoldersLocationsRecommendersRecommendations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MarkSucceededOrganizationsLocationsRecommendersRecommendationsError =
@@ -1659,6 +1673,7 @@ export const markSucceededOrganizationsLocationsRecommendersRecommendations: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkSucceededOrganizationsLocationsRecommendersRecommendations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MarkSucceededProjectsLocationsRecommendersRecommendationsError =
@@ -1685,6 +1700,7 @@ export const markSucceededProjectsLocationsRecommendersRecommendations: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MarkSucceededProjectsLocationsRecommendersRecommendations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateConfigBillingAccountsLocationsInsightTypesError =

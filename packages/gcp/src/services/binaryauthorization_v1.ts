@@ -719,6 +719,7 @@ export const createProjectsAttestors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsAttestors",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsPlatformsPoliciesError =

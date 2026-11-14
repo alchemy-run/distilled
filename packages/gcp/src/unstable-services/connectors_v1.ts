@@ -3212,6 +3212,7 @@ export const createProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsConnectionsEndUserAuthenticationsError =
@@ -3382,6 +3383,7 @@ export const deleteProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsConnectionsEndUserAuthenticationsError =
@@ -4523,6 +4525,7 @@ export const patchProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsConnectionsEndUserAuthenticationsError =

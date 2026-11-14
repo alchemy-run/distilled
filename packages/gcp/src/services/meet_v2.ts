@@ -609,6 +609,7 @@ export const batchUpdateSpacesMembers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchUpdateSpacesMembers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateSpacesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -626,6 +627,7 @@ export const createSpaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSpaces",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateSpacesMembersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -643,6 +645,7 @@ export const createSpacesMembers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSpacesMembers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteSpacesMembersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -660,6 +663,7 @@ export const deleteSpacesMembers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteSpacesMembers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type EndActiveConferenceSpacesError =
@@ -682,6 +686,7 @@ export const endActiveConferenceSpaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EndActiveConferenceSpaces",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetConferenceRecordsError = NotFound | Forbidden | GcpOpError;
@@ -1014,6 +1019,7 @@ export const patchSpaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchSpaces",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchSpacesMembersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1031,6 +1037,7 @@ export const patchSpacesMembers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchSpacesMembers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

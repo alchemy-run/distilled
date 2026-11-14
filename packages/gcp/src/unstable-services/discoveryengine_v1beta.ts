@@ -8216,6 +8216,7 @@ export const createProjectsLocationsCollectionsEnginesAssistants: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsCollectionsEnginesAssistants",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsCollectionsEnginesControlsError =
@@ -8560,6 +8561,7 @@ export const createProjectsLocationsEvaluations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsEvaluations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsIdentityMappingStoresError =
@@ -8964,6 +8966,7 @@ export const deleteProjectsLocationsCollectionsEnginesAssistants: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsCollectionsEnginesAssistants",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsCollectionsEnginesControlsError =
@@ -12645,6 +12648,7 @@ export const patchProjectsLocationsCollectionsEnginesAssistants: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsCollectionsEnginesAssistants",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsCollectionsEnginesControlsError =

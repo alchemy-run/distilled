@@ -290,6 +290,7 @@ export const troubleshootIam: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TroubleshootIam",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

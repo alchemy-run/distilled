@@ -1725,6 +1725,7 @@ export const createProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsInstances",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsInstancesAppProfilesError =
@@ -1747,6 +1748,7 @@ export const createProjectsInstancesAppProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsInstancesAppProfiles",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsInstancesClustersError =
@@ -1769,6 +1771,7 @@ export const createProjectsInstancesClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsInstancesClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsInstancesClustersBackupsError =
@@ -1791,6 +1794,7 @@ export const createProjectsInstancesClustersBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsInstancesClustersBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsInstancesLogicalViewsError =
@@ -1858,6 +1862,7 @@ export const createProjectsInstancesTables: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsInstancesTables",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsInstancesTablesAuthorizedViewsError =
@@ -1924,6 +1929,7 @@ export const deleteProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsInstances",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsInstancesAppProfilesError =
@@ -1946,6 +1952,7 @@ export const deleteProjectsInstancesAppProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsInstancesAppProfiles",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsInstancesClustersError =
@@ -1969,6 +1976,7 @@ export const deleteProjectsInstancesClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsInstancesClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsInstancesClustersBackupsError =
@@ -1991,6 +1999,7 @@ export const deleteProjectsInstancesClustersBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsInstancesClustersBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsInstancesLogicalViewsError =
@@ -2058,6 +2067,7 @@ export const deleteProjectsInstancesTables: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsInstancesTables",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsInstancesTablesAuthorizedViewsError =
@@ -2124,6 +2134,7 @@ export const dropRowRangeProjectsInstancesTables: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DropRowRangeProjectsInstancesTables",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GenerateConsistencyTokenProjectsInstancesTablesError =
@@ -2796,6 +2807,7 @@ export const modifyColumnFamiliesProjectsInstancesTables: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ModifyColumnFamiliesProjectsInstancesTables",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PartialUpdateClusterProjectsInstancesClustersError =
@@ -2890,6 +2902,7 @@ export const patchProjectsInstancesClustersBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsInstancesClustersBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsInstancesLogicalViewsError =
@@ -3022,6 +3035,7 @@ export const restoreProjectsInstancesTables: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsInstancesTables",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsInstancesError =
@@ -3044,6 +3058,7 @@ export const setIamPolicyProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsInstances",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsInstancesClustersBackupsError =
@@ -3070,6 +3085,7 @@ export const setIamPolicyProjectsInstancesClustersBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsInstancesClustersBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsInstancesLogicalViewsError =
@@ -3092,6 +3108,7 @@ export const setIamPolicyProjectsInstancesLogicalViews: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsInstancesLogicalViews",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsInstancesMaterializedViewsError =
@@ -3118,6 +3135,7 @@ export const setIamPolicyProjectsInstancesMaterializedViews: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsInstancesMaterializedViews",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsInstancesTablesError =
@@ -3140,6 +3158,7 @@ export const setIamPolicyProjectsInstancesTables: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsInstancesTables",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsInstancesTablesAuthorizedViewsError =
@@ -3166,6 +3185,7 @@ export const setIamPolicyProjectsInstancesTablesAuthorizedViews: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsInstancesTablesAuthorizedViews",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsInstancesTablesSchemaBundlesError =
@@ -3192,6 +3212,7 @@ export const setIamPolicyProjectsInstancesTablesSchemaBundles: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsInstancesTablesSchemaBundles",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsInstancesError =

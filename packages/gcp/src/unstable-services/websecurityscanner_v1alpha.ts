@@ -442,6 +442,7 @@ export const createProjectsScanConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsScanConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsScanConfigsError =
@@ -637,6 +638,7 @@ export const patchProjectsScanConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsScanConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StartProjectsScanConfigsError =
@@ -659,6 +661,7 @@ export const startProjectsScanConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartProjectsScanConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StopProjectsScanConfigsScanRunsError =
@@ -681,6 +684,7 @@ export const stopProjectsScanConfigsScanRuns: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsScanConfigsScanRuns",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

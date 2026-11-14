@@ -737,6 +737,7 @@ export const createProjectsLocationsCapacityCommitments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsCapacityCommitments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsReservationGroupsError =
@@ -789,6 +790,7 @@ export const createProjectsLocationsReservations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsReservations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsReservationsAssignmentsError =
@@ -811,6 +813,7 @@ export const createProjectsLocationsReservationsAssignments: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsReservationsAssignments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsCapacityCommitmentsError =
@@ -933,6 +936,7 @@ export const failoverReservationProjectsLocationsReservations: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FailoverReservationProjectsLocationsReservations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetBiReservationProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1140,6 +1144,7 @@ export const mergeProjectsLocationsCapacityCommitments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MergeProjectsLocationsCapacityCommitments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type MoveProjectsLocationsReservationsAssignmentsError =
@@ -1162,6 +1167,7 @@ export const moveProjectsLocationsReservationsAssignments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveProjectsLocationsReservationsAssignments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsCapacityCommitmentsError =
@@ -1184,6 +1190,7 @@ export const patchProjectsLocationsCapacityCommitments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsCapacityCommitments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsReservationGroupsError =
@@ -1228,6 +1235,7 @@ export const patchProjectsLocationsReservations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsReservations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsReservationsAssignmentsError =
@@ -1362,6 +1370,7 @@ export const splitProjectsLocationsCapacityCommitments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SplitProjectsLocationsCapacityCommitments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsLocationsReservationsError =
@@ -1436,6 +1445,7 @@ export const updateBiReservationProjectsLocations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateBiReservationProjectsLocations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpgradeEditionProjectsLocationsError =

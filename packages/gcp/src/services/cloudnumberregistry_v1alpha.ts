@@ -983,6 +983,7 @@ export const cleanupProjectsLocationsIpamAdminScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CleanupProjectsLocationsIpamAdminScopes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsLocationsOrgNumberRegistriesError =
@@ -1033,6 +1034,7 @@ export const createProjectsLocationsCustomRanges: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsCustomRanges",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsIpamAdminScopesError =
@@ -1056,6 +1058,7 @@ export const createProjectsLocationsIpamAdminScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsIpamAdminScopes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsRealmsError =
@@ -1079,6 +1082,7 @@ export const createProjectsLocationsRealms: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRealms",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsRegistryBooksError =
@@ -1102,6 +1106,7 @@ export const createProjectsLocationsRegistryBooks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRegistryBooks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteOrganizationsLocationsOperationsError =
@@ -1175,6 +1180,7 @@ export const deleteProjectsLocationsCustomRanges: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsCustomRanges",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsIpamAdminScopesError =
@@ -1198,6 +1204,7 @@ export const deleteProjectsLocationsIpamAdminScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsIpamAdminScopes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -1244,6 +1251,7 @@ export const deleteProjectsLocationsRealms: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRealms",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsRegistryBooksError =
@@ -1267,6 +1275,7 @@ export const deleteProjectsLocationsRegistryBooks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRegistryBooks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DisableProjectsLocationsIpamAdminScopesError =
@@ -1290,6 +1299,7 @@ export const disableProjectsLocationsIpamAdminScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableProjectsLocationsIpamAdminScopes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type FindFreeIpRangesProjectsLocationsCustomRangesError =
@@ -1788,6 +1798,7 @@ export const patchProjectsLocationsCustomRanges: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsCustomRanges",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsIpamAdminScopesError =
@@ -1811,6 +1822,7 @@ export const patchProjectsLocationsIpamAdminScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsIpamAdminScopes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsRealmsError =
@@ -1834,6 +1846,7 @@ export const patchProjectsLocationsRealms: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRealms",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsRegistryBooksError =
@@ -1857,6 +1870,7 @@ export const patchProjectsLocationsRegistryBooks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRegistryBooks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SearchIpResourcesProjectsLocationsRegistryBooksError =

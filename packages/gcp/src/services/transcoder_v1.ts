@@ -851,6 +851,7 @@ export const createProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsJobTemplatesError =
@@ -873,6 +874,7 @@ export const createProjectsLocationsJobTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsJobTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsJobsError =
@@ -895,6 +897,7 @@ export const deleteProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsJobs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsJobTemplatesError =
@@ -917,6 +920,7 @@ export const deleteProjectsLocationsJobTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsJobTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetProjectsLocationsJobsError = NotFound | Forbidden | GcpOpError;

@@ -568,6 +568,7 @@ export const reportProjectsEvents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReportProjectsEvents",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateProjectsGroupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;

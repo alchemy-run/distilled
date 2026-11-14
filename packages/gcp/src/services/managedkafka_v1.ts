@@ -1395,6 +1395,7 @@ export const createProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsClustersAclsError =
@@ -1440,6 +1441,7 @@ export const createProjectsLocationsClustersTopics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsClustersTopics",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsConnectClustersError =
@@ -1462,6 +1464,7 @@ export const createProjectsLocationsConnectClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsConnectClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsConnectClustersConnectorsError =
@@ -1488,6 +1491,7 @@ export const createProjectsLocationsConnectClustersConnectors: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsConnectClustersConnectors",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsSchemaRegistriesError =
@@ -1608,6 +1612,7 @@ export const deleteProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsClustersAclsError =
@@ -1657,6 +1662,7 @@ export const deleteProjectsLocationsClustersConsumerGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsClustersConsumerGroups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsClustersTopicsError =
@@ -1679,6 +1685,7 @@ export const deleteProjectsLocationsClustersTopics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsClustersTopics",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsConnectClustersError =
@@ -1701,6 +1708,7 @@ export const deleteProjectsLocationsConnectClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsConnectClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsConnectClustersConnectorsError =
@@ -1727,6 +1735,7 @@ export const deleteProjectsLocationsConnectClustersConnectors: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsConnectClustersConnectors",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -3139,6 +3148,7 @@ export const patchProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsClustersAclsError =
@@ -3188,6 +3198,7 @@ export const patchProjectsLocationsClustersConsumerGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsClustersConsumerGroups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsClustersTopicsError =
@@ -3210,6 +3221,7 @@ export const patchProjectsLocationsClustersTopics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsClustersTopics",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsConnectClustersError =
@@ -3232,6 +3244,7 @@ export const patchProjectsLocationsConnectClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsConnectClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsConnectClustersConnectorsError =
@@ -3258,6 +3271,7 @@ export const patchProjectsLocationsConnectClustersConnectors: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsConnectClustersConnectors",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PauseProjectsLocationsConnectClustersConnectorsError =
@@ -3284,6 +3298,7 @@ export const pauseProjectsLocationsConnectClustersConnectors: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PauseProjectsLocationsConnectClustersConnectors",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RemoveAclEntryProjectsLocationsClustersAclsError =
@@ -3337,6 +3352,7 @@ export const restartProjectsLocationsConnectClustersConnectors: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestartProjectsLocationsConnectClustersConnectors",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ResumeProjectsLocationsConnectClustersConnectorsError =
@@ -3363,6 +3379,7 @@ export const resumeProjectsLocationsConnectClustersConnectors: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeProjectsLocationsConnectClustersConnectors",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StopProjectsLocationsConnectClustersConnectorsError =
@@ -3389,6 +3406,7 @@ export const stopProjectsLocationsConnectClustersConnectors: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsConnectClustersConnectors",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateProjectsLocationsSchemaRegistriesConfigError =

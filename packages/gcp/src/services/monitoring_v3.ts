@@ -2304,6 +2304,7 @@ export const createProjectsAlertPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsAlertPolicies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsCollectdTimeSeriesError =
@@ -2343,6 +2344,7 @@ export const createProjectsGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsGroups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsMetricDescriptorsError =
@@ -2365,6 +2367,7 @@ export const createProjectsMetricDescriptors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsMetricDescriptors",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsNotificationChannelsError =
@@ -2387,6 +2390,7 @@ export const createProjectsNotificationChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsNotificationChannels",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsSnoozesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2404,6 +2408,7 @@ export const createProjectsSnoozes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsSnoozes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsTimeSeriesError =
@@ -2426,6 +2431,7 @@ export const createProjectsTimeSeries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsTimeSeries",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsUptimeCheckConfigsError =
@@ -2448,6 +2454,7 @@ export const createProjectsUptimeCheckConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsUptimeCheckConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateServiceProjectsTimeSeriesError =
@@ -2487,6 +2494,7 @@ export const createServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateServices",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateServicesServiceLevelObjectivesError =
@@ -2509,6 +2517,7 @@ export const createServicesServiceLevelObjectives: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateServicesServiceLevelObjectives",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsAlertPoliciesError =
@@ -3225,6 +3234,7 @@ export const patchProjectsAlertPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsAlertPolicies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsNotificationChannelsError =
@@ -3247,6 +3257,7 @@ export const patchProjectsNotificationChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsNotificationChannels",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsSnoozesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3264,6 +3275,7 @@ export const patchProjectsSnoozes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsSnoozes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsUptimeCheckConfigsError =
@@ -3286,6 +3298,7 @@ export const patchProjectsUptimeCheckConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsUptimeCheckConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3303,6 +3316,7 @@ export const patchServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchServices",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchServicesServiceLevelObjectivesError =
@@ -3325,6 +3339,7 @@ export const patchServicesServiceLevelObjectives: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchServicesServiceLevelObjectives",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type QueryProjectsTimeSeriesError =
@@ -3373,6 +3388,7 @@ export const sendVerificationCodeProjectsNotificationChannels: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SendVerificationCodeProjectsNotificationChannels",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateProjectsGroupsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;

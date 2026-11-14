@@ -13116,6 +13116,7 @@ export const createProjectsLocationsEvaluations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsEvaluations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsIdentityMappingStoresError =

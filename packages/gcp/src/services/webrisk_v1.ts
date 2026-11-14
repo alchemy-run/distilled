@@ -377,6 +377,7 @@ export const createProjectsSubmissions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsSubmissions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsOperationsError =

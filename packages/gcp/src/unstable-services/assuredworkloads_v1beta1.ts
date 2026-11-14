@@ -938,6 +938,7 @@ export const createOrganizationsLocationsWorkloads: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsLocationsWorkloads",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteOrganizationsLocationsWorkloadsError =

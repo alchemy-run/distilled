@@ -386,6 +386,7 @@ export const createProjectsLocationsAnnotations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsAnnotations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsCollectorsError =
@@ -409,6 +410,7 @@ export const createProjectsLocationsCollectors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsCollectors",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsCollectorsError =
@@ -432,6 +434,7 @@ export const deleteProjectsLocationsCollectors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsCollectors",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -623,6 +626,7 @@ export const patchProjectsLocationsCollectors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsCollectors",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PauseProjectsLocationsCollectorsError =
@@ -646,6 +650,7 @@ export const pauseProjectsLocationsCollectors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PauseProjectsLocationsCollectors",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RegisterProjectsLocationsCollectorsError =
@@ -669,6 +674,7 @@ export const registerProjectsLocationsCollectors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RegisterProjectsLocationsCollectors",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ResumeProjectsLocationsCollectorsError =
@@ -692,6 +698,7 @@ export const resumeProjectsLocationsCollectors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeProjectsLocationsCollectors",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

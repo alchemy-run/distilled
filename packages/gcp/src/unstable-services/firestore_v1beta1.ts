@@ -1155,6 +1155,7 @@ export const commitProjectsDatabasesDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CommitProjectsDatabasesDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateDocumentProjectsDatabasesDocumentsError =
@@ -1177,6 +1178,7 @@ export const createDocumentProjectsDatabasesDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDocumentProjectsDatabasesDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsDatabasesIndexesError =
@@ -1488,6 +1490,7 @@ export const patchProjectsDatabasesDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsDatabasesDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RollbackProjectsDatabasesDocumentsError =
@@ -1580,6 +1583,7 @@ export const writeProjectsDatabasesDocuments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WriteProjectsDatabasesDocuments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

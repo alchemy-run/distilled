@@ -3463,6 +3463,7 @@ export const createProjectsLocationsAutoProtectionPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsAutoProtectionPolicies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsAutoProtectionPoliciesBindingsError =
@@ -3489,6 +3490,7 @@ export const createProjectsLocationsAutoProtectionPoliciesBindings: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsAutoProtectionPoliciesBindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsBackupPlanAssociationsError =
@@ -3595,6 +3597,7 @@ export const createProjectsLocationsManagementServers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsManagementServers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsRestoreTemplatesError =
@@ -3617,6 +3620,7 @@ export const createProjectsLocationsRestoreTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRestoreTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsRestoreVerificationPlansError =
@@ -3643,6 +3647,7 @@ export const createProjectsLocationsRestoreVerificationPlans: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRestoreVerificationPlans",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsRestoreVerificationPlansAssociationsError =
@@ -3669,6 +3674,7 @@ export const createProjectsLocationsRestoreVerificationPlansAssociations: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRestoreVerificationPlansAssociations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsAutoProtectionPoliciesError =
@@ -3695,6 +3701,7 @@ export const deleteProjectsLocationsAutoProtectionPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsAutoProtectionPolicies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsBackupPlanAssociationsError =
@@ -3813,6 +3820,7 @@ export const deleteProjectsLocationsManagementServers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsManagementServers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -3857,6 +3865,7 @@ export const deleteProjectsLocationsRestoreTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRestoreTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsRestoreVerificationPlansError =
@@ -3883,6 +3892,7 @@ export const deleteProjectsLocationsRestoreVerificationPlans: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRestoreVerificationPlans",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsRestoreVerificationPlansAssociationsError =
@@ -3909,6 +3919,7 @@ export const deleteProjectsLocationsRestoreVerificationPlansAssociations: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRestoreVerificationPlansAssociations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type EndProjectsLocationsTrialError =
@@ -4585,6 +4596,7 @@ export const initiateDeleteProjectsLocationsAutoProtectionPoliciesBindings: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InitiateDeleteProjectsLocationsAutoProtectionPoliciesBindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -5048,6 +5060,7 @@ export const patchProjectsLocationsAutoProtectionPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsAutoProtectionPolicies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsBackupPlanAssociationsError =
@@ -5118,6 +5131,7 @@ export const patchProjectsLocationsBackupVaults: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsBackupVaults",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsBackupVaultsDataSourcesError =
@@ -5144,6 +5158,7 @@ export const patchProjectsLocationsBackupVaultsDataSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsBackupVaultsDataSources",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsBackupVaultsDataSourcesBackupsError =
@@ -5170,6 +5185,7 @@ export const patchProjectsLocationsBackupVaultsDataSourcesBackups: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsBackupVaultsDataSourcesBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsRestoreTemplatesError =
@@ -5192,6 +5208,7 @@ export const patchProjectsLocationsRestoreTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRestoreTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RemoveProjectsLocationsBackupVaultsDataSourcesError =
@@ -5244,6 +5261,7 @@ export const restoreProjectsLocationsBackupVaultsDataSourcesBackups: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsBackupVaultsDataSourcesBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RunProjectsLocationsRestoreTemplatesError =
@@ -5266,6 +5284,7 @@ export const runProjectsLocationsRestoreTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunProjectsLocationsRestoreTemplates",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsLocationsManagementServersError =
@@ -5444,6 +5463,7 @@ export const triggerRestoreCleanupProjectsLocationsRestoreTemplatesExecutions: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TriggerRestoreCleanupProjectsLocationsRestoreTemplatesExecutions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TriggerRestoreVerificationProjectsLocationsRestoreVerificationPlansAssociationsError =
@@ -5470,6 +5490,7 @@ export const triggerRestoreVerificationProjectsLocationsRestoreVerificationPlans
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TriggerRestoreVerificationProjectsLocationsRestoreVerificationPlansAssociations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

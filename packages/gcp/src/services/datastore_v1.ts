@@ -902,6 +902,7 @@ export const allocateIdsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AllocateIdsProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type BeginTransactionProjectsError =
@@ -924,6 +925,7 @@ export const beginTransactionProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BeginTransactionProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CancelProjectsOperationsError =
@@ -963,6 +965,7 @@ export const commitProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CommitProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsIndexesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -980,6 +983,7 @@ export const createProjectsIndexes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsIndexes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsIndexesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -997,6 +1001,7 @@ export const deleteProjectsIndexes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsIndexes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsOperationsError =
@@ -1036,6 +1041,7 @@ export const exportProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetProjectsIndexesError = NotFound | Forbidden | GcpOpError;
@@ -1087,6 +1093,7 @@ export const importProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ListProjectsIndexesError = NotFound | Forbidden | GcpOpError;
@@ -1176,6 +1183,7 @@ export const rollbackProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RunAggregationQueryProjectsError =

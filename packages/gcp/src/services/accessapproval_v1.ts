@@ -489,6 +489,7 @@ export const approveFoldersApprovalRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ApproveFoldersApprovalRequests",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ApproveOrganizationsApprovalRequestsError =
@@ -511,6 +512,7 @@ export const approveOrganizationsApprovalRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ApproveOrganizationsApprovalRequests",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ApproveProjectsApprovalRequestsError =
@@ -533,6 +535,7 @@ export const approveProjectsApprovalRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ApproveProjectsApprovalRequests",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteAccessApprovalSettingsFoldersError =
@@ -555,6 +558,7 @@ export const deleteAccessApprovalSettingsFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteAccessApprovalSettingsFolders",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteAccessApprovalSettingsOrganizationsError =
@@ -577,6 +581,7 @@ export const deleteAccessApprovalSettingsOrganizations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteAccessApprovalSettingsOrganizations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteAccessApprovalSettingsProjectsError =
@@ -599,6 +604,7 @@ export const deleteAccessApprovalSettingsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteAccessApprovalSettingsProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DismissFoldersApprovalRequestsError =
@@ -621,6 +627,7 @@ export const dismissFoldersApprovalRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DismissFoldersApprovalRequests",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DismissOrganizationsApprovalRequestsError =
@@ -643,6 +650,7 @@ export const dismissOrganizationsApprovalRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DismissOrganizationsApprovalRequests",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DismissProjectsApprovalRequestsError =
@@ -665,6 +673,7 @@ export const dismissProjectsApprovalRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DismissProjectsApprovalRequests",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetAccessApprovalSettingsFoldersError = NotFound | Forbidden | GcpOpError;
@@ -840,6 +849,7 @@ export const invalidateFoldersApprovalRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InvalidateFoldersApprovalRequests",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type InvalidateOrganizationsApprovalRequestsError =
@@ -862,6 +872,7 @@ export const invalidateOrganizationsApprovalRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InvalidateOrganizationsApprovalRequests",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type InvalidateProjectsApprovalRequestsError =
@@ -884,6 +895,7 @@ export const invalidateProjectsApprovalRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InvalidateProjectsApprovalRequests",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ListFoldersApprovalRequestsError = NotFound | Forbidden | GcpOpError;
@@ -963,6 +975,7 @@ export const updateAccessApprovalSettingsFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAccessApprovalSettingsFolders",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateAccessApprovalSettingsOrganizationsError =
@@ -985,6 +998,7 @@ export const updateAccessApprovalSettingsOrganizations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAccessApprovalSettingsOrganizations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateAccessApprovalSettingsProjectsError =
@@ -1007,6 +1021,7 @@ export const updateAccessApprovalSettingsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAccessApprovalSettingsProjects",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

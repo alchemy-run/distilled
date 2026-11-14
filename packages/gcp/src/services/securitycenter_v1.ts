@@ -3114,6 +3114,7 @@ export const createFoldersNotificationConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateFoldersNotificationConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateFoldersSecurityHealthAnalyticsSettingsCustomModulesError =
@@ -3153,6 +3154,7 @@ export const createFoldersSecurityHealthAnalyticsSettingsCustomModules: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateFoldersSecurityHealthAnalyticsSettingsCustomModules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsBigQueryExportsError =
@@ -3281,6 +3283,7 @@ export const createOrganizationsNotificationConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsNotificationConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModulesError =
@@ -3320,6 +3323,7 @@ export const createOrganizationsSecurityHealthAnalyticsSettingsCustomModules: AP
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsSecurityHealthAnalyticsSettingsCustomModules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsSourcesError =
@@ -3351,6 +3355,7 @@ export const createOrganizationsSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsSources",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsSourcesFindingsError =
@@ -3382,6 +3387,7 @@ export const createOrganizationsSourcesFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsSourcesFindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsBigQueryExportsError =
@@ -3510,6 +3516,7 @@ export const createProjectsNotificationConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsNotificationConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsSecurityHealthAnalyticsSettingsCustomModulesError =
@@ -3549,6 +3556,7 @@ export const createProjectsSecurityHealthAnalyticsSettingsCustomModules: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsSecurityHealthAnalyticsSettingsCustomModules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteFoldersBigQueryExportsError =
@@ -3708,6 +3716,7 @@ export const deleteFoldersNotificationConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteFoldersNotificationConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteFoldersSecurityHealthAnalyticsSettingsCustomModulesError =
@@ -3743,6 +3752,7 @@ export const deleteFoldersSecurityHealthAnalyticsSettingsCustomModules: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteFoldersSecurityHealthAnalyticsSettingsCustomModules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteOrganizationsBigQueryExportsError =
@@ -3902,6 +3912,7 @@ export const deleteOrganizationsNotificationConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteOrganizationsNotificationConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteOrganizationsOperationsError =
@@ -3999,6 +4010,7 @@ export const deleteOrganizationsSecurityHealthAnalyticsSettingsCustomModules: AP
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteOrganizationsSecurityHealthAnalyticsSettingsCustomModules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsBigQueryExportsError =
@@ -4158,6 +4170,7 @@ export const deleteProjectsNotificationConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsNotificationConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsSecurityHealthAnalyticsSettingsCustomModulesError =
@@ -4193,6 +4206,7 @@ export const deleteProjectsSecurityHealthAnalyticsSettingsCustomModules: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsSecurityHealthAnalyticsSettingsCustomModules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetFoldersBigQueryExportsError =
@@ -6888,6 +6902,7 @@ export const patchFoldersNotificationConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchFoldersNotificationConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchFoldersSecurityHealthAnalyticsSettingsCustomModulesError =
@@ -6927,6 +6942,7 @@ export const patchFoldersSecurityHealthAnalyticsSettingsCustomModules: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchFoldersSecurityHealthAnalyticsSettingsCustomModules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchFoldersSourcesFindingsError =
@@ -6958,6 +6974,7 @@ export const patchFoldersSourcesFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchFoldersSourcesFindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchFoldersSourcesFindingsExternalSystemsError =
@@ -7148,6 +7165,7 @@ export const patchOrganizationsNotificationConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsNotificationConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchOrganizationsResourceValueConfigsError =
@@ -7218,6 +7236,7 @@ export const patchOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsSecurityHealthAnalyticsSettingsCustomModules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchOrganizationsSourcesError =
@@ -7249,6 +7268,7 @@ export const patchOrganizationsSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsSources",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchOrganizationsSourcesFindingsError =
@@ -7280,6 +7300,7 @@ export const patchOrganizationsSourcesFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchOrganizationsSourcesFindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchOrganizationsSourcesFindingsExternalSystemsError =
@@ -7474,6 +7495,7 @@ export const patchProjectsNotificationConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsNotificationConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsSecurityHealthAnalyticsSettingsCustomModulesError =
@@ -7513,6 +7535,7 @@ export const patchProjectsSecurityHealthAnalyticsSettingsCustomModules: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsSecurityHealthAnalyticsSettingsCustomModules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsSourcesFindingsError =
@@ -7544,6 +7567,7 @@ export const patchProjectsSourcesFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsSourcesFindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsSourcesFindingsExternalSystemsError =
@@ -7606,6 +7630,7 @@ export const runDiscoveryOrganizationsAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunDiscoveryOrganizationsAssets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyOrganizationsSourcesError =
@@ -7637,6 +7662,7 @@ export const setIamPolicyOrganizationsSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyOrganizationsSources",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetMuteFoldersSourcesFindingsError =
@@ -7761,6 +7787,7 @@ export const setStateFoldersSourcesFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetStateFoldersSourcesFindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetStateOrganizationsSourcesFindingsError =
@@ -7792,6 +7819,7 @@ export const setStateOrganizationsSourcesFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetStateOrganizationsSourcesFindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetStateProjectsSourcesFindingsError =
@@ -7823,6 +7851,7 @@ export const setStateProjectsSourcesFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetStateProjectsSourcesFindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesError =
@@ -8002,6 +8031,7 @@ export const updateOrganizationSettingsOrganizations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateOrganizationSettingsOrganizations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateSecurityMarksFoldersAssetsError =
@@ -8033,6 +8063,7 @@ export const updateSecurityMarksFoldersAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSecurityMarksFoldersAssets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateSecurityMarksFoldersSourcesFindingsError =
@@ -8064,6 +8095,7 @@ export const updateSecurityMarksFoldersSourcesFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSecurityMarksFoldersSourcesFindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateSecurityMarksOrganizationsAssetsError =
@@ -8095,6 +8127,7 @@ export const updateSecurityMarksOrganizationsAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSecurityMarksOrganizationsAssets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateSecurityMarksOrganizationsSourcesFindingsError =
@@ -8130,6 +8163,7 @@ export const updateSecurityMarksOrganizationsSourcesFindings: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSecurityMarksOrganizationsSourcesFindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateSecurityMarksProjectsAssetsError =
@@ -8161,6 +8195,7 @@ export const updateSecurityMarksProjectsAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSecurityMarksProjectsAssets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateSecurityMarksProjectsSourcesFindingsError =
@@ -8192,6 +8227,7 @@ export const updateSecurityMarksProjectsSourcesFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSecurityMarksProjectsSourcesFindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ValidateCustomModuleFoldersEventThreatDetectionSettingsError =

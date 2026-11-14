@@ -908,6 +908,7 @@ export const createBillingAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateBillingAccounts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateBillingAccountsSubAccountsError =
@@ -930,6 +931,7 @@ export const createBillingAccountsSubAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateBillingAccountsSubAccounts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateOrganizationsBillingAccountsError =
@@ -952,6 +954,7 @@ export const createOrganizationsBillingAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsBillingAccounts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateTasksPushNotificationConfigsError =

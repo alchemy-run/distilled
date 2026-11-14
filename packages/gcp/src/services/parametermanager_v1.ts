@@ -475,6 +475,7 @@ export const createProjectsLocationsParameters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsParameters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsParametersVersionsError =
@@ -497,6 +498,7 @@ export const createProjectsLocationsParametersVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsParametersVersions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsTemplatesError =
@@ -563,6 +565,7 @@ export const deleteProjectsLocationsParameters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsParameters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsParametersVersionsError =
@@ -585,6 +588,7 @@ export const deleteProjectsLocationsParametersVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsParametersVersions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsTemplatesError =
@@ -831,6 +835,7 @@ export const patchProjectsLocationsParameters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsParameters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsParametersVersionsError =
@@ -853,6 +858,7 @@ export const patchProjectsLocationsParametersVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsParametersVersions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsTemplatesError =

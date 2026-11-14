@@ -3497,6 +3497,7 @@ export const createProperties: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProperties",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreatePropertiesAccessBindingsError =
@@ -3929,6 +3930,7 @@ export const createPropertiesFirebaseLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreatePropertiesFirebaseLinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreatePropertiesGoogleAdsLinksError =
@@ -3951,6 +3953,7 @@ export const createPropertiesGoogleAdsLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreatePropertiesGoogleAdsLinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreatePropertiesKeyEventsError =
@@ -4116,6 +4119,7 @@ export const deleteAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteAccounts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteAccountsAccessBindingsError =
@@ -4155,6 +4159,7 @@ export const deleteProperties: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProperties",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeletePropertiesAccessBindingsError =
@@ -4505,6 +4510,7 @@ export const deletePropertiesFirebaseLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeletePropertiesFirebaseLinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeletePropertiesGoogleAdsLinksError =
@@ -4527,6 +4533,7 @@ export const deletePropertiesGoogleAdsLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeletePropertiesGoogleAdsLinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeletePropertiesKeyEventsError =
@@ -5989,6 +5996,7 @@ export const patchAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchAccounts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchAccountsAccessBindingsError =
@@ -6028,6 +6036,7 @@ export const patchProperties: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProperties",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchPropertiesAccessBindingsError =
@@ -6404,6 +6413,7 @@ export const patchPropertiesGoogleAdsLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchPropertiesGoogleAdsLinks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchPropertiesKeyEventsError =
@@ -6548,6 +6558,7 @@ export const provisionAccountTicketAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ProvisionAccountTicketAccounts",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ProvisionSubpropertyPropertiesError =
@@ -6800,6 +6811,7 @@ export const updateEnhancedMeasurementSettingsPropertiesDataStreams: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateEnhancedMeasurementSettingsPropertiesDataStreams",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateGoogleSignalsSettingsPropertiesError =

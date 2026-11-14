@@ -4961,6 +4961,7 @@ export const configureExascaleProjectsLocationsCloudExadataInfrastructures: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConfigureExascaleProjectsLocationsCloudExadataInfrastructures",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsAutonomousDatabasesError =
@@ -4984,6 +4985,7 @@ export const createProjectsLocationsAutonomousDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsAutonomousDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsCloudExadataInfrastructuresError =
@@ -5011,6 +5013,7 @@ export const createProjectsLocationsCloudExadataInfrastructures: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsCloudExadataInfrastructures",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsCloudVmClustersError =
@@ -5034,6 +5037,7 @@ export const createProjectsLocationsCloudVmClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsCloudVmClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsDatabaseConnectionsError =
@@ -5056,6 +5060,7 @@ export const createProjectsLocationsDatabaseConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDatabaseConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsDbSystemsError =
@@ -5079,6 +5084,7 @@ export const createProjectsLocationsDbSystems: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDbSystems",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsExadbVmClustersError =
@@ -5102,6 +5108,7 @@ export const createProjectsLocationsExadbVmClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsExadbVmClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsExascaleDbStorageVaultsError =
@@ -5129,6 +5136,7 @@ export const createProjectsLocationsExascaleDbStorageVaults: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsExascaleDbStorageVaults",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsGoldengateConnectionAssignmentsError =
@@ -5156,6 +5164,7 @@ export const createProjectsLocationsGoldengateConnectionAssignments: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsGoldengateConnectionAssignments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsGoldengateConnectionsError =
@@ -5183,6 +5192,7 @@ export const createProjectsLocationsGoldengateConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsGoldengateConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsGoldengateDeploymentsError =
@@ -5210,6 +5220,7 @@ export const createProjectsLocationsGoldengateDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsGoldengateDeployments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsOdbNetworksError =
@@ -5233,6 +5244,7 @@ export const createProjectsLocationsOdbNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsOdbNetworks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsOdbNetworksOdbDnsZonesError =
@@ -5259,6 +5271,7 @@ export const createProjectsLocationsOdbNetworksOdbDnsZones: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsOdbNetworksOdbDnsZones",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsOdbNetworksOdbSubnetsError =
@@ -5286,6 +5299,7 @@ export const createProjectsLocationsOdbNetworksOdbSubnets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsOdbNetworksOdbSubnets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsAutonomousDatabasesError =
@@ -5309,6 +5323,7 @@ export const deleteProjectsLocationsAutonomousDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsAutonomousDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsCloudExadataInfrastructuresError =
@@ -5336,6 +5351,7 @@ export const deleteProjectsLocationsCloudExadataInfrastructures: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsCloudExadataInfrastructures",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsCloudVmClustersError =
@@ -5359,6 +5375,7 @@ export const deleteProjectsLocationsCloudVmClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsCloudVmClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsDatabaseConnectionsError =
@@ -5381,6 +5398,7 @@ export const deleteProjectsLocationsDatabaseConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDatabaseConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsDbSystemsError =
@@ -5404,6 +5422,7 @@ export const deleteProjectsLocationsDbSystems: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDbSystems",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsExadbVmClustersError =
@@ -5427,6 +5446,7 @@ export const deleteProjectsLocationsExadbVmClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsExadbVmClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsExascaleDbStorageVaultsError =
@@ -5454,6 +5474,7 @@ export const deleteProjectsLocationsExascaleDbStorageVaults: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsExascaleDbStorageVaults",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsGoldengateConnectionAssignmentsError =
@@ -5481,6 +5502,7 @@ export const deleteProjectsLocationsGoldengateConnectionAssignments: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsGoldengateConnectionAssignments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsGoldengateConnectionsError =
@@ -5508,6 +5530,7 @@ export const deleteProjectsLocationsGoldengateConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsGoldengateConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsGoldengateDeploymentsError =
@@ -5535,6 +5558,7 @@ export const deleteProjectsLocationsGoldengateDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsGoldengateDeployments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOdbNetworksError =
@@ -5558,6 +5582,7 @@ export const deleteProjectsLocationsOdbNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsOdbNetworks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOdbNetworksOdbDnsZonesError =
@@ -5584,6 +5609,7 @@ export const deleteProjectsLocationsOdbNetworksOdbDnsZones: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsOdbNetworksOdbDnsZones",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOdbNetworksOdbSubnetsError =
@@ -5611,6 +5637,7 @@ export const deleteProjectsLocationsOdbNetworksOdbSubnets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsOdbNetworksOdbSubnets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -5660,6 +5687,7 @@ export const disableIdentityConnectorProjectsLocationsCloudVmClusters: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableIdentityConnectorProjectsLocationsCloudVmClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DisableIdentityConnectorProjectsLocationsExadbVmClustersError =
@@ -5686,6 +5714,7 @@ export const disableIdentityConnectorProjectsLocationsExadbVmClusters: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableIdentityConnectorProjectsLocationsExadbVmClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type EnableIdentityConnectorProjectsLocationsCloudVmClustersError =
@@ -5712,6 +5741,7 @@ export const enableIdentityConnectorProjectsLocationsCloudVmClusters: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableIdentityConnectorProjectsLocationsCloudVmClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type EnableIdentityConnectorProjectsLocationsExadbVmClustersError =
@@ -5738,6 +5768,7 @@ export const enableIdentityConnectorProjectsLocationsExadbVmClusters: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableIdentityConnectorProjectsLocationsExadbVmClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ExecuteSqlProjectsLocationsDatabaseConnectionsError =
@@ -5764,6 +5795,7 @@ export const executeSqlProjectsLocationsDatabaseConnections: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteSqlProjectsLocationsDatabaseConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type FailoverProjectsLocationsAutonomousDatabasesError =
@@ -5791,6 +5823,7 @@ export const failoverProjectsLocationsAutonomousDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FailoverProjectsLocationsAutonomousDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GenerateWalletProjectsLocationsAutonomousDatabasesError =
@@ -5818,6 +5851,7 @@ export const generateWalletProjectsLocationsAutonomousDatabases: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateWalletProjectsLocationsAutonomousDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -7090,6 +7124,7 @@ export const patchProjectsLocationsAutonomousDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsAutonomousDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsCloudExadataInfrastructuresError =
@@ -7116,6 +7151,7 @@ export const patchProjectsLocationsCloudExadataInfrastructures: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsCloudExadataInfrastructures",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsCloudVmClustersError =
@@ -7138,6 +7174,7 @@ export const patchProjectsLocationsCloudVmClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsCloudVmClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsDatabaseConnectionsError =
@@ -7160,6 +7197,7 @@ export const patchProjectsLocationsDatabaseConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsDatabaseConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsDbSystemsError =
@@ -7182,6 +7220,7 @@ export const patchProjectsLocationsDbSystems: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsDbSystems",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsExadbVmClustersError =
@@ -7205,6 +7244,7 @@ export const patchProjectsLocationsExadbVmClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsExadbVmClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsExascaleDbStorageVaultsError =
@@ -7227,6 +7267,7 @@ export const patchProjectsLocationsExascaleDbStorageVaults: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsExascaleDbStorageVaults",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsGoldengateConnectionAssignmentsError =
@@ -7253,6 +7294,7 @@ export const patchProjectsLocationsGoldengateConnectionAssignments: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsGoldengateConnectionAssignments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsGoldengateConnectionsError =
@@ -7275,6 +7317,7 @@ export const patchProjectsLocationsGoldengateConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsGoldengateConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsGoldengateDeploymentsError =
@@ -7297,6 +7340,7 @@ export const patchProjectsLocationsGoldengateDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsGoldengateDeployments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsOdbNetworksError =
@@ -7319,6 +7363,7 @@ export const patchProjectsLocationsOdbNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsOdbNetworks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsOdbNetworksOdbDnsZonesError =
@@ -7363,6 +7408,7 @@ export const patchProjectsLocationsOdbNetworksOdbSubnets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsOdbNetworksOdbSubnets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RefreshProjectsLocationsAutonomousDatabasesError =
@@ -7386,6 +7432,7 @@ export const refreshProjectsLocationsAutonomousDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RefreshProjectsLocationsAutonomousDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RemoveVirtualMachineProjectsLocationsExadbVmClustersError =
@@ -7413,6 +7460,7 @@ export const removeVirtualMachineProjectsLocationsExadbVmClusters: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveVirtualMachineProjectsLocationsExadbVmClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RestartProjectsLocationsAutonomousDatabasesError =
@@ -7436,6 +7484,7 @@ export const restartProjectsLocationsAutonomousDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestartProjectsLocationsAutonomousDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RestoreProjectsLocationsAutonomousDatabasesError =
@@ -7459,6 +7508,7 @@ export const restoreProjectsLocationsAutonomousDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsAutonomousDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StartProjectsLocationsAutonomousDatabasesError =
@@ -7482,6 +7532,7 @@ export const startProjectsLocationsAutonomousDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartProjectsLocationsAutonomousDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StartProjectsLocationsGoldengateDeploymentsError =
@@ -7505,6 +7556,7 @@ export const startProjectsLocationsGoldengateDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartProjectsLocationsGoldengateDeployments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StopProjectsLocationsAutonomousDatabasesError =
@@ -7528,6 +7580,7 @@ export const stopProjectsLocationsAutonomousDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsAutonomousDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StopProjectsLocationsGoldengateDeploymentsError =
@@ -7551,6 +7604,7 @@ export const stopProjectsLocationsGoldengateDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsGoldengateDeployments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SwitchoverProjectsLocationsAutonomousDatabasesError =
@@ -7578,6 +7632,7 @@ export const switchoverProjectsLocationsAutonomousDatabases: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SwitchoverProjectsLocationsAutonomousDatabases",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestProjectsLocationsDatabaseConnectionsError =
@@ -7600,6 +7655,7 @@ export const testProjectsLocationsDatabaseConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestProjectsLocationsDatabaseConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestProjectsLocationsGoldengateConnectionAssignmentsError =
@@ -7627,6 +7683,7 @@ export const testProjectsLocationsGoldengateConnectionAssignments: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestProjectsLocationsGoldengateConnectionAssignments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

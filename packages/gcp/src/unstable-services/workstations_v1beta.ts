@@ -1006,6 +1006,7 @@ export const createProjectsLocationsWorkstationClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsWorkstationClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsWorkstationClustersWorkstationConfigsError =
@@ -1032,6 +1033,7 @@ export const createProjectsLocationsWorkstationClustersWorkstationConfigs: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsWorkstationClustersWorkstationConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
@@ -1058,6 +1060,7 @@ export const createProjectsLocationsWorkstationClustersWorkstationConfigsWorksta
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -1102,6 +1105,7 @@ export const deleteProjectsLocationsWorkstationClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsWorkstationClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsWorkstationClustersWorkstationConfigsError =
@@ -1128,6 +1132,7 @@ export const deleteProjectsLocationsWorkstationClustersWorkstationConfigs: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsWorkstationClustersWorkstationConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
@@ -1154,6 +1159,7 @@ export const deleteProjectsLocationsWorkstationClustersWorkstationConfigsWorksta
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GenerateAccessTokenProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
@@ -1474,6 +1480,7 @@ export const patchProjectsLocationsWorkstationClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsWorkstationClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsWorkstationClustersWorkstationConfigsError =
@@ -1500,6 +1507,7 @@ export const patchProjectsLocationsWorkstationClustersWorkstationConfigs: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsWorkstationClustersWorkstationConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
@@ -1526,6 +1534,7 @@ export const patchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PushCredentialsProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
@@ -1630,6 +1639,7 @@ export const startProjectsLocationsWorkstationClustersWorkstationConfigsWorkstat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =
@@ -1656,6 +1666,7 @@ export const stopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsWorkstationClustersWorkstationConfigsWorkstations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SuspendProjectsLocationsWorkstationClustersWorkstationConfigsWorkstationsError =

@@ -79,7 +79,9 @@
        every SDK; a modeled `Retry-After` stays a minimum, as elsewhere.)
     4. gcp: converter reads googleapis service configs, skips templates.
        Only the numbers carry over (attempts, backoff, cap, multiplier).
-       Open: a config's own retryable codes (e.g. RESOURCE_EXHAUSTED,
-       INTERNAL) and methods listed with no retryPolicy ("do not retry")
+       Methods listed with no retryPolicy, in a config that retries other
+       methods, get maxAttempts: 1 (writes only; GETs keep the default). Not carried
+       over: a config's own retryable codes (only ABORTED and CANCELLED,
+       on 12 policies, differ from what distilled already retries)
     5. alchemy: its own deploy-time policy, merged before 1 is released
        (throttling patience drops from ~22 s to ~1.5 s)

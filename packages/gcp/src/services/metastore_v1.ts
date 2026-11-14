@@ -1339,6 +1339,7 @@ export const createProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsServices",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsServicesBackupsError =
@@ -1362,6 +1363,7 @@ export const createProjectsLocationsServicesBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsServicesBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsServicesMetadataImportsError =
@@ -1389,6 +1391,7 @@ export const createProjectsLocationsServicesMetadataImports: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsServicesMetadataImports",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsFederationsError =
@@ -1458,6 +1461,7 @@ export const deleteProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsServices",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsServicesBackupsError =
@@ -1481,6 +1485,7 @@ export const deleteProjectsLocationsServicesBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsServicesBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsServicesMigrationExecutionsError =
@@ -1531,6 +1536,7 @@ export const exportMetadataProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportMetadataProjectsLocationsServices",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetIamPolicyProjectsLocationsFederationsError =
@@ -2025,6 +2031,7 @@ export const patchProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsServices",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsServicesMetadataImportsError =
@@ -2052,6 +2059,7 @@ export const patchProjectsLocationsServicesMetadataImports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsServicesMetadataImports",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type QueryMetadataProjectsLocationsServicesError =
@@ -2098,6 +2106,7 @@ export const restoreProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsServices",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsLocationsFederationsError =

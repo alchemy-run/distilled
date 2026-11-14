@@ -588,6 +588,7 @@ export const createProjectsLocationsRepositories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRepositories",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsRepositoriesPackagesTagsError =
@@ -614,6 +615,7 @@ export const createProjectsLocationsRepositoriesPackagesTags: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRepositoriesPackagesTags",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsRepositoriesError =
@@ -1086,6 +1088,7 @@ export const patchProjectsLocationsRepositories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRepositories",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsRepositoriesPackagesError =
@@ -1134,6 +1137,7 @@ export const patchProjectsLocationsRepositoriesPackagesTags: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRepositoriesPackagesTags",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsLocationsRepositoriesError =
@@ -1182,6 +1186,7 @@ export const testIamPermissionsProjectsLocationsRepositories: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestIamPermissionsProjectsLocationsRepositories",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UpdateProjectSettingsProjectsError =

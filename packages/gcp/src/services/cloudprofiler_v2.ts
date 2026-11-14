@@ -190,6 +190,7 @@ export const createOfflineProjectsProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOfflineProjectsProfiles",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsProfilesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -207,6 +208,7 @@ export const createProjectsProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsProfiles",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ListProjectsProfilesError = NotFound | Forbidden | GcpOpError;
@@ -243,6 +245,7 @@ export const patchProjectsProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsProfiles",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -684,6 +684,7 @@ export const addVersionProjectsLocationsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddVersionProjectsLocationsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type AddVersionProjectsSecretsError =
@@ -706,6 +707,7 @@ export const addVersionProjectsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddVersionProjectsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsSecretsError =
@@ -728,6 +730,7 @@ export const createProjectsLocationsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsSecretsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -745,6 +748,7 @@ export const createProjectsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsSecretsError =
@@ -767,6 +771,7 @@ export const deleteProjectsLocationsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsSecretsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -784,6 +789,7 @@ export const deleteProjectsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DestroyProjectsLocationsSecretsVersionsError =
@@ -806,6 +812,7 @@ export const destroyProjectsLocationsSecretsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DestroyProjectsLocationsSecretsVersions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DestroyProjectsSecretsVersionsError =
@@ -828,6 +835,7 @@ export const destroyProjectsSecretsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DestroyProjectsSecretsVersions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DisableProjectsLocationsSecretsVersionsError =
@@ -850,6 +858,7 @@ export const disableProjectsLocationsSecretsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableProjectsLocationsSecretsVersions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DisableProjectsSecretsVersionsError =
@@ -872,6 +881,7 @@ export const disableProjectsSecretsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableProjectsSecretsVersions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type EnableManagedRotationProjectsLocationsSecretsError =
@@ -894,6 +904,7 @@ export const enableManagedRotationProjectsLocationsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableManagedRotationProjectsLocationsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type EnableManagedRotationProjectsSecretsError =
@@ -916,6 +927,7 @@ export const enableManagedRotationProjectsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableManagedRotationProjectsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type EnableProjectsLocationsSecretsVersionsError =
@@ -938,6 +950,7 @@ export const enableProjectsLocationsSecretsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableProjectsLocationsSecretsVersions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type EnableProjectsSecretsVersionsError =
@@ -960,6 +973,7 @@ export const enableProjectsSecretsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableProjectsSecretsVersions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetIamPolicyProjectsLocationsSecretsError = NotFound | Forbidden | GcpOpError;
@@ -1196,6 +1210,7 @@ export const patchProjectsLocationsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsSecretsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1213,6 +1228,7 @@ export const patchProjectsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RotateSecretProjectsLocationsSecretsError =
@@ -1235,6 +1251,7 @@ export const rotateSecretProjectsLocationsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RotateSecretProjectsLocationsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RotateSecretProjectsSecretsError =
@@ -1257,6 +1274,7 @@ export const rotateSecretProjectsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RotateSecretProjectsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsLocationsSecretsError =
@@ -1279,6 +1297,7 @@ export const setIamPolicyProjectsLocationsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsLocationsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsSecretsError =
@@ -1301,6 +1320,7 @@ export const setIamPolicyProjectsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetIamPolicyProjectsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsLocationsSecretsError =
@@ -1323,6 +1343,7 @@ export const testIamPermissionsProjectsLocationsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestIamPermissionsProjectsLocationsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type TestIamPermissionsProjectsSecretsError =
@@ -1345,6 +1366,7 @@ export const testIamPermissionsProjectsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestIamPermissionsProjectsSecrets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

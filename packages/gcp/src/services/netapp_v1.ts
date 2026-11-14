@@ -1928,6 +1928,7 @@ export const createProjectsLocationsActiveDirectories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsActiveDirectories",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsBackupPoliciesError =
@@ -1950,6 +1951,7 @@ export const createProjectsLocationsBackupPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsBackupPolicies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsBackupVaultsError =
@@ -1972,6 +1974,7 @@ export const createProjectsLocationsBackupVaults: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsBackupVaults",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsBackupVaultsBackupsError =
@@ -1994,6 +1997,7 @@ export const createProjectsLocationsBackupVaultsBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsBackupVaultsBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsHostGroupsError =
@@ -2038,6 +2042,7 @@ export const createProjectsLocationsKmsConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsKmsConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsStoragePoolsError =
@@ -2060,6 +2065,7 @@ export const createProjectsLocationsStoragePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsStoragePools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsVolumesError =
@@ -2082,6 +2088,7 @@ export const createProjectsLocationsVolumes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsVolumes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsVolumesQuotaRulesError =
@@ -2126,6 +2133,7 @@ export const createProjectsLocationsVolumesReplications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsVolumesReplications",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsVolumesSnapshotsError =
@@ -2148,6 +2156,7 @@ export const createProjectsLocationsVolumesSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsVolumesSnapshots",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsActiveDirectoriesError =
@@ -2170,6 +2179,7 @@ export const deleteProjectsLocationsActiveDirectories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsActiveDirectories",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsBackupPoliciesError =
@@ -2192,6 +2202,7 @@ export const deleteProjectsLocationsBackupPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsBackupPolicies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsBackupVaultsError =
@@ -2214,6 +2225,7 @@ export const deleteProjectsLocationsBackupVaults: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsBackupVaults",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsBackupVaultsBackupsError =
@@ -2236,6 +2248,7 @@ export const deleteProjectsLocationsBackupVaultsBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsBackupVaultsBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsHostGroupsError =
@@ -2280,6 +2293,7 @@ export const deleteProjectsLocationsKmsConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsKmsConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -2324,6 +2338,7 @@ export const deleteProjectsLocationsStoragePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsStoragePools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsVolumesError =
@@ -2346,6 +2361,7 @@ export const deleteProjectsLocationsVolumes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsVolumes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsVolumesQuotaRulesError =
@@ -2390,6 +2406,7 @@ export const deleteProjectsLocationsVolumesReplications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsVolumesReplications",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsVolumesSnapshotsError =
@@ -2412,6 +2429,7 @@ export const deleteProjectsLocationsVolumesSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsVolumesSnapshots",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type EncryptProjectsLocationsKmsConfigsError =
@@ -2434,6 +2452,7 @@ export const encryptProjectsLocationsKmsConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EncryptProjectsLocationsKmsConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type EstablishPeeringProjectsLocationsVolumesError =
@@ -3114,6 +3133,7 @@ export const patchProjectsLocationsActiveDirectories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsActiveDirectories",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsBackupPoliciesError =
@@ -3136,6 +3156,7 @@ export const patchProjectsLocationsBackupPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsBackupPolicies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsBackupVaultsError =
@@ -3158,6 +3179,7 @@ export const patchProjectsLocationsBackupVaults: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsBackupVaults",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsBackupVaultsBackupsError =
@@ -3180,6 +3202,7 @@ export const patchProjectsLocationsBackupVaultsBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsBackupVaultsBackups",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsHostGroupsError =
@@ -3224,6 +3247,7 @@ export const patchProjectsLocationsKmsConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsKmsConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsStoragePoolsError =
@@ -3246,6 +3270,7 @@ export const patchProjectsLocationsStoragePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsStoragePools",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsVolumesError =
@@ -3268,6 +3293,7 @@ export const patchProjectsLocationsVolumes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsVolumes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsVolumesQuotaRulesError =
@@ -3312,6 +3338,7 @@ export const patchProjectsLocationsVolumesReplications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsVolumesReplications",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsVolumesSnapshotsError =
@@ -3334,6 +3361,7 @@ export const patchProjectsLocationsVolumesSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsVolumesSnapshots",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RestoreProjectsLocationsVolumesError =
@@ -3400,6 +3428,7 @@ export const resumeProjectsLocationsVolumesReplications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeProjectsLocationsVolumesReplications",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ReverseDirectionProjectsLocationsVolumesReplicationsError =
@@ -3426,6 +3455,7 @@ export const reverseDirectionProjectsLocationsVolumesReplications: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReverseDirectionProjectsLocationsVolumesReplications",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RevertProjectsLocationsVolumesError =
@@ -3448,6 +3478,7 @@ export const revertProjectsLocationsVolumes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RevertProjectsLocationsVolumes",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type StartSplitProjectsLocationsVolumesError =
@@ -3492,6 +3523,7 @@ export const stopProjectsLocationsVolumesReplications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsVolumesReplications",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SwitchProjectsLocationsStoragePoolsError =
@@ -3610,6 +3642,7 @@ export const verifyProjectsLocationsKmsConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "VerifyProjectsLocationsKmsConfigs",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

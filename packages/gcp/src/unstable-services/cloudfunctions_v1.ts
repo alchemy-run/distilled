@@ -531,6 +531,7 @@ export const callProjectsLocationsFunctions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CallProjectsLocationsFunctions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsFunctionsError =
@@ -553,6 +554,7 @@ export const createProjectsLocationsFunctions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsFunctions",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsFunctionsError =

@@ -1252,6 +1252,7 @@ export const createProjectsLocationsChannelConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsChannelConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsChannelsError =
@@ -1274,6 +1275,7 @@ export const createProjectsLocationsChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsChannels",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsEnrollmentsError =
@@ -1296,6 +1298,7 @@ export const createProjectsLocationsEnrollments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsEnrollments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsGoogleApiSourcesError =
@@ -1318,6 +1321,7 @@ export const createProjectsLocationsGoogleApiSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsGoogleApiSources",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsMessageBusesError =
@@ -1340,6 +1344,7 @@ export const createProjectsLocationsMessageBuses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsMessageBuses",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsPipelinesError =
@@ -1362,6 +1367,7 @@ export const createProjectsLocationsPipelines: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsPipelines",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsTriggersError =
@@ -1384,6 +1390,7 @@ export const createProjectsLocationsTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsChannelConnectionsError =
@@ -1406,6 +1413,7 @@ export const deleteProjectsLocationsChannelConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsChannelConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsChannelsError =
@@ -1428,6 +1436,7 @@ export const deleteProjectsLocationsChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsChannels",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsEnrollmentsError =
@@ -1450,6 +1459,7 @@ export const deleteProjectsLocationsEnrollments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsEnrollments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsGoogleApiSourcesError =
@@ -1472,6 +1482,7 @@ export const deleteProjectsLocationsGoogleApiSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsGoogleApiSources",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsMessageBusesError =
@@ -1494,6 +1505,7 @@ export const deleteProjectsLocationsMessageBuses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsMessageBuses",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -1538,6 +1550,7 @@ export const deleteProjectsLocationsPipelines: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsPipelines",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsTriggersError =
@@ -1560,6 +1573,7 @@ export const deleteProjectsLocationsTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type GetGoogleChannelConfigProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2108,6 +2122,7 @@ export const patchProjectsLocationsChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsChannels",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsEnrollmentsError =
@@ -2130,6 +2145,7 @@ export const patchProjectsLocationsEnrollments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsEnrollments",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsGoogleApiSourcesError =
@@ -2152,6 +2168,7 @@ export const patchProjectsLocationsGoogleApiSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsGoogleApiSources",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsMessageBusesError =
@@ -2174,6 +2191,7 @@ export const patchProjectsLocationsMessageBuses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsMessageBuses",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsPipelinesError =
@@ -2196,6 +2214,7 @@ export const patchProjectsLocationsPipelines: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsPipelines",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsTriggersError =
@@ -2218,6 +2237,7 @@ export const patchProjectsLocationsTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsTriggers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsLocationsChannelConnectionsError =
@@ -2576,6 +2596,7 @@ export const updateGoogleChannelConfigProjectsLocations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateGoogleChannelConfigProjectsLocations",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

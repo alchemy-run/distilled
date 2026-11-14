@@ -280,6 +280,7 @@ export const createBillingAccountsBudgets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateBillingAccountsBudgets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteBillingAccountsBudgetsError =

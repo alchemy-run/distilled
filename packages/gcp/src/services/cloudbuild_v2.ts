@@ -713,6 +713,7 @@ export const createProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsConnectionsRepositoriesError =
@@ -739,6 +740,7 @@ export const createProjectsLocationsConnectionsRepositories: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsConnectionsRepositories",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsConnectionsError =
@@ -761,6 +763,7 @@ export const deleteProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsConnectionsRepositoriesError =
@@ -783,6 +786,7 @@ export const deleteProjectsLocationsConnectionsRepositories: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsConnectionsRepositories",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type FetchGitRefsProjectsLocationsConnectionsRepositoriesError =
@@ -999,6 +1003,7 @@ export const patchProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ProcessWebhookProjectsLocationsConnectionsError =

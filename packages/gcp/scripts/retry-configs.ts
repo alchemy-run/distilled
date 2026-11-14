@@ -12,18 +12,31 @@
  * Most of those policies are copies of a few generated templates (1.3
  * multiplier, 100ms or 1s initial backoff, 10s or 60s cap): 73% of them on
  * 2026-11-12. A template says nothing about the method, so it is skipped and
- * the method keeps distilled's default. Only the numbers are read: what
- * retries comes from the error's marks (see core `isTransientError`).
+ * the method keeps distilled's default. A method listed with no
+ * `retryPolicy` gets one attempt ({@link NO_RETRY}). Only the numbers are
+ * read: what retries comes from the error's marks (see core
+ * `isTransientError`).
  */
 import * as fs from "node:fs";
 import * as path from "node:path";
 
 export interface RetryTrait {
   maxAttempts?: number;
-  baseMs: number;
-  capMs: number;
-  factor: number;
+  baseMs?: number;
+  capMs?: number;
+  factor?: number;
 }
+
+/**
+ * A method listed with no `retryPolicy` in a config that gives other
+ * methods one: the team chose not to retry it, and Google's clients make
+ * one attempt, so distilled does too (e.g. Secret Manager `CreateSecret`,
+ * next to a retried `AccessSecretVersion`). A config that retries nothing
+ * (a timeout for the whole service) is boilerplate and changes nothing.
+ * A GET keeps distilled's default: a read cannot repeat work, and the GETs
+ * left unlisted look like methods added after the config was written.
+ */
+export const NO_RETRY: RetryTrait = { maxAttempts: 1 };
 
 interface RetryPolicy {
   readonly maxAttempts?: number;
@@ -112,8 +125,15 @@ export const loadRetryTraits = (
     const config = JSON.parse(fs.readFileSync(file, "utf8")) as {
       methodConfig?: MethodConfig[];
     };
+    const retriesSome = (config.methodConfig ?? []).some((e) => e.retryPolicy !== undefined);
     for (const entry of config.methodConfig ?? []) {
-      const trait = entry.retryPolicy === undefined ? null : (traitOf(entry.retryPolicy) ?? null);
+      // null: distilled's default applies (a template, or no signal).
+      const trait =
+        entry.retryPolicy === undefined
+          ? retriesSome
+            ? NO_RETRY
+            : null
+          : (traitOf(entry.retryPolicy) ?? null);
       for (const name of entry.name ?? []) {
         if (name.service === undefined) continue;
         if (name.method === undefined) byService.set(name.service, trait);
@@ -131,5 +151,8 @@ export const loadRetryTraits = (
     if (trait == null) continue;
     for (const binding of bindings) traits.set(key(host, binding.method, binding.path), trait);
   }
-  return (host, httpMethod, flatPath) => traits.get(key(host, httpMethod, flatPath));
+  return (host, httpMethod, flatPath) => {
+    const trait = traits.get(key(host, httpMethod, flatPath));
+    return trait === NO_RETRY && httpMethod.toUpperCase() === "GET" ? undefined : trait;
+  };
 };

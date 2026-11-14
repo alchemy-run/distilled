@@ -2235,6 +2235,7 @@ export const createProjectsLocationsNetworkPeerings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsNetworkPeerings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsNetworkPoliciesError =
@@ -2257,6 +2258,7 @@ export const createProjectsLocationsNetworkPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsNetworkPolicies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsNetworkPoliciesExternalAccessRulesError =
@@ -2283,6 +2285,7 @@ export const createProjectsLocationsNetworkPoliciesExternalAccessRules: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsNetworkPoliciesExternalAccessRules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsPrivateCloudsError =
@@ -2305,6 +2308,7 @@ export const createProjectsLocationsPrivateClouds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsPrivateClouds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsPrivateCloudsClustersError =
@@ -2331,6 +2335,7 @@ export const createProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsPrivateCloudsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsPrivateCloudsExternalAddressesError =
@@ -2357,6 +2362,7 @@ export const createProjectsLocationsPrivateCloudsExternalAddresses: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsPrivateCloudsExternalAddresses",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsPrivateCloudsHcxActivationKeysError =
@@ -2383,6 +2389,7 @@ export const createProjectsLocationsPrivateCloudsHcxActivationKeys: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsPrivateCloudsHcxActivationKeys",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsPrivateCloudsLoggingServersError =
@@ -2409,6 +2416,7 @@ export const createProjectsLocationsPrivateCloudsLoggingServers: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsPrivateCloudsLoggingServers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError =
@@ -2435,6 +2443,7 @@ export const createProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsPrivateCloudsManagementDnsZoneBindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsPrivateConnectionsError =
@@ -2457,6 +2466,7 @@ export const createProjectsLocationsPrivateConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsPrivateConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type CreateProjectsLocationsVmwareEngineNetworksError =
@@ -2479,6 +2489,7 @@ export const createProjectsLocationsVmwareEngineNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsVmwareEngineNetworks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsDatastoresError =
@@ -2523,6 +2534,7 @@ export const deleteProjectsLocationsNetworkPeerings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsNetworkPeerings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsNetworkPoliciesError =
@@ -2545,6 +2557,7 @@ export const deleteProjectsLocationsNetworkPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsNetworkPolicies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsNetworkPoliciesExternalAccessRulesError =
@@ -2571,6 +2584,7 @@ export const deleteProjectsLocationsNetworkPoliciesExternalAccessRules: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsNetworkPoliciesExternalAccessRules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -2615,6 +2629,7 @@ export const deleteProjectsLocationsPrivateClouds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsPrivateClouds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsPrivateCloudsClustersError =
@@ -2637,6 +2652,7 @@ export const deleteProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsPrivateCloudsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsPrivateCloudsExternalAddressesError =
@@ -2663,6 +2679,7 @@ export const deleteProjectsLocationsPrivateCloudsExternalAddresses: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsPrivateCloudsExternalAddresses",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsPrivateCloudsLoggingServersError =
@@ -2689,6 +2706,7 @@ export const deleteProjectsLocationsPrivateCloudsLoggingServers: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsPrivateCloudsLoggingServers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError =
@@ -2715,6 +2733,7 @@ export const deleteProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsPrivateCloudsManagementDnsZoneBindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsPrivateConnectionsError =
@@ -2737,6 +2756,7 @@ export const deleteProjectsLocationsPrivateConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsPrivateConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type DeleteProjectsLocationsVmwareEngineNetworksError =
@@ -2759,6 +2779,7 @@ export const deleteProjectsLocationsVmwareEngineNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsVmwareEngineNetworks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type FetchExternalAddressesProjectsLocationsNetworkPoliciesError =
@@ -3320,6 +3341,7 @@ export const grantProjectsLocationsDnsBindPermission: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GrantProjectsLocationsDnsBindPermission",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -3890,6 +3912,7 @@ export const patchProjectsLocationsNetworkPeerings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsNetworkPeerings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsNetworkPoliciesError =
@@ -3912,6 +3935,7 @@ export const patchProjectsLocationsNetworkPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsNetworkPolicies",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsNetworkPoliciesExternalAccessRulesError =
@@ -3938,6 +3962,7 @@ export const patchProjectsLocationsNetworkPoliciesExternalAccessRules: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsNetworkPoliciesExternalAccessRules",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsPrivateCloudsError =
@@ -3960,6 +3985,7 @@ export const patchProjectsLocationsPrivateClouds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsPrivateClouds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsPrivateCloudsClustersError =
@@ -3986,6 +4012,7 @@ export const patchProjectsLocationsPrivateCloudsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsPrivateCloudsClusters",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsPrivateCloudsExternalAddressesError =
@@ -4012,6 +4039,7 @@ export const patchProjectsLocationsPrivateCloudsExternalAddresses: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsPrivateCloudsExternalAddresses",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsPrivateCloudsLoggingServersError =
@@ -4038,6 +4066,7 @@ export const patchProjectsLocationsPrivateCloudsLoggingServers: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsPrivateCloudsLoggingServers",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindingsError =
@@ -4064,6 +4093,7 @@ export const patchProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsPrivateCloudsManagementDnsZoneBindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsPrivateCloudsSubnetsError =
@@ -4086,6 +4116,7 @@ export const patchProjectsLocationsPrivateCloudsSubnets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsPrivateCloudsSubnets",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsPrivateCloudsUpgradesError =
@@ -4134,6 +4165,7 @@ export const patchProjectsLocationsPrivateConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsPrivateConnections",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PatchProjectsLocationsVmwareEngineNetworksError =
@@ -4156,6 +4188,7 @@ export const patchProjectsLocationsVmwareEngineNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsVmwareEngineNetworks",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type PrivateCloudDeletionNowProjectsLocationsPrivateCloudsError =
@@ -4208,6 +4241,7 @@ export const repairProjectsLocationsPrivateCloudsManagementDnsZoneBindings: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RepairProjectsLocationsPrivateCloudsManagementDnsZoneBindings",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ResetNsxCredentialsProjectsLocationsPrivateCloudsError =
@@ -4234,6 +4268,7 @@ export const resetNsxCredentialsProjectsLocationsPrivateClouds: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResetNsxCredentialsProjectsLocationsPrivateClouds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type ResetVcenterCredentialsProjectsLocationsPrivateCloudsError =
@@ -4260,6 +4295,7 @@ export const resetVcenterCredentialsProjectsLocationsPrivateClouds: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResetVcenterCredentialsProjectsLocationsPrivateClouds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type RevokeProjectsLocationsDnsBindPermissionError =
@@ -4282,6 +4318,7 @@ export const revokeProjectsLocationsDnsBindPermission: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RevokeProjectsLocationsDnsBindPermission",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type SetIamPolicyProjectsLocationsPrivateCloudsError =
@@ -4456,6 +4493,7 @@ export const undeleteProjectsLocationsPrivateClouds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteProjectsLocationsPrivateClouds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 export type UnmountDatastoreProjectsLocationsPrivateCloudsClustersError =
@@ -4508,6 +4546,7 @@ export const updateDnsForwardingProjectsLocationsPrivateClouds: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateDnsForwardingProjectsLocationsPrivateClouds",
+  retryPolicy: { maxAttempts: 1 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
