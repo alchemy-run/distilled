@@ -449,7 +449,7 @@ export interface PostgresService {
   tags?: PgTags | undefined;
   /** IPv4 access rules shown in the console. IPv6 rules are not included. Returned when reading or configuring access; omitted from other service updates. */
   ipAccessList?: PostgresServiceIpAccessListList | undefined;
-  id?: string | undefined;
+  id: string;
   storageSize?: number | undefined;
   state?: PgStateProperty | undefined;
   createdAt?: string | undefined;
@@ -1306,7 +1306,7 @@ function __c2(j: number): any {
           standbyCount: S.optional(S.Number),
           tags: S.optional(__S(9, __c1, 1)),
           ipAccessList: S.optional(__S(17, __c2, 1)),
-          id: S.optional(S.String),
+          id: S.String,
           storageSize: S.optional(S.Number),
           state: S.optional(S.String),
           createdAt: S.optional(S.String),
