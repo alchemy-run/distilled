@@ -14,8 +14,8 @@ import type { SdkError } from "@distilled.cloud/core/sdk-error";
  * Failures nest under `{ errors: [{ code, message }] }`.
  *
  *   request:  credentials -> `Authorization: Bearer <apiKey>` + base URL
- *             (default https://api.inngest.com/v2), resolved from the
- *             calling fiber on every request
+ *             (default https://api.inngest.com/v2; `/v1/` routes go to
+ *             its origin), resolved from the calling fiber on every request
  *
  *   response: 2xx JSON is the payload (sensitive members delivered as
  *             `Redacted`); non-2xx `{ errors: [{ code, message }] }`
@@ -84,7 +84,12 @@ export const InngestProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRest
   // The Credentials service holds an effect -- resolving it here (per
   // request, on the calling fiber) picks up context-provided credentials.
   credentials: /*@__PURE__*/ Effect.flatMap(Credentials, (resolve) => resolve),
-  baseUrl: (creds) => creds.apiBaseUrl,
+  // v1 routes carry their own `/v1/` prefix and live at the base URL's
+  // origin. URL.parse never throws: a malformed base URL fails like v2 calls.
+  baseUrl: (creds, target) =>
+    target.uri.startsWith("/v1/")
+      ? (URL.parse(creds.apiBaseUrl)?.origin ?? creds.apiBaseUrl)
+      : creds.apiBaseUrl,
   headers: (creds) => ({
     Authorization: `Bearer ${Redacted.value(creds.apiKey)}`,
   }),
