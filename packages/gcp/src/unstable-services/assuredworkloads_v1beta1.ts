@@ -960,6 +960,7 @@ export const deleteOrganizationsLocationsWorkloads: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteOrganizationsLocationsWorkloads",
+  retryPolicy: { baseMs: 200, capMs: 30000, factor: 1.3 },
 }));
 
 export type EnableComplianceUpdatesOrganizationsLocationsWorkloadsError =

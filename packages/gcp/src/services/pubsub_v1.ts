@@ -1714,6 +1714,7 @@ export const publishProjectsTopics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PublishProjectsTopics",
+  retryPolicy: { maxAttempts: 5, baseMs: 100, capMs: 60000, factor: 4 },
 }));
 
 export type PullProjectsSubscriptionsError =

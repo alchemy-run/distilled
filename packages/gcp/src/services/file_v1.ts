@@ -895,6 +895,7 @@ export const getProjectsLocationsBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackups",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
 }));
 
 export type GetProjectsLocationsInstancesError = NotFound | Forbidden | GcpOpError;
@@ -912,6 +913,7 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInstances",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
 }));
 
 export type GetProjectsLocationsInstancesSnapshotsError = NotFound | Forbidden | GcpOpError;
@@ -983,6 +985,7 @@ export const listProjectsLocationsBackups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackups",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1002,6 +1005,7 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstances",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

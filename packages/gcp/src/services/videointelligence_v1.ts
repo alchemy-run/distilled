@@ -329,6 +329,7 @@ export const annotateVideos: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnnotateVideos",
+  retryPolicy: { baseMs: 1000, capMs: 120000, factor: 2.5 },
 }));
 
 export type CancelOperationsProjectsLocationsOperationsError =

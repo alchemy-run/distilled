@@ -2348,6 +2348,7 @@ export const adapterProjectsInstancesDatabasesSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AdapterProjectsInstancesDatabasesSessions",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
 }));
 
 export type AdaptMessageProjectsInstancesDatabasesSessionsError =
@@ -2396,6 +2397,7 @@ export const addSplitPointsProjectsInstancesDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddSplitPointsProjectsInstancesDatabases",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type BatchCreateProjectsInstancesDatabasesSessionsError =
@@ -2422,6 +2424,7 @@ export const batchCreateProjectsInstancesDatabasesSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsInstancesDatabasesSessions",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
 }));
 
 export type BatchWriteProjectsInstancesDatabasesSessionsError =
@@ -2471,6 +2474,7 @@ export const beginTransactionProjectsInstancesDatabasesSessions: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BeginTransactionProjectsInstancesDatabasesSessions",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
 }));
 
 export type CancelProjectsInstanceConfigsOperationsError =
@@ -2656,6 +2660,7 @@ export const commitProjectsInstancesDatabasesSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CommitProjectsInstancesDatabasesSessions",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
 }));
 
 export type CopyProjectsInstancesBackupsError =
@@ -2792,6 +2797,7 @@ export const createProjectsInstancesDatabasesBackupSchedules: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsInstancesDatabasesBackupSchedules",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type CreateProjectsInstancesDatabasesSessionsError =
@@ -2814,6 +2820,7 @@ export const createProjectsInstancesDatabasesSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsInstancesDatabasesSessions",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
 }));
 
 export type CreateProjectsInstancesInstancePartitionsError =
@@ -2928,6 +2935,7 @@ export const deleteProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsInstances",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type DeleteProjectsInstancesBackupsError =
@@ -2950,6 +2958,7 @@ export const deleteProjectsInstancesBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsInstancesBackups",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type DeleteProjectsInstancesBackupsOperationsError =
@@ -2998,6 +3007,7 @@ export const deleteProjectsInstancesDatabasesBackupSchedules: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsInstancesDatabasesBackupSchedules",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type DeleteProjectsInstancesDatabasesOperationsError =
@@ -3043,6 +3053,7 @@ export const deleteProjectsInstancesDatabasesSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsInstancesDatabasesSessions",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
 }));
 
 export type DeleteProjectsInstancesInstancePartitionsError =
@@ -3135,6 +3146,7 @@ export const dropDatabaseProjectsInstancesDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DropDatabaseProjectsInstancesDatabases",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type ExecuteBatchDmlProjectsInstancesDatabasesSessionsError =
@@ -3162,6 +3174,7 @@ export const executeBatchDmlProjectsInstancesDatabasesSessions: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteBatchDmlProjectsInstancesDatabasesSessions",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
 }));
 
 export type ExecuteSqlProjectsInstancesDatabasesSessionsError =
@@ -3189,6 +3202,7 @@ export const executeSqlProjectsInstancesDatabasesSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteSqlProjectsInstancesDatabasesSessions",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
 }));
 
 export type ExecuteStreamingSqlProjectsInstancesDatabasesSessionsError =
@@ -3233,6 +3247,7 @@ export const getDdlProjectsInstancesDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDdlProjectsInstancesDatabases",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type GetIamPolicyProjectsInstancesError =
@@ -3255,6 +3270,7 @@ export const getIamPolicyProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIamPolicyProjectsInstances",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type GetIamPolicyProjectsInstancesBackupsError =
@@ -3277,6 +3293,7 @@ export const getIamPolicyProjectsInstancesBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIamPolicyProjectsInstancesBackups",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type GetIamPolicyProjectsInstancesDatabasesError =
@@ -3299,6 +3316,7 @@ export const getIamPolicyProjectsInstancesDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIamPolicyProjectsInstancesDatabases",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type GetIamPolicyProjectsInstancesDatabasesBackupSchedulesError =
@@ -3325,6 +3343,7 @@ export const getIamPolicyProjectsInstancesDatabasesBackupSchedules: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetIamPolicyProjectsInstancesDatabasesBackupSchedules",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type GetProjectsInstanceConfigsError = NotFound | Forbidden | GcpOpError;
@@ -3342,6 +3361,7 @@ export const getProjectsInstanceConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstanceConfigs",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type GetProjectsInstanceConfigsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -3397,6 +3417,7 @@ export const getProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstances",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type GetProjectsInstancesBackupsError = NotFound | Forbidden | GcpOpError;
@@ -3414,6 +3435,7 @@ export const getProjectsInstancesBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstancesBackups",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type GetProjectsInstancesBackupsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -3448,6 +3470,7 @@ export const getProjectsInstancesDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstancesDatabases",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type GetProjectsInstancesDatabasesBackupSchedulesError = NotFound | Forbidden | GcpOpError;
@@ -3469,6 +3492,7 @@ export const getProjectsInstancesDatabasesBackupSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstancesDatabasesBackupSchedules",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type GetProjectsInstancesDatabasesOperationsError = NotFound | Forbidden | GcpOpError;
@@ -3507,6 +3531,7 @@ export const getProjectsInstancesDatabasesSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstancesDatabasesSessions",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
 }));
 
 export type GetProjectsInstancesInstancePartitionsError = NotFound | Forbidden | GcpOpError;
@@ -3619,6 +3644,7 @@ export const listProjectsInstanceConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstanceConfigs",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3680,6 +3706,7 @@ export const listProjectsInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstances",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3699,6 +3726,7 @@ export const listProjectsInstancesBackupOperations: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesBackupOperations",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3718,6 +3746,7 @@ export const listProjectsInstancesBackups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesBackups",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3756,6 +3785,7 @@ export const listProjectsInstancesDatabaseOperations: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesDatabaseOperations",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3775,6 +3805,7 @@ export const listProjectsInstancesDatabases: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesDatabases",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3798,6 +3829,7 @@ export const listProjectsInstancesDatabasesBackupSchedules: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesDatabasesBackupSchedules",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3821,6 +3853,7 @@ export const listProjectsInstancesDatabasesDatabaseRoles: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesDatabasesDatabaseRoles",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3859,6 +3892,7 @@ export const listProjectsInstancesDatabasesSessions: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesDatabasesSessions",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4013,6 +4047,7 @@ export const partitionQueryProjectsInstancesDatabasesSessions: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PartitionQueryProjectsInstancesDatabasesSessions",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
 }));
 
 export type PartitionReadProjectsInstancesDatabasesSessionsError =
@@ -4040,6 +4075,7 @@ export const partitionReadProjectsInstancesDatabasesSessions: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PartitionReadProjectsInstancesDatabasesSessions",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
 }));
 
 export type PatchProjectsInstanceConfigsError =
@@ -4101,6 +4137,7 @@ export const patchProjectsInstancesBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsInstancesBackups",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type PatchProjectsInstancesDatabasesError =
@@ -4123,6 +4160,7 @@ export const patchProjectsInstancesDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsInstancesDatabases",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type PatchProjectsInstancesDatabasesBackupSchedulesError =
@@ -4149,6 +4187,7 @@ export const patchProjectsInstancesDatabasesBackupSchedules: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsInstancesDatabasesBackupSchedules",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 export type PatchProjectsInstancesInstancePartitionsError =
@@ -4194,6 +4233,7 @@ export const readProjectsInstancesDatabasesSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReadProjectsInstancesDatabasesSessions",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
 }));
 
 export type RestoreProjectsInstancesDatabasesError =
@@ -4239,6 +4279,7 @@ export const rollbackProjectsInstancesDatabasesSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackProjectsInstancesDatabasesSessions",
+  retryPolicy: { baseMs: 250, capMs: 32000, factor: 1.3 },
 }));
 
 export type SetIamPolicyProjectsInstancesError =
@@ -4499,6 +4540,7 @@ export const updateDdlProjectsInstancesDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateDdlProjectsInstancesDatabases",
+  retryPolicy: { baseMs: 1000, capMs: 32000, factor: 1.3 },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

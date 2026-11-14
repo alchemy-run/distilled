@@ -19,6 +19,10 @@
     {
       "path": "./tsconfig.json"
     },
+    // test/retry-configs.test.ts covers a generator script.
+    {
+      "path": "./tsconfig.scripts.json"
+    },
     {
       "path": "../core"
     }
