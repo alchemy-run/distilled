@@ -352,6 +352,34 @@ describe("retry budget", () => {
     expect(budget.withdraw("b.test", false)).toBe(14);
   });
 
+  test("a call that sends without Telemetry.execute is not budgeted", async () => {
+    // A protocol with its own `call` bypasses Telemetry.execute: no host is
+    // recorded and no success would refill a bucket.
+    let attempts = 0;
+    const RawProtocol = Layer.succeed(API.Protocol, {
+      encode: () => Effect.die("unused"),
+      decode: () => Effect.die("unused"),
+      call: () =>
+        Effect.suspend(() => {
+          attempts++;
+          return Effect.fail(new ServiceUnavailable({ message: "" }));
+        }),
+    } as any);
+    const rawCall = API.make(() => ({
+      input: S.Struct({}).pipe(T.Http({ method: "GET", uri: "/thing" })),
+      output: Output,
+      protocol: RawProtocol,
+      retry: TestRetry,
+    })) as unknown as Call;
+    const budget = Retry.makeBudget({ initial: 0 });
+    const policy: Retry.Options = {
+      while: () => true,
+      backoff: { baseMs: 0, factor: 1, capMs: 0, maxRetries: 2, budget },
+    };
+    await runVirtual(rawCall({}).pipe(withPolicy(policy)), Layer.empty as Layer.Layer<any>);
+    expect(attempts).toBe(3);
+  });
+
   test("a policy without a budget is not limited", async () => {
     const http = scripted(failTimes(10, () => status(503)));
     const result = await runVirtual(

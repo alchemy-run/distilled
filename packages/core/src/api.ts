@@ -433,8 +433,11 @@ const retryWith = (
     const last = takeLastRequest();
     return Effect.flatMap(backoffDelay(b, n, e, last.hintMs), (ms) => {
       if (ms === undefined) return Effect.fail(e);
-      const cost = budget?.withdraw(last.host, isThrottling(e));
-      if (budget !== undefined && cost === undefined) return Effect.fail(e);
+      // No host: the request went out without `Telemetry.execute`, so no
+      // success would ever refill a bucket. Such calls are not budgeted.
+      const budgeted = budget !== undefined && last.host !== "";
+      const cost = budgeted ? budget.withdraw(last.host, isThrottling(e)) : undefined;
+      if (budgeted && cost === undefined) return Effect.fail(e);
       const next =
         cost === undefined
           ? again(n + 2)
