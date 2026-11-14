@@ -362,3 +362,50 @@ describe("UnionCases decoding", () => {
     });
   });
 });
+
+describe("UnionCases member dictionaries", () => {
+  const dict = { className: "class_name", scriptName: "script_name" };
+  const content = { className: "kept", nested: { scriptName: "kept" } };
+  // Worker-binding shaped: `props` is the caller's own JSON (`{}` dictionary).
+  const bindings = S.Unknown.pipe(
+    T.UnionCases(
+      [
+        ["type", "name", "service", "props"],
+        ["type", "name", "className", "scriptName"],
+      ],
+      { key: "type", values: ["service", "durable_object_namespace"] },
+      [{ props: {} }, {}],
+    ),
+  );
+
+  test("encode keeps the member's keys and renames the rest", () => {
+    expect(
+      mapKeys(
+        bindings.ast,
+        { type: "service", name: "A", service: "s", props: content },
+        "encode",
+        dict,
+      ),
+    ).toEqual({ type: "service", name: "A", service: "s", props: content });
+    expect(
+      mapKeys(
+        bindings.ast,
+        { type: "durable_object_namespace", name: "B", className: "C", scriptName: "w" },
+        "encode",
+        dict,
+      ),
+    ).toEqual({ type: "durable_object_namespace", name: "B", class_name: "C", script_name: "w" });
+  });
+
+  test("decode keeps the member's keys", () => {
+    const wire = { class_name: "kept", nested: { script_name: "kept" } };
+    expect(
+      mapKeys(
+        bindings.ast,
+        { type: "service", name: "A", service: "s", props: wire, class_name: null },
+        "decode",
+        dict,
+      ),
+    ).toEqual({ type: "service", name: "A", service: "s", props: wire });
+  });
+});

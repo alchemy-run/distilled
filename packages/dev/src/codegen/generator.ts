@@ -369,6 +369,12 @@ export interface SdkSpec {
    * `"primitive"`: emit unwrapped unions of primitive or enum values.
    */
   readonly unionStyle?: "opaque-cases" | "untagged" | "primitive";
+  /**
+   * Member trait whose value is the member's own key dictionary (also listed
+   * in `memberTraitPipes`). An opaque-cases union cannot carry member pipes,
+   * so each case's dictionaries go on `T.UnionCases` instead.
+   */
+  readonly memberKeyDictionaryTrait?: string;
   /** Full override of union emission. */
   readonly union?: (ctx: {
     readonly name: string;
@@ -1121,9 +1127,26 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         );
       } else if (spec.unionStyle === "opaque-cases") {
         const disc = unionDiscriminator(caseTargets);
+        const dictTrait = spec.memberKeyDictionaryTrait;
+        const dictionaries = caseTargets.map((t: string) => {
+          const cd = shapes[t];
+          return dictTrait && cd?.type === "structure"
+            ? Object.fromEntries(
+                memberInfos(cd)
+                  .filter((mi) => mi.traits[dictTrait] !== undefined)
+                  .map((mi) => [mi.tsName, mi.traits[dictTrait]]),
+              )
+            : {};
+        });
+        const hasDictionaries = dictionaries.some((d) => Object.keys(d).length > 0);
+        const args = [
+          JSON.stringify(caseKeys),
+          ...(disc ? [JSON.stringify(disc)] : hasDictionaries ? ["undefined"] : []),
+          ...(hasDictionaries ? [JSON.stringify(dictionaries)] : []),
+        ];
         out.push(
           `export type ${name} = ${caseTargets.map((t) => tsRefAt(t, id)).join(" | ") || "unknown"};`,
-          `export const ${name} = ${pure}S.Unknown.pipe(T.UnionCases(${JSON.stringify(caseKeys)}${disc ? `, ${JSON.stringify(disc)}` : ""}));\n`,
+          `export const ${name} = ${pure}S.Unknown.pipe(T.UnionCases(${args.join(", ")}));\n`,
         );
       } else {
         throw new Error(`no union emission configured for shape ${id} — set unionStyle or union`);

@@ -1,5 +1,5 @@
 {
-  "description": "workers/scripts/{script_name}/edge-preview is absent from the API docs (docs-absent endpoint): multipart preview-worker upload authorized by the cf-preview-upload-config-token header (from createSubdomainEdgePreviewSession), answering a preview_token to send as cf-workers-preview-token against the preview host. Shapes transcribed from the distilled SDK; metadata is the edge-preview's OWN type (v0 parity: preview-only `raw` binding flags, logfwdr/stream/unsafe_hello_world kinds, d1 by `id`, capnp_schema, streaming tail consumers). Needed by alchemy's EdgeSession (state-store login / preview uploads).",
+  "description": "workers/scripts/{script_name}/edge-preview is absent from the API docs (docs-absent endpoint): multipart preview-worker upload authorized by the cf-preview-upload-config-token header (from createSubdomainEdgePreviewSession), answering a preview_token to send as cf-workers-preview-token against the preview host. Shapes transcribed from the distilled SDK; metadata is the edge-preview's OWN type (v0 parity: preview-only `raw` binding flags, logfwdr/stream/unsafe_hello_world kinds, d1 by `id`, capnp_schema, streaming tail consumers). Needed by alchemy's EdgeSession (state-store login / preview uploads). A service binding carries an optional props object, which the bound entrypoint reads as ctx.props (https://developers.cloudflare.com/workers/runtime-apis/context/#props). props and a json binding's json are the caller's own JSON, which the Worker reads back unchanged, so both carry an empty keyDictionary and keep their keys instead of being renamed through the Workers fallback dictionary.",
   "patches": [
     {
       "op": "add",
@@ -397,7 +397,8 @@
           "json": {
             "target": "smithy.api#Document",
             "traits": {
-              "smithy.api#required": {}
+              "smithy.api#required": {},
+              "com.cloudflare.protocols#keyDictionary": {}
             }
           }
         }
@@ -690,6 +691,13 @@
           },
           "cross_account_grant": {
             "target": "smithy.api#String"
+          },
+          "props": {
+            "target": "smithy.api#Document",
+            "traits": {
+              "smithy.api#documentation": "JSON object the bound entrypoint reads as `ctx.props`, sent with its keys as written.",
+              "com.cloudflare.protocols#keyDictionary": {}
+            }
           }
         }
       }
