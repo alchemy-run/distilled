@@ -4,7 +4,9 @@ import {
   makeRestProtocol,
   type RestErrorInfo,
   type RestParseErrorInfo,
+  unknownErrorProps,
 } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * 1Password protocols -- hand-written. Every 1Password API is plain JSON
  * REST, so each protocol is one `makeRestProtocol` call from
@@ -58,7 +60,8 @@ export type OnepasswordOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | OnepasswordParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) of every generated Connect operation. */
 export type ConnectOpContext = ConnectCredentials | HttpClient.HttpClient;
@@ -71,12 +74,7 @@ export type OAuthOpContext = OAuthCredentials | HttpClient.HttpClient;
 /** Context (requirements) of every generated Partnership API operation. */
 export type PartnershipOpContext = PartnershipCredentials | HttpClient.HttpClient;
 
-const unknownError = ({ code, message, body }: RestErrorInfo) =>
-  new UnknownOnepasswordError({
-    code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-    message,
-    body,
-  });
+const unknownError = (info: RestErrorInfo) => new UnknownOnepasswordError(unknownErrorProps(info));
 
 const parseError = ({ body, cause }: RestParseErrorInfo) =>
   new OnepasswordParseError({ body, cause });

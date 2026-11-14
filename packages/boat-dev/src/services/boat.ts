@@ -27,6 +27,39 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** The sandbox agent is too old for `stdoutOffset` / `stderrOffset`. Poll without offsets. */
+export class AgentOutdated
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<AgentOutdated>()("AgentOutdated", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "agent_outdated" } }],
+  ) {}
+
+/** Several of the caller's organizations share the name passed as `org` / `X-Boat-Org`. Pass the organization id (`team_...`) instead. */
+export class AmbiguousOrg
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<AmbiguousOrg>()("AmbiguousOrg", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "ambiguous_org" } }],
+  ) {}
+
+/** The new key would expire after the key signing the request. The message names the signer's expiry; pass a shorter `ttl`. */
+export class ApiKeyOutlivesSigner
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ApiKeyOutlivesSigner>()("ApiKeyOutlivesSigner", {
+      message: S.String,
+    }).pipe(C.withAuthError),
+    [
+      {
+        status: 403,
+        body: { "/code": "api_key_action_forbidden" },
+        message: { includes: "cannot expire later" },
+      },
+    ],
+  ) {}
+
 export class BadRequest
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BadRequest>()("BadRequest", {
@@ -45,6 +78,71 @@ export class Conflict
     [{ status: 409 }],
   ) {}
 
+/** `count` was passed without `from`. */
+export class CountRequiresFrom
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CountRequiresFrom>()("CountRequiresFrom", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 400, body: { "/code": "count_requires_from" } }],
+  ) {}
+
+/** `count` cannot be combined with `failFast`. */
+export class CountWithFailFast
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CountWithFailFast>()("CountWithFailFast", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 400, body: { "/code": "count_with_fail_fast" } }],
+  ) {}
+
+/** `hostedPorts` cannot be combined with `count`. */
+export class CountWithHostedPorts
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CountWithHostedPorts>()("CountWithHostedPorts", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 400, body: { "/code": "count_with_hosted_ports" } }],
+  ) {}
+
+/** `hostedPorts` cannot be combined with `failFast`. */
+export class FailFastWithHostedPorts
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<FailFastWithHostedPorts>()("FailFastWithHostedPorts", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 400, body: { "/code": "fail_fast_with_hosted_ports" } }],
+  ) {}
+
+/** `fast: true` was passed for a model whose `fastMode` is not `true` in `GET /provider-models`. */
+export class FastModeNotSupported
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<FastModeNotSupported>()("FastModeNotSupported", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 400, body: { "/code": "fast_mode_not_supported" } }],
+  ) {}
+
+/** No file or directory at the path. */
+export class FileNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<FileNotFound>()("FileNotFound", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [
+      {
+        status: 400,
+        body: { "/code": "sandbox_direct_failed" },
+        message: { includes: "no such file or directory" },
+      },
+      {
+        status: 400,
+        body: { "/code": "sandbox_direct_failed" },
+        message: { includes: "No such file or directory" },
+      },
+    ],
+  ) {}
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -52,6 +150,120 @@ export class Forbidden
       message: S.String,
     }).pipe(C.withAuthError),
     [{ status: 403 }],
+  ) {}
+
+/** The sandbox has no completed snapshot to fork from yet. Snapshots are made periodically and when a sandbox stops; retry later. */
+export class ForkNeedsSnapshot
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<ForkNeedsSnapshot>()("ForkNeedsSnapshot", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [
+      {
+        status: 409,
+        body: { "/code": "fork_failed" },
+        message: { includes: "completed snapshot" },
+      },
+    ],
+  ) {}
+
+/** The subdomain rename was saved but routes did not activate. Retry with the same value. */
+export class GatewayError
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<GatewayError>()("GatewayError", {
+      message: S.String,
+    }).pipe(C.withServerError),
+    [{ status: 502, body: { "/code": "gateway_error" } }],
+  ) {}
+
+/** The first request with this Idempotency-Key is still creating its sandbox. Retry shortly with the same key and body. */
+export class IdempotencyInProgress
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<IdempotencyInProgress>()("IdempotencyInProgress", {
+      message: S.String,
+    }).pipe(C.withConflictError, C.withRetryableError),
+    [{ status: 409, body: { "/code": "idempotency_in_progress" } }],
+  ) {}
+
+/** This Idempotency-Key was already used with a different request body. Use a new key. */
+export class IdempotencyKeyReused
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<IdempotencyKeyReused>()("IdempotencyKeyReused", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "idempotency_key_reused" } }],
+  ) {}
+
+/** A `files` entry has a bad or duplicate path, or an invalid body. */
+export class InvalidFiles
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidFiles>()("InvalidFiles", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 400, body: { "/code": "invalid_files" } }],
+  ) {}
+
+/** A `hostedPorts` entry is invalid or repeats a port. */
+export class InvalidHostedPorts
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidHostedPorts>()("InvalidHostedPorts", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 400, body: { "/code": "invalid_hosted_ports" } }],
+  ) {}
+
+/** `setupScript` is not a string or exceeds 64KB. */
+export class InvalidSetupScript
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InvalidSetupScript>()("InvalidSetupScript", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 400, body: { "/code": "invalid_setup_script" } }],
+  ) {}
+
+/** The requested machine `type` (`xlarge`) needs the $100/month plan or higher, or an account access grant. */
+export class MachineClassPlanRequired
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<MachineClassPlanRequired>()("MachineClassPlanRequired", {
+      message: S.String,
+    }).pipe(C.withAuthError),
+    [{ status: 403, body: { "/code": "machine_class_plan_required" } }],
+  ) {}
+
+/** Another running sandbox would exceed the cap an organization owner set for this member. Stop a sandbox first. */
+export class MemberSandboxLimitReached
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<MemberSandboxLimitReached>()("MemberSandboxLimitReached", {
+      message: S.String,
+    }),
+    [{ status: 429, body: { "/code": "member_limit_reached" } }],
+  ) {}
+
+/** `monitoring: true` was passed while the account has monitoring off by default. */
+export class MonitoringOffForAccount
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<MonitoringOffForAccount>()("MonitoringOffForAccount", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "monitoring_off_for_account" } }],
+  ) {}
+
+/** `failFast` was set and no machine of this type is ready right now. Nothing was started, billed or counted against start limits. */
+export class NoReadyMachine
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NoReadyMachine>()("NoReadyMachine", {
+      message: S.String,
+    }),
+    [{ status: 503, body: { "/code": "no_ready_machine" } }],
+  ) {}
+
+/** The conversation has no turn in flight to steer. Queue the message with `promptSandbox` instead. */
+export class NoRunningTurn
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NoRunningTurn>()("NoRunningTurn", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "no_running_turn" } }],
   ) {}
 
 export class NotFound
@@ -63,6 +275,132 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+/** A personal sandbox is always private; `visibility: shared` needs an organization sandbox. */
+export class NotOrgSandbox
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NotOrgSandbox>()("NotOrgSandbox", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 400, body: { "/code": "not_org_sandbox" } }],
+  ) {}
+
+/** The power-cycle failed. */
+export class RecoverResetFailed
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<RecoverResetFailed>()("RecoverResetFailed", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "reset_failed" } }],
+  ) {}
+
+/** A recover started less than 10 minutes ago. */
+export class RecoverTooSoon
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<RecoverTooSoon>()("RecoverTooSoon", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "too_soon" } }],
+  ) {}
+
+/** The sandbox's machine cannot be power-cycled. Wait for it to answer, or stop it with `force: true` and resume it. */
+export class RecoverUnsupported
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<RecoverUnsupported>()("RecoverUnsupported", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "recover_unsupported" } }],
+  ) {}
+
+/** The sandbox is already stopped (archived). */
+export class SandboxAlreadyStopped
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxAlreadyStopped>()("SandboxAlreadyStopped", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 400, body: { "/code": "stop_failed" }, message: { includes: "archived" } }],
+  ) {}
+
+/** The sandbox has no machine. Resume it instead. */
+export class SandboxHasNoMachine
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxHasNoMachine>()("SandboxHasNoMachine", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "no_machine" } }],
+  ) {}
+
+/** The sandbox answers normally, so there is nothing to recover. */
+export class SandboxIsReachable
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxIsReachable>()("SandboxIsReachable", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_is_reachable" } }],
+  ) {}
+
+/** Another running sandbox would exceed the plan's concurrent-sandbox cap. Stop a sandbox first. */
+export class SandboxLimitReached
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxLimitReached>()("SandboxLimitReached", {
+      message: S.String,
+    }),
+    [{ status: 429, body: { "/code": "limit_reached" } }],
+  ) {}
+
+/** The sandbox is stopped (`machine_not_running`). Resume it (resumeSandbox) and retry. */
+export class SandboxNotRunning
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxNotRunning>()("SandboxNotRunning", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "machine_not_running" } }],
+  ) {}
+
+/** The account used every sandbox start its plan includes in the last hour (resumes and forks count). The message says when starts are available again; extra starts can be enabled in Boat's billing settings. The per-minute limit is the generic TooManyRequests, which is retried. */
+export class SandboxStartLimitExceeded
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxStartLimitExceeded>()("SandboxStartLimitExceeded", {
+      message: S.String,
+    }),
+    [
+      {
+        status: 429,
+        body: { "/code": "rate_limited" },
+        message: { includes: "sandbox starts included in the last hour" },
+      },
+    ],
+  ) {}
+
+/** A save under this snapshot name is still running (`save_in_progress`). Wait for getSavedSnapshot to settle at `ready` or `failed`, then retry. */
+export class SaveInProgress
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SaveInProgress>()("SaveInProgress", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [
+      { status: 409, body: { "/code": "save_in_progress" } },
+      { status: 409, message: { includes: "is still saving" } },
+    ],
+  ) {}
+
+/** The snapshot's older layers were cleaned up, so it cannot be downloaded as layers. Read its files instead. */
+export class SnapshotCompacted
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SnapshotCompacted>()("SnapshotCompacted", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "snapshot_compacted" } }],
+  ) {}
+
+/** `snapshots: true` was passed while the account has snapshots off by default. */
+export class SnapshotsOffForAccount
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SnapshotsOffForAccount>()("SnapshotsOffForAccount", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "snapshots_off_for_account" } }],
+  ) {}
+
 /** One AI credential in a credential profile. The `*-api-key` ids are API keys you can set with `PUT /credential-profiles/{profile}/keys/{credential}`. The sign-ins (`*-subscription`) and Bedrock (`*-bedrock`) are connected on the dashboard Agents & Proxying page, with the profile picked at the top; you can remove them here. */
 export type AddCredentialAccountRequestCredential =
   | "anthropic-api-key"
@@ -72,10 +410,13 @@ export type AddCredentialAccountRequestCredential =
   | "deepseek-api-key"
   | "moonshot-api-key"
   | "mistral-api-key"
+  | "xai-api-key"
+  | "opencode-api-key"
   | "claude-subscription"
   | "chatgpt-subscription"
   | "kimi-subscription"
   | "mistral-vibe-subscription"
+  | "grok-subscription"
   | "claude-bedrock"
   | "codex-bedrock";
 export interface AddCredentialAccountRequest {
@@ -85,7 +426,7 @@ export interface AddCredentialAccountRequest {
   /** The API key. Boat encrypts it at rest. */
   value: string;
   /** Keep the key this one replaces as another account of the credential, ready to switch back to. */
-  keepCurrent?: boolean;
+  keepCurrent?: boolean | undefined;
 }
 /** One AI credential in a credential profile. The `*-api-key` ids are API keys you can set with `PUT /credential-profiles/{profile}/keys/{credential}`. The sign-ins (`*-subscription`) and Bedrock (`*-bedrock`) are connected on the dashboard Agents & Proxying page, with the profile picked at the top; you can remove them here. */
 export type CredentialId =
@@ -96,10 +437,13 @@ export type CredentialId =
   | "deepseek-api-key"
   | "moonshot-api-key"
   | "mistral-api-key"
+  | "xai-api-key"
+  | "opencode-api-key"
   | "claude-subscription"
   | "chatgpt-subscription"
   | "kimi-subscription"
   | "mistral-vibe-subscription"
+  | "grok-subscription"
   | "claude-bedrock"
   | "codex-bedrock";
 /** One account of a credential. Never a secret. */
@@ -111,7 +455,7 @@ export interface CredentialAccount {
   /** True for the account every sandbox on the profile uses. */
   active: boolean;
   /** When the account was set aside (accounts not in use). */
-  addedAt?: string;
+  addedAt?: string | undefined;
 }
 /** In the order the accounts were added, so their numbers stay the same across switches. The one in use is marked `active`. */
 export type AddCredentialAccountResponseAccountsList = Array<CredentialAccount>;
@@ -128,17 +472,17 @@ export interface AddCredentialAccountResponse {
 export interface AddEnvironmentRepoRequest {
   environmentId: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** The repository `databaseId` from `GET /repos`. */
   repositoryId: string;
-  baseBranch?: string;
+  baseBranch?: string | undefined;
 }
 /** Result of a granular environment change. Every change mints a new immutable version holding just that delta; existing sandboxes stay pinned until upgraded. */
 export interface EnvironmentItemChangeResponse {
   success: boolean;
   /** Id of the newly minted environment version. This is a version id, not the environment's own id: the environment id you passed in the path is unchanged. */
-  versionId?: string;
-  versionNumber?: number;
+  versionId?: string | undefined;
+  versionNumber?: number | undefined;
 }
 export interface AttachCommandRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
@@ -146,21 +490,48 @@ export interface AttachCommandRequest {
   /** Process id returned by a detached command start. */
   processId: number;
   /** Start stdout at this byte offset. 0 sends the whole log. */
-  stdoutOffset?: number;
+  stdoutOffset?: number | undefined;
   /** Start stderr at this byte offset. 0 sends the whole log. */
-  stderrOffset?: number;
+  stderrOffset?: number | undefined;
 }
-export interface AttachCommandResponse {}
+export type CommandAttachFrameType =
+  | "attached"
+  | "stdout"
+  | "stderr"
+  | "heartbeat"
+  | "exit"
+  | "reconnect"
+  | "error";
+export type CommandAttachFrameStatus = "running" | "exited" | "lost";
+/** One line of `GET /sandboxes/{sandboxId}/commands/{processId}/stream` (application/x-ndjson). - `attached`: first line. `processId`, `stdoutOffset`, `stderrOffset` (where the output starts). - `stdout` / `stderr`: a chunk. `data`, and `nextOffset` for that stream. - `heartbeat`: sent after 15 s with no other line. - `exit`: last line when the command ended and all its output was sent. `status`, `exitCode`, `signal`, `stdoutOffset`, `stderrOffset`. - `reconnect`: last line after 10 minutes. Open the stream again with its `stdoutOffset` and `stderrOffset`. Nothing is lost or repeated. - `error`: last line on a failure. `error`, `message`, `stdoutOffset`, `stderrOffset`. */
+export interface CommandAttachFrame {
+  type: CommandAttachFrameType;
+  processId?: number | undefined;
+  data?: string | undefined;
+  nextOffset?: number | undefined;
+  stdoutOffset?: number | undefined;
+  stderrOffset?: number | undefined;
+  status?: CommandAttachFrameStatus | undefined;
+  exitCode?: number | null | undefined;
+  signal?: string | null | undefined;
+  error?: string | undefined;
+  message?: string | undefined;
+}
+export type CommandAttachFrameList = Array<CommandAttachFrame>;
+export interface AttachCommandResponse {
+  /** Every line of the output stream, in order. It ends after an `exit`, `reconnect` or `error` frame. */
+  items: CommandAttachFrameList;
+}
 export interface CommandHistoryRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Only these modes, comma-separated: sync, stream, detached, process, or `commands` for the first three. Default: all. */
-  mode?: string;
+  mode?: string | undefined;
   /** Only commands whose command line contains this text, in any case. */
-  q?: string;
-  limit?: number;
+  q?: string | undefined;
+  limit?: number | undefined;
   /** The `nextCursor` of the previous page. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** sync: the request waited for the result. stream: the output was streamed. detached: started in the background. process: any other process of the sandbox, recorded from what it wrote to its stdout/stderr. */
 export type CommandRecordMode = "sync" | "stream" | "detached" | "process";
@@ -173,15 +544,15 @@ export interface CommandRecord {
   sandboxId: string;
   /** The command text as sent (first 64 KiB). */
   command: string;
-  cwd?: string | null;
+  cwd?: string | null | undefined;
   /** sync: the request waited for the result. stream: the output was streamed. detached: started in the background. process: any other process of the sandbox, recorded from what it wrote to its stdout/stderr. */
   mode: CommandRecordMode;
   /** detached: the process id on the sandbox. */
-  processId?: number | null;
+  processId?: number | null | undefined;
   /** failed: the command could not start or its result never arrived. killed: ended by a signal or by DELETE /commands/{processId}. lost: the sandbox stopped or its agent restarted while the command ran. */
   status: CommandRecordStatus;
-  exitCode?: number | null;
-  signal?: string | null;
+  exitCode?: number | null | undefined;
+  signal?: string | null | undefined;
   /** Bytes of stdout written so far. */
   stdoutBytes: number;
   /** Bytes of stderr written so far. */
@@ -189,7 +560,7 @@ export interface CommandRecord {
   /** True when part of the output is not kept: the sandbox cut the output of a waiting command at 8 MiB, or the account wrote more than 10 MiB (compressed) of command output, or of process output, in one hour. */
   outputTruncated: boolean;
   startedAt: string;
-  finishedAt?: string | null;
+  finishedAt?: string | null | undefined;
 }
 /** Newest first. */
 export type CommandHistoryResponseCommandsList = Array<CommandRecord>;
@@ -208,11 +579,11 @@ export interface CommandLogsRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   commandId: string;
-  stream?: CommandLogsRequestStream | (string & {});
-  offset?: number;
-  limit?: number;
+  stream?: CommandLogsRequestStream | (string & {}) | undefined;
+  offset?: number | undefined;
+  limit?: number | undefined;
   /** base64 returns the exact bytes. utf8 can split a character at the edge of a read. */
-  encoding?: CommandLogsRequestEncoding | (string & {});
+  encoding?: CommandLogsRequestEncoding | (string & {}) | undefined;
 }
 export type CommandLogsResponseStream = "stdout" | "stderr";
 export type CommandLogsResponseEncoding = "utf8" | "base64";
@@ -243,21 +614,34 @@ export interface ConfigureSshKeyResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  success?: boolean;
-  machineIp?: string | null;
-  sshUser?: string;
+  success?: boolean | undefined;
+  machineIp?: string | null | undefined;
+  sshUser?: string | undefined;
   /** Public IPv4 `host:port` that forwards to the sandbox SSH server, set only when the machine has no public IPv4 of its own. Connect with `ssh -p <port> user@<host>`. */
-  sshEndpoint?: string | null;
+  sshEndpoint?: string | null | undefined;
   /** The sandbox SSH server's public host key. Pin it in `known_hosts`. */
-  hostKey?: string;
+  hostKey?: string | undefined;
+}
+export interface ConnectCiGithubRequest {
+  /** The organization whose wallet pays for the jobs. Omit for the wallet in scope. */
+  org?: string | undefined;
+  /** GitHub organization or user login. Set this to authorize and link an existing installation. Omit it to install the app. */
+  account?: string | undefined;
+}
+export interface ConnectCiGithubResponse {
+  ok: boolean;
+  /** Stable success envelope discriminator added by v1. */
+  type: string;
+  /** Open it in a browser to install the app or authorize an existing installation. Valid 30 minutes. */
+  installUrl: string;
 }
 export interface CreateCredentialProfileRequest {
   /** Unique among the owner's profiles. */
   name: string;
   /** Organization id or name. The profile then belongs to that organization. Omit for a personal profile. */
-  org?: string;
+  org?: string | undefined;
   /** Id or name of a profile you manage. The new profile starts with a copy of its credentials. */
-  copyFrom?: string;
+  copyFrom?: string | undefined;
 }
 export type CredentialProfileOwnerKind = "personal" | "org";
 export interface CredentialProfileOwner {
@@ -277,6 +661,14 @@ export type CredentialProfileAccountsMap = {
 };
 /** The names of the profile's custom APIs. Values are never returned. */
 export type CredentialProfileCustomApisList = Array<string>;
+/** Member ids. Empty when `restricted` is false. */
+export type ResourceAccessMembersList = Array<string>;
+/** Which organization members can use this organization environment or profile. `restricted` false means every member. `restricted` true means owners, admins and `members` only. Others do not see it in lists. Personal environments and profiles always return `restricted` false. */
+export interface ResourceAccess {
+  restricted: boolean;
+  /** Member ids. Empty when `restricted` is false. */
+  members: ResourceAccessMembersList;
+}
 /** A named set of AI credentials. Secret values are never returned. */
 export interface CredentialProfile {
   id: string;
@@ -289,11 +681,12 @@ export interface CredentialProfile {
   /** The credentials the profile holds. */
   connected: CredentialProfileConnectedList;
   /** Credentials with several accounts, keyed by credential id. Each lists every account (labels only), the one in use marked `active`. Empty when you cannot manage the profile. */
-  accounts?: CredentialProfileAccountsMap;
+  accounts?: CredentialProfileAccountsMap | undefined;
   /** The names of the profile's custom APIs. Values are never returned. */
   customApis: CredentialProfileCustomApisList;
   createdAt: string;
   updatedAt: string;
+  access?: ResourceAccess | undefined;
 }
 export interface CreateCredentialProfileResponse {
   ok: boolean;
@@ -308,7 +701,7 @@ export interface CreateDownloadUrlRequest {
   /** Absolute path, or path relative to the sandbox work directory (/home/user). It must resolve under /home/user or /tmp. */
   path: string;
   /** How long the URL stays valid. */
-  ttlSeconds?: number;
+  ttlSeconds?: number | undefined;
 }
 /** GET downloads the file. PUT uploads the request body as the file. */
 export type CreateDownloadUrlResponseMethod = "GET" | "PUT";
@@ -326,7 +719,7 @@ export interface CreateDownloadUrlResponse {
 }
 export interface CreateEnvironmentRequest {
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** Unique environment name. Letters, numbers, dot, dash, underscore; max 64 chars. */
   name: string;
 }
@@ -338,22 +731,22 @@ export interface SecretFile {
 export type SandboxEnvironmentSecretFilesList = Array<SecretFile>;
 export interface SelectedRepository {
   /** GitHub repository id. */
-  id?: number;
+  id?: number | undefined;
   /** Internal repository id used when selecting repositories. */
-  databaseId?: string;
-  name?: string;
-  fullName?: string;
-  description?: string | null;
-  url?: string;
-  private?: boolean;
-  permissions?: string;
-  pushedAt?: string | null;
+  databaseId?: string | undefined;
+  name?: string | undefined;
+  fullName?: string | undefined;
+  description?: string | null | undefined;
+  url?: string | undefined;
+  private?: boolean | undefined;
+  permissions?: string | undefined;
+  pushedAt?: string | null | undefined;
   /** Reserved; always null. */
-  lastUserCommitAt?: string | null;
-  baseBranch?: string;
-  setupRoutineId?: string | null;
-  setupScript?: string;
-  setupBlocking?: boolean;
+  lastUserCommitAt?: string | null | undefined;
+  baseBranch?: string | undefined;
+  setupRoutineId?: string | null | undefined;
+  setupScript?: string | undefined;
+  setupBlocking?: boolean | undefined;
   [key: string]: unknown;
 }
 /** Repositories attached to the latest version, with base branch and setup script. */
@@ -376,9 +769,9 @@ export interface SandboxEnvironment {
   isDefault: boolean;
   latestVersionId: string | null;
   /** Number of the latest version, 0 when there is none. */
-  latestVersionNumber?: number;
+  latestVersionNumber?: number | undefined;
   /** When the owner last answered whether this environment is safe for third parties, or null if never asked. */
-  safetyAnsweredAt?: string | null;
+  safetyAnsweredAt?: string | null | undefined;
   /** When true the environment passes nothing to a sandbox (repos, secrets, and all credentials withheld), overriding the fine-grained flags below. Use for sandboxes handed to third parties. The one exception is `proxyAiCredentials`. */
   safeForThirdParties: boolean;
   /** Attach the environment's GitHub repositories and the GitHub token (so `gh` and pushes work). Ignored when `safeForThirdParties` is true. */
@@ -390,57 +783,116 @@ export interface SandboxEnvironment {
   /** Attach agent-provider credentials configured on the Agents page. Ignored when `safeForThirdParties` is true. */
   passAgentsCredentials: boolean;
   /** The AI credential profile the environment's sandboxes get. Null means the sandbox owner's default profile. */
-  credentialProfileId?: string | null;
+  credentialProfileId?: string | null | undefined;
   /** Only with `safeForThirdParties` true. The sandboxes still get AI credentials, as AI credentials proxy placeholders. Real keys never enter them. */
-  proxyAiCredentials?: boolean;
+  proxyAiCredentials?: boolean | undefined;
+  access?: ResourceAccess | undefined;
   /** The latest version's .env-style content. Treat as sensitive. */
   envContents: string;
   secretFiles: SandboxEnvironmentSecretFilesList;
   /** Repositories attached to the latest version, with base branch and setup script. */
-  selectedRepositories?: SandboxEnvironmentSelectedRepositoriesList;
+  selectedRepositories?: SandboxEnvironmentSelectedRepositoriesList | undefined;
   versions: SandboxEnvironmentVersionsList;
 }
 export type SandboxEnvironmentListResponseEnvironmentsList = Array<SandboxEnvironment>;
 export interface SandboxEnvironmentListResponse {
-  ok?: boolean;
-  type?: string;
+  ok?: boolean | undefined;
+  type?: string | undefined;
   environments: SandboxEnvironmentListResponseEnvironmentsList;
+}
+export interface CreateFolderRequest {
+  /** Public Sandbox id returned by create/list/get sandbox calls. */
+  sandboxId: string;
+  /** Missing parent directories are created. */
+  path: string;
+  /** Octal permission bits, for example "755". */
+  mode?: string | undefined;
+}
+export interface CreateFolderResponse {
+  ok: boolean;
+  /** Stable success envelope discriminator added by v1. */
+  type: string;
+  name: string;
+  /** Absolute path on the sandbox. */
+  path: string;
+  isDir: boolean;
+  isSymlink: boolean;
+  size: number;
+  /** Octal permission bits, for example "0644". */
+  mode: string;
+  modifiedAt: string;
+  success?: boolean | undefined;
 }
 /** Machine size. `small` consumes machine time at half rate and `large` at twice the default rate (see the Billing guide). `xlarge` needs the $100/month plan or higher, or an account access grant from an administrator. Otherwise, create, resume and fork return 403 `machine_class_plan_required`. A fork inherits the source sandbox's type unless the fork request passes its own, and resume and fork can move a sandbox between sizes. */
 export type CreateSandboxRequestType = "small" | "default" | "large" | "xlarge";
+/** Key-value labels, for example your session id. Filter on them with `GET /sandboxes?label=key=value`. At most 20 labels. Keys match `[A-Za-z0-9][A-Za-z0-9._/-]{0,62}`; values are strings of at most 256 bytes. */
+export type CreateSandboxRequestLabelsMap = { [key: string]: string | undefined };
 /** Per-sandbox environment variables injected into the sandbox's tool environment, on top of the account environment's variables (per-sandbox values win on conflicts). Keys must match `[A-Za-z_][A-Za-z0-9_]{0,127}`; at most 100 variables and 64KB total. Reserved names (`ASCII_TOKEN`, `ASCII_API_URL`, `AGENT_ID`, `PRODUCT_MODE`, `ENVIRONMENT_ID`, `BOAT_ID`, `SERVICE_PREVIEW_TOKEN`, `BOAT_CLI_TOKEN`) are rejected with `invalid_env`. Forked sandboxes inherit the source sandbox's env unless the fork request supplies its own `env`. */
 export type CreateSandboxRequestEnvMap = { [key: string]: string | undefined };
+/** Who can use a sandbox billed to an organization, with the same rules as the sandbox's `visibility` field. `private`: only you can use it. `shared`: every member can, as long as it holds none of your personal logins (`noEnv`, or an environment that passes nothing). Omitted, the organization's default for new sandboxes applies (`PATCH /orgs/{org}` `newSandboxesPrivate`). It is set before the sandbox gets a machine, so a `private` sandbox is never shared, not even for a moment, and needs no `unshare` call. A personal sandbox is always private: `shared` is refused with 400 `not_org_sandbox`. Change it later with `POST /sandboxes/{id}/share` and `POST /sandboxes/{id}/unshare`. */
+export type CreateSandboxRequestVisibility = "private" | "shared";
+export interface HostPortRequest {
+  /** Port the service listens on inside the sandbox. */
+  port: number;
+  /** Return an ungated URL instead of one that requires the `_token` query parameter. */
+  public?: boolean | undefined;
+  /** Set when the service listens on localhost (`127.0.0.1` or `::1`) only. The sandbox relays the URL to it. Leave unset for a service bound to `0.0.0.0`. Each call sets the value again. */
+  localhost?: boolean | undefined;
+  /** Display title for the hosted port. */
+  title?: string | undefined;
+}
+/** Ports to host on public HTTPS URLs, each exactly as `POST /sandboxes/{id}/host` does. The create waits for the sandbox's machine (up to 60 s, usually under a second), hosts every port at once and answers the URLs in `hostedPorts`. The ports are routed before the sandbox is ready, so a service that starts later is reachable as soon as it listens. Refused with 400 `invalid_hosted_ports` for a bad entry or a duplicate port, with 400 `count_with_hosted_ports` together with `count`, and with 400 `fail_fast_with_hosted_ports` together with `failFast`. */
+export type CreateSandboxRequestHostedPortsList = Array<HostPortRequest>;
+export type CreateSandboxRequestFilesItemEncoding = "utf8" | "base64";
+export interface CreateSandboxRequestFilesItem {
+  path: string;
+  /** File contents, as text or base64 (see `encoding`). */
+  content: string;
+  encoding?: CreateSandboxRequestFilesItemEncoding | (string & {}) | undefined;
+}
+/** Files to write on the sandbox, each like `PUT /sandboxes/{id}/files` (a path under `/home/user` or `/tmp`, relative paths resolve against `/home/user`; missing folders are created). Boat writes them once the sandbox's disk is in place and before it reports `ready`, so a client that sees `ready`, and the `setupScript`, always find them. They are written once, at the first start: a resume does not write them again. At most 256KB in total; upload bigger files with `POST /sandboxes/{id}/files/upload-url`. `setupStatus` covers them: it stays `pending` until they are written, and a write that fails sets it `failed` with the path and the reason in `setupError` (the setup script then does not run). Refused with 400 `invalid_files` for a bad path, a duplicate path or a body over the limits. */
+export type CreateSandboxRequestFilesList = Array<CreateSandboxRequestFilesItem>;
 export interface CreateSandboxRequest {
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** Optional exactly-once key for creating a sandbox. Send your own opaque, account-unique value (a UUID) to make `POST /sandboxes` safe to retry when the response is lost (network timeout, 5xx): the first request creates the sandbox and binds it to the key; every later request with the **same account, key, and request body** returns that same sandbox instead of creating a second, billable one. Behavior: keys are retained for **24 hours**; a concurrent or early retry while the first sandbox is still being minted returns `409` `idempotency_in_progress` (retry shortly, same key); reusing a key with a **different body** returns `409` `idempotency_key_reused`; timeouts and 5xx are safe to retry with the same key; a create that fails before the sandbox exists releases the key within ~2 minutes so a retry can create the sandbox. Omit the header to keep the default (non-idempotent) behavior. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Same as the `org` query parameter. Query wins when both are set. */
-  xBoatOrg?: string;
+  xBoatOrg?: string | undefined;
   /** Machine size. `small` consumes machine time at half rate and `large` at twice the default rate (see the Billing guide). `xlarge` needs the $100/month plan or higher, or an account access grant from an administrator. Otherwise, create, resume and fork return 403 `machine_class_plan_required`. A fork inherits the source sandbox's type unless the fork request passes its own, and resume and fork can move a sandbox between sizes. */
-  type?: CreateSandboxRequestType | (string & {});
+  type?: CreateSandboxRequestType | (string & {}) | undefined;
   /** Number of seconds before automatic archival. `null` disables auto-stop. The backend also accepts the string `infinite` for legacy compatibility; new clients should send null. */
-  ttlSeconds?: number | null;
+  ttlSeconds?: number | null | undefined;
+  /** Key-value labels, for example your session id. Filter on them with `GET /sandboxes?label=key=value`. At most 20 labels. Keys match `[A-Za-z0-9][A-Za-z0-9._/-]{0,62}`; values are strings of at most 256 bytes. */
+  labels?: CreateSandboxRequestLabelsMap | undefined;
   /** Per-sandbox environment variables injected into the sandbox's tool environment, on top of the account environment's variables (per-sandbox values win on conflicts). Keys must match `[A-Za-z_][A-Za-z0-9_]{0,127}`; at most 100 variables and 64KB total. Reserved names (`ASCII_TOKEN`, `ASCII_API_URL`, `AGENT_ID`, `PRODUCT_MODE`, `ENVIRONMENT_ID`, `BOAT_ID`, `SERVICE_PREVIEW_TOKEN`, `BOAT_CLI_TOKEN`) are rejected with `invalid_env`. Forked sandboxes inherit the source sandbox's env unless the fork request supplies its own `env`. */
-  env?: CreateSandboxRequestEnvMap;
+  env?: CreateSandboxRequestEnvMap | undefined;
   /** Name of the sandbox environment to attach to this sandbox. Environments are managed in the Boat dashboard and bundle the repositories, secrets, and credential toggles a sandbox gets. Omit to use your default environment (`base` unless you changed it). Unknown names are rejected with `unknown_environment`. An environment marked "safe for third parties" passes nothing to the sandbox, exactly like `noEnv`. */
-  environment?: string;
+  environment?: string | undefined;
   /** Create a sandbox with none of the secrets attached to your account (no environment variables, secret files, or credentials), confined to itself so it cannot act on your account or other sandboxes. For sandboxes you give to your own users. SSH, SCP, desktop, snapshots, and public URLs still work; pass `env` to give the sandbox a secret of its own. A fork of a no-env sandbox is always no-env. Equivalent to attaching an environment marked "safe for third parties". */
-  noEnv?: boolean;
-  /** Pass `false` to never snapshot this sandbox. Nothing is captured in the background, so it pays no CPU or memory for it, and stopping it erases its disk the way zero data retention does. It cannot be resumed, forked, or saved as a named snapshot, and if its machine fails there is no backup to rebuild it from. */
-  snapshots?: boolean;
+  noEnv?: boolean | undefined;
+  /** Pass `false` to never snapshot this sandbox. Nothing is captured in the background, so it pays no CPU or memory for it, and stopping it erases its disk the way zero data retention does. It cannot be resumed, forked, or saved as a saved snapshot, and if its machine fails there is no backup to rebuild it from. */
+  snapshots?: boolean | undefined;
   /** Pass `false` for monitoring off. Boat keeps no command or process output, process list or CPU/RAM samples for this sandbox, and its history, processes and metrics calls answer 409 `monitoring_off`. Live output of a running command still works. While the account default is on, `true` is refused with 409 `monitoring_off_for_account`. */
-  monitoring?: boolean;
+  monitoring?: boolean | undefined;
   /** Pass `true` to get a sandbox only if a machine of this type is ready right now. The call answers within about 1.5 s: either the usual `202` with the sandbox, or `503` `no_ready_machine` with nothing created, billed, or counted against your start limits, so you can retry or fall back at once. Without it, a create waits for a machine to be built when none is ready. Works with `from`; fork and resume take it too. */
-  failFast?: boolean;
-  /** With `from`: create this many sandboxes from the named snapshot in one request. Boat creates them together, which is faster than separate creates when you need many sandboxes at once. Start limits and the active-sandbox limit count every sandbox of the batch; if the batch does not fit, nothing is created. The answer lists all of them in `sandboxes` (and the first one in `sandbox`). Refused with 400 `count_requires_from` without `from`, and with 400 `count_with_fail_fast` together with `failFast`. */
-  count?: number;
-  /** Shell script that runs on the sandbox after it is ready. Ready means "ready to accept the user", not "setup done": the script starts in the background once provisioning completes and never blocks the sandbox becoming usable. It runs as the sandbox user (`user`, not root; `sudo` needs no password) via `bash`, with the sandbox's environment applied, and its output goes to a log file on the sandbox. Observe the outcome as `setupStatus` (pending/running/done/failed) and `setupError` on the sandbox. Rejected with a 400 `invalid_setup_script` error when it is not a string or exceeds 64KB. */
-  setupScript?: string;
+  failFast?: boolean | undefined;
+  /** With `from`: create this many sandboxes from the saved snapshot in one request. Boat creates them together, which is faster than separate creates when you need many sandboxes at once. Start limits and the active-sandbox limit count every sandbox of the batch; if the batch does not fit, nothing is created. The answer lists all of them in `sandboxes` (and the first one in `sandbox`). Refused with 400 `count_requires_from` without `from`, and with 400 `count_with_fail_fast` together with `failFast`. */
+  count?: number | undefined;
+  /** Shell script that runs on the sandbox after it is ready. Ready means "ready to accept the user", not "setup done": the script starts in the background once provisioning completes and never blocks the sandbox becoming usable. It runs as the sandbox user (`user`, not root; `sudo` needs no password) via `bash`, with the sandbox's environment applied, and its output goes to a log file on the sandbox. Observe the outcome as `setupStatus` (pending/running/done/failed) and `setupError` on the sandbox. Rejected with a 400 `invalid_setup_script` error when it is not a string or exceeds 64KB. When the request also has `files`, the script starts after every file is written. */
+  setupScript?: string | undefined;
+  /** Display name of the sandbox, the same value `PATCH /sandboxes/{id}` sets. A sandbox created `from` a saved snapshot is named after the snapshot when this is omitted. */
+  name?: string | undefined;
+  /** Who can use a sandbox billed to an organization, with the same rules as the sandbox's `visibility` field. `private`: only you can use it. `shared`: every member can, as long as it holds none of your personal logins (`noEnv`, or an environment that passes nothing). Omitted, the organization's default for new sandboxes applies (`PATCH /orgs/{org}` `newSandboxesPrivate`). It is set before the sandbox gets a machine, so a `private` sandbox is never shared, not even for a moment, and needs no `unshare` call. A personal sandbox is always private: `shared` is refused with 400 `not_org_sandbox`. Change it later with `POST /sandboxes/{id}/share` and `POST /sandboxes/{id}/unshare`. */
+  visibility?: CreateSandboxRequestVisibility | (string & {}) | undefined;
+  /** Ports to host on public HTTPS URLs, each exactly as `POST /sandboxes/{id}/host` does. The create waits for the sandbox's machine (up to 60 s, usually under a second), hosts every port at once and answers the URLs in `hostedPorts`. The ports are routed before the sandbox is ready, so a service that starts later is reachable as soon as it listens. Refused with 400 `invalid_hosted_ports` for a bad entry or a duplicate port, with 400 `count_with_hosted_ports` together with `count`, and with 400 `fail_fast_with_hosted_ports` together with `failFast`. */
+  hostedPorts?: CreateSandboxRequestHostedPortsList | undefined;
+  /** Files to write on the sandbox, each like `PUT /sandboxes/{id}/files` (a path under `/home/user` or `/tmp`, relative paths resolve against `/home/user`; missing folders are created). Boat writes them once the sandbox's disk is in place and before it reports `ready`, so a client that sees `ready`, and the `setupScript`, always find them. They are written once, at the first start: a resume does not write them again. At most 256KB in total; upload bigger files with `POST /sandboxes/{id}/files/upload-url`. `setupStatus` covers them: it stays `pending` until they are written, and a write that fails sets it `failed` with the path and the reason in `setupError` (the setup script then does not run). Refused with 400 `invalid_files` for a bad path, a duplicate path or a body over the limits. */
+  files?: CreateSandboxRequestFilesList | undefined;
   /** Legacy alias for `org`. Ignored when `org` is also set. */
-  teamId?: string;
-  /** Create the sandbox from a named snapshot (saved with `POST /named-snapshots`, or `boat snapshot <id> <name>` in the CLI). The sandbox starts from that exact frozen state. Omitting `type` inherits the type the snapshot was saved from; env and no-env inherit from the snapshot's source sandbox unless the request passes its own, with the same rules as forking. Also accepts a share code (`bsh_...`) that another account made with `POST /named-snapshots/{name}/shares`. The new sandbox lives in and is billed to your account. It does not get the owner's per-sandbox env; your own environment applies normally. A wrong or revoked code returns `404 snapshot_not_found`. */
-  from?: string;
+  teamId?: string | undefined;
+  /** Create the sandbox from a saved snapshot (saved with `POST /saved-snapshots`, or `boat snapshot <id> <name>` in the CLI). The sandbox starts from that exact frozen state. Omitting `type` inherits the type the snapshot was saved from; env and no-env inherit from the snapshot's source sandbox unless the request passes its own, with the same rules as forking. Also accepts a share code (`bsh_...`) that another account made with `POST /saved-snapshots/{name}/shares`. The new sandbox lives in and is billed to your account. It does not get the owner's per-sandbox env; your own environment applies normally. A wrong or revoked code returns `404 snapshot_not_found`. */
+  from?: string | undefined;
 }
 /** `ready` only when an idempotent retry finds a sandbox that is already past provisioning. */
 export type CreateSandboxResponseStatus = "provisioning" | "ready";
@@ -457,6 +909,8 @@ export type SandboxState =
   | "archived"
   | "error"
   | "cancelled";
+/** The labels set at create or fork. Empty when none were set. */
+export type SandboxLabelsMap = { [key: string]: string | undefined };
 /** `degraded` when the machine is alive but Boat cannot fully reach it (for example a firewall rule inside the sandbox blocks the tunnel). The sandbox keeps running. */
 export type SandboxHealth = "ok" | "degraded";
 export interface SandboxHydration {
@@ -471,8 +925,8 @@ export interface SandboxHydration {
 }
 /** Current machine size: what the sandbox was created with, or the size it was last resumed or forked onto. */
 export type SandboxType = "small" | "default" | "large" | "xlarge";
-/** Machine provider of the machine the sandbox is on, or null when it has no machine. */
-export type SandboxMachineProvider = "hetzner" | "baremetal";
+/** Always `baremetal`. Every sandbox runs on bare metal. */
+export type SandboxMachineProvider = "baremetal";
 /** The organization billed for this sandbox, or null when the owner is billed. */
 export interface SandboxTeam {
   id: string;
@@ -501,8 +955,8 @@ export type SandboxLastSnapshotStatus =
 export type SandboxLastRebootReason = "crash" | "clean" | "unknown";
 /** The last time the sandbox's kernel restarted on its machine, or null if it never did. Every process running at that time ended. `crash` means the system log ended with no shutdown, for example after a kernel panic. */
 export interface SandboxLastReboot {
-  at?: string;
-  reason?: SandboxLastRebootReason;
+  at?: string | undefined;
+  reason?: SandboxLastRebootReason | undefined;
 }
 /** Outcome of the create-time `setupScript`: `pending` (stored, not yet started), `running` (executing on the sandbox in the background), `done` (exit code 0) or `failed` (non-zero exit, or the sandbox lost track of the process). Null when the sandbox was created without a setup script. */
 export type SandboxSetupStatus = "pending" | "running" | "done" | "failed";
@@ -521,6 +975,8 @@ export interface StopOperation {
   error: string | null;
   /** When the stop completed or was superseded. */
   endedAt: string | null;
+  /** True when a force (`--force`) ended this stop. The sandbox kept its last completed snapshot, and changes after it are discarded. */
+  forced?: boolean | undefined;
 }
 export interface Sandbox {
   id: string;
@@ -528,92 +984,110 @@ export interface Sandbox {
   /** `cancelled` is terminal: a create or fork that could not get a machine was removed. `GET /sandboxes/{sandboxId}` reports it once, with only `id`, `state` and `error`, then answers 404. */
   state: SandboxState;
   /** Why the sandbox is stopped, failed or cancelled, or null. */
-  error?: string | null;
-  /** When Boat deleted the snapshot data of this stopped sandbox, 14 days after it stopped. Resume and fork then fail with `409 snapshot_data_expired`. Null while the data is kept. */
-  dataExpiredAt?: string | null;
+  error?: string | null | undefined;
+  /** When boat deleted the snapshot data after this sandbox was stopped for at least 14 days. Resume and fork then fail with `409 snapshot_data_expired`. Null while the data is kept. */
+  dataExpiredAt?: string | null | undefined;
+  /** When the sandbox last stopped, by any cause: your stop, its auto-stop, a plan limit or Boat. Null while the sandbox is not stopped. */
+  stoppedAt?: string | null | undefined;
+  /** The labels set at create or fork. Empty when none were set. */
+  labels?: SandboxLabelsMap | undefined;
   /** `degraded` when the machine is alive but Boat cannot fully reach it (for example a firewall rule inside the sandbox blocks the tunnel). The sandbox keeps running. */
-  health?: SandboxHealth;
+  health?: SandboxHealth | undefined;
   /** Why the sandbox is degraded, or null. */
-  healthReason?: string | null;
+  healthReason?: string | null | undefined;
   /** When the sandbox became degraded, or null. */
-  degradedSince?: string | null;
+  degradedSince?: string | null | undefined;
   /** True once every file of the sandbox's snapshot is on its disk. A resumed or forked sandbox is usable before that: its files keep copying in the background, and its docker volumes move onto the real disk near the end. Its docker containers start earlier; at that point their volume mounts move onto the real disk in place, without a restart. The `sandbox.hydrated` webhook fires at the same moment this turns true. A sandbox that restored nothing is hydrated from the start. */
-  hydrated?: boolean;
+  hydrated?: boolean | undefined;
   /** When the last resume or fork finished copying files in, or null. */
-  hydratedAt?: string | null;
+  hydratedAt?: string | null | undefined;
   /** Restore progress while `hydrated` is false, on GET /sandboxes/{id} only. Null in lists, after hydration, or when the sandbox does not answer within 1.5 s. */
-  hydration?: SandboxHydration | null;
+  hydration?: SandboxHydration | null | undefined;
   /** Current machine size: what the sandbox was created with, or the size it was last resumed or forked onto. */
-  type?: SandboxType;
+  type?: SandboxType | undefined;
   /** vCPUs guaranteed by this sandbox's type. */
-  vcpu?: number;
+  vcpu?: number | undefined;
   /** RAM in GB guaranteed by this sandbox's type. */
-  memoryGB?: number;
+  memoryGB?: number | undefined;
   /** Rate at which this sandbox consumes machine time. 0.5 for `small`, 1 for `default`, 2 for `large`, and 50/9 (about 5.56) for `xlarge`. */
-  billingMultiplier?: number;
-  /** Machine provider of the machine the sandbox is on, or null when it has no machine. */
-  machineProvider?: SandboxMachineProvider | null;
+  billingMultiplier?: number | undefined;
+  /** Always `baremetal`. Every sandbox runs on bare metal. */
+  machineProvider?: SandboxMachineProvider | undefined;
   /** Machine URL when assigned. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** Machine IPv6 or IPv4 address when assigned. */
-  ip?: string | null;
+  ip?: string | null | undefined;
   /** Public IPv4 `host:port` that forwards to the sandbox SSH server. Set only when the machine has no public IPv4 of its own; null otherwise. Connect with `ssh -p <port> user@<host>`. */
-  sshEndpoint?: string | null;
-  createdAt?: string | null;
-  updatedAt?: string | null;
+  sshEndpoint?: string | null | undefined;
+  createdAt?: string | null | undefined;
+  updatedAt?: string | null | undefined;
   /** When the sandbox stops by itself (the stop starts within about 5 seconds), or null when auto-stop is disabled. A sandbox whose agent is working gets a fresh full TTL, and this time moves forward. */
-  archiveAfter?: string | null;
+  archiveAfter?: string | null | undefined;
   /** The auto-stop length as last set on create, resume, fork or PATCH, or null when auto-stop is disabled. */
-  ttlSeconds?: number | null;
+  ttlSeconds?: number | null | undefined;
   desktopAvailable: boolean;
   /** Secret-bearing desktop stream URL when available. Redact from logs. */
-  desktopUrl?: string | null;
+  desktopUrl?: string | null | undefined;
   /** False when the sandbox was created with snapshots off. */
-  snapshots?: boolean;
+  snapshots?: boolean | undefined;
   /** False when the sandbox was created with monitoring off. */
-  monitoring?: boolean;
+  monitoring?: boolean | undefined;
   snapshotAvailable: boolean;
   /** Timestamp of the most recent successfully completed snapshot, or null. */
-  snapshotCompletedAt?: string | null;
+  snapshotCompletedAt?: string | null | undefined;
   /** Last time a snapshot confirmed the sandbox's saved state, including checks that found nothing new to save. Falls back to `snapshotCompletedAt`; null if never. */
-  snapshotVerifiedAt?: string | null;
+  snapshotVerifiedAt?: string | null | undefined;
   /** The organization billed for this sandbox, or null when the owner is billed. */
-  team?: SandboxTeam | null;
+  team?: SandboxTeam | null | undefined;
   /** Display name (or email) of the person who created the sandbox. Organization members see every sandbox the organization pays for, so this says whose it is. */
-  createdBy?: string | null;
+  createdBy?: string | null | undefined;
   /** Account id of the person who created the sandbox. */
-  createdById?: string | null;
+  createdById?: string | null | undefined;
   /** What you may do with this sandbox. `owner`: you created it. `use`: a teammate's organization sandbox that is `shared` (see `visibility`), so you can open, run commands in, prompt, resume and stop it. `view`: a teammate's organization sandbox that is `private`, so you can see it and stop it until they share it (`POST /sandboxes/{sandboxId}/share`). */
-  access?: SandboxAccess;
+  access?: SandboxAccess | undefined;
   /** True while the sandbox still holds its creator's personal logins (GitHub token, model logins, secrets). Other members can only see such a sandbox. */
-  holdsCreatorLogins?: boolean;
+  holdsCreatorLogins?: boolean | undefined;
   /** Organization sandboxes only; null for a personal sandbox. `shared`: every member can use it. It holds none of its creator's personal logins (`noEnv`, shared and restarted, or created on an environment that passes nothing) and its creator did not make it private. `private`: only its creator can use it. It holds their logins, or its creator made it private (`POST /sandboxes/{sandboxId}/unshare`, or the organization's `newSandboxesPrivate` default). */
-  visibility?: SandboxVisibility | null;
+  visibility?: SandboxVisibility | null | undefined;
   /** Only with `include=cost` on `GET /sandboxes`. Machine time this sandbox used this calendar month (UTC), at list price. Same meter as `GET /sandboxes/{sandboxId}/usage`. */
-  cost?: SandboxCost;
+  cost?: SandboxCost | undefined;
   /** True once the sandbox is shared but not restarted yet. Its creator's logins are wiped at its next start, and the organization can use it from then on. */
-  wipePendingUntilRestart?: boolean;
+  wipePendingUntilRestart?: boolean | undefined;
   /** The sandbox's stable three-word subdomain slug (e.g. "frazil-pneuma-rallye"), or null before one is assigned. */
-  subdomain?: string | null;
+  subdomain?: string | null | undefined;
   /** Timestamp of the most recent snapshot attempt of any status (queued, in_progress, completed, failed, cancelled), or null. Use with snapshotCompletedAt to detect snapshots that keep failing. */
-  lastSnapshotAttemptAt?: string | null;
+  lastSnapshotAttemptAt?: string | null | undefined;
   /** Status of the most recent snapshot attempt, or null if none. A value other than completed while snapshotCompletedAt stays stale indicates failing snapshots. */
-  lastSnapshotStatus?: SandboxLastSnapshotStatus | null;
+  lastSnapshotStatus?: SandboxLastSnapshotStatus | null | undefined;
   /** The last time the sandbox's kernel restarted on its machine, or null if it never did. Every process running at that time ended. `crash` means the system log ended with no shutdown, for example after a kernel panic. */
-  lastReboot?: SandboxLastReboot | null;
+  lastReboot?: SandboxLastReboot | null | undefined;
   /** Outcome of the create-time `setupScript`: `pending` (stored, not yet started), `running` (executing on the sandbox in the background), `done` (exit code 0) or `failed` (non-zero exit, or the sandbox lost track of the process). Null when the sandbox was created without a setup script. */
-  setupStatus?: SandboxSetupStatus | null;
+  setupStatus?: SandboxSetupStatus | null | undefined;
   /** Short failure detail (exit code plus a stderr tail) when `setupStatus` is `failed`; while `pending`, may carry the last start/upload error from a retry in progress. Otherwise null. */
-  setupError?: string | null;
+  setupError?: string | null | undefined;
   /** Name of the sandbox environment this sandbox is running, or null if it is attached to none (a `noEnv` sandbox, or one whose environment was deleted). A sandbox freezes onto one environment version when it starts and keeps it for life, so this is what the sandbox actually holds, not what the environment says today. */
-  environment?: string | null;
+  environment?: string | null | undefined;
   /** Version number of `environment` that this sandbox is pinned to. Compare it against the environment's latest version to see whether an upgrade is pending: a sandbox below the latest is still running the older configuration until someone calls `POST /environments/{environmentId}/upgrade`. */
-  environmentVersion?: number | null;
+  environmentVersion?: number | null | undefined;
   /** The last stop you requested (`POST /sandboxes/{sandboxId}/stop`), or null if you never stopped this sandbox. */
-  stop?: StopOperation | null;
+  stop?: StopOperation | null | undefined;
 }
 /** Present when the request set `count` above 1. Every sandbox of the batch, in creation order. */
 export type CreateSandboxResponseSandboxesList = Array<Sandbox>;
+export type CreateSandboxResponseHostedPortsItemAccess = "private" | "public";
+export interface CreateSandboxResponseHostedPortsItem {
+  port: number;
+  /** Public HTTPS URL. Carries the `_token` query parameter unless the port is public; redact from logs. */
+  url?: string | undefined;
+  isProtected?: boolean | undefined;
+  access?: CreateSandboxResponseHostedPortsItemAccess | undefined;
+  localhost?: boolean | undefined;
+  error?: string | undefined;
+  message?: string | undefined;
+  [key: string]: unknown;
+}
+/** Present when the request set `hostedPorts`, in request order. Each entry is what `POST /sandboxes/{id}/host` answers for that port: `url`, `access`, `isProtected` and `localhost`, or `error` and `message` when that one port could not be hosted (the sandbox is created anyway; host the port again with `POST /sandboxes/{id}/host`). */
+export type CreateSandboxResponseHostedPortsList = Array<CreateSandboxResponseHostedPortsItem>;
 export interface CreateSandboxResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
@@ -623,22 +1097,24 @@ export interface CreateSandboxResponse {
   ttlSeconds: number | null;
   sandbox: Sandbox;
   /** Present when the request set `count` above 1. Every sandbox of the batch, in creation order. */
-  sandboxes?: CreateSandboxResponseSandboxesList;
+  sandboxes?: CreateSandboxResponseSandboxesList | undefined;
+  /** Present when the request set `hostedPorts`, in request order. Each entry is what `POST /sandboxes/{id}/host` answers for that port: `url`, `access`, `isProtected` and `localhost`, or `error` and `message` when that one port could not be hosted (the sandbox is created anyway; host the port again with `POST /sandboxes/{id}/host`). */
+  hostedPorts?: CreateSandboxResponseHostedPortsList | undefined;
   /** Present when a fair-use cap on a gifted account shortened the requested auto-stop time. */
-  giftLimitNotice?: string;
+  giftLimitNotice?: string | undefined;
 }
 export type CreateScopedApiKeyRequestPreset = "read-only" | "full-sandbox" | "ci" | "admin";
 export type CreateScopedApiKeyRequestActionsList = Array<string>;
 export type CreateScopedApiKeyRequestSandboxIdsList = Array<string>;
 export type CreateScopedApiKeyRequestEnvironmentIdsList = Array<string>;
 export interface CreateScopedApiKeyRequest {
-  name?: string;
+  name?: string | undefined;
   /** Duration such as 90d, 24h, or seconds, up to 365d; or `never` for a key that works until revoked. Default 90d. */
-  ttl?: string;
-  preset?: CreateScopedApiKeyRequestPreset | (string & {});
-  actions?: CreateScopedApiKeyRequestActionsList;
-  sandboxIds?: CreateScopedApiKeyRequestSandboxIdsList;
-  environmentIds?: CreateScopedApiKeyRequestEnvironmentIdsList;
+  ttl?: string | undefined;
+  preset?: CreateScopedApiKeyRequestPreset | (string & {}) | undefined;
+  actions?: CreateScopedApiKeyRequestActionsList | undefined;
+  sandboxIds?: CreateScopedApiKeyRequestSandboxIdsList | undefined;
+  environmentIds?: CreateScopedApiKeyRequestEnvironmentIdsList | undefined;
 }
 /** Credential storage lane. Scoped secrets are never stored in the legacy hash column. */
 export type ApiKeyCredentialLane = "legacy" | "scoped-v1";
@@ -662,11 +1138,11 @@ export type ApiKeyScopeEnvironments =
   | ApiKeyScopeEnvironmentsCase0
   | ApiKeyScopeEnvironmentsCase1List;
 export interface ApiKeyScope {
-  expiresAt?: string | null;
-  actions?: ApiKeyScopeActionsList;
-  sandboxes?: ApiKeyScopeSandboxes;
-  environments?: ApiKeyScopeEnvironments;
-  grandfathered?: boolean;
+  expiresAt?: string | null | undefined;
+  actions?: ApiKeyScopeActionsList | undefined;
+  sandboxes?: ApiKeyScopeSandboxes | undefined;
+  environments?: ApiKeyScopeEnvironments | undefined;
+  grandfathered?: boolean | undefined;
 }
 export interface ApiKey {
   id: string;
@@ -681,10 +1157,10 @@ export interface ApiKey {
   lastUsedAt: string | null;
   usage: ApiKeyRequestUsage;
   resources: ApiKeyResourceTotals;
-  expiresAt?: string | null;
-  expired?: boolean;
-  expiringSoon?: boolean;
-  scope?: ApiKeyScope;
+  expiresAt?: string | null | undefined;
+  expired?: boolean | undefined;
+  expiringSoon?: boolean | undefined;
+  scope?: ApiKeyScope | undefined;
 }
 export type CreateScopedApiKeyResponseApiKeysList = Array<ApiKey>;
 export interface CreateScopedApiKeyResponse {
@@ -731,7 +1207,7 @@ export interface CreateUploadUrlRequest {
   /** Absolute path, or path relative to the sandbox work directory (/home/user). It must resolve under /home/user or /tmp. */
   path: string;
   /** How long the URL stays valid. */
-  ttlSeconds?: number;
+  ttlSeconds?: number | undefined;
 }
 /** GET downloads the file. PUT uploads the request body as the file. */
 export type CreateUploadUrlResponseMethod = "GET" | "PUT";
@@ -756,7 +1232,7 @@ export type WebhookEventType =
   | "sandbox.recovered";
 export type CreateWebhookRequestEventsList = Array<WebhookEventType | (string & {})>;
 export interface CreateWebhookRequest {
-  name?: string | null;
+  name?: string | null | undefined;
   url: string;
   events: CreateWebhookRequestEventsList;
 }
@@ -787,10 +1263,13 @@ export type DeleteCredentialAccountRequestCredential =
   | "deepseek-api-key"
   | "moonshot-api-key"
   | "mistral-api-key"
+  | "xai-api-key"
+  | "opencode-api-key"
   | "claude-subscription"
   | "chatgpt-subscription"
   | "kimi-subscription"
   | "mistral-vibe-subscription"
+  | "grok-subscription"
   | "claude-bedrock"
   | "codex-bedrock";
 export interface DeleteCredentialAccountRequest {
@@ -844,10 +1323,13 @@ export type DeleteCredentialProfileKeyRequestCredential =
   | "deepseek-api-key"
   | "moonshot-api-key"
   | "mistral-api-key"
+  | "xai-api-key"
+  | "opencode-api-key"
   | "claude-subscription"
   | "chatgpt-subscription"
   | "kimi-subscription"
   | "mistral-vibe-subscription"
+  | "grok-subscription"
   | "claude-bedrock"
   | "codex-bedrock";
 export interface DeleteCredentialProfileKeyRequest {
@@ -866,23 +1348,23 @@ export interface DeleteEnvironmentRequest {
   /** Environment id returned by `GET /environments`. */
   environmentId: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
 }
 export interface SandboxEnvironmentResponse {
   success: boolean;
-  environment?: SandboxEnvironment | null;
+  environment?: SandboxEnvironment | null | undefined;
 }
 export interface DeleteEnvironmentRepoRequest {
   environmentId: string;
   /** The repository `databaseId`. */
   repositoryId: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
 }
 export interface DeleteEnvironmentSecretFileRequest {
   environmentId: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   path: string;
 }
 export interface DeleteEnvironmentVarRequest {
@@ -890,17 +1372,20 @@ export interface DeleteEnvironmentVarRequest {
   /** Environment variable name. */
   key: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
 }
-export interface DeleteNamedSnapshotRequest {
-  name: string;
+export interface DeleteFileRequest {
+  /** Public Sandbox id returned by create/list/get sandbox calls. */
+  sandboxId: string;
+  path: string;
+  recursive?: boolean | undefined;
 }
-export interface DeleteNamedSnapshotResponse {
+export interface DeleteFileResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  name: string;
-  status: string;
+  success?: boolean | undefined;
+  path: string;
 }
 export interface DeleteSandboxRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
@@ -911,7 +1396,7 @@ export interface DeleteSandboxRequest {
 export type DeletionOperationKind = "sandbox" | "snapshot";
 export type DeletionOperationReason = "explicit" | "zdr" | "account";
 export type DeletionOperationStatus = "pending" | "processing" | "blocked" | "completed";
-/** What the background purge is doing. The target is already gone from every list, restore and fork once the operation exists. `waiting_for_uploads`: stored data is erased once the last upload URL issued for it expires (`expectedBy`). `retrying`: a transient fault, retried automatically. `completed`: a newer snapshot, a fork or a named snapshot made from it keeps the data it reads, until that is deleted too. */
+/** What the background purge is doing. The target is already gone from every list, restore and fork once the operation exists. `waiting_for_uploads`: stored data is erased once the last upload URL issued for it expires (`expectedBy`). `retrying`: a transient fault, retried automatically. `completed`: a newer snapshot, a fork or a saved snapshot made from it keeps the data it reads, until that is deleted too. */
 export type DeletionOperationStage = "removing" | "waiting_for_uploads" | "retrying" | "completed";
 export interface DeletionOperation {
   id: string;
@@ -919,10 +1404,10 @@ export interface DeletionOperation {
   targetId: string;
   reason: DeletionOperationReason;
   status: DeletionOperationStatus;
-  /** What the background purge is doing. The target is already gone from every list, restore and fork once the operation exists. `waiting_for_uploads`: stored data is erased once the last upload URL issued for it expires (`expectedBy`). `retrying`: a transient fault, retried automatically. `completed`: a newer snapshot, a fork or a named snapshot made from it keeps the data it reads, until that is deleted too. */
-  stage?: DeletionOperationStage;
+  /** What the background purge is doing. The target is already gone from every list, restore and fork once the operation exists. `waiting_for_uploads`: stored data is erased once the last upload URL issued for it expires (`expectedBy`). `retrying`: a transient fault, retried automatically. `completed`: a newer snapshot, a fork or a saved snapshot made from it keeps the data it reads, until that is deleted too. */
+  stage?: DeletionOperationStage | undefined;
   /** When `waiting_for_uploads` ends. */
-  expectedBy?: string | null;
+  expectedBy?: string | null | undefined;
   attemptCount: number;
   requestedAt: string;
   completedAt: string | null;
@@ -945,6 +1430,16 @@ export interface DeleteSandboxSnapshotsResponse {
   /** Stable success envelope discriminator added by v1. */
   type: string;
   operations: DeleteSandboxSnapshotsResponseOperationsList;
+}
+export interface DeleteSavedSnapshotRequest {
+  name: string;
+}
+export interface DeleteSavedSnapshotResponse {
+  ok: boolean;
+  /** Stable success envelope discriminator added by v1. */
+  type: string;
+  name: string;
+  status: string;
 }
 export interface DeleteSnapshotRequest {
   /** Snapshot id returned by the snapshot list/latest calls. */
@@ -1004,13 +1499,13 @@ export interface ExecuteSandboxCommandRequest {
   sandboxId: string;
   command: string;
   /** Relative working directory inside the sandbox work directory. */
-  cwd?: string;
+  cwd?: string | undefined;
   /** Command timeout in seconds. Values outside 1-600 are rejected with a 400 invalid_timeout error. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Start the command in the background and return a process id immediately instead of waiting for it to finish. Output goes to a log file on the sandbox; poll the status endpoint for it. */
-  detached?: boolean;
-  /** Stream the output as the command writes it: the response is newline-delimited JSON (application/x-ndjson), one CommandStreamFrame per line. Ignored with detached. */
-  stream?: boolean;
+  detached?: boolean | undefined;
+  /** Stream the output as the command writes it: the response is newline-delimited JSON (application/x-ndjson), one CommandStreamFrame per line. Ignored with detached. `executeSandboxCommand.stream(input)` sends it for you and emits each frame; a plain call with it set fails to decode the stream. */
+  stream?: boolean | undefined;
 }
 export interface CommandResponse {
   ok: boolean;
@@ -1018,19 +1513,19 @@ export interface CommandResponse {
   type: string;
   success: boolean;
   /** The command's record in the command history. */
-  commandId?: string;
+  commandId?: string | undefined;
   exitCode: number | null;
-  signal?: string | null;
+  signal?: string | null | undefined;
   /** True when the memory ceiling killed the command or one of its processes and the command failed. */
-  oomKilled?: boolean;
+  oomKilled?: boolean | undefined;
   stdout: string;
   stderr: string;
-  stdoutTruncated?: boolean;
-  stderrTruncated?: boolean;
+  stdoutTruncated?: boolean | undefined;
+  stderrTruncated?: boolean | undefined;
   timedOut: boolean;
-  cwd?: string;
-  startedAt?: string;
-  finishedAt?: string;
+  cwd?: string | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
 }
 export interface CommandStartedResponse {
   ok: boolean;
@@ -1038,20 +1533,73 @@ export interface CommandStartedResponse {
   type: string;
   success: boolean;
   /** The command's record in the command history. Its output is copied there every 30 s. */
-  commandId?: string;
+  commandId?: string | undefined;
   /** Process id to poll with the command status endpoint. */
   processId: number;
   pid: number;
   command: string;
-  cwd?: string;
+  cwd?: string | undefined;
   startedAt: string;
   /** Stdout log file on the sandbox (~/.ascii/processes/<pid>.log). */
-  logPath?: string;
+  logPath?: string | undefined;
   /** Stderr log file on the sandbox. */
-  errLogPath?: string;
+  errLogPath?: string | undefined;
 }
 export type ExecuteSandboxCommandResponseBody = CommandResponse | CommandStartedResponse;
 export type ExecuteSandboxCommandResponse = ExecuteSandboxCommandResponseBody;
+export type CommandStreamFrameType = "started" | "stdout" | "stderr" | "exit" | "error";
+/** One line of a streamed command (`POST /sandboxes/{sandboxId}/commands` with `stream: true`, application/x-ndjson). - `started`: first line. `commandId`. - `stdout` / `stderr`: a chunk of output in `data`. - `exit`: last line when the command ended. The synchronous result without stdout/stderr: `success`, `exitCode`, `signal`, `oomKilled`, `timedOut`, ... - `error`: last line on a failure. `error`, `message`, `retryable`. */
+export interface CommandStreamFrame {
+  type: CommandStreamFrameType;
+  /** started: the command's record in the command history. */
+  commandId?: string | undefined;
+  /** stdout/stderr: the chunk of output, UTF-8. */
+  data?: string | undefined;
+  exitCode?: number | null | undefined;
+  signal?: string | null | undefined;
+  /** True when the memory ceiling killed the command or one of its processes and the command failed. */
+  oomKilled?: boolean | undefined;
+  success?: boolean | undefined;
+  timedOut?: boolean | undefined;
+  stdoutTruncated?: boolean | undefined;
+  stderrTruncated?: boolean | undefined;
+  cwd?: string | undefined;
+  startedAt?: string | undefined;
+  finishedAt?: string | undefined;
+  error?: string | undefined;
+  message?: string | undefined;
+  /** error: true when the command provably never ran (the sandbox is still restoring its disk), so sending it again is safe. */
+  retryable?: boolean | undefined;
+}
+export interface FindInFilesRequest {
+  /** Public Sandbox id returned by create/list/get sandbox calls. */
+  sandboxId: string;
+  path?: string | undefined;
+  pattern: string;
+  regex?: boolean | undefined;
+}
+export interface FindInFilesResponseMatchesItem {
+  file: string;
+  line: number;
+  content: string;
+}
+/** At most 1,000 matches. Each line is cut at 500 characters. */
+export type FindInFilesResponseMatchesList = Array<FindInFilesResponseMatchesItem>;
+/** Present only when part of the tree could not be searched. The matches are then incomplete. An invalid regular expression is an error response. */
+export type FindInFilesResponseErrorsList = Array<string>;
+export interface FindInFilesResponse {
+  ok: boolean;
+  /** Stable success envelope discriminator added by v1. */
+  type: string;
+  success?: boolean | undefined;
+  /** At most 1,000 matches. Each line is cut at 500 characters. */
+  matches: FindInFilesResponseMatchesList;
+  truncated: boolean;
+  /** Present only when part of the tree could not be searched. The matches are then incomplete. An invalid regular expression is an error response. */
+  errors?: FindInFilesResponseErrorsList | undefined;
+}
+/** Labels of the fork. The fork never takes the source's labels. Same rules as `CreateSandboxRequest.labels`. */
+export type ForkSandboxRequestLabelsMap = { [key: string]: string | undefined };
 /** Replaces the env the fork would otherwise inherit from the source sandbox. Same validation rules as `CreateSandboxRequest.env`. */
 export type ForkSandboxRequestEnvMap = { [key: string]: string | undefined };
 /** Machine size for the fork. Omit to inherit the source sandbox's type. `xlarge` needs the $100/month plan or higher (403 `machine_class_plan_required`). The source sandbox is never modified. Shrinking is rejected with `type_too_small` when the source's data would not fit the smaller disk. */
@@ -1060,21 +1608,23 @@ export interface ForkSandboxRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Optional exactly-once key for creating a sandbox. Send your own opaque, account-unique value (a UUID) to make `POST /sandboxes` safe to retry when the response is lost (network timeout, 5xx): the first request creates the sandbox and binds it to the key; every later request with the **same account, key, and request body** returns that same sandbox instead of creating a second, billable one. Behavior: keys are retained for **24 hours**; a concurrent or early retry while the first sandbox is still being minted returns `409` `idempotency_in_progress` (retry shortly, same key); reusing a key with a **different body** returns `409` `idempotency_key_reused`; timeouts and 5xx are safe to retry with the same key; a create that fails before the sandbox exists releases the key within ~2 minutes so a retry can create the sandbox. Omit the header to keep the default (non-idempotent) behavior. */
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
+  /** Labels of the fork. The fork never takes the source's labels. Same rules as `CreateSandboxRequest.labels`. */
+  labels?: ForkSandboxRequestLabelsMap | undefined;
   /** Pass `true` to fork only if a machine is ready right now. Within about 1.5 s you get the usual `202`, or `503` `no_ready_machine` with no fork created and nothing counted against your start limits. */
-  failFast?: boolean;
+  failFast?: boolean | undefined;
   /** `false` creates the fork with monitoring off: Boat keeps no command or process output, process list or CPU/RAM samples for it. Omitted, the fork keeps the source sandbox's setting. `true` turns it on for the fork, unless the account has monitoring off by default (`409` `monitoring_off_for_account`). */
-  monitoring?: boolean;
+  monitoring?: boolean | undefined;
   /** Replaces the env the fork would otherwise inherit from the source sandbox. Same validation rules as `CreateSandboxRequest.env`. */
-  env?: ForkSandboxRequestEnvMap;
+  env?: ForkSandboxRequestEnvMap | undefined;
   /** Optionally pin the fork to a different named sandbox environment. Omit to inherit the source sandbox's environment. Unknown names are rejected with `unknown_environment`. */
-  environment?: string;
+  environment?: string | undefined;
   /** Make the fork no-env (see `CreateSandboxRequest.noEnv`). A fork of a no-env sandbox is always no-env regardless of this field. */
-  noEnv?: boolean;
+  noEnv?: boolean | undefined;
   /** Machine size for the fork. Omit to inherit the source sandbox's type. `xlarge` needs the $100/month plan or higher (403 `machine_class_plan_required`). The source sandbox is never modified. Shrinking is rejected with `type_too_small` when the source's data would not fit the smaller disk. */
-  type?: ForkSandboxRequestType | (string & {});
+  type?: ForkSandboxRequestType | (string & {}) | undefined;
   /** Auto-stop for the fork, in seconds. Omit for the 1 hour default; the fork does NOT inherit the source sandbox's TTL, so forking a sandbox that has auto-stop disabled still gives you a fork that stops itself. `null` disables auto-stop, which means nothing will ever stop this sandbox for you. */
-  ttlSeconds?: number | null;
+  ttlSeconds?: number | null | undefined;
 }
 export interface ForkSandboxResponse {
   ok: boolean;
@@ -1082,17 +1632,17 @@ export interface ForkSandboxResponse {
   type: string;
   id: string;
   status: string;
-  sandbox?: Sandbox | null;
+  sandbox?: Sandbox | null | undefined;
   /** Present on resume or fork when a fair-use cap on a gifted account shortened the requested auto-stop time. */
-  giftLimitNotice?: string;
+  giftLimitNotice?: string | undefined;
   /** On interrupt, the conversation whose turn was interrupted. */
-  conversationId?: string;
+  conversationId?: string | undefined;
 }
 export interface GetAiProxyRequest {
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** Same as the `org` query parameter. Query wins when both are set. */
-  xBoatOrg?: string;
+  xBoatOrg?: string | undefined;
 }
 export interface GetAiProxyResponsePricing {
   /** Charged to the account for each UTC day the proxy is on. */
@@ -1117,13 +1667,13 @@ export interface GetAiProxyResponse {
 }
 export interface GetAiUsageRequest {
   /** Days of history, today included. */
-  days?: number;
+  days?: number | undefined;
   /** A credential profile id. Counts that profile's requests instead of a wallet's. */
-  profile?: string;
+  profile?: string | undefined;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** Same as the `org` query parameter. Query wins when both are set. */
-  xBoatOrg?: string;
+  xBoatOrg?: string | undefined;
 }
 export interface AiUsageRow {
   /** UTC day. */
@@ -1195,11 +1745,11 @@ export type GetApiKeyUsageResponseScopeEnvironments =
   | GetApiKeyUsageResponseScopeEnvironmentsCase0
   | GetApiKeyUsageResponseScopeEnvironmentsCase1List;
 export interface GetApiKeyUsageResponseScope {
-  expiresAt?: string | null;
-  actions?: GetApiKeyUsageResponseScopeActionsList;
-  sandboxes?: GetApiKeyUsageResponseScopeSandboxes;
-  environments?: GetApiKeyUsageResponseScopeEnvironments;
-  grandfathered?: boolean;
+  expiresAt?: string | null | undefined;
+  actions?: GetApiKeyUsageResponseScopeActionsList | undefined;
+  sandboxes?: GetApiKeyUsageResponseScopeSandboxes | undefined;
+  environments?: GetApiKeyUsageResponseScopeEnvironments | undefined;
+  grandfathered?: boolean | undefined;
 }
 export type ApiKeyCreatedResourceKind = "sandbox" | "agent";
 export interface ApiKeyCreatedResource {
@@ -1226,11 +1776,184 @@ export interface GetApiKeyUsageResponse {
   lastUsedAt: string | null;
   usage: ApiKeyRequestUsage;
   resources: ApiKeyResourceTotals;
-  expiresAt?: string | null;
-  expired?: boolean;
-  expiringSoon?: boolean;
-  scope?: GetApiKeyUsageResponseScope;
+  expiresAt?: string | null | undefined;
+  expired?: boolean | undefined;
+  expiringSoon?: boolean | undefined;
+  scope?: GetApiKeyUsageResponseScope | undefined;
   createdResources: GetApiKeyUsageResponseCreatedResourcesList;
+}
+export interface GetCiJobRequest {
+  /** GitHub workflow job id. */
+  jobId: string;
+}
+export type CiJobMachineClass = "small" | "default" | "large" | "xlarge";
+/** queued and running are active. failed = boat could not start a sandbox; refused = boat never runs it (unknown label, public repository). */
+export type CiJobState =
+  | "queued"
+  | "running"
+  | "success"
+  | "failure"
+  | "cancelled"
+  | "skipped"
+  | "failed"
+  | "refused";
+/** kept = a failed /debug job's sandbox, kept 30 minutes. */
+export type CiJobSandboxState = "live" | "busy" | "kept" | "deleted";
+export interface CiJob {
+  /** GitHub workflow job id. */
+  id: string;
+  repo: string;
+  runId?: string | undefined;
+  jobName: string;
+  workflowName?: string | null | undefined;
+  headBranch?: string | null | undefined;
+  headSha?: string | null | undefined;
+  /** The job on GitHub. */
+  htmlUrl?: string | null | undefined;
+  /** The runs-on label that matched. */
+  label: string;
+  machineClass: CiJobMachineClass;
+  state: CiJobState;
+  /** Why boat refused or could not start the job. */
+  error?: string | null | undefined;
+  /** The sandbox this job's runner started. */
+  sandboxId?: string | null | undefined;
+  /** kept = a failed /debug job's sandbox, kept 30 minutes. */
+  sandboxState?: CiJobSandboxState | null | undefined;
+  queuedAt: string;
+  runStartedAt?: string | null | undefined;
+  finishedAt?: string | null | undefined;
+  /** Queued on GitHub until a runner took it. */
+  waitSeconds?: number | null | undefined;
+  runSeconds?: number | null | undefined;
+  /** Sandbox time of the job at the size's rate. */
+  costDollars?: number | null | undefined;
+}
+export interface GetCiJobResponse {
+  ok: boolean;
+  /** Stable success envelope discriminator added by v1. */
+  type: string;
+  job: CiJob;
+}
+export interface GetCiJobLogRequest {
+  /** GitHub workflow job id. */
+  jobId: string;
+}
+export interface GetCiJobLogResponse {
+  ok: boolean;
+  /** Stable success envelope discriminator added by v1. */
+  type: string;
+  /** The GitHub log, one timestamped line each, last 1 MB. Empty before the job starts. */
+  log: string;
+}
+export type GetCiOverviewRequestState = "all" | "active" | "failed";
+export interface GetCiOverviewRequest {
+  /** Only this GitHub account (organization or user login). */
+  account?: string | undefined;
+  /** Only this repository, as owner/name. */
+  repo?: string | undefined;
+  /** active = queued or running. failed = failed, never started, or refused. */
+  state?: GetCiOverviewRequestState | (string & {}) | undefined;
+  limit?: number | undefined;
+}
+export type GetCiOverviewResponseSetupNext = "install" | "repositories" | "workflow" | "first-pass";
+export interface GetCiOverviewResponseSetupStepsItem {
+  id?: string | undefined;
+  title?: string | undefined;
+  done?: boolean | undefined;
+  detail?: string | undefined;
+}
+export type GetCiOverviewResponseSetupStepsList = Array<GetCiOverviewResponseSetupStepsItem>;
+export interface GetCiOverviewResponseSetupProblemsItem {
+  jobId?: string | undefined;
+  repo?: string | undefined;
+  message?: string | undefined;
+  at?: string | undefined;
+  count?: number | undefined;
+}
+export type GetCiOverviewResponseSetupProblemsList = Array<GetCiOverviewResponseSetupProblemsItem>;
+/** The four setup steps, the next one to do, and jobs boat did not run (grouped by repository and reason). */
+export interface GetCiOverviewResponseSetup {
+  complete?: boolean | undefined;
+  next?: GetCiOverviewResponseSetupNext | null | undefined;
+  steps?: GetCiOverviewResponseSetupStepsList | undefined;
+  problems?: GetCiOverviewResponseSetupProblemsList | undefined;
+}
+export type CiInstallationAccountType = "Organization" | "User";
+/** With allowPublicRepos: only runs these GitHub users authored and started run. Empty = anyone. */
+export type CiInstallationPublicRepoUsersList = Array<string>;
+/** public-blocked = public repository, jobs never run. */
+export type CiRepositoryStatus = "ok" | "no-jobs" | "failing" | "public-blocked";
+export interface CiRepository {
+  fullName: string;
+  private: boolean;
+  htmlUrl: string;
+  /** public-blocked = public repository, jobs never run. */
+  status: CiRepositoryStatus;
+  /** Jobs in the last 7 days. */
+  jobs7d: number;
+  lastState?: CiJobState | null | undefined;
+  lastAt?: string | null | undefined;
+  lastError?: string | null | undefined;
+}
+export type CiInstallationRepositoriesList = Array<CiRepository>;
+export interface CiInstallation {
+  /** GitHub App installation id. */
+  id: string;
+  accountLogin: string;
+  accountType: CiInstallationAccountType;
+  /** The organization that pays; null = the personal wallet. */
+  teamId?: string | null | undefined;
+  /** Jobs from this account's public repositories run on boat. */
+  allowPublicRepos?: boolean | undefined;
+  /** With allowPublicRepos: only runs these GitHub users authored and started run. Empty = anyone. */
+  publicRepoUsers?: CiInstallationPublicRepoUsersList | undefined;
+  /** Where to choose the repositories on GitHub. */
+  manageUrl: string;
+  repositories: CiInstallationRepositoriesList;
+}
+export type GetCiOverviewResponseInstallationsList = Array<CiInstallation>;
+export type GetCiOverviewResponseFilterState = "all" | "active" | "failed";
+export interface GetCiOverviewResponseFilter {
+  account?: string | null | undefined;
+  repo?: string | null | undefined;
+  state?: GetCiOverviewResponseFilterState | undefined;
+}
+/** Jobs in the last 7 days in the account and repo scope, per state tab. */
+export interface GetCiOverviewResponseCounts {
+  all?: number | undefined;
+  active?: number | undefined;
+  failed?: number | undefined;
+}
+export interface GetCiOverviewResponseStatsPerDayItem {
+  day?: string | undefined;
+  success?: number | undefined;
+  failure?: number | undefined;
+  other?: number | undefined;
+}
+export type GetCiOverviewResponseStatsPerDayList = Array<GetCiOverviewResponseStatsPerDayItem>;
+export interface GetCiOverviewResponseStats {
+  jobs?: number | undefined;
+  running?: number | undefined;
+  successRate?: number | null | undefined;
+  medianWaitSeconds?: number | null | undefined;
+  medianRunSeconds?: number | null | undefined;
+  costDollars?: number | undefined;
+  perDay?: GetCiOverviewResponseStatsPerDayList | undefined;
+}
+export type GetCiOverviewResponseJobsList = Array<CiJob>;
+export interface GetCiOverviewResponse {
+  ok: boolean;
+  /** Stable success envelope discriminator added by v1. */
+  type: string;
+  /** The four setup steps, the next one to do, and jobs boat did not run (grouped by repository and reason). */
+  setup: GetCiOverviewResponseSetup;
+  installations: GetCiOverviewResponseInstallationsList;
+  filter?: GetCiOverviewResponseFilter | undefined;
+  /** Jobs in the last 7 days in the account and repo scope, per state tab. */
+  counts: GetCiOverviewResponseCounts;
+  stats: GetCiOverviewResponseStats;
+  jobs: GetCiOverviewResponseJobsList;
 }
 export interface GetCommandRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
@@ -1249,11 +1972,11 @@ export interface GetCommandStatusRequest {
   /** Process id returned by a detached command start. */
   processId: number;
   /** Cap each returned log to its last N bytes. Defaults to 8388608 (8 MiB). Ignored with offsets. */
-  tailBytes?: number;
+  tailBytes?: number | undefined;
   /** Return only stdout written from this byte offset. Use `stdoutNextOffset` of the previous answer. */
-  stdoutOffset?: number;
+  stdoutOffset?: number | undefined;
   /** Return only stderr written from this byte offset. Use `stderrNextOffset` of the previous answer. */
-  stderrOffset?: number;
+  stderrOffset?: number | undefined;
 }
 /** lost: the sandbox agent restarted and forgot the process; running/exitCode are then a best-effort probe and the logs come from the on-disk files. */
 export type GetCommandStatusResponseStatus = "running" | "exited" | "lost";
@@ -1263,38 +1986,38 @@ export interface GetCommandStatusResponse {
   type: string;
   success: boolean;
   processId: number;
-  pid?: number;
+  pid?: number | undefined;
   /** lost: the sandbox agent restarted and forgot the process; running/exitCode are then a best-effort probe and the logs come from the on-disk files. */
   status: GetCommandStatusResponseStatus;
   /** Whether the process is still tracked by the sandbox agent. */
-  known?: boolean;
+  known?: boolean | undefined;
   running: boolean;
   exitCode: number | null;
-  signal?: string | null;
+  signal?: string | null | undefined;
   /** True when the memory ceiling killed the command or one of its processes and the command failed. */
-  oomKilled?: boolean;
-  command?: string | null;
-  cwd?: string | null;
-  startedAt?: string | null;
-  finishedAt?: string | null;
+  oomKilled?: boolean | undefined;
+  command?: string | null | undefined;
+  cwd?: string | null | undefined;
+  startedAt?: string | null | undefined;
+  finishedAt?: string | null | undefined;
   /** Tail of the stdout log file. With `stdoutOffset`: the stdout written since that offset. */
   stdout: string;
   /** Tail of the stderr log file. With `stderrOffset`: the stderr written since that offset. */
   stderr: string;
-  stdoutTruncated?: boolean;
-  stderrTruncated?: boolean;
-  logPath?: string;
-  errLogPath?: string;
+  stdoutTruncated?: boolean | undefined;
+  stderrTruncated?: boolean | undefined;
+  logPath?: string | undefined;
+  errLogPath?: string | undefined;
   /** Byte offset where `stdout` starts: the offset you asked for, or 0 when the log was replaced. */
-  stdoutOffset?: number;
+  stdoutOffset?: number | undefined;
   /** Byte offset where `stderr` starts: the offset you asked for, or 0 when the log was replaced. */
-  stderrOffset?: number;
+  stderrOffset?: number | undefined;
   /** The `stdoutOffset` for the next read. */
-  stdoutNextOffset?: number;
+  stdoutNextOffset?: number | undefined;
   /** The `stderrOffset` for the next read. */
-  stderrNextOffset?: number;
+  stderrNextOffset?: number | undefined;
   /** True when more output is already written. Read again at once. */
-  more?: boolean;
+  more?: boolean | undefined;
 }
 export interface GetCurrentUserRequest {}
 /** The login method the account was created with. */
@@ -1309,31 +2032,31 @@ export type GetCurrentUserResponseUserConnectionMethodsList = Array<string>;
 export type GetCurrentUserResponseUserAccountStatus = "active" | "suspended" | "closed";
 export interface GetCurrentUserResponseUser {
   /** Your account id. */
-  id?: string;
-  login?: string;
-  email?: string | null;
-  displayName?: string;
+  id?: string | undefined;
+  login?: string | undefined;
+  email?: string | null | undefined;
+  displayName?: string | undefined;
   /** The login method the account was created with. */
-  connectionMethod?: GetCurrentUserResponseUserConnectionMethod;
+  connectionMethod?: GetCurrentUserResponseUserConnectionMethod | undefined;
   /** Every login method linked to the account. */
-  connectionMethods?: GetCurrentUserResponseUserConnectionMethodsList;
-  accountPlan?: string;
-  serviceAccount?: boolean;
-  accountStatus?: GetCurrentUserResponseUserAccountStatus;
-  suspended?: boolean;
-  suspendedAt?: string | null;
-  suspendedReason?: string | null;
-  closed?: boolean;
-  closedAt?: string | null;
+  connectionMethods?: GetCurrentUserResponseUserConnectionMethodsList | undefined;
+  accountPlan?: string | undefined;
+  serviceAccount?: boolean | undefined;
+  accountStatus?: GetCurrentUserResponseUserAccountStatus | undefined;
+  suspended?: boolean | undefined;
+  suspendedAt?: string | null | undefined;
+  suspendedReason?: string | null | undefined;
+  closed?: boolean | undefined;
+  closedAt?: string | null | undefined;
   /** When a closed account's data is scheduled for deletion. */
-  purgeAt?: string | null;
+  purgeAt?: string | null | undefined;
   /** When a closed account's data was deleted. */
-  purgedAt?: string | null;
+  purgedAt?: string | null | undefined;
   /** Address to contact about a suspended or closed account. */
-  closureContactEmail?: string;
+  closureContactEmail?: string | undefined;
   /** Whether archived sandbox data is configured for deletion instead of retention. */
-  zeroDataRetention?: boolean;
-  zeroDataRetentionEnabledAt?: string | null;
+  zeroDataRetention?: boolean | undefined;
+  zeroDataRetentionEnabledAt?: string | null | undefined;
 }
 export interface GetCurrentUserResponse {
   ok: boolean;
@@ -1349,15 +2072,15 @@ export interface GetDataRetentionResponse {
   enabled: boolean;
   enabledAt: string | null;
   /** Archived Sandboxes newly queued for deletion by this policy update. */
-  queuedSandboxes?: number;
+  queuedSandboxes?: number | undefined;
   /** Always true on updates. Disabling the policy does not cancel accepted deletion operations. */
-  acceptedDeletionOperationsIrreversible?: boolean;
+  acceptedDeletionOperationsIrreversible?: boolean | undefined;
   /** When true, every new sandbox of this account is created with snapshots off. */
-  snapshotsOff?: boolean;
-  snapshotsOffAt?: string | null;
+  snapshotsOff?: boolean | undefined;
+  snapshotsOffAt?: string | null | undefined;
   /** When true, every new sandbox of this account is created with monitoring off. */
-  monitoringOff?: boolean;
-  monitoringOffAt?: string | null;
+  monitoringOff?: boolean | undefined;
+  monitoringOffAt?: string | null | undefined;
 }
 export interface GetDeletionOperationRequest {
   /** Deletion operation id returned by an accepted delete request. */
@@ -1375,24 +2098,44 @@ export interface GetDesktopStreamingUrlRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Use VNC/noVNC streaming mode. */
-  vnc?: GetDesktopStreamingUrlRequestVnc | (number & {});
+  vnc?: GetDesktopStreamingUrlRequestVnc | (number & {}) | undefined;
   /** Desktop streaming theme for non-VNC mode. */
-  theme?: GetDesktopStreamingUrlRequestTheme | (string & {});
+  theme?: GetDesktopStreamingUrlRequestTheme | (string & {}) | undefined;
   /** For `?vnc=1`, return a noVNC URL that does not require an access token. */
-  publicAccess?: boolean;
+  publicAccess?: boolean | undefined;
 }
 export interface GetDesktopStreamingUrlResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  success?: boolean;
+  success?: boolean | undefined;
   /** Secret-bearing desktop or noVNC URL. Redact from logs. */
-  desktopUrl?: string | null;
-  ip?: string | null;
-  mode?: string;
+  desktopUrl?: string | null | undefined;
+  ip?: string | null | undefined;
+  mode?: string | undefined;
   /** For `?vnc=1`, true means VNC is still being prepared; poll again. */
-  provisioning?: boolean;
-  message?: string;
+  provisioning?: boolean | undefined;
+  message?: string | undefined;
+}
+export interface GetFileInfoRequest {
+  /** Public Sandbox id returned by create/list/get sandbox calls. */
+  sandboxId: string;
+  path: string;
+}
+export interface GetFileInfoResponse {
+  ok: boolean;
+  /** Stable success envelope discriminator added by v1. */
+  type: string;
+  name: string;
+  /** Absolute path on the sandbox. */
+  path: string;
+  isDir: boolean;
+  isSymlink: boolean;
+  size: number;
+  /** Octal permission bits, for example "0644". */
+  mode: string;
+  modifiedAt: string;
+  success?: boolean | undefined;
 }
 export interface GetLatestSandboxSnapshotRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
@@ -1401,7 +2144,7 @@ export interface GetLatestSandboxSnapshotRequest {
 export type SnapshotSummaryStatus = "completed";
 /** `base` (full) or `incremental` (delta on a base). `null` for legacy snapshots. */
 export type SnapshotSummaryKind = "base" | "incremental";
-/** `template` = this Sandbox has snapshots off, so Boat never captures it: the row is a copy of the template, named snapshot or Sandbox it was created from. `captured` = this Sandbox has snapshots on: its own captures, plus the copies Boat makes when the Sandbox is created from a source, forked or resumed. */
+/** `template` = this Sandbox has snapshots off, so Boat never captures it: the row is a copy of the template, saved snapshot or Sandbox it was created from. `captured` = this Sandbox has snapshots on: its own captures, plus the copies Boat makes when the Sandbox is created from a source, forked or resumed. */
 export type SnapshotSummaryOrigin = "captured" | "template";
 export interface SnapshotSummary {
   id: string;
@@ -1409,22 +2152,22 @@ export interface SnapshotSummary {
   sandboxId: string;
   status: SnapshotSummaryStatus;
   /** `base` (full) or `incremental` (delta on a base). `null` for legacy snapshots. */
-  kind?: SnapshotSummaryKind | null;
+  kind?: SnapshotSummaryKind | null | undefined;
   /** Position in the incremental chain (0 = base). */
   generation: number | null;
-  chainId?: string | null;
+  chainId?: string | null | undefined;
   createdAt: string;
-  completedAt?: string | null;
+  completedAt?: string | null | undefined;
   /** Bytes this snapshot added (its delta), not the full restored size. */
   sizeBytes: number | null;
   /** Inventory entries alive in the chain at this generation (includes base-image system entries). */
   fileCount: number | null;
   /** Total bytes of your data restored by this snapshot (what resume/download returns; base image excluded). `null` on legacy snapshots. */
-  contentSizeBytes?: number | null;
+  contentSizeBytes?: number | null | undefined;
   /** Number of your files restored by this snapshot (base image excluded). `null` on legacy snapshots. */
-  contentFileCount?: number | null;
-  /** `template` = this Sandbox has snapshots off, so Boat never captures it: the row is a copy of the template, named snapshot or Sandbox it was created from. `captured` = this Sandbox has snapshots on: its own captures, plus the copies Boat makes when the Sandbox is created from a source, forked or resumed. */
-  origin?: SnapshotSummaryOrigin;
+  contentFileCount?: number | null | undefined;
+  /** `template` = this Sandbox has snapshots off, so Boat never captures it: the row is a copy of the template, saved snapshot or Sandbox it was created from. `captured` = this Sandbox has snapshots on: its own captures, plus the copies Boat makes when the Sandbox is created from a source, forked or resumed. */
+  origin?: SnapshotSummaryOrigin | undefined;
 }
 export interface GetLatestSandboxSnapshotResponse {
   ok: boolean;
@@ -1434,17 +2177,17 @@ export interface GetLatestSandboxSnapshotResponse {
 }
 export interface GetLimitsRequest {
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** Legacy alias for `org`. Takes precedence over `org` / `X-Boat-Org` when set. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** Same as the `org` query parameter. Query wins when both are set. */
-  xBoatOrg?: string;
+  xBoatOrg?: string | undefined;
 }
 export interface GetLimitsResponseCurrentLimits {
-  activeSandboxes?: number;
-  creationRatePerMinute?: number;
-  creationRequestsPerHour?: number | null;
-  creationRequestsPerDay?: number | null;
+  activeSandboxes?: number | undefined;
+  creationRatePerMinute?: number | undefined;
+  creationRequestsPerHour?: number | null | undefined;
+  creationRequestsPerDay?: number | null | undefined;
   [key: string]: unknown;
 }
 export type GetLimitsResponseStandardLimits = GetLimitsResponseCurrentLimits;
@@ -1453,36 +2196,75 @@ export type GetLimitsResponseUpgradeEffectsMap = { [key: string]: unknown | unde
 export type GetLimitsResponseActiveStatesList = Array<string>;
 /** Plan caps for machine starts. Null on unlimited accounts. Create, fork and resume each count as one start. */
 export interface GetLimitsResponseStartLimits {
-  perMinute?: number;
-  perHour?: number;
-  perDay?: number;
+  perMinute?: number | undefined;
+  perHour?: number | undefined;
+  perDay?: number | undefined;
 }
+/** The one wallet of this account or organization, in US dollars. It pays overage only: VM time past the plan, saved snapshots past the included count, extra starts and the AI proxy. It never pays the plan. Null on unlimited accounts. */
+export interface GetLimitsResponseWallet {
+  /** Money in the wallet. Below zero while you owe during the grace period. */
+  balanceDollars?: number | undefined;
+}
+/** What the plan includes this billing period. Null on unlimited accounts. */
+export interface GetLimitsResponsePlanIncluded {
+  /** VM time included this period, in hours of a `default` machine. */
+  vmHours?: number | undefined;
+  /** Included VM time left this period, in hours of a `default` machine. */
+  vmHoursRemaining?: number | undefined;
+  /** When the included amounts reset. */
+  periodEnd?: string | null | undefined;
+}
+export interface GetLimitsResponseOveragePricesStartBracketsItem {
+  /** The bracket starts above this multiple of the limit. */
+  aboveMultiple?: number | undefined;
+  /** The bracket ends at this multiple of the limit (included). */
+  upToMultiple?: number | undefined;
+  /** Dollars per start in this bracket. */
+  dollars?: number | undefined;
+}
+/** Price of a start above a start limit, by how far past the limit it falls, in each window (minute, hour, day). A start above limits in several windows pays the highest bracket among them. */
+export type GetLimitsResponseOveragePricesStartBracketsList =
+  Array<GetLimitsResponseOveragePricesStartBracketsItem>;
+/** What the wallet pays past the plan. */
+export interface GetLimitsResponseOveragePrices {
+  /** Dollars per hour of a `default` machine. `small` is 0.5x, `large` 2x, `xlarge` 5.556x. */
+  vmHourDollars?: number | undefined;
+  /** Dollars per day for each saved snapshot above the included count. */
+  savedSnapshotDayDollars?: number | undefined;
+  /** Price of a start above a start limit, by how far past the limit it falls, in each window (minute, hour, day). A start above limits in several windows pays the highest bracket among them. */
+  startBrackets?: GetLimitsResponseOveragePricesStartBracketsList | undefined;
+  /** Extra starts stop at this multiple of the hour and day limits (the last bracket's upToMultiple). */
+  startLimitMultiplier?: number | undefined;
+  /** Extra starts stop at this multiple of the minute limit. */
+  startMinuteLimitMultiplier?: number | undefined;
+}
+/** Start ceilings with extra starts: the hour and day limits times `overagePrices.startLimitMultiplier`, and the minute limit times `overagePrices.startMinuteLimitMultiplier`. Starts above `startLimits` and up to these ceilings are paid from the wallet at the `overagePrices.startBrackets` prices. Null when extra starts are not available now (before the first payment, an empty wallet, or an unlimited account). */
+export type GetLimitsResponseStartLimitsWithWallet = GetLimitsResponseStartLimits;
 /** One rolling start window. Null when the account is unlimited. */
 export interface StartWindowUsage {
-  limit?: number;
-  used?: number;
-  remaining?: number;
+  limit?: number | undefined;
+  used?: number | undefined;
+  remaining?: number | undefined;
 }
 /** Remaining machine starts in the rolling minute, hour and day windows. Null windows mean the account is unlimited. */
 export interface GetLimitsResponseStarts {
-  unlimited?: boolean;
-  minute?: StartWindowUsage | null;
-  hour?: StartWindowUsage | null;
-  day?: StartWindowUsage | null;
+  unlimited?: boolean | undefined;
+  minute?: StartWindowUsage | null | undefined;
+  hour?: StartWindowUsage | null | undefined;
+  day?: StartWindowUsage | null | undefined;
 }
-export type GetLimitsResponsePackageMap = { [key: string]: unknown | undefined };
 export interface GetLimitsResponseSandboxPlanTiersItem {
-  key?: string;
-  dollars?: number;
-  displayPrice?: string;
-  maxActiveSandboxes?: number;
-  startsPerMinute?: number;
-  startsPerHour?: number;
-  startsPerDay?: number;
+  key?: string | undefined;
+  dollars?: number | undefined;
+  displayPrice?: string | undefined;
+  maxActiveSandboxes?: number | undefined;
+  startsPerMinute?: number | undefined;
+  startsPerHour?: number | undefined;
+  startsPerDay?: number | undefined;
   /** Machine time included each month. */
-  includedSeconds?: number;
+  includedSeconds?: number | undefined;
   /** Whether this tier can be bought right now. */
-  purchasable?: boolean;
+  purchasable?: boolean | undefined;
 }
 /** Every plan tier and its limits. */
 export type GetLimitsResponseSandboxPlanTiersList = Array<GetLimitsResponseSandboxPlanTiersItem>;
@@ -1497,119 +2279,104 @@ export interface GetLimitsResponseMachineTypesItem {
 export type GetLimitsResponseMachineTypesList = Array<GetLimitsResponseMachineTypesItem>;
 /** Fair-use caps on a gifted account, or null when there are none. */
 export interface GetLimitsResponseGiftLimit {
-  maxActiveSandboxes?: number | null;
-  maxTtlSeconds?: number | null;
+  maxActiveSandboxes?: number | null | undefined;
+  maxTtlSeconds?: number | null | undefined;
   /** The caps in one readable line. */
-  line?: string | null;
+  line?: string | null | undefined;
   /** The same text shown when a cap is hit. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface GetLimitsResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  accessTier?: string;
-  blockedReason?: string | null;
-  currentLimits?: GetLimitsResponseCurrentLimits;
-  standardLimits?: GetLimitsResponseCurrentLimits;
-  trialLimits?: GetLimitsResponseCurrentLimits;
-  upgradeEffects?: GetLimitsResponseUpgradeEffectsMap;
+  accessTier?: string | undefined;
+  blockedReason?: string | null | undefined;
+  currentLimits?: GetLimitsResponseCurrentLimits | undefined;
+  standardLimits?: GetLimitsResponseCurrentLimits | undefined;
+  trialLimits?: GetLimitsResponseCurrentLimits | undefined;
+  upgradeEffects?: GetLimitsResponseUpgradeEffectsMap | undefined;
   /** Whether the authenticated account can create or operate sandboxes right now. */
   canStart: boolean;
-  checkoutRequired?: boolean;
-  startBlockedReason?: string | null;
-  contactMessage?: string | null;
+  checkoutRequired?: boolean | undefined;
+  startBlockedReason?: string | null | undefined;
+  contactMessage?: string | null | undefined;
   activeSandboxes: number;
-  activeStates?: GetLimitsResponseActiveStatesList;
+  activeStates?: GetLimitsResponseActiveStatesList | undefined;
   maxActiveSandboxes: number;
-  maxCreationRequestsPerMinute?: number;
-  maxCreationRequestsPerDay?: number | null;
+  maxCreationRequestsPerMinute?: number | undefined;
+  maxCreationRequestsPerDay?: number | null | undefined;
   /** Plan caps for machine starts. Null on unlimited accounts. Create, fork and resume each count as one start. */
-  startLimits?: GetLimitsResponseStartLimits | null;
+  startLimits?: GetLimitsResponseStartLimits | null | undefined;
+  /** The one wallet of this account or organization, in US dollars. It pays overage only: VM time past the plan, saved snapshots past the included count, extra starts and the AI proxy. It never pays the plan. Null on unlimited accounts. */
+  wallet?: GetLimitsResponseWallet | null | undefined;
+  /** What the plan includes this billing period. Null on unlimited accounts. */
+  planIncluded?: GetLimitsResponsePlanIncluded | null | undefined;
+  /** What the wallet pays past the plan. */
+  overagePrices?: GetLimitsResponseOveragePrices | undefined;
+  /** What the next start costs now. 0 inside every limit; null when it would be refused. */
+  nextStartDollars?: number | null | undefined;
+  /** Start ceilings with extra starts: the hour and day limits times `overagePrices.startLimitMultiplier`, and the minute limit times `overagePrices.startMinuteLimitMultiplier`. Starts above `startLimits` and up to these ceilings are paid from the wallet at the `overagePrices.startBrackets` prices. Null when extra starts are not available now (before the first payment, an empty wallet, or an unlimited account). */
+  startLimitsWithWallet?: GetLimitsResponseStartLimits | null | undefined;
   /** Remaining machine starts in the rolling minute, hour and day windows. Null windows mean the account is unlimited. */
-  starts?: GetLimitsResponseStarts;
-  /** Remaining machine time in hours (`creditBalanceSeconds / 3600`). Null on unlimited accounts. */
-  creditBalanceHours?: number | null;
-  /** Remaining purchased credit packs in hours. */
-  packBalanceHours?: number;
-  /** Remaining purchased credit packs in dollars. */
-  packBalanceDollars?: number;
-  hasPaymentHistory?: boolean;
-  package?: GetLimitsResponsePackageMap;
-  subscriptionQuotaSeconds?: number;
-  subscriptionRemainingSeconds?: number;
-  packBalanceSeconds?: number;
-  creditPurchasedSeconds?: number;
-  creditUsedSeconds?: number;
-  liveUsageSeconds?: number;
-  creditSecondsPerDollar?: number;
+  starts?: GetLimitsResponseStarts | undefined;
+  /** Deprecated. Read `planIncluded.vmHoursRemaining` and `wallet.balanceDollars`. */
+  creditBalanceHours?: number | null | undefined;
+  /** Deprecated. Read `wallet.balanceDollars`. */
+  packBalanceHours?: number | undefined;
+  /** Deprecated. Read `wallet.balanceDollars`. */
+  packBalanceDollars?: number | undefined;
+  hasPaymentHistory?: boolean | undefined;
+  subscriptionQuotaSeconds?: number | undefined;
+  subscriptionRemainingSeconds?: number | undefined;
+  /** Deprecated. Read `wallet.balanceDollars`. */
+  packBalanceSeconds?: number | undefined;
+  /** Deprecated. */
+  creditPurchasedSeconds?: number | undefined;
+  creditUsedSeconds?: number | undefined;
+  liveUsageSeconds?: number | undefined;
+  creditSecondsPerDollar?: number | undefined;
   /** Current plan key, or `trial` before any payment. */
-  sandboxPlanKey?: string;
+  sandboxPlanKey?: string | undefined;
   /** Monthly price of the current plan in dollars. */
-  sandboxPlanDollars?: number;
+  sandboxPlanDollars?: number | undefined;
   /** Every plan tier and its limits. */
-  sandboxPlanTiers?: GetLimitsResponseSandboxPlanTiersList;
-  accountPlan?: string;
+  sandboxPlanTiers?: GetLimitsResponseSandboxPlanTiersList | undefined;
+  accountPlan?: string | undefined;
   /** `service` for service accounts, otherwise null. */
-  plan?: string | null;
+  plan?: string | null | undefined;
   /** `Service` for service accounts, otherwise null. */
-  planName?: string | null;
-  serviceAccount?: boolean;
+  planName?: string | null | undefined;
+  serviceAccount?: boolean | undefined;
   /** True when the account has no machine-time or start limits. */
-  unlimited?: boolean;
+  unlimited?: boolean | undefined;
   /** True when an organization has an active per-seat plan. */
-  hasSeatPlan?: boolean;
-  /** Machine time used in the last 24 hours, in seconds. Useful to estimate how long the balance lasts. */
-  last24hUsageSeconds?: number;
-  /** Lifetime Boat-time allowance for new sandboxes while the account has not paid, a plan trial included. Every charge on the wallet counts. Null once the account has paid. */
-  trialComputeCapSeconds?: number | null;
+  hasSeatPlan?: boolean | undefined;
+  /** Machine time used in the last 24 hours, in seconds. Useful to estimate how long the included time and the wallet last. */
+  last24hUsageSeconds?: number | undefined;
+  /** Lifetime VM-time allowance for new sandboxes while the account has not paid, a plan trial included. Null once the account has paid. */
+  trialComputeCapSeconds?: number | null | undefined;
+  /** VM time already used against trialComputeCapSeconds. Null once the account has paid. */
+  trialComputeUsedSeconds?: number | null | undefined;
   /** The trial limits in one readable line. Null on paid accounts. */
-  trialLine?: string | null;
+  trialLine?: string | null | undefined;
   /** Each sandbox type, and whether this account can create it now. A blocked type carries the reason. */
-  machineTypes?: GetLimitsResponseMachineTypesList;
+  machineTypes?: GetLimitsResponseMachineTypesList | undefined;
   /** Fair-use caps on a gifted account, or null when there are none. */
-  giftLimit?: GetLimitsResponseGiftLimit | null;
+  giftLimit?: GetLimitsResponseGiftLimit | null | undefined;
   /** Account access state returned by the current backend. Billing endpoints are not part of v1. */
   billingStatus: string;
-  subscriptionStatus?: string | null;
-  subscriptionCancelAtPeriodEnd?: boolean;
-  hasSubscription?: boolean;
-  subscriptionTrialEndsAt?: string | null;
-  subscriptionCurrentPeriodEnd?: string | null;
-  creditBalanceSeconds?: number;
+  subscriptionStatus?: string | null | undefined;
+  subscriptionCancelAtPeriodEnd?: boolean | undefined;
+  hasSubscription?: boolean | undefined;
+  subscriptionTrialEndsAt?: string | null | undefined;
+  subscriptionCurrentPeriodEnd?: string | null | undefined;
+  /** Deprecated. Read `planIncluded.vmHoursRemaining` and `wallet.balanceDollars`. */
+  creditBalanceSeconds?: number | undefined;
   /** Present when limits were read for a team wallet (`?teamId=`, `?org=`, or `X-Boat-Org`). */
-  teamId?: string;
+  teamId?: string | undefined;
   /** Caller's role on that team when `teamId` is present. */
-  teamRole?: string;
-}
-export interface GetNamedSnapshotRequest {
-  name: string;
-}
-/** `saving` while the capture and pin are in flight (a live source sandbox takes a fresh snapshot first, which can run minutes), `ready` when deployable, `failed` if the save did not complete (see `error`; save again to retry). */
-export type NamedSnapshotStatus = "saving" | "ready" | "failed";
-/** A named snapshot: a frozen copy of a sandbox's disk at one moment, saved under a name you pick. Independent of the source sandbox's later life: the sandbox can change, stop, or be deleted and the named snapshot still deploys. Named snapshots never expire; re-saving a name replaces its artifact. */
-export interface NamedSnapshot {
-  /** The user-chosen handle, unique within your account. */
-  name: string;
-  /** `saving` while the capture and pin are in flight (a live source sandbox takes a fresh snapshot first, which can run minutes), `ready` when deployable, `failed` if the save did not complete (see `error`; save again to retry). */
-  status: NamedSnapshotStatus;
-  /** Failure reason. Only present when `status` is `failed`. */
-  error?: string;
-  /** The sandbox this snapshot was saved from (display only). */
-  sourceSandboxId: string;
-  /** The frozen artifact behind the name. Present once `status` is `ready`. Accepted by `GET /api/boat/snapshots/{snapshotId}/tree` to browse its files. */
-  snapshotId?: string;
-  /** Sandbox type the snapshot was saved from. Deploys default to it. */
-  type?: string;
-  /** Restored content size of the frozen state, in bytes. */
-  sizeBytes?: number;
-  createdAt: string;
-}
-export interface GetNamedSnapshotResponse {
-  ok: boolean;
-  /** Stable success envelope discriminator added by v1. */
-  type: string;
-  snapshot: NamedSnapshot;
+  teamRole?: string | undefined;
 }
 export interface GetPromptRunStatusRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
@@ -1629,13 +2396,13 @@ export interface PromptRun {
   sandboxId: string;
   status: PromptRunStatus;
   done: boolean;
-  createdAt?: string | null;
-  model?: string | null;
-  reasoningEffort?: string | null;
+  createdAt?: string | null | undefined;
+  model?: string | null | undefined;
+  reasoningEffort?: string | null | undefined;
   /** The prompt runs in fast mode. `null` means no speed is set yet. The prompt waits without a speed choice, or it ended without running (`done` is true). The speed is set when the prompt starts, for the model that runs. */
-  fast?: boolean | null;
+  fast?: boolean | null | undefined;
   /** The conversation this prompt ran in. A Sandbox runs many conversations in parallel; see [Integrated agents](/integrated-agents). */
-  conversationId?: string | null;
+  conversationId?: string | null | undefined;
 }
 export interface GetPromptRunStatusResponse {
   ok: boolean;
@@ -1654,13 +2421,13 @@ export interface GetSandboxResponse {
   type: string;
   sandbox: Sandbox;
   /** Present when a fair-use cap on a gifted account shortened the requested auto-stop time. */
-  giftLimitNotice?: string;
+  giftLimitNotice?: string | undefined;
 }
 export interface GetSandboxAiUsageRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Days of history, today included. */
-  days?: number;
+  days?: number | undefined;
 }
 export type GetSandboxAiUsageResponseUsageList = Array<AiUsageRow>;
 export interface GetSandboxAiUsageResponse {
@@ -1683,9 +2450,9 @@ export interface GetSandboxUsageRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Count from this time, ISO 8601 or Unix epoch seconds. Default is the sandbox's creation. */
-  since?: string;
+  since?: string | undefined;
   /** Count up to this time, ISO 8601 or Unix epoch seconds. Default is now. */
-  until?: string;
+  until?: string | undefined;
 }
 /** The sandbox's current machine size, which sets `billingMultiplier`. */
 export type GetSandboxUsageResponseSandboxType = "small" | "default" | "large" | "xlarge";
@@ -1711,6 +2478,35 @@ export interface GetSandboxUsageResponse {
   /** The meter is still moving: the sandbox is up and no refused stop is holding it paused. Read again after it stops for the final figure. `false` on a sandbox that is up but paused past a refused stop, whose figure will not change until it is used again. */
   running: boolean;
 }
+export interface GetSavedSnapshotRequest {
+  name: string;
+}
+/** `saving` while the capture and pin are in flight (a live source sandbox takes a fresh snapshot first, which can run minutes), `ready` when deployable, `failed` if the save did not complete (see `error`; save again to retry). */
+export type SavedSnapshotStatus = "saving" | "ready" | "failed";
+/** A saved snapshot: a frozen copy of a sandbox's disk at one moment, saved under a name you pick. Independent of the source sandbox's later life: the sandbox can change, stop, or be deleted and the saved snapshot still deploys. Saved snapshots never expire; re-saving a name replaces its artifact. */
+export interface SavedSnapshot {
+  /** The user-chosen handle, unique within your account. */
+  name: string;
+  /** `saving` while the capture and pin are in flight (a live source sandbox takes a fresh snapshot first, which can run minutes), `ready` when deployable, `failed` if the save did not complete (see `error`; save again to retry). */
+  status: SavedSnapshotStatus;
+  /** Failure reason. Only present when `status` is `failed`. */
+  error?: string | undefined;
+  /** The sandbox this snapshot was saved from (display only). */
+  sourceSandboxId: string;
+  /** The frozen artifact behind the name. Present once `status` is `ready`. Accepted by `GET /api/boat/snapshots/{snapshotId}/tree` to browse its files. */
+  snapshotId?: string | undefined;
+  /** Sandbox type the snapshot was saved from. Deploys default to it. */
+  type?: string | undefined;
+  /** Restored content size of the frozen state, in bytes. */
+  sizeBytes?: number | undefined;
+  createdAt: string;
+}
+export interface GetSavedSnapshotResponse {
+  ok: boolean;
+  /** Stable success envelope discriminator added by v1. */
+  type: string;
+  snapshot: SavedSnapshot;
+}
 export interface GetSecretsRequest {}
 export type GetSecretsResponseSecretFilesList = Array<SecretFile>;
 /** Present on update; counts how many active sandboxes received the new environment. */
@@ -1719,14 +2515,14 @@ export interface GetSecretsResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  success?: boolean;
+  success?: boolean | undefined;
   environmentId: string;
   /** Id of the default environment. `environmentId` is the id of its latest version. */
-  subenvironmentId?: string;
+  subenvironmentId?: string | undefined;
   envContents: string;
   secretFiles: GetSecretsResponseSecretFilesList;
   /** Present on update; counts how many active sandboxes received the new environment. */
-  pushed?: GetSecretsResponsePushedMap;
+  pushed?: GetSecretsResponsePushedMap | undefined;
 }
 export interface GetSnapshotDownloadRequest {
   /** Snapshot id returned by the snapshot list/latest calls. */
@@ -1761,7 +2557,7 @@ export interface GetSnapshotDownloadResponse {
   expiresInSeconds: number;
   /** Human-readable note on how to reassemble the chunks into a filesystem. */
   reconstruct: string;
-  inventory?: GetSnapshotDownloadResponseInventory | null;
+  inventory?: GetSnapshotDownloadResponseInventory | null | undefined;
   /** Every chunk across the chain (all generations up to and including this snapshot), ordered by `(generation, chunkIndex)`. */
   chunks: GetSnapshotDownloadResponseChunksList;
 }
@@ -1769,7 +2565,7 @@ export interface GetSnapshotFileRequest {
   /** Snapshot id returned by the snapshot list/latest calls. */
   snapshotId: string;
   /** File or folder path inside the snapshot. Empty for the whole snapshot. */
-  path?: string;
+  path?: string | undefined;
 }
 export interface GetSnapshotFileResponse {}
 export interface GetSnapshotTreeRequest {
@@ -1782,7 +2578,7 @@ export interface SnapshotTreeEntry {
   path: string;
   kind: SnapshotTreeEntryKind;
   /** File size in bytes. Omitted for directories. */
-  size?: number;
+  size?: number | undefined;
 }
 /** Exactly the files/dirs a resume or download returns, your data only; base-image system entries are not listed. */
 export type GetSnapshotTreeResponseEntriesList = Array<SnapshotTreeEntry>;
@@ -1804,7 +2600,7 @@ export interface GetSnapshotTreeResponse {
   /** Exactly the files/dirs a resume or download returns, your data only; base-image system entries are not listed. */
   entries: GetSnapshotTreeResponseEntriesList;
   /** Why the tree is unavailable, when `treeAvailable` is `false`. */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface GetStopRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
@@ -1834,37 +2630,37 @@ export interface GetWebhookResponse {
   type: string;
   webhook: Webhook;
 }
-export interface HostPortRequest {
+export interface HostPortRequest2 {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Port the service listens on inside the sandbox. */
   port: number;
   /** Return an ungated URL instead of one that requires the `_token` query parameter. */
-  public?: boolean;
+  public?: boolean | undefined;
   /** Set when the service listens on localhost (`127.0.0.1` or `::1`) only. The sandbox relays the URL to it. Leave unset for a service bound to `0.0.0.0`. Each call sets the value again. */
-  localhost?: boolean;
+  localhost?: boolean | undefined;
   /** Display title for the hosted port. */
-  title?: string;
+  title?: string | undefined;
 }
 export type HostPortResponseAccess = "private" | "public";
 export interface HostPortResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  success?: boolean;
-  port?: number;
+  success?: boolean | undefined;
+  port?: number | undefined;
   /** Public HTTPS URL. Carries the `_token` query parameter unless the port is public; redact from logs. */
-  url?: string;
-  isProtected?: boolean;
-  access?: HostPortResponseAccess;
+  url?: string | undefined;
+  isProtected?: boolean | undefined;
+  access?: HostPortResponseAccess | undefined;
   /** The sandbox relays the URL to a service that listens on localhost only. */
-  localhost?: boolean;
+  localhost?: boolean | undefined;
 }
 export interface InterruptSandboxRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Interrupt only this conversation id. Omit to interrupt the whole sandbox. */
-  conversation?: string;
+  conversation?: string | undefined;
 }
 export interface InterruptSandboxResponse {
   ok: boolean;
@@ -1872,11 +2668,11 @@ export interface InterruptSandboxResponse {
   type: string;
   id: string;
   status: string;
-  sandbox?: Sandbox | null;
+  sandbox?: Sandbox | null | undefined;
   /** Present on resume or fork when a fair-use cap on a gifted account shortened the requested auto-stop time. */
-  giftLimitNotice?: string;
+  giftLimitNotice?: string | undefined;
   /** On interrupt, the conversation whose turn was interrupted. */
-  conversationId?: string;
+  conversationId?: string | undefined;
 }
 export interface ListApiKeysRequest {}
 export type ListApiKeysResponseApiKeysList = Array<ApiKey>;
@@ -1904,7 +2700,7 @@ export interface ApiKeyCatalog {
   /** Whether POST /api-keys/scoped currently accepts creation requests. */
   scopedCreationEnabled: boolean;
   /** Session-only selector resources. Omitted when the caller authenticates with an API key. */
-  scopeResources?: ApiKeyCatalogScopeResources;
+  scopeResources?: ApiKeyCatalogScopeResources | undefined;
 }
 export interface ListApiKeysResponse {
   ok: boolean;
@@ -1922,10 +2718,13 @@ export type ListCredentialAccountsRequestCredential =
   | "deepseek-api-key"
   | "moonshot-api-key"
   | "mistral-api-key"
+  | "xai-api-key"
+  | "opencode-api-key"
   | "claude-subscription"
   | "chatgpt-subscription"
   | "kimi-subscription"
   | "mistral-vibe-subscription"
+  | "grok-subscription"
   | "claude-bedrock"
   | "codex-bedrock";
 export interface ListCredentialAccountsRequest {
@@ -1955,35 +2754,34 @@ export interface ListCredentialProfilesResponse {
 }
 export interface ListEnvironmentsRequest {
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
 }
-export interface ListNamedSnapshotsRequest {}
-export type ListNamedSnapshotsResponseSnapshotsList = Array<NamedSnapshot>;
-/** What the request's wallet (your active organization, `?org=`, or personal) pays for named snapshots. 10 are free per wallet; each one above costs $1.70 a month, charged daily from usage. An organization's count includes every member's names billed to it. */
-export interface NamedSnapshotAllowance {
-  /** Organization the numbers are for. null = personal. */
-  org?: string | null;
-  /** That organization's name. */
-  orgName?: string | null;
-  /** Named snapshots kept for free. */
-  free?: number;
-  /** Named snapshots this wallet keeps. */
-  used?: number;
-  /** Named snapshots above the free ones. */
-  extra?: number;
-  /** What the extra ones cost per month. */
-  extraMonthlyDollars?: number;
-  /** Boat time the extra ones take per day, in dollars (the daily charge). */
-  extraDailyDollars?: number;
-  /** Monthly price of one extra named snapshot. */
-  pricePerExtraMonthlyDollars?: number;
+export interface ListFilesRequest {
+  /** Public Sandbox id returned by create/list/get sandbox calls. */
+  sandboxId: string;
+  path?: string | undefined;
 }
-export interface ListNamedSnapshotsResponse {
+export interface FileEntry {
+  name: string;
+  /** Absolute path on the sandbox. */
+  path: string;
+  isDir: boolean;
+  isSymlink: boolean;
+  size: number;
+  /** Octal permission bits, for example "0644". */
+  mode: string;
+  modifiedAt: string;
+}
+export type ListFilesResponseFilesList = Array<FileEntry>;
+export interface ListFilesResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  snapshots: ListNamedSnapshotsResponseSnapshotsList;
-  allowance?: NamedSnapshotAllowance;
+  success?: boolean | undefined;
+  path: string;
+  files: ListFilesResponseFilesList;
+  /** True when the directory holds more than 10,000 entries. */
+  truncated: boolean;
 }
 export interface ListOrganizationsRequest {}
 export type OrgType = "personal" | "org";
@@ -1997,7 +2795,7 @@ export interface Org {
   role: OrgRole;
   memberCount: number;
   /** Stripe status of the organization's plan; absent on the personal row. */
-  subscriptionStatus?: string;
+  subscriptionStatus?: string | undefined;
   /** The wallet new sandboxes bill when a request names none. */
   active: boolean;
 }
@@ -2013,40 +2811,40 @@ export interface ListOrganizationsResponse {
 export type ListReposRequestSort = "asc" | "desc";
 export interface ListReposRequest {
   /** When true, sync from GitHub before returning repository groups. */
-  sync?: boolean;
+  sync?: boolean | undefined;
   /** Maximum items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor returned as `pageInfo.nextCursor`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sort direction for cursor pagination. */
-  sort?: ListReposRequestSort | (string & {});
+  sort?: ListReposRequestSort | (string & {}) | undefined;
   /** Case-insensitive repository name/fullName filter. */
-  q?: string;
+  q?: string | undefined;
   /** Filter to selected or unselected repositories. */
-  selected?: boolean;
+  selected?: boolean | undefined;
 }
 export interface Repository {
   /** GitHub repository id. */
-  id?: number;
+  id?: number | undefined;
   /** Internal repository id used when selecting repositories. */
-  databaseId?: string;
-  name?: string;
-  fullName?: string;
-  description?: string | null;
-  url?: string;
-  private?: boolean;
-  permissions?: string;
-  pushedAt?: string | null;
+  databaseId?: string | undefined;
+  name?: string | undefined;
+  fullName?: string | undefined;
+  description?: string | null | undefined;
+  url?: string | undefined;
+  private?: boolean | undefined;
+  permissions?: string | undefined;
+  pushedAt?: string | null | undefined;
   /** Reserved; always null. */
-  lastUserCommitAt?: string | null;
+  lastUserCommitAt?: string | null | undefined;
   [key: string]: unknown;
 }
 export type RepositoryInstallationRepositoriesList = Array<Repository>;
 export interface RepositoryInstallation {
-  type?: string;
-  accountLogin?: string;
-  accountAvatarUrl?: string | null;
-  repositories?: RepositoryInstallationRepositoriesList;
+  type?: string | undefined;
+  accountLogin?: string | undefined;
+  accountAvatarUrl?: string | null | undefined;
+  repositories?: RepositoryInstallationRepositoriesList | undefined;
 }
 export type ListReposResponseInstallationsList = Array<RepositoryInstallation>;
 export type ListReposResponseSelectedRepositoriesList = Array<SelectedRepository>;
@@ -2062,9 +2860,9 @@ export interface ListReposResponse {
   installations: ListReposResponseInstallationsList;
   environmentId: string;
   /** Id of the default environment. `environmentId` is the id of its latest version. */
-  subenvironmentId?: string | null;
+  subenvironmentId?: string | null | undefined;
   selectedRepositories: ListReposResponseSelectedRepositoriesList;
-  pageInfo?: PageInfo;
+  pageInfo?: PageInfo | undefined;
 }
 export interface ListSandboxConversationsRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
@@ -2100,55 +2898,69 @@ export interface ListSandboxConversationsResponse {
   conversations: ListSandboxConversationsResponseConversationsList;
 }
 export type ListSandboxesRequestSort = "asc" | "desc";
-export type ListSandboxesRequestInclude = "cost";
+export type ListSandboxesRequestLabelList = Array<string>;
 export interface ListSandboxesRequest {
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** Maximum items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor returned as `pageInfo.nextCursor`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sort direction for cursor pagination. */
-  sort?: ListSandboxesRequestSort | (string & {});
+  sort?: ListSandboxesRequestSort | (string & {}) | undefined;
   /** Comma-separated sandbox state filter, for example `ready,idle,running`. */
-  state?: string;
-  /** `cost` adds each sandbox's `cost` this calendar month (UTC), at list price. */
-  include?: ListSandboxesRequestInclude | (string & {});
+  state?: string | undefined;
+  /** Keep sandboxes whose name starts with this text, for example `myapp-`. The match is literal. */
+  namePrefix?: string | undefined;
+  /** Keep stopped sandboxes that stopped before this ISO 8601 time. Every stop counts, auto-stops too. */
+  stoppedBefore?: string | undefined;
+  /** `true` keeps sandboxes whose data retention deleted (`dataExpiredAt` is set). `false` keeps the others. */
+  dataExpired?: boolean | undefined;
+  /** `key=value`. Repeat it to require several labels, for example `label=session%3Dabc&label=env%3Dprod`. */
+  label?: ListSandboxesRequestLabelList | undefined;
+  /** Comma-separated. `cost` adds each sandbox's `cost` this calendar month (UTC), at list price. `deletedCost` adds wallet-wide machine time of deleted sandboxes this list would show (not for API keys limited to some sandboxes). */
+  include?: string | undefined;
   /** Same as the `org` query parameter. Query wins when both are set. */
-  xBoatOrg?: string;
+  xBoatOrg?: string | undefined;
 }
 export type ListSandboxesResponseSandboxesList = Array<Sandbox>;
+/** Only with `include=deletedCost`, and not for an API key limited to some sandboxes. Machine time this calendar month (UTC) of deleted sandboxes this list would otherwise show. They are not in the list, but their time was billed. Add it to the sandboxes' `cost` to get the full total. */
+export type ListSandboxesResponseDeletedCost = SandboxCost;
 export interface ListSandboxesResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
   sandboxes: ListSandboxesResponseSandboxesList;
-  pageInfo?: PageInfo;
+  pageInfo?: PageInfo | undefined;
+  /** Only with `include=deletedCost`, and not for an API key limited to some sandboxes. Machine time this calendar month (UTC) of deleted sandboxes this list would otherwise show. They are not in the list, but their time was billed. Add it to the sandboxes' `cost` to get the full total. */
+  deletedCost?: SandboxCost | undefined;
 }
 export type ListSandboxEventsRequestSort = "asc" | "desc";
 export interface ListSandboxEventsRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Maximum items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor returned as `pageInfo.nextCursor`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sort direction for cursor pagination. */
-  sort?: ListSandboxEventsRequestSort | (string & {});
+  sort?: ListSandboxEventsRequestSort | (string & {}) | undefined;
   /** Comma-separated event type filter, for example `prompt,response,steer`. */
-  type?: string;
+  type?: string | undefined;
   /** Only return events for this conversation id. Repeat the parameter (or comma-separate) for several. Omit to stream every conversation on the sandbox. See [Integrated agents](/integrated-agents). */
-  conversation?: string;
+  conversation?: string | undefined;
+  /** The `ETag` of the last page you read. If the page is unchanged, the answer is `304` with no body. */
+  ifNoneMatch?: string | undefined;
 }
 export type SandboxEventDataMap = { [key: string]: unknown | undefined };
 export interface SandboxEvent {
-  id?: string;
+  id?: string | undefined;
   type: string;
-  timestamp?: number;
-  taskId?: string | null;
+  timestamp?: number | undefined;
+  taskId?: string | null | undefined;
   /** The conversation this event belongs to. Filter the stream with `?conversation=<id>`. See [Integrated agents](/integrated-agents). */
-  conversationId?: string | null;
-  data?: SandboxEventDataMap;
+  conversationId?: string | null | undefined;
+  data?: SandboxEventDataMap | undefined;
   [key: string]: unknown;
 }
 /** Sandbox work and lifecycle event objects. Event shapes are intentionally extensible; branch on each event `type` when present. */
@@ -2160,7 +2972,7 @@ export interface ListSandboxEventsResponse {
   id: string;
   /** Sandbox work and lifecycle event objects. Event shapes are intentionally extensible; branch on each event `type` when present. */
   events: ListSandboxEventsResponseEventsList;
-  pageInfo?: PageInfo;
+  pageInfo?: PageInfo | undefined;
 }
 export interface ListSandboxProcessesRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
@@ -2169,18 +2981,18 @@ export interface ListSandboxProcessesRequest {
 export interface SandboxProcess {
   pid: number;
   /** Live list only. */
-  parentPid?: number;
+  parentPid?: number | undefined;
   /** Live list only. */
-  user?: string;
-  cpuPercent?: number;
+  user?: string | undefined;
+  cpuPercent?: number | undefined;
   /** Resident memory. */
-  memoryMB?: number;
+  memoryMB?: number | undefined;
   /** Live list only. */
-  startedAt?: string;
+  startedAt?: string | undefined;
   /** The full command line (first 1000 characters; 120 in a stored sample). */
   command: string;
   /** Live list: the history record holding this process's output, when it has one. */
-  commandId?: string | null;
+  commandId?: string | null | undefined;
 }
 export type ListSandboxProcessesResponseProcessesList = Array<SandboxProcess>;
 export interface ListSandboxProcessesResponse {
@@ -2199,11 +3011,11 @@ export interface ListSandboxSnapshotsRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Maximum items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor returned as `pageInfo.nextCursor`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sort direction for cursor pagination. */
-  sort?: ListSandboxSnapshotsRequestSort | (string & {});
+  sort?: ListSandboxSnapshotsRequestSort | (string & {}) | undefined;
 }
 export type ListSandboxSnapshotsResponseSnapshotsList = Array<SnapshotSummary>;
 export interface ListSandboxSnapshotsResponse {
@@ -2211,16 +3023,48 @@ export interface ListSandboxSnapshotsResponse {
   /** Stable success envelope discriminator added by v1. */
   type: string;
   snapshots: ListSandboxSnapshotsResponseSnapshotsList;
-  pageInfo?: PageInfo;
+  pageInfo?: PageInfo | undefined;
+}
+export interface ListSavedSnapshotsRequest {}
+export type ListSavedSnapshotsResponseSnapshotsList = Array<SavedSnapshot>;
+/** What the request's wallet (your active organization, `?org=`, or personal) pays for saved snapshots. The plan includes some; each one above costs $0.056 a day from the wallet. An organization's count includes every member's names billed to it. */
+export interface SavedSnapshotAllowance {
+  /** Organization the numbers are for. null = personal. */
+  org?: string | null | undefined;
+  /** That organization's name. */
+  orgName?: string | null | undefined;
+  /** Saved snapshots the plan includes: 10 per $20 of plan per seat, never fewer than 10. */
+  included?: number | undefined;
+  /** Same value as included. Kept for older clients. */
+  free?: number | undefined;
+  /** Saved snapshots this wallet keeps. */
+  used?: number | undefined;
+  /** Saved snapshots above the included ones. */
+  extra?: number | undefined;
+  /** What the extra ones cost per month. */
+  extraMonthlyDollars?: number | undefined;
+  /** What the wallet pays per day for the extra ones, in dollars. */
+  extraDailyDollars?: number | undefined;
+  /** Price of one extra saved snapshot for 30 days (1.68). */
+  pricePerExtraMonthlyDollars?: number | undefined;
+  /** Daily price of one extra saved snapshot (0.056). */
+  pricePerExtraDailyDollars?: number | undefined;
+}
+export interface ListSavedSnapshotsResponse {
+  ok: boolean;
+  /** Stable success envelope discriminator added by v1. */
+  type: string;
+  snapshots: ListSavedSnapshotsResponseSnapshotsList;
+  allowance?: SavedSnapshotAllowance | undefined;
 }
 export type ListSnapshotsRequestSort = "asc" | "desc";
 export interface ListSnapshotsRequest {
   /** Maximum items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque pagination cursor returned as `pageInfo.nextCursor`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Sort direction for cursor pagination. */
-  sort?: ListSnapshotsRequestSort | (string & {});
+  sort?: ListSnapshotsRequestSort | (string & {}) | undefined;
 }
 export type ListSnapshotsResponseSnapshotsList = Array<SnapshotSummary>;
 export interface ListSnapshotsResponse {
@@ -2228,7 +3072,7 @@ export interface ListSnapshotsResponse {
   /** Stable success envelope discriminator added by v1. */
   type: string;
   snapshots: ListSnapshotsResponseSnapshotsList;
-  pageInfo?: PageInfo;
+  pageInfo?: PageInfo | undefined;
 }
 export interface ListSnapshotSharesRequest {
   name: string;
@@ -2249,6 +3093,23 @@ export interface ListWebhooksResponse {
   type: string;
   webhooks: ListWebhooksResponseWebhooksList;
 }
+export interface MoveFileRequest {
+  /** Public Sandbox id returned by create/list/get sandbox calls. */
+  sandboxId: string;
+  source: string;
+  /** The new full path. Missing parent directories are created. */
+  destination: string;
+  /** Replace an existing destination. Without it, an existing destination is an error. */
+  overwrite?: boolean | undefined;
+}
+export interface MoveFileResponse {
+  ok: boolean;
+  /** Stable success envelope discriminator added by v1. */
+  type: string;
+  success?: boolean | undefined;
+  path: string;
+  destination: string;
+}
 export type PromptSandboxRequestProvider =
   | "codex"
   | "claude-code"
@@ -2265,15 +3126,15 @@ export interface PromptSandboxRequest {
   sandboxId: string;
   provider: PromptSandboxRequestProvider | (string & {});
   /** Optional provider model id from `GET /provider-models`. Omit to use the model selected for that harness on the Agents dashboard. Unknown explicit ids are currently forwarded rather than rejected by request validation. */
-  model?: string | null;
+  model?: string | null | undefined;
   /** Optional reasoning/thinking level (e.g. `none`, `low`, `medium`, `high`, `xhigh`, `max`). Which levels a given model accepts is listed per model in `GET /provider-models`; some models accept none. */
-  reasoningEffort?: string | null;
+  reasoningEffort?: string | null | undefined;
   /** Optional. `true` runs this prompt in fast mode. The model stays the same and gives output faster. The provider bills fast mode at its higher fast rate. Omit to use the choice saved on the Agents dashboard for that model. `false` forces standard speed. Only models with `fastMode` set to `true` in `GET /provider-models` accept `true`. Other models return 400 `fast_mode_not_supported`. */
-  fast?: boolean | null;
+  fast?: boolean | null | undefined;
   /** Start a NEW conversation on the sandbox (runs in parallel with any existing ones) instead of continuing the most-recently-active one. Mutually exclusive with `conversationId`. */
-  new?: boolean;
+  new?: boolean | undefined;
   /** Continue a specific conversation by id (as returned by a previous prompt). Omit (and omit `new`) to continue the sandbox's most-recently-active conversation. */
-  conversationId?: string | null;
+  conversationId?: string | null | undefined;
   /** Natural-language task for the sandbox, including repo, preview, or browser-use instructions. */
   prompt: string;
 }
@@ -2286,21 +3147,21 @@ export interface PromptSandboxResponse {
   id: string;
   promptId: string;
   /** The conversation this prompt was queued in. A new one when `new` was set, the one named by `conversationId`, or the sandbox's most-recently-active conversation. See [Integrated agents](/integrated-agents). */
-  conversationId?: string | null;
+  conversationId?: string | null | undefined;
   promptRun: PromptRun;
   status: PromptSandboxResponseStatus;
   provider: string;
-  model?: string | null;
-  reasoningEffort?: string | null;
+  model?: string | null | undefined;
+  reasoningEffort?: string | null | undefined;
   /** The prompt runs in fast mode. */
-  fast?: boolean;
+  fast?: boolean | undefined;
 }
 export type ReadSandboxFileRequestEncoding = "utf8" | "base64";
 export interface ReadSandboxFileRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   path: string;
-  encoding?: ReadSandboxFileRequestEncoding | (string & {});
+  encoding?: ReadSandboxFileRequestEncoding | (string & {}) | undefined;
 }
 export type ReadSandboxFileResponseEncoding = "utf8" | "base64";
 export interface ReadSandboxFileResponse {
@@ -2319,10 +3180,38 @@ export interface RecoverSandboxRequest {
 }
 export type RecoverSandboxResponseStatus = "recovering";
 export interface RecoverSandboxResponse {
-  ok?: boolean;
-  type?: string;
-  status?: RecoverSandboxResponseStatus;
-  message?: string;
+  ok?: boolean | undefined;
+  type?: string | undefined;
+  status?: RecoverSandboxResponseStatus | undefined;
+  message?: string | undefined;
+}
+/** Files up to 5 MiB each. */
+export type ReplaceInFilesRequestPathsList = Array<string>;
+export interface ReplaceInFilesRequest {
+  /** Public Sandbox id returned by create/list/get sandbox calls. */
+  sandboxId: string;
+  /** Files up to 5 MiB each. */
+  paths: ReplaceInFilesRequestPathsList;
+  /** Plain text. Every occurrence is replaced, byte for byte; the rest of the file is not changed. */
+  pattern: string;
+  /** Required. Use "" to delete the matches. */
+  newValue: string;
+}
+export interface ReplaceInFilesResponseResultsItem {
+  file: string;
+  success: boolean;
+  replacements?: number | undefined;
+  error?: string | undefined;
+}
+/** One result per file. A file that fails does not stop the others. */
+export type ReplaceInFilesResponseResultsList = Array<ReplaceInFilesResponseResultsItem>;
+export interface ReplaceInFilesResponse {
+  ok: boolean;
+  /** Stable success envelope discriminator added by v1. */
+  type: string;
+  success?: boolean | undefined;
+  /** One result per file. A file that fails does not stop the others. */
+  results: ReplaceInFilesResponseResultsList;
 }
 /** Resume onto a different machine size. Omit to keep the sandbox's current type. `xlarge` needs the $100/month plan or higher, or an account access grant from an administrator (403 `machine_class_plan_required` otherwise). A resume already restores onto a fresh machine, so changing size costs nothing extra. Shrinking is rejected with `type_too_small` when the sandbox's data would not fit the smaller disk. */
 export type ResumeSandboxRequestType = "small" | "default" | "large" | "xlarge";
@@ -2332,17 +3221,17 @@ export interface ResumeSandboxRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Pass `true` to resume only if a machine is ready right now. Within about 1.5 s you get the usual `202`, or `503` `no_ready_machine` with the sandbox left stopped and nothing counted against your start limits. */
-  failFast?: boolean;
+  failFast?: boolean | undefined;
   /** Resume onto a different machine size. Omit to keep the sandbox's current type. `xlarge` needs the $100/month plan or higher, or an account access grant from an administrator (403 `machine_class_plan_required` otherwise). A resume already restores onto a fresh machine, so changing size costs nothing extra. Shrinking is rejected with `type_too_small` when the sandbox's data would not fit the smaller disk. */
-  type?: ResumeSandboxRequestType | (string & {});
+  type?: ResumeSandboxRequestType | (string & {}) | undefined;
   /** Replaces the sandbox's per-sandbox environment variables. Omit to keep the sandbox's current env. Same validation rules as `CreateSandboxRequest.env`. */
-  env?: ResumeSandboxRequestEnvMap;
+  env?: ResumeSandboxRequestEnvMap | undefined;
   /** Optionally re-pin the sandbox to a different named sandbox environment on resume. Omit to keep the sandbox's current environment. Unknown names are rejected with `unknown_environment`. */
-  environment?: string;
+  environment?: string | undefined;
   /** Resume into a no-env sandbox: withhold account secrets and scrub inherited owner secrets from the restored snapshot before the sandbox is exposed. One-way; once a sandbox is resumed as no-env it stays no-env on later resumes. */
-  noEnv?: boolean;
+  noEnv?: boolean | undefined;
   /** Auto-stop for the resumed sandbox, in seconds, stored on the sandbox. Omit to keep the TTL the sandbox already had. `null` disables auto-stop, which means nothing will ever stop this sandbox for you. */
-  ttlSeconds?: number | null;
+  ttlSeconds?: number | null | undefined;
 }
 export interface ResumeSandboxResponse {
   ok: boolean;
@@ -2350,11 +3239,11 @@ export interface ResumeSandboxResponse {
   type: string;
   id: string;
   status: string;
-  sandbox?: Sandbox | null;
+  sandbox?: Sandbox | null | undefined;
   /** Present on resume or fork when a fair-use cap on a gifted account shortened the requested auto-stop time. */
-  giftLimitNotice?: string;
+  giftLimitNotice?: string | undefined;
   /** On interrupt, the conversation whose turn was interrupted. */
-  conversationId?: string;
+  conversationId?: string | undefined;
 }
 export interface RevokeApiKeyRequest {
   apiKeyId: string;
@@ -2402,23 +3291,44 @@ export interface RotateWebhookSigningSecretResponse {
   /** Signing secret returned only when created or rotated. */
   secret: string | Redacted.Redacted<string>;
 }
-export interface SaveNamedSnapshotRequest {
+export interface SaveSavedSnapshotRequest {
   /** The sandbox whose current state to freeze. */
   sandboxId: string;
   /** Name to save under. 1-63 lowercase letters, digits, or dashes, starting with a letter or digit. Reusing one of your existing names replaces that snapshot's artifact. `latest`, `tree`, `pull`, `rm`, `save`, `current`, `self`, and `new` are reserved. */
   name: string;
 }
-export interface SaveNamedSnapshotResponse {
+export interface SaveSavedSnapshotResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
   status: string;
-  snapshot: NamedSnapshot;
+  snapshot: SavedSnapshot;
+}
+export interface SearchFilesRequest {
+  /** Public Sandbox id returned by create/list/get sandbox calls. */
+  sandboxId: string;
+  path?: string | undefined;
+  pattern: string;
+}
+/** Absolute paths, at most 10,000. */
+export type SearchFilesResponseFilesList = Array<string>;
+/** Present only when part of the tree could not be searched (for example a folder you cannot read). The results are then incomplete. A search that fails completely is an error response. */
+export type SearchFilesResponseErrorsList = Array<string>;
+export interface SearchFilesResponse {
+  ok: boolean;
+  /** Stable success envelope discriminator added by v1. */
+  type: string;
+  success?: boolean | undefined;
+  /** Absolute paths, at most 10,000. */
+  files: SearchFilesResponseFilesList;
+  truncated: boolean;
+  /** Present only when part of the tree could not be searched (for example a folder you cannot read). The results are then incomplete. A search that fails completely is an error response. */
+  errors?: SearchFilesResponseErrorsList | undefined;
 }
 export interface SelectRepoRequest {
   /** Internal repository `databaseId` returned by `GET /repos`. */
   repositoryId: string;
-  baseBranch?: string;
+  baseBranch?: string | undefined;
 }
 export type SelectRepoResponseSelectedRepositoriesList = Array<SelectedRepository>;
 export interface SelectRepoResponse {
@@ -2428,7 +3338,7 @@ export interface SelectRepoResponse {
   success: boolean;
   environmentId: string;
   /** Id of the default environment. `environmentId` is the id of its new version. */
-  subenvironmentId?: string | null;
+  subenvironmentId?: string | null | undefined;
   selectedRepositories: SelectRepoResponseSelectedRepositoriesList;
 }
 export interface SetActiveOrganizationRequest {
@@ -2446,6 +3356,35 @@ export interface SetActiveOrganizationResponse {
   /** Stable success envelope discriminator added by v1. */
   type: string;
   active: SetActiveOrganizationResponseActive;
+}
+export type SetCiPublicReposRequestUsersCase1List = Array<string>;
+/** GitHub users allowed: "alice, @bob" or a list. Commas, spaces, @ and profile URLs are accepted. "" = anyone. Omit to keep the current list. */
+export type SetCiPublicReposRequestUsers = string | SetCiPublicReposRequestUsersCase1List;
+export interface SetCiPublicReposRequest {
+  /** The linked GitHub account (login) or installation ID. */
+  account: string;
+  /** true = jobs from public repositories run. Omit to keep the current value. */
+  allow?: boolean | undefined;
+  /** GitHub users allowed: "alice, @bob" or a list. Commas, spaces, @ and profile URLs are accepted. "" = anyone. Omit to keep the current list. */
+  users?: SetCiPublicReposRequestUsers | undefined;
+  /** Only check the users on GitHub; change nothing. */
+  dryRun?: boolean | undefined;
+  /** The organization in scope. */
+  org?: string | undefined;
+}
+export interface SetCiPublicReposResponsePublicRepoUsersItem {
+  /** The login as GitHub spells it. */
+  login?: string | undefined;
+  avatarUrl?: string | null | undefined;
+}
+export type SetCiPublicReposResponsePublicRepoUsersList =
+  Array<SetCiPublicReposResponsePublicRepoUsersItem>;
+export interface SetCiPublicReposResponse {
+  ok: boolean;
+  /** Stable success envelope discriminator added by v1. */
+  type: string;
+  allowPublicRepos: boolean;
+  publicRepoUsers: SetCiPublicReposResponsePublicRepoUsersList;
 }
 export interface SetCredentialProfileCustomApiRequest {
   /** Profile id or name. */
@@ -2473,10 +3412,13 @@ export type SetCredentialProfileKeyRequestCredential =
   | "deepseek-api-key"
   | "moonshot-api-key"
   | "mistral-api-key"
+  | "xai-api-key"
+  | "opencode-api-key"
   | "claude-subscription"
   | "chatgpt-subscription"
   | "kimi-subscription"
   | "mistral-vibe-subscription"
+  | "grok-subscription"
   | "claude-bedrock"
   | "codex-bedrock";
 export interface SetCredentialProfileKeyRequest {
@@ -2486,7 +3428,7 @@ export interface SetCredentialProfileKeyRequest {
   /** The API key. Boat encrypts it at rest. */
   value: string;
   /** Keep the key this one replaces as another account of the credential, ready to switch back to. */
-  keepCurrent?: boolean;
+  keepCurrent?: boolean | undefined;
 }
 export interface SetCredentialProfileKeyResponse {
   ok: boolean;
@@ -2498,7 +3440,7 @@ export interface SetCredentialProfileKeyResponse {
 export interface SetEnvironmentSecretFileRequest {
   environmentId: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** In-sandbox path relative to the workspace, e.g. `.env` or `repo/.env`. */
   path: string;
   contents: string;
@@ -2508,8 +3450,30 @@ export interface SetEnvironmentVarRequest {
   /** Environment variable name. */
   key: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   value: string;
+}
+export interface SetFilePermissionsRequest {
+  /** Public Sandbox id returned by create/list/get sandbox calls. */
+  sandboxId: string;
+  path: string;
+  /** Octal permission bits, for example "755". */
+  mode: string;
+}
+export interface SetFilePermissionsResponse {
+  ok: boolean;
+  /** Stable success envelope discriminator added by v1. */
+  type: string;
+  name: string;
+  /** Absolute path on the sandbox. */
+  path: string;
+  isDir: boolean;
+  isSymlink: boolean;
+  size: number;
+  /** Octal permission bits, for example "0644". */
+  mode: string;
+  modifiedAt: string;
+  success?: boolean | undefined;
 }
 export interface SetSandboxAiAccessRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
@@ -2530,7 +3494,7 @@ export interface SetTelemetryRequest {
   /** HTTPS URL on port 443 or 4318. Boat removes a trailing `/v1/metrics` or `/v1/logs`. */
   endpoint: string;
   /** Headers sent with every export, for example the vendor API key. Boat encrypts them at rest. */
-  headers?: SetTelemetryRequestHeadersMap;
+  headers?: SetTelemetryRequestHeadersMap | undefined;
 }
 export interface TelemetryTestResult {
   /** True when the collector accepted the test export. */
@@ -2551,16 +3515,16 @@ export interface ShareSandboxRequest {
   sandboxId: string;
 }
 export interface ShareSandboxResponse {
-  sandbox?: Sandbox;
+  sandbox?: Sandbox | undefined;
   /** True when the sandbox was running: what runs on it still holds your logins in memory, so it stays `view` for the organization until you stop and resume it. */
-  restartRequired?: boolean;
-  message?: string;
+  restartRequired?: boolean | undefined;
+  message?: string | undefined;
 }
 export interface SteerSandboxRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Conversation id to steer. Also accepted in the body. Omit to steer the sandbox's most-recently-active conversation. */
-  conversation?: string;
+  conversation?: string | undefined;
   /** The extra instruction for the running turn. */
   message: string;
 }
@@ -2580,7 +3544,7 @@ export interface SteerSandboxResponse {
   /** `true` when the harness accepted the message into the turn that was already running, so nothing was interrupted. `false` when Boat interrupted that turn and immediately continued the SAME conversation with the instruction, which keeps the harness session and all of its memory but may repeat a little of the work in flight. */
   native: boolean;
   /** How the message was delivered. `native` and `fallback` mirror the `native` field; `late` means the turn finished between the request and its delivery, so the message ran as an ordinary new turn on the conversation. A steer reported `native` here can settle as `native-continued` on the `steer` event: the harness accepted it but its turn ended without acting on it, so Boat continued it immediately as its own turn on the same session. Read the event for the settled mode. */
-  mode?: SteerSandboxResponseMode;
+  mode?: SteerSandboxResponseMode | undefined;
   status: SteerSandboxResponseStatus;
 }
 export interface StopCommandRequest {
@@ -2605,7 +3569,7 @@ export interface StopSandboxRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** Stop the sandbox even if its disk cannot be snapshotted. It keeps its last successful snapshot and everything written since then is permanently LOST. Without this, a sandbox whose snapshot pipeline is failing is left running rather than discarding your work, and you are not billed for that time. Only use this after a stop has already been refused. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface StopSandboxResponse {
   ok: boolean;
@@ -2613,11 +3577,11 @@ export interface StopSandboxResponse {
   type: string;
   id: string;
   status: string;
-  sandbox?: Sandbox | null;
+  sandbox?: Sandbox | null | undefined;
   /** Present on resume or fork when a fair-use cap on a gifted account shortened the requested auto-stop time. */
-  giftLimitNotice?: string;
+  giftLimitNotice?: string | undefined;
   /** On interrupt, the conversation whose turn was interrupted. */
-  conversationId?: string;
+  conversationId?: string | undefined;
 }
 /** One AI credential in a credential profile. The `*-api-key` ids are API keys you can set with `PUT /credential-profiles/{profile}/keys/{credential}`. The sign-ins (`*-subscription`) and Bedrock (`*-bedrock`) are connected on the dashboard Agents & Proxying page, with the profile picked at the top; you can remove them here. */
 export type SwitchCredentialAccountRequestCredential =
@@ -2628,10 +3592,13 @@ export type SwitchCredentialAccountRequestCredential =
   | "deepseek-api-key"
   | "moonshot-api-key"
   | "mistral-api-key"
+  | "xai-api-key"
+  | "opencode-api-key"
   | "claude-subscription"
   | "chatgpt-subscription"
   | "kimi-subscription"
   | "mistral-vibe-subscription"
+  | "grok-subscription"
   | "claude-bedrock"
   | "codex-bedrock";
 export interface SwitchCredentialAccountRequest {
@@ -2658,14 +3625,14 @@ export interface UnshareSandboxRequest {
   sandboxId: string;
 }
 export interface UnshareSandboxResponse {
-  sandbox?: Sandbox;
-  message?: string;
+  sandbox?: Sandbox | undefined;
+  message?: string | undefined;
 }
 export interface UpdateAiProxyRequest {
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** Same as the `org` query parameter. Query wins when both are set. */
-  xBoatOrg?: string;
+  xBoatOrg?: string | undefined;
   enabled: boolean;
 }
 export type UpdateAiProxyResponsePricing = GetAiProxyResponsePricing;
@@ -2684,13 +3651,24 @@ export interface UpdateAiProxyResponse {
   /** The base URL sandboxes call instead of the providers. */
   proxyUrl: string;
 }
+/** Member ids or emails of active members. Replaces the full list. */
+export type ResourceAccessUpdateMembersList = Array<string>;
+/** Set who can use an organization environment (owner or admin) or profile (owner). A change does not touch running sandboxes. A bad list returns `400 invalid_access`. */
+export interface ResourceAccessUpdate {
+  /** False opens it to every member. True limits it to owners, admins and `members`. */
+  restricted: boolean;
+  /** Member ids or emails of active members. Replaces the full list. */
+  members?: ResourceAccessUpdateMembersList | undefined;
+}
 export interface UpdateCredentialProfileRequest {
   /** Profile id or name. */
   profile: string;
   /** New profile name. */
-  name?: string;
+  name?: string | undefined;
   /** Send true to make this profile its owner's default. The previous default loses the flag. False is ignored; make another profile the default instead. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
+  /** Organization profiles only. Organization owner only. */
+  access?: ResourceAccessUpdate | undefined;
 }
 export interface UpdateCredentialProfileResponse {
   ok: boolean;
@@ -2700,13 +3678,13 @@ export interface UpdateCredentialProfileResponse {
   profile: CredentialProfile;
 }
 export interface UpdateDataRetentionRequest {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Turn snapshots off for every sandbox created from now on. Existing sandboxes keep their setting. While on, a create or fork that passes `snapshots: true` is refused with 409 `snapshots_off_for_account`. */
-  snapshotsOff?: boolean;
+  snapshotsOff?: boolean | undefined;
   /** Turn monitoring off for every sandbox created from now on. Existing sandboxes keep their setting. While on, a create or fork that passes `monitoring: true` is refused with 409 `monitoring_off_for_account`. */
-  monitoringOff?: boolean;
+  monitoringOff?: boolean | undefined;
   /** Required when enabling and must exactly equal `delete archived sandbox data`. */
-  confirmation?: string;
+  confirmation?: string | undefined;
 }
 export interface UpdateDataRetentionResponse {
   ok: boolean;
@@ -2715,23 +3693,23 @@ export interface UpdateDataRetentionResponse {
   enabled: boolean;
   enabledAt: string | null;
   /** Archived Sandboxes newly queued for deletion by this policy update. */
-  queuedSandboxes?: number;
+  queuedSandboxes?: number | undefined;
   /** Always true on updates. Disabling the policy does not cancel accepted deletion operations. */
-  acceptedDeletionOperationsIrreversible?: boolean;
+  acceptedDeletionOperationsIrreversible?: boolean | undefined;
   /** When true, every new sandbox of this account is created with snapshots off. */
-  snapshotsOff?: boolean;
-  snapshotsOffAt?: string | null;
+  snapshotsOff?: boolean | undefined;
+  snapshotsOffAt?: string | null | undefined;
   /** When true, every new sandbox of this account is created with monitoring off. */
-  monitoringOff?: boolean;
-  monitoringOffAt?: string | null;
+  monitoringOff?: boolean | undefined;
+  monitoringOffAt?: string | null | undefined;
 }
 export type UpdateEnvironmentRequestSecretFilesList = Array<SecretFile>;
 export interface UpdateEnvironmentRequestRepositoriesItem {
   /** Internal repository databaseId. */
   repositoryId: string;
-  baseBranch?: string;
-  setupScript?: string;
-  setupBlocking?: boolean;
+  baseBranch?: string | undefined;
+  setupScript?: string | undefined;
+  setupBlocking?: boolean | undefined;
 }
 /** Full replacement of the version's repository selection. Each item selects one repository by its internal `databaseId` (from `GET /repos`). */
 export type UpdateEnvironmentRequestRepositoriesList =
@@ -2740,47 +3718,51 @@ export interface UpdateEnvironmentRequest {
   /** Environment id returned by `GET /environments`. */
   environmentId: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** New environment name. */
-  name?: string;
+  name?: string | undefined;
   /** Set to true to make this the default environment (clears the flag on the previous default). */
-  isDefault?: boolean;
-  safeForThirdParties?: boolean;
-  passGithub?: boolean;
-  passSecrets?: boolean;
-  passSandboxCredentials?: boolean;
-  passAgentsCredentials?: boolean;
+  isDefault?: boolean | undefined;
+  safeForThirdParties?: boolean | undefined;
+  passGithub?: boolean | undefined;
+  passSecrets?: boolean | undefined;
+  passSandboxCredentials?: boolean | undefined;
+  passAgentsCredentials?: boolean | undefined;
   /** Id or name of a credential profile you can use, or null for the sandbox owner's default profile. Unknown profiles return `404 credential_profile_not_found`. */
-  credentialProfileId?: string | null;
+  credentialProfileId?: string | null | undefined;
   /** With `safeForThirdParties` true, pass AI credentials as proxy placeholders. Setting true needs the AI credentials proxy on for the profile owner, else `400 ai_proxy_off`. */
-  proxyAiCredentials?: boolean;
+  proxyAiCredentials?: boolean | undefined;
+  access?: ResourceAccessUpdate | undefined;
   /** Full .env-style content for the new version. */
-  envContents?: string;
-  secretFiles?: UpdateEnvironmentRequestSecretFilesList;
+  envContents?: string | undefined;
+  secretFiles?: UpdateEnvironmentRequestSecretFilesList | undefined;
   /** Full replacement of the version's repository selection. Each item selects one repository by its internal `databaseId` (from `GET /repos`). */
-  repositories?: UpdateEnvironmentRequestRepositoriesList;
+  repositories?: UpdateEnvironmentRequestRepositoriesList | undefined;
 }
 export interface UpdateOrganizationRequest {
   /** Organization id or name. */
   org: string;
+  /** New name. Owner only. Leading and trailing spaces are removed. */
+  name?: string | undefined;
   /** True = new sandboxes start private. False = they start shared. */
-  newSandboxesPrivate: boolean;
+  newSandboxesPrivate?: boolean | undefined;
 }
 export interface UpdateOrganizationResponse {
-  ok?: boolean;
-  type?: string;
-  success?: boolean;
-  newSandboxesPrivate?: boolean;
+  ok?: boolean | undefined;
+  type?: string | undefined;
+  success?: boolean | undefined;
+  name?: string | undefined;
+  newSandboxesPrivate?: boolean | undefined;
 }
 export interface UpdateSandboxRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
   /** New display name. Empty strings are rejected; longer names are truncated to 120 chars by the backend. */
-  name?: string;
+  name?: string | undefined;
   /** New auto-stop TTL. The deadline becomes now + `ttlSeconds`, so calling this again extends a running sandbox's life. `null` disables auto-stop. */
-  ttlSeconds?: number | null;
+  ttlSeconds?: number | null | undefined;
   /** Rename the sandbox's stable subdomain (the `<subdomain>.on.boat.dev` label). Lowercase letters, digits and hyphens; no leading/trailing/double hyphens; cannot end in `-desktop` or `-<number>` (reserved for the desktop and hosted-port URLs). Must be globally unique. The base URL, desktop URL and every live `host <port>` URL are re-pointed to the new name with no downtime and their access tokens preserved; the old URLs stop resolving. On a transient routing error the rename is saved but returns 502 `gateway_error` - retry with the same value to finish activating routes. */
-  subdomain?: string;
+  subdomain?: string | undefined;
 }
 export interface UpdateSandboxResponse {
   ok: boolean;
@@ -2788,15 +3770,15 @@ export interface UpdateSandboxResponse {
   type: string;
   sandbox: Sandbox;
   /** Present when a fair-use cap on a gifted account shortened the requested auto-stop time. */
-  giftLimitNotice?: string;
+  giftLimitNotice?: string | undefined;
 }
 /** Full list of secret files to keep configured. Send existing files again if they should remain. */
 export type UpdateSecretsRequestSecretFilesList = Array<SecretFile>;
 export interface UpdateSecretsRequest {
   /** Full .env-style content to sync into sandboxes. Send the complete desired file contents, not a patch. */
-  envContents?: string;
+  envContents?: string | undefined;
   /** Full list of secret files to keep configured. Send existing files again if they should remain. */
-  secretFiles?: UpdateSecretsRequestSecretFilesList;
+  secretFiles?: UpdateSecretsRequestSecretFilesList | undefined;
 }
 export type UpdateSecretsResponseSecretFilesList = Array<SecretFile>;
 /** Present on update; counts how many active sandboxes received the new environment. */
@@ -2805,21 +3787,21 @@ export interface UpdateSecretsResponse {
   ok: boolean;
   /** Stable success envelope discriminator added by v1. */
   type: string;
-  success?: boolean;
+  success?: boolean | undefined;
   environmentId: string;
   /** Id of the default environment. `environmentId` is the id of its latest version. */
-  subenvironmentId?: string;
+  subenvironmentId?: string | undefined;
   envContents: string;
   secretFiles: UpdateSecretsResponseSecretFilesList;
   /** Present on update; counts how many active sandboxes received the new environment. */
-  pushed?: UpdateSecretsResponsePushedMap;
+  pushed?: UpdateSecretsResponsePushedMap | undefined;
 }
 export type UpdateWebhookRequestEventsList = Array<WebhookEventType | (string & {})>;
 export interface UpdateWebhookRequest {
   webhookId: string;
-  name?: string | null;
-  url?: string;
-  events?: UpdateWebhookRequestEventsList;
+  name?: string | null | undefined;
+  url?: string | undefined;
+  events?: UpdateWebhookRequestEventsList | undefined;
 }
 export interface UpdateWebhookResponse {
   ok: boolean;
@@ -2832,20 +3814,20 @@ export type UpgradeEnvironmentRequestAgentIdsList = Array<string>;
 export interface UpgradeEnvironmentRequest {
   environmentId: string;
   /** Billing wallet for this request: an organization you belong to, by id (`team_...`) or by name as `GET /orgs` lists it (case-insensitive), or `personal`. Omitted, the account's active wallet applies (`PATCH /orgs/active`; personal until set). Two organizations sharing the name answer `409 ambiguous_org` and need the id. Sandboxes and snapshots stay creator-private. On `/environments` routes, only this query parameter selects the organization's shared environments; the `X-Boat-Org` header and the active wallet do not apply there. Members read them, owners and admins change them. */
-  org?: string;
+  org?: string | undefined;
   /** Restrict the upgrade to these sandbox (agent) ids. Omit to upgrade all of the caller's active sandboxes that are on an older version of this environment. */
-  agentIds?: UpgradeEnvironmentRequestAgentIdsList;
+  agentIds?: UpgradeEnvironmentRequestAgentIdsList | undefined;
 }
 export interface UpgradeSandboxEnvironmentResponse {
   success: boolean;
   upgraded: number;
   /** Running sandboxes that received the new configuration now. */
-  upgradedLive?: number;
+  upgradedLive?: number | undefined;
   /** Stopped sandboxes moved to the latest version; they pick it up when they next resume. */
-  upgradedStopped?: number;
+  upgradedStopped?: number | undefined;
   failed: number;
   /** Id of the version the sandboxes were moved to. */
-  latestVersionId?: string;
+  latestVersionId?: string | undefined;
 }
 export type WriteSandboxFileRequestEncoding = "utf8" | "base64";
 export interface WriteSandboxFileRequest {
@@ -2854,7 +3836,7 @@ export interface WriteSandboxFileRequest {
   /** Absolute path, or path relative to the sandbox work directory (/home/user). The canonicalized path must resolve under /home/user or /tmp; anything else is rejected with a 400 invalid_path error. */
   path: string;
   content: string;
-  encoding?: WriteSandboxFileRequestEncoding | (string & {});
+  encoding?: WriteSandboxFileRequestEncoding | (string & {}) | undefined;
 }
 export type WriteSandboxFileResponseEncoding = "utf8" | "base64";
 export interface WriteSandboxFileResponse {
@@ -2874,8 +3856,8 @@ export const addCredentialAccount: API.OperationMethod<
   AddCredentialAccountError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<AddCredentialAccountRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<AddCredentialAccountResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<AddCredentialAccountRequest>,
+  output: __S(1952, __c61, 0) as any as S.Schema<AddCredentialAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -2883,7 +3865,7 @@ export const addCredentialAccount: API.OperationMethod<
   span: "AddCredentialAccount",
 }));
 
-export type AddEnvironmentRepoError = BadRequest | NotFound | BoatOpError;
+export type AddEnvironmentRepoError = BadRequest | NotFound | AmbiguousOrg | BoatOpError;
 /** Add a repository to an environment Adds a repository (or updates its base branch) by database id from the repository list. Mints a new immutable version. */
 export const addEnvironmentRepo: API.OperationMethod<
   AddEnvironmentRepoRequest,
@@ -2891,28 +3873,29 @@ export const addEnvironmentRepo: API.OperationMethod<
   AddEnvironmentRepoError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<AddEnvironmentRepoRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
-  errors: [BadRequest, NotFound, UnknownBoatError],
+  input: __S(1984, __c62, 0) as any as S.Schema<AddEnvironmentRepoRequest>,
+  output: __S(2016, __c63, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  errors: [BadRequest, NotFound, AmbiguousOrg, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddEnvironmentRepo",
 }));
 
-export type AttachCommandError = BadRequest | NotFound | Conflict | BoatOpError;
+export type AttachCommandError = BadRequest | NotFound | Conflict | SandboxNotRunning | BoatOpError;
 /** Attach to a detached command The output of a detached command as it is written, one JSON object per line, until the command ends. After 10 minutes the stream ends with a `reconnect` line: open it again with its offsets to continue with no gap. One open stream replaces polling. Needs the `exec` key scope. */
-export const attachCommand: API.OperationMethod<
+export const attachCommand: API.StreamingOperationMethod<
   AttachCommandRequest,
   AttachCommandResponse,
   AttachCommandError,
   BoatOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<AttachCommandRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<AttachCommandResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
+> = /*@__PURE__*/ API.makeStreaming(() => ({
+  input: __S(2048, __c64, 0) as any as S.Schema<AttachCommandRequest>,
+  output: __S(2051, __c64, 3) as any as S.Schema<AttachCommandResponse>,
+  errors: [BadRequest, NotFound, Conflict, SandboxNotRunning, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
+  framing: T.ndjson,
   telemetry: TELEMETRY,
   span: "AttachCommand",
 }));
@@ -2925,8 +3908,8 @@ export const commandHistory: API.OperationMethod<
   CommandHistoryError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1776, __c111, 0) as any as S.Schema<CommandHistoryRequest>,
-  output: __S(1778, __c111, 2) as any as S.Schema<CommandHistoryResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<CommandHistoryRequest>,
+  output: __S(2082, __c65, 2) as any as S.Schema<CommandHistoryResponse>,
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -2942,8 +3925,8 @@ export const commandLogs: API.OperationMethod<
   CommandLogsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c124, 0) as any as S.Schema<CommandLogsRequest>,
-  output: __S(1985, __c124, 1) as any as S.Schema<CommandLogsResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<CommandLogsRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<CommandLogsResponse>,
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -2959,13 +3942,30 @@ export const configureSshKey: API.OperationMethod<
   ConfigureSshKeyError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<ConfigureSshKeyRequest>,
-  output: __S(2161, __c135, 1) as any as S.Schema<ConfigureSshKeyResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<ConfigureSshKeyRequest>,
+  output: __S(2177, __c68, 1) as any as S.Schema<ConfigureSshKeyResponse>,
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConfigureSshKey",
+}));
+
+export type ConnectCiGithubError = BoatOpError;
+/** Connect GitHub for CI Returns a GitHub URL to install the boat CI app, or to authorize an existing installation when `account` is set. An owner of the GitHub organization must complete authorization and confirm the boat account. Jobs bill `org` or the wallet in scope. Needs an API key with `account.admin`. */
+export const connectCiGithub: API.OperationMethod<
+  ConnectCiGithubRequest,
+  ConnectCiGithubResponse,
+  ConnectCiGithubError,
+  BoatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2208, __c69, 0) as any as S.Schema<ConnectCiGithubRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<ConnectCiGithubResponse>,
+  errors: [UnknownBoatError],
+  protocol: BoatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ConnectCiGithub",
 }));
 
 export type CreateCredentialProfileError = BadRequest | Forbidden | Conflict | BoatOpError;
@@ -2976,8 +3976,8 @@ export const createCredentialProfile: API.OperationMethod<
   CreateCredentialProfileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateCredentialProfileRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<CreateCredentialProfileResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<CreateCredentialProfileRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<CreateCredentialProfileResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -2985,7 +3985,12 @@ export const createCredentialProfile: API.OperationMethod<
   span: "CreateCredentialProfile",
 }));
 
-export type CreateDownloadUrlError = BadRequest | NotFound | Conflict | BoatOpError;
+export type CreateDownloadUrlError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | SandboxNotRunning
+  | BoatOpError;
 /** Get a download URL for a sandbox file Returns a short-lived URL that the sandbox serves itself. GET it to download the file as raw bytes, with no size limit and no Authorization header. The URL is bound to this path and expires after `ttlSeconds` (default 15 minutes, at most 1 hour). Needs `file.read`. Treat the URL as a secret until it expires. */
 export const createDownloadUrl: API.OperationMethod<
   CreateDownloadUrlRequest,
@@ -2993,16 +3998,16 @@ export const createDownloadUrl: API.OperationMethod<
   CreateDownloadUrlError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c13, 0) as any as S.Schema<CreateDownloadUrlRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<CreateDownloadUrlResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
+  input: __S(2432, __c76, 0) as any as S.Schema<CreateDownloadUrlRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<CreateDownloadUrlResponse>,
+  errors: [BadRequest, NotFound, Conflict, SandboxNotRunning, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDownloadUrl",
 }));
 
-export type CreateEnvironmentError = BadRequest | Conflict | BoatOpError;
+export type CreateEnvironmentError = BadRequest | Conflict | AmbiguousOrg | BoatOpError;
 /** Create a sandbox environment Create a new named environment. It starts on version 1 with all fine-grained flags on and `safeForThirdParties` off. */
 export const createEnvironment: API.OperationMethod<
   CreateEnvironmentRequest,
@@ -3010,16 +4015,54 @@ export const createEnvironment: API.OperationMethod<
   CreateEnvironmentError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<CreateEnvironmentRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<SandboxEnvironmentListResponse>,
-  errors: [BadRequest, Conflict, UnknownBoatError],
+  input: __S(2496, __c78, 0) as any as S.Schema<CreateEnvironmentRequest>,
+  output: __S(2529, __c79, 1) as any as S.Schema<SandboxEnvironmentListResponse>,
+  errors: [BadRequest, Conflict, AmbiguousOrg, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateEnvironment",
 }));
 
-export type CreateSandboxError = Conflict | BoatOpError;
+export type CreateFolderError = BadRequest | FileNotFound | SandboxNotRunning | BoatOpError;
+/** Create a directory in a sandbox Missing parent directories are created. An existing directory is not an error. Needs `file.write`. */
+export const createFolder: API.OperationMethod<
+  CreateFolderRequest,
+  CreateFolderResponse,
+  CreateFolderError,
+  BoatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2656, __c83, 0) as any as S.Schema<CreateFolderRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<CreateFolderResponse>,
+  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
+  protocol: BoatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "CreateFolder",
+}));
+
+export type CreateSandboxError =
+  | Forbidden
+  | Conflict
+  | AmbiguousOrg
+  | CountRequiresFrom
+  | CountWithFailFast
+  | InvalidHostedPorts
+  | CountWithHostedPorts
+  | FailFastWithHostedPorts
+  | InvalidFiles
+  | InvalidSetupScript
+  | NotOrgSandbox
+  | IdempotencyInProgress
+  | IdempotencyKeyReused
+  | MachineClassPlanRequired
+  | MonitoringOffForAccount
+  | NoReadyMachine
+  | SandboxLimitReached
+  | MemberSandboxLimitReached
+  | SandboxStartLimitExceeded
+  | SnapshotsOffForAccount
+  | BoatOpError;
 /** Create sandbox Provision a new cloud computer. Store the returned `sandbox.id` with your product job/session record. Send an `Idempotency-Key` header to make this call safe to retry after a lost response without creating a second billable sandbox. */
 export const createSandbox: API.OperationMethod<
   CreateSandboxRequest,
@@ -3027,26 +4070,48 @@ export const createSandbox: API.OperationMethod<
   CreateSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<CreateSandboxRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<CreateSandboxResponse>,
-  errors: [Conflict, UnknownBoatError],
+  input: __S(2724, __c85, 4) as any as S.Schema<CreateSandboxRequest>,
+  output: __S(2727, __c85, 7) as any as S.Schema<CreateSandboxResponse>,
+  errors: [
+    Forbidden,
+    Conflict,
+    AmbiguousOrg,
+    CountRequiresFrom,
+    CountWithFailFast,
+    InvalidHostedPorts,
+    CountWithHostedPorts,
+    FailFastWithHostedPorts,
+    InvalidFiles,
+    InvalidSetupScript,
+    NotOrgSandbox,
+    IdempotencyInProgress,
+    IdempotencyKeyReused,
+    MachineClassPlanRequired,
+    MonitoringOffForAccount,
+    NoReadyMachine,
+    SandboxLimitReached,
+    MemberSandboxLimitReached,
+    SandboxStartLimitExceeded,
+    SnapshotsOffForAccount,
+    UnknownBoatError,
+  ],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSandbox",
 }));
 
-export type CreateScopedApiKeyError = BadRequest | Forbidden | BoatOpError;
-/** Create a scoped API key Creates a scoped, expiring API key. Requires a dashboard/CLI session or an admin-scoped token. The secret is returned once. This dedicated path returns a typed 503 until scoped credential creation is activated. */
+export type CreateScopedApiKeyError = BadRequest | Forbidden | ApiKeyOutlivesSigner | BoatOpError;
+/** Create a scoped API key Creates a scoped, expiring API key. Requires a dashboard/CLI session or an admin-scoped token. The secret is returned once. An unknown field is a 400, so a misspelled scope never creates a full-access key. environmentIds takes your own environments and the org environments you can use. This dedicated path returns a typed 503 until scoped credential creation is activated. */
 export const createScopedApiKey: API.OperationMethod<
   CreateScopedApiKeyRequest,
   CreateScopedApiKeyResponse,
   CreateScopedApiKeyError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(400, __c25, 0) as any as S.Schema<CreateScopedApiKeyRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<CreateScopedApiKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownBoatError],
+  input: __S(2880, __c90, 0) as any as S.Schema<CreateScopedApiKeyRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<CreateScopedApiKeyResponse>,
+  errors: [BadRequest, Forbidden, ApiKeyOutlivesSigner, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3054,15 +4119,15 @@ export const createScopedApiKey: API.OperationMethod<
 }));
 
 export type CreateSnapshotShareError = NotFound | BoatOpError;
-/** Share a named snapshot Make a secret code that lets any Boat account create a sandbox from this named snapshot (`boat snapshot share <name>` in the CLI). The response shows the code once; Boat stores only a hash. Re-saving the name changes what the code deploys. Removing the name removes its codes. Everything on the disk is shared, so do not keep secrets in files on it. Needs `snapshot.write`. */
+/** Share a saved snapshot Make a secret code that lets any Boat account create a sandbox from this saved snapshot (`boat snapshot share <name>` in the CLI). The response shows the code once; Boat stores only a hash. Re-saving the name changes what the code deploys. Removing the name removes its codes. Everything on the disk is shared, so do not keep secrets in files on it. Needs `snapshot.write`. */
 export const createSnapshotShare: API.OperationMethod<
   CreateSnapshotShareRequest,
   CreateSnapshotShareResponse,
   CreateSnapshotShareError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(464, __c29, 0) as any as S.Schema<CreateSnapshotShareRequest>,
-  output: __S(465, __c29, 1) as any as S.Schema<CreateSnapshotShareResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<CreateSnapshotShareRequest>,
+  output: __S(3009, __c94, 1) as any as S.Schema<CreateSnapshotShareResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3070,7 +4135,12 @@ export const createSnapshotShare: API.OperationMethod<
   span: "CreateSnapshotShare",
 }));
 
-export type CreateUploadUrlError = BadRequest | NotFound | Conflict | BoatOpError;
+export type CreateUploadUrlError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | SandboxNotRunning
+  | BoatOpError;
 /** Get an upload URL for a sandbox file Returns a short-lived URL that the sandbox serves itself. PUT the file as the raw request body to write it, with no size limit and no Authorization header. Missing directories are created; an existing file is replaced only once the upload completes. The URL is bound to this path and expires after `ttlSeconds` (default 15 minutes, at most 1 hour). Needs `file.write`. Treat the URL as a secret until it expires. */
 export const createUploadUrl: API.OperationMethod<
   CreateUploadUrlRequest,
@@ -3078,9 +4148,9 @@ export const createUploadUrl: API.OperationMethod<
   CreateUploadUrlError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(496, __c31, 0) as any as S.Schema<CreateUploadUrlRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<CreateUploadUrlResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
+  input: __S(3072, __c96, 0) as any as S.Schema<CreateUploadUrlRequest>,
+  output: __S(2464, __c77, 0) as any as S.Schema<CreateUploadUrlResponse>,
+  errors: [BadRequest, NotFound, Conflict, SandboxNotRunning, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3095,8 +4165,8 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c32, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(544, __c34, 0) as any as S.Schema<CreateWebhookResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<CreateWebhookResponse>,
   errors: [BadRequest, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3112,8 +4182,8 @@ export const deleteCredentialAccount: API.OperationMethod<
   DeleteCredentialAccountError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(560, __c35, 0) as any as S.Schema<DeleteCredentialAccountRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<DeleteCredentialAccountResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<DeleteCredentialAccountRequest>,
+  output: __S(1952, __c61, 0) as any as S.Schema<DeleteCredentialAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3129,8 +4199,8 @@ export const deleteCredentialProfile: API.OperationMethod<
   DeleteCredentialProfileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c36, 0) as any as S.Schema<DeleteCredentialProfileRequest>,
-  output: __S(577, __c36, 1) as any as S.Schema<DeleteCredentialProfileResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<DeleteCredentialProfileRequest>,
+  output: __S(3233, __c101, 1) as any as S.Schema<DeleteCredentialProfileResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3146,8 +4216,8 @@ export const deleteCredentialProfileCustomApi: API.OperationMethod<
   DeleteCredentialProfileCustomApiError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(592, __c37, 0) as any as S.Schema<DeleteCredentialProfileCustomApiRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<DeleteCredentialProfileCustomApiResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<DeleteCredentialProfileCustomApiRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<DeleteCredentialProfileCustomApiResponse>,
   errors: [Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3163,8 +4233,8 @@ export const deleteCredentialProfileKey: API.OperationMethod<
   DeleteCredentialProfileKeyError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c38, 0) as any as S.Schema<DeleteCredentialProfileKeyRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<DeleteCredentialProfileKeyResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<DeleteCredentialProfileKeyRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<DeleteCredentialProfileKeyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3172,7 +4242,7 @@ export const deleteCredentialProfileKey: API.OperationMethod<
   span: "DeleteCredentialProfileKey",
 }));
 
-export type DeleteEnvironmentError = NotFound | Conflict | BoatOpError;
+export type DeleteEnvironmentError = NotFound | Conflict | AmbiguousOrg | BoatOpError;
 /** Delete a sandbox environment Soft-deletes an environment. The default environment cannot be deleted, and at least one environment is always kept. */
 export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentRequest,
@@ -3180,16 +4250,16 @@ export const deleteEnvironment: API.OperationMethod<
   DeleteEnvironmentError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(624, __c39, 0) as any as S.Schema<DeleteEnvironmentRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<SandboxEnvironmentResponse>,
-  errors: [NotFound, Conflict, UnknownBoatError],
+  input: __S(3328, __c104, 0) as any as S.Schema<DeleteEnvironmentRequest>,
+  output: __S(3360, __c105, 0) as any as S.Schema<SandboxEnvironmentResponse>,
+  errors: [NotFound, Conflict, AmbiguousOrg, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteEnvironment",
 }));
 
-export type DeleteEnvironmentRepoError = NotFound | BoatOpError;
+export type DeleteEnvironmentRepoError = NotFound | AmbiguousOrg | BoatOpError;
 /** Remove a repository from an environment Removes one repository from the environment's selection. Mints a new immutable version. */
 export const deleteEnvironmentRepo: API.OperationMethod<
   DeleteEnvironmentRepoRequest,
@@ -3197,16 +4267,16 @@ export const deleteEnvironmentRepo: API.OperationMethod<
   DeleteEnvironmentRepoError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(656, __c41, 0) as any as S.Schema<DeleteEnvironmentRepoRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
-  errors: [NotFound, UnknownBoatError],
+  input: __S(3392, __c106, 0) as any as S.Schema<DeleteEnvironmentRepoRequest>,
+  output: __S(2016, __c63, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  errors: [NotFound, AmbiguousOrg, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteEnvironmentRepo",
 }));
 
-export type DeleteEnvironmentSecretFileError = NotFound | BoatOpError;
+export type DeleteEnvironmentSecretFileError = NotFound | AmbiguousOrg | BoatOpError;
 /** Remove one secret file Removes the secret file at `path`. Mints a new immutable version. */
 export const deleteEnvironmentSecretFile: API.OperationMethod<
   DeleteEnvironmentSecretFileRequest,
@@ -3214,16 +4284,16 @@ export const deleteEnvironmentSecretFile: API.OperationMethod<
   DeleteEnvironmentSecretFileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c42, 0) as any as S.Schema<DeleteEnvironmentSecretFileRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
-  errors: [NotFound, UnknownBoatError],
+  input: __S(3424, __c107, 0) as any as S.Schema<DeleteEnvironmentSecretFileRequest>,
+  output: __S(2016, __c63, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  errors: [NotFound, AmbiguousOrg, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteEnvironmentSecretFile",
 }));
 
-export type DeleteEnvironmentVarError = NotFound | BoatOpError;
+export type DeleteEnvironmentVarError = NotFound | AmbiguousOrg | BoatOpError;
 /** Remove one environment variable Removes a single variable. Mints a new immutable version. */
 export const deleteEnvironmentVar: API.OperationMethod<
   DeleteEnvironmentVarRequest,
@@ -3231,42 +4301,42 @@ export const deleteEnvironmentVar: API.OperationMethod<
   DeleteEnvironmentVarError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(688, __c43, 0) as any as S.Schema<DeleteEnvironmentVarRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
-  errors: [NotFound, UnknownBoatError],
+  input: __S(3456, __c108, 0) as any as S.Schema<DeleteEnvironmentVarRequest>,
+  output: __S(2016, __c63, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  errors: [NotFound, AmbiguousOrg, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteEnvironmentVar",
 }));
 
-export type DeleteNamedSnapshotError = NotFound | Conflict | BoatOpError;
-/** Remove a named snapshot Remove a named snapshot and release its storage (`boat snapshot rm <name>` in the CLI). Sandboxes already deployed from it are unaffected. */
-export const deleteNamedSnapshot: API.OperationMethod<
-  DeleteNamedSnapshotRequest,
-  DeleteNamedSnapshotResponse,
-  DeleteNamedSnapshotError,
+export type DeleteFileError = BadRequest | FileNotFound | SandboxNotRunning | BoatOpError;
+/** Delete a file or directory in a sandbox A directory needs `recursive=true`. A symlink is deleted itself, never its target. /home/user and /tmp themselves cannot be deleted. Needs `file.write`. */
+export const deleteFile: API.OperationMethod<
+  DeleteFileRequest,
+  DeleteFileResponse,
+  DeleteFileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c44, 0) as any as S.Schema<DeleteNamedSnapshotRequest>,
-  output: __S(705, __c44, 1) as any as S.Schema<DeleteNamedSnapshotResponse>,
-  errors: [NotFound, Conflict, UnknownBoatError],
+  input: __S(3488, __c109, 0) as any as S.Schema<DeleteFileRequest>,
+  output: __S(3489, __c109, 1) as any as S.Schema<DeleteFileResponse>,
+  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "DeleteNamedSnapshot",
+  span: "DeleteFile",
 }));
 
 export type DeleteSandboxError = Forbidden | NotFound | Conflict | BoatOpError;
-/** Permanently delete sandbox data Accept irreversible background deletion of the sandbox machine, snapshots, and content-bearing records. This is not archive: the sandbox cannot be resumed. Named snapshots and other shared artifacts remain independent. Poll the returned operation until `completed`. */
+/** Permanently delete sandbox data Accept irreversible background deletion of the sandbox machine, snapshots, and content-bearing records. This is not archive: the sandbox cannot be resumed. Saved snapshots and other shared artifacts remain independent. Poll the returned operation until `completed`. */
 export const deleteSandbox: API.OperationMethod<
   DeleteSandboxRequest,
   DeleteSandboxResponse,
   DeleteSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(720, __c45, 0) as any as S.Schema<DeleteSandboxRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<DeleteSandboxResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<DeleteSandboxRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<DeleteSandboxResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3275,20 +4345,37 @@ export const deleteSandbox: API.OperationMethod<
 }));
 
 export type DeleteSandboxSnapshotsError = Forbidden | NotFound | Conflict | BoatOpError;
-/** Permanently delete all snapshots of a sandbox Accept irreversible deletion of every unpinned snapshot of this sandbox. The sandbox itself and its named snapshots stay. Snapshots disappear from lists, restores and forks immediately; their stored data is purged in the background. Set `X-Ascii-Confirm-Delete` to the sandbox id. */
+/** Permanently delete all snapshots of a sandbox Accept irreversible deletion of every unpinned snapshot of this sandbox. The sandbox itself and its saved snapshots stay. Snapshots disappear from lists, restores and forks immediately; their stored data is purged in the background. Set `X-Ascii-Confirm-Delete` to the sandbox id. */
 export const deleteSandboxSnapshots: API.OperationMethod<
   DeleteSandboxSnapshotsRequest,
   DeleteSandboxSnapshotsResponse,
   DeleteSandboxSnapshotsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(768, __c48, 0) as any as S.Schema<DeleteSandboxSnapshotsRequest>,
-  output: __S(770, __c48, 2) as any as S.Schema<DeleteSandboxSnapshotsResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<DeleteSandboxSnapshotsRequest>,
+  output: __S(3618, __c113, 2) as any as S.Schema<DeleteSandboxSnapshotsResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteSandboxSnapshots",
+}));
+
+export type DeleteSavedSnapshotError = NotFound | Conflict | SaveInProgress | BoatOpError;
+/** Remove a saved snapshot Remove a saved snapshot and release its storage (`boat snapshot rm <name>` in the CLI). Sandboxes already deployed from it are unaffected. */
+export const deleteSavedSnapshot: API.OperationMethod<
+  DeleteSavedSnapshotRequest,
+  DeleteSavedSnapshotResponse,
+  DeleteSavedSnapshotError,
+  BoatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3648, __c114, 0) as any as S.Schema<DeleteSavedSnapshotRequest>,
+  output: __S(3649, __c114, 1) as any as S.Schema<DeleteSavedSnapshotResponse>,
+  errors: [NotFound, Conflict, SaveInProgress, UnknownBoatError],
+  protocol: BoatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DeleteSavedSnapshot",
 }));
 
 export type DeleteSnapshotError = Forbidden | NotFound | Conflict | BoatOpError;
@@ -3299,8 +4386,8 @@ export const deleteSnapshot: API.OperationMethod<
   DeleteSnapshotError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(784, __c49, 0) as any as S.Schema<DeleteSnapshotRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<DeleteSnapshotResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<DeleteSnapshotRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<DeleteSnapshotResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3316,8 +4403,8 @@ export const deleteTelemetry: API.OperationMethod<
   DeleteTelemetryError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c50, 0) as any as S.Schema<DeleteTelemetryRequest>,
-  output: __S(816, __c51, 0) as any as S.Schema<DeleteTelemetryResponse>,
+  input: __S(3712, __c116, 0) as any as S.Schema<DeleteTelemetryRequest>,
+  output: __S(3744, __c117, 0) as any as S.Schema<DeleteTelemetryResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3333,8 +4420,8 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(848, __c53, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(849, __c53, 1) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(3809, __c119, 1) as any as S.Schema<DeleteWebhookResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3350,8 +4437,8 @@ export const downloadSandboxArtifact: API.OperationMethod<
   DownloadSandboxArtifactError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c54, 0) as any as S.Schema<DownloadSandboxArtifactRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<DownloadSandboxArtifactResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<DownloadSandboxArtifactRequest>,
+  output: __S(3872, __c121, 0) as any as S.Schema<DownloadSandboxArtifactResponse>,
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3359,24 +4446,64 @@ export const downloadSandboxArtifact: API.OperationMethod<
   span: "DownloadSandboxArtifact",
 }));
 
-export type ExecuteSandboxCommandError = BadRequest | NotFound | Conflict | BoatOpError;
+export type ExecuteSandboxCommandError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | SandboxNotRunning
+  | BoatOpError;
 /** Execute a command in a sandbox Runs the command synchronously by default (timeout configurable via `timeoutSeconds`, 600s cap). With `detached: true` the command starts in the background and a process id is returned immediately; poll `/sandboxes/{sandboxId}/commands/{processId}` for status and logs. With `stream: true` the output arrives as the command writes it, as newline-delimited JSON (`application/x-ndjson`): `{"type":"started"}`, then `{"type":"stdout"|"stderr","data":"..."}` per chunk, and last `{"type":"exit",...}` (the synchronous result without stdout/stderr) or `{"type":"error","error":"...","message":"..."}`. Returns 400 invalid_timeout when `timeoutSeconds` is not an integer in 1-600. A command sent while the sandbox is still starting (right after a resume) waits up to 60s for it to be ready instead of failing; 409 boat_starting (retryable) is returned only if it is still not ready by then. A sandbox that is not starting (`error`, `stopped`) returns 409 sandbox_not_ready with `retryable: false` and its `state` at once: resume or recover it first. Command execution is never retried automatically: a 502 boat_direct_failed means the command may already be running on the sandbox. Every command and its output are kept 90 days in the command history (`/sandboxes/{sandboxId}/command-history`), readable while the sandbox is stopped. */
-export const executeSandboxCommand: API.OperationMethod<
+export const executeSandboxCommand: API.StreamingOperationMethod<
   ExecuteSandboxCommandRequest,
   ExecuteSandboxCommandResponse,
   ExecuteSandboxCommandError,
+  BoatOpContext,
+  CommandStreamFrame
+> = /*@__PURE__*/ API.makeStreaming(() => ({
+  input: __S(3904, __c122, 0) as any as S.Schema<ExecuteSandboxCommandRequest>,
+  output: __S(3905, __c122, 1) as any as S.Schema<ExecuteSandboxCommandResponse>,
+  errors: [BadRequest, NotFound, Conflict, SandboxNotRunning, UnknownBoatError],
+  protocol: BoatProtocol,
+  retry: Retry.Retry,
+  framing: T.ndjson,
+  items: __S(3906, __c122, 2),
+  streamInput: { stream: true },
+  telemetry: TELEMETRY,
+  span: "ExecuteSandboxCommand",
+})) as any;
+
+export type FindInFilesError = BadRequest | FileNotFound | SandboxNotRunning | BoatOpError;
+/** Find text in sandbox files Every line under `path` that contains `pattern`. `pattern` is plain text; with `regex=true` it is an extended regular expression. Binary files are skipped and symlinks are not followed. Needs `file.read`. */
+export const findInFiles: API.OperationMethod<
+  FindInFilesRequest,
+  FindInFilesResponse,
+  FindInFilesError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ExecuteSandboxCommandRequest>,
-  output: __S(881, __c55, 1) as any as S.Schema<ExecuteSandboxCommandResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
+  input: __S(3936, __c123, 0) as any as S.Schema<FindInFilesRequest>,
+  output: __S(3939, __c123, 3) as any as S.Schema<FindInFilesResponse>,
+  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "ExecuteSandboxCommand",
+  span: "FindInFiles",
 }));
 
-export type ForkSandboxError = NotFound | Conflict | BoatOpError;
+export type ForkSandboxError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | ForkNeedsSnapshot
+  | IdempotencyInProgress
+  | IdempotencyKeyReused
+  | MachineClassPlanRequired
+  | MonitoringOffForAccount
+  | NoReadyMachine
+  | SandboxLimitReached
+  | MemberSandboxLimitReached
+  | SandboxStartLimitExceeded
+  | SnapshotsOffForAccount
+  | BoatOpError;
 /** Fork sandbox Provision a new sandbox from an existing one. Send an `Idempotency-Key` header to make this call safe to retry after a lost response without creating a second billable fork. */
 export const forkSandbox: API.OperationMethod<
   ForkSandboxRequest,
@@ -3384,16 +4511,31 @@ export const forkSandbox: API.OperationMethod<
   ForkSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<ForkSandboxRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<ForkSandboxResponse>,
-  errors: [NotFound, Conflict, UnknownBoatError],
+  input: __S(3968, __c124, 0) as any as S.Schema<ForkSandboxRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<ForkSandboxResponse>,
+  errors: [
+    Forbidden,
+    NotFound,
+    Conflict,
+    ForkNeedsSnapshot,
+    IdempotencyInProgress,
+    IdempotencyKeyReused,
+    MachineClassPlanRequired,
+    MonitoringOffForAccount,
+    NoReadyMachine,
+    SandboxLimitReached,
+    MemberSandboxLimitReached,
+    SandboxStartLimitExceeded,
+    SnapshotsOffForAccount,
+    UnknownBoatError,
+  ],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ForkSandbox",
 }));
 
-export type GetAiProxyError = BoatOpError;
+export type GetAiProxyError = AmbiguousOrg | BoatOpError;
 /** Get AI credentials proxy Returns the AI credentials proxy switch of the account in scope, a person or an organization, with its price. Needs an API key with `account.admin`. */
 export const getAiProxy: API.OperationMethod<
   GetAiProxyRequest,
@@ -3401,16 +4543,16 @@ export const getAiProxy: API.OperationMethod<
   GetAiProxyError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<GetAiProxyRequest>,
-  output: __S(945, __c59, 1) as any as S.Schema<GetAiProxyResponse>,
-  errors: [UnknownBoatError],
+  input: __S(4032, __c126, 0) as any as S.Schema<GetAiProxyRequest>,
+  output: __S(4065, __c127, 1) as any as S.Schema<GetAiProxyResponse>,
+  errors: [AmbiguousOrg, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAiProxy",
 }));
 
-export type GetAiUsageError = BoatOpError;
+export type GetAiUsageError = AmbiguousOrg | BoatOpError;
 /** Get AI usage Proxied AI usage, per sandbox and in total, per UTC day, credential and model. Without `profile`, the usage charged to the wallet in scope. With `profile`, the requests made with that profile's credentials, whoever pays; only its managers can read it. Needs an API key with `account.read`. */
 export const getAiUsage: API.OperationMethod<
   GetAiUsageRequest,
@@ -3418,9 +4560,9 @@ export const getAiUsage: API.OperationMethod<
   GetAiUsageError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<GetAiUsageRequest>,
-  output: __S(963, __c60, 3) as any as S.Schema<GetAiUsageResponse>,
-  errors: [UnknownBoatError],
+  input: __S(4096, __c128, 0) as any as S.Schema<GetAiUsageRequest>,
+  output: __S(4099, __c128, 3) as any as S.Schema<GetAiUsageResponse>,
+  errors: [AmbiguousOrg, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3435,13 +4577,64 @@ export const getApiKeyUsage: API.OperationMethod<
   GetApiKeyUsageError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<GetApiKeyUsageRequest>,
-  output: __S(996, __c62, 4) as any as S.Schema<GetApiKeyUsageResponse>,
+  input: __S(4160, __c130, 0) as any as S.Schema<GetApiKeyUsageRequest>,
+  output: __S(4164, __c130, 4) as any as S.Schema<GetApiKeyUsageResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetApiKeyUsage",
+}));
+
+export type GetCiJobError = NotFound | BoatOpError;
+/** Get CI job One job with its wait, run time, cost, sandbox and error. Needs an API key with `account.read`. */
+export const getCiJob: API.OperationMethod<
+  GetCiJobRequest,
+  GetCiJobResponse,
+  GetCiJobError,
+  BoatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4192, __c131, 0) as any as S.Schema<GetCiJobRequest>,
+  output: __S(4193, __c131, 1) as any as S.Schema<GetCiJobResponse>,
+  errors: [NotFound, UnknownBoatError],
+  protocol: BoatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCiJob",
+}));
+
+export type GetCiJobLogError = NotFound | BoatOpError;
+/** Get CI job log The job's log from GitHub, up to the last 1 MB. Poll it while the job runs. Needs an API key with `account.read`. */
+export const getCiJobLog: API.OperationMethod<
+  GetCiJobLogRequest,
+  GetCiJobLogResponse,
+  GetCiJobLogError,
+  BoatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4256, __c133, 0) as any as S.Schema<GetCiJobLogRequest>,
+  output: __S(4257, __c133, 1) as any as S.Schema<GetCiJobLogResponse>,
+  errors: [NotFound, UnknownBoatError],
+  protocol: BoatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCiJobLog",
+}));
+
+export type GetCiOverviewError = BadRequest | BoatOpError;
+/** Get CI overview GitHub Actions on boat (`runs-on: boat`): the setup steps and the next one, jobs boat did not run and why, the linked GitHub accounts with every repository they can see, 7-day stats, and the jobs. The same data as the dashboard's CI tab and `boat ci`. `account` and `repo` narrow everything (problems, counts, stats, jobs); `state` narrows only the job list. Covers what you linked and what is linked to the organization in scope. Needs an API key with `account.read`. */
+export const getCiOverview: API.OperationMethod<
+  GetCiOverviewRequest,
+  GetCiOverviewResponse,
+  GetCiOverviewError,
+  BoatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4288, __c134, 0) as any as S.Schema<GetCiOverviewRequest>,
+  output: __S(4304, __c134, 16) as any as S.Schema<GetCiOverviewResponse>,
+  errors: [BadRequest, UnknownBoatError],
+  protocol: BoatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetCiOverview",
 }));
 
 export type GetCommandError = NotFound | BoatOpError;
@@ -3452,8 +4645,8 @@ export const getCommand: API.OperationMethod<
   GetCommandError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<GetCommandRequest>,
-  output: __S(1009, __c63, 1) as any as S.Schema<GetCommandResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<GetCommandRequest>,
+  output: __S(4321, __c135, 1) as any as S.Schema<GetCommandResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3461,7 +4654,13 @@ export const getCommand: API.OperationMethod<
   span: "GetCommand",
 }));
 
-export type GetCommandStatusError = BadRequest | NotFound | Conflict | BoatOpError;
+export type GetCommandStatusError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | AgentOutdated
+  | SandboxNotRunning
+  | BoatOpError;
 /** Get detached command status and logs Without offsets, the answer holds the end of each log. With `stdoutOffset` or `stderrOffset`, it holds only the output written since those byte offsets, so each poll returns only new output. A sandbox agent too old for offsets answers 409 `agent_outdated`. */
 export const getCommandStatus: API.OperationMethod<
   GetCommandStatusRequest,
@@ -3469,9 +4668,9 @@ export const getCommandStatus: API.OperationMethod<
   GetCommandStatusError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<GetCommandStatusRequest>,
-  output: __S(1025, __c64, 1) as any as S.Schema<GetCommandStatusResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
+  input: __S(4352, __c136, 0) as any as S.Schema<GetCommandStatusRequest>,
+  output: __S(4353, __c136, 1) as any as S.Schema<GetCommandStatusResponse>,
+  errors: [BadRequest, NotFound, Conflict, AgentOutdated, SandboxNotRunning, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3486,8 +4685,8 @@ export const getCurrentUser: API.OperationMethod<
   GetCurrentUserError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<GetCurrentUserRequest>,
-  output: __S(1090, __c68, 2) as any as S.Schema<GetCurrentUserResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<GetCurrentUserRequest>,
+  output: __S(4386, __c137, 2) as any as S.Schema<GetCurrentUserResponse>,
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3503,8 +4702,8 @@ export const getDataRetention: API.OperationMethod<
   GetDataRetentionError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<GetDataRetentionRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<GetDataRetentionResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<GetDataRetentionRequest>,
+  output: __S(4448, __c139, 0) as any as S.Schema<GetDataRetentionResponse>,
   errors: [Forbidden, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3520,8 +4719,8 @@ export const getDeletionOperation: API.OperationMethod<
   GetDeletionOperationError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<GetDeletionOperationRequest>,
-  output: __S(752, __c47, 0) as any as S.Schema<GetDeletionOperationResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<GetDeletionOperationRequest>,
+  output: __S(3584, __c112, 0) as any as S.Schema<GetDeletionOperationResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3537,13 +4736,30 @@ export const getDesktopStreamingUrl: API.OperationMethod<
   GetDesktopStreamingUrlError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<GetDesktopStreamingUrlRequest>,
-  output: __S(1153, __c72, 1) as any as S.Schema<GetDesktopStreamingUrlResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<GetDesktopStreamingUrlRequest>,
+  output: __S(4513, __c141, 1) as any as S.Schema<GetDesktopStreamingUrlResponse>,
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDesktopStreamingUrl",
+}));
+
+export type GetFileInfoError = BadRequest | FileNotFound | SandboxNotRunning | BoatOpError;
+/** Get file or directory details in a sandbox Size, permission bits, type and modification time. Needs `file.read`. */
+export const getFileInfo: API.OperationMethod<
+  GetFileInfoRequest,
+  GetFileInfoResponse,
+  GetFileInfoError,
+  BoatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4544, __c142, 0) as any as S.Schema<GetFileInfoRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<GetFileInfoResponse>,
+  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
+  protocol: BoatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetFileInfo",
 }));
 
 export type GetLatestSandboxSnapshotError = NotFound | BoatOpError;
@@ -3554,8 +4770,8 @@ export const getLatestSandboxSnapshot: API.OperationMethod<
   GetLatestSandboxSnapshotError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<GetLatestSandboxSnapshotRequest>,
-  output: __S(1169, __c73, 1) as any as S.Schema<GetLatestSandboxSnapshotResponse>,
+  input: __S(4576, __c143, 0) as any as S.Schema<GetLatestSandboxSnapshotRequest>,
+  output: __S(4577, __c143, 1) as any as S.Schema<GetLatestSandboxSnapshotResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3563,38 +4779,21 @@ export const getLatestSandboxSnapshot: API.OperationMethod<
   span: "GetLatestSandboxSnapshot",
 }));
 
-export type GetLimitsError = BoatOpError;
-/** Get Boat limits Check remaining machine starts, compute time, credits, access readiness, and concurrent-sandbox capacity for the wallet a create would bill: the `org` / `X-Boat-Org` you pass (id or name), else the account's active wallet, else personal. The response carries `teamId` when an organization wallet was read. */
+export type GetLimitsError = AmbiguousOrg | BoatOpError;
+/** Get Boat limits Check remaining machine starts, included VM time, the wallet, overage prices, access readiness, and concurrent-sandbox capacity for the wallet a create would bill: the `org` / `X-Boat-Org` you pass (id or name), else the account's active wallet, else personal. The response carries `teamId` when an organization wallet was read. */
 export const getLimits: API.OperationMethod<
   GetLimitsRequest,
   GetLimitsResponse,
   GetLimitsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<GetLimitsRequest>,
-  output: __S(1210, __c75, 10) as any as S.Schema<GetLimitsResponse>,
-  errors: [UnknownBoatError],
+  input: __S(4640, __c145, 0) as any as S.Schema<GetLimitsRequest>,
+  output: __S(4655, __c145, 15) as any as S.Schema<GetLimitsResponse>,
+  errors: [AmbiguousOrg, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetLimits",
-}));
-
-export type GetNamedSnapshotError = NotFound | BoatOpError;
-/** Get a named snapshot */
-export const getNamedSnapshot: API.OperationMethod<
-  GetNamedSnapshotRequest,
-  GetNamedSnapshotResponse,
-  GetNamedSnapshotError,
-  BoatOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<GetNamedSnapshotRequest>,
-  output: __S(1233, __c77, 1) as any as S.Schema<GetNamedSnapshotResponse>,
-  errors: [NotFound, UnknownBoatError],
-  protocol: BoatProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetNamedSnapshot",
 }));
 
 export type GetPromptRunStatusError = NotFound | BoatOpError;
@@ -3605,8 +4804,8 @@ export const getPromptRunStatus: API.OperationMethod<
   GetPromptRunStatusError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<GetPromptRunStatusRequest>,
-  output: __S(1265, __c79, 1) as any as S.Schema<GetPromptRunStatusResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<GetPromptRunStatusRequest>,
+  output: __S(4705, __c147, 1) as any as S.Schema<GetPromptRunStatusResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3622,8 +4821,8 @@ export const getSandbox: API.OperationMethod<
   GetSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<GetSandboxRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<GetSandboxResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<GetSandboxRequest>,
+  output: __S(4800, __c150, 0) as any as S.Schema<GetSandboxResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3639,8 +4838,8 @@ export const getSandboxAiUsage: API.OperationMethod<
   GetSandboxAiUsageError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<GetSandboxAiUsageRequest>,
-  output: __S(1329, __c83, 1) as any as S.Schema<GetSandboxAiUsageResponse>,
+  input: __S(4832, __c151, 0) as any as S.Schema<GetSandboxAiUsageRequest>,
+  output: __S(4833, __c151, 1) as any as S.Schema<GetSandboxAiUsageResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3656,13 +4855,30 @@ export const getSandboxUsage: API.OperationMethod<
   GetSandboxUsageError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<GetSandboxUsageRequest>,
-  output: __S(1377, __c86, 1) as any as S.Schema<GetSandboxUsageResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<GetSandboxUsageRequest>,
+  output: __S(4865, __c152, 1) as any as S.Schema<GetSandboxUsageResponse>,
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSandboxUsage",
+}));
+
+export type GetSavedSnapshotError = NotFound | BoatOpError;
+/** Get a saved snapshot */
+export const getSavedSnapshot: API.OperationMethod<
+  GetSavedSnapshotRequest,
+  GetSavedSnapshotResponse,
+  GetSavedSnapshotError,
+  BoatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4896, __c153, 0) as any as S.Schema<GetSavedSnapshotRequest>,
+  output: __S(4897, __c153, 1) as any as S.Schema<GetSavedSnapshotResponse>,
+  errors: [NotFound, UnknownBoatError],
+  protocol: BoatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetSavedSnapshot",
 }));
 
 export type GetSecretsError = BoatOpError;
@@ -3673,8 +4889,8 @@ export const getSecrets: API.OperationMethod<
   GetSecretsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<GetSecretsRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<GetSecretsResponse>,
+  input: __S(4960, __c155, 0) as any as S.Schema<GetSecretsRequest>,
+  output: __S(4992, __c156, 0) as any as S.Schema<GetSecretsResponse>,
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3682,17 +4898,17 @@ export const getSecrets: API.OperationMethod<
   span: "GetSecrets",
 }));
 
-export type GetSnapshotDownloadError = NotFound | BoatOpError;
-/** Get snapshot download Return time-limited signed URLs for every chunk needed to reconstruct the sandbox filesystem at this snapshot (the full chain, base through this generation), plus the inventory. Download the chunks and reassemble them as described by `reconstruct`. The `boat snapshot pull` CLI command does this for you. */
+export type GetSnapshotDownloadError = NotFound | SnapshotCompacted | BoatOpError;
+/** Get snapshot download Return time-limited signed URLs for every chunk needed to reconstruct the sandbox filesystem at this snapshot (the full chain, base through this generation), plus the inventory. Download the chunks and reassemble them as described by `reconstruct`. The `boat snapshot pull` CLI command does this for you. A snapshot whose older layers were cleaned up answers 409 `snapshot_compacted`: read its files from `GET /snapshots/{snapshotId}/files` instead, which `boat snapshot pull` does for you too. */
 export const getSnapshotDownload: API.OperationMethod<
   GetSnapshotDownloadRequest,
   GetSnapshotDownloadResponse,
   GetSnapshotDownloadError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<GetSnapshotDownloadRequest>,
-  output: __S(1428, __c89, 4) as any as S.Schema<GetSnapshotDownloadResponse>,
-  errors: [NotFound, UnknownBoatError],
+  input: __S(5024, __c157, 0) as any as S.Schema<GetSnapshotDownloadRequest>,
+  output: __S(5028, __c157, 4) as any as S.Schema<GetSnapshotDownloadResponse>,
+  errors: [NotFound, SnapshotCompacted, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3707,8 +4923,8 @@ export const getSnapshotFile: API.OperationMethod<
   GetSnapshotFileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<GetSnapshotFileRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<GetSnapshotFileResponse>,
+  input: __S(5056, __c158, 0) as any as S.Schema<GetSnapshotFileRequest>,
+  output: __S(3872, __c121, 0) as any as S.Schema<GetSnapshotFileResponse>,
   errors: [NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3724,8 +4940,8 @@ export const getSnapshotTree: API.OperationMethod<
   GetSnapshotTreeError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<GetSnapshotTreeRequest>,
-  output: __S(1459, __c91, 3) as any as S.Schema<GetSnapshotTreeResponse>,
+  input: __S(5088, __c159, 0) as any as S.Schema<GetSnapshotTreeRequest>,
+  output: __S(5091, __c159, 3) as any as S.Schema<GetSnapshotTreeResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3741,8 +4957,8 @@ export const getStop: API.OperationMethod<
   GetStopError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<GetStopRequest>,
-  output: __S(1473, __c92, 1) as any as S.Schema<GetStopResponse>,
+  input: __S(5120, __c160, 0) as any as S.Schema<GetStopRequest>,
+  output: __S(5121, __c160, 1) as any as S.Schema<GetStopResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3758,8 +4974,8 @@ export const getTelemetry: API.OperationMethod<
   GetTelemetryError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<GetTelemetryRequest>,
-  output: __S(816, __c51, 0) as any as S.Schema<GetTelemetryResponse>,
+  input: __S(5152, __c161, 0) as any as S.Schema<GetTelemetryRequest>,
+  output: __S(3744, __c117, 0) as any as S.Schema<GetTelemetryResponse>,
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3775,8 +4991,8 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(1520, __c95, 0) as any as S.Schema<GetWebhookResponse>,
+  input: __S(5184, __c162, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<GetWebhookResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3784,17 +5000,17 @@ export const getWebhook: API.OperationMethod<
   span: "GetWebhook",
 }));
 
-export type HostPortError = BadRequest | NotFound | BoatOpError;
+export type HostPortError = BadRequest | NotFound | SandboxNotRunning | BoatOpError;
 /** Expose a sandbox port on a public HTTPS URL Registers a stable `https://<sandbox-subdomain>-<port>.on.boat.dev` route for a port inside the sandbox and opens the sandbox firewall for it. Idempotent: calling it again for the same sandbox and port returns the same URL and token. */
 export const hostPort: API.OperationMethod<
-  HostPortRequest,
+  HostPortRequest2,
   HostPortResponse,
   HostPortError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<HostPortRequest>,
-  output: __S(1537, __c96, 1) as any as S.Schema<HostPortResponse>,
-  errors: [BadRequest, NotFound, UnknownBoatError],
+  input: __S(0, __c0, 0) as any as S.Schema<HostPortRequest2>,
+  output: __S(1, __c0, 1) as any as S.Schema<HostPortResponse>,
+  errors: [BadRequest, NotFound, SandboxNotRunning, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3809,8 +5025,8 @@ export const interruptSandbox: API.OperationMethod<
   InterruptSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<InterruptSandboxRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<InterruptSandboxResponse>,
+  input: __S(32, __c1, 0) as any as S.Schema<InterruptSandboxRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<InterruptSandboxResponse>,
   errors: [NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3826,8 +5042,8 @@ export const listApiKeys: API.OperationMethod<
   ListApiKeysError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<ListApiKeysRequest>,
-  output: __S(1606, __c100, 6) as any as S.Schema<ListApiKeysResponse>,
+  input: __S(64, __c2, 0) as any as S.Schema<ListApiKeysRequest>,
+  output: __S(70, __c2, 6) as any as S.Schema<ListApiKeysResponse>,
   errors: [Forbidden, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3843,8 +5059,8 @@ export const listCredentialAccounts: API.OperationMethod<
   ListCredentialAccountsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<ListCredentialAccountsRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<ListCredentialAccountsResponse>,
+  input: __S(96, __c3, 0) as any as S.Schema<ListCredentialAccountsRequest>,
+  output: __S(1952, __c61, 0) as any as S.Schema<ListCredentialAccountsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3860,8 +5076,8 @@ export const listCredentialProfiles: API.OperationMethod<
   ListCredentialProfilesError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<ListCredentialProfilesRequest>,
-  output: __S(1634, __c102, 2) as any as S.Schema<ListCredentialProfilesResponse>,
+  input: __S(128, __c4, 0) as any as S.Schema<ListCredentialProfilesRequest>,
+  output: __S(130, __c4, 2) as any as S.Schema<ListCredentialProfilesResponse>,
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3869,7 +5085,7 @@ export const listCredentialProfiles: API.OperationMethod<
   span: "ListCredentialProfiles",
 }));
 
-export type ListEnvironmentsError = BoatOpError;
+export type ListEnvironmentsError = AmbiguousOrg | BoatOpError;
 /** List Sandbox environments Returns every non-deleted sandbox environment with its latest-version flags, contents, and per-version sandbox usage. A default environment named `base` is created on first access if none exists. */
 export const listEnvironments: API.OperationMethod<
   ListEnvironmentsRequest,
@@ -3877,30 +5093,30 @@ export const listEnvironments: API.OperationMethod<
   ListEnvironmentsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<ListEnvironmentsRequest>,
-  output: __S(305, __c19, 1) as any as S.Schema<SandboxEnvironmentListResponse>,
-  errors: [UnknownBoatError],
+  input: __S(160, __c5, 0) as any as S.Schema<ListEnvironmentsRequest>,
+  output: __S(2529, __c79, 1) as any as S.Schema<SandboxEnvironmentListResponse>,
+  errors: [AmbiguousOrg, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnvironments",
 }));
 
-export type ListNamedSnapshotsError = BoatOpError;
-/** List named snapshots List your named snapshots, newest first. */
-export const listNamedSnapshots: API.OperationMethod<
-  ListNamedSnapshotsRequest,
-  ListNamedSnapshotsResponse,
-  ListNamedSnapshotsError,
+export type ListFilesError = BadRequest | FileNotFound | SandboxNotRunning | BoatOpError;
+/** List a directory in a sandbox One level, sorted by name. A symlink is listed as a symlink, not followed. Defaults to /home/user. Needs `file.read`. */
+export const listFiles: API.OperationMethod<
+  ListFilesRequest,
+  ListFilesResponse,
+  ListFilesError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<ListNamedSnapshotsRequest>,
-  output: __S(1667, __c104, 3) as any as S.Schema<ListNamedSnapshotsResponse>,
-  errors: [UnknownBoatError],
+  input: __S(192, __c6, 0) as any as S.Schema<ListFilesRequest>,
+  output: __S(195, __c6, 3) as any as S.Schema<ListFilesResponse>,
+  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "ListNamedSnapshots",
+  span: "ListFiles",
 }));
 
 export type ListOrganizationsError = BoatOpError;
@@ -3911,8 +5127,8 @@ export const listOrganizations: API.OperationMethod<
   ListOrganizationsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<ListOrganizationsRequest>,
-  output: __S(1683, __c105, 3) as any as S.Schema<ListOrganizationsResponse>,
+  input: __S(224, __c7, 0) as any as S.Schema<ListOrganizationsRequest>,
+  output: __S(227, __c7, 3) as any as S.Schema<ListOrganizationsResponse>,
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3930,8 +5146,8 @@ export const listRepos: API.PaginatedOperationMethod<
   RepositoryInstallation
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1696, __c106, 0) as any as S.Schema<ListReposRequest>,
-    output: __S(1701, __c106, 5) as any as S.Schema<ListReposResponse>,
+    input: __S(256, __c8, 0) as any as S.Schema<ListReposRequest>,
+    output: __S(261, __c8, 5) as any as S.Schema<ListReposResponse>,
     errors: [Conflict, UnknownBoatError],
     protocol: BoatProtocol,
     retry: Retry.Retry,
@@ -3957,8 +5173,8 @@ export const listSandboxConversations: API.OperationMethod<
   ListSandboxConversationsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<ListSandboxConversationsRequest>,
-  output: __S(1731, __c108, 3) as any as S.Schema<ListSandboxConversationsResponse>,
+  input: __S(320, __c10, 0) as any as S.Schema<ListSandboxConversationsRequest>,
+  output: __S(323, __c10, 3) as any as S.Schema<ListSandboxConversationsResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3966,7 +5182,7 @@ export const listSandboxConversations: API.OperationMethod<
   span: "ListSandboxConversations",
 }));
 
-export type ListSandboxesError = BoatOpError;
+export type ListSandboxesError = AmbiguousOrg | BoatOpError;
 /** List sandboxes Your sandboxes. In an organization's scope (the active wallet, `org`, or `X-Boat-Org`) the list also holds every sandbox that organization pays for, whoever created it; `createdBy` and `access` say whose it is and what you may do with it. */
 export const listSandboxes: API.PaginatedOperationMethod<
   ListSandboxesRequest,
@@ -3976,9 +5192,9 @@ export const listSandboxes: API.PaginatedOperationMethod<
   Sandbox
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1744, __c109, 0) as any as S.Schema<ListSandboxesRequest>,
-    output: __S(1745, __c109, 1) as any as S.Schema<ListSandboxesResponse>,
-    errors: [UnknownBoatError],
+    input: __S(352, __c11, 0) as any as S.Schema<ListSandboxesRequest>,
+    output: __S(353, __c11, 1) as any as S.Schema<ListSandboxesResponse>,
+    errors: [AmbiguousOrg, UnknownBoatError],
     protocol: BoatProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
@@ -3996,7 +5212,7 @@ export const listSandboxes: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListSandboxEventsError = NotFound | BoatOpError;
-/** List boat events Return Sandbox work, lifecycle, and progress events so product UIs can show what the sandbox is doing. A Sandbox runs many conversations in parallel; this streams **all** of them by default and every event carries a `conversationId`. Filter to one or more with `conversation`. Event payloads are extensible. Clients can long-poll this endpoint with `sort=asc` and a cursor to stream responses. Response events expose agent text, streaming partials via `data.is_streaming`, and tool calls/results via `data.tools`. */
+/** List boat events Return Sandbox work, lifecycle, and progress events so product UIs can show what the sandbox is doing. A Sandbox runs many conversations in parallel; this streams **all** of them by default and every event carries a `conversationId`. Filter to one or more with `conversation`. Event payloads are extensible. Clients can long-poll this endpoint with `sort=asc` and a cursor to stream responses. Response events expose agent text, streaming partials via `data.is_streaming`, and tool calls/results via `data.tools`. When you poll, send the last `ETag` back in `If-None-Match`. An unchanged page answers `304 Not Modified` with no body. */
 export const listSandboxEvents: API.PaginatedOperationMethod<
   ListSandboxEventsRequest,
   ListSandboxEventsResponse,
@@ -4005,8 +5221,8 @@ export const listSandboxEvents: API.PaginatedOperationMethod<
   SandboxEvent
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1760, __c110, 0) as any as S.Schema<ListSandboxEventsRequest>,
-    output: __S(1763, __c110, 3) as any as S.Schema<ListSandboxEventsResponse>,
+    input: __S(384, __c12, 0) as any as S.Schema<ListSandboxEventsRequest>,
+    output: __S(387, __c12, 3) as any as S.Schema<ListSandboxEventsResponse>,
     errors: [NotFound, UnknownBoatError],
     protocol: BoatProtocol,
     retry: Retry.Retry,
@@ -4032,8 +5248,8 @@ export const listSandboxProcesses: API.OperationMethod<
   ListSandboxProcessesError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<ListSandboxProcessesRequest>,
-  output: __S(1811, __c113, 3) as any as S.Schema<ListSandboxProcessesResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<ListSandboxProcessesRequest>,
+  output: __S(419, __c13, 3) as any as S.Schema<ListSandboxProcessesResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4051,8 +5267,8 @@ export const listSandboxSnapshots: API.PaginatedOperationMethod<
   SnapshotSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1824, __c114, 0) as any as S.Schema<ListSandboxSnapshotsRequest>,
-    output: __S(1841, __c115, 1) as any as S.Schema<ListSandboxSnapshotsResponse>,
+    input: __S(448, __c14, 0) as any as S.Schema<ListSandboxSnapshotsRequest>,
+    output: __S(481, __c15, 1) as any as S.Schema<ListSandboxSnapshotsResponse>,
     errors: [BadRequest, NotFound, UnknownBoatError],
     protocol: BoatProtocol,
     retry: Retry.Retry,
@@ -4070,6 +5286,23 @@ export const listSandboxSnapshots: API.PaginatedOperationMethod<
   paginateCursor,
 ) as any;
 
+export type ListSavedSnapshotsError = BoatOpError;
+/** List saved snapshots List your saved snapshots, newest first. */
+export const listSavedSnapshots: API.OperationMethod<
+  ListSavedSnapshotsRequest,
+  ListSavedSnapshotsResponse,
+  ListSavedSnapshotsError,
+  BoatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(512, __c16, 0) as any as S.Schema<ListSavedSnapshotsRequest>,
+  output: __S(515, __c16, 3) as any as S.Schema<ListSavedSnapshotsResponse>,
+  errors: [UnknownBoatError],
+  protocol: BoatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListSavedSnapshots",
+}));
+
 export type ListSnapshotsError = BadRequest | BoatOpError;
 /** List snapshots List visible completed snapshots across all of your sandboxes using immutable ownership attribution. Pinned, deletion-scheduled, and privacy-fenced sandbox snapshots are omitted. Follow `nextCursor` through the complete history; there is no hidden 500-snapshot cap. */
 export const listSnapshots: API.PaginatedOperationMethod<
@@ -4080,8 +5313,8 @@ export const listSnapshots: API.PaginatedOperationMethod<
   SnapshotSummary
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1856, __c116, 0) as any as S.Schema<ListSnapshotsRequest>,
-    output: __S(1841, __c115, 1) as any as S.Schema<ListSnapshotsResponse>,
+    input: __S(544, __c17, 0) as any as S.Schema<ListSnapshotsRequest>,
+    output: __S(481, __c15, 1) as any as S.Schema<ListSnapshotsResponse>,
     errors: [BadRequest, UnknownBoatError],
     protocol: BoatProtocol,
     retry: Retry.Retry,
@@ -4100,15 +5333,15 @@ export const listSnapshots: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListSnapshotSharesError = NotFound | BoatOpError;
-/** List share codes of a named snapshot List the share codes of a named snapshot, active and revoked (`boat snapshot shares <name>` in the CLI). The full codes are not returned. Needs `snapshot.read`. */
+/** List share codes of a saved snapshot List the share codes of a saved snapshot, active and revoked (`boat snapshot shares <name>` in the CLI). The full codes are not returned. Needs `snapshot.read`. */
 export const listSnapshotShares: API.OperationMethod<
   ListSnapshotSharesRequest,
   ListSnapshotSharesResponse,
   ListSnapshotSharesError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<ListSnapshotSharesRequest>,
-  output: __S(1874, __c117, 2) as any as S.Schema<ListSnapshotSharesResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<ListSnapshotSharesRequest>,
+  output: __S(578, __c18, 2) as any as S.Schema<ListSnapshotSharesResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4124,8 +5357,8 @@ export const listWebhooks: API.OperationMethod<
   ListWebhooksError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<ListWebhooksRequest>,
-  output: __S(1890, __c118, 2) as any as S.Schema<ListWebhooksResponse>,
+  input: __S(608, __c19, 0) as any as S.Schema<ListWebhooksRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<ListWebhooksResponse>,
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4133,7 +5366,29 @@ export const listWebhooks: API.OperationMethod<
   span: "ListWebhooks",
 }));
 
-export type PromptSandboxError = BadRequest | NotFound | Conflict | BoatOpError;
+export type MoveFileError = BadRequest | FileNotFound | SandboxNotRunning | BoatOpError;
+/** Move or rename a file or directory in a sandbox Works across /home/user and /tmp. A symlink is moved itself, never its target. Needs `file.write`. */
+export const moveFile: API.OperationMethod<
+  MoveFileRequest,
+  MoveFileResponse,
+  MoveFileError,
+  BoatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(640, __c20, 0) as any as S.Schema<MoveFileRequest>,
+  output: __S(641, __c20, 1) as any as S.Schema<MoveFileResponse>,
+  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
+  protocol: BoatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MoveFile",
+}));
+
+export type PromptSandboxError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | FastModeNotSupported
+  | BoatOpError;
 /** Prompt Sandbox Queue a natural-language work item for an agent harness (Codex, Claude Code, pi, OpenCode, or Prime Agent) inside the sandbox. Observe progress with `GET /sandboxes/{sandboxId}/events`. A Sandbox runs many conversations in parallel. Set `new: true` to start a fresh one, `conversationId` to continue a specific one, or omit both to continue the most-recently-active conversation; the response returns the `conversationId`. See [Integrated agents](/integrated-agents). */
 export const promptSandbox: API.OperationMethod<
   PromptSandboxRequest,
@@ -4141,33 +5396,41 @@ export const promptSandbox: API.OperationMethod<
   PromptSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<PromptSandboxRequest>,
-  output: __S(1905, __c119, 1) as any as S.Schema<PromptSandboxResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
+  input: __S(672, __c21, 0) as any as S.Schema<PromptSandboxRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<PromptSandboxResponse>,
+  errors: [BadRequest, NotFound, Conflict, FastModeNotSupported, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PromptSandbox",
 }));
 
-export type ReadSandboxFileError = BadRequest | BoatOpError;
-/** Read a file from a sandbox Files up to 5 MiB. For a larger file, use `POST /sandboxes/{sandboxId}/files/download-url`. */
+export type ReadSandboxFileError = BadRequest | FileNotFound | SandboxNotRunning | BoatOpError;
+/** Read a file from a sandbox Files up to 5 MiB. For a larger file, use `POST /sandboxes/{sandboxId}/files/download-url`. On a sandbox that is still starting, the call waits until it is ready (up to 60 s, like a command), so it reads the sandbox's own disk and never the machine's stock one. */
 export const readSandboxFile: API.OperationMethod<
   ReadSandboxFileRequest,
   ReadSandboxFileResponse,
   ReadSandboxFileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c120, 0) as any as S.Schema<ReadSandboxFileRequest>,
-  output: __S(1921, __c120, 1) as any as S.Schema<ReadSandboxFileResponse>,
-  errors: [BadRequest, UnknownBoatError],
+  input: __S(704, __c22, 0) as any as S.Schema<ReadSandboxFileRequest>,
+  output: __S(705, __c22, 1) as any as S.Schema<ReadSandboxFileResponse>,
+  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReadSandboxFile",
 }));
 
-export type RecoverSandboxError = NotFound | Conflict | BoatOpError;
+export type RecoverSandboxError =
+  | NotFound
+  | Conflict
+  | SandboxIsReachable
+  | RecoverTooSoon
+  | SandboxHasNoMachine
+  | RecoverUnsupported
+  | RecoverResetFailed
+  | BoatOpError;
 /** Recover a sandbox that stopped responding Power-cycle the machine of a sandbox that stopped answering. The disk is not touched. The sandbox usually answers again within 1-2 minutes and then saves your work by itself; `sandbox.recovered` fires when it does. Refused with `409`: - `sandbox_is_reachable`: the sandbox answers normally. - `too_soon`: a recover started less than 10 minutes ago. - `no_machine`: the sandbox has no machine. Resume it instead. - `recover_unsupported`: its machine cannot be power-cycled. Wait for it to answer, or stop it with `{"force": true}` and resume it from its last good snapshot. With no snapshot, a forced stop loses everything. - `reset_failed`: the power-cycle failed. Reply to the incident email. */
 export const recoverSandbox: API.OperationMethod<
   RecoverSandboxRequest,
@@ -4175,16 +5438,51 @@ export const recoverSandbox: API.OperationMethod<
   RecoverSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1936, __c121, 0) as any as S.Schema<RecoverSandboxRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<RecoverSandboxResponse>,
-  errors: [NotFound, Conflict, UnknownBoatError],
+  input: __S(736, __c23, 0) as any as S.Schema<RecoverSandboxRequest>,
+  output: __S(737, __c23, 1) as any as S.Schema<RecoverSandboxResponse>,
+  errors: [
+    NotFound,
+    Conflict,
+    SandboxIsReachable,
+    RecoverTooSoon,
+    SandboxHasNoMachine,
+    RecoverUnsupported,
+    RecoverResetFailed,
+    UnknownBoatError,
+  ],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RecoverSandbox",
 }));
 
-export type ResumeSandboxError = NotFound | Conflict | BoatOpError;
+export type ReplaceInFilesError = BadRequest | FileNotFound | SandboxNotRunning | BoatOpError;
+/** Replace text in sandbox files Replaces every occurrence of `pattern` with `newValue` in each file. Needs `file.write`. */
+export const replaceInFiles: API.OperationMethod<
+  ReplaceInFilesRequest,
+  ReplaceInFilesResponse,
+  ReplaceInFilesError,
+  BoatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(768, __c24, 0) as any as S.Schema<ReplaceInFilesRequest>,
+  output: __S(771, __c24, 3) as any as S.Schema<ReplaceInFilesResponse>,
+  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
+  protocol: BoatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ReplaceInFiles",
+}));
+
+export type ResumeSandboxError =
+  | Forbidden
+  | NotFound
+  | Conflict
+  | MachineClassPlanRequired
+  | NoReadyMachine
+  | SandboxLimitReached
+  | MemberSandboxLimitReached
+  | SandboxStartLimitExceeded
+  | BoatOpError;
 /** Resume sandbox */
 export const resumeSandbox: API.OperationMethod<
   ResumeSandboxRequest,
@@ -4192,9 +5490,19 @@ export const resumeSandbox: API.OperationMethod<
   ResumeSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<ResumeSandboxRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<ResumeSandboxResponse>,
-  errors: [NotFound, Conflict, UnknownBoatError],
+  input: __S(800, __c25, 0) as any as S.Schema<ResumeSandboxRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<ResumeSandboxResponse>,
+  errors: [
+    Forbidden,
+    NotFound,
+    Conflict,
+    MachineClassPlanRequired,
+    NoReadyMachine,
+    SandboxLimitReached,
+    MemberSandboxLimitReached,
+    SandboxStartLimitExceeded,
+    UnknownBoatError,
+  ],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4202,15 +5510,15 @@ export const resumeSandbox: API.OperationMethod<
 }));
 
 export type RevokeApiKeyError = Forbidden | NotFound | BoatOpError;
-/** Revoke an API key Revokes the key immediately. Requires a dashboard or CLI session. */
+/** Revoke an API key Revokes the key immediately. Requires a dashboard or CLI session, or an admin-scoped key. A key revokes itself or a key it could create (same or fewer actions, sandboxes and environments, no later expiry). */
 export const revokeApiKey: API.OperationMethod<
   RevokeApiKeyRequest,
   RevokeApiKeyResponse,
   RevokeApiKeyError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<RevokeApiKeyRequest>,
-  output: __S(1969, __c123, 1) as any as S.Schema<RevokeApiKeyResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<RevokeApiKeyRequest>,
+  output: __S(833, __c26, 1) as any as S.Schema<RevokeApiKeyResponse>,
   errors: [Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4226,8 +5534,8 @@ export const revokeSnapshotShare: API.OperationMethod<
   RevokeSnapshotShareError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<RevokeSnapshotShareRequest>,
-  output: __S(2001, __c125, 1) as any as S.Schema<RevokeSnapshotShareResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<RevokeSnapshotShareRequest>,
+  output: __S(865, __c27, 1) as any as S.Schema<RevokeSnapshotShareResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4236,15 +5544,15 @@ export const revokeSnapshotShare: API.OperationMethod<
 }));
 
 export type RotateApiKeyError = Forbidden | NotFound | Conflict | BoatOpError;
-/** Rotate an API key Replaces the raw secret without changing expiry or scope. Requires a dashboard or CLI session. */
+/** Rotate an API key Replaces the raw secret without changing expiry or scope. Requires a dashboard or CLI session, or an admin-scoped key. A key rotates itself or a key it could create. */
 export const rotateApiKey: API.OperationMethod<
   RotateApiKeyRequest,
   RotateApiKeyResponse,
   RotateApiKeyError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<RotateApiKeyRequest>,
-  output: __S(448, __c28, 0) as any as S.Schema<RotateApiKeyResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<RotateApiKeyRequest>,
+  output: __S(2944, __c92, 0) as any as S.Schema<RotateApiKeyResponse>,
   errors: [Forbidden, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4260,8 +5568,8 @@ export const rotateWebhookSigningSecret: API.OperationMethod<
   RotateWebhookSigningSecretError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<RotateWebhookSigningSecretRequest>,
-  output: __S(544, __c34, 0) as any as S.Schema<RotateWebhookSigningSecretResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<RotateWebhookSigningSecretRequest>,
+  output: __S(3136, __c98, 0) as any as S.Schema<RotateWebhookSigningSecretResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4269,21 +5577,43 @@ export const rotateWebhookSigningSecret: API.OperationMethod<
   span: "RotateWebhookSigningSecret",
 }));
 
-export type SaveNamedSnapshotError = BadRequest | NotFound | Conflict | BoatOpError;
-/** Save a named snapshot Freeze a sandbox's current state under a name (`boat snapshot <id> <name>` in the CLI). Answers `202` immediately with the snapshot in `saving`; a running sandbox takes a fresh capture first, which can run minutes. Poll `GET /named-snapshots/{name}` until the status settles at `ready` or `failed`. Reusing one of your existing names replaces that snapshot's artifact once the new save is ready. */
-export const saveNamedSnapshot: API.OperationMethod<
-  SaveNamedSnapshotRequest,
-  SaveNamedSnapshotResponse,
-  SaveNamedSnapshotError,
+export type SaveSavedSnapshotError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | SaveInProgress
+  | BoatOpError;
+/** Save a saved snapshot Freeze a sandbox's current state under a name (`boat snapshot <id> <name>` in the CLI). Answers `202` immediately with the snapshot in `saving`; a running sandbox takes a fresh capture first, which can run minutes. Poll `GET /saved-snapshots/{name}` until the status settles at `ready` or `failed`. Reusing one of your existing names replaces that snapshot's artifact once the new save is ready. */
+export const saveSavedSnapshot: API.OperationMethod<
+  SaveSavedSnapshotRequest,
+  SaveSavedSnapshotResponse,
+  SaveSavedSnapshotError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<SaveNamedSnapshotRequest>,
-  output: __S(2049, __c128, 1) as any as S.Schema<SaveNamedSnapshotResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
+  input: __S(960, __c30, 0) as any as S.Schema<SaveSavedSnapshotRequest>,
+  output: __S(961, __c30, 1) as any as S.Schema<SaveSavedSnapshotResponse>,
+  errors: [BadRequest, NotFound, Conflict, SaveInProgress, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "SaveNamedSnapshot",
+  span: "SaveSavedSnapshot",
+}));
+
+export type SearchFilesError = BadRequest | FileNotFound | SandboxNotRunning | BoatOpError;
+/** Search files by name in a sandbox Every file and directory under `path` whose name matches the glob `pattern` (for example `*.py`). Symlinks are not followed. Needs `file.read`. */
+export const searchFiles: API.OperationMethod<
+  SearchFilesRequest,
+  SearchFilesResponse,
+  SearchFilesError,
+  BoatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(992, __c31, 0) as any as S.Schema<SearchFilesRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<SearchFilesResponse>,
+  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
+  protocol: BoatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SearchFiles",
 }));
 
 export type SelectRepoError = BadRequest | Conflict | BoatOpError;
@@ -4294,8 +5624,8 @@ export const selectRepo: API.OperationMethod<
   SelectRepoError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<SelectRepoRequest>,
-  output: __S(2065, __c129, 1) as any as S.Schema<SelectRepoResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<SelectRepoRequest>,
+  output: __S(1025, __c32, 1) as any as S.Schema<SelectRepoResponse>,
   errors: [BadRequest, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4303,7 +5633,12 @@ export const selectRepo: API.OperationMethod<
   span: "SelectRepo",
 }));
 
-export type SetActiveOrganizationError = BadRequest | Forbidden | Conflict | BoatOpError;
+export type SetActiveOrganizationError =
+  | BadRequest
+  | Forbidden
+  | Conflict
+  | AmbiguousOrg
+  | BoatOpError;
 /** Set the active organization Set the wallet new sandboxes bill when a request names none, for this account on every client: the API, the CLI (`boat org switch` sets the same value) and the dashboard. Pass an organization id or name you belong to, or `personal` (or `null`) for your own account. `GET /limits` follows it. Sandboxes already running keep the wallet they were created with; leaving or deleting the organization resets the account to personal. */
 export const setActiveOrganization: API.OperationMethod<
   SetActiveOrganizationRequest,
@@ -4311,13 +5646,30 @@ export const setActiveOrganization: API.OperationMethod<
   SetActiveOrganizationError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<SetActiveOrganizationRequest>,
-  output: __S(2082, __c130, 2) as any as S.Schema<SetActiveOrganizationResponse>,
-  errors: [BadRequest, Forbidden, Conflict, UnknownBoatError],
+  input: __S(1056, __c33, 0) as any as S.Schema<SetActiveOrganizationRequest>,
+  output: __S(1058, __c33, 2) as any as S.Schema<SetActiveOrganizationResponse>,
+  errors: [BadRequest, Forbidden, Conflict, AmbiguousOrg, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetActiveOrganization",
+}));
+
+export type SetCiPublicReposError = BadRequest | Forbidden | NotFound | BoatOpError;
+/** Set CI public repositories Turns jobs from a linked account's public repositories on or off, and sets the GitHub users whose runs may use boat there. A run is allowed only when both its author and the user who started it (a re-run) are on the list. Each user is checked on GitHub. Only the person who linked the account, or an owner or admin of its org, can change it. Needs an API key with `account.admin`. */
+export const setCiPublicRepos: API.OperationMethod<
+  SetCiPublicReposRequest,
+  SetCiPublicReposResponse,
+  SetCiPublicReposError,
+  BoatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1088, __c34, 0) as any as S.Schema<SetCiPublicReposRequest>,
+  output: __S(1091, __c34, 3) as any as S.Schema<SetCiPublicReposResponse>,
+  errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
+  protocol: BoatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetCiPublicRepos",
 }));
 
 export type SetCredentialProfileCustomApiError = BadRequest | Forbidden | NotFound | BoatOpError;
@@ -4328,8 +5680,8 @@ export const setCredentialProfileCustomApi: API.OperationMethod<
   SetCredentialProfileCustomApiError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<SetCredentialProfileCustomApiRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<SetCredentialProfileCustomApiResponse>,
+  input: __S(1120, __c35, 0) as any as S.Schema<SetCredentialProfileCustomApiRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<SetCredentialProfileCustomApiResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4345,8 +5697,8 @@ export const setCredentialProfileKey: API.OperationMethod<
   SetCredentialProfileKeyError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<SetCredentialProfileKeyRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<SetCredentialProfileKeyResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<SetCredentialProfileKeyRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<SetCredentialProfileKeyResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4354,7 +5706,7 @@ export const setCredentialProfileKey: API.OperationMethod<
   span: "SetCredentialProfileKey",
 }));
 
-export type SetEnvironmentSecretFileError = BadRequest | NotFound | BoatOpError;
+export type SetEnvironmentSecretFileError = BadRequest | NotFound | AmbiguousOrg | BoatOpError;
 /** Write one secret file Adds or replaces a single secret file by path. Mints a new immutable version. */
 export const setEnvironmentSecretFile: API.OperationMethod<
   SetEnvironmentSecretFileRequest,
@@ -4362,16 +5714,16 @@ export const setEnvironmentSecretFile: API.OperationMethod<
   SetEnvironmentSecretFileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<SetEnvironmentSecretFileRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
-  errors: [BadRequest, NotFound, UnknownBoatError],
+  input: __S(1184, __c37, 0) as any as S.Schema<SetEnvironmentSecretFileRequest>,
+  output: __S(2016, __c63, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  errors: [BadRequest, NotFound, AmbiguousOrg, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetEnvironmentSecretFile",
 }));
 
-export type SetEnvironmentVarError = BadRequest | NotFound | BoatOpError;
+export type SetEnvironmentVarError = BadRequest | NotFound | AmbiguousOrg | BoatOpError;
 /** Set one environment variable Sets or replaces a single variable without reading or rewriting the rest. Mints a new immutable version. */
 export const setEnvironmentVar: API.OperationMethod<
   SetEnvironmentVarRequest,
@@ -4379,13 +5731,30 @@ export const setEnvironmentVar: API.OperationMethod<
   SetEnvironmentVarError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c134, 0) as any as S.Schema<SetEnvironmentVarRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
-  errors: [BadRequest, NotFound, UnknownBoatError],
+  input: __S(1216, __c38, 0) as any as S.Schema<SetEnvironmentVarRequest>,
+  output: __S(2016, __c63, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  errors: [BadRequest, NotFound, AmbiguousOrg, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetEnvironmentVar",
+}));
+
+export type SetFilePermissionsError = BadRequest | FileNotFound | SandboxNotRunning | BoatOpError;
+/** Set file permissions in a sandbox Sets the permission bits. Files belong to the sandbox user; the owner and group do not change. Needs `file.write`. */
+export const setFilePermissions: API.OperationMethod<
+  SetFilePermissionsRequest,
+  SetFilePermissionsResponse,
+  SetFilePermissionsError,
+  BoatOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1248, __c39, 0) as any as S.Schema<SetFilePermissionsRequest>,
+  output: __S(2688, __c84, 0) as any as S.Schema<SetFilePermissionsResponse>,
+  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
+  protocol: BoatProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "SetFilePermissions",
 }));
 
 export type SetSandboxAiAccessError = BadRequest | Forbidden | NotFound | BoatOpError;
@@ -4396,8 +5765,8 @@ export const setSandboxAiAccess: API.OperationMethod<
   SetSandboxAiAccessError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<SetSandboxAiAccessRequest>,
-  output: __S(2177, __c136, 1) as any as S.Schema<SetSandboxAiAccessResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<SetSandboxAiAccessRequest>,
+  output: __S(1281, __c40, 1) as any as S.Schema<SetSandboxAiAccessResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4413,8 +5782,8 @@ export const setTelemetry: API.OperationMethod<
   SetTelemetryError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2192, __c137, 0) as any as S.Schema<SetTelemetryRequest>,
-  output: __S(2194, __c137, 2) as any as S.Schema<SetTelemetryResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<SetTelemetryRequest>,
+  output: __S(1314, __c41, 2) as any as S.Schema<SetTelemetryResponse>,
   errors: [BadRequest, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4430,8 +5799,8 @@ export const shareSandbox: API.OperationMethod<
   ShareSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<ShareSandboxRequest>,
-  output: __S(2209, __c138, 1) as any as S.Schema<ShareSandboxResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<ShareSandboxRequest>,
+  output: __S(1345, __c42, 1) as any as S.Schema<ShareSandboxResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4439,7 +5808,7 @@ export const shareSandbox: API.OperationMethod<
   span: "ShareSandbox",
 }));
 
-export type SteerSandboxError = BadRequest | NotFound | Conflict | BoatOpError;
+export type SteerSandboxError = BadRequest | NotFound | Conflict | NoRunningTurn | BoatOpError;
 /** Steer a running turn Send a new message to a turn that is already running, without losing what the agent is doing. This is what typing into a coding agent while it works does: the instruction is taken into account and the work continues. Where the harness has a native mid-turn primitive (Claude Code, Codex, pi, Prime Agent) nothing is interrupted and the response has `native: true`. Where it does not (OpenCode), Boat interrupts that turn and immediately continues the SAME conversation with the instruction, keeping the session and its memory, and the response has `native: false`. Refused with **409 `no_running_turn`** when the conversation has nothing in flight; queue work with `POST /prompt` instead. `error.details.reason` says why: `turn_ended` (with `error.details.lastTurn.status` and `.error` of the newest turn), `turn_not_started` (the turn is starting; retry in a moment), `no_turn`, `not_running` (the sandbox is not running) or `delivery_failed` (the sandbox did not accept the steer; check the turn before sending more work). The steer shows up in `GET /events` as a `steer` event. See [Integrated agents](/integrated-agents). */
 export const steerSandbox: API.OperationMethod<
   SteerSandboxRequest,
@@ -4447,16 +5816,16 @@ export const steerSandbox: API.OperationMethod<
   SteerSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<SteerSandboxRequest>,
-  output: __S(2225, __c139, 1) as any as S.Schema<SteerSandboxResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
+  input: __S(1376, __c43, 0) as any as S.Schema<SteerSandboxRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<SteerSandboxResponse>,
+  errors: [BadRequest, NotFound, Conflict, NoRunningTurn, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SteerSandbox",
 }));
 
-export type StopCommandError = BadRequest | NotFound | Conflict | BoatOpError;
+export type StopCommandError = BadRequest | NotFound | Conflict | SandboxNotRunning | BoatOpError;
 /** Stop a detached command Sends SIGTERM to the command and every process it started, then SIGKILL to what is left after 5 s. Only a process started with `detached` can be stopped. The response carries the command's history record with its final state and output. */
 export const stopCommand: API.OperationMethod<
   StopCommandRequest,
@@ -4464,16 +5833,16 @@ export const stopCommand: API.OperationMethod<
   StopCommandError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<StopCommandRequest>,
-  output: __S(2241, __c140, 1) as any as S.Schema<StopCommandResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
+  input: __S(1408, __c44, 0) as any as S.Schema<StopCommandRequest>,
+  output: __S(1409, __c44, 1) as any as S.Schema<StopCommandResponse>,
+  errors: [BadRequest, NotFound, Conflict, SandboxNotRunning, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopCommand",
 }));
 
-export type StopSandboxError = BadRequest | NotFound | BoatOpError;
+export type StopSandboxError = BadRequest | NotFound | SandboxAlreadyStopped | BoatOpError;
 /** Stop and archive sandbox Stop active work and archive/snapshot the sandbox for later resume or fork. A stop always saves the sandbox's disk first. If that save is failing, the stop is refused and the sandbox keeps running so your work is not discarded, we retry automatically and email you. You are not billed for time spent in that state. The stop is an operation: the response and the sandbox carry it as `stop`, with an `id` and a `status`. Poll `GET /sandboxes/{sandboxId}` until `stop.status` is `completed`. A failed attempt shows `failing` with its `error` and is retried until the sandbox archives; commands and prompts you send meanwhile do not cancel it. Only a resume ends it early (`superseded`). Calling stop again while one is pending returns the same `id`. Set `force: true` to stop anyway, keeping the last successful snapshot and losing everything written since then. This is irreversible; only reach for it after a stop has already failed. A force on a stop that is already pending escalates that stop. */
 export const stopSandbox: API.OperationMethod<
   StopSandboxRequest,
@@ -4481,9 +5850,9 @@ export const stopSandbox: API.OperationMethod<
   StopSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<StopSandboxRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<StopSandboxResponse>,
-  errors: [BadRequest, NotFound, UnknownBoatError],
+  input: __S(1440, __c45, 0) as any as S.Schema<StopSandboxRequest>,
+  output: __S(4000, __c125, 0) as any as S.Schema<StopSandboxResponse>,
+  errors: [BadRequest, NotFound, SandboxAlreadyStopped, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4498,8 +5867,8 @@ export const switchCredentialAccount: API.OperationMethod<
   SwitchCredentialAccountError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<SwitchCredentialAccountRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<SwitchCredentialAccountResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<SwitchCredentialAccountRequest>,
+  output: __S(1952, __c61, 0) as any as S.Schema<SwitchCredentialAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4515,8 +5884,8 @@ export const unshareSandbox: API.OperationMethod<
   UnshareSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2288, __c143, 0) as any as S.Schema<UnshareSandboxRequest>,
-  output: __S(2289, __c143, 1) as any as S.Schema<UnshareSandboxResponse>,
+  input: __S(1504, __c47, 0) as any as S.Schema<UnshareSandboxRequest>,
+  output: __S(1505, __c47, 1) as any as S.Schema<UnshareSandboxResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4524,17 +5893,17 @@ export const unshareSandbox: API.OperationMethod<
   span: "UnshareSandbox",
 }));
 
-export type UpdateAiProxyError = BadRequest | Forbidden | BoatOpError;
-/** Turn the AI credentials proxy on or off With the proxy on, sandboxes get placeholder keys and base URLs that point at Boat. Boat swaps in the real key on each request. Real keys never enter the sandbox. Running sandboxes switch at their next start. While on, the account pays $1 of Boat time for each UTC day, plus $1 per 1,000 proxied requests, charged to the wallet each sandbox bills. For an organization, only its owner can change the switch. Needs an API key with `account.admin`. */
+export type UpdateAiProxyError = BadRequest | Forbidden | AmbiguousOrg | BoatOpError;
+/** Turn the AI credentials proxy on or off With the proxy on, sandboxes get placeholder keys and base URLs that point at Boat. Boat swaps in the real key on each request. Real keys never enter the sandbox. Running sandboxes switch at their next start. While on, the wallet of the account pays $1 for each UTC day, plus $1 per 1,000 proxied requests, charged to the wallet each sandbox bills. For an organization, only its owner can change the switch. Needs an API key with `account.admin`. */
 export const updateAiProxy: API.OperationMethod<
   UpdateAiProxyRequest,
   UpdateAiProxyResponse,
   UpdateAiProxyError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<UpdateAiProxyRequest>,
-  output: __S(945, __c59, 1) as any as S.Schema<UpdateAiProxyResponse>,
-  errors: [BadRequest, Forbidden, UnknownBoatError],
+  input: __S(1536, __c48, 0) as any as S.Schema<UpdateAiProxyRequest>,
+  output: __S(4065, __c127, 1) as any as S.Schema<UpdateAiProxyResponse>,
+  errors: [BadRequest, Forbidden, AmbiguousOrg, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4554,8 +5923,8 @@ export const updateCredentialProfile: API.OperationMethod<
   UpdateCredentialProfileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<UpdateCredentialProfileRequest>,
-  output: __S(64, __c4, 0) as any as S.Schema<UpdateCredentialProfileResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<UpdateCredentialProfileRequest>,
+  output: __S(2400, __c75, 0) as any as S.Schema<UpdateCredentialProfileResponse>,
   errors: [BadRequest, Forbidden, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4571,8 +5940,8 @@ export const updateDataRetention: API.OperationMethod<
   UpdateDataRetentionError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c5, 0) as any as S.Schema<UpdateDataRetentionRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<UpdateDataRetentionResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<UpdateDataRetentionRequest>,
+  output: __S(4448, __c139, 0) as any as S.Schema<UpdateDataRetentionResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4580,7 +5949,7 @@ export const updateDataRetention: API.OperationMethod<
   span: "UpdateDataRetention",
 }));
 
-export type UpdateEnvironmentError = BadRequest | NotFound | BoatOpError;
+export type UpdateEnvironmentError = BadRequest | NotFound | AmbiguousOrg | BoatOpError;
 /** Update a sandbox environment Rename, set as default, and/or edit flags and contents. Any flag or content change mints a new immutable version; existing sandboxes stay on their pinned version until you call upgrade. */
 export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentRequest,
@@ -4588,9 +5957,9 @@ export const updateEnvironment: API.OperationMethod<
   UpdateEnvironmentError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(98, __c6, 2) as any as S.Schema<UpdateEnvironmentRequest>,
-  output: __S(640, __c40, 0) as any as S.Schema<SandboxEnvironmentResponse>,
-  errors: [BadRequest, NotFound, UnknownBoatError],
+  input: __S(1666, __c52, 2) as any as S.Schema<UpdateEnvironmentRequest>,
+  output: __S(3360, __c105, 0) as any as S.Schema<SandboxEnvironmentResponse>,
+  errors: [BadRequest, NotFound, AmbiguousOrg, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4598,15 +5967,15 @@ export const updateEnvironment: API.OperationMethod<
 }));
 
 export type UpdateOrganizationError = BadRequest | Forbidden | BoatOpError;
-/** Update organization settings Owners and admins set whether new sandboxes of the organization start private (only their creator can use them) or shared (every member can use those that hold none of their creator's logins). The default is shared. Existing sandboxes keep their setting; their creators change it with `POST /sandboxes/{sandboxId}/share` and `POST /sandboxes/{sandboxId}/unshare`. A fork of a private sandbox is private. */
+/** Update organization settings The owner renames the organization with `name`. Requests that name the organization by its old name fail after the rename; its id does not change. The billing name on new invoices follows when it is still the organization name. If Stripe does not answer, the request fails with 502 and nothing changes. Owners and admins set whether new sandboxes of the organization start private (only their creator can use them) or shared (every member can use those that hold none of their creator's logins). The default is shared. Existing sandboxes keep their setting; their creators change it with `POST /sandboxes/{sandboxId}/share` and `POST /sandboxes/{sandboxId}/unshare`. A fork of a private sandbox is private. */
 export const updateOrganization: API.OperationMethod<
   UpdateOrganizationRequest,
   UpdateOrganizationResponse,
   UpdateOrganizationError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<UpdateOrganizationRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<UpdateOrganizationResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<UpdateOrganizationRequest>,
+  output: __S(1697, __c53, 1) as any as S.Schema<UpdateOrganizationResponse>,
   errors: [BadRequest, Forbidden, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4614,7 +5983,7 @@ export const updateOrganization: API.OperationMethod<
   span: "UpdateOrganization",
 }));
 
-export type UpdateSandboxError = BadRequest | NotFound | BoatOpError;
+export type UpdateSandboxError = BadRequest | NotFound | GatewayError | BoatOpError;
 /** Update sandbox */
 export const updateSandbox: API.OperationMethod<
   UpdateSandboxRequest,
@@ -4622,9 +5991,9 @@ export const updateSandbox: API.OperationMethod<
   UpdateSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<UpdateSandboxRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<UpdateSandboxResponse>,
-  errors: [BadRequest, NotFound, UnknownBoatError],
+  input: __S(1728, __c54, 0) as any as S.Schema<UpdateSandboxRequest>,
+  output: __S(4800, __c150, 0) as any as S.Schema<UpdateSandboxResponse>,
+  errors: [BadRequest, NotFound, GatewayError, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4639,8 +6008,8 @@ export const updateSecrets: API.OperationMethod<
   UpdateSecretsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(144, __c9, 0) as any as S.Schema<UpdateSecretsRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<UpdateSecretsResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<UpdateSecretsRequest>,
+  output: __S(4992, __c156, 0) as any as S.Schema<UpdateSecretsResponse>,
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4656,8 +6025,8 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c10, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(1520, __c95, 0) as any as S.Schema<UpdateWebhookResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(5216, __c163, 0) as any as S.Schema<UpdateWebhookResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4665,7 +6034,7 @@ export const updateWebhook: API.OperationMethod<
   span: "UpdateWebhook",
 }));
 
-export type UpgradeEnvironmentError = NotFound | BoatOpError;
+export type UpgradeEnvironmentError = NotFound | AmbiguousOrg | BoatOpError;
 /** Upgrade sandboxes to an environment's latest version Repoints the caller's active sandboxes from an older version of this environment to its latest version, scrubbing any owner secrets the new version drops and hot-pushing the new config. */
 export const upgradeEnvironment: API.OperationMethod<
   UpgradeEnvironmentRequest,
@@ -4673,26 +6042,26 @@ export const upgradeEnvironment: API.OperationMethod<
   UpgradeEnvironmentError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c11, 0) as any as S.Schema<UpgradeEnvironmentRequest>,
-  output: __S(177, __c11, 1) as any as S.Schema<UpgradeSandboxEnvironmentResponse>,
-  errors: [NotFound, UnknownBoatError],
+  input: __S(1824, __c57, 0) as any as S.Schema<UpgradeEnvironmentRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<UpgradeSandboxEnvironmentResponse>,
+  errors: [NotFound, AmbiguousOrg, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpgradeEnvironment",
 }));
 
-export type WriteSandboxFileError = BadRequest | BoatOpError;
-/** Write a file in a sandbox Files up to 5 MiB after decoding. For a larger file, use `POST /sandboxes/{sandboxId}/files/upload-url`. */
+export type WriteSandboxFileError = BadRequest | FileNotFound | SandboxNotRunning | BoatOpError;
+/** Write a file in a sandbox Files up to 5 MiB after decoding. For a larger file, use `POST /sandboxes/{sandboxId}/files/upload-url`. On a sandbox that is still starting, the call waits until it is ready (up to 60 s, like a command): a sandbox's files are in place only once it is ready, so a write any earlier would not stay. A `200` always means the file is on the sandbox's disk. */
 export const writeSandboxFile: API.OperationMethod<
   WriteSandboxFileRequest,
   WriteSandboxFileResponse,
   WriteSandboxFileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c12, 0) as any as S.Schema<WriteSandboxFileRequest>,
-  output: __S(193, __c12, 1) as any as S.Schema<WriteSandboxFileResponse>,
-  errors: [BadRequest, UnknownBoatError],
+  input: __S(1856, __c58, 0) as any as S.Schema<WriteSandboxFileRequest>,
+  output: __S(1857, __c58, 1) as any as S.Schema<WriteSandboxFileResponse>,
+  errors: [BadRequest, FileNotFound, SandboxNotRunning, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4705,23 +6074,85 @@ function __c0(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String,
-          org: S.optional(S.String),
-          copyFrom: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/credential-profiles", code: 200 })),
-      ).annotate({ identifier: "CreateCredentialProfileRequest" });
+          sandboxId: S.String.pipe(T.Label()),
+          port: S.Number,
+          public: S.optional(S.Boolean),
+          localhost: S.optional(S.Boolean),
+          title: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/host", code: 200 })),
+      ).annotate({ identifier: "HostPortRequest2" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          success: S.optional(S.Boolean),
+          port: S.optional(S.Number),
+          url: S.optional(S.String),
+          isProtected: S.optional(S.Boolean),
+          access: S.optional(S.String),
+          localhost: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "HostPortResponse" });
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          conversation: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/interrupt", code: 200 })),
+      ).annotate({ identifier: "InterruptSandboxRequest" });
   }
 }
 function __c2(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(S.String);
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api-keys", code: 200 })),
+      ).annotate({ identifier: "ListApiKeysRequest" });
+    case 1:
+      return S.Record(S.String, __S(2272, __c71, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          organizationId: S.String,
+          organizationName: S.String,
+        }),
+      ).annotate({ identifier: "ApiKeyScopeResource" });
+    case 3:
+      return S.Array(__S(66, __c2, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxes: __S(67, __c2, 3),
+          environments: __S(67, __c2, 3),
+        }),
+      ).annotate({ identifier: "ApiKeyCatalogScopeResources" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          actions: __S(2272, __c71, 0),
+          presets: __S(65, __c2, 1),
+          defaultTtl: S.String,
+          maxTtl: S.String,
+          scopedCreationEnabled: S.Boolean,
+          scopeResources: S.optional(__S(68, __c2, 4)),
+        }),
+      ).annotate({ identifier: "ApiKeyCatalog" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          apiKeys: __S(2914, __c91, 2),
+          catalog: __S(69, __c2, 5),
+        }),
+      ).annotate({ identifier: "ListApiKeysResponse" });
   }
 }
 function __c3(j: number): any {
@@ -4729,45 +6160,1055 @@ function __c3(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.String,
-          kind: S.String,
-          name: S.String,
-          aiProxyEnabled: S.Boolean,
-        }),
-      ).annotate({ identifier: "CredentialProfileOwner" });
-    case 1:
-      return S.Record(S.String, __S(1057, __c66, 1));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          isDefault: S.Boolean,
-          owner: __S(48, __c3, 0),
-          canManage: S.Boolean,
-          connected: __S(32, __c2, 0),
-          accounts: S.optional(__S(49, __c3, 1)),
-          customApis: __S(16, __c1, 0),
-          createdAt: S.String,
-          updatedAt: S.String,
-        }),
-      ).annotate({ identifier: "CredentialProfile" });
+          profile: S.String.pipe(T.Label()),
+          credential: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/credential-profiles/{profile}/accounts/{credential}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListCredentialAccountsRequest" });
   }
 }
 function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/credential-profiles", code: 200 })),
+      ).annotate({ identifier: "ListCredentialProfilesRequest" });
+    case 1:
+      return S.Array(__S(2370, __c74, 2));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          profiles: __S(129, __c4, 1),
+        }),
+      ).annotate({ identifier: "ListCredentialProfilesResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/environments", code: 200 })),
+      ).annotate({ identifier: "ListEnvironmentsRequest" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          path: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/files/list", code: 200 })),
+      ).annotate({ identifier: "ListFilesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          path: S.String,
+          isDir: S.Boolean,
+          isSymlink: S.Boolean,
+          size: S.Number,
+          mode: S.String,
+          modifiedAt: S.String,
+        }),
+      ).annotate({ identifier: "FileEntry" });
+    case 2:
+      return S.Array(__S(193, __c6, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          success: S.optional(S.Boolean),
+          path: S.String,
+          files: __S(194, __c6, 2),
+          truncated: S.Boolean,
+        }),
+      ).annotate({ identifier: "ListFilesResponse" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/orgs", code: 200 })),
+      ).annotate({ identifier: "ListOrganizationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          type: S.String,
+          role: S.String,
+          memberCount: S.Number,
+          subscriptionStatus: S.optional(S.String),
+          active: S.Boolean,
+        }),
+      ).annotate({ identifier: "Org" });
+    case 2:
+      return S.Array(__S(225, __c7, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          activeWalletChosen: S.Boolean,
+          orgs: __S(226, __c7, 2),
+        }),
+      ).annotate({ identifier: "ListOrganizationsResponse" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sync: S.optional(S.Boolean.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          sort: S.optional(S.String.pipe(T.Query())),
+          q: S.optional(S.String.pipe(T.Query())),
+          selected: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/repos", code: 200 })),
+      ).annotate({ identifier: "ListReposRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            id: S.optional(S.Number),
+            databaseId: S.optional(S.String),
+            name: S.optional(S.String),
+            fullName: S.optional(S.String),
+            description: S.optional(S.NullOr(S.String)),
+            url: S.optional(S.String),
+            private: S.optional(S.Boolean),
+            permissions: S.optional(S.String),
+            pushedAt: S.optional(S.NullOr(S.String)),
+            lastUserCommitAt: S.optional(S.NullOr(S.String)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "Repository" });
+    case 2:
+      return S.Array(__S(257, __c8, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.optional(S.String),
+          accountLogin: S.optional(S.String),
+          accountAvatarUrl: S.optional(S.NullOr(S.String)),
+          repositories: S.optional(__S(258, __c8, 2)),
+        }),
+      ).annotate({ identifier: "RepositoryInstallation" });
+    case 4:
+      return S.Array(__S(259, __c8, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          installations: __S(260, __c8, 4),
+          environmentId: S.String,
+          subenvironmentId: S.optional(S.NullOr(S.String)),
+          selectedRepositories: __S(2561, __c80, 1),
+          pageInfo: S.optional(__S(288, __c9, 0)),
+        }),
+      ).annotate({ identifier: "ListReposResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          nextCursor: S.NullOr(S.String),
+          hasMore: S.Boolean,
+          limit: S.Number,
+        }),
+      ).annotate({ identifier: "PageInfo" });
+  }
+}
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/conversations", code: 200 })),
+      ).annotate({ identifier: "ListSandboxConversationsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          createdAt: S.NullOr(S.String),
+          lastPromptAt: S.NullOr(S.String),
+          prompts: S.Number,
+          running: S.Boolean,
+          lastHarness: S.NullOr(S.String),
+          lastModel: S.NullOr(S.String),
+          lastPromptPreview: S.NullOr(S.String),
+          current: S.Boolean,
+        }),
+      ).annotate({ identifier: "Conversation" });
+    case 2:
+      return S.Array(__S(321, __c10, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          id: S.String,
+          conversations: __S(322, __c10, 2),
+        }),
+      ).annotate({ identifier: "ListSandboxConversationsResponse" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          sort: S.optional(S.String.pipe(T.Query())),
+          state: S.optional(S.String.pipe(T.Query())),
+          namePrefix: S.optional(S.String.pipe(T.Query())),
+          stoppedBefore: S.optional(S.String.pipe(T.Query())),
+          dataExpired: S.optional(S.Boolean.pipe(T.Query())),
+          label: S.optional(__S(2272, __c71, 0).pipe(T.Query())),
+          include: S.optional(S.String.pipe(T.Query())),
+          xBoatOrg: S.optional(S.String.pipe(T.Header("X-Boat-Org"))),
+        }).pipe(T.Http({ method: "GET", uri: "/sandboxes", code: 200 })),
+      ).annotate({ identifier: "ListSandboxesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          sandboxes: __S(2752, __c86, 0),
+          pageInfo: S.optional(__S(288, __c9, 0)),
+          deletedCost: S.optional(__S(2818, __c88, 2)),
+        }),
+      ).annotate({ identifier: "ListSandboxesResponse" });
+  }
+}
+function __c12(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          sort: S.optional(S.String.pipe(T.Query())),
+          type: S.optional(S.String.pipe(T.Query())),
+          conversation: S.optional(S.String.pipe(T.Query())),
+          ifNoneMatch: S.optional(S.String.pipe(T.Header("If-None-Match"))),
+        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/events", code: 200 })),
+      ).annotate({ identifier: "ListSandboxEventsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            id: S.optional(S.String),
+            type: S.String,
+            timestamp: S.optional(S.Number),
+            taskId: S.optional(S.NullOr(S.String)),
+            conversationId: S.optional(S.NullOr(S.String)),
+            data: S.optional(__S(4672, __c146, 0)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "SandboxEvent" });
+    case 2:
+      return S.Array(__S(385, __c12, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          id: S.String,
+          events: __S(386, __c12, 2),
+          pageInfo: S.optional(__S(288, __c9, 0)),
+        }),
+      ).annotate({ identifier: "ListSandboxEventsResponse" });
+  }
+}
+function __c13(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/processes", code: 200 })),
+      ).annotate({ identifier: "ListSandboxProcessesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          pid: S.Number,
+          parentPid: S.optional(S.Number),
+          user: S.optional(S.String),
+          cpuPercent: S.optional(S.Number),
+          memoryMB: S.optional(S.Number),
+          startedAt: S.optional(S.String),
+          command: S.String,
+          commandId: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "SandboxProcess" });
+    case 2:
+      return S.Array(__S(417, __c13, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          live: S.Boolean,
+          sampledAt: S.NullOr(S.String),
+          total: S.Number,
+          processes: __S(418, __c13, 2),
+        }),
+      ).annotate({ identifier: "ListSandboxProcessesResponse" });
+  }
+}
+function __c14(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          sort: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/snapshots", code: 200 })),
+      ).annotate({ identifier: "ListSandboxSnapshotsRequest" });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(4608, __c144, 0));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          snapshots: __S(480, __c15, 0),
+          pageInfo: S.optional(__S(288, __c9, 0)),
+        }),
+      ).annotate({ identifier: "ListSandboxSnapshotsResponse" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/saved-snapshots", code: 200 })),
+      ).annotate({ identifier: "ListSavedSnapshotsRequest" });
+    case 1:
+      return S.Array(__S(4928, __c154, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          org: S.optional(S.NullOr(S.String)),
+          orgName: S.optional(S.NullOr(S.String)),
+          included: S.optional(S.Number),
+          free: S.optional(S.Number),
+          used: S.optional(S.Number),
+          extra: S.optional(S.Number),
+          extraMonthlyDollars: S.optional(S.Number),
+          extraDailyDollars: S.optional(S.Number),
+          pricePerExtraMonthlyDollars: S.optional(S.Number),
+          pricePerExtraDailyDollars: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SavedSnapshotAllowance" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          snapshots: __S(513, __c16, 1),
+          allowance: S.optional(__S(514, __c16, 2)),
+        }),
+      ).annotate({ identifier: "ListSavedSnapshotsResponse" });
+  }
+}
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          limit: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+          sort: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/snapshots", code: 200 })),
+      ).annotate({ identifier: "ListSnapshotsRequest" });
+  }
+}
+function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/saved-snapshots/{name}/shares", code: 200 })),
+      ).annotate({ identifier: "ListSnapshotSharesRequest" });
+    case 1:
+      return S.Array(__S(3040, __c95, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          name: S.String,
+          shares: __S(577, __c18, 1),
+        }),
+      ).annotate({ identifier: "ListSnapshotSharesResponse" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/webhooks", code: 200 })),
+      ).annotate({ identifier: "ListWebhooksRequest" });
+    case 1:
+      return S.Array(__S(3168, __c99, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          webhooks: __S(609, __c19, 1),
+        }),
+      ).annotate({ identifier: "ListWebhooksResponse" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          source: S.String,
+          destination: S.String,
+          overwrite: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/files/move", code: 200 })),
+      ).annotate({ identifier: "MoveFileRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          success: S.optional(S.Boolean),
+          path: S.String,
+          destination: S.String,
+        }),
+      ).annotate({ identifier: "MoveFileResponse" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          provider: S.String,
+          model: S.optional(S.NullOr(S.String)),
+          reasoningEffort: S.optional(S.NullOr(S.String)),
+          fast: S.optional(S.NullOr(S.Boolean)),
+          new: S.optional(S.Boolean),
+          conversationId: S.optional(S.NullOr(S.String)),
+          prompt: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/prompt", code: 200 })),
+      ).annotate({ identifier: "PromptSandboxRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          id: S.String,
+          promptId: S.String,
+          conversationId: S.optional(S.NullOr(S.String)),
+          promptRun: __S(4736, __c148, 0),
+          status: S.String,
+          provider: S.String,
+          model: S.optional(S.NullOr(S.String)),
+          reasoningEffort: S.optional(S.NullOr(S.String)),
+          fast: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "PromptSandboxResponse" });
+  }
+}
+function __c22(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          path: S.String.pipe(T.Query()),
+          encoding: S.optional(S.String.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/files", code: 200 })),
+      ).annotate({ identifier: "ReadSandboxFileRequest" });
+    case 1:
+      return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
           success: S.Boolean,
-          profile: __S(50, __c3, 2),
+          path: S.String,
+          encoding: S.String,
+          size: S.Number,
+          content: S.String,
         }),
-      ).annotate({ identifier: "CreateCredentialProfileResponse" });
+      ).annotate({ identifier: "ReadSandboxFileResponse" });
   }
 }
-function __c5(j: number): any {
+function __c23(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/recover", code: 200 })),
+      ).annotate({ identifier: "RecoverSandboxRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.optional(S.Boolean),
+          type: S.optional(S.String),
+          status: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RecoverSandboxResponse" });
+  }
+}
+function __c24(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          paths: __S(2272, __c71, 0),
+          pattern: S.String,
+          newValue: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/files/replace", code: 200 })),
+      ).annotate({ identifier: "ReplaceInFilesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          file: S.String,
+          success: S.Boolean,
+          replacements: S.optional(S.Number),
+          error: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ReplaceInFilesResponseResultsItem" });
+    case 2:
+      return S.Array(__S(769, __c24, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          success: S.optional(S.Boolean),
+          results: __S(770, __c24, 2),
+        }),
+      ).annotate({ identifier: "ReplaceInFilesResponse" });
+  }
+}
+function __c25(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          failFast: S.optional(S.Boolean),
+          type: S.optional(S.String),
+          env: S.optional(__S(2784, __c87, 0)),
+          environment: S.optional(S.String),
+          noEnv: S.optional(S.Boolean),
+          ttlSeconds: S.optional(S.NullOr(S.Number)),
+        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/resume", code: 200 })),
+      ).annotate({ identifier: "ResumeSandboxRequest" });
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          apiKeyId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/api-keys/{apiKeyId}", code: 200 })),
+      ).annotate({ identifier: "RevokeApiKeyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          apiKeys: __S(2914, __c91, 2),
+        }),
+      ).annotate({ identifier: "RevokeApiKeyResponse" });
+  }
+}
+function __c27(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+          shareId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/saved-snapshots/{name}/shares/{shareId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "RevokeSnapshotShareRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          name: S.String,
+          share: __S(3040, __c95, 0),
+        }),
+      ).annotate({ identifier: "RevokeSnapshotShareResponse" });
+  }
+}
+function __c28(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          apiKeyId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/api-keys/{apiKeyId}/rotate", code: 200 })),
+      ).annotate({ identifier: "RotateApiKeyRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          webhookId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/webhooks/{webhookId}/rotate", code: 200 })),
+      ).annotate({ identifier: "RotateWebhookSigningSecretRequest" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String,
+          name: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/saved-snapshots", code: 200 })),
+      ).annotate({ identifier: "SaveSavedSnapshotRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          status: S.String,
+          snapshot: __S(4928, __c154, 0),
+        }),
+      ).annotate({ identifier: "SaveSavedSnapshotResponse" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          path: S.optional(S.String.pipe(T.Query())),
+          pattern: S.String.pipe(T.Query()),
+        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/files/search", code: 200 })),
+      ).annotate({ identifier: "SearchFilesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          success: S.optional(S.Boolean),
+          files: __S(2272, __c71, 0),
+          truncated: S.Boolean,
+          errors: S.optional(__S(2272, __c71, 0)),
+        }),
+      ).annotate({ identifier: "SearchFilesResponse" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          repositoryId: S.String,
+          baseBranch: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/repos", code: 200 })),
+      ).annotate({ identifier: "SelectRepoRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          success: S.Boolean,
+          environmentId: S.String,
+          subenvironmentId: S.optional(S.NullOr(S.String)),
+          selectedRepositories: __S(2561, __c80, 1),
+        }),
+      ).annotate({ identifier: "SelectRepoResponse" });
+  }
+}
+function __c33(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org: S.NullOr(S.String),
+        }).pipe(T.Http({ method: "PATCH", uri: "/orgs/active", code: 200 })),
+      ).annotate({ identifier: "SetActiveOrganizationRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          type: S.String,
+        }),
+      ).annotate({ identifier: "SetActiveOrganizationResponseActive" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          active: __S(1057, __c33, 1),
+        }),
+      ).annotate({ identifier: "SetActiveOrganizationResponse" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          account: S.String,
+          allow: S.optional(S.Boolean),
+          users: S.optional(S.Unknown),
+          dryRun: S.optional(S.Boolean),
+          org: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/ci/public", code: 200 })),
+      ).annotate({ identifier: "SetCiPublicReposRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          login: S.optional(S.String),
+          avatarUrl: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "SetCiPublicReposResponsePublicRepoUsersItem" });
+    case 2:
+      return S.Array(__S(1089, __c34, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          allowPublicRepos: S.Boolean,
+          publicRepoUsers: __S(1090, __c34, 2),
+        }),
+      ).annotate({ identifier: "SetCiPublicReposResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          profile: S.String.pipe(T.Label()),
+          name: S.String.pipe(T.Label()),
+          value: S.String,
+          baseUrl: S.String,
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/credential-profiles/{profile}/custom-apis/{name}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SetCredentialProfileCustomApiRequest" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          profile: S.String.pipe(T.Label()),
+          credential: S.String.pipe(T.Label()),
+          value: S.String,
+          keepCurrent: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/credential-profiles/{profile}/keys/{credential}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SetCredentialProfileKeyRequest" });
+  }
+}
+function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          environmentId: S.String.pipe(T.Label()),
+          org: S.optional(S.String.pipe(T.Query())),
+          path: S.String,
+          contents: S.String,
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/environments/{environmentId}/secret-files", code: 200 }),
+        ),
+      ).annotate({ identifier: "SetEnvironmentSecretFileRequest" });
+  }
+}
+function __c38(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          environmentId: S.String.pipe(T.Label()),
+          key: S.String.pipe(T.Label()),
+          org: S.optional(S.String.pipe(T.Query())),
+          value: S.String,
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/environments/{environmentId}/vars/{key}", code: 200 }),
+        ),
+      ).annotate({ identifier: "SetEnvironmentVarRequest" });
+  }
+}
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          path: S.String,
+          mode: S.String,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/files/permissions", code: 200 }),
+        ),
+      ).annotate({ identifier: "SetFilePermissionsRequest" });
+  }
+}
+function __c40(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          blocked: S.Boolean,
+        }).pipe(T.Http({ method: "PUT", uri: "/sandboxes/{sandboxId}/ai-access", code: 200 })),
+      ).annotate({ identifier: "SetSandboxAiAccessRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          success: S.Boolean,
+          sandboxId: S.String,
+          blocked: S.Boolean,
+        }),
+      ).annotate({ identifier: "SetSandboxAiAccessResponse" });
+  }
+}
+function __c41(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          endpoint: S.String,
+          headers: S.optional(__S(2784, __c87, 0)),
+        }).pipe(T.Http({ method: "PUT", uri: "/telemetry", code: 200 })),
+      ).annotate({ identifier: "SetTelemetryRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          status: S.NullOr(S.Number),
+          message: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "TelemetryTestResult" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          telemetry: S.NullOr(__S(3777, __c118, 1)),
+          test: __S(1313, __c41, 1),
+        }),
+      ).annotate({ identifier: "SetTelemetryResponse" });
+  }
+}
+function __c42(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/share", code: 200 })),
+      ).annotate({ identifier: "ShareSandboxRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sandbox: S.optional(__S(2820, __c88, 4)),
+          restartRequired: S.optional(S.Boolean),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ShareSandboxResponse" });
+  }
+}
+function __c43(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          conversation: S.optional(S.String.pipe(T.Query())),
+          message: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/steer", code: 200 })),
+      ).annotate({ identifier: "SteerSandboxRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          id: S.String,
+          conversationId: S.String,
+          promptId: S.String,
+          native: S.Boolean,
+          mode: S.optional(S.String),
+          status: S.String,
+        }),
+      ).annotate({ identifier: "SteerSandboxResponse" });
+  }
+}
+function __c44(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          processId: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/sandboxes/{sandboxId}/commands/{processId}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "StopCommandRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          processId: S.Number,
+          running: S.Boolean,
+          signaled: S.Boolean,
+          command: S.NullOr(__S(2112, __c66, 0)),
+        }),
+      ).annotate({ identifier: "StopCommandResponse" });
+  }
+}
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          force: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/stop", code: 200 })),
+      ).annotate({ identifier: "StopSandboxRequest" });
+  }
+}
+function __c46(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          profile: S.String.pipe(T.Label()),
+          credential: S.String.pipe(T.Label()),
+          account: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/credential-profiles/{profile}/accounts/{credential}/{account}/active",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SwitchCredentialAccountRequest" });
+  }
+}
+function __c47(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/unshare", code: 200 })),
+      ).annotate({ identifier: "UnshareSandboxRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          sandbox: S.optional(__S(2820, __c88, 4)),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UnshareSandboxResponse" });
+  }
+}
+function __c48(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org: S.optional(S.String.pipe(T.Query())),
+          xBoatOrg: S.optional(S.String.pipe(T.Header("X-Boat-Org"))),
+          enabled: S.Boolean,
+        }).pipe(T.Http({ method: "PUT", uri: "/ai-proxy", code: 200 })),
+      ).annotate({ identifier: "UpdateAiProxyRequest" });
+  }
+}
+function __c49(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          profile: S.String.pipe(T.Label()),
+          name: S.optional(S.String),
+          isDefault: S.optional(S.Boolean),
+          access: S.optional(__S(1600, __c50, 0)),
+        }).pipe(T.Http({ method: "PUT", uri: "/credential-profiles/{profile}", code: 200 })),
+      ).annotate({ identifier: "UpdateCredentialProfileRequest" });
+  }
+}
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          restricted: S.Boolean,
+          members: S.optional(__S(2272, __c71, 0)),
+        }),
+      ).annotate({ identifier: "ResourceAccessUpdate" });
+  }
+}
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4780,7 +7221,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "UpdateDataRetentionRequest" });
   }
 }
-function __c6(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4792,7 +7233,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "UpdateEnvironmentRequestRepositoriesItem" });
     case 1:
-      return S.Array(__S(96, __c6, 0));
+      return S.Array(__S(1664, __c52, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -4807,20 +7248,22 @@ function __c6(j: number): any {
           passAgentsCredentials: S.optional(S.Boolean),
           credentialProfileId: S.optional(S.NullOr(S.String)),
           proxyAiCredentials: S.optional(S.Boolean),
+          access: S.optional(__S(1600, __c50, 0)),
           envContents: S.optional(S.String),
-          secretFiles: S.optional(__S(257, __c16, 1)),
-          repositories: S.optional(__S(97, __c6, 1)),
+          secretFiles: S.optional(__S(2625, __c82, 1)),
+          repositories: S.optional(__S(1665, __c52, 1)),
         }).pipe(T.Http({ method: "PUT", uri: "/environments/{environmentId}", code: 200 })),
       ).annotate({ identifier: "UpdateEnvironmentRequest" });
   }
 }
-function __c7(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           org: S.String.pipe(T.Label()),
-          newSandboxesPrivate: S.Boolean,
+          name: S.optional(S.String),
+          newSandboxesPrivate: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "PATCH", uri: "/orgs/{org}", code: 200 })),
       ).annotate({ identifier: "UpdateOrganizationRequest" });
     case 1:
@@ -4829,12 +7272,13 @@ function __c7(j: number): any {
           ok: S.optional(S.Boolean),
           type: S.optional(S.String),
           success: S.optional(S.Boolean),
+          name: S.optional(S.String),
           newSandboxesPrivate: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "UpdateOrganizationResponse" });
   }
 }
-function __c8(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4847,18 +7291,18 @@ function __c8(j: number): any {
       ).annotate({ identifier: "UpdateSandboxRequest" });
   }
 }
-function __c9(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           envContents: S.optional(S.String),
-          secretFiles: S.optional(__S(257, __c16, 1)),
+          secretFiles: S.optional(__S(2625, __c82, 1)),
         }).pipe(T.Http({ method: "POST", uri: "/secrets", code: 200 })),
       ).annotate({ identifier: "UpdateSecretsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4866,19 +7310,19 @@ function __c10(j: number): any {
           webhookId: S.String.pipe(T.Label()),
           name: S.optional(S.NullOr(S.String)),
           url: S.optional(S.String),
-          events: S.optional(__S(32, __c2, 0)),
+          events: S.optional(__S(2336, __c73, 0)),
         }).pipe(T.Http({ method: "PATCH", uri: "/webhooks/{webhookId}", code: 200 })),
       ).annotate({ identifier: "UpdateWebhookRequest" });
   }
 }
-function __c11(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           environmentId: S.String.pipe(T.Label()),
           org: S.optional(S.String.pipe(T.Query())),
-          agentIds: S.optional(__S(16, __c1, 0)),
+          agentIds: S.optional(__S(2272, __c71, 0)),
         }).pipe(
           T.Http({ method: "POST", uri: "/environments/{environmentId}/upgrade", code: 200 }),
         ),
@@ -4896,7 +7340,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "UpgradeSandboxEnvironmentResponse" });
   }
 }
-function __c12(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4920,7 +7364,331 @@ function __c12(j: number): any {
       ).annotate({ identifier: "WriteSandboxFileResponse" });
   }
 }
-function __c13(j: number): any {
+function __c59(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          profile: S.String.pipe(T.Label()),
+          credential: S.String.pipe(T.Label()),
+          value: S.String,
+          keepCurrent: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/credential-profiles/{profile}/accounts/{credential}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AddCredentialAccountRequest" });
+  }
+}
+function __c60(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          label: S.String,
+          active: S.Boolean,
+          addedAt: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CredentialAccount" });
+    case 1:
+      return S.Array(__S(1920, __c60, 0));
+  }
+}
+function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          success: S.Boolean,
+          profileId: S.String,
+          credential: S.String,
+          accounts: __S(1921, __c60, 1),
+        }),
+      ).annotate({ identifier: "AddCredentialAccountResponse" });
+  }
+}
+function __c62(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          environmentId: S.String.pipe(T.Label()),
+          org: S.optional(S.String.pipe(T.Query())),
+          repositoryId: S.String,
+          baseBranch: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/environments/{environmentId}/repos", code: 200 })),
+      ).annotate({ identifier: "AddEnvironmentRepoRequest" });
+  }
+}
+function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          success: S.Boolean,
+          versionId: S.optional(S.String),
+          versionNumber: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "EnvironmentItemChangeResponse" });
+  }
+}
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          processId: S.Number.pipe(T.Label()),
+          stdoutOffset: S.optional(S.Number.pipe(T.Query())),
+          stderrOffset: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/sandboxes/{sandboxId}/commands/{processId}/stream",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "AttachCommandRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          processId: S.optional(S.Number),
+          data: S.optional(S.String),
+          nextOffset: S.optional(S.Number),
+          stdoutOffset: S.optional(S.Number),
+          stderrOffset: S.optional(S.Number),
+          status: S.optional(S.String),
+          exitCode: S.optional(S.NullOr(S.Number)),
+          signal: S.optional(S.NullOr(S.String)),
+          error: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CommandAttachFrame" });
+    case 2:
+      return S.Array(__S(2049, __c64, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(2050, __c64, 2),
+        }),
+      ).annotate({ identifier: "AttachCommandResponse" });
+  }
+}
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          mode: S.optional(S.String.pipe(T.Query())),
+          q: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          cursor: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/command-history", code: 200 }),
+        ),
+      ).annotate({ identifier: "CommandHistoryRequest" });
+    case 1:
+      return S.Array(__S(2112, __c66, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          commands: __S(2081, __c65, 1),
+          nextCursor: S.NullOr(S.String),
+        }),
+      ).annotate({ identifier: "CommandHistoryResponse" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          commandId: S.String,
+          sandboxId: S.String,
+          command: S.String,
+          cwd: S.optional(S.NullOr(S.String)),
+          mode: S.String,
+          processId: S.optional(S.NullOr(S.Number)),
+          status: S.String,
+          exitCode: S.optional(S.NullOr(S.Number)),
+          signal: S.optional(S.NullOr(S.String)),
+          stdoutBytes: S.Number,
+          stderrBytes: S.Number,
+          outputTruncated: S.Boolean,
+          startedAt: S.String,
+          finishedAt: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CommandRecord" });
+  }
+}
+function __c67(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          commandId: S.String.pipe(T.Label()),
+          stream: S.optional(S.String.pipe(T.Query())),
+          offset: S.optional(S.Number.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          encoding: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/sandboxes/{sandboxId}/command-history/{commandId}/logs",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "CommandLogsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          commandId: S.String,
+          stream: S.String,
+          offset: S.Number,
+          nextOffset: S.Number,
+          size: S.Number,
+          encoding: S.String,
+          data: S.String,
+          done: S.Boolean,
+        }),
+      ).annotate({ identifier: "CommandLogsResponse" });
+  }
+}
+function __c68(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          key: S.String,
+        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/sshkey", code: 200 })),
+      ).annotate({ identifier: "ConfigureSshKeyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          success: S.optional(S.Boolean),
+          machineIp: S.optional(S.NullOr(S.String)),
+          sshUser: S.optional(S.String),
+          sshEndpoint: S.optional(S.NullOr(S.String)),
+          hostKey: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ConfigureSshKeyResponse" });
+  }
+}
+function __c69(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          org: S.optional(S.String),
+          account: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/ci/connect", code: 200 })),
+      ).annotate({ identifier: "ConnectCiGithubRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          installUrl: S.String,
+        }),
+      ).annotate({ identifier: "ConnectCiGithubResponse" });
+  }
+}
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          org: S.optional(S.String),
+          copyFrom: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/credential-profiles", code: 200 })),
+      ).annotate({ identifier: "CreateCredentialProfileRequest" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          restricted: S.Boolean,
+          members: __S(2272, __c71, 0),
+        }),
+      ).annotate({ identifier: "ResourceAccess" });
+  }
+}
+function __c73(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c74(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          kind: S.String,
+          name: S.String,
+          aiProxyEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "CredentialProfileOwner" });
+    case 1:
+      return S.Record(S.String, __S(1921, __c60, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          isDefault: S.Boolean,
+          owner: __S(2368, __c74, 0),
+          canManage: S.Boolean,
+          connected: __S(2336, __c73, 0),
+          accounts: S.optional(__S(2369, __c74, 1)),
+          customApis: __S(2272, __c71, 0),
+          createdAt: S.String,
+          updatedAt: S.String,
+          access: S.optional(__S(2304, __c72, 0)),
+        }),
+      ).annotate({ identifier: "CredentialProfile" });
+  }
+}
+function __c75(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          success: S.Boolean,
+          profile: __S(2370, __c74, 2),
+        }),
+      ).annotate({ identifier: "CreateCredentialProfileResponse" });
+  }
+}
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4934,7 +7702,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateDownloadUrlRequest" });
   }
 }
-function __c14(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4949,7 +7717,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateDownloadUrlResponse" });
   }
 }
-function __c15(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -4960,57 +7728,21 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateEnvironmentRequest" });
   }
 }
-function __c16(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(__S(2594, __c81, 2));
+    case 1:
       return S.suspend(() =>
         S.Struct({
-          path: S.String,
-          contents: S.String,
+          ok: S.optional(S.Boolean),
+          type: S.optional(S.String),
+          environments: __S(2528, __c79, 0),
         }),
-      ).annotate({ identifier: "SecretFile" });
-    case 1:
-      return S.Array(__S(256, __c16, 0));
+      ).annotate({ identifier: "SandboxEnvironmentListResponse" });
   }
 }
-function __c17(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          versionNumber: S.Number,
-          sandboxCount: S.Number,
-          createdAt: S.String,
-        }),
-      ).annotate({ identifier: "SandboxEnvironmentVersionSummary" });
-    case 1:
-      return S.Array(__S(272, __c17, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          isDefault: S.Boolean,
-          latestVersionId: S.NullOr(S.String),
-          latestVersionNumber: S.optional(S.Number),
-          safetyAnsweredAt: S.optional(S.NullOr(S.String)),
-          safeForThirdParties: S.Boolean,
-          passGithub: S.Boolean,
-          passSecrets: S.Boolean,
-          passSandboxCredentials: S.Boolean,
-          passAgentsCredentials: S.Boolean,
-          credentialProfileId: S.optional(S.NullOr(S.String)),
-          proxyAiCredentials: S.optional(S.Boolean),
-          envContents: S.String,
-          secretFiles: __S(257, __c16, 1),
-          selectedRepositories: S.optional(__S(289, __c18, 1)),
-          versions: __S(273, __c17, 1),
-        }),
-      ).annotate({ identifier: "SandboxEnvironment" });
-  }
-}
-function __c18(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5035,26 +7767,115 @@ function __c18(j: number): any {
         ),
       ).annotate({ identifier: "SelectedRepository" });
     case 1:
-      return S.Array(__S(288, __c18, 0));
+      return S.Array(__S(2560, __c80, 0));
   }
 }
-function __c19(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(274, __c17, 2));
-    case 1:
       return S.suspend(() =>
         S.Struct({
-          ok: S.optional(S.Boolean),
-          type: S.optional(S.String),
-          environments: __S(304, __c19, 0),
+          id: S.String,
+          versionNumber: S.Number,
+          sandboxCount: S.Number,
+          createdAt: S.String,
         }),
-      ).annotate({ identifier: "SandboxEnvironmentListResponse" });
+      ).annotate({ identifier: "SandboxEnvironmentVersionSummary" });
+    case 1:
+      return S.Array(__S(2592, __c81, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          isDefault: S.Boolean,
+          latestVersionId: S.NullOr(S.String),
+          latestVersionNumber: S.optional(S.Number),
+          safetyAnsweredAt: S.optional(S.NullOr(S.String)),
+          safeForThirdParties: S.Boolean,
+          passGithub: S.Boolean,
+          passSecrets: S.Boolean,
+          passSandboxCredentials: S.Boolean,
+          passAgentsCredentials: S.Boolean,
+          credentialProfileId: S.optional(S.NullOr(S.String)),
+          proxyAiCredentials: S.optional(S.Boolean),
+          access: S.optional(__S(2304, __c72, 0)),
+          envContents: S.String,
+          secretFiles: __S(2625, __c82, 1),
+          selectedRepositories: S.optional(__S(2561, __c80, 1)),
+          versions: __S(2593, __c81, 1),
+        }),
+      ).annotate({ identifier: "SandboxEnvironment" });
   }
 }
-function __c20(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.String,
+          contents: S.String,
+        }),
+      ).annotate({ identifier: "SecretFile" });
+    case 1:
+      return S.Array(__S(2624, __c82, 0));
+  }
+}
+function __c83(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          path: S.String,
+          mode: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/files/folder", code: 200 })),
+      ).annotate({ identifier: "CreateFolderRequest" });
+  }
+}
+function __c84(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          name: S.String,
+          path: S.String,
+          isDir: S.Boolean,
+          isSymlink: S.Boolean,
+          size: S.Number,
+          mode: S.String,
+          modifiedAt: S.String,
+          success: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CreateFolderResponse" });
+  }
+}
+function __c85(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          port: S.Number,
+          public: S.optional(S.Boolean),
+          localhost: S.optional(S.Boolean),
+          title: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "HostPortRequest" });
+    case 1:
+      return S.Array(__S(2720, __c85, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          path: S.String,
+          content: S.String,
+          encoding: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CreateSandboxRequestFilesItem" });
+    case 3:
+      return S.Array(__S(2722, __c85, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           org: S.optional(S.String.pipe(T.Query())),
@@ -5062,7 +7883,8 @@ function __c20(j: number): any {
           xBoatOrg: S.optional(S.String.pipe(T.Header("X-Boat-Org"))),
           type: S.optional(S.String),
           ttlSeconds: S.optional(S.NullOr(S.Number)),
-          env: S.optional(__S(368, __c23, 0)),
+          labels: S.optional(__S(2784, __c87, 0)),
+          env: S.optional(__S(2784, __c87, 0)),
           environment: S.optional(S.String),
           noEnv: S.optional(S.Boolean),
           snapshots: S.optional(S.Boolean),
@@ -5070,40 +7892,59 @@ function __c20(j: number): any {
           failFast: S.optional(S.Boolean),
           count: S.optional(S.Number),
           setupScript: S.optional(S.String),
+          name: S.optional(S.String),
+          visibility: S.optional(S.String),
+          hostedPorts: S.optional(__S(2721, __c85, 1)),
+          files: S.optional(__S(2723, __c85, 3)),
           teamId: S.optional(S.String),
           from: S.optional(S.String),
         }).pipe(T.Http({ method: "POST", uri: "/sandboxes", code: 200 })),
       ).annotate({ identifier: "CreateSandboxRequest" });
-    case 1:
+    case 5:
+      return S.suspend(() =>
+        S.StructWithRest(
+          S.Struct({
+            port: S.Number,
+            url: S.optional(S.String),
+            isProtected: S.optional(S.Boolean),
+            access: S.optional(S.String),
+            localhost: S.optional(S.Boolean),
+            error: S.optional(S.String),
+            message: S.optional(S.String),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
+      ).annotate({ identifier: "CreateSandboxResponseHostedPortsItem" });
+    case 6:
+      return S.Array(__S(2725, __c85, 5));
+    case 7:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
           status: S.String,
           ttlSeconds: S.NullOr(S.Number),
-          sandbox: __S(356, __c22, 4),
-          sandboxes: S.optional(__S(384, __c24, 0)),
+          sandbox: __S(2820, __c88, 4),
+          sandboxes: S.optional(__S(2752, __c86, 0)),
+          hostedPorts: S.optional(__S(2726, __c85, 6)),
           giftLimitNotice: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateSandboxResponse" });
   }
 }
-function __c21(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          status: S.String,
-          requestedAt: S.NullOr(S.String),
-          lastAttemptAt: S.NullOr(S.String),
-          error: S.NullOr(S.String),
-          endedAt: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "StopOperation" });
+      return S.Array(__S(2820, __c88, 4));
   }
 }
-function __c22(j: number): any {
+function __c87(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, S.String);
+  }
+}
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5144,17 +7985,19 @@ function __c22(j: number): any {
           state: S.String,
           error: S.optional(S.NullOr(S.String)),
           dataExpiredAt: S.optional(S.NullOr(S.String)),
+          stoppedAt: S.optional(S.NullOr(S.String)),
+          labels: S.optional(__S(2784, __c87, 0)),
           health: S.optional(S.String),
           healthReason: S.optional(S.NullOr(S.String)),
           degradedSince: S.optional(S.NullOr(S.String)),
           hydrated: S.optional(S.Boolean),
           hydratedAt: S.optional(S.NullOr(S.String)),
-          hydration: S.optional(S.NullOr(__S(352, __c22, 0))),
+          hydration: S.optional(S.NullOr(__S(2816, __c88, 0))),
           type: S.optional(S.String),
           vcpu: S.optional(S.Number),
           memoryGB: S.optional(S.Number),
           billingMultiplier: S.optional(S.Number),
-          machineProvider: S.optional(S.NullOr(S.String)),
+          machineProvider: S.optional(S.String),
           url: S.optional(S.NullOr(S.String)),
           ip: S.optional(S.NullOr(S.String)),
           sshEndpoint: S.optional(S.NullOr(S.String)),
@@ -5169,40 +8012,44 @@ function __c22(j: number): any {
           snapshotAvailable: S.Boolean,
           snapshotCompletedAt: S.optional(S.NullOr(S.String)),
           snapshotVerifiedAt: S.optional(S.NullOr(S.String)),
-          team: S.optional(S.NullOr(__S(353, __c22, 1))),
+          team: S.optional(S.NullOr(__S(2817, __c88, 1))),
           createdBy: S.optional(S.NullOr(S.String)),
           createdById: S.optional(S.NullOr(S.String)),
           access: S.optional(S.String),
           holdsCreatorLogins: S.optional(S.Boolean),
           visibility: S.optional(S.NullOr(S.String)),
-          cost: S.optional(__S(354, __c22, 2)),
+          cost: S.optional(__S(2818, __c88, 2)),
           wipePendingUntilRestart: S.optional(S.Boolean),
           subdomain: S.optional(S.NullOr(S.String)),
           lastSnapshotAttemptAt: S.optional(S.NullOr(S.String)),
           lastSnapshotStatus: S.optional(S.NullOr(S.String)),
-          lastReboot: S.optional(S.NullOr(__S(355, __c22, 3))),
+          lastReboot: S.optional(S.NullOr(__S(2819, __c88, 3))),
           setupStatus: S.optional(S.NullOr(S.String)),
           setupError: S.optional(S.NullOr(S.String)),
           environment: S.optional(S.NullOr(S.String)),
           environmentVersion: S.optional(S.NullOr(S.Number)),
-          stop: S.optional(S.NullOr(__S(336, __c21, 0))),
+          stop: S.optional(S.NullOr(__S(2848, __c89, 0))),
         }),
       ).annotate({ identifier: "Sandbox" });
   }
 }
-function __c23(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
-      return S.Record(S.String, S.String);
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          status: S.String,
+          requestedAt: S.NullOr(S.String),
+          lastAttemptAt: S.NullOr(S.String),
+          error: S.NullOr(S.String),
+          endedAt: S.NullOr(S.String),
+          forced: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "StopOperation" });
   }
 }
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(356, __c22, 4));
-  }
-}
-function __c25(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5210,14 +8057,63 @@ function __c25(j: number): any {
           name: S.optional(S.String),
           ttl: S.optional(S.String),
           preset: S.optional(S.String),
-          actions: S.optional(__S(16, __c1, 0)),
-          sandboxIds: S.optional(__S(16, __c1, 0)),
-          environmentIds: S.optional(__S(16, __c1, 0)),
+          actions: S.optional(__S(2272, __c71, 0)),
+          sandboxIds: S.optional(__S(2272, __c71, 0)),
+          environmentIds: S.optional(__S(2272, __c71, 0)),
         }).pipe(T.Http({ method: "POST", uri: "/api-keys/scoped", code: 200 })),
       ).annotate({ identifier: "CreateScopedApiKeyRequest" });
   }
 }
-function __c26(j: number): any {
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          expiresAt: S.optional(S.NullOr(S.String)),
+          actions: S.optional(__S(2272, __c71, 0)),
+          sandboxes: S.optional(S.Unknown),
+          environments: S.optional(S.Unknown),
+          grandfathered: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "ApiKeyScope" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          credentialLane: S.String,
+          keyPrefix: S.String,
+          keyLastFour: S.String,
+          sandboxId: S.NullOr(S.String),
+          createdAt: S.String,
+          lastUsedAt: S.NullOr(S.String),
+          usage: __S(2976, __c93, 0),
+          resources: __S(2977, __c93, 1),
+          expiresAt: S.optional(S.NullOr(S.String)),
+          expired: S.optional(S.Boolean),
+          expiringSoon: S.optional(S.Boolean),
+          scope: S.optional(__S(2912, __c91, 0)),
+        }),
+      ).annotate({ identifier: "ApiKey" });
+    case 2:
+      return S.Array(__S(2913, __c91, 1));
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          apiKey: __S(2913, __c91, 1),
+          secret: S.String.pipe(T.SensitiveValue({})),
+          apiKeys: __S(2914, __c91, 2),
+        }),
+      ).annotate({ identifier: "CreateScopedApiKeyResponse" });
+  }
+}
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5236,62 +8132,13 @@ function __c26(j: number): any {
       ).annotate({ identifier: "ApiKeyResourceTotals" });
   }
 }
-function __c27(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          expiresAt: S.optional(S.NullOr(S.String)),
-          actions: S.optional(__S(16, __c1, 0)),
-          sandboxes: S.optional(S.Unknown),
-          environments: S.optional(S.Unknown),
-          grandfathered: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "ApiKeyScope" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          credentialLane: S.String,
-          keyPrefix: S.String,
-          keyLastFour: S.String,
-          sandboxId: S.NullOr(S.String),
-          createdAt: S.String,
-          lastUsedAt: S.NullOr(S.String),
-          usage: __S(416, __c26, 0),
-          resources: __S(417, __c26, 1),
-          expiresAt: S.optional(S.NullOr(S.String)),
-          expired: S.optional(S.Boolean),
-          expiringSoon: S.optional(S.Boolean),
-          scope: S.optional(__S(432, __c27, 0)),
-        }),
-      ).annotate({ identifier: "ApiKey" });
-    case 2:
-      return S.Array(__S(433, __c27, 1));
-  }
-}
-function __c28(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          apiKey: __S(433, __c27, 1),
-          secret: S.String.pipe(T.SensitiveValue({})),
-          apiKeys: __S(434, __c27, 2),
-        }),
-      ).annotate({ identifier: "CreateScopedApiKeyResponse" });
-  }
-}
-function __c29(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/named-snapshots/{name}/shares", code: 200 })),
+        }).pipe(T.Http({ method: "POST", uri: "/saved-snapshots/{name}/shares", code: 200 })),
       ).annotate({ identifier: "CreateSnapshotShareRequest" });
     case 1:
       return S.suspend(() =>
@@ -5300,12 +8147,12 @@ function __c29(j: number): any {
           type: S.String,
           name: S.String,
           shareCode: S.String,
-          share: __S(480, __c30, 0),
+          share: __S(3040, __c95, 0),
         }),
       ).annotate({ identifier: "CreateSnapshotShareResponse" });
   }
 }
-function __c30(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5321,7 +8168,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "NamedSnapshotShare" });
   }
 }
-function __c31(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5335,19 +8182,32 @@ function __c31(j: number): any {
       ).annotate({ identifier: "CreateUploadUrlRequest" });
   }
 }
-function __c32(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.NullOr(S.String)),
           url: S.String,
-          events: __S(32, __c2, 0),
+          events: __S(2336, __c73, 0),
         }).pipe(T.Http({ method: "POST", uri: "/webhooks", code: 200 })),
       ).annotate({ identifier: "CreateWebhookRequest" });
   }
 }
-function __c33(j: number): any {
+function __c98(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          webhook: __S(3168, __c99, 0),
+          secret: S.String.pipe(T.SensitiveValue({})),
+        }),
+      ).annotate({ identifier: "CreateWebhookResponse" });
+  }
+}
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5355,27 +8215,14 @@ function __c33(j: number): any {
           id: S.String,
           name: S.NullOr(S.String),
           url: S.String,
-          events: __S(32, __c2, 0),
+          events: __S(2336, __c73, 0),
           createdAt: S.String,
           updatedAt: S.String,
         }),
       ).annotate({ identifier: "Webhook" });
   }
 }
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          webhook: __S(528, __c33, 0),
-          secret: S.String.pipe(T.SensitiveValue({})),
-        }),
-      ).annotate({ identifier: "CreateWebhookResponse" });
-  }
-}
-function __c35(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5393,7 +8240,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "DeleteCredentialAccountRequest" });
   }
 }
-function __c36(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5411,7 +8258,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "DeleteCredentialProfileResponse" });
   }
 }
-function __c37(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5428,7 +8275,7 @@ function __c37(j: number): any {
       ).annotate({ identifier: "DeleteCredentialProfileCustomApiRequest" });
   }
 }
-function __c38(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5445,7 +8292,7 @@ function __c38(j: number): any {
       ).annotate({ identifier: "DeleteCredentialProfileKeyRequest" });
   }
 }
-function __c39(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5456,18 +8303,18 @@ function __c39(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentRequest" });
   }
 }
-function __c40(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           success: S.Boolean,
-          environment: S.optional(S.NullOr(__S(274, __c17, 2))),
+          environment: S.optional(S.NullOr(__S(2594, __c81, 2))),
         }),
       ).annotate({ identifier: "SandboxEnvironmentResponse" });
   }
 }
-function __c41(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5485,7 +8332,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentRepoRequest" });
   }
 }
-function __c42(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5503,7 +8350,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentSecretFileRequest" });
   }
 }
-function __c43(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5517,26 +8364,28 @@ function __c43(j: number): any {
       ).annotate({ identifier: "DeleteEnvironmentVarRequest" });
   }
 }
-function __c44(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/named-snapshots/{name}", code: 200 })),
-      ).annotate({ identifier: "DeleteNamedSnapshotRequest" });
+          sandboxId: S.String.pipe(T.Label()),
+          path: S.String.pipe(T.Query()),
+          recursive: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "DELETE", uri: "/sandboxes/{sandboxId}/files", code: 200 })),
+      ).annotate({ identifier: "DeleteFileRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          name: S.String,
-          status: S.String,
+          success: S.optional(S.Boolean),
+          path: S.String,
         }),
-      ).annotate({ identifier: "DeleteNamedSnapshotResponse" });
+      ).annotate({ identifier: "DeleteFileResponse" });
   }
 }
-function __c45(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5547,7 +8396,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "DeleteSandboxRequest" });
   }
 }
-function __c46(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5566,19 +8415,19 @@ function __c46(j: number): any {
       ).annotate({ identifier: "DeletionOperation" });
   }
 }
-function __c47(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          operation: __S(736, __c46, 0),
+          operation: __S(3552, __c111, 0),
         }),
       ).annotate({ identifier: "DeleteSandboxResponse" });
   }
 }
-function __c48(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5588,18 +8437,37 @@ function __c48(j: number): any {
         }).pipe(T.Http({ method: "DELETE", uri: "/sandboxes/{sandboxId}/snapshots", code: 200 })),
       ).annotate({ identifier: "DeleteSandboxSnapshotsRequest" });
     case 1:
-      return S.Array(__S(736, __c46, 0));
+      return S.Array(__S(3552, __c111, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          operations: __S(769, __c48, 1),
+          operations: __S(3617, __c113, 1),
         }),
       ).annotate({ identifier: "DeleteSandboxSnapshotsResponse" });
   }
 }
-function __c49(j: number): any {
+function __c114(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/saved-snapshots/{name}", code: 200 })),
+      ).annotate({ identifier: "DeleteSavedSnapshotRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          name: S.String,
+          status: S.String,
+        }),
+      ).annotate({ identifier: "DeleteSavedSnapshotResponse" });
+  }
+}
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5610,7 +8478,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "DeleteSnapshotRequest" });
   }
 }
-function __c50(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5618,19 +8486,19 @@ function __c50(j: number): any {
       ).annotate({ identifier: "DeleteTelemetryRequest" });
   }
 }
-function __c51(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          telemetry: S.NullOr(__S(833, __c52, 1)),
+          telemetry: S.NullOr(__S(3777, __c118, 1)),
         }),
       ).annotate({ identifier: "DeleteTelemetryResponse" });
   }
 }
-function __c52(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5644,15 +8512,15 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String,
-          headers: __S(16, __c1, 0),
+          headers: __S(2272, __c71, 0),
           lastExportAt: S.NullOr(S.String),
-          lastError: S.NullOr(__S(832, __c52, 0)),
+          lastError: S.NullOr(__S(3776, __c118, 0)),
           createdAt: S.String,
         }),
       ).annotate({ identifier: "TelemetryConfig" });
   }
 }
-function __c53(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5670,7 +8538,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "DeleteWebhookResponse" });
   }
 }
-function __c54(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5681,7 +8549,15 @@ function __c54(j: number): any {
       ).annotate({ identifier: "DownloadSandboxArtifactRequest" });
   }
 }
-function __c55(j: number): any {
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "DownloadSandboxArtifactResponse",
+      });
+  }
+}
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5698,18 +8574,74 @@ function __c55(j: number): any {
       return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
         identifier: "ExecuteSandboxCommandResponse",
       });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          commandId: S.optional(S.String),
+          data: S.optional(S.String),
+          exitCode: S.optional(S.NullOr(S.Number)),
+          signal: S.optional(S.NullOr(S.String)),
+          oomKilled: S.optional(S.Boolean),
+          success: S.optional(S.Boolean),
+          timedOut: S.optional(S.Boolean),
+          stdoutTruncated: S.optional(S.Boolean),
+          stderrTruncated: S.optional(S.Boolean),
+          cwd: S.optional(S.String),
+          startedAt: S.optional(S.String),
+          finishedAt: S.optional(S.String),
+          error: S.optional(S.String),
+          message: S.optional(S.String),
+          retryable: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "CommandStreamFrame" });
   }
 }
-function __c56(j: number): any {
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          path: S.optional(S.String.pipe(T.Query())),
+          pattern: S.String.pipe(T.Query()),
+          regex: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/files/find", code: 200 })),
+      ).annotate({ identifier: "FindInFilesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          file: S.String,
+          line: S.Number,
+          content: S.String,
+        }),
+      ).annotate({ identifier: "FindInFilesResponseMatchesItem" });
+    case 2:
+      return S.Array(__S(3937, __c123, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          success: S.optional(S.Boolean),
+          matches: __S(3938, __c123, 2),
+          truncated: S.Boolean,
+          errors: S.optional(__S(2272, __c71, 0)),
+        }),
+      ).annotate({ identifier: "FindInFilesResponse" });
+  }
+}
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           sandboxId: S.String.pipe(T.Label()),
           idempotencyKey: S.optional(S.String.pipe(T.Header("Idempotency-Key"))),
+          labels: S.optional(__S(2784, __c87, 0)),
           failFast: S.optional(S.Boolean),
           monitoring: S.optional(S.Boolean),
-          env: S.optional(__S(368, __c23, 0)),
+          env: S.optional(__S(2784, __c87, 0)),
           environment: S.optional(S.String),
           noEnv: S.optional(S.Boolean),
           type: S.optional(S.String),
@@ -5718,7 +8650,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "ForkSandboxRequest" });
   }
 }
-function __c57(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5727,14 +8659,14 @@ function __c57(j: number): any {
           type: S.String,
           id: S.String,
           status: S.String,
-          sandbox: S.optional(S.NullOr(__S(356, __c22, 4))),
+          sandbox: S.optional(S.NullOr(__S(2820, __c88, 4))),
           giftLimitNotice: S.optional(S.String),
           conversationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ForkSandboxResponse" });
   }
 }
-function __c58(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5745,7 +8677,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetAiProxyRequest" });
   }
 }
-function __c59(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5764,13 +8696,13 @@ function __c59(j: number): any {
           org: S.Boolean,
           enabled: S.Boolean,
           enabledAt: S.NullOr(S.String),
-          pricing: __S(944, __c59, 0),
+          pricing: __S(4064, __c127, 0),
           proxyUrl: S.String,
         }),
       ).annotate({ identifier: "GetAiProxyResponse" });
   }
 }
-function __c60(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5787,13 +8719,13 @@ function __c60(j: number): any {
           sandboxId: S.NullOr(S.String),
           name: S.NullOr(S.String),
           blocked: S.Boolean,
-          usage: __S(977, __c61, 1),
-          totals: __S(978, __c61, 2),
+          usage: __S(4129, __c129, 1),
+          totals: __S(4130, __c129, 2),
           dollars: S.Number,
         }),
       ).annotate({ identifier: "SandboxAiUsage" });
     case 2:
-      return S.Array(__S(961, __c60, 1));
+      return S.Array(__S(4097, __c128, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5802,15 +8734,15 @@ function __c60(j: number): any {
           accountId: S.NullOr(S.String),
           profileId: S.NullOr(S.String),
           since: S.String,
-          sandboxes: __S(962, __c60, 2),
-          usage: __S(977, __c61, 1),
-          totals: __S(978, __c61, 2),
+          sandboxes: __S(4098, __c128, 2),
+          usage: __S(4129, __c129, 1),
+          totals: __S(4130, __c129, 2),
           dollars: S.Number,
         }),
       ).annotate({ identifier: "GetAiUsageResponse" });
   }
 }
-function __c61(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5827,7 +8759,7 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "AiUsageRow" });
     case 1:
-      return S.Array(__S(976, __c61, 0));
+      return S.Array(__S(4128, __c129, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5841,7 +8773,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "AiUsageTotals" });
   }
 }
-function __c62(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5853,7 +8785,7 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           expiresAt: S.optional(S.NullOr(S.String)),
-          actions: S.optional(__S(16, __c1, 0)),
+          actions: S.optional(__S(2272, __c71, 0)),
           sandboxes: S.optional(S.Unknown),
           environments: S.optional(S.Unknown),
           grandfathered: S.optional(S.Boolean),
@@ -5870,7 +8802,7 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "ApiKeyCreatedResource" });
     case 3:
-      return S.Array(__S(994, __c62, 2));
+      return S.Array(__S(4162, __c130, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -5884,18 +8816,212 @@ function __c62(j: number): any {
           sandboxId: S.NullOr(S.String),
           createdAt: S.String,
           lastUsedAt: S.NullOr(S.String),
-          usage: __S(416, __c26, 0),
-          resources: __S(417, __c26, 1),
+          usage: __S(2976, __c93, 0),
+          resources: __S(2977, __c93, 1),
           expiresAt: S.optional(S.NullOr(S.String)),
           expired: S.optional(S.Boolean),
           expiringSoon: S.optional(S.Boolean),
-          scope: S.optional(__S(993, __c62, 1)),
-          createdResources: __S(995, __c62, 3),
+          scope: S.optional(__S(4161, __c130, 1)),
+          createdResources: __S(4163, __c130, 3),
         }),
       ).annotate({ identifier: "GetApiKeyUsageResponse" });
   }
 }
-function __c63(j: number): any {
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          jobId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/ci/jobs/{jobId}", code: 200 })),
+      ).annotate({ identifier: "GetCiJobRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          job: __S(4224, __c132, 0),
+        }),
+      ).annotate({ identifier: "GetCiJobResponse" });
+  }
+}
+function __c132(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          repo: S.String,
+          runId: S.optional(S.String),
+          jobName: S.String,
+          workflowName: S.optional(S.NullOr(S.String)),
+          headBranch: S.optional(S.NullOr(S.String)),
+          headSha: S.optional(S.NullOr(S.String)),
+          htmlUrl: S.optional(S.NullOr(S.String)),
+          label: S.String,
+          machineClass: S.String,
+          state: S.String,
+          error: S.optional(S.NullOr(S.String)),
+          sandboxId: S.optional(S.NullOr(S.String)),
+          sandboxState: S.optional(S.NullOr(S.String)),
+          queuedAt: S.String,
+          runStartedAt: S.optional(S.NullOr(S.String)),
+          finishedAt: S.optional(S.NullOr(S.String)),
+          waitSeconds: S.optional(S.NullOr(S.Number)),
+          runSeconds: S.optional(S.NullOr(S.Number)),
+          costDollars: S.optional(S.NullOr(S.Number)),
+        }),
+      ).annotate({ identifier: "CiJob" });
+  }
+}
+function __c133(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          jobId: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/ci/jobs/{jobId}/logs", code: 200 })),
+      ).annotate({ identifier: "GetCiJobLogRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          log: S.String,
+        }),
+      ).annotate({ identifier: "GetCiJobLogResponse" });
+  }
+}
+function __c134(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          account: S.optional(S.String.pipe(T.Query())),
+          repo: S.optional(S.String.pipe(T.Query())),
+          state: S.optional(S.String.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/ci", code: 200 })),
+      ).annotate({ identifier: "GetCiOverviewRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.String),
+          title: S.optional(S.String),
+          done: S.optional(S.Boolean),
+          detail: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetCiOverviewResponseSetupStepsItem" });
+    case 2:
+      return S.Array(__S(4289, __c134, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          jobId: S.optional(S.String),
+          repo: S.optional(S.String),
+          message: S.optional(S.String),
+          at: S.optional(S.String),
+          count: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetCiOverviewResponseSetupProblemsItem" });
+    case 4:
+      return S.Array(__S(4291, __c134, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          complete: S.optional(S.Boolean),
+          next: S.optional(S.NullOr(S.String)),
+          steps: S.optional(__S(4290, __c134, 2)),
+          problems: S.optional(__S(4292, __c134, 4)),
+        }),
+      ).annotate({ identifier: "GetCiOverviewResponseSetup" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          fullName: S.String,
+          private: S.Boolean,
+          htmlUrl: S.String,
+          status: S.String,
+          jobs7d: S.Number,
+          lastState: S.optional(S.NullOr(S.String)),
+          lastAt: S.optional(S.NullOr(S.String)),
+          lastError: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "CiRepository" });
+    case 7:
+      return S.Array(__S(4294, __c134, 6));
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          accountLogin: S.String,
+          accountType: S.String,
+          teamId: S.optional(S.NullOr(S.String)),
+          allowPublicRepos: S.optional(S.Boolean),
+          publicRepoUsers: S.optional(__S(2272, __c71, 0)),
+          manageUrl: S.String,
+          repositories: __S(4295, __c134, 7),
+        }),
+      ).annotate({ identifier: "CiInstallation" });
+    case 9:
+      return S.Array(__S(4296, __c134, 8));
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          account: S.optional(S.NullOr(S.String)),
+          repo: S.optional(S.NullOr(S.String)),
+          state: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetCiOverviewResponseFilter" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          all: S.optional(S.Number),
+          active: S.optional(S.Number),
+          failed: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetCiOverviewResponseCounts" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          day: S.optional(S.String),
+          success: S.optional(S.Number),
+          failure: S.optional(S.Number),
+          other: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetCiOverviewResponseStatsPerDayItem" });
+    case 13:
+      return S.Array(__S(4300, __c134, 12));
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          jobs: S.optional(S.Number),
+          running: S.optional(S.Number),
+          successRate: S.optional(S.NullOr(S.Number)),
+          medianWaitSeconds: S.optional(S.NullOr(S.Number)),
+          medianRunSeconds: S.optional(S.NullOr(S.Number)),
+          costDollars: S.optional(S.Number),
+          perDay: S.optional(__S(4301, __c134, 13)),
+        }),
+      ).annotate({ identifier: "GetCiOverviewResponseStats" });
+    case 15:
+      return S.Array(__S(4224, __c132, 0));
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          setup: __S(4293, __c134, 5),
+          installations: __S(4297, __c134, 9),
+          filter: S.optional(__S(4298, __c134, 10)),
+          counts: __S(4299, __c134, 11),
+          stats: __S(4302, __c134, 14),
+          jobs: __S(4303, __c134, 15),
+        }),
+      ).annotate({ identifier: "GetCiOverviewResponse" });
+  }
+}
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5915,12 +9041,12 @@ function __c63(j: number): any {
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          command: __S(1792, __c112, 0),
+          command: __S(2112, __c66, 0),
         }),
       ).annotate({ identifier: "GetCommandResponse" });
   }
 }
-function __c64(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5967,56 +9093,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetCommandStatusResponse" });
   }
 }
-function __c65(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          profile: S.String.pipe(T.Label()),
-          credential: S.String.pipe(T.Label()),
-          value: S.String,
-          keepCurrent: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/credential-profiles/{profile}/accounts/{credential}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AddCredentialAccountRequest" });
-  }
-}
-function __c66(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          label: S.String,
-          active: S.Boolean,
-          addedAt: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "CredentialAccount" });
-    case 1:
-      return S.Array(__S(1056, __c66, 0));
-  }
-}
-function __c67(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          success: S.Boolean,
-          profileId: S.String,
-          credential: S.String,
-          accounts: __S(1057, __c66, 1),
-        }),
-      ).annotate({ identifier: "AddCredentialAccountResponse" });
-  }
-}
-function __c68(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6030,7 +9107,7 @@ function __c68(j: number): any {
           email: S.optional(S.NullOr(S.String)),
           displayName: S.optional(S.String),
           connectionMethod: S.optional(S.String),
-          connectionMethods: S.optional(__S(16, __c1, 0)),
+          connectionMethods: S.optional(__S(2272, __c71, 0)),
           accountPlan: S.optional(S.String),
           serviceAccount: S.optional(S.Boolean),
           accountStatus: S.optional(S.String),
@@ -6051,12 +9128,12 @@ function __c68(j: number): any {
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          user: __S(1089, __c68, 1),
+          user: __S(4385, __c137, 1),
         }),
       ).annotate({ identifier: "GetCurrentUserResponse" });
   }
 }
-function __c69(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6064,7 +9141,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "GetDataRetentionRequest" });
   }
 }
-function __c70(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6083,7 +9160,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetDataRetentionResponse" });
   }
 }
-function __c71(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6093,7 +9170,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "GetDeletionOperationRequest" });
   }
 }
-function __c72(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6119,7 +9196,18 @@ function __c72(j: number): any {
       ).annotate({ identifier: "GetDesktopStreamingUrlResponse" });
   }
 }
-function __c73(j: number): any {
+function __c142(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          sandboxId: S.String.pipe(T.Label()),
+          path: S.String.pipe(T.Query()),
+        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/files/info", code: 200 })),
+      ).annotate({ identifier: "GetFileInfoRequest" });
+  }
+}
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6134,12 +9222,12 @@ function __c73(j: number): any {
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          snapshot: S.NullOr(__S(1184, __c74, 0)),
+          snapshot: S.NullOr(__S(4608, __c144, 0)),
         }),
       ).annotate({ identifier: "GetLatestSandboxSnapshotResponse" });
   }
 }
-function __c74(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6161,7 +9249,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "SnapshotSummary" });
   }
 }
-function __c75(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6194,21 +9282,55 @@ function __c75(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
+          balanceDollars: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetLimitsResponseWallet" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          vmHours: S.optional(S.Number),
+          vmHoursRemaining: S.optional(S.Number),
+          periodEnd: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "GetLimitsResponsePlanIncluded" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          aboveMultiple: S.optional(S.Number),
+          upToMultiple: S.optional(S.Number),
+          dollars: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetLimitsResponseOveragePricesStartBracketsItem" });
+    case 6:
+      return S.Array(__S(4645, __c145, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          vmHourDollars: S.optional(S.Number),
+          savedSnapshotDayDollars: S.optional(S.Number),
+          startBrackets: S.optional(__S(4646, __c145, 6)),
+          startLimitMultiplier: S.optional(S.Number),
+          startMinuteLimitMultiplier: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "GetLimitsResponseOveragePrices" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
           limit: S.optional(S.Number),
           used: S.optional(S.Number),
           remaining: S.optional(S.Number),
         }),
       ).annotate({ identifier: "StartWindowUsage" });
-    case 4:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           unlimited: S.optional(S.Boolean),
-          minute: S.optional(S.NullOr(__S(1203, __c75, 3))),
-          hour: S.optional(S.NullOr(__S(1203, __c75, 3))),
-          day: S.optional(S.NullOr(__S(1203, __c75, 3))),
+          minute: S.optional(S.NullOr(__S(4648, __c145, 8))),
+          hour: S.optional(S.NullOr(__S(4648, __c145, 8))),
+          day: S.optional(S.NullOr(__S(4648, __c145, 8))),
         }),
       ).annotate({ identifier: "GetLimitsResponseStarts" });
-    case 5:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           key: S.optional(S.String),
@@ -6222,9 +9344,9 @@ function __c75(j: number): any {
           purchasable: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "GetLimitsResponseSandboxPlanTiersItem" });
-    case 6:
-      return S.Array(__S(1205, __c75, 5));
-    case 7:
+    case 11:
+      return S.Array(__S(4650, __c145, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
@@ -6232,9 +9354,9 @@ function __c75(j: number): any {
           reason: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "GetLimitsResponseMachineTypesItem" });
-    case 8:
-      return S.Array(__S(1207, __c75, 7));
-    case 9:
+    case 13:
+      return S.Array(__S(4652, __c145, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
           maxActiveSandboxes: S.optional(S.NullOr(S.Number)),
@@ -6243,33 +9365,37 @@ function __c75(j: number): any {
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetLimitsResponseGiftLimit" });
-    case 10:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
           accessTier: S.optional(S.String),
           blockedReason: S.optional(S.NullOr(S.String)),
-          currentLimits: S.optional(__S(1201, __c75, 1)),
-          standardLimits: S.optional(__S(1201, __c75, 1)),
-          trialLimits: S.optional(__S(1201, __c75, 1)),
-          upgradeEffects: S.optional(__S(1216, __c76, 0)),
+          currentLimits: S.optional(__S(4641, __c145, 1)),
+          standardLimits: S.optional(__S(4641, __c145, 1)),
+          trialLimits: S.optional(__S(4641, __c145, 1)),
+          upgradeEffects: S.optional(__S(4672, __c146, 0)),
           canStart: S.Boolean,
           checkoutRequired: S.optional(S.Boolean),
           startBlockedReason: S.optional(S.NullOr(S.String)),
           contactMessage: S.optional(S.NullOr(S.String)),
           activeSandboxes: S.Number,
-          activeStates: S.optional(__S(16, __c1, 0)),
+          activeStates: S.optional(__S(2272, __c71, 0)),
           maxActiveSandboxes: S.Number,
           maxCreationRequestsPerMinute: S.optional(S.Number),
           maxCreationRequestsPerDay: S.optional(S.NullOr(S.Number)),
-          startLimits: S.optional(S.NullOr(__S(1202, __c75, 2))),
-          starts: S.optional(__S(1204, __c75, 4)),
+          startLimits: S.optional(S.NullOr(__S(4642, __c145, 2))),
+          wallet: S.optional(S.NullOr(__S(4643, __c145, 3))),
+          planIncluded: S.optional(S.NullOr(__S(4644, __c145, 4))),
+          overagePrices: S.optional(__S(4647, __c145, 7)),
+          nextStartDollars: S.optional(S.NullOr(S.Number)),
+          startLimitsWithWallet: S.optional(S.NullOr(__S(4642, __c145, 2))),
+          starts: S.optional(__S(4649, __c145, 9)),
           creditBalanceHours: S.optional(S.NullOr(S.Number)),
           packBalanceHours: S.optional(S.Number),
           packBalanceDollars: S.optional(S.Number),
           hasPaymentHistory: S.optional(S.Boolean),
-          package: S.optional(__S(1216, __c76, 0)),
           subscriptionQuotaSeconds: S.optional(S.Number),
           subscriptionRemainingSeconds: S.optional(S.Number),
           packBalanceSeconds: S.optional(S.Number),
@@ -6279,7 +9405,7 @@ function __c75(j: number): any {
           creditSecondsPerDollar: S.optional(S.Number),
           sandboxPlanKey: S.optional(S.String),
           sandboxPlanDollars: S.optional(S.Number),
-          sandboxPlanTiers: S.optional(__S(1206, __c75, 6)),
+          sandboxPlanTiers: S.optional(__S(4651, __c145, 11)),
           accountPlan: S.optional(S.String),
           plan: S.optional(S.NullOr(S.String)),
           planName: S.optional(S.NullOr(S.String)),
@@ -6288,9 +9414,10 @@ function __c75(j: number): any {
           hasSeatPlan: S.optional(S.Boolean),
           last24hUsageSeconds: S.optional(S.Number),
           trialComputeCapSeconds: S.optional(S.NullOr(S.Number)),
+          trialComputeUsedSeconds: S.optional(S.NullOr(S.Number)),
           trialLine: S.optional(S.NullOr(S.String)),
-          machineTypes: S.optional(__S(1208, __c75, 8)),
-          giftLimit: S.optional(S.NullOr(__S(1209, __c75, 9))),
+          machineTypes: S.optional(__S(4653, __c145, 13)),
+          giftLimit: S.optional(S.NullOr(__S(4654, __c145, 14))),
           billingStatus: S.String,
           subscriptionStatus: S.optional(S.NullOr(S.String)),
           subscriptionCancelAtPeriodEnd: S.optional(S.Boolean),
@@ -6304,48 +9431,13 @@ function __c75(j: number): any {
       ).annotate({ identifier: "GetLimitsResponse" });
   }
 }
-function __c76(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/named-snapshots/{name}", code: 200 })),
-      ).annotate({ identifier: "GetNamedSnapshotRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          snapshot: __S(1248, __c78, 0),
-        }),
-      ).annotate({ identifier: "GetNamedSnapshotResponse" });
-  }
-}
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          status: S.String,
-          error: S.optional(S.String),
-          sourceSandboxId: S.String,
-          snapshotId: S.optional(S.String),
-          type: S.optional(S.String),
-          sizeBytes: S.optional(S.Number),
-          createdAt: S.String,
-        }),
-      ).annotate({ identifier: "NamedSnapshot" });
-  }
-}
-function __c79(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6362,12 +9454,12 @@ function __c79(j: number): any {
           ok: S.Boolean,
           type: S.String,
           id: S.String,
-          promptRun: __S(1280, __c80, 0),
+          promptRun: __S(4736, __c148, 0),
         }),
       ).annotate({ identifier: "GetPromptRunStatusResponse" });
   }
 }
-function __c80(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6386,7 +9478,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "PromptRun" });
   }
 }
-function __c81(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6396,20 +9488,20 @@ function __c81(j: number): any {
       ).annotate({ identifier: "GetSandboxRequest" });
   }
 }
-function __c82(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          sandbox: __S(356, __c22, 4),
+          sandbox: __S(2820, __c88, 4),
           giftLimitNotice: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSandboxResponse" });
   }
 }
-function __c83(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6428,39 +9520,14 @@ function __c83(j: number): any {
           proxied: S.Boolean,
           credentialProfileId: S.NullOr(S.String),
           since: S.String,
-          usage: __S(977, __c61, 1),
-          totals: __S(978, __c61, 2),
+          usage: __S(4129, __c129, 1),
+          totals: __S(4130, __c129, 2),
           dollars: S.Number,
         }),
       ).annotate({ identifier: "GetSandboxAiUsageResponse" });
   }
 }
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          environmentId: S.String.pipe(T.Label()),
-          org: S.optional(S.String.pipe(T.Query())),
-          repositoryId: S.String,
-          baseBranch: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/environments/{environmentId}/repos", code: 200 })),
-      ).annotate({ identifier: "AddEnvironmentRepoRequest" });
-  }
-}
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          success: S.Boolean,
-          versionId: S.optional(S.String),
-          versionNumber: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "EnvironmentItemChangeResponse" });
-  }
-}
-function __c86(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6488,7 +9555,42 @@ function __c86(j: number): any {
       ).annotate({ identifier: "GetSandboxUsageResponse" });
   }
 }
-function __c87(j: number): any {
+function __c153(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/saved-snapshots/{name}", code: 200 })),
+      ).annotate({ identifier: "GetSavedSnapshotRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          ok: S.Boolean,
+          type: S.String,
+          snapshot: __S(4928, __c154, 0),
+        }),
+      ).annotate({ identifier: "GetSavedSnapshotResponse" });
+  }
+}
+function __c154(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          status: S.String,
+          error: S.optional(S.String),
+          sourceSandboxId: S.String,
+          snapshotId: S.optional(S.String),
+          type: S.optional(S.String),
+          sizeBytes: S.optional(S.Number),
+          createdAt: S.String,
+        }),
+      ).annotate({ identifier: "SavedSnapshot" });
+  }
+}
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6496,7 +9598,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "GetSecretsRequest" });
   }
 }
-function __c88(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6507,13 +9609,13 @@ function __c88(j: number): any {
           environmentId: S.String,
           subenvironmentId: S.optional(S.String),
           envContents: S.String,
-          secretFiles: __S(257, __c16, 1),
-          pushed: S.optional(__S(1216, __c76, 0)),
+          secretFiles: __S(2625, __c82, 1),
+          pushed: S.optional(__S(4672, __c146, 0)),
         }),
       ).annotate({ identifier: "GetSecretsResponse" });
   }
 }
-function __c89(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6541,7 +9643,7 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "SnapshotChunk" });
     case 3:
-      return S.Array(__S(1426, __c89, 2));
+      return S.Array(__S(5026, __c157, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -6553,13 +9655,13 @@ function __c89(j: number): any {
           generation: S.Number,
           expiresInSeconds: S.Number,
           reconstruct: S.String,
-          inventory: S.optional(S.NullOr(__S(1425, __c89, 1))),
-          chunks: __S(1427, __c89, 3),
+          inventory: S.optional(S.NullOr(__S(5025, __c157, 1))),
+          chunks: __S(5027, __c157, 3),
         }),
       ).annotate({ identifier: "GetSnapshotDownloadResponse" });
   }
 }
-function __c90(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6570,7 +9672,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GetSnapshotFileRequest" });
   }
 }
-function __c91(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6587,7 +9689,7 @@ function __c91(j: number): any {
         }),
       ).annotate({ identifier: "SnapshotTreeEntry" });
     case 2:
-      return S.Array(__S(1457, __c91, 1));
+      return S.Array(__S(5089, __c159, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6600,13 +9702,13 @@ function __c91(j: number): any {
           truncated: S.Boolean,
           fileCount: S.Number,
           totalSizeBytes: S.Number,
-          entries: __S(1458, __c91, 2),
+          entries: __S(5090, __c159, 2),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSnapshotTreeResponse" });
   }
 }
-function __c92(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6621,12 +9723,12 @@ function __c92(j: number): any {
           ok: S.Boolean,
           type: S.String,
           id: S.String,
-          stop: __S(336, __c21, 0),
+          stop: __S(2848, __c89, 0),
         }),
       ).annotate({ identifier: "GetStopResponse" });
   }
 }
-function __c93(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6634,7 +9736,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "GetTelemetryRequest" });
   }
 }
-function __c94(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6644,1108 +9746,16 @@ function __c94(j: number): any {
       ).annotate({ identifier: "GetWebhookRequest" });
   }
 }
-function __c95(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          webhook: __S(528, __c33, 0),
+          webhook: __S(3168, __c99, 0),
         }),
       ).annotate({ identifier: "GetWebhookResponse" });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-          port: S.Number,
-          public: S.optional(S.Boolean),
-          localhost: S.optional(S.Boolean),
-          title: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/host", code: 200 })),
-      ).annotate({ identifier: "HostPortRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          success: S.optional(S.Boolean),
-          port: S.optional(S.Number),
-          url: S.optional(S.String),
-          isProtected: S.optional(S.Boolean),
-          access: S.optional(S.String),
-          localhost: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "HostPortResponse" });
-  }
-}
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-          conversation: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/interrupt", code: 200 })),
-      ).annotate({ identifier: "InterruptSandboxRequest" });
-  }
-}
-function __c98(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-          processId: S.Number.pipe(T.Label()),
-          stdoutOffset: S.optional(S.Number.pipe(T.Query())),
-          stderrOffset: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/sandboxes/{sandboxId}/commands/{processId}/stream",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "AttachCommandRequest" });
-  }
-}
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "AttachCommandResponse" });
-  }
-}
-function __c100(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/api-keys", code: 200 })),
-      ).annotate({ identifier: "ListApiKeysRequest" });
-    case 1:
-      return S.Record(S.String, __S(16, __c1, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          organizationId: S.String,
-          organizationName: S.String,
-        }),
-      ).annotate({ identifier: "ApiKeyScopeResource" });
-    case 3:
-      return S.Array(__S(1602, __c100, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxes: __S(1603, __c100, 3),
-          environments: __S(1603, __c100, 3),
-        }),
-      ).annotate({ identifier: "ApiKeyCatalogScopeResources" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          actions: __S(16, __c1, 0),
-          presets: __S(1601, __c100, 1),
-          defaultTtl: S.String,
-          maxTtl: S.String,
-          scopedCreationEnabled: S.Boolean,
-          scopeResources: S.optional(__S(1604, __c100, 4)),
-        }),
-      ).annotate({ identifier: "ApiKeyCatalog" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          apiKeys: __S(434, __c27, 2),
-          catalog: __S(1605, __c100, 5),
-        }),
-      ).annotate({ identifier: "ListApiKeysResponse" });
-  }
-}
-function __c101(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          profile: S.String.pipe(T.Label()),
-          credential: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/credential-profiles/{profile}/accounts/{credential}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListCredentialAccountsRequest" });
-  }
-}
-function __c102(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/credential-profiles", code: 200 })),
-      ).annotate({ identifier: "ListCredentialProfilesRequest" });
-    case 1:
-      return S.Array(__S(50, __c3, 2));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          profiles: __S(1633, __c102, 1),
-        }),
-      ).annotate({ identifier: "ListCredentialProfilesResponse" });
-  }
-}
-function __c103(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          org: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/environments", code: 200 })),
-      ).annotate({ identifier: "ListEnvironmentsRequest" });
-  }
-}
-function __c104(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/named-snapshots", code: 200 })),
-      ).annotate({ identifier: "ListNamedSnapshotsRequest" });
-    case 1:
-      return S.Array(__S(1248, __c78, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          org: S.optional(S.NullOr(S.String)),
-          orgName: S.optional(S.NullOr(S.String)),
-          free: S.optional(S.Number),
-          used: S.optional(S.Number),
-          extra: S.optional(S.Number),
-          extraMonthlyDollars: S.optional(S.Number),
-          extraDailyDollars: S.optional(S.Number),
-          pricePerExtraMonthlyDollars: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "NamedSnapshotAllowance" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          snapshots: __S(1665, __c104, 1),
-          allowance: S.optional(__S(1666, __c104, 2)),
-        }),
-      ).annotate({ identifier: "ListNamedSnapshotsResponse" });
-  }
-}
-function __c105(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/orgs", code: 200 })),
-      ).annotate({ identifier: "ListOrganizationsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          type: S.String,
-          role: S.String,
-          memberCount: S.Number,
-          subscriptionStatus: S.optional(S.String),
-          active: S.Boolean,
-        }),
-      ).annotate({ identifier: "Org" });
-    case 2:
-      return S.Array(__S(1681, __c105, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          activeWalletChosen: S.Boolean,
-          orgs: __S(1682, __c105, 2),
-        }),
-      ).annotate({ identifier: "ListOrganizationsResponse" });
-  }
-}
-function __c106(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sync: S.optional(S.Boolean.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          sort: S.optional(S.String.pipe(T.Query())),
-          q: S.optional(S.String.pipe(T.Query())),
-          selected: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/repos", code: 200 })),
-      ).annotate({ identifier: "ListReposRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            id: S.optional(S.Number),
-            databaseId: S.optional(S.String),
-            name: S.optional(S.String),
-            fullName: S.optional(S.String),
-            description: S.optional(S.NullOr(S.String)),
-            url: S.optional(S.String),
-            private: S.optional(S.Boolean),
-            permissions: S.optional(S.String),
-            pushedAt: S.optional(S.NullOr(S.String)),
-            lastUserCommitAt: S.optional(S.NullOr(S.String)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "Repository" });
-    case 2:
-      return S.Array(__S(1697, __c106, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          type: S.optional(S.String),
-          accountLogin: S.optional(S.String),
-          accountAvatarUrl: S.optional(S.NullOr(S.String)),
-          repositories: S.optional(__S(1698, __c106, 2)),
-        }),
-      ).annotate({ identifier: "RepositoryInstallation" });
-    case 4:
-      return S.Array(__S(1699, __c106, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          installations: __S(1700, __c106, 4),
-          environmentId: S.String,
-          subenvironmentId: S.optional(S.NullOr(S.String)),
-          selectedRepositories: __S(289, __c18, 1),
-          pageInfo: S.optional(__S(1712, __c107, 0)),
-        }),
-      ).annotate({ identifier: "ListReposResponse" });
-  }
-}
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          nextCursor: S.NullOr(S.String),
-          hasMore: S.Boolean,
-          limit: S.Number,
-        }),
-      ).annotate({ identifier: "PageInfo" });
-  }
-}
-function __c108(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/conversations", code: 200 })),
-      ).annotate({ identifier: "ListSandboxConversationsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          createdAt: S.NullOr(S.String),
-          lastPromptAt: S.NullOr(S.String),
-          prompts: S.Number,
-          running: S.Boolean,
-          lastHarness: S.NullOr(S.String),
-          lastModel: S.NullOr(S.String),
-          lastPromptPreview: S.NullOr(S.String),
-          current: S.Boolean,
-        }),
-      ).annotate({ identifier: "Conversation" });
-    case 2:
-      return S.Array(__S(1729, __c108, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          id: S.String,
-          conversations: __S(1730, __c108, 2),
-        }),
-      ).annotate({ identifier: "ListSandboxConversationsResponse" });
-  }
-}
-function __c109(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          org: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          sort: S.optional(S.String.pipe(T.Query())),
-          state: S.optional(S.String.pipe(T.Query())),
-          include: S.optional(S.String.pipe(T.Query())),
-          xBoatOrg: S.optional(S.String.pipe(T.Header("X-Boat-Org"))),
-        }).pipe(T.Http({ method: "GET", uri: "/sandboxes", code: 200 })),
-      ).annotate({ identifier: "ListSandboxesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          sandboxes: __S(384, __c24, 0),
-          pageInfo: S.optional(__S(1712, __c107, 0)),
-        }),
-      ).annotate({ identifier: "ListSandboxesResponse" });
-  }
-}
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          sort: S.optional(S.String.pipe(T.Query())),
-          type: S.optional(S.String.pipe(T.Query())),
-          conversation: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/events", code: 200 })),
-      ).annotate({ identifier: "ListSandboxEventsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.StructWithRest(
-          S.Struct({
-            id: S.optional(S.String),
-            type: S.String,
-            timestamp: S.optional(S.Number),
-            taskId: S.optional(S.NullOr(S.String)),
-            conversationId: S.optional(S.NullOr(S.String)),
-            data: S.optional(__S(1216, __c76, 0)),
-          }),
-          [S.Record(S.String, S.Unknown)],
-        ),
-      ).annotate({ identifier: "SandboxEvent" });
-    case 2:
-      return S.Array(__S(1761, __c110, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          id: S.String,
-          events: __S(1762, __c110, 2),
-          pageInfo: S.optional(__S(1712, __c107, 0)),
-        }),
-      ).annotate({ identifier: "ListSandboxEventsResponse" });
-  }
-}
-function __c111(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-          mode: S.optional(S.String.pipe(T.Query())),
-          q: S.optional(S.String.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/command-history", code: 200 }),
-        ),
-      ).annotate({ identifier: "CommandHistoryRequest" });
-    case 1:
-      return S.Array(__S(1792, __c112, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          commands: __S(1777, __c111, 1),
-          nextCursor: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "CommandHistoryResponse" });
-  }
-}
-function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          commandId: S.String,
-          sandboxId: S.String,
-          command: S.String,
-          cwd: S.optional(S.NullOr(S.String)),
-          mode: S.String,
-          processId: S.optional(S.NullOr(S.Number)),
-          status: S.String,
-          exitCode: S.optional(S.NullOr(S.Number)),
-          signal: S.optional(S.NullOr(S.String)),
-          stdoutBytes: S.Number,
-          stderrBytes: S.Number,
-          outputTruncated: S.Boolean,
-          startedAt: S.String,
-          finishedAt: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "CommandRecord" });
-  }
-}
-function __c113(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/processes", code: 200 })),
-      ).annotate({ identifier: "ListSandboxProcessesRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          pid: S.Number,
-          parentPid: S.optional(S.Number),
-          user: S.optional(S.String),
-          cpuPercent: S.optional(S.Number),
-          memoryMB: S.optional(S.Number),
-          startedAt: S.optional(S.String),
-          command: S.String,
-          commandId: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "SandboxProcess" });
-    case 2:
-      return S.Array(__S(1809, __c113, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          live: S.Boolean,
-          sampledAt: S.NullOr(S.String),
-          total: S.Number,
-          processes: __S(1810, __c113, 2),
-        }),
-      ).annotate({ identifier: "ListSandboxProcessesResponse" });
-  }
-}
-function __c114(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          sort: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/snapshots", code: 200 })),
-      ).annotate({ identifier: "ListSandboxSnapshotsRequest" });
-  }
-}
-function __c115(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1184, __c74, 0));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          snapshots: __S(1840, __c115, 0),
-          pageInfo: S.optional(__S(1712, __c107, 0)),
-        }),
-      ).annotate({ identifier: "ListSandboxSnapshotsResponse" });
-  }
-}
-function __c116(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          limit: S.optional(S.Number.pipe(T.Query())),
-          cursor: S.optional(S.String.pipe(T.Query())),
-          sort: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/snapshots", code: 200 })),
-      ).annotate({ identifier: "ListSnapshotsRequest" });
-  }
-}
-function __c117(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/named-snapshots/{name}/shares", code: 200 })),
-      ).annotate({ identifier: "ListSnapshotSharesRequest" });
-    case 1:
-      return S.Array(__S(480, __c30, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          name: S.String,
-          shares: __S(1873, __c117, 1),
-        }),
-      ).annotate({ identifier: "ListSnapshotSharesResponse" });
-  }
-}
-function __c118(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({}).pipe(T.Http({ method: "GET", uri: "/webhooks", code: 200 })),
-      ).annotate({ identifier: "ListWebhooksRequest" });
-    case 1:
-      return S.Array(__S(528, __c33, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          webhooks: __S(1889, __c118, 1),
-        }),
-      ).annotate({ identifier: "ListWebhooksResponse" });
-  }
-}
-function __c119(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-          provider: S.String,
-          model: S.optional(S.NullOr(S.String)),
-          reasoningEffort: S.optional(S.NullOr(S.String)),
-          fast: S.optional(S.NullOr(S.Boolean)),
-          new: S.optional(S.Boolean),
-          conversationId: S.optional(S.NullOr(S.String)),
-          prompt: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/prompt", code: 200 })),
-      ).annotate({ identifier: "PromptSandboxRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          id: S.String,
-          promptId: S.String,
-          conversationId: S.optional(S.NullOr(S.String)),
-          promptRun: __S(1280, __c80, 0),
-          status: S.String,
-          provider: S.String,
-          model: S.optional(S.NullOr(S.String)),
-          reasoningEffort: S.optional(S.NullOr(S.String)),
-          fast: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "PromptSandboxResponse" });
-  }
-}
-function __c120(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-          path: S.String.pipe(T.Query()),
-          encoding: S.optional(S.String.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/sandboxes/{sandboxId}/files", code: 200 })),
-      ).annotate({ identifier: "ReadSandboxFileRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          success: S.Boolean,
-          path: S.String,
-          encoding: S.String,
-          size: S.Number,
-          content: S.String,
-        }),
-      ).annotate({ identifier: "ReadSandboxFileResponse" });
-  }
-}
-function __c121(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/recover", code: 200 })),
-      ).annotate({ identifier: "RecoverSandboxRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.optional(S.Boolean),
-          type: S.optional(S.String),
-          status: S.optional(S.String),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RecoverSandboxResponse" });
-  }
-}
-function __c122(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-          failFast: S.optional(S.Boolean),
-          type: S.optional(S.String),
-          env: S.optional(__S(368, __c23, 0)),
-          environment: S.optional(S.String),
-          noEnv: S.optional(S.Boolean),
-          ttlSeconds: S.optional(S.NullOr(S.Number)),
-        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/resume", code: 200 })),
-      ).annotate({ identifier: "ResumeSandboxRequest" });
-  }
-}
-function __c123(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          apiKeyId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/api-keys/{apiKeyId}", code: 200 })),
-      ).annotate({ identifier: "RevokeApiKeyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          apiKeys: __S(434, __c27, 2),
-        }),
-      ).annotate({ identifier: "RevokeApiKeyResponse" });
-  }
-}
-function __c124(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-          commandId: S.String.pipe(T.Label()),
-          stream: S.optional(S.String.pipe(T.Query())),
-          offset: S.optional(S.Number.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          encoding: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/sandboxes/{sandboxId}/command-history/{commandId}/logs",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "CommandLogsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          commandId: S.String,
-          stream: S.String,
-          offset: S.Number,
-          nextOffset: S.Number,
-          size: S.Number,
-          encoding: S.String,
-          data: S.String,
-          done: S.Boolean,
-        }),
-      ).annotate({ identifier: "CommandLogsResponse" });
-  }
-}
-function __c125(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String.pipe(T.Label()),
-          shareId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/named-snapshots/{name}/shares/{shareId}", code: 200 }),
-        ),
-      ).annotate({ identifier: "RevokeSnapshotShareRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          name: S.String,
-          share: __S(480, __c30, 0),
-        }),
-      ).annotate({ identifier: "RevokeSnapshotShareResponse" });
-  }
-}
-function __c126(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          apiKeyId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/api-keys/{apiKeyId}/rotate", code: 200 })),
-      ).annotate({ identifier: "RotateApiKeyRequest" });
-  }
-}
-function __c127(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          webhookId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/webhooks/{webhookId}/rotate", code: 200 })),
-      ).annotate({ identifier: "RotateWebhookSigningSecretRequest" });
-  }
-}
-function __c128(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String,
-          name: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/named-snapshots", code: 200 })),
-      ).annotate({ identifier: "SaveNamedSnapshotRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          status: S.String,
-          snapshot: __S(1248, __c78, 0),
-        }),
-      ).annotate({ identifier: "SaveNamedSnapshotResponse" });
-  }
-}
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          repositoryId: S.String,
-          baseBranch: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/repos", code: 200 })),
-      ).annotate({ identifier: "SelectRepoRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          success: S.Boolean,
-          environmentId: S.String,
-          subenvironmentId: S.optional(S.NullOr(S.String)),
-          selectedRepositories: __S(289, __c18, 1),
-        }),
-      ).annotate({ identifier: "SelectRepoResponse" });
-  }
-}
-function __c130(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          org: S.NullOr(S.String),
-        }).pipe(T.Http({ method: "PATCH", uri: "/orgs/active", code: 200 })),
-      ).annotate({ identifier: "SetActiveOrganizationRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          type: S.String,
-        }),
-      ).annotate({ identifier: "SetActiveOrganizationResponseActive" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          active: __S(2081, __c130, 1),
-        }),
-      ).annotate({ identifier: "SetActiveOrganizationResponse" });
-  }
-}
-function __c131(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          profile: S.String.pipe(T.Label()),
-          name: S.String.pipe(T.Label()),
-          value: S.String,
-          baseUrl: S.String,
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/credential-profiles/{profile}/custom-apis/{name}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SetCredentialProfileCustomApiRequest" });
-  }
-}
-function __c132(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          profile: S.String.pipe(T.Label()),
-          credential: S.String.pipe(T.Label()),
-          value: S.String,
-          keepCurrent: S.optional(S.Boolean),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/credential-profiles/{profile}/keys/{credential}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SetCredentialProfileKeyRequest" });
-  }
-}
-function __c133(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          environmentId: S.String.pipe(T.Label()),
-          org: S.optional(S.String.pipe(T.Query())),
-          path: S.String,
-          contents: S.String,
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/environments/{environmentId}/secret-files", code: 200 }),
-        ),
-      ).annotate({ identifier: "SetEnvironmentSecretFileRequest" });
-  }
-}
-function __c134(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          environmentId: S.String.pipe(T.Label()),
-          key: S.String.pipe(T.Label()),
-          org: S.optional(S.String.pipe(T.Query())),
-          value: S.String,
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/environments/{environmentId}/vars/{key}", code: 200 }),
-        ),
-      ).annotate({ identifier: "SetEnvironmentVarRequest" });
-  }
-}
-function __c135(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-          key: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/sshkey", code: 200 })),
-      ).annotate({ identifier: "ConfigureSshKeyRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          success: S.optional(S.Boolean),
-          machineIp: S.optional(S.NullOr(S.String)),
-          sshUser: S.optional(S.String),
-          sshEndpoint: S.optional(S.NullOr(S.String)),
-          hostKey: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ConfigureSshKeyResponse" });
-  }
-}
-function __c136(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-          blocked: S.Boolean,
-        }).pipe(T.Http({ method: "PUT", uri: "/sandboxes/{sandboxId}/ai-access", code: 200 })),
-      ).annotate({ identifier: "SetSandboxAiAccessRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          success: S.Boolean,
-          sandboxId: S.String,
-          blocked: S.Boolean,
-        }),
-      ).annotate({ identifier: "SetSandboxAiAccessResponse" });
-  }
-}
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          endpoint: S.String,
-          headers: S.optional(__S(368, __c23, 0)),
-        }).pipe(T.Http({ method: "PUT", uri: "/telemetry", code: 200 })),
-      ).annotate({ identifier: "SetTelemetryRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          status: S.NullOr(S.Number),
-          message: S.NullOr(S.String),
-        }),
-      ).annotate({ identifier: "TelemetryTestResult" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          telemetry: S.NullOr(__S(833, __c52, 1)),
-          test: __S(2193, __c137, 1),
-        }),
-      ).annotate({ identifier: "SetTelemetryResponse" });
-  }
-}
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/share", code: 200 })),
-      ).annotate({ identifier: "ShareSandboxRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          sandbox: S.optional(__S(356, __c22, 4)),
-          restartRequired: S.optional(S.Boolean),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ShareSandboxResponse" });
-  }
-}
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-          conversation: S.optional(S.String.pipe(T.Query())),
-          message: S.String,
-        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/steer", code: 200 })),
-      ).annotate({ identifier: "SteerSandboxRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          id: S.String,
-          conversationId: S.String,
-          promptId: S.String,
-          native: S.Boolean,
-          mode: S.optional(S.String),
-          status: S.String,
-        }),
-      ).annotate({ identifier: "SteerSandboxResponse" });
-  }
-}
-function __c140(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-          processId: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/sandboxes/{sandboxId}/commands/{processId}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "StopCommandRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          ok: S.Boolean,
-          type: S.String,
-          processId: S.Number,
-          running: S.Boolean,
-          signaled: S.Boolean,
-          command: S.NullOr(__S(1792, __c112, 0)),
-        }),
-      ).annotate({ identifier: "StopCommandResponse" });
-  }
-}
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-          force: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/stop", code: 200 })),
-      ).annotate({ identifier: "StopSandboxRequest" });
-  }
-}
-function __c142(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          profile: S.String.pipe(T.Label()),
-          credential: S.String.pipe(T.Label()),
-          account: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/credential-profiles/{profile}/accounts/{credential}/{account}/active",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SwitchCredentialAccountRequest" });
-  }
-}
-function __c143(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          sandboxId: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/sandboxes/{sandboxId}/unshare", code: 200 })),
-      ).annotate({ identifier: "UnshareSandboxRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          sandbox: S.optional(__S(356, __c22, 4)),
-          message: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "UnshareSandboxResponse" });
-  }
-}
-function __c144(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          org: S.optional(S.String.pipe(T.Query())),
-          xBoatOrg: S.optional(S.String.pipe(T.Header("X-Boat-Org"))),
-          enabled: S.Boolean,
-        }).pipe(T.Http({ method: "PUT", uri: "/ai-proxy", code: 200 })),
-      ).annotate({ identifier: "UpdateAiProxyRequest" });
-  }
-}
-function __c145(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          profile: S.String.pipe(T.Label()),
-          name: S.optional(S.String),
-          isDefault: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "PUT", uri: "/credential-profiles/{profile}", code: 200 })),
-      ).annotate({ identifier: "UpdateCredentialProfileRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

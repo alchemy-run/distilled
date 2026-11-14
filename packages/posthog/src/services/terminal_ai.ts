@@ -54,20 +54,20 @@ export interface TerminalAITool {
   /** Name of a tool executed inside the terminal. */
   name: string;
   /** What the tool does. */
-  description?: string;
+  description?: string | undefined;
   /** JSON schema for the tool's arguments. */
   input_schema: TerminalAIToolInputSchemaMap;
   /** Provider prompt cache settings. */
-  cache_control?: TerminalAIToolCacheControlMap | null;
+  cache_control?: TerminalAIToolCacheControlMap | null | undefined;
   /** Stream tool arguments as they are generated. */
-  eager_input_streaming?: boolean | null;
+  eager_input_streaming?: boolean | null | undefined;
 }
 /** Tools executed by pi. */
 export type CreateTerminalAiRequestToolsList = Array<TerminalAITool>;
 export interface CreateTerminalAiRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  format?: CreateTerminalAiRequestFormat | (string & {});
+  format?: CreateTerminalAiRequestFormat | (string & {}) | undefined;
   /** Model served by the PostHog provider. */
   model: TerminalAIModel | (string & {});
   /** Conversation and tool results. */
@@ -75,13 +75,13 @@ export interface CreateTerminalAiRequest {
   /** Maximum output tokens for this generation. */
   max_tokens: number;
   /** Always stream the model response. */
-  stream?: boolean;
+  stream?: boolean | undefined;
   /** Agent instructions. */
-  system?: CreateTerminalAiRequestSystem | null;
+  system?: CreateTerminalAiRequestSystem | null | undefined;
   /** Tools executed by pi. */
-  tools?: CreateTerminalAiRequestToolsList;
+  tools?: CreateTerminalAiRequestToolsList | undefined;
   /** Sampling temperature. */
-  temperature?: number | null;
+  temperature?: number | null | undefined;
 }
 export interface CreateTerminalAiResponse {}
 export type CreateTerminalAiError = PosthogOpError;

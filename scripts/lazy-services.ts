@@ -57,13 +57,14 @@ const CORE_BASE = "@distilled.cloud/core/_bundle/base";
 const KIND: Record<string, string> = {
   api$op: "o",
   api$opPaginated: "p",
+  api$opStreaming: "s",
   api$error: "e",
   // Helpers the data functions call (see dataForm).
   api$named: "n",
   api$newError: "x",
   api$D: "D",
 };
-const DEF_KINDS = new Set(["o", "p", "e"]);
+const DEF_KINDS = new Set(["o", "p", "s", "e"]);
 
 //#region source edits that keep a source map valid
 
@@ -151,7 +152,7 @@ const insert = (
 
 //#endregion
 
-/** `exported name -> kind letter` of a group chunk's re-exports of `API.op` / `opPaginated` / `error`. */
+/** `exported name -> kind letter` of a group chunk's re-exports of `API.op` / `opPaginated` / `opStreaming` / `error`. */
 const groupKinds = (file: string): Map<string, string> => {
   const ast = parseAst(readFileSync(file, "utf8"), { sourceType: "module" }, file);
   const local = new Map<string, string>();

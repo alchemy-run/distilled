@@ -1,4 +1,5 @@
 #!/usr/bin/env -S node --conditions=bun
+import * as fs from "node:fs";
 import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
 /**
  * generate — turn the Smithy JSON model in .generated-specs into the Stripe
@@ -25,6 +26,10 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  *     deliberately NOT wrapped — mirroring v0.
  */
 import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
+import {
+  CORE_STRATEGY_FIELDS,
+  defaultStrategyFields,
+} from "@distilled.cloud/dev/codegen/pagination";
 
 const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
@@ -78,6 +83,9 @@ const stripeSpec: SdkSpec = {
   paginationProfiles: {
     search: {
       strategy: "stripeSearchPaginate",
+      // Search ("page" mode) follows the cursor.
+      requires: (t) =>
+        t.mode === "page" ? CORE_STRATEGY_FIELDS.paginateCursor! : defaultStrategyFields(t),
       itemsFallback: "data",
     },
   },
@@ -110,6 +118,23 @@ runGeneratorCli({
   // there is no smithy-model patch chain.
   patchesDir: false,
   spec: (model) => {
+    // The protocol sends API_VERSION as Stripe-Version on every call, so it
+    // must be the version the schemas below are generated from: keep it
+    // equal to the spec's info.version.
+    const service = Object.values<any>(model.shapes ?? {}).find((s) => s?.type === "service");
+    if (typeof service?.version !== "string") {
+      throw new Error("the Stripe model has no service version (the spec's info.version)");
+    }
+    const versionFile = `${import.meta.dirname}/../src/api-version.ts`;
+    const source = fs.readFileSync(versionFile, "utf8");
+    const pinned = source.replace(
+      /export const API_VERSION = "[^"]*";/,
+      `export const API_VERSION = "${service.version}";`,
+    );
+    if (pinned === source && !source.includes(`API_VERSION = "${service.version}"`)) {
+      throw new Error(`no \`export const API_VERSION = "…";\` line in ${versionFile}`);
+    }
+    if (pinned !== source) fs.writeFileSync(versionFile, pinned);
     // Merge the converter's contentType trait into each operation's http
     // trait so the emitted `T.Http({ … })` carries it (the converter only
     // merges "multipart" itself; "form-urlencoded" is provider policy).

@@ -1,0 +1,87 @@
+{
+  "description": "Vector databases: create requires name, project_id, region and size (the spec says `Required.` in each description but does not mark them), and responses always carry the database and its identity, size and status (live: `{ vector_db: { id, name, region, status: \"pending\", size, project_id, created_at, ... } }`; status goes pending \u2192 creating \u2192 active). The admin credentials always carry `api_token`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VectorDatabasesCreateRequest/members/name/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VectorDatabasesCreateRequest/members/project_id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VectorDatabasesCreateRequest/members/region/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VectorDatabasesCreateRequest/members/size/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VectordbVectorDB/members/id/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VectordbVectorDB/members/name/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VectordbVectorDB/members/region/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VectordbVectorDB/members/size/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VectordbVectorDB/members/status/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VectordbVectorDB/members/project_id/traits/smithy.api#required",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VectordbVectorDB/members/created_at/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VectordbCreateVectorDBResponse/members/vector_db/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VectordbGetVectorDBResponse/members/vector_db/traits",
+      "value": {
+        "smithy.api#required": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.digitalocean.api#VectordbGetVectorDBAdminCredentialsResponse/members/api_token/traits/smithy.api#required",
+      "value": {}
+    }
+  ]
+}

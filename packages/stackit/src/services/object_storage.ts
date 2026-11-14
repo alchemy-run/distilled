@@ -76,9 +76,9 @@ export interface CreateAccessKeyRequest {
   projectId: string;
   /** STACKIT Region */
   region: string;
-  credentials_group?: string;
+  credentials_group?: string | undefined;
   /** Expiration date. Null means never expires. */
-  expires?: string | null;
+  expires?: string | null | undefined;
 }
 export interface CreateAccessKeyResponse {
   /** Access key */
@@ -102,7 +102,7 @@ export interface CreateBucketRequest {
   /** The name has to be dns-conform. */
   bucketName: string;
   /** Enable S3 Object Lock on this bucket. Can only be set at creation time. Requires an active project-level compliance lock. */
-  objectLockEnabled?: boolean;
+  objectLockEnabled?: boolean | undefined;
 }
 export interface CreateBucketResponse {
   /** Name of the bucket */
@@ -150,7 +150,7 @@ export interface DeleteAccessKeyRequest {
   region: string;
   /** Object storage access key */
   keyId: string;
-  credentials_group?: string;
+  credentials_group?: string | undefined;
 }
 export interface DeleteAccessKeyResponse {
   /** Identifies the pair of access key and secret access key for deletion */
@@ -218,7 +218,7 @@ export type ProjectStatusLabelsMap = { [key: string]: string | undefined };
 export type ProjectScope = "PUBLIC" | "SCHWARZ";
 export interface ProjectStatus {
   /** Project labels */
-  labels?: ProjectStatusLabelsMap;
+  labels?: ProjectStatusLabelsMap | undefined;
   /** Project ID */
   project: string;
   /** Project Scope */
@@ -312,7 +312,7 @@ export interface ListAccessKeysRequest {
   projectId: string;
   /** STACKIT Region */
   region: string;
-  credentials_group?: string;
+  credentials_group?: string | undefined;
 }
 export interface AccessKey {
   displayName: string;

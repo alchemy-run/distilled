@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -149,7 +150,7 @@ export interface AssociateProfileRequest {
   ProfileId: string;
   ResourceId: string;
   Name: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type AccountId = string;
 export type ProfileStatus =
@@ -162,18 +163,18 @@ export type ProfileStatus =
   | (string & {});
 export type Rfc3339Timestamp = Date;
 export interface ProfileAssociation {
-  Id?: string;
-  Name?: string;
-  OwnerId?: string;
-  ProfileId?: string;
-  ResourceId?: string;
-  Status?: ProfileStatus;
-  StatusMessage?: string;
-  CreationTime?: Date;
-  ModificationTime?: Date;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  OwnerId?: string | undefined;
+  ProfileId?: string | undefined;
+  ResourceId?: string | undefined;
+  Status?: ProfileStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreationTime?: Date | undefined;
+  ModificationTime?: Date | undefined;
 }
 export interface AssociateProfileResponse {
-  ProfileAssociation?: ProfileAssociation;
+  ProfileAssociation?: ProfileAssociation | undefined;
 }
 export type Arn = string;
 export type ResourceProperties = string;
@@ -181,122 +182,122 @@ export interface AssociateResourceToProfileRequest {
   ProfileId: string;
   ResourceArn: string;
   Name: string;
-  ResourceProperties?: string;
+  ResourceProperties?: string | undefined;
 }
 export interface ProfileResourceAssociation {
-  Id?: string;
-  Name?: string;
-  OwnerId?: string;
-  ProfileId?: string;
-  ResourceArn?: string;
-  ResourceType?: string;
-  ResourceProperties?: string;
-  Status?: ProfileStatus;
-  StatusMessage?: string;
-  CreationTime?: Date;
-  ModificationTime?: Date;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  OwnerId?: string | undefined;
+  ProfileId?: string | undefined;
+  ResourceArn?: string | undefined;
+  ResourceType?: string | undefined;
+  ResourceProperties?: string | undefined;
+  Status?: ProfileStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreationTime?: Date | undefined;
+  ModificationTime?: Date | undefined;
 }
 export interface AssociateResourceToProfileResponse {
-  ProfileResourceAssociation?: ProfileResourceAssociation;
+  ProfileResourceAssociation?: ProfileResourceAssociation | undefined;
 }
 export type CreatorRequestId = string;
 export interface CreateProfileRequest {
   Name: string;
   ClientToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type ShareStatus = "NOT_SHARED" | "SHARED_WITH_ME" | "SHARED_BY_ME" | (string & {});
 export interface Profile {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  OwnerId?: string;
-  Status?: ProfileStatus;
-  StatusMessage?: string;
-  ShareStatus?: ShareStatus;
-  CreationTime?: Date;
-  ModificationTime?: Date;
-  ClientToken?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  OwnerId?: string | undefined;
+  Status?: ProfileStatus | undefined;
+  StatusMessage?: string | undefined;
+  ShareStatus?: ShareStatus | undefined;
+  CreationTime?: Date | undefined;
+  ModificationTime?: Date | undefined;
+  ClientToken?: string | undefined;
 }
 export interface CreateProfileResponse {
-  Profile?: Profile;
+  Profile?: Profile | undefined;
 }
 export interface DeleteProfileRequest {
   ProfileId: string;
 }
 export interface DeleteProfileResponse {
-  Profile?: Profile;
+  Profile?: Profile | undefined;
 }
 export interface DisassociateProfileRequest {
   ProfileId: string;
   ResourceId: string;
 }
 export interface DisassociateProfileResponse {
-  ProfileAssociation?: ProfileAssociation;
+  ProfileAssociation?: ProfileAssociation | undefined;
 }
 export interface DisassociateResourceFromProfileRequest {
   ProfileId: string;
   ResourceArn: string;
 }
 export interface DisassociateResourceFromProfileResponse {
-  ProfileResourceAssociation?: ProfileResourceAssociation;
+  ProfileResourceAssociation?: ProfileResourceAssociation | undefined;
 }
 export interface GetProfileRequest {
   ProfileId: string;
 }
 export interface GetProfileResponse {
-  Profile?: Profile;
+  Profile?: Profile | undefined;
 }
 export interface GetProfileAssociationRequest {
   ProfileAssociationId: string;
 }
 export interface GetProfileAssociationResponse {
-  ProfileAssociation?: ProfileAssociation;
+  ProfileAssociation?: ProfileAssociation | undefined;
 }
 export interface GetProfileResourceAssociationRequest {
   ProfileResourceAssociationId: string;
 }
 export interface GetProfileResourceAssociationResponse {
-  ProfileResourceAssociation?: ProfileResourceAssociation;
+  ProfileResourceAssociation?: ProfileResourceAssociation | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListProfileAssociationsRequest {
-  ResourceId?: string;
-  ProfileId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ResourceId?: string | undefined;
+  ProfileId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ProfileAssociations = ProfileAssociation[];
 export interface ListProfileAssociationsResponse {
-  ProfileAssociations?: ProfileAssociation[];
-  NextToken?: string;
+  ProfileAssociations?: ProfileAssociation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProfileResourceAssociationsRequest {
   ProfileId: string;
-  ResourceType?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ResourceType?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ProfileResourceAssociations = ProfileResourceAssociation[];
 export interface ListProfileResourceAssociationsResponse {
-  ProfileResourceAssociations?: ProfileResourceAssociation[];
-  NextToken?: string;
+  ProfileResourceAssociations?: ProfileResourceAssociation[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListProfilesRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ProfileSummary {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  ShareStatus?: ShareStatus;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  ShareStatus?: ShareStatus | undefined;
 }
 export type ProfileSummaryList = ProfileSummary[];
 export interface ListProfilesResponse {
-  ProfileSummaries?: ProfileSummary[];
-  NextToken?: string;
+  ProfileSummaries?: ProfileSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
@@ -318,11 +319,11 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateProfileResourceAssociationRequest {
   ProfileResourceAssociationId: string;
-  Name?: string;
-  ResourceProperties?: string;
+  Name?: string | undefined;
+  ResourceProperties?: string | undefined;
 }
 export interface UpdateProfileResourceAssociationResponse {
-  ProfileResourceAssociation?: ProfileResourceAssociation;
+  ProfileResourceAssociation?: ProfileResourceAssociation | undefined;
 }
 export type ExceptionMessage = string;
 export type AssociateProfileError =
@@ -340,7 +341,7 @@ export type AssociateProfileError =
  * For more information, see https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DNSLimitations.html#limits-api-entities.
  */
 export const associateProfile: API.OperationMethod<
-  AssociateProfileRequest,
+  AssociateProfileRequest & RegionInput,
   AssociateProfileResponse,
   AssociateProfileError,
   Credentials | HttpClient.HttpClient
@@ -378,7 +379,7 @@ export type AssociateResourceToProfileError =
  * Associates a DNS reource configuration to a Route 53 Profile.
  */
 export const associateResourceToProfile: API.OperationMethod<
-  AssociateResourceToProfileRequest,
+  AssociateResourceToProfileRequest & RegionInput,
   AssociateResourceToProfileResponse,
   AssociateResourceToProfileError,
   Credentials | HttpClient.HttpClient
@@ -413,7 +414,7 @@ export type CreateProfileError =
  * Creates an empty Route 53 Profile.
  */
 export const createProfile: API.OperationMethod<
-  CreateProfileRequest,
+  CreateProfileRequest & RegionInput,
   CreateProfileResponse,
   CreateProfileError,
   Credentials | HttpClient.HttpClient
@@ -445,7 +446,7 @@ export type DeleteProfileError =
  * Deletes the specified Route 53 Profile. Before you can delete a profile, you must first disassociate it from all VPCs.
  */
 export const deleteProfile: API.OperationMethod<
-  DeleteProfileRequest,
+  DeleteProfileRequest & RegionInput,
   DeleteProfileResponse,
   DeleteProfileError,
   Credentials | HttpClient.HttpClient
@@ -478,7 +479,7 @@ export type DisassociateProfileError =
  * Dissociates a specified Route 53 Profile from the specified VPC.
  */
 export const disassociateProfile: API.OperationMethod<
-  DisassociateProfileRequest,
+  DisassociateProfileRequest & RegionInput,
   DisassociateProfileResponse,
   DisassociateProfileError,
   Credentials | HttpClient.HttpClient
@@ -514,7 +515,7 @@ export type DisassociateResourceFromProfileError =
  * Dissoaciated a specified resource, from the Route 53 Profile.
  */
 export const disassociateResourceFromProfile: API.OperationMethod<
-  DisassociateResourceFromProfileRequest,
+  DisassociateResourceFromProfileRequest & RegionInput,
   DisassociateResourceFromProfileResponse,
   DisassociateResourceFromProfileError,
   Credentials | HttpClient.HttpClient
@@ -548,7 +549,7 @@ export type GetProfileError =
  * Returns information about a specified Route 53 Profile, such as whether whether the Profile is shared, and the current status of the Profile.
  */
 export const getProfile: API.OperationMethod<
-  GetProfileRequest,
+  GetProfileRequest & RegionInput,
   GetProfileResponse,
   GetProfileError,
   Credentials | HttpClient.HttpClient
@@ -578,7 +579,7 @@ export type GetProfileAssociationError =
  * Retrieves a Route 53 Profile association for a VPC. A VPC can have only one Profile association, but a Profile can be associated with up to 5000 VPCs.
  */
 export const getProfileAssociation: API.OperationMethod<
-  GetProfileAssociationRequest,
+  GetProfileAssociationRequest & RegionInput,
   GetProfileAssociationResponse,
   GetProfileAssociationError,
   Credentials | HttpClient.HttpClient
@@ -609,7 +610,7 @@ export type GetProfileResourceAssociationError =
  * Returns information about a specified Route 53 Profile resource association.
  */
 export const getProfileResourceAssociation: API.OperationMethod<
-  GetProfileResourceAssociationRequest,
+  GetProfileResourceAssociationRequest & RegionInput,
   GetProfileResourceAssociationResponse,
   GetProfileResourceAssociationError,
   Credentials | HttpClient.HttpClient
@@ -641,7 +642,7 @@ export type ListProfileAssociationsError =
  * Lists all the VPCs that the specified Route 53 Profile is associated with.
  */
 export const listProfileAssociations: API.PaginatedOperationMethod<
-  ListProfileAssociationsRequest,
+  ListProfileAssociationsRequest & RegionInput,
   ListProfileAssociationsResponse,
   ListProfileAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -682,7 +683,7 @@ export type ListProfileResourceAssociationsError =
  * Lists all the resource associations for the specified Route 53 Profile.
  */
 export const listProfileResourceAssociations: API.PaginatedOperationMethod<
-  ListProfileResourceAssociationsRequest,
+  ListProfileResourceAssociationsRequest & RegionInput,
   ListProfileResourceAssociationsResponse,
   ListProfileResourceAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -723,7 +724,7 @@ export type ListProfilesError =
  * Lists all the Route 53 Profiles associated with your Amazon Web Services account.
  */
 export const listProfiles: API.PaginatedOperationMethod<
-  ListProfilesRequest,
+  ListProfilesRequest & RegionInput,
   ListProfilesResponse,
   ListProfilesError,
   Credentials | HttpClient.HttpClient,
@@ -762,7 +763,7 @@ export type ListTagsForResourceError =
  * Lists the tags that you associated with the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -793,7 +794,7 @@ export type TagResourceError =
  * Adds one or more tags to a specified resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -824,7 +825,7 @@ export type UntagResourceError =
  * Removes one or more tags from a specified resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -859,7 +860,7 @@ export type UpdateProfileResourceAssociationError =
  * Updates the specified Route 53 Profile resourse association.
  */
 export const updateProfileResourceAssociation: API.OperationMethod<
-  UpdateProfileResourceAssociationRequest,
+  UpdateProfileResourceAssociationRequest & RegionInput,
   UpdateProfileResourceAssociationResponse,
   UpdateProfileResourceAssociationError,
   Credentials | HttpClient.HttpClient

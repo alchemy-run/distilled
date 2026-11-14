@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { dnsSuffix } from "@distilled.cloud/s3/rules-engine/aws-functions";
 import * as Console from "effect/Console";
 import * as Effect from "effect/Effect";
 import * as FileSystem from "effect/FileSystem";
@@ -243,7 +244,7 @@ export const makeAuthService = () =>
       }
 
       const refreshed = yield* client
-        .post(`https://oidc.${ssoRegion}.amazonaws.com/token`, {
+        .post(`https://oidc.${ssoRegion}.${dnsSuffix(ssoRegion)}/token`, {
           headers: { "User-Agent": "alchemy.run" },
           body: HttpBody.jsonUnsafe({
             clientId,
@@ -448,7 +449,7 @@ export const makeAuthService = () =>
           : ssoToken.accessToken;
 
         const response = yield* client.get(
-          `https://portal.sso.${profile.sso_region}.amazonaws.com/federation/credentials?account_id=${profile.sso_account_id}&role_name=${profile.sso_role_name}`,
+          `https://portal.sso.${profile.sso_region}.${dnsSuffix(profile.sso_region!)}/federation/credentials?account_id=${profile.sso_account_id}&role_name=${profile.sso_role_name}`,
           {
             headers: {
               "User-Agent": "alchemy.run",

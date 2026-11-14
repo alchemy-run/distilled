@@ -1,0 +1,459 @@
+{
+  "description": "Type the not-found and already-exists failures of the sandbox operations. Daytona's API (NestJS) throws NotFoundException (404) / ConflictException (409) with a `{ statusCode, message, error }` body; observed in the open-source daytonaio/daytona apps/api controllers/services at v0.190.0 (AGPL, archived June 2026). The OpenAPI document declares no error responses, so every failure surfaced as the generic status union. Each tag matches on status alone because every listed operation addresses exactly one resource of that kind by id or name. To be confirmed against the live API before merge.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#SandboxAlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "A sandbox with that name already exists (HTTP 409).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#SandboxNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The sandbox does not exist (HTTP 404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#ArchiveSandbox/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#CreateSandbox/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxAlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#CreateSandboxSnapshot/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#CreateSshAccess/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#DeleteSandbox/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#ExpireSignedPortPreviewUrl/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#ForkSandbox/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetBuildLogsUrl/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetOrganizationBySandboxId/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetPortPreviewUrl/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetRegionQuotaBySandboxId/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetSandbox/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetSandboxAncestors/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetSandboxForks/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetSandboxLogs/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetSandboxMetrics/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetSandboxParent/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetSandboxSigningKey/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetSandboxTraceSpans/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetSandboxTraces/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetSignedPortPreviewUrl/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#GetToolboxProxyUrl/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#PauseSandbox/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#RecoverSandbox/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#ReplaceLabels/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#ResizeSandbox/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#ResolveSandboxSecrets/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#RevokeSshAccess/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#RotateSigningKey/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#SetAutoArchiveInterval/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#SetAutoDeleteInterval/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#SetAutoPauseInterval/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#SetAutostopInterval/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#SetTtl/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#StartSandbox/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#StopSandbox/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#UpdateLastActivity/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#UpdateNetworkSettings/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#UpdatePublicStatus/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#UpdateSandboxSecrets/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.sandbox#UpdateSandboxState/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.sandbox#SandboxNotFound"
+        }
+      ]
+    }
+  ]
+}

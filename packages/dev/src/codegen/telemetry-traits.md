@@ -66,6 +66,7 @@ On each operation shape.
 | `copy` | `{ from: to }`: attributes recorded under a second name once the request is built (Lambda `Invoke`: `cloud.region` -> `faas.invoked_region`). |
 | `inject` | Write the span's trace context into the request's messages (see below). |
 | `extract` | Link the span to the trace context the response's messages carry (see below). |
+| `stream` | `{ member, firstChunk?, events? }`: the span covers the caller's read of this streamed output member, and `events` reads attributes from its items (see below). |
 
 ### Message trace context
 
@@ -95,6 +96,46 @@ the caller set is kept. Formats:
 
 Nothing is injected or linked when no span is recorded (no exporter
 installed).
+
+### When the span ends
+
+An operation span ends when the call returns: after the response headers
+and the decoding of the response, after every retry. A streamed output
+member (S3 `GetObject`'s `Body`) is read later by the caller, outside the
+span, as in the OpenTelemetry AWS SDK instrumentations and the HTTP client
+span conventions ("SHOULD end sometime after the HTTP response headers are
+fully read").
+
+`stream` changes that for one operation. The GenAI conventions end a span
+"when the response is fully received", so Bedrock `ConverseStream` carries
+`{ "member": "stream", "firstChunk": "gen_ai.response.time_to_first_chunk" }`:
+its span ends when the caller has read `stream` to its end, and records the
+seconds from the span's start to the first event. An error while reading
+fails the span and sets `error.type`; a caller that stops early
+(`Stream.take`) ends it then, with success. A stream the caller never reads
+never ends the span, as in the OpenTelemetry instrumentations.
+`TelemetryHooks`' `onEnd` and the `rpc.client.call.duration` histogram
+still run when the call returns. With `TelemetryDebug.layer`, a
+`distilled.read_stream` span under the operation span covers the read, with
+`distilled.stream.member`, `distilled.stream.items` and
+`distilled.stream.bytes`.
+
+`events` reads attributes from the stream's items as the caller reads
+them: rules like an output member's, keyed by the event (union) member.
+`ConverseStream` returns its usage and finish reason as events, where
+`Converse` returns them in its output:
+
+```json
+"events": {
+  "metadata": [{ "name": "gen_ai.usage.input_tokens", "field": "usage.inputTokens" }],
+  "messageStop": [
+    { "name": "gen_ai.response.finish_reasons", "field": "stopReason", "transform": "list" }
+  ]
+}
+```
+
+A caller that stops reading before an event records none of its
+attributes.
 
 ## `com.distilled.telemetry#attributes`
 
@@ -195,11 +236,12 @@ operation never bundles that code:
 | `#operation` `extract` (`awsMessageAttributes`) | `core/telemetry-message-context` | `extract: TxMessage.extractAwsMessageAttributes({ member, list?, request? })` |
 | `#operation` `inject` (`xrayTraceHeader`) | `core/telemetry-xray` | `inject: TxXray.injectTraceHeader({ member, list? })` |
 | `#operation` `inject` (`lambdaClientContext`) | `core/telemetry-lambda-context` | `inject: TxLambda.injectLambdaClientContext({ member })` |
+| `#operation` `stream` | `core/telemetry-stream` | `hold: TxStream.holdForStream({ member, firstChunk?, events? })` |
 | `#service` `hosts` | `core/telemetry-host-rules` | `onRequest: TxHost.hostRules([...])` |
 | `#service` `propagation` (`xray`) | `core/telemetry-xray` | `propagate: TxXray.propagate` |
 | `#service` `propagation` (`w3c`) | (core) | `propagate: "w3c"` |
 
-Member names in `inject` and `extract` are the generated property names.
+Member names in `inject`, `extract` and `stream` (and the event names in `events`) are the generated property names.
 
 ### Compact `span` config
 
@@ -266,6 +308,6 @@ do not use it never bundle it.
 
 | Layer | Adds |
 | --- | --- |
-| `TelemetryDebug.layer` (`core/telemetry-debug`) | spans for distilled's internals; `layerWith({ logRequests: true })` also logs each request to stderr |
+| `TelemetryDebug.layer` (`core/telemetry-debug`) | spans for distilled's internals, and `Effect.logDebug` lines for each call and HTTP exchange |
 | `TelemetryMetrics.layer` (`core/telemetry-metrics`) | the `rpc.client.call.duration` histogram (seconds) per call, with `rpc.system.name`, `rpc.method`, `error.type` |
 | `TelemetryHooks.layer({ onStart, onEnd })` (`core/telemetry-hooks`) | app callbacks on each recorded operation span |

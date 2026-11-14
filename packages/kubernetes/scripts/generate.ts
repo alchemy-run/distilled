@@ -23,6 +23,39 @@ const NULLABLE_TRAIT = "com.distilled.openapi#nullable";
 const ERROR_MATCHERS_TRAIT = "com.distilled.openapi#errorMatchers";
 const RAW_RESPONSE_TRAIT = "com.distilled.openapi#rawResponse";
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
+/** A resource field added to a patch operation's input (see mergePatchFields). */
+const MERGE_PATCH_TRAIT = "com.distilled.kubernetes#mergePatch";
+
+/**
+ * Patch operations take the resource's own fields, as create and replace
+ * do: `patchAppsV1NamespacedStatefulSet({ namespace, name, contentType,
+ * spec: { replicas: 3 } })`. The fields come from the operation's output (the
+ * patched resource), all optional and typed `T.MergePatch<…>`, so a partial
+ * object type-checks. patches/<group>/004-patch-body-and-type.patch.json
+ * marks the patch operations (a `contentType` of type `PatchType`) and adds
+ * the `patch` payload member a JSON patch array goes in. A path or query
+ * parameter wins a name clash.
+ */
+const mergePatchFields = (model: { shapes: Record<string, any> }): string | void => {
+  const shapes = model.shapes;
+  let ops = 0;
+  for (const def of Object.values(shapes)) {
+    if (def?.type !== "operation") continue;
+    const input = shapes[def.input?.target];
+    const output = shapes[def.output?.target];
+    if (!String(input?.members?.contentType?.target).endsWith("#PatchType")) continue;
+    if (output?.type !== "structure") {
+      throw new Error(`patch operation output ${def.output?.target} is not a structure`);
+    }
+    for (const [name, m] of Object.entries<any>(output.members ?? {})) {
+      if (name in input.members) continue;
+      const { "smithy.api#required": _required, ...traits } = m.traits ?? {};
+      input.members[name] = { ...m, traits: { ...traits, [MERGE_PATCH_TRAIT]: {} } };
+    }
+    ops++;
+  }
+  return ops ? `added resource fields to ${ops} patch operations` : undefined;
+};
 
 /** Kubernetes' provider spec for the shared smithy→SDK compiler. */
 const kubernetesSpec: SdkSpec = {
@@ -47,10 +80,12 @@ const kubernetesSpec: SdkSpec = {
   memberTraitPipes: {
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
   },
-  memberTsType: (m) =>
+  memberTsType: (m, tsRef) =>
     SENSITIVE_TRAIT in m.traits
       ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
-      : undefined,
+      : MERGE_PATCH_TRAIT in m.traits && !m.target.startsWith("smithy.api#")
+        ? `T.MergePatch<${tsRef(m.target)}>`
+        : undefined,
 
   // Swagger 2.0 has no oneOf/anyOf, so unions should not occur; kept as a
   // safe default (opaque schema + TS type union) should the spec grow any.
@@ -86,5 +121,6 @@ runGeneratorCli({
   // patches/ holds Swagger-document patches consumed by scripts/convert.ts;
   // there is no smithy-model patch chain.
   patchesDir: false,
+  transformModel: (model) => mergePatchFields(model),
   spec: () => kubernetesSpec,
 });

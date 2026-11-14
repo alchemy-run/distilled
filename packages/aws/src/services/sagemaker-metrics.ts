@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -99,17 +100,17 @@ export type MetricStatistic = "Min" | "Max" | "Avg" | "Count" | "StdDev" | "Last
 export type Period = "OneMinute" | "FiveMinute" | "OneHour" | "IterationNumber" | (string & {});
 export type XAxisType = "IterationNumber" | "Timestamp" | (string & {});
 export interface MetricQuery {
-  MetricName?: string;
-  ResourceArn?: string;
-  MetricStat?: MetricStatistic;
-  Period?: Period;
-  XAxisType?: XAxisType;
-  Start?: number;
-  End?: number;
+  MetricName?: string | undefined;
+  ResourceArn?: string | undefined;
+  MetricStat?: MetricStatistic | undefined;
+  Period?: Period | undefined;
+  XAxisType?: XAxisType | undefined;
+  Start?: number | undefined;
+  End?: number | undefined;
 }
 export type MetricQueryList = MetricQuery[];
 export interface BatchGetMetricsRequest {
-  MetricQueries?: MetricQuery[];
+  MetricQueries?: MetricQuery[] | undefined;
 }
 export type MetricQueryResultStatus =
   | "Complete"
@@ -121,31 +122,33 @@ export type Message = string;
 export type XAxisValues = number[];
 export type MetricValues = number[];
 export interface MetricQueryResult {
-  Status?: MetricQueryResultStatus;
-  Message?: string;
-  XAxisValues?: number[];
-  MetricValues?: number[];
+  Status?: MetricQueryResultStatus | undefined;
+  Message?: string | undefined;
+  XAxisValues?: number[] | undefined;
+  MetricValues?: number[] | undefined;
 }
 export type MetricQueryResultList = MetricQueryResult[];
 export interface BatchGetMetricsResponse {
-  MetricQueryResults?: (MetricQueryResult & {
-    Status: MetricQueryResultStatus;
-    XAxisValues: XAxisValues;
-    MetricValues: MetricValues;
-  })[];
+  MetricQueryResults?:
+    | (MetricQueryResult & {
+        Status: MetricQueryResultStatus;
+        XAxisValues: XAxisValues;
+        MetricValues: MetricValues;
+      })[]
+    | undefined;
 }
 export type ExperimentEntityName = string;
 export type Step = number;
 export interface RawMetricData {
-  MetricName?: string;
-  Timestamp?: Date;
-  Step?: number;
-  Value?: number;
+  MetricName?: string | undefined;
+  Timestamp?: Date | undefined;
+  Step?: number | undefined;
+  Value?: number | undefined;
 }
 export type RawMetricDataList = RawMetricData[];
 export interface BatchPutMetricsRequest {
-  TrialComponentName?: string;
-  MetricData?: RawMetricData[];
+  TrialComponentName?: string | undefined;
+  MetricData?: RawMetricData[] | undefined;
 }
 export type PutMetricsErrorCode =
   | "METRIC_LIMIT_EXCEEDED"
@@ -154,19 +157,19 @@ export type PutMetricsErrorCode =
   | "CONFLICT_ERROR"
   | (string & {});
 export interface BatchPutMetricsError_ {
-  Code?: PutMetricsErrorCode;
-  MetricIndex?: number;
+  Code?: PutMetricsErrorCode | undefined;
+  MetricIndex?: number | undefined;
 }
 export type BatchPutMetricsErrorList = BatchPutMetricsError_[];
 export interface BatchPutMetricsResponse {
-  Errors?: BatchPutMetricsError_[];
+  Errors?: BatchPutMetricsError_[] | undefined;
 }
 export type BatchGetMetricsError = CommonErrors;
 /**
  * Used to retrieve training metrics from SageMaker.
  */
 export const batchGetMetrics: API.OperationMethod<
-  BatchGetMetricsRequest,
+  BatchGetMetricsRequest & RegionInput,
   BatchGetMetricsResponse,
   BatchGetMetricsError,
   Credentials | HttpClient.HttpClient
@@ -186,7 +189,7 @@ export type BatchPutMetricsError = CommonErrors;
  * Used to ingest training metrics into SageMaker. These metrics can be visualized in SageMaker Studio.
  */
 export const batchPutMetrics: API.OperationMethod<
-  BatchPutMetricsRequest,
+  BatchPutMetricsRequest & RegionInput,
   BatchPutMetricsResponse,
   BatchPutMetricsError,
   Credentials | HttpClient.HttpClient

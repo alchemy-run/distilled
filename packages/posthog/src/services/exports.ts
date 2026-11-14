@@ -64,23 +64,23 @@ export type ExportedAssetCreateExportFormatEnum =
 export interface CreateExportRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  dashboard?: number | null;
-  insight?: number | null;
+  dashboard?: number | null | undefined;
+  insight?: number | null | undefined;
   /** File format to generate. Dataset JSONL exports use the dataset export endpoint. * `image/png` - image/png * `application/pdf` - application/pdf * `text/csv` - text/csv * `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet * `video/webm` - video/webm * `video/mp4` - video/mp4 * `image/gif` - image/gif * `application/json` - application/json */
   export_format: ExportedAssetCreateExportFormatEnum | (string & {});
-  export_context?: unknown;
+  export_context?: unknown | undefined;
 }
 /** Standard ExportedAsset serializer that doesn't return content. */
 export interface ExportedAssetCreate {
   id: number;
-  dashboard?: number | null;
-  insight?: number | null;
+  dashboard?: number | null | undefined;
+  insight?: number | null | undefined;
   /** File format to generate. Dataset JSONL exports use the dataset export endpoint. * `image/png` - image/png * `application/pdf` - application/pdf * `text/csv` - text/csv * `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet * `video/webm` - video/webm * `video/mp4` - video/mp4 * `image/gif` - image/gif * `application/json` - application/json */
   export_format: ExportedAssetCreateExportFormatEnum;
   created_at: string;
   /** Whether the export finished and its content is ready to download. Create can return before the export finishes; poll the asset until has_content is true or exception is set. */
   has_content: boolean;
-  export_context?: unknown;
+  export_context?: unknown | undefined;
   filename: string;
   expires_after: string | null;
   exception: string | null;
@@ -106,20 +106,20 @@ export type ExportedAssetExportFormatEnum =
   | "application/x-ndjson";
 /** Standard ExportedAsset serializer that doesn't return content. */
 export interface ExportedAsset {
-  id?: number;
-  dashboard?: number | null;
-  insight?: number | null;
+  id?: number | undefined;
+  dashboard?: number | null | undefined;
+  insight?: number | null | undefined;
   /** File format of the generated export. * `image/png` - image/png * `application/pdf` - application/pdf * `text/csv` - text/csv * `application/vnd.openxmlformats-officedocument.spreadsheetml.sheet` - application/vnd.openxmlformats-officedocument.spreadsheetml.sheet * `video/webm` - video/webm * `video/mp4` - video/mp4 * `image/gif` - image/gif * `application/json` - application/json * `application/x-ndjson` - application/x-ndjson */
-  export_format?: ExportedAssetExportFormatEnum;
-  created_at?: string;
+  export_format?: ExportedAssetExportFormatEnum | undefined;
+  created_at?: string | undefined;
   /** Whether the export finished and its content is ready to download. Create can return before the export finishes; poll the asset until has_content is true or exception is set. */
-  has_content?: boolean;
-  export_context?: unknown;
-  filename?: string;
-  expires_after?: string | null;
-  exception?: string | null;
+  has_content?: boolean | undefined;
+  export_context?: unknown | undefined;
+  filename?: string | undefined;
+  expires_after?: string | null | undefined;
+  exception?: string | null | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
 }
 export interface GetExportsContentRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -132,16 +132,16 @@ export interface ListExportsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedExportedAssetListResultsList = Array<ExportedAsset>;
 export interface PaginatedExportedAssetList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedExportedAssetListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedExportedAssetListResultsList | undefined;
 }
 export type CreateExportError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createExport: API.OperationMethod<

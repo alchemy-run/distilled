@@ -57,7 +57,7 @@ export interface GetTrackerRequest {
   /** The ID of the tracker in the <code><var>transaction_id</var>-<var>tracking_number</var></code> format. */
   id: string;
   /** Encrypted PayPal Account ID of the buyer or seller. */
-  account_id?: string;
+  account_id?: string | undefined;
 }
 /** The tracking number type. */
 export type TrackingNumberType = "CARRIER_PROVIDED" | "E2E_PARTNER_PROVIDED";
@@ -919,7 +919,7 @@ export interface LinkDescription {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: LinkDescriptionMethod;
+  method?: LinkDescriptionMethod | undefined;
 }
 /** An array of request-related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type LinkDescriptionList = Array<LinkDescription>;
@@ -928,42 +928,42 @@ export interface Tracker {
   /** The PayPal transaction ID. */
   transaction_id: string;
   /** The tracking number for the shipment. Carrier information, `carrier` is required if tracking_number is provided. */
-  tracking_number?: string;
+  tracking_number?: string | undefined;
   /** The type of tracking number. */
-  tracking_number_type?: TrackingNumberType;
+  tracking_number_type?: TrackingNumberType | undefined;
   status: TrackingStatus;
   /** The date when the shipment occurred, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  shipment_date?: string;
-  carrier?: Carrier;
+  shipment_date?: string | undefined;
+  carrier?: Carrier | undefined;
   /** The name of the carrier for the shipment. Provide this value only if the carrier parameter is OTHER. */
-  carrier_name_other?: string;
+  carrier_name_other?: string | undefined;
   /** The postage payment ID. */
-  postage_payment_id?: string;
+  postage_payment_id?: string | undefined;
   /** If true , sends an email notification to the buyer of the PayPal transaction. The email contains the tracking information that was uploaded through the API. */
-  notify_buyer?: boolean;
+  notify_buyer?: boolean | undefined;
   /** The quantity of items shipped. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Indicates whether the carrier validated the tracking number. */
-  tracking_number_validated?: boolean;
+  tracking_number_validated?: boolean | undefined;
   /** The date and time when the tracking information was last updated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  last_updated_time?: string;
+  last_updated_time?: string | undefined;
   /** To denote whether the shipment is sent forward to the receiver or returned back. */
-  shipment_direction?: TrackerShipmentDirection;
+  shipment_direction?: TrackerShipmentDirection | undefined;
   /** To denote which party uploaded the shipment tracking info. */
-  shipment_uploader?: TrackerShipmentUploader;
+  shipment_uploader?: TrackerShipmentUploader | undefined;
   /** Encrypted PayPal Account ID of the buyer or seller. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Tracking Link of the shipment. */
-  tracking_url?: string;
-  links?: LinkDescriptionList;
+  tracking_url?: string | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 export interface GetTrackerBatchRequest {
   /** Filters the tracking information that appears in the response by a PayPal transaction ID. */
   transaction_id: string;
   /** Filters the tracking information that appears in the response by a tracking number. */
-  tracking_number?: string;
+  tracking_number?: string | undefined;
   /** Encrypted PayPal Account ID of the buyer or seller. */
-  account_id?: string;
+  account_id?: string | undefined;
 }
 /** To denote whether the shipment is sent forward to the receiver or returned back. */
 export type TrackerInputShipmentDirection = "FORWARD" | "RETURN";
@@ -972,36 +972,36 @@ export interface TrackerInput {
   /** The PayPal transaction ID. */
   transaction_id: string;
   /** The tracking number for the shipment. Carrier information, `carrier` is required if tracking_number is provided. */
-  tracking_number?: string;
+  tracking_number?: string | undefined;
   /** The type of tracking number. */
-  tracking_number_type?: TrackingNumberType | (string & {});
+  tracking_number_type?: TrackingNumberType | (string & {}) | undefined;
   status: TrackingStatus | (string & {});
   /** The date when the shipment occurred, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  shipment_date?: string;
-  carrier?: Carrier | (string & {});
+  shipment_date?: string | undefined;
+  carrier?: Carrier | (string & {}) | undefined;
   /** The name of the carrier for the shipment. Provide this value only if the carrier parameter is OTHER. */
-  carrier_name_other?: string;
+  carrier_name_other?: string | undefined;
   /** If true , sends an email notification to the buyer of the PayPal transaction. The email contains the tracking information that was uploaded through the API. */
-  notify_buyer?: boolean;
+  notify_buyer?: boolean | undefined;
   /** The date and time when the tracking information was last updated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  last_updated_time?: string;
+  last_updated_time?: string | undefined;
   /** To denote whether the shipment is sent forward to the receiver or returned back. */
-  shipment_direction?: TrackerInputShipmentDirection | (string & {});
+  shipment_direction?: TrackerInputShipmentDirection | (string & {}) | undefined;
   /** Tracking Link of the shipment. */
-  tracking_url?: string;
+  tracking_url?: string | undefined;
 }
 /** An array of tracking information for shipments. */
 export type TrackerListInput = Array<TrackerInput>;
 export interface PostTrackerRequest {
-  trackers?: TrackerListInput;
+  trackers?: TrackerListInput | undefined;
 }
 /** The tracking identifiers for a shipment. */
 export interface TrackerIdentifier {
   /** The PayPal transaction ID. */
   transaction_id: string;
   /** The tracking number for the shipment. */
-  tracking_number?: string;
-  links?: LinkDescriptionList;
+  tracking_number?: string | undefined;
+  links?: LinkDescriptionList | undefined;
 }
 /** An array of tracking IDs. */
 export type DefinitionsTrackerIdentifierList = Array<TrackerIdentifier>;
@@ -1009,11 +1009,11 @@ export type DefinitionsTrackerIdentifierList = Array<TrackerIdentifier>;
 export type TrackerIdentifierCollectionDefinitionsLinkDescriptionList = Array<LinkDescription>;
 /** The add tracking information for a PayPal transaction response details. */
 export interface TrackerIdentifierCollection {
-  tracker_identifiers?: DefinitionsTrackerIdentifierList;
-  links?: TrackerIdentifierCollectionDefinitionsLinkDescriptionList;
+  tracker_identifiers?: DefinitionsTrackerIdentifierList | undefined;
+  links?: TrackerIdentifierCollectionDefinitionsLinkDescriptionList | undefined;
 }
 export interface PostTrackerBatchRequest {
-  trackers?: TrackerListInput;
+  trackers?: TrackerListInput | undefined;
 }
 /** The batch header. */
 export type TrackerIdentifierList = Array<TrackerIdentifier>;
@@ -1034,23 +1034,23 @@ export interface LinkDescription2 {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: LinkDescription2Method;
+  method?: LinkDescription2Method | undefined;
 }
 /** An array of request-related [HATEOAS links](/api/rest/responses/#hateoas-links) that are either relevant to the issue by providing additional information or offering potential resolutions. */
 export type DefinitionsLinkDescriptionList = Array<LinkDescription2>;
 /** The error details. Required for client-side `4XX` errors. */
 export interface ErrorDetails2 {
   /** The field that caused the error. If this field is in the body, set this value to the field's JSON pointer value. Required for client-side errors. */
-  field?: string;
+  field?: string | undefined;
   /** The value of the field that caused the error. */
-  value?: string;
+  value?: string | undefined;
   /** The location of the field that caused the error. Value is `body`, `path`, or `query`. */
-  location?: string;
+  location?: string | undefined;
   /** The unique, fine-grained application-level error code. */
   issue: string;
   /** The human-readable description for an issue. The description can change over the lifetime of an API, so clients must not depend on this value. */
-  description?: string;
-  links?: DefinitionsLinkDescriptionList;
+  description?: string | undefined;
+  links?: DefinitionsLinkDescriptionList | undefined;
 }
 /** An array of additional details about the error. */
 export type ErrorDetailsList = Array<ErrorDetails2>;
@@ -1065,9 +1065,9 @@ export interface Error {
   /** The PayPal internal ID. Used for correlation purposes. */
   debug_id: string;
   /** The information link, or URI, that shows detailed information about this error for the developer. */
-  information_link?: string;
-  details?: ErrorDetailsList;
-  links?: ErrorDefinitionsLinkDescriptionList;
+  information_link?: string | undefined;
+  details?: ErrorDetailsList | undefined;
+  links?: ErrorDefinitionsLinkDescriptionList | undefined;
 }
 /** An array of error responses. */
 export type ErrorList = Array<Error>;
@@ -1075,9 +1075,9 @@ export type ErrorList = Array<Error>;
 export type BatchTrackerCollectionDefinitionsLinkDescriptionList = Array<LinkDescription>;
 /** The add tracking information for multiple PayPal transactions response details. */
 export interface BatchTrackerCollection {
-  tracker_identifiers?: TrackerIdentifierList;
-  errors?: ErrorList;
-  links?: BatchTrackerCollectionDefinitionsLinkDescriptionList;
+  tracker_identifiers?: TrackerIdentifierList | undefined;
+  errors?: ErrorList | undefined;
+  links?: BatchTrackerCollectionDefinitionsLinkDescriptionList | undefined;
 }
 /** To denote whether the shipment is sent forward to the receiver or returned back. */
 export type PutTrackerRequestShipmentDirection = "FORWARD" | "RETURN";
@@ -1087,23 +1087,23 @@ export interface PutTrackerRequest {
   /** The PayPal transaction ID. */
   transaction_id: string;
   /** The tracking number for the shipment. Carrier information, `carrier` is required if tracking_number is provided. */
-  tracking_number?: string;
+  tracking_number?: string | undefined;
   /** The type of tracking number. */
-  tracking_number_type?: TrackingNumberType | (string & {});
+  tracking_number_type?: TrackingNumberType | (string & {}) | undefined;
   status: TrackingStatus | (string & {});
   /** The date when the shipment occurred, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  shipment_date?: string;
-  carrier?: Carrier | (string & {});
+  shipment_date?: string | undefined;
+  carrier?: Carrier | (string & {}) | undefined;
   /** The name of the carrier for the shipment. Provide this value only if the carrier parameter is OTHER. */
-  carrier_name_other?: string;
+  carrier_name_other?: string | undefined;
   /** If true , sends an email notification to the buyer of the PayPal transaction. The email contains the tracking information that was uploaded through the API. */
-  notify_buyer?: boolean;
+  notify_buyer?: boolean | undefined;
   /** The date and time when the tracking information was last updated, in [Internet date and time format](https://tools.ietf.org/html/rfc3339#section-5.6). */
-  last_updated_time?: string;
+  last_updated_time?: string | undefined;
   /** To denote whether the shipment is sent forward to the receiver or returned back. */
-  shipment_direction?: PutTrackerRequestShipmentDirection | (string & {});
+  shipment_direction?: PutTrackerRequestShipmentDirection | (string & {}) | undefined;
   /** Tracking Link of the shipment. */
-  tracking_url?: string;
+  tracking_url?: string | undefined;
 }
 export interface PutTrackerResponse {}
 export type GetTrackerError = PaypalOpError;

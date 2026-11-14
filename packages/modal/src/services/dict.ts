@@ -23,37 +23,82 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** A dict with this name already exists in the environment (gRPC ALREADY_EXISTS). */
+export class DictAlreadyExists
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<DictAlreadyExists>()("DictAlreadyExists", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 6 }],
+  ) {}
+
+/** The dict doesn't exist (gRPC NOT_FOUND). */
+export class DictNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<DictNotFound>()("DictNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5 }],
+  ) {}
+
+/** The environment doesn't exist (gRPC NOT_FOUND). */
+export class EnvironmentNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<EnvironmentNotFound>()("EnvironmentNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5, message: { includes: "Environment" } }],
+  ) {}
+
 export interface ClearDictRequest {
-  dictId?: string;
+  dictId?: string | undefined;
 }
 export interface ClearDictResponse {}
 export interface DeleteDictRequest {
-  dictId?: string;
+  dictId?: string | undefined;
 }
 export interface DeleteDictResponse {}
 export interface DictContainsRequest {
-  dictId?: string;
-  key?: string;
+  dictId?: string | undefined;
+  key?: string | undefined;
 }
 export interface DictContainsResponse {
-  found?: boolean;
+  found: boolean;
+}
+export interface DictContentsRequest {
+  dictId?: string | undefined;
+  /** Setting these to True will populate the corresponding field in the response, otherwise it will be null This lets us support the keys/values/items SDK API through one RPC without unnecessary data transfer */
+  keys?: boolean | undefined;
+  values?: boolean | undefined;
+}
+export interface DictEntry {
+  key?: string | undefined;
+  value?: string | undefined;
+}
+export type DictEntryList = Array<DictEntry>;
+export interface DictContentsStream {
+  /** Every message of the server stream, in order. The stream ends when the server ends it (bound it with the request's timeout). */
+  items: DictEntryList;
 }
 export interface DictGetByIdRequest {
-  dictId?: string;
+  dictId?: string | undefined;
 }
 export interface CreationInfo {
   /** This message is used in metadata for resource objects like Dict, Queue, Volume, etc. */
-  createdAt?: number;
-  /** Timestamp of resource creation */
-  createdBy?: string;
+  createdAt: number;
+  /** User name or service name */
+  createdBy: string;
 }
 export interface DictMetadata {
-  name?: string;
-  creationInfo?: CreationInfo;
+  name: string;
+  creationInfo?: CreationInfo | undefined;
 }
 export interface DictGetByIdResponse {
-  dictId?: string;
-  metadata?: DictMetadata;
+  dictId: string;
+  metadata?: DictMetadata | undefined;
 }
 export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_UNSPECIFIED"
@@ -62,77 +107,72 @@ export type ObjectCreationType =
   | "OBJECT_CREATION_TYPE_CREATE_OVERWRITE_IF_EXISTS"
   | "OBJECT_CREATION_TYPE_ANONYMOUS_OWNED_BY_APP"
   | "OBJECT_CREATION_TYPE_EPHEMERAL";
-export interface DictEntry {
-  key?: string;
-  value?: string;
-}
-export type DictEntryList = Array<DictEntry>;
 export interface DictGetOrCreateRequest {
-  deploymentName?: string;
-  /** removed namespace */
-  environmentName?: string;
-  objectCreationType?: ObjectCreationType | (string & {});
-  data?: DictEntryList;
+  deploymentName?: string | undefined;
+  environmentName?: string | undefined;
+  objectCreationType?: ObjectCreationType | (string & {}) | undefined;
+  /** Unused after 1.4.0 */
+  data?: DictEntryList | undefined;
 }
 export interface DictGetOrCreateResponse {
-  dictId?: string;
-  metadata?: DictMetadata;
+  dictId: string;
+  metadata?: DictMetadata | undefined;
 }
 export interface DictHeartbeatRequest {
-  dictId?: string;
+  dictId?: string | undefined;
 }
 export interface DictHeartbeatResponse {}
 export interface DictLenRequest {
-  dictId?: string;
+  dictId?: string | undefined;
 }
 export interface DictLenResponse {
-  len?: number;
+  len: number;
 }
 export interface DictPopRequest {
-  dictId?: string;
-  key?: string;
+  dictId?: string | undefined;
+  key?: string | undefined;
 }
 export interface DictPopResponse {
-  found?: boolean;
-  value?: string;
+  found: boolean;
+  value?: string | undefined;
 }
 export interface GetDictRequest {
-  dictId?: string;
-  key?: string;
+  dictId?: string | undefined;
+  key?: string | undefined;
 }
 export interface GetDictResponse {
-  found?: boolean;
-  value?: string;
+  found: boolean;
+  value?: string | undefined;
 }
 export interface ListPagination {
-  maxObjects?: number;
-  createdBefore?: number;
+  maxObjects?: number | undefined;
+  createdBefore?: number | undefined;
 }
 export interface ListDictRequest {
-  environmentName?: string;
-  pagination?: ListPagination;
+  environmentName?: string | undefined;
+  pagination?: ListPagination | undefined;
 }
 export interface ListDictResponseDictInfo {
-  name?: string;
-  createdAt?: number;
+  name: string;
   /** Superseded by metadata, used by clients up to 1.1.2 */
-  dictId?: string;
-  metadata?: DictMetadata;
+  createdAt: number;
+  dictId: string;
+  metadata?: DictMetadata | undefined;
 }
 export type ListDictResponseDictInfoList = Array<ListDictResponseDictInfo>;
 export interface ListDictResponse {
-  dicts?: ListDictResponseDictInfoList;
-  environmentName?: string;
+  dicts: ListDictResponseDictInfoList;
+  environmentName: string;
 }
 export interface UpdateDictRequest {
-  dictId?: string;
-  updates?: DictEntryList;
-  ifNotExists?: boolean;
+  dictId?: string | undefined;
+  updates?: DictEntryList | undefined;
+  ifNotExists?: boolean | undefined;
 }
 export interface UpdateDictResponse {
-  created?: boolean;
+  created: boolean;
 }
-export type ClearDictError = ModalOpError;
+export type ClearDictError = DictNotFound | ModalOpError;
 /** Dicts */
 export const clearDict: API.OperationMethod<
   ClearDictRequest,
@@ -140,73 +180,93 @@ export const clearDict: API.OperationMethod<
   ClearDictError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ClearDictRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<ClearDictResponse>,
-  errors: [UnknownModalError],
+  input: __S(48, __c6, 0) as any as S.Schema<ClearDictRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<ClearDictResponse>,
+  errors: [DictNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ClearDict",
 }));
 
-export type DeleteDictError = ModalOpError;
+export type DeleteDictError = DictNotFound | ModalOpError;
 export const deleteDict: API.OperationMethod<
   DeleteDictRequest,
   DeleteDictResponse,
   DeleteDictError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<DeleteDictRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<DeleteDictResponse>,
-  errors: [UnknownModalError],
+  input: __S(64, __c8, 0) as any as S.Schema<DeleteDictRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<DeleteDictResponse>,
+  errors: [DictNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteDict",
 }));
 
-export type DictContainsError = ModalOpError;
+export type DictContainsError = DictNotFound | ModalOpError;
 export const dictContains: API.OperationMethod<
   DictContainsRequest,
   DictContainsResponse,
   DictContainsError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<DictContainsRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<DictContainsResponse>,
-  errors: [UnknownModalError],
+  input: __S(72, __c9, 0) as any as S.Schema<DictContainsRequest>,
+  output: __S(73, __c9, 1) as any as S.Schema<DictContainsResponse>,
+  errors: [DictNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DictContains",
 }));
 
-export type DictGetByIdError = ModalOpError;
+export type DictContentsError = DictNotFound | ModalOpError;
+export const dictContents: API.StreamingOperationMethod<
+  DictContentsRequest,
+  DictContentsStream,
+  DictContentsError,
+  ModalOpContext
+> = /*@__PURE__*/ API.makeStreaming(() => ({
+  input: __S(80, __c10, 0) as any as S.Schema<DictContentsRequest>,
+  output: __S(81, __c10, 1) as any as S.Schema<DictContentsStream>,
+  errors: [DictNotFound, UnknownModalError],
+  protocol: ModalProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "DictContents",
+}));
+
+export type DictGetByIdError = DictNotFound | ModalOpError;
 export const dictGetById: API.OperationMethod<
   DictGetByIdRequest,
   DictGetByIdResponse,
   DictGetByIdError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<DictGetByIdRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<DictGetByIdResponse>,
-  errors: [UnknownModalError],
+  input: __S(96, __c12, 0) as any as S.Schema<DictGetByIdRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<DictGetByIdResponse>,
+  errors: [DictNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DictGetById",
 }));
 
-export type DictGetOrCreateError = ModalOpError;
+export type DictGetOrCreateError =
+  | DictNotFound
+  | DictAlreadyExists
+  | EnvironmentNotFound
+  | ModalOpError;
 export const dictGetOrCreate: API.OperationMethod<
   DictGetOrCreateRequest,
   DictGetOrCreateResponse,
   DictGetOrCreateError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<DictGetOrCreateRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<DictGetOrCreateResponse>,
-  errors: [UnknownModalError],
+  input: __S(120, __c15, 0) as any as S.Schema<DictGetOrCreateRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<DictGetOrCreateResponse>,
+  errors: [DictNotFound, DictAlreadyExists, EnvironmentNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -220,8 +280,8 @@ export const dictHeartbeat: API.OperationMethod<
   DictHeartbeatError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<DictHeartbeatRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<DictHeartbeatResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<DictHeartbeatRequest>,
+  output: __S(56, __c7, 0) as any as S.Schema<DictHeartbeatResponse>,
   errors: [UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
@@ -229,80 +289,88 @@ export const dictHeartbeat: API.OperationMethod<
   span: "DictHeartbeat",
 }));
 
-export type DictLenError = ModalOpError;
+export type DictLenError = DictNotFound | ModalOpError;
 export const dictLen: API.OperationMethod<
   DictLenRequest,
   DictLenResponse,
   DictLenError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<DictLenRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<DictLenResponse>,
-  errors: [UnknownModalError],
+  input: __S(0, __c0, 0) as any as S.Schema<DictLenRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<DictLenResponse>,
+  errors: [DictNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DictLen",
 }));
 
-export type DictPopError = ModalOpError;
+export type DictPopError = DictNotFound | ModalOpError;
 export const dictPop: API.OperationMethod<
   DictPopRequest,
   DictPopResponse,
   DictPopError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<DictPopRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<DictPopResponse>,
-  errors: [UnknownModalError],
+  input: __S(8, __c1, 0) as any as S.Schema<DictPopRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<DictPopResponse>,
+  errors: [DictNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DictPop",
 }));
 
-export type GetDictError = ModalOpError;
+export type GetDictError = DictNotFound | ModalOpError;
 export const getDict: API.OperationMethod<
   GetDictRequest,
   GetDictResponse,
   GetDictError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<GetDictRequest>,
-  output: __S(104, __c13, 0) as any as S.Schema<GetDictResponse>,
-  errors: [UnknownModalError],
+  input: __S(24, __c3, 0) as any as S.Schema<GetDictRequest>,
+  output: __S(16, __c2, 0) as any as S.Schema<GetDictResponse>,
+  errors: [DictNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDict",
 }));
 
-export type ListDictError = ModalOpError;
-export const listDict: API.OperationMethod<
+export type ListDictError = EnvironmentNotFound | ModalOpError;
+export const listDict: API.PaginatedOperationMethod<
   ListDictRequest,
   ListDictResponse,
   ListDictError,
-  ModalOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(121, __c15, 1) as any as S.Schema<ListDictRequest>,
-  output: __S(124, __c15, 4) as any as S.Schema<ListDictResponse>,
-  errors: [UnknownModalError],
+  ModalOpContext,
+  ListDictResponseDictInfo
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(33, __c4, 1) as any as S.Schema<ListDictRequest>,
+  output: __S(36, __c4, 4) as any as S.Schema<ListDictResponse>,
+  errors: [EnvironmentNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDict",
-}));
+  pagination: {
+    mode: "keyset",
+    inputToken: "pagination.createdBefore",
+    outputToken: "metadata.creationInfo.createdAt",
+    items: "dicts",
+    pageSize: "pagination.maxObjects",
+  } as const,
+})) as any;
 
-export type UpdateDictError = ModalOpError;
+export type UpdateDictError = DictNotFound | ModalOpError;
 export const updateDict: API.OperationMethod<
   UpdateDictRequest,
   UpdateDictResponse,
   UpdateDictError,
   ModalOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<UpdateDictRequest>,
-  output: __S(25, __c3, 1) as any as S.Schema<UpdateDictResponse>,
-  errors: [UnknownModalError],
+  input: __S(40, __c5, 0) as any as S.Schema<UpdateDictRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<UpdateDictResponse>,
+  errors: [DictNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -316,17 +384,120 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dictId: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictClear", code: 200 })),
-      ).annotate({ identifier: "ClearDictRequest" });
+        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictLen", code: 200 })),
+      ).annotate({ identifier: "DictLenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          len: S.Number,
+        }),
+      ).annotate({ identifier: "DictLenResponse" });
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "ClearDictResponse" });
+      return S.suspend(() =>
+        S.Struct({
+          dictId: S.optional(S.String),
+          key: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictPop", code: 200 })),
+      ).annotate({ identifier: "DictPopRequest" });
   }
 }
 function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          found: S.Boolean,
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DictPopResponse" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dictId: S.optional(S.String),
+          key: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictGet", code: 200 })),
+      ).annotate({ identifier: "GetDictRequest" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          maxObjects: S.optional(S.Number),
+          createdBefore: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "ListPagination" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          environmentName: S.optional(S.String),
+          pagination: S.optional(__S(32, __c4, 0)),
+        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictList", code: 200 })),
+      ).annotate({ identifier: "ListDictRequest" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          createdAt: S.Number,
+          dictId: S.String,
+          metadata: S.optional(__S(113, __c14, 1)),
+        }),
+      ).annotate({ identifier: "ListDictResponseDictInfo" });
+    case 3:
+      return S.Array(__S(34, __c4, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          dicts: __S(35, __c4, 3),
+          environmentName: S.String,
+        }),
+      ).annotate({ identifier: "ListDictResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dictId: S.optional(S.String),
+          updates: S.optional(__S(89, __c11, 1)),
+          ifNotExists: S.optional(S.Boolean),
+        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictUpdate", code: 200 })),
+      ).annotate({ identifier: "UpdateDictRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          created: S.Boolean,
+        }),
+      ).annotate({ identifier: "UpdateDictResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dictId: S.optional(S.String),
+        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictClear", code: 200 })),
+      ).annotate({ identifier: "ClearDictRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "ClearDictResponse" });
+  }
+}
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -336,25 +507,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "DeleteDictRequest" });
   }
 }
-function __c3(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dictId: S.optional(S.String),
-          updates: S.optional(__S(73, __c9, 1)),
-          ifNotExists: S.optional(S.Boolean),
-        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictUpdate", code: 200 })),
-      ).annotate({ identifier: "UpdateDictRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          created: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "UpdateDictResponse" });
-  }
-}
-function __c4(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -368,12 +521,45 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          found: S.optional(S.Boolean),
+          found: S.Boolean,
         }),
       ).annotate({ identifier: "DictContainsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c10(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          dictId: S.optional(S.String),
+          keys: S.optional(S.Boolean),
+          values: S.optional(S.Boolean),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictContents", code: 200 }),
+        ),
+      ).annotate({ identifier: "DictContentsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(89, __c11, 1),
+        }),
+      ).annotate({ identifier: "DictContentsStream" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          key: S.optional(S.String),
+          value: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DictEntry" });
+    case 1:
+      return S.Array(__S(88, __c11, 0));
+  }
+}
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -385,36 +571,36 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DictGetByIdRequest" });
   }
 }
-function __c6(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          dictId: S.optional(S.String),
-          metadata: S.optional(__S(57, __c7, 1)),
+          dictId: S.String,
+          metadata: S.optional(__S(113, __c14, 1)),
         }),
       ).annotate({ identifier: "DictGetByIdResponse" });
   }
 }
-function __c7(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          createdAt: S.optional(S.Number),
-          createdBy: S.optional(S.String),
+          createdAt: S.Number,
+          createdBy: S.String,
         }),
       ).annotate({ identifier: "CreationInfo" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          name: S.optional(S.String),
-          creationInfo: S.optional(__S(56, __c7, 0)),
+          name: S.String,
+          creationInfo: S.optional(__S(112, __c14, 0)),
         }),
       ).annotate({ identifier: "DictMetadata" });
   }
 }
-function __c8(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -422,27 +608,14 @@ function __c8(j: number): any {
           deploymentName: S.optional(S.String),
           environmentName: S.optional(S.String),
           objectCreationType: S.optional(S.String),
-          data: S.optional(__S(73, __c9, 1)),
+          data: S.optional(__S(89, __c11, 1)),
         }).pipe(
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictGetOrCreate", code: 200 }),
         ),
       ).annotate({ identifier: "DictGetOrCreateRequest" });
   }
 }
-function __c9(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          key: S.optional(S.String),
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DictEntry" });
-    case 1:
-      return S.Array(__S(72, __c9, 0));
-  }
-}
-function __c10(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -452,91 +625,6 @@ function __c10(j: number): any {
           T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictHeartbeat", code: 200 }),
         ),
       ).annotate({ identifier: "DictHeartbeatRequest" });
-  }
-}
-function __c11(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dictId: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictLen", code: 200 })),
-      ).annotate({ identifier: "DictLenRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          len: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "DictLenResponse" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dictId: S.optional(S.String),
-          key: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictPop", code: 200 })),
-      ).annotate({ identifier: "DictPopRequest" });
-  }
-}
-function __c13(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          found: S.optional(S.Boolean),
-          value: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "DictPopResponse" });
-  }
-}
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          dictId: S.optional(S.String),
-          key: S.optional(S.String),
-        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictGet", code: 200 })),
-      ).annotate({ identifier: "GetDictRequest" });
-  }
-}
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          maxObjects: S.optional(S.Number),
-          createdBefore: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "ListPagination" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          environmentName: S.optional(S.String),
-          pagination: S.optional(__S(120, __c15, 0)),
-        }).pipe(T.Http({ method: "POST", uri: "/modal.client.ModalClient/DictList", code: 200 })),
-      ).annotate({ identifier: "ListDictRequest" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.optional(S.String),
-          createdAt: S.optional(S.Number),
-          dictId: S.optional(S.String),
-          metadata: S.optional(__S(57, __c7, 1)),
-        }),
-      ).annotate({ identifier: "ListDictResponseDictInfo" });
-    case 3:
-      return S.Array(__S(122, __c15, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          dicts: S.optional(__S(123, __c15, 3)),
-          environmentName: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListDictResponse" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

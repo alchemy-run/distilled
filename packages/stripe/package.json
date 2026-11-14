@@ -1,6 +1,6 @@
 {
   "name": "@distilled.cloud/stripe",
-  "version": "1.0.0-rc.17",
+  "version": "1.0.0-rc.20",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -26,6 +26,12 @@
       "bun": "./src/credentials.ts",
       "worker": "./src/credentials.ts",
       "default": "./lib/credentials.js"
+    },
+    "./ApiVersion": {
+      "types": "./lib/api-version.d.ts",
+      "bun": "./src/api-version.ts",
+      "worker": "./src/api-version.ts",
+      "default": "./lib/api-version.js"
     },
     "./Errors": {
       "types": "./lib/errors.d.ts",
@@ -90,7 +96,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-25",
-    "specUpdatedAt": "2026-09-30"
+    "generatedAt": "2026-11-13",
+    "specUpdatedAt": "2026-10-30"
   }
 }

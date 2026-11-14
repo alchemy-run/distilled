@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -121,10 +122,10 @@ export type S3Location = string;
 export type StartDate = string;
 export type ErrorMessage = string;
 export interface DescribeReportCreationOutput {
-  Status?: string;
-  S3Location?: string;
-  StartDate?: string;
-  ErrorMessage?: string;
+  Status?: string | undefined;
+  S3Location?: string | undefined;
+  StartDate?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type TargetId = string;
 export type TargetIdFilterList = string[];
@@ -139,35 +140,35 @@ export type GroupBy = GroupByAttribute[];
 export type MaxResultsGetComplianceSummary = number;
 export type PaginationToken = string;
 export interface GetComplianceSummaryInput {
-  TargetIdFilters?: string[];
-  RegionFilters?: string[];
-  ResourceTypeFilters?: string[];
-  TagKeyFilters?: string[];
-  GroupBy?: GroupByAttribute[];
-  MaxResults?: number;
-  PaginationToken?: string;
+  TargetIdFilters?: string[] | undefined;
+  RegionFilters?: string[] | undefined;
+  ResourceTypeFilters?: string[] | undefined;
+  TagKeyFilters?: string[] | undefined;
+  GroupBy?: GroupByAttribute[] | undefined;
+  MaxResults?: number | undefined;
+  PaginationToken?: string | undefined;
 }
 export type LastUpdated = string;
 export type TargetIdType = "ACCOUNT" | "OU" | "ROOT" | (string & {});
 export type NonCompliantResources = number;
 export interface Summary {
-  LastUpdated?: string;
-  TargetId?: string;
-  TargetIdType?: TargetIdType;
-  Region?: string;
-  ResourceType?: string;
-  NonCompliantResources?: number;
+  LastUpdated?: string | undefined;
+  TargetId?: string | undefined;
+  TargetIdType?: TargetIdType | undefined;
+  Region?: string | undefined;
+  ResourceType?: string | undefined;
+  NonCompliantResources?: number | undefined;
 }
 export type SummaryList = Summary[];
 export interface GetComplianceSummaryOutput {
-  SummaryList?: Summary[];
-  PaginationToken?: string;
+  SummaryList?: Summary[] | undefined;
+  PaginationToken?: string | undefined;
 }
 export type TagValue = string;
 export type TagValueList = string[];
 export interface TagFilter {
-  Key?: string;
-  Values?: string[];
+  Key?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type TagFilterList = TagFilter[];
 export type ResourcesPerPage = number;
@@ -177,14 +178,14 @@ export type ExcludeCompliantResources = boolean;
 export type ResourceARN = string;
 export type ResourceARNListForGet = string[];
 export interface GetResourcesInput {
-  PaginationToken?: string;
-  TagFilters?: TagFilter[];
-  ResourcesPerPage?: number;
-  TagsPerPage?: number;
-  ResourceTypeFilters?: string[];
-  IncludeComplianceDetails?: boolean;
-  ExcludeCompliantResources?: boolean;
-  ResourceARNList?: string[];
+  PaginationToken?: string | undefined;
+  TagFilters?: TagFilter[] | undefined;
+  ResourcesPerPage?: number | undefined;
+  TagsPerPage?: number | undefined;
+  ResourceTypeFilters?: string[] | undefined;
+  IncludeComplianceDetails?: boolean | undefined;
+  ExcludeCompliantResources?: boolean | undefined;
+  ResourceARNList?: string[] | undefined;
 }
 export interface Tag {
   Key: string;
@@ -194,55 +195,55 @@ export type TagList = Tag[];
 export type TagKeyList = string[];
 export type ComplianceStatus = boolean;
 export interface ComplianceDetails {
-  NoncompliantKeys?: string[];
-  KeysWithNoncompliantValues?: string[];
-  MissingTagKeys?: string[];
-  ComplianceStatus?: boolean;
+  NoncompliantKeys?: string[] | undefined;
+  KeysWithNoncompliantValues?: string[] | undefined;
+  MissingTagKeys?: string[] | undefined;
+  ComplianceStatus?: boolean | undefined;
 }
 export interface ResourceTagMapping {
-  ResourceARN?: string;
-  Tags?: Tag[];
-  ComplianceDetails?: ComplianceDetails;
+  ResourceARN?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ComplianceDetails?: ComplianceDetails | undefined;
 }
 export type ResourceTagMappingList = ResourceTagMapping[];
 export interface GetResourcesOutput {
-  PaginationToken?: string;
-  ResourceTagMappingList?: ResourceTagMapping[];
+  PaginationToken?: string | undefined;
+  ResourceTagMappingList?: ResourceTagMapping[] | undefined;
 }
 export interface GetTagKeysInput {
-  PaginationToken?: string;
+  PaginationToken?: string | undefined;
 }
 export interface GetTagKeysOutput {
-  PaginationToken?: string;
-  TagKeys?: string[];
+  PaginationToken?: string | undefined;
+  TagKeys?: string[] | undefined;
 }
 export interface GetTagValuesInput {
-  PaginationToken?: string;
+  PaginationToken?: string | undefined;
   Key: string;
 }
 export type TagValuesOutputList = string[];
 export interface GetTagValuesOutput {
-  PaginationToken?: string;
-  TagValues?: string[];
+  PaginationToken?: string | undefined;
+  TagValues?: string[] | undefined;
 }
 export type MaxResultsForListRequiredTags = number;
 export interface ListRequiredTagsInput {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ResourceType = string;
 export type CloudFormationResourceType = string;
 export type CloudFormationResourceTypes = string[];
 export type ReportingTagKeys = string[];
 export interface RequiredTag {
-  ResourceType?: string;
-  CloudFormationResourceTypes?: string[];
-  ReportingTagKeys?: string[];
+  ResourceType?: string | undefined;
+  CloudFormationResourceTypes?: string[] | undefined;
+  ReportingTagKeys?: string[] | undefined;
 }
 export type RequiredTagsForListRequiredTags = RequiredTag[];
 export interface ListRequiredTagsOutput {
-  RequiredTags?: RequiredTag[];
-  NextToken?: string;
+  RequiredTags?: RequiredTag[] | undefined;
+  NextToken?: string | undefined;
 }
 export type S3Bucket = string;
 export interface StartReportCreationInput {
@@ -258,13 +259,13 @@ export interface TagResourcesInput {
 export type StatusCode = number;
 export type ErrorCode = "InternalServiceException" | "InvalidParameterException" | (string & {});
 export interface FailureInfo {
-  StatusCode?: number;
-  ErrorCode?: ErrorCode;
-  ErrorMessage?: string;
+  StatusCode?: number | undefined;
+  ErrorCode?: ErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type FailedResourcesMap = { [key: string]: FailureInfo | undefined };
 export interface TagResourcesOutput {
-  FailedResourcesMap?: { [key: string]: FailureInfo | undefined };
+  FailedResourcesMap?: { [key: string]: FailureInfo | undefined } | undefined;
 }
 export type TagKeyListForUntag = string[];
 export interface UntagResourcesInput {
@@ -272,7 +273,7 @@ export interface UntagResourcesInput {
   TagKeys: string[];
 }
 export interface UntagResourcesOutput {
-  FailedResourcesMap?: { [key: string]: FailureInfo | undefined };
+  FailedResourcesMap?: { [key: string]: FailureInfo | undefined } | undefined;
 }
 export type ExceptionMessage = string;
 export type DescribeReportCreationError =
@@ -288,7 +289,7 @@ export type DescribeReportCreationError =
  * management account and from the us-east-1 Region.
  */
 export const describeReportCreation: API.OperationMethod<
-  DescribeReportCreationInput,
+  DescribeReportCreationInput & RegionInput,
   DescribeReportCreationOutput,
   DescribeReportCreationError,
   Credentials | HttpClient.HttpClient
@@ -332,7 +333,7 @@ export type GetComplianceSummaryError =
  * there are no more results waiting to be returned.
  */
 export const getComplianceSummary: API.PaginatedOperationMethod<
-  GetComplianceSummaryInput,
+  GetComplianceSummaryInput & RegionInput,
   GetComplianceSummaryOutput,
   GetComplianceSummaryError,
   Credentials | HttpClient.HttpClient,
@@ -393,7 +394,7 @@ export type GetResourcesError =
  * query that uses `tag:none`. For more information, see Search query syntax reference for Resource Explorer.
  */
 export const getResources: API.PaginatedOperationMethod<
-  GetResourcesInput,
+  GetResourcesInput & RegionInput,
   GetResourcesOutput,
   GetResourcesError,
   Credentials | HttpClient.HttpClient,
@@ -438,7 +439,7 @@ export type GetTagKeysError =
  * there are no more results waiting to be returned.
  */
 export const getTagKeys: API.PaginatedOperationMethod<
-  GetTagKeysInput,
+  GetTagKeysInput & RegionInput,
   GetTagKeysOutput,
   GetTagKeysError,
   Credentials | HttpClient.HttpClient,
@@ -482,7 +483,7 @@ export type GetTagValuesError =
  * there are no more results waiting to be returned.
  */
 export const getTagValues: API.PaginatedOperationMethod<
-  GetTagValuesInput,
+  GetTagValuesInput & RegionInput,
   GetTagValuesOutput,
   GetTagValuesError,
   Credentials | HttpClient.HttpClient,
@@ -518,7 +519,7 @@ export type ListRequiredTagsError =
  * Lists the required tags for supported resource types in an Amazon Web Services account.
  */
 export const listRequiredTags: API.PaginatedOperationMethod<
-  ListRequiredTagsInput,
+  ListRequiredTagsInput & RegionInput,
   ListRequiredTagsOutput,
   ListRequiredTagsError,
   Credentials | HttpClient.HttpClient,
@@ -576,7 +577,7 @@ export type StartReportCreationError =
  * Editor user guide.
  */
 export const startReportCreation: API.OperationMethod<
-  StartReportCreationInput,
+  StartReportCreationInput & RegionInput,
   StartReportCreationOutput,
   StartReportCreationError,
   Credentials | HttpClient.HttpClient
@@ -655,7 +656,7 @@ export type TagResourcesError =
  * information.
  */
 export const tagResources: API.OperationMethod<
-  TagResourcesInput,
+  TagResourcesInput & RegionInput,
   TagResourcesOutput,
   TagResourcesError,
   Credentials | HttpClient.HttpClient
@@ -708,7 +709,7 @@ export type UntagResourcesError =
  * information.
  */
 export const untagResources: API.OperationMethod<
-  UntagResourcesInput,
+  UntagResourcesInput & RegionInput,
   UntagResourcesOutput,
   UntagResourcesError,
   Credentials | HttpClient.HttpClient

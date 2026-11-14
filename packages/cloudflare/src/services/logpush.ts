@@ -89,28 +89,29 @@ export interface CreateEdgeRequest {
   /** Identifier. */
   zoneId: string;
   /** Comma-separated list of fields. */
-  fields?: string;
+  fields?: string | undefined;
   /** Filters to drill down into specific events. */
-  filter?: string;
+  filter?: string | undefined;
   /** The sample parameter is the sample rate of the records set by the client: "sample": 1 is 100% of records "sample": 10 is 10% and so on. */
-  sample?: number;
+  sample?: number | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateEdgeResponse {
   /** Unique WebSocket address that will receive messages from Cloudflare's edge. */
-  destinationConf?: string | null;
+  destinationConf?: string | null | undefined;
   /** Comma-separated list of fields. */
-  fields?: string | null;
+  fields?: string | null | undefined;
   /** Filters to drill down into specific events. */
-  filter?: string | null;
+  filter?: string | null | undefined;
   /** The sample parameter is the sample rate of the records set by the client: "sample": 1 is 100% of records "sample": 10 is 10% and so on. */
-  sample?: number | null;
+  sample?: number | null | undefined;
   /** Unique session id of the job. */
-  sessionId?: string | null;
+  sessionId?: string | null | undefined;
 }
 export type JobsCreateRequestDataset =
   | "access_requests"
   | "account_abuse_protection_events"
+  | "ai_gateway_events"
   | "audit_logs"
   | "audit_logs_v2"
   | "biso_user_actions"
@@ -158,31 +159,31 @@ export type JobsCreateRequestOutputOptionsTimestampFormat =
   | "rfc3339ns";
 export interface JobsCreateRequestOutputOptions {
   /** String to be prepended before each batch. */
-  batchPrefix?: string;
+  batchPrefix?: string | undefined;
   /** String to be appended after each batch. */
-  batchSuffix?: string;
+  batchSuffix?: string | undefined;
   /** String to join fields. This field be ignored when `record_template` is set. */
-  fieldDelimiter?: string;
+  fieldDelimiter?: string | undefined;
   /** List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in. */
-  fieldNames?: JobsCreateRequestOutputOptionsFieldNamesList;
+  fieldNames?: JobsCreateRequestOutputOptionsFieldNamesList | undefined;
   /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. */
-  mergeSubrequests?: boolean;
+  mergeSubrequests?: boolean | undefined;
   /** Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types. */
-  outputType?: JobsCreateRequestOutputOptionsOutputType | (string & {});
+  outputType?: JobsCreateRequestOutputOptionsOutputType | (string & {}) | undefined;
   /** String to be inserted in-between the records as separator. */
-  recordDelimiter?: string;
+  recordDelimiter?: string | undefined;
   /** String to be prepended before each record. */
-  recordPrefix?: string;
+  recordPrefix?: string | undefined;
   /** String to be appended after each record. */
-  recordSuffix?: string;
+  recordSuffix?: string | undefined;
   /** String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in `field_names` as well, otherwise they will end up as null. Format as a Go `text/template` without any standard functions, like conditionals, loops, sub-templates, etc. */
-  recordTemplate?: string;
+  recordTemplate?: string | undefined;
   /** Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data. */
-  sampleRate?: number;
+  sampleRate?: number | undefined;
   /** String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`. */
-  timestampFormat?: JobsCreateRequestOutputOptionsTimestampFormat | (string & {});
+  timestampFormat?: JobsCreateRequestOutputOptionsTimestampFormat | (string & {}) | undefined;
   /** If set to true, will cause all occurrences of `${` in the generated files to be replaced with `x{`. */
-  "cve-2021-44228"?: boolean;
+  "cve-2021-44228"?: boolean | undefined;
 }
 export interface CreateJobForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -190,35 +191,36 @@ export interface CreateJobForAccountRequest {
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
   destinationConf: string;
   /** Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/). */
-  dataset?: JobsCreateRequestDataset | (string & {});
+  dataset?: JobsCreateRequestDataset | (string & {}) | undefined;
   /** Flag that indicates if the job is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The filters to select the events to include and/or remove from your logs. For more information, refer to [Filters](https://developers.cloudflare.com/logs/reference/filters/). */
-  filter?: string;
+  filter?: string | undefined;
   /** When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets. */
-  filterAttackTraffic?: boolean;
+  filterAttackTraffic?: boolean | undefined;
   /** This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files. */
-  frequency?: JobsCreateRequestFrequency | (string & {});
+  frequency?: JobsCreateRequestFrequency | (string & {}) | undefined;
   /** The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset). */
-  kind?: JobsCreateRequestKind | (string & {});
+  kind?: JobsCreateRequestKind | (string & {}) | undefined;
   /** This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately. */
-  logpullOptions?: string;
+  logpullOptions?: string | undefined;
   /** The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size. */
-  maxUploadBytes?: number;
+  maxUploadBytes?: number | undefined;
   /** The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this. */
-  maxUploadIntervalSeconds?: number;
+  maxUploadIntervalSeconds?: number | undefined;
   /** The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this. */
-  maxUploadRecords?: number;
+  maxUploadRecords?: number | undefined;
   /** Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job. */
-  name?: string;
+  name?: string | undefined;
   /** The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored. */
-  outputOptions?: JobsCreateRequestOutputOptions;
+  outputOptions?: JobsCreateRequestOutputOptions | undefined;
   /** Ownership challenge token to prove destination ownership. */
-  ownershipChallenge?: string;
+  ownershipChallenge?: string | undefined;
 }
 export type JobsCreateResponseDataset =
   | "access_requests"
   | "account_abuse_protection_events"
+  | "ai_gateway_events"
   | "audit_logs"
   | "audit_logs_v2"
   | "biso_user_actions"
@@ -266,66 +268,66 @@ export type JobsCreateResponseOutputOptionsTimestampFormat =
   | "rfc3339ns";
 export interface JobsCreateResponseOutputOptions {
   /** String to be prepended before each batch. */
-  batchPrefix?: string | null;
+  batchPrefix?: string | null | undefined;
   /** String to be appended after each batch. */
-  batchSuffix?: string | null;
+  batchSuffix?: string | null | undefined;
   /** String to join fields. This field be ignored when `record_template` is set. */
-  fieldDelimiter?: string | null;
+  fieldDelimiter?: string | null | undefined;
   /** List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in. */
-  fieldNames?: JobsCreateResponseOutputOptionsFieldNamesList | null;
+  fieldNames?: JobsCreateResponseOutputOptionsFieldNamesList | null | undefined;
   /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. */
-  mergeSubrequests?: boolean | null;
+  mergeSubrequests?: boolean | null | undefined;
   /** Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types. */
-  outputType?: JobsCreateResponseOutputOptionsOutputType | null;
+  outputType?: JobsCreateResponseOutputOptionsOutputType | null | undefined;
   /** String to be inserted in-between the records as separator. */
-  recordDelimiter?: string | null;
+  recordDelimiter?: string | null | undefined;
   /** String to be prepended before each record. */
-  recordPrefix?: string | null;
+  recordPrefix?: string | null | undefined;
   /** String to be appended after each record. */
-  recordSuffix?: string | null;
+  recordSuffix?: string | null | undefined;
   /** String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in `field_names` as well, otherwise they will end up as null. Format as a Go `text/template` without any standard functions, like conditionals, loops, sub-templates, etc. */
-  recordTemplate?: string | null;
+  recordTemplate?: string | null | undefined;
   /** Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data. */
-  sampleRate?: number | null;
+  sampleRate?: number | null | undefined;
   /** String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`. */
-  timestampFormat?: JobsCreateResponseOutputOptionsTimestampFormat | null;
+  timestampFormat?: JobsCreateResponseOutputOptionsTimestampFormat | null | undefined;
   /** If set to true, will cause all occurrences of `${` in the generated files to be replaced with `x{`. */
-  "cve-2021-44228"?: boolean | null;
+  "cve-2021-44228"?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateJobResponse {
   /** Unique id of the job. */
-  id?: number | null;
+  id?: number | null | undefined;
   /** Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/). */
-  dataset?: JobsCreateResponseDataset | null;
+  dataset?: JobsCreateResponseDataset | null | undefined;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
-  destinationConf?: string | null;
+  destinationConf?: string | null | undefined;
   /** Flag that indicates if the job is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null. */
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
   /** When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets. */
-  filterAttackTraffic?: boolean | null;
+  filterAttackTraffic?: boolean | null | undefined;
   /** This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files. */
-  frequency?: JobsCreateResponseFrequency | null;
+  frequency?: JobsCreateResponseFrequency | null | undefined;
   /** The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset). */
-  kind?: JobsCreateResponseKind | null;
+  kind?: JobsCreateResponseKind | null | undefined;
   /** Records the last time for which logs have been successfully pushed. If the last successful push was for logs range 2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the value of this field will be 2018-07-23T10:01:00Z. If the job has never run or has just been enabled and hasn't run yet then the field will be empty. */
-  lastComplete?: string | null;
+  lastComplete?: string | null | undefined;
   /** Records the last time the job failed. If not null, the job is currently. failing. If null, the job has either never failed or has run successfully at least once since last failure. See also the error_message field. */
-  lastError?: string | null;
+  lastError?: string | null | undefined;
   /** This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately. */
-  logpullOptions?: string | null;
+  logpullOptions?: string | null | undefined;
   /** The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size. */
-  maxUploadBytes?: number | null;
+  maxUploadBytes?: number | null | undefined;
   /** The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this. */
-  maxUploadIntervalSeconds?: number | null;
+  maxUploadIntervalSeconds?: number | null | undefined;
   /** The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this. */
-  maxUploadRecords?: number | null;
+  maxUploadRecords?: number | null | undefined;
   /** Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored. */
-  outputOptions?: JobsCreateResponseOutputOptions | null;
+  outputOptions?: JobsCreateResponseOutputOptions | null | undefined;
 }
 export interface CreateJobForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -333,31 +335,31 @@ export interface CreateJobForZoneRequest {
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
   destinationConf: string;
   /** Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/). */
-  dataset?: JobsCreateRequestDataset | (string & {});
+  dataset?: JobsCreateRequestDataset | (string & {}) | undefined;
   /** Flag that indicates if the job is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The filters to select the events to include and/or remove from your logs. For more information, refer to [Filters](https://developers.cloudflare.com/logs/reference/filters/). */
-  filter?: string;
+  filter?: string | undefined;
   /** When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets. */
-  filterAttackTraffic?: boolean;
+  filterAttackTraffic?: boolean | undefined;
   /** This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files. */
-  frequency?: JobsCreateRequestFrequency | (string & {});
+  frequency?: JobsCreateRequestFrequency | (string & {}) | undefined;
   /** The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset). */
-  kind?: JobsCreateRequestKind | (string & {});
+  kind?: JobsCreateRequestKind | (string & {}) | undefined;
   /** This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately. */
-  logpullOptions?: string;
+  logpullOptions?: string | undefined;
   /** The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size. */
-  maxUploadBytes?: number;
+  maxUploadBytes?: number | undefined;
   /** The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this. */
-  maxUploadIntervalSeconds?: number;
+  maxUploadIntervalSeconds?: number | undefined;
   /** The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this. */
-  maxUploadRecords?: number;
+  maxUploadRecords?: number | undefined;
   /** Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job. */
-  name?: string;
+  name?: string | undefined;
   /** The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored. */
-  outputOptions?: JobsCreateRequestOutputOptions;
+  outputOptions?: JobsCreateRequestOutputOptions | undefined;
   /** Ownership challenge token to prove destination ownership. */
-  ownershipChallenge?: string;
+  ownershipChallenge?: string | undefined;
 }
 export interface CreateOwnershipForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -367,9 +369,9 @@ export interface CreateOwnershipForAccountRequest {
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateOwnershipResponse {
-  filename?: string | null;
-  message?: string | null;
-  valid?: boolean | null;
+  filename?: string | null | undefined;
+  message?: string | null | undefined;
+  valid?: boolean | null | undefined;
 }
 export interface CreateOwnershipForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -385,37 +387,37 @@ export interface CreateTransformerRequest {
   /** Customer-provided name for identification. */
   name: string;
   /** Optional customer-provided description. */
-  description?: string;
+  description?: string | undefined;
 }
 export type CreateTransformerResponseAssociatedJobsItemObjectType = "zone" | "account";
 export interface CreateTransformerResponseAssociatedJobsItem {
   /** The logpush job ID. */
-  id?: number | null;
+  id?: number | null | undefined;
   /** The logpush job destination name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The zone or account tag. */
-  objectTag?: string | null;
+  objectTag?: string | null | undefined;
   /** Whether the job is zone-scoped or account-scoped. */
-  objectType?: CreateTransformerResponseAssociatedJobsItemObjectType | null;
+  objectType?: CreateTransformerResponseAssociatedJobsItemObjectType | null | undefined;
 }
 export type CreateTransformerResponseAssociatedJobsList =
   Array<CreateTransformerResponseAssociatedJobsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateTransformerResponse {
   /** The transformer ID. */
-  id?: number | null;
+  id?: number | null | undefined;
   /** Logpush jobs that reference this transformer. */
-  associatedJobs?: CreateTransformerResponseAssociatedJobsList | null;
+  associatedJobs?: CreateTransformerResponseAssociatedJobsList | null | undefined;
   /** When the transformer was created (RFC 3339). */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** The dataset this transformer operates on, derived from the SQL query's FROM clause. Informational only. May be absent if the dataset cannot be determined from the query. */
-  dataset?: string | null;
+  dataset?: string | null | undefined;
   /** Optional customer-provided description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Customer-provided name for identification. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** When the transformer was last modified (RFC 3339). */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface DeleteJobForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -426,7 +428,7 @@ export interface DeleteJobForAccountRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteJobResponse {
   /** Unique id of the job. */
-  id?: number | null;
+  id?: number | null | undefined;
 }
 export interface DeleteJobForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -443,7 +445,7 @@ export interface DeleteTransformerRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteTransformerResponse {
   /** The deleted transformer's ID. */
-  id?: number | null;
+  id?: number | null | undefined;
 }
 export interface DestinationExistsValidateForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -453,7 +455,7 @@ export interface DestinationExistsValidateForAccountRequest {
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DestinationExistsValidateResponse {
-  exists?: boolean | null;
+  exists?: boolean | null | undefined;
 }
 export interface DestinationExistsValidateForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -469,8 +471,8 @@ export interface DestinationValidateForAccountRequest {
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DestinationValidateResponse {
-  message?: string | null;
-  valid?: boolean | null;
+  message?: string | null | undefined;
+  valid?: boolean | null | undefined;
 }
 export interface DestinationValidateForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -481,6 +483,7 @@ export interface DestinationValidateForZoneRequest {
 export type DatasetsFieldsGetRequestDatasetId =
   | "access_requests"
   | "account_abuse_protection_events"
+  | "ai_gateway_events"
   | "audit_logs"
   | "audit_logs_v2"
   | "biso_user_actions"
@@ -533,6 +536,7 @@ export interface GetDatasetFieldForZoneRequest {
 export type DatasetsJobsGetRequestDatasetId =
   | "access_requests"
   | "account_abuse_protection_events"
+  | "ai_gateway_events"
   | "audit_logs"
   | "audit_logs_v2"
   | "biso_user_actions"
@@ -577,6 +581,7 @@ export interface GetDatasetJobForAccountRequest {
 export type DatasetsJobsGetResultItemDataset =
   | "access_requests"
   | "account_abuse_protection_events"
+  | "ai_gateway_events"
   | "audit_logs"
   | "audit_logs_v2"
   | "biso_user_actions"
@@ -624,72 +629,72 @@ export type DatasetsJobsGetResultItemOutputOptionsTimestampFormat =
   | "rfc3339ns";
 export interface DatasetsJobsGetResultItemOutputOptions {
   /** String to be prepended before each batch. */
-  batchPrefix?: string | null;
+  batchPrefix?: string | null | undefined;
   /** String to be appended after each batch. */
-  batchSuffix?: string | null;
+  batchSuffix?: string | null | undefined;
   /** String to join fields. This field be ignored when `record_template` is set. */
-  fieldDelimiter?: string | null;
+  fieldDelimiter?: string | null | undefined;
   /** List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in. */
-  fieldNames?: DatasetsJobsGetResultItemOutputOptionsFieldNamesList | null;
+  fieldNames?: DatasetsJobsGetResultItemOutputOptionsFieldNamesList | null | undefined;
   /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. */
-  mergeSubrequests?: boolean | null;
+  mergeSubrequests?: boolean | null | undefined;
   /** Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types. */
-  outputType?: DatasetsJobsGetResultItemOutputOptionsOutputType | null;
+  outputType?: DatasetsJobsGetResultItemOutputOptionsOutputType | null | undefined;
   /** String to be inserted in-between the records as separator. */
-  recordDelimiter?: string | null;
+  recordDelimiter?: string | null | undefined;
   /** String to be prepended before each record. */
-  recordPrefix?: string | null;
+  recordPrefix?: string | null | undefined;
   /** String to be appended after each record. */
-  recordSuffix?: string | null;
+  recordSuffix?: string | null | undefined;
   /** String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in `field_names` as well, otherwise they will end up as null. Format as a Go `text/template` without any standard functions, like conditionals, loops, sub-templates, etc. */
-  recordTemplate?: string | null;
+  recordTemplate?: string | null | undefined;
   /** Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data. */
-  sampleRate?: number | null;
+  sampleRate?: number | null | undefined;
   /** String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`. */
-  timestampFormat?: DatasetsJobsGetResultItemOutputOptionsTimestampFormat | null;
+  timestampFormat?: DatasetsJobsGetResultItemOutputOptionsTimestampFormat | null | undefined;
   /** If set to true, will cause all occurrences of `${` in the generated files to be replaced with `x{`. */
-  "cve-2021-44228"?: boolean | null;
+  "cve-2021-44228"?: boolean | null | undefined;
 }
 export interface DatasetsJobsGetResultItem {
   /** Unique id of the job. */
-  id?: number | null;
+  id?: number | null | undefined;
   /** Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/). */
-  dataset?: DatasetsJobsGetResultItemDataset | null;
+  dataset?: DatasetsJobsGetResultItemDataset | null | undefined;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
-  destinationConf?: string | null;
+  destinationConf?: string | null | undefined;
   /** Flag that indicates if the job is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null. */
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
   /** When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets. */
-  filterAttackTraffic?: boolean | null;
+  filterAttackTraffic?: boolean | null | undefined;
   /** This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files. */
-  frequency?: DatasetsJobsGetResultItemFrequency | null;
+  frequency?: DatasetsJobsGetResultItemFrequency | null | undefined;
   /** The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset). */
-  kind?: DatasetsJobsGetResultItemKind | null;
+  kind?: DatasetsJobsGetResultItemKind | null | undefined;
   /** Records the last time for which logs have been successfully pushed. If the last successful push was for logs range 2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the value of this field will be 2018-07-23T10:01:00Z. If the job has never run or has just been enabled and hasn't run yet then the field will be empty. */
-  lastComplete?: string | null;
+  lastComplete?: string | null | undefined;
   /** Records the last time the job failed. If not null, the job is currently. failing. If null, the job has either never failed or has run successfully at least once since last failure. See also the error_message field. */
-  lastError?: string | null;
+  lastError?: string | null | undefined;
   /** This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately. */
-  logpullOptions?: string | null;
+  logpullOptions?: string | null | undefined;
   /** The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size. */
-  maxUploadBytes?: number | null;
+  maxUploadBytes?: number | null | undefined;
   /** The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this. */
-  maxUploadIntervalSeconds?: number | null;
+  maxUploadIntervalSeconds?: number | null | undefined;
   /** The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this. */
-  maxUploadRecords?: number | null;
+  maxUploadRecords?: number | null | undefined;
   /** Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored. */
-  outputOptions?: DatasetsJobsGetResultItemOutputOptions | null;
+  outputOptions?: DatasetsJobsGetResultItemOutputOptions | null | undefined;
 }
 export type DatasetsJobsGetResultList = Array<DatasetsJobsGetResultItem>;
 export interface GetDatasetJobResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: DatasetsJobsGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetDatasetJobForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -703,22 +708,22 @@ export interface GetEdgeRequest {
 }
 export interface EdgeGetResultItem {
   /** Unique WebSocket address that will receive messages from Cloudflare's edge. */
-  destinationConf?: string | null;
+  destinationConf?: string | null | undefined;
   /** Comma-separated list of fields. */
-  fields?: string | null;
+  fields?: string | null | undefined;
   /** Filters to drill down into specific events. */
-  filter?: string | null;
+  filter?: string | null | undefined;
   /** The sample parameter is the sample rate of the records set by the client: "sample": 1 is 100% of records "sample": 10 is 10% and so on. */
-  sample?: number | null;
+  sample?: number | null | undefined;
   /** Unique session id of the job. */
-  sessionId?: string | null;
+  sessionId?: string | null | undefined;
 }
 export type EdgeGetResultList = Array<EdgeGetResultItem>;
 export interface GetEdgeResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: EdgeGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetJobForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -729,6 +734,7 @@ export interface GetJobForAccountRequest {
 export type JobsGetResponseDataset =
   | "access_requests"
   | "account_abuse_protection_events"
+  | "ai_gateway_events"
   | "audit_logs"
   | "audit_logs_v2"
   | "biso_user_actions"
@@ -776,66 +782,66 @@ export type JobsGetResponseOutputOptionsTimestampFormat =
   | "rfc3339ns";
 export interface JobsGetResponseOutputOptions {
   /** String to be prepended before each batch. */
-  batchPrefix?: string | null;
+  batchPrefix?: string | null | undefined;
   /** String to be appended after each batch. */
-  batchSuffix?: string | null;
+  batchSuffix?: string | null | undefined;
   /** String to join fields. This field be ignored when `record_template` is set. */
-  fieldDelimiter?: string | null;
+  fieldDelimiter?: string | null | undefined;
   /** List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in. */
-  fieldNames?: JobsGetResponseOutputOptionsFieldNamesList | null;
+  fieldNames?: JobsGetResponseOutputOptionsFieldNamesList | null | undefined;
   /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. */
-  mergeSubrequests?: boolean | null;
+  mergeSubrequests?: boolean | null | undefined;
   /** Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types. */
-  outputType?: JobsGetResponseOutputOptionsOutputType | null;
+  outputType?: JobsGetResponseOutputOptionsOutputType | null | undefined;
   /** String to be inserted in-between the records as separator. */
-  recordDelimiter?: string | null;
+  recordDelimiter?: string | null | undefined;
   /** String to be prepended before each record. */
-  recordPrefix?: string | null;
+  recordPrefix?: string | null | undefined;
   /** String to be appended after each record. */
-  recordSuffix?: string | null;
+  recordSuffix?: string | null | undefined;
   /** String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in `field_names` as well, otherwise they will end up as null. Format as a Go `text/template` without any standard functions, like conditionals, loops, sub-templates, etc. */
-  recordTemplate?: string | null;
+  recordTemplate?: string | null | undefined;
   /** Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data. */
-  sampleRate?: number | null;
+  sampleRate?: number | null | undefined;
   /** String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`. */
-  timestampFormat?: JobsGetResponseOutputOptionsTimestampFormat | null;
+  timestampFormat?: JobsGetResponseOutputOptionsTimestampFormat | null | undefined;
   /** If set to true, will cause all occurrences of `${` in the generated files to be replaced with `x{`. */
-  "cve-2021-44228"?: boolean | null;
+  "cve-2021-44228"?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetJobResponse {
   /** Unique id of the job. */
-  id?: number | null;
+  id?: number | null | undefined;
   /** Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/). */
-  dataset?: JobsGetResponseDataset | null;
+  dataset?: JobsGetResponseDataset | null | undefined;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
-  destinationConf?: string | null;
+  destinationConf?: string | null | undefined;
   /** Flag that indicates if the job is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null. */
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
   /** When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets. */
-  filterAttackTraffic?: boolean | null;
+  filterAttackTraffic?: boolean | null | undefined;
   /** This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files. */
-  frequency?: JobsGetResponseFrequency | null;
+  frequency?: JobsGetResponseFrequency | null | undefined;
   /** The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset). */
-  kind?: JobsGetResponseKind | null;
+  kind?: JobsGetResponseKind | null | undefined;
   /** Records the last time for which logs have been successfully pushed. If the last successful push was for logs range 2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the value of this field will be 2018-07-23T10:01:00Z. If the job has never run or has just been enabled and hasn't run yet then the field will be empty. */
-  lastComplete?: string | null;
+  lastComplete?: string | null | undefined;
   /** Records the last time the job failed. If not null, the job is currently. failing. If null, the job has either never failed or has run successfully at least once since last failure. See also the error_message field. */
-  lastError?: string | null;
+  lastError?: string | null | undefined;
   /** This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately. */
-  logpullOptions?: string | null;
+  logpullOptions?: string | null | undefined;
   /** The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size. */
-  maxUploadBytes?: number | null;
+  maxUploadBytes?: number | null | undefined;
   /** The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this. */
-  maxUploadIntervalSeconds?: number | null;
+  maxUploadIntervalSeconds?: number | null | undefined;
   /** The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this. */
-  maxUploadRecords?: number | null;
+  maxUploadRecords?: number | null | undefined;
   /** Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored. */
-  outputOptions?: JobsGetResponseOutputOptions | null;
+  outputOptions?: JobsGetResponseOutputOptions | null | undefined;
 }
 export interface GetJobForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -852,32 +858,32 @@ export interface GetTransformerRequest {
 export type GetTransformerResponseAssociatedJobsItemObjectType = "zone" | "account";
 export interface GetTransformerResponseAssociatedJobsItem {
   /** The logpush job ID. */
-  id?: number | null;
+  id?: number | null | undefined;
   /** The logpush job destination name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The zone or account tag. */
-  objectTag?: string | null;
+  objectTag?: string | null | undefined;
   /** Whether the job is zone-scoped or account-scoped. */
-  objectType?: GetTransformerResponseAssociatedJobsItemObjectType | null;
+  objectType?: GetTransformerResponseAssociatedJobsItemObjectType | null | undefined;
 }
 export type GetTransformerResponseAssociatedJobsList =
   Array<GetTransformerResponseAssociatedJobsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetTransformerResponse {
   /** The transformer ID. */
-  id?: number | null;
+  id?: number | null | undefined;
   /** Logpush jobs that reference this transformer. */
-  associatedJobs?: GetTransformerResponseAssociatedJobsList | null;
+  associatedJobs?: GetTransformerResponseAssociatedJobsList | null | undefined;
   /** When the transformer was created (RFC 3339). */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** The dataset this transformer operates on, derived from the SQL query's FROM clause. Informational only. May be absent if the dataset cannot be determined from the query. */
-  dataset?: string | null;
+  dataset?: string | null | undefined;
   /** Optional customer-provided description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Customer-provided name for identification. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** When the transformer was last modified (RFC 3339). */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetTransformersContentRequest {
   /** Identifier. */
@@ -885,12 +891,12 @@ export interface GetTransformersContentRequest {
   /** The transformer ID. */
   transformerId: number;
   /** Specific version ID to retrieve. When omitted, the latest version is returned. */
-  versionId?: number;
+  versionId?: number | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetTransformersContentResponse {
   /** The SQL query content. */
-  content?: string | null;
+  content?: string | null | undefined;
 }
 export interface ListJobsForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -899,6 +905,7 @@ export interface ListJobsForAccountRequest {
 export type JobsListResultItemDataset =
   | "access_requests"
   | "account_abuse_protection_events"
+  | "ai_gateway_events"
   | "audit_logs"
   | "audit_logs_v2"
   | "biso_user_actions"
@@ -946,72 +953,72 @@ export type JobsListResultItemOutputOptionsTimestampFormat =
   | "rfc3339ns";
 export interface JobsListResultItemOutputOptions {
   /** String to be prepended before each batch. */
-  batchPrefix?: string | null;
+  batchPrefix?: string | null | undefined;
   /** String to be appended after each batch. */
-  batchSuffix?: string | null;
+  batchSuffix?: string | null | undefined;
   /** String to join fields. This field be ignored when `record_template` is set. */
-  fieldDelimiter?: string | null;
+  fieldDelimiter?: string | null | undefined;
   /** List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in. */
-  fieldNames?: JobsListResultItemOutputOptionsFieldNamesList | null;
+  fieldNames?: JobsListResultItemOutputOptionsFieldNamesList | null | undefined;
   /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. */
-  mergeSubrequests?: boolean | null;
+  mergeSubrequests?: boolean | null | undefined;
   /** Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types. */
-  outputType?: JobsListResultItemOutputOptionsOutputType | null;
+  outputType?: JobsListResultItemOutputOptionsOutputType | null | undefined;
   /** String to be inserted in-between the records as separator. */
-  recordDelimiter?: string | null;
+  recordDelimiter?: string | null | undefined;
   /** String to be prepended before each record. */
-  recordPrefix?: string | null;
+  recordPrefix?: string | null | undefined;
   /** String to be appended after each record. */
-  recordSuffix?: string | null;
+  recordSuffix?: string | null | undefined;
   /** String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in `field_names` as well, otherwise they will end up as null. Format as a Go `text/template` without any standard functions, like conditionals, loops, sub-templates, etc. */
-  recordTemplate?: string | null;
+  recordTemplate?: string | null | undefined;
   /** Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data. */
-  sampleRate?: number | null;
+  sampleRate?: number | null | undefined;
   /** String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`. */
-  timestampFormat?: JobsListResultItemOutputOptionsTimestampFormat | null;
+  timestampFormat?: JobsListResultItemOutputOptionsTimestampFormat | null | undefined;
   /** If set to true, will cause all occurrences of `${` in the generated files to be replaced with `x{`. */
-  "cve-2021-44228"?: boolean | null;
+  "cve-2021-44228"?: boolean | null | undefined;
 }
 export interface JobsListResultItem {
   /** Unique id of the job. */
-  id?: number | null;
+  id?: number | null | undefined;
   /** Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/). */
-  dataset?: JobsListResultItemDataset | null;
+  dataset?: JobsListResultItemDataset | null | undefined;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
-  destinationConf?: string | null;
+  destinationConf?: string | null | undefined;
   /** Flag that indicates if the job is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null. */
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
   /** When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets. */
-  filterAttackTraffic?: boolean | null;
+  filterAttackTraffic?: boolean | null | undefined;
   /** This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files. */
-  frequency?: JobsListResultItemFrequency | null;
+  frequency?: JobsListResultItemFrequency | null | undefined;
   /** The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset). */
-  kind?: JobsListResultItemKind | null;
+  kind?: JobsListResultItemKind | null | undefined;
   /** Records the last time for which logs have been successfully pushed. If the last successful push was for logs range 2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the value of this field will be 2018-07-23T10:01:00Z. If the job has never run or has just been enabled and hasn't run yet then the field will be empty. */
-  lastComplete?: string | null;
+  lastComplete?: string | null | undefined;
   /** Records the last time the job failed. If not null, the job is currently. failing. If null, the job has either never failed or has run successfully at least once since last failure. See also the error_message field. */
-  lastError?: string | null;
+  lastError?: string | null | undefined;
   /** This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately. */
-  logpullOptions?: string | null;
+  logpullOptions?: string | null | undefined;
   /** The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size. */
-  maxUploadBytes?: number | null;
+  maxUploadBytes?: number | null | undefined;
   /** The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this. */
-  maxUploadIntervalSeconds?: number | null;
+  maxUploadIntervalSeconds?: number | null | undefined;
   /** The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this. */
-  maxUploadRecords?: number | null;
+  maxUploadRecords?: number | null | undefined;
   /** Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored. */
-  outputOptions?: JobsListResultItemOutputOptions | null;
+  outputOptions?: JobsListResultItemOutputOptions | null | undefined;
 }
 export type JobsListResultList = Array<JobsListResultItem>;
 export interface ListJobsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: JobsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListJobsForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -1024,31 +1031,31 @@ export interface ListTransformersRequest {
 export type ListTransformersResultItemAssociatedJobsItemObjectType = "zone" | "account";
 export interface ListTransformersResultItemAssociatedJobsItem {
   /** The logpush job ID. */
-  id?: number | null;
+  id?: number | null | undefined;
   /** The logpush job destination name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The zone or account tag. */
-  objectTag?: string | null;
+  objectTag?: string | null | undefined;
   /** Whether the job is zone-scoped or account-scoped. */
-  objectType?: ListTransformersResultItemAssociatedJobsItemObjectType | null;
+  objectType?: ListTransformersResultItemAssociatedJobsItemObjectType | null | undefined;
 }
 export type ListTransformersResultItemAssociatedJobsList =
   Array<ListTransformersResultItemAssociatedJobsItem>;
 export interface ListTransformersResultItem {
   /** The transformer ID. */
-  id?: number | null;
+  id?: number | null | undefined;
   /** Logpush jobs that reference this transformer. */
-  associatedJobs?: ListTransformersResultItemAssociatedJobsList | null;
+  associatedJobs?: ListTransformersResultItemAssociatedJobsList | null | undefined;
   /** When the transformer was created (RFC 3339). */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** The dataset this transformer operates on, derived from the SQL query's FROM clause. Informational only. May be absent if the dataset cannot be determined from the query. */
-  dataset?: string | null;
+  dataset?: string | null | undefined;
   /** Optional customer-provided description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Customer-provided name for identification. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** When the transformer was last modified (RFC 3339). */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export type ListTransformersResultList = Array<ListTransformersResultItem>;
 export type ListTransformersResponse = ListTransformersResultList;
@@ -1058,15 +1065,15 @@ export interface ListTransformersVersionsRequest {
   /** The transformer ID. */
   transformerId: number;
   /** Maximum number of versions to return. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface ListTransformersVersionsResultItem {
   /** Unique identifier for this version. */
-  id?: number | null;
+  id?: number | null | undefined;
   /** When this version was created (RFC 3339). */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Sequential version number. */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export type ListTransformersVersionsResultList = Array<ListTransformersVersionsResultItem>;
 export type ListTransformersVersionsResponse = ListTransformersVersionsResultList;
@@ -1078,8 +1085,8 @@ export interface OriginValidateForAccountRequest {
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface OriginValidateResponse {
-  message?: string | null;
-  valid?: boolean | null;
+  message?: string | null | undefined;
+  valid?: boolean | null | undefined;
 }
 export interface OriginValidateForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -1111,31 +1118,31 @@ export type JobsUpdateRequestOutputOptionsTimestampFormat =
   | "rfc3339ns";
 export interface JobsUpdateRequestOutputOptions {
   /** String to be prepended before each batch. */
-  batchPrefix?: string;
+  batchPrefix?: string | undefined;
   /** String to be appended after each batch. */
-  batchSuffix?: string;
+  batchSuffix?: string | undefined;
   /** String to join fields. This field be ignored when `record_template` is set. */
-  fieldDelimiter?: string;
+  fieldDelimiter?: string | undefined;
   /** List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in. */
-  fieldNames?: JobsUpdateRequestOutputOptionsFieldNamesList;
+  fieldNames?: JobsUpdateRequestOutputOptionsFieldNamesList | undefined;
   /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. */
-  mergeSubrequests?: boolean;
+  mergeSubrequests?: boolean | undefined;
   /** Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types. */
-  outputType?: JobsUpdateRequestOutputOptionsOutputType | (string & {});
+  outputType?: JobsUpdateRequestOutputOptionsOutputType | (string & {}) | undefined;
   /** String to be inserted in-between the records as separator. */
-  recordDelimiter?: string;
+  recordDelimiter?: string | undefined;
   /** String to be prepended before each record. */
-  recordPrefix?: string;
+  recordPrefix?: string | undefined;
   /** String to be appended after each record. */
-  recordSuffix?: string;
+  recordSuffix?: string | undefined;
   /** String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in `field_names` as well, otherwise they will end up as null. Format as a Go `text/template` without any standard functions, like conditionals, loops, sub-templates, etc. */
-  recordTemplate?: string;
+  recordTemplate?: string | undefined;
   /** Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data. */
-  sampleRate?: number;
+  sampleRate?: number | undefined;
   /** String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`. */
-  timestampFormat?: JobsUpdateRequestOutputOptionsTimestampFormat | (string & {});
+  timestampFormat?: JobsUpdateRequestOutputOptionsTimestampFormat | (string & {}) | undefined;
   /** If set to true, will cause all occurrences of `${` in the generated files to be replaced with `x{`. */
-  "cve-2021-44228"?: boolean;
+  "cve-2021-44228"?: boolean | undefined;
 }
 export interface UpdateJobForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -1143,35 +1150,36 @@ export interface UpdateJobForAccountRequest {
   /** Unique id of the job. */
   jobId: number;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
-  destinationConf?: string;
+  destinationConf?: string | undefined;
   /** Flag that indicates if the job is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The filters to select the events to include and/or remove from your logs. For more information, refer to [Filters](https://developers.cloudflare.com/logs/reference/filters/). */
-  filter?: string;
+  filter?: string | undefined;
   /** When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets. */
-  filterAttackTraffic?: boolean;
+  filterAttackTraffic?: boolean | undefined;
   /** This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files. */
-  frequency?: JobsUpdateRequestFrequency | (string & {});
+  frequency?: JobsUpdateRequestFrequency | (string & {}) | undefined;
   /** The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset). */
-  kind?: JobsUpdateRequestKind | (string & {});
+  kind?: JobsUpdateRequestKind | (string & {}) | undefined;
   /** This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately. */
-  logpullOptions?: string;
+  logpullOptions?: string | undefined;
   /** The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size. */
-  maxUploadBytes?: number;
+  maxUploadBytes?: number | undefined;
   /** The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this. */
-  maxUploadIntervalSeconds?: number;
+  maxUploadIntervalSeconds?: number | undefined;
   /** The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this. */
-  maxUploadRecords?: number;
+  maxUploadRecords?: number | undefined;
   /** Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job. */
-  name?: string;
+  name?: string | undefined;
   /** The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored. */
-  outputOptions?: JobsUpdateRequestOutputOptions;
+  outputOptions?: JobsUpdateRequestOutputOptions | undefined;
   /** Ownership challenge token to prove destination ownership. */
-  ownershipChallenge?: string;
+  ownershipChallenge?: string | undefined;
 }
 export type JobsUpdateResponseDataset =
   | "access_requests"
   | "account_abuse_protection_events"
+  | "ai_gateway_events"
   | "audit_logs"
   | "audit_logs_v2"
   | "biso_user_actions"
@@ -1219,66 +1227,66 @@ export type JobsUpdateResponseOutputOptionsTimestampFormat =
   | "rfc3339ns";
 export interface JobsUpdateResponseOutputOptions {
   /** String to be prepended before each batch. */
-  batchPrefix?: string | null;
+  batchPrefix?: string | null | undefined;
   /** String to be appended after each batch. */
-  batchSuffix?: string | null;
+  batchSuffix?: string | null | undefined;
   /** String to join fields. This field be ignored when `record_template` is set. */
-  fieldDelimiter?: string | null;
+  fieldDelimiter?: string | null | undefined;
   /** List of field names to be included in the Logpush output. For the moment, there is no option to add all fields at once, so you must specify all the fields names you are interested in. */
-  fieldNames?: JobsUpdateResponseOutputOptionsFieldNamesList | null;
+  fieldNames?: JobsUpdateResponseOutputOptionsFieldNamesList | null | undefined;
   /** If set to true, subrequests will be merged into the parent request. Only supported for the `http_requests` dataset. */
-  mergeSubrequests?: boolean | null;
+  mergeSubrequests?: boolean | null | undefined;
   /** Specifies the output type, such as `ndjson` or `csv`. This sets default values for the rest of the settings, depending on the chosen output type. Some formatting rules, like string quoting, are different between output types. */
-  outputType?: JobsUpdateResponseOutputOptionsOutputType | null;
+  outputType?: JobsUpdateResponseOutputOptionsOutputType | null | undefined;
   /** String to be inserted in-between the records as separator. */
-  recordDelimiter?: string | null;
+  recordDelimiter?: string | null | undefined;
   /** String to be prepended before each record. */
-  recordPrefix?: string | null;
+  recordPrefix?: string | null | undefined;
   /** String to be appended after each record. */
-  recordSuffix?: string | null;
+  recordSuffix?: string | null | undefined;
   /** String to use as template for each record instead of the default json key value mapping. All fields used in the template must be present in `field_names` as well, otherwise they will end up as null. Format as a Go `text/template` without any standard functions, like conditionals, loops, sub-templates, etc. */
-  recordTemplate?: string | null;
+  recordTemplate?: string | null | undefined;
   /** Specifies the sampling rate as a floating number greater than 0 and at most 1. Sampling is applied on top of filtering, and regardless of the current `sample_interval` of the data. */
-  sampleRate?: number | null;
+  sampleRate?: number | null | undefined;
   /** String to specify the format for timestamps, such as `unixnano`, `unix`, `rfc3339`, `rfc3339ms` or `rfc3339ns`. */
-  timestampFormat?: JobsUpdateResponseOutputOptionsTimestampFormat | null;
+  timestampFormat?: JobsUpdateResponseOutputOptionsTimestampFormat | null | undefined;
   /** If set to true, will cause all occurrences of `${` in the generated files to be replaced with `x{`. */
-  "cve-2021-44228"?: boolean | null;
+  "cve-2021-44228"?: boolean | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateJobResponse {
   /** Unique id of the job. */
-  id?: number | null;
+  id?: number | null | undefined;
   /** Name of the dataset. A list of supported datasets can be found on the [Developer Docs](https://developers.cloudflare.com/logs/reference/log-fields/). */
-  dataset?: JobsUpdateResponseDataset | null;
+  dataset?: JobsUpdateResponseDataset | null | undefined;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
-  destinationConf?: string | null;
+  destinationConf?: string | null | undefined;
   /** Flag that indicates if the job is enabled. */
-  enabled?: boolean | null;
+  enabled?: boolean | null | undefined;
   /** If not null, the job is currently failing. Failures are usually. repetitive (example: no permissions to write to destination bucket). Only the last failure is recorded. On successful execution of a job the error_message and last_error are set to null. */
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
   /** When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets. */
-  filterAttackTraffic?: boolean | null;
+  filterAttackTraffic?: boolean | null | undefined;
   /** This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files. */
-  frequency?: JobsUpdateResponseFrequency | null;
+  frequency?: JobsUpdateResponseFrequency | null | undefined;
   /** The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset). */
-  kind?: JobsUpdateResponseKind | null;
+  kind?: JobsUpdateResponseKind | null | undefined;
   /** Records the last time for which logs have been successfully pushed. If the last successful push was for logs range 2018-07-23T10:00:00Z to 2018-07-23T10:01:00Z then the value of this field will be 2018-07-23T10:01:00Z. If the job has never run or has just been enabled and hasn't run yet then the field will be empty. */
-  lastComplete?: string | null;
+  lastComplete?: string | null | undefined;
   /** Records the last time the job failed. If not null, the job is currently. failing. If null, the job has either never failed or has run successfully at least once since last failure. See also the error_message field. */
-  lastError?: string | null;
+  lastError?: string | null | undefined;
   /** This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately. */
-  logpullOptions?: string | null;
+  logpullOptions?: string | null | undefined;
   /** The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size. */
-  maxUploadBytes?: number | null;
+  maxUploadBytes?: number | null | undefined;
   /** The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this. */
-  maxUploadIntervalSeconds?: number | null;
+  maxUploadIntervalSeconds?: number | null | undefined;
   /** The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this. */
-  maxUploadRecords?: number | null;
+  maxUploadRecords?: number | null | undefined;
   /** Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored. */
-  outputOptions?: JobsUpdateResponseOutputOptions | null;
+  outputOptions?: JobsUpdateResponseOutputOptions | null | undefined;
 }
 export interface UpdateJobForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */
@@ -1286,31 +1294,31 @@ export interface UpdateJobForZoneRequest {
   /** Unique id of the job. */
   jobId: number;
   /** Uniquely identifies a resource (such as an s3 bucket) where data. will be pushed. Additional configuration parameters supported by the destination may be included. */
-  destinationConf?: string;
+  destinationConf?: string | undefined;
   /** Flag that indicates if the job is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** The filters to select the events to include and/or remove from your logs. For more information, refer to [Filters](https://developers.cloudflare.com/logs/reference/filters/). */
-  filter?: string;
+  filter?: string | undefined;
   /** When true, excludes DDoS attack traffic from logs. This option is supported for the `http_requests`, `firewall_events`, and `network_analytics_logs` datasets. */
-  filterAttackTraffic?: boolean;
+  filterAttackTraffic?: boolean | undefined;
   /** This field is deprecated. Please use `max_upload_*` parameters instead. . The frequency at which Cloudflare sends batches of logs to your destination. Setting frequency to high sends your logs in larger quantities of smaller files. Setting frequency to low sends logs in smaller quantities of larger files. */
-  frequency?: JobsUpdateRequestFrequency | (string & {});
+  frequency?: JobsUpdateRequestFrequency | (string & {}) | undefined;
   /** The kind parameter (optional) is used to differentiate between Logpush and Edge Log Delivery jobs (when supported by the dataset). */
-  kind?: JobsUpdateRequestKind | (string & {});
+  kind?: JobsUpdateRequestKind | (string & {}) | undefined;
   /** This field is deprecated. Use `output_options` instead. Configuration string. It specifies things like requested fields and timestamp formats. If migrating from the logpull api, copy the url (full url or just the query string) of your call here, and logpush will keep on making this call for you, setting start and end times appropriately. */
-  logpullOptions?: string;
+  logpullOptions?: string | undefined;
   /** The maximum uncompressed file size of a batch of logs. This setting value must be between `5 MB` and `1 GB`, or `0` to disable it. Note that you cannot set a minimum file size; this means that log files may be much smaller than this batch size. */
-  maxUploadBytes?: number;
+  maxUploadBytes?: number | undefined;
   /** The maximum interval in seconds for log batches. This setting must be between 30 and 300 seconds (5 minutes), or `0` to disable it. Note that you cannot specify a minimum interval for log batches; this means that log files may be sent in shorter intervals than this. */
-  maxUploadIntervalSeconds?: number;
+  maxUploadIntervalSeconds?: number | undefined;
   /** The maximum number of log lines per batch. This setting must be between 1000 and 1,000,000 lines, or `0` to disable it. Note that you cannot specify a minimum number of log lines per batch; this means that log files may contain many fewer lines than this. */
-  maxUploadRecords?: number;
+  maxUploadRecords?: number | undefined;
   /** Optional human readable job name. Not unique. Cloudflare suggests. that you set this to a meaningful string, like the domain name, to make it easier to identify your job. */
-  name?: string;
+  name?: string | undefined;
   /** The structured replacement for `logpull_options`. When including this field, the `logpull_option` field will be ignored. */
-  outputOptions?: JobsUpdateRequestOutputOptions;
+  outputOptions?: JobsUpdateRequestOutputOptions | undefined;
   /** Ownership challenge token to prove destination ownership. */
-  ownershipChallenge?: string;
+  ownershipChallenge?: string | undefined;
 }
 export interface UpdateTransformerRequest {
   /** Identifier. */
@@ -1320,39 +1328,39 @@ export interface UpdateTransformerRequest {
   /** Customer-provided name for identification. */
   name: string;
   /** The SQL transformer query. Maximum 32 KB. The query must contain a FROM clause referencing a valid logpush dataset. */
-  code?: string;
+  code?: string | undefined;
   /** Optional customer-provided description. */
-  description?: string;
+  description?: string | undefined;
 }
 export type UpdateTransformerResponseAssociatedJobsItemObjectType = "zone" | "account";
 export interface UpdateTransformerResponseAssociatedJobsItem {
   /** The logpush job ID. */
-  id?: number | null;
+  id?: number | null | undefined;
   /** The logpush job destination name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The zone or account tag. */
-  objectTag?: string | null;
+  objectTag?: string | null | undefined;
   /** Whether the job is zone-scoped or account-scoped. */
-  objectType?: UpdateTransformerResponseAssociatedJobsItemObjectType | null;
+  objectType?: UpdateTransformerResponseAssociatedJobsItemObjectType | null | undefined;
 }
 export type UpdateTransformerResponseAssociatedJobsList =
   Array<UpdateTransformerResponseAssociatedJobsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateTransformerResponse {
   /** The transformer ID. */
-  id?: number | null;
+  id?: number | null | undefined;
   /** Logpush jobs that reference this transformer. */
-  associatedJobs?: UpdateTransformerResponseAssociatedJobsList | null;
+  associatedJobs?: UpdateTransformerResponseAssociatedJobsList | null | undefined;
   /** When the transformer was created (RFC 3339). */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** The dataset this transformer operates on, derived from the SQL query's FROM clause. Informational only. May be absent if the dataset cannot be determined from the query. */
-  dataset?: string | null;
+  dataset?: string | null | undefined;
   /** Optional customer-provided description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Customer-provided name for identification. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** When the transformer was last modified (RFC 3339). */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface ValidateOwnershipForAccountRequest {
   /** The Account ID to use for this endpoint. Mutually exclusive with the Zone ID. */
@@ -1364,7 +1372,7 @@ export interface ValidateOwnershipForAccountRequest {
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ValidateOwnershipResponse {
-  valid?: boolean | null;
+  valid?: boolean | null | undefined;
 }
 export interface ValidateOwnershipForZoneRequest {
   /** The Zone ID to use for this endpoint. Mutually exclusive with the Account ID. */

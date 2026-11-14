@@ -1,3 +1,4 @@
+import { inspect } from "node:util";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
@@ -35,6 +36,8 @@ interface Reply {
 }
 
 const bot = credentials({ token: Redacted.make("xoxb-test") });
+
+const SECRET = "sentinel-secret-7f3a";
 
 /** A fake HttpClient that records each request (as a web Request) and answers with `reply`. */
 const fakeHttp = (reply: Reply) => {
@@ -201,6 +204,39 @@ describe("ok:true responses", () => {
       { body: bytes },
     );
     expect([...(strictResult as Uint8Array)]).toEqual([...bytes]);
+  });
+
+  const exchange = v2Exchange({ client_id: "cid", client_secret: "s" });
+
+  test("a body cut off mid-secret fails in both modes without exposing it", async () => {
+    for (const mode of [ResponseValidation.lenient, ResponseValidation.strict]) {
+      const error = await failWith(exchange.pipe(Effect.provide(mode)), {
+        body: `{"ok":true,"access_token":"${SECRET}`,
+      });
+      expect(error).toBeInstanceOf(SlackParseError);
+      expect(error).toMatchObject({ body: "[REDACTED]" });
+      expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
+    }
+  });
+
+  test("an empty or non-object JSON body for a sensitive output keeps its lenient result", async () => {
+    for (const reply of [{ body: "" }, { body: "null" }, { body: "42" }]) {
+      const bytes = await succeed(exchange, reply);
+      expect(bytes).toBeInstanceOf(Uint8Array);
+      expect(new TextDecoder().decode(bytes as unknown as Uint8Array)).toBe(reply.body);
+      const error = await failWith(exchange.pipe(Effect.provide(ResponseValidation.strict)), reply);
+      expect(error).toBeInstanceOf(SlackParseError);
+      expect(error).toMatchObject({ body: "[REDACTED]" });
+    }
+  });
+
+  test("a strict mismatch with a sensitive output fails without exposing the body", async () => {
+    const error = await failWith(exchange.pipe(Effect.provide(ResponseValidation.strict)), {
+      body: ok({ access_token: SECRET }),
+    });
+    expect(error).toBeInstanceOf(SlackParseError);
+    expect(error).toMatchObject({ body: "[REDACTED]" });
+    expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
   });
 });
 

@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -134,34 +135,34 @@ export type ClientId = string;
 export type Service = "TURN" | (string & {});
 export type Username = string;
 export interface GetIceServerConfigRequest {
-  ChannelARN?: string;
-  ClientId?: string;
-  Service?: Service;
-  Username?: string;
+  ChannelARN?: string | undefined;
+  ClientId?: string | undefined;
+  Service?: Service | undefined;
+  Username?: string | undefined;
 }
 export type Uri = string;
 export type Uris = string[];
 export type Password = string;
 export type Ttl = number;
 export interface IceServer {
-  Uris?: string[];
-  Username?: string;
-  Password?: string | redacted.Redacted<string>;
-  Ttl?: number;
+  Uris?: string[] | undefined;
+  Username?: string | undefined;
+  Password?: string | redacted.Redacted<string> | undefined;
+  Ttl?: number | undefined;
 }
 export type IceServerList = IceServer[];
 export interface GetIceServerConfigResponse {
-  IceServerList?: IceServer[];
+  IceServerList?: IceServer[] | undefined;
 }
 export type MessagePayload = string;
 export interface SendAlexaOfferToMasterRequest {
-  ChannelARN?: string;
-  SenderClientId?: string;
-  MessagePayload?: string;
+  ChannelARN?: string | undefined;
+  SenderClientId?: string | undefined;
+  MessagePayload?: string | undefined;
 }
 export type Answer = string;
 export interface SendAlexaOfferToMasterResponse {
-  Answer?: string;
+  Answer?: string | undefined;
 }
 export type ErrorMessage = string;
 export type GetIceServerConfigError =
@@ -191,7 +192,7 @@ export type GetIceServerConfigError =
  * API.
  */
 export const getIceServerConfig: API.OperationMethod<
-  GetIceServerConfigRequest,
+  GetIceServerConfigRequest & RegionInput,
   GetIceServerConfigResponse,
   GetIceServerConfigError,
   Credentials | HttpClient.HttpClient
@@ -228,7 +229,7 @@ export type SendAlexaOfferToMasterError =
  * expires.
  */
 export const sendAlexaOfferToMaster: API.OperationMethod<
-  SendAlexaOfferToMasterRequest,
+  SendAlexaOfferToMasterRequest & RegionInput,
   SendAlexaOfferToMasterResponse,
   SendAlexaOfferToMasterError,
   Credentials | HttpClient.HttpClient

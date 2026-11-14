@@ -24,15 +24,15 @@ export {
 } from "@distilled.cloud/core/errors";
 import * as Category from "@distilled.cloud/core/category";
 import type { DefaultErrors as CoreDefaultErrors } from "@distilled.cloud/core/errors";
+import { UnknownErrorFields } from "@distilled.cloud/core/errors";
 import * as Schema from "@distilled.cloud/core/schema-lite-typed";
 
 // Unknown Supabase error - returned when an error code is not recognized
 export class UnknownSupabaseError
-  extends /*@__PURE__*/ Schema.TaggedError<UnknownSupabaseError>()("UnknownSupabaseError", {
-    code: /*@__PURE__*/ Schema.optional(Schema.String),
-    message: /*@__PURE__*/ Schema.optional(Schema.String),
-    body: Schema.Unknown,
-  }).pipe(Category.withServerError) {}
+  extends /*@__PURE__*/ Schema.TaggedError<UnknownSupabaseError>()(
+    "UnknownSupabaseError",
+    UnknownErrorFields,
+  ) {}
 
 // Returned when v1CreateAProject is called against an org whose owner has
 // already hit the free-tier active-project ceiling (currently 2). Supabase

@@ -19,34 +19,16 @@
  *             → .generated-specs/mpg.json
  *             patches: patches/mpg/*.patch.json (Smithy)
  *
- *   addons    GraphQL  specs/spec-mirror-fly-io/specs/graphql.json (the
- *             api.fly.io/graphql introspection), reduced to the add-on types
- *             in addons-selection.ts
- *             → .generated-specs/addons.json
- *             patches: patches/addons/*.patch.json (Smithy)
- *
- *   builders  GraphQL  the same introspection, reduced to the remote-builder
- *             mutation in builders-selection.ts
- *             → .generated-specs/builders.json
+ * The GraphQL API (add-ons, remote builders, and the rest of
+ * api.fly.io/graphql) is a Query SDK: scripts/convert-graphql.ts.
  *
  * Every patch is a Smithy op on upstream names, applied by the
  * finalizeConvert at the end. `scripts/generate.ts` only compiles
  * `.generated-specs`.
  */
-import * as fs from "node:fs/promises";
-import * as path from "node:path";
-import {
-  convertGraphQLToSmithy,
-  PRELUDE,
-  readIntrospection,
-} from "@distilled.cloud/dev/codegen/graphql";
-import { writeModel } from "@distilled.cloud/dev/codegen/models";
 import { ERROR_MATCHERS_TRAIT } from "@distilled.cloud/dev/codegen/openapi";
 import { runOpenApiConvert } from "@distilled.cloud/dev/codegen/openapi-cli";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
-import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
-import { selectAddons } from "./addons-selection.ts";
-import { selectBuilders } from "./builders-selection.ts";
 import { MACHINES_OPERATION_NAMES } from "./machines-operation-ids.ts";
 import { SPRITES_OPERATION_NAMES, stripSpritesV1 } from "./sprites-operation-ids.ts";
 
@@ -59,7 +41,6 @@ if (machinesOnly && process.argv[resourceIndex + 1] !== "machines") {
 }
 
 const root = `${import.meta.dirname}/..`;
-const generatedDir = path.join(root, ".generated-specs");
 
 const STATUS_TO_ERROR = {
   400: "BadRequest",
@@ -226,112 +207,9 @@ const stampSprites = (model: { shapes: Record<string, any> }): string => {
   return `stamped ${notes.join(", ")}`;
 };
 
-// ---------------------------------------------------------------------------
-// addons — GraphQL thin client
-// ---------------------------------------------------------------------------
-
-/** Stamp `smithy.api#sensitive` on every structure member named in `names`. */
-const stampSensitive = (model: any, names: readonly string[]): string | undefined => {
-  let n = 0;
-  for (const def of Object.values(model.shapes ?? {}) as any[]) {
-    if (def?.type !== "structure") continue;
-    for (const [name, member] of Object.entries(def.members ?? {}) as any[]) {
-      if (!names.includes(name)) continue;
-      member.traits = { ...member.traits, "smithy.api#sensitive": {} };
-      n++;
-    }
-  }
-  return n ? `stamped smithy.api#sensitive on ${n} member(s)` : undefined;
-};
-
-const graphqlTraits = {
-  operation: "com.flyio.graphql#operation",
-  responsePath: "com.flyio.graphql#responsePath",
-  nullable: "com.flyio.graphql#nullable",
-  nullableItems: "com.flyio.graphql#nullableItems",
-  payload: "com.flyio.graphql#payload",
-} as const;
-
-const graphqlSchema = readIntrospection(
-  JSON.parse(
-    await fs.readFile(resolveSpecPath(root, "specs/spec-mirror-fly-io/specs/graphql.json"), "utf8"),
-  ),
-);
-
-const addonsSchema = selectAddons(graphqlSchema);
-
-const addonsResult = convertGraphQLToSmithy({
-  schema: addonsSchema,
-  namespace: "com.flyio.addons",
-  serviceName: "FlyAddons",
-  serviceTitle: "Fly GraphQL add-ons",
-  serviceDocumentation:
-    "Thin Fly.io GraphQL client for managed extensions (Tigris, Upstash Redis) " +
-    "at POST https://api.fly.io/graphql. Auth is the same FLY_API_TOKEN bearer " +
-    "as Machines. Documents are baked from flyctl's add-on operations.",
-  endpoint: "/graphql",
-  traits: graphqlTraits,
-  maxDepth: 2,
-  maxNamespaceDepth: 1,
-  skipDeprecated: true,
-  customScalars: {
-    JSON: PRELUDE.Document,
-    ISO8601DateTime: PRELUDE.String,
-  },
-  relay: { after: "after", first: "first" },
-});
-
-const addonsOut = path.join(generatedDir, "addons.json");
-writeModel(addonsOut, addonsResult.model);
-console.log(
-  `✅ addons: ${addonsResult.converted} GraphQL operations ` +
-    `(${addonsResult.paginated} paginated, ${addonsResult.failed} failed, ` +
-    `${addonsResult.shapeCount} shapes) → ${addonsOut}`,
-);
-
-// builders — GraphQL remote builders (Depot)
-const buildersResult = convertGraphQLToSmithy({
-  schema: selectBuilders(graphqlSchema),
-  namespace: "com.flyio.builders",
-  serviceName: "FlyBuilders",
-  serviceTitle: "Fly GraphQL remote builders",
-  serviceDocumentation:
-    "Fly.io remote builders at POST https://api.fly.io/graphql: starts a Depot " +
-    "build for an app and returns its single-use build token. Auth is the same " +
-    "FLY_API_TOKEN bearer as Machines.",
-  endpoint: "/graphql",
-  traits: graphqlTraits,
-  maxDepth: 2,
-  maxNamespaceDepth: 1,
-  skipDeprecated: true,
-});
-
-const buildersOut = path.join(generatedDir, "builders.json");
-writeModel(buildersOut, buildersResult.model);
-console.log(
-  `✅ builders: ${buildersResult.converted} GraphQL operations ` +
-    `(${buildersResult.failed} failed, ${buildersResult.shapeCount} shapes) → ${buildersOut}`,
-);
-
 await finalizeConvert({
   root,
   transform: (model, resource) => {
     if (resource === "sprites") return stampSprites(model);
-    if (resource === "builders") return stampSensitive(model, ["buildToken"]);
-    if (resource !== "addons") return;
-    let n = 0;
-    for (const def of Object.values(model.shapes ?? {}) as any[]) {
-      if (def?.type !== "structure") continue;
-      for (const [name, member] of Object.entries(def.members ?? {}) as any[]) {
-        if (name === "password" || name === "publicUrl") {
-          member.traits = {
-            ...member.traits,
-            "smithy.api#sensitive": {},
-          };
-          n++;
-        }
-      }
-    }
-    if (n) return `stamped smithy.api#sensitive on ${n} add-on secret member(s)`;
   },
 });

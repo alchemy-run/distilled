@@ -74,9 +74,9 @@ export interface ApproveRollingReleaseStageRequest {
   /** Project ID or project name (URL-encoded) */
   idOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The index of the stage to transition to */
   nextStageIndex: number;
   /** The id of the canary deployment to approve for the next stage */
@@ -91,7 +91,7 @@ export interface ApproveRollingReleaseStageResponseRollingReleaseActiveStage {
   /** Whether or not this stage is the final stage (targetPercentage === 100) */
   isFinalStage: boolean;
   /** Whether to linearly shift traffic over the duration of this stage */
-  linearShift?: boolean;
+  linearShift?: boolean | undefined;
   /** Whether or not this stage requires manual approval to proceed */
   requireApproval: boolean;
   /** The percentage of traffic to serve to the canary deployment (0-100) */
@@ -136,11 +136,14 @@ export interface ApproveRollingReleaseStageResponseRollingReleaseCanaryDeploymen
   name: string;
   /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
   readyState: ApproveRollingReleaseStageResponseRollingReleaseCanaryDeploymentReadyState;
-  readyStateAt?: number;
+  readyStateAt?: number | undefined;
   /** Where was the deployment created from. Best-effort guess for metrics only -- not authoritative; do not gate behavior on it. */
-  source?: ApproveRollingReleaseStageResponseRollingReleaseCanaryDeploymentSource;
+  source?: ApproveRollingReleaseStageResponseRollingReleaseCanaryDeploymentSource | undefined;
   /** If defined, either `staging` if a staging alias in the format `<project>.<team>.now.sh` was assigned upon creation, or `production` if the aliases from `alias` were assigned. `null` value indicates the "preview" deployment. */
-  target?: ApproveRollingReleaseStageResponseRollingReleaseCanaryDeploymentTarget | null;
+  target?:
+    | ApproveRollingReleaseStageResponseRollingReleaseCanaryDeploymentTarget
+    | null
+    | undefined;
   /** A string with the unique URL of the deployment */
   url: string;
 }
@@ -179,11 +182,14 @@ export interface ApproveRollingReleaseStageResponseRollingReleaseCurrentDeployme
   name: string;
   /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
   readyState: ApproveRollingReleaseStageResponseRollingReleaseCurrentDeploymentReadyState;
-  readyStateAt?: number;
+  readyStateAt?: number | undefined;
   /** Where was the deployment created from. Best-effort guess for metrics only -- not authoritative; do not gate behavior on it. */
-  source?: ApproveRollingReleaseStageResponseRollingReleaseCurrentDeploymentSource;
+  source?: ApproveRollingReleaseStageResponseRollingReleaseCurrentDeploymentSource | undefined;
   /** If defined, either `staging` if a staging alias in the format `<project>.<team>.now.sh` was assigned upon creation, or `production` if the aliases from `alias` were assigned. `null` value indicates the "preview" deployment. */
-  target?: ApproveRollingReleaseStageResponseRollingReleaseCurrentDeploymentTarget | null;
+  target?:
+    | ApproveRollingReleaseStageResponseRollingReleaseCurrentDeploymentTarget
+    | null
+    | undefined;
   /** A string with the unique URL of the deployment */
   url: string;
 }
@@ -212,7 +218,7 @@ export interface ApproveRollingReleaseStageResponseRollingRelease {
   /** The canary deployment being rolled out */
   canaryDeployment: ApproveRollingReleaseStageResponseRollingReleaseCanaryDeployment | null;
   /** When set (for example while {@link substate} is `PAUSED`), the canary traffic percentage persisted on the rollout document -- use for dashboard display when linear shift is active. */
-  currentCanaryPercentage?: number;
+  currentCanaryPercentage?: number | undefined;
   /** The current deployment receiving production traffic */
   currentDeployment: ApproveRollingReleaseStageResponseRollingReleaseCurrentDeployment | null;
   /** The next stage to be activated, null if not in ACTIVE state */
@@ -238,9 +244,9 @@ export interface CompleteRollingReleaseRequest {
   /** Project ID or project name (URL-encoded) */
   idOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The ID of the canary deployment to complete */
   canaryDeploymentId: string;
 }
@@ -286,11 +292,11 @@ export interface CompleteRollingReleaseResponseRollingReleaseCanaryDeployment {
   name: string;
   /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
   readyState: CompleteRollingReleaseResponseRollingReleaseCanaryDeploymentReadyState;
-  readyStateAt?: number;
+  readyStateAt?: number | undefined;
   /** Where was the deployment created from. Best-effort guess for metrics only -- not authoritative; do not gate behavior on it. */
-  source?: CompleteRollingReleaseResponseRollingReleaseCanaryDeploymentSource;
+  source?: CompleteRollingReleaseResponseRollingReleaseCanaryDeploymentSource | undefined;
   /** If defined, either `staging` if a staging alias in the format `<project>.<team>.now.sh` was assigned upon creation, or `production` if the aliases from `alias` were assigned. `null` value indicates the "preview" deployment. */
-  target?: CompleteRollingReleaseResponseRollingReleaseCanaryDeploymentTarget | null;
+  target?: CompleteRollingReleaseResponseRollingReleaseCanaryDeploymentTarget | null | undefined;
   /** A string with the unique URL of the deployment */
   url: string;
 }
@@ -329,11 +335,11 @@ export interface CompleteRollingReleaseResponseRollingReleaseCurrentDeployment {
   name: string;
   /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
   readyState: CompleteRollingReleaseResponseRollingReleaseCurrentDeploymentReadyState;
-  readyStateAt?: number;
+  readyStateAt?: number | undefined;
   /** Where was the deployment created from. Best-effort guess for metrics only -- not authoritative; do not gate behavior on it. */
-  source?: CompleteRollingReleaseResponseRollingReleaseCurrentDeploymentSource;
+  source?: CompleteRollingReleaseResponseRollingReleaseCurrentDeploymentSource | undefined;
   /** If defined, either `staging` if a staging alias in the format `<project>.<team>.now.sh` was assigned upon creation, or `production` if the aliases from `alias` were assigned. `null` value indicates the "preview" deployment. */
-  target?: CompleteRollingReleaseResponseRollingReleaseCurrentDeploymentTarget | null;
+  target?: CompleteRollingReleaseResponseRollingReleaseCurrentDeploymentTarget | null | undefined;
   /** A string with the unique URL of the deployment */
   url: string;
 }
@@ -359,7 +365,7 @@ export interface CompleteRollingReleaseResponseRollingRelease {
   /** The canary deployment being rolled out */
   canaryDeployment: CompleteRollingReleaseResponseRollingReleaseCanaryDeployment | null;
   /** When set (for example while {@link substate} is `PAUSED`), the canary traffic percentage persisted on the rollout document -- use for dashboard display when linear shift is active. */
-  currentCanaryPercentage?: number;
+  currentCanaryPercentage?: number | undefined;
   /** The current deployment receiving production traffic */
   currentDeployment: CompleteRollingReleaseResponseRollingReleaseCurrentDeployment | null;
   /** The next stage to be activated, null if not in ACTIVE state */
@@ -385,9 +391,9 @@ export interface DeleteRollingReleaseConfigRequest {
   /** Project ID or project name (URL-encoded) */
   idOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface DeleteRollingReleaseConfigResponse {
   rollingRelease: unknown | null;
@@ -398,11 +404,11 @@ export interface GetRollingReleaseRequest {
   /** Project ID or project name (URL-encoded) */
   idOrName: string;
   /** Filter by rolling release state */
-  state?: GetRollingReleaseRequestState | (string & {});
+  state?: GetRollingReleaseRequestState | (string & {}) | undefined;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** The currently active stage, null if the rollout is aborted */
 export type GetRollingReleaseResponseRollingReleaseActiveStage =
@@ -446,11 +452,11 @@ export interface GetRollingReleaseResponseRollingReleaseCanaryDeployment {
   name: string;
   /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
   readyState: GetRollingReleaseResponseRollingReleaseCanaryDeploymentReadyState;
-  readyStateAt?: number;
+  readyStateAt?: number | undefined;
   /** Where was the deployment created from. Best-effort guess for metrics only -- not authoritative; do not gate behavior on it. */
-  source?: GetRollingReleaseResponseRollingReleaseCanaryDeploymentSource;
+  source?: GetRollingReleaseResponseRollingReleaseCanaryDeploymentSource | undefined;
   /** If defined, either `staging` if a staging alias in the format `<project>.<team>.now.sh` was assigned upon creation, or `production` if the aliases from `alias` were assigned. `null` value indicates the "preview" deployment. */
-  target?: GetRollingReleaseResponseRollingReleaseCanaryDeploymentTarget | null;
+  target?: GetRollingReleaseResponseRollingReleaseCanaryDeploymentTarget | null | undefined;
   /** A string with the unique URL of the deployment */
   url: string;
 }
@@ -489,11 +495,11 @@ export interface GetRollingReleaseResponseRollingReleaseCurrentDeployment {
   name: string;
   /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
   readyState: GetRollingReleaseResponseRollingReleaseCurrentDeploymentReadyState;
-  readyStateAt?: number;
+  readyStateAt?: number | undefined;
   /** Where was the deployment created from. Best-effort guess for metrics only -- not authoritative; do not gate behavior on it. */
-  source?: GetRollingReleaseResponseRollingReleaseCurrentDeploymentSource;
+  source?: GetRollingReleaseResponseRollingReleaseCurrentDeploymentSource | undefined;
   /** If defined, either `staging` if a staging alias in the format `<project>.<team>.now.sh` was assigned upon creation, or `production` if the aliases from `alias` were assigned. `null` value indicates the "preview" deployment. */
-  target?: GetRollingReleaseResponseRollingReleaseCurrentDeploymentTarget | null;
+  target?: GetRollingReleaseResponseRollingReleaseCurrentDeploymentTarget | null | undefined;
   /** A string with the unique URL of the deployment */
   url: string;
 }
@@ -519,7 +525,7 @@ export interface GetRollingReleaseResponseRollingRelease {
   /** The canary deployment being rolled out */
   canaryDeployment: GetRollingReleaseResponseRollingReleaseCanaryDeployment | null;
   /** When set (for example while {@link substate} is `PAUSED`), the canary traffic percentage persisted on the rollout document -- use for dashboard display when linear shift is active. */
-  currentCanaryPercentage?: number;
+  currentCanaryPercentage?: number | undefined;
   /** The current deployment receiving production traffic */
   currentDeployment: GetRollingReleaseResponseRollingReleaseCurrentDeployment | null;
   /** The next stage to be activated, null if not in ACTIVE state */
@@ -545,9 +551,9 @@ export interface GetRollingReleaseBillingStatusRequest {
   /** Project ID or project name (URL-encoded) */
   idOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetRollingReleaseBillingStatusResponseBodyCase0AvailableSlots = 0;
 export type GetRollingReleaseBillingStatusResponseBodyCase0Reason = "plan_not_supported";
@@ -588,9 +594,9 @@ export interface GetRollingReleaseConfigRequest {
   /** Project ID or project name (URL-encoded) */
   idOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 /** What to do when the gate trips: pause the rollout, or roll it back. */
 export type GetRollingReleaseConfigResponseRollingReleaseGateAction = "pause" | "rollback";
@@ -605,13 +611,17 @@ export type GetRollingReleaseConfigResponseRollingReleaseGateChecksItemType = "e
 /** The checks to evaluate. An empty array means nothing is evaluated. */
 export interface GetRollingReleaseConfigResponseRollingReleaseGateChecksItem {
   /** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-  excludePaths?: GetRollingReleaseConfigResponseRollingReleaseGateChecksItemExcludePathsList;
+  excludePaths?:
+    | GetRollingReleaseConfigResponseRollingReleaseGateChecksItemExcludePathsList
+    | undefined;
   /** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-  excludeStatusCodes?: GetRollingReleaseConfigResponseRollingReleaseGateChecksItemExcludeStatusCodesList;
+  excludeStatusCodes?:
+    | GetRollingReleaseConfigResponseRollingReleaseGateChecksItemExcludeStatusCodesList
+    | undefined;
   /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
-  ingestWatermarkSeconds?: number;
-  /** Minimum number of requests required in the window before the check can fail. Below this, the check is inconclusive rather than failing, so low-traffic stages don't gate on noise. Defaults to `100` when omitted. */
-  minSampleSize?: number;
+  ingestWatermarkSeconds?: number | undefined;
+  /** A run fails only when the canary's error rate is higher and its one-sided Fisher p-value is below this significance level. Defaults to `0.05`; lower values require stronger evidence. */
+  significanceLevel?: number | undefined;
   /** The metric this check evaluates. */
   type: GetRollingReleaseConfigResponseRollingReleaseGateChecksItemType;
 }
@@ -629,18 +639,18 @@ export interface GetRollingReleaseConfigResponseRollingReleaseGate {
   /** Whether automated gating is enabled for this project's rollouts. */
   enabled: boolean;
   /** How many failing evaluations within {@link windowSize} trip the gate. Defaults to `3` when omitted. */
-  failureThreshold?: number;
+  failureThreshold?: number | undefined;
   /** How many of the most recent evaluations {@link failureThreshold} is counted against. Defaults to `5` when omitted. */
-  windowSize?: number;
+  windowSize?: number | undefined;
 }
 /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
 export interface GetRollingReleaseConfigResponseRollingReleaseStagesItem {
   /** Duration in minutes for automatic advancement to the next stage */
-  duration?: number;
+  duration?: number | undefined;
   /** Whether to linearly shift traffic over the duration of this stage */
-  linearShift?: boolean;
+  linearShift?: boolean | undefined;
   /** Whether or not this stage requires manual approval to proceed */
-  requireApproval?: boolean;
+  requireApproval?: boolean | undefined;
   /** The percentage of traffic to serve to the canary deployment (0-100) */
   targetPercentage: number;
 }
@@ -650,11 +660,11 @@ export type GetRollingReleaseConfigResponseRollingReleaseStagesList =
 /** Project-level rolling release configuration that defines how deployments should be gradually rolled out */
 export interface GetRollingReleaseConfigResponseRollingRelease {
   /** Whether the request served by a canary deployment should return a header indicating a canary was served. Defaults to `false` when omitted. */
-  canaryResponseHeader?: boolean;
+  canaryResponseHeader?: boolean | undefined;
   /** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-  gate?: GetRollingReleaseConfigResponseRollingReleaseGate;
+  gate?: GetRollingReleaseConfigResponseRollingReleaseGate | undefined;
   /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
-  stages?: GetRollingReleaseConfigResponseRollingReleaseStagesList | null;
+  stages?: GetRollingReleaseConfigResponseRollingReleaseStagesList | null | undefined;
   /** The environment that the release targets, currently only supports production. Adding in case we want to configure with alias groups or custom environments. */
   target: string;
 }
@@ -666,9 +676,9 @@ export interface StartRollingReleaseRequest {
   /** Project ID or project name (URL-encoded) */
   idOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The ID of the canary deployment to start the rolling release for */
   canaryDeploymentId: string;
 }
@@ -714,11 +724,11 @@ export interface StartRollingReleaseResponseRollingReleaseCanaryDeployment {
   name: string;
   /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
   readyState: StartRollingReleaseResponseRollingReleaseCanaryDeploymentReadyState;
-  readyStateAt?: number;
+  readyStateAt?: number | undefined;
   /** Where was the deployment created from. Best-effort guess for metrics only -- not authoritative; do not gate behavior on it. */
-  source?: StartRollingReleaseResponseRollingReleaseCanaryDeploymentSource;
+  source?: StartRollingReleaseResponseRollingReleaseCanaryDeploymentSource | undefined;
   /** If defined, either `staging` if a staging alias in the format `<project>.<team>.now.sh` was assigned upon creation, or `production` if the aliases from `alias` were assigned. `null` value indicates the "preview" deployment. */
-  target?: StartRollingReleaseResponseRollingReleaseCanaryDeploymentTarget | null;
+  target?: StartRollingReleaseResponseRollingReleaseCanaryDeploymentTarget | null | undefined;
   /** A string with the unique URL of the deployment */
   url: string;
 }
@@ -757,11 +767,11 @@ export interface StartRollingReleaseResponseRollingReleaseCurrentDeployment {
   name: string;
   /** The state of the deployment depending on the process of deploying, or if it is ready or in an error state */
   readyState: StartRollingReleaseResponseRollingReleaseCurrentDeploymentReadyState;
-  readyStateAt?: number;
+  readyStateAt?: number | undefined;
   /** Where was the deployment created from. Best-effort guess for metrics only -- not authoritative; do not gate behavior on it. */
-  source?: StartRollingReleaseResponseRollingReleaseCurrentDeploymentSource;
+  source?: StartRollingReleaseResponseRollingReleaseCurrentDeploymentSource | undefined;
   /** If defined, either `staging` if a staging alias in the format `<project>.<team>.now.sh` was assigned upon creation, or `production` if the aliases from `alias` were assigned. `null` value indicates the "preview" deployment. */
-  target?: StartRollingReleaseResponseRollingReleaseCurrentDeploymentTarget | null;
+  target?: StartRollingReleaseResponseRollingReleaseCurrentDeploymentTarget | null | undefined;
   /** A string with the unique URL of the deployment */
   url: string;
 }
@@ -787,7 +797,7 @@ export interface StartRollingReleaseResponseRollingRelease {
   /** The canary deployment being rolled out */
   canaryDeployment: StartRollingReleaseResponseRollingReleaseCanaryDeployment | null;
   /** When set (for example while {@link substate} is `PAUSED`), the canary traffic percentage persisted on the rollout document -- use for dashboard display when linear shift is active. */
-  currentCanaryPercentage?: number;
+  currentCanaryPercentage?: number | undefined;
   /** The current deployment receiving production traffic */
   currentDeployment: StartRollingReleaseResponseRollingReleaseCurrentDeployment | null;
   /** The next stage to be activated, null if not in ACTIVE state */
@@ -813,9 +823,9 @@ export interface UpdateRollingReleaseConfigRequest {
   /** Project ID or project name (URL-encoded) */
   idOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export interface UpdateRollingReleaseConfigResponseBodyCase0 {
   rollingRelease: unknown | null;
@@ -826,7 +836,7 @@ export type UpdateRollingReleaseConfigResponseBodyCase1RollingReleaseStagesItem 
 export type UpdateRollingReleaseConfigResponseBodyCase1RollingReleaseStagesList =
   Array<GetRollingReleaseConfigResponseRollingReleaseStagesItem>;
 export interface UpdateRollingReleaseConfigResponseBodyCase1RollingRelease {
-  stages?: UpdateRollingReleaseConfigResponseBodyCase1RollingReleaseStagesList | null;
+  stages?: UpdateRollingReleaseConfigResponseBodyCase1RollingReleaseStagesList | null | undefined;
 }
 export interface UpdateRollingReleaseConfigResponseBodyCase1 {
   rollingRelease: UpdateRollingReleaseConfigResponseBodyCase1RollingRelease | null;
@@ -1004,7 +1014,7 @@ function __c0(j: number): any {
           excludePaths: S.optional(__S(0, __c0, 0)),
           excludeStatusCodes: S.optional(__S(2, __c0, 2)),
           ingestWatermarkSeconds: S.optional(S.Number),
-          minSampleSize: S.optional(S.Number),
+          significanceLevel: S.optional(S.Number),
           type: S.String,
         }),
       ).annotate({ identifier: "GetRollingReleaseConfigResponseRollingReleaseGateChecksItem" });

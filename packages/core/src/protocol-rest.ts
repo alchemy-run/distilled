@@ -4,29 +4,28 @@ import * as HttpClient from "effect/http/HttpClient";
 import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
-import * as Redacted from "effect/Redacted";
 import type * as AST from "effect/SchemaAST";
-import { rawResponseRootSymbol } from "./annotations.ts";
+import type * as Stream from "effect/Stream";
+import { rawResponseRootSymbol, resolveNode } from "./annotations.ts";
 import * as API from "./api.ts";
-import { debugHttp } from "./debug.ts";
 import { HTTP_STATUS_MAP, InternalServerError } from "./errors.ts";
 import { recordPageHeaders } from "./pagination.ts";
-import { isOpaqueValue, unwrapRedactedDeep } from "./plain-values.ts";
+import { unwrapRedactedDeep } from "./plain-values.ts";
 import {
   buildRequest,
   getAnn,
-  getPropAnn,
   getProps,
+  hasPropAnn,
   mapKeys,
   mapsVerbatim,
   matchTypedError,
-  resolveNode,
   responseHeaderMembers,
   withResponseHeaders,
   type ResponseHeaderMember,
 } from "./protocol-http.ts";
 import { checkResponse, withholdActual } from "./response-validation.ts";
 import { parseRetryAfterForStatus } from "./retry-after.ts";
+import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive.ts";
 /**
  * Generic REST protocol factory for simple bearer/header-auth JSON APIs
  * (Neon, Fly.io, PlanetScale, Supabase, Turso, ...).
@@ -45,28 +44,34 @@ import { parseRetryAfterForStatus } from "./retry-after.ts";
  *             failing with the provider's `parseError` (see
  *             `core/response-validation`) -> `Redacted` wrapping of members
  *             marked with {@link SensitiveValue}; non-2xx -> typed error:
- *             per-op matcher classes (`matchTypedError`), then the status
+ *             the provider's `classifyError`, then per-op matcher
+ *             classes (`matchTypedError`), then the status
  *             map (default `HTTP_STATUS_MAP`), then an `InternalServerError`
  *             for unmapped 5xx, then the provider's `unknownError` fallback
  *             -- with `retryAfter` durations stamped from the standard hint
  *             headers on retryable statuses.
+ *
+ *   stream:   an `API.makeStreaming` operation with a `framing` config
+ *             ({@link StreamFraming}) emits each frame of the body as it
+ *             arrives, decoded as one element of the output's `items`; a
+ *             plain call collects them.
  *
  * Anything provider-specific (envelope quirks, bespoke error codes) belongs
  * in the provider package -- via these options or a hand-written protocol.
  */
 import * as Telemetry from "./telemetry.ts";
 import { httpSymbol, makeAnnotation, type HttpTrait } from "./trait.ts";
+import type { UnknownErrorProps } from "./unknown-error.ts";
 
 // =============================================================================
 // Traits
 // =============================================================================
 
-export const sensitiveValueSymbol = /*@__PURE__*/ Symbol.for(
-  "@distilled.cloud/core/sensitive-value",
-);
+export { sensitiveValueSymbol };
 /**
- * Marks a string member as sensitive (mirrors `smithy.api#sensitive`).
- * The REST protocol wraps decoded values in `Redacted` on the way out and
+ * Marks a string member, map value or list element as sensitive (mirrors
+ * `smithy.api#sensitive`). The REST protocol wraps decoded values in
+ * `Redacted` on the way out (an untyped `S.Unknown` value whole) and
  * accepts `string | Redacted<string>` on the way in (unwrapped before
  * serialization). Takes an ignored argument so generators can inline the
  * smithy trait value (`T.SensitiveValue({})`).
@@ -102,76 +107,15 @@ export const BinaryResponse = () => makeAnnotation(binaryResponseSymbol, true);
 
 export { unwrapRedactedDeep };
 
-/**
- * Walk a decoded (TS-named) value alongside its schema AST, wrapping members
- * marked {@link SensitiveValue} in `Redacted`. Keys the schema doesn't model
- * pass through verbatim.
- */
-export const wrapSensitive = (ast: AST.AST, value: unknown): unknown => {
-  if (value === null || typeof value !== "object" || isOpaqueValue(value)) {
-    return value;
-  }
-  const node = resolveNode(ast);
-  if (node._tag === "Union") {
-    // Redact every possible sensitive member, including in partial responses.
-    return node.types.reduce<unknown>((redacted, arm) => wrapSensitive(arm, redacted), value);
-  }
-  if (node._tag === "Arrays") {
-    if (!Array.isArray(value)) return value;
-    const elem = (node as any).rest?.[0] as AST.AST | undefined;
-    return elem ? value.map((v) => wrapSensitive(elem, v)) : value;
-  }
-  if (node._tag === "Objects" && !Array.isArray(value)) {
-    const props = getProps(node);
-    if (props.length === 0) return value;
-    const byName = new Map(props.map((p) => [String(p.name), p]));
-    const out: Record<string, unknown> = {};
-    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
-      if (v === undefined) continue;
-      const prop = byName.get(k);
-      if (!prop) {
-        out[k] = v;
-      } else if (getPropAnn(prop, sensitiveValueSymbol) !== undefined && typeof v === "string") {
-        out[k] = Redacted.make(v);
-      } else {
-        out[k] = wrapSensitive(prop.type, v);
-      }
-    }
-    return out;
-  }
-  return value;
-};
-
-const sensitiveOutputs = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
+export { wrapSensitive };
 
 /**
- * Whether any member reachable from `ast` is marked {@link SensitiveValue}.
- * Parse errors for such an output withhold the response body (see
- * {@link RestParseErrorInfo}); hand-written protocols use this to do the same.
+ * Whether any member, map value or list element reachable from `ast` is
+ * marked {@link SensitiveValue}. Such an output is decoded through
+ * {@link wrapSensitive}, and its parse errors withhold the response body (see
+ * {@link checkSuccess}, which every REST-style protocol's success path uses).
  */
-export const hasSensitiveMember = (ast: AST.AST): boolean => {
-  const cached = sensitiveOutputs.get(ast);
-  if (cached !== undefined) return cached;
-  const seen = new Set<AST.AST>();
-  const visit = (node: AST.AST): boolean => {
-    node = resolveNode(node);
-    if (seen.has(node)) return false;
-    seen.add(node);
-    if (node._tag === "Union") return node.types.some(visit);
-    if (node._tag === "Arrays") {
-      return [...node.elements, ...node.rest].some(
-        (e) => getAnn(e, sensitiveValueSymbol) !== undefined || visit(e),
-      );
-    }
-    if (node._tag !== "Objects") return false;
-    return [...node.propertySignatures, ...node.indexSignatures].some(
-      (member) => getAnn(member.type, sensitiveValueSymbol) !== undefined || visit(member.type),
-    );
-  };
-  const result = visit(ast);
-  sensitiveOutputs.set(ast, result);
-  return result;
-};
+export const hasSensitiveMember: (ast: AST.AST) => boolean = holdsSensitive;
 
 // =============================================================================
 // Protocol factory
@@ -187,6 +131,18 @@ export interface RestErrorInfo {
   readonly body: unknown;
   readonly headers: Record<string, string | undefined>;
 }
+
+/**
+ * The core {@link UnknownErrorProps} of a failure, for an SDK's
+ * `unknownError`: `new UnknownNeonError(unknownErrorProps(info))`. A number
+ * code becomes its string.
+ */
+export const unknownErrorProps = (info: RestErrorInfo): UnknownErrorProps => ({
+  status: info.status,
+  code: info.code === undefined ? undefined : String(info.code),
+  message: info.message,
+  body: info.body,
+});
 
 /**
  * A 2xx body that failed strict validation, or a non-JSON 2xx body for an
@@ -221,13 +177,15 @@ export interface RestProtocolOptions<C> {
    * API base URL from the resolved credentials. Receives the operation's
    * route so APIs with more than one endpoint (e.g. S2's account vs
    * per-basin hosts, chosen by path) can route per request; single-endpoint
-   * providers ignore the argument. A THROWN error (e.g. a required scope
-   * missing from the credentials) is caught and surfaced on the calling
-   * effect's error channel rather than dying as a defect.
+   * providers ignore the argument. `server` is the operation's host name
+   * (`T.Http({ server })`) for APIs that serve some operations from another
+   * host; map it to a base URL from the credentials. A THROWN error (e.g. a
+   * required scope missing from the credentials) is caught and surfaced on
+   * the calling effect's error channel rather than dying as a defect.
    */
   readonly baseUrl: (
     credentials: C,
-    target: { readonly uri: string; readonly method: string },
+    target: { readonly uri: string; readonly method: string; readonly server?: string | undefined },
   ) => string;
   /** Auth (and any fixed) headers from the resolved credentials. */
   readonly headers: (credentials: C) => Record<string, string>;
@@ -244,7 +202,19 @@ export interface RestProtocolOptions<C> {
    * else to {@link unknownError}.
    */
   readonly statusMap?: Readonly<Record<number, new (args: any) => any>>;
-  /** Fallback error for failures nothing else matched. */
+  /**
+   * The provider's own reading of a failure, consulted before per-op typed
+   * matching and the status map: return the error to fail with, or
+   * `undefined` to decode the failure as usual. For rules a status alone
+   * can't express, e.g. a 403 that is a rate limit because of its headers.
+   */
+  readonly classifyError?: (info: RestErrorInfo) => unknown;
+  /**
+   * Fallback error for failures nothing else matched: the SDK's
+   * `Unknown<Sdk>Error`, built from {@link unknownErrorProps}. Only non-5xx
+   * statuses reach it (unmapped 5xx are `InternalServerError`), so the class
+   * carries no retryable category.
+   */
   readonly unknownError: (info: RestErrorInfo) => unknown;
   /**
    * The SDK's `<Sdk>ParseError`, raised when a 2xx body does not match the
@@ -262,6 +232,45 @@ export interface RestProtocolOptions<C> {
   readonly mapMemberHeader?: (name: string, value: string) => string;
   /** Passed through to `buildRequest` (wire names for unmodeled input keys). */
   readonly unknownKeyToWire?: (key: string) => string;
+  /** Passed through to `buildRequest`: send `{}` when a bodied call has no body members. */
+  readonly emptyJsonBody?: boolean;
+}
+
+/** The body of a streamed 2xx response, for {@link StreamFraming.stream}. */
+export interface FramedBody {
+  readonly body: Stream.Stream<Uint8Array, unknown>;
+  /**
+   * Decode one parsed frame as one element of the output's `items`, as a
+   * 2xx body decodes (key mapping, strict validation, `Redacted`).
+   */
+  readonly item: (json: unknown, text: string) => Effect.Effect<unknown, unknown>;
+  /** The SDK's parse error for a frame that is not JSON. */
+  readonly invalid: (text: string) => unknown;
+}
+
+/** A plain call's framed body, read whole: the output JSON, or not JSON. */
+export interface CollectedBody {
+  readonly json: unknown;
+  readonly nonJson: boolean;
+}
+
+/**
+ * How a server-streaming operation's body is framed (`API.makeStreaming`,
+ * output `{ items }`): its `framing` config, e.g. `ndjson` from
+ * core/ndjson. An operation without one can't stream (`.stream()` fails
+ * with `SdkError`, see `API.cannotStream`).
+ */
+export interface StreamFraming {
+  /**
+   * A plain call's whole body as `{ items }`, or `undefined` when the
+   * response's `Content-Type` is not this framing (decoded as usual).
+   */
+  readonly collect: (text: string, contentType: string | undefined) => CollectedBody | undefined;
+  /**
+   * Each frame as it arrives, through `item`. `open` sends the request and
+   * fails with the operation's typed error on a failed status.
+   */
+  readonly stream: (open: Effect.Effect<FramedBody, unknown>) => Stream.Stream<unknown, unknown>;
 }
 
 const defaultErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
@@ -279,45 +288,88 @@ const defaultErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
 // here; the generated operation annotations reintroduce it for callers.
 const fail = (e: unknown): Effect.Effect<never> => Effect.fail(e) as Effect.Effect<never>;
 
-/** Whether {@link wrapSensitive} can change any value of `root`. Cached per schema. */
-export const hasSensitive = (root: AST.AST): boolean => {
-  let result = sensitiveCache.get(root);
-  if (result !== undefined) return result;
-  result = false;
-  const seen = new Set<AST.AST>();
-  const stack: AST.AST[] = [root];
-  walk: while (stack.length > 0) {
-    const ast = stack.pop()!;
-    if (seen.has(ast)) continue;
-    seen.add(ast);
-    const node = resolveNode(ast);
-    if (node._tag === "Union") {
-      for (const t of (node as AST.Union).types) stack.push(t);
-    } else if (node._tag === "Arrays") {
-      const elem = (node as any).rest?.[0] as AST.AST | undefined;
-      if (elem) stack.push(elem);
-    } else if (node._tag === "Objects") {
-      for (const p of getProps(node)) {
-        if (getPropAnn(p, sensitiveValueSymbol) !== undefined) {
-          result = true;
-          break walk;
-        }
-        stack.push(p.type);
-      }
-    }
+// =============================================================================
+// 2xx bodies
+// =============================================================================
+
+/** A 2xx body a protocol read, for {@link checkSuccess}. */
+export interface SuccessBody {
+  /** The value to check and return: the body mapped onto the output's TS names. */
+  readonly value: unknown;
+  /** What a parse error reports as `body` for an output without sensitive members. */
+  readonly body: unknown;
+  /** Whether the body was not JSON. */
+  readonly nonJson: boolean;
+}
+
+/** The outcome of {@link checkSuccess}: the value, or the parse error's fields. */
+export type SuccessCheck =
+  | { readonly ok: true; readonly value: unknown }
+  | { readonly ok: false; readonly error: RestParseErrorInfo };
+
+/**
+ * Check a 2xx body against the operation's output schema and deliver its
+ * sensitive values as `Redacted`. Every REST-style protocol ends its success
+ * path here, so all of them treat a body that can hold a secret alike:
+ *
+ * - The checked value comes back through {@link wrapSensitive}.
+ * - A mismatch (validating modes, see `core/response-validation`) reports
+ *   `read.body` and the schema error.
+ * - For an output with sensitive members ({@link hasSensitiveMember}), a
+ *   non-JSON body fails in every mode with `"Invalid JSON response"`, and a
+ *   mismatch reports `body: "[REDACTED]"` and the schema error without the
+ *   value it found (`withholdActual`).
+ *
+ * Synchronous, for protocols that already hold the calling fiber's context;
+ * {@link validateSuccess} is the `Effect` form.
+ */
+export const checkSuccess = (
+  context: Context.Context<any>,
+  outputAst: AST.AST,
+  read: SuccessBody,
+): SuccessCheck => {
+  const sensitive = hasSensitiveMember(outputAst);
+  if (read.nonJson && sensitive) {
+    return { ok: false, error: { body: "[REDACTED]", cause: "Invalid JSON response" } };
   }
-  sensitiveCache.set(root, result);
-  return result;
+  const invalid = checkResponse(context, outputAst, read.value);
+  if (invalid !== undefined) {
+    return {
+      ok: false,
+      error: sensitive
+        ? { body: "[REDACTED]", cause: withholdActual(invalid) }
+        : { body: read.body, cause: invalid },
+    };
+  }
+  return { ok: true, value: sensitive ? wrapSensitive(outputAst, read.value) : read.value };
 };
-const sensitiveCache = /*@__PURE__*/ new WeakMap<AST.AST, boolean>();
+
+/**
+ * {@link checkSuccess} on the calling fiber, failing with `parseError` (the
+ * SDK's `<Sdk>ParseError`) built from the withheld-or-not fields.
+ */
+export const validateSuccess = <E>(
+  outputAst: AST.AST,
+  read: SuccessBody,
+  parseError: (info: RestParseErrorInfo) => E,
+): Effect.Effect<unknown, E> =>
+  Effect.withFiber((fiber) => {
+    const checked = checkSuccess(fiber.context as Context.Context<any>, outputAst, read);
+    return checked.ok ? Effect.succeed(checked.value) : Effect.fail(parseError(checked.error));
+  });
 
 /** Per-operation decode facts, read from the output schema once. */
 interface DecodePlan {
   readonly binary: boolean;
   readonly verbatim: boolean;
-  readonly sensitive: boolean;
-  /** Parse errors withhold the body (see {@link hasSensitiveMember}). */
-  readonly withholdBody: boolean;
+  /**
+   * A member of a structure output that receives the whole body
+   * (`T.RawResponse()` next to header members), e.g. a bare JSON array with
+   * its next-page token in a response header.
+   */
+  readonly bodyMember: AST.PropertySignature | undefined;
+  /** The output is a bare string, so an empty body decodes to `""`. */
+  readonly text: boolean;
   /** Members read from response headers (`T.Header`). */
   readonly headers: ReadonlyArray<ResponseHeaderMember>;
 }
@@ -329,9 +381,9 @@ const decodePlanFor = (outputAst: AST.AST): DecodePlan => {
     plan = {
       binary: getAnn(outputAst, binaryResponseSymbol) !== undefined,
       verbatim: mapsVerbatim(outputAst, "decode"),
-      sensitive: hasSensitive(outputAst),
-      withholdBody: hasSensitiveMember(outputAst),
+      text: resolveNode(outputAst)._tag === "String",
       headers: responseHeaderMembers(outputAst),
+      bodyMember: getProps(outputAst).find((prop) => hasPropAnn(prop, rawResponseSymbol)),
     };
     decodePlans.set(outputAst, plan);
   }
@@ -385,6 +437,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       baseUrl = options.baseUrl(creds, {
         uri: http?.uri ?? "",
         method: http?.method ?? "",
+        server: http?.server,
       });
     } catch (e) {
       // A baseUrl that refuses the route (missing scope in the
@@ -399,6 +452,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       headers: options.headers(creds),
       mapMemberHeader: options.mapMemberHeader,
       unknownKeyToWire: options.unknownKeyToWire,
+      emptyJsonBody: options.emptyJsonBody,
     }) as Effect.Effect<HttpClientRequest.HttpClientRequest>;
   };
 
@@ -410,11 +464,9 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     text: string,
     outputAst: AST.AST,
     errorClasses: ReadonlyArray<unknown>,
+    framing: StreamFraming | undefined,
   ): Decoded => {
     // Read as text and parse tolerantly -- error pages are often non-JSON.
-    if (debugHttp()) {
-      console.error(`[distilled] <- ${status}`);
-    }
     let json: unknown;
     let nonJson = false;
     if (text.trim().length > 0) {
@@ -428,6 +480,18 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     if (status >= 400) {
       const env = (nonJson ? undefined : errorEnvelope(json)) ?? {};
       const message = env.message ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
+
+      // 0. The provider's own reading of the failure.
+      if (options.classifyError) {
+        const classified = options.classifyError({
+          status,
+          code: env.code,
+          message,
+          body: nonJson ? text : json,
+          headers,
+        });
+        if (classified !== undefined) return { ok: false, error: classified };
+      }
 
       // 1. Per-operation typed error (matcher metadata on the class).
       const typed = matchTypedError(
@@ -481,39 +545,47 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       };
     }
 
-    // 2xx: the response body IS the payload (no envelope). Wire->TS key
-    // mapping is schema-driven; `RawResponseRoot` responses are the body
-    // verbatim (mapKeys handles arrays/scalars structurally either way).
-    // Strict mode (core/response-validation) checks the mapped body against
-    // the output schema -- a non-JSON body reaches it as a string and fails
-    // there unless the operation's output is itself a string. For an output
-    // with sensitive members, a non-JSON body fails in every mode and parse
-    // errors withhold the body.
+    // A framed (streamed) body that a plain call collects: its frames are
+    // the output's `items`.
+    const collected = framing?.collect(text, headers["content-type"]);
+    return collected === undefined
+      ? decodeSuccess(context, headers, text, json, nonJson, outputAst)
+      : decodeSuccess(context, headers, text, collected.json, collected.nonJson, outputAst);
+  };
+
+  /**
+   * A 2xx body: the response body IS the payload (no envelope). Wire->TS
+   * key mapping is schema-driven; `RawResponseRoot` responses are the body
+   * verbatim (mapKeys handles arrays/scalars structurally either way).
+   * Strict mode (core/response-validation) checks the mapped body against
+   * the output schema -- a non-JSON body reaches it as a string and fails
+   * there unless the operation's output is itself a string. For an output
+   * with sensitive members, a non-JSON body fails in every mode and parse
+   * errors withhold the body.
+   */
+  const decodeSuccess = (
+    context: Context.Context<any>,
+    headers: Record<string, string | undefined>,
+    text: string,
+    json: unknown,
+    nonJson: boolean,
+    outputAst: AST.AST,
+  ): Decoded => {
     const plan = decodePlanFor(outputAst);
-    if (nonJson && plan.withholdBody) {
-      return {
-        ok: false,
-        error: options.parseError({ body: "[REDACTED]", cause: "Invalid JSON response" }),
-      };
-    }
-    let body: unknown = nonJson ? text : json === undefined ? {} : json;
+    let body: unknown = nonJson ? text : json === undefined ? (plan.text ? "" : {}) : json;
     if (options.transformResponse) body = options.transformResponse(body);
-    const mapped = withResponseHeaders(
-      plan.headers,
-      plan.verbatim ? body : mapKeys(outputAst, body, "decode"),
-      headers,
-    );
-    const invalid = checkResponse(context, outputAst, mapped);
-    if (invalid !== undefined) {
-      return {
-        ok: false,
-        error: options.parseError({
-          body: plan.withholdBody ? "[REDACTED]" : nonJson ? text : json,
-          cause: plan.withholdBody ? withholdActual(invalid) : invalid,
-        }),
-      };
-    }
-    return { ok: true, value: plan.sensitive ? wrapSensitive(outputAst, mapped) : mapped };
+    const mapped =
+      plan.bodyMember !== undefined
+        ? { [plan.bodyMember.name]: mapKeys(plan.bodyMember.type, body, "decode") }
+        : plan.verbatim
+          ? body
+          : mapKeys(outputAst, body, "decode");
+    const checked = checkSuccess(context, outputAst, {
+      value: withResponseHeaders(plan.headers, mapped, headers),
+      body: nonJson ? text : json,
+      nonJson,
+    });
+    return checked.ok ? checked : { ok: false, error: options.parseError(checked.error) };
   };
 
   const decodeResponse = (
@@ -521,6 +593,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     response: HttpClientResponse.HttpClientResponse,
     outputAst: AST.AST,
     errorClasses: ReadonlyArray<unknown>,
+    framing: StreamFraming | undefined,
   ): Effect.Effect<unknown> =>
     // A body read that fails (reset or abort mid-body) fails the call with
     // its `HttpClientError`, which every operation's error channel declares.
@@ -535,22 +608,82 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
             text ?? "",
             outputAst,
             errorClasses,
+            framing,
           );
           return decoded.ok ? Effect.succeed(decoded.value) : fail(decoded.error);
         })) as Effect.Effect<unknown>;
 
-  const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown> =>
+  /**
+   * Send `op`'s request on the calling fiber; decode the response, or open
+   * it as a stream (`openFramed`).
+   */
+  const send = (
+    op: API.PreparedOperation,
+    input: unknown,
+    streaming: boolean,
+  ): Effect.Effect<unknown> =>
     Effect.withFiber((fiber) => {
       const context = fiber.context as Context.Context<any>;
       return withCredentials(context, (creds) => {
         const client = Context.get(context, HttpClient.HttpClient);
         return Effect.flatMap(requestFor(creds, input, op.inputAst), (request) =>
           Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
-            decodeResponse(context, response, op.outputAst, op.errors),
+            streaming
+              ? openFramed(context, response, op)
+              : decodeResponse(
+                  context,
+                  response,
+                  op.outputAst,
+                  op.errors,
+                  op.config.framing as StreamFraming | undefined,
+                ),
           ),
         );
       });
     }) as Effect.Effect<unknown>;
+
+  /**
+   * A streaming call's response: its body and a frame decoder. A failed
+   * status fails with the operation's typed error, as a plain call does.
+   */
+  const openFramed = (
+    context: Context.Context<any>,
+    response: HttpClientResponse.HttpClientResponse,
+    op: API.PreparedOperation,
+  ): Effect.Effect<unknown> =>
+    response.status >= 400
+      ? decodeResponse(context, response, op.outputAst, op.errors, undefined)
+      : Effect.succeed<FramedBody>({
+          body: response.stream,
+          item: (json, text) => {
+            const headers = response.headers as Record<string, string | undefined>;
+            // A frame schema of its own (an operation that streams only when
+            // its input asks), else one element of the output's `items`.
+            const itemAst = op.config.items?.ast;
+            if (itemAst !== undefined) {
+              const decoded = decodeSuccess(context, headers, text, json, false, itemAst);
+              return decoded.ok ? Effect.succeed(decoded.value) : fail(decoded.error);
+            }
+            const decoded = decodeSuccess(
+              context,
+              headers,
+              text,
+              { items: [json] },
+              false,
+              op.outputAst,
+            );
+            return decoded.ok
+              ? Effect.succeed(
+                  (decoded.value as { readonly items: ReadonlyArray<unknown> }).items[0],
+                )
+              : fail(decoded.error);
+          },
+          invalid: (text) =>
+            options.parseError({
+              body: hasSensitiveMember(op.outputAst) ? "[REDACTED]" : text,
+              cause: "Invalid JSON frame",
+            }),
+        });
 
   return Layer.succeed(
     API.Protocol,
@@ -563,11 +696,23 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
             requestFor(creds, input, inputAst),
           ),
         ) as Effect.Effect<HttpClientRequest.HttpClientRequest>,
-      decode: ({ response, outputAst, errors }) =>
+      decode: ({ response, outputAst, errors, config }) =>
         Effect.withFiber((fiber) =>
-          decodeResponse(fiber.context as Context.Context<any>, response, outputAst, errors),
+          decodeResponse(
+            fiber.context as Context.Context<any>,
+            response,
+            outputAst,
+            errors,
+            config.framing as StreamFraming | undefined,
+          ),
         ),
-      call,
+      call: (op, input) => send(op, input, false),
+      stream: (op, input) => {
+        const framing = op.config.framing as StreamFraming | undefined;
+        return framing === undefined
+          ? API.cannotStream(op)
+          : framing.stream(send(op, input, true) as Effect.Effect<FramedBody>);
+      },
     }),
   );
 };

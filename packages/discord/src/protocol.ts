@@ -1,6 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * DiscordProtocol -- the shared bearer-REST protocol instantiated for Discord.
  *
@@ -33,7 +38,8 @@ export type DiscordOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Discord operation. */
 export type DiscordOpContext = Credentials | HttpClient.HttpClient;
@@ -87,12 +93,11 @@ export const DiscordProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRest
     Authorization: `${creds.tokenType} ${Redacted.value(creds.token)}`,
   }),
   errorEnvelope,
-  unknownError: ({ code, message, body }) =>
+  unknownError: (info) =>
     new UnknownDiscordError({
-      code: numericCode(code),
-      message,
-      errors: errorDetails(body),
-      body,
+      ...unknownErrorProps(info),
+      code: numericCode(info.code),
+      errors: errorDetails(info.body),
     }),
   parseError: ({ body, cause }) => new DiscordParseError({ body, cause }),
 });

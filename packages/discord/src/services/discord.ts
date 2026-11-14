@@ -38,8 +38,8 @@ export class NotFound
 export interface AddGroupDmUserRequest {
   channel_id: string;
   user_id: string;
-  access_token?: string | Redacted.Redacted<string> | null;
-  nick?: string | null;
+  access_token?: string | Redacted.Redacted<string> | null | undefined;
+  nick?: string | null | undefined;
 }
 export type ChannelTypes = 1 | 3 | 0 | 2 | 4 | 5 | 10 | 11 | 12 | 13 | 14 | 15;
 export interface UserAvatarDecorationResponse {
@@ -99,19 +99,19 @@ export interface UserResponse {
   /** the flags on a user's account */
   flags: number;
   /** whether the user belongs to an OAuth2 application */
-  bot?: boolean;
+  bot?: boolean | undefined;
   /** whether the user is an Official Discord System user (part of the urgent message system) */
-  system?: boolean;
+  system?: boolean | undefined;
   /** the user's banner hash */
-  banner?: string | null;
+  banner?: string | null | undefined;
   /** the user's banner color encoded as an integer representation of hexadecimal color code */
-  accent_color?: number | null;
+  accent_color?: number | null | undefined;
   /** the user's display name, if it is set */
   global_name: string | null;
   /** data for the user's avatar decoration */
-  avatar_decoration_data?: UserAvatarDecorationResponse | null;
+  avatar_decoration_data?: UserAvatarDecorationResponse | null | undefined;
   /** data for the user's collectibles */
-  collectibles?: UserCollectiblesResponse | null;
+  collectibles?: UserCollectiblesResponse | null | undefined;
   /** the user's primary guild */
   primary_guild: UserPrimaryGuildResponse | null;
 }
@@ -119,24 +119,24 @@ export type PrivateChannelResponseRecipientsList = Array<UserResponse>;
 export interface PrivateChannelResponse {
   id: string;
   type: ChannelTypes;
-  last_message_id?: string | null;
+  last_message_id?: string | null | undefined;
   flags: number;
-  last_pin_timestamp?: string | null;
+  last_pin_timestamp?: string | null | undefined;
   recipients: PrivateChannelResponseRecipientsList;
 }
 export type PrivateGroupChannelResponseRecipientsList = Array<UserResponse>;
 export interface PrivateGroupChannelResponse {
   id: string;
   type: ChannelTypes;
-  last_message_id?: string | null;
+  last_message_id?: string | null | undefined;
   flags: number;
-  last_pin_timestamp?: string | null;
+  last_pin_timestamp?: string | null | undefined;
   recipients: PrivateGroupChannelResponseRecipientsList;
   name: string | null;
   icon: string | null;
   owner_id: string;
-  managed?: boolean;
-  application_id?: string;
+  managed?: boolean | undefined;
+  application_id?: string | undefined;
 }
 export type AddGroupDmUserResponseBody = PrivateChannelResponse | PrivateGroupChannelResponse;
 export type AddGroupDmUserResponse = AddGroupDmUserResponseBody;
@@ -144,12 +144,12 @@ export type AddGuildMemberRequestRolesList = Array<string>;
 export interface AddGuildMemberRequest {
   guild_id: string;
   user_id: string;
-  nick?: string | null;
-  roles?: AddGuildMemberRequestRolesList | null;
-  mute?: boolean | null;
-  deaf?: boolean | null;
+  nick?: string | null | undefined;
+  roles?: AddGuildMemberRequestRolesList | null | undefined;
+  mute?: boolean | null | undefined;
+  deaf?: boolean | null | undefined;
   access_token: string | Redacted.Redacted<string>;
-  flags?: number | null;
+  flags?: number | null | undefined;
 }
 /** array of role object ids */
 export type GuildMemberResponseRolesList = Array<string>;
@@ -157,7 +157,7 @@ export interface GuildMemberResponse {
   /** the member's guild avatar hash */
   avatar: string | null;
   /** data for the member's guild avatar decoration */
-  avatar_decoration_data?: UserAvatarDecorationResponse | null;
+  avatar_decoration_data?: UserAvatarDecorationResponse | null | undefined;
   /** the member's guild banner hash */
   banner: string | null;
   /** when the user's timeout will expire and the user will be able to communicate in the guild again, null or a time in the past if the user is not timed out */
@@ -175,7 +175,7 @@ export interface GuildMemberResponse {
   /** array of role object ids */
   roles: GuildMemberResponseRolesList;
   /** data for the member's collectibles */
-  collectibles?: UserCollectiblesResponse | null;
+  collectibles?: UserCollectiblesResponse | null | undefined;
   /** the user this guild member represents */
   user: UserResponse;
   /** whether the user is muted in voice channels */
@@ -191,6 +191,7 @@ export interface AddGuildMemberRoleRequest {
 export interface AddGuildMemberRoleResponse {}
 export interface AddInviteTargetUserRequest {
   code: string;
+  /** The ID of the user to target */
   user_id: string;
 }
 export interface AddInviteTargetUserResponse {}
@@ -199,16 +200,16 @@ export type AddLobbyMemberRequestFlags = 1;
 export interface AddLobbyMemberRequest {
   lobby_id: string;
   user_id: string;
-  metadata?: AddLobbyMemberRequestMetadataMap | null;
-  flags?: AddLobbyMemberRequestFlags | (number & {}) | null;
-  additional_name?: string | null;
+  metadata?: AddLobbyMemberRequestMetadataMap | null | undefined;
+  flags?: AddLobbyMemberRequestFlags | (number & {}) | null | undefined;
+  additional_name?: string | null | undefined;
 }
 export type LobbyMemberResponseMetadataMap = { [key: string]: string | undefined };
 export interface LobbyMemberResponse {
   id: string;
   metadata: LobbyMemberResponseMetadataMap | null;
   flags: number;
-  additional_name?: string;
+  additional_name?: string | undefined;
 }
 export interface AddMyMessageReactionRequest {
   channel_id: string;
@@ -224,14 +225,14 @@ export interface AddThreadMemberResponse {}
 export interface BanUserFromGuildRequest {
   guild_id: string;
   user_id: string;
-  delete_message_seconds?: number | null;
-  delete_message_days?: number | null;
+  delete_message_seconds?: number | null | undefined;
+  delete_message_days?: number | null | undefined;
 }
 export interface BanUserFromGuildResponse {}
 export interface BotPartnerSdkTokenRequest {
-  provisional_user_id?: string | null;
+  provisional_user_id?: string | null | undefined;
   external_user_id: string;
-  preferred_global_name?: string | null;
+  preferred_global_name?: string | null | undefined;
 }
 export type ProvisionalTokenResponseScopesList = Array<string>;
 export interface ProvisionalTokenResponse {
@@ -240,9 +241,9 @@ export interface ProvisionalTokenResponse {
   expires_in: number;
   scope: string;
   id_token: string;
-  refresh_token?: string | Redacted.Redacted<string> | null;
-  scopes?: ProvisionalTokenResponseScopesList | null;
-  expires_at_s?: number | null;
+  refresh_token?: string | Redacted.Redacted<string> | null | undefined;
+  scopes?: ProvisionalTokenResponseScopesList | null | undefined;
+  expires_at_s?: number | null | undefined;
 }
 export interface BotPartnerSdkUnmergeProvisionalAccountRequest {
   external_user_id: string;
@@ -260,7 +261,7 @@ export type BulkBanUsersFromGuildRequestUserIdsList = Array<string>;
 export interface BulkBanUsersFromGuildRequest {
   guild_id: string;
   user_ids: BulkBanUsersFromGuildRequestUserIdsList;
-  delete_message_seconds?: number | null;
+  delete_message_seconds?: number | null | undefined;
 }
 export type BulkBanUsersResponseBannedUsersList = Array<string>;
 export type BulkBanUsersResponseFailedUsersList = Array<string>;
@@ -299,11 +300,14 @@ export type ApplicationCommandAttachmentOptionFileTypesList = Array<string>;
 export interface ApplicationCommandAttachmentOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandAttachmentOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandAttachmentOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandAttachmentOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
-  file_types?: ApplicationCommandAttachmentOptionFileTypesList | null;
+  description_localizations?:
+    | ApplicationCommandAttachmentOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
+  file_types?: ApplicationCommandAttachmentOptionFileTypesList | null | undefined;
 }
 export type ApplicationCommandBooleanOptionNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -314,10 +318,13 @@ export type ApplicationCommandBooleanOptionDescriptionLocalizationsMap = {
 export interface ApplicationCommandBooleanOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandBooleanOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandBooleanOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandBooleanOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
+  description_localizations?:
+    | ApplicationCommandBooleanOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
 }
 export type ApplicationCommandChannelOptionNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -329,11 +336,14 @@ export type ApplicationCommandChannelOptionChannelTypesList = Array<ChannelTypes
 export interface ApplicationCommandChannelOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandChannelOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandChannelOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandChannelOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
-  channel_types?: ApplicationCommandChannelOptionChannelTypesList | null;
+  description_localizations?:
+    | ApplicationCommandChannelOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
+  channel_types?: ApplicationCommandChannelOptionChannelTypesList | null | undefined;
 }
 export type ApplicationCommandIntegerOptionNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -346,7 +356,7 @@ export type ApplicationCommandOptionIntegerChoiceNameLocalizationsMap = {
 };
 export interface ApplicationCommandOptionIntegerChoice {
   name: string;
-  name_localizations?: ApplicationCommandOptionIntegerChoiceNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandOptionIntegerChoiceNameLocalizationsMap | null | undefined;
   value: number;
 }
 export type ApplicationCommandIntegerOptionChoicesList =
@@ -354,14 +364,17 @@ export type ApplicationCommandIntegerOptionChoicesList =
 export interface ApplicationCommandIntegerOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandIntegerOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandIntegerOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandIntegerOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
-  autocomplete?: boolean | null;
-  choices?: ApplicationCommandIntegerOptionChoicesList | null;
-  min_value?: number | null;
-  max_value?: number | null;
+  description_localizations?:
+    | ApplicationCommandIntegerOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
+  autocomplete?: boolean | null | undefined;
+  choices?: ApplicationCommandIntegerOptionChoicesList | null | undefined;
+  min_value?: number | null | undefined;
+  max_value?: number | null | undefined;
 }
 export type ApplicationCommandMentionableOptionNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -372,10 +385,13 @@ export type ApplicationCommandMentionableOptionDescriptionLocalizationsMap = {
 export interface ApplicationCommandMentionableOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandMentionableOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandMentionableOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandMentionableOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
+  description_localizations?:
+    | ApplicationCommandMentionableOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
 }
 export type ApplicationCommandNumberOptionNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -388,21 +404,24 @@ export type ApplicationCommandOptionNumberChoiceNameLocalizationsMap = {
 };
 export interface ApplicationCommandOptionNumberChoice {
   name: string;
-  name_localizations?: ApplicationCommandOptionNumberChoiceNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandOptionNumberChoiceNameLocalizationsMap | null | undefined;
   value: number;
 }
 export type ApplicationCommandNumberOptionChoicesList = Array<ApplicationCommandOptionNumberChoice>;
 export interface ApplicationCommandNumberOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandNumberOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandNumberOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandNumberOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
-  autocomplete?: boolean | null;
-  choices?: ApplicationCommandNumberOptionChoicesList | null;
-  min_value?: number | null;
-  max_value?: number | null;
+  description_localizations?:
+    | ApplicationCommandNumberOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
+  autocomplete?: boolean | null | undefined;
+  choices?: ApplicationCommandNumberOptionChoicesList | null | undefined;
+  min_value?: number | null | undefined;
+  max_value?: number | null | undefined;
 }
 export type ApplicationCommandRoleOptionNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -413,10 +432,13 @@ export type ApplicationCommandRoleOptionDescriptionLocalizationsMap = {
 export interface ApplicationCommandRoleOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandRoleOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandRoleOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandRoleOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
+  description_localizations?:
+    | ApplicationCommandRoleOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
 }
 export type ApplicationCommandStringOptionNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -429,21 +451,24 @@ export type ApplicationCommandOptionStringChoiceNameLocalizationsMap = {
 };
 export interface ApplicationCommandOptionStringChoice {
   name: string;
-  name_localizations?: ApplicationCommandOptionStringChoiceNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandOptionStringChoiceNameLocalizationsMap | null | undefined;
   value: string;
 }
 export type ApplicationCommandStringOptionChoicesList = Array<ApplicationCommandOptionStringChoice>;
 export interface ApplicationCommandStringOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandStringOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandStringOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandStringOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
-  autocomplete?: boolean | null;
-  min_length?: number | null;
-  max_length?: number | null;
-  choices?: ApplicationCommandStringOptionChoicesList | null;
+  description_localizations?:
+    | ApplicationCommandStringOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
+  autocomplete?: boolean | null | undefined;
+  min_length?: number | null | undefined;
+  max_length?: number | null | undefined;
+  choices?: ApplicationCommandStringOptionChoicesList | null | undefined;
 }
 export type ApplicationCommandSubcommandGroupOptionNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -466,10 +491,13 @@ export type ApplicationCommandUserOptionDescriptionLocalizationsMap = {
 export interface ApplicationCommandUserOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandUserOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandUserOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandUserOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
+  description_localizations?:
+    | ApplicationCommandUserOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
 }
 export type ApplicationCommandSubcommandOptionOptionsItem =
   | ApplicationCommandAttachmentOption
@@ -486,22 +514,31 @@ export type ApplicationCommandSubcommandOptionOptionsList =
 export interface ApplicationCommandSubcommandOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandSubcommandOptionNameLocalizationsMap | null;
+  name_localizations?: ApplicationCommandSubcommandOptionNameLocalizationsMap | null | undefined;
   description: string;
-  description_localizations?: ApplicationCommandSubcommandOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
-  options?: ApplicationCommandSubcommandOptionOptionsList | null;
+  description_localizations?:
+    | ApplicationCommandSubcommandOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
+  options?: ApplicationCommandSubcommandOptionOptionsList | null | undefined;
 }
 export type ApplicationCommandSubcommandGroupOptionOptionsList =
   Array<ApplicationCommandSubcommandOption>;
 export interface ApplicationCommandSubcommandGroupOption {
   type: ApplicationCommandOptionType | (number & {});
   name: string;
-  name_localizations?: ApplicationCommandSubcommandGroupOptionNameLocalizationsMap | null;
+  name_localizations?:
+    | ApplicationCommandSubcommandGroupOptionNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localizations?: ApplicationCommandSubcommandGroupOptionDescriptionLocalizationsMap | null;
-  required?: boolean | null;
-  options?: ApplicationCommandSubcommandGroupOptionOptionsList | null;
+  description_localizations?:
+    | ApplicationCommandSubcommandGroupOptionDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
+  options?: ApplicationCommandSubcommandGroupOptionOptionsList | null | undefined;
 }
 export type ApplicationCommandUpdateRequestOptionsItem =
   | ApplicationCommandAttachmentOption
@@ -529,18 +566,21 @@ export type ApplicationCommandHandler = 1 | 2;
 export type ApplicationCommandType = 1 | 2 | 3 | 4;
 export interface ApplicationCommandUpdateRequest {
   name: string;
-  name_localizations?: ApplicationCommandUpdateRequestNameLocalizationsMap | null;
-  description?: string | null;
-  description_localizations?: ApplicationCommandUpdateRequestDescriptionLocalizationsMap | null;
-  options?: ApplicationCommandUpdateRequestOptionsList | null;
-  default_member_permissions?: number | null;
-  dm_permission?: boolean | null;
-  contexts?: ApplicationCommandUpdateRequestContextsList | null;
-  integration_types?: ApplicationCommandUpdateRequestIntegrationTypesList | null;
+  name_localizations?: ApplicationCommandUpdateRequestNameLocalizationsMap | null | undefined;
+  description?: string | null | undefined;
+  description_localizations?:
+    | ApplicationCommandUpdateRequestDescriptionLocalizationsMap
+    | null
+    | undefined;
+  options?: ApplicationCommandUpdateRequestOptionsList | null | undefined;
+  default_member_permissions?: number | null | undefined;
+  dm_permission?: boolean | null | undefined;
+  contexts?: ApplicationCommandUpdateRequestContextsList | null | undefined;
+  integration_types?: ApplicationCommandUpdateRequestIntegrationTypesList | null | undefined;
   /** Determines whether the interaction is handled by the app's interactions handler or by Discord */
-  handler?: ApplicationCommandHandler | (number & {}) | null;
-  type?: ApplicationCommandType | (number & {}) | null;
-  id?: string | null;
+  handler?: ApplicationCommandHandler | (number & {}) | null | undefined;
+  type?: ApplicationCommandType | (number & {}) | null | undefined;
+  id?: string | null | undefined;
 }
 export type BulkSetApplicationCommandsRequestBodyList = Array<ApplicationCommandUpdateRequest>;
 export interface BulkSetApplicationCommandsRequest {
@@ -563,13 +603,19 @@ export type ApplicationCommandAttachmentOptionResponseFileTypesList = Array<stri
 export interface ApplicationCommandAttachmentOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandAttachmentOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandAttachmentOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandAttachmentOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
-  file_types?: ApplicationCommandAttachmentOptionResponseFileTypesList;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandAttachmentOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
+  file_types?: ApplicationCommandAttachmentOptionResponseFileTypesList | undefined;
 }
 export type ApplicationCommandBooleanOptionResponseNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -580,12 +626,18 @@ export type ApplicationCommandBooleanOptionResponseDescriptionLocalizationsMap =
 export interface ApplicationCommandBooleanOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandBooleanOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandBooleanOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandBooleanOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandBooleanOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
 }
 export type ApplicationCommandChannelOptionResponseNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -597,13 +649,19 @@ export type ApplicationCommandChannelOptionResponseChannelTypesList = Array<Chan
 export interface ApplicationCommandChannelOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandChannelOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandChannelOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandChannelOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
-  channel_types?: ApplicationCommandChannelOptionResponseChannelTypesList;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandChannelOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
+  channel_types?: ApplicationCommandChannelOptionResponseChannelTypesList | undefined;
 }
 export type ApplicationCommandIntegerOptionResponseNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -616,8 +674,11 @@ export type ApplicationCommandOptionIntegerChoiceResponseNameLocalizationsMap = 
 };
 export interface ApplicationCommandOptionIntegerChoiceResponse {
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandOptionIntegerChoiceResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandOptionIntegerChoiceResponseNameLocalizationsMap
+    | null
+    | undefined;
   value: number;
 }
 export type ApplicationCommandIntegerOptionResponseChoicesList =
@@ -625,16 +686,22 @@ export type ApplicationCommandIntegerOptionResponseChoicesList =
 export interface ApplicationCommandIntegerOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandIntegerOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandIntegerOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandIntegerOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
-  autocomplete?: boolean;
-  choices?: ApplicationCommandIntegerOptionResponseChoicesList;
-  min_value?: number;
-  max_value?: number;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandIntegerOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
+  autocomplete?: boolean | undefined;
+  choices?: ApplicationCommandIntegerOptionResponseChoicesList | undefined;
+  min_value?: number | undefined;
+  max_value?: number | undefined;
 }
 export type ApplicationCommandMentionableOptionResponseNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -645,12 +712,18 @@ export type ApplicationCommandMentionableOptionResponseDescriptionLocalizationsM
 export interface ApplicationCommandMentionableOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandMentionableOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandMentionableOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandMentionableOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandMentionableOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
 }
 export type ApplicationCommandNumberOptionResponseNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -663,8 +736,11 @@ export type ApplicationCommandOptionNumberChoiceResponseNameLocalizationsMap = {
 };
 export interface ApplicationCommandOptionNumberChoiceResponse {
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandOptionNumberChoiceResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandOptionNumberChoiceResponseNameLocalizationsMap
+    | null
+    | undefined;
   value: number;
 }
 export type ApplicationCommandNumberOptionResponseChoicesList =
@@ -672,16 +748,22 @@ export type ApplicationCommandNumberOptionResponseChoicesList =
 export interface ApplicationCommandNumberOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandNumberOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandNumberOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandNumberOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
-  autocomplete?: boolean;
-  choices?: ApplicationCommandNumberOptionResponseChoicesList;
-  min_value?: number;
-  max_value?: number;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandNumberOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
+  autocomplete?: boolean | undefined;
+  choices?: ApplicationCommandNumberOptionResponseChoicesList | undefined;
+  min_value?: number | undefined;
+  max_value?: number | undefined;
 }
 export type ApplicationCommandRoleOptionResponseNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -692,12 +774,15 @@ export type ApplicationCommandRoleOptionResponseDescriptionLocalizationsMap = {
 export interface ApplicationCommandRoleOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandRoleOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?: ApplicationCommandRoleOptionResponseNameLocalizationsMap | null | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandRoleOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandRoleOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
 }
 export type ApplicationCommandStringOptionResponseNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -710,8 +795,11 @@ export type ApplicationCommandOptionStringChoiceResponseNameLocalizationsMap = {
 };
 export interface ApplicationCommandOptionStringChoiceResponse {
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandOptionStringChoiceResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandOptionStringChoiceResponseNameLocalizationsMap
+    | null
+    | undefined;
   value: string;
 }
 export type ApplicationCommandStringOptionResponseChoicesList =
@@ -719,16 +807,22 @@ export type ApplicationCommandStringOptionResponseChoicesList =
 export interface ApplicationCommandStringOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandStringOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandStringOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandStringOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
-  autocomplete?: boolean;
-  choices?: ApplicationCommandStringOptionResponseChoicesList;
-  min_length?: number;
-  max_length?: number;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandStringOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
+  autocomplete?: boolean | undefined;
+  choices?: ApplicationCommandStringOptionResponseChoicesList | undefined;
+  min_length?: number | undefined;
+  max_length?: number | undefined;
 }
 export type ApplicationCommandSubcommandGroupOptionResponseNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -751,12 +845,15 @@ export type ApplicationCommandUserOptionResponseDescriptionLocalizationsMap = {
 export interface ApplicationCommandUserOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandUserOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?: ApplicationCommandUserOptionResponseNameLocalizationsMap | null | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandUserOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandUserOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
 }
 export type ApplicationCommandSubcommandOptionResponseOptionsItem =
   | ApplicationCommandAttachmentOptionResponse
@@ -773,26 +870,38 @@ export type ApplicationCommandSubcommandOptionResponseOptionsList =
 export interface ApplicationCommandSubcommandOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandSubcommandOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandSubcommandOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandSubcommandOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
-  options?: ApplicationCommandSubcommandOptionResponseOptionsList;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandSubcommandOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
+  options?: ApplicationCommandSubcommandOptionResponseOptionsList | undefined;
 }
 export type ApplicationCommandSubcommandGroupOptionResponseOptionsList =
   Array<ApplicationCommandSubcommandOptionResponse>;
 export interface ApplicationCommandSubcommandGroupOptionResponse {
   type: ApplicationCommandOptionType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandSubcommandGroupOptionResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?:
+    | ApplicationCommandSubcommandGroupOptionResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandSubcommandGroupOptionResponseDescriptionLocalizationsMap | null;
-  required?: boolean;
-  options?: ApplicationCommandSubcommandGroupOptionResponseOptionsList;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandSubcommandGroupOptionResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  required?: boolean | undefined;
+  options?: ApplicationCommandSubcommandGroupOptionResponseOptionsList | undefined;
 }
 export type ApplicationCommandResponseOptionsItem =
   | ApplicationCommandAttachmentOptionResponse
@@ -814,19 +923,22 @@ export interface ApplicationCommandResponse {
   default_member_permissions: string | null;
   type: ApplicationCommandType;
   name: string;
-  name_localized?: string;
-  name_localizations?: ApplicationCommandResponseNameLocalizationsMap | null;
+  name_localized?: string | undefined;
+  name_localizations?: ApplicationCommandResponseNameLocalizationsMap | null | undefined;
   description: string;
-  description_localized?: string;
-  description_localizations?: ApplicationCommandResponseDescriptionLocalizationsMap | null;
-  guild_id?: string;
-  dm_permission?: boolean;
-  contexts?: ApplicationCommandResponseContextsList | null;
-  integration_types?: ApplicationCommandResponseIntegrationTypesList;
-  options?: ApplicationCommandResponseOptionsList;
-  nsfw?: boolean;
+  description_localized?: string | undefined;
+  description_localizations?:
+    | ApplicationCommandResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
+  guild_id?: string | undefined;
+  dm_permission?: boolean | undefined;
+  contexts?: ApplicationCommandResponseContextsList | null | undefined;
+  integration_types?: ApplicationCommandResponseIntegrationTypesList | undefined;
+  options?: ApplicationCommandResponseOptionsList | undefined;
+  nsfw?: boolean | undefined;
   /** Determines whether the interaction is handled by the app's interactions handler or by Discord */
-  handler?: ApplicationCommandHandler;
+  handler?: ApplicationCommandHandler | undefined;
 }
 export type BulkSetApplicationCommandsResponseBodyList = Array<ApplicationCommandResponse>;
 export type BulkSetApplicationCommandsResponse = BulkSetApplicationCommandsResponseBodyList | null;
@@ -839,10 +951,10 @@ export interface BulkSetGuildApplicationCommandsRequest {
 export type BulkSetGuildApplicationCommandsResponseBodyList = Array<ApplicationCommandResponse>;
 export type BulkSetGuildApplicationCommandsResponse = BulkSetGuildApplicationCommandsResponseBodyList | null;
 export interface BulkUpdateGuildChannelsRequestBodyItem {
-  id?: string | null;
-  position?: number | null;
-  parent_id?: string | null;
-  lock_permissions?: boolean | null;
+  id?: string | null | undefined;
+  position?: number | null | undefined;
+  parent_id?: string | null | undefined;
+  lock_permissions?: boolean | null | undefined;
 }
 export type BulkUpdateGuildChannelsRequestBodyList = Array<BulkUpdateGuildChannelsRequestBodyItem>;
 export interface BulkUpdateGuildChannelsRequest {
@@ -851,8 +963,8 @@ export interface BulkUpdateGuildChannelsRequest {
 }
 export interface BulkUpdateGuildChannelsResponse {}
 export interface UpdateRolePositionsRequest {
-  id?: string | null;
-  position?: number | null;
+  id?: string | null | undefined;
+  position?: number | null | undefined;
 }
 export type BulkUpdateGuildRolesRequestBodyList = Array<UpdateRolePositionsRequest>;
 export interface BulkUpdateGuildRolesRequest {
@@ -865,12 +977,12 @@ export interface GuildRoleColorsResponse {
   tertiary_color: number | null;
 }
 export interface GuildRoleTagsResponse {
-  premium_subscriber?: unknown | null;
-  bot_id?: string;
-  integration_id?: string;
-  subscription_listing_id?: string;
-  available_for_purchase?: unknown | null;
-  guild_connections?: unknown | null;
+  premium_subscriber?: unknown | null | undefined;
+  bot_id?: string | undefined;
+  integration_id?: string | undefined;
+  subscription_listing_id?: string | undefined;
+  available_for_purchase?: unknown | null | undefined;
+  guild_connections?: unknown | null | undefined;
 }
 export interface GuildRoleResponse {
   id: string;
@@ -884,7 +996,7 @@ export interface GuildRoleResponse {
   mentionable: boolean;
   icon: string | null;
   unicode_emoji: string | null;
-  tags?: GuildRoleTagsResponse;
+  tags?: GuildRoleTagsResponse | undefined;
   flags: number;
 }
 export type BulkUpdateGuildRolesResponseBodyList = Array<GuildRoleResponse>;
@@ -893,10 +1005,10 @@ export type BulkLobbyMemberRequestMetadataMap = { [key: string]: string | undefi
 export type BulkLobbyMemberRequestFlags = 1;
 export interface BulkLobbyMemberRequest {
   id: string;
-  metadata?: BulkLobbyMemberRequestMetadataMap | null;
-  flags?: BulkLobbyMemberRequestFlags | (number & {}) | null;
-  additional_name?: string | null;
-  remove_member?: boolean | null;
+  metadata?: BulkLobbyMemberRequestMetadataMap | null | undefined;
+  flags?: BulkLobbyMemberRequestFlags | (number & {}) | null | undefined;
+  additional_name?: string | null | undefined;
+  remove_member?: boolean | null | undefined;
 }
 export type BulkUpdateLobbyMembersRequestBodyList = Array<BulkLobbyMemberRequest>;
 export interface BulkUpdateLobbyMembersRequest {
@@ -912,9 +1024,14 @@ export interface ConsumeEntitlementRequest {
 export interface ConsumeEntitlementResponse {}
 export type CountGuildScheduledEventUsersRequestGuildScheduledEventExceptionIdsList = Array<string>;
 export interface CountGuildScheduledEventUsersRequest {
+  /** The ID of the guild */
   guild_id: string;
+  /** The ID of the scheduled event */
   guild_scheduled_event_id: string;
-  guild_scheduled_event_exception_ids?: CountGuildScheduledEventUsersRequestGuildScheduledEventExceptionIdsList;
+  /** List of scheduled event exception ids to get user counts for */
+  guild_scheduled_event_exception_ids?:
+    | CountGuildScheduledEventUsersRequestGuildScheduledEventExceptionIdsList
+    | undefined;
 }
 /** Map of exception IDs to user counts for each exception */
 export type ScheduledEventUserCountResponseGuildScheduledEventExceptionCountsMap = {
@@ -955,17 +1072,20 @@ export type CreateApplicationCommandRequestIntegrationTypesList = Array<
 export interface CreateApplicationCommandRequest {
   application_id: string;
   name: string;
-  name_localizations?: CreateApplicationCommandRequestNameLocalizationsMap | null;
-  description?: string | null;
-  description_localizations?: CreateApplicationCommandRequestDescriptionLocalizationsMap | null;
-  options?: CreateApplicationCommandRequestOptionsList | null;
-  default_member_permissions?: number | null;
-  dm_permission?: boolean | null;
-  contexts?: CreateApplicationCommandRequestContextsList | null;
-  integration_types?: CreateApplicationCommandRequestIntegrationTypesList | null;
+  name_localizations?: CreateApplicationCommandRequestNameLocalizationsMap | null | undefined;
+  description?: string | null | undefined;
+  description_localizations?:
+    | CreateApplicationCommandRequestDescriptionLocalizationsMap
+    | null
+    | undefined;
+  options?: CreateApplicationCommandRequestOptionsList | null | undefined;
+  default_member_permissions?: number | null | undefined;
+  dm_permission?: boolean | null | undefined;
+  contexts?: CreateApplicationCommandRequestContextsList | null | undefined;
+  integration_types?: CreateApplicationCommandRequestIntegrationTypesList | null | undefined;
   /** Determines whether the interaction is handled by the app's interactions handler or by Discord */
-  handler?: ApplicationCommandHandler | (number & {}) | null;
-  type?: ApplicationCommandType | (number & {}) | null;
+  handler?: ApplicationCommandHandler | (number & {}) | null | undefined;
+  type?: ApplicationCommandType | (number & {}) | null | undefined;
 }
 export interface CreateApplicationEmojiRequest {
   application_id: string;
@@ -976,7 +1096,7 @@ export type EmojiResponseRolesList = Array<string>;
 export interface EmojiResponse {
   id: string;
   name: string;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
   roles: EmojiResponseRolesList;
   require_colons: boolean;
   managed: boolean;
@@ -986,11 +1106,11 @@ export interface EmojiResponse {
 export type AutomodEventType = 1 | 2;
 export type AutomodActionType = 1 | 2 | 3 | 4;
 export interface BlockMessageActionMetadata {
-  custom_message?: string | null;
+  custom_message?: string | null | undefined;
 }
 export interface BlockMessageAction {
   type: AutomodActionType | (number & {});
-  metadata?: BlockMessageActionMetadata | null;
+  metadata?: BlockMessageActionMetadata | null | undefined;
 }
 export interface FlagToChannelActionMetadata {
   channel_id: string;
@@ -1001,10 +1121,10 @@ export interface FlagToChannelAction {
 }
 export interface QuarantineUserAction {
   type: AutomodActionType | (number & {});
-  metadata?: unknown | null;
+  metadata?: unknown | null | undefined;
 }
 export interface UserCommunicationDisabledActionMetadata {
-  duration_seconds?: number | null;
+  duration_seconds?: number | null | undefined;
 }
 export interface UserCommunicationDisabledAction {
   type: AutomodActionType | (number & {});
@@ -1026,16 +1146,16 @@ export type DefaultKeywordListTriggerMetadataPresetsList = Array<
   AutomodKeywordPresetType | (number & {})
 >;
 export interface DefaultKeywordListTriggerMetadata {
-  allow_list?: DefaultKeywordListTriggerMetadataAllowListList | null;
-  presets?: DefaultKeywordListTriggerMetadataPresetsList | null;
+  allow_list?: DefaultKeywordListTriggerMetadataAllowListList | null | undefined;
+  presets?: DefaultKeywordListTriggerMetadataPresetsList | null | undefined;
 }
 export interface DefaultKeywordListUpsertRequest {
   name: string;
   event_type: AutomodEventType | (number & {});
-  actions?: DefaultKeywordListUpsertRequestActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: DefaultKeywordListUpsertRequestExemptRolesList | null;
-  exempt_channels?: DefaultKeywordListUpsertRequestExemptChannelsList | null;
+  actions?: DefaultKeywordListUpsertRequestActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: DefaultKeywordListUpsertRequestExemptRolesList | null | undefined;
+  exempt_channels?: DefaultKeywordListUpsertRequestExemptChannelsList | null | undefined;
   trigger_type: AutomodTriggerType | (number & {});
   trigger_metadata: DefaultKeywordListTriggerMetadata;
 }
@@ -1051,19 +1171,19 @@ export type KeywordTriggerMetadataKeywordFilterList = Array<string>;
 export type KeywordTriggerMetadataRegexPatternsList = Array<string>;
 export type KeywordTriggerMetadataAllowListList = Array<string>;
 export interface KeywordTriggerMetadata {
-  keyword_filter?: KeywordTriggerMetadataKeywordFilterList | null;
-  regex_patterns?: KeywordTriggerMetadataRegexPatternsList | null;
-  allow_list?: KeywordTriggerMetadataAllowListList | null;
+  keyword_filter?: KeywordTriggerMetadataKeywordFilterList | null | undefined;
+  regex_patterns?: KeywordTriggerMetadataRegexPatternsList | null | undefined;
+  allow_list?: KeywordTriggerMetadataAllowListList | null | undefined;
 }
 export interface KeywordUpsertRequest {
   name: string;
   event_type: AutomodEventType | (number & {});
-  actions?: KeywordUpsertRequestActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: KeywordUpsertRequestExemptRolesList | null;
-  exempt_channels?: KeywordUpsertRequestExemptChannelsList | null;
+  actions?: KeywordUpsertRequestActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: KeywordUpsertRequestExemptRolesList | null | undefined;
+  exempt_channels?: KeywordUpsertRequestExemptChannelsList | null | undefined;
   trigger_type: AutomodTriggerType | (number & {});
-  trigger_metadata?: KeywordTriggerMetadata | null;
+  trigger_metadata?: KeywordTriggerMetadata | null | undefined;
 }
 export type MLSpamUpsertRequestActionsItem =
   | BlockMessageAction
@@ -1076,12 +1196,12 @@ export type MLSpamUpsertRequestExemptChannelsList = Array<string>;
 export interface MLSpamUpsertRequest {
   name: string;
   event_type: AutomodEventType | (number & {});
-  actions?: MLSpamUpsertRequestActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: MLSpamUpsertRequestExemptRolesList | null;
-  exempt_channels?: MLSpamUpsertRequestExemptChannelsList | null;
+  actions?: MLSpamUpsertRequestActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: MLSpamUpsertRequestExemptRolesList | null | undefined;
+  exempt_channels?: MLSpamUpsertRequestExemptChannelsList | null | undefined;
   trigger_type: AutomodTriggerType | (number & {});
-  trigger_metadata?: unknown | null;
+  trigger_metadata?: unknown | null | undefined;
 }
 export type MentionSpamUpsertRequestActionsItem =
   | BlockMessageAction
@@ -1092,18 +1212,18 @@ export type MentionSpamUpsertRequestActionsList = Array<MentionSpamUpsertRequest
 export type MentionSpamUpsertRequestExemptRolesList = Array<string>;
 export type MentionSpamUpsertRequestExemptChannelsList = Array<string>;
 export interface MentionSpamTriggerMetadata {
-  mention_total_limit?: number | null;
-  mention_raid_protection_enabled?: boolean | null;
+  mention_total_limit?: number | null | undefined;
+  mention_raid_protection_enabled?: boolean | null | undefined;
 }
 export interface MentionSpamUpsertRequest {
   name: string;
   event_type: AutomodEventType | (number & {});
-  actions?: MentionSpamUpsertRequestActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: MentionSpamUpsertRequestExemptRolesList | null;
-  exempt_channels?: MentionSpamUpsertRequestExemptChannelsList | null;
+  actions?: MentionSpamUpsertRequestActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: MentionSpamUpsertRequestExemptRolesList | null | undefined;
+  exempt_channels?: MentionSpamUpsertRequestExemptChannelsList | null | undefined;
   trigger_type: AutomodTriggerType | (number & {});
-  trigger_metadata?: MentionSpamTriggerMetadata | null;
+  trigger_metadata?: MentionSpamTriggerMetadata | null | undefined;
 }
 export type UserProfileUpsertRequestActionsItem =
   | BlockMessageAction
@@ -1117,17 +1237,17 @@ export type UserProfileMetadataKeywordFilterList = Array<string>;
 export type UserProfileMetadataRegexPatternsList = Array<string>;
 export type UserProfileMetadataAllowListList = Array<string>;
 export interface UserProfileMetadata {
-  keyword_filter?: UserProfileMetadataKeywordFilterList | null;
-  regex_patterns?: UserProfileMetadataRegexPatternsList | null;
-  allow_list?: UserProfileMetadataAllowListList | null;
+  keyword_filter?: UserProfileMetadataKeywordFilterList | null | undefined;
+  regex_patterns?: UserProfileMetadataRegexPatternsList | null | undefined;
+  allow_list?: UserProfileMetadataAllowListList | null | undefined;
 }
 export interface UserProfileUpsertRequest {
   name: string;
   event_type: AutomodEventType | (number & {});
-  actions?: UserProfileUpsertRequestActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: UserProfileUpsertRequestExemptRolesList | null;
-  exempt_channels?: UserProfileUpsertRequestExemptChannelsList | null;
+  actions?: UserProfileUpsertRequestActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: UserProfileUpsertRequestExemptRolesList | null | undefined;
+  exempt_channels?: UserProfileUpsertRequestExemptChannelsList | null | undefined;
   trigger_type: AutomodTriggerType | (number & {});
   trigger_metadata: UserProfileMetadata;
 }
@@ -1142,7 +1262,7 @@ export interface CreateAutoModerationRuleRequest {
   body: CreateAutoModerationRuleRequestBody;
 }
 export interface BlockMessageActionMetadataResponse {
-  custom_message?: string;
+  custom_message?: string | undefined;
 }
 export interface BlockMessageActionResponse {
   type: AutomodActionType;
@@ -1303,7 +1423,7 @@ export type CreateAutoModerationRuleResponseBody =
   | UserProfileRuleResponse;
 export type CreateAutoModerationRuleResponse = CreateAutoModerationRuleResponseBody;
 export interface CreateGroupDMInviteRequest {
-  max_age?: number | null;
+  max_age?: number | null | undefined;
 }
 export type InviteTargetTypes = 1 | 2 | 3;
 export type CreateGuildInviteRequestRoleIdsCase1List = Array<string>;
@@ -1314,16 +1434,16 @@ export type CreateGuildInviteRequestTargetUserIds =
   | string
   | CreateGuildInviteRequestTargetUserIdsCase1List;
 export interface CreateGuildInviteRequest {
-  max_age?: number | null;
-  temporary?: boolean | null;
-  max_uses?: number | null;
-  unique?: boolean | null;
-  target_user_id?: string | null;
-  target_application_id?: string | null;
-  target_type?: InviteTargetTypes | (number & {}) | null;
-  role_ids?: CreateGuildInviteRequestRoleIds | null;
+  max_age?: number | null | undefined;
+  temporary?: boolean | null | undefined;
+  max_uses?: number | null | undefined;
+  unique?: boolean | null | undefined;
+  target_user_id?: string | null | undefined;
+  target_application_id?: string | null | undefined;
+  target_type?: InviteTargetTypes | (number & {}) | null | undefined;
+  role_ids?: CreateGuildInviteRequestRoleIds | null | undefined;
   /** The IDs of the users to target with this invite. */
-  target_user_ids?: CreateGuildInviteRequestTargetUserIds | null;
+  target_user_ids?: CreateGuildInviteRequestTargetUserIds | null | undefined;
 }
 export type CreateChannelInviteRequestBody = CreateGroupDMInviteRequest | CreateGuildInviteRequest;
 export interface CreateChannelInviteRequest {
@@ -1341,33 +1461,33 @@ export interface InviteChannelResponse {
   id: string;
   type: ChannelTypes;
   name: string | null;
-  icon?: string;
-  nsfw?: boolean;
-  recipients?: InviteChannelResponseRecipientsList;
+  icon?: string | undefined;
+  nsfw?: boolean | undefined;
+  recipients?: InviteChannelResponseRecipientsList | undefined;
 }
 export interface FriendInviteResponse {
   type: InviteTypes;
   code: string;
-  inviter?: UserResponse;
-  max_age?: number;
-  created_at?: string;
+  inviter?: UserResponse | undefined;
+  max_age?: number | undefined;
+  created_at?: string | undefined;
   expires_at: string | null;
-  friends_count?: number;
+  friends_count?: number | undefined;
   channel: InviteChannelResponse | null;
-  is_contact?: boolean;
-  uses?: number;
-  max_uses?: number;
-  flags?: number;
+  is_contact?: boolean | undefined;
+  uses?: number | undefined;
+  max_uses?: number | undefined;
+  flags?: number | undefined;
 }
 export interface GroupDMInviteResponse {
   type: InviteTypes;
   code: string;
-  inviter?: UserResponse;
-  max_age?: number;
-  created_at?: string;
+  inviter?: UserResponse | undefined;
+  max_age?: number | undefined;
+  created_at?: string | undefined;
   expires_at: string | null;
   channel: InviteChannelResponse;
-  approximate_member_count?: number | null;
+  approximate_member_count?: number | null | undefined;
 }
 export type GuildFeatures =
   | "ANIMATED_BANNER"
@@ -1459,7 +1579,7 @@ export interface ApplicationOAuth2InstallParamsResponse {
   permissions: string;
 }
 export interface ApplicationIntegrationTypeConfigurationResponse {
-  oauth2_install_params?: ApplicationOAuth2InstallParamsResponse;
+  oauth2_install_params?: ApplicationOAuth2InstallParamsResponse | undefined;
 }
 export type InviteApplicationResponseIntegrationTypesConfigMap = {
   [key: string]: ApplicationIntegrationTypeConfigurationResponse | undefined;
@@ -1471,25 +1591,26 @@ export interface InviteApplicationResponse {
   icon: string | null;
   description: string;
   type: ApplicationTypes | null;
-  cover_image?: string;
-  primary_sku_id?: string;
+  cover_image?: string | undefined;
+  primary_sku_id?: string | undefined;
   flags: number;
   flags_new: string;
-  bot?: UserResponse;
-  slug?: string;
-  vibegrations_project_id?: string;
-  guild_id?: string;
-  rpc_origins?: InviteApplicationResponseRpcOriginsList;
-  bot_public?: boolean;
-  bot_require_code_grant?: boolean;
-  terms_of_service_url?: string;
-  privacy_policy_url?: string;
-  custom_install_url?: string;
-  install_params?: ApplicationOAuth2InstallParamsResponse;
-  integration_types_config?: InviteApplicationResponseIntegrationTypesConfigMap;
+  bot?: UserResponse | undefined;
+  slug?: string | undefined;
+  conjure_project_id?: string | undefined;
+  vibegrations_project_id?: string | undefined;
+  guild_id?: string | undefined;
+  rpc_origins?: InviteApplicationResponseRpcOriginsList | undefined;
+  bot_public?: boolean | undefined;
+  bot_require_code_grant?: boolean | undefined;
+  terms_of_service_url?: string | undefined;
+  privacy_policy_url?: string | undefined;
+  custom_install_url?: string | undefined;
+  install_params?: ApplicationOAuth2InstallParamsResponse | undefined;
+  integration_types_config?: InviteApplicationResponseIntegrationTypesConfigMap | undefined;
   verify_key: string;
-  max_participants?: number | null;
-  tags?: InviteApplicationResponseTagsList;
+  max_participants?: number | null | undefined;
+  tags?: InviteApplicationResponseTagsList | undefined;
 }
 export type GuildScheduledEventStatuses = 1 | 2 | 3 | 4;
 export type GuildScheduledEventEntityTypes = 0 | 1 | 2 | 3;
@@ -1516,7 +1637,7 @@ export interface RecurrenceRuleResponse {
   /** Starting time of the recurrence interval */
   start: string;
   /** Ending time of the recurrence interval */
-  end?: string | null;
+  end?: string | null | undefined;
   /** How often the event occurs */
   frequency: RecurrenceRuleFrequencies;
   /** The spacing between events, defined by frequency */
@@ -1530,9 +1651,9 @@ export interface RecurrenceRuleResponse {
   /** Set of specific dates within a month to recur on */
   by_month_day: RecurrenceRuleResponseByMonthDayList | null;
   /** Set of days within a year to recur on (1-364) */
-  by_year_day?: RecurrenceRuleResponseByYearDayList | null;
+  by_year_day?: RecurrenceRuleResponseByYearDayList | null | undefined;
   /** Total number of times the event is allowed to recur */
-  count?: number | null;
+  count?: number | null | undefined;
 }
 export type GuildScheduledEventPrivacyLevels = 2;
 export type GuildScheduledEventUserResponses = 0 | 1;
@@ -1540,13 +1661,13 @@ export interface ScheduledEventUserResponse {
   /** ID of the scheduled event */
   guild_scheduled_event_id: string;
   /** ID of the scheduled event exception */
-  guild_scheduled_event_exception_id?: string | null;
+  guild_scheduled_event_exception_id?: string | null | undefined;
   /** ID of the user */
   user_id: string;
   /** User object for the RSVP user */
-  user?: UserResponse;
+  user?: UserResponse | undefined;
   /** Guild member object for the RSVP user */
-  member?: GuildMemberResponse;
+  member?: GuildMemberResponse | undefined;
   /** User's RSVP status for the event */
   response: GuildScheduledEventUserResponses;
 }
@@ -1578,7 +1699,7 @@ export interface ScheduledEventResponse {
   /** ID of the user that created the scheduled event */
   creator_id: string | null;
   /** User that created the scheduled event */
-  creator?: UserResponse;
+  creator?: UserResponse | undefined;
   /** Cover image hash of the scheduled event */
   image: string | null;
   /** When the scheduled event will start */
@@ -1594,10 +1715,10 @@ export interface ScheduledEventResponse {
   /** Recurrence rule for the scheduled event, or null if not recurring */
   recurrence_rule: RecurrenceRuleResponse | null;
   /** Number of users subscribed to the scheduled event */
-  user_count?: number;
+  user_count?: number | undefined;
   /** Privacy level of the scheduled event */
   privacy_level: GuildScheduledEventPrivacyLevels;
-  user_rsvp?: ScheduledEventUserResponse | null;
+  user_rsvp?: ScheduledEventUserResponse | null | undefined;
   guild_scheduled_event_exceptions: ScheduledEventResponseGuildScheduledEventExceptionsList;
 }
 export interface InviteGuildRoleResponse {
@@ -1608,34 +1729,34 @@ export interface InviteGuildRoleResponse {
   colors: GuildRoleColorsResponse;
   icon: string | null;
   unicode_emoji: string | null;
-  permissions?: string;
+  permissions?: string | undefined;
 }
 export type GuildInviteResponseRolesList = Array<InviteGuildRoleResponse>;
 export interface GuildInviteResponse {
   type: InviteTypes;
   code: string;
-  inviter?: UserResponse;
-  max_age?: number;
-  created_at?: string;
+  inviter?: UserResponse | undefined;
+  max_age?: number | undefined;
+  created_at?: string | undefined;
   expires_at: string | null;
-  is_contact?: boolean;
-  flags?: number;
+  is_contact?: boolean | undefined;
+  flags?: number | undefined;
   guild: InviteGuildResponse;
   guild_id: string;
   channel: InviteChannelResponse;
-  target_type?: InviteTargetTypes;
-  target_user?: UserResponse;
-  target_application?: InviteApplicationResponse;
-  guild_scheduled_event?: ScheduledEventResponse;
-  target_channel_id?: string;
-  target_message_id?: string;
-  uses?: number;
-  max_uses?: number;
-  temporary?: boolean;
-  approximate_member_count?: number | null;
-  approximate_presence_count?: number | null;
-  is_nickname_changeable?: boolean;
-  roles?: GuildInviteResponseRolesList | null;
+  target_type?: InviteTargetTypes | undefined;
+  target_user?: UserResponse | undefined;
+  target_application?: InviteApplicationResponse | undefined;
+  guild_scheduled_event?: ScheduledEventResponse | undefined;
+  target_channel_id?: string | undefined;
+  target_message_id?: string | undefined;
+  uses?: number | undefined;
+  max_uses?: number | undefined;
+  temporary?: boolean | undefined;
+  approximate_member_count?: number | null | undefined;
+  approximate_presence_count?: number | null | undefined;
+  is_nickname_changeable?: boolean | undefined;
+  roles?: GuildInviteResponseRolesList | null | undefined;
 }
 export type CreateChannelInviteResponseBody =
   | FriendInviteResponse
@@ -1650,9 +1771,9 @@ export interface CreateDeprecatedPinResponse {}
 export type CreateDmRequestAccessTokensList = Array<string>;
 export type CreateDmRequestNicksMap = { [key: string]: string | null | undefined };
 export interface CreateDmRequest {
-  recipient_id?: string | null;
-  access_tokens?: CreateDmRequestAccessTokensList | null;
-  nicks?: CreateDmRequestNicksMap | null;
+  recipient_id?: string | null | undefined;
+  access_tokens?: CreateDmRequestAccessTokensList | null | undefined;
+  nicks?: CreateDmRequestNicksMap | null | undefined;
 }
 export type CreateDmResponseBody = PrivateChannelResponse | PrivateGroupChannelResponse;
 export type CreateDmResponse = CreateDmResponseBody;
@@ -1673,16 +1794,16 @@ export interface EntitlementResponse {
   sku_id: string;
   application_id: string;
   user_id: string;
-  guild_id?: string | null;
+  guild_id?: string | null | undefined;
   deleted: boolean;
   starts_at: string | null;
   ends_at: string | null;
   type: EntitlementTypes;
-  fulfilled_at?: string | null;
-  fulfillment_status?: EntitlementTenantFulfillmentStatusResponse | null;
-  consumed?: boolean;
-  gifter_user_id?: string | null;
-  parent_id?: string | null;
+  fulfilled_at?: string | null | undefined;
+  fulfillment_status?: EntitlementTenantFulfillmentStatusResponse | null | undefined;
+  consumed?: boolean | undefined;
+  gifter_user_id?: string | null | undefined;
+  parent_id?: string | null | undefined;
 }
 export type CreateGuildApplicationCommandRequestNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -1714,65 +1835,68 @@ export interface CreateGuildApplicationCommandRequest {
   application_id: string;
   guild_id: string;
   name: string;
-  name_localizations?: CreateGuildApplicationCommandRequestNameLocalizationsMap | null;
-  description?: string | null;
-  description_localizations?: CreateGuildApplicationCommandRequestDescriptionLocalizationsMap | null;
-  options?: CreateGuildApplicationCommandRequestOptionsList | null;
-  default_member_permissions?: number | null;
-  dm_permission?: boolean | null;
-  contexts?: CreateGuildApplicationCommandRequestContextsList | null;
-  integration_types?: CreateGuildApplicationCommandRequestIntegrationTypesList | null;
+  name_localizations?: CreateGuildApplicationCommandRequestNameLocalizationsMap | null | undefined;
+  description?: string | null | undefined;
+  description_localizations?:
+    | CreateGuildApplicationCommandRequestDescriptionLocalizationsMap
+    | null
+    | undefined;
+  options?: CreateGuildApplicationCommandRequestOptionsList | null | undefined;
+  default_member_permissions?: number | null | undefined;
+  dm_permission?: boolean | null | undefined;
+  contexts?: CreateGuildApplicationCommandRequestContextsList | null | undefined;
+  integration_types?: CreateGuildApplicationCommandRequestIntegrationTypesList | null | undefined;
   /** Determines whether the interaction is handled by the app's interactions handler or by Discord */
-  handler?: ApplicationCommandHandler | (number & {}) | null;
-  type?: ApplicationCommandType | (number & {}) | null;
+  handler?: ApplicationCommandHandler | (number & {}) | null | undefined;
+  type?: ApplicationCommandType | (number & {}) | null | undefined;
 }
 export type ChannelPermissionOverwrites = 0 | 1;
 export interface ChannelPermissionOverwriteRequest {
   id: string;
-  type?: ChannelPermissionOverwrites | (number & {}) | null;
-  allow?: number | null;
-  deny?: number | null;
+  type?: ChannelPermissionOverwrites | (number & {}) | null | undefined;
+  allow?: number | null | undefined;
+  deny?: number | null | undefined;
 }
 export type CreateGuildChannelRequestPermissionOverwritesList =
   Array<ChannelPermissionOverwriteRequest>;
 export type VideoQualityModes = 1 | 2;
 export type ThreadAutoArchiveDuration = 60 | 1440 | 4320 | 10080;
 export interface UpdateDefaultReactionEmojiRequest {
-  emoji_id?: string | null;
-  emoji_name?: string | null;
+  emoji_id?: string | null | undefined;
+  emoji_name?: string | null | undefined;
 }
 export type ThreadSortOrder = 0 | 1;
 export type ForumLayout = 0 | 1 | 2;
 export type ThreadSearchTagSetting = "match_all" | "match_some";
 export interface CreateOrUpdateThreadTagRequest {
   name: string;
-  emoji_id?: string | null;
-  emoji_name?: string | null;
-  moderated?: boolean | null;
+  emoji_id?: string | null | undefined;
+  emoji_name?: string | null | undefined;
+  moderated?: boolean | null | undefined;
 }
 export type CreateGuildChannelRequestAvailableTagsList =
   Array<CreateOrUpdateThreadTagRequest | null>;
 export interface CreateGuildChannelRequest {
   guild_id: string;
-  type?: ChannelTypes | (number & {}) | null;
+  type?: ChannelTypes | (number & {}) | null | undefined;
   name: string;
-  position?: number | null;
-  topic?: string | null;
-  bitrate?: number | null;
-  user_limit?: number | null;
-  nsfw?: boolean | null;
-  rate_limit_per_user?: number | null;
-  parent_id?: string | null;
-  permission_overwrites?: CreateGuildChannelRequestPermissionOverwritesList | null;
-  rtc_region?: string | null;
-  video_quality_mode?: VideoQualityModes | (number & {}) | null;
-  default_auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null;
-  default_reaction_emoji?: UpdateDefaultReactionEmojiRequest | null;
-  default_thread_rate_limit_per_user?: number | null;
-  default_sort_order?: ThreadSortOrder | (number & {}) | null;
-  default_forum_layout?: ForumLayout | (number & {}) | null;
-  default_tag_setting?: ThreadSearchTagSetting | (string & {}) | null;
-  available_tags?: CreateGuildChannelRequestAvailableTagsList | null;
+  position?: number | null | undefined;
+  topic?: string | null | undefined;
+  bitrate?: number | null | undefined;
+  user_limit?: number | null | undefined;
+  nsfw?: boolean | null | undefined;
+  rate_limit_per_user?: number | null | undefined;
+  parent_id?: string | null | undefined;
+  permission_overwrites?: CreateGuildChannelRequestPermissionOverwritesList | null | undefined;
+  rtc_region?: string | null | undefined;
+  video_quality_mode?: VideoQualityModes | (number & {}) | null | undefined;
+  default_auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null | undefined;
+  default_reaction_emoji?: UpdateDefaultReactionEmojiRequest | null | undefined;
+  default_thread_rate_limit_per_user?: number | null | undefined;
+  default_sort_order?: ThreadSortOrder | (number & {}) | null | undefined;
+  default_forum_layout?: ForumLayout | (number & {}) | null | undefined;
+  default_tag_setting?: ThreadSearchTagSetting | (string & {}) | null | undefined;
+  available_tags?: CreateGuildChannelRequestAvailableTagsList | null | undefined;
 }
 export interface ChannelPermissionOverwriteResponse {
   id: string;
@@ -1797,52 +1921,52 @@ export interface DefaultReactionEmojiResponse {
 export interface GuildChannelResponse {
   id: string;
   type: ChannelTypes;
-  last_message_id?: string | null;
+  last_message_id?: string | null | undefined;
   flags: number;
-  last_pin_timestamp?: string | null;
+  last_pin_timestamp?: string | null | undefined;
   guild_id: string;
   name: string;
-  parent_id?: string | null;
-  rate_limit_per_user?: number;
-  bitrate?: number;
-  user_limit?: number;
-  rtc_region?: string | null;
-  video_quality_mode?: VideoQualityModes;
-  permissions?: string;
-  topic?: string | null;
-  default_auto_archive_duration?: ThreadAutoArchiveDuration;
-  default_thread_rate_limit_per_user?: number;
+  parent_id?: string | null | undefined;
+  rate_limit_per_user?: number | undefined;
+  bitrate?: number | undefined;
+  user_limit?: number | undefined;
+  rtc_region?: string | null | undefined;
+  video_quality_mode?: VideoQualityModes | undefined;
+  permissions?: string | undefined;
+  topic?: string | null | undefined;
+  default_auto_archive_duration?: ThreadAutoArchiveDuration | undefined;
+  default_thread_rate_limit_per_user?: number | undefined;
   position: number;
-  permission_overwrites?: GuildChannelResponsePermissionOverwritesList;
-  nsfw?: boolean;
-  available_tags?: GuildChannelResponseAvailableTagsList;
-  default_reaction_emoji?: DefaultReactionEmojiResponse | null;
-  default_sort_order?: ThreadSortOrder | null;
-  default_forum_layout?: ForumLayout;
-  default_tag_setting?: ThreadSearchTagSetting | null;
+  permission_overwrites?: GuildChannelResponsePermissionOverwritesList | undefined;
+  nsfw?: boolean | undefined;
+  available_tags?: GuildChannelResponseAvailableTagsList | undefined;
+  default_reaction_emoji?: DefaultReactionEmojiResponse | null | undefined;
+  default_sort_order?: ThreadSortOrder | null | undefined;
+  default_forum_layout?: ForumLayout | undefined;
+  default_tag_setting?: ThreadSearchTagSetting | null | undefined;
 }
 export type CreateGuildEmojiRequestRolesList = Array<string | null>;
 export interface CreateGuildEmojiRequest {
   guild_id: string;
   name: string;
   image: string;
-  roles?: CreateGuildEmojiRequestRolesList | null;
+  roles?: CreateGuildEmojiRequestRolesList | null | undefined;
 }
 export interface RoleColors {
-  primary_color?: number | null;
-  secondary_color?: number | null;
-  tertiary_color?: number | null;
+  primary_color?: number | null | undefined;
+  secondary_color?: number | null | undefined;
+  tertiary_color?: number | null | undefined;
 }
 export interface CreateGuildRoleRequest {
   guild_id: string;
-  name?: string | null;
-  permissions?: number | null;
-  color?: number | null;
-  colors?: RoleColors | null;
-  hoist?: boolean | null;
-  mentionable?: boolean | null;
-  icon?: string | null;
-  unicode_emoji?: string | null;
+  name?: string | null | undefined;
+  permissions?: number | null | undefined;
+  color?: number | null | undefined;
+  colors?: RoleColors | null | undefined;
+  hoist?: boolean | null | undefined;
+  mentionable?: boolean | null | undefined;
+  icon?: string | null | undefined;
+  unicode_emoji?: string | null | undefined;
 }
 /** Set of specific days within a week for the event to recur on */
 export type RecurrenceRuleByWeekdayList = Array<RecurrenceRuleWeekdays | (number & {})>;
@@ -1864,52 +1988,52 @@ export interface RecurrenceRule {
   /** Starting time of the recurrence interval */
   start: string;
   /** Ending time of the recurrence interval */
-  end?: string | null;
+  end?: string | null | undefined;
   /** How often the event occurs */
   frequency: RecurrenceRuleFrequencies | (number & {});
   /** The spacing between events, defined by frequency */
-  interval?: number | null;
+  interval?: number | null | undefined;
   /** Set of specific days within a week for the event to recur on */
-  by_weekday?: RecurrenceRuleByWeekdayList | null;
+  by_weekday?: RecurrenceRuleByWeekdayList | null | undefined;
   /** List of specific days within a specific week to recur on */
-  by_n_weekday?: RecurrenceRuleByNWeekdayList | null;
+  by_n_weekday?: RecurrenceRuleByNWeekdayList | null | undefined;
   /** Set of specific months to recur on */
-  by_month?: RecurrenceRuleByMonthList | null;
+  by_month?: RecurrenceRuleByMonthList | null | undefined;
   /** Set of specific dates within a month to recur on */
-  by_month_day?: RecurrenceRuleByMonthDayList | null;
+  by_month_day?: RecurrenceRuleByMonthDayList | null | undefined;
   /** Set of days within a year to recur on (1-364) */
-  by_year_day?: RecurrenceRuleByYearDayList | null;
+  by_year_day?: RecurrenceRuleByYearDayList | null | undefined;
   /** Total number of times the event is allowed to recur */
-  count?: number | null;
+  count?: number | null | undefined;
 }
 export interface EntityMetadataExternal {
   location: string;
 }
 export interface ExternalScheduledEventCreateRequest {
   name: string;
-  description?: string | null;
-  image?: string | null;
+  description?: string | null | undefined;
+  image?: string | null | undefined;
   scheduled_start_time: string;
-  scheduled_end_time?: string | null;
+  scheduled_end_time?: string | null | undefined;
   privacy_level: GuildScheduledEventPrivacyLevels;
   entity_type: GuildScheduledEventEntityTypes | (number & {});
-  channel_id?: string | null;
+  channel_id?: string | null | undefined;
   /** Recurrence rule for the scheduled event */
-  recurrence_rule?: RecurrenceRule | null;
+  recurrence_rule?: RecurrenceRule | null | undefined;
   entity_metadata: EntityMetadataExternal;
 }
 export interface StageScheduledEventCreateRequest {
   name: string;
-  description?: string | null;
-  image?: string | null;
+  description?: string | null | undefined;
+  image?: string | null | undefined;
   scheduled_start_time: string;
-  scheduled_end_time?: string | null;
+  scheduled_end_time?: string | null | undefined;
   privacy_level: GuildScheduledEventPrivacyLevels;
   entity_type: GuildScheduledEventEntityTypes | (number & {});
-  channel_id?: string | null;
+  channel_id?: string | null | undefined;
   /** Recurrence rule for the scheduled event */
-  recurrence_rule?: RecurrenceRule | null;
-  entity_metadata?: unknown | null;
+  recurrence_rule?: RecurrenceRule | null | undefined;
+  entity_metadata?: unknown | null | undefined;
 }
 export type VoiceScheduledEventCreateRequest = StageScheduledEventCreateRequest;
 export type CreateGuildScheduledEventRequestBody =
@@ -1940,7 +2064,7 @@ export interface ExternalScheduledEventResponse {
   /** ID of the user that created the scheduled event */
   creator_id: string | null;
   /** User that created the scheduled event */
-  creator?: UserResponse;
+  creator?: UserResponse | undefined;
   /** Cover image hash of the scheduled event */
   image: string | null;
   /** When the scheduled event will start */
@@ -1956,10 +2080,10 @@ export interface ExternalScheduledEventResponse {
   /** Recurrence rule for the scheduled event, or null if not recurring */
   recurrence_rule: RecurrenceRuleResponse | null;
   /** Number of users subscribed to the scheduled event */
-  user_count?: number;
+  user_count?: number | undefined;
   /** Privacy level of the scheduled event */
   privacy_level: GuildScheduledEventPrivacyLevels;
-  user_rsvp?: ScheduledEventUserResponse | null;
+  user_rsvp?: ScheduledEventUserResponse | null | undefined;
   guild_scheduled_event_exceptions: ExternalScheduledEventResponseGuildScheduledEventExceptionsList;
   entity_metadata: EntityMetadataExternalResponse;
 }
@@ -1979,7 +2103,7 @@ export interface StageScheduledEventResponse {
   /** ID of the user that created the scheduled event */
   creator_id: string | null;
   /** User that created the scheduled event */
-  creator?: UserResponse;
+  creator?: UserResponse | undefined;
   /** Cover image hash of the scheduled event */
   image: string | null;
   /** When the scheduled event will start */
@@ -1995,10 +2119,10 @@ export interface StageScheduledEventResponse {
   /** Recurrence rule for the scheduled event, or null if not recurring */
   recurrence_rule: RecurrenceRuleResponse | null;
   /** Number of users subscribed to the scheduled event */
-  user_count?: number;
+  user_count?: number | undefined;
   /** Privacy level of the scheduled event */
   privacy_level: GuildScheduledEventPrivacyLevels;
-  user_rsvp?: ScheduledEventUserResponse | null;
+  user_rsvp?: ScheduledEventUserResponse | null | undefined;
   guild_scheduled_event_exceptions: StageScheduledEventResponseGuildScheduledEventExceptionsList;
   entity_metadata: unknown | null;
 }
@@ -2018,7 +2142,7 @@ export interface VoiceScheduledEventResponse {
   /** ID of the user that created the scheduled event */
   creator_id: string | null;
   /** User that created the scheduled event */
-  creator?: UserResponse;
+  creator?: UserResponse | undefined;
   /** Cover image hash of the scheduled event */
   image: string | null;
   /** When the scheduled event will start */
@@ -2034,10 +2158,10 @@ export interface VoiceScheduledEventResponse {
   /** Recurrence rule for the scheduled event, or null if not recurring */
   recurrence_rule: RecurrenceRuleResponse | null;
   /** Number of users subscribed to the scheduled event */
-  user_count?: number;
+  user_count?: number | undefined;
   /** Privacy level of the scheduled event */
   privacy_level: GuildScheduledEventPrivacyLevels;
-  user_rsvp?: ScheduledEventUserResponse | null;
+  user_rsvp?: ScheduledEventUserResponse | null | undefined;
   guild_scheduled_event_exceptions: VoiceScheduledEventResponseGuildScheduledEventExceptionsList;
   entity_metadata: unknown | null;
 }
@@ -2047,23 +2171,25 @@ export type CreateGuildScheduledEventResponseBody =
   | VoiceScheduledEventResponse;
 export type CreateGuildScheduledEventResponse = CreateGuildScheduledEventResponseBody;
 export interface CreateGuildScheduledEventExceptionRequest {
+  /** The ID of the guild */
   guild_id: string;
+  /** The ID of the scheduled event */
   guild_scheduled_event_id: string;
   /** Overridden start time of this occurrence */
-  scheduled_start_time?: string | null;
+  scheduled_start_time?: string | null | undefined;
   /** Overridden end time of this occurrence */
-  scheduled_end_time?: string | null;
+  scheduled_end_time?: string | null | undefined;
   /** The original start time of the occurrence to create an exception for */
   original_scheduled_start_time: string;
   /** Whether this occurrence is canceled */
-  is_canceled?: boolean | null;
+  is_canceled?: boolean | null | undefined;
 }
 export interface CreateGuildSoundboardSoundRequest {
   guild_id: string;
   name: string;
-  volume?: number | null;
-  emoji_id?: string | null;
-  emoji_name?: string | null;
+  volume?: number | null | undefined;
+  emoji_id?: string | null | undefined;
+  emoji_name?: string | null | undefined;
   sound: string;
 }
 export interface SoundboardSoundResponse {
@@ -2072,15 +2198,15 @@ export interface SoundboardSoundResponse {
   volume: number;
   emoji_id: string | null;
   emoji_name: string | null;
-  guild_id?: string;
+  guild_id?: string | undefined;
   available: boolean;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
 }
 export interface CreateGuildStickerRequest {
   guild_id: string;
   name: string;
   tags: string;
-  description?: string | null;
+  description?: string | null | undefined;
   file: File | Blob;
 }
 export type StickerTypes = 1 | 2;
@@ -2094,12 +2220,12 @@ export interface GuildStickerResponse {
   description: string | null;
   available: boolean;
   guild_id: string;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
 }
 export interface CreateGuildTemplateRequest {
   guild_id: string;
   name: string;
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export type UserNotificationSettings = 0 | 1;
 export type GuildExplicitContentFilterTypes = 0 | 1 | 2;
@@ -2217,17 +2343,26 @@ export type InteractionCallbackTypes = 1 | 4 | 5 | 6 | 7 | 8 | 9 | 12 | 13;
 export type InteractionApplicationCommandAutocompleteCallbackIntegerDataChoicesList =
   Array<ApplicationCommandOptionIntegerChoice | null>;
 export interface InteractionApplicationCommandAutocompleteCallbackIntegerData {
-  choices?: InteractionApplicationCommandAutocompleteCallbackIntegerDataChoicesList | null;
+  choices?:
+    | InteractionApplicationCommandAutocompleteCallbackIntegerDataChoicesList
+    | null
+    | undefined;
 }
 export type InteractionApplicationCommandAutocompleteCallbackNumberDataChoicesList =
   Array<ApplicationCommandOptionNumberChoice | null>;
 export interface InteractionApplicationCommandAutocompleteCallbackNumberData {
-  choices?: InteractionApplicationCommandAutocompleteCallbackNumberDataChoicesList | null;
+  choices?:
+    | InteractionApplicationCommandAutocompleteCallbackNumberDataChoicesList
+    | null
+    | undefined;
 }
 export type InteractionApplicationCommandAutocompleteCallbackStringDataChoicesList =
   Array<ApplicationCommandOptionStringChoice | null>;
 export interface InteractionApplicationCommandAutocompleteCallbackStringData {
-  choices?: InteractionApplicationCommandAutocompleteCallbackStringDataChoicesList | null;
+  choices?:
+    | InteractionApplicationCommandAutocompleteCallbackStringDataChoicesList
+    | null
+    | undefined;
 }
 export type ApplicationCommandAutocompleteCallbackRequestData =
   | InteractionApplicationCommandAutocompleteCallbackIntegerData
@@ -2238,49 +2373,54 @@ export interface ApplicationCommandAutocompleteCallbackRequest {
   data: ApplicationCommandAutocompleteCallbackRequestData;
 }
 export interface RichEmbedAuthor {
-  name?: string | null;
-  url?: string | null;
-  icon_url?: string | null;
+  name?: string | null | undefined;
+  url?: string | null | undefined;
+  icon_url?: string | null | undefined;
 }
 export interface RichEmbedImage {
-  url?: string | null;
-  width?: number | null;
-  height?: number | null;
-  placeholder?: string | null;
-  placeholder_version?: number | null;
-  is_animated?: boolean | null;
-  description?: string | null;
+  url?: string | null | undefined;
+  width?: number | null | undefined;
+  height?: number | null | undefined;
+  placeholder?: string | null | undefined;
+  placeholder_version?: number | null | undefined;
+  is_animated?: boolean | null | undefined;
+  description?: string | null | undefined;
 }
 export type RichEmbedThumbnail = RichEmbedImage;
 export interface RichEmbedFooter {
-  text?: string | null;
-  icon_url?: string | null;
+  text?: string | null | undefined;
+  icon_url?: string | null | undefined;
 }
 export interface RichEmbedField {
   name: string;
   value: string;
-  inline?: boolean | null;
+  inline?: boolean | null | undefined;
 }
 export type RichEmbedFieldsList = Array<RichEmbedField>;
 export interface RichEmbedProvider {
-  name?: string | null;
-  url?: string | null;
+  name?: string | null | undefined;
+  url?: string | null | undefined;
 }
 export type RichEmbedVideo = RichEmbedImage;
+export interface RichEmbedAudio {
+  url?: string | null | undefined;
+  description?: string | null | undefined;
+}
 export interface RichEmbed {
-  type?: string | null;
-  url?: string | null;
-  title?: string | null;
-  color?: number | null;
-  timestamp?: string | null;
-  description?: string | null;
-  author?: RichEmbedAuthor | null;
-  image?: RichEmbedImage | null;
-  thumbnail?: RichEmbedImage | null;
-  footer?: RichEmbedFooter | null;
-  fields?: RichEmbedFieldsList | null;
-  provider?: RichEmbedProvider | null;
-  video?: RichEmbedImage | null;
+  type?: string | null | undefined;
+  url?: string | null | undefined;
+  title?: string | null | undefined;
+  color?: number | null | undefined;
+  timestamp?: string | null | undefined;
+  description?: string | null | undefined;
+  author?: RichEmbedAuthor | null | undefined;
+  image?: RichEmbedImage | null | undefined;
+  thumbnail?: RichEmbedImage | null | undefined;
+  footer?: RichEmbedFooter | null | undefined;
+  fields?: RichEmbedFieldsList | null | undefined;
+  provider?: RichEmbedProvider | null | undefined;
+  video?: RichEmbedImage | null | undefined;
+  audio?: RichEmbedAudio | null | undefined;
 }
 export type IncomingWebhookInteractionRequestEmbedsList = Array<RichEmbed>;
 export type AllowedMentionTypes = "users" | "roles" | "everyone";
@@ -2290,10 +2430,10 @@ export type MessageAllowedMentionsRequestParseList = Array<
 export type MessageAllowedMentionsRequestUsersList = Array<string | null>;
 export type MessageAllowedMentionsRequestRolesList = Array<string | null>;
 export interface MessageAllowedMentionsRequest {
-  parse?: MessageAllowedMentionsRequestParseList | null;
-  users?: MessageAllowedMentionsRequestUsersList | null;
-  roles?: MessageAllowedMentionsRequestRolesList | null;
-  replied_user?: boolean | null;
+  parse?: MessageAllowedMentionsRequestParseList | null | undefined;
+  users?: MessageAllowedMentionsRequestUsersList | null | undefined;
+  roles?: MessageAllowedMentionsRequestRolesList | null | undefined;
+  replied_user?: boolean | null | undefined;
 }
 export type MessageComponentTypes =
   | 1
@@ -2318,19 +2458,19 @@ export type MessageComponentTypes =
   | 23;
 export type ButtonStyleTypes = 1 | 2 | 3 | 4 | 5 | 6;
 export interface ComponentEmojiForRequest {
-  id?: string | null;
+  id?: string | null | undefined;
   name: string;
 }
 export interface ButtonComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
-  custom_id?: string | null;
+  id?: number | null | undefined;
+  custom_id?: string | null | undefined;
   style: ButtonStyleTypes | (number & {});
-  label?: string | null;
-  disabled?: boolean | null;
-  url?: string | null;
-  sku_id?: string | null;
-  emoji?: ComponentEmojiForRequest | null;
+  label?: string | null | undefined;
+  disabled?: boolean | null | undefined;
+  url?: string | null | undefined;
+  sku_id?: string | null | undefined;
+  emoji?: ComponentEmojiForRequest | null | undefined;
 }
 export type SnowflakeSelectDefaultValueTypes = "user" | "role" | "channel";
 export interface ChannelSelectDefaultValue {
@@ -2344,15 +2484,15 @@ export type ChannelSelectComponentForMessageRequestChannelTypesList = Array<
 >;
 export interface ChannelSelectComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
-  default_values?: ChannelSelectComponentForMessageRequestDefaultValuesList | null;
-  channel_types?: ChannelSelectComponentForMessageRequestChannelTypesList | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  default_values?: ChannelSelectComponentForMessageRequestDefaultValuesList | null | undefined;
+  channel_types?: ChannelSelectComponentForMessageRequestChannelTypesList | null | undefined;
 }
 export type RoleSelectDefaultValue = ChannelSelectDefaultValue;
 export type UserSelectDefaultValue = ChannelSelectDefaultValue;
@@ -2363,59 +2503,59 @@ export type MentionableSelectComponentForMessageRequestDefaultValuesList =
   Array<MentionableSelectComponentForMessageRequestDefaultValuesItem>;
 export interface MentionableSelectComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
-  default_values?: MentionableSelectComponentForMessageRequestDefaultValuesList | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  default_values?: MentionableSelectComponentForMessageRequestDefaultValuesList | null | undefined;
 }
 export type RoleSelectComponentForMessageRequestDefaultValuesList =
   Array<ChannelSelectDefaultValue>;
 export interface RoleSelectComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
-  default_values?: RoleSelectComponentForMessageRequestDefaultValuesList | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  default_values?: RoleSelectComponentForMessageRequestDefaultValuesList | null | undefined;
 }
 export interface StringSelectOptionForRequest {
   label: string;
   value: string;
-  description?: string | null;
-  default?: boolean | null;
-  emoji?: ComponentEmojiForRequest | null;
+  description?: string | null | undefined;
+  default?: boolean | null | undefined;
+  emoji?: ComponentEmojiForRequest | null | undefined;
 }
 export type StringSelectComponentForMessageRequestOptionsList = Array<StringSelectOptionForRequest>;
 export interface StringSelectComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
   options: StringSelectComponentForMessageRequestOptionsList;
 }
 export type UserSelectComponentForMessageRequestDefaultValuesList =
   Array<ChannelSelectDefaultValue>;
 export interface UserSelectComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
-  default_values?: UserSelectComponentForMessageRequestDefaultValuesList | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  default_values?: UserSelectComponentForMessageRequestDefaultValuesList | null | undefined;
 }
 export type ActionRowComponentForMessageRequestComponentsItem =
   | ButtonComponentForMessageRequest
@@ -2428,7 +2568,7 @@ export type ActionRowComponentForMessageRequestComponentsList =
   Array<ActionRowComponentForMessageRequestComponentsItem>;
 export interface ActionRowComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   components: ActionRowComponentForMessageRequestComponentsList;
 }
 export interface UnfurledMediaRequestWithAttachmentReferenceRequired {
@@ -2436,34 +2576,35 @@ export interface UnfurledMediaRequestWithAttachmentReferenceRequired {
 }
 export interface FileComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
-  spoiler?: boolean | null;
+  id?: number | null | undefined;
+  spoiler?: boolean | null | undefined;
   file: UnfurledMediaRequestWithAttachmentReferenceRequired;
 }
 export type UnfurledMediaRequest = UnfurledMediaRequestWithAttachmentReferenceRequired;
-export interface MediaGalleryItemRequest {
-  description?: string | null;
-  spoiler?: boolean | null;
+export interface MediaGalleryItemForMessageRequest {
+  description?: string | null | undefined;
+  spoiler?: boolean | null | undefined;
   media: UnfurledMediaRequestWithAttachmentReferenceRequired;
 }
-export type MediaGalleryComponentForMessageRequestItemsList = Array<MediaGalleryItemRequest>;
+export type MediaGalleryComponentForMessageRequestItemsList =
+  Array<MediaGalleryItemForMessageRequest>;
 export interface MediaGalleryComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   items: MediaGalleryComponentForMessageRequestItemsList;
 }
 export interface TextDisplayComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   content: string;
 }
 export type SectionComponentForMessageRequestComponentsList =
   Array<TextDisplayComponentForMessageRequest>;
 export interface ThumbnailComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
-  description?: string | null;
-  spoiler?: boolean | null;
+  id?: number | null | undefined;
+  description?: string | null | undefined;
+  spoiler?: boolean | null | undefined;
   media: UnfurledMediaRequestWithAttachmentReferenceRequired;
 }
 export type SectionComponentForMessageRequestAccessory =
@@ -2471,16 +2612,16 @@ export type SectionComponentForMessageRequestAccessory =
   | ThumbnailComponentForMessageRequest;
 export interface SectionComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   components: SectionComponentForMessageRequestComponentsList;
   accessory: SectionComponentForMessageRequestAccessory;
 }
 export type MessageComponentSeparatorSpacingSize = 1 | 2;
 export interface SeparatorComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
-  spacing?: MessageComponentSeparatorSpacingSize | (number & {}) | null;
-  divider?: boolean | null;
+  id?: number | null | undefined;
+  spacing?: MessageComponentSeparatorSpacingSize | (number & {}) | null | undefined;
+  divider?: boolean | null | undefined;
 }
 export type ContainerComponentForMessageRequestComponentsItem =
   | ActionRowComponentForMessageRequest
@@ -2493,10 +2634,10 @@ export type ContainerComponentForMessageRequestComponentsList =
   Array<ContainerComponentForMessageRequestComponentsItem>;
 export interface ContainerComponentForMessageRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
-  accent_color?: number | null;
+  id?: number | null | undefined;
+  accent_color?: number | null | undefined;
   components: ContainerComponentForMessageRequestComponentsList;
-  spoiler?: boolean | null;
+  spoiler?: boolean | null | undefined;
 }
 export type IncomingWebhookInteractionRequestComponentsItem =
   | ActionRowComponentForMessageRequest
@@ -2510,27 +2651,27 @@ export type IncomingWebhookInteractionRequestComponentsList =
   Array<IncomingWebhookInteractionRequestComponentsItem>;
 export interface MessageAttachmentRequest {
   id: string;
-  filename?: string | null;
-  description?: string | null;
-  duration_secs?: number | null;
-  waveform?: string | null;
-  title?: string | null;
-  is_spoiler?: boolean | null;
+  filename?: string | null | undefined;
+  description?: string | null | undefined;
+  duration_secs?: number | null | undefined;
+  waveform?: string | null | undefined;
+  title?: string | null | undefined;
+  is_spoiler?: boolean | null | undefined;
 }
 export type IncomingWebhookInteractionRequestAttachmentsList = Array<MessageAttachmentRequest>;
 export interface PollEmoji {
   /** The ID of the custom emoji */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The name of the emoji, or the unicode emoji character */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Whether the emoji is animated */
-  animated?: boolean | null;
+  animated?: boolean | null | undefined;
 }
 export interface PollMedia {
   /** The text of the field */
-  text?: string | null;
+  text?: string | null | undefined;
   /** The emoji of the field */
-  emoji?: PollEmoji | null;
+  emoji?: PollEmoji | null | undefined;
 }
 export type PollEmojiCreateRequest = PollEmoji;
 export type PollMediaCreateRequest = PollMedia;
@@ -2547,25 +2688,25 @@ export interface PollCreateRequest {
   /** Each of the answers available in the poll, up to 10 */
   answers: PollCreateRequestAnswersList;
   /** Whether a user can select multiple answers */
-  allow_multiselect?: boolean | null;
+  allow_multiselect?: boolean | null | undefined;
   /** The layout type of the poll. Defaults to... DEFAULT! */
-  layout_type?: PollLayoutTypes | (number & {}) | null;
+  layout_type?: PollLayoutTypes | (number & {}) | null | undefined;
   /** Number of hours the poll should be open for, up to 32 days. Defaults to 24 */
-  duration?: number | null;
+  duration?: number | null | undefined;
 }
 export interface IncomingWebhookInteractionRequest {
-  content?: string | null;
-  embeds?: IncomingWebhookInteractionRequestEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  components?: IncomingWebhookInteractionRequestComponentsList | null;
-  attachments?: IncomingWebhookInteractionRequestAttachmentsList | null;
-  poll?: PollCreateRequest | null;
-  tts?: boolean | null;
-  flags?: number | null;
+  content?: string | null | undefined;
+  embeds?: IncomingWebhookInteractionRequestEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  components?: IncomingWebhookInteractionRequestComponentsList | null | undefined;
+  attachments?: IncomingWebhookInteractionRequestAttachmentsList | null | undefined;
+  poll?: PollCreateRequest | null | undefined;
+  tts?: boolean | null | undefined;
+  flags?: number | null | undefined;
 }
 export interface CreateMessageInteractionCallbackRequest {
   type: InteractionCallbackTypes | (number & {});
-  data?: IncomingWebhookInteractionRequest | null;
+  data?: IncomingWebhookInteractionRequest | null | undefined;
 }
 export interface LaunchActivityInteractionCallbackRequest {
   type: InteractionCallbackTypes | (number & {});
@@ -2573,21 +2714,21 @@ export interface LaunchActivityInteractionCallbackRequest {
 export type TextInputStyleTypes = 1 | 2;
 export interface TextInputComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
   style: TextInputStyleTypes | (number & {});
-  label?: string | null;
-  value?: string | null;
-  placeholder?: string | null;
-  required?: boolean | null;
-  min_length?: number | null;
-  max_length?: number | null;
+  label?: string | null | undefined;
+  value?: string | null | undefined;
+  placeholder?: string | null | undefined;
+  required?: boolean | null | undefined;
+  min_length?: number | null | undefined;
+  max_length?: number | null | undefined;
 }
 export type ActionRowComponentForModalRequestComponentsList =
   Array<TextInputComponentForModalRequest>;
 export interface ActionRowComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   components: ActionRowComponentForModalRequestComponentsList;
 }
 export type ChannelSelectComponentForModalRequestDefaultValuesList =
@@ -2597,47 +2738,47 @@ export type ChannelSelectComponentForModalRequestChannelTypesList = Array<
 >;
 export interface ChannelSelectComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
-  default_values?: ChannelSelectComponentForModalRequestDefaultValuesList | null;
-  channel_types?: ChannelSelectComponentForModalRequestChannelTypesList | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  default_values?: ChannelSelectComponentForModalRequestDefaultValuesList | null | undefined;
+  channel_types?: ChannelSelectComponentForModalRequestChannelTypesList | null | undefined;
 }
 export interface CheckboxComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  default?: boolean | null;
+  default?: boolean | null | undefined;
 }
 export interface CheckboxGroupOptionForRequest {
   label: string;
   value: string;
-  description?: string | null;
-  default?: boolean | null;
+  description?: string | null | undefined;
+  default?: boolean | null | undefined;
 }
 export type CheckboxGroupComponentForModalRequestOptionsList = Array<CheckboxGroupOptionForRequest>;
 export interface CheckboxGroupComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  min_values?: number | null;
-  max_values?: number | null;
-  required?: boolean | null;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  required?: boolean | null | undefined;
   options: CheckboxGroupComponentForModalRequestOptionsList;
 }
 export type FileUploadComponentForModalRequestFileTypesList = Array<string>;
 export interface FileUploadComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  min_values?: number | null;
-  max_values?: number | null;
-  required?: boolean | null;
-  file_types?: FileUploadComponentForModalRequestFileTypesList | null;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  required?: boolean | null | undefined;
+  file_types?: FileUploadComponentForModalRequestFileTypesList | null | undefined;
 }
 export type MentionableSelectComponentForModalRequestDefaultValuesItem =
   | ChannelSelectDefaultValue
@@ -2646,59 +2787,59 @@ export type MentionableSelectComponentForModalRequestDefaultValuesList =
   Array<MentionableSelectComponentForModalRequestDefaultValuesItem>;
 export interface MentionableSelectComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
-  default_values?: MentionableSelectComponentForModalRequestDefaultValuesList | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  default_values?: MentionableSelectComponentForModalRequestDefaultValuesList | null | undefined;
 }
 export type RadioGroupOptionForRequest = CheckboxGroupOptionForRequest;
 export type RadioGroupComponentForModalRequestOptionsList = Array<CheckboxGroupOptionForRequest>;
 export interface RadioGroupComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  required?: boolean | null;
+  required?: boolean | null | undefined;
   options: RadioGroupComponentForModalRequestOptionsList;
 }
 export type RoleSelectComponentForModalRequestDefaultValuesList = Array<ChannelSelectDefaultValue>;
 export interface RoleSelectComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
-  default_values?: RoleSelectComponentForModalRequestDefaultValuesList | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  default_values?: RoleSelectComponentForModalRequestDefaultValuesList | null | undefined;
 }
 export type StringSelectComponentForModalRequestOptionsList = Array<StringSelectOptionForRequest>;
 export interface StringSelectComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
   options: StringSelectComponentForModalRequestOptionsList;
 }
 export type UserSelectComponentForModalRequestDefaultValuesList = Array<ChannelSelectDefaultValue>;
 export interface UserSelectComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   custom_id: string;
-  placeholder?: string | null;
-  min_values?: number | null;
-  max_values?: number | null;
-  disabled?: boolean | null;
-  required?: boolean | null;
-  default_values?: UserSelectComponentForModalRequestDefaultValuesList | null;
+  placeholder?: string | null | undefined;
+  min_values?: number | null | undefined;
+  max_values?: number | null | undefined;
+  disabled?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  default_values?: UserSelectComponentForModalRequestDefaultValuesList | null | undefined;
 }
 export type LabelComponentForModalRequestComponent =
   | ChannelSelectComponentForModalRequest
@@ -2713,9 +2854,9 @@ export type LabelComponentForModalRequestComponent =
   | UserSelectComponentForModalRequest;
 export interface LabelComponentForModalRequest {
   type: MessageComponentTypes | (number & {});
-  id?: number | null;
+  id?: number | null | undefined;
   label: string;
-  description?: string | null;
+  description?: string | null | undefined;
   component: LabelComponentForModalRequestComponent;
 }
 export type TextDisplayComponentForModalRequest = TextDisplayComponentForMessageRequest;
@@ -2738,8 +2879,8 @@ export type PongInteractionCallbackRequest = LaunchActivityInteractionCallbackRe
 export type SKUIneligibilityReason = 0 | 1 | 2;
 export interface SocialLayerSKUPurchaseEligibilityCallbackData {
   eligible: boolean;
-  ineligible_reason?: SKUIneligibilityReason | (number & {}) | null;
-  ineligible_reason_description?: string | null;
+  ineligible_reason?: SKUIneligibilityReason | (number & {}) | null | undefined;
+  ineligible_reason_description?: string | null | undefined;
 }
 export interface SocialLayerSKUPurchaseEligibilityInteractionCallbackRequest {
   type: InteractionCallbackTypes | (number & {});
@@ -2759,16 +2900,22 @@ export type IncomingWebhookUpdateForInteractionCallbackRequestPartialComponentsL
 export type IncomingWebhookUpdateForInteractionCallbackRequestPartialAttachmentsList =
   Array<MessageAttachmentRequest>;
 export interface IncomingWebhookUpdateForInteractionCallbackRequestPartial {
-  content?: string | null;
-  embeds?: IncomingWebhookUpdateForInteractionCallbackRequestPartialEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  components?: IncomingWebhookUpdateForInteractionCallbackRequestPartialComponentsList | null;
-  attachments?: IncomingWebhookUpdateForInteractionCallbackRequestPartialAttachmentsList | null;
-  flags?: number | null;
+  content?: string | null | undefined;
+  embeds?: IncomingWebhookUpdateForInteractionCallbackRequestPartialEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  components?:
+    | IncomingWebhookUpdateForInteractionCallbackRequestPartialComponentsList
+    | null
+    | undefined;
+  attachments?:
+    | IncomingWebhookUpdateForInteractionCallbackRequestPartialAttachmentsList
+    | null
+    | undefined;
+  flags?: number | null | undefined;
 }
 export interface UpdateMessageInteractionCallbackRequest {
   type: InteractionCallbackTypes | (number & {});
-  data?: IncomingWebhookUpdateForInteractionCallbackRequestPartial | null;
+  data?: IncomingWebhookUpdateForInteractionCallbackRequestPartial | null | undefined;
 }
 export type CreateInteractionResponseRequestBody =
   | ApplicationCommandAutocompleteCallbackRequest
@@ -2781,19 +2928,19 @@ export type CreateInteractionResponseRequestBody =
 export interface CreateInteractionResponseRequest {
   interaction_id: string;
   interaction_token: string;
-  with_response?: boolean;
+  with_response?: boolean | undefined;
   body: CreateInteractionResponseRequestBody;
 }
 export type InteractionTypes = 1 | 2 | 3 | 4 | 5 | 6;
 export interface InteractionResponse {
   id: string;
   type: InteractionTypes;
-  activity_instance_id?: string | null;
-  response_message_id?: string;
-  response_message_loading?: boolean;
-  response_message_ephemeral?: boolean;
-  channel_id?: string;
-  guild_id?: string;
+  activity_instance_id?: string | null | undefined;
+  response_message_id?: string | undefined;
+  response_message_loading?: boolean | undefined;
+  response_message_ephemeral?: boolean | undefined;
+  channel_id?: string | undefined;
+  guild_id?: string | undefined;
 }
 export type MessageType =
   | 0
@@ -2846,25 +2993,26 @@ export interface ApplicationResponse {
   icon: string | null;
   description: string;
   type: ApplicationTypes | null;
-  cover_image?: string;
-  primary_sku_id?: string;
+  cover_image?: string | undefined;
+  primary_sku_id?: string | undefined;
   flags: number;
   flags_new: string;
-  bot?: UserResponse;
-  slug?: string;
-  vibegrations_project_id?: string;
-  guild_id?: string;
-  rpc_origins?: ApplicationResponseRpcOriginsList;
-  bot_public?: boolean;
-  bot_require_code_grant?: boolean;
-  terms_of_service_url?: string;
-  privacy_policy_url?: string;
-  custom_install_url?: string;
-  install_params?: ApplicationOAuth2InstallParamsResponse;
-  integration_types_config?: ApplicationResponseIntegrationTypesConfigMap;
+  bot?: UserResponse | undefined;
+  slug?: string | undefined;
+  conjure_project_id?: string | undefined;
+  vibegrations_project_id?: string | undefined;
+  guild_id?: string | undefined;
+  rpc_origins?: ApplicationResponseRpcOriginsList | undefined;
+  bot_public?: boolean | undefined;
+  bot_require_code_grant?: boolean | undefined;
+  terms_of_service_url?: string | undefined;
+  privacy_policy_url?: string | undefined;
+  custom_install_url?: string | undefined;
+  install_params?: ApplicationOAuth2InstallParamsResponse | undefined;
+  integration_types_config?: ApplicationResponseIntegrationTypesConfigMap | undefined;
   verify_key: string;
-  max_participants?: number | null;
-  tags?: ApplicationResponseTagsList;
+  max_participants?: number | null | undefined;
+  tags?: ApplicationResponseTagsList | undefined;
 }
 export type MessageAttachmentResponseClipParticipantsList = Array<UserResponse>;
 export interface MessageAttachmentResponse {
@@ -2873,20 +3021,20 @@ export interface MessageAttachmentResponse {
   size: number;
   url: string;
   proxy_url: string;
-  width?: number;
-  height?: number;
-  duration_secs?: number;
-  waveform?: string;
-  description?: string;
-  content_type?: string;
-  ephemeral?: boolean;
-  flags?: number;
-  placeholder?: string;
-  placeholder_version?: number;
-  title?: string | null;
-  application?: ApplicationResponse;
-  clip_created_at?: string;
-  clip_participants?: MessageAttachmentResponseClipParticipantsList;
+  width?: number | undefined;
+  height?: number | undefined;
+  duration_secs?: number | undefined;
+  waveform?: string | undefined;
+  description?: string | undefined;
+  content_type?: string | undefined;
+  ephemeral?: boolean | undefined;
+  flags?: number | undefined;
+  placeholder?: string | undefined;
+  placeholder_version?: number | undefined;
+  title?: string | null | undefined;
+  application?: ApplicationResponse | undefined;
+  clip_created_at?: string | undefined;
+  clip_participants?: MessageAttachmentResponseClipParticipantsList | undefined;
 }
 export type MessageResponseAttachmentsList = Array<MessageAttachmentResponse>;
 export interface MessageEmbedFieldResponse {
@@ -2897,46 +3045,52 @@ export interface MessageEmbedFieldResponse {
 export type MessageEmbedResponseFieldsList = Array<MessageEmbedFieldResponse>;
 export interface MessageEmbedAuthorResponse {
   name: string;
-  url?: string;
-  icon_url?: string;
-  proxy_icon_url?: string;
+  url?: string | undefined;
+  icon_url?: string | undefined;
+  proxy_icon_url?: string | undefined;
 }
 export interface MessageEmbedProviderResponse {
   name: string;
-  url?: string;
+  url?: string | undefined;
 }
 export interface MessageEmbedImageResponse {
-  url?: string;
-  proxy_url?: string;
-  width?: number;
-  height?: number;
-  content_type?: string;
-  placeholder?: string;
-  placeholder_version?: number;
-  description?: string;
-  flags?: number;
+  url?: string | undefined;
+  proxy_url?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
+  content_type?: string | undefined;
+  placeholder?: string | undefined;
+  placeholder_version?: number | undefined;
+  description?: string | undefined;
+  flags?: number | undefined;
 }
 export type MessageEmbedVideoResponse = MessageEmbedImageResponse;
+export interface MessageEmbedAudioResponse {
+  url?: string | undefined;
+  proxy_url?: string | undefined;
+  content_type?: string | undefined;
+  description?: string | undefined;
+}
 export interface MessageEmbedFooterResponse {
   text: string;
-  icon_url?: string;
-  proxy_icon_url?: string;
+  icon_url?: string | undefined;
+  proxy_icon_url?: string | undefined;
 }
 export interface ComponentEmojiResponse {
-  id?: string;
+  id?: string | undefined;
   name: string;
-  animated?: boolean;
+  animated?: boolean | undefined;
 }
 export interface ButtonComponentResponse {
   type: MessageComponentTypes;
   id: number;
-  custom_id?: string;
+  custom_id?: string | undefined;
   style: ButtonStyleTypes;
-  label?: string;
-  disabled?: boolean;
-  emoji?: ComponentEmojiResponse;
-  url?: string | null;
-  sku_id?: string;
+  label?: string | undefined;
+  disabled?: boolean | undefined;
+  emoji?: ComponentEmojiResponse | undefined;
+  url?: string | null | undefined;
+  sku_id?: string | undefined;
 }
 export type ChannelSelectComponentResponseChannelTypesList = Array<ChannelTypes>;
 export interface ChannelSelectDefaultValueResponse {
@@ -2949,12 +3103,12 @@ export interface ChannelSelectComponentResponse {
   type: MessageComponentTypes;
   id: number;
   custom_id: string;
-  placeholder?: string;
+  placeholder?: string | undefined;
   min_values: number;
   max_values: number;
-  disabled?: boolean;
-  channel_types?: ChannelSelectComponentResponseChannelTypesList;
-  default_values?: ChannelSelectComponentResponseDefaultValuesList;
+  disabled?: boolean | undefined;
+  channel_types?: ChannelSelectComponentResponseChannelTypesList | undefined;
+  default_values?: ChannelSelectComponentResponseDefaultValuesList | undefined;
 }
 export type RoleSelectDefaultValueResponse = ChannelSelectDefaultValueResponse;
 export type UserSelectDefaultValueResponse = ChannelSelectDefaultValueResponse;
@@ -2967,39 +3121,39 @@ export interface MentionableSelectComponentResponse {
   type: MessageComponentTypes;
   id: number;
   custom_id: string;
-  placeholder?: string;
+  placeholder?: string | undefined;
   min_values: number;
   max_values: number;
-  disabled?: boolean;
-  default_values?: MentionableSelectComponentResponseDefaultValuesList;
+  disabled?: boolean | undefined;
+  default_values?: MentionableSelectComponentResponseDefaultValuesList | undefined;
 }
 export type RoleSelectComponentResponseDefaultValuesList = Array<ChannelSelectDefaultValueResponse>;
 export interface RoleSelectComponentResponse {
   type: MessageComponentTypes;
   id: number;
   custom_id: string;
-  placeholder?: string;
+  placeholder?: string | undefined;
   min_values: number;
   max_values: number;
-  disabled?: boolean;
-  default_values?: RoleSelectComponentResponseDefaultValuesList;
+  disabled?: boolean | undefined;
+  default_values?: RoleSelectComponentResponseDefaultValuesList | undefined;
 }
 export interface StringSelectOptionResponse {
   label: string;
   value: string;
-  description?: string;
-  emoji?: ComponentEmojiResponse;
-  default?: boolean;
+  description?: string | undefined;
+  emoji?: ComponentEmojiResponse | undefined;
+  default?: boolean | undefined;
 }
 export type StringSelectComponentResponseOptionsList = Array<StringSelectOptionResponse>;
 export interface StringSelectComponentResponse {
   type: MessageComponentTypes;
   id: number;
   custom_id: string;
-  placeholder?: string;
+  placeholder?: string | undefined;
   min_values: number;
   max_values: number;
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   options: StringSelectComponentResponseOptionsList;
 }
 export interface TextInputComponentResponse {
@@ -3008,9 +3162,9 @@ export interface TextInputComponentResponse {
   custom_id: string;
   style: TextInputStyleTypes;
   label: string | null;
-  value?: string;
-  placeholder?: string;
-  required?: boolean;
+  value?: string | undefined;
+  placeholder?: string | undefined;
+  required?: boolean | undefined;
   min_length: number | null;
   max_length: number | null;
 }
@@ -3019,11 +3173,11 @@ export interface UserSelectComponentResponse {
   type: MessageComponentTypes;
   id: number;
   custom_id: string;
-  placeholder?: string;
+  placeholder?: string | undefined;
   min_values: number;
   max_values: number;
-  disabled?: boolean;
-  default_values?: UserSelectComponentResponseDefaultValuesList;
+  disabled?: boolean | undefined;
+  default_values?: UserSelectComponentResponseDefaultValuesList | undefined;
 }
 export type ActionRowComponentResponseComponentsItem =
   | ButtonComponentResponse
@@ -3040,14 +3194,21 @@ export interface ActionRowComponentResponse {
   id: number;
   components: ActionRowComponentResponseComponentsList;
 }
+export interface ContentScanMetadataResponse {
+  flags: number;
+}
 export interface UnfurledMediaResponse {
   id: string;
   url: string;
-  proxy_url: string;
-  width?: number | null;
-  height?: number | null;
-  content_type?: string | null;
-  attachment_id?: string;
+  proxy_url?: string | undefined;
+  width?: number | null | undefined;
+  height?: number | null | undefined;
+  placeholder?: string | null | undefined;
+  placeholder_version?: number | null | undefined;
+  content_scan_metadata?: ContentScanMetadataResponse | undefined;
+  content_type?: string | null | undefined;
+  flags?: number | undefined;
+  attachment_id?: string | undefined;
 }
 export interface FileComponentResponse {
   type: MessageComponentTypes;
@@ -3115,20 +3276,21 @@ export interface ContainerComponentResponse {
 export type MessageEmbedResponseComponentsList = Array<ContainerComponentResponse>;
 export interface MessageEmbedResponse {
   type: string;
-  url?: string;
-  title?: string;
-  description?: string;
-  color?: number;
-  timestamp?: string;
-  fields?: MessageEmbedResponseFieldsList;
-  author?: MessageEmbedAuthorResponse;
-  provider?: MessageEmbedProviderResponse;
-  image?: MessageEmbedImageResponse;
-  thumbnail?: MessageEmbedImageResponse;
-  video?: MessageEmbedImageResponse;
-  footer?: MessageEmbedFooterResponse;
-  flags?: number | null;
-  components?: MessageEmbedResponseComponentsList;
+  url?: string | undefined;
+  title?: string | undefined;
+  description?: string | undefined;
+  color?: number | undefined;
+  timestamp?: string | undefined;
+  fields?: MessageEmbedResponseFieldsList | undefined;
+  author?: MessageEmbedAuthorResponse | undefined;
+  provider?: MessageEmbedProviderResponse | undefined;
+  image?: MessageEmbedImageResponse | undefined;
+  thumbnail?: MessageEmbedImageResponse | undefined;
+  video?: MessageEmbedImageResponse | undefined;
+  audio?: MessageEmbedAudioResponse | undefined;
+  footer?: MessageEmbedFooterResponse | undefined;
+  flags?: number | null | undefined;
+  components?: MessageEmbedResponseComponentsList | undefined;
 }
 export type MessageResponseEmbedsList = Array<MessageEmbedResponse>;
 export type MessageResponseComponentsItem =
@@ -3160,13 +3322,13 @@ export interface MessageStickerItemResponse {
 export type MessageResponseStickerItemsList = Array<MessageStickerItemResponse>;
 export type MessageCallResponseParticipantsList = Array<string>;
 export interface MessageCallResponse {
-  ended_timestamp?: string | null;
+  ended_timestamp?: string | null | undefined;
   participants: MessageCallResponseParticipantsList;
 }
 export type ActivityActionTypes = 1 | 2 | 3 | 5 | 6;
 export interface MessageActivityResponse {
   type: ActivityActionTypes;
-  party_id?: string;
+  party_id?: string | undefined;
 }
 export interface BasicApplicationResponseWithBot {
   id: string;
@@ -3174,34 +3336,34 @@ export interface BasicApplicationResponseWithBot {
   icon: string | null;
   description: string;
   type: ApplicationTypes | null;
-  cover_image?: string;
-  primary_sku_id?: string;
+  cover_image?: string | undefined;
+  primary_sku_id?: string | undefined;
   flags: number;
   flags_new: string;
-  bot?: UserResponse;
+  bot?: UserResponse | undefined;
 }
 export interface MessageInteractionResponse {
   id: string;
   type: InteractionTypes;
   name: string;
-  user?: UserResponse;
-  name_localized?: string;
+  user?: UserResponse | undefined;
+  name_localized?: string | undefined;
 }
 export type MessageResponseNonce = number | string;
 export type MessageReferenceType = 0;
 export interface MessageReferenceResponse {
   type: MessageReferenceType;
   channel_id: string;
-  message_id?: string;
-  guild_id?: string;
+  message_id?: string | undefined;
+  guild_id?: string | undefined;
 }
 export interface ThreadMetadataResponse {
   archived: boolean;
   archive_timestamp: string | null;
   auto_archive_duration: ThreadAutoArchiveDuration;
   locked: boolean;
-  create_timestamp?: string;
-  invitable?: boolean;
+  create_timestamp?: string | undefined;
+  invitable?: boolean | undefined;
 }
 export type ThreadResponseAppliedTagsList = Array<string>;
 export interface ThreadMemberResponse {
@@ -3209,30 +3371,30 @@ export interface ThreadMemberResponse {
   user_id: string;
   join_timestamp: string;
   flags: number;
-  member?: GuildMemberResponse;
+  member?: GuildMemberResponse | undefined;
 }
 export interface ThreadResponse {
   id: string;
   type: ChannelTypes;
-  last_message_id?: string | null;
+  last_message_id?: string | null | undefined;
   flags: number;
-  last_pin_timestamp?: string | null;
+  last_pin_timestamp?: string | null | undefined;
   guild_id: string;
   name: string;
-  parent_id?: string | null;
-  rate_limit_per_user?: number;
-  bitrate?: number;
-  user_limit?: number;
-  rtc_region?: string | null;
-  video_quality_mode?: VideoQualityModes;
-  permissions?: string;
+  parent_id?: string | null | undefined;
+  rate_limit_per_user?: number | undefined;
+  bitrate?: number | undefined;
+  user_limit?: number | undefined;
+  rtc_region?: string | null | undefined;
+  video_quality_mode?: VideoQualityModes | undefined;
+  permissions?: string | undefined;
   owner_id: string;
   thread_metadata: ThreadMetadataResponse;
   message_count: number;
   member_count: number;
   total_message_sent: number;
-  applied_tags?: ThreadResponseAppliedTagsList;
-  member?: ThreadMemberResponse;
+  applied_tags?: ThreadResponseAppliedTagsList | undefined;
+  member?: ThreadMemberResponse | undefined;
 }
 export interface MessageMentionChannelResponse {
   id: string;
@@ -3254,7 +3416,7 @@ export interface GuildProductPurchaseResponse {
 }
 export interface PurchaseNotificationResponse {
   type: PurchaseType;
-  guild_product_purchase?: GuildProductPurchaseResponse;
+  guild_product_purchase?: GuildProductPurchaseResponse | undefined;
 }
 export type ResolvedObjectsResponseUsersMap = { [key: string]: UserResponse | undefined };
 /** array of role object ids */
@@ -3263,7 +3425,7 @@ export interface BasicGuildMemberResponse {
   /** the member's guild avatar hash */
   avatar: string | null;
   /** data for the member's guild avatar decoration */
-  avatar_decoration_data?: UserAvatarDecorationResponse | null;
+  avatar_decoration_data?: UserAvatarDecorationResponse | null | undefined;
   /** the member's guild banner hash */
   banner: string | null;
   /** when the user's timeout will expire and the user will be able to communicate in the guild again, null or a time in the past if the user is not timed out */
@@ -3281,7 +3443,7 @@ export interface BasicGuildMemberResponse {
   /** array of role object ids */
   roles: BasicGuildMemberResponseRolesList;
   /** data for the member's collectibles */
-  collectibles?: UserCollectiblesResponse | null;
+  collectibles?: UserCollectiblesResponse | null | undefined;
 }
 export type ResolvedObjectsResponseMembersMap = {
   [key: string]: BasicGuildMemberResponse | undefined;
@@ -3296,21 +3458,21 @@ export type ResolvedObjectsResponseChannelsMap = {
 };
 export type ResolvedObjectsResponseRolesMap = { [key: string]: GuildRoleResponse | undefined };
 export interface ResolvedObjectsResponse {
-  users?: ResolvedObjectsResponseUsersMap | null;
-  members?: ResolvedObjectsResponseMembersMap | null;
-  channels?: ResolvedObjectsResponseChannelsMap | null;
-  roles?: ResolvedObjectsResponseRolesMap | null;
+  users?: ResolvedObjectsResponseUsersMap | null | undefined;
+  members?: ResolvedObjectsResponseMembersMap | null | undefined;
+  channels?: ResolvedObjectsResponseChannelsMap | null | undefined;
+  roles?: ResolvedObjectsResponseRolesMap | null | undefined;
 }
 export interface MessageReactionEmojiResponse {
   id: string | null;
   name: string | null;
-  animated?: boolean;
+  animated?: boolean | undefined;
 }
 export interface PollMediaResponse {
   /** The text of the field */
-  text?: string;
+  text?: string | undefined;
   /** The emoji of the field */
-  emoji?: MessageReactionEmojiResponse;
+  emoji?: MessageReactionEmojiResponse | undefined;
 }
 export interface PollAnswerResponse {
   /** The ID of the answer */
@@ -3364,11 +3526,11 @@ export type ApplicationCommandInteractionMetadataResponseAuthorizingIntegrationO
 export interface ApplicationCommandInteractionMetadataResponse {
   id: string;
   type: InteractionTypes;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
   authorizing_integration_owners: ApplicationCommandInteractionMetadataResponseAuthorizingIntegrationOwnersMap;
-  original_response_message_id?: string;
-  target_user?: UserResponse;
-  target_message_id?: string;
+  original_response_message_id?: string | undefined;
+  target_user?: UserResponse | undefined;
+  target_message_id?: string | undefined;
 }
 export type MessageComponentInteractionMetadataResponseAuthorizingIntegrationOwnersMap = {
   [key: string]: string | undefined;
@@ -3376,9 +3538,9 @@ export type MessageComponentInteractionMetadataResponseAuthorizingIntegrationOwn
 export interface MessageComponentInteractionMetadataResponse {
   id: string;
   type: InteractionTypes;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
   authorizing_integration_owners: MessageComponentInteractionMetadataResponseAuthorizingIntegrationOwnersMap;
-  original_response_message_id?: string;
+  original_response_message_id?: string | undefined;
   interacted_message_id: string;
 }
 export type ModalSubmitInteractionMetadataResponseAuthorizingIntegrationOwnersMap = {
@@ -3390,9 +3552,9 @@ export type ModalSubmitInteractionMetadataResponseTriggeringInteractionMetadata 
 export interface ModalSubmitInteractionMetadataResponse {
   id: string;
   type: InteractionTypes;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
   authorizing_integration_owners: ModalSubmitInteractionMetadataResponseAuthorizingIntegrationOwnersMap;
-  original_response_message_id?: string;
+  original_response_message_id?: string | undefined;
   triggering_interaction_metadata: ModalSubmitInteractionMetadataResponseTriggeringInteractionMetadata;
 }
 export type MessageResponseInteractionMetadata =
@@ -3430,8 +3592,8 @@ export interface MinimalContentMessageResponse {
   edited_timestamp: string | null;
   flags: number;
   components: MinimalContentMessageResponseComponentsList;
-  stickers?: MinimalContentMessageResponseStickersList;
-  sticker_items?: MinimalContentMessageResponseStickerItemsList;
+  stickers?: MinimalContentMessageResponseStickersList | undefined;
+  sticker_items?: MinimalContentMessageResponseStickerItemsList | undefined;
 }
 export interface MessageSnapshotResponse {
   message: MinimalContentMessageResponse;
@@ -3488,33 +3650,34 @@ export interface BasicMessageResponse {
   edited_timestamp: string | null;
   flags: number;
   components: BasicMessageResponseComponentsList;
-  stickers?: BasicMessageResponseStickersList;
-  sticker_items?: BasicMessageResponseStickerItemsList;
+  stickers?: BasicMessageResponseStickersList | undefined;
+  sticker_items?: BasicMessageResponseStickerItemsList | undefined;
   id: string;
   channel_id: string;
   author: UserResponse;
   pinned: boolean;
   mention_everyone: boolean;
   tts: boolean;
-  call?: MessageCallResponse;
-  activity?: MessageActivityResponse;
-  application?: BasicApplicationResponseWithBot;
-  application_id?: string;
-  interaction?: MessageInteractionResponse;
-  nonce?: BasicMessageResponseNonce;
-  webhook_id?: string;
-  message_reference?: MessageReferenceResponse;
-  thread?: ThreadResponse;
-  mention_channels?: BasicMessageResponseMentionChannelsList;
-  role_subscription_data?: MessageRoleSubscriptionDataResponse;
-  purchase_notification?: PurchaseNotificationResponse;
-  position?: number;
-  resolved?: ResolvedObjectsResponse;
-  poll?: PollResponse;
-  shared_client_theme?: CustomClientThemeResponse;
-  interaction_metadata?: BasicMessageResponseInteractionMetadata;
-  message_snapshots?: BasicMessageResponseMessageSnapshotsList;
-  lobby_member?: MessageLobbyMemberResponse;
+  call?: MessageCallResponse | undefined;
+  activity?: MessageActivityResponse | undefined;
+  application?: BasicApplicationResponseWithBot | undefined;
+  application_id?: string | undefined;
+  interaction?: MessageInteractionResponse | undefined;
+  nonce?: BasicMessageResponseNonce | undefined;
+  webhook_id?: string | undefined;
+  message_reference?: MessageReferenceResponse | undefined;
+  thread?: ThreadResponse | undefined;
+  mention_channels?: BasicMessageResponseMentionChannelsList | undefined;
+  role_subscription_data?: MessageRoleSubscriptionDataResponse | undefined;
+  purchase_notification?: PurchaseNotificationResponse | undefined;
+  position?: number | undefined;
+  resolved?: ResolvedObjectsResponse | undefined;
+  poll?: PollResponse | undefined;
+  shared_client_theme?: CustomClientThemeResponse | undefined;
+  interaction_metadata?: BasicMessageResponseInteractionMetadata | undefined;
+  message_snapshots?: BasicMessageResponseMessageSnapshotsList | undefined;
+  lobby_member?: MessageLobbyMemberResponse | undefined;
+  actor?: UserResponse | undefined;
 }
 export interface MessageResponse {
   type: MessageType;
@@ -3527,35 +3690,36 @@ export interface MessageResponse {
   edited_timestamp: string | null;
   flags: number;
   components: MessageResponseComponentsList;
-  stickers?: MessageResponseStickersList;
-  sticker_items?: MessageResponseStickerItemsList;
+  stickers?: MessageResponseStickersList | undefined;
+  sticker_items?: MessageResponseStickerItemsList | undefined;
   id: string;
   channel_id: string;
   author: UserResponse;
   pinned: boolean;
   mention_everyone: boolean;
   tts: boolean;
-  call?: MessageCallResponse;
-  activity?: MessageActivityResponse;
-  application?: BasicApplicationResponseWithBot;
-  application_id?: string;
-  interaction?: MessageInteractionResponse;
-  nonce?: MessageResponseNonce;
-  webhook_id?: string;
-  message_reference?: MessageReferenceResponse;
-  thread?: ThreadResponse;
-  mention_channels?: MessageResponseMentionChannelsList;
-  role_subscription_data?: MessageRoleSubscriptionDataResponse;
-  purchase_notification?: PurchaseNotificationResponse;
-  position?: number;
-  resolved?: ResolvedObjectsResponse;
-  poll?: PollResponse;
-  shared_client_theme?: CustomClientThemeResponse;
-  interaction_metadata?: MessageResponseInteractionMetadata;
-  message_snapshots?: MessageResponseMessageSnapshotsList;
-  lobby_member?: MessageLobbyMemberResponse;
-  reactions?: MessageResponseReactionsList;
-  referenced_message?: BasicMessageResponse | null;
+  call?: MessageCallResponse | undefined;
+  activity?: MessageActivityResponse | undefined;
+  application?: BasicApplicationResponseWithBot | undefined;
+  application_id?: string | undefined;
+  interaction?: MessageInteractionResponse | undefined;
+  nonce?: MessageResponseNonce | undefined;
+  webhook_id?: string | undefined;
+  message_reference?: MessageReferenceResponse | undefined;
+  thread?: ThreadResponse | undefined;
+  mention_channels?: MessageResponseMentionChannelsList | undefined;
+  role_subscription_data?: MessageRoleSubscriptionDataResponse | undefined;
+  purchase_notification?: PurchaseNotificationResponse | undefined;
+  position?: number | undefined;
+  resolved?: ResolvedObjectsResponse | undefined;
+  poll?: PollResponse | undefined;
+  shared_client_theme?: CustomClientThemeResponse | undefined;
+  interaction_metadata?: MessageResponseInteractionMetadata | undefined;
+  message_snapshots?: MessageResponseMessageSnapshotsList | undefined;
+  lobby_member?: MessageLobbyMemberResponse | undefined;
+  actor?: UserResponse | undefined;
+  reactions?: MessageResponseReactionsList | undefined;
+  referenced_message?: BasicMessageResponse | null | undefined;
 }
 export interface CreateMessageInteractionCallbackResponse {
   type: InteractionCallbackTypes;
@@ -3575,7 +3739,7 @@ export type InteractionCallbackResponseResource =
   | CreateMessageInteractionCallbackResponse;
 export interface InteractionCallbackResponse {
   interaction: InteractionResponse;
-  resource?: InteractionCallbackResponseResource;
+  resource?: InteractionCallbackResponseResource | undefined;
 }
 export interface CreateLinkedLobbyGuildInviteForSelfRequest {
   lobby_id: string;
@@ -3591,19 +3755,20 @@ export type LobbyMemberRequestMetadataMap = { [key: string]: string | undefined 
 export type LobbyMemberRequestFlags = 1;
 export interface LobbyMemberRequest {
   id: string;
-  metadata?: LobbyMemberRequestMetadataMap | null;
-  flags?: LobbyMemberRequestFlags | (number & {}) | null;
-  additional_name?: string | null;
+  metadata?: LobbyMemberRequestMetadataMap | null | undefined;
+  flags?: LobbyMemberRequestFlags | (number & {}) | null | undefined;
+  additional_name?: string | null | undefined;
 }
 export type CreateLobbyRequestMembersList = Array<LobbyMemberRequest>;
 export type CreateLobbyRequestMetadataMap = { [key: string]: string | undefined };
 export type CreateLobbyRequestFlags = 1;
 export interface CreateLobbyRequest {
-  idle_timeout_seconds?: number | null;
-  members?: CreateLobbyRequestMembersList | null;
-  metadata?: CreateLobbyRequestMetadataMap | null;
-  flags?: CreateLobbyRequestFlags | (number & {}) | null;
-  override_event_webhooks_url?: string | null;
+  idle_timeout_seconds?: number | null | undefined;
+  members?: CreateLobbyRequestMembersList | null | undefined;
+  metadata?: CreateLobbyRequestMetadataMap | null | undefined;
+  flags?: CreateLobbyRequestFlags | (number & {}) | null | undefined;
+  override_event_webhooks_url?: string | null | undefined;
+  name?: string | null | undefined;
 }
 export type LobbyResponseMetadataMap = { [key: string]: string | undefined };
 export type LobbyResponseMembersList = Array<LobbyMemberResponse>;
@@ -3612,9 +3777,9 @@ export interface LobbyResponse {
   application_id: string;
   metadata: LobbyResponseMetadataMap | null;
   members: LobbyResponseMembersList;
-  linked_channel?: GuildChannelResponse;
+  linked_channel?: GuildChannelResponse | undefined;
   flags: number;
-  override_event_webhooks_url?: string | null;
+  override_event_webhooks_url?: string | null | undefined;
 }
 export type CreateLobbyMessageRequestEmbedsList = Array<RichEmbed>;
 export type CreateLobbyMessageRequestStickerIdsList = Array<string>;
@@ -3634,31 +3799,31 @@ export interface CustomClientThemeShareRequest {
   colors: CustomClientThemeShareRequestColorsList;
   gradient_angle: number;
   base_mix: number;
-  base_theme?: MessageShareCustomUserThemeBaseTheme | (number & {}) | null;
+  base_theme?: MessageShareCustomUserThemeBaseTheme | (number & {}) | null | undefined;
 }
 export interface MessageReferenceRequest {
-  guild_id?: string | null;
-  channel_id?: string | null;
+  guild_id?: string | null | undefined;
+  channel_id?: string | null | undefined;
   message_id: string;
-  fail_if_not_exists?: boolean | null;
-  type?: MessageReferenceType | (number & {}) | null;
+  fail_if_not_exists?: boolean | null | undefined;
+  type?: MessageReferenceType | (number & {}) | null | undefined;
 }
 export type CreateLobbyMessageRequestNonce = number | string;
 export interface CreateLobbyMessageRequest {
   lobby_id: string;
-  content?: string | null;
-  embeds?: CreateLobbyMessageRequestEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  sticker_ids?: CreateLobbyMessageRequestStickerIdsList | null;
-  components?: CreateLobbyMessageRequestComponentsList | null;
-  flags?: number | null;
-  attachments?: CreateLobbyMessageRequestAttachmentsList | null;
-  poll?: PollCreateRequest | null;
-  shared_client_theme?: CustomClientThemeShareRequest | null;
-  message_reference?: MessageReferenceRequest | null;
-  nonce?: CreateLobbyMessageRequestNonce | null;
-  enforce_nonce?: boolean | null;
-  tts?: boolean | null;
+  content?: string | null | undefined;
+  embeds?: CreateLobbyMessageRequestEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  sticker_ids?: CreateLobbyMessageRequestStickerIdsList | null | undefined;
+  components?: CreateLobbyMessageRequestComponentsList | null | undefined;
+  flags?: number | null | undefined;
+  attachments?: CreateLobbyMessageRequestAttachmentsList | null | undefined;
+  poll?: PollCreateRequest | null | undefined;
+  shared_client_theme?: CustomClientThemeShareRequest | null | undefined;
+  message_reference?: MessageReferenceRequest | null | undefined;
+  nonce?: CreateLobbyMessageRequestNonce | null | undefined;
+  enforce_nonce?: boolean | null | undefined;
+  tts?: boolean | null | undefined;
 }
 export type LobbyMessageResponseMetadataMap = { [key: string]: string | undefined };
 export type LobbyMessageResponseModerationMetadataMap = { [key: string]: string | undefined };
@@ -3669,11 +3834,11 @@ export interface LobbyMessageResponse {
   lobby_id: string;
   channel_id: string;
   author: UserResponse;
-  lobby_member?: MessageLobbyMemberResponse;
-  metadata?: LobbyMessageResponseMetadataMap;
-  moderation_metadata?: LobbyMessageResponseModerationMetadataMap;
+  lobby_member?: MessageLobbyMemberResponse | undefined;
+  metadata?: LobbyMessageResponseMetadataMap | undefined;
+  moderation_metadata?: LobbyMessageResponseModerationMetadataMap | undefined;
   flags: number;
-  application_id?: string;
+  application_id?: string | undefined;
 }
 export type CreateMessageRequestEmbedsList = Array<RichEmbed>;
 export type CreateMessageRequestStickerIdsList = Array<string>;
@@ -3690,29 +3855,30 @@ export type CreateMessageRequestAttachmentsList = Array<MessageAttachmentRequest
 export type CreateMessageRequestNonce = number | string;
 export interface CreateMessageRequest {
   channel_id: string;
-  content?: string | null;
-  embeds?: CreateMessageRequestEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  sticker_ids?: CreateMessageRequestStickerIdsList | null;
-  components?: CreateMessageRequestComponentsList | null;
-  flags?: number | null;
-  attachments?: CreateMessageRequestAttachmentsList | null;
-  poll?: PollCreateRequest | null;
-  shared_client_theme?: CustomClientThemeShareRequest | null;
-  message_reference?: MessageReferenceRequest | null;
-  nonce?: CreateMessageRequestNonce | null;
-  enforce_nonce?: boolean | null;
-  tts?: boolean | null;
+  content?: string | null | undefined;
+  embeds?: CreateMessageRequestEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  sticker_ids?: CreateMessageRequestStickerIdsList | null | undefined;
+  components?: CreateMessageRequestComponentsList | null | undefined;
+  flags?: number | null | undefined;
+  attachments?: CreateMessageRequestAttachmentsList | null | undefined;
+  poll?: PollCreateRequest | null | undefined;
+  shared_client_theme?: CustomClientThemeShareRequest | null | undefined;
+  message_reference?: MessageReferenceRequest | null | undefined;
+  nonce?: CreateMessageRequestNonce | null | undefined;
+  enforce_nonce?: boolean | null | undefined;
+  tts?: boolean | null | undefined;
 }
 export type CreateOrJoinLobbyRequestLobbyMetadataMap = { [key: string]: string | undefined };
 export type CreateOrJoinLobbyRequestMemberMetadataMap = { [key: string]: string | undefined };
 export type CreateOrJoinLobbyRequestFlags = 1;
 export interface CreateOrJoinLobbyRequest {
-  idle_timeout_seconds?: number | null;
-  lobby_metadata?: CreateOrJoinLobbyRequestLobbyMetadataMap | null;
-  member_metadata?: CreateOrJoinLobbyRequestMemberMetadataMap | null;
+  idle_timeout_seconds?: number | null | undefined;
+  lobby_metadata?: CreateOrJoinLobbyRequestLobbyMetadataMap | null | undefined;
+  member_metadata?: CreateOrJoinLobbyRequestMemberMetadataMap | null | undefined;
   secret: string | Redacted.Redacted<string>;
-  flags?: CreateOrJoinLobbyRequestFlags | (number & {}) | null;
+  flags?: CreateOrJoinLobbyRequestFlags | (number & {}) | null | undefined;
+  name?: string | null | undefined;
 }
 export interface CreatePinRequest {
   channel_id: string;
@@ -3723,9 +3889,9 @@ export type StageInstancesPrivacyLevels = 1 | 2;
 export interface CreateStageInstanceRequest {
   topic: string;
   channel_id: string;
-  privacy_level?: StageInstancesPrivacyLevels | (number & {}) | null;
-  guild_scheduled_event_id?: string | null;
-  send_start_notification?: boolean | null;
+  privacy_level?: StageInstancesPrivacyLevels | (number & {}) | null | undefined;
+  guild_scheduled_event_id?: string | null | undefined;
+  send_start_notification?: boolean | null | undefined;
 }
 export interface StageInstanceResponse {
   guild_id: string;
@@ -3751,29 +3917,29 @@ export type BaseCreateMessageCreateRequestComponentsList =
   Array<BaseCreateMessageCreateRequestComponentsItem>;
 export type BaseCreateMessageCreateRequestAttachmentsList = Array<MessageAttachmentRequest>;
 export interface BaseCreateMessageCreateRequest {
-  content?: string | null;
-  embeds?: BaseCreateMessageCreateRequestEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  sticker_ids?: BaseCreateMessageCreateRequestStickerIdsList | null;
-  components?: BaseCreateMessageCreateRequestComponentsList | null;
-  flags?: number | null;
-  attachments?: BaseCreateMessageCreateRequestAttachmentsList | null;
-  poll?: PollCreateRequest | null;
-  shared_client_theme?: CustomClientThemeShareRequest | null;
+  content?: string | null | undefined;
+  embeds?: BaseCreateMessageCreateRequestEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  sticker_ids?: BaseCreateMessageCreateRequestStickerIdsList | null | undefined;
+  components?: BaseCreateMessageCreateRequestComponentsList | null | undefined;
+  flags?: number | null | undefined;
+  attachments?: BaseCreateMessageCreateRequestAttachmentsList | null | undefined;
+  poll?: PollCreateRequest | null | undefined;
+  shared_client_theme?: CustomClientThemeShareRequest | null | undefined;
 }
 export interface CreateForumThreadRequest {
   name: string;
-  auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null;
-  rate_limit_per_user?: number | null;
-  applied_tags?: CreateForumThreadRequestAppliedTagsList | null;
+  auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null | undefined;
+  rate_limit_per_user?: number | null | undefined;
+  applied_tags?: CreateForumThreadRequestAppliedTagsList | null | undefined;
   message: BaseCreateMessageCreateRequest;
 }
 export interface CreateTextThreadWithoutMessageRequest {
   name: string;
-  auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null;
-  rate_limit_per_user?: number | null;
-  type?: ChannelTypes | (number & {}) | null;
-  invitable?: boolean | null;
+  auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null | undefined;
+  rate_limit_per_user?: number | null | undefined;
+  type?: ChannelTypes | (number & {}) | null | undefined;
+  invitable?: boolean | null | undefined;
 }
 export type CreateThreadRequestBody =
   | CreateForumThreadRequest
@@ -3786,50 +3952,50 @@ export type CreatedThreadResponseAppliedTagsList = Array<string>;
 export interface CreatedThreadResponse {
   id: string;
   type: ChannelTypes;
-  last_message_id?: string | null;
+  last_message_id?: string | null | undefined;
   flags: number;
-  last_pin_timestamp?: string | null;
+  last_pin_timestamp?: string | null | undefined;
   guild_id: string;
   name: string;
-  parent_id?: string | null;
-  rate_limit_per_user?: number;
-  bitrate?: number;
-  user_limit?: number;
-  rtc_region?: string | null;
-  video_quality_mode?: VideoQualityModes;
-  permissions?: string;
+  parent_id?: string | null | undefined;
+  rate_limit_per_user?: number | undefined;
+  bitrate?: number | undefined;
+  user_limit?: number | undefined;
+  rtc_region?: string | null | undefined;
+  video_quality_mode?: VideoQualityModes | undefined;
+  permissions?: string | undefined;
   owner_id: string;
   thread_metadata: ThreadMetadataResponse;
   message_count: number;
   member_count: number;
   total_message_sent: number;
-  applied_tags?: CreatedThreadResponseAppliedTagsList;
-  member?: ThreadMemberResponse;
+  applied_tags?: CreatedThreadResponseAppliedTagsList | undefined;
+  member?: ThreadMemberResponse | undefined;
 }
 export interface CreateThreadFromMessageRequest {
   channel_id: string;
   message_id: string;
   name: string;
-  auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null;
-  rate_limit_per_user?: number | null;
+  auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null | undefined;
+  rate_limit_per_user?: number | null | undefined;
 }
 export interface CreateWebhookRequest {
   channel_id: string;
   name: string;
-  avatar?: string | null;
+  avatar?: string | null | undefined;
 }
 export type WebhookTypes = 1 | 2 | 3;
 export interface GuildIncomingWebhookResponse {
   application_id: string | null;
   avatar: string | null;
   channel_id: string | null;
-  guild_id?: string | null;
+  guild_id?: string | null | undefined;
   id: string;
   name: string;
   type: WebhookTypes;
-  user?: UserResponse;
-  token?: string;
-  url?: string;
+  user?: UserResponse | undefined;
+  token?: string | undefined;
+  url?: string | undefined;
 }
 export interface CrosspostMessageRequest {
   channel_id: string;
@@ -3932,8 +4098,11 @@ export interface DeleteGuildScheduledEventRequest {
 }
 export interface DeleteGuildScheduledEventResponse {}
 export interface DeleteGuildScheduledEventExceptionRequest {
+  /** The ID of the guild */
   guild_id: string;
+  /** The ID of the scheduled event */
   guild_scheduled_event_id: string;
+  /** The ID of the event exception */
   exception_id: string;
 }
 export interface DeleteGuildScheduledEventExceptionResponse {}
@@ -3974,7 +4143,7 @@ export interface DeleteMyMessageReactionResponse {}
 export interface DeleteOriginalWebhookMessageRequest {
   webhook_id: string;
   webhook_token: string;
-  thread_id?: string;
+  thread_id?: string | undefined;
 }
 export interface DeleteOriginalWebhookMessageResponse {}
 export interface DeletePinRequest {
@@ -4011,7 +4180,7 @@ export interface DeleteWebhookMessageRequest {
   webhook_id: string;
   webhook_token: string;
   message_id: string;
-  thread_id?: string;
+  thread_id?: string | undefined;
 }
 export interface DeleteWebhookMessageResponse {}
 export type EditLobbyRequestMetadataMap = { [key: string]: string | undefined };
@@ -4019,15 +4188,16 @@ export type EditLobbyRequestMembersList = Array<LobbyMemberRequest>;
 export type EditLobbyRequestFlags = 1;
 export interface EditLobbyRequest {
   lobby_id: string;
-  idle_timeout_seconds?: number | null;
-  metadata?: EditLobbyRequestMetadataMap | null;
-  members?: EditLobbyRequestMembersList | null;
-  flags?: EditLobbyRequestFlags | (number & {}) | null;
-  override_event_webhooks_url?: string | null;
+  idle_timeout_seconds?: number | null | undefined;
+  metadata?: EditLobbyRequestMetadataMap | null | undefined;
+  members?: EditLobbyRequestMembersList | null | undefined;
+  flags?: EditLobbyRequestFlags | (number & {}) | null | undefined;
+  override_event_webhooks_url?: string | null | undefined;
+  name?: string | null | undefined;
 }
 export interface EditLobbyChannelLinkRequest {
   lobby_id: string;
-  channel_id?: string | null;
+  channel_id?: string | null | undefined;
 }
 export interface GithubUser {
   id: number;
@@ -4039,7 +4209,7 @@ export interface GithubComment {
   id: number;
   html_url: string;
   user: GithubUser;
-  commit_id?: string | null;
+  commit_id?: string | null | undefined;
   body: string;
 }
 export interface GithubIssue {
@@ -4048,8 +4218,8 @@ export interface GithubIssue {
   html_url: string;
   user: GithubUser;
   title: string;
-  body?: string | null;
-  pull_request?: unknown;
+  body?: string | null | undefined;
+  pull_request?: unknown | undefined;
 }
 export interface GithubRepository {
   id: number;
@@ -4064,7 +4234,7 @@ export interface GithubRelease {
   author: GithubUser;
 }
 export interface GithubAuthor {
-  username?: string | null;
+  username?: string | null | undefined;
   name: string;
 }
 export interface GithubCommit {
@@ -4076,7 +4246,7 @@ export interface GithubCommit {
 export type ExecuteGithubCompatibleWebhookRequestCommitsList = Array<GithubCommit>;
 export interface GithubReview {
   user: GithubUser;
-  body?: string | null;
+  body?: string | null | undefined;
   html_url: string;
   state: string;
 }
@@ -4088,93 +4258,93 @@ export interface GithubCheckApp {
   name: string;
 }
 export interface GithubCheckSuite {
-  conclusion?: string | null;
-  head_branch?: string | null;
+  conclusion?: string | null | undefined;
+  head_branch?: string | null | undefined;
   head_sha: string;
-  pull_requests?: GithubCheckSuitePullRequestsList | null;
+  pull_requests?: GithubCheckSuitePullRequestsList | null | undefined;
   app: GithubCheckApp;
 }
 export interface GithubCheckRunOutput {
-  title?: string | null;
-  summary?: string | null;
+  title?: string | null | undefined;
+  summary?: string | null | undefined;
 }
 export type GithubCheckRunPullRequestsList = Array<GithubCheckPullRequest>;
 export interface GithubCheckRun {
-  conclusion?: string | null;
+  conclusion?: string | null | undefined;
   name: string;
   html_url: string;
   check_suite: GithubCheckSuite;
-  details_url?: string | null;
-  output?: GithubCheckRunOutput | null;
-  pull_requests?: GithubCheckRunPullRequestsList | null;
+  details_url?: string | null | undefined;
+  output?: GithubCheckRunOutput | null | undefined;
+  pull_requests?: GithubCheckRunPullRequestsList | null | undefined;
 }
 export interface GithubDiscussion {
   title: string;
   number: number;
   html_url: string;
-  answer_html_url?: string | null;
-  body?: string | null;
+  answer_html_url?: string | null | undefined;
+  body?: string | null | undefined;
   user: GithubUser;
 }
 export interface ExecuteGithubCompatibleWebhookRequest {
   webhook_id: string;
   webhook_token: string;
-  wait?: boolean;
-  thread_id?: string;
-  action?: string | null;
-  ref?: string | null;
-  ref_type?: string | null;
-  comment?: GithubComment | null;
-  issue?: GithubIssue | null;
-  pull_request?: GithubIssue | null;
-  repository?: GithubRepository | null;
-  forkee?: GithubRepository | null;
+  wait?: boolean | undefined;
+  thread_id?: string | undefined;
+  action?: string | null | undefined;
+  ref?: string | null | undefined;
+  ref_type?: string | null | undefined;
+  comment?: GithubComment | null | undefined;
+  issue?: GithubIssue | null | undefined;
+  pull_request?: GithubIssue | null | undefined;
+  repository?: GithubRepository | null | undefined;
+  forkee?: GithubRepository | null | undefined;
   sender: GithubUser;
-  member?: GithubUser | null;
-  release?: GithubRelease | null;
-  head_commit?: GithubCommit | null;
-  commits?: ExecuteGithubCompatibleWebhookRequestCommitsList | null;
-  forced?: boolean | null;
-  compare?: string | null;
-  review?: GithubReview | null;
-  check_run?: GithubCheckRun | null;
-  check_suite?: GithubCheckSuite | null;
-  discussion?: GithubDiscussion | null;
-  answer?: GithubComment | null;
+  member?: GithubUser | null | undefined;
+  release?: GithubRelease | null | undefined;
+  head_commit?: GithubCommit | null | undefined;
+  commits?: ExecuteGithubCompatibleWebhookRequestCommitsList | null | undefined;
+  forced?: boolean | null | undefined;
+  compare?: string | null | undefined;
+  review?: GithubReview | null | undefined;
+  check_run?: GithubCheckRun | null | undefined;
+  check_suite?: GithubCheckSuite | null | undefined;
+  discussion?: GithubDiscussion | null | undefined;
+  answer?: GithubComment | null | undefined;
 }
 export interface ExecuteGithubCompatibleWebhookResponse {}
 export interface WebhookSlackEmbedField {
-  name?: string | null;
-  value?: string | null;
-  inline?: boolean | null;
+  name?: string | null | undefined;
+  value?: string | null | undefined;
+  inline?: boolean | null | undefined;
 }
 export type WebhookSlackEmbedFieldsList = Array<WebhookSlackEmbedField>;
 export interface WebhookSlackEmbed {
-  title?: string | null;
-  title_link?: string | null;
-  text?: string | null;
-  color?: string | null;
-  ts?: number | null;
-  pretext?: string | null;
-  footer?: string | null;
-  footer_icon?: string | null;
-  author_name?: string | null;
-  author_link?: string | null;
-  author_icon?: string | null;
-  image_url?: string | null;
-  thumb_url?: string | null;
-  fields?: WebhookSlackEmbedFieldsList | null;
+  title?: string | null | undefined;
+  title_link?: string | null | undefined;
+  text?: string | null | undefined;
+  color?: string | null | undefined;
+  ts?: number | null | undefined;
+  pretext?: string | null | undefined;
+  footer?: string | null | undefined;
+  footer_icon?: string | null | undefined;
+  author_name?: string | null | undefined;
+  author_link?: string | null | undefined;
+  author_icon?: string | null | undefined;
+  image_url?: string | null | undefined;
+  thumb_url?: string | null | undefined;
+  fields?: WebhookSlackEmbedFieldsList | null | undefined;
 }
 export type ExecuteSlackCompatibleWebhookRequestAttachmentsList = Array<WebhookSlackEmbed>;
 export interface ExecuteSlackCompatibleWebhookRequest {
   webhook_id: string;
   webhook_token: string;
-  wait?: boolean;
-  thread_id?: string;
-  text?: string | null;
-  username?: string | null;
-  icon_url?: string | null;
-  attachments?: ExecuteSlackCompatibleWebhookRequestAttachmentsList | null;
+  wait?: boolean | undefined;
+  thread_id?: string | undefined;
+  text?: string | null | undefined;
+  username?: string | null | undefined;
+  icon_url?: string | null | undefined;
+  attachments?: ExecuteSlackCompatibleWebhookRequestAttachmentsList | null | undefined;
 }
 export type ExecuteSlackCompatibleWebhookResponse = string | null;
 export type IncomingWebhookRequestPartialEmbedsList = Array<RichEmbed>;
@@ -4191,18 +4361,18 @@ export type IncomingWebhookRequestPartialComponentsList =
 export type IncomingWebhookRequestPartialAttachmentsList = Array<MessageAttachmentRequest>;
 export type IncomingWebhookRequestPartialAppliedTagsList = Array<string>;
 export interface IncomingWebhookRequestPartial {
-  content?: string | null;
-  embeds?: IncomingWebhookRequestPartialEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  components?: IncomingWebhookRequestPartialComponentsList | null;
-  attachments?: IncomingWebhookRequestPartialAttachmentsList | null;
-  poll?: PollCreateRequest | null;
-  tts?: boolean | null;
-  flags?: number | null;
-  username?: string | null;
-  avatar_url?: string | null;
-  thread_name?: string | null;
-  applied_tags?: IncomingWebhookRequestPartialAppliedTagsList | null;
+  content?: string | null | undefined;
+  embeds?: IncomingWebhookRequestPartialEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  components?: IncomingWebhookRequestPartialComponentsList | null | undefined;
+  attachments?: IncomingWebhookRequestPartialAttachmentsList | null | undefined;
+  poll?: PollCreateRequest | null | undefined;
+  tts?: boolean | null | undefined;
+  flags?: number | null | undefined;
+  username?: string | null | undefined;
+  avatar_url?: string | null | undefined;
+  thread_name?: string | null | undefined;
+  applied_tags?: IncomingWebhookRequestPartialAppliedTagsList | null | undefined;
 }
 export type IncomingWebhookUpdateRequestPartialEmbedsList = Array<RichEmbed>;
 export type IncomingWebhookUpdateRequestPartialComponentsItem =
@@ -4217,13 +4387,13 @@ export type IncomingWebhookUpdateRequestPartialComponentsList =
   Array<IncomingWebhookUpdateRequestPartialComponentsItem>;
 export type IncomingWebhookUpdateRequestPartialAttachmentsList = Array<MessageAttachmentRequest>;
 export interface IncomingWebhookUpdateRequestPartial {
-  content?: string | null;
-  embeds?: IncomingWebhookUpdateRequestPartialEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  components?: IncomingWebhookUpdateRequestPartialComponentsList | null;
-  attachments?: IncomingWebhookUpdateRequestPartialAttachmentsList | null;
-  poll?: PollCreateRequest | null;
-  flags?: number | null;
+  content?: string | null | undefined;
+  embeds?: IncomingWebhookUpdateRequestPartialEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  components?: IncomingWebhookUpdateRequestPartialComponentsList | null | undefined;
+  attachments?: IncomingWebhookUpdateRequestPartialAttachmentsList | null | undefined;
+  poll?: PollCreateRequest | null | undefined;
+  flags?: number | null | undefined;
 }
 export type ExecuteWebhookRequestBody =
   | IncomingWebhookRequestPartial
@@ -4231,9 +4401,9 @@ export type ExecuteWebhookRequestBody =
 export interface ExecuteWebhookRequest {
   webhook_id: string;
   webhook_token: string;
-  wait?: boolean;
-  thread_id?: string;
-  with_components?: boolean;
+  wait?: boolean | undefined;
+  thread_id?: string | undefined;
+  with_components?: boolean | undefined;
   body: ExecuteWebhookRequestBody;
 }
 export interface FollowChannelRequest {
@@ -4254,14 +4424,15 @@ export interface ThreadsResponse {
   threads: ThreadsResponseThreadsList;
   members: ThreadsResponseMembersList;
   has_more: boolean;
-  first_messages?: ThreadsResponseFirstMessagesList;
+  first_messages?: ThreadsResponseFirstMessagesList | undefined;
 }
 export interface GetAnswerVotersRequest {
   channel_id: string;
   message_id: string;
+  /** The ID of the answer */
   answer_id: number;
-  after?: string;
-  limit?: number;
+  after?: string | undefined;
+  limit?: number | undefined;
 }
 export type PollAnswerDetailsResponseUsersList = Array<UserResponse>;
 export interface PollAnswerDetailsResponse {
@@ -4384,25 +4555,26 @@ export interface PrivateApplicationResponse {
   icon: string | null;
   description: string;
   type: ApplicationTypes | null;
-  cover_image?: string;
-  primary_sku_id?: string;
+  cover_image?: string | undefined;
+  primary_sku_id?: string | undefined;
   flags: number;
   flags_new: string;
-  bot?: UserResponse;
-  slug?: string;
-  vibegrations_project_id?: string;
-  guild_id?: string;
-  rpc_origins?: PrivateApplicationResponseRpcOriginsList;
-  bot_public?: boolean;
-  bot_require_code_grant?: boolean;
-  terms_of_service_url?: string;
-  privacy_policy_url?: string;
-  custom_install_url?: string;
-  install_params?: ApplicationOAuth2InstallParamsResponse;
-  integration_types_config?: PrivateApplicationResponseIntegrationTypesConfigMap;
+  bot?: UserResponse | undefined;
+  slug?: string | undefined;
+  conjure_project_id?: string | undefined;
+  vibegrations_project_id?: string | undefined;
+  guild_id?: string | undefined;
+  rpc_origins?: PrivateApplicationResponseRpcOriginsList | undefined;
+  bot_public?: boolean | undefined;
+  bot_require_code_grant?: boolean | undefined;
+  terms_of_service_url?: string | undefined;
+  privacy_policy_url?: string | undefined;
+  custom_install_url?: string | undefined;
+  install_params?: ApplicationOAuth2InstallParamsResponse | undefined;
+  integration_types_config?: PrivateApplicationResponseIntegrationTypesConfigMap | undefined;
   verify_key: string;
-  max_participants?: number | null;
-  tags?: PrivateApplicationResponseTagsList;
+  max_participants?: number | null | undefined;
+  tags?: PrivateApplicationResponseTagsList | undefined;
   redirect_uris: PrivateApplicationResponseRedirectUrisList;
   interactions_endpoint_url: string | null;
   role_connections_verification_url: string | null;
@@ -4410,9 +4582,9 @@ export interface PrivateApplicationResponse {
   approximate_guild_count: number;
   approximate_user_install_count: number;
   approximate_user_authorization_count: number;
-  event_webhooks_url?: string | null;
-  event_webhooks_status?: ApplicationEventWebhooksStatus;
-  event_webhooks_types?: PrivateApplicationResponseEventWebhooksTypesList;
+  event_webhooks_url?: string | null | undefined;
+  event_webhooks_status?: ApplicationEventWebhooksStatus | undefined;
+  event_webhooks_types?: PrivateApplicationResponseEventWebhooksTypesList | undefined;
   explicit_content_filter: ApplicationExplicitContentFilterTypes;
   team: TeamResponse | null;
   eligible_oauth2_scopes: PrivateApplicationResponseEligibleOauth2ScopesList;
@@ -4464,9 +4636,15 @@ export interface ApplicationRoleConnectionsMetadataItemResponse {
   type: MetadataItemTypes;
   key: string;
   name: string;
-  name_localizations?: ApplicationRoleConnectionsMetadataItemResponseNameLocalizationsMap | null;
+  name_localizations?:
+    | ApplicationRoleConnectionsMetadataItemResponseNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localizations?: ApplicationRoleConnectionsMetadataItemResponseDescriptionLocalizationsMap | null;
+  description_localizations?:
+    | ApplicationRoleConnectionsMetadataItemResponseDescriptionLocalizationsMap
+    | null
+    | undefined;
 }
 export type GetApplicationRoleConnectionsMetadataResponseBodyList =
   Array<ApplicationRoleConnectionsMetadataItemResponse>;
@@ -4478,9 +4656,9 @@ export type ApplicationUserRoleConnectionResponseMetadataMap = {
   [key: string]: string | undefined;
 };
 export interface ApplicationUserRoleConnectionResponse {
-  platform_name?: string;
-  platform_username?: string | null;
-  metadata?: ApplicationUserRoleConnectionResponseMetadataMap;
+  platform_name?: string | undefined;
+  platform_username?: string | null | undefined;
+  metadata?: ApplicationUserRoleConnectionResponseMetadataMap | undefined;
 }
 export interface GetAutoModerationRuleRequest {
   guild_id: string;
@@ -4514,14 +4692,34 @@ export type GetChannelResponseBody =
   | PrivateGroupChannelResponse
   | ThreadResponse;
 export type GetChannelResponse = GetChannelResponseBody;
+export interface GetChannelMemberPermissionsRequest {
+  /** The ID of the channel */
+  channel_id: string;
+  /** The ID of the member */
+  user_id: string;
+  /** Whether to apply implicit-permission computations. Defaults to true; pass false for the raw explicit permissions. */
+  implicit?: boolean | undefined;
+}
+export interface PermissionsResponse {
+  /** The computed permissions, as a stringified bitfield */
+  permissions: string;
+}
+export interface GetChannelRolePermissionsRequest {
+  /** The ID of the channel */
+  channel_id: string;
+  /** The ID of the role */
+  role_id: string;
+  /** Whether to apply implicit-permission computations. Defaults to true. Pass false for the raw explicit permissions. */
+  implicit?: boolean | undefined;
+}
 export type GetCurrentUserApplicationEntitlementsRequestSkuIdsCase1List = Array<string | null>;
 export type GetCurrentUserApplicationEntitlementsRequestSkuIds =
   | string
   | GetCurrentUserApplicationEntitlementsRequestSkuIdsCase1List;
 export interface GetCurrentUserApplicationEntitlementsRequest {
   application_id: string;
-  sku_ids?: GetCurrentUserApplicationEntitlementsRequestSkuIds;
-  exclude_consumed?: boolean;
+  sku_ids?: GetCurrentUserApplicationEntitlementsRequestSkuIds | undefined;
+  exclude_consumed?: boolean | undefined;
 }
 export type GetCurrentUserApplicationEntitlementsResponseBodyList = Array<EntitlementResponse>;
 export type GetCurrentUserApplicationEntitlementsResponse =
@@ -4534,15 +4732,15 @@ export type GetEntitlementsRequestSkuIdsCase1List = Array<string | null>;
 export type GetEntitlementsRequestSkuIds = string | GetEntitlementsRequestSkuIdsCase1List;
 export interface GetEntitlementsRequest {
   application_id: string;
-  user_id?: string;
-  sku_ids?: GetEntitlementsRequestSkuIds;
-  guild_id?: string;
-  before?: string;
-  after?: string;
-  limit?: number;
-  exclude_ended?: boolean;
-  exclude_deleted?: boolean;
-  only_active?: boolean;
+  user_id?: string | undefined;
+  sku_ids?: GetEntitlementsRequestSkuIds | undefined;
+  guild_id?: string | undefined;
+  before?: string | undefined;
+  after?: string | undefined;
+  limit?: number | undefined;
+  exclude_ended?: boolean | undefined;
+  exclude_deleted?: boolean | undefined;
+  only_active?: boolean | undefined;
 }
 export type GetEntitlementsResponseBodyList = Array<EntitlementResponse>;
 export type GetEntitlementsResponse = GetEntitlementsResponseBodyList;
@@ -4552,7 +4750,7 @@ export interface GatewayResponse {
 }
 export interface GetGuildRequest {
   guild_id: string;
-  with_counts?: boolean;
+  with_counts?: boolean | undefined;
 }
 export type GuildWithCountsResponseFeaturesList = Array<GuildFeatures>;
 export type GuildWithCountsResponseRolesList = Array<GuildRoleResponse>;
@@ -4602,14 +4800,14 @@ export interface GuildWithCountsResponse {
   safety_alerts_channel_id: string | null;
   public_updates_channel_id: string | null;
   premium_progress_bar_enabled: boolean;
-  premium_progress_bar_enabled_user_updated_at?: string | null;
+  premium_progress_bar_enabled_user_updated_at?: string | null | undefined;
   nsfw: boolean;
   nsfw_level: GuildNSFWContentLevel;
   emojis: GuildWithCountsResponseEmojisList;
   stickers: GuildWithCountsResponseStickersList;
   incidents_data: GuildIncidentsDataResponse | null;
-  approximate_member_count?: number | null;
-  approximate_presence_count?: number | null;
+  approximate_member_count?: number | null | undefined;
+  approximate_presence_count?: number | null | undefined;
 }
 export interface GetGuildApplicationCommandRequest {
   application_id: string;
@@ -4649,10 +4847,12 @@ export interface GetGuildEmojiRequest {
 export type GuildJoinRequestApplicationStatus = "STARTED" | "SUBMITTED" | "REJECTED" | "APPROVED";
 export interface GetGuildJoinRequestsRequest {
   guild_id: string;
-  status?: GuildJoinRequestApplicationStatus | (string & {});
-  limit?: number;
-  before?: string;
-  after?: string;
+  /** Filter by application status. Defaults to SUBMITTED if omitted */
+  status?: GuildJoinRequestApplicationStatus | (string & {}) | undefined;
+  /** Maximum number of join requests to return */
+  limit?: number | undefined;
+  before?: string | undefined;
+  after?: string | undefined;
 }
 export type GuildMemberVerificationFormFieldType =
   | "TERMS"
@@ -4665,29 +4865,29 @@ export interface MultipleChoiceFormFieldResponse {
   /** Type of form field */
   field_type: GuildMemberVerificationFormFieldType;
   /** Label shown above field */
-  label?: string;
+  label?: string | undefined;
   /** Optional helper text shown below label */
-  description?: string;
+  description?: string | undefined;
   /** Whether applicant must fill in field */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Choices applicant can select from */
   choices: MultipleChoiceFormFieldResponseChoicesList;
   /** Index of choice selected by applicant */
-  response?: number;
+  response?: number | undefined;
 }
 export interface ParagraphFormFieldResponse {
   /** Type of form field */
   field_type: GuildMemberVerificationFormFieldType;
   /** Label shown above field */
-  label?: string;
+  label?: string | undefined;
   /** Optional helper text shown below label */
-  description?: string;
+  description?: string | undefined;
   /** Whether applicant must fill in field */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Placeholder text shown in empty input */
-  placeholder?: string;
+  placeholder?: string | undefined;
   /** Applicant's text response */
-  response?: string;
+  response?: string | undefined;
 }
 /** Terms applicant must acknowledge */
 export type TermsFormFieldResponseValuesList = Array<string>;
@@ -4695,15 +4895,15 @@ export interface TermsFormFieldResponse {
   /** Type of form field */
   field_type: GuildMemberVerificationFormFieldType;
   /** Label shown above field */
-  label?: string;
+  label?: string | undefined;
   /** Optional helper text shown below label */
-  description?: string;
+  description?: string | undefined;
   /** Whether applicant must fill in field */
-  required?: boolean;
+  required?: boolean | undefined;
   /** Terms applicant must acknowledge */
   values: TermsFormFieldResponseValuesList;
   /** Whether applicant accepted terms */
-  response?: boolean;
+  response?: boolean | undefined;
 }
 export type TextInputFormFieldResponse = ParagraphFormFieldResponse;
 export type GuildJoinRequestResponseFormResponsesItem =
@@ -4723,18 +4923,24 @@ export interface GuildJoinRequestResponse {
   rejection_reason: string | null;
   guild_id: string;
   user_id: string;
-  user?: UserResponse | null;
+  user?: UserResponse | null | undefined;
   /** Applicant's responses on join request form */
-  form_responses?: GuildJoinRequestResponseFormResponsesList | null;
-  actioned_by_user?: UserResponse | null;
+  form_responses?: GuildJoinRequestResponseFormResponsesList | null | undefined;
+  actioned_by_user?: UserResponse | null | undefined;
 }
 export type GuildJoinRequestsListResponseGuildJoinRequestsList = Array<GuildJoinRequestResponse>;
 export interface GuildJoinRequestsListResponse {
-  total?: number;
-  guild_join_requests?: GuildJoinRequestsListResponseGuildJoinRequestsList;
+  total?: number | undefined;
+  guild_join_requests?: GuildJoinRequestsListResponseGuildJoinRequestsList | undefined;
 }
 export interface GetGuildMemberRequest {
   guild_id: string;
+  user_id: string;
+}
+export interface GetGuildMemberPermissionsRequest {
+  /** The ID of the guild */
+  guild_id: string;
+  /** The ID of the member */
   user_id: string;
 }
 export interface GetGuildNewMemberWelcomeRequest {
@@ -4756,22 +4962,22 @@ export interface NewMemberActionResponse {
   action_type: NewMemberActionType;
   title: string;
   description: string;
-  emoji?: SettingsEmojiResponse;
-  icon?: string;
+  emoji?: SettingsEmojiResponse | undefined;
+  icon?: string | undefined;
 }
 export type GuildHomeSettingsResponseNewMemberActionsList = Array<NewMemberActionResponse>;
 export interface ResourceChannelResponse {
   channel_id: string;
   title: string;
-  emoji?: SettingsEmojiResponse;
-  icon?: string;
+  emoji?: SettingsEmojiResponse | undefined;
+  icon?: string | undefined;
   description: string;
 }
 export type GuildHomeSettingsResponseResourceChannelsList = Array<ResourceChannelResponse>;
 export interface GuildHomeSettingsResponse {
   guild_id: string;
   enabled: boolean;
-  welcome_message?: WelcomeMessageResponse;
+  welcome_message?: WelcomeMessageResponse | undefined;
   new_member_actions: GuildHomeSettingsResponseNewMemberActionsList;
   resource_channels: GuildHomeSettingsResponseResourceChannelsList;
 }
@@ -4799,10 +5005,16 @@ export interface GetGuildRoleRequest {
   guild_id: string;
   role_id: string;
 }
+export interface GetGuildRolePermissionsRequest {
+  /** The ID of the guild */
+  guild_id: string;
+  /** The ID of the role */
+  role_id: string;
+}
 export interface GetGuildScheduledEventRequest {
   guild_id: string;
   guild_scheduled_event_id: string;
-  with_user_count?: boolean;
+  with_user_count?: boolean | undefined;
 }
 export type GetGuildScheduledEventResponseBody =
   | ExternalScheduledEventResponse
@@ -4864,7 +5076,7 @@ export interface VanityURLErrorResponse {
 export interface VanityURLResponse {
   code: string | null;
   uses: number;
-  error?: VanityURLErrorResponse | null;
+  error?: VanityURLErrorResponse | null | undefined;
 }
 export interface GetGuildWebhooksRequest {
   guild_id: string;
@@ -4873,11 +5085,11 @@ export interface ApplicationIncomingWebhookResponse {
   application_id: string | null;
   avatar: string | null;
   channel_id: string | null;
-  guild_id?: string | null;
+  guild_id?: string | null | undefined;
   id: string;
   name: string;
   type: WebhookTypes;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
 }
 export interface WebhookSourceGuildResponse {
   id: string;
@@ -4892,13 +5104,13 @@ export interface ChannelFollowerWebhookResponse {
   application_id: string | null;
   avatar: string | null;
   channel_id: string | null;
-  guild_id?: string | null;
+  guild_id?: string | null | undefined;
   id: string;
   name: string;
   type: WebhookTypes;
-  user?: UserResponse;
-  source_guild?: WebhookSourceGuildResponse;
-  source_channel?: WebhookSourceChannelResponse;
+  user?: UserResponse | undefined;
+  source_guild?: WebhookSourceGuildResponse | undefined;
+  source_channel?: WebhookSourceChannelResponse | undefined;
 }
 export type GetGuildWebhooksResponseBodyItem =
   | ApplicationIncomingWebhookResponse
@@ -4939,13 +5151,13 @@ export interface WidgetMember {
   avatar: unknown | null;
   status: string;
   avatar_url: string;
-  activity?: GithubCheckApp;
-  deaf?: boolean;
-  mute?: boolean;
-  self_deaf?: boolean;
-  self_mute?: boolean;
-  suppress?: boolean;
-  channel_id?: string;
+  activity?: GithubCheckApp | undefined;
+  deaf?: boolean | undefined;
+  mute?: boolean | undefined;
+  self_deaf?: boolean | undefined;
+  self_mute?: boolean | undefined;
+  suppress?: boolean | undefined;
+  channel_id?: string | undefined;
 }
 export type WidgetResponseMembersList = Array<WidgetMember>;
 export interface WidgetResponse {
@@ -4959,7 +5171,7 @@ export interface WidgetResponse {
 export type WidgetImageStyles = "shield" | "banner1" | "banner2" | "banner3" | "banner4";
 export interface GetGuildWidgetPngRequest {
   guild_id: string;
-  style?: WidgetImageStyles | (string & {});
+  style?: WidgetImageStyles | (string & {}) | undefined;
 }
 export interface GetGuildWidgetPngResponse {}
 export interface GetGuildWidgetSettingsRequest {
@@ -4996,7 +5208,7 @@ export interface GetLobbyRequest {
 }
 export interface GetLobbyMessagesRequest {
   lobby_id: string;
-  limit?: number;
+  limit?: number | undefined;
 }
 export type GetLobbyMessagesResponseBodyList = Array<LobbyMessageResponse>;
 export type GetLobbyMessagesResponse = GetLobbyMessagesResponseBodyList | null;
@@ -5014,7 +5226,7 @@ export interface PrivateGuildMemberResponse {
   /** the member's guild avatar hash */
   avatar: string | null;
   /** data for the member's guild avatar decoration */
-  avatar_decoration_data?: UserAvatarDecorationResponse | null;
+  avatar_decoration_data?: UserAvatarDecorationResponse | null | undefined;
   /** the member's guild banner hash */
   banner: string | null;
   /** when the user's timeout will expire and the user will be able to communicate in the guild again, null or a time in the past if the user is not timed out */
@@ -5032,14 +5244,14 @@ export interface PrivateGuildMemberResponse {
   /** array of role object ids */
   roles: PrivateGuildMemberResponseRolesList;
   /** data for the member's collectibles */
-  collectibles?: UserCollectiblesResponse | null;
+  collectibles?: UserCollectiblesResponse | null | undefined;
   /** the user this guild member represents */
   user: UserResponse;
   /** whether the user is muted in voice channels */
   mute: boolean;
   /** whether the user is deafened in voice channels */
   deaf: boolean;
-  permissions?: string;
+  permissions?: string | undefined;
 }
 export interface GetMyOauth2ApplicationRequest {}
 export interface GetMyOauth2AuthorizationRequest {}
@@ -5048,7 +5260,7 @@ export interface OAuth2GetAuthorizationResponse {
   application: ApplicationResponse;
   expires: string;
   scopes: OAuth2GetAuthorizationResponseScopesList;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
 }
 export interface GetMyUserRequest {}
 export type PremiumTypes = 0 | 1 | 2 | 3;
@@ -5066,40 +5278,40 @@ export interface UserPIIResponse {
   /** the flags on a user's account */
   flags: number;
   /** whether the user belongs to an OAuth2 application */
-  bot?: boolean;
+  bot?: boolean | undefined;
   /** whether the user is an Official Discord System user (part of the urgent message system) */
-  system?: boolean;
+  system?: boolean | undefined;
   /** the user's banner hash */
-  banner?: string | null;
+  banner?: string | null | undefined;
   /** the user's banner color encoded as an integer representation of hexadecimal color code */
-  accent_color?: number | null;
+  accent_color?: number | null | undefined;
   /** the user's display name, if it is set */
   global_name: string | null;
   /** data for the user's avatar decoration */
-  avatar_decoration_data?: UserAvatarDecorationResponse | null;
+  avatar_decoration_data?: UserAvatarDecorationResponse | null | undefined;
   /** data for the user's collectibles */
-  collectibles?: UserCollectiblesResponse | null;
-  primary_guild?: UserPrimaryGuildResponse | null;
+  collectibles?: UserCollectiblesResponse | null | undefined;
+  primary_guild?: UserPrimaryGuildResponse | null | undefined;
   mfa_enabled: boolean;
   locale: AvailableLocalesEnum;
-  premium_type?: PremiumTypes;
-  email?: string | null;
-  verified?: boolean;
+  premium_type?: PremiumTypes | undefined;
+  email?: string | null | undefined;
+  verified?: boolean | undefined;
 }
 export interface GetOpenidConnectUserinfoRequest {}
 export interface OAuth2GetOpenIDConnectUserInfoResponse {
   sub: string;
-  email?: string | null;
-  email_verified?: boolean;
-  preferred_username?: string;
-  nickname?: string | null;
-  picture?: string;
-  locale?: string;
+  email?: string | null | undefined;
+  email_verified?: boolean | undefined;
+  preferred_username?: string | undefined;
+  nickname?: string | null | undefined;
+  picture?: string | undefined;
+  locale?: string | undefined;
 }
 export interface GetOriginalWebhookMessageRequest {
   webhook_id: string;
   webhook_token: string;
-  thread_id?: string;
+  thread_id?: string | undefined;
 }
 export interface GetPublicKeysRequest {}
 export interface OAuth2Key {
@@ -5121,7 +5333,7 @@ export interface VoiceStateResponse {
   channel_id: string | null;
   deaf: boolean;
   guild_id: string | null;
-  member?: GuildMemberResponse;
+  member?: GuildMemberResponse | undefined;
   mute: boolean;
   request_to_speak_timestamp: string | null;
   suppress: boolean;
@@ -5133,9 +5345,12 @@ export interface VoiceStateResponse {
   user_id: string;
 }
 export interface GetSkuSubscriptionRequest {
+  /** ID of SKU */
   sku_id: string;
+  /** ID of the subscription */
   subscription_id: string;
-  user_id?: string;
+  /** User ID for which to return the subscription. Required except for OAuth queries. */
+  user_id?: string | undefined;
 }
 /** List of SKUs subscribed to */
 export type SubscriptionResponseSkuIdsList = Array<string>;
@@ -5164,14 +5379,19 @@ export interface SubscriptionResponse {
   /** When the subscription was canceled */
   canceled_at: string | null;
   /** ISO3166-1 alpha-2 country code of the payment source used to purchase the subscription */
-  country?: string | null;
+  country?: string | null | undefined;
 }
 export interface GetSkuSubscriptionsRequest {
+  /** ID of SKU */
   sku_id: string;
-  before?: string;
-  after?: string;
-  limit?: number;
-  user_id?: string;
+  /** List subscriptions before this ID */
+  before?: string | undefined;
+  /** List subscriptions after this ID */
+  after?: string | undefined;
+  /** Number of results to return (1-100) */
+  limit?: number | undefined;
+  /** User ID for which to return subscriptions. Required except for OAuth queries. */
+  user_id?: string | undefined;
 }
 export type GetSkuSubscriptionsResponseBodyList = Array<SubscriptionResponse>;
 export type GetSkuSubscriptionsResponse = GetSkuSubscriptionsResponseBodyList;
@@ -5196,13 +5416,13 @@ export interface StickerPackResponse {
   name: string;
   description: string | null;
   stickers: StickerPackResponseStickersList;
-  cover_sticker_id?: string;
-  banner_asset_id?: string;
+  cover_sticker_id?: string | undefined;
+  banner_asset_id?: string | undefined;
 }
 export interface GetThreadMemberRequest {
   channel_id: string;
   user_id: string;
-  with_member?: boolean;
+  with_member?: boolean | undefined;
 }
 export interface GetUserRequest {
   user_id: string;
@@ -5232,7 +5452,7 @@ export interface GetWebhookMessageRequest {
   webhook_id: string;
   webhook_token: string;
   message_id: string;
-  thread_id?: string;
+  thread_id?: string | undefined;
 }
 export interface GuildRoleMemberCountsRequest {
   guild_id: string;
@@ -5241,10 +5461,10 @@ export type GuildRoleMemberCountsResponseBodyMap = { [key: string]: number | und
 export type GuildRoleMemberCountsResponse = GuildRoleMemberCountsResponseBodyMap;
 export interface InviteResolveRequest {
   code: string;
-  with_counts?: boolean;
-  guild_scheduled_event_id?: string;
-  target_channel_id?: string;
-  target_message_id?: string;
+  with_counts?: boolean | undefined;
+  guild_scheduled_event_id?: string | undefined;
+  target_channel_id?: string | undefined;
+  target_message_id?: string | undefined;
 }
 export type InviteResolveResponseBody =
   | FriendInviteResponse
@@ -5255,9 +5475,9 @@ export interface JoinActionGuildRequestRequest {
   guild_id: string;
   request_id: string;
   /** Whether to approve or reject the join request */
-  action?: GuildJoinRequestApplicationStatus | (string & {});
+  action?: GuildJoinRequestApplicationStatus | (string & {}) | undefined;
   /** Reason for rejection. Only used when action is REJECTED */
-  rejection_reason?: string | null;
+  rejection_reason?: string | null | undefined;
 }
 export interface JoinThreadRequest {
   channel_id: string;
@@ -5277,7 +5497,7 @@ export interface LeaveThreadRequest {
 export interface LeaveThreadResponse {}
 export interface ListApplicationCommandsRequest {
   application_id: string;
-  with_localizations?: boolean;
+  with_localizations?: boolean | undefined;
 }
 export type ListApplicationCommandsResponseBodyList = Array<ApplicationCommandResponse>;
 export type ListApplicationCommandsResponse = ListApplicationCommandsResponseBodyList | null;
@@ -5334,7 +5554,7 @@ export type ListGuildApplicationCommandPermissionsResponse =
 export interface ListGuildApplicationCommandsRequest {
   application_id: string;
   guild_id: string;
-  with_localizations?: boolean;
+  with_localizations?: boolean | undefined;
 }
 export type ListGuildApplicationCommandsResponseBodyList = Array<ApplicationCommandResponse>;
 export type ListGuildApplicationCommandsResponse = ListGuildApplicationCommandsResponseBodyList | null;
@@ -5346,6 +5566,7 @@ export type AuditLogActionTypes =
   | 13
   | 14
   | 15
+  | 16
   | 20
   | 21
   | 22
@@ -5358,6 +5579,7 @@ export type AuditLogActionTypes =
   | 30
   | 31
   | 32
+  | 33
   | 40
   | 41
   | 42
@@ -5417,17 +5639,17 @@ export type AuditLogActionTypes =
   | 211;
 export interface ListGuildAuditLogEntriesRequest {
   guild_id: string;
-  user_id?: string;
-  target_id?: string;
-  action_type?: AuditLogActionTypes | (number & {});
-  before?: string;
-  after?: string;
-  limit?: number;
+  user_id?: string | undefined;
+  target_id?: string | undefined;
+  action_type?: AuditLogActionTypes | (number & {}) | undefined;
+  before?: string | undefined;
+  after?: string | undefined;
+  limit?: number | undefined;
 }
 export interface AuditLogObjectChangeResponse {
   key: string | null;
-  new_value?: unknown;
-  old_value?: unknown;
+  new_value?: unknown | undefined;
+  old_value?: unknown | undefined;
 }
 export type AuditLogEntryResponseChangesList = Array<AuditLogObjectChangeResponse>;
 export type AuditLogEntryResponseOptionsMap = { [key: string]: string | undefined };
@@ -5436,9 +5658,9 @@ export interface AuditLogEntryResponse {
   action_type: AuditLogActionTypes;
   user_id: string | null;
   target_id: string | null;
-  changes?: AuditLogEntryResponseChangesList;
-  options?: AuditLogEntryResponseOptionsMap;
-  reason?: string;
+  changes?: AuditLogEntryResponseChangesList | undefined;
+  options?: AuditLogEntryResponseOptionsMap | undefined;
+  reason?: string | undefined;
 }
 export type GuildAuditLogResponseAuditLogEntriesList = Array<AuditLogEntryResponse>;
 export type GuildAuditLogResponseUsersList = Array<UserResponse>;
@@ -5500,9 +5722,9 @@ export interface GuildAuditLogResponse {
 }
 export interface ListGuildBansRequest {
   guild_id: string;
-  limit?: number;
-  before?: string;
-  after?: string;
+  limit?: number | undefined;
+  before?: string | undefined;
+  after?: string | undefined;
 }
 export type ListGuildBansResponseBodyList = Array<GuildBanResponse>;
 export type ListGuildBansResponse = ListGuildBansResponseBodyList | null;
@@ -5534,7 +5756,7 @@ export interface DiscordIntegrationResponse {
   id: string;
   application: BasicApplicationResponseWithBot;
   scopes: DiscordIntegrationResponseScopesList;
-  user?: UserResponse;
+  user?: UserResponse | undefined;
 }
 export type IntegrationExpireBehaviorTypes = 0 | 1;
 export type IntegrationExpireGracePeriodTypes = 1 | 3 | 7 | 14 | 30;
@@ -5545,14 +5767,14 @@ export interface ExternalConnectionIntegrationResponse {
   enabled: boolean;
   id: string;
   user: UserResponse;
-  revoked?: boolean;
-  expire_behavior?: IntegrationExpireBehaviorTypes;
-  expire_grace_period?: IntegrationExpireGracePeriodTypes;
-  subscriber_count?: number;
-  synced_at?: string;
-  role_id?: string | null;
-  syncing?: boolean;
-  enable_emoticons?: boolean;
+  revoked?: boolean | undefined;
+  expire_behavior?: IntegrationExpireBehaviorTypes | undefined;
+  expire_grace_period?: IntegrationExpireGracePeriodTypes | undefined;
+  subscriber_count?: number | undefined;
+  synced_at?: string | undefined;
+  role_id?: string | null | undefined;
+  syncing?: boolean | undefined;
+  enable_emoticons?: boolean | undefined;
 }
 export interface GuildSubscriptionIntegrationResponse {
   type: IntegrationTypes;
@@ -5578,8 +5800,8 @@ export type ListGuildInvitesResponseBodyList = Array<ListGuildInvitesResponseBod
 export type ListGuildInvitesResponse = ListGuildInvitesResponseBodyList | null;
 export interface ListGuildMembersRequest {
   guild_id: string;
-  limit?: number;
-  after?: string;
+  limit?: number | undefined;
+  after?: string | undefined;
 }
 export type ListGuildMembersResponseBodyList = Array<GuildMemberResponse>;
 export type ListGuildMembersResponse = ListGuildMembersResponseBodyList;
@@ -5589,20 +5811,27 @@ export interface ListGuildRolesRequest {
 export type ListGuildRolesResponseBodyList = Array<GuildRoleResponse>;
 export type ListGuildRolesResponse = ListGuildRolesResponseBodyList;
 export interface ListGuildScheduledEventExceptionUsersRequest {
+  /** The ID of the guild */
   guild_id: string;
+  /** The ID of the scheduled event */
   guild_scheduled_event_id: string;
+  /** The ID of the event exception */
   guild_scheduled_event_exception_id: string;
-  with_member?: boolean;
-  limit?: number;
-  before?: string;
-  after?: string;
+  /** Include guild member data if it exists */
+  with_member?: boolean | undefined;
+  /** Number of users to return (up to maximum 100) */
+  limit?: number | undefined;
+  /** Consider only users before given user id */
+  before?: string | undefined;
+  /** Consider only users after given user id */
+  after?: string | undefined;
 }
 export type ListGuildScheduledEventExceptionUsersResponseBodyList =
   Array<ScheduledEventUserResponse>;
 export type ListGuildScheduledEventExceptionUsersResponse = ListGuildScheduledEventExceptionUsersResponseBodyList | null;
 export interface ListGuildScheduledEventsRequest {
   guild_id: string;
-  with_user_count?: boolean;
+  with_user_count?: boolean | undefined;
 }
 export type ListGuildScheduledEventsResponseBodyItem =
   | ExternalScheduledEventResponse
@@ -5614,10 +5843,14 @@ export type ListGuildScheduledEventsResponse = ListGuildScheduledEventsResponseB
 export interface ListGuildScheduledEventUsersRequest {
   guild_id: string;
   guild_scheduled_event_id: string;
-  with_member?: boolean;
-  limit?: number;
-  before?: string;
-  after?: string;
+  /** Include guild member data if it exists */
+  with_member?: boolean | undefined;
+  /** Number of users to return (up to maximum 100) */
+  limit?: number | undefined;
+  /** Consider only users before given user id */
+  before?: string | undefined;
+  /** Consider only users after given user id */
+  after?: string | undefined;
 }
 export type ListGuildScheduledEventUsersResponseBodyList = Array<ScheduledEventUserResponse>;
 export type ListGuildScheduledEventUsersResponse = ListGuildScheduledEventUsersResponseBodyList | null;
@@ -5655,18 +5888,18 @@ export interface ListMessageReactionsByEmojiRequest {
   channel_id: string;
   message_id: string;
   emoji_name: string;
-  after?: string;
-  limit?: number;
-  type?: ReactionTypes | (number & {});
+  after?: string | undefined;
+  limit?: number | undefined;
+  type?: ReactionTypes | (number & {}) | undefined;
 }
 export type ListMessageReactionsByEmojiResponseBodyList = Array<UserResponse>;
 export type ListMessageReactionsByEmojiResponse = ListMessageReactionsByEmojiResponseBodyList;
 export interface ListMessagesRequest {
   channel_id: string;
-  around?: string;
-  before?: string;
-  after?: string;
-  limit?: number;
+  around?: string | undefined;
+  before?: string | undefined;
+  after?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListMessagesResponseBodyList = Array<MessageResponse>;
 export type ListMessagesResponse = ListMessagesResponseBodyList | null;
@@ -5680,6 +5913,7 @@ export type ConnectedAccountProviders =
   | "facebook"
   | "github"
   | "instagram"
+  | "letterboxd"
   | "mastodon"
   | "leagueoflegends"
   | "paypal"
@@ -5714,21 +5948,22 @@ export interface ConnectedAccountResponse {
   name: string | null;
   type: ConnectedAccountProviders;
   friend_sync: boolean;
-  integrations?: ConnectedAccountResponseIntegrationsList;
+  integrations?: ConnectedAccountResponseIntegrationsList | undefined;
   show_activity: boolean;
   two_way_link: boolean;
   verified: boolean;
   visibility: ConnectedAccountVisibility;
-  revoked?: boolean;
+  revoked?: boolean | undefined;
 }
 export type ListMyConnectionsResponseBodyList = Array<ConnectedAccountResponse>;
 export type ListMyConnectionsResponse = ListMyConnectionsResponseBodyList | null;
 export interface ListMyGuildsRequest {
-  before?: string;
-  after?: string;
-  limit?: number;
-  shard?: number;
-  with_counts?: boolean;
+  before?: string | undefined;
+  after?: string | undefined;
+  limit?: number | undefined;
+  /** Return the guilds contained within the specified shard. Required for applications that are sharded. Valid values are 0 to session_start_limit.max_concurrency - 1. Not the same as Gateway shard ids. */
+  shard?: number | undefined;
+  with_counts?: boolean | undefined;
 }
 export type MyGuildResponseFeaturesList = Array<GuildFeatures>;
 export interface MyGuildResponse {
@@ -5739,20 +5974,20 @@ export interface MyGuildResponse {
   owner: boolean;
   permissions: string;
   features: MyGuildResponseFeaturesList;
-  approximate_member_count?: number | null;
-  approximate_presence_count?: number | null;
+  approximate_member_count?: number | null | undefined;
+  approximate_presence_count?: number | null | undefined;
 }
 export type ListMyGuildsResponseBodyList = Array<MyGuildResponse>;
 export type ListMyGuildsResponse = ListMyGuildsResponseBodyList | null;
 export interface ListMyPrivateArchivedThreadsRequest {
   channel_id: string;
-  before?: string;
-  limit?: number;
+  before?: string | undefined;
+  limit?: number | undefined;
 }
 export interface ListPinsRequest {
   channel_id: string;
-  before?: string;
-  limit?: number;
+  before?: string | undefined;
+  limit?: number | undefined;
 }
 export interface PinnedMessageResponse {
   pinned_at: string;
@@ -5765,13 +6000,13 @@ export interface PinnedMessagesResponse {
 }
 export interface ListPrivateArchivedThreadsRequest {
   channel_id: string;
-  before?: string;
-  limit?: number;
+  before?: string | undefined;
+  limit?: number | undefined;
 }
 export interface ListPublicArchivedThreadsRequest {
   channel_id: string;
-  before?: string;
-  limit?: number;
+  before?: string | undefined;
+  limit?: number | undefined;
 }
 export interface ListStickerPacksRequest {}
 export type StickerPackCollectionResponseStickerPacksList = Array<StickerPackResponse>;
@@ -5780,9 +6015,9 @@ export interface StickerPackCollectionResponse {
 }
 export interface ListThreadMembersRequest {
   channel_id: string;
-  with_member?: boolean;
-  limit?: number;
-  after?: string;
+  with_member?: boolean | undefined;
+  limit?: number | undefined;
+  after?: string | undefined;
 }
 export type ListThreadMembersResponseBodyList = Array<ThreadMemberResponse>;
 export type ListThreadMembersResponse = ListThreadMembersResponseBodyList;
@@ -5800,13 +6035,13 @@ export type ApplicationIdentityProviderAuthType =
   | "PLAYSTATION_NETWORK_ID_TOKEN";
 export interface PartnerSdkTokenRequest {
   client_id: string;
-  client_secret?: string | Redacted.Redacted<string> | null;
+  client_secret?: string | Redacted.Redacted<string> | null | undefined;
   external_auth_token: string;
   external_auth_type: ApplicationIdentityProviderAuthType | (string & {});
 }
 export interface PartnerSdkUnmergeProvisionalAccountRequest {
   client_id: string;
-  client_secret?: string | Redacted.Redacted<string> | null;
+  client_secret?: string | Redacted.Redacted<string> | null | undefined;
   external_auth_token: string;
   external_auth_type: ApplicationIdentityProviderAuthType | (string & {});
 }
@@ -5821,8 +6056,8 @@ export type PreviewPruneGuildRequestIncludeRoles =
   | PreviewPruneGuildRequestIncludeRolesCase1List;
 export interface PreviewPruneGuildRequest {
   guild_id: string;
-  days?: number;
-  include_roles?: PreviewPruneGuildRequestIncludeRoles;
+  days?: number | undefined;
+  include_roles?: PreviewPruneGuildRequestIncludeRoles | undefined;
 }
 export interface GuildPruneResponse {
   pruned: number | null;
@@ -5831,40 +6066,40 @@ export type PruneGuildRequestIncludeRolesCase1List = Array<string>;
 export type PruneGuildRequestIncludeRoles = string | PruneGuildRequestIncludeRolesCase1List;
 export interface PruneGuildRequest {
   guild_id: string;
-  days?: number | null;
-  compute_prune_count?: boolean | null;
-  include_roles?: PruneGuildRequestIncludeRoles | null;
+  days?: number | null | undefined;
+  compute_prune_count?: boolean | null | undefined;
+  include_roles?: PruneGuildRequestIncludeRoles | null | undefined;
 }
 export type OnboardingPromptOptionRequestRoleIdsList = Array<string>;
 export type OnboardingPromptOptionRequestChannelIdsList = Array<string>;
 export interface OnboardingPromptOptionRequest {
-  id?: string | null;
+  id?: string | null | undefined;
   title: string;
-  description?: string | null;
-  emoji_id?: string | null;
-  emoji_name?: string | null;
-  emoji_animated?: boolean | null;
-  role_ids?: OnboardingPromptOptionRequestRoleIdsList | null;
-  channel_ids?: OnboardingPromptOptionRequestChannelIdsList | null;
+  description?: string | null | undefined;
+  emoji_id?: string | null | undefined;
+  emoji_name?: string | null | undefined;
+  emoji_animated?: boolean | null | undefined;
+  role_ids?: OnboardingPromptOptionRequestRoleIdsList | null | undefined;
+  channel_ids?: OnboardingPromptOptionRequestChannelIdsList | null | undefined;
 }
 export type UpdateOnboardingPromptRequestOptionsList = Array<OnboardingPromptOptionRequest>;
 export interface UpdateOnboardingPromptRequest {
   title: string;
   options: UpdateOnboardingPromptRequestOptionsList;
-  single_select?: boolean | null;
-  required?: boolean | null;
-  in_onboarding?: boolean | null;
-  type?: OnboardingPromptType | (number & {}) | null;
+  single_select?: boolean | null | undefined;
+  required?: boolean | null | undefined;
+  in_onboarding?: boolean | null | undefined;
+  type?: OnboardingPromptType | (number & {}) | null | undefined;
   id: string;
 }
 export type PutGuildsOnboardingRequestPromptsList = Array<UpdateOnboardingPromptRequest>;
 export type PutGuildsOnboardingRequestDefaultChannelIdsList = Array<string>;
 export interface PutGuildsOnboardingRequest {
   guild_id: string;
-  prompts?: PutGuildsOnboardingRequestPromptsList | null;
-  enabled?: boolean | null;
-  default_channel_ids?: PutGuildsOnboardingRequestDefaultChannelIdsList | null;
-  mode?: GuildOnboardingMode | (number & {}) | null;
+  prompts?: PutGuildsOnboardingRequestPromptsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  default_channel_ids?: PutGuildsOnboardingRequestDefaultChannelIdsList | null | undefined;
+  mode?: GuildOnboardingMode | (number & {}) | null | undefined;
 }
 export type GuildOnboardingResponsePromptsList = Array<OnboardingPromptResponse>;
 export type GuildOnboardingResponseDefaultChannelIdsList = Array<string>;
@@ -5877,6 +6112,7 @@ export interface GuildOnboardingResponse {
 }
 export interface RemoveInviteTargetUserRequest {
   code: string;
+  /** The ID of the user to stop targeting */
   user_id: string;
 }
 export interface RemoveInviteTargetUserResponse {}
@@ -5926,30 +6162,32 @@ export type SearchGuildRequestAttachmentFilenameList = Array<string>;
 export type SearchGuildRequestChannelIdList = Array<string>;
 export interface SearchGuildRequest {
   guild_id: string;
-  sort_by?: SortingMode | (string & {});
-  sort_order?: SortingOrder | (string & {});
-  content?: string;
-  slop?: number;
-  author_id?: SearchGuildRequestAuthorIdList;
-  author_type?: SearchGuildRequestAuthorTypeList;
-  mentions?: SearchGuildRequestMentionsList;
-  mentions_role_id?: SearchGuildRequestMentionsRoleIdList;
-  replied_to_user_id?: SearchGuildRequestRepliedToUserIdList;
-  replied_to_message_id?: SearchGuildRequestRepliedToMessageIdList;
-  mention_everyone?: boolean;
-  min_id?: string;
-  max_id?: string;
-  limit?: number;
-  offset?: number;
-  has?: SearchGuildRequestHasList;
-  link_hostname?: SearchGuildRequestLinkHostnameList;
-  embed_provider?: SearchGuildRequestEmbedProviderList;
-  embed_type?: SearchGuildRequestEmbedTypeList;
-  attachment_extension?: SearchGuildRequestAttachmentExtensionList;
-  attachment_filename?: SearchGuildRequestAttachmentFilenameList;
-  pinned?: boolean;
-  include_nsfw?: boolean;
-  channel_id?: SearchGuildRequestChannelIdList;
+  sort_by?: SortingMode | (string & {}) | undefined;
+  sort_order?: SortingOrder | (string & {}) | undefined;
+  /** Text to search for. Matches messages containing these words within slop positions of each other. */
+  content?: string | undefined;
+  /** How many positions apart or out of order the words in content can be and still match. 0 matches the exact phrase; higher values, up to 100, match words further apart. */
+  slop?: number | undefined;
+  author_id?: SearchGuildRequestAuthorIdList | undefined;
+  author_type?: SearchGuildRequestAuthorTypeList | undefined;
+  mentions?: SearchGuildRequestMentionsList | undefined;
+  mentions_role_id?: SearchGuildRequestMentionsRoleIdList | undefined;
+  replied_to_user_id?: SearchGuildRequestRepliedToUserIdList | undefined;
+  replied_to_message_id?: SearchGuildRequestRepliedToMessageIdList | undefined;
+  mention_everyone?: boolean | undefined;
+  min_id?: string | undefined;
+  max_id?: string | undefined;
+  limit?: number | undefined;
+  offset?: number | undefined;
+  has?: SearchGuildRequestHasList | undefined;
+  link_hostname?: SearchGuildRequestLinkHostnameList | undefined;
+  embed_provider?: SearchGuildRequestEmbedProviderList | undefined;
+  embed_type?: SearchGuildRequestEmbedTypeList | undefined;
+  attachment_extension?: SearchGuildRequestAttachmentExtensionList | undefined;
+  attachment_filename?: SearchGuildRequestAttachmentFilenameList | undefined;
+  pinned?: boolean | undefined;
+  include_nsfw?: boolean | undefined;
+  channel_id?: SearchGuildRequestChannelIdList | undefined;
 }
 export type SearchMessageResponseMentionsList = Array<UserResponse>;
 export type SearchMessageResponseMentionRolesList = Array<string>;
@@ -5986,37 +6224,41 @@ export interface SearchMessageResponse {
   edited_timestamp: string | null;
   flags: number;
   components: SearchMessageResponseComponentsList;
-  stickers?: SearchMessageResponseStickersList;
-  sticker_items?: SearchMessageResponseStickerItemsList;
+  stickers?: SearchMessageResponseStickersList | undefined;
+  sticker_items?: SearchMessageResponseStickerItemsList | undefined;
   id: string;
   channel_id: string;
   author: UserResponse;
   pinned: boolean;
   mention_everyone: boolean;
   tts: boolean;
-  call?: MessageCallResponse;
-  activity?: MessageActivityResponse;
-  application?: BasicApplicationResponseWithBot;
-  application_id?: string;
-  interaction?: MessageInteractionResponse;
-  nonce?: SearchMessageResponseNonce;
-  webhook_id?: string;
-  message_reference?: MessageReferenceResponse;
-  thread?: ThreadResponse;
-  mention_channels?: SearchMessageResponseMentionChannelsList;
-  role_subscription_data?: MessageRoleSubscriptionDataResponse;
-  purchase_notification?: PurchaseNotificationResponse;
-  position?: number;
-  resolved?: ResolvedObjectsResponse;
-  poll?: PollResponse;
-  shared_client_theme?: CustomClientThemeResponse;
-  interaction_metadata?: SearchMessageResponseInteractionMetadata;
-  message_snapshots?: SearchMessageResponseMessageSnapshotsList;
-  lobby_member?: MessageLobbyMemberResponse;
-  reactions?: SearchMessageResponseReactionsList;
-  referenced_message?: BasicMessageResponse | null;
+  call?: MessageCallResponse | undefined;
+  activity?: MessageActivityResponse | undefined;
+  application?: BasicApplicationResponseWithBot | undefined;
+  application_id?: string | undefined;
+  interaction?: MessageInteractionResponse | undefined;
+  nonce?: SearchMessageResponseNonce | undefined;
+  webhook_id?: string | undefined;
+  message_reference?: MessageReferenceResponse | undefined;
+  thread?: ThreadResponse | undefined;
+  mention_channels?: SearchMessageResponseMentionChannelsList | undefined;
+  role_subscription_data?: MessageRoleSubscriptionDataResponse | undefined;
+  purchase_notification?: PurchaseNotificationResponse | undefined;
+  position?: number | undefined;
+  resolved?: ResolvedObjectsResponse | undefined;
+  poll?: PollResponse | undefined;
+  shared_client_theme?: CustomClientThemeResponse | undefined;
+  interaction_metadata?: SearchMessageResponseInteractionMetadata | undefined;
+  message_snapshots?: SearchMessageResponseMessageSnapshotsList | undefined;
+  lobby_member?: MessageLobbyMemberResponse | undefined;
+  actor?: UserResponse | undefined;
+  reactions?: SearchMessageResponseReactionsList | undefined;
+  referenced_message?: BasicMessageResponse | null | undefined;
   hit: boolean;
-  restriction_count?: number;
+  restriction_count?: number | undefined;
+  author_restriction_count?: number | undefined;
+  source_author_restriction_count?: number | undefined;
+  forward_source_author_id?: string | undefined;
 }
 export type GuildSearchResponseMessagesItemList = Array<SearchMessageResponse>;
 export type GuildSearchResponseMessagesList = Array<GuildSearchResponseMessagesItemList>;
@@ -6026,13 +6268,13 @@ export interface GuildSearchResponse {
   messages: GuildSearchResponseMessagesList;
   doing_deep_historical_index: boolean;
   total_results: number;
-  threads?: GuildSearchResponseThreadsList | null;
-  members?: GuildSearchResponseMembersList | null;
-  documents_indexed?: number | null;
+  threads?: GuildSearchResponseThreadsList | null | undefined;
+  members?: GuildSearchResponseMembersList | null | undefined;
+  documents_indexed?: number | null | undefined;
 }
 export interface SearchGuildMembersRequest {
   guild_id: string;
-  limit?: number;
+  limit?: number | undefined;
   query: string;
 }
 export type SearchGuildMembersResponseBodyList = Array<GuildMemberResponse>;
@@ -6046,17 +6288,17 @@ export type ThreadSortingMode =
   | "archive_time";
 export interface SearchThreadRequest {
   channel_id: string;
-  name?: string;
-  slop?: number;
-  min_id?: string;
-  max_id?: string;
-  tag?: SearchThreadRequestTag;
-  tag_setting?: ThreadSearchTagSetting | (string & {});
-  archived?: boolean;
-  sort_by?: ThreadSortingMode | (string & {});
-  sort_order?: SortingOrder | (string & {});
-  limit?: number;
-  offset?: number;
+  name?: string | undefined;
+  slop?: number | undefined;
+  min_id?: string | undefined;
+  max_id?: string | undefined;
+  tag?: SearchThreadRequestTag | undefined;
+  tag_setting?: ThreadSearchTagSetting | (string & {}) | undefined;
+  archived?: boolean | undefined;
+  sort_by?: ThreadSortingMode | (string & {}) | undefined;
+  sort_order?: SortingOrder | (string & {}) | undefined;
+  limit?: number | undefined;
+  offset?: number | undefined;
 }
 export type ThreadSearchResponseThreadsList = Array<ThreadResponse>;
 export type ThreadSearchResponseMembersList = Array<ThreadMemberResponse>;
@@ -6065,21 +6307,21 @@ export interface ThreadSearchResponse {
   threads: ThreadSearchResponseThreadsList;
   members: ThreadSearchResponseMembersList;
   has_more: boolean;
-  first_messages?: ThreadSearchResponseFirstMessagesList;
+  first_messages?: ThreadSearchResponseFirstMessagesList | undefined;
   total_results: number;
 }
 export interface SendSoundboardSoundRequest {
   channel_id: string;
   sound_id: string;
-  source_guild_id?: string | null;
+  source_guild_id?: string | null | undefined;
 }
 export interface SendSoundboardSoundResponse {}
 export interface SetChannelPermissionOverwriteRequest {
   channel_id: string;
   overwrite_id: string;
-  type?: ChannelPermissionOverwrites | (number & {}) | null;
-  allow?: number | null;
-  deny?: number | null;
+  type?: ChannelPermissionOverwrites | (number & {}) | null | undefined;
+  allow?: number | null | undefined;
+  deny?: number | null | undefined;
 }
 export interface SetChannelPermissionOverwriteResponse {}
 export interface ApplicationCommandPermission {
@@ -6093,7 +6335,7 @@ export interface SetGuildApplicationCommandPermissionsRequest {
   application_id: string;
   guild_id: string;
   command_id: string;
-  permissions?: SetGuildApplicationCommandPermissionsRequestPermissionsList | null;
+  permissions?: SetGuildApplicationCommandPermissionsRequestPermissionsList | null | undefined;
 }
 export interface SyncGuildTemplateRequest {
   guild_id: string;
@@ -6113,16 +6355,16 @@ export type UpdateApplicationRequestDescriptionLocalizationsMap = {
 };
 export interface UpdateApplicationRequestDescription {
   default: string;
-  localizations?: UpdateApplicationRequestDescriptionLocalizationsMap | null;
+  localizations?: UpdateApplicationRequestDescriptionLocalizationsMap | null | undefined;
 }
 export type UpdateApplicationRequestTagsList = Array<string>;
 export type ApplicationOAuth2InstallParamsScopesList = Array<OAuth2Scopes | (string & {})>;
 export interface ApplicationOAuth2InstallParams {
-  scopes?: ApplicationOAuth2InstallParamsScopesList | null;
-  permissions?: number | null;
+  scopes?: ApplicationOAuth2InstallParamsScopesList | null | undefined;
+  permissions?: number | null | undefined;
 }
 export interface ApplicationIntegrationTypeConfiguration {
-  oauth2_install_params?: ApplicationOAuth2InstallParams | null;
+  oauth2_install_params?: ApplicationOAuth2InstallParams | null | undefined;
 }
 export type UpdateApplicationRequestIntegrationTypesConfigMap = {
   [key: string]: ApplicationIntegrationTypeConfiguration | null | undefined;
@@ -6130,24 +6372,28 @@ export type UpdateApplicationRequestIntegrationTypesConfigMap = {
 export type UpdateApplicationRequestEventWebhooksTypesList = Array<ActionTypes | (string & {})>;
 export interface UpdateApplicationRequest {
   application_id: string;
-  description?: UpdateApplicationRequestDescription | null;
-  icon?: string | null;
-  cover_image?: string | null;
-  team_id?: string | null;
-  flags?: number | null;
-  interactions_endpoint_url?: string | null;
-  explicit_content_filter?: ApplicationExplicitContentFilterTypes | (number & {}) | null;
-  max_participants?: number | null;
-  type?: ApplicationTypes | (number & {}) | null;
-  tags?: UpdateApplicationRequestTagsList | null;
-  custom_install_url?: string | null;
-  install_params?: ApplicationOAuth2InstallParams | null;
-  role_connections_verification_url?: string | null;
-  integration_types_config?: UpdateApplicationRequestIntegrationTypesConfigMap | null;
-  event_webhooks_status?: ApplicationEventWebhooksStatus | (number & {}) | null;
+  description?: UpdateApplicationRequestDescription | null | undefined;
+  icon?: string | null | undefined;
+  cover_image?: string | null | undefined;
+  team_id?: string | null | undefined;
+  flags?: number | null | undefined;
+  interactions_endpoint_url?: string | null | undefined;
+  explicit_content_filter?:
+    | ApplicationExplicitContentFilterTypes
+    | (number & {})
+    | null
+    | undefined;
+  max_participants?: number | null | undefined;
+  type?: ApplicationTypes | (number & {}) | null | undefined;
+  tags?: UpdateApplicationRequestTagsList | null | undefined;
+  custom_install_url?: string | null | undefined;
+  install_params?: ApplicationOAuth2InstallParams | null | undefined;
+  role_connections_verification_url?: string | null | undefined;
+  integration_types_config?: UpdateApplicationRequestIntegrationTypesConfigMap | null | undefined;
+  event_webhooks_status?: ApplicationEventWebhooksStatus | (number & {}) | null | undefined;
   /** Event webhooks URL for the app to receive webhook events */
-  event_webhooks_url?: string | null;
-  event_webhooks_types?: UpdateApplicationRequestEventWebhooksTypesList | null;
+  event_webhooks_url?: string | null | undefined;
+  event_webhooks_types?: UpdateApplicationRequestEventWebhooksTypesList | null | undefined;
 }
 export type UpdateApplicationCommandRequestNameLocalizationsMap = {
   [key: string]: string | undefined;
@@ -6178,22 +6424,25 @@ export type UpdateApplicationCommandRequestIntegrationTypesList = Array<
 export interface UpdateApplicationCommandRequest {
   application_id: string;
   command_id: string;
-  name?: string;
-  name_localizations?: UpdateApplicationCommandRequestNameLocalizationsMap | null;
-  description?: string | null;
-  description_localizations?: UpdateApplicationCommandRequestDescriptionLocalizationsMap | null;
-  options?: UpdateApplicationCommandRequestOptionsList | null;
-  default_member_permissions?: number | null;
-  dm_permission?: boolean | null;
-  contexts?: UpdateApplicationCommandRequestContextsList | null;
-  integration_types?: UpdateApplicationCommandRequestIntegrationTypesList | null;
+  name?: string | undefined;
+  name_localizations?: UpdateApplicationCommandRequestNameLocalizationsMap | null | undefined;
+  description?: string | null | undefined;
+  description_localizations?:
+    | UpdateApplicationCommandRequestDescriptionLocalizationsMap
+    | null
+    | undefined;
+  options?: UpdateApplicationCommandRequestOptionsList | null | undefined;
+  default_member_permissions?: number | null | undefined;
+  dm_permission?: boolean | null | undefined;
+  contexts?: UpdateApplicationCommandRequestContextsList | null | undefined;
+  integration_types?: UpdateApplicationCommandRequestIntegrationTypesList | null | undefined;
   /** Determines whether the interaction is handled by the app's interactions handler or by Discord */
-  handler?: ApplicationCommandHandler | (number & {}) | null;
+  handler?: ApplicationCommandHandler | (number & {}) | null | undefined;
 }
 export interface UpdateApplicationEmojiRequest {
   application_id: string;
   emoji_id: string;
-  name?: string;
+  name?: string | undefined;
 }
 export type ApplicationRoleConnectionsMetadataItemRequestNameLocalizationsMap = {
   [key: string]: string | null | undefined;
@@ -6205,9 +6454,15 @@ export interface ApplicationRoleConnectionsMetadataItemRequest {
   type: MetadataItemTypes | (number & {});
   key: string;
   name: string;
-  name_localizations?: ApplicationRoleConnectionsMetadataItemRequestNameLocalizationsMap | null;
+  name_localizations?:
+    | ApplicationRoleConnectionsMetadataItemRequestNameLocalizationsMap
+    | null
+    | undefined;
   description: string;
-  description_localizations?: ApplicationRoleConnectionsMetadataItemRequestDescriptionLocalizationsMap | null;
+  description_localizations?:
+    | ApplicationRoleConnectionsMetadataItemRequestDescriptionLocalizationsMap
+    | null
+    | undefined;
 }
 export type UpdateApplicationRoleConnectionsMetadataRequestBodyList =
   Array<ApplicationRoleConnectionsMetadataItemRequest>;
@@ -6223,9 +6478,9 @@ export type UpdateApplicationUserRoleConnectionRequestMetadataMap = {
 };
 export interface UpdateApplicationUserRoleConnectionRequest {
   application_id: string;
-  platform_name?: string | null;
-  platform_username?: string | null;
-  metadata?: UpdateApplicationUserRoleConnectionRequestMetadataMap | null;
+  platform_name?: string | null | undefined;
+  platform_username?: string | null | undefined;
+  metadata?: UpdateApplicationUserRoleConnectionRequestMetadataMap | null | undefined;
 }
 export type DefaultKeywordListUpsertRequestPartialActionsItem =
   | BlockMessageAction
@@ -6237,14 +6492,14 @@ export type DefaultKeywordListUpsertRequestPartialActionsList =
 export type DefaultKeywordListUpsertRequestPartialExemptRolesList = Array<string>;
 export type DefaultKeywordListUpsertRequestPartialExemptChannelsList = Array<string>;
 export interface DefaultKeywordListUpsertRequestPartial {
-  name?: string;
-  event_type?: AutomodEventType | (number & {});
-  actions?: DefaultKeywordListUpsertRequestPartialActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: DefaultKeywordListUpsertRequestPartialExemptRolesList | null;
-  exempt_channels?: DefaultKeywordListUpsertRequestPartialExemptChannelsList | null;
-  trigger_type?: AutomodTriggerType | (number & {});
-  trigger_metadata?: DefaultKeywordListTriggerMetadata;
+  name?: string | undefined;
+  event_type?: AutomodEventType | (number & {}) | undefined;
+  actions?: DefaultKeywordListUpsertRequestPartialActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: DefaultKeywordListUpsertRequestPartialExemptRolesList | null | undefined;
+  exempt_channels?: DefaultKeywordListUpsertRequestPartialExemptChannelsList | null | undefined;
+  trigger_type?: AutomodTriggerType | (number & {}) | undefined;
+  trigger_metadata?: DefaultKeywordListTriggerMetadata | undefined;
 }
 export type KeywordUpsertRequestPartialActionsItem =
   | BlockMessageAction
@@ -6255,14 +6510,14 @@ export type KeywordUpsertRequestPartialActionsList = Array<KeywordUpsertRequestP
 export type KeywordUpsertRequestPartialExemptRolesList = Array<string>;
 export type KeywordUpsertRequestPartialExemptChannelsList = Array<string>;
 export interface KeywordUpsertRequestPartial {
-  name?: string;
-  event_type?: AutomodEventType | (number & {});
-  actions?: KeywordUpsertRequestPartialActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: KeywordUpsertRequestPartialExemptRolesList | null;
-  exempt_channels?: KeywordUpsertRequestPartialExemptChannelsList | null;
-  trigger_type?: AutomodTriggerType | (number & {});
-  trigger_metadata?: KeywordTriggerMetadata | null;
+  name?: string | undefined;
+  event_type?: AutomodEventType | (number & {}) | undefined;
+  actions?: KeywordUpsertRequestPartialActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: KeywordUpsertRequestPartialExemptRolesList | null | undefined;
+  exempt_channels?: KeywordUpsertRequestPartialExemptChannelsList | null | undefined;
+  trigger_type?: AutomodTriggerType | (number & {}) | undefined;
+  trigger_metadata?: KeywordTriggerMetadata | null | undefined;
 }
 export type MLSpamUpsertRequestPartialActionsItem =
   | BlockMessageAction
@@ -6273,14 +6528,14 @@ export type MLSpamUpsertRequestPartialActionsList = Array<MLSpamUpsertRequestPar
 export type MLSpamUpsertRequestPartialExemptRolesList = Array<string>;
 export type MLSpamUpsertRequestPartialExemptChannelsList = Array<string>;
 export interface MLSpamUpsertRequestPartial {
-  name?: string;
-  event_type?: AutomodEventType | (number & {});
-  actions?: MLSpamUpsertRequestPartialActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: MLSpamUpsertRequestPartialExemptRolesList | null;
-  exempt_channels?: MLSpamUpsertRequestPartialExemptChannelsList | null;
-  trigger_type?: AutomodTriggerType | (number & {});
-  trigger_metadata?: unknown | null;
+  name?: string | undefined;
+  event_type?: AutomodEventType | (number & {}) | undefined;
+  actions?: MLSpamUpsertRequestPartialActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: MLSpamUpsertRequestPartialExemptRolesList | null | undefined;
+  exempt_channels?: MLSpamUpsertRequestPartialExemptChannelsList | null | undefined;
+  trigger_type?: AutomodTriggerType | (number & {}) | undefined;
+  trigger_metadata?: unknown | null | undefined;
 }
 export type MentionSpamUpsertRequestPartialActionsItem =
   | BlockMessageAction
@@ -6292,14 +6547,14 @@ export type MentionSpamUpsertRequestPartialActionsList =
 export type MentionSpamUpsertRequestPartialExemptRolesList = Array<string>;
 export type MentionSpamUpsertRequestPartialExemptChannelsList = Array<string>;
 export interface MentionSpamUpsertRequestPartial {
-  name?: string;
-  event_type?: AutomodEventType | (number & {});
-  actions?: MentionSpamUpsertRequestPartialActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: MentionSpamUpsertRequestPartialExemptRolesList | null;
-  exempt_channels?: MentionSpamUpsertRequestPartialExemptChannelsList | null;
-  trigger_type?: AutomodTriggerType | (number & {});
-  trigger_metadata?: MentionSpamTriggerMetadata | null;
+  name?: string | undefined;
+  event_type?: AutomodEventType | (number & {}) | undefined;
+  actions?: MentionSpamUpsertRequestPartialActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: MentionSpamUpsertRequestPartialExemptRolesList | null | undefined;
+  exempt_channels?: MentionSpamUpsertRequestPartialExemptChannelsList | null | undefined;
+  trigger_type?: AutomodTriggerType | (number & {}) | undefined;
+  trigger_metadata?: MentionSpamTriggerMetadata | null | undefined;
 }
 export type UserProfileUpsertRequestPartialActionsItem =
   | BlockMessageAction
@@ -6311,14 +6566,14 @@ export type UserProfileUpsertRequestPartialActionsList =
 export type UserProfileUpsertRequestPartialExemptRolesList = Array<string>;
 export type UserProfileUpsertRequestPartialExemptChannelsList = Array<string>;
 export interface UserProfileUpsertRequestPartial {
-  name?: string;
-  event_type?: AutomodEventType | (number & {});
-  actions?: UserProfileUpsertRequestPartialActionsList | null;
-  enabled?: boolean | null;
-  exempt_roles?: UserProfileUpsertRequestPartialExemptRolesList | null;
-  exempt_channels?: UserProfileUpsertRequestPartialExemptChannelsList | null;
-  trigger_type?: AutomodTriggerType | (number & {});
-  trigger_metadata?: UserProfileMetadata;
+  name?: string | undefined;
+  event_type?: AutomodEventType | (number & {}) | undefined;
+  actions?: UserProfileUpsertRequestPartialActionsList | null | undefined;
+  enabled?: boolean | null | undefined;
+  exempt_roles?: UserProfileUpsertRequestPartialExemptRolesList | null | undefined;
+  exempt_channels?: UserProfileUpsertRequestPartialExemptChannelsList | null | undefined;
+  trigger_type?: AutomodTriggerType | (number & {}) | undefined;
+  trigger_metadata?: UserProfileMetadata | undefined;
 }
 export type UpdateAutoModerationRuleRequestBody =
   | DefaultKeywordListUpsertRequestPartial
@@ -6339,58 +6594,61 @@ export type UpdateAutoModerationRuleResponseBody =
   | UserProfileRuleResponse;
 export type UpdateAutoModerationRuleResponse = UpdateAutoModerationRuleResponseBody;
 export interface UpdateDMRequestPartial {
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface UpdateGroupDMRequestPartial {
-  name?: string | null;
-  icon?: string | null;
+  name?: string | null | undefined;
+  icon?: string | null | undefined;
 }
 export type UpdateGuildChannelRequestPartialPermissionOverwritesList =
   Array<ChannelPermissionOverwriteRequest>;
 export interface UpdateThreadTagRequest {
   name: string;
-  emoji_id?: string | null;
-  emoji_name?: string | null;
-  moderated?: boolean | null;
-  id?: string | null;
+  emoji_id?: string | null | undefined;
+  emoji_name?: string | null | undefined;
+  moderated?: boolean | null | undefined;
+  id?: string | null | undefined;
 }
 export type UpdateGuildChannelRequestPartialAvailableTagsList = Array<UpdateThreadTagRequest>;
 export interface UpdateGuildChannelRequestPartial {
-  type?: ChannelTypes | (number & {}) | null;
-  name?: string;
-  position?: number | null;
-  topic?: string | null;
-  bitrate?: number | null;
-  user_limit?: number | null;
-  nsfw?: boolean | null;
-  rate_limit_per_user?: number | null;
-  parent_id?: string | null;
-  permission_overwrites?: UpdateGuildChannelRequestPartialPermissionOverwritesList | null;
-  rtc_region?: string | null;
-  video_quality_mode?: VideoQualityModes | (number & {}) | null;
-  default_auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null;
-  default_reaction_emoji?: UpdateDefaultReactionEmojiRequest | null;
-  default_thread_rate_limit_per_user?: number | null;
-  default_sort_order?: ThreadSortOrder | (number & {}) | null;
-  default_forum_layout?: ForumLayout | (number & {}) | null;
-  default_tag_setting?: ThreadSearchTagSetting | (string & {}) | null;
-  flags?: number | null;
-  available_tags?: UpdateGuildChannelRequestPartialAvailableTagsList | null;
+  type?: ChannelTypes | (number & {}) | null | undefined;
+  name?: string | undefined;
+  position?: number | null | undefined;
+  topic?: string | null | undefined;
+  bitrate?: number | null | undefined;
+  user_limit?: number | null | undefined;
+  nsfw?: boolean | null | undefined;
+  rate_limit_per_user?: number | null | undefined;
+  parent_id?: string | null | undefined;
+  permission_overwrites?:
+    | UpdateGuildChannelRequestPartialPermissionOverwritesList
+    | null
+    | undefined;
+  rtc_region?: string | null | undefined;
+  video_quality_mode?: VideoQualityModes | (number & {}) | null | undefined;
+  default_auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null | undefined;
+  default_reaction_emoji?: UpdateDefaultReactionEmojiRequest | null | undefined;
+  default_thread_rate_limit_per_user?: number | null | undefined;
+  default_sort_order?: ThreadSortOrder | (number & {}) | null | undefined;
+  default_forum_layout?: ForumLayout | (number & {}) | null | undefined;
+  default_tag_setting?: ThreadSearchTagSetting | (string & {}) | null | undefined;
+  flags?: number | null | undefined;
+  available_tags?: UpdateGuildChannelRequestPartialAvailableTagsList | null | undefined;
 }
 export type UpdateThreadRequestPartialAppliedTagsList = Array<string>;
 export interface UpdateThreadRequestPartial {
-  name?: string | null;
-  archived?: boolean | null;
-  locked?: boolean | null;
-  invitable?: boolean | null;
-  auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null;
-  rate_limit_per_user?: number | null;
-  flags?: number | null;
-  applied_tags?: UpdateThreadRequestPartialAppliedTagsList | null;
-  bitrate?: number | null;
-  user_limit?: number | null;
-  rtc_region?: string | null;
-  video_quality_mode?: VideoQualityModes | (number & {}) | null;
+  name?: string | null | undefined;
+  archived?: boolean | null | undefined;
+  locked?: boolean | null | undefined;
+  invitable?: boolean | null | undefined;
+  auto_archive_duration?: ThreadAutoArchiveDuration | (number & {}) | null | undefined;
+  rate_limit_per_user?: number | null | undefined;
+  flags?: number | null | undefined;
+  applied_tags?: UpdateThreadRequestPartialAppliedTagsList | null | undefined;
+  bitrate?: number | null | undefined;
+  user_limit?: number | null | undefined;
+  rtc_region?: string | null | undefined;
+  video_quality_mode?: VideoQualityModes | (number & {}) | null | undefined;
 }
 export type UpdateChannelRequestBody =
   | UpdateDMRequestPartial
@@ -6410,27 +6668,27 @@ export type UpdateChannelResponse = UpdateChannelResponseBody;
 export type UpdateGuildRequestFeaturesList = Array<string | null>;
 export interface UpdateGuildRequest {
   guild_id: string;
-  name?: string;
-  description?: string | null;
-  region?: string | null;
-  icon?: string | null;
-  verification_level?: VerificationLevels | (number & {}) | null;
-  default_message_notifications?: UserNotificationSettings | (number & {}) | null;
-  explicit_content_filter?: GuildExplicitContentFilterTypes | (number & {}) | null;
-  preferred_locale?: AvailableLocalesEnum | (string & {}) | null;
-  afk_timeout?: AfkTimeouts | (number & {}) | null;
-  afk_channel_id?: string | null;
-  system_channel_id?: string | null;
-  splash?: string | null;
-  banner?: string | null;
-  system_channel_flags?: number | null;
-  features?: UpdateGuildRequestFeaturesList | null;
-  discovery_splash?: string | null;
-  home_header?: string | null;
-  rules_channel_id?: string | null;
-  safety_alerts_channel_id?: string | null;
-  public_updates_channel_id?: string | null;
-  premium_progress_bar_enabled?: boolean | null;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  region?: string | null | undefined;
+  icon?: string | null | undefined;
+  verification_level?: VerificationLevels | (number & {}) | null | undefined;
+  default_message_notifications?: UserNotificationSettings | (number & {}) | null | undefined;
+  explicit_content_filter?: GuildExplicitContentFilterTypes | (number & {}) | null | undefined;
+  preferred_locale?: AvailableLocalesEnum | (string & {}) | null | undefined;
+  afk_timeout?: AfkTimeouts | (number & {}) | null | undefined;
+  afk_channel_id?: string | null | undefined;
+  system_channel_id?: string | null | undefined;
+  splash?: string | null | undefined;
+  banner?: string | null | undefined;
+  system_channel_flags?: number | null | undefined;
+  features?: UpdateGuildRequestFeaturesList | null | undefined;
+  discovery_splash?: string | null | undefined;
+  home_header?: string | null | undefined;
+  rules_channel_id?: string | null | undefined;
+  safety_alerts_channel_id?: string | null | undefined;
+  public_updates_channel_id?: string | null | undefined;
+  premium_progress_bar_enabled?: boolean | null | undefined;
 }
 export type GuildResponseFeaturesList = Array<GuildFeatures>;
 export type GuildResponseRolesList = Array<GuildRoleResponse>;
@@ -6472,7 +6730,7 @@ export interface GuildResponse {
   safety_alerts_channel_id: string | null;
   public_updates_channel_id: string | null;
   premium_progress_bar_enabled: boolean;
-  premium_progress_bar_enabled_user_updated_at?: string | null;
+  premium_progress_bar_enabled_user_updated_at?: string | null | undefined;
   nsfw: boolean;
   nsfw_level: GuildNSFWContentLevel;
   emojis: GuildResponseEmojisList;
@@ -6509,83 +6767,87 @@ export interface UpdateGuildApplicationCommandRequest {
   application_id: string;
   guild_id: string;
   command_id: string;
-  name?: string;
-  name_localizations?: UpdateGuildApplicationCommandRequestNameLocalizationsMap | null;
-  description?: string | null;
-  description_localizations?: UpdateGuildApplicationCommandRequestDescriptionLocalizationsMap | null;
-  options?: UpdateGuildApplicationCommandRequestOptionsList | null;
-  default_member_permissions?: number | null;
-  dm_permission?: boolean | null;
-  contexts?: UpdateGuildApplicationCommandRequestContextsList | null;
-  integration_types?: UpdateGuildApplicationCommandRequestIntegrationTypesList | null;
+  name?: string | undefined;
+  name_localizations?: UpdateGuildApplicationCommandRequestNameLocalizationsMap | null | undefined;
+  description?: string | null | undefined;
+  description_localizations?:
+    | UpdateGuildApplicationCommandRequestDescriptionLocalizationsMap
+    | null
+    | undefined;
+  options?: UpdateGuildApplicationCommandRequestOptionsList | null | undefined;
+  default_member_permissions?: number | null | undefined;
+  dm_permission?: boolean | null | undefined;
+  contexts?: UpdateGuildApplicationCommandRequestContextsList | null | undefined;
+  integration_types?: UpdateGuildApplicationCommandRequestIntegrationTypesList | null | undefined;
   /** Determines whether the interaction is handled by the app's interactions handler or by Discord */
-  handler?: ApplicationCommandHandler | (number & {}) | null;
+  handler?: ApplicationCommandHandler | (number & {}) | null | undefined;
 }
 export type UpdateGuildEmojiRequestRolesList = Array<string | null>;
 export interface UpdateGuildEmojiRequest {
   guild_id: string;
   emoji_id: string;
-  name?: string;
-  roles?: UpdateGuildEmojiRequestRolesList | null;
+  name?: string | undefined;
+  roles?: UpdateGuildEmojiRequestRolesList | null | undefined;
 }
 export interface UpdateGuildIncidentActionsRequest {
+  /** The ID of the guild */
   guild_id: string;
   /** When invites will be enabled again */
-  invites_disabled_until?: string | null;
+  invites_disabled_until?: string | null | undefined;
   /** When direct messages will be enabled again */
-  dms_disabled_until?: string | null;
+  dms_disabled_until?: string | null | undefined;
 }
 export type UpdateGuildMemberRequestRolesList = Array<string | null>;
 export interface UpdateGuildMemberRequest {
   guild_id: string;
   user_id: string;
-  nick?: string | null;
-  roles?: UpdateGuildMemberRequestRolesList | null;
-  mute?: boolean | null;
-  deaf?: boolean | null;
-  channel_id?: string | null;
-  communication_disabled_until?: string | null;
-  flags?: number | null;
+  nick?: string | null | undefined;
+  roles?: UpdateGuildMemberRequestRolesList | null | undefined;
+  mute?: boolean | null | undefined;
+  deaf?: boolean | null | undefined;
+  channel_id?: string | null | undefined;
+  communication_disabled_until?: string | null | undefined;
+  flags?: number | null | undefined;
 }
 export interface UpdateGuildRoleRequest {
   guild_id: string;
   role_id: string;
-  name?: string | null;
-  permissions?: number | null;
-  color?: number | null;
-  colors?: RoleColors | null;
-  hoist?: boolean | null;
-  mentionable?: boolean | null;
-  icon?: string | null;
-  unicode_emoji?: string | null;
+  name?: string | null | undefined;
+  permissions?: number | null | undefined;
+  color?: number | null | undefined;
+  colors?: RoleColors | null | undefined;
+  hoist?: boolean | null | undefined;
+  mentionable?: boolean | null | undefined;
+  icon?: string | null | undefined;
+  unicode_emoji?: string | null | undefined;
 }
 export interface ExternalScheduledEventPatchRequestPartial {
-  status?: GuildScheduledEventStatuses | (number & {}) | null;
-  name?: string;
-  description?: string | null;
-  image?: string | null;
-  scheduled_start_time?: string;
-  scheduled_end_time?: string | null;
-  entity_type?: GuildScheduledEventEntityTypes | (number & {}) | null;
-  privacy_level?: GuildScheduledEventPrivacyLevels;
-  channel_id?: string | null;
+  status?: GuildScheduledEventStatuses | (number & {}) | null | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  image?: string | null | undefined;
+  scheduled_start_time?: string | undefined;
+  scheduled_end_time?: string | null | undefined;
+  entity_type?: GuildScheduledEventEntityTypes | (number & {}) | null | undefined;
+  privacy_level?: GuildScheduledEventPrivacyLevels | undefined;
+  channel_id?: string | null | undefined;
   /** Recurrence rule for the scheduled event */
-  recurrence_rule?: RecurrenceRule | null;
-  entity_metadata?: EntityMetadataExternal;
+  recurrence_rule?: RecurrenceRule | null | undefined;
+  entity_metadata?: EntityMetadataExternal | undefined;
 }
 export interface StageScheduledEventPatchRequestPartial {
-  status?: GuildScheduledEventStatuses | (number & {}) | null;
-  name?: string;
-  description?: string | null;
-  image?: string | null;
-  scheduled_start_time?: string;
-  scheduled_end_time?: string | null;
-  entity_type?: GuildScheduledEventEntityTypes | (number & {}) | null;
-  privacy_level?: GuildScheduledEventPrivacyLevels;
-  channel_id?: string | null;
+  status?: GuildScheduledEventStatuses | (number & {}) | null | undefined;
+  name?: string | undefined;
+  description?: string | null | undefined;
+  image?: string | null | undefined;
+  scheduled_start_time?: string | undefined;
+  scheduled_end_time?: string | null | undefined;
+  entity_type?: GuildScheduledEventEntityTypes | (number & {}) | null | undefined;
+  privacy_level?: GuildScheduledEventPrivacyLevels | undefined;
+  channel_id?: string | null | undefined;
   /** Recurrence rule for the scheduled event */
-  recurrence_rule?: RecurrenceRule | null;
-  entity_metadata?: unknown | null;
+  recurrence_rule?: RecurrenceRule | null | undefined;
+  entity_metadata?: unknown | null | undefined;
 }
 export type VoiceScheduledEventPatchRequestPartial = StageScheduledEventPatchRequestPartial;
 export type UpdateGuildScheduledEventRequestBody =
@@ -6603,54 +6865,57 @@ export type UpdateGuildScheduledEventResponseBody =
   | VoiceScheduledEventResponse;
 export type UpdateGuildScheduledEventResponse = UpdateGuildScheduledEventResponseBody;
 export interface UpdateGuildScheduledEventExceptionRequest {
+  /** The ID of the guild */
   guild_id: string;
+  /** The ID of the scheduled event */
   guild_scheduled_event_id: string;
+  /** The ID of the event exception */
   exception_id: string;
   /** Overridden start time of this occurrence */
-  scheduled_start_time?: string | null;
+  scheduled_start_time?: string | null | undefined;
   /** Overridden end time of this occurrence */
-  scheduled_end_time?: string | null;
+  scheduled_end_time?: string | null | undefined;
   /** Whether this occurrence is canceled */
-  is_canceled?: boolean | null;
+  is_canceled?: boolean | null | undefined;
 }
 export interface UpdateGuildSoundboardSoundRequest {
   guild_id: string;
   sound_id: string;
-  name?: string;
-  volume?: number | null;
-  emoji_id?: string | null;
-  emoji_name?: string | null;
+  name?: string | undefined;
+  volume?: number | null | undefined;
+  emoji_id?: string | null | undefined;
+  emoji_name?: string | null | undefined;
 }
 export interface UpdateGuildStickerRequest {
   guild_id: string;
   sticker_id: string;
-  name?: string;
-  tags?: string;
-  description?: string | null;
+  name?: string | undefined;
+  tags?: string | undefined;
+  description?: string | null | undefined;
 }
 export interface UpdateGuildTemplateRequest {
   guild_id: string;
   code: string;
-  name?: string;
-  description?: string | null;
+  name?: string | undefined;
+  description?: string | null | undefined;
 }
 export interface GuildWelcomeChannel {
   channel_id: string;
   description: string;
-  emoji_id?: string | null;
-  emoji_name?: string | null;
+  emoji_id?: string | null | undefined;
+  emoji_name?: string | null | undefined;
 }
 export type UpdateGuildWelcomeScreenRequestWelcomeChannelsList = Array<GuildWelcomeChannel>;
 export interface UpdateGuildWelcomeScreenRequest {
   guild_id: string;
-  description?: string | null;
-  welcome_channels?: UpdateGuildWelcomeScreenRequestWelcomeChannelsList | null;
-  enabled?: boolean | null;
+  description?: string | null | undefined;
+  welcome_channels?: UpdateGuildWelcomeScreenRequestWelcomeChannelsList | null | undefined;
+  enabled?: boolean | null | undefined;
 }
 export interface UpdateGuildWidgetSettingsRequest {
   guild_id: string;
-  channel_id?: string | null;
-  enabled?: boolean | null;
+  channel_id?: string | null | undefined;
+  enabled?: boolean | null | undefined;
 }
 export interface UpdateInviteTargetUsersRequest {
   code: string;
@@ -6662,7 +6927,9 @@ export type UpdateLobbyMessageExternalModerationMetadataRequestBodyMap = {
   [key: string]: string | undefined;
 };
 export interface UpdateLobbyMessageExternalModerationMetadataRequest {
+  /** The ID of the lobby the message is in */
   lobby_id: string;
+  /** The ID of the message to update */
   message_id: string;
   body: UpdateLobbyMessageExternalModerationMetadataRequestBodyMap;
 }
@@ -6682,20 +6949,20 @@ export type UpdateMessageRequestAttachmentsList = Array<MessageAttachmentRequest
 export interface UpdateMessageRequest {
   channel_id: string;
   message_id: string;
-  content?: string | null;
-  embeds?: UpdateMessageRequestEmbedsList | null;
-  flags?: number | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  sticker_ids?: UpdateMessageRequestStickerIdsList | null;
-  components?: UpdateMessageRequestComponentsList | null;
-  attachments?: UpdateMessageRequestAttachmentsList | null;
+  content?: string | null | undefined;
+  embeds?: UpdateMessageRequestEmbedsList | null | undefined;
+  flags?: number | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  sticker_ids?: UpdateMessageRequestStickerIdsList | null | undefined;
+  components?: UpdateMessageRequestComponentsList | null | undefined;
+  attachments?: UpdateMessageRequestAttachmentsList | null | undefined;
 }
 export type UpdateMyApplicationRequestDescriptionLocalizationsMap = {
   [key: string]: string | undefined;
 };
 export interface UpdateMyApplicationRequestDescription {
   default: string;
-  localizations?: UpdateMyApplicationRequestDescriptionLocalizationsMap | null;
+  localizations?: UpdateMyApplicationRequestDescriptionLocalizationsMap | null | undefined;
 }
 export type UpdateMyApplicationRequestTagsList = Array<string>;
 export type UpdateMyApplicationRequestIntegrationTypesConfigMap = {
@@ -6703,36 +6970,40 @@ export type UpdateMyApplicationRequestIntegrationTypesConfigMap = {
 };
 export type UpdateMyApplicationRequestEventWebhooksTypesList = Array<ActionTypes | (string & {})>;
 export interface UpdateMyApplicationRequest {
-  description?: UpdateMyApplicationRequestDescription | null;
-  icon?: string | null;
-  cover_image?: string | null;
-  team_id?: string | null;
-  flags?: number | null;
-  interactions_endpoint_url?: string | null;
-  explicit_content_filter?: ApplicationExplicitContentFilterTypes | (number & {}) | null;
-  max_participants?: number | null;
-  type?: ApplicationTypes | (number & {}) | null;
-  tags?: UpdateMyApplicationRequestTagsList | null;
-  custom_install_url?: string | null;
-  install_params?: ApplicationOAuth2InstallParams | null;
-  role_connections_verification_url?: string | null;
-  integration_types_config?: UpdateMyApplicationRequestIntegrationTypesConfigMap | null;
-  event_webhooks_status?: ApplicationEventWebhooksStatus | (number & {}) | null;
+  description?: UpdateMyApplicationRequestDescription | null | undefined;
+  icon?: string | null | undefined;
+  cover_image?: string | null | undefined;
+  team_id?: string | null | undefined;
+  flags?: number | null | undefined;
+  interactions_endpoint_url?: string | null | undefined;
+  explicit_content_filter?:
+    | ApplicationExplicitContentFilterTypes
+    | (number & {})
+    | null
+    | undefined;
+  max_participants?: number | null | undefined;
+  type?: ApplicationTypes | (number & {}) | null | undefined;
+  tags?: UpdateMyApplicationRequestTagsList | null | undefined;
+  custom_install_url?: string | null | undefined;
+  install_params?: ApplicationOAuth2InstallParams | null | undefined;
+  role_connections_verification_url?: string | null | undefined;
+  integration_types_config?: UpdateMyApplicationRequestIntegrationTypesConfigMap | null | undefined;
+  event_webhooks_status?: ApplicationEventWebhooksStatus | (number & {}) | null | undefined;
   /** Event webhooks URL for the app to receive webhook events */
-  event_webhooks_url?: string | null;
-  event_webhooks_types?: UpdateMyApplicationRequestEventWebhooksTypesList | null;
+  event_webhooks_url?: string | null | undefined;
+  event_webhooks_types?: UpdateMyApplicationRequestEventWebhooksTypesList | null | undefined;
 }
 export interface UpdateMyGuildMemberRequest {
   guild_id: string;
-  nick?: string | null;
-  avatar?: string | null;
-  bio?: string | null;
-  banner?: string | null;
+  nick?: string | null | undefined;
+  avatar?: string | null | undefined;
+  bio?: string | null | undefined;
+  banner?: string | null | undefined;
 }
 export interface UpdateMyUserRequest {
   username: string;
-  avatar?: string | null;
-  banner?: string | null;
+  avatar?: string | null | undefined;
+  banner?: string | null | undefined;
 }
 export type UpdateOriginalWebhookMessageRequestEmbedsList = Array<RichEmbed>;
 export type UpdateOriginalWebhookMessageRequestComponentsItem =
@@ -6749,35 +7020,38 @@ export type UpdateOriginalWebhookMessageRequestAttachmentsList = Array<MessageAt
 export interface UpdateOriginalWebhookMessageRequest {
   webhook_id: string;
   webhook_token: string;
-  thread_id?: string;
-  with_components?: boolean;
-  content?: string | null;
-  embeds?: UpdateOriginalWebhookMessageRequestEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  components?: UpdateOriginalWebhookMessageRequestComponentsList | null;
-  attachments?: UpdateOriginalWebhookMessageRequestAttachmentsList | null;
-  poll?: PollCreateRequest | null;
-  flags?: number | null;
+  thread_id?: string | undefined;
+  with_components?: boolean | undefined;
+  content?: string | null | undefined;
+  embeds?: UpdateOriginalWebhookMessageRequestEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  components?: UpdateOriginalWebhookMessageRequestComponentsList | null | undefined;
+  attachments?: UpdateOriginalWebhookMessageRequestAttachmentsList | null | undefined;
+  poll?: PollCreateRequest | null | undefined;
+  flags?: number | null | undefined;
 }
 export interface UpdateSelfVoiceStateRequest {
   guild_id: string;
-  request_to_speak_timestamp?: string | null;
-  suppress?: boolean | null;
-  channel_id?: string | null;
+  request_to_speak_timestamp?: string | null | undefined;
+  suppress?: boolean | null | undefined;
+  channel_id?: string | null | undefined;
 }
 export interface UpdateSelfVoiceStateResponse {}
 export interface UpdateStageInstanceRequest {
   channel_id: string;
-  topic?: string;
-  privacy_level?: StageInstancesPrivacyLevels | (number & {});
+  topic?: string | undefined;
+  privacy_level?: StageInstancesPrivacyLevels | (number & {}) | undefined;
 }
 /** The moderation metadata attached to the message */
 export type UpdateUserMessageExternalModerationMetadataRequestBodyMap = {
   [key: string]: string | undefined;
 };
 export interface UpdateUserMessageExternalModerationMetadataRequest {
+  /** The ID of the first user in the DM */
   user_id_1: string;
+  /** The ID of the second user in the DM */
   user_id_2: string;
+  /** The ID of the message to update */
   message_id: string;
   body: UpdateUserMessageExternalModerationMetadataRequestBodyMap;
 }
@@ -6785,21 +7059,21 @@ export interface UpdateUserMessageExternalModerationMetadataResponse {}
 export interface UpdateVoiceChannelStatusRequest {
   channel_id: string;
   /** The new voice channel status */
-  status?: string | null;
+  status?: string | null | undefined;
 }
 export interface UpdateVoiceChannelStatusResponse {}
 export interface UpdateVoiceStateRequest {
   guild_id: string;
   user_id: string;
-  suppress?: boolean | null;
-  channel_id?: string | null;
+  suppress?: boolean | null | undefined;
+  channel_id?: string | null | undefined;
 }
 export interface UpdateVoiceStateResponse {}
 export interface UpdateWebhookRequest {
   webhook_id: string;
-  name?: string;
-  avatar?: string | null;
-  channel_id?: string | null;
+  name?: string | undefined;
+  avatar?: string | null | undefined;
+  channel_id?: string | null | undefined;
 }
 export type UpdateWebhookResponseBody =
   | ApplicationIncomingWebhookResponse
@@ -6809,8 +7083,8 @@ export type UpdateWebhookResponse = UpdateWebhookResponseBody;
 export interface UpdateWebhookByTokenRequest {
   webhook_id: string;
   webhook_token: string;
-  name?: string;
-  avatar?: string | null;
+  name?: string | undefined;
+  avatar?: string | null | undefined;
 }
 export type UpdateWebhookByTokenResponseBody =
   | ApplicationIncomingWebhookResponse
@@ -6833,15 +7107,15 @@ export interface UpdateWebhookMessageRequest {
   webhook_id: string;
   webhook_token: string;
   message_id: string;
-  thread_id?: string;
-  with_components?: boolean;
-  content?: string | null;
-  embeds?: UpdateWebhookMessageRequestEmbedsList | null;
-  allowed_mentions?: MessageAllowedMentionsRequest | null;
-  components?: UpdateWebhookMessageRequestComponentsList | null;
-  attachments?: UpdateWebhookMessageRequestAttachmentsList | null;
-  poll?: PollCreateRequest | null;
-  flags?: number | null;
+  thread_id?: string | undefined;
+  with_components?: boolean | undefined;
+  content?: string | null | undefined;
+  embeds?: UpdateWebhookMessageRequestEmbedsList | null | undefined;
+  allowed_mentions?: MessageAllowedMentionsRequest | null | undefined;
+  components?: UpdateWebhookMessageRequestComponentsList | null | undefined;
+  attachments?: UpdateWebhookMessageRequestAttachmentsList | null | undefined;
+  poll?: PollCreateRequest | null | undefined;
+  flags?: number | null | undefined;
 }
 export interface UploadApplicationAttachmentRequest {
   application_id: string;
@@ -6854,20 +7128,20 @@ export interface AttachmentResponse {
   size: number;
   url: string;
   proxy_url: string;
-  width?: number;
-  height?: number;
-  duration_secs?: number;
-  waveform?: string;
-  description?: string;
-  content_type?: string;
-  ephemeral?: boolean;
-  flags?: number;
-  placeholder?: string;
-  placeholder_version?: number;
-  title?: string | null;
-  application?: ApplicationResponse;
-  clip_created_at?: string;
-  clip_participants?: AttachmentResponseClipParticipantsList;
+  width?: number | undefined;
+  height?: number | undefined;
+  duration_secs?: number | undefined;
+  waveform?: string | undefined;
+  description?: string | undefined;
+  content_type?: string | undefined;
+  ephemeral?: boolean | undefined;
+  flags?: number | undefined;
+  placeholder?: string | undefined;
+  placeholder_version?: number | undefined;
+  title?: string | null | undefined;
+  application?: ApplicationResponse | undefined;
+  clip_created_at?: string | undefined;
+  clip_participants?: AttachmentResponseClipParticipantsList | undefined;
 }
 export interface ActivitiesAttachmentResponse {
   attachment: AttachmentResponse;
@@ -6911,8 +7185,8 @@ export const addGuildMemberRole: API.OperationMethod<
   AddGuildMemberRoleError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<AddGuildMemberRoleRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<AddGuildMemberRoleResponse>,
+  input: __S(6848, __c214, 0) as any as S.Schema<AddGuildMemberRoleRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<AddGuildMemberRoleResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -6928,8 +7202,8 @@ export const addInviteTargetUser: API.OperationMethod<
   AddInviteTargetUserError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<AddInviteTargetUserRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<AddInviteTargetUserResponse>,
+  input: __S(7520, __c235, 0) as any as S.Schema<AddInviteTargetUserRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<AddInviteTargetUserResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -6944,8 +7218,8 @@ export const addLobbyMember: API.OperationMethod<
   AddLobbyMemberError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8288, __c259, 0) as any as S.Schema<AddLobbyMemberRequest>,
-  output: __S(8352, __c261, 0) as any as S.Schema<LobbyMemberResponse>,
+  input: __S(8448, __c264, 0) as any as S.Schema<AddLobbyMemberRequest>,
+  output: __S(8512, __c266, 0) as any as S.Schema<LobbyMemberResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -6960,8 +7234,8 @@ export const addMyMessageReaction: API.OperationMethod<
   AddMyMessageReactionError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8704, __c272, 0) as any as S.Schema<AddMyMessageReactionRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<AddMyMessageReactionResponse>,
+  input: __S(8864, __c277, 0) as any as S.Schema<AddMyMessageReactionRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<AddMyMessageReactionResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -6976,8 +7250,8 @@ export const addThreadMember: API.OperationMethod<
   AddThreadMemberError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9056, __c283, 0) as any as S.Schema<AddThreadMemberRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<AddThreadMemberResponse>,
+  input: __S(9216, __c288, 0) as any as S.Schema<AddThreadMemberRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<AddThreadMemberResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -6992,8 +7266,8 @@ export const banUserFromGuild: API.OperationMethod<
   BanUserFromGuildError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9408, __c294, 0) as any as S.Schema<BanUserFromGuildRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<BanUserFromGuildResponse>,
+  input: __S(9568, __c299, 0) as any as S.Schema<BanUserFromGuildRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<BanUserFromGuildResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7008,8 +7282,8 @@ export const botPartnerSdkToken: API.OperationMethod<
   BotPartnerSdkTokenError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9792, __c306, 0) as any as S.Schema<BotPartnerSdkTokenRequest>,
-  output: __S(9824, __c307, 0) as any as S.Schema<ProvisionalTokenResponse>,
+  input: __S(9952, __c311, 0) as any as S.Schema<BotPartnerSdkTokenRequest>,
+  output: __S(9984, __c312, 0) as any as S.Schema<ProvisionalTokenResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7025,7 +7299,7 @@ export const botPartnerSdkUnmergeProvisionalAccount: API.OperationMethod<
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<BotPartnerSdkUnmergeProvisionalAccountRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<BotPartnerSdkUnmergeProvisionalAccountResponse>,
+  output: __S(6880, __c215, 0) as any as S.Schema<BotPartnerSdkUnmergeProvisionalAccountResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7041,8 +7315,8 @@ export const bulkAddInviteTargetUsers: API.OperationMethod<
   BulkAddInviteTargetUsersError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<BulkAddInviteTargetUsersRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<BulkAddInviteTargetUsersResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<BulkAddInviteTargetUsersRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<BulkAddInviteTargetUsersResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7074,7 +7348,7 @@ export const bulkDeleteMessages: API.OperationMethod<
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1440, __c45, 0) as any as S.Schema<BulkDeleteMessagesRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<BulkDeleteMessagesResponse>,
+  output: __S(6880, __c215, 0) as any as S.Schema<BulkDeleteMessagesResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7091,7 +7365,7 @@ export const bulkRemoveInviteTargetUsers: API.OperationMethod<
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1856, __c58, 0) as any as S.Schema<BulkRemoveInviteTargetUsersRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<BulkRemoveInviteTargetUsersResponse>,
+  output: __S(6880, __c215, 0) as any as S.Schema<BulkRemoveInviteTargetUsersResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7122,7 +7396,7 @@ export const bulkSetGuildApplicationCommands: API.OperationMethod<
   BulkSetGuildApplicationCommandsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<BulkSetGuildApplicationCommandsRequest>,
+  input: __S(2848, __c89, 0) as any as S.Schema<BulkSetGuildApplicationCommandsRequest>,
   output: __S(2400, __c75, 0) as any as S.Schema<BulkSetGuildApplicationCommandsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
@@ -7138,8 +7412,8 @@ export const bulkUpdateGuildChannels: API.OperationMethod<
   BulkUpdateGuildChannelsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3202, __c100, 2) as any as S.Schema<BulkUpdateGuildChannelsRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<BulkUpdateGuildChannelsResponse>,
+  input: __S(3234, __c101, 2) as any as S.Schema<BulkUpdateGuildChannelsRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<BulkUpdateGuildChannelsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7170,8 +7444,8 @@ export const bulkUpdateLobbyMembers: API.OperationMethod<
   BulkUpdateLobbyMembersError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4130, __c129, 2) as any as S.Schema<BulkUpdateLobbyMembersRequest>,
-  output: __S(4131, __c129, 3) as any as S.Schema<BulkUpdateLobbyMembersResponse>,
+  input: __S(4162, __c130, 2) as any as S.Schema<BulkUpdateLobbyMembersRequest>,
+  output: __S(4163, __c130, 3) as any as S.Schema<BulkUpdateLobbyMembersResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7187,7 +7461,7 @@ export const consumeEntitlement: API.OperationMethod<
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4704, __c147, 0) as any as S.Schema<ConsumeEntitlementRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<ConsumeEntitlementResponse>,
+  output: __S(6880, __c215, 0) as any as S.Schema<ConsumeEntitlementResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7203,8 +7477,8 @@ export const countGuildScheduledEventUsers: API.OperationMethod<
   CountGuildScheduledEventUsersError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5056, __c158, 0) as any as S.Schema<CountGuildScheduledEventUsersRequest>,
-  output: __S(5057, __c158, 1) as any as S.Schema<ScheduledEventUserCountResponse>,
+  input: __S(5088, __c159, 0) as any as S.Schema<CountGuildScheduledEventUsersRequest>,
+  output: __S(5089, __c159, 1) as any as S.Schema<ScheduledEventUserCountResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7219,7 +7493,7 @@ export const createApplicationCommand: API.OperationMethod<
   CreateApplicationCommandError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5474, __c171, 2) as any as S.Schema<CreateApplicationCommandRequest>,
+  input: __S(5506, __c172, 2) as any as S.Schema<CreateApplicationCommandRequest>,
   output: __S(2467, __c77, 3) as any as S.Schema<ApplicationCommandResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
@@ -7235,8 +7509,8 @@ export const createApplicationEmoji: API.OperationMethod<
   CreateApplicationEmojiError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5824, __c182, 0) as any as S.Schema<CreateApplicationEmojiRequest>,
-  output: __S(5856, __c183, 0) as any as S.Schema<EmojiResponse>,
+  input: __S(5856, __c183, 0) as any as S.Schema<CreateApplicationEmojiRequest>,
+  output: __S(5888, __c184, 0) as any as S.Schema<EmojiResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7251,8 +7525,8 @@ export const createAutoModerationRule: API.OperationMethod<
   CreateAutoModerationRuleError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6209, __c194, 1) as any as S.Schema<CreateAutoModerationRuleRequest>,
-  output: __S(6211, __c194, 3) as any as S.Schema<CreateAutoModerationRuleResponse>,
+  input: __S(6241, __c195, 1) as any as S.Schema<CreateAutoModerationRuleRequest>,
+  output: __S(6243, __c195, 3) as any as S.Schema<CreateAutoModerationRuleResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7267,8 +7541,8 @@ export const createChannelInvite: API.OperationMethod<
   CreateChannelInviteError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6465, __c202, 1) as any as S.Schema<CreateChannelInviteRequest>,
-  output: __S(6467, __c202, 3) as any as S.Schema<CreateChannelInviteResponse>,
+  input: __S(6593, __c206, 1) as any as S.Schema<CreateChannelInviteRequest>,
+  output: __S(6595, __c206, 3) as any as S.Schema<CreateChannelInviteResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7283,8 +7557,8 @@ export const createDeprecatedPin: API.OperationMethod<
   CreateDeprecatedPinError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<CreateDeprecatedPinRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<CreateDeprecatedPinResponse>,
+  input: __S(6656, __c208, 0) as any as S.Schema<CreateDeprecatedPinRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<CreateDeprecatedPinResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7299,8 +7573,8 @@ export const createDm: API.OperationMethod<
   CreateDmError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<CreateDmRequest>,
-  output: __S(6530, __c204, 2) as any as S.Schema<CreateDmResponse>,
+  input: __S(6688, __c209, 0) as any as S.Schema<CreateDmRequest>,
+  output: __S(6690, __c209, 2) as any as S.Schema<CreateDmResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7315,8 +7589,8 @@ export const createEntitlement: API.OperationMethod<
   CreateEntitlementError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<CreateEntitlementRequest>,
-  output: __S(6624, __c207, 0) as any as S.Schema<EntitlementResponse>,
+  input: __S(6752, __c211, 0) as any as S.Schema<CreateEntitlementRequest>,
+  output: __S(6784, __c212, 0) as any as S.Schema<EntitlementResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7331,7 +7605,7 @@ export const createGuildApplicationCommand: API.OperationMethod<
   CreateGuildApplicationCommandError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6658, __c208, 2) as any as S.Schema<CreateGuildApplicationCommandRequest>,
+  input: __S(6818, __c213, 2) as any as S.Schema<CreateGuildApplicationCommandRequest>,
   output: __S(2467, __c77, 3) as any as S.Schema<ApplicationCommandResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
@@ -7347,8 +7621,8 @@ export const createGuildChannel: API.OperationMethod<
   CreateGuildChannelError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6757, __c211, 5) as any as S.Schema<CreateGuildChannelRequest>,
-  output: __S(6818, __c213, 2) as any as S.Schema<GuildChannelResponse>,
+  input: __S(6917, __c216, 5) as any as S.Schema<CreateGuildChannelRequest>,
+  output: __S(6978, __c218, 2) as any as S.Schema<GuildChannelResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7363,8 +7637,8 @@ export const createGuildEmoji: API.OperationMethod<
   CreateGuildEmojiError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6848, __c214, 0) as any as S.Schema<CreateGuildEmojiRequest>,
-  output: __S(5856, __c183, 0) as any as S.Schema<EmojiResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<CreateGuildEmojiRequest>,
+  output: __S(5888, __c184, 0) as any as S.Schema<EmojiResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7379,7 +7653,7 @@ export const createGuildRole: API.OperationMethod<
   CreateGuildRoleError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<CreateGuildRoleRequest>,
+  input: __S(7072, __c221, 0) as any as S.Schema<CreateGuildRoleRequest>,
   output: __S(3745, __c117, 1) as any as S.Schema<GuildRoleResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
@@ -7395,8 +7669,8 @@ export const createGuildScheduledEvent: API.OperationMethod<
   CreateGuildScheduledEventError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6977, __c218, 1) as any as S.Schema<CreateGuildScheduledEventRequest>,
-  output: __S(6979, __c218, 3) as any as S.Schema<CreateGuildScheduledEventResponse>,
+  input: __S(7137, __c223, 1) as any as S.Schema<CreateGuildScheduledEventRequest>,
+  output: __S(7139, __c223, 3) as any as S.Schema<CreateGuildScheduledEventResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7412,8 +7686,8 @@ export const createGuildScheduledEventException: API.OperationMethod<
   CreateGuildScheduledEventExceptionError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<CreateGuildScheduledEventExceptionRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<GuildScheduledEventExceptionResponse>,
+  input: __S(7168, __c224, 0) as any as S.Schema<CreateGuildScheduledEventExceptionRequest>,
+  output: __S(7200, __c225, 0) as any as S.Schema<GuildScheduledEventExceptionResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7428,8 +7702,8 @@ export const createGuildSoundboardSound: API.OperationMethod<
   CreateGuildSoundboardSoundError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<CreateGuildSoundboardSoundRequest>,
-  output: __S(7104, __c222, 0) as any as S.Schema<SoundboardSoundResponse>,
+  input: __S(7232, __c226, 0) as any as S.Schema<CreateGuildSoundboardSoundRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<SoundboardSoundResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7444,8 +7718,8 @@ export const createGuildSticker: API.OperationMethod<
   CreateGuildStickerError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7136, __c223, 0) as any as S.Schema<CreateGuildStickerRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<GuildStickerResponse>,
+  input: __S(7296, __c228, 0) as any as S.Schema<CreateGuildStickerRequest>,
+  output: __S(7328, __c229, 0) as any as S.Schema<GuildStickerResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7460,8 +7734,8 @@ export const createGuildTemplate: API.OperationMethod<
   CreateGuildTemplateError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<CreateGuildTemplateRequest>,
-  output: __S(7239, __c226, 7) as any as S.Schema<GuildTemplateResponse>,
+  input: __S(7360, __c230, 0) as any as S.Schema<CreateGuildTemplateRequest>,
+  output: __S(7399, __c231, 7) as any as S.Schema<GuildTemplateResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7476,8 +7750,8 @@ export const createInteractionResponse: API.OperationMethod<
   CreateInteractionResponseError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7265, __c227, 1) as any as S.Schema<CreateInteractionResponseRequest>,
-  output: __S(7268, __c227, 4) as any as S.Schema<InteractionCallbackResponse>,
+  input: __S(7425, __c232, 1) as any as S.Schema<CreateInteractionResponseRequest>,
+  output: __S(7428, __c232, 4) as any as S.Schema<InteractionCallbackResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7492,8 +7766,8 @@ export const createLinkedLobbyGuildInviteForSelf: API.OperationMethod<
   CreateLinkedLobbyGuildInviteForSelfError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7296, __c228, 0) as any as S.Schema<CreateLinkedLobbyGuildInviteForSelfRequest>,
-  output: __S(7328, __c229, 0) as any as S.Schema<LobbyGuildInviteResponse>,
+  input: __S(7456, __c233, 0) as any as S.Schema<CreateLinkedLobbyGuildInviteForSelfRequest>,
+  output: __S(7488, __c234, 0) as any as S.Schema<LobbyGuildInviteResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7508,8 +7782,8 @@ export const createLinkedLobbyGuildInviteForUser: API.OperationMethod<
   CreateLinkedLobbyGuildInviteForUserError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<CreateLinkedLobbyGuildInviteForUserRequest>,
-  output: __S(7328, __c229, 0) as any as S.Schema<LobbyGuildInviteResponse>,
+  input: __S(7552, __c236, 0) as any as S.Schema<CreateLinkedLobbyGuildInviteForUserRequest>,
+  output: __S(7488, __c234, 0) as any as S.Schema<LobbyGuildInviteResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7524,8 +7798,8 @@ export const createLobby: API.OperationMethod<
   CreateLobbyError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<CreateLobbyRequest>,
-  output: __S(7456, __c233, 0) as any as S.Schema<LobbyResponse>,
+  input: __S(7584, __c237, 0) as any as S.Schema<CreateLobbyRequest>,
+  output: __S(7616, __c238, 0) as any as S.Schema<LobbyResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7540,8 +7814,8 @@ export const createLobbyMessage: API.OperationMethod<
   CreateLobbyMessageError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7523, __c235, 3) as any as S.Schema<CreateLobbyMessageRequest>,
-  output: __S(7552, __c236, 0) as any as S.Schema<LobbyMessageResponse>,
+  input: __S(7683, __c240, 3) as any as S.Schema<CreateLobbyMessageRequest>,
+  output: __S(7712, __c241, 0) as any as S.Schema<LobbyMessageResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7556,8 +7830,8 @@ export const createMessage: API.OperationMethod<
   CreateMessageError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7715, __c241, 3) as any as S.Schema<CreateMessageRequest>,
-  output: __S(7942, __c248, 6) as any as S.Schema<MessageResponse>,
+  input: __S(7875, __c246, 3) as any as S.Schema<CreateMessageRequest>,
+  output: __S(8102, __c253, 6) as any as S.Schema<MessageResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7572,8 +7846,8 @@ export const createOrJoinLobby: API.OperationMethod<
   CreateOrJoinLobbyError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8064, __c252, 0) as any as S.Schema<CreateOrJoinLobbyRequest>,
-  output: __S(7456, __c233, 0) as any as S.Schema<LobbyResponse>,
+  input: __S(8224, __c257, 0) as any as S.Schema<CreateOrJoinLobbyRequest>,
+  output: __S(7616, __c238, 0) as any as S.Schema<LobbyResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7588,8 +7862,8 @@ export const createPin: API.OperationMethod<
   CreatePinError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8096, __c253, 0) as any as S.Schema<CreatePinRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<CreatePinResponse>,
+  input: __S(8256, __c258, 0) as any as S.Schema<CreatePinRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<CreatePinResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7604,8 +7878,8 @@ export const createStageInstance: API.OperationMethod<
   CreateStageInstanceError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8128, __c254, 0) as any as S.Schema<CreateStageInstanceRequest>,
-  output: __S(8160, __c255, 0) as any as S.Schema<StageInstanceResponse>,
+  input: __S(8288, __c259, 0) as any as S.Schema<CreateStageInstanceRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<StageInstanceResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7620,8 +7894,8 @@ export const createThread: API.OperationMethod<
   CreateThreadError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8193, __c256, 1) as any as S.Schema<CreateThreadRequest>,
-  output: __S(7777, __c243, 1) as any as S.Schema<CreatedThreadResponse>,
+  input: __S(8353, __c261, 1) as any as S.Schema<CreateThreadRequest>,
+  output: __S(7937, __c248, 1) as any as S.Schema<CreatedThreadResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7636,8 +7910,8 @@ export const createThreadFromMessage: API.OperationMethod<
   CreateThreadFromMessageError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8224, __c257, 0) as any as S.Schema<CreateThreadFromMessageRequest>,
-  output: __S(7777, __c243, 1) as any as S.Schema<ThreadResponse>,
+  input: __S(8384, __c262, 0) as any as S.Schema<CreateThreadFromMessageRequest>,
+  output: __S(7937, __c248, 1) as any as S.Schema<ThreadResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7652,8 +7926,8 @@ export const createWebhook: API.OperationMethod<
   CreateWebhookError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8256, __c258, 0) as any as S.Schema<CreateWebhookRequest>,
-  output: __S(8257, __c258, 1) as any as S.Schema<GuildIncomingWebhookResponse>,
+  input: __S(8416, __c263, 0) as any as S.Schema<CreateWebhookRequest>,
+  output: __S(8417, __c263, 1) as any as S.Schema<GuildIncomingWebhookResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7668,8 +7942,8 @@ export const crosspostMessage: API.OperationMethod<
   CrosspostMessageError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8384, __c262, 0) as any as S.Schema<CrosspostMessageRequest>,
-  output: __S(7942, __c248, 6) as any as S.Schema<MessageResponse>,
+  input: __S(8544, __c267, 0) as any as S.Schema<CrosspostMessageRequest>,
+  output: __S(8102, __c253, 6) as any as S.Schema<MessageResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7684,8 +7958,8 @@ export const deleteAllMessageReactions: API.OperationMethod<
   DeleteAllMessageReactionsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8416, __c263, 0) as any as S.Schema<DeleteAllMessageReactionsRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteAllMessageReactionsResponse>,
+  input: __S(8576, __c268, 0) as any as S.Schema<DeleteAllMessageReactionsRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteAllMessageReactionsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7700,8 +7974,8 @@ export const deleteAllMessageReactionsByEmoji: API.OperationMethod<
   DeleteAllMessageReactionsByEmojiError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8448, __c264, 0) as any as S.Schema<DeleteAllMessageReactionsByEmojiRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteAllMessageReactionsByEmojiResponse>,
+  input: __S(8608, __c269, 0) as any as S.Schema<DeleteAllMessageReactionsByEmojiRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteAllMessageReactionsByEmojiResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7716,8 +7990,8 @@ export const deleteApplicationCommand: API.OperationMethod<
   DeleteApplicationCommandError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8480, __c265, 0) as any as S.Schema<DeleteApplicationCommandRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteApplicationCommandResponse>,
+  input: __S(8640, __c270, 0) as any as S.Schema<DeleteApplicationCommandRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteApplicationCommandResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7732,8 +8006,8 @@ export const deleteApplicationEmoji: API.OperationMethod<
   DeleteApplicationEmojiError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8512, __c266, 0) as any as S.Schema<DeleteApplicationEmojiRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteApplicationEmojiResponse>,
+  input: __S(8672, __c271, 0) as any as S.Schema<DeleteApplicationEmojiRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteApplicationEmojiResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7748,8 +8022,8 @@ export const deleteApplicationUserRoleConnection: API.OperationMethod<
   DeleteApplicationUserRoleConnectionError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8544, __c267, 0) as any as S.Schema<DeleteApplicationUserRoleConnectionRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteApplicationUserRoleConnectionResponse>,
+  input: __S(8704, __c272, 0) as any as S.Schema<DeleteApplicationUserRoleConnectionRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteApplicationUserRoleConnectionResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7764,8 +8038,8 @@ export const deleteAutoModerationRule: API.OperationMethod<
   DeleteAutoModerationRuleError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8576, __c268, 0) as any as S.Schema<DeleteAutoModerationRuleRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteAutoModerationRuleResponse>,
+  input: __S(8736, __c273, 0) as any as S.Schema<DeleteAutoModerationRuleRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteAutoModerationRuleResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7780,8 +8054,8 @@ export const deleteChannel: API.OperationMethod<
   DeleteChannelError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8608, __c269, 0) as any as S.Schema<DeleteChannelRequest>,
-  output: __S(8610, __c269, 2) as any as S.Schema<DeleteChannelResponse>,
+  input: __S(8768, __c274, 0) as any as S.Schema<DeleteChannelRequest>,
+  output: __S(8770, __c274, 2) as any as S.Schema<DeleteChannelResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7796,8 +8070,8 @@ export const deleteChannelPermissionOverwrite: API.OperationMethod<
   DeleteChannelPermissionOverwriteError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8640, __c270, 0) as any as S.Schema<DeleteChannelPermissionOverwriteRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteChannelPermissionOverwriteResponse>,
+  input: __S(8800, __c275, 0) as any as S.Schema<DeleteChannelPermissionOverwriteRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteChannelPermissionOverwriteResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7812,8 +8086,8 @@ export const deleteDeprecatedPin: API.OperationMethod<
   DeleteDeprecatedPinError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8672, __c271, 0) as any as S.Schema<DeleteDeprecatedPinRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteDeprecatedPinResponse>,
+  input: __S(8832, __c276, 0) as any as S.Schema<DeleteDeprecatedPinRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteDeprecatedPinResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7828,8 +8102,8 @@ export const deleteEntitlement: API.OperationMethod<
   DeleteEntitlementError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8736, __c273, 0) as any as S.Schema<DeleteEntitlementRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteEntitlementResponse>,
+  input: __S(8896, __c278, 0) as any as S.Schema<DeleteEntitlementRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteEntitlementResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7844,8 +8118,8 @@ export const deleteGroupDmUser: API.OperationMethod<
   DeleteGroupDmUserError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8768, __c274, 0) as any as S.Schema<DeleteGroupDmUserRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteGroupDmUserResponse>,
+  input: __S(8928, __c279, 0) as any as S.Schema<DeleteGroupDmUserRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteGroupDmUserResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7860,8 +8134,8 @@ export const deleteGuildApplicationCommand: API.OperationMethod<
   DeleteGuildApplicationCommandError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8800, __c275, 0) as any as S.Schema<DeleteGuildApplicationCommandRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteGuildApplicationCommandResponse>,
+  input: __S(8960, __c280, 0) as any as S.Schema<DeleteGuildApplicationCommandRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteGuildApplicationCommandResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7876,8 +8150,8 @@ export const deleteGuildEmoji: API.OperationMethod<
   DeleteGuildEmojiError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8832, __c276, 0) as any as S.Schema<DeleteGuildEmojiRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteGuildEmojiResponse>,
+  input: __S(8992, __c281, 0) as any as S.Schema<DeleteGuildEmojiRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteGuildEmojiResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7892,8 +8166,8 @@ export const deleteGuildIntegration: API.OperationMethod<
   DeleteGuildIntegrationError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8864, __c277, 0) as any as S.Schema<DeleteGuildIntegrationRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteGuildIntegrationResponse>,
+  input: __S(9024, __c282, 0) as any as S.Schema<DeleteGuildIntegrationRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteGuildIntegrationResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7908,8 +8182,8 @@ export const deleteGuildMember: API.OperationMethod<
   DeleteGuildMemberError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8896, __c278, 0) as any as S.Schema<DeleteGuildMemberRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteGuildMemberResponse>,
+  input: __S(9056, __c283, 0) as any as S.Schema<DeleteGuildMemberRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteGuildMemberResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7924,8 +8198,8 @@ export const deleteGuildMemberRole: API.OperationMethod<
   DeleteGuildMemberRoleError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8928, __c279, 0) as any as S.Schema<DeleteGuildMemberRoleRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteGuildMemberRoleResponse>,
+  input: __S(9088, __c284, 0) as any as S.Schema<DeleteGuildMemberRoleRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteGuildMemberRoleResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7940,8 +8214,8 @@ export const deleteGuildRole: API.OperationMethod<
   DeleteGuildRoleError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8960, __c280, 0) as any as S.Schema<DeleteGuildRoleRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteGuildRoleResponse>,
+  input: __S(9120, __c285, 0) as any as S.Schema<DeleteGuildRoleRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteGuildRoleResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7956,8 +8230,8 @@ export const deleteGuildScheduledEvent: API.OperationMethod<
   DeleteGuildScheduledEventError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8992, __c281, 0) as any as S.Schema<DeleteGuildScheduledEventRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteGuildScheduledEventResponse>,
+  input: __S(9152, __c286, 0) as any as S.Schema<DeleteGuildScheduledEventRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteGuildScheduledEventResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7973,8 +8247,8 @@ export const deleteGuildScheduledEventException: API.OperationMethod<
   DeleteGuildScheduledEventExceptionError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9024, __c282, 0) as any as S.Schema<DeleteGuildScheduledEventExceptionRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteGuildScheduledEventExceptionResponse>,
+  input: __S(9184, __c287, 0) as any as S.Schema<DeleteGuildScheduledEventExceptionRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteGuildScheduledEventExceptionResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -7989,8 +8263,8 @@ export const deleteGuildSoundboardSound: API.OperationMethod<
   DeleteGuildSoundboardSoundError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9088, __c284, 0) as any as S.Schema<DeleteGuildSoundboardSoundRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteGuildSoundboardSoundResponse>,
+  input: __S(9248, __c289, 0) as any as S.Schema<DeleteGuildSoundboardSoundRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteGuildSoundboardSoundResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8005,8 +8279,8 @@ export const deleteGuildSticker: API.OperationMethod<
   DeleteGuildStickerError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9120, __c285, 0) as any as S.Schema<DeleteGuildStickerRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteGuildStickerResponse>,
+  input: __S(9280, __c290, 0) as any as S.Schema<DeleteGuildStickerRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteGuildStickerResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8021,8 +8295,8 @@ export const deleteGuildTemplate: API.OperationMethod<
   DeleteGuildTemplateError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9152, __c286, 0) as any as S.Schema<DeleteGuildTemplateRequest>,
-  output: __S(7239, __c226, 7) as any as S.Schema<GuildTemplateResponse>,
+  input: __S(9312, __c291, 0) as any as S.Schema<DeleteGuildTemplateRequest>,
+  output: __S(7399, __c231, 7) as any as S.Schema<GuildTemplateResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8038,8 +8312,8 @@ export const deleteLobby: API.OperationMethod<
   DeleteLobbyError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9184, __c287, 0) as any as S.Schema<DeleteLobbyRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteLobbyResponse>,
+  input: __S(9344, __c292, 0) as any as S.Schema<DeleteLobbyRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteLobbyResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8054,8 +8328,8 @@ export const deleteLobbyMember: API.OperationMethod<
   DeleteLobbyMemberError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9216, __c288, 0) as any as S.Schema<DeleteLobbyMemberRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteLobbyMemberResponse>,
+  input: __S(9376, __c293, 0) as any as S.Schema<DeleteLobbyMemberRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteLobbyMemberResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8070,8 +8344,8 @@ export const deleteMessage: API.OperationMethod<
   DeleteMessageError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9248, __c289, 0) as any as S.Schema<DeleteMessageRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteMessageResponse>,
+  input: __S(9408, __c294, 0) as any as S.Schema<DeleteMessageRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteMessageResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8086,8 +8360,8 @@ export const deleteMyMessageReaction: API.OperationMethod<
   DeleteMyMessageReactionError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9280, __c290, 0) as any as S.Schema<DeleteMyMessageReactionRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteMyMessageReactionResponse>,
+  input: __S(9440, __c295, 0) as any as S.Schema<DeleteMyMessageReactionRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteMyMessageReactionResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8102,8 +8376,8 @@ export const deleteOriginalWebhookMessage: API.OperationMethod<
   DeleteOriginalWebhookMessageError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9312, __c291, 0) as any as S.Schema<DeleteOriginalWebhookMessageRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteOriginalWebhookMessageResponse>,
+  input: __S(9472, __c296, 0) as any as S.Schema<DeleteOriginalWebhookMessageRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteOriginalWebhookMessageResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8118,8 +8392,8 @@ export const deletePin: API.OperationMethod<
   DeletePinError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9344, __c292, 0) as any as S.Schema<DeletePinRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeletePinResponse>,
+  input: __S(9504, __c297, 0) as any as S.Schema<DeletePinRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeletePinResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8134,8 +8408,8 @@ export const deleteStageInstance: API.OperationMethod<
   DeleteStageInstanceError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9376, __c293, 0) as any as S.Schema<DeleteStageInstanceRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteStageInstanceResponse>,
+  input: __S(9536, __c298, 0) as any as S.Schema<DeleteStageInstanceRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteStageInstanceResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8150,8 +8424,8 @@ export const deleteThreadMember: API.OperationMethod<
   DeleteThreadMemberError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9440, __c295, 0) as any as S.Schema<DeleteThreadMemberRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteThreadMemberResponse>,
+  input: __S(9600, __c300, 0) as any as S.Schema<DeleteThreadMemberRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteThreadMemberResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8166,8 +8440,8 @@ export const deleteUserMessageReaction: API.OperationMethod<
   DeleteUserMessageReactionError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9472, __c296, 0) as any as S.Schema<DeleteUserMessageReactionRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteUserMessageReactionResponse>,
+  input: __S(9632, __c301, 0) as any as S.Schema<DeleteUserMessageReactionRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteUserMessageReactionResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8182,8 +8456,8 @@ export const deleteWebhook: API.OperationMethod<
   DeleteWebhookError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9504, __c297, 0) as any as S.Schema<DeleteWebhookRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteWebhookResponse>,
+  input: __S(9664, __c302, 0) as any as S.Schema<DeleteWebhookRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteWebhookResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8198,8 +8472,8 @@ export const deleteWebhookByToken: API.OperationMethod<
   DeleteWebhookByTokenError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9536, __c298, 0) as any as S.Schema<DeleteWebhookByTokenRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteWebhookByTokenResponse>,
+  input: __S(9696, __c303, 0) as any as S.Schema<DeleteWebhookByTokenRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteWebhookByTokenResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8214,8 +8488,8 @@ export const deleteWebhookMessage: API.OperationMethod<
   DeleteWebhookMessageError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9568, __c299, 0) as any as S.Schema<DeleteWebhookMessageRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<DeleteWebhookMessageResponse>,
+  input: __S(9728, __c304, 0) as any as S.Schema<DeleteWebhookMessageRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<DeleteWebhookMessageResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8230,8 +8504,8 @@ export const editLobby: API.OperationMethod<
   EditLobbyError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9600, __c300, 0) as any as S.Schema<EditLobbyRequest>,
-  output: __S(7456, __c233, 0) as any as S.Schema<LobbyResponse>,
+  input: __S(9760, __c305, 0) as any as S.Schema<EditLobbyRequest>,
+  output: __S(7616, __c238, 0) as any as S.Schema<LobbyResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8246,8 +8520,8 @@ export const editLobbyChannelLink: API.OperationMethod<
   EditLobbyChannelLinkError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9632, __c301, 0) as any as S.Schema<EditLobbyChannelLinkRequest>,
-  output: __S(7456, __c233, 0) as any as S.Schema<LobbyResponse>,
+  input: __S(9792, __c306, 0) as any as S.Schema<EditLobbyChannelLinkRequest>,
+  output: __S(7616, __c238, 0) as any as S.Schema<LobbyResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8262,8 +8536,8 @@ export const executeGithubCompatibleWebhook: API.OperationMethod<
   ExecuteGithubCompatibleWebhookError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9679, __c302, 15) as any as S.Schema<ExecuteGithubCompatibleWebhookRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<ExecuteGithubCompatibleWebhookResponse>,
+  input: __S(9839, __c307, 15) as any as S.Schema<ExecuteGithubCompatibleWebhookRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<ExecuteGithubCompatibleWebhookResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8278,8 +8552,8 @@ export const executeSlackCompatibleWebhook: API.OperationMethod<
   ExecuteSlackCompatibleWebhookError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9732, __c304, 4) as any as S.Schema<ExecuteSlackCompatibleWebhookRequest>,
-  output: __S(9733, __c304, 5) as any as S.Schema<ExecuteSlackCompatibleWebhookResponse>,
+  input: __S(9892, __c309, 4) as any as S.Schema<ExecuteSlackCompatibleWebhookRequest>,
+  output: __S(9893, __c309, 5) as any as S.Schema<ExecuteSlackCompatibleWebhookResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8294,8 +8568,8 @@ export const executeWebhook: API.OperationMethod<
   ExecuteWebhookError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9761, __c305, 1) as any as S.Schema<ExecuteWebhookRequest>,
-  output: __S(7942, __c248, 6) as any as S.Schema<MessageResponse>,
+  input: __S(9921, __c310, 1) as any as S.Schema<ExecuteWebhookRequest>,
+  output: __S(8102, __c253, 6) as any as S.Schema<MessageResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8310,8 +8584,8 @@ export const followChannel: API.OperationMethod<
   FollowChannelError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9856, __c308, 0) as any as S.Schema<FollowChannelRequest>,
-  output: __S(9857, __c308, 1) as any as S.Schema<ChannelFollowerResponse>,
+  input: __S(10016, __c313, 0) as any as S.Schema<FollowChannelRequest>,
+  output: __S(10017, __c313, 1) as any as S.Schema<ChannelFollowerResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8326,8 +8600,8 @@ export const getActiveGuildThreads: API.OperationMethod<
   GetActiveGuildThreadsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(9888, __c309, 0) as any as S.Schema<GetActiveGuildThreadsRequest>,
-  output: __S(9984, __c312, 0) as any as S.Schema<ThreadsResponse>,
+  input: __S(10048, __c314, 0) as any as S.Schema<GetActiveGuildThreadsRequest>,
+  output: __S(10144, __c317, 0) as any as S.Schema<ThreadsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8342,8 +8616,8 @@ export const getAnswerVoters: API.OperationMethod<
   GetAnswerVotersError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10048, __c314, 0) as any as S.Schema<GetAnswerVotersRequest>,
-  output: __S(10049, __c314, 1) as any as S.Schema<PollAnswerDetailsResponse>,
+  input: __S(10208, __c319, 0) as any as S.Schema<GetAnswerVotersRequest>,
+  output: __S(10209, __c319, 1) as any as S.Schema<PollAnswerDetailsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8358,8 +8632,8 @@ export const getApplication: API.OperationMethod<
   GetApplicationError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10080, __c315, 0) as any as S.Schema<GetApplicationRequest>,
-  output: __S(10115, __c316, 3) as any as S.Schema<PrivateApplicationResponse>,
+  input: __S(10240, __c320, 0) as any as S.Schema<GetApplicationRequest>,
+  output: __S(10275, __c321, 3) as any as S.Schema<PrivateApplicationResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8374,8 +8648,8 @@ export const getApplicationActivityInstance: API.OperationMethod<
   GetApplicationActivityInstanceError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10144, __c317, 0) as any as S.Schema<GetApplicationActivityInstanceRequest>,
-  output: __S(10146, __c317, 2) as any as S.Schema<EmbeddedActivityInstance>,
+  input: __S(10304, __c322, 0) as any as S.Schema<GetApplicationActivityInstanceRequest>,
+  output: __S(10306, __c322, 2) as any as S.Schema<EmbeddedActivityInstance>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8390,7 +8664,7 @@ export const getApplicationCommand: API.OperationMethod<
   GetApplicationCommandError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10176, __c318, 0) as any as S.Schema<GetApplicationCommandRequest>,
+  input: __S(10336, __c323, 0) as any as S.Schema<GetApplicationCommandRequest>,
   output: __S(2467, __c77, 3) as any as S.Schema<ApplicationCommandResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
@@ -8406,8 +8680,8 @@ export const getApplicationEmoji: API.OperationMethod<
   GetApplicationEmojiError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10208, __c319, 0) as any as S.Schema<GetApplicationEmojiRequest>,
-  output: __S(5856, __c183, 0) as any as S.Schema<EmojiResponse>,
+  input: __S(10368, __c324, 0) as any as S.Schema<GetApplicationEmojiRequest>,
+  output: __S(5888, __c184, 0) as any as S.Schema<EmojiResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8422,8 +8696,8 @@ export const getApplicationRoleConnectionsMetadata: API.OperationMethod<
   GetApplicationRoleConnectionsMetadataError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10240, __c320, 0) as any as S.Schema<GetApplicationRoleConnectionsMetadataRequest>,
-  output: __S(10274, __c321, 2) as any as S.Schema<GetApplicationRoleConnectionsMetadataResponse>,
+  input: __S(10400, __c325, 0) as any as S.Schema<GetApplicationRoleConnectionsMetadataRequest>,
+  output: __S(10434, __c326, 2) as any as S.Schema<GetApplicationRoleConnectionsMetadataResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8438,8 +8712,8 @@ export const getApplicationUserRoleConnection: API.OperationMethod<
   GetApplicationUserRoleConnectionError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10304, __c322, 0) as any as S.Schema<GetApplicationUserRoleConnectionRequest>,
-  output: __S(10336, __c323, 0) as any as S.Schema<ApplicationUserRoleConnectionResponse>,
+  input: __S(10464, __c327, 0) as any as S.Schema<GetApplicationUserRoleConnectionRequest>,
+  output: __S(10496, __c328, 0) as any as S.Schema<ApplicationUserRoleConnectionResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8454,8 +8728,8 @@ export const getAutoModerationRule: API.OperationMethod<
   GetAutoModerationRuleError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10368, __c324, 0) as any as S.Schema<GetAutoModerationRuleRequest>,
-  output: __S(10370, __c324, 2) as any as S.Schema<GetAutoModerationRuleResponse>,
+  input: __S(10528, __c329, 0) as any as S.Schema<GetAutoModerationRuleRequest>,
+  output: __S(10530, __c329, 2) as any as S.Schema<GetAutoModerationRuleResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8495,6 +8769,40 @@ export const getChannel: API.OperationMethod<
   span: "GetChannel",
 }));
 
+export type GetChannelMemberPermissionsError = DiscordOpError;
+/** Returns the fully cascaded permissions for a member in this channel, applying their roles and the channel's permission overwrites. */
+export const getChannelMemberPermissions: API.OperationMethod<
+  GetChannelMemberPermissionsRequest,
+  PermissionsResponse,
+  GetChannelMemberPermissionsError,
+  DiscordOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(128, __c4, 0) as any as S.Schema<GetChannelMemberPermissionsRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<PermissionsResponse>,
+  errors: [UnknownDiscordError],
+  protocol: DiscordProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChannelMemberPermissions",
+}));
+
+export type GetChannelRolePermissionsError = DiscordOpError;
+/** Returns the permissions a role grants in this channel, applying the channel's permission overwrites on top of the role's guild-level permissions. */
+export const getChannelRolePermissions: API.OperationMethod<
+  GetChannelRolePermissionsRequest,
+  PermissionsResponse,
+  GetChannelRolePermissionsError,
+  DiscordOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(192, __c6, 0) as any as S.Schema<GetChannelRolePermissionsRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<PermissionsResponse>,
+  errors: [UnknownDiscordError],
+  protocol: DiscordProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetChannelRolePermissions",
+}));
+
 export type GetCurrentUserApplicationEntitlementsError = DiscordOpError;
 export const getCurrentUserApplicationEntitlements: API.OperationMethod<
   GetCurrentUserApplicationEntitlementsRequest,
@@ -8502,8 +8810,8 @@ export const getCurrentUserApplicationEntitlements: API.OperationMethod<
   GetCurrentUserApplicationEntitlementsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(129, __c4, 1) as any as S.Schema<GetCurrentUserApplicationEntitlementsRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<GetCurrentUserApplicationEntitlementsResponse>,
+  input: __S(225, __c7, 1) as any as S.Schema<GetCurrentUserApplicationEntitlementsRequest>,
+  output: __S(257, __c8, 1) as any as S.Schema<GetCurrentUserApplicationEntitlementsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8518,8 +8826,8 @@ export const getEntitlement: API.OperationMethod<
   GetEntitlementError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<GetEntitlementRequest>,
-  output: __S(6624, __c207, 0) as any as S.Schema<EntitlementResponse>,
+  input: __S(288, __c9, 0) as any as S.Schema<GetEntitlementRequest>,
+  output: __S(6784, __c212, 0) as any as S.Schema<EntitlementResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8534,8 +8842,8 @@ export const getEntitlements: API.OperationMethod<
   GetEntitlementsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(225, __c7, 1) as any as S.Schema<GetEntitlementsRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<GetEntitlementsResponse>,
+  input: __S(321, __c10, 1) as any as S.Schema<GetEntitlementsRequest>,
+  output: __S(257, __c8, 1) as any as S.Schema<GetEntitlementsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8550,8 +8858,8 @@ export const getGateway: API.OperationMethod<
   GetGatewayError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(257, __c8, 1) as any as S.Schema<GetGatewayRequest>,
-  output: __S(256, __c8, 0) as any as S.Schema<GatewayResponse>,
+  input: __S(353, __c11, 1) as any as S.Schema<GetGatewayRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<GatewayResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8566,8 +8874,8 @@ export const getGuild: API.OperationMethod<
   GetGuildError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GetGuildRequest>,
-  output: __S(289, __c9, 1) as any as S.Schema<GuildWithCountsResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<GetGuildRequest>,
+  output: __S(385, __c12, 1) as any as S.Schema<GuildWithCountsResponse>,
   errors: [NotFound, UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8582,7 +8890,7 @@ export const getGuildApplicationCommand: API.OperationMethod<
   GetGuildApplicationCommandError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<GetGuildApplicationCommandRequest>,
+  input: __S(512, __c16, 0) as any as S.Schema<GetGuildApplicationCommandRequest>,
   output: __S(2467, __c77, 3) as any as S.Schema<ApplicationCommandResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
@@ -8598,8 +8906,8 @@ export const getGuildApplicationCommandPermissions: API.OperationMethod<
   GetGuildApplicationCommandPermissionsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetGuildApplicationCommandPermissionsRequest>,
-  output: __S(482, __c15, 2) as any as S.Schema<CommandPermissionsResponse>,
+  input: __S(576, __c18, 0) as any as S.Schema<GetGuildApplicationCommandPermissionsRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<CommandPermissionsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8614,8 +8922,8 @@ export const getGuildBan: API.OperationMethod<
   GetGuildBanError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<GetGuildBanRequest>,
-  output: __S(544, __c17, 0) as any as S.Schema<GuildBanResponse>,
+  input: __S(640, __c20, 0) as any as S.Schema<GetGuildBanRequest>,
+  output: __S(672, __c21, 0) as any as S.Schema<GuildBanResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8630,8 +8938,8 @@ export const getGuildEmoji: API.OperationMethod<
   GetGuildEmojiError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetGuildEmojiRequest>,
-  output: __S(5856, __c183, 0) as any as S.Schema<EmojiResponse>,
+  input: __S(704, __c22, 0) as any as S.Schema<GetGuildEmojiRequest>,
+  output: __S(5888, __c184, 0) as any as S.Schema<EmojiResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8647,8 +8955,8 @@ export const getGuildJoinRequests: API.OperationMethod<
   GetGuildJoinRequestsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(640, __c20, 0) as any as S.Schema<GetGuildJoinRequestsRequest>,
-  output: __S(642, __c20, 2) as any as S.Schema<GuildJoinRequestsListResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetGuildJoinRequestsRequest>,
+  output: __S(738, __c23, 2) as any as S.Schema<GuildJoinRequestsListResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8663,13 +8971,30 @@ export const getGuildMember: API.OperationMethod<
   GetGuildMemberError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetGuildMemberRequest>,
+  input: __S(800, __c25, 0) as any as S.Schema<GetGuildMemberRequest>,
   output: __S(4640, __c145, 0) as any as S.Schema<GuildMemberResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetGuildMember",
+}));
+
+export type GetGuildMemberPermissionsError = DiscordOpError;
+/** Returns the fully cascaded guild-level permissions for a member, applying all of their roles including @everyone's */
+export const getGuildMemberPermissions: API.OperationMethod<
+  GetGuildMemberPermissionsRequest,
+  PermissionsResponse,
+  GetGuildMemberPermissionsError,
+  DiscordOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(832, __c26, 0) as any as S.Schema<GetGuildMemberPermissionsRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<PermissionsResponse>,
+  errors: [UnknownDiscordError],
+  protocol: DiscordProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildMemberPermissions",
 }));
 
 export type GetGuildNewMemberWelcomeError = DiscordOpError;
@@ -8679,8 +9004,8 @@ export const getGuildNewMemberWelcome: API.OperationMethod<
   GetGuildNewMemberWelcomeError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(736, __c23, 0) as any as S.Schema<GetGuildNewMemberWelcomeRequest>,
-  output: __S(742, __c23, 6) as any as S.Schema<GuildHomeSettingsResponse>,
+  input: __S(864, __c27, 0) as any as S.Schema<GetGuildNewMemberWelcomeRequest>,
+  output: __S(870, __c27, 6) as any as S.Schema<GuildHomeSettingsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8695,8 +9020,8 @@ export const getGuildPreview: API.OperationMethod<
   GetGuildPreviewError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetGuildPreviewRequest>,
-  output: __S(801, __c25, 1) as any as S.Schema<GuildPreviewResponse>,
+  input: __S(928, __c29, 0) as any as S.Schema<GetGuildPreviewRequest>,
+  output: __S(929, __c29, 1) as any as S.Schema<GuildPreviewResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8711,13 +9036,30 @@ export const getGuildRole: API.OperationMethod<
   GetGuildRoleError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(832, __c26, 0) as any as S.Schema<GetGuildRoleRequest>,
+  input: __S(960, __c30, 0) as any as S.Schema<GetGuildRoleRequest>,
   output: __S(3745, __c117, 1) as any as S.Schema<GuildRoleResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetGuildRole",
+}));
+
+export type GetGuildRolePermissionsError = DiscordOpError;
+/** Returns the permissions a role grants at the guild level, combining the role's own permissions with @everyone's. */
+export const getGuildRolePermissions: API.OperationMethod<
+  GetGuildRolePermissionsRequest,
+  PermissionsResponse,
+  GetGuildRolePermissionsError,
+  DiscordOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(992, __c31, 0) as any as S.Schema<GetGuildRolePermissionsRequest>,
+  output: __S(160, __c5, 0) as any as S.Schema<PermissionsResponse>,
+  errors: [UnknownDiscordError],
+  protocol: DiscordProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetGuildRolePermissions",
 }));
 
 export type GetGuildScheduledEventError = DiscordOpError;
@@ -8727,8 +9069,8 @@ export const getGuildScheduledEvent: API.OperationMethod<
   GetGuildScheduledEventError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetGuildScheduledEventRequest>,
-  output: __S(866, __c27, 2) as any as S.Schema<GetGuildScheduledEventResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetGuildScheduledEventRequest>,
+  output: __S(1058, __c33, 2) as any as S.Schema<GetGuildScheduledEventResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8743,8 +9085,8 @@ export const getGuildsOnboarding: API.OperationMethod<
   GetGuildsOnboardingError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<GetGuildsOnboardingRequest>,
-  output: __S(932, __c29, 4) as any as S.Schema<UserGuildOnboardingResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<GetGuildsOnboardingRequest>,
+  output: __S(1124, __c35, 4) as any as S.Schema<UserGuildOnboardingResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8759,8 +9101,8 @@ export const getGuildSoundboardSound: API.OperationMethod<
   GetGuildSoundboardSoundError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<GetGuildSoundboardSoundRequest>,
-  output: __S(7104, __c222, 0) as any as S.Schema<SoundboardSoundResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<GetGuildSoundboardSoundRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<SoundboardSoundResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8775,8 +9117,8 @@ export const getGuildSticker: API.OperationMethod<
   GetGuildStickerError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetGuildStickerRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<GuildStickerResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<GetGuildStickerRequest>,
+  output: __S(7328, __c229, 0) as any as S.Schema<GuildStickerResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8791,8 +9133,8 @@ export const getGuildTemplate: API.OperationMethod<
   GetGuildTemplateError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<GetGuildTemplateRequest>,
-  output: __S(7239, __c226, 7) as any as S.Schema<GuildTemplateResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<GetGuildTemplateRequest>,
+  output: __S(7399, __c231, 7) as any as S.Schema<GuildTemplateResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8807,8 +9149,8 @@ export const getGuildVanityUrl: API.OperationMethod<
   GetGuildVanityUrlError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetGuildVanityUrlRequest>,
-  output: __S(1090, __c34, 2) as any as S.Schema<VanityURLResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<GetGuildVanityUrlRequest>,
+  output: __S(1250, __c39, 2) as any as S.Schema<VanityURLResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8823,8 +9165,8 @@ export const getGuildWebhooks: API.OperationMethod<
   GetGuildWebhooksError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<GetGuildWebhooksRequest>,
-  output: __S(1123, __c35, 3) as any as S.Schema<GetGuildWebhooksResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetGuildWebhooksRequest>,
+  output: __S(1283, __c40, 3) as any as S.Schema<GetGuildWebhooksResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8839,8 +9181,8 @@ export const getGuildWelcomeScreen: API.OperationMethod<
   GetGuildWelcomeScreenError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetGuildWelcomeScreenRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<GuildWelcomeScreenResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<GetGuildWelcomeScreenRequest>,
+  output: __S(1346, __c42, 2) as any as S.Schema<GuildWelcomeScreenResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8855,8 +9197,8 @@ export const getGuildWidget: API.OperationMethod<
   GetGuildWidgetError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<GetGuildWidgetRequest>,
-  output: __S(1221, __c38, 5) as any as S.Schema<WidgetResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetGuildWidgetRequest>,
+  output: __S(1381, __c43, 5) as any as S.Schema<WidgetResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8871,8 +9213,8 @@ export const getGuildWidgetPng: API.OperationMethod<
   GetGuildWidgetPngError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetGuildWidgetPngRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<GetGuildWidgetPngResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<GetGuildWidgetPngRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<GetGuildWidgetPngResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8887,8 +9229,8 @@ export const getGuildWidgetSettings: API.OperationMethod<
   GetGuildWidgetSettingsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<GetGuildWidgetSettingsRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<WidgetSettingsResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetGuildWidgetSettingsRequest>,
+  output: __S(1504, __c47, 0) as any as S.Schema<WidgetSettingsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8904,8 +9246,8 @@ export const getInviteTargetUsers: API.OperationMethod<
   GetInviteTargetUsersError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetInviteTargetUsersRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<GetInviteTargetUsersResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetInviteTargetUsersRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<GetInviteTargetUsersResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8921,8 +9263,8 @@ export const getInviteTargetUsersJobStatus: API.OperationMethod<
   GetInviteTargetUsersJobStatusError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetInviteTargetUsersJobStatusRequest>,
-  output: __S(1377, __c43, 1) as any as S.Schema<TargetUsersJobStatusResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<GetInviteTargetUsersJobStatusRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<TargetUsersJobStatusResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8937,8 +9279,8 @@ export const getLobby: API.OperationMethod<
   GetLobbyError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetLobbyRequest>,
-  output: __S(7456, __c233, 0) as any as S.Schema<LobbyResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<GetLobbyRequest>,
+  output: __S(7616, __c238, 0) as any as S.Schema<LobbyResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8953,8 +9295,8 @@ export const getLobbyMessages: API.OperationMethod<
   GetLobbyMessagesError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetLobbyMessagesRequest>,
-  output: __S(1474, __c46, 2) as any as S.Schema<GetLobbyMessagesResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<GetLobbyMessagesRequest>,
+  output: __S(1634, __c51, 2) as any as S.Schema<GetLobbyMessagesResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8969,8 +9311,8 @@ export const getMessage: API.OperationMethod<
   GetMessageError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetMessageRequest>,
-  output: __S(7942, __c248, 6) as any as S.Schema<MessageResponse>,
+  input: __S(1664, __c52, 0) as any as S.Schema<GetMessageRequest>,
+  output: __S(8102, __c253, 6) as any as S.Schema<MessageResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -8985,8 +9327,8 @@ export const getMyApplication: API.OperationMethod<
   GetMyApplicationError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<GetMyApplicationRequest>,
-  output: __S(10115, __c316, 3) as any as S.Schema<PrivateApplicationResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<GetMyApplicationRequest>,
+  output: __S(10275, __c321, 3) as any as S.Schema<PrivateApplicationResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9001,8 +9343,8 @@ export const getMyGuildMember: API.OperationMethod<
   GetMyGuildMemberError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<GetMyGuildMemberRequest>,
-  output: __S(1600, __c50, 0) as any as S.Schema<PrivateGuildMemberResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<GetMyGuildMemberRequest>,
+  output: __S(1760, __c55, 0) as any as S.Schema<PrivateGuildMemberResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9017,8 +9359,8 @@ export const getMyOauth2Application: API.OperationMethod<
   GetMyOauth2ApplicationError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<GetMyOauth2ApplicationRequest>,
-  output: __S(10115, __c316, 3) as any as S.Schema<PrivateApplicationResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetMyOauth2ApplicationRequest>,
+  output: __S(10275, __c321, 3) as any as S.Schema<PrivateApplicationResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9033,8 +9375,8 @@ export const getMyOauth2Authorization: API.OperationMethod<
   GetMyOauth2AuthorizationError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetMyOauth2AuthorizationRequest>,
-  output: __S(1665, __c52, 1) as any as S.Schema<OAuth2GetAuthorizationResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetMyOauth2AuthorizationRequest>,
+  output: __S(1825, __c57, 1) as any as S.Schema<OAuth2GetAuthorizationResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9049,8 +9391,8 @@ export const getMyUser: API.OperationMethod<
   GetMyUserError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<GetMyUserRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<UserPIIResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<GetMyUserRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<UserPIIResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9065,8 +9407,8 @@ export const getOpenidConnectUserinfo: API.OperationMethod<
   GetOpenidConnectUserinfoError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<GetOpenidConnectUserinfoRequest>,
-  output: __S(1761, __c55, 1) as any as S.Schema<OAuth2GetOpenIDConnectUserInfoResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<GetOpenidConnectUserinfoRequest>,
+  output: __S(1953, __c61, 1) as any as S.Schema<OAuth2GetOpenIDConnectUserInfoResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9081,8 +9423,8 @@ export const getOriginalWebhookMessage: API.OperationMethod<
   GetOriginalWebhookMessageError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<GetOriginalWebhookMessageRequest>,
-  output: __S(7942, __c248, 6) as any as S.Schema<MessageResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<GetOriginalWebhookMessageRequest>,
+  output: __S(8102, __c253, 6) as any as S.Schema<MessageResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9097,8 +9439,8 @@ export const getPublicKeys: API.OperationMethod<
   GetPublicKeysError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<GetPublicKeysRequest>,
-  output: __S(1827, __c57, 3) as any as S.Schema<OAuth2GetKeys>,
+  input: __S(2016, __c63, 0) as any as S.Schema<GetPublicKeysRequest>,
+  output: __S(2019, __c63, 3) as any as S.Schema<OAuth2GetKeys>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9113,8 +9455,8 @@ export const getSelfVoiceState: API.OperationMethod<
   GetSelfVoiceStateError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<GetSelfVoiceStateRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<VoiceStateResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetSelfVoiceStateRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<VoiceStateResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9130,8 +9472,8 @@ export const getSkuSubscription: API.OperationMethod<
   GetSkuSubscriptionError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<GetSkuSubscriptionRequest>,
-  output: __S(1984, __c62, 0) as any as S.Schema<SubscriptionResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<GetSkuSubscriptionRequest>,
+  output: __S(2144, __c67, 0) as any as S.Schema<SubscriptionResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9147,8 +9489,8 @@ export const getSkuSubscriptions: API.OperationMethod<
   GetSkuSubscriptionsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<GetSkuSubscriptionsRequest>,
-  output: __S(2018, __c63, 2) as any as S.Schema<GetSkuSubscriptionsResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<GetSkuSubscriptionsRequest>,
+  output: __S(2178, __c68, 2) as any as S.Schema<GetSkuSubscriptionsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9163,8 +9505,8 @@ export const getSoundboardDefaultSounds: API.OperationMethod<
   GetSoundboardDefaultSoundsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<GetSoundboardDefaultSoundsRequest>,
-  output: __S(2049, __c64, 1) as any as S.Schema<GetSoundboardDefaultSoundsResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<GetSoundboardDefaultSoundsRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<GetSoundboardDefaultSoundsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9179,8 +9521,8 @@ export const getStageInstance: API.OperationMethod<
   GetStageInstanceError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<GetStageInstanceRequest>,
-  output: __S(8160, __c255, 0) as any as S.Schema<StageInstanceResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<GetStageInstanceRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<StageInstanceResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9195,8 +9537,8 @@ export const getSticker: API.OperationMethod<
   GetStickerError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<GetStickerRequest>,
-  output: __S(2146, __c67, 2) as any as S.Schema<GetStickerResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<GetStickerRequest>,
+  output: __S(2306, __c72, 2) as any as S.Schema<GetStickerResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9211,8 +9553,8 @@ export const getStickerPack: API.OperationMethod<
   GetStickerPackError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<GetStickerPackRequest>,
-  output: __S(2210, __c69, 2) as any as S.Schema<StickerPackResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<GetStickerPackRequest>,
+  output: __S(2530, __c79, 2) as any as S.Schema<StickerPackResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9227,8 +9569,8 @@ export const getThreadMember: API.OperationMethod<
   GetThreadMemberError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<GetThreadMemberRequest>,
-  output: __S(7744, __c242, 0) as any as S.Schema<ThreadMemberResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<GetThreadMemberRequest>,
+  output: __S(7904, __c247, 0) as any as S.Schema<ThreadMemberResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9243,7 +9585,7 @@ export const getUser: API.OperationMethod<
   GetUserError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<GetUserRequest>,
+  input: __S(2592, __c81, 0) as any as S.Schema<GetUserRequest>,
   output: __S(4608, __c144, 0) as any as S.Schema<UserResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
@@ -9259,8 +9601,8 @@ export const getVoiceState: API.OperationMethod<
   GetVoiceStateError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<GetVoiceStateRequest>,
-  output: __S(1920, __c60, 0) as any as S.Schema<VoiceStateResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<GetVoiceStateRequest>,
+  output: __S(2080, __c65, 0) as any as S.Schema<VoiceStateResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9275,8 +9617,8 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(2498, __c78, 2) as any as S.Schema<GetWebhookResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(2658, __c83, 2) as any as S.Schema<GetWebhookResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9291,8 +9633,8 @@ export const getWebhookByToken: API.OperationMethod<
   GetWebhookByTokenError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<GetWebhookByTokenRequest>,
-  output: __S(2530, __c79, 2) as any as S.Schema<GetWebhookByTokenResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<GetWebhookByTokenRequest>,
+  output: __S(2690, __c84, 2) as any as S.Schema<GetWebhookByTokenResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9307,8 +9649,8 @@ export const getWebhookMessage: API.OperationMethod<
   GetWebhookMessageError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<GetWebhookMessageRequest>,
-  output: __S(7942, __c248, 6) as any as S.Schema<MessageResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<GetWebhookMessageRequest>,
+  output: __S(8102, __c253, 6) as any as S.Schema<MessageResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9323,8 +9665,8 @@ export const guildRoleMemberCounts: API.OperationMethod<
   GuildRoleMemberCountsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<GuildRoleMemberCountsRequest>,
-  output: __S(2593, __c81, 1) as any as S.Schema<GuildRoleMemberCountsResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<GuildRoleMemberCountsRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<GuildRoleMemberCountsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9339,8 +9681,8 @@ export const inviteResolve: API.OperationMethod<
   InviteResolveError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<InviteResolveRequest>,
-  output: __S(2626, __c82, 2) as any as S.Schema<InviteResolveResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<InviteResolveRequest>,
+  output: __S(2786, __c87, 2) as any as S.Schema<InviteResolveResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9356,8 +9698,8 @@ export const joinActionGuildRequest: API.OperationMethod<
   JoinActionGuildRequestError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<JoinActionGuildRequestRequest>,
-  output: __S(674, __c21, 2) as any as S.Schema<GuildJoinRequestResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<JoinActionGuildRequestRequest>,
+  output: __S(770, __c24, 2) as any as S.Schema<GuildJoinRequestResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9372,8 +9714,8 @@ export const joinThread: API.OperationMethod<
   JoinThreadError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<JoinThreadRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<JoinThreadResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<JoinThreadRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<JoinThreadResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9388,8 +9730,8 @@ export const leaveGuild: API.OperationMethod<
   LeaveGuildError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<LeaveGuildRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<LeaveGuildResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<LeaveGuildRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<LeaveGuildResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9404,8 +9746,8 @@ export const leaveLobby: API.OperationMethod<
   LeaveLobbyError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<LeaveLobbyRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<LeaveLobbyResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<LeaveLobbyRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<LeaveLobbyResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9420,8 +9762,8 @@ export const leaveThread: API.OperationMethod<
   LeaveThreadError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<LeaveThreadRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<LeaveThreadResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<LeaveThreadRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<LeaveThreadResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9436,7 +9778,7 @@ export const listApplicationCommands: API.OperationMethod<
   ListApplicationCommandsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<ListApplicationCommandsRequest>,
+  input: __S(3008, __c94, 0) as any as S.Schema<ListApplicationCommandsRequest>,
   output: __S(2400, __c75, 0) as any as S.Schema<ListApplicationCommandsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
@@ -9452,8 +9794,8 @@ export const listApplicationEmojis: API.OperationMethod<
   ListApplicationEmojisError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<ListApplicationEmojisRequest>,
-  output: __S(2881, __c90, 1) as any as S.Schema<ListApplicationEmojisResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<ListApplicationEmojisRequest>,
+  output: __S(3041, __c95, 1) as any as S.Schema<ListApplicationEmojisResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9468,8 +9810,8 @@ export const listAutoModerationRules: API.OperationMethod<
   ListAutoModerationRulesError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<ListAutoModerationRulesRequest>,
-  output: __S(2915, __c91, 3) as any as S.Schema<ListAutoModerationRulesResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<ListAutoModerationRulesRequest>,
+  output: __S(3075, __c96, 3) as any as S.Schema<ListAutoModerationRulesResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9484,8 +9826,8 @@ export const listChannelInvites: API.OperationMethod<
   ListChannelInvitesError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<ListChannelInvitesRequest>,
-  output: __S(2947, __c92, 3) as any as S.Schema<ListChannelInvitesResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<ListChannelInvitesRequest>,
+  output: __S(3107, __c97, 3) as any as S.Schema<ListChannelInvitesResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9500,8 +9842,8 @@ export const listChannelWebhooks: API.OperationMethod<
   ListChannelWebhooksError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<ListChannelWebhooksRequest>,
-  output: __S(2979, __c93, 3) as any as S.Schema<ListChannelWebhooksResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<ListChannelWebhooksRequest>,
+  output: __S(3139, __c98, 3) as any as S.Schema<ListChannelWebhooksResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9516,8 +9858,8 @@ export const listDeprecatedPins: API.OperationMethod<
   ListDeprecatedPinsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<ListDeprecatedPinsRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<ListDeprecatedPinsResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<ListDeprecatedPinsRequest>,
+  output: __S(3200, __c100, 0) as any as S.Schema<ListDeprecatedPinsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9532,8 +9874,8 @@ export const listGuildApplicationCommandPermissions: API.OperationMethod<
   ListGuildApplicationCommandPermissionsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<ListGuildApplicationCommandPermissionsRequest>,
-  output: __S(3074, __c96, 2) as any as S.Schema<ListGuildApplicationCommandPermissionsResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<ListGuildApplicationCommandPermissionsRequest>,
+  output: __S(3266, __c102, 2) as any as S.Schema<ListGuildApplicationCommandPermissionsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9548,7 +9890,7 @@ export const listGuildApplicationCommands: API.OperationMethod<
   ListGuildApplicationCommandsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<ListGuildApplicationCommandsRequest>,
+  input: __S(3296, __c103, 0) as any as S.Schema<ListGuildApplicationCommandsRequest>,
   output: __S(2400, __c75, 0) as any as S.Schema<ListGuildApplicationCommandsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
@@ -9564,8 +9906,8 @@ export const listGuildAuditLogEntries: API.OperationMethod<
   ListGuildAuditLogEntriesError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<ListGuildAuditLogEntriesRequest>,
-  output: __S(3149, __c98, 13) as any as S.Schema<GuildAuditLogResponse>,
+  input: __S(3328, __c104, 0) as any as S.Schema<ListGuildAuditLogEntriesRequest>,
+  output: __S(3341, __c104, 13) as any as S.Schema<GuildAuditLogResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9580,8 +9922,8 @@ export const listGuildBans: API.OperationMethod<
   ListGuildBansError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<ListGuildBansRequest>,
-  output: __S(3170, __c99, 2) as any as S.Schema<ListGuildBansResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<ListGuildBansRequest>,
+  output: __S(3362, __c105, 2) as any as S.Schema<ListGuildBansResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9596,8 +9938,8 @@ export const listGuildChannels: API.OperationMethod<
   ListGuildChannelsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<ListGuildChannelsRequest>,
-  output: __S(3235, __c101, 3) as any as S.Schema<ListGuildChannelsResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<ListGuildChannelsRequest>,
+  output: __S(3395, __c106, 3) as any as S.Schema<ListGuildChannelsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9612,8 +9954,8 @@ export const listGuildEmojis: API.OperationMethod<
   ListGuildEmojisError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<ListGuildEmojisRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<ListGuildEmojisResponse>,
+  input: __S(3424, __c107, 0) as any as S.Schema<ListGuildEmojisRequest>,
+  output: __S(3425, __c107, 1) as any as S.Schema<ListGuildEmojisResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9628,8 +9970,8 @@ export const listGuildIntegrations: API.OperationMethod<
   ListGuildIntegrationsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<ListGuildIntegrationsRequest>,
-  output: __S(3299, __c103, 3) as any as S.Schema<ListGuildIntegrationsResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<ListGuildIntegrationsRequest>,
+  output: __S(3459, __c108, 3) as any as S.Schema<ListGuildIntegrationsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9644,8 +9986,8 @@ export const listGuildInvites: API.OperationMethod<
   ListGuildInvitesError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<ListGuildInvitesRequest>,
-  output: __S(3331, __c104, 3) as any as S.Schema<ListGuildInvitesResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<ListGuildInvitesRequest>,
+  output: __S(3491, __c109, 3) as any as S.Schema<ListGuildInvitesResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9660,8 +10002,8 @@ export const listGuildMembers: API.OperationMethod<
   ListGuildMembersError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<ListGuildMembersRequest>,
-  output: __S(3393, __c106, 1) as any as S.Schema<ListGuildMembersResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<ListGuildMembersRequest>,
+  output: __S(3553, __c111, 1) as any as S.Schema<ListGuildMembersResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9676,7 +10018,7 @@ export const listGuildRoles: API.OperationMethod<
   ListGuildRolesError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<ListGuildRolesRequest>,
+  input: __S(3584, __c112, 0) as any as S.Schema<ListGuildRolesRequest>,
   output: __S(3680, __c115, 0) as any as S.Schema<ListGuildRolesResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
@@ -9693,8 +10035,8 @@ export const listGuildScheduledEventExceptionUsers: API.OperationMethod<
   ListGuildScheduledEventExceptionUsersError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<ListGuildScheduledEventExceptionUsersRequest>,
-  output: __S(3490, __c109, 2) as any as S.Schema<ListGuildScheduledEventExceptionUsersResponse>,
+  input: __S(3776, __c118, 0) as any as S.Schema<ListGuildScheduledEventExceptionUsersRequest>,
+  output: __S(3810, __c119, 2) as any as S.Schema<ListGuildScheduledEventExceptionUsersResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9709,8 +10051,8 @@ export const listGuildScheduledEvents: API.OperationMethod<
   ListGuildScheduledEventsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<ListGuildScheduledEventsRequest>,
-  output: __S(3523, __c110, 3) as any as S.Schema<ListGuildScheduledEventsResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<ListGuildScheduledEventsRequest>,
+  output: __S(3843, __c120, 3) as any as S.Schema<ListGuildScheduledEventsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9725,8 +10067,8 @@ export const listGuildScheduledEventUsers: API.OperationMethod<
   ListGuildScheduledEventUsersError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<ListGuildScheduledEventUsersRequest>,
-  output: __S(3490, __c109, 2) as any as S.Schema<ListGuildScheduledEventUsersResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<ListGuildScheduledEventUsersRequest>,
+  output: __S(3810, __c119, 2) as any as S.Schema<ListGuildScheduledEventUsersResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9741,8 +10083,8 @@ export const listGuildSoundboardSounds: API.OperationMethod<
   ListGuildSoundboardSoundsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<ListGuildSoundboardSoundsRequest>,
-  output: __S(3585, __c112, 1) as any as S.Schema<ListGuildSoundboardSoundsResponse>,
+  input: __S(3904, __c122, 0) as any as S.Schema<ListGuildSoundboardSoundsRequest>,
+  output: __S(3905, __c122, 1) as any as S.Schema<ListGuildSoundboardSoundsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9757,8 +10099,8 @@ export const listGuildStickers: API.OperationMethod<
   ListGuildStickersError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<ListGuildStickersRequest>,
-  output: __S(3777, __c118, 1) as any as S.Schema<ListGuildStickersResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<ListGuildStickersRequest>,
+  output: __S(3937, __c123, 1) as any as S.Schema<ListGuildStickersResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9773,8 +10115,8 @@ export const listGuildTemplates: API.OperationMethod<
   ListGuildTemplatesError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<ListGuildTemplatesRequest>,
-  output: __S(3810, __c119, 2) as any as S.Schema<ListGuildTemplatesResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<ListGuildTemplatesRequest>,
+  output: __S(3970, __c124, 2) as any as S.Schema<ListGuildTemplatesResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9789,8 +10131,8 @@ export const listGuildVoiceRegions: API.OperationMethod<
   ListGuildVoiceRegionsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<ListGuildVoiceRegionsRequest>,
-  output: __S(3874, __c121, 2) as any as S.Schema<ListGuildVoiceRegionsResponse>,
+  input: __S(4000, __c125, 0) as any as S.Schema<ListGuildVoiceRegionsRequest>,
+  output: __S(4034, __c126, 2) as any as S.Schema<ListGuildVoiceRegionsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9805,8 +10147,8 @@ export const listMessageReactionsByEmoji: API.OperationMethod<
   ListMessageReactionsByEmojiError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<ListMessageReactionsByEmojiRequest>,
-  output: __S(3905, __c122, 1) as any as S.Schema<ListMessageReactionsByEmojiResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<ListMessageReactionsByEmojiRequest>,
+  output: __S(4065, __c127, 1) as any as S.Schema<ListMessageReactionsByEmojiResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9821,8 +10163,8 @@ export const listMessages: API.OperationMethod<
   ListMessagesError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<ListMessagesRequest>,
-  output: __S(3040, __c95, 0) as any as S.Schema<ListMessagesResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<ListMessagesRequest>,
+  output: __S(3200, __c100, 0) as any as S.Schema<ListMessagesResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9837,8 +10179,8 @@ export const listMyConnections: API.OperationMethod<
   ListMyConnectionsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3969, __c124, 1) as any as S.Schema<ListMyConnectionsRequest>,
-  output: __S(3975, __c124, 7) as any as S.Schema<ListMyConnectionsResponse>,
+  input: __S(4129, __c129, 1) as any as S.Schema<ListMyConnectionsRequest>,
+  output: __S(4135, __c129, 7) as any as S.Schema<ListMyConnectionsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9853,8 +10195,8 @@ export const listMyGuilds: API.OperationMethod<
   ListMyGuildsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<ListMyGuildsRequest>,
-  output: __S(4003, __c125, 3) as any as S.Schema<ListMyGuildsResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<ListMyGuildsRequest>,
+  output: __S(4227, __c132, 3) as any as S.Schema<ListMyGuildsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9869,8 +10211,8 @@ export const listMyPrivateArchivedThreads: API.OperationMethod<
   ListMyPrivateArchivedThreadsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<ListMyPrivateArchivedThreadsRequest>,
-  output: __S(9984, __c312, 0) as any as S.Schema<ThreadsResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<ListMyPrivateArchivedThreadsRequest>,
+  output: __S(10144, __c317, 0) as any as S.Schema<ThreadsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9885,8 +10227,8 @@ export const listPins: API.OperationMethod<
   ListPinsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<ListPinsRequest>,
-  output: __S(4067, __c127, 3) as any as S.Schema<PinnedMessagesResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<ListPinsRequest>,
+  output: __S(4291, __c134, 3) as any as S.Schema<PinnedMessagesResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9901,8 +10243,8 @@ export const listPrivateArchivedThreads: API.OperationMethod<
   ListPrivateArchivedThreadsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<ListPrivateArchivedThreadsRequest>,
-  output: __S(9984, __c312, 0) as any as S.Schema<ThreadsResponse>,
+  input: __S(4320, __c135, 0) as any as S.Schema<ListPrivateArchivedThreadsRequest>,
+  output: __S(10144, __c317, 0) as any as S.Schema<ThreadsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9917,8 +10259,8 @@ export const listPublicArchivedThreads: API.OperationMethod<
   ListPublicArchivedThreadsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<ListPublicArchivedThreadsRequest>,
-  output: __S(9984, __c312, 0) as any as S.Schema<ThreadsResponse>,
+  input: __S(4352, __c136, 0) as any as S.Schema<ListPublicArchivedThreadsRequest>,
+  output: __S(10144, __c317, 0) as any as S.Schema<ThreadsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9933,8 +10275,8 @@ export const listStickerPacks: API.OperationMethod<
   ListStickerPacksError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<ListStickerPacksRequest>,
-  output: __S(4226, __c132, 2) as any as S.Schema<StickerPackCollectionResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<ListStickerPacksRequest>,
+  output: __S(4386, __c137, 2) as any as S.Schema<StickerPackCollectionResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9949,8 +10291,8 @@ export const listThreadMembers: API.OperationMethod<
   ListThreadMembersError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<ListThreadMembersRequest>,
-  output: __S(4257, __c133, 1) as any as S.Schema<ListThreadMembersResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<ListThreadMembersRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<ListThreadMembersResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9965,8 +10307,8 @@ export const listVoiceRegions: API.OperationMethod<
   ListVoiceRegionsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4288, __c134, 0) as any as S.Schema<ListVoiceRegionsRequest>,
-  output: __S(3874, __c121, 2) as any as S.Schema<ListVoiceRegionsResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<ListVoiceRegionsRequest>,
+  output: __S(4034, __c126, 2) as any as S.Schema<ListVoiceRegionsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9981,8 +10323,8 @@ export const partnerSdkToken: API.OperationMethod<
   PartnerSdkTokenError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<PartnerSdkTokenRequest>,
-  output: __S(9824, __c307, 0) as any as S.Schema<ProvisionalTokenResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<PartnerSdkTokenRequest>,
+  output: __S(9984, __c312, 0) as any as S.Schema<ProvisionalTokenResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -9997,8 +10339,8 @@ export const partnerSdkUnmergeProvisionalAccount: API.OperationMethod<
   PartnerSdkUnmergeProvisionalAccountError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<PartnerSdkUnmergeProvisionalAccountRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<PartnerSdkUnmergeProvisionalAccountResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<PartnerSdkUnmergeProvisionalAccountRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<PartnerSdkUnmergeProvisionalAccountResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10013,8 +10355,8 @@ export const pollExpire: API.OperationMethod<
   PollExpireError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<PollExpireRequest>,
-  output: __S(7942, __c248, 6) as any as S.Schema<MessageResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<PollExpireRequest>,
+  output: __S(8102, __c253, 6) as any as S.Schema<MessageResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10029,8 +10371,8 @@ export const previewPruneGuild: API.OperationMethod<
   PreviewPruneGuildError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4417, __c138, 1) as any as S.Schema<PreviewPruneGuildRequest>,
-  output: __S(4448, __c139, 0) as any as S.Schema<GuildPruneResponse>,
+  input: __S(4769, __c149, 1) as any as S.Schema<PreviewPruneGuildRequest>,
+  output: __S(4800, __c150, 0) as any as S.Schema<GuildPruneResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10045,8 +10387,8 @@ export const pruneGuild: API.OperationMethod<
   PruneGuildError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4481, __c140, 1) as any as S.Schema<PruneGuildRequest>,
-  output: __S(4448, __c139, 0) as any as S.Schema<GuildPruneResponse>,
+  input: __S(4833, __c151, 1) as any as S.Schema<PruneGuildRequest>,
+  output: __S(4800, __c150, 0) as any as S.Schema<GuildPruneResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10061,8 +10403,8 @@ export const putGuildsOnboarding: API.OperationMethod<
   PutGuildsOnboardingError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4516, __c141, 4) as any as S.Schema<PutGuildsOnboardingRequest>,
-  output: __S(932, __c29, 4) as any as S.Schema<GuildOnboardingResponse>,
+  input: __S(4868, __c152, 4) as any as S.Schema<PutGuildsOnboardingRequest>,
+  output: __S(1124, __c35, 4) as any as S.Schema<GuildOnboardingResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10078,8 +10420,8 @@ export const removeInviteTargetUser: API.OperationMethod<
   RemoveInviteTargetUserError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<RemoveInviteTargetUserRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<RemoveInviteTargetUserResponse>,
+  input: __S(4896, __c153, 0) as any as S.Schema<RemoveInviteTargetUserRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<RemoveInviteTargetUserResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10094,8 +10436,8 @@ export const revokeInvite: API.OperationMethod<
   RevokeInviteError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<RevokeInviteRequest>,
-  output: __S(4770, __c149, 2) as any as S.Schema<RevokeInviteResponse>,
+  input: __S(4928, __c154, 0) as any as S.Schema<RevokeInviteRequest>,
+  output: __S(4930, __c154, 2) as any as S.Schema<RevokeInviteResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10110,8 +10452,8 @@ export const searchGuild: API.OperationMethod<
   SearchGuildError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4800, __c150, 0) as any as S.Schema<SearchGuildRequest>,
-  output: __S(4810, __c150, 10) as any as S.Schema<GuildSearchResponse>,
+  input: __S(4960, __c155, 0) as any as S.Schema<SearchGuildRequest>,
+  output: __S(4970, __c155, 10) as any as S.Schema<GuildSearchResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10126,8 +10468,8 @@ export const searchGuildMembers: API.OperationMethod<
   SearchGuildMembersError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<SearchGuildMembersRequest>,
-  output: __S(3393, __c106, 1) as any as S.Schema<SearchGuildMembersResponse>,
+  input: __S(4992, __c156, 0) as any as S.Schema<SearchGuildMembersRequest>,
+  output: __S(3553, __c111, 1) as any as S.Schema<SearchGuildMembersResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10142,8 +10484,8 @@ export const searchThread: API.OperationMethod<
   SearchThreadError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4865, __c152, 1) as any as S.Schema<SearchThreadRequest>,
-  output: __S(4866, __c152, 2) as any as S.Schema<ThreadSearchResponse>,
+  input: __S(5025, __c157, 1) as any as S.Schema<SearchThreadRequest>,
+  output: __S(5026, __c157, 2) as any as S.Schema<ThreadSearchResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10158,8 +10500,8 @@ export const sendSoundboardSound: API.OperationMethod<
   SendSoundboardSoundError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4896, __c153, 0) as any as S.Schema<SendSoundboardSoundRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<SendSoundboardSoundResponse>,
+  input: __S(5056, __c158, 0) as any as S.Schema<SendSoundboardSoundRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<SendSoundboardSoundResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10174,8 +10516,8 @@ export const setChannelPermissionOverwrite: API.OperationMethod<
   SetChannelPermissionOverwriteError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4928, __c154, 0) as any as S.Schema<SetChannelPermissionOverwriteRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<SetChannelPermissionOverwriteResponse>,
+  input: __S(5152, __c161, 0) as any as S.Schema<SetChannelPermissionOverwriteRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<SetChannelPermissionOverwriteResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10190,8 +10532,8 @@ export const setGuildApplicationCommandPermissions: API.OperationMethod<
   SetGuildApplicationCommandPermissionsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4960, __c155, 0) as any as S.Schema<SetGuildApplicationCommandPermissionsRequest>,
-  output: __S(482, __c15, 2) as any as S.Schema<CommandPermissionsResponse>,
+  input: __S(5184, __c162, 0) as any as S.Schema<SetGuildApplicationCommandPermissionsRequest>,
+  output: __S(610, __c19, 2) as any as S.Schema<CommandPermissionsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10206,8 +10548,8 @@ export const syncGuildTemplate: API.OperationMethod<
   SyncGuildTemplateError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4992, __c156, 0) as any as S.Schema<SyncGuildTemplateRequest>,
-  output: __S(7239, __c226, 7) as any as S.Schema<GuildTemplateResponse>,
+  input: __S(5216, __c163, 0) as any as S.Schema<SyncGuildTemplateRequest>,
+  output: __S(7399, __c231, 7) as any as S.Schema<GuildTemplateResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10222,8 +10564,8 @@ export const triggerTypingIndicator: API.OperationMethod<
   TriggerTypingIndicatorError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<TriggerTypingIndicatorRequest>,
-  output: __S(5025, __c157, 1) as any as S.Schema<TriggerTypingIndicatorResponse>,
+  input: __S(5248, __c164, 0) as any as S.Schema<TriggerTypingIndicatorRequest>,
+  output: __S(5249, __c164, 1) as any as S.Schema<TriggerTypingIndicatorResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10238,8 +10580,8 @@ export const unbanUserFromGuild: API.OperationMethod<
   UnbanUserFromGuildError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<UnbanUserFromGuildRequest2>,
-  output: __S(6720, __c210, 0) as any as S.Schema<UnbanUserFromGuildResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<UnbanUserFromGuildRequest2>,
+  output: __S(6880, __c215, 0) as any as S.Schema<UnbanUserFromGuildResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10254,8 +10596,8 @@ export const updateApplication: API.OperationMethod<
   UpdateApplicationError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5152, __c161, 0) as any as S.Schema<UpdateApplicationRequest>,
-  output: __S(10115, __c316, 3) as any as S.Schema<PrivateApplicationResponse>,
+  input: __S(5312, __c166, 0) as any as S.Schema<UpdateApplicationRequest>,
+  output: __S(10275, __c321, 3) as any as S.Schema<PrivateApplicationResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10270,7 +10612,7 @@ export const updateApplicationCommand: API.OperationMethod<
   UpdateApplicationCommandError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5218, __c163, 2) as any as S.Schema<UpdateApplicationCommandRequest>,
+  input: __S(5378, __c168, 2) as any as S.Schema<UpdateApplicationCommandRequest>,
   output: __S(2467, __c77, 3) as any as S.Schema<ApplicationCommandResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
@@ -10286,8 +10628,8 @@ export const updateApplicationEmoji: API.OperationMethod<
   UpdateApplicationEmojiError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<UpdateApplicationEmojiRequest>,
-  output: __S(5856, __c183, 0) as any as S.Schema<EmojiResponse>,
+  input: __S(5408, __c169, 0) as any as S.Schema<UpdateApplicationEmojiRequest>,
+  output: __S(5888, __c184, 0) as any as S.Schema<EmojiResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10302,10 +10644,10 @@ export const updateApplicationRoleConnectionsMetadata: API.OperationMethod<
   UpdateApplicationRoleConnectionsMetadataError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5282, __c165, 2) as any as S.Schema<UpdateApplicationRoleConnectionsMetadataRequest>,
+  input: __S(5442, __c170, 2) as any as S.Schema<UpdateApplicationRoleConnectionsMetadataRequest>,
   output: __S(
-    10274,
-    __c321,
+    10434,
+    __c326,
     2,
   ) as any as S.Schema<UpdateApplicationRoleConnectionsMetadataResponse>,
   errors: [UnknownDiscordError],
@@ -10322,8 +10664,8 @@ export const updateApplicationUserRoleConnection: API.OperationMethod<
   UpdateApplicationUserRoleConnectionError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5312, __c166, 0) as any as S.Schema<UpdateApplicationUserRoleConnectionRequest>,
-  output: __S(10336, __c323, 0) as any as S.Schema<ApplicationUserRoleConnectionResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<UpdateApplicationUserRoleConnectionRequest>,
+  output: __S(10496, __c328, 0) as any as S.Schema<ApplicationUserRoleConnectionResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10338,8 +10680,8 @@ export const updateAutoModerationRule: API.OperationMethod<
   UpdateAutoModerationRuleError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5345, __c167, 1) as any as S.Schema<UpdateAutoModerationRuleRequest>,
-  output: __S(5347, __c167, 3) as any as S.Schema<UpdateAutoModerationRuleResponse>,
+  input: __S(5537, __c173, 1) as any as S.Schema<UpdateAutoModerationRuleRequest>,
+  output: __S(5539, __c173, 3) as any as S.Schema<UpdateAutoModerationRuleResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10354,8 +10696,8 @@ export const updateChannel: API.OperationMethod<
   UpdateChannelError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5377, __c168, 1) as any as S.Schema<UpdateChannelRequest>,
-  output: __S(5379, __c168, 3) as any as S.Schema<UpdateChannelResponse>,
+  input: __S(5569, __c174, 1) as any as S.Schema<UpdateChannelRequest>,
+  output: __S(5571, __c174, 3) as any as S.Schema<UpdateChannelResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10370,8 +10712,8 @@ export const updateGuild: API.OperationMethod<
   UpdateGuildError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5408, __c169, 0) as any as S.Schema<UpdateGuildRequest>,
-  output: __S(5409, __c169, 1) as any as S.Schema<GuildResponse>,
+  input: __S(5600, __c175, 0) as any as S.Schema<UpdateGuildRequest>,
+  output: __S(5601, __c175, 1) as any as S.Schema<GuildResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10386,7 +10728,7 @@ export const updateGuildApplicationCommand: API.OperationMethod<
   UpdateGuildApplicationCommandError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5442, __c170, 2) as any as S.Schema<UpdateGuildApplicationCommandRequest>,
+  input: __S(5634, __c176, 2) as any as S.Schema<UpdateGuildApplicationCommandRequest>,
   output: __S(2467, __c77, 3) as any as S.Schema<ApplicationCommandResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
@@ -10402,8 +10744,8 @@ export const updateGuildEmoji: API.OperationMethod<
   UpdateGuildEmojiError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<UpdateGuildEmojiRequest>,
-  output: __S(5856, __c183, 0) as any as S.Schema<EmojiResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<UpdateGuildEmojiRequest>,
+  output: __S(5888, __c184, 0) as any as S.Schema<EmojiResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10419,8 +10761,8 @@ export const updateGuildIncidentActions: API.OperationMethod<
   UpdateGuildIncidentActionsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5536, __c173, 0) as any as S.Schema<UpdateGuildIncidentActionsRequest>,
-  output: __S(384, __c12, 0) as any as S.Schema<GuildIncidentsDataResponse>,
+  input: __S(5696, __c178, 0) as any as S.Schema<UpdateGuildIncidentActionsRequest>,
+  output: __S(480, __c15, 0) as any as S.Schema<GuildIncidentsDataResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10435,7 +10777,7 @@ export const updateGuildMember: API.OperationMethod<
   UpdateGuildMemberError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5568, __c174, 0) as any as S.Schema<UpdateGuildMemberRequest>,
+  input: __S(5728, __c179, 0) as any as S.Schema<UpdateGuildMemberRequest>,
   output: __S(4640, __c145, 0) as any as S.Schema<GuildMemberResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
@@ -10451,7 +10793,7 @@ export const updateGuildRole: API.OperationMethod<
   UpdateGuildRoleError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<UpdateGuildRoleRequest>,
+  input: __S(5760, __c180, 0) as any as S.Schema<UpdateGuildRoleRequest>,
   output: __S(3745, __c117, 1) as any as S.Schema<GuildRoleResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
@@ -10467,8 +10809,8 @@ export const updateGuildScheduledEvent: API.OperationMethod<
   UpdateGuildScheduledEventError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5633, __c176, 1) as any as S.Schema<UpdateGuildScheduledEventRequest>,
-  output: __S(5635, __c176, 3) as any as S.Schema<UpdateGuildScheduledEventResponse>,
+  input: __S(5793, __c181, 1) as any as S.Schema<UpdateGuildScheduledEventRequest>,
+  output: __S(5795, __c181, 3) as any as S.Schema<UpdateGuildScheduledEventResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10484,8 +10826,8 @@ export const updateGuildScheduledEventException: API.OperationMethod<
   UpdateGuildScheduledEventExceptionError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5664, __c177, 0) as any as S.Schema<UpdateGuildScheduledEventExceptionRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<GuildScheduledEventExceptionResponse>,
+  input: __S(5824, __c182, 0) as any as S.Schema<UpdateGuildScheduledEventExceptionRequest>,
+  output: __S(7200, __c225, 0) as any as S.Schema<GuildScheduledEventExceptionResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10500,8 +10842,8 @@ export const updateGuildSoundboardSound: API.OperationMethod<
   UpdateGuildSoundboardSoundError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5696, __c178, 0) as any as S.Schema<UpdateGuildSoundboardSoundRequest>,
-  output: __S(7104, __c222, 0) as any as S.Schema<SoundboardSoundResponse>,
+  input: __S(5920, __c185, 0) as any as S.Schema<UpdateGuildSoundboardSoundRequest>,
+  output: __S(7264, __c227, 0) as any as S.Schema<SoundboardSoundResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10516,8 +10858,8 @@ export const updateGuildSticker: API.OperationMethod<
   UpdateGuildStickerError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<UpdateGuildStickerRequest>,
-  output: __S(7168, __c224, 0) as any as S.Schema<GuildStickerResponse>,
+  input: __S(5952, __c186, 0) as any as S.Schema<UpdateGuildStickerRequest>,
+  output: __S(7328, __c229, 0) as any as S.Schema<GuildStickerResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10532,8 +10874,8 @@ export const updateGuildTemplate: API.OperationMethod<
   UpdateGuildTemplateError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5760, __c180, 0) as any as S.Schema<UpdateGuildTemplateRequest>,
-  output: __S(7239, __c226, 7) as any as S.Schema<GuildTemplateResponse>,
+  input: __S(5984, __c187, 0) as any as S.Schema<UpdateGuildTemplateRequest>,
+  output: __S(7399, __c231, 7) as any as S.Schema<GuildTemplateResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10548,8 +10890,8 @@ export const updateGuildWelcomeScreen: API.OperationMethod<
   UpdateGuildWelcomeScreenError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5794, __c181, 2) as any as S.Schema<UpdateGuildWelcomeScreenRequest>,
-  output: __S(1186, __c37, 2) as any as S.Schema<GuildWelcomeScreenResponse>,
+  input: __S(6018, __c188, 2) as any as S.Schema<UpdateGuildWelcomeScreenRequest>,
+  output: __S(1346, __c42, 2) as any as S.Schema<GuildWelcomeScreenResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10564,8 +10906,8 @@ export const updateGuildWidgetSettings: API.OperationMethod<
   UpdateGuildWidgetSettingsError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5888, __c184, 0) as any as S.Schema<UpdateGuildWidgetSettingsRequest>,
-  output: __S(1312, __c41, 0) as any as S.Schema<WidgetSettingsResponse>,
+  input: __S(6048, __c189, 0) as any as S.Schema<UpdateGuildWidgetSettingsRequest>,
+  output: __S(1504, __c47, 0) as any as S.Schema<WidgetSettingsResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10581,8 +10923,8 @@ export const updateInviteTargetUsers: API.OperationMethod<
   UpdateInviteTargetUsersError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<UpdateInviteTargetUsersRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<UpdateInviteTargetUsersResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<UpdateInviteTargetUsersRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<UpdateInviteTargetUsersResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10599,13 +10941,13 @@ export const updateLobbyMessageExternalModerationMetadata: API.OperationMethod<
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    5952,
-    __c186,
+    6112,
+    __c191,
     0,
   ) as any as S.Schema<UpdateLobbyMessageExternalModerationMetadataRequest>,
   output: __S(
-    6720,
-    __c210,
+    6880,
+    __c215,
     0,
   ) as any as S.Schema<UpdateLobbyMessageExternalModerationMetadataResponse>,
   errors: [UnknownDiscordError],
@@ -10622,8 +10964,8 @@ export const updateMessage: API.OperationMethod<
   UpdateMessageError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5986, __c187, 2) as any as S.Schema<UpdateMessageRequest>,
-  output: __S(7942, __c248, 6) as any as S.Schema<MessageResponse>,
+  input: __S(6146, __c192, 2) as any as S.Schema<UpdateMessageRequest>,
+  output: __S(8102, __c253, 6) as any as S.Schema<MessageResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10638,8 +10980,8 @@ export const updateMyApplication: API.OperationMethod<
   UpdateMyApplicationError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<UpdateMyApplicationRequest>,
-  output: __S(10115, __c316, 3) as any as S.Schema<PrivateApplicationResponse>,
+  input: __S(6176, __c193, 0) as any as S.Schema<UpdateMyApplicationRequest>,
+  output: __S(10275, __c321, 3) as any as S.Schema<PrivateApplicationResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10654,8 +10996,8 @@ export const updateMyGuildMember: API.OperationMethod<
   UpdateMyGuildMemberError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<UpdateMyGuildMemberRequest>,
-  output: __S(1600, __c50, 0) as any as S.Schema<PrivateGuildMemberResponse>,
+  input: __S(6208, __c194, 0) as any as S.Schema<UpdateMyGuildMemberRequest>,
+  output: __S(1760, __c55, 0) as any as S.Schema<PrivateGuildMemberResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10670,8 +11012,8 @@ export const updateMyUser: API.OperationMethod<
   UpdateMyUserError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<UpdateMyUserRequest>,
-  output: __S(1728, __c54, 0) as any as S.Schema<UserPIIResponse>,
+  input: __S(6272, __c196, 0) as any as S.Schema<UpdateMyUserRequest>,
+  output: __S(1920, __c60, 0) as any as S.Schema<UserPIIResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10686,8 +11028,8 @@ export const updateOriginalWebhookMessage: API.OperationMethod<
   UpdateOriginalWebhookMessageError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6114, __c191, 2) as any as S.Schema<UpdateOriginalWebhookMessageRequest>,
-  output: __S(7942, __c248, 6) as any as S.Schema<MessageResponse>,
+  input: __S(6306, __c197, 2) as any as S.Schema<UpdateOriginalWebhookMessageRequest>,
+  output: __S(8102, __c253, 6) as any as S.Schema<MessageResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10702,8 +11044,8 @@ export const updateSelfVoiceState: API.OperationMethod<
   UpdateSelfVoiceStateError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<UpdateSelfVoiceStateRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<UpdateSelfVoiceStateResponse>,
+  input: __S(6336, __c198, 0) as any as S.Schema<UpdateSelfVoiceStateRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<UpdateSelfVoiceStateResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10718,8 +11060,8 @@ export const updateStageInstance: API.OperationMethod<
   UpdateStageInstanceError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<UpdateStageInstanceRequest>,
-  output: __S(8160, __c255, 0) as any as S.Schema<StageInstanceResponse>,
+  input: __S(6368, __c199, 0) as any as S.Schema<UpdateStageInstanceRequest>,
+  output: __S(8320, __c260, 0) as any as S.Schema<StageInstanceResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10736,13 +11078,13 @@ export const updateUserMessageExternalModerationMetadata: API.OperationMethod<
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    6240,
-    __c195,
+    6400,
+    __c200,
     0,
   ) as any as S.Schema<UpdateUserMessageExternalModerationMetadataRequest>,
   output: __S(
-    6720,
-    __c210,
+    6880,
+    __c215,
     0,
   ) as any as S.Schema<UpdateUserMessageExternalModerationMetadataResponse>,
   errors: [UnknownDiscordError],
@@ -10760,8 +11102,8 @@ export const updateVoiceChannelStatus: API.OperationMethod<
   UpdateVoiceChannelStatusError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<UpdateVoiceChannelStatusRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<UpdateVoiceChannelStatusResponse>,
+  input: __S(6432, __c201, 0) as any as S.Schema<UpdateVoiceChannelStatusRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<UpdateVoiceChannelStatusResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10776,8 +11118,8 @@ export const updateVoiceState: API.OperationMethod<
   UpdateVoiceStateError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<UpdateVoiceStateRequest>,
-  output: __S(6720, __c210, 0) as any as S.Schema<UpdateVoiceStateResponse>,
+  input: __S(6464, __c202, 0) as any as S.Schema<UpdateVoiceStateRequest>,
+  output: __S(6880, __c215, 0) as any as S.Schema<UpdateVoiceStateResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10792,8 +11134,8 @@ export const updateWebhook: API.OperationMethod<
   UpdateWebhookError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(6338, __c198, 2) as any as S.Schema<UpdateWebhookResponse>,
+  input: __S(6496, __c203, 0) as any as S.Schema<UpdateWebhookRequest>,
+  output: __S(6498, __c203, 2) as any as S.Schema<UpdateWebhookResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10808,8 +11150,8 @@ export const updateWebhookByToken: API.OperationMethod<
   UpdateWebhookByTokenError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<UpdateWebhookByTokenRequest>,
-  output: __S(6370, __c199, 2) as any as S.Schema<UpdateWebhookByTokenResponse>,
+  input: __S(6528, __c204, 0) as any as S.Schema<UpdateWebhookByTokenRequest>,
+  output: __S(6530, __c204, 2) as any as S.Schema<UpdateWebhookByTokenResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10824,8 +11166,8 @@ export const updateWebhookMessage: API.OperationMethod<
   UpdateWebhookMessageError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6402, __c200, 2) as any as S.Schema<UpdateWebhookMessageRequest>,
-  output: __S(7942, __c248, 6) as any as S.Schema<MessageResponse>,
+  input: __S(6562, __c205, 2) as any as S.Schema<UpdateWebhookMessageRequest>,
+  output: __S(8102, __c253, 6) as any as S.Schema<MessageResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -10840,8 +11182,8 @@ export const uploadApplicationAttachment: API.OperationMethod<
   UploadApplicationAttachmentError,
   DiscordOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<UploadApplicationAttachmentRequest>,
-  output: __S(6433, __c201, 1) as any as S.Schema<ActivitiesAttachmentResponse>,
+  input: __S(6624, __c207, 0) as any as S.Schema<UploadApplicationAttachmentRequest>,
+  output: __S(6625, __c207, 1) as any as S.Schema<ActivitiesAttachmentResponse>,
   errors: [UnknownDiscordError],
   protocol: DiscordProtocol,
   retry: Retry.Retry,
@@ -11015,12 +11357,58 @@ function __c3(j: number): any {
 function __c4(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channel_id: S.String.pipe(T.Label()),
+          user_id: S.String.pipe(T.Label()),
+          implicit: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/channels/{channel_id}/permissions/member/{user_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetChannelMemberPermissionsRequest" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          permissions: S.String,
+        }),
+      ).annotate({ identifier: "PermissionsResponse" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channel_id: S.String.pipe(T.Label()),
+          role_id: S.String.pipe(T.Label()),
+          implicit: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/channels/{channel_id}/permissions/role/{role_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetChannelRolePermissionsRequest" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 1:
       return S.suspend(() =>
         S.Struct({
           application_id: S.String.pipe(T.Label()),
-          sku_ids: S.optional(__S(128, __c4, 0).pipe(T.Query())),
+          sku_ids: S.optional(__S(224, __c7, 0).pipe(T.Query())),
           exclude_consumed: S.optional(S.Boolean.pipe(T.Query())),
         }).pipe(
           T.Http({
@@ -11032,17 +11420,17 @@ function __c4(j: number): any {
       ).annotate({ identifier: "GetCurrentUserApplicationEntitlementsRequest" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(6624, __c207, 0));
+      return S.Array(__S(6784, __c212, 0));
     case 1:
-      return S.suspend(() => __S(160, __c5, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(256, __c8, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetCurrentUserApplicationEntitlementsResponse",
       });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11059,7 +11447,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetEntitlementRequest" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
@@ -11068,7 +11456,7 @@ function __c7(j: number): any {
         S.Struct({
           application_id: S.String.pipe(T.Label()),
           user_id: S.optional(S.String.pipe(T.Query())),
-          sku_ids: S.optional(__S(224, __c7, 0).pipe(T.Query())),
+          sku_ids: S.optional(__S(320, __c10, 0).pipe(T.Query())),
           guild_id: S.optional(S.String.pipe(T.Query())),
           before: S.optional(S.String.pipe(T.Query())),
           after: S.optional(S.String.pipe(T.Query())),
@@ -11082,7 +11470,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetEntitlementsRequest" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11096,7 +11484,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetGatewayRequest" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11115,7 +11503,7 @@ function __c9(j: number): any {
           home_header: S.NullOr(S.String),
           splash: S.NullOr(S.String),
           discovery_splash: S.NullOr(S.String),
-          features: __S(8000, __c250, 0),
+          features: __S(8160, __c255, 0),
           banner: S.NullOr(S.String),
           owner_id: S.String,
           application_id: S.NullOr(S.String),
@@ -11146,28 +11534,28 @@ function __c9(j: number): any {
           premium_progress_bar_enabled_user_updated_at: S.optional(S.NullOr(S.String)),
           nsfw: S.Boolean,
           nsfw_level: S.Number,
-          emojis: __S(320, __c10, 0),
-          stickers: __S(352, __c11, 0),
-          incidents_data: S.NullOr(__S(384, __c12, 0)),
+          emojis: __S(416, __c13, 0),
+          stickers: __S(448, __c14, 0),
+          incidents_data: S.NullOr(__S(480, __c15, 0)),
           approximate_member_count: S.optional(S.NullOr(S.Number)),
           approximate_presence_count: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "GuildWithCountsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(5856, __c183, 0));
+      return S.Array(__S(5888, __c184, 0));
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7168, __c224, 0));
+      return S.Array(__S(7328, __c229, 0));
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11178,7 +11566,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "GuildIncidentsDataResponse" });
   }
 }
-function __c13(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11196,7 +11584,20 @@ function __c13(j: number): any {
       ).annotate({ identifier: "GetGuildApplicationCommandRequest" });
   }
 }
-function __c14(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String.pipe(T.Label()),
+          user_ids: __S(4672, __c146, 0),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/invites/{code}/target-users/bulk-add", code: 200 }),
+        ),
+      ).annotate({ identifier: "BulkAddInviteTargetUsersRequest" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11214,7 +11615,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetGuildApplicationCommandPermissionsRequest" });
   }
 }
-function __c15(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11225,19 +11626,19 @@ function __c15(j: number): any {
         }),
       ).annotate({ identifier: "CommandPermissionResponse" });
     case 1:
-      return S.Array(__S(480, __c15, 0));
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           application_id: S.String,
           guild_id: S.String,
-          permissions: __S(481, __c15, 1),
+          permissions: __S(609, __c19, 1),
         }),
       ).annotate({ identifier: "CommandPermissionsResponse" });
   }
 }
-function __c16(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11248,7 +11649,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "GetGuildBanRequest" });
   }
 }
-function __c17(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11259,20 +11660,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "GuildBanResponse" });
   }
 }
-function __c18(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.String.pipe(T.Label()),
-          user_ids: __S(4672, __c146, 0),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/invites/{code}/target-users/bulk-add", code: 200 }),
-        ),
-      ).annotate({ identifier: "BulkAddInviteTargetUsersRequest" });
-  }
-}
-function __c19(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11283,7 +11671,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "GetGuildEmojiRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11296,17 +11684,17 @@ function __c20(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/guilds/{guild_id}/requests", code: 200 })),
       ).annotate({ identifier: "GetGuildJoinRequestsRequest" });
     case 1:
-      return S.Array(__S(674, __c21, 2));
+      return S.Array(__S(770, __c24, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
           total: S.optional(S.Number),
-          guild_join_requests: S.optional(__S(641, __c20, 1)),
+          guild_join_requests: S.optional(__S(737, __c23, 1)),
         }),
       ).annotate({ identifier: "GuildJoinRequestsListResponse" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -11318,7 +11706,7 @@ function __c21(j: number): any {
         ]),
       );
     case 1:
-      return S.Array(__S(672, __c21, 0));
+      return S.Array(__S(768, __c24, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -11330,13 +11718,13 @@ function __c21(j: number): any {
           guild_id: S.String,
           user_id: S.String,
           user: S.optional(S.NullOr(__S(4608, __c144, 0))),
-          form_responses: S.optional(S.NullOr(__S(673, __c21, 1))),
+          form_responses: S.optional(S.NullOr(__S(769, __c24, 1))),
           actioned_by_user: S.optional(S.NullOr(__S(4608, __c144, 0))),
         }),
       ).annotate({ identifier: "GuildJoinRequestResponse" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11347,7 +11735,24 @@ function __c22(j: number): any {
       ).annotate({ identifier: "GetGuildMemberRequest" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          guild_id: S.String.pipe(T.Label()),
+          user_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/guilds/{guild_id}/permissions/member/{user_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetGuildMemberPermissionsRequest" });
+  }
+}
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11369,37 +11774,37 @@ function __c23(j: number): any {
           action_type: S.Number,
           title: S.String,
           description: S.String,
-          emoji: S.optional(__S(768, __c24, 0)),
+          emoji: S.optional(__S(896, __c28, 0)),
           icon: S.optional(S.String),
         }),
       ).annotate({ identifier: "NewMemberActionResponse" });
     case 3:
-      return S.Array(__S(738, __c23, 2));
+      return S.Array(__S(866, __c27, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           channel_id: S.String,
           title: S.String,
-          emoji: S.optional(__S(768, __c24, 0)),
+          emoji: S.optional(__S(896, __c28, 0)),
           icon: S.optional(S.String),
           description: S.String,
         }),
       ).annotate({ identifier: "ResourceChannelResponse" });
     case 5:
-      return S.Array(__S(740, __c23, 4));
+      return S.Array(__S(868, __c27, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           guild_id: S.String,
           enabled: S.Boolean,
-          welcome_message: S.optional(__S(737, __c23, 1)),
-          new_member_actions: __S(739, __c23, 3),
-          resource_channels: __S(741, __c23, 5),
+          welcome_message: S.optional(__S(865, __c27, 1)),
+          new_member_actions: __S(867, __c27, 3),
+          resource_channels: __S(869, __c27, 5),
         }),
       ).annotate({ identifier: "GuildHomeSettingsResponse" });
   }
 }
-function __c24(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11411,7 +11816,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "SettingsEmojiResponse" });
   }
 }
-function __c25(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11429,16 +11834,16 @@ function __c25(j: number): any {
           home_header: S.NullOr(S.String),
           splash: S.NullOr(S.String),
           discovery_splash: S.NullOr(S.String),
-          features: __S(8000, __c250, 0),
+          features: __S(8160, __c255, 0),
           approximate_member_count: S.Number,
           approximate_presence_count: S.Number,
-          emojis: __S(320, __c10, 0),
-          stickers: __S(352, __c11, 0),
+          emojis: __S(416, __c13, 0),
+          stickers: __S(448, __c14, 0),
         }),
       ).annotate({ identifier: "GuildPreviewResponse" });
   }
 }
-function __c26(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11449,7 +11854,43 @@ function __c26(j: number): any {
       ).annotate({ identifier: "GetGuildRoleRequest" });
   }
 }
-function __c27(j: number): any {
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          guild_id: S.String.pipe(T.Label()),
+          role_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/guilds/{guild_id}/permissions/role/{role_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetGuildRolePermissionsRequest" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          guild_id: S.String.pipe(T.Label()),
+          user_ids: __S(4672, __c146, 0),
+          delete_message_seconds: S.optional(S.NullOr(S.Number)),
+        }).pipe(T.Http({ method: "POST", uri: "/guilds/{guild_id}/bulk-ban", code: 200 })),
+      ).annotate({ identifier: "BulkBanUsersFromGuildRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          banned_users: __S(4672, __c146, 0),
+          failed_users: __S(4672, __c146, 0),
+        }),
+      ).annotate({ identifier: "BulkBanUsersResponse" });
+  }
+}
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11534,12 +11975,12 @@ function __c27(j: number): any {
         ]),
       );
     case 2:
-      return S.suspend(() => __S(865, __c27, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(1057, __c33, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetGuildScheduledEventResponse",
       });
   }
 }
-function __c28(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11549,7 +11990,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "GetGuildsOnboardingRequest" });
   }
 }
-function __c29(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11557,19 +11998,19 @@ function __c29(j: number): any {
           id: S.String,
           title: S.String,
           description: S.String,
-          emoji: __S(768, __c24, 0),
+          emoji: __S(896, __c28, 0),
           role_ids: __S(4672, __c146, 0),
           channel_ids: __S(4672, __c146, 0),
         }),
       ).annotate({ identifier: "OnboardingPromptOptionResponse" });
     case 1:
-      return S.Array(__S(928, __c29, 0));
+      return S.Array(__S(1120, __c35, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           title: S.String,
-          options: __S(929, __c29, 1),
+          options: __S(1121, __c35, 1),
           single_select: S.Boolean,
           required: S.Boolean,
           in_onboarding: S.Boolean,
@@ -11577,12 +12018,12 @@ function __c29(j: number): any {
         }),
       ).annotate({ identifier: "OnboardingPromptResponse" });
     case 3:
-      return S.Array(__S(930, __c29, 2));
+      return S.Array(__S(1122, __c35, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           guild_id: S.String,
-          prompts: __S(931, __c29, 3),
+          prompts: __S(1123, __c35, 3),
           default_channel_ids: __S(4672, __c146, 0),
           enabled: S.Boolean,
           mode: S.Number,
@@ -11590,7 +12031,7 @@ function __c29(j: number): any {
       ).annotate({ identifier: "UserGuildOnboardingResponse" });
   }
 }
-function __c30(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11607,7 +12048,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "GetGuildSoundboardSoundRequest" });
   }
 }
-function __c31(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11620,26 +12061,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "GetGuildStickerRequest" });
   }
 }
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          guild_id: S.String.pipe(T.Label()),
-          user_ids: __S(4672, __c146, 0),
-          delete_message_seconds: S.optional(S.NullOr(S.Number)),
-        }).pipe(T.Http({ method: "POST", uri: "/guilds/{guild_id}/bulk-ban", code: 200 })),
-      ).annotate({ identifier: "BulkBanUsersFromGuildRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          banned_users: __S(4672, __c146, 0),
-          failed_users: __S(4672, __c146, 0),
-        }),
-      ).annotate({ identifier: "BulkBanUsersResponse" });
-  }
-}
-function __c33(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11649,7 +12071,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "GetGuildTemplateRequest" });
   }
 }
-function __c34(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11669,12 +12091,12 @@ function __c34(j: number): any {
         S.Struct({
           code: S.NullOr(S.String),
           uses: S.Number,
-          error: S.optional(S.NullOr(__S(1089, __c34, 1))),
+          error: S.optional(S.NullOr(__S(1249, __c39, 1))),
         }),
       ).annotate({ identifier: "VanityURLResponse" });
   }
 }
-function __c35(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11713,14 +12135,14 @@ function __c35(j: number): any {
         ]),
       );
     case 2:
-      return S.Array(__S(1121, __c35, 1));
+      return S.Array(__S(1281, __c40, 1));
     case 3:
-      return S.suspend(() => S.NullOr(__S(1122, __c35, 2)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(1282, __c40, 2)).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetGuildWebhooksResponse",
       });
   }
 }
-function __c36(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11730,7 +12152,7 @@ function __c36(j: number): any {
       ).annotate({ identifier: "GetGuildWelcomeScreenRequest" });
   }
 }
-function __c37(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11742,17 +12164,17 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "GuildWelcomeScreenChannelResponse" });
     case 1:
-      return S.Array(__S(1184, __c37, 0));
+      return S.Array(__S(1344, __c42, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           description: S.NullOr(S.String),
-          welcome_channels: __S(1185, __c37, 1),
+          welcome_channels: __S(1345, __c42, 1),
         }),
       ).annotate({ identifier: "GuildWelcomeScreenResponse" });
   }
 }
-function __c38(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11769,7 +12191,7 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "WidgetChannel" });
     case 2:
-      return S.Array(__S(1217, __c38, 1));
+      return S.Array(__S(1377, __c43, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -11779,7 +12201,7 @@ function __c38(j: number): any {
           avatar: S.NullOr(S.Unknown),
           status: S.String,
           avatar_url: S.String,
-          activity: S.optional(__S(9696, __c303, 0)),
+          activity: S.optional(__S(9856, __c308, 0)),
           deaf: S.optional(S.Boolean),
           mute: S.optional(S.Boolean),
           self_deaf: S.optional(S.Boolean),
@@ -11789,21 +12211,21 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "WidgetMember" });
     case 4:
-      return S.Array(__S(1219, __c38, 3));
+      return S.Array(__S(1379, __c43, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           name: S.String,
           instant_invite: S.NullOr(S.String),
-          channels: __S(1218, __c38, 2),
-          members: __S(1220, __c38, 4),
+          channels: __S(1378, __c43, 2),
+          members: __S(1380, __c43, 4),
           presence_count: S.Number,
         }),
       ).annotate({ identifier: "WidgetResponse" });
   }
 }
-function __c39(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11814,7 +12236,20 @@ function __c39(j: number): any {
       ).annotate({ identifier: "GetGuildWidgetPngRequest" });
   }
 }
-function __c40(j: number): any {
+function __c45(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channel_id: S.String.pipe(T.Label()),
+          messages: __S(4672, __c146, 0),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/channels/{channel_id}/messages/bulk-delete", code: 200 }),
+        ),
+      ).annotate({ identifier: "BulkDeleteMessagesRequest" });
+  }
+}
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11824,7 +12259,7 @@ function __c40(j: number): any {
       ).annotate({ identifier: "GetGuildWidgetSettingsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11835,7 +12270,7 @@ function __c41(j: number): any {
       ).annotate({ identifier: "WidgetSettingsResponse" });
   }
 }
-function __c42(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11845,7 +12280,7 @@ function __c42(j: number): any {
       ).annotate({ identifier: "GetInviteTargetUsersRequest" });
   }
 }
-function __c43(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11868,7 +12303,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "TargetUsersJobStatusResponse" });
   }
 }
-function __c44(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11878,20 +12313,7 @@ function __c44(j: number): any {
       ).annotate({ identifier: "GetLobbyRequest" });
   }
 }
-function __c45(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          channel_id: S.String.pipe(T.Label()),
-          messages: __S(4672, __c146, 0),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/channels/{channel_id}/messages/bulk-delete", code: 200 }),
-        ),
-      ).annotate({ identifier: "BulkDeleteMessagesRequest" });
-  }
-}
-function __c46(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11901,14 +12323,14 @@ function __c46(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/lobbies/{lobby_id}/messages", code: 200 })),
       ).annotate({ identifier: "GetLobbyMessagesRequest" });
     case 1:
-      return S.Array(__S(7552, __c236, 0));
+      return S.Array(__S(7712, __c241, 0));
     case 2:
-      return S.suspend(() => S.NullOr(__S(1473, __c46, 1)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(1633, __c51, 1)).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetLobbyMessagesResponse",
       });
   }
 }
-function __c47(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11921,7 +12343,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "GetMessageRequest" });
   }
 }
-function __c48(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11929,7 +12351,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "GetMyApplicationRequest" });
   }
 }
-function __c49(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11939,7 +12361,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetMyGuildMemberRequest" });
   }
 }
-function __c50(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11963,7 +12385,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "PrivateGuildMemberResponse" });
   }
 }
-function __c51(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11971,7 +12393,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetMyOauth2ApplicationRequest" });
   }
 }
-function __c52(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11980,15 +12402,28 @@ function __c52(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          application: __S(7808, __c244, 0),
+          application: __S(7968, __c249, 0),
           expires: S.String,
-          scopes: __S(8000, __c250, 0),
+          scopes: __S(8160, __c255, 0),
           user: S.optional(__S(4608, __c144, 0)),
         }),
       ).annotate({ identifier: "OAuth2GetAuthorizationResponse" });
   }
 }
-function __c53(j: number): any {
+function __c58(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          code: S.String.pipe(T.Label()),
+          user_ids: __S(4672, __c146, 0),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/invites/{code}/target-users/bulk-delete", code: 200 }),
+        ),
+      ).annotate({ identifier: "BulkRemoveInviteTargetUsersRequest" });
+  }
+}
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11996,7 +12431,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetMyUserRequest" });
   }
 }
-function __c54(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12024,7 +12459,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "UserPIIResponse" });
   }
 }
-function __c55(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12044,7 +12479,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "OAuth2GetOpenIDConnectUserInfoResponse" });
   }
 }
-function __c56(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12062,7 +12497,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "GetOriginalWebhookMessageRequest" });
   }
 }
-function __c57(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12080,29 +12515,16 @@ function __c57(j: number): any {
         }),
       ).annotate({ identifier: "OAuth2Key" });
     case 2:
-      return S.Array(__S(1825, __c57, 1));
+      return S.Array(__S(2017, __c63, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          keys: __S(1826, __c57, 2),
+          keys: __S(2018, __c63, 2),
         }),
       ).annotate({ identifier: "OAuth2GetKeys" });
   }
 }
-function __c58(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          code: S.String.pipe(T.Label()),
-          user_ids: __S(4672, __c146, 0),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/invites/{code}/target-users/bulk-delete", code: 200 }),
-        ),
-      ).annotate({ identifier: "BulkRemoveInviteTargetUsersRequest" });
-  }
-}
-function __c59(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12112,7 +12534,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "GetSelfVoiceStateRequest" });
   }
 }
-function __c60(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12134,7 +12556,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "VoiceStateResponse" });
   }
 }
-function __c61(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12152,7 +12574,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "GetSkuSubscriptionRequest" });
   }
 }
-function __c62(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12171,7 +12593,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "SubscriptionResponse" });
   }
 }
-function __c63(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12184,32 +12606,32 @@ function __c63(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/skus/{sku_id}/subscriptions", code: 200 })),
       ).annotate({ identifier: "GetSkuSubscriptionsRequest" });
     case 1:
-      return S.Array(__S(1984, __c62, 0));
+      return S.Array(__S(2144, __c67, 0));
     case 2:
-      return S.suspend(() => __S(2017, __c63, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2177, __c68, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSkuSubscriptionsResponse",
       });
   }
 }
-function __c64(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/soundboard-default-sounds", code: 200 })),
       ).annotate({ identifier: "GetSoundboardDefaultSoundsRequest" });
     case 1:
-      return S.suspend(() => __S(2080, __c65, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2240, __c70, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetSoundboardDefaultSoundsResponse",
       });
   }
 }
-function __c65(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7104, __c222, 0));
+      return S.Array(__S(7264, __c227, 0));
   }
 }
-function __c66(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12219,7 +12641,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "GetStageInstanceRequest" });
   }
 }
-function __c67(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12245,91 +12667,9 @@ function __c67(j: number): any {
         ]),
       );
     case 2:
-      return S.suspend(() => __S(2145, __c67, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2305, __c72, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetStickerResponse",
       });
-  }
-}
-function __c68(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pack_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/sticker-packs/{pack_id}", code: 200 })),
-      ).annotate({ identifier: "GetStickerPackRequest" });
-  }
-}
-function __c69(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          tags: S.String,
-          type: S.Number,
-          format_type: S.NullOr(S.Number),
-          description: S.NullOr(S.String),
-          pack_id: S.String,
-          sort_value: S.Number,
-        }),
-      ).annotate({ identifier: "StandardStickerResponse" });
-    case 1:
-      return S.Array(__S(2208, __c69, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          sku_id: S.String,
-          name: S.String,
-          description: S.NullOr(S.String),
-          stickers: __S(2209, __c69, 1),
-          cover_sticker_id: S.optional(S.String),
-          banner_asset_id: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "StickerPackResponse" });
-  }
-}
-function __c70(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          channel_id: S.String.pipe(T.Label()),
-          user_id: S.String.pipe(T.Label()),
-          with_member: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/channels/{channel_id}/thread-members/{user_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "GetThreadMemberRequest" });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          user_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/users/{user_id}", code: 200 })),
-      ).annotate({ identifier: "GetUserRequest" });
-  }
-}
-function __c72(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          guild_id: S.String.pipe(T.Label()),
-          user_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "GET", uri: "/guilds/{guild_id}/voice-states/{user_id}", code: 200 }),
-        ),
-      ).annotate({ identifier: "GetVoiceStateRequest" });
   }
 }
 function __c73(j: number): any {
@@ -12462,9 +12802,9 @@ function __c74(j: number): any {
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          name_localizations: S.optional(S.NullOr(__S(8320, __c260, 0))),
+          name_localizations: S.optional(S.NullOr(__S(8480, __c265, 0))),
           description: S.optional(S.NullOr(S.String)),
-          description_localizations: S.optional(S.NullOr(__S(8320, __c260, 0))),
+          description_localizations: S.optional(S.NullOr(__S(8480, __c265, 0))),
           options: S.optional(S.NullOr(__S(2369, __c74, 1))),
           default_member_permissions: S.optional(S.NullOr(S.Number)),
           dm_permission: S.optional(S.NullOr(S.Boolean)),
@@ -12640,10 +12980,10 @@ function __c77(j: number): any {
           type: S.Number,
           name: S.String,
           name_localized: S.optional(S.String),
-          name_localizations: S.optional(S.NullOr(__S(8320, __c260, 0))),
+          name_localizations: S.optional(S.NullOr(__S(8480, __c265, 0))),
           description: S.String,
           description_localized: S.optional(S.String),
-          description_localizations: S.optional(S.NullOr(__S(8320, __c260, 0))),
+          description_localizations: S.optional(S.NullOr(__S(8480, __c265, 0))),
           guild_id: S.optional(S.String),
           dm_permission: S.optional(S.Boolean),
           contexts: S.optional(S.NullOr(__S(2464, __c77, 0))),
@@ -12656,6 +12996,88 @@ function __c77(j: number): any {
   }
 }
 function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pack_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/sticker-packs/{pack_id}", code: 200 })),
+      ).annotate({ identifier: "GetStickerPackRequest" });
+  }
+}
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          tags: S.String,
+          type: S.Number,
+          format_type: S.NullOr(S.Number),
+          description: S.NullOr(S.String),
+          pack_id: S.String,
+          sort_value: S.Number,
+        }),
+      ).annotate({ identifier: "StandardStickerResponse" });
+    case 1:
+      return S.Array(__S(2528, __c79, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          sku_id: S.String,
+          name: S.String,
+          description: S.NullOr(S.String),
+          stickers: __S(2529, __c79, 1),
+          cover_sticker_id: S.optional(S.String),
+          banner_asset_id: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "StickerPackResponse" });
+  }
+}
+function __c80(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channel_id: S.String.pipe(T.Label()),
+          user_id: S.String.pipe(T.Label()),
+          with_member: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/channels/{channel_id}/thread-members/{user_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "GetThreadMemberRequest" });
+  }
+}
+function __c81(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          user_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/users/{user_id}", code: 200 })),
+      ).annotate({ identifier: "GetUserRequest" });
+  }
+}
+function __c82(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          guild_id: S.String.pipe(T.Label()),
+          user_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "GET", uri: "/guilds/{guild_id}/voice-states/{user_id}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetVoiceStateRequest" });
+  }
+}
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12694,12 +13116,12 @@ function __c78(j: number): any {
         ]),
       );
     case 2:
-      return S.suspend(() => __S(2497, __c78, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2657, __c83, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetWebhookResponse",
       });
   }
 }
-function __c79(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12741,12 +13163,12 @@ function __c79(j: number): any {
         ]),
       );
     case 2:
-      return S.suspend(() => __S(2529, __c79, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2689, __c84, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetWebhookByTokenResponse",
       });
   }
 }
-function __c80(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12765,7 +13187,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "GetWebhookMessageRequest" });
   }
 }
-function __c81(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12776,12 +13198,12 @@ function __c81(j: number): any {
         ),
       ).annotate({ identifier: "GuildRoleMemberCountsRequest" });
     case 1:
-      return S.suspend(() => __S(5088, __c159, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(5120, __c160, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "GuildRoleMemberCountsResponse",
       });
   }
 }
-function __c82(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12849,12 +13271,12 @@ function __c82(j: number): any {
         ]),
       );
     case 2:
-      return S.suspend(() => __S(2625, __c82, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(2785, __c87, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "InviteResolveResponse",
       });
   }
 }
-function __c83(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12869,51 +13291,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "JoinActionGuildRequestRequest" });
   }
 }
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          channel_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "PUT", uri: "/channels/{channel_id}/thread-members/@me", code: 200 }),
-        ),
-      ).annotate({ identifier: "JoinThreadRequest" });
-  }
-}
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          guild_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/users/@me/guilds/{guild_id}", code: 200 })),
-      ).annotate({ identifier: "LeaveGuildRequest" });
-  }
-}
-function __c86(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          lobby_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "DELETE", uri: "/lobbies/{lobby_id}/members/@me", code: 200 })),
-      ).annotate({ identifier: "LeaveLobbyRequest" });
-  }
-}
-function __c87(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          channel_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({ method: "DELETE", uri: "/channels/{channel_id}/thread-members/@me", code: 200 }),
-        ),
-      ).annotate({ identifier: "LeaveThreadRequest" });
-  }
-}
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12931,7 +13309,51 @@ function __c88(j: number): any {
       ).annotate({ identifier: "BulkSetGuildApplicationCommandsRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channel_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "PUT", uri: "/channels/{channel_id}/thread-members/@me", code: 200 }),
+        ),
+      ).annotate({ identifier: "JoinThreadRequest" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          guild_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/users/@me/guilds/{guild_id}", code: 200 })),
+      ).annotate({ identifier: "LeaveGuildRequest" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          lobby_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "DELETE", uri: "/lobbies/{lobby_id}/members/@me", code: 200 })),
+      ).annotate({ identifier: "LeaveLobbyRequest" });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channel_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "DELETE", uri: "/channels/{channel_id}/thread-members/@me", code: 200 }),
+        ),
+      ).annotate({ identifier: "LeaveThreadRequest" });
+  }
+}
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12944,7 +13366,7 @@ function __c89(j: number): any {
       ).annotate({ identifier: "ListApplicationCommandsRequest" });
   }
 }
-function __c90(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12955,12 +13377,12 @@ function __c90(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(320, __c10, 0),
+          items: __S(416, __c13, 0),
         }),
       ).annotate({ identifier: "ListApplicationEmojisResponse" });
   }
 }
-function __c91(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13041,14 +13463,14 @@ function __c91(j: number): any {
         ]),
       );
     case 2:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(2913, __c91, 1)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(3073, __c96, 1)));
     case 3:
-      return S.suspend(() => S.NullOr(__S(2914, __c91, 2)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(3074, __c96, 2)).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListAutoModerationRulesResponse",
       });
   }
 }
-function __c92(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13112,14 +13534,14 @@ function __c92(j: number): any {
         ]),
       );
     case 2:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(2945, __c92, 1)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(3105, __c97, 1)));
     case 3:
-      return S.suspend(() => S.NullOr(__S(2946, __c92, 2)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(3106, __c97, 2)).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListChannelInvitesResponse",
       });
   }
 }
-function __c93(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13158,14 +13580,14 @@ function __c93(j: number): any {
         ]),
       );
     case 2:
-      return S.Array(__S(2977, __c93, 1));
+      return S.Array(__S(3137, __c98, 1));
     case 3:
-      return S.suspend(() => S.NullOr(__S(2978, __c93, 2)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(3138, __c98, 2)).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListChannelWebhooksResponse",
       });
   }
 }
-function __c94(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13175,15 +13597,37 @@ function __c94(j: number): any {
       ).annotate({ identifier: "ListDeprecatedPinsRequest" });
   }
 }
-function __c95(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.NullOr(__S(9920, __c310, 0)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(10080, __c315, 0)).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListDeprecatedPinsResponse",
       });
   }
 }
-function __c96(j: number): any {
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.NullOr(S.String)),
+          position: S.optional(S.NullOr(S.Number)),
+          parent_id: S.optional(S.NullOr(S.String)),
+          lock_permissions: S.optional(S.NullOr(S.Boolean)),
+        }),
+      ).annotate({ identifier: "BulkUpdateGuildChannelsRequestBodyItem" });
+    case 1:
+      return S.Array(__S(3232, __c101, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          guild_id: S.String.pipe(T.Label()),
+          body: __S(3233, __c101, 1).pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "PATCH", uri: "/guilds/{guild_id}/channels", code: 200 })),
+      ).annotate({ identifier: "BulkUpdateGuildChannelsRequest" });
+  }
+}
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13199,14 +13643,14 @@ function __c96(j: number): any {
         ),
       ).annotate({ identifier: "ListGuildApplicationCommandPermissionsRequest" });
     case 1:
-      return S.Array(__S(482, __c15, 2));
+      return S.Array(__S(610, __c19, 2));
     case 2:
-      return S.suspend(() => __S(3073, __c96, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3265, __c102, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGuildApplicationCommandPermissionsResponse",
       });
   }
 }
-function __c97(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13224,7 +13668,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "ListGuildApplicationCommandsRequest" });
   }
 }
-function __c98(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13247,7 +13691,7 @@ function __c98(j: number): any {
         }),
       ).annotate({ identifier: "AuditLogObjectChangeResponse" });
     case 2:
-      return S.Array(__S(3137, __c98, 1));
+      return S.Array(__S(3329, __c104, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -13255,13 +13699,13 @@ function __c98(j: number): any {
           action_type: S.Number,
           user_id: S.NullOr(S.String),
           target_id: S.NullOr(S.String),
-          changes: S.optional(__S(3138, __c98, 2)),
-          options: S.optional(__S(8320, __c260, 0)),
+          changes: S.optional(__S(3330, __c104, 2)),
+          options: S.optional(__S(8480, __c265, 0)),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuditLogEntryResponse" });
     case 4:
-      return S.Array(__S(3139, __c98, 3));
+      return S.Array(__S(3331, __c104, 3));
     case 5:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -13271,7 +13715,7 @@ function __c98(j: number): any {
         ]),
       );
     case 6:
-      return S.Array(__S(3141, __c98, 5));
+      return S.Array(__S(3333, __c104, 5));
     case 7:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -13303,7 +13747,7 @@ function __c98(j: number): any {
         ]),
       );
     case 8:
-      return S.Array(__S(3143, __c98, 7));
+      return S.Array(__S(3335, __c104, 7));
     case 9:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -13373,7 +13817,7 @@ function __c98(j: number): any {
         ]),
       );
     case 10:
-      return S.Array(__S(3145, __c98, 9));
+      return S.Array(__S(3337, __c104, 9));
     case 11:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -13445,23 +13889,23 @@ function __c98(j: number): any {
         ]),
       );
     case 12:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(3147, __c98, 11)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(3339, __c104, 11)));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          audit_log_entries: __S(3140, __c98, 4),
-          users: __S(7968, __c249, 0),
-          integrations: __S(3142, __c98, 6),
-          webhooks: __S(3144, __c98, 8),
-          guild_scheduled_events: __S(3146, __c98, 10),
-          threads: __S(9952, __c311, 0),
+          audit_log_entries: __S(3332, __c104, 4),
+          users: __S(8128, __c254, 0),
+          integrations: __S(3334, __c104, 6),
+          webhooks: __S(3336, __c104, 8),
+          guild_scheduled_events: __S(3338, __c104, 10),
+          threads: __S(10112, __c316, 0),
           application_commands: __S(2432, __c76, 0),
-          auto_moderation_rules: __S(3148, __c98, 12),
+          auto_moderation_rules: __S(3340, __c104, 12),
         }),
       ).annotate({ identifier: "GuildAuditLogResponse" });
   }
 }
-function __c99(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13473,36 +13917,14 @@ function __c99(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/guilds/{guild_id}/bans", code: 200 })),
       ).annotate({ identifier: "ListGuildBansRequest" });
     case 1:
-      return S.Array(__S(544, __c17, 0));
+      return S.Array(__S(672, __c21, 0));
     case 2:
-      return S.suspend(() => S.NullOr(__S(3169, __c99, 1)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(3361, __c105, 1)).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGuildBansResponse",
       });
   }
 }
-function __c100(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.NullOr(S.String)),
-          position: S.optional(S.NullOr(S.Number)),
-          parent_id: S.optional(S.NullOr(S.String)),
-          lock_permissions: S.optional(S.NullOr(S.Boolean)),
-        }),
-      ).annotate({ identifier: "BulkUpdateGuildChannelsRequestBodyItem" });
-    case 1:
-      return S.Array(__S(3200, __c100, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          guild_id: S.String.pipe(T.Label()),
-          body: __S(3201, __c100, 1).pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "PATCH", uri: "/guilds/{guild_id}/channels", code: 200 })),
-      ).annotate({ identifier: "BulkUpdateGuildChannelsRequest" });
-  }
-}
-function __c101(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13580,14 +14002,14 @@ function __c101(j: number): any {
         ]),
       );
     case 2:
-      return S.Array(__S(3233, __c101, 1));
+      return S.Array(__S(3393, __c106, 1));
     case 3:
-      return S.suspend(() => S.NullOr(__S(3234, __c101, 2)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(3394, __c106, 2)).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGuildChannelsResponse",
       });
   }
 }
-function __c102(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13596,12 +14018,12 @@ function __c102(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/guilds/{guild_id}/emojis", code: 200 })),
       ).annotate({ identifier: "ListGuildEmojisRequest" });
     case 1:
-      return S.suspend(() => S.NullOr(__S(320, __c10, 0)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(416, __c13, 0)).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGuildEmojisResponse",
       });
   }
 }
-function __c103(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13633,14 +14055,14 @@ function __c103(j: number): any {
         ]),
       );
     case 2:
-      return S.Array(__S(3297, __c103, 1));
+      return S.Array(__S(3457, __c108, 1));
     case 3:
-      return S.suspend(() => S.NullOr(__S(3298, __c103, 2)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(3458, __c108, 2)).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGuildIntegrationsResponse",
       });
   }
 }
-function __c104(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13704,14 +14126,14 @@ function __c104(j: number): any {
         ]),
       );
     case 2:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(3329, __c104, 1)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(3489, __c109, 1)));
     case 3:
-      return S.suspend(() => S.NullOr(__S(3330, __c104, 2)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(3490, __c109, 2)).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGuildInvitesResponse",
       });
   }
 }
-function __c105(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13723,173 +14145,14 @@ function __c105(j: number): any {
       ).annotate({ identifier: "ListGuildMembersRequest" });
   }
 }
-function __c106(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(4640, __c145, 0));
     case 1:
-      return S.suspend(() => __S(3392, __c106, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(3552, __c111, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGuildMembersResponse",
       });
-  }
-}
-function __c107(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          guild_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/guilds/{guild_id}/roles", code: 200 })),
-      ).annotate({ identifier: "ListGuildRolesRequest" });
-  }
-}
-function __c108(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          guild_id: S.String.pipe(T.Label()),
-          guild_scheduled_event_id: S.String.pipe(T.Label()),
-          guild_scheduled_event_exception_id: S.String.pipe(T.Label()),
-          with_member: S.optional(S.Boolean.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          before: S.optional(S.String.pipe(T.Query())),
-          after: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/{guild_scheduled_event_exception_id}/users",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListGuildScheduledEventExceptionUsersRequest" });
-  }
-}
-function __c109(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          guild_scheduled_event_id: S.String,
-          guild_scheduled_event_exception_id: S.optional(S.NullOr(S.String)),
-          user_id: S.String,
-          user: S.optional(__S(4608, __c144, 0)),
-          member: S.optional(__S(4640, __c145, 0)),
-          response: S.Number,
-        }),
-      ).annotate({ identifier: "ScheduledEventUserResponse" });
-    case 1:
-      return S.Array(__S(3488, __c109, 0));
-    case 2:
-      return S.suspend(() => S.NullOr(__S(3489, __c109, 1)).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListGuildScheduledEventExceptionUsersResponse",
-      });
-  }
-}
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          guild_id: S.String.pipe(T.Label()),
-          with_user_count: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/guilds/{guild_id}/scheduled-events", code: 200 })),
-      ).annotate({ identifier: "ListGuildScheduledEventsRequest" });
-    case 1:
-      return S.Unknown.pipe(
-        /*@__PURE__*/ T.UnionCases([
-          [
-            "id",
-            "guild_id",
-            "name",
-            "description",
-            "channel_id",
-            "creator_id",
-            "creator",
-            "image",
-            "scheduled_start_time",
-            "scheduled_end_time",
-            "status",
-            "entity_type",
-            "entity_id",
-            "recurrence_rule",
-            "user_count",
-            "privacy_level",
-            "user_rsvp",
-            "guild_scheduled_event_exceptions",
-            "entity_metadata",
-          ],
-          [
-            "id",
-            "guild_id",
-            "name",
-            "description",
-            "channel_id",
-            "creator_id",
-            "creator",
-            "image",
-            "scheduled_start_time",
-            "scheduled_end_time",
-            "status",
-            "entity_type",
-            "entity_id",
-            "recurrence_rule",
-            "user_count",
-            "privacy_level",
-            "user_rsvp",
-            "guild_scheduled_event_exceptions",
-            "entity_metadata",
-          ],
-          [
-            "id",
-            "guild_id",
-            "name",
-            "description",
-            "channel_id",
-            "creator_id",
-            "creator",
-            "image",
-            "scheduled_start_time",
-            "scheduled_end_time",
-            "status",
-            "entity_type",
-            "entity_id",
-            "recurrence_rule",
-            "user_count",
-            "privacy_level",
-            "user_rsvp",
-            "guild_scheduled_event_exceptions",
-            "entity_metadata",
-          ],
-        ]),
-      );
-    case 2:
-      return S.Array(__S(3521, __c110, 1));
-    case 3:
-      return S.suspend(() => S.NullOr(__S(3522, __c110, 2)).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListGuildScheduledEventsResponse",
-      });
-  }
-}
-function __c111(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          guild_id: S.String.pipe(T.Label()),
-          guild_scheduled_event_id: S.String.pipe(T.Label()),
-          with_member: S.optional(S.Boolean.pipe(T.Query())),
-          limit: S.optional(S.Number.pipe(T.Query())),
-          before: S.optional(S.String.pipe(T.Query())),
-          after: S.optional(S.String.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/users",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "ListGuildScheduledEventUsersRequest" });
   }
 }
 function __c112(j: number): any {
@@ -13898,14 +14161,8 @@ function __c112(j: number): any {
       return S.suspend(() =>
         S.Struct({
           guild_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/guilds/{guild_id}/soundboard-sounds", code: 200 })),
-      ).annotate({ identifier: "ListGuildSoundboardSoundsRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          items: __S(2080, __c65, 0),
-        }),
-      ).annotate({ identifier: "ListGuildSoundboardSoundsResponse" });
+        }).pipe(T.Http({ method: "GET", uri: "/guilds/{guild_id}/roles", code: 200 })),
+      ).annotate({ identifier: "ListGuildRolesRequest" });
   }
 }
 function __c113(j: number): any {
@@ -13993,12 +14250,20 @@ function __c118(j: number): any {
       return S.suspend(() =>
         S.Struct({
           guild_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/guilds/{guild_id}/stickers", code: 200 })),
-      ).annotate({ identifier: "ListGuildStickersRequest" });
-    case 1:
-      return S.suspend(() => __S(352, __c11, 0).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListGuildStickersResponse",
-      });
+          guild_scheduled_event_id: S.String.pipe(T.Label()),
+          guild_scheduled_event_exception_id: S.String.pipe(T.Label()),
+          with_member: S.optional(S.Boolean.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          before: S.optional(S.String.pipe(T.Query())),
+          after: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/{guild_scheduled_event_exception_id}/users",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListGuildScheduledEventExceptionUsersRequest" });
   }
 }
 function __c119(j: number): any {
@@ -14006,14 +14271,19 @@ function __c119(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          guild_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "GET", uri: "/guilds/{guild_id}/templates", code: 200 })),
-      ).annotate({ identifier: "ListGuildTemplatesRequest" });
+          guild_scheduled_event_id: S.String,
+          guild_scheduled_event_exception_id: S.optional(S.NullOr(S.String)),
+          user_id: S.String,
+          user: S.optional(__S(4608, __c144, 0)),
+          member: S.optional(__S(4640, __c145, 0)),
+          response: S.Number,
+        }),
+      ).annotate({ identifier: "ScheduledEventUserResponse" });
     case 1:
-      return S.Array(__S(7239, __c226, 7));
+      return S.Array(__S(3808, __c119, 0));
     case 2:
       return S.suspend(() => S.NullOr(__S(3809, __c119, 1)).pipe(T.RawResponseRoot())).annotate({
-        identifier: "ListGuildTemplatesResponse",
+        identifier: "ListGuildScheduledEventExceptionUsersResponse",
       });
   }
 }
@@ -14023,11 +14293,163 @@ function __c120(j: number): any {
       return S.suspend(() =>
         S.Struct({
           guild_id: S.String.pipe(T.Label()),
+          with_user_count: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/guilds/{guild_id}/scheduled-events", code: 200 })),
+      ).annotate({ identifier: "ListGuildScheduledEventsRequest" });
+    case 1:
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases([
+          [
+            "id",
+            "guild_id",
+            "name",
+            "description",
+            "channel_id",
+            "creator_id",
+            "creator",
+            "image",
+            "scheduled_start_time",
+            "scheduled_end_time",
+            "status",
+            "entity_type",
+            "entity_id",
+            "recurrence_rule",
+            "user_count",
+            "privacy_level",
+            "user_rsvp",
+            "guild_scheduled_event_exceptions",
+            "entity_metadata",
+          ],
+          [
+            "id",
+            "guild_id",
+            "name",
+            "description",
+            "channel_id",
+            "creator_id",
+            "creator",
+            "image",
+            "scheduled_start_time",
+            "scheduled_end_time",
+            "status",
+            "entity_type",
+            "entity_id",
+            "recurrence_rule",
+            "user_count",
+            "privacy_level",
+            "user_rsvp",
+            "guild_scheduled_event_exceptions",
+            "entity_metadata",
+          ],
+          [
+            "id",
+            "guild_id",
+            "name",
+            "description",
+            "channel_id",
+            "creator_id",
+            "creator",
+            "image",
+            "scheduled_start_time",
+            "scheduled_end_time",
+            "status",
+            "entity_type",
+            "entity_id",
+            "recurrence_rule",
+            "user_count",
+            "privacy_level",
+            "user_rsvp",
+            "guild_scheduled_event_exceptions",
+            "entity_metadata",
+          ],
+        ]),
+      );
+    case 2:
+      return S.Array(__S(3841, __c120, 1));
+    case 3:
+      return S.suspend(() => S.NullOr(__S(3842, __c120, 2)).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListGuildScheduledEventsResponse",
+      });
+  }
+}
+function __c121(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          guild_id: S.String.pipe(T.Label()),
+          guild_scheduled_event_id: S.String.pipe(T.Label()),
+          with_member: S.optional(S.Boolean.pipe(T.Query())),
+          limit: S.optional(S.Number.pipe(T.Query())),
+          before: S.optional(S.String.pipe(T.Query())),
+          after: S.optional(S.String.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/guilds/{guild_id}/scheduled-events/{guild_scheduled_event_id}/users",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "ListGuildScheduledEventUsersRequest" });
+  }
+}
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          guild_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/guilds/{guild_id}/soundboard-sounds", code: 200 })),
+      ).annotate({ identifier: "ListGuildSoundboardSoundsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(2240, __c70, 0),
+        }),
+      ).annotate({ identifier: "ListGuildSoundboardSoundsResponse" });
+  }
+}
+function __c123(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          guild_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/guilds/{guild_id}/stickers", code: 200 })),
+      ).annotate({ identifier: "ListGuildStickersRequest" });
+    case 1:
+      return S.suspend(() => __S(448, __c14, 0).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListGuildStickersResponse",
+      });
+  }
+}
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          guild_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "GET", uri: "/guilds/{guild_id}/templates", code: 200 })),
+      ).annotate({ identifier: "ListGuildTemplatesRequest" });
+    case 1:
+      return S.Array(__S(7399, __c231, 7));
+    case 2:
+      return S.suspend(() => S.NullOr(__S(3969, __c124, 1)).pipe(T.RawResponseRoot())).annotate({
+        identifier: "ListGuildTemplatesResponse",
+      });
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          guild_id: S.String.pipe(T.Label()),
         }).pipe(T.Http({ method: "GET", uri: "/guilds/{guild_id}/regions", code: 200 })),
       ).annotate({ identifier: "ListGuildVoiceRegionsRequest" });
   }
 }
-function __c121(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14040,14 +14462,14 @@ function __c121(j: number): any {
         }),
       ).annotate({ identifier: "VoiceRegionResponse" });
     case 1:
-      return S.Array(__S(3872, __c121, 0));
+      return S.Array(__S(4032, __c126, 0));
     case 2:
-      return S.suspend(() => S.NullOr(__S(3873, __c121, 1)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(4033, __c126, 1)).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListGuildVoiceRegionsResponse",
       });
   }
 }
-function __c122(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14067,12 +14489,12 @@ function __c122(j: number): any {
         ),
       ).annotate({ identifier: "ListMessageReactionsByEmojiRequest" });
     case 1:
-      return S.suspend(() => __S(7968, __c249, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(8128, __c254, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListMessageReactionsByEmojiResponse",
       });
   }
 }
-function __c123(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14086,7 +14508,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "ListMessagesRequest" });
   }
 }
-function __c124(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14112,12 +14534,12 @@ function __c124(j: number): any {
         S.Struct({
           id: S.String,
           type: S.String,
-          account: __S(3968, __c124, 0),
-          guild: __S(3970, __c124, 2),
+          account: __S(4128, __c129, 0),
+          guild: __S(4130, __c129, 2),
         }),
       ).annotate({ identifier: "ConnectedAccountIntegrationResponse" });
     case 4:
-      return S.Array(__S(3971, __c124, 3));
+      return S.Array(__S(4131, __c129, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -14125,7 +14547,7 @@ function __c124(j: number): any {
           name: S.NullOr(S.String),
           type: S.String,
           friend_sync: S.Boolean,
-          integrations: S.optional(__S(3972, __c124, 4)),
+          integrations: S.optional(__S(4132, __c129, 4)),
           show_activity: S.Boolean,
           two_way_link: S.Boolean,
           verified: S.Boolean,
@@ -14134,14 +14556,47 @@ function __c124(j: number): any {
         }),
       ).annotate({ identifier: "ConnectedAccountResponse" });
     case 6:
-      return S.Array(__S(3973, __c124, 5));
+      return S.Array(__S(4133, __c129, 5));
     case 7:
-      return S.suspend(() => S.NullOr(__S(3974, __c124, 6)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(4134, __c129, 6)).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListMyConnectionsResponse",
       });
   }
 }
-function __c125(j: number): any {
+function __c130(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          metadata: S.optional(S.NullOr(__S(8480, __c265, 0))),
+          flags: S.optional(S.NullOr(S.Number)),
+          additional_name: S.optional(S.NullOr(S.String)),
+          remove_member: S.optional(S.NullOr(S.Boolean)),
+        }),
+      ).annotate({ identifier: "BulkLobbyMemberRequest" });
+    case 1:
+      return S.Array(__S(4160, __c130, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          lobby_id: S.String.pipe(T.Label()),
+          body: S.NullOr(__S(4161, __c130, 1)).pipe(T.HttpBody()),
+        }).pipe(T.Http({ method: "POST", uri: "/lobbies/{lobby_id}/members/bulk", code: 200 })),
+      ).annotate({ identifier: "BulkUpdateLobbyMembersRequest" });
+    case 3:
+      return S.suspend(() => S.NullOr(__S(4192, __c131, 0)).pipe(T.RawResponseRoot())).annotate({
+        identifier: "BulkUpdateLobbyMembersResponse",
+      });
+  }
+}
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(8512, __c266, 0));
+  }
+}
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14162,20 +14617,20 @@ function __c125(j: number): any {
           banner: S.NullOr(S.String),
           owner: S.Boolean,
           permissions: S.String,
-          features: __S(8000, __c250, 0),
+          features: __S(8160, __c255, 0),
           approximate_member_count: S.optional(S.NullOr(S.Number)),
           approximate_presence_count: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "MyGuildResponse" });
     case 2:
-      return S.Array(__S(4001, __c125, 1));
+      return S.Array(__S(4225, __c132, 1));
     case 3:
-      return S.suspend(() => S.NullOr(__S(4002, __c125, 2)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(4226, __c132, 2)).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListMyGuildsResponse",
       });
   }
 }
-function __c126(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14193,7 +14648,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "ListMyPrivateArchivedThreadsRequest" });
   }
 }
-function __c127(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14207,21 +14662,21 @@ function __c127(j: number): any {
       return S.suspend(() =>
         S.Struct({
           pinned_at: S.String,
-          message: __S(7942, __c248, 6),
+          message: __S(8102, __c253, 6),
         }),
       ).annotate({ identifier: "PinnedMessageResponse" });
     case 2:
-      return S.Array(__S(4065, __c127, 1));
+      return S.Array(__S(4289, __c134, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(4066, __c127, 2),
+          items: __S(4290, __c134, 2),
           has_more: S.Boolean,
         }),
       ).annotate({ identifier: "PinnedMessagesResponse" });
   }
 }
-function __c128(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14239,40 +14694,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "ListPrivateArchivedThreadsRequest" });
   }
 }
-function __c129(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          metadata: S.optional(S.NullOr(__S(8320, __c260, 0))),
-          flags: S.optional(S.NullOr(S.Number)),
-          additional_name: S.optional(S.NullOr(S.String)),
-          remove_member: S.optional(S.NullOr(S.Boolean)),
-        }),
-      ).annotate({ identifier: "BulkLobbyMemberRequest" });
-    case 1:
-      return S.Array(__S(4128, __c129, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          lobby_id: S.String.pipe(T.Label()),
-          body: S.NullOr(__S(4129, __c129, 1)).pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/lobbies/{lobby_id}/members/bulk", code: 200 })),
-      ).annotate({ identifier: "BulkUpdateLobbyMembersRequest" });
-    case 3:
-      return S.suspend(() => S.NullOr(__S(4160, __c130, 0)).pipe(T.RawResponseRoot())).annotate({
-        identifier: "BulkUpdateLobbyMembersResponse",
-      });
-  }
-}
-function __c130(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(8352, __c261, 0));
-  }
-}
-function __c131(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14290,23 +14712,23 @@ function __c131(j: number): any {
       ).annotate({ identifier: "ListPublicArchivedThreadsRequest" });
   }
 }
-function __c132(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/sticker-packs", code: 200 })),
       ).annotate({ identifier: "ListStickerPacksRequest" });
     case 1:
-      return S.Array(__S(2210, __c69, 2));
+      return S.Array(__S(2530, __c79, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sticker_packs: __S(4225, __c132, 1),
+          sticker_packs: __S(4385, __c137, 1),
         }),
       ).annotate({ identifier: "StickerPackCollectionResponse" });
   }
 }
-function __c133(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14318,12 +14740,12 @@ function __c133(j: number): any {
         }).pipe(T.Http({ method: "GET", uri: "/channels/{channel_id}/thread-members", code: 200 })),
       ).annotate({ identifier: "ListThreadMembersRequest" });
     case 1:
-      return S.suspend(() => __S(10016, __c313, 0).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(10176, __c318, 0).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListThreadMembersResponse",
       });
   }
 }
-function __c134(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14331,7 +14753,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "ListVoiceRegionsRequest" });
   }
 }
-function __c135(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14344,7 +14766,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "PartnerSdkTokenRequest" });
   }
 }
-function __c136(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14357,105 +14779,6 @@ function __c136(j: number): any {
           T.Http({ method: "POST", uri: "/partner-sdk/provisional-accounts/unmerge", code: 200 }),
         ),
       ).annotate({ identifier: "PartnerSdkUnmergeProvisionalAccountRequest" });
-  }
-}
-function __c137(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          channel_id: S.String.pipe(T.Label()),
-          message_id: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/channels/{channel_id}/polls/{message_id}/expire",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "PollExpireRequest" });
-  }
-}
-function __c138(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          guild_id: S.String.pipe(T.Label()),
-          days: S.optional(S.Number.pipe(T.Query())),
-          include_roles: S.optional(__S(4416, __c138, 0).pipe(T.Query())),
-        }).pipe(T.Http({ method: "GET", uri: "/guilds/{guild_id}/prune", code: 200 })),
-      ).annotate({ identifier: "PreviewPruneGuildRequest" });
-  }
-}
-function __c139(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          pruned: S.NullOr(S.Number),
-        }),
-      ).annotate({ identifier: "GuildPruneResponse" });
-  }
-}
-function __c140(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          guild_id: S.String.pipe(T.Label()),
-          days: S.optional(S.NullOr(S.Number)),
-          compute_prune_count: S.optional(S.NullOr(S.Boolean)),
-          include_roles: S.optional(S.NullOr(__S(4480, __c140, 0))),
-        }).pipe(T.Http({ method: "POST", uri: "/guilds/{guild_id}/prune", code: 200 })),
-      ).annotate({ identifier: "PruneGuildRequest" });
-  }
-}
-function __c141(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.NullOr(S.String)),
-          title: S.String,
-          description: S.optional(S.NullOr(S.String)),
-          emoji_id: S.optional(S.NullOr(S.String)),
-          emoji_name: S.optional(S.NullOr(S.String)),
-          emoji_animated: S.optional(S.NullOr(S.Boolean)),
-          role_ids: S.optional(S.NullOr(__S(4672, __c146, 0))),
-          channel_ids: S.optional(S.NullOr(__S(4672, __c146, 0))),
-        }),
-      ).annotate({ identifier: "OnboardingPromptOptionRequest" });
-    case 1:
-      return S.Array(__S(4512, __c141, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          title: S.String,
-          options: __S(4513, __c141, 1),
-          single_select: S.optional(S.NullOr(S.Boolean)),
-          required: S.optional(S.NullOr(S.Boolean)),
-          in_onboarding: S.optional(S.NullOr(S.Boolean)),
-          type: S.optional(S.NullOr(S.Number)),
-          id: S.String,
-        }),
-      ).annotate({ identifier: "UpdateOnboardingPromptRequest" });
-    case 3:
-      return S.Array(__S(4514, __c141, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          guild_id: S.String.pipe(T.Label()),
-          prompts: S.optional(S.NullOr(__S(4515, __c141, 3))),
-          enabled: S.optional(S.NullOr(S.Boolean)),
-          default_channel_ids: S.optional(S.NullOr(__S(4672, __c146, 0))),
-          mode: S.optional(S.NullOr(S.Number)),
-        }).pipe(T.Http({ method: "PUT", uri: "/guilds/{guild_id}/onboarding", code: 200 })),
-      ).annotate({ identifier: "PutGuildsOnboardingRequest" });
   }
 }
 function __c142(j: number): any {
@@ -14584,6 +14907,105 @@ function __c148(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          channel_id: S.String.pipe(T.Label()),
+          message_id: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/channels/{channel_id}/polls/{message_id}/expire",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "PollExpireRequest" });
+  }
+}
+function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          guild_id: S.String.pipe(T.Label()),
+          days: S.optional(S.Number.pipe(T.Query())),
+          include_roles: S.optional(__S(4768, __c149, 0).pipe(T.Query())),
+        }).pipe(T.Http({ method: "GET", uri: "/guilds/{guild_id}/prune", code: 200 })),
+      ).annotate({ identifier: "PreviewPruneGuildRequest" });
+  }
+}
+function __c150(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          pruned: S.NullOr(S.Number),
+        }),
+      ).annotate({ identifier: "GuildPruneResponse" });
+  }
+}
+function __c151(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          guild_id: S.String.pipe(T.Label()),
+          days: S.optional(S.NullOr(S.Number)),
+          compute_prune_count: S.optional(S.NullOr(S.Boolean)),
+          include_roles: S.optional(S.NullOr(__S(4832, __c151, 0))),
+        }).pipe(T.Http({ method: "POST", uri: "/guilds/{guild_id}/prune", code: 200 })),
+      ).annotate({ identifier: "PruneGuildRequest" });
+  }
+}
+function __c152(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.NullOr(S.String)),
+          title: S.String,
+          description: S.optional(S.NullOr(S.String)),
+          emoji_id: S.optional(S.NullOr(S.String)),
+          emoji_name: S.optional(S.NullOr(S.String)),
+          emoji_animated: S.optional(S.NullOr(S.Boolean)),
+          role_ids: S.optional(S.NullOr(__S(4672, __c146, 0))),
+          channel_ids: S.optional(S.NullOr(__S(4672, __c146, 0))),
+        }),
+      ).annotate({ identifier: "OnboardingPromptOptionRequest" });
+    case 1:
+      return S.Array(__S(4864, __c152, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          title: S.String,
+          options: __S(4865, __c152, 1),
+          single_select: S.optional(S.NullOr(S.Boolean)),
+          required: S.optional(S.NullOr(S.Boolean)),
+          in_onboarding: S.optional(S.NullOr(S.Boolean)),
+          type: S.optional(S.NullOr(S.Number)),
+          id: S.String,
+        }),
+      ).annotate({ identifier: "UpdateOnboardingPromptRequest" });
+    case 3:
+      return S.Array(__S(4866, __c152, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          guild_id: S.String.pipe(T.Label()),
+          prompts: S.optional(S.NullOr(__S(4867, __c152, 3))),
+          enabled: S.optional(S.NullOr(S.Boolean)),
+          default_channel_ids: S.optional(S.NullOr(__S(4672, __c146, 0))),
+          mode: S.optional(S.NullOr(S.Number)),
+        }).pipe(T.Http({ method: "PUT", uri: "/guilds/{guild_id}/onboarding", code: 200 })),
+      ).annotate({ identifier: "PutGuildsOnboardingRequest" });
+  }
+}
+function __c153(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           code: S.String.pipe(T.Label()),
           user_id: S.String.pipe(T.Label()),
         }).pipe(
@@ -14592,7 +15014,7 @@ function __c148(j: number): any {
       ).annotate({ identifier: "RemoveInviteTargetUserRequest" });
   }
 }
-function __c149(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14656,12 +15078,12 @@ function __c149(j: number): any {
         ]),
       );
     case 2:
-      return S.suspend(() => __S(4769, __c149, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(4929, __c154, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "RevokeInviteResponse",
       });
   }
 }
-function __c150(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14672,7 +15094,7 @@ function __c150(j: number): any {
           content: S.optional(S.String.pipe(T.Query())),
           slop: S.optional(S.Number.pipe(T.Query())),
           author_id: S.optional(__S(4672, __c146, 0).pipe(T.Query())),
-          author_type: S.optional(__S(8000, __c250, 0).pipe(T.Query())),
+          author_type: S.optional(__S(8160, __c255, 0).pipe(T.Query())),
           mentions: S.optional(__S(4672, __c146, 0).pipe(T.Query())),
           mentions_role_id: S.optional(__S(4672, __c146, 0).pipe(T.Query())),
           replied_to_user_id: S.optional(__S(4672, __c146, 0).pipe(T.Query())),
@@ -14682,10 +15104,10 @@ function __c150(j: number): any {
           max_id: S.optional(S.String.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           offset: S.optional(S.Number.pipe(T.Query())),
-          has: S.optional(__S(8000, __c250, 0).pipe(T.Query())),
+          has: S.optional(__S(8160, __c255, 0).pipe(T.Query())),
           link_hostname: S.optional(__S(4672, __c146, 0).pipe(T.Query())),
           embed_provider: S.optional(__S(4672, __c146, 0).pipe(T.Query())),
-          embed_type: S.optional(__S(8000, __c250, 0).pipe(T.Query())),
+          embed_type: S.optional(__S(8160, __c255, 0).pipe(T.Query())),
           attachment_extension: S.optional(__S(4672, __c146, 0).pipe(T.Query())),
           attachment_filename: S.optional(__S(4672, __c146, 0).pipe(T.Query())),
           pinned: S.optional(S.Boolean.pipe(T.Query())),
@@ -14706,7 +15128,7 @@ function __c150(j: number): any {
         ]),
       );
     case 2:
-      return S.Array(__S(4801, __c150, 1));
+      return S.Array(__S(4961, __c155, 1));
     case 3:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -14725,7 +15147,7 @@ function __c150(j: number): any {
         ]),
       );
     case 4:
-      return S.Array(__S(4803, __c150, 3));
+      return S.Array(__S(4963, __c155, 3));
     case 5:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 6:
@@ -14763,65 +15185,69 @@ function __c150(j: number): any {
         S.Struct({
           type: S.Number,
           content: S.String,
-          mentions: __S(7968, __c249, 0),
+          mentions: __S(8128, __c254, 0),
           mention_roles: __S(4672, __c146, 0),
-          attachments: __S(7840, __c245, 0),
-          embeds: __S(7852, __c245, 12),
+          attachments: __S(8000, __c250, 0),
+          embeds: __S(8013, __c250, 13),
           timestamp: S.String,
           edited_timestamp: S.NullOr(S.String),
           flags: S.Number,
-          components: __S(4802, __c150, 2),
-          stickers: S.optional(__S(4804, __c150, 4)),
-          sticker_items: S.optional(__S(7854, __c245, 14)),
+          components: __S(4962, __c155, 2),
+          stickers: S.optional(__S(4964, __c155, 4)),
+          sticker_items: S.optional(__S(8015, __c250, 15)),
           id: S.String,
           channel_id: S.String,
           author: __S(4608, __c144, 0),
           pinned: S.Boolean,
           mention_everyone: S.Boolean,
           tts: S.Boolean,
-          call: S.optional(__S(7855, __c245, 15)),
-          activity: S.optional(__S(7856, __c245, 16)),
-          application: S.optional(__S(7857, __c245, 17)),
+          call: S.optional(__S(8016, __c250, 16)),
+          activity: S.optional(__S(8017, __c250, 17)),
+          application: S.optional(__S(8018, __c250, 18)),
           application_id: S.optional(S.String),
-          interaction: S.optional(__S(7858, __c245, 18)),
-          nonce: S.optional(__S(4805, __c150, 5)),
+          interaction: S.optional(__S(8019, __c250, 19)),
+          nonce: S.optional(__S(4965, __c155, 5)),
           webhook_id: S.optional(S.String),
-          message_reference: S.optional(__S(7859, __c245, 19)),
-          thread: S.optional(__S(7777, __c243, 1)),
-          mention_channels: S.optional(__S(7861, __c245, 21)),
-          role_subscription_data: S.optional(__S(7862, __c245, 22)),
-          purchase_notification: S.optional(__S(7864, __c245, 24)),
+          message_reference: S.optional(__S(8020, __c250, 20)),
+          thread: S.optional(__S(7937, __c248, 1)),
+          mention_channels: S.optional(__S(8022, __c250, 22)),
+          role_subscription_data: S.optional(__S(8023, __c250, 23)),
+          purchase_notification: S.optional(__S(8025, __c250, 25)),
           position: S.optional(S.Number),
-          resolved: S.optional(__S(7871, __c245, 31)),
-          poll: S.optional(__S(7879, __c246, 7)),
-          shared_client_theme: S.optional(__S(7880, __c246, 8)),
-          interaction_metadata: S.optional(__S(4806, __c150, 6)),
-          message_snapshots: S.optional(__S(7887, __c246, 15)),
-          lobby_member: S.optional(__S(7680, __c240, 0)),
-          reactions: S.optional(__S(7890, __c246, 18)),
-          referenced_message: S.optional(S.NullOr(__S(7897, __c246, 25))),
+          resolved: S.optional(__S(8032, __c251, 0)),
+          poll: S.optional(__S(8040, __c251, 8)),
+          shared_client_theme: S.optional(__S(8041, __c251, 9)),
+          interaction_metadata: S.optional(__S(4966, __c155, 6)),
+          message_snapshots: S.optional(__S(8048, __c251, 16)),
+          lobby_member: S.optional(__S(7840, __c245, 0)),
+          actor: S.optional(__S(4608, __c144, 0)),
+          reactions: S.optional(__S(8051, __c251, 19)),
+          referenced_message: S.optional(S.NullOr(__S(8058, __c251, 26))),
           hit: S.Boolean,
           restriction_count: S.optional(S.Number),
+          author_restriction_count: S.optional(S.Number),
+          source_author_restriction_count: S.optional(S.Number),
+          forward_source_author_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "SearchMessageResponse" });
     case 8:
-      return S.Array(__S(4807, __c150, 7));
+      return S.Array(__S(4967, __c155, 7));
     case 9:
-      return S.Array(__S(4808, __c150, 8));
+      return S.Array(__S(4968, __c155, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          messages: __S(4809, __c150, 9),
+          messages: __S(4969, __c155, 9),
           doing_deep_historical_index: S.Boolean,
           total_results: S.Number,
-          threads: S.optional(S.NullOr(__S(9952, __c311, 0))),
-          members: S.optional(S.NullOr(__S(10016, __c313, 0))),
+          threads: S.optional(S.NullOr(__S(10112, __c316, 0))),
+          members: S.optional(S.NullOr(__S(10176, __c318, 0))),
           documents_indexed: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "GuildSearchResponse" });
   }
 }
-function __c151(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14833,7 +15259,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "SearchGuildMembersRequest" });
   }
 }
-function __c152(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
@@ -14845,7 +15271,7 @@ function __c152(j: number): any {
           slop: S.optional(S.Number.pipe(T.Query())),
           min_id: S.optional(S.String.pipe(T.Query())),
           max_id: S.optional(S.String.pipe(T.Query())),
-          tag: S.optional(__S(4864, __c152, 0).pipe(T.Query())),
+          tag: S.optional(__S(5024, __c157, 0).pipe(T.Query())),
           tag_setting: S.optional(S.String.pipe(T.Query())),
           archived: S.optional(S.Boolean.pipe(T.Query())),
           sort_by: S.optional(S.String.pipe(T.Query())),
@@ -14857,16 +15283,16 @@ function __c152(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          threads: __S(9952, __c311, 0),
-          members: __S(10016, __c313, 0),
+          threads: __S(10112, __c316, 0),
+          members: __S(10176, __c318, 0),
           has_more: S.Boolean,
-          first_messages: S.optional(__S(9920, __c310, 0)),
+          first_messages: S.optional(__S(10080, __c315, 0)),
           total_results: S.Number,
         }),
       ).annotate({ identifier: "ThreadSearchResponse" });
   }
 }
-function __c153(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14884,71 +15310,7 @@ function __c153(j: number): any {
       ).annotate({ identifier: "SendSoundboardSoundRequest" });
   }
 }
-function __c154(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          channel_id: S.String.pipe(T.Label()),
-          overwrite_id: S.String.pipe(T.Label()),
-          type: S.optional(S.NullOr(S.Number)),
-          allow: S.optional(S.NullOr(S.Number)),
-          deny: S.optional(S.NullOr(S.Number)),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/channels/{channel_id}/permissions/{overwrite_id}",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SetChannelPermissionOverwriteRequest" });
-  }
-}
-function __c155(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          application_id: S.String.pipe(T.Label()),
-          guild_id: S.String.pipe(T.Label()),
-          command_id: S.String.pipe(T.Label()),
-          permissions: S.optional(S.NullOr(__S(481, __c15, 1))),
-        }).pipe(
-          T.Http({
-            method: "PUT",
-            uri: "/applications/{application_id}/guilds/{guild_id}/commands/{command_id}/permissions",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "SetGuildApplicationCommandPermissionsRequest" });
-  }
-}
-function __c156(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          guild_id: S.String.pipe(T.Label()),
-          code: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "PUT", uri: "/guilds/{guild_id}/templates/{code}", code: 200 })),
-      ).annotate({ identifier: "SyncGuildTemplateRequest" });
-  }
-}
-function __c157(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          channel_id: S.String.pipe(T.Label()),
-        }).pipe(T.Http({ method: "POST", uri: "/channels/{channel_id}/typing", code: 200 })),
-      ).annotate({ identifier: "TriggerTypingIndicatorRequest" });
-    case 1:
-      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
-        identifier: "TriggerTypingIndicatorResponse",
-      });
-  }
-}
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14968,18 +15330,82 @@ function __c158(j: number): any {
       return S.suspend(() =>
         S.Struct({
           guild_scheduled_event_count: S.Number,
-          guild_scheduled_event_exception_counts: __S(5088, __c159, 0),
+          guild_scheduled_event_exception_counts: __S(5120, __c160, 0),
         }),
       ).annotate({ identifier: "ScheduledEventUserCountResponse" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Number);
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channel_id: S.String.pipe(T.Label()),
+          overwrite_id: S.String.pipe(T.Label()),
+          type: S.optional(S.NullOr(S.Number)),
+          allow: S.optional(S.NullOr(S.Number)),
+          deny: S.optional(S.NullOr(S.Number)),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/channels/{channel_id}/permissions/{overwrite_id}",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SetChannelPermissionOverwriteRequest" });
+  }
+}
+function __c162(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          application_id: S.String.pipe(T.Label()),
+          guild_id: S.String.pipe(T.Label()),
+          command_id: S.String.pipe(T.Label()),
+          permissions: S.optional(S.NullOr(__S(609, __c19, 1))),
+        }).pipe(
+          T.Http({
+            method: "PUT",
+            uri: "/applications/{application_id}/guilds/{guild_id}/commands/{command_id}/permissions",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "SetGuildApplicationCommandPermissionsRequest" });
+  }
+}
+function __c163(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          guild_id: S.String.pipe(T.Label()),
+          code: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "PUT", uri: "/guilds/{guild_id}/templates/{code}", code: 200 })),
+      ).annotate({ identifier: "SyncGuildTemplateRequest" });
+  }
+}
+function __c164(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channel_id: S.String.pipe(T.Label()),
+        }).pipe(T.Http({ method: "POST", uri: "/channels/{channel_id}/typing", code: 200 })),
+      ).annotate({ identifier: "TriggerTypingIndicatorRequest" });
+    case 1:
+      return S.suspend(() => S.Unknown.pipe(T.RawResponseRoot())).annotate({
+        identifier: "TriggerTypingIndicatorResponse",
+      });
+  }
+}
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14990,13 +15416,13 @@ function __c160(j: number): any {
       ).annotate({ identifier: "UnbanUserFromGuildRequest2" });
   }
 }
-function __c161(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           application_id: S.String.pipe(T.Label()),
-          description: S.optional(S.NullOr(__S(5184, __c162, 0))),
+          description: S.optional(S.NullOr(__S(5344, __c167, 0))),
           icon: S.optional(S.NullOr(S.String)),
           cover_image: S.optional(S.NullOr(S.String)),
           team_id: S.optional(S.NullOr(S.String)),
@@ -15007,43 +15433,43 @@ function __c161(j: number): any {
           type: S.optional(S.NullOr(S.Number)),
           tags: S.optional(S.NullOr(__S(4672, __c146, 0))),
           custom_install_url: S.optional(S.NullOr(S.String)),
-          install_params: S.optional(S.NullOr(__S(5185, __c162, 1))),
+          install_params: S.optional(S.NullOr(__S(5345, __c167, 1))),
           role_connections_verification_url: S.optional(S.NullOr(S.String)),
-          integration_types_config: S.optional(S.NullOr(__S(5187, __c162, 3))),
+          integration_types_config: S.optional(S.NullOr(__S(5347, __c167, 3))),
           event_webhooks_status: S.optional(S.NullOr(S.Number)),
           event_webhooks_url: S.optional(S.NullOr(S.String)),
-          event_webhooks_types: S.optional(S.NullOr(__S(8000, __c250, 0))),
+          event_webhooks_types: S.optional(S.NullOr(__S(8160, __c255, 0))),
         }).pipe(T.Http({ method: "PATCH", uri: "/applications/{application_id}", code: 200 })),
       ).annotate({ identifier: "UpdateApplicationRequest" });
   }
 }
-function __c162(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           default: S.String,
-          localizations: S.optional(S.NullOr(__S(8320, __c260, 0))),
+          localizations: S.optional(S.NullOr(__S(8480, __c265, 0))),
         }),
       ).annotate({ identifier: "UpdateApplicationRequestDescription" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          scopes: S.optional(S.NullOr(__S(8000, __c250, 0))),
+          scopes: S.optional(S.NullOr(__S(8160, __c255, 0))),
           permissions: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "ApplicationOAuth2InstallParams" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          oauth2_install_params: S.optional(S.NullOr(__S(5185, __c162, 1))),
+          oauth2_install_params: S.optional(S.NullOr(__S(5345, __c167, 1))),
         }),
       ).annotate({ identifier: "ApplicationIntegrationTypeConfiguration" });
     case 3:
-      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(5186, __c162, 2)));
+      return S.Record(S.String, /*@__PURE__*/ S.NullOr(__S(5346, __c167, 2)));
   }
 }
-function __c163(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -15155,17 +15581,17 @@ function __c163(j: number): any {
         ]),
       );
     case 1:
-      return S.Array(__S(5216, __c163, 0));
+      return S.Array(__S(5376, __c168, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           application_id: S.String.pipe(T.Label()),
           command_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          name_localizations: S.optional(S.NullOr(__S(8320, __c260, 0))),
+          name_localizations: S.optional(S.NullOr(__S(8480, __c265, 0))),
           description: S.optional(S.NullOr(S.String)),
-          description_localizations: S.optional(S.NullOr(__S(8320, __c260, 0))),
-          options: S.optional(S.NullOr(__S(5217, __c163, 1))),
+          description_localizations: S.optional(S.NullOr(__S(8480, __c265, 0))),
+          options: S.optional(S.NullOr(__S(5377, __c168, 1))),
           default_member_permissions: S.optional(S.NullOr(S.Number)),
           dm_permission: S.optional(S.NullOr(S.Boolean)),
           contexts: S.optional(S.NullOr(__S(2464, __c77, 0))),
@@ -15181,7 +15607,7 @@ function __c163(j: number): any {
       ).annotate({ identifier: "UpdateApplicationCommandRequest" });
   }
 }
-function __c164(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15199,7 +15625,7 @@ function __c164(j: number): any {
       ).annotate({ identifier: "UpdateApplicationEmojiRequest" });
   }
 }
-function __c165(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15207,18 +15633,18 @@ function __c165(j: number): any {
           type: S.Number,
           key: S.String,
           name: S.String,
-          name_localizations: S.optional(S.NullOr(__S(6560, __c205, 0))),
+          name_localizations: S.optional(S.NullOr(__S(6720, __c210, 0))),
           description: S.String,
-          description_localizations: S.optional(S.NullOr(__S(6560, __c205, 0))),
+          description_localizations: S.optional(S.NullOr(__S(6720, __c210, 0))),
         }),
       ).annotate({ identifier: "ApplicationRoleConnectionsMetadataItemRequest" });
     case 1:
-      return S.Array(__S(5280, __c165, 0));
+      return S.Array(__S(5440, __c170, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           application_id: S.String.pipe(T.Label()),
-          body: S.NullOr(__S(5281, __c165, 1)).pipe(T.HttpBody()),
+          body: S.NullOr(__S(5441, __c170, 1)).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -15229,7 +15655,7 @@ function __c165(j: number): any {
       ).annotate({ identifier: "UpdateApplicationRoleConnectionsMetadataRequest" });
   }
 }
-function __c166(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15237,7 +15663,7 @@ function __c166(j: number): any {
           application_id: S.String.pipe(T.Label()),
           platform_name: S.optional(S.NullOr(S.String)),
           platform_username: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(S.NullOr(__S(8320, __c260, 0))),
+          metadata: S.optional(S.NullOr(__S(8480, __c265, 0))),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -15248,7 +15674,141 @@ function __c166(j: number): any {
       ).annotate({ identifier: "UpdateApplicationUserRoleConnectionRequest" });
   }
 }
-function __c167(j: number): any {
+function __c172(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases([
+          [
+            "type",
+            "name",
+            "name_localizations",
+            "description",
+            "description_localizations",
+            "required",
+            "file_types",
+          ],
+          [
+            "type",
+            "name",
+            "name_localizations",
+            "description",
+            "description_localizations",
+            "required",
+          ],
+          [
+            "type",
+            "name",
+            "name_localizations",
+            "description",
+            "description_localizations",
+            "required",
+            "channel_types",
+          ],
+          [
+            "type",
+            "name",
+            "name_localizations",
+            "description",
+            "description_localizations",
+            "required",
+            "autocomplete",
+            "choices",
+            "min_value",
+            "max_value",
+          ],
+          [
+            "type",
+            "name",
+            "name_localizations",
+            "description",
+            "description_localizations",
+            "required",
+          ],
+          [
+            "type",
+            "name",
+            "name_localizations",
+            "description",
+            "description_localizations",
+            "required",
+            "autocomplete",
+            "choices",
+            "min_value",
+            "max_value",
+          ],
+          [
+            "type",
+            "name",
+            "name_localizations",
+            "description",
+            "description_localizations",
+            "required",
+          ],
+          [
+            "type",
+            "name",
+            "name_localizations",
+            "description",
+            "description_localizations",
+            "required",
+            "autocomplete",
+            "min_length",
+            "max_length",
+            "choices",
+          ],
+          [
+            "type",
+            "name",
+            "name_localizations",
+            "description",
+            "description_localizations",
+            "required",
+            "options",
+          ],
+          [
+            "type",
+            "name",
+            "name_localizations",
+            "description",
+            "description_localizations",
+            "required",
+            "options",
+          ],
+          [
+            "type",
+            "name",
+            "name_localizations",
+            "description",
+            "description_localizations",
+            "required",
+          ],
+        ]),
+      );
+    case 1:
+      return S.Array(__S(5504, __c172, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          application_id: S.String.pipe(T.Label()),
+          name: S.String,
+          name_localizations: S.optional(S.NullOr(__S(8480, __c265, 0))),
+          description: S.optional(S.NullOr(S.String)),
+          description_localizations: S.optional(S.NullOr(__S(8480, __c265, 0))),
+          options: S.optional(S.NullOr(__S(5505, __c172, 1))),
+          default_member_permissions: S.optional(S.NullOr(S.Number)),
+          dm_permission: S.optional(S.NullOr(S.Boolean)),
+          contexts: S.optional(S.NullOr(__S(2464, __c77, 0))),
+          integration_types: S.optional(S.NullOr(__S(2464, __c77, 0))),
+          handler: S.optional(S.NullOr(S.Number)),
+          type: S.optional(S.NullOr(S.Number)),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/applications/{application_id}/commands", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateApplicationCommandRequest" });
+  }
+}
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -15310,7 +15870,7 @@ function __c167(j: number): any {
         S.Struct({
           guild_id: S.String.pipe(T.Label()),
           rule_id: S.String.pipe(T.Label()),
-          body: __S(5344, __c167, 0).pipe(T.HttpBody()),
+          body: __S(5536, __c173, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -15390,12 +15950,12 @@ function __c167(j: number): any {
         ]),
       );
     case 3:
-      return S.suspend(() => __S(5346, __c167, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(5538, __c173, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "UpdateAutoModerationRuleResponse",
       });
   }
 }
-function __c168(j: number): any {
+function __c174(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -15444,7 +16004,7 @@ function __c168(j: number): any {
       return S.suspend(() =>
         S.Struct({
           channel_id: S.String.pipe(T.Label()),
-          body: __S(5376, __c168, 0).pipe(T.HttpBody()),
+          body: __S(5568, __c174, 0).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "PATCH", uri: "/channels/{channel_id}", code: 200 })),
       ).annotate({ identifier: "UpdateChannelRequest" });
     case 2:
@@ -15517,12 +16077,12 @@ function __c168(j: number): any {
         ]),
       );
     case 3:
-      return S.suspend(() => __S(5378, __c168, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(5570, __c174, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "UpdateChannelResponse",
       });
   }
 }
-function __c169(j: number): any {
+function __c175(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15542,7 +16102,7 @@ function __c169(j: number): any {
           splash: S.optional(S.NullOr(S.String)),
           banner: S.optional(S.NullOr(S.String)),
           system_channel_flags: S.optional(S.NullOr(S.Number)),
-          features: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          features: S.optional(S.NullOr(__S(7040, __c220, 0))),
           discovery_splash: S.optional(S.NullOr(S.String)),
           home_header: S.optional(S.NullOr(S.String)),
           rules_channel_id: S.optional(S.NullOr(S.String)),
@@ -15561,7 +16121,7 @@ function __c169(j: number): any {
           home_header: S.NullOr(S.String),
           splash: S.NullOr(S.String),
           discovery_splash: S.NullOr(S.String),
-          features: __S(8000, __c250, 0),
+          features: __S(8160, __c255, 0),
           banner: S.NullOr(S.String),
           owner_id: S.String,
           application_id: S.NullOr(S.String),
@@ -15592,14 +16152,14 @@ function __c169(j: number): any {
           premium_progress_bar_enabled_user_updated_at: S.optional(S.NullOr(S.String)),
           nsfw: S.Boolean,
           nsfw_level: S.Number,
-          emojis: __S(320, __c10, 0),
-          stickers: __S(352, __c11, 0),
-          incidents_data: S.NullOr(__S(384, __c12, 0)),
+          emojis: __S(416, __c13, 0),
+          stickers: __S(448, __c14, 0),
+          incidents_data: S.NullOr(__S(480, __c15, 0)),
         }),
       ).annotate({ identifier: "GuildResponse" });
   }
 }
-function __c170(j: number): any {
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -15711,7 +16271,7 @@ function __c170(j: number): any {
         ]),
       );
     case 1:
-      return S.Array(__S(5440, __c170, 0));
+      return S.Array(__S(5632, __c176, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -15719,10 +16279,10 @@ function __c170(j: number): any {
           guild_id: S.String.pipe(T.Label()),
           command_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          name_localizations: S.optional(S.NullOr(__S(8320, __c260, 0))),
+          name_localizations: S.optional(S.NullOr(__S(8480, __c265, 0))),
           description: S.optional(S.NullOr(S.String)),
-          description_localizations: S.optional(S.NullOr(__S(8320, __c260, 0))),
-          options: S.optional(S.NullOr(__S(5441, __c170, 1))),
+          description_localizations: S.optional(S.NullOr(__S(8480, __c265, 0))),
+          options: S.optional(S.NullOr(__S(5633, __c176, 1))),
           default_member_permissions: S.optional(S.NullOr(S.Number)),
           dm_permission: S.optional(S.NullOr(S.Boolean)),
           contexts: S.optional(S.NullOr(__S(2464, __c77, 0))),
@@ -15738,141 +16298,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "UpdateGuildApplicationCommandRequest" });
   }
 }
-function __c171(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Unknown.pipe(
-        /*@__PURE__*/ T.UnionCases([
-          [
-            "type",
-            "name",
-            "name_localizations",
-            "description",
-            "description_localizations",
-            "required",
-            "file_types",
-          ],
-          [
-            "type",
-            "name",
-            "name_localizations",
-            "description",
-            "description_localizations",
-            "required",
-          ],
-          [
-            "type",
-            "name",
-            "name_localizations",
-            "description",
-            "description_localizations",
-            "required",
-            "channel_types",
-          ],
-          [
-            "type",
-            "name",
-            "name_localizations",
-            "description",
-            "description_localizations",
-            "required",
-            "autocomplete",
-            "choices",
-            "min_value",
-            "max_value",
-          ],
-          [
-            "type",
-            "name",
-            "name_localizations",
-            "description",
-            "description_localizations",
-            "required",
-          ],
-          [
-            "type",
-            "name",
-            "name_localizations",
-            "description",
-            "description_localizations",
-            "required",
-            "autocomplete",
-            "choices",
-            "min_value",
-            "max_value",
-          ],
-          [
-            "type",
-            "name",
-            "name_localizations",
-            "description",
-            "description_localizations",
-            "required",
-          ],
-          [
-            "type",
-            "name",
-            "name_localizations",
-            "description",
-            "description_localizations",
-            "required",
-            "autocomplete",
-            "min_length",
-            "max_length",
-            "choices",
-          ],
-          [
-            "type",
-            "name",
-            "name_localizations",
-            "description",
-            "description_localizations",
-            "required",
-            "options",
-          ],
-          [
-            "type",
-            "name",
-            "name_localizations",
-            "description",
-            "description_localizations",
-            "required",
-            "options",
-          ],
-          [
-            "type",
-            "name",
-            "name_localizations",
-            "description",
-            "description_localizations",
-            "required",
-          ],
-        ]),
-      );
-    case 1:
-      return S.Array(__S(5472, __c171, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          application_id: S.String.pipe(T.Label()),
-          name: S.String,
-          name_localizations: S.optional(S.NullOr(__S(8320, __c260, 0))),
-          description: S.optional(S.NullOr(S.String)),
-          description_localizations: S.optional(S.NullOr(__S(8320, __c260, 0))),
-          options: S.optional(S.NullOr(__S(5473, __c171, 1))),
-          default_member_permissions: S.optional(S.NullOr(S.Number)),
-          dm_permission: S.optional(S.NullOr(S.Boolean)),
-          contexts: S.optional(S.NullOr(__S(2464, __c77, 0))),
-          integration_types: S.optional(S.NullOr(__S(2464, __c77, 0))),
-          handler: S.optional(S.NullOr(S.Number)),
-          type: S.optional(S.NullOr(S.Number)),
-        }).pipe(
-          T.Http({ method: "POST", uri: "/applications/{application_id}/commands", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateApplicationCommandRequest" });
-  }
-}
-function __c172(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15880,14 +16306,14 @@ function __c172(j: number): any {
           guild_id: S.String.pipe(T.Label()),
           emoji_id: S.String.pipe(T.Label()),
           name: S.optional(S.String),
-          roles: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          roles: S.optional(S.NullOr(__S(7040, __c220, 0))),
         }).pipe(
           T.Http({ method: "PATCH", uri: "/guilds/{guild_id}/emojis/{emoji_id}", code: 200 }),
         ),
       ).annotate({ identifier: "UpdateGuildEmojiRequest" });
   }
 }
-function __c173(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15899,7 +16325,7 @@ function __c173(j: number): any {
       ).annotate({ identifier: "UpdateGuildIncidentActionsRequest" });
   }
 }
-function __c174(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15907,7 +16333,7 @@ function __c174(j: number): any {
           guild_id: S.String.pipe(T.Label()),
           user_id: S.String.pipe(T.Label()),
           nick: S.optional(S.NullOr(S.String)),
-          roles: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          roles: S.optional(S.NullOr(__S(7040, __c220, 0))),
           mute: S.optional(S.NullOr(S.Boolean)),
           deaf: S.optional(S.NullOr(S.Boolean)),
           channel_id: S.optional(S.NullOr(S.String)),
@@ -15919,7 +16345,7 @@ function __c174(j: number): any {
       ).annotate({ identifier: "UpdateGuildMemberRequest" });
   }
 }
-function __c175(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15929,7 +16355,7 @@ function __c175(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           permissions: S.optional(S.NullOr(S.Number)),
           color: S.optional(S.NullOr(S.Number)),
-          colors: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          colors: S.optional(S.NullOr(__S(7104, __c222, 0))),
           hoist: S.optional(S.NullOr(S.Boolean)),
           mentionable: S.optional(S.NullOr(S.Boolean)),
           icon: S.optional(S.NullOr(S.String)),
@@ -15938,7 +16364,7 @@ function __c175(j: number): any {
       ).annotate({ identifier: "UpdateGuildRoleRequest" });
   }
 }
-function __c176(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -15989,7 +16415,7 @@ function __c176(j: number): any {
         S.Struct({
           guild_id: S.String.pipe(T.Label()),
           guild_scheduled_event_id: S.String.pipe(T.Label()),
-          body: __S(5632, __c176, 0).pipe(T.HttpBody()),
+          body: __S(5792, __c181, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -16067,12 +16493,12 @@ function __c176(j: number): any {
         ]),
       );
     case 3:
-      return S.suspend(() => __S(5634, __c176, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(5794, __c181, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "UpdateGuildScheduledEventResponse",
       });
   }
 }
-function __c177(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16093,7 +16519,38 @@ function __c177(j: number): any {
       ).annotate({ identifier: "UpdateGuildScheduledEventExceptionRequest" });
   }
 }
-function __c178(j: number): any {
+function __c183(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          application_id: S.String.pipe(T.Label()),
+          name: S.String,
+          image: S.String,
+        }).pipe(
+          T.Http({ method: "POST", uri: "/applications/{application_id}/emojis", code: 200 }),
+        ),
+      ).annotate({ identifier: "CreateApplicationEmojiRequest" });
+  }
+}
+function __c184(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+          user: S.optional(__S(4608, __c144, 0)),
+          roles: __S(4672, __c146, 0),
+          require_colons: S.Boolean,
+          managed: S.Boolean,
+          animated: S.Boolean,
+          available: S.Boolean,
+        }),
+      ).annotate({ identifier: "EmojiResponse" });
+  }
+}
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16114,7 +16571,7 @@ function __c178(j: number): any {
       ).annotate({ identifier: "UpdateGuildSoundboardSoundRequest" });
   }
 }
-function __c179(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16130,7 +16587,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "UpdateGuildStickerRequest" });
   }
 }
-function __c180(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16143,7 +16600,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "UpdateGuildTemplateRequest" });
   }
 }
-function __c181(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16155,50 +16612,19 @@ function __c181(j: number): any {
         }),
       ).annotate({ identifier: "GuildWelcomeChannel" });
     case 1:
-      return S.Array(__S(5792, __c181, 0));
+      return S.Array(__S(6016, __c188, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           guild_id: S.String.pipe(T.Label()),
           description: S.optional(S.NullOr(S.String)),
-          welcome_channels: S.optional(S.NullOr(__S(5793, __c181, 1))),
+          welcome_channels: S.optional(S.NullOr(__S(6017, __c188, 1))),
           enabled: S.optional(S.NullOr(S.Boolean)),
         }).pipe(T.Http({ method: "PATCH", uri: "/guilds/{guild_id}/welcome-screen", code: 200 })),
       ).annotate({ identifier: "UpdateGuildWelcomeScreenRequest" });
   }
 }
-function __c182(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          application_id: S.String.pipe(T.Label()),
-          name: S.String,
-          image: S.String,
-        }).pipe(
-          T.Http({ method: "POST", uri: "/applications/{application_id}/emojis", code: 200 }),
-        ),
-      ).annotate({ identifier: "CreateApplicationEmojiRequest" });
-  }
-}
-function __c183(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-          user: S.optional(__S(4608, __c144, 0)),
-          roles: __S(4672, __c146, 0),
-          require_colons: S.Boolean,
-          managed: S.Boolean,
-          animated: S.Boolean,
-          available: S.Boolean,
-        }),
-      ).annotate({ identifier: "EmojiResponse" });
-  }
-}
-function __c184(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16210,7 +16636,7 @@ function __c184(j: number): any {
       ).annotate({ identifier: "UpdateGuildWidgetSettingsRequest" });
   }
 }
-function __c185(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16228,14 +16654,14 @@ function __c185(j: number): any {
       ).annotate({ identifier: "UpdateInviteTargetUsersRequest" });
   }
 }
-function __c186(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           lobby_id: S.String.pipe(T.Label()),
           message_id: S.String.pipe(T.Label()),
-          body: __S(8320, __c260, 0).pipe(T.HttpBody()),
+          body: __S(8480, __c265, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16246,7 +16672,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "UpdateLobbyMessageExternalModerationMetadataRequest" });
   }
 }
-function __c187(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -16261,19 +16687,19 @@ function __c187(j: number): any {
         ]),
       );
     case 1:
-      return S.Array(__S(5984, __c187, 0));
+      return S.Array(__S(6144, __c192, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           channel_id: S.String.pipe(T.Label()),
           message_id: S.String.pipe(T.Label()),
           content: S.optional(S.NullOr(S.String)),
-          embeds: S.optional(S.NullOr(__S(7623, __c238, 7))),
+          embeds: S.optional(S.NullOr(__S(7784, __c243, 8))),
           flags: S.optional(S.NullOr(S.Number)),
-          allowed_mentions: S.optional(S.NullOr(__S(7625, __c238, 9))),
+          allowed_mentions: S.optional(S.NullOr(__S(7786, __c243, 10))),
           sticker_ids: S.optional(S.NullOr(__S(4672, __c146, 0))),
-          components: S.optional(S.NullOr(__S(5985, __c187, 1))),
-          attachments: S.optional(S.NullOr(__S(7627, __c238, 11))),
+          components: S.optional(S.NullOr(__S(6145, __c192, 1))),
+          attachments: S.optional(S.NullOr(__S(7788, __c243, 12))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -16284,12 +16710,12 @@ function __c187(j: number): any {
       ).annotate({ identifier: "UpdateMessageRequest" });
   }
 }
-function __c188(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          description: S.optional(S.NullOr(__S(5184, __c162, 0))),
+          description: S.optional(S.NullOr(__S(5344, __c167, 0))),
           icon: S.optional(S.NullOr(S.String)),
           cover_image: S.optional(S.NullOr(S.String)),
           team_id: S.optional(S.NullOr(S.String)),
@@ -16300,17 +16726,17 @@ function __c188(j: number): any {
           type: S.optional(S.NullOr(S.Number)),
           tags: S.optional(S.NullOr(__S(4672, __c146, 0))),
           custom_install_url: S.optional(S.NullOr(S.String)),
-          install_params: S.optional(S.NullOr(__S(5185, __c162, 1))),
+          install_params: S.optional(S.NullOr(__S(5345, __c167, 1))),
           role_connections_verification_url: S.optional(S.NullOr(S.String)),
-          integration_types_config: S.optional(S.NullOr(__S(5187, __c162, 3))),
+          integration_types_config: S.optional(S.NullOr(__S(5347, __c167, 3))),
           event_webhooks_status: S.optional(S.NullOr(S.Number)),
           event_webhooks_url: S.optional(S.NullOr(S.String)),
-          event_webhooks_types: S.optional(S.NullOr(__S(8000, __c250, 0))),
+          event_webhooks_types: S.optional(S.NullOr(__S(8160, __c255, 0))),
         }).pipe(T.Http({ method: "PATCH", uri: "/applications/@me", code: 200 })),
       ).annotate({ identifier: "UpdateMyApplicationRequest" });
   }
 }
-function __c189(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16324,84 +16750,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "UpdateMyGuildMemberRequest" });
   }
 }
-function __c190(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          username: S.String,
-          avatar: S.optional(S.NullOr(S.String)),
-          banner: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/users/@me", code: 200 })),
-      ).annotate({ identifier: "UpdateMyUserRequest" });
-  }
-}
-function __c191(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Unknown.pipe(
-        /*@__PURE__*/ T.UnionCases([
-          ["type", "id", "components"],
-          ["type", "id", "accent_color", "components", "spoiler"],
-          ["type", "id", "spoiler", "file"],
-          ["type", "id", "items"],
-          ["type", "id", "components", "accessory"],
-          ["type", "id", "spacing", "divider"],
-          ["type", "id", "content"],
-        ]),
-      );
-    case 1:
-      return S.Array(__S(6112, __c191, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          webhook_id: S.String.pipe(T.Label()),
-          webhook_token: S.String.pipe(T.Label()),
-          thread_id: S.optional(S.String.pipe(T.Query())),
-          with_components: S.optional(S.Boolean.pipe(T.Query())),
-          content: S.optional(S.NullOr(S.String)),
-          embeds: S.optional(S.NullOr(__S(7623, __c238, 7))),
-          allowed_mentions: S.optional(S.NullOr(__S(7625, __c238, 9))),
-          components: S.optional(S.NullOr(__S(6113, __c191, 1))),
-          attachments: S.optional(S.NullOr(__S(7627, __c238, 11))),
-          poll: S.optional(S.NullOr(__S(7652, __c239, 4))),
-          flags: S.optional(S.NullOr(S.Number)),
-        }).pipe(
-          T.Http({
-            method: "PATCH",
-            uri: "/webhooks/{webhook_id}/{webhook_token}/messages/@original",
-            code: 200,
-          }),
-        ),
-      ).annotate({ identifier: "UpdateOriginalWebhookMessageRequest" });
-  }
-}
-function __c192(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          guild_id: S.String.pipe(T.Label()),
-          request_to_speak_timestamp: S.optional(S.NullOr(S.String)),
-          suppress: S.optional(S.NullOr(S.Boolean)),
-          channel_id: S.optional(S.NullOr(S.String)),
-        }).pipe(T.Http({ method: "PATCH", uri: "/guilds/{guild_id}/voice-states/@me", code: 200 })),
-      ).annotate({ identifier: "UpdateSelfVoiceStateRequest" });
-  }
-}
-function __c193(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          channel_id: S.String.pipe(T.Label()),
-          topic: S.optional(S.String),
-          privacy_level: S.optional(S.Number),
-        }).pipe(T.Http({ method: "PATCH", uri: "/stage-instances/{channel_id}", code: 200 })),
-      ).annotate({ identifier: "UpdateStageInstanceRequest" });
-  }
-}
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -16462,7 +16811,7 @@ function __c194(j: number): any {
       return S.suspend(() =>
         S.Struct({
           guild_id: S.String.pipe(T.Label()),
-          body: __S(6208, __c194, 0).pipe(T.HttpBody()),
+          body: __S(6240, __c195, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "POST", uri: "/guilds/{guild_id}/auto-moderation/rules", code: 200 }),
         ),
@@ -16538,12 +16887,89 @@ function __c194(j: number): any {
         ]),
       );
     case 3:
-      return S.suspend(() => __S(6210, __c194, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6242, __c195, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateAutoModerationRuleResponse",
       });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          username: S.String,
+          avatar: S.optional(S.NullOr(S.String)),
+          banner: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/users/@me", code: 200 })),
+      ).annotate({ identifier: "UpdateMyUserRequest" });
+  }
+}
+function __c197(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Unknown.pipe(
+        /*@__PURE__*/ T.UnionCases([
+          ["type", "id", "components"],
+          ["type", "id", "accent_color", "components", "spoiler"],
+          ["type", "id", "spoiler", "file"],
+          ["type", "id", "items"],
+          ["type", "id", "components", "accessory"],
+          ["type", "id", "spacing", "divider"],
+          ["type", "id", "content"],
+        ]),
+      );
+    case 1:
+      return S.Array(__S(6304, __c197, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          webhook_id: S.String.pipe(T.Label()),
+          webhook_token: S.String.pipe(T.Label()),
+          thread_id: S.optional(S.String.pipe(T.Query())),
+          with_components: S.optional(S.Boolean.pipe(T.Query())),
+          content: S.optional(S.NullOr(S.String)),
+          embeds: S.optional(S.NullOr(__S(7784, __c243, 8))),
+          allowed_mentions: S.optional(S.NullOr(__S(7786, __c243, 10))),
+          components: S.optional(S.NullOr(__S(6305, __c197, 1))),
+          attachments: S.optional(S.NullOr(__S(7788, __c243, 12))),
+          poll: S.optional(S.NullOr(__S(7812, __c244, 4))),
+          flags: S.optional(S.NullOr(S.Number)),
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/webhooks/{webhook_id}/{webhook_token}/messages/@original",
+            code: 200,
+          }),
+        ),
+      ).annotate({ identifier: "UpdateOriginalWebhookMessageRequest" });
+  }
+}
+function __c198(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          guild_id: S.String.pipe(T.Label()),
+          request_to_speak_timestamp: S.optional(S.NullOr(S.String)),
+          suppress: S.optional(S.NullOr(S.Boolean)),
+          channel_id: S.optional(S.NullOr(S.String)),
+        }).pipe(T.Http({ method: "PATCH", uri: "/guilds/{guild_id}/voice-states/@me", code: 200 })),
+      ).annotate({ identifier: "UpdateSelfVoiceStateRequest" });
+  }
+}
+function __c199(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          channel_id: S.String.pipe(T.Label()),
+          topic: S.optional(S.String),
+          privacy_level: S.optional(S.Number),
+        }).pipe(T.Http({ method: "PATCH", uri: "/stage-instances/{channel_id}", code: 200 })),
+      ).annotate({ identifier: "UpdateStageInstanceRequest" });
+  }
+}
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16551,7 +16977,7 @@ function __c195(j: number): any {
           user_id_1: S.String.pipe(T.Label()),
           user_id_2: S.String.pipe(T.Label()),
           message_id: S.String.pipe(T.Label()),
-          body: __S(8320, __c260, 0).pipe(T.HttpBody()),
+          body: __S(8480, __c265, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PUT",
@@ -16562,7 +16988,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "UpdateUserMessageExternalModerationMetadataRequest" });
   }
 }
-function __c196(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16573,7 +16999,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "UpdateVoiceChannelStatusRequest" });
   }
 }
-function __c197(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16588,7 +17014,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "UpdateVoiceStateRequest" });
   }
 }
-function __c198(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16630,12 +17056,12 @@ function __c198(j: number): any {
         ]),
       );
     case 2:
-      return S.suspend(() => __S(6337, __c198, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6497, __c203, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "UpdateWebhookResponse",
       });
   }
 }
-function __c199(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16679,12 +17105,12 @@ function __c199(j: number): any {
         ]),
       );
     case 2:
-      return S.suspend(() => __S(6369, __c199, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6529, __c204, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "UpdateWebhookByTokenResponse",
       });
   }
 }
-function __c200(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -16699,7 +17125,7 @@ function __c200(j: number): any {
         ]),
       );
     case 1:
-      return S.Array(__S(6400, __c200, 0));
+      return S.Array(__S(6560, __c205, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -16709,11 +17135,11 @@ function __c200(j: number): any {
           thread_id: S.optional(S.String.pipe(T.Query())),
           with_components: S.optional(S.Boolean.pipe(T.Query())),
           content: S.optional(S.NullOr(S.String)),
-          embeds: S.optional(S.NullOr(__S(7623, __c238, 7))),
-          allowed_mentions: S.optional(S.NullOr(__S(7625, __c238, 9))),
-          components: S.optional(S.NullOr(__S(6401, __c200, 1))),
-          attachments: S.optional(S.NullOr(__S(7627, __c238, 11))),
-          poll: S.optional(S.NullOr(__S(7652, __c239, 4))),
+          embeds: S.optional(S.NullOr(__S(7784, __c243, 8))),
+          allowed_mentions: S.optional(S.NullOr(__S(7786, __c243, 10))),
+          components: S.optional(S.NullOr(__S(6561, __c205, 1))),
+          attachments: S.optional(S.NullOr(__S(7788, __c243, 12))),
+          poll: S.optional(S.NullOr(__S(7812, __c244, 4))),
           flags: S.optional(S.NullOr(S.Number)),
         }).pipe(
           T.Http({
@@ -16725,31 +17151,7 @@ function __c200(j: number): any {
       ).annotate({ identifier: "UpdateWebhookMessageRequest" });
   }
 }
-function __c201(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          application_id: S.String.pipe(T.Label()),
-          file: S.Unknown.pipe(T.FormDataFile()),
-        }).pipe(
-          T.Http({
-            method: "POST",
-            uri: "/applications/{application_id}/attachment",
-            code: 200,
-            contentType: "multipart",
-          }),
-        ),
-      ).annotate({ identifier: "UploadApplicationAttachmentRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          attachment: __S(7904, __c247, 0),
-        }),
-      ).annotate({ identifier: "ActivitiesAttachmentResponse" });
-  }
-}
-function __c202(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -16772,7 +17174,7 @@ function __c202(j: number): any {
       return S.suspend(() =>
         S.Struct({
           channel_id: S.String.pipe(T.Label()),
-          body: __S(6464, __c202, 0).pipe(T.HttpBody()),
+          body: __S(6592, __c206, 0).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/channels/{channel_id}/invites", code: 200 })),
       ).annotate({ identifier: "CreateChannelInviteRequest" });
     case 2:
@@ -16831,12 +17233,36 @@ function __c202(j: number): any {
         ]),
       );
     case 3:
-      return S.suspend(() => __S(6466, __c202, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6594, __c206, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateChannelInviteResponse",
       });
   }
 }
-function __c203(j: number): any {
+function __c207(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          application_id: S.String.pipe(T.Label()),
+          file: S.Unknown.pipe(T.FormDataFile()),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/applications/{application_id}/attachment",
+            code: 200,
+            contentType: "multipart",
+          }),
+        ),
+      ).annotate({ identifier: "UploadApplicationAttachmentRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          attachment: __S(8064, __c252, 0),
+        }),
+      ).annotate({ identifier: "ActivitiesAttachmentResponse" });
+  }
+}
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16849,14 +17275,14 @@ function __c203(j: number): any {
       ).annotate({ identifier: "CreateDeprecatedPinRequest" });
   }
 }
-function __c204(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           recipient_id: S.optional(S.NullOr(S.String)),
           access_tokens: S.optional(S.NullOr(__S(4672, __c146, 0))),
-          nicks: S.optional(S.NullOr(__S(6560, __c205, 0))),
+          nicks: S.optional(S.NullOr(__S(6720, __c210, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/users/@me/channels", code: 200 })),
       ).annotate({ identifier: "CreateDmRequest" });
     case 1:
@@ -16879,18 +17305,18 @@ function __c204(j: number): any {
         ]),
       );
     case 2:
-      return S.suspend(() => __S(6529, __c204, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(6689, __c209, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateDmResponse",
       });
   }
 }
-function __c205(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
   }
 }
-function __c206(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16905,7 +17331,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "CreateEntitlementRequest" });
   }
 }
-function __c207(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16928,7 +17354,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "EntitlementResponse" });
   }
 }
-function __c208(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -17040,17 +17466,17 @@ function __c208(j: number): any {
         ]),
       );
     case 1:
-      return S.Array(__S(6656, __c208, 0));
+      return S.Array(__S(6816, __c213, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           application_id: S.String.pipe(T.Label()),
           guild_id: S.String.pipe(T.Label()),
           name: S.String,
-          name_localizations: S.optional(S.NullOr(__S(8320, __c260, 0))),
+          name_localizations: S.optional(S.NullOr(__S(8480, __c265, 0))),
           description: S.optional(S.NullOr(S.String)),
-          description_localizations: S.optional(S.NullOr(__S(8320, __c260, 0))),
-          options: S.optional(S.NullOr(__S(6657, __c208, 1))),
+          description_localizations: S.optional(S.NullOr(__S(8480, __c265, 0))),
+          options: S.optional(S.NullOr(__S(6817, __c213, 1))),
           default_member_permissions: S.optional(S.NullOr(S.Number)),
           dm_permission: S.optional(S.NullOr(S.Boolean)),
           contexts: S.optional(S.NullOr(__S(2464, __c77, 0))),
@@ -17067,7 +17493,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "CreateGuildApplicationCommandRequest" });
   }
 }
-function __c209(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17085,13 +17511,13 @@ function __c209(j: number): any {
       ).annotate({ identifier: "AddGuildMemberRoleRequest" });
   }
 }
-function __c210(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "AddGuildMemberRoleResponse" });
   }
 }
-function __c211(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17103,7 +17529,7 @@ function __c211(j: number): any {
         }),
       ).annotate({ identifier: "ChannelPermissionOverwriteRequest" });
     case 1:
-      return S.Array(__S(6752, __c211, 0));
+      return S.Array(__S(6912, __c216, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -17121,7 +17547,7 @@ function __c211(j: number): any {
         }),
       ).annotate({ identifier: "CreateOrUpdateThreadTagRequest" });
     case 4:
-      return S.Array(/*@__PURE__*/ S.NullOr(__S(6755, __c211, 3)));
+      return S.Array(/*@__PURE__*/ S.NullOr(__S(6915, __c216, 3)));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -17135,21 +17561,21 @@ function __c211(j: number): any {
           nsfw: S.optional(S.NullOr(S.Boolean)),
           rate_limit_per_user: S.optional(S.NullOr(S.Number)),
           parent_id: S.optional(S.NullOr(S.String)),
-          permission_overwrites: S.optional(S.NullOr(__S(6753, __c211, 1))),
+          permission_overwrites: S.optional(S.NullOr(__S(6913, __c216, 1))),
           rtc_region: S.optional(S.NullOr(S.String)),
           video_quality_mode: S.optional(S.NullOr(S.Number)),
           default_auto_archive_duration: S.optional(S.NullOr(S.Number)),
-          default_reaction_emoji: S.optional(S.NullOr(__S(6754, __c211, 2))),
+          default_reaction_emoji: S.optional(S.NullOr(__S(6914, __c216, 2))),
           default_thread_rate_limit_per_user: S.optional(S.NullOr(S.Number)),
           default_sort_order: S.optional(S.NullOr(S.Number)),
           default_forum_layout: S.optional(S.NullOr(S.Number)),
           default_tag_setting: S.optional(S.NullOr(S.String)),
-          available_tags: S.optional(S.NullOr(__S(6756, __c211, 4))),
+          available_tags: S.optional(S.NullOr(__S(6916, __c216, 4))),
         }).pipe(T.Http({ method: "POST", uri: "/guilds/{guild_id}/channels", code: 200 })),
       ).annotate({ identifier: "CreateGuildChannelRequest" });
   }
 }
-function __c212(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17161,7 +17587,7 @@ function __c212(j: number): any {
         }),
       ).annotate({ identifier: "ChannelPermissionOverwriteResponse" });
     case 1:
-      return S.Array(__S(6784, __c212, 0));
+      return S.Array(__S(6944, __c217, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -17171,7 +17597,7 @@ function __c212(j: number): any {
       ).annotate({ identifier: "DefaultReactionEmojiResponse" });
   }
 }
-function __c213(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17184,7 +17610,7 @@ function __c213(j: number): any {
         }),
       ).annotate({ identifier: "ForumTagResponse" });
     case 1:
-      return S.Array(__S(6816, __c213, 0));
+      return S.Array(__S(6976, __c218, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -17206,10 +17632,10 @@ function __c213(j: number): any {
           default_auto_archive_duration: S.optional(S.Number),
           default_thread_rate_limit_per_user: S.optional(S.Number),
           position: S.Number,
-          permission_overwrites: S.optional(__S(6785, __c212, 1)),
+          permission_overwrites: S.optional(__S(6945, __c217, 1)),
           nsfw: S.optional(S.Boolean),
-          available_tags: S.optional(__S(6817, __c213, 1)),
-          default_reaction_emoji: S.optional(S.NullOr(__S(6786, __c212, 2))),
+          available_tags: S.optional(__S(6977, __c218, 1)),
+          default_reaction_emoji: S.optional(S.NullOr(__S(6946, __c217, 2))),
           default_sort_order: S.optional(S.NullOr(S.Number)),
           default_forum_layout: S.optional(S.Number),
           default_tag_setting: S.optional(S.NullOr(S.String)),
@@ -17217,7 +17643,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "GuildChannelResponse" });
   }
 }
-function __c214(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17225,18 +17651,18 @@ function __c214(j: number): any {
           guild_id: S.String.pipe(T.Label()),
           name: S.String,
           image: S.String,
-          roles: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          roles: S.optional(S.NullOr(__S(7040, __c220, 0))),
         }).pipe(T.Http({ method: "POST", uri: "/guilds/{guild_id}/emojis", code: 200 })),
       ).annotate({ identifier: "CreateGuildEmojiRequest" });
   }
 }
-function __c215(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.Array(/*@__PURE__*/ S.NullOr(S.String));
   }
 }
-function __c216(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17245,7 +17671,7 @@ function __c216(j: number): any {
           name: S.optional(S.NullOr(S.String)),
           permissions: S.optional(S.NullOr(S.Number)),
           color: S.optional(S.NullOr(S.Number)),
-          colors: S.optional(S.NullOr(__S(6944, __c217, 0))),
+          colors: S.optional(S.NullOr(__S(7104, __c222, 0))),
           hoist: S.optional(S.NullOr(S.Boolean)),
           mentionable: S.optional(S.NullOr(S.Boolean)),
           icon: S.optional(S.NullOr(S.String)),
@@ -17254,7 +17680,7 @@ function __c216(j: number): any {
       ).annotate({ identifier: "CreateGuildRoleRequest" });
   }
 }
-function __c217(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17266,7 +17692,7 @@ function __c217(j: number): any {
       ).annotate({ identifier: "RoleColors" });
   }
 }
-function __c218(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -17313,7 +17739,7 @@ function __c218(j: number): any {
       return S.suspend(() =>
         S.Struct({
           guild_id: S.String.pipe(T.Label()),
-          body: __S(6976, __c218, 0).pipe(T.HttpBody()),
+          body: __S(7136, __c223, 0).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/guilds/{guild_id}/scheduled-events", code: 200 })),
       ).annotate({ identifier: "CreateGuildScheduledEventRequest" });
     case 2:
@@ -17385,12 +17811,12 @@ function __c218(j: number): any {
         ]),
       );
     case 3:
-      return S.suspend(() => __S(6978, __c218, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(7138, __c223, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "CreateGuildScheduledEventResponse",
       });
   }
 }
-function __c219(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17411,7 +17837,7 @@ function __c219(j: number): any {
       ).annotate({ identifier: "CreateGuildScheduledEventExceptionRequest" });
   }
 }
-function __c220(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17425,7 +17851,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "GuildScheduledEventExceptionResponse" });
   }
 }
-function __c221(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17440,7 +17866,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "CreateGuildSoundboardSoundRequest" });
   }
 }
-function __c222(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17457,7 +17883,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "SoundboardSoundResponse" });
   }
 }
-function __c223(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17478,7 +17904,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "CreateGuildStickerRequest" });
   }
 }
-function __c224(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17496,7 +17922,7 @@ function __c224(j: number): any {
       ).annotate({ identifier: "GuildStickerResponse" });
   }
 }
-function __c225(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17508,7 +17934,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "CreateGuildTemplateRequest" });
   }
 }
-function __c226(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17525,7 +17951,7 @@ function __c226(j: number): any {
         }),
       ).annotate({ identifier: "GuildTemplateRoleResponse" });
     case 1:
-      return S.Array(__S(7232, __c226, 0));
+      return S.Array(__S(7392, __c231, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -17537,7 +17963,7 @@ function __c226(j: number): any {
         }),
       ).annotate({ identifier: "GuildTemplateChannelTags" });
     case 3:
-      return S.Array(__S(7234, __c226, 2));
+      return S.Array(__S(7394, __c231, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -17552,10 +17978,10 @@ function __c226(j: number): any {
           rate_limit_per_user: S.Number,
           parent_id: S.NullOr(S.String),
           default_auto_archive_duration: S.NullOr(S.Number),
-          permission_overwrites: __S(6785, __c212, 1),
-          available_tags: S.NullOr(__S(7235, __c226, 3)),
+          permission_overwrites: __S(6945, __c217, 1),
+          available_tags: S.NullOr(__S(7395, __c231, 3)),
           template: S.String,
-          default_reaction_emoji: S.NullOr(__S(6786, __c212, 2)),
+          default_reaction_emoji: S.NullOr(__S(6946, __c217, 2)),
           default_thread_rate_limit_per_user: S.NullOr(S.Number),
           default_sort_order: S.NullOr(S.Number),
           default_forum_layout: S.NullOr(S.Number),
@@ -17564,7 +17990,7 @@ function __c226(j: number): any {
         }),
       ).annotate({ identifier: "GuildTemplateChannelResponse" });
     case 5:
-      return S.Array(__S(7236, __c226, 4));
+      return S.Array(__S(7396, __c231, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -17579,8 +18005,8 @@ function __c226(j: number): any {
           afk_timeout: S.Number,
           system_channel_id: S.NullOr(S.String),
           system_channel_flags: S.Number,
-          roles: __S(7233, __c226, 1),
-          channels: __S(7237, __c226, 5),
+          roles: __S(7393, __c231, 1),
+          channels: __S(7397, __c231, 5),
         }),
       ).annotate({ identifier: "GuildTemplateSnapshotResponse" });
     case 7:
@@ -17595,13 +18021,13 @@ function __c226(j: number): any {
           created_at: S.String,
           updated_at: S.String,
           source_guild_id: S.String,
-          serialized_source_guild: __S(7238, __c226, 6),
+          serialized_source_guild: __S(7398, __c231, 6),
           is_dirty: S.NullOr(S.Boolean),
         }),
       ).annotate({ identifier: "GuildTemplateResponse" });
   }
 }
-function __c227(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -17621,7 +18047,7 @@ function __c227(j: number): any {
           interaction_id: S.String.pipe(T.Label()),
           interaction_token: S.String.pipe(T.Label()),
           with_response: S.optional(S.Boolean.pipe(T.Query())),
-          body: __S(7264, __c227, 0).pipe(T.HttpBody()),
+          body: __S(7424, __c232, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "POST",
@@ -17654,13 +18080,13 @@ function __c227(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          interaction: __S(7266, __c227, 2),
-          resource: S.optional(__S(7267, __c227, 3)),
+          interaction: __S(7426, __c232, 2),
+          resource: S.optional(__S(7427, __c232, 3)),
         }),
       ).annotate({ identifier: "InteractionCallbackResponse" });
   }
 }
-function __c228(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17672,7 +18098,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "CreateLinkedLobbyGuildInviteForSelfRequest" });
   }
 }
-function __c229(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17682,7 +18108,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "LobbyGuildInviteResponse" });
   }
 }
-function __c230(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17695,7 +18121,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "AddInviteTargetUserRequest" });
   }
 }
-function __c231(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17712,52 +18138,53 @@ function __c231(j: number): any {
       ).annotate({ identifier: "CreateLinkedLobbyGuildInviteForUserRequest" });
   }
 }
-function __c232(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           idle_timeout_seconds: S.optional(S.NullOr(S.Number)),
-          members: S.optional(S.NullOr(__S(7489, __c234, 1))),
-          metadata: S.optional(S.NullOr(__S(8320, __c260, 0))),
+          members: S.optional(S.NullOr(__S(7649, __c239, 1))),
+          metadata: S.optional(S.NullOr(__S(8480, __c265, 0))),
           flags: S.optional(S.NullOr(S.Number)),
           override_event_webhooks_url: S.optional(S.NullOr(S.String)),
+          name: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "POST", uri: "/lobbies", code: 200 })),
       ).annotate({ identifier: "CreateLobbyRequest" });
   }
 }
-function __c233(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           application_id: S.String,
-          metadata: S.NullOr(__S(8320, __c260, 0)),
-          members: __S(4160, __c130, 0),
-          linked_channel: S.optional(__S(6818, __c213, 2)),
+          metadata: S.NullOr(__S(8480, __c265, 0)),
+          members: __S(4192, __c131, 0),
+          linked_channel: S.optional(__S(6978, __c218, 2)),
           flags: S.Number,
           override_event_webhooks_url: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "LobbyResponse" });
   }
 }
-function __c234(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          metadata: S.optional(S.NullOr(__S(8320, __c260, 0))),
+          metadata: S.optional(S.NullOr(__S(8480, __c265, 0))),
           flags: S.optional(S.NullOr(S.Number)),
           additional_name: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "LobbyMemberRequest" });
     case 1:
-      return S.Array(__S(7488, __c234, 0));
+      return S.Array(__S(7648, __c239, 0));
   }
 }
-function __c235(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -17772,7 +18199,7 @@ function __c235(j: number): any {
         ]),
       );
     case 1:
-      return S.Array(__S(7520, __c235, 0));
+      return S.Array(__S(7680, __c240, 0));
     case 2:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 3:
@@ -17780,23 +18207,23 @@ function __c235(j: number): any {
         S.Struct({
           lobby_id: S.String.pipe(T.Label()),
           content: S.optional(S.NullOr(S.String)),
-          embeds: S.optional(S.NullOr(__S(7623, __c238, 7))),
-          allowed_mentions: S.optional(S.NullOr(__S(7625, __c238, 9))),
+          embeds: S.optional(S.NullOr(__S(7784, __c243, 8))),
+          allowed_mentions: S.optional(S.NullOr(__S(7786, __c243, 10))),
           sticker_ids: S.optional(S.NullOr(__S(4672, __c146, 0))),
-          components: S.optional(S.NullOr(__S(7521, __c235, 1))),
+          components: S.optional(S.NullOr(__S(7681, __c240, 1))),
           flags: S.optional(S.NullOr(S.Number)),
-          attachments: S.optional(S.NullOr(__S(7627, __c238, 11))),
-          poll: S.optional(S.NullOr(__S(7652, __c239, 4))),
-          shared_client_theme: S.optional(S.NullOr(__S(7584, __c237, 0))),
-          message_reference: S.optional(S.NullOr(__S(7585, __c237, 1))),
-          nonce: S.optional(S.NullOr(__S(7522, __c235, 2))),
+          attachments: S.optional(S.NullOr(__S(7788, __c243, 12))),
+          poll: S.optional(S.NullOr(__S(7812, __c244, 4))),
+          shared_client_theme: S.optional(S.NullOr(__S(7744, __c242, 0))),
+          message_reference: S.optional(S.NullOr(__S(7745, __c242, 1))),
+          nonce: S.optional(S.NullOr(__S(7682, __c240, 2))),
           enforce_nonce: S.optional(S.NullOr(S.Boolean)),
           tts: S.optional(S.NullOr(S.Boolean)),
         }).pipe(T.Http({ method: "POST", uri: "/lobbies/{lobby_id}/messages", code: 200 })),
       ).annotate({ identifier: "CreateLobbyMessageRequest" });
   }
 }
-function __c236(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17807,16 +18234,16 @@ function __c236(j: number): any {
           lobby_id: S.String,
           channel_id: S.String,
           author: __S(4608, __c144, 0),
-          lobby_member: S.optional(__S(7680, __c240, 0)),
-          metadata: S.optional(__S(8320, __c260, 0)),
-          moderation_metadata: S.optional(__S(8320, __c260, 0)),
+          lobby_member: S.optional(__S(7840, __c245, 0)),
+          metadata: S.optional(__S(8480, __c265, 0)),
+          moderation_metadata: S.optional(__S(8480, __c265, 0)),
           flags: S.Number,
           application_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "LobbyMessageResponse" });
   }
 }
-function __c237(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17839,7 +18266,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "MessageReferenceRequest" });
   }
 }
-function __c238(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17877,7 +18304,7 @@ function __c238(j: number): any {
         }),
       ).annotate({ identifier: "RichEmbedField" });
     case 4:
-      return S.Array(__S(7619, __c238, 3));
+      return S.Array(__S(7779, __c243, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -17888,35 +18315,43 @@ function __c238(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
+          url: S.optional(S.NullOr(S.String)),
+          description: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "RichEmbedAudio" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           type: S.optional(S.NullOr(S.String)),
           url: S.optional(S.NullOr(S.String)),
           title: S.optional(S.NullOr(S.String)),
           color: S.optional(S.NullOr(S.Number)),
           timestamp: S.optional(S.NullOr(S.String)),
           description: S.optional(S.NullOr(S.String)),
-          author: S.optional(S.NullOr(__S(7616, __c238, 0))),
-          image: S.optional(S.NullOr(__S(7617, __c238, 1))),
-          thumbnail: S.optional(S.NullOr(__S(7617, __c238, 1))),
-          footer: S.optional(S.NullOr(__S(7618, __c238, 2))),
-          fields: S.optional(S.NullOr(__S(7620, __c238, 4))),
-          provider: S.optional(S.NullOr(__S(7621, __c238, 5))),
-          video: S.optional(S.NullOr(__S(7617, __c238, 1))),
+          author: S.optional(S.NullOr(__S(7776, __c243, 0))),
+          image: S.optional(S.NullOr(__S(7777, __c243, 1))),
+          thumbnail: S.optional(S.NullOr(__S(7777, __c243, 1))),
+          footer: S.optional(S.NullOr(__S(7778, __c243, 2))),
+          fields: S.optional(S.NullOr(__S(7780, __c243, 4))),
+          provider: S.optional(S.NullOr(__S(7781, __c243, 5))),
+          video: S.optional(S.NullOr(__S(7777, __c243, 1))),
+          audio: S.optional(S.NullOr(__S(7782, __c243, 6))),
         }),
       ).annotate({ identifier: "RichEmbed" });
-    case 7:
-      return S.Array(__S(7622, __c238, 6));
     case 8:
-      return S.Array(/*@__PURE__*/ S.NullOr(S.String));
+      return S.Array(__S(7783, __c243, 7));
     case 9:
+      return S.Array(/*@__PURE__*/ S.NullOr(S.String));
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          parse: S.optional(S.NullOr(__S(7624, __c238, 8))),
-          users: S.optional(S.NullOr(__S(6880, __c215, 0))),
-          roles: S.optional(S.NullOr(__S(6880, __c215, 0))),
+          parse: S.optional(S.NullOr(__S(7785, __c243, 9))),
+          users: S.optional(S.NullOr(__S(7040, __c220, 0))),
+          roles: S.optional(S.NullOr(__S(7040, __c220, 0))),
           replied_user: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "MessageAllowedMentionsRequest" });
-    case 10:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -17928,11 +18363,11 @@ function __c238(j: number): any {
           is_spoiler: S.optional(S.NullOr(S.Boolean)),
         }),
       ).annotate({ identifier: "MessageAttachmentRequest" });
-    case 11:
-      return S.Array(__S(7626, __c238, 10));
+    case 12:
+      return S.Array(__S(7787, __c243, 11));
   }
 }
-function __c239(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17946,22 +18381,22 @@ function __c239(j: number): any {
       return S.suspend(() =>
         S.Struct({
           text: S.optional(S.NullOr(S.String)),
-          emoji: S.optional(S.NullOr(__S(7648, __c239, 0))),
+          emoji: S.optional(S.NullOr(__S(7808, __c244, 0))),
         }),
       ).annotate({ identifier: "PollMedia" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          poll_media: __S(7649, __c239, 1),
+          poll_media: __S(7809, __c244, 1),
         }),
       ).annotate({ identifier: "PollAnswerCreateRequest" });
     case 3:
-      return S.Array(__S(7650, __c239, 2));
+      return S.Array(__S(7810, __c244, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          question: __S(7649, __c239, 1),
-          answers: __S(7651, __c239, 3),
+          question: __S(7809, __c244, 1),
+          answers: __S(7811, __c244, 3),
           allow_multiselect: S.optional(S.NullOr(S.Boolean)),
           layout_type: S.optional(S.NullOr(S.Number)),
           duration: S.optional(S.NullOr(S.Number)),
@@ -17969,7 +18404,7 @@ function __c239(j: number): any {
       ).annotate({ identifier: "PollCreateRequest" });
   }
 }
-function __c240(j: number): any {
+function __c245(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17979,7 +18414,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "MessageLobbyMemberResponse" });
   }
 }
-function __c241(j: number): any {
+function __c246(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -17994,7 +18429,7 @@ function __c241(j: number): any {
         ]),
       );
     case 1:
-      return S.Array(__S(7712, __c241, 0));
+      return S.Array(__S(7872, __c246, 0));
     case 2:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 3:
@@ -18002,23 +18437,23 @@ function __c241(j: number): any {
         S.Struct({
           channel_id: S.String.pipe(T.Label()),
           content: S.optional(S.NullOr(S.String)),
-          embeds: S.optional(S.NullOr(__S(7623, __c238, 7))),
-          allowed_mentions: S.optional(S.NullOr(__S(7625, __c238, 9))),
+          embeds: S.optional(S.NullOr(__S(7784, __c243, 8))),
+          allowed_mentions: S.optional(S.NullOr(__S(7786, __c243, 10))),
           sticker_ids: S.optional(S.NullOr(__S(4672, __c146, 0))),
-          components: S.optional(S.NullOr(__S(7713, __c241, 1))),
+          components: S.optional(S.NullOr(__S(7873, __c246, 1))),
           flags: S.optional(S.NullOr(S.Number)),
-          attachments: S.optional(S.NullOr(__S(7627, __c238, 11))),
-          poll: S.optional(S.NullOr(__S(7652, __c239, 4))),
-          shared_client_theme: S.optional(S.NullOr(__S(7584, __c237, 0))),
-          message_reference: S.optional(S.NullOr(__S(7585, __c237, 1))),
-          nonce: S.optional(S.NullOr(__S(7714, __c241, 2))),
+          attachments: S.optional(S.NullOr(__S(7788, __c243, 12))),
+          poll: S.optional(S.NullOr(__S(7812, __c244, 4))),
+          shared_client_theme: S.optional(S.NullOr(__S(7744, __c242, 0))),
+          message_reference: S.optional(S.NullOr(__S(7745, __c242, 1))),
+          nonce: S.optional(S.NullOr(__S(7874, __c246, 2))),
           enforce_nonce: S.optional(S.NullOr(S.Boolean)),
           tts: S.optional(S.NullOr(S.Boolean)),
         }).pipe(T.Http({ method: "POST", uri: "/channels/{channel_id}/messages", code: 200 })),
       ).annotate({ identifier: "CreateMessageRequest" });
   }
 }
-function __c242(j: number): any {
+function __c247(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18032,7 +18467,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "ThreadMemberResponse" });
   }
 }
-function __c243(j: number): any {
+function __c248(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18063,17 +18498,17 @@ function __c243(j: number): any {
           video_quality_mode: S.optional(S.Number),
           permissions: S.optional(S.String),
           owner_id: S.String,
-          thread_metadata: __S(7776, __c243, 0),
+          thread_metadata: __S(7936, __c248, 0),
           message_count: S.Number,
           member_count: S.Number,
           total_message_sent: S.Number,
           applied_tags: S.optional(__S(4672, __c146, 0)),
-          member: S.optional(__S(7744, __c242, 0)),
+          member: S.optional(__S(7904, __c247, 0)),
         }),
       ).annotate({ identifier: "ThreadResponse" });
   }
 }
-function __c244(j: number): any {
+function __c249(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18089,6 +18524,7 @@ function __c244(j: number): any {
           flags_new: S.String,
           bot: S.optional(__S(4608, __c144, 0)),
           slug: S.optional(S.String),
+          conjure_project_id: S.optional(S.String),
           vibegrations_project_id: S.optional(S.String),
           guild_id: S.optional(S.String),
           rpc_origins: S.optional(__S(4672, __c146, 0)),
@@ -18097,8 +18533,8 @@ function __c244(j: number): any {
           terms_of_service_url: S.optional(S.String),
           privacy_policy_url: S.optional(S.String),
           custom_install_url: S.optional(S.String),
-          install_params: S.optional(__S(8032, __c251, 0)),
-          integration_types_config: S.optional(__S(8034, __c251, 2)),
+          install_params: S.optional(__S(8192, __c256, 0)),
+          integration_types_config: S.optional(__S(8194, __c256, 2)),
           verify_key: S.String,
           max_participants: S.optional(S.NullOr(S.Number)),
           tags: S.optional(__S(4672, __c146, 0)),
@@ -18106,10 +18542,10 @@ function __c244(j: number): any {
       ).annotate({ identifier: "InviteApplicationResponse" });
   }
 }
-function __c245(j: number): any {
+function __c250(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7904, __c247, 0));
+      return S.Array(__S(8064, __c252, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -18119,7 +18555,7 @@ function __c245(j: number): any {
         }),
       ).annotate({ identifier: "MessageEmbedFieldResponse" });
     case 2:
-      return S.Array(__S(7841, __c245, 1));
+      return S.Array(__S(8001, __c250, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -18153,12 +18589,21 @@ function __c245(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
+          url: S.optional(S.String),
+          proxy_url: S.optional(S.String),
+          content_type: S.optional(S.String),
+          description: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MessageEmbedAudioResponse" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           text: S.String,
           icon_url: S.optional(S.String),
           proxy_icon_url: S.optional(S.String),
         }),
       ).annotate({ identifier: "MessageEmbedFooterResponse" });
-    case 7:
+    case 8:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           ["type", "id", "components"],
@@ -18169,21 +18614,21 @@ function __c245(j: number): any {
           ["type", "id", "content"],
         ]),
       );
-    case 8:
-      return S.Array(__S(7847, __c245, 7));
     case 9:
+      return S.Array(__S(8008, __c250, 8));
+    case 10:
       return S.suspend(() =>
         S.Struct({
           type: S.Number,
           id: S.Number,
           accent_color: S.NullOr(S.Number),
-          components: __S(7848, __c245, 8),
+          components: __S(8009, __c250, 9),
           spoiler: S.Boolean,
         }),
       ).annotate({ identifier: "ContainerComponentResponse" });
-    case 10:
-      return S.Array(__S(7849, __c245, 9));
     case 11:
+      return S.Array(__S(8010, __c250, 10));
+    case 12:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
@@ -18192,20 +18637,21 @@ function __c245(j: number): any {
           description: S.optional(S.String),
           color: S.optional(S.Number),
           timestamp: S.optional(S.String),
-          fields: S.optional(__S(7842, __c245, 2)),
-          author: S.optional(__S(7843, __c245, 3)),
-          provider: S.optional(__S(7844, __c245, 4)),
-          image: S.optional(__S(7845, __c245, 5)),
-          thumbnail: S.optional(__S(7845, __c245, 5)),
-          video: S.optional(__S(7845, __c245, 5)),
-          footer: S.optional(__S(7846, __c245, 6)),
+          fields: S.optional(__S(8002, __c250, 2)),
+          author: S.optional(__S(8003, __c250, 3)),
+          provider: S.optional(__S(8004, __c250, 4)),
+          image: S.optional(__S(8005, __c250, 5)),
+          thumbnail: S.optional(__S(8005, __c250, 5)),
+          video: S.optional(__S(8005, __c250, 5)),
+          audio: S.optional(__S(8006, __c250, 6)),
+          footer: S.optional(__S(8007, __c250, 7)),
           flags: S.optional(S.NullOr(S.Number)),
-          components: S.optional(__S(7850, __c245, 10)),
+          components: S.optional(__S(8011, __c250, 11)),
         }),
       ).annotate({ identifier: "MessageEmbedResponse" });
-    case 12:
-      return S.Array(__S(7851, __c245, 11));
     case 13:
+      return S.Array(__S(8012, __c250, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -18213,23 +18659,23 @@ function __c245(j: number): any {
           format_type: S.Number,
         }),
       ).annotate({ identifier: "MessageStickerItemResponse" });
-    case 14:
-      return S.Array(__S(7853, __c245, 13));
     case 15:
+      return S.Array(__S(8014, __c250, 14));
+    case 16:
       return S.suspend(() =>
         S.Struct({
           ended_timestamp: S.optional(S.NullOr(S.String)),
           participants: __S(4672, __c146, 0),
         }),
       ).annotate({ identifier: "MessageCallResponse" });
-    case 16:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           type: S.Number,
           party_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "MessageActivityResponse" });
-    case 17:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -18244,7 +18690,7 @@ function __c245(j: number): any {
           bot: S.optional(__S(4608, __c144, 0)),
         }),
       ).annotate({ identifier: "BasicApplicationResponseWithBot" });
-    case 18:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -18254,7 +18700,7 @@ function __c245(j: number): any {
           name_localized: S.optional(S.String),
         }),
       ).annotate({ identifier: "MessageInteractionResponse" });
-    case 19:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           type: S.Number,
@@ -18263,7 +18709,7 @@ function __c245(j: number): any {
           guild_id: S.optional(S.String),
         }),
       ).annotate({ identifier: "MessageReferenceResponse" });
-    case 20:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -18272,9 +18718,9 @@ function __c245(j: number): any {
           guild_id: S.String,
         }),
       ).annotate({ identifier: "MessageMentionChannelResponse" });
-    case 21:
-      return S.Array(__S(7860, __c245, 20));
     case 22:
+      return S.Array(__S(8021, __c250, 21));
+    case 23:
       return S.suspend(() =>
         S.Struct({
           role_subscription_listing_id: S.String,
@@ -18283,23 +18729,23 @@ function __c245(j: number): any {
           is_renewal: S.Boolean,
         }),
       ).annotate({ identifier: "MessageRoleSubscriptionDataResponse" });
-    case 23:
+    case 24:
       return S.suspend(() =>
         S.Struct({
           listing_id: S.String,
           product_name: S.String,
         }),
       ).annotate({ identifier: "GuildProductPurchaseResponse" });
-    case 24:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           type: S.Number,
-          guild_product_purchase: S.optional(__S(7863, __c245, 23)),
+          guild_product_purchase: S.optional(__S(8024, __c250, 24)),
         }),
       ).annotate({ identifier: "PurchaseNotificationResponse" });
-    case 25:
-      return S.Record(S.String, __S(4608, __c144, 0));
     case 26:
+      return S.Record(S.String, __S(4608, __c144, 0));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           avatar: S.NullOr(S.String),
@@ -18315,9 +18761,9 @@ function __c245(j: number): any {
           collectibles: S.optional(S.NullOr(__S(4578, __c143, 2))),
         }),
       ).annotate({ identifier: "BasicGuildMemberResponse" });
-    case 27:
-      return S.Record(S.String, __S(7866, __c245, 26));
     case 28:
+      return S.Record(S.String, __S(8027, __c250, 27));
+    case 29:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           [
@@ -18386,24 +18832,24 @@ function __c245(j: number): any {
           ],
         ]),
       );
-    case 29:
-      return S.Record(S.String, __S(7868, __c245, 28));
     case 30:
-      return S.Record(S.String, __S(3745, __c117, 1));
+      return S.Record(S.String, __S(8029, __c250, 29));
     case 31:
-      return S.suspend(() =>
-        S.Struct({
-          users: S.optional(S.NullOr(__S(7865, __c245, 25))),
-          members: S.optional(S.NullOr(__S(7867, __c245, 27))),
-          channels: S.optional(S.NullOr(__S(7869, __c245, 29))),
-          roles: S.optional(S.NullOr(__S(7870, __c245, 30))),
-        }),
-      ).annotate({ identifier: "ResolvedObjectsResponse" });
+      return S.Record(S.String, __S(3745, __c117, 1));
   }
 }
-function __c246(j: number): any {
+function __c251(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() =>
+        S.Struct({
+          users: S.optional(S.NullOr(__S(8026, __c250, 26))),
+          members: S.optional(S.NullOr(__S(8028, __c250, 28))),
+          channels: S.optional(S.NullOr(__S(8030, __c250, 30))),
+          roles: S.optional(S.NullOr(__S(8031, __c250, 31))),
+        }),
+      ).annotate({ identifier: "ResolvedObjectsResponse" });
+    case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.NullOr(S.String),
@@ -18411,23 +18857,23 @@ function __c246(j: number): any {
           animated: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MessageReactionEmojiResponse" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          text: S.optional(S.String),
-          emoji: S.optional(__S(7872, __c246, 0)),
-        }),
-      ).annotate({ identifier: "PollMediaResponse" });
     case 2:
       return S.suspend(() =>
         S.Struct({
+          text: S.optional(S.String),
+          emoji: S.optional(__S(8033, __c251, 1)),
+        }),
+      ).annotate({ identifier: "PollMediaResponse" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
           answer_id: S.Number,
-          poll_media: __S(7873, __c246, 1),
+          poll_media: __S(8034, __c251, 2),
         }),
       ).annotate({ identifier: "PollAnswerResponse" });
-    case 3:
-      return S.Array(__S(7874, __c246, 2));
     case 4:
+      return S.Array(__S(8035, __c251, 3));
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.Number,
@@ -18435,27 +18881,27 @@ function __c246(j: number): any {
           me_voted: S.Boolean,
         }),
       ).annotate({ identifier: "PollResultsEntryResponse" });
-    case 5:
-      return S.Array(__S(7876, __c246, 4));
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          answer_counts: __S(7877, __c246, 5),
-          is_finalized: S.Boolean,
-        }),
-      ).annotate({ identifier: "PollResultsResponse" });
+      return S.Array(__S(8037, __c251, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          question: __S(7873, __c246, 1),
-          answers: __S(7875, __c246, 3),
+          answer_counts: __S(8038, __c251, 6),
+          is_finalized: S.Boolean,
+        }),
+      ).annotate({ identifier: "PollResultsResponse" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          question: __S(8034, __c251, 2),
+          answers: __S(8036, __c251, 4),
           expiry: S.String,
           allow_multiselect: S.Boolean,
           layout_type: S.Number,
-          results: __S(7878, __c246, 6),
+          results: __S(8039, __c251, 7),
         }),
       ).annotate({ identifier: "PollResponse" });
-    case 8:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           colors: __S(4672, __c146, 0),
@@ -18464,7 +18910,7 @@ function __c246(j: number): any {
           base_theme: S.Number,
         }),
       ).annotate({ identifier: "CustomClientThemeResponse" });
-    case 9:
+    case 10:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           ["type", "id", "components"],
@@ -18476,9 +18922,9 @@ function __c246(j: number): any {
           ["type", "id", "content"],
         ]),
       );
-    case 10:
-      return S.Array(__S(7881, __c246, 9));
     case 11:
+      return S.Array(__S(8042, __c251, 10));
+    case 12:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           [
@@ -18495,54 +18941,54 @@ function __c246(j: number): any {
           ["id", "name", "tags", "type", "format_type", "description", "pack_id", "sort_value"],
         ]),
       );
-    case 12:
-      return S.Array(__S(7883, __c246, 11));
     case 13:
+      return S.Array(__S(8044, __c251, 12));
+    case 14:
       return S.suspend(() =>
         S.Struct({
           type: S.Number,
           content: S.String,
-          mentions: __S(7968, __c249, 0),
+          mentions: __S(8128, __c254, 0),
           mention_roles: __S(4672, __c146, 0),
-          attachments: __S(7840, __c245, 0),
-          embeds: __S(7852, __c245, 12),
+          attachments: __S(8000, __c250, 0),
+          embeds: __S(8013, __c250, 13),
           timestamp: S.String,
           edited_timestamp: S.NullOr(S.String),
           flags: S.Number,
-          components: __S(7882, __c246, 10),
-          stickers: S.optional(__S(7884, __c246, 12)),
-          sticker_items: S.optional(__S(7854, __c245, 14)),
+          components: __S(8043, __c251, 11),
+          stickers: S.optional(__S(8045, __c251, 13)),
+          sticker_items: S.optional(__S(8015, __c250, 15)),
         }),
       ).annotate({ identifier: "MinimalContentMessageResponse" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
-          message: __S(7885, __c246, 13),
+          message: __S(8046, __c251, 14),
         }),
       ).annotate({ identifier: "MessageSnapshotResponse" });
-    case 15:
-      return S.Array(__S(7886, __c246, 14));
     case 16:
+      return S.Array(__S(8047, __c251, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           burst: S.Number,
           normal: S.Number,
         }),
       ).annotate({ identifier: "MessageReactionCountDetailsResponse" });
-    case 17:
+    case 18:
       return S.suspend(() =>
         S.Struct({
-          emoji: __S(7872, __c246, 0),
+          emoji: __S(8033, __c251, 1),
           count: S.Number,
-          count_details: __S(7888, __c246, 16),
+          count_details: __S(8049, __c251, 17),
           burst_colors: __S(4672, __c146, 0),
           me_burst: S.Boolean,
           me: S.Boolean,
         }),
       ).annotate({ identifier: "MessageReactionResponse" });
-    case 18:
-      return S.Array(__S(7889, __c246, 17));
     case 19:
+      return S.Array(__S(8050, __c251, 18));
+    case 20:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           ["type", "id", "components"],
@@ -18554,9 +19000,9 @@ function __c246(j: number): any {
           ["type", "id", "content"],
         ]),
       );
-    case 20:
-      return S.Array(__S(7891, __c246, 19));
     case 21:
+      return S.Array(__S(8052, __c251, 20));
+    case 22:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           [
@@ -18573,11 +19019,11 @@ function __c246(j: number): any {
           ["id", "name", "tags", "type", "format_type", "description", "pack_id", "sort_value"],
         ]),
       );
-    case 22:
-      return S.Array(__S(7893, __c246, 21));
     case 23:
-      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+      return S.Array(__S(8054, __c251, 22));
     case 24:
+      return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
+    case 25:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
           [
@@ -18607,51 +19053,52 @@ function __c246(j: number): any {
           ],
         ]),
       );
-    case 25:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           type: S.Number,
           content: S.String,
-          mentions: __S(7968, __c249, 0),
+          mentions: __S(8128, __c254, 0),
           mention_roles: __S(4672, __c146, 0),
-          attachments: __S(7840, __c245, 0),
-          embeds: __S(7852, __c245, 12),
+          attachments: __S(8000, __c250, 0),
+          embeds: __S(8013, __c250, 13),
           timestamp: S.String,
           edited_timestamp: S.NullOr(S.String),
           flags: S.Number,
-          components: __S(7892, __c246, 20),
-          stickers: S.optional(__S(7894, __c246, 22)),
-          sticker_items: S.optional(__S(7854, __c245, 14)),
+          components: __S(8053, __c251, 21),
+          stickers: S.optional(__S(8055, __c251, 23)),
+          sticker_items: S.optional(__S(8015, __c250, 15)),
           id: S.String,
           channel_id: S.String,
           author: __S(4608, __c144, 0),
           pinned: S.Boolean,
           mention_everyone: S.Boolean,
           tts: S.Boolean,
-          call: S.optional(__S(7855, __c245, 15)),
-          activity: S.optional(__S(7856, __c245, 16)),
-          application: S.optional(__S(7857, __c245, 17)),
+          call: S.optional(__S(8016, __c250, 16)),
+          activity: S.optional(__S(8017, __c250, 17)),
+          application: S.optional(__S(8018, __c250, 18)),
           application_id: S.optional(S.String),
-          interaction: S.optional(__S(7858, __c245, 18)),
-          nonce: S.optional(__S(7895, __c246, 23)),
+          interaction: S.optional(__S(8019, __c250, 19)),
+          nonce: S.optional(__S(8056, __c251, 24)),
           webhook_id: S.optional(S.String),
-          message_reference: S.optional(__S(7859, __c245, 19)),
-          thread: S.optional(__S(7777, __c243, 1)),
-          mention_channels: S.optional(__S(7861, __c245, 21)),
-          role_subscription_data: S.optional(__S(7862, __c245, 22)),
-          purchase_notification: S.optional(__S(7864, __c245, 24)),
+          message_reference: S.optional(__S(8020, __c250, 20)),
+          thread: S.optional(__S(7937, __c248, 1)),
+          mention_channels: S.optional(__S(8022, __c250, 22)),
+          role_subscription_data: S.optional(__S(8023, __c250, 23)),
+          purchase_notification: S.optional(__S(8025, __c250, 25)),
           position: S.optional(S.Number),
-          resolved: S.optional(__S(7871, __c245, 31)),
-          poll: S.optional(__S(7879, __c246, 7)),
-          shared_client_theme: S.optional(__S(7880, __c246, 8)),
-          interaction_metadata: S.optional(__S(7896, __c246, 24)),
-          message_snapshots: S.optional(__S(7887, __c246, 15)),
-          lobby_member: S.optional(__S(7680, __c240, 0)),
+          resolved: S.optional(__S(8032, __c251, 0)),
+          poll: S.optional(__S(8040, __c251, 8)),
+          shared_client_theme: S.optional(__S(8041, __c251, 9)),
+          interaction_metadata: S.optional(__S(8057, __c251, 25)),
+          message_snapshots: S.optional(__S(8048, __c251, 16)),
+          lobby_member: S.optional(__S(7840, __c245, 0)),
+          actor: S.optional(__S(4608, __c144, 0)),
         }),
       ).annotate({ identifier: "BasicMessageResponse" });
   }
 }
-function __c247(j: number): any {
+function __c252(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18672,14 +19119,14 @@ function __c247(j: number): any {
           placeholder: S.optional(S.String),
           placeholder_version: S.optional(S.Number),
           title: S.optional(S.NullOr(S.String)),
-          application: S.optional(__S(7808, __c244, 0)),
+          application: S.optional(__S(7968, __c249, 0)),
           clip_created_at: S.optional(S.String),
-          clip_participants: S.optional(__S(7968, __c249, 0)),
+          clip_participants: S.optional(__S(8128, __c254, 0)),
         }),
       ).annotate({ identifier: "MessageAttachmentResponse" });
   }
 }
-function __c248(j: number): any {
+function __c253(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -18694,7 +19141,7 @@ function __c248(j: number): any {
         ]),
       );
     case 1:
-      return S.Array(__S(7936, __c248, 0));
+      return S.Array(__S(8096, __c253, 0));
     case 2:
       return S.Unknown.pipe(
         /*@__PURE__*/ T.UnionCases([
@@ -18713,7 +19160,7 @@ function __c248(j: number): any {
         ]),
       );
     case 3:
-      return S.Array(__S(7938, __c248, 2));
+      return S.Array(__S(8098, __c253, 2));
     case 4:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], []]));
     case 5:
@@ -18751,93 +19198,95 @@ function __c248(j: number): any {
         S.Struct({
           type: S.Number,
           content: S.String,
-          mentions: __S(7968, __c249, 0),
+          mentions: __S(8128, __c254, 0),
           mention_roles: __S(4672, __c146, 0),
-          attachments: __S(7840, __c245, 0),
-          embeds: __S(7852, __c245, 12),
+          attachments: __S(8000, __c250, 0),
+          embeds: __S(8013, __c250, 13),
           timestamp: S.String,
           edited_timestamp: S.NullOr(S.String),
           flags: S.Number,
-          components: __S(7937, __c248, 1),
-          stickers: S.optional(__S(7939, __c248, 3)),
-          sticker_items: S.optional(__S(7854, __c245, 14)),
+          components: __S(8097, __c253, 1),
+          stickers: S.optional(__S(8099, __c253, 3)),
+          sticker_items: S.optional(__S(8015, __c250, 15)),
           id: S.String,
           channel_id: S.String,
           author: __S(4608, __c144, 0),
           pinned: S.Boolean,
           mention_everyone: S.Boolean,
           tts: S.Boolean,
-          call: S.optional(__S(7855, __c245, 15)),
-          activity: S.optional(__S(7856, __c245, 16)),
-          application: S.optional(__S(7857, __c245, 17)),
+          call: S.optional(__S(8016, __c250, 16)),
+          activity: S.optional(__S(8017, __c250, 17)),
+          application: S.optional(__S(8018, __c250, 18)),
           application_id: S.optional(S.String),
-          interaction: S.optional(__S(7858, __c245, 18)),
-          nonce: S.optional(__S(7940, __c248, 4)),
+          interaction: S.optional(__S(8019, __c250, 19)),
+          nonce: S.optional(__S(8100, __c253, 4)),
           webhook_id: S.optional(S.String),
-          message_reference: S.optional(__S(7859, __c245, 19)),
-          thread: S.optional(__S(7777, __c243, 1)),
-          mention_channels: S.optional(__S(7861, __c245, 21)),
-          role_subscription_data: S.optional(__S(7862, __c245, 22)),
-          purchase_notification: S.optional(__S(7864, __c245, 24)),
+          message_reference: S.optional(__S(8020, __c250, 20)),
+          thread: S.optional(__S(7937, __c248, 1)),
+          mention_channels: S.optional(__S(8022, __c250, 22)),
+          role_subscription_data: S.optional(__S(8023, __c250, 23)),
+          purchase_notification: S.optional(__S(8025, __c250, 25)),
           position: S.optional(S.Number),
-          resolved: S.optional(__S(7871, __c245, 31)),
-          poll: S.optional(__S(7879, __c246, 7)),
-          shared_client_theme: S.optional(__S(7880, __c246, 8)),
-          interaction_metadata: S.optional(__S(7941, __c248, 5)),
-          message_snapshots: S.optional(__S(7887, __c246, 15)),
-          lobby_member: S.optional(__S(7680, __c240, 0)),
-          reactions: S.optional(__S(7890, __c246, 18)),
-          referenced_message: S.optional(S.NullOr(__S(7897, __c246, 25))),
+          resolved: S.optional(__S(8032, __c251, 0)),
+          poll: S.optional(__S(8040, __c251, 8)),
+          shared_client_theme: S.optional(__S(8041, __c251, 9)),
+          interaction_metadata: S.optional(__S(8101, __c253, 5)),
+          message_snapshots: S.optional(__S(8048, __c251, 16)),
+          lobby_member: S.optional(__S(7840, __c245, 0)),
+          actor: S.optional(__S(4608, __c144, 0)),
+          reactions: S.optional(__S(8051, __c251, 19)),
+          referenced_message: S.optional(S.NullOr(__S(8058, __c251, 26))),
         }),
       ).annotate({ identifier: "MessageResponse" });
   }
 }
-function __c249(j: number): any {
+function __c254(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(4608, __c144, 0));
   }
 }
-function __c250(j: number): any {
+function __c255(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c251(j: number): any {
+function __c256(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          scopes: __S(8000, __c250, 0),
+          scopes: __S(8160, __c255, 0),
           permissions: S.String,
         }),
       ).annotate({ identifier: "ApplicationOAuth2InstallParamsResponse" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          oauth2_install_params: S.optional(__S(8032, __c251, 0)),
+          oauth2_install_params: S.optional(__S(8192, __c256, 0)),
         }),
       ).annotate({ identifier: "ApplicationIntegrationTypeConfigurationResponse" });
     case 2:
-      return S.Record(S.String, __S(8033, __c251, 1));
+      return S.Record(S.String, __S(8193, __c256, 1));
   }
 }
-function __c252(j: number): any {
+function __c257(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           idle_timeout_seconds: S.optional(S.NullOr(S.Number)),
-          lobby_metadata: S.optional(S.NullOr(__S(8320, __c260, 0))),
-          member_metadata: S.optional(S.NullOr(__S(8320, __c260, 0))),
+          lobby_metadata: S.optional(S.NullOr(__S(8480, __c265, 0))),
+          member_metadata: S.optional(S.NullOr(__S(8480, __c265, 0))),
           secret: S.String.pipe(T.SensitiveValue({})),
           flags: S.optional(S.NullOr(S.Number)),
+          name: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PUT", uri: "/lobbies", code: 200 })),
       ).annotate({ identifier: "CreateOrJoinLobbyRequest" });
   }
 }
-function __c253(j: number): any {
+function __c258(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18854,7 +19303,7 @@ function __c253(j: number): any {
       ).annotate({ identifier: "CreatePinRequest" });
   }
 }
-function __c254(j: number): any {
+function __c259(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18868,7 +19317,7 @@ function __c254(j: number): any {
       ).annotate({ identifier: "CreateStageInstanceRequest" });
   }
 }
-function __c255(j: number): any {
+function __c260(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18884,7 +19333,7 @@ function __c255(j: number): any {
       ).annotate({ identifier: "StageInstanceResponse" });
   }
 }
-function __c256(j: number): any {
+function __c261(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -18897,12 +19346,12 @@ function __c256(j: number): any {
       return S.suspend(() =>
         S.Struct({
           channel_id: S.String.pipe(T.Label()),
-          body: __S(8192, __c256, 0).pipe(T.HttpBody()),
+          body: __S(8352, __c261, 0).pipe(T.HttpBody()),
         }).pipe(T.Http({ method: "POST", uri: "/channels/{channel_id}/threads", code: 200 })),
       ).annotate({ identifier: "CreateThreadRequest" });
   }
 }
-function __c257(j: number): any {
+function __c262(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18922,7 +19371,7 @@ function __c257(j: number): any {
       ).annotate({ identifier: "CreateThreadFromMessageRequest" });
   }
 }
-function __c258(j: number): any {
+function __c263(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18949,40 +19398,40 @@ function __c258(j: number): any {
       ).annotate({ identifier: "GuildIncomingWebhookResponse" });
   }
 }
-function __c259(j: number): any {
+function __c264(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           lobby_id: S.String.pipe(T.Label()),
           user_id: S.String.pipe(T.Label()),
-          metadata: S.optional(S.NullOr(__S(8320, __c260, 0))),
+          metadata: S.optional(S.NullOr(__S(8480, __c265, 0))),
           flags: S.optional(S.NullOr(S.Number)),
           additional_name: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PUT", uri: "/lobbies/{lobby_id}/members/{user_id}", code: 200 })),
       ).annotate({ identifier: "AddLobbyMemberRequest" });
   }
 }
-function __c260(j: number): any {
+function __c265(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c261(j: number): any {
+function __c266(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          metadata: S.NullOr(__S(8320, __c260, 0)),
+          metadata: S.NullOr(__S(8480, __c265, 0)),
           flags: S.Number,
           additional_name: S.optional(S.String),
         }),
       ).annotate({ identifier: "LobbyMemberResponse" });
   }
 }
-function __c262(j: number): any {
+function __c267(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18999,7 +19448,7 @@ function __c262(j: number): any {
       ).annotate({ identifier: "CrosspostMessageRequest" });
   }
 }
-function __c263(j: number): any {
+function __c268(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19016,7 +19465,7 @@ function __c263(j: number): any {
       ).annotate({ identifier: "DeleteAllMessageReactionsRequest" });
   }
 }
-function __c264(j: number): any {
+function __c269(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19034,7 +19483,7 @@ function __c264(j: number): any {
       ).annotate({ identifier: "DeleteAllMessageReactionsByEmojiRequest" });
   }
 }
-function __c265(j: number): any {
+function __c270(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19051,7 +19500,7 @@ function __c265(j: number): any {
       ).annotate({ identifier: "DeleteApplicationCommandRequest" });
   }
 }
-function __c266(j: number): any {
+function __c271(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19068,7 +19517,7 @@ function __c266(j: number): any {
       ).annotate({ identifier: "DeleteApplicationEmojiRequest" });
   }
 }
-function __c267(j: number): any {
+function __c272(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19084,7 +19533,7 @@ function __c267(j: number): any {
       ).annotate({ identifier: "DeleteApplicationUserRoleConnectionRequest" });
   }
 }
-function __c268(j: number): any {
+function __c273(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19101,7 +19550,7 @@ function __c268(j: number): any {
       ).annotate({ identifier: "DeleteAutoModerationRuleRequest" });
   }
 }
-function __c269(j: number): any {
+function __c274(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19179,12 +19628,12 @@ function __c269(j: number): any {
         ]),
       );
     case 2:
-      return S.suspend(() => __S(8609, __c269, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(8769, __c274, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "DeleteChannelResponse",
       });
   }
 }
-function __c270(j: number): any {
+function __c275(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19201,7 +19650,7 @@ function __c270(j: number): any {
       ).annotate({ identifier: "DeleteChannelPermissionOverwriteRequest" });
   }
 }
-function __c271(j: number): any {
+function __c276(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19214,7 +19663,7 @@ function __c271(j: number): any {
       ).annotate({ identifier: "DeleteDeprecatedPinRequest" });
   }
 }
-function __c272(j: number): any {
+function __c277(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19232,7 +19681,7 @@ function __c272(j: number): any {
       ).annotate({ identifier: "AddMyMessageReactionRequest" });
   }
 }
-function __c273(j: number): any {
+function __c278(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19249,7 +19698,7 @@ function __c273(j: number): any {
       ).annotate({ identifier: "DeleteEntitlementRequest" });
   }
 }
-function __c274(j: number): any {
+function __c279(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19266,7 +19715,7 @@ function __c274(j: number): any {
       ).annotate({ identifier: "DeleteGroupDmUserRequest" });
   }
 }
-function __c275(j: number): any {
+function __c280(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19284,7 +19733,7 @@ function __c275(j: number): any {
       ).annotate({ identifier: "DeleteGuildApplicationCommandRequest" });
   }
 }
-function __c276(j: number): any {
+function __c281(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19297,7 +19746,7 @@ function __c276(j: number): any {
       ).annotate({ identifier: "DeleteGuildEmojiRequest" });
   }
 }
-function __c277(j: number): any {
+function __c282(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19314,7 +19763,7 @@ function __c277(j: number): any {
       ).annotate({ identifier: "DeleteGuildIntegrationRequest" });
   }
 }
-function __c278(j: number): any {
+function __c283(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19327,7 +19776,7 @@ function __c278(j: number): any {
       ).annotate({ identifier: "DeleteGuildMemberRequest" });
   }
 }
-function __c279(j: number): any {
+function __c284(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19345,7 +19794,7 @@ function __c279(j: number): any {
       ).annotate({ identifier: "DeleteGuildMemberRoleRequest" });
   }
 }
-function __c280(j: number): any {
+function __c285(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19356,7 +19805,7 @@ function __c280(j: number): any {
       ).annotate({ identifier: "DeleteGuildRoleRequest" });
   }
 }
-function __c281(j: number): any {
+function __c286(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19373,7 +19822,7 @@ function __c281(j: number): any {
       ).annotate({ identifier: "DeleteGuildScheduledEventRequest" });
   }
 }
-function __c282(j: number): any {
+function __c287(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19391,7 +19840,7 @@ function __c282(j: number): any {
       ).annotate({ identifier: "DeleteGuildScheduledEventExceptionRequest" });
   }
 }
-function __c283(j: number): any {
+function __c288(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19408,7 +19857,7 @@ function __c283(j: number): any {
       ).annotate({ identifier: "AddThreadMemberRequest" });
   }
 }
-function __c284(j: number): any {
+function __c289(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19425,7 +19874,7 @@ function __c284(j: number): any {
       ).annotate({ identifier: "DeleteGuildSoundboardSoundRequest" });
   }
 }
-function __c285(j: number): any {
+function __c290(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19438,7 +19887,7 @@ function __c285(j: number): any {
       ).annotate({ identifier: "DeleteGuildStickerRequest" });
   }
 }
-function __c286(j: number): any {
+function __c291(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19451,7 +19900,7 @@ function __c286(j: number): any {
       ).annotate({ identifier: "DeleteGuildTemplateRequest" });
   }
 }
-function __c287(j: number): any {
+function __c292(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19461,7 +19910,7 @@ function __c287(j: number): any {
       ).annotate({ identifier: "DeleteLobbyRequest" });
   }
 }
-function __c288(j: number): any {
+function __c293(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19474,7 +19923,7 @@ function __c288(j: number): any {
       ).annotate({ identifier: "DeleteLobbyMemberRequest" });
   }
 }
-function __c289(j: number): any {
+function __c294(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19491,7 +19940,7 @@ function __c289(j: number): any {
       ).annotate({ identifier: "DeleteMessageRequest" });
   }
 }
-function __c290(j: number): any {
+function __c295(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19509,7 +19958,7 @@ function __c290(j: number): any {
       ).annotate({ identifier: "DeleteMyMessageReactionRequest" });
   }
 }
-function __c291(j: number): any {
+function __c296(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19527,7 +19976,7 @@ function __c291(j: number): any {
       ).annotate({ identifier: "DeleteOriginalWebhookMessageRequest" });
   }
 }
-function __c292(j: number): any {
+function __c297(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19544,7 +19993,7 @@ function __c292(j: number): any {
       ).annotate({ identifier: "DeletePinRequest" });
   }
 }
-function __c293(j: number): any {
+function __c298(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19554,7 +20003,7 @@ function __c293(j: number): any {
       ).annotate({ identifier: "DeleteStageInstanceRequest" });
   }
 }
-function __c294(j: number): any {
+function __c299(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19567,7 +20016,7 @@ function __c294(j: number): any {
       ).annotate({ identifier: "BanUserFromGuildRequest" });
   }
 }
-function __c295(j: number): any {
+function __c300(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19584,7 +20033,7 @@ function __c295(j: number): any {
       ).annotate({ identifier: "DeleteThreadMemberRequest" });
   }
 }
-function __c296(j: number): any {
+function __c301(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19603,7 +20052,7 @@ function __c296(j: number): any {
       ).annotate({ identifier: "DeleteUserMessageReactionRequest" });
   }
 }
-function __c297(j: number): any {
+function __c302(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19613,7 +20062,7 @@ function __c297(j: number): any {
       ).annotate({ identifier: "DeleteWebhookRequest" });
   }
 }
-function __c298(j: number): any {
+function __c303(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19626,7 +20075,7 @@ function __c298(j: number): any {
       ).annotate({ identifier: "DeleteWebhookByTokenRequest" });
   }
 }
-function __c299(j: number): any {
+function __c304(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19645,22 +20094,23 @@ function __c299(j: number): any {
       ).annotate({ identifier: "DeleteWebhookMessageRequest" });
   }
 }
-function __c300(j: number): any {
+function __c305(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           lobby_id: S.String.pipe(T.Label()),
           idle_timeout_seconds: S.optional(S.NullOr(S.Number)),
-          metadata: S.optional(S.NullOr(__S(8320, __c260, 0))),
-          members: S.optional(S.NullOr(__S(7489, __c234, 1))),
+          metadata: S.optional(S.NullOr(__S(8480, __c265, 0))),
+          members: S.optional(S.NullOr(__S(7649, __c239, 1))),
           flags: S.optional(S.NullOr(S.Number)),
           override_event_webhooks_url: S.optional(S.NullOr(S.String)),
+          name: S.optional(S.NullOr(S.String)),
         }).pipe(T.Http({ method: "PATCH", uri: "/lobbies/{lobby_id}", code: 200 })),
       ).annotate({ identifier: "EditLobbyRequest" });
   }
 }
-function __c301(j: number): any {
+function __c306(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19671,7 +20121,7 @@ function __c301(j: number): any {
       ).annotate({ identifier: "EditLobbyChannelLinkRequest" });
   }
 }
-function __c302(j: number): any {
+function __c307(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19687,7 +20137,7 @@ function __c302(j: number): any {
         S.Struct({
           id: S.Number,
           html_url: S.String,
-          user: __S(9664, __c302, 0),
+          user: __S(9824, __c307, 0),
           commit_id: S.optional(S.NullOr(S.String)),
           body: S.String,
         }),
@@ -19698,7 +20148,7 @@ function __c302(j: number): any {
           id: S.Number,
           number: S.Number,
           html_url: S.String,
-          user: __S(9664, __c302, 0),
+          user: __S(9824, __c307, 0),
           title: S.String,
           body: S.optional(S.NullOr(S.String)),
           pull_request: S.optional(S.Unknown),
@@ -19719,7 +20169,7 @@ function __c302(j: number): any {
           id: S.Number,
           tag_name: S.String,
           html_url: S.String,
-          author: __S(9664, __c302, 0),
+          author: __S(9824, __c307, 0),
         }),
       ).annotate({ identifier: "GithubRelease" });
     case 5:
@@ -19735,15 +20185,15 @@ function __c302(j: number): any {
           id: S.String,
           url: S.String,
           message: S.String,
-          author: __S(9669, __c302, 5),
+          author: __S(9829, __c307, 5),
         }),
       ).annotate({ identifier: "GithubCommit" });
     case 7:
-      return S.Array(__S(9670, __c302, 6));
+      return S.Array(__S(9830, __c307, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          user: __S(9664, __c302, 0),
+          user: __S(9824, __c307, 0),
           body: S.optional(S.NullOr(S.String)),
           html_url: S.String,
           state: S.String,
@@ -19756,15 +20206,15 @@ function __c302(j: number): any {
         }),
       ).annotate({ identifier: "GithubCheckPullRequest" });
     case 10:
-      return S.Array(__S(9673, __c302, 9));
+      return S.Array(__S(9833, __c307, 9));
     case 11:
       return S.suspend(() =>
         S.Struct({
           conclusion: S.optional(S.NullOr(S.String)),
           head_branch: S.optional(S.NullOr(S.String)),
           head_sha: S.String,
-          pull_requests: S.optional(S.NullOr(__S(9674, __c302, 10))),
-          app: __S(9696, __c303, 0),
+          pull_requests: S.optional(S.NullOr(__S(9834, __c307, 10))),
+          app: __S(9856, __c308, 0),
         }),
       ).annotate({ identifier: "GithubCheckSuite" });
     case 12:
@@ -19780,10 +20230,10 @@ function __c302(j: number): any {
           conclusion: S.optional(S.NullOr(S.String)),
           name: S.String,
           html_url: S.String,
-          check_suite: __S(9675, __c302, 11),
+          check_suite: __S(9835, __c307, 11),
           details_url: S.optional(S.NullOr(S.String)),
-          output: S.optional(S.NullOr(__S(9676, __c302, 12))),
-          pull_requests: S.optional(S.NullOr(__S(9674, __c302, 10))),
+          output: S.optional(S.NullOr(__S(9836, __c307, 12))),
+          pull_requests: S.optional(S.NullOr(__S(9834, __c307, 10))),
         }),
       ).annotate({ identifier: "GithubCheckRun" });
     case 14:
@@ -19794,7 +20244,7 @@ function __c302(j: number): any {
           html_url: S.String,
           answer_html_url: S.optional(S.NullOr(S.String)),
           body: S.optional(S.NullOr(S.String)),
-          user: __S(9664, __c302, 0),
+          user: __S(9824, __c307, 0),
         }),
       ).annotate({ identifier: "GithubDiscussion" });
     case 15:
@@ -19807,23 +20257,23 @@ function __c302(j: number): any {
           action: S.optional(S.NullOr(S.String)),
           ref: S.optional(S.NullOr(S.String)),
           ref_type: S.optional(S.NullOr(S.String)),
-          comment: S.optional(S.NullOr(__S(9665, __c302, 1))),
-          issue: S.optional(S.NullOr(__S(9666, __c302, 2))),
-          pull_request: S.optional(S.NullOr(__S(9666, __c302, 2))),
-          repository: S.optional(S.NullOr(__S(9667, __c302, 3))),
-          forkee: S.optional(S.NullOr(__S(9667, __c302, 3))),
-          sender: __S(9664, __c302, 0),
-          member: S.optional(S.NullOr(__S(9664, __c302, 0))),
-          release: S.optional(S.NullOr(__S(9668, __c302, 4))),
-          head_commit: S.optional(S.NullOr(__S(9670, __c302, 6))),
-          commits: S.optional(S.NullOr(__S(9671, __c302, 7))),
+          comment: S.optional(S.NullOr(__S(9825, __c307, 1))),
+          issue: S.optional(S.NullOr(__S(9826, __c307, 2))),
+          pull_request: S.optional(S.NullOr(__S(9826, __c307, 2))),
+          repository: S.optional(S.NullOr(__S(9827, __c307, 3))),
+          forkee: S.optional(S.NullOr(__S(9827, __c307, 3))),
+          sender: __S(9824, __c307, 0),
+          member: S.optional(S.NullOr(__S(9824, __c307, 0))),
+          release: S.optional(S.NullOr(__S(9828, __c307, 4))),
+          head_commit: S.optional(S.NullOr(__S(9830, __c307, 6))),
+          commits: S.optional(S.NullOr(__S(9831, __c307, 7))),
           forced: S.optional(S.NullOr(S.Boolean)),
           compare: S.optional(S.NullOr(S.String)),
-          review: S.optional(S.NullOr(__S(9672, __c302, 8))),
-          check_run: S.optional(S.NullOr(__S(9677, __c302, 13))),
-          check_suite: S.optional(S.NullOr(__S(9675, __c302, 11))),
-          discussion: S.optional(S.NullOr(__S(9678, __c302, 14))),
-          answer: S.optional(S.NullOr(__S(9665, __c302, 1))),
+          review: S.optional(S.NullOr(__S(9832, __c307, 8))),
+          check_run: S.optional(S.NullOr(__S(9837, __c307, 13))),
+          check_suite: S.optional(S.NullOr(__S(9835, __c307, 11))),
+          discussion: S.optional(S.NullOr(__S(9838, __c307, 14))),
+          answer: S.optional(S.NullOr(__S(9825, __c307, 1))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19834,7 +20284,7 @@ function __c302(j: number): any {
       ).annotate({ identifier: "ExecuteGithubCompatibleWebhookRequest" });
   }
 }
-function __c303(j: number): any {
+function __c308(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19844,7 +20294,7 @@ function __c303(j: number): any {
       ).annotate({ identifier: "GithubCheckApp" });
   }
 }
-function __c304(j: number): any {
+function __c309(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19855,7 +20305,7 @@ function __c304(j: number): any {
         }),
       ).annotate({ identifier: "WebhookSlackEmbedField" });
     case 1:
-      return S.Array(__S(9728, __c304, 0));
+      return S.Array(__S(9888, __c309, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -19872,11 +20322,11 @@ function __c304(j: number): any {
           author_icon: S.optional(S.NullOr(S.String)),
           image_url: S.optional(S.NullOr(S.String)),
           thumb_url: S.optional(S.NullOr(S.String)),
-          fields: S.optional(S.NullOr(__S(9729, __c304, 1))),
+          fields: S.optional(S.NullOr(__S(9889, __c309, 1))),
         }),
       ).annotate({ identifier: "WebhookSlackEmbed" });
     case 3:
-      return S.Array(__S(9730, __c304, 2));
+      return S.Array(__S(9890, __c309, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -19887,7 +20337,7 @@ function __c304(j: number): any {
           text: S.optional(S.NullOr(S.String)),
           username: S.optional(S.NullOr(S.String)),
           icon_url: S.optional(S.NullOr(S.String)),
-          attachments: S.optional(S.NullOr(__S(9731, __c304, 3))),
+          attachments: S.optional(S.NullOr(__S(9891, __c309, 3))),
         }).pipe(
           T.Http({
             method: "POST",
@@ -19902,7 +20352,7 @@ function __c304(j: number): any {
       });
   }
 }
-function __c305(j: number): any {
+function __c310(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -19932,14 +20382,14 @@ function __c305(j: number): any {
           wait: S.optional(S.Boolean.pipe(T.Query())),
           thread_id: S.optional(S.String.pipe(T.Query())),
           with_components: S.optional(S.Boolean.pipe(T.Query())),
-          body: __S(9760, __c305, 0).pipe(T.HttpBody()),
+          body: __S(9920, __c310, 0).pipe(T.HttpBody()),
         }).pipe(
           T.Http({ method: "POST", uri: "/webhooks/{webhook_id}/{webhook_token}", code: 200 }),
         ),
       ).annotate({ identifier: "ExecuteWebhookRequest" });
   }
 }
-function __c306(j: number): any {
+function __c311(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19951,7 +20401,7 @@ function __c306(j: number): any {
       ).annotate({ identifier: "BotPartnerSdkTokenRequest" });
   }
 }
-function __c307(j: number): any {
+function __c312(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19968,7 +20418,7 @@ function __c307(j: number): any {
       ).annotate({ identifier: "ProvisionalTokenResponse" });
   }
 }
-function __c308(j: number): any {
+function __c313(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19986,7 +20436,7 @@ function __c308(j: number): any {
       ).annotate({ identifier: "ChannelFollowerResponse" });
   }
 }
-function __c309(j: number): any {
+function __c314(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19996,38 +20446,38 @@ function __c309(j: number): any {
       ).annotate({ identifier: "GetActiveGuildThreadsRequest" });
   }
 }
-function __c310(j: number): any {
+function __c315(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7942, __c248, 6));
+      return S.Array(__S(8102, __c253, 6));
   }
 }
-function __c311(j: number): any {
+function __c316(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7777, __c243, 1));
+      return S.Array(__S(7937, __c248, 1));
   }
 }
-function __c312(j: number): any {
+function __c317(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          threads: __S(9952, __c311, 0),
-          members: __S(10016, __c313, 0),
+          threads: __S(10112, __c316, 0),
+          members: __S(10176, __c318, 0),
           has_more: S.Boolean,
-          first_messages: S.optional(__S(9920, __c310, 0)),
+          first_messages: S.optional(__S(10080, __c315, 0)),
         }),
       ).annotate({ identifier: "ThreadsResponse" });
   }
 }
-function __c313(j: number): any {
+function __c318(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(7744, __c242, 0));
+      return S.Array(__S(7904, __c247, 0));
   }
 }
-function __c314(j: number): any {
+function __c319(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20048,12 +20498,12 @@ function __c314(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          users: __S(7968, __c249, 0),
+          users: __S(8128, __c254, 0),
         }),
       ).annotate({ identifier: "PollAnswerDetailsResponse" });
   }
 }
-function __c315(j: number): any {
+function __c320(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20063,7 +20513,7 @@ function __c315(j: number): any {
       ).annotate({ identifier: "GetApplicationRequest" });
   }
 }
-function __c316(j: number): any {
+function __c321(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20076,7 +20526,7 @@ function __c316(j: number): any {
         }),
       ).annotate({ identifier: "TeamMemberResponse" });
     case 1:
-      return S.Array(__S(10112, __c316, 0));
+      return S.Array(__S(10272, __c321, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -20084,7 +20534,7 @@ function __c316(j: number): any {
           icon: S.NullOr(S.String),
           name: S.String,
           owner_user_id: S.String,
-          members: __S(10113, __c316, 1),
+          members: __S(10273, __c321, 1),
         }),
       ).annotate({ identifier: "TeamResponse" });
     case 3:
@@ -20101,6 +20551,7 @@ function __c316(j: number): any {
           flags_new: S.String,
           bot: S.optional(__S(4608, __c144, 0)),
           slug: S.optional(S.String),
+          conjure_project_id: S.optional(S.String),
           vibegrations_project_id: S.optional(S.String),
           guild_id: S.optional(S.String),
           rpc_origins: S.optional(__S(4672, __c146, 0)),
@@ -20109,8 +20560,8 @@ function __c316(j: number): any {
           terms_of_service_url: S.optional(S.String),
           privacy_policy_url: S.optional(S.String),
           custom_install_url: S.optional(S.String),
-          install_params: S.optional(__S(8032, __c251, 0)),
-          integration_types_config: S.optional(__S(8034, __c251, 2)),
+          install_params: S.optional(__S(8192, __c256, 0)),
+          integration_types_config: S.optional(__S(8194, __c256, 2)),
           verify_key: S.String,
           max_participants: S.optional(S.NullOr(S.Number)),
           tags: S.optional(__S(4672, __c146, 0)),
@@ -20123,15 +20574,15 @@ function __c316(j: number): any {
           approximate_user_authorization_count: S.Number,
           event_webhooks_url: S.optional(S.NullOr(S.String)),
           event_webhooks_status: S.optional(S.Number),
-          event_webhooks_types: S.optional(__S(8000, __c250, 0)),
+          event_webhooks_types: S.optional(__S(8160, __c255, 0)),
           explicit_content_filter: S.Number,
-          team: S.NullOr(__S(10114, __c316, 2)),
-          eligible_oauth2_scopes: __S(8000, __c250, 0),
+          team: S.NullOr(__S(10274, __c321, 2)),
+          eligible_oauth2_scopes: __S(8160, __c255, 0),
         }),
       ).annotate({ identifier: "PrivateApplicationResponse" });
   }
 }
-function __c317(j: number): any {
+function __c322(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20159,13 +20610,13 @@ function __c317(j: number): any {
           application_id: S.String,
           instance_id: S.String,
           launch_id: S.String,
-          location: __S(10145, __c317, 1),
+          location: __S(10305, __c322, 1),
           users: __S(4672, __c146, 0),
         }),
       ).annotate({ identifier: "EmbeddedActivityInstance" });
   }
 }
-function __c318(j: number): any {
+function __c323(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20182,7 +20633,7 @@ function __c318(j: number): any {
       ).annotate({ identifier: "GetApplicationCommandRequest" });
   }
 }
-function __c319(j: number): any {
+function __c324(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20199,7 +20650,7 @@ function __c319(j: number): any {
       ).annotate({ identifier: "GetApplicationEmojiRequest" });
   }
 }
-function __c320(j: number): any {
+function __c325(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20215,7 +20666,7 @@ function __c320(j: number): any {
       ).annotate({ identifier: "GetApplicationRoleConnectionsMetadataRequest" });
   }
 }
-function __c321(j: number): any {
+function __c326(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20223,20 +20674,20 @@ function __c321(j: number): any {
           type: S.Number,
           key: S.String,
           name: S.String,
-          name_localizations: S.optional(S.NullOr(__S(8320, __c260, 0))),
+          name_localizations: S.optional(S.NullOr(__S(8480, __c265, 0))),
           description: S.String,
-          description_localizations: S.optional(S.NullOr(__S(8320, __c260, 0))),
+          description_localizations: S.optional(S.NullOr(__S(8480, __c265, 0))),
         }),
       ).annotate({ identifier: "ApplicationRoleConnectionsMetadataItemResponse" });
     case 1:
-      return S.Array(__S(10272, __c321, 0));
+      return S.Array(__S(10432, __c326, 0));
     case 2:
-      return S.suspend(() => S.NullOr(__S(10273, __c321, 1)).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => S.NullOr(__S(10433, __c326, 1)).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetApplicationRoleConnectionsMetadataResponse",
       });
   }
 }
-function __c322(j: number): any {
+function __c327(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20252,19 +20703,19 @@ function __c322(j: number): any {
       ).annotate({ identifier: "GetApplicationUserRoleConnectionRequest" });
   }
 }
-function __c323(j: number): any {
+function __c328(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           platform_name: S.optional(S.String),
           platform_username: S.optional(S.NullOr(S.String)),
-          metadata: S.optional(__S(8320, __c260, 0)),
+          metadata: S.optional(__S(8480, __c265, 0)),
         }),
       ).annotate({ identifier: "ApplicationUserRoleConnectionResponse" });
   }
 }
-function __c324(j: number): any {
+function __c329(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -20350,7 +20801,7 @@ function __c324(j: number): any {
         ]),
       );
     case 2:
-      return S.suspend(() => __S(10369, __c324, 1).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(10529, __c329, 1).pipe(T.RawResponseRoot())).annotate({
         identifier: "GetAutoModerationRuleResponse",
       });
   }

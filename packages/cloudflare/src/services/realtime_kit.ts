@@ -221,6 +221,62 @@ export class RealtimeKitWebhookNotFound
     [{ status: 404 }],
   ) {}
 
+export interface ActiveSessionMuteAllParticipantsRequest {
+  /** The account identifier tag. */
+  accountId: string;
+  /** The app identifier tag. */
+  appId: string;
+  meetingId: string;
+  /** if false, participants won't be able to unmute themselves after they are muted */
+  allowUnmute?: boolean | undefined;
+}
+export interface ActiveSessionMuteAllParticipantsResponseData {
+  action?: string | null | undefined;
+  mutedParticipantsCount?: number | null | undefined;
+}
+/** Raw response payload (operation does not use the standard v4 result envelope). */
+export interface ActiveSessionMuteAllParticipantsResponse {
+  data?: ActiveSessionMuteAllParticipantsResponseData | null | undefined;
+}
+export type ActiveSessionMuteParticipantsRequestCustomParticipantIdsList = Array<string>;
+export type ActiveSessionMuteParticipantsRequestParticipantIdsList = Array<string>;
+export interface ActiveSessionMuteParticipantsRequest {
+  /** The account identifier tag. */
+  accountId: string;
+  /** The app identifier tag. */
+  appId: string;
+  meetingId: string;
+  customParticipantIds?: ActiveSessionMuteParticipantsRequestCustomParticipantIdsList | undefined;
+  participantIds?: ActiveSessionMuteParticipantsRequestParticipantIdsList | undefined;
+}
+export interface ActiveSessionMuteParticipantsResponseDataParticipantsItem {
+  /** ID of the session participant */
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  /** Email of the session participant. */
+  email?: string | null | undefined;
+  /** Name of the session participant. */
+  name?: string | null | undefined;
+  /** A URL pointing to a picture of the participant. */
+  picture?: string | null | undefined;
+}
+export type ActiveSessionMuteParticipantsResponseDataParticipantsList =
+  Array<ActiveSessionMuteParticipantsResponseDataParticipantsItem>;
+export interface ActiveSessionMuteParticipantsResponseData {
+  action?: string | null | undefined;
+  participants?: ActiveSessionMuteParticipantsResponseDataParticipantsList | null | undefined;
+}
+/** Raw response payload (operation does not use the standard v4 result envelope). */
+export interface ActiveSessionMuteParticipantsResponse {
+  data?: ActiveSessionMuteParticipantsResponseData | null | undefined;
+}
+export interface MeetingsAddParticipantRequestToken {
+  /** RFC 3339 timestamp with a timezone at or after which the token cannot be used. Must be in the future. Defaults to not_before plus 100 days. */
+  expiresOn?: string | undefined;
+  /** RFC 3339 timestamp with a timezone before which the token cannot be used. Defaults to the current time. May be in the past. */
+  notBefore?: string | undefined;
+}
 export interface AddParticipantMeetingRequest {
   /** The account identifier tag. */
   accountId: string;
@@ -231,10 +287,12 @@ export interface AddParticipantMeetingRequest {
   customParticipantId: string;
   /** Name of the preset to apply to this participant. */
   presetName: string;
+  /** Validity window of the participant authentication token. The window is [not_before, expires_on) and cannot be longer than 100 days. Defaults to a token valid from now for 100 days. */
+  token?: MeetingsAddParticipantRequestToken | undefined;
   /** (Optional) Name of the participant. */
-  name?: string;
+  name?: string | undefined;
   /** (Optional) A URL to a picture to be used for the participant. */
-  picture?: string;
+  picture?: string | undefined;
 }
 export interface MeetingsAddParticipantResponseData {
   /** ID of the participant. */
@@ -249,15 +307,19 @@ export interface MeetingsAddParticipantResponseData {
   presetName: string;
   /** When this object was updated. The time is returned in ISO format. */
   updatedAt: string;
+  /** Time at which the token stops being valid, in UTC. Returned when adding a participant. */
+  expiresOn?: string | null | undefined;
   /** Name of the participant. */
-  name?: string | null;
+  name?: string | null | undefined;
+  /** Time from which the token is valid, in UTC. Returned when adding a participant. */
+  notBefore?: string | null | undefined;
   /** URL to a picture of the participant. */
-  picture?: string | null;
+  picture?: string | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface AddParticipantMeetingResponse {
   /** Represents a participant. */
-  data?: MeetingsAddParticipantResponseData | null;
+  data?: MeetingsAddParticipantResponseData | null | undefined;
 }
 export interface CreateIndependentLivestreamLivestreamRequest {
   /** The account identifier tag. */
@@ -265,7 +327,7 @@ export interface CreateIndependentLivestreamLivestreamRequest {
   /** The app identifier tag. */
   appId: string;
   /** Name of the livestream */
-  name?: string;
+  name?: string | undefined;
 }
 export type LivestreamsCreateIndependentLivestreamResponseDataStatus =
   | "LIVE"
@@ -274,22 +336,22 @@ export type LivestreamsCreateIndependentLivestreamResponseDataStatus =
   | "INVOKED";
 export interface LivestreamsCreateIndependentLivestreamResponseData {
   /** The livestream ID. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Specifies if the livestream was disabled. */
-  disabled?: boolean | null;
+  disabled?: boolean | null | undefined;
   /** The server URL to which the RTMP encoder should send the video and audio data. */
-  ingestServer?: string | null;
-  meetingId?: string | null;
-  name?: string | null;
+  ingestServer?: string | null | undefined;
+  meetingId?: string | null | undefined;
+  name?: string | null | undefined;
   /** The web address that viewers can use to watch the livestream. */
-  playbackUrl?: string | null;
-  status?: LivestreamsCreateIndependentLivestreamResponseDataStatus | null;
+  playbackUrl?: string | null | undefined;
+  status?: LivestreamsCreateIndependentLivestreamResponseDataStatus | null | undefined;
   /** Unique key for accessing each livestream. */
-  streamKey?: string | null;
+  streamKey?: string | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface CreateIndependentLivestreamLivestreamResponse {
-  data?: LivestreamsCreateIndependentLivestreamResponseData | null;
+  data?: LivestreamsCreateIndependentLivestreamResponseData | null | undefined;
 }
 export type MeetingsCreateRequestAiConfigSummarizationSummaryType =
   | "general"
@@ -304,11 +366,11 @@ export type MeetingsCreateRequestAiConfigSummarizationSummaryType =
 export type MeetingsCreateRequestAiConfigSummarizationTextFormat = "plain_text" | "markdown";
 export interface MeetingsCreateRequestAiConfigSummarization {
   /** Defines the style of the summary, such as general, team meeting, or sales call. */
-  summaryType?: MeetingsCreateRequestAiConfigSummarizationSummaryType | (string & {});
+  summaryType?: MeetingsCreateRequestAiConfigSummarizationSummaryType | (string & {}) | undefined;
   /** Determines the text format of the summary, such as plain text or markdown. */
-  textFormat?: MeetingsCreateRequestAiConfigSummarizationTextFormat | (string & {});
+  textFormat?: MeetingsCreateRequestAiConfigSummarizationTextFormat | (string & {}) | undefined;
   /** Sets the maximum number of words in the meeting summary. */
-  wordLimit?: number;
+  wordLimit?: number | undefined;
 }
 export type MeetingsCreateRequestAiConfigTranscriptionKeywordsList = Array<string>;
 export type MeetingsCreateRequestAiConfigTranscriptionLanguage =
@@ -324,31 +386,31 @@ export type MeetingsCreateRequestAiConfigTranscriptionLanguage =
   | "nl";
 export interface MeetingsCreateRequestAiConfigTranscription {
   /** Adds specific terms to improve accurate detection during transcription. */
-  keywords?: MeetingsCreateRequestAiConfigTranscriptionKeywordsList;
+  keywords?: MeetingsCreateRequestAiConfigTranscriptionKeywordsList | undefined;
   /** Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription. */
-  language?: MeetingsCreateRequestAiConfigTranscriptionLanguage | (string & {});
+  language?: MeetingsCreateRequestAiConfigTranscriptionLanguage | (string & {}) | undefined;
   /** Control the inclusion of offensive language in transcriptions. */
-  profanityFilter?: boolean;
+  profanityFilter?: boolean | undefined;
 }
 export interface MeetingsCreateRequestAiConfig {
   /** Summary Config */
-  summarization?: MeetingsCreateRequestAiConfigSummarization;
+  summarization?: MeetingsCreateRequestAiConfigSummarization | undefined;
   /** Transcription Configurations */
-  transcription?: MeetingsCreateRequestAiConfigTranscription;
+  transcription?: MeetingsCreateRequestAiConfigTranscription | undefined;
 }
 export type MeetingsCreateRequestRecordingConfigAudioConfigChannel = "mono" | "stereo";
 export type MeetingsCreateRequestRecordingConfigAudioConfigCodec = "MP3" | "AAC";
 export interface MeetingsCreateRequestRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
-  channel?: MeetingsCreateRequestRecordingConfigAudioConfigChannel | (string & {});
+  channel?: MeetingsCreateRequestRecordingConfigAudioConfigChannel | (string & {}) | undefined;
   /** Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis. */
-  codec?: MeetingsCreateRequestRecordingConfigAudioConfigCodec | (string & {});
+  codec?: MeetingsCreateRequestRecordingConfigAudioConfigCodec | (string & {}) | undefined;
   /** Controls whether to export audio file seperately */
-  exportFile?: boolean;
+  exportFile?: boolean | undefined;
 }
 export interface MeetingsCreateRequestRecordingConfigLiveStreamingConfig {
   /** RTMP URL to stream to */
-  rtmpUrl?: string;
+  rtmpUrl?: string | undefined;
 }
 export interface MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig {
   /** Controls whether recordings are uploaded to RealtimeKit's bucket. If set to false, `download_url`, `audio_download_url`, `download_url_expiry` won't be generated for a recording. */
@@ -358,28 +420,31 @@ export type MeetingsCreateRequestRecordingConfigStorageConfigCase0AuthMethod = "
 export type MeetingsCreateRequestRecordingConfigStorageConfigCase0Type = "gcs";
 export interface MeetingsCreateRequestRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string;
+  accessKey?: string | undefined;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: MeetingsCreateRequestRecordingConfigStorageConfigCase0AuthMethod | (string & {});
+  authMethod?:
+    | MeetingsCreateRequestRecordingConfigStorageConfigCase0AuthMethod
+    | (string & {})
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string;
+  host?: string | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string;
+  password?: string | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string;
+  path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number;
+  port?: number | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string;
+  privateKey?: string | undefined;
   /** Region of the storage medium. */
-  region?: string;
+  region?: string | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string;
-  type?: MeetingsCreateRequestRecordingConfigStorageConfigCase0Type | (string & {});
+  secret?: string | undefined;
+  type?: MeetingsCreateRequestRecordingConfigStorageConfigCase0Type | (string & {}) | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string;
+  username?: string | undefined;
 }
 export type MeetingsCreateRequestRecordingConfigStorageConfigCase1AuthMethod = "KEY" | "PASSWORD";
 export type MeetingsCreateRequestRecordingConfigStorageConfigCase1Type =
@@ -390,24 +455,27 @@ export interface MeetingsCreateRequestRecordingConfigStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: MeetingsCreateRequestRecordingConfigStorageConfigCase1AuthMethod | (string & {});
+  authMethod?:
+    | MeetingsCreateRequestRecordingConfigStorageConfigCase1AuthMethod
+    | (string & {})
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string;
+  host?: string | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string;
+  password?: string | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string;
+  path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number;
+  port?: number | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string;
+  privateKey?: string | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string;
-  type?: MeetingsCreateRequestRecordingConfigStorageConfigCase1Type | (string & {});
+  secret?: string | undefined;
+  type?: MeetingsCreateRequestRecordingConfigStorageConfigCase1Type | (string & {}) | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string;
+  username?: string | undefined;
 }
 export type MeetingsCreateRequestRecordingConfigStorageConfigCase2AuthMethod = "KEY";
 export type MeetingsCreateRequestRecordingConfigStorageConfigCase2Type =
@@ -420,26 +488,29 @@ export interface MeetingsCreateRequestRecordingConfigStorageConfigCase2 {
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string;
-  authMethod?: MeetingsCreateRequestRecordingConfigStorageConfigCase2AuthMethod | (string & {});
+  accessKey?: string | undefined;
+  authMethod?:
+    | MeetingsCreateRequestRecordingConfigStorageConfigCase2AuthMethod
+    | (string & {})
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string;
+  host?: string | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string;
+  password?: string | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string;
+  path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number;
+  port?: number | undefined;
   /** Region of the storage medium. */
-  region?: string;
+  region?: string | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string;
+  secret?: string | undefined;
   /** Type of storage media. */
-  type?: MeetingsCreateRequestRecordingConfigStorageConfigCase2Type | (string & {});
+  type?: MeetingsCreateRequestRecordingConfigStorageConfigCase2Type | (string & {}) | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string;
+  username?: string | undefined;
 }
 export type MeetingsCreateRequestRecordingConfigStorageConfigCase3AuthMethod = "PASSWORD";
 export type MeetingsCreateRequestRecordingConfigStorageConfigCase3Type =
@@ -452,26 +523,29 @@ export interface MeetingsCreateRequestRecordingConfigStorageConfigCase3 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string;
-  authMethod?: MeetingsCreateRequestRecordingConfigStorageConfigCase3AuthMethod | (string & {});
+  accessKey?: string | undefined;
+  authMethod?:
+    | MeetingsCreateRequestRecordingConfigStorageConfigCase3AuthMethod
+    | (string & {})
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string;
+  host?: string | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string;
+  path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number;
+  port?: number | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string;
+  privateKey?: string | undefined;
   /** Region of the storage medium. */
-  region?: string;
+  region?: string | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string;
+  secret?: string | undefined;
   /** Type of storage media. */
-  type?: MeetingsCreateRequestRecordingConfigStorageConfigCase3Type | (string & {});
+  type?: MeetingsCreateRequestRecordingConfigStorageConfigCase3Type | (string & {}) | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string;
+  username?: string | undefined;
 }
 export type MeetingsCreateRequestRecordingConfigStorageConfig =
   | MeetingsCreateRequestRecordingConfigStorageConfigCase0
@@ -486,41 +560,44 @@ export type MeetingsCreateRequestRecordingConfigVideoConfigWatermarkPosition =
   | "right bottom";
 export interface MeetingsCreateRequestRecordingConfigVideoConfigWatermarkSize {
   /** Height of the watermark in px */
-  height?: number;
+  height?: number | undefined;
   /** Width of the watermark in px */
-  width?: number;
+  width?: number | undefined;
 }
 export interface MeetingsCreateRequestRecordingConfigVideoConfigWatermark {
   /** Position of the watermark */
-  position?: MeetingsCreateRequestRecordingConfigVideoConfigWatermarkPosition | (string & {});
+  position?:
+    | MeetingsCreateRequestRecordingConfigVideoConfigWatermarkPosition
+    | (string & {})
+    | undefined;
   /** Size of the watermark */
-  size?: MeetingsCreateRequestRecordingConfigVideoConfigWatermarkSize;
+  size?: MeetingsCreateRequestRecordingConfigVideoConfigWatermarkSize | undefined;
   /** URL of the watermark image */
-  url?: string;
+  url?: string | undefined;
 }
 export interface MeetingsCreateRequestRecordingConfigVideoConfig {
   /** Codec using which the recording will be encoded. */
-  codec?: MeetingsCreateRequestRecordingConfigVideoConfigCodec | (string & {});
+  codec?: MeetingsCreateRequestRecordingConfigVideoConfigCodec | (string & {}) | undefined;
   /** Controls whether to export video file seperately */
-  exportFile?: boolean;
+  exportFile?: boolean | undefined;
   /** Height of the recording video in pixels */
-  height?: number;
+  height?: number | undefined;
   /** Watermark to be added to the recording */
-  watermark?: MeetingsCreateRequestRecordingConfigVideoConfigWatermark;
+  watermark?: MeetingsCreateRequestRecordingConfigVideoConfigWatermark | undefined;
   /** Width of the recording video in pixels */
-  width?: number;
+  width?: number | undefined;
 }
 export interface MeetingsCreateRequestRecordingConfig {
   /** Object containing configuration regarding the audio that is being recorded. */
-  audioConfig?: MeetingsCreateRequestRecordingConfigAudioConfig;
+  audioConfig?: MeetingsCreateRequestRecordingConfigAudioConfig | undefined;
   /** Adds a prefix to the beginning of the file name of the recording. */
-  fileNamePrefix?: string;
-  liveStreamingConfig?: MeetingsCreateRequestRecordingConfigLiveStreamingConfig;
+  fileNamePrefix?: string | undefined;
+  liveStreamingConfig?: MeetingsCreateRequestRecordingConfigLiveStreamingConfig | undefined;
   /** Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours. */
-  maxSeconds?: number;
-  realtimekitBucketConfig?: MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig;
-  storageConfig?: MeetingsCreateRequestRecordingConfigStorageConfig;
-  videoConfig?: MeetingsCreateRequestRecordingConfigVideoConfig;
+  maxSeconds?: number | undefined;
+  realtimekitBucketConfig?: MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig | undefined;
+  storageConfig?: MeetingsCreateRequestRecordingConfigStorageConfig | undefined;
+  videoConfig?: MeetingsCreateRequestRecordingConfigVideoConfig | undefined;
 }
 export interface CreateMeetingRequest {
   /** The account identifier tag. */
@@ -528,23 +605,23 @@ export interface CreateMeetingRequest {
   /** The app identifier tag. */
   appId: string;
   /** The AI Config allows you to customize the behavior of meeting transcriptions and summaries */
-  aiConfig?: MeetingsCreateRequestAiConfig;
+  aiConfig?: MeetingsCreateRequestAiConfig | undefined;
   /** Specifies if the meeting should start getting livestreamed on start. */
-  liveStreamOnStart?: boolean;
+  liveStreamOnStart?: boolean | undefined;
   /** If a meeting is set to persist_chat, meeting chat would remain for a week within the meeting space. */
-  persistChat?: boolean;
+  persistChat?: boolean | undefined;
   /** Specifies if the meeting should start getting recorded as soon as someone joins the meeting. */
-  recordOnStart?: boolean;
+  recordOnStart?: boolean | undefined;
   /** Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal. */
-  recordingConfig?: MeetingsCreateRequestRecordingConfig;
+  recordingConfig?: MeetingsCreateRequestRecordingConfig | undefined;
   /** Time in seconds, for which a session remains active, after the last participant has left the meeting. */
-  sessionKeepAliveTimeInSecs?: number;
+  sessionKeepAliveTimeInSecs?: number | undefined;
   /** Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API. */
-  summarizeOnEnd?: boolean;
+  summarizeOnEnd?: boolean | undefined;
   /** Title of the meeting */
-  title?: string;
+  title?: string | undefined;
   /** Automatically generate transcripts when the meeting ends. */
-  transcribeOnEnd?: boolean;
+  transcribeOnEnd?: boolean | undefined;
 }
 export type MeetingsCreateResponseDataAiConfigSummarizationSummaryType =
   | "general"
@@ -559,11 +636,11 @@ export type MeetingsCreateResponseDataAiConfigSummarizationSummaryType =
 export type MeetingsCreateResponseDataAiConfigSummarizationTextFormat = "plain_text" | "markdown";
 export interface MeetingsCreateResponseDataAiConfigSummarization {
   /** Defines the style of the summary, such as general, team meeting, or sales call. */
-  summaryType?: MeetingsCreateResponseDataAiConfigSummarizationSummaryType | null;
+  summaryType?: MeetingsCreateResponseDataAiConfigSummarizationSummaryType | null | undefined;
   /** Determines the text format of the summary, such as plain text or markdown. */
-  textFormat?: MeetingsCreateResponseDataAiConfigSummarizationTextFormat | null;
+  textFormat?: MeetingsCreateResponseDataAiConfigSummarizationTextFormat | null | undefined;
   /** Sets the maximum number of words in the meeting summary. */
-  wordLimit?: number | null;
+  wordLimit?: number | null | undefined;
 }
 export type MeetingsCreateResponseDataAiConfigTranscriptionKeywordsList = Array<string>;
 export type MeetingsCreateResponseDataAiConfigTranscriptionLanguage =
@@ -579,31 +656,31 @@ export type MeetingsCreateResponseDataAiConfigTranscriptionLanguage =
   | "nl";
 export interface MeetingsCreateResponseDataAiConfigTranscription {
   /** Adds specific terms to improve accurate detection during transcription. */
-  keywords?: MeetingsCreateResponseDataAiConfigTranscriptionKeywordsList | null;
+  keywords?: MeetingsCreateResponseDataAiConfigTranscriptionKeywordsList | null | undefined;
   /** Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription. */
-  language?: MeetingsCreateResponseDataAiConfigTranscriptionLanguage | null;
+  language?: MeetingsCreateResponseDataAiConfigTranscriptionLanguage | null | undefined;
   /** Control the inclusion of offensive language in transcriptions. */
-  profanityFilter?: boolean | null;
+  profanityFilter?: boolean | null | undefined;
 }
 export interface MeetingsCreateResponseDataAiConfig {
   /** Summary Config */
-  summarization?: MeetingsCreateResponseDataAiConfigSummarization | null;
+  summarization?: MeetingsCreateResponseDataAiConfigSummarization | null | undefined;
   /** Transcription Configurations */
-  transcription?: MeetingsCreateResponseDataAiConfigTranscription | null;
+  transcription?: MeetingsCreateResponseDataAiConfigTranscription | null | undefined;
 }
 export type MeetingsCreateResponseDataRecordingConfigAudioConfigChannel = "mono" | "stereo";
 export type MeetingsCreateResponseDataRecordingConfigAudioConfigCodec = "MP3" | "AAC";
 export interface MeetingsCreateResponseDataRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
-  channel?: MeetingsCreateResponseDataRecordingConfigAudioConfigChannel | null;
+  channel?: MeetingsCreateResponseDataRecordingConfigAudioConfigChannel | null | undefined;
   /** Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis. */
-  codec?: MeetingsCreateResponseDataRecordingConfigAudioConfigCodec | null;
+  codec?: MeetingsCreateResponseDataRecordingConfigAudioConfigCodec | null | undefined;
   /** Controls whether to export audio file seperately */
-  exportFile?: boolean | null;
+  exportFile?: boolean | null | undefined;
 }
 export interface MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig {
   /** RTMP URL to stream to */
-  rtmpUrl?: string | null;
+  rtmpUrl?: string | null | undefined;
 }
 export type MeetingsCreateResponseDataRecordingConfigRealtimekitBucketConfig =
   MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig;
@@ -613,28 +690,31 @@ export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase0AuthMetho
 export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase0Type = "gcs";
 export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
+  accessKey?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase0AuthMethod | null;
+  authMethod?:
+    | MeetingsCreateResponseDataRecordingConfigStorageConfigCase0AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase0Type | null;
+  secret?: string | null | undefined;
+  type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase0Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase1AuthMethod =
   | "KEY"
@@ -647,24 +727,27 @@ export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase1AuthMethod | null;
+  authMethod?:
+    | MeetingsCreateResponseDataRecordingConfigStorageConfigCase1AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase1Type | null;
+  secret?: string | null | undefined;
+  type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase1Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase2AuthMethod = "KEY";
 export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase2Type =
@@ -677,26 +760,29 @@ export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase2 {
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase2AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?:
+    | MeetingsCreateResponseDataRecordingConfigStorageConfigCase2AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase2Type | null;
+  type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase2Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase3AuthMethod = "PASSWORD";
 export type MeetingsCreateResponseDataRecordingConfigStorageConfigCase3Type =
@@ -709,26 +795,29 @@ export interface MeetingsCreateResponseDataRecordingConfigStorageConfigCase3 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase3AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?:
+    | MeetingsCreateResponseDataRecordingConfigStorageConfigCase3AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase3Type | null;
+  type?: MeetingsCreateResponseDataRecordingConfigStorageConfigCase3Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsCreateResponseDataRecordingConfigStorageConfig =
   | MeetingsCreateResponseDataRecordingConfigStorageConfigCase0
@@ -743,41 +832,50 @@ export type MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkPositio
   | "right bottom";
 export interface MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize {
   /** Height of the watermark in px */
-  height?: number | null;
+  height?: number | null | undefined;
   /** Width of the watermark in px */
-  width?: number | null;
+  width?: number | null | undefined;
 }
 export interface MeetingsCreateResponseDataRecordingConfigVideoConfigWatermark {
   /** Position of the watermark */
-  position?: MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkPosition | null;
+  position?:
+    | MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkPosition
+    | null
+    | undefined;
   /** Size of the watermark */
-  size?: MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize | null;
+  size?: MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize | null | undefined;
   /** URL of the watermark image */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface MeetingsCreateResponseDataRecordingConfigVideoConfig {
   /** Codec using which the recording will be encoded. */
-  codec?: MeetingsCreateResponseDataRecordingConfigVideoConfigCodec | null;
+  codec?: MeetingsCreateResponseDataRecordingConfigVideoConfigCodec | null | undefined;
   /** Controls whether to export video file seperately */
-  exportFile?: boolean | null;
+  exportFile?: boolean | null | undefined;
   /** Height of the recording video in pixels */
-  height?: number | null;
+  height?: number | null | undefined;
   /** Watermark to be added to the recording */
-  watermark?: MeetingsCreateResponseDataRecordingConfigVideoConfigWatermark | null;
+  watermark?: MeetingsCreateResponseDataRecordingConfigVideoConfigWatermark | null | undefined;
   /** Width of the recording video in pixels */
-  width?: number | null;
+  width?: number | null | undefined;
 }
 export interface MeetingsCreateResponseDataRecordingConfig {
   /** Object containing configuration regarding the audio that is being recorded. */
-  audioConfig?: MeetingsCreateResponseDataRecordingConfigAudioConfig | null;
+  audioConfig?: MeetingsCreateResponseDataRecordingConfigAudioConfig | null | undefined;
   /** Adds a prefix to the beginning of the file name of the recording. */
-  fileNamePrefix?: string | null;
-  liveStreamingConfig?: MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig | null;
+  fileNamePrefix?: string | null | undefined;
+  liveStreamingConfig?:
+    | MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig
+    | null
+    | undefined;
   /** Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours. */
-  maxSeconds?: number | null;
-  realtimekitBucketConfig?: MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig | null;
-  storageConfig?: MeetingsCreateResponseDataRecordingConfigStorageConfig | null;
-  videoConfig?: MeetingsCreateResponseDataRecordingConfigVideoConfig | null;
+  maxSeconds?: number | null | undefined;
+  realtimekitBucketConfig?:
+    | MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig
+    | null
+    | undefined;
+  storageConfig?: MeetingsCreateResponseDataRecordingConfigStorageConfig | null | undefined;
+  videoConfig?: MeetingsCreateResponseDataRecordingConfigVideoConfig | null | undefined;
 }
 export type MeetingsCreateResponseDataStatus = "ACTIVE" | "INACTIVE";
 export interface MeetingsCreateResponseData {
@@ -788,30 +886,30 @@ export interface MeetingsCreateResponseData {
   /** Timestamp the object was updated at. The time is returned in ISO format. */
   updatedAt: string;
   /** The AI Config allows you to customize the behavior of meeting transcriptions and summaries */
-  aiConfig?: MeetingsCreateResponseDataAiConfig | null;
+  aiConfig?: MeetingsCreateResponseDataAiConfig | null | undefined;
   /** Specifies if the meeting should start getting livestreamed on start. */
-  liveStreamOnStart?: boolean | null;
+  liveStreamOnStart?: boolean | null | undefined;
   /** Specifies if Chat within a meeting should persist for a week. */
-  persistChat?: boolean | null;
+  persistChat?: boolean | null | undefined;
   /** Specifies if the meeting should start getting recorded as soon as someone joins the meeting. */
-  recordOnStart?: boolean | null;
+  recordOnStart?: boolean | null | undefined;
   /** Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal. */
-  recordingConfig?: MeetingsCreateResponseDataRecordingConfig | null;
+  recordingConfig?: MeetingsCreateResponseDataRecordingConfig | null | undefined;
   /** Time in seconds, for which a session remains active, after the last participant has left the meeting. */
-  sessionKeepAliveTimeInSecs?: number | null;
+  sessionKeepAliveTimeInSecs?: number | null | undefined;
   /** Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting. */
-  status?: MeetingsCreateResponseDataStatus | null;
+  status?: MeetingsCreateResponseDataStatus | null | undefined;
   /** Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API. */
-  summarizeOnEnd?: boolean | null;
+  summarizeOnEnd?: boolean | null | undefined;
   /** Title of the meeting. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Automatically generate transcripts when the meeting ends. */
-  transcribeOnEnd?: boolean | null;
+  transcribeOnEnd?: boolean | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface CreateMeetingResponse {
   /** Data returned by the operation */
-  data?: MeetingsCreateResponseData | null;
+  data?: MeetingsCreateResponseData | null | undefined;
 }
 export type ActiveSessionCreatePollRequestOptionsList = Array<string>;
 export interface CreatePollActiveSessionRequest {
@@ -825,9 +923,9 @@ export interface CreatePollActiveSessionRequest {
   /** Question of the poll */
   question: string;
   /** if voters on a poll are anonymous */
-  anonymous?: boolean;
+  anonymous?: boolean | undefined;
   /** if votes on an option are visible before a person votes */
-  hideVotes?: boolean;
+  hideVotes?: boolean | undefined;
 }
 export interface ActiveSessionCreatePollResponseDataPollOptionsItemVotesItem {
   id: string;
@@ -851,18 +949,18 @@ export interface ActiveSessionCreatePollResponseDataPoll {
   options: ActiveSessionCreatePollResponseDataPollOptionsList;
   /** Question asked by the poll */
   question: string;
-  anonymous?: boolean | null;
-  createdBy?: string | null;
-  hideVotes?: boolean | null;
-  voted?: ActiveSessionCreatePollResponseDataPollVotedList | null;
+  anonymous?: boolean | null | undefined;
+  createdBy?: string | null | undefined;
+  hideVotes?: boolean | null | undefined;
+  voted?: ActiveSessionCreatePollResponseDataPollVotedList | null | undefined;
 }
 export interface ActiveSessionCreatePollResponseData {
-  action?: string | null;
-  poll?: ActiveSessionCreatePollResponseDataPoll | null;
+  action?: string | null | undefined;
+  poll?: ActiveSessionCreatePollResponseDataPoll | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface CreatePollActiveSessionResponse {
-  data?: ActiveSessionCreatePollResponseData | null;
+  data?: ActiveSessionCreatePollResponseData | null | undefined;
 }
 export interface PresetsCreateRequestConfigMaxVideoStreams {
   /** Maximum number of video streams visible on desktop devices */
@@ -889,13 +987,13 @@ export interface PresetsCreateRequestConfigMediaVideo {
   /** Video quality of participants */
   quality: PresetsCreateRequestConfigMediaVideoQuality | (string & {});
   /** Enable simulcast for participant videos. */
-  simulcast?: boolean;
+  simulcast?: boolean | undefined;
 }
 export interface PresetsCreateRequestConfigMediaAudio {
   /** Enable High Quality Audio for your meetings */
-  enableHighBitrate?: boolean;
+  enableHighBitrate?: boolean | undefined;
   /** Enable Stereo for your meetings */
-  enableStereo?: boolean;
+  enableStereo?: boolean | undefined;
 }
 export interface PresetsCreateRequestConfigMedia {
   /** Configuration options for participant screen shares */
@@ -903,7 +1001,7 @@ export interface PresetsCreateRequestConfigMedia {
   /** Configuration options for participant videos */
   video: PresetsCreateRequestConfigMediaVideo;
   /** Control options for Audio quality. */
-  audio?: PresetsCreateRequestConfigMediaAudio;
+  audio?: PresetsCreateRequestConfigMediaAudio | undefined;
 }
 export type PresetsCreateRequestConfigViewType =
   | "GROUP_CALL"
@@ -921,7 +1019,7 @@ export interface PresetsCreateRequestConfig {
   /** Type of the meeting */
   viewType: PresetsCreateRequestConfigViewType | (string & {});
   /** Livestream viewer quality levels. */
-  livestreamViewerQualities?: PresetsCreateRequestConfigLivestreamViewerQualitiesList;
+  livestreamViewerQualities?: PresetsCreateRequestConfigLivestreamViewerQualitiesList | undefined;
 }
 export interface PresetsCreateRequestPermissionsChatPrivate {
   canReceive: boolean;
@@ -1031,11 +1129,11 @@ export interface PresetsCreateRequestPermissions {
   showParticipantList: boolean;
   /** Waiting room type */
   waitingRoomType: PresetsCreateRequestPermissionsWaitingRoomType | (string & {});
-  acceptStageRequests?: boolean;
-  isRecorder?: boolean;
-  stageAccess?: PresetsCreateRequestPermissionsStageAccess | (string & {});
-  stageEnabled?: boolean;
-  transcriptionEnabled?: boolean;
+  acceptStageRequests?: boolean | undefined;
+  isRecorder?: boolean | undefined;
+  stageAccess?: PresetsCreateRequestPermissionsStageAccess | (string & {}) | undefined;
+  stageEnabled?: boolean | undefined;
+  transcriptionEnabled?: boolean | undefined;
 }
 export type PresetsCreateRequestUiDesignTokensBorderRadius =
   | "sharp"
@@ -1074,9 +1172,9 @@ export interface PresetsCreateRequestUiDesignTokens {
   colors: PresetsCreateRequestUiDesignTokensColors;
   spacingBase: number;
   theme: PresetsCreateRequestUiDesignTokensTheme | (string & {});
-  fontFamily?: string;
-  googleFont?: string;
-  logo?: string;
+  fontFamily?: string | undefined;
+  googleFont?: string | undefined;
+  logo?: string | undefined;
 }
 export interface PresetsCreateRequestUi {
   designTokens: PresetsCreateRequestUiDesignTokens;
@@ -1118,13 +1216,13 @@ export interface PresetsCreateResponseDataConfigMediaVideo {
   /** Video quality of participants */
   quality: PresetsCreateResponseDataConfigMediaVideoQuality;
   /** Enable simulcast for participant videos. */
-  simulcast?: boolean | null;
+  simulcast?: boolean | null | undefined;
 }
 export interface PresetsCreateResponseDataConfigMediaAudio {
   /** Enable High Quality Audio for your meetings */
-  enableHighBitrate?: boolean | null;
+  enableHighBitrate?: boolean | null | undefined;
   /** Enable Stereo for your meetings */
-  enableStereo?: boolean | null;
+  enableStereo?: boolean | null | undefined;
 }
 export interface PresetsCreateResponseDataConfigMedia {
   /** Configuration options for participant screen shares */
@@ -1132,7 +1230,7 @@ export interface PresetsCreateResponseDataConfigMedia {
   /** Configuration options for participant videos */
   video: PresetsCreateResponseDataConfigMediaVideo;
   /** Control options for Audio quality. */
-  audio?: PresetsCreateResponseDataConfigMediaAudio | null;
+  audio?: PresetsCreateResponseDataConfigMediaAudio | null | undefined;
 }
 export type PresetsCreateResponseDataConfigViewType =
   | "GROUP_CALL"
@@ -1150,7 +1248,10 @@ export interface PresetsCreateResponseDataConfig {
   /** Type of the meeting */
   viewType: PresetsCreateResponseDataConfigViewType;
   /** Livestream viewer quality levels. */
-  livestreamViewerQualities?: PresetsCreateResponseDataConfigLivestreamViewerQualitiesList | null;
+  livestreamViewerQualities?:
+    | PresetsCreateResponseDataConfigLivestreamViewerQualitiesList
+    | null
+    | undefined;
 }
 export type PresetsCreateResponseDataPermissionsChatPrivate =
   PresetsCreateRequestPermissionsChatPrivate;
@@ -1231,11 +1332,11 @@ export interface PresetsCreateResponseDataPermissions {
   showParticipantList: boolean;
   /** Waiting room type */
   waitingRoomType: PresetsCreateResponseDataPermissionsWaitingRoomType;
-  acceptStageRequests?: boolean | null;
-  isRecorder?: boolean | null;
-  stageAccess?: PresetsCreateResponseDataPermissionsStageAccess | null;
-  stageEnabled?: boolean | null;
-  transcriptionEnabled?: boolean | null;
+  acceptStageRequests?: boolean | null | undefined;
+  isRecorder?: boolean | null | undefined;
+  stageAccess?: PresetsCreateResponseDataPermissionsStageAccess | null | undefined;
+  stageEnabled?: boolean | null | undefined;
+  transcriptionEnabled?: boolean | null | undefined;
 }
 export type PresetsCreateResponseDataUiDesignTokensBorderRadius =
   | "sharp"
@@ -1256,9 +1357,9 @@ export interface PresetsCreateResponseDataUiDesignTokens {
   colors: PresetsCreateRequestUiDesignTokensColors;
   spacingBase: number;
   theme: PresetsCreateResponseDataUiDesignTokensTheme;
-  fontFamily?: string | null;
-  googleFont?: string | null;
-  logo?: string | null;
+  fontFamily?: string | null | undefined;
+  googleFont?: string | null | undefined;
+  logo?: string | null | undefined;
 }
 export interface PresetsCreateResponseDataUi {
   designTokens: PresetsCreateResponseDataUiDesignTokens;
@@ -1306,7 +1407,7 @@ export interface CreateWebhookWebhookRequest {
   /** URL this webhook will send events to */
   url: string;
   /** Set whether or not the webhook should be active when created */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type WebhooksCreateWebhookResponseDataEventsItem =
   | "meeting.started"
@@ -1361,7 +1462,7 @@ export interface MeetingsDeleteMeetingParticipantResponseData {
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface DeleteMeetingParticipantMeetingResponse {
   /** Data returned by the operation */
-  data?: MeetingsDeleteMeetingParticipantResponseData | null;
+  data?: MeetingsDeleteMeetingParticipantResponseData | null | undefined;
 }
 export interface DeletePresetRequest {
   /** The account identifier tag. */
@@ -1396,7 +1497,7 @@ export interface PresetsDeleteResponseDataConfigMediaVideo {
   /** Video quality of participants */
   quality: PresetsDeleteResponseDataConfigMediaVideoQuality;
   /** Enable simulcast for participant videos. */
-  simulcast?: boolean | null;
+  simulcast?: boolean | null | undefined;
 }
 export type PresetsDeleteResponseDataConfigMediaAudio = PresetsCreateResponseDataConfigMediaAudio;
 export interface PresetsDeleteResponseDataConfigMedia {
@@ -1405,7 +1506,7 @@ export interface PresetsDeleteResponseDataConfigMedia {
   /** Configuration options for participant videos */
   video: PresetsDeleteResponseDataConfigMediaVideo;
   /** Control options for Audio quality. */
-  audio?: PresetsCreateResponseDataConfigMediaAudio | null;
+  audio?: PresetsCreateResponseDataConfigMediaAudio | null | undefined;
 }
 export type PresetsDeleteResponseDataConfigViewType =
   | "GROUP_CALL"
@@ -1423,7 +1524,10 @@ export interface PresetsDeleteResponseDataConfig {
   /** Type of the meeting */
   viewType: PresetsDeleteResponseDataConfigViewType;
   /** Livestream viewer quality levels. */
-  livestreamViewerQualities?: PresetsDeleteResponseDataConfigLivestreamViewerQualitiesList | null;
+  livestreamViewerQualities?:
+    | PresetsDeleteResponseDataConfigLivestreamViewerQualitiesList
+    | null
+    | undefined;
 }
 export type PresetsDeleteResponseDataPermissionsChatPrivate =
   PresetsCreateRequestPermissionsChatPrivate;
@@ -1504,11 +1608,11 @@ export interface PresetsDeleteResponseDataPermissions {
   showParticipantList: boolean;
   /** Waiting room type */
   waitingRoomType: PresetsDeleteResponseDataPermissionsWaitingRoomType;
-  acceptStageRequests?: boolean | null;
-  isRecorder?: boolean | null;
-  stageAccess?: PresetsDeleteResponseDataPermissionsStageAccess | null;
-  stageEnabled?: boolean | null;
-  transcriptionEnabled?: boolean | null;
+  acceptStageRequests?: boolean | null | undefined;
+  isRecorder?: boolean | null | undefined;
+  stageAccess?: PresetsDeleteResponseDataPermissionsStageAccess | null | undefined;
+  stageEnabled?: boolean | null | undefined;
+  transcriptionEnabled?: boolean | null | undefined;
 }
 export type PresetsDeleteResponseDataUiDesignTokensBorderRadius =
   | "sharp"
@@ -1529,9 +1633,9 @@ export interface PresetsDeleteResponseDataUiDesignTokens {
   colors: PresetsCreateRequestUiDesignTokensColors;
   spacingBase: number;
   theme: PresetsDeleteResponseDataUiDesignTokensTheme;
-  fontFamily?: string | null;
-  googleFont?: string | null;
-  logo?: string | null;
+  fontFamily?: string | null | undefined;
+  googleFont?: string | null | undefined;
+  logo?: string | null | undefined;
 }
 export interface PresetsDeleteResponseDataUi {
   designTokens: PresetsDeleteResponseDataUiDesignTokens;
@@ -1601,17 +1705,17 @@ export interface EditParticipantMeetingRequest {
   meetingId: string;
   participantId: string;
   /** (Optional) Name of the participant. */
-  name?: string;
+  name?: string | undefined;
   /** (Optional) A URL to a picture to be used for the participant. */
-  picture?: string;
+  picture?: string | undefined;
   /** (Optional) Name of the preset to apply to this participant. */
-  presetName?: string;
+  presetName?: string | undefined;
 }
 export type MeetingsEditParticipantResponseData = MeetingsAddParticipantResponseData;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface EditParticipantMeetingResponse {
   /** Represents a participant. */
-  data?: MeetingsAddParticipantResponseData | null;
+  data?: MeetingsAddParticipantResponseData | null | undefined;
 }
 export type WebhooksEditWebhookRequestEventsItem =
   | "meeting.started"
@@ -1632,13 +1736,13 @@ export interface EditWebhookWebhookRequest {
   /** The app identifier tag. */
   appId: string;
   webhookId: string;
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Events that the webhook will get triggered by */
-  events?: WebhooksEditWebhookRequestEventsList;
+  events?: WebhooksEditWebhookRequestEventsList | undefined;
   /** Name of the webhook */
-  name?: string;
+  name?: string | undefined;
   /** URL the webhook will send events to */
-  url?: string;
+  url?: string | undefined;
 }
 export type WebhooksEditWebhookResponseDataEventsItem =
   | "meeting.started"
@@ -1680,12 +1784,12 @@ export interface GenerateSummaryOfTranscriptsSessionRequest {
   sessionId: string;
 }
 export interface SessionsGenerateSummaryOfTranscriptsResponseData {
-  sessionId?: string | null;
-  status?: string | null;
+  sessionId?: string | null | undefined;
+  status?: string | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GenerateSummaryOfTranscriptsSessionResponse {
-  data?: SessionsGenerateSummaryOfTranscriptsResponseData | null;
+  data?: SessionsGenerateSummaryOfTranscriptsResponseData | null | undefined;
 }
 export interface GetActiveLivestreamsForLivestreamIdLivestreamRequest {
   /** The account identifier tag. */
@@ -1698,53 +1802,63 @@ export type LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataLivestream
   | "LIVE"
   | "IDLE"
   | "ERRORED"
-  | "INVOKED";
+  | "INVOKED"
+  | "METRICS_READY";
 export interface LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataLivestream {
-  id?: string | null;
-  /** Timestamp the object was created at. The time is returned in ISO format. */
-  createdAt?: string | null;
-  /** Specifies if the livestream was disabled. */
-  disabled?: string | null;
+  /** ID of the livestream. */
+  id: string;
+  /** Timestamp the livestream was created at, in ISO format. */
+  createdAt: string;
+  /** Specifies if the livestream is disabled. */
+  disabled: boolean;
+  /** ID of the underlying Cloudflare Stream live input. */
+  externalId: string;
   /** The server URL to which the RTMP encoder sends the video and audio data. */
-  ingestServer?: string | null;
-  /** ID of the meeting. */
-  meetingId?: string | null;
+  ingestServer: string;
+  /** Specifies if the livestream is ingested manually by an RTMP encoder. */
+  manualIngest: boolean;
+  /** ID of the meeting being livestreamed, if any. */
+  meetingId: string;
   /** Name of the livestream. */
-  name?: string | null;
+  name: string;
   /** The web address that viewers can use to watch the livestream. */
-  playbackUrl?: string | null;
-  status?: LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataLivestreamStatus | null;
-  /** Unique key for accessing each livestream. */
-  streamKey?: string | null;
-  /** Timestamp the object was updated at. The time is returned in ISO format. */
-  updatedAt?: string | null;
+  playbackUrl: string;
+  /** Status of the livestream. */
+  status: LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataLivestreamStatus;
+  /** Unique key for accessing each livestream. Empty if the livestream is disabled. */
+  streamKey: string;
+  /** Timestamp the livestream was last updated at, in ISO format. */
+  updatedAt: string;
 }
 export interface LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataSession {
-  id?: string | null;
-  /** Timestamp the object was created at. The time is returned in ISO format. */
-  createdAt?: string | null;
-  errMessage?: string | null;
+  /** ID of the livestream session. */
+  id: string;
+  /** Timestamp the livestream session was created at, in ISO format. */
+  createdAt: string;
+  /** Error message, if the livestream session failed. */
+  errMessage: string;
   /** The time duration for which the input was given or the meeting was streamed. */
-  ingestSeconds?: string | null;
-  /** Timestamp the object was invoked. The time is returned in ISO format. */
-  invokedTime?: string | null;
-  livestreamId?: string | null;
-  /** Timestamp the object was started. The time is returned in ISO format. */
-  startedTime?: string | null;
-  /** Timestamp the object was stopped. The time is returned in ISO format. */
-  stoppedTime?: string | null;
-  /** Timestamp the object was updated at. The time is returned in ISO format. */
-  updatedAt?: string | null;
+  ingestSeconds: number;
+  /** Timestamp the livestream session was invoked at, in ISO format. */
+  invokedTime: string;
+  /** ID of the livestream. */
+  livestreamId: string;
+  /** Timestamp the livestream session started at, in ISO format. */
+  startedTime: string;
+  /** Timestamp the livestream session stopped at, in ISO format. */
+  stoppedTime: string;
+  /** Timestamp the livestream session was last updated at, in ISO format. */
+  updatedAt: string;
   /** The total view time for which the viewers watched the stream. */
-  viewerSeconds?: string | null;
+  viewerSeconds: number;
 }
 export interface LivestreamsGetActiveLivestreamsForLivestreamIdResponseData {
-  livestream?: LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataLivestream | null;
-  session?: LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataSession | null;
+  livestream: LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataLivestream;
+  session: LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataSession;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetActiveLivestreamsForLivestreamIdLivestreamResponse {
-  data?: LivestreamsGetActiveLivestreamsForLivestreamIdResponseData | null;
+  data: LivestreamsGetActiveLivestreamsForLivestreamIdResponseData;
 }
 export interface GetActiveRecordingsRecordingRequest {
   /** The account identifier tag. */
@@ -1784,7 +1898,7 @@ export interface RecordingsGetActiveRecordingsResponseData {
   /** Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped. */
   stoppedTime: string;
   /** Total recording time in seconds. */
-  recordingDuration?: number | null;
+  recordingDuration?: number | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetActiveRecordingsRecordingResponse {
@@ -1829,13 +1943,13 @@ export interface ActiveSessionGetActiveSessionResponseData {
   type: ActiveSessionGetActiveSessionResponseDataType;
   /** timestamp when session was last updated */
   updatedAt: string;
-  breakoutRooms?: ActiveSessionGetActiveSessionResponseDataBreakoutRoomsList | null;
+  breakoutRooms?: ActiveSessionGetActiveSessionResponseDataBreakoutRoomsList | null | undefined;
   /** timestamp when session ended */
-  endedAt?: string | null;
+  endedAt?: string | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetActiveSessionActiveSessionResponse {
-  data?: ActiveSessionGetActiveSessionResponseData | null;
+  data?: ActiveSessionGetActiveSessionResponseData | null | undefined;
 }
 export type LivestreamsGetAllLivestreamsRequestSortOrder = "ASC" | "DSC";
 export type LivestreamsGetAllLivestreamsRequestStatus = "LIVE" | "IDLE" | "ERRORED" | "INVOKED";
@@ -1845,80 +1959,103 @@ export interface GetAllLivestreamsLivestreamRequest {
   /** The app identifier tag. */
   appId: string;
   /** Specify the end time range in ISO format to access the live stream. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Exclude the RealtimeKit meetings that are livestreamed. */
-  excludeMeetings?: boolean;
+  excludeMeetings?: boolean | undefined;
   /** The page number from which you want your page search results to be displayed. */
-  pageNo?: number;
+  pageNo?: number | undefined;
   /** Number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Specifies the sorting order for the results. */
-  sortOrder?: LivestreamsGetAllLivestreamsRequestSortOrder | (string & {});
+  sortOrder?: LivestreamsGetAllLivestreamsRequestSortOrder | (string & {}) | undefined;
   /** Specify the start time range in ISO format to access the live stream. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Specifies the status of the operation. */
-  status?: LivestreamsGetAllLivestreamsRequestStatus | (string & {});
+  status?: LivestreamsGetAllLivestreamsRequestStatus | (string & {}) | undefined;
 }
-export interface LivestreamsGetAllLivestreamsResponseDataPaging {
-  endOffset?: number | null;
-  startOffset?: number | null;
-  totalCount?: number | null;
-}
-export type LivestreamsGetAllLivestreamsResponseDataStatus =
+export type LivestreamsGetAllLivestreamsResponseDataItemStatus =
   | "LIVE"
   | "IDLE"
   | "ERRORED"
-  | "INVOKED";
-export interface LivestreamsGetAllLivestreamsResponseData {
-  /** The ID of the livestream. */
-  id?: string | null;
-  /** Timestamp the object was created at. The time is returned in ISO format. */
-  createdAt?: string | null;
-  /** Specifies if the livestream was disabled. */
-  disabled?: string | null;
+  | "INVOKED"
+  | "METRICS_READY";
+export interface LivestreamsGetAllLivestreamsResponseDataItem {
+  /** ID of the livestream. */
+  id: string;
+  /** Timestamp the livestream was created at, in ISO format. */
+  createdAt: string;
+  /** Specifies if the livestream is disabled. */
+  disabled: boolean;
+  /** ID of the underlying Cloudflare Stream live input. */
+  externalId: string;
   /** The server URL to which the RTMP encoder sends the video and audio data. */
-  ingestServer?: string | null;
-  /** ID of the meeting. */
-  meetingId?: string | null;
+  ingestServer: string;
+  /** Specifies if the livestream is ingested manually by an RTMP encoder. */
+  manualIngest: boolean;
+  /** ID of the meeting being livestreamed, if any. */
+  meetingId: string;
   /** Name of the livestream. */
-  name?: string | null;
-  paging?: LivestreamsGetAllLivestreamsResponseDataPaging | null;
+  name: string;
   /** The web address that viewers can use to watch the livestream. */
-  playbackUrl?: string | null;
-  status?: LivestreamsGetAllLivestreamsResponseDataStatus | null;
-  /** Unique key for accessing each livestream. */
-  streamKey?: string | null;
-  /** Timestamp the object was updated at. The time is returned in ISO format. */
-  updatedAt?: string | null;
+  playbackUrl: string;
+  /** Status of the livestream. */
+  status: LivestreamsGetAllLivestreamsResponseDataItemStatus;
+  /** Unique key for accessing each livestream. Empty if the livestream is disabled. */
+  streamKey: string;
+  /** Timestamp the livestream was last updated at, in ISO format. */
+  updatedAt: string;
+}
+export type LivestreamsGetAllLivestreamsResponseDataList =
+  Array<LivestreamsGetAllLivestreamsResponseDataItem>;
+export interface LivestreamsGetAllLivestreamsResponsePaging {
+  endOffset: number;
+  startOffset: number;
+  totalCount: number;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetAllLivestreamsLivestreamResponse {
-  data?: LivestreamsGetAllLivestreamsResponseData | null;
+  data: LivestreamsGetAllLivestreamsResponseDataList;
+  paging: LivestreamsGetAllLivestreamsResponsePaging;
 }
 export type AppsGetRequestSortOrder = "ASC" | "DESC";
 export interface GetAppRequest {
   /** The account identifier tag. */
   accountId: string;
   /** The page number from which you want your page search results to be displayed. */
-  pageNo?: number;
+  pageNo?: number | undefined;
   /** Number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Search string that matches apps by name. */
-  search?: string;
+  search?: string | undefined;
   /** Sort order for apps by creation time. */
-  sortOrder?: AppsGetRequestSortOrder | (string & {});
+  sortOrder?: AppsGetRequestSortOrder | (string & {}) | undefined;
 }
 export interface AppsGetResponseDataItem {
-  id?: string | null;
-  createdAt?: string | null;
-  name?: string | null;
+  id?: string | null | undefined;
+  createdAt?: string | null | undefined;
+  name?: string | null | undefined;
 }
 export type AppsGetResponseDataList = Array<AppsGetResponseDataItem>;
-export type AppsGetResponsePaging = LivestreamsGetAllLivestreamsResponseDataPaging;
+export interface AppsGetResponsePaging {
+  endOffset?: number | null | undefined;
+  startOffset?: number | null | undefined;
+  totalCount?: number | null | undefined;
+}
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetAppResponse {
-  data?: AppsGetResponseDataList | null;
-  paging?: LivestreamsGetAllLivestreamsResponseDataPaging | null;
+  data?: AppsGetResponseDataList | null | undefined;
+  paging?: AppsGetResponsePaging | null | undefined;
+}
+export interface GetAppByIdRequest {
+  /** The account identifier tag. */
+  accountId: string;
+  /** The app identifier tag. */
+  appId: string;
+}
+export type GetAppByIdResponseData = AppsGetResponseDataItem;
+/** Raw response payload (operation does not use the standard v4 result envelope). */
+export interface GetAppByIdResponse {
+  data?: AppsGetResponseDataItem | null | undefined;
 }
 export interface GetLivestreamAnalyticsCompleteLivestreamRequest {
   /** The account identifier tag. */
@@ -1926,23 +2063,23 @@ export interface GetLivestreamAnalyticsCompleteLivestreamRequest {
   /** The app identifier tag. */
   appId: string;
   /** Specify the end time as a Unix timestamp in seconds to access the livestream analytics. */
-  endTime?: number;
+  endTime?: number | undefined;
   /** Optional filters for livestream analytics. */
-  filters?: string;
+  filters?: string | undefined;
   /** Specify the start time as a Unix timestamp in seconds to access the livestream analytics. */
-  startTime?: number;
+  startTime?: number | undefined;
 }
 export interface LivestreamsGetLivestreamAnalyticsCompleteResponseData {
   /** Count of total livestreams. */
-  count?: number | null;
+  count?: number | null | undefined;
   /** Total time duration for which the input was given or the meeting was streamed. */
-  totalIngestSeconds?: number | null;
+  totalIngestSeconds?: number | null | undefined;
   /** Total view time for which the viewers watched the stream. */
-  totalViewerSeconds?: number | null;
+  totalViewerSeconds?: number | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetLivestreamAnalyticsCompleteLivestreamResponse {
-  data?: LivestreamsGetLivestreamAnalyticsCompleteResponseData | null;
+  data?: LivestreamsGetLivestreamAnalyticsCompleteResponseData | null | undefined;
 }
 export interface GetLivestreamAnalyticsDaywiseLivestreamRequest {
   /** The account identifier tag. */
@@ -1950,27 +2087,88 @@ export interface GetLivestreamAnalyticsDaywiseLivestreamRequest {
   /** The app identifier tag. */
   appId: string;
   /** Specify the end time as a Unix timestamp in seconds to access the livestream analytics. */
-  endTime?: number;
+  endTime?: number | undefined;
   /** Optional filters for livestream analytics. */
-  filters?: string;
+  filters?: string | undefined;
   /** Specify the start time as a Unix timestamp in seconds to access the livestream analytics. */
-  startTime?: number;
+  startTime?: number | undefined;
 }
 export interface LivestreamsGetLivestreamAnalyticsDaywiseResponseDataItem {
   /** Count of total livestream sessions. */
-  count?: number | null;
+  count?: number | null | undefined;
   /** Analytics date. */
-  date?: string | null;
+  date?: string | null | undefined;
   /** Total time duration for which the input was given or the meeting was streamed. */
-  totalIngestSeconds?: number | null;
+  totalIngestSeconds?: number | null | undefined;
   /** Total view time for which the viewers watched the stream. */
-  totalViewerSeconds?: number | null;
+  totalViewerSeconds?: number | null | undefined;
 }
 export type LivestreamsGetLivestreamAnalyticsDaywiseResponseDataList =
   Array<LivestreamsGetLivestreamAnalyticsDaywiseResponseDataItem>;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetLivestreamAnalyticsDaywiseLivestreamResponse {
-  data?: LivestreamsGetLivestreamAnalyticsDaywiseResponseDataList | null;
+  data?: LivestreamsGetLivestreamAnalyticsDaywiseResponseDataList | null | undefined;
+}
+export interface GetLivestreamSessionDetailsForMeetingRequest {
+  /** The account identifier tag. */
+  accountId: string;
+  /** The app identifier tag. */
+  appId: string;
+  meetingId: string;
+  /** The page number from which you want your page search results to be displayed. */
+  pageNo?: number | undefined;
+  /** Number of results per page. */
+  perPage?: number | undefined;
+}
+export type GetLivestreamSessionDetailsForMeetingResponseDataDataLivestreamStatus =
+  | "LIVE"
+  | "IDLE"
+  | "ERRORED"
+  | "INVOKED"
+  | "METRICS_READY";
+export interface GetLivestreamSessionDetailsForMeetingResponseDataDataLivestream {
+  /** ID of the livestream. */
+  id: string;
+  /** Timestamp the livestream was created at, in ISO format. */
+  createdAt: string;
+  /** Specifies if the livestream is disabled. */
+  disabled: boolean;
+  /** ID of the underlying Cloudflare Stream live input. */
+  externalId: string;
+  /** The server URL to which the RTMP encoder sends the video and audio data. */
+  ingestServer: string;
+  /** Specifies if the livestream is ingested manually by an RTMP encoder. */
+  manualIngest: boolean;
+  /** ID of the meeting being livestreamed, if any. */
+  meetingId: string;
+  /** Name of the livestream. */
+  name: string;
+  /** The web address that viewers can use to watch the livestream. */
+  playbackUrl: string;
+  /** Status of the livestream. */
+  status: GetLivestreamSessionDetailsForMeetingResponseDataDataLivestreamStatus;
+  /** Unique key for accessing each livestream. Empty if the livestream is disabled. */
+  streamKey: string;
+  /** Timestamp the livestream was last updated at, in ISO format. */
+  updatedAt: string;
+}
+export type GetLivestreamSessionDetailsForMeetingResponseDataDataSessionsItem =
+  LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataSession;
+export type GetLivestreamSessionDetailsForMeetingResponseDataDataSessionsList =
+  Array<LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataSession>;
+export interface GetLivestreamSessionDetailsForMeetingResponseDataData {
+  livestream: GetLivestreamSessionDetailsForMeetingResponseDataDataLivestream;
+  sessions: GetLivestreamSessionDetailsForMeetingResponseDataDataSessionsList;
+}
+export type GetLivestreamSessionDetailsForMeetingResponseDataPaging =
+  LivestreamsGetAllLivestreamsResponsePaging;
+export interface GetLivestreamSessionDetailsForMeetingResponseData {
+  data: GetLivestreamSessionDetailsForMeetingResponseDataData;
+  paging: LivestreamsGetAllLivestreamsResponsePaging;
+}
+/** Raw response payload (operation does not use the standard v4 result envelope). */
+export interface GetLivestreamSessionDetailsForMeetingResponse {
+  data: GetLivestreamSessionDetailsForMeetingResponseData;
 }
 export interface GetLivestreamSessionDetailsForSessionIdLivestreamRequest {
   /** The account identifier tag. */
@@ -1979,28 +2177,11 @@ export interface GetLivestreamSessionDetailsForSessionIdLivestreamRequest {
   appId: string;
   livestreamSessionId: string;
 }
-export interface LivestreamsGetLivestreamSessionDetailsForSessionIdResponseData {
-  /** The livestream ID. */
-  id?: string | null;
-  /** Timestamp the object was created at. The time is returned in ISO format. */
-  createdAt?: string | null;
-  /** The server URL to which the RTMP encoder sends the video and audio data. */
-  errMessage?: string | null;
-  /** Name of the livestream. */
-  ingestSeconds?: number | null;
-  livestreamId?: string | null;
-  /** Unique key for accessing each livestream. */
-  startedTime?: string | null;
-  /** The web address that viewers can use to watch the livestream. */
-  stoppedTime?: string | null;
-  /** Timestamp the object was updated at. The time is returned in ISO format. */
-  updatedAt?: string | null;
-  /** Specifies if the livestream was disabled. */
-  viewerSeconds?: number | null;
-}
+export type LivestreamsGetLivestreamSessionDetailsForSessionIdResponseData =
+  LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataSession;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetLivestreamSessionDetailsForSessionIdLivestreamResponse {
-  data?: LivestreamsGetLivestreamSessionDetailsForSessionIdResponseData | null;
+  data: LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataSession;
 }
 export interface GetLivestreamSessionForLivestreamIdLivestreamRequest {
   /** The account identifier tag. */
@@ -2009,66 +2190,81 @@ export interface GetLivestreamSessionForLivestreamIdLivestreamRequest {
   appId: string;
   livestreamId: string;
   /** The page number from which you want your page search results to be displayed. */
-  pageNo?: number;
+  pageNo?: number | undefined;
   /** Number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type LivestreamsGetLivestreamSessionForLivestreamIdResponseDataLivestreamStatus =
   | "LIVE"
   | "IDLE"
   | "ERRORED"
-  | "INVOKED";
+  | "INVOKED"
+  | "METRICS_READY";
 export interface LivestreamsGetLivestreamSessionForLivestreamIdResponseDataLivestream {
   /** ID of the livestream. */
-  id?: string | null;
-  /** Timestamp the object was created at. The time is returned in ISO format. */
-  createdAt?: string | null;
-  /** Specifies if the livestream was disabled. */
-  disabled?: string | null;
+  id: string;
+  /** Timestamp the livestream was created at, in ISO format. */
+  createdAt: string;
+  /** Specifies if the livestream is disabled. */
+  disabled: boolean;
+  /** ID of the underlying Cloudflare Stream live input. */
+  externalId: string;
   /** The server URL to which the RTMP encoder sends the video and audio data. */
-  ingestServer?: string | null;
-  /** The ID of the meeting. */
-  meetingId?: string | null;
+  ingestServer: string;
+  /** Specifies if the livestream is ingested manually by an RTMP encoder. */
+  manualIngest: boolean;
+  /** ID of the meeting being livestreamed, if any. */
+  meetingId: string;
   /** Name of the livestream. */
-  name?: string | null;
+  name: string;
   /** The web address that viewers can use to watch the livestream. */
-  playbackUrl?: string | null;
-  status?: LivestreamsGetLivestreamSessionForLivestreamIdResponseDataLivestreamStatus | null;
-  /** Unique key for accessing each livestream. */
-  streamKey?: string | null;
-  /** Timestamp the object was updated at. The time is returned in ISO format. */
-  updatedAt?: string | null;
+  playbackUrl: string;
+  /** Status of the livestream. */
+  status: LivestreamsGetLivestreamSessionForLivestreamIdResponseDataLivestreamStatus;
+  /** Unique key for accessing each livestream. Empty if the livestream is disabled. */
+  streamKey: string;
+  /** Timestamp the livestream was last updated at, in ISO format. */
+  updatedAt: string;
 }
-export type LivestreamsGetLivestreamSessionForLivestreamIdResponseDataPaging =
-  LivestreamsGetAllLivestreamsResponseDataPaging;
-export interface LivestreamsGetLivestreamSessionForLivestreamIdResponseDataSession {
-  /** ID of the session. */
-  id?: string | null;
-  /** Timestamp the object was created at. The time is returned in ISO format. */
-  createdAt?: string | null;
-  errMessage?: string | null;
-  /** The time duration for which the input was given or the meeting was streamed. */
-  ingestSeconds?: number | null;
-  /** Timestamp the object was invoked. The time is returned in ISO format. */
-  invokedTime?: string | null;
-  livestreamId?: string | null;
-  /** Timestamp the object was started. The time is returned in ISO format. */
-  startedTime?: string | null;
-  /** Timestamp the object was stopped. The time is returned in ISO format. */
-  stoppedTime?: string | null;
-  /** Timestamp the object was updated at. The time is returned in ISO format. */
-  updatedAt?: string | null;
-  /** The total view time for which the viewers watched the stream. */
-  viewerSeconds?: number | null;
-}
+export type LivestreamsGetLivestreamSessionForLivestreamIdResponseDataSessionsItem =
+  LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataSession;
+export type LivestreamsGetLivestreamSessionForLivestreamIdResponseDataSessionsList =
+  Array<LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataSession>;
 export interface LivestreamsGetLivestreamSessionForLivestreamIdResponseData {
-  livestream?: LivestreamsGetLivestreamSessionForLivestreamIdResponseDataLivestream | null;
-  paging?: LivestreamsGetAllLivestreamsResponseDataPaging | null;
-  session?: LivestreamsGetLivestreamSessionForLivestreamIdResponseDataSession | null;
+  livestream: LivestreamsGetLivestreamSessionForLivestreamIdResponseDataLivestream;
+  sessions: LivestreamsGetLivestreamSessionForLivestreamIdResponseDataSessionsList;
 }
+export type LivestreamsGetLivestreamSessionForLivestreamIdResponsePaging =
+  LivestreamsGetAllLivestreamsResponsePaging;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetLivestreamSessionForLivestreamIdLivestreamResponse {
-  data?: LivestreamsGetLivestreamSessionForLivestreamIdResponseData | null;
+  data: LivestreamsGetLivestreamSessionForLivestreamIdResponseData;
+  paging: LivestreamsGetAllLivestreamsResponsePaging;
+}
+export interface GetLivestreamSessionsForSessionRequest {
+  /** The account identifier tag. */
+  accountId: string;
+  /** The app identifier tag. */
+  appId: string;
+  sessionId: string;
+  /** The page number from which you want your page search results to be displayed. */
+  pageNo?: number | undefined;
+  /** Number of results per page. */
+  perPage?: number | undefined;
+}
+export type GetLivestreamSessionsForSessionResponseDataDataItem =
+  LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataSession;
+export type GetLivestreamSessionsForSessionResponseDataDataList =
+  Array<LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataSession>;
+export type GetLivestreamSessionsForSessionResponseDataPaging =
+  LivestreamsGetAllLivestreamsResponsePaging;
+export interface GetLivestreamSessionsForSessionResponseData {
+  data: GetLivestreamSessionsForSessionResponseDataDataList;
+  paging: LivestreamsGetAllLivestreamsResponsePaging;
+}
+/** Raw response payload (operation does not use the standard v4 result envelope). */
+export interface GetLivestreamSessionsForSessionResponse {
+  data: GetLivestreamSessionsForSessionResponseData;
 }
 export type MeetingsGetRequestStatus = "ACTIVE" | "INACTIVE";
 export interface GetMeetingRequest {
@@ -2077,27 +2273,27 @@ export interface GetMeetingRequest {
   /** The app identifier tag. */
   appId: string;
   /** The end time range for which you want to retrieve the meetings. The time must be specified in ISO format. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The page number from which you want your page search results to be displayed. */
-  pageNo?: number;
+  pageNo?: number | undefined;
   /** Number of results per page */
-  perPage?: number;
+  perPage?: number | undefined;
   /** The search query string. You can search using the meeting ID or title. */
-  search?: string;
+  search?: string | undefined;
   /** The start time range for which you want to retrieve the meetings. The time must be specified in ISO format. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Filter meetings by status. */
-  status?: MeetingsGetRequestStatus | (string & {});
+  status?: MeetingsGetRequestStatus | (string & {}) | undefined;
 }
 export type MeetingsGetResponseDataItemRecordingConfigAudioConfigChannel = "mono" | "stereo";
 export type MeetingsGetResponseDataItemRecordingConfigAudioConfigCodec = "MP3" | "AAC";
 export interface MeetingsGetResponseDataItemRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
-  channel?: MeetingsGetResponseDataItemRecordingConfigAudioConfigChannel | null;
+  channel?: MeetingsGetResponseDataItemRecordingConfigAudioConfigChannel | null | undefined;
   /** Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis. */
-  codec?: MeetingsGetResponseDataItemRecordingConfigAudioConfigCodec | null;
+  codec?: MeetingsGetResponseDataItemRecordingConfigAudioConfigCodec | null | undefined;
   /** Controls whether to export audio file seperately */
-  exportFile?: boolean | null;
+  exportFile?: boolean | null | undefined;
 }
 export type MeetingsGetResponseDataItemRecordingConfigLiveStreamingConfig =
   MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig;
@@ -2109,28 +2305,31 @@ export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0AuthMeth
 export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0Type = "gcs";
 export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
+  accessKey?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0AuthMethod | null;
+  authMethod?:
+    | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0Type | null;
+  secret?: string | null | undefined;
+  type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1AuthMethod =
   | "KEY"
@@ -2143,24 +2342,27 @@ export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1AuthMethod | null;
+  authMethod?:
+    | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1Type | null;
+  secret?: string | null | undefined;
+  type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase1Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2AuthMethod = "KEY";
 export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2Type =
@@ -2173,26 +2375,29 @@ export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2 {
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?:
+    | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2Type | null;
+  type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase2Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3AuthMethod = "PASSWORD";
 export type MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3Type =
@@ -2205,26 +2410,29 @@ export interface MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?:
+    | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3Type | null;
+  type?: MeetingsGetResponseDataItemRecordingConfigStorageConfigCase3Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsGetResponseDataItemRecordingConfigStorageConfig =
   | MeetingsGetResponseDataItemRecordingConfigStorageConfigCase0
@@ -2241,35 +2449,44 @@ export type MeetingsGetResponseDataItemRecordingConfigVideoConfigWatermarkSize =
   MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize;
 export interface MeetingsGetResponseDataItemRecordingConfigVideoConfigWatermark {
   /** Position of the watermark */
-  position?: MeetingsGetResponseDataItemRecordingConfigVideoConfigWatermarkPosition | null;
+  position?:
+    | MeetingsGetResponseDataItemRecordingConfigVideoConfigWatermarkPosition
+    | null
+    | undefined;
   /** Size of the watermark */
-  size?: MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize | null;
+  size?: MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize | null | undefined;
   /** URL of the watermark image */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface MeetingsGetResponseDataItemRecordingConfigVideoConfig {
   /** Codec using which the recording will be encoded. */
-  codec?: MeetingsGetResponseDataItemRecordingConfigVideoConfigCodec | null;
+  codec?: MeetingsGetResponseDataItemRecordingConfigVideoConfigCodec | null | undefined;
   /** Controls whether to export video file seperately */
-  exportFile?: boolean | null;
+  exportFile?: boolean | null | undefined;
   /** Height of the recording video in pixels */
-  height?: number | null;
+  height?: number | null | undefined;
   /** Watermark to be added to the recording */
-  watermark?: MeetingsGetResponseDataItemRecordingConfigVideoConfigWatermark | null;
+  watermark?: MeetingsGetResponseDataItemRecordingConfigVideoConfigWatermark | null | undefined;
   /** Width of the recording video in pixels */
-  width?: number | null;
+  width?: number | null | undefined;
 }
 export interface MeetingsGetResponseDataItemRecordingConfig {
   /** Object containing configuration regarding the audio that is being recorded. */
-  audioConfig?: MeetingsGetResponseDataItemRecordingConfigAudioConfig | null;
+  audioConfig?: MeetingsGetResponseDataItemRecordingConfigAudioConfig | null | undefined;
   /** Adds a prefix to the beginning of the file name of the recording. */
-  fileNamePrefix?: string | null;
-  liveStreamingConfig?: MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig | null;
+  fileNamePrefix?: string | null | undefined;
+  liveStreamingConfig?:
+    | MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig
+    | null
+    | undefined;
   /** Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours. */
-  maxSeconds?: number | null;
-  realtimekitBucketConfig?: MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig | null;
-  storageConfig?: MeetingsGetResponseDataItemRecordingConfigStorageConfig | null;
-  videoConfig?: MeetingsGetResponseDataItemRecordingConfigVideoConfig | null;
+  maxSeconds?: number | null | undefined;
+  realtimekitBucketConfig?:
+    | MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig
+    | null
+    | undefined;
+  storageConfig?: MeetingsGetResponseDataItemRecordingConfigStorageConfig | null | undefined;
+  videoConfig?: MeetingsGetResponseDataItemRecordingConfigVideoConfig | null | undefined;
 }
 export type MeetingsGetResponseDataItemStatus = "ACTIVE" | "INACTIVE";
 export interface MeetingsGetResponseDataItem {
@@ -2280,34 +2497,30 @@ export interface MeetingsGetResponseDataItem {
   /** Timestamp the object was updated at. The time is returned in ISO format. */
   updatedAt: string;
   /** Specifies if the meeting should start getting livestreamed on start. */
-  liveStreamOnStart?: boolean | null;
+  liveStreamOnStart?: boolean | null | undefined;
   /** Specifies if Chat within a meeting should persist for a week. */
-  persistChat?: boolean | null;
+  persistChat?: boolean | null | undefined;
   /** Specifies if the meeting should start getting recorded as soon as someone joins the meeting. */
-  recordOnStart?: boolean | null;
+  recordOnStart?: boolean | null | undefined;
   /** Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal. */
-  recordingConfig?: MeetingsGetResponseDataItemRecordingConfig | null;
+  recordingConfig?: MeetingsGetResponseDataItemRecordingConfig | null | undefined;
   /** Time in seconds, for which a session remains active, after the last participant has left the meeting. */
-  sessionKeepAliveTimeInSecs?: number | null;
+  sessionKeepAliveTimeInSecs?: number | null | undefined;
   /** Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting. */
-  status?: MeetingsGetResponseDataItemStatus | null;
+  status?: MeetingsGetResponseDataItemStatus | null | undefined;
   /** Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API. */
-  summarizeOnEnd?: boolean | null;
+  summarizeOnEnd?: boolean | null | undefined;
   /** Title of the meeting. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Automatically generate transcripts when the meeting ends. */
-  transcribeOnEnd?: boolean | null;
+  transcribeOnEnd?: boolean | null | undefined;
 }
 export type MeetingsGetResponseDataList = Array<MeetingsGetResponseDataItem>;
-export interface MeetingsGetResponsePaging {
-  endOffset: number;
-  startOffset: number;
-  totalCount: number;
-}
+export type MeetingsGetResponsePaging = LivestreamsGetAllLivestreamsResponsePaging;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetMeetingResponse {
   data: MeetingsGetResponseDataList;
-  paging: MeetingsGetResponsePaging;
+  paging: LivestreamsGetAllLivestreamsResponsePaging;
 }
 export interface GetMeetingActiveLivestreamsLivestreamRequest {
   /** The account identifier tag. */
@@ -2320,30 +2533,37 @@ export type LivestreamsGetMeetingActiveLivestreamsResponseDataStatus =
   | "LIVE"
   | "IDLE"
   | "ERRORED"
-  | "INVOKED";
+  | "INVOKED"
+  | "METRICS_READY";
 export interface LivestreamsGetMeetingActiveLivestreamsResponseData {
-  /** The livestream ID. */
-  id?: string | null;
-  /** Timestamp the object was created at. The time is returned in ISO format. */
-  createdAt?: string | null;
-  /** Specifies if the livestream was disabled. */
-  disabled?: string | null;
+  /** ID of the livestream. */
+  id: string;
+  /** Timestamp the livestream was created at, in ISO format. */
+  createdAt: string;
+  /** Specifies if the livestream is disabled. */
+  disabled: boolean;
+  /** ID of the underlying Cloudflare Stream live input. */
+  externalId: string;
   /** The server URL to which the RTMP encoder sends the video and audio data. */
-  ingestServer?: string | null;
-  meetingId?: string | null;
+  ingestServer: string;
+  /** Specifies if the livestream is ingested manually by an RTMP encoder. */
+  manualIngest: boolean;
+  /** ID of the meeting being livestreamed, if any. */
+  meetingId: string;
   /** Name of the livestream. */
-  name?: string | null;
+  name: string;
   /** The web address that viewers can use to watch the livestream. */
-  playbackUrl?: string | null;
-  status?: LivestreamsGetMeetingActiveLivestreamsResponseDataStatus | null;
-  /** Unique key for accessing each livestream. */
-  streamKey?: string | null;
-  /** Timestamp the object was updated at. The time is returned in ISO format. */
-  updatedAt?: string | null;
+  playbackUrl: string;
+  /** Status of the livestream. */
+  status: LivestreamsGetMeetingActiveLivestreamsResponseDataStatus;
+  /** Unique key for accessing each livestream. Empty if the livestream is disabled. */
+  streamKey: string;
+  /** Timestamp the livestream was last updated at, in ISO format. */
+  updatedAt: string;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetMeetingActiveLivestreamsLivestreamResponse {
-  data?: LivestreamsGetMeetingActiveLivestreamsResponseData | null;
+  data: LivestreamsGetMeetingActiveLivestreamsResponseData;
 }
 export interface GetMeetingByIdMeetingRequest {
   /** The account identifier tag. */
@@ -2351,7 +2571,7 @@ export interface GetMeetingByIdMeetingRequest {
   /** The app identifier tag. */
   appId: string;
   meetingId: string;
-  name?: string;
+  name?: string | undefined;
 }
 export type MeetingsGetMeetingByIdResponseDataAiConfigSummarizationSummaryType =
   | "general"
@@ -2368,11 +2588,14 @@ export type MeetingsGetMeetingByIdResponseDataAiConfigSummarizationTextFormat =
   | "markdown";
 export interface MeetingsGetMeetingByIdResponseDataAiConfigSummarization {
   /** Defines the style of the summary, such as general, team meeting, or sales call. */
-  summaryType?: MeetingsGetMeetingByIdResponseDataAiConfigSummarizationSummaryType | null;
+  summaryType?:
+    | MeetingsGetMeetingByIdResponseDataAiConfigSummarizationSummaryType
+    | null
+    | undefined;
   /** Determines the text format of the summary, such as plain text or markdown. */
-  textFormat?: MeetingsGetMeetingByIdResponseDataAiConfigSummarizationTextFormat | null;
+  textFormat?: MeetingsGetMeetingByIdResponseDataAiConfigSummarizationTextFormat | null | undefined;
   /** Sets the maximum number of words in the meeting summary. */
-  wordLimit?: number | null;
+  wordLimit?: number | null | undefined;
 }
 export type MeetingsGetMeetingByIdResponseDataAiConfigTranscriptionKeywordsList = Array<string>;
 export type MeetingsGetMeetingByIdResponseDataAiConfigTranscriptionLanguage =
@@ -2388,27 +2611,27 @@ export type MeetingsGetMeetingByIdResponseDataAiConfigTranscriptionLanguage =
   | "nl";
 export interface MeetingsGetMeetingByIdResponseDataAiConfigTranscription {
   /** Adds specific terms to improve accurate detection during transcription. */
-  keywords?: MeetingsGetMeetingByIdResponseDataAiConfigTranscriptionKeywordsList | null;
+  keywords?: MeetingsGetMeetingByIdResponseDataAiConfigTranscriptionKeywordsList | null | undefined;
   /** Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription. */
-  language?: MeetingsGetMeetingByIdResponseDataAiConfigTranscriptionLanguage | null;
+  language?: MeetingsGetMeetingByIdResponseDataAiConfigTranscriptionLanguage | null | undefined;
   /** Control the inclusion of offensive language in transcriptions. */
-  profanityFilter?: boolean | null;
+  profanityFilter?: boolean | null | undefined;
 }
 export interface MeetingsGetMeetingByIdResponseDataAiConfig {
   /** Summary Config */
-  summarization?: MeetingsGetMeetingByIdResponseDataAiConfigSummarization | null;
+  summarization?: MeetingsGetMeetingByIdResponseDataAiConfigSummarization | null | undefined;
   /** Transcription Configurations */
-  transcription?: MeetingsGetMeetingByIdResponseDataAiConfigTranscription | null;
+  transcription?: MeetingsGetMeetingByIdResponseDataAiConfigTranscription | null | undefined;
 }
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigAudioConfigChannel = "mono" | "stereo";
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigAudioConfigCodec = "MP3" | "AAC";
 export interface MeetingsGetMeetingByIdResponseDataRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
-  channel?: MeetingsGetMeetingByIdResponseDataRecordingConfigAudioConfigChannel | null;
+  channel?: MeetingsGetMeetingByIdResponseDataRecordingConfigAudioConfigChannel | null | undefined;
   /** Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis. */
-  codec?: MeetingsGetMeetingByIdResponseDataRecordingConfigAudioConfigCodec | null;
+  codec?: MeetingsGetMeetingByIdResponseDataRecordingConfigAudioConfigCodec | null | undefined;
   /** Controls whether to export audio file seperately */
-  exportFile?: boolean | null;
+  exportFile?: boolean | null | undefined;
 }
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigLiveStreamingConfig =
   MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig;
@@ -2420,28 +2643,31 @@ export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0A
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type = "gcs";
 export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
+  accessKey?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod | null;
+  authMethod?:
+    | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type | null;
+  secret?: string | null | undefined;
+  type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod =
   | "KEY"
@@ -2454,24 +2680,27 @@ export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigC
   accessKey: unknown;
   region: unknown;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod | null;
+  authMethod?:
+    | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type | null;
+  secret?: string | null | undefined;
+  type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod = "KEY";
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type =
@@ -2484,26 +2713,29 @@ export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigC
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?:
+    | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type | null;
+  type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod =
   "PASSWORD";
@@ -2517,26 +2749,29 @@ export interface MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigC
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?:
+    | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type | null;
+  type?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfig =
   | MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfigCase0
@@ -2556,35 +2791,47 @@ export type MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfigWatermar
   MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize;
 export interface MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfigWatermark {
   /** Position of the watermark */
-  position?: MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfigWatermarkPosition | null;
+  position?:
+    | MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfigWatermarkPosition
+    | null
+    | undefined;
   /** Size of the watermark */
-  size?: MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize | null;
+  size?: MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize | null | undefined;
   /** URL of the watermark image */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfig {
   /** Codec using which the recording will be encoded. */
-  codec?: MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfigCodec | null;
+  codec?: MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfigCodec | null | undefined;
   /** Controls whether to export video file seperately */
-  exportFile?: boolean | null;
+  exportFile?: boolean | null | undefined;
   /** Height of the recording video in pixels */
-  height?: number | null;
+  height?: number | null | undefined;
   /** Watermark to be added to the recording */
-  watermark?: MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfigWatermark | null;
+  watermark?:
+    | MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfigWatermark
+    | null
+    | undefined;
   /** Width of the recording video in pixels */
-  width?: number | null;
+  width?: number | null | undefined;
 }
 export interface MeetingsGetMeetingByIdResponseDataRecordingConfig {
   /** Object containing configuration regarding the audio that is being recorded. */
-  audioConfig?: MeetingsGetMeetingByIdResponseDataRecordingConfigAudioConfig | null;
+  audioConfig?: MeetingsGetMeetingByIdResponseDataRecordingConfigAudioConfig | null | undefined;
   /** Adds a prefix to the beginning of the file name of the recording. */
-  fileNamePrefix?: string | null;
-  liveStreamingConfig?: MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig | null;
+  fileNamePrefix?: string | null | undefined;
+  liveStreamingConfig?:
+    | MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig
+    | null
+    | undefined;
   /** Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours. */
-  maxSeconds?: number | null;
-  realtimekitBucketConfig?: MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig | null;
-  storageConfig?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfig | null;
-  videoConfig?: MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfig | null;
+  maxSeconds?: number | null | undefined;
+  realtimekitBucketConfig?:
+    | MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig
+    | null
+    | undefined;
+  storageConfig?: MeetingsGetMeetingByIdResponseDataRecordingConfigStorageConfig | null | undefined;
+  videoConfig?: MeetingsGetMeetingByIdResponseDataRecordingConfigVideoConfig | null | undefined;
 }
 export type MeetingsGetMeetingByIdResponseDataStatus = "ACTIVE" | "INACTIVE";
 export interface MeetingsGetMeetingByIdResponseData {
@@ -2595,30 +2842,30 @@ export interface MeetingsGetMeetingByIdResponseData {
   /** Timestamp the object was updated at. The time is returned in ISO format. */
   updatedAt: string;
   /** The AI Config allows you to customize the behavior of meeting transcriptions and summaries */
-  aiConfig?: MeetingsGetMeetingByIdResponseDataAiConfig | null;
+  aiConfig?: MeetingsGetMeetingByIdResponseDataAiConfig | null | undefined;
   /** Specifies if the meeting should start getting livestreamed on start. */
-  liveStreamOnStart?: boolean | null;
+  liveStreamOnStart?: boolean | null | undefined;
   /** Specifies if Chat within a meeting should persist for a week. */
-  persistChat?: boolean | null;
+  persistChat?: boolean | null | undefined;
   /** Specifies if the meeting should start getting recorded as soon as someone joins the meeting. */
-  recordOnStart?: boolean | null;
+  recordOnStart?: boolean | null | undefined;
   /** Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal. */
-  recordingConfig?: MeetingsGetMeetingByIdResponseDataRecordingConfig | null;
+  recordingConfig?: MeetingsGetMeetingByIdResponseDataRecordingConfig | null | undefined;
   /** Time in seconds, for which a session remains active, after the last participant has left the meeting. */
-  sessionKeepAliveTimeInSecs?: number | null;
+  sessionKeepAliveTimeInSecs?: number | null | undefined;
   /** Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting. */
-  status?: MeetingsGetMeetingByIdResponseDataStatus | null;
+  status?: MeetingsGetMeetingByIdResponseDataStatus | null | undefined;
   /** Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API. */
-  summarizeOnEnd?: boolean | null;
+  summarizeOnEnd?: boolean | null | undefined;
   /** Title of the meeting. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Automatically generate transcripts when the meeting ends. */
-  transcribeOnEnd?: boolean | null;
+  transcribeOnEnd?: boolean | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetMeetingByIdMeetingResponse {
   /** Data returned by the operation */
-  data?: MeetingsGetMeetingByIdResponseData | null;
+  data?: MeetingsGetMeetingByIdResponseData | null | undefined;
 }
 export interface GetMeetingParticipantMeetingRequest {
   /** The account identifier tag. */
@@ -2640,9 +2887,9 @@ export interface MeetingsGetMeetingParticipantResponseData {
   /** When this object was updated. The time is returned in ISO format. */
   updatedAt: string;
   /** Name of the participant. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** URL to a picture of the participant. */
-  picture?: string | null;
+  picture?: string | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetMeetingParticipantMeetingResponse {
@@ -2656,19 +2903,20 @@ export interface GetMeetingParticipantsMeetingRequest {
   appId: string;
   meetingId: string;
   /** The page number from which you want your page search results to be displayed. */
-  pageNo?: number;
+  pageNo?: number | undefined;
   /** Number of results per page */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type MeetingsGetMeetingParticipantsResponseDataItem =
   MeetingsGetMeetingParticipantResponseData;
 export type MeetingsGetMeetingParticipantsResponseDataList =
   Array<MeetingsGetMeetingParticipantResponseData>;
-export type MeetingsGetMeetingParticipantsResponsePaging = MeetingsGetResponsePaging;
+export type MeetingsGetMeetingParticipantsResponsePaging =
+  LivestreamsGetAllLivestreamsResponsePaging;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetMeetingParticipantsMeetingResponse {
   data: MeetingsGetMeetingParticipantsResponseDataList;
-  paging: MeetingsGetResponsePaging;
+  paging: LivestreamsGetAllLivestreamsResponsePaging;
 }
 export interface GetOneRecordingRecordingRequest {
   /** The account identifier tag. */
@@ -2687,62 +2935,62 @@ export type RecordingsGetOneRecordingResponseDataStatus =
 export type RecordingsGetOneRecordingResponseDataStartReasonCallerType = "ORGANIZATION" | "USER";
 export interface RecordingsGetOneRecordingResponseDataStartReasonCaller {
   /** Name of the user who started the recording. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned. */
-  type?: RecordingsGetOneRecordingResponseDataStartReasonCallerType | null;
+  type?: RecordingsGetOneRecordingResponseDataStartReasonCallerType | null | undefined;
   /** The user ID of the person who started the recording. */
-  userId?: string | null;
+  userId?: string | null | undefined;
 }
 export type RecordingsGetOneRecordingResponseDataStartReasonReason = "API_CALL" | "RECORD_ON_START";
 export interface RecordingsGetOneRecordingResponseDataStartReason {
-  caller?: RecordingsGetOneRecordingResponseDataStartReasonCaller | null;
+  caller?: RecordingsGetOneRecordingResponseDataStartReasonCaller | null | undefined;
   /** Specifies if the recording was started using the "Start a Recording"API or using the parameter RECORD_ON_START in the "Create a meeting" API. */
-  reason?: RecordingsGetOneRecordingResponseDataStartReasonReason | null;
+  reason?: RecordingsGetOneRecordingResponseDataStartReasonReason | null | undefined;
 }
 export type RecordingsGetOneRecordingResponseDataStopReasonCallerType = "ORGANIZATION" | "USER";
 export interface RecordingsGetOneRecordingResponseDataStopReasonCaller {
   /** Name of the user who stopped the recording. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned. */
-  type?: RecordingsGetOneRecordingResponseDataStopReasonCallerType | null;
+  type?: RecordingsGetOneRecordingResponseDataStopReasonCallerType | null | undefined;
   /** The user ID of the person who stopped the recording. */
-  userId?: string | null;
+  userId?: string | null | undefined;
 }
 export type RecordingsGetOneRecordingResponseDataStopReasonReason =
   | "API_CALL"
   | "INTERNAL_ERROR"
   | "ALL_PEERS_LEFT";
 export interface RecordingsGetOneRecordingResponseDataStopReason {
-  caller?: RecordingsGetOneRecordingResponseDataStopReasonCaller | null;
+  caller?: RecordingsGetOneRecordingResponseDataStopReasonCaller | null | undefined;
   /** Specifies the reason why the recording stopped. */
-  reason?: RecordingsGetOneRecordingResponseDataStopReasonReason | null;
+  reason?: RecordingsGetOneRecordingResponseDataStopReasonReason | null | undefined;
 }
 export type RecordingsGetOneRecordingResponseDataStorageConfigCase0AuthMethod = "KEY" | "PASSWORD";
 export type RecordingsGetOneRecordingResponseDataStorageConfigCase0Type = "gcs";
 export interface RecordingsGetOneRecordingResponseDataStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
+  accessKey?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase0AuthMethod | null;
+  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase0AuthMethod | null | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase0Type | null;
+  secret?: string | null | undefined;
+  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase0Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsGetOneRecordingResponseDataStorageConfigCase1AuthMethod = "KEY" | "PASSWORD";
 export type RecordingsGetOneRecordingResponseDataStorageConfigCase1Type =
@@ -2753,24 +3001,24 @@ export interface RecordingsGetOneRecordingResponseDataStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase1AuthMethod | null;
+  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase1AuthMethod | null | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase1Type | null;
+  secret?: string | null | undefined;
+  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase1Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsGetOneRecordingResponseDataStorageConfigCase2AuthMethod = "KEY";
 export type RecordingsGetOneRecordingResponseDataStorageConfigCase2Type =
@@ -2783,26 +3031,26 @@ export interface RecordingsGetOneRecordingResponseDataStorageConfigCase2 {
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase2AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase2AuthMethod | null | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase2Type | null;
+  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase2Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsGetOneRecordingResponseDataStorageConfigCase3AuthMethod = "PASSWORD";
 export type RecordingsGetOneRecordingResponseDataStorageConfigCase3Type =
@@ -2815,26 +3063,26 @@ export interface RecordingsGetOneRecordingResponseDataStorageConfigCase3 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase3AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?: RecordingsGetOneRecordingResponseDataStorageConfigCase3AuthMethod | null | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase3Type | null;
+  type?: RecordingsGetOneRecordingResponseDataStorageConfigCase3Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsGetOneRecordingResponseDataStorageConfig =
   | RecordingsGetOneRecordingResponseDataStorageConfigCase0
@@ -2865,15 +3113,15 @@ export interface RecordingsGetOneRecordingResponseData {
   /** Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped. */
   stoppedTime: string;
   /** Total recording time in seconds. */
-  recordingDuration?: number | null;
-  startReason?: RecordingsGetOneRecordingResponseDataStartReason | null;
-  stopReason?: RecordingsGetOneRecordingResponseDataStopReason | null;
-  storageConfig?: RecordingsGetOneRecordingResponseDataStorageConfig | null;
+  recordingDuration?: number | null | undefined;
+  startReason?: RecordingsGetOneRecordingResponseDataStartReason | null | undefined;
+  stopReason?: RecordingsGetOneRecordingResponseDataStopReason | null | undefined;
+  storageConfig?: RecordingsGetOneRecordingResponseDataStorageConfig | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetOneRecordingRecordingResponse {
   /** Data returned by the operation */
-  data?: RecordingsGetOneRecordingResponseData | null;
+  data?: RecordingsGetOneRecordingResponseData | null | undefined;
 }
 export interface GetOrgAnalyticsAnalyticRequest {
   /** The account identifier tag. */
@@ -2881,53 +3129,53 @@ export interface GetOrgAnalyticsAnalyticRequest {
   /** The app identifier tag. */
   appId: string;
   /** end date in YYYY-MM-DD format */
-  endDate?: string;
+  endDate?: string | undefined;
   /** start date in YYYY-MM-DD format */
-  startDate?: string;
+  startDate?: string | undefined;
 }
 export interface AnalyticsGetOrgAnalyticsResponseDataRecordingStatsDayStatsItem {
-  day?: string | null;
+  day?: string | null | undefined;
   /** Total recording minutes for a specific day */
-  totalRecordingMinutes?: number | null;
+  totalRecordingMinutes?: number | null | undefined;
   /** Total number of recordings for a specific day */
-  totalRecordings?: number | null;
+  totalRecordings?: number | null | undefined;
 }
 export type AnalyticsGetOrgAnalyticsResponseDataRecordingStatsDayStatsList =
   Array<AnalyticsGetOrgAnalyticsResponseDataRecordingStatsDayStatsItem>;
 export interface AnalyticsGetOrgAnalyticsResponseDataRecordingStats {
   /** Day wise recording stats */
-  dayStats?: AnalyticsGetOrgAnalyticsResponseDataRecordingStatsDayStatsList | null;
+  dayStats?: AnalyticsGetOrgAnalyticsResponseDataRecordingStatsDayStatsList | null | undefined;
   /** Total number of recordings during the range specified */
-  recordingCount?: number | null;
+  recordingCount?: number | null | undefined;
   /** Total recording minutes during the range specified */
-  recordingMinutesConsumed?: number | null;
+  recordingMinutesConsumed?: number | null | undefined;
 }
 export interface AnalyticsGetOrgAnalyticsResponseDataSessionStatsDayStatsItem {
-  day?: string | null;
+  day?: string | null | undefined;
   /** Total session minutes for a specific day */
-  totalSessionMinutes?: number | null;
+  totalSessionMinutes?: number | null | undefined;
   /** Total number of sessions for a specific day */
-  totalSessions?: number | null;
+  totalSessions?: number | null | undefined;
 }
 export type AnalyticsGetOrgAnalyticsResponseDataSessionStatsDayStatsList =
   Array<AnalyticsGetOrgAnalyticsResponseDataSessionStatsDayStatsItem>;
 export interface AnalyticsGetOrgAnalyticsResponseDataSessionStats {
   /** Day wise session stats */
-  dayStats?: AnalyticsGetOrgAnalyticsResponseDataSessionStatsDayStatsList | null;
+  dayStats?: AnalyticsGetOrgAnalyticsResponseDataSessionStatsDayStatsList | null | undefined;
   /** Total number of sessions during the range specified */
-  sessionsCount?: number | null;
+  sessionsCount?: number | null | undefined;
   /** Total session minutes during the range specified */
-  sessionsMinutesConsumed?: number | null;
+  sessionsMinutesConsumed?: number | null | undefined;
 }
 export interface AnalyticsGetOrgAnalyticsResponseData {
   /** Recording statistics of an App during the range specified */
-  recordingStats?: AnalyticsGetOrgAnalyticsResponseDataRecordingStats | null;
+  recordingStats?: AnalyticsGetOrgAnalyticsResponseDataRecordingStats | null | undefined;
   /** Session statistics of an App during the range specified */
-  sessionStats?: AnalyticsGetOrgAnalyticsResponseDataSessionStats | null;
+  sessionStats?: AnalyticsGetOrgAnalyticsResponseDataSessionStats | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetOrgAnalyticsAnalyticResponse {
-  data?: AnalyticsGetOrgAnalyticsResponseData | null;
+  data?: AnalyticsGetOrgAnalyticsResponseData | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdRequestFilters =
   | "device_info"
@@ -2942,9 +3190,9 @@ export interface GetParticipantDataFromPeerIdSessionRequest {
   appId: string;
   peerId: string;
   /** Filter to apply to the peer report. */
-  filters?: SessionsGetParticipantDataFromPeerIdRequestFilters | (string & {});
+  filters?: SessionsGetParticipantDataFromPeerIdRequestFilters | (string & {}) | undefined;
   /** if true, response includes all the peer events of participant. */
-  includePeerEvents?: boolean;
+  includePeerEvents?: boolean | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerEventsItemEventName =
   | "PEER_CREATED"
@@ -2958,35 +3206,41 @@ export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerEvent
   | "CHAT";
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerEventsItem {
   /** ID of the peer event. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Timestamp when this peer event was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Name of the peer event. */
-  eventName?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerEventsItemEventName | null;
+  eventName?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerEventsItemEventName
+    | null
+    | undefined;
   /** Minutes consumed attributed to this event. */
-  minutesConsumed?: number | null;
+  minutesConsumed?: number | null | undefined;
   /** ID of the participant this event belongs to. */
-  participantId?: string | null;
+  participantId?: string | null | undefined;
   /** Peer ID this event belongs to. */
-  peerId?: string | null;
+  peerId?: string | null | undefined;
   /** View type of the preset associated with the peer. */
-  presetViewType?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerEventsItemPresetViewType | null;
+  presetViewType?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerEventsItemPresetViewType
+    | null
+    | undefined;
   /** ID of the session this event belongs to. */
-  sessionId?: string | null;
+  sessionId?: string | null | undefined;
   /** ID of the socket session associated with this event. */
-  socketSessionId?: string | null;
+  socketSessionId?: string | null | undefined;
   /** Timestamp when this peer event was last updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerEventsList =
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerEventsItem>;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesItemAddedItem {
   /** ID of the device. */
-  deviceId?: string | null;
+  deviceId?: string | null | undefined;
   /** Kind of device, for example audioinput or videoinput. */
-  kind?: string | null;
+  kind?: string | null | undefined;
   /** Human-readable label of the device. */
-  label?: string | null;
+  label?: string | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesItemAddedList =
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesItemAddedItem>;
@@ -2996,52 +3250,58 @@ export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepor
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesItemAddedItem>;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesItem {
   /** Devices that became available. */
-  added?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesItemAddedList | null;
+  added?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesItemAddedList
+    | null
+    | undefined;
   /** Devices that became unavailable. */
-  removed?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesItemRemovedList | null;
+  removed?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesItemRemovedList
+    | null
+    | undefined;
   /** Timestamp of the device update. */
-  timestamp?: string | null;
+  timestamp?: string | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesList =
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesItem>;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataBrowserMetadata {
-  browser?: string | null;
-  browserVersion?: string | null;
-  engine?: string | null;
-  userAgent?: string | null;
-  webglSupport?: boolean | null;
+  browser?: string | null | undefined;
+  browserVersion?: string | null | undefined;
+  engine?: string | null | undefined;
+  userAgent?: string | null | undefined;
+  webglSupport?: boolean | null | undefined;
 }
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataCandidatePairsConsumingTransportItem {
-  availableIncomingBitrate?: number | null;
-  availableOutgoingBitrate?: number | null;
-  bytesDiscardedOnSend?: number | null;
-  bytesReceived?: number | null;
-  bytesSent?: number | null;
-  currentRoundTripTime?: number | null;
+  availableIncomingBitrate?: number | null | undefined;
+  availableOutgoingBitrate?: number | null | undefined;
+  bytesDiscardedOnSend?: number | null | undefined;
+  bytesReceived?: number | null | undefined;
+  bytesSent?: number | null | undefined;
+  currentRoundTripTime?: number | null | undefined;
   /** Epoch milliseconds when the last packet was received. */
-  lastPacketReceivedTimestamp?: number | null;
+  lastPacketReceivedTimestamp?: number | null | undefined;
   /** Epoch milliseconds when the last packet was sent. */
-  lastPacketSentTimestamp?: number | null;
-  localCandidateAddress?: string | null;
-  localCandidateId?: string | null;
-  localCandidateNetworkType?: string | null;
-  localCandidatePort?: number | null;
-  localCandidateProtocol?: string | null;
-  localCandidateRelatedAddress?: string | null;
-  localCandidateRelatedPort?: number | null;
-  localCandidateType?: string | null;
-  localCandidateUrl?: string | null;
-  nominated?: boolean | null;
-  packetsDiscardedOnSend?: number | null;
-  packetsReceived?: number | null;
-  packetsSent?: number | null;
-  remoteCandidateAddress?: string | null;
-  remoteCandidateId?: string | null;
-  remoteCandidatePort?: number | null;
-  remoteCandidateProtocol?: string | null;
-  remoteCandidateType?: string | null;
-  remoteCandidateUrl?: string | null;
-  totalRoundTripTime?: number | null;
+  lastPacketSentTimestamp?: number | null | undefined;
+  localCandidateAddress?: string | null | undefined;
+  localCandidateId?: string | null | undefined;
+  localCandidateNetworkType?: string | null | undefined;
+  localCandidatePort?: number | null | undefined;
+  localCandidateProtocol?: string | null | undefined;
+  localCandidateRelatedAddress?: string | null | undefined;
+  localCandidateRelatedPort?: number | null | undefined;
+  localCandidateType?: string | null | undefined;
+  localCandidateUrl?: string | null | undefined;
+  nominated?: boolean | null | undefined;
+  packetsDiscardedOnSend?: number | null | undefined;
+  packetsReceived?: number | null | undefined;
+  packetsSent?: number | null | undefined;
+  remoteCandidateAddress?: string | null | undefined;
+  remoteCandidateId?: string | null | undefined;
+  remoteCandidatePort?: number | null | undefined;
+  remoteCandidateProtocol?: string | null | undefined;
+  remoteCandidateType?: string | null | undefined;
+  remoteCandidateUrl?: string | null | undefined;
+  totalRoundTripTime?: number | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataCandidatePairsConsumingTransportList =
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataCandidatePairsConsumingTransportItem>;
@@ -3050,14 +3310,20 @@ export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepor
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataCandidatePairsProducingTransportList =
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataCandidatePairsConsumingTransportItem>;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataCandidatePairs {
-  consumingTransport?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataCandidatePairsConsumingTransportList | null;
-  producingTransport?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataCandidatePairsProducingTransportList | null;
+  consumingTransport?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataCandidatePairsConsumingTransportList
+    | null
+    | undefined;
+  producingTransport?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataCandidatePairsProducingTransportList
+    | null
+    | undefined;
 }
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataDeviceInfo {
-  cpus?: number | null;
-  isMobile?: boolean | null;
-  os?: string | null;
-  osVersion?: string | null;
+  cpus?: number | null | undefined;
+  isMobile?: boolean | null | undefined;
+  os?: string | null | undefined;
+  osVersion?: string | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadataValue =
   | string
@@ -3071,43 +3337,52 @@ export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepor
   };
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItem {
   /** Event-specific metadata. Keys vary per event; values are primitive scalars (string, number, boolean, or null). */
-  metadata?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadataMap | null;
+  metadata?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItemMetadataMap
+    | null
+    | undefined;
   /** Name of the event. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Timestamp when the event occurred. */
-  timestamp?: string | null;
+  timestamp?: string | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsList =
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItem>;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataIpInformationAsn {
-  asn?: string | null;
-  domain?: string | null;
-  name?: string | null;
-  route?: string | null;
-  type?: string | null;
+  asn?: string | null | undefined;
+  domain?: string | null | undefined;
+  name?: string | null | undefined;
+  route?: string | null | undefined;
+  type?: string | null | undefined;
 }
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataIpInformation {
-  asn?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataIpInformationAsn | null;
-  city?: string | null;
-  country?: string | null;
-  ipv4?: string | null;
-  org?: string | null;
-  region?: string | null;
-  timezone?: string | null;
+  asn?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataIpInformationAsn
+    | null
+    | undefined;
+  city?: string | null | undefined;
+  country?: string | null | undefined;
+  ipv4?: string | null | undefined;
+  org?: string | null | undefined;
+  region?: string | null | undefined;
+  timezone?: string | null | undefined;
 }
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataNativeMetadata {
-  audioEncoder?: string | null;
-  videoEncoder?: string | null;
+  audioEncoder?: string | null | undefined;
+  videoEncoder?: string | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataPcMetadataItemSdpList =
   Array<string>;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataPcMetadataItem {
-  effectiveNetworkType?: string | null;
-  reflexiveConnectivity?: boolean | null;
-  relayConnectivity?: boolean | null;
-  sdp?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataPcMetadataItemSdpList | null;
-  timestamp?: string | null;
-  turnConnectivity?: boolean | null;
+  effectiveNetworkType?: string | null | undefined;
+  reflexiveConnectivity?: boolean | null | undefined;
+  relayConnectivity?: boolean | null | undefined;
+  sdp?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataPcMetadataItemSdpList
+    | null
+    | undefined;
+  timestamp?: string | null | undefined;
+  turnConnectivity?: boolean | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataPcMetadataList =
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataPcMetadataItem>;
@@ -3115,8 +3390,11 @@ export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepor
   SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesItemAddedItem;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataSelectedDeviceUpdatesItem {
   /** A media device (camera, microphone, or speaker). */
-  device?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesItemAddedItem | null;
-  timestamp?: string | null;
+  device?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesItemAddedItem
+    | null
+    | undefined;
+  timestamp?: string | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataSelectedDeviceUpdatesList =
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataSelectedDeviceUpdatesItem>;
@@ -3130,11 +3408,17 @@ export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepor
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesItemAddedItem>;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataSpeakerDevicesUpdatesItem {
   /** Devices that became available. */
-  added?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataSpeakerDevicesUpdatesItemAddedList | null;
+  added?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataSpeakerDevicesUpdatesItemAddedList
+    | null
+    | undefined;
   /** Devices that became unavailable. */
-  removed?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataSpeakerDevicesUpdatesItemRemovedList | null;
+  removed?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataSpeakerDevicesUpdatesItemRemovedList
+    | null
+    | undefined;
   /** Timestamp of the device update. */
-  timestamp?: string | null;
+  timestamp?: string | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataSpeakerDevicesUpdatesList =
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataSpeakerDevicesUpdatesItem>;
@@ -3148,87 +3432,135 @@ export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepor
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesItemAddedItem>;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataVideoDevicesUpdatesItem {
   /** Devices that became available. */
-  added?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataVideoDevicesUpdatesItemAddedList | null;
+  added?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataVideoDevicesUpdatesItemAddedList
+    | null
+    | undefined;
   /** Devices that became unavailable. */
-  removed?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataVideoDevicesUpdatesItemRemovedList | null;
+  removed?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataVideoDevicesUpdatesItemRemovedList
+    | null
+    | undefined;
   /** Timestamp of the device update. */
-  timestamp?: string | null;
+  timestamp?: string | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataVideoDevicesUpdatesList =
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataVideoDevicesUpdatesItem>;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadata {
-  audioDevicesUpdates?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesList | null;
-  browserMetadata?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataBrowserMetadata | null;
-  candidatePairs?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataCandidatePairs | null;
-  deviceInfo?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataDeviceInfo | null;
-  events?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsList | null;
-  ipInformation?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataIpInformation | null;
-  nativeMetadata?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataNativeMetadata | null;
-  pcMetadata?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataPcMetadataList | null;
-  roomViewType?: string | null;
-  sdkName?: string | null;
-  sdkType?: string | null;
-  sdkVersion?: string | null;
-  selectedDeviceUpdates?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataSelectedDeviceUpdatesList | null;
-  speakerDevicesUpdates?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataSpeakerDevicesUpdatesList | null;
-  videoDevicesUpdates?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataVideoDevicesUpdatesList | null;
+  audioDevicesUpdates?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesList
+    | null
+    | undefined;
+  browserMetadata?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataBrowserMetadata
+    | null
+    | undefined;
+  candidatePairs?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataCandidatePairs
+    | null
+    | undefined;
+  deviceInfo?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataDeviceInfo
+    | null
+    | undefined;
+  events?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsList
+    | null
+    | undefined;
+  ipInformation?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataIpInformation
+    | null
+    | undefined;
+  nativeMetadata?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataNativeMetadata
+    | null
+    | undefined;
+  pcMetadata?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataPcMetadataList
+    | null
+    | undefined;
+  roomViewType?: string | null | undefined;
+  sdkName?: string | null | undefined;
+  sdkType?: string | null | undefined;
+  sdkVersion?: string | null | undefined;
+  selectedDeviceUpdates?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataSelectedDeviceUpdatesList
+    | null
+    | undefined;
+  speakerDevicesUpdates?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataSpeakerDevicesUpdatesList
+    | null
+    | undefined;
+  videoDevicesUpdates?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataVideoDevicesUpdatesList
+    | null
+    | undefined;
 }
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerItem {
-  bytesReceived?: number | null;
-  concealmentEvents?: number | null;
-  consumerId?: string | null;
-  jitter?: number | null;
-  jitterBufferDelay?: number | null;
-  jitterBufferEmittedCount?: number | null;
-  mid?: string | null;
-  mosQuality?: number | null;
-  packetsLost?: number | null;
-  packetsReceived?: number | null;
-  peerId?: string | null;
-  producerId?: string | null;
-  ssrc?: number | null;
-  timestamp?: string | null;
+  bytesReceived?: number | null | undefined;
+  concealmentEvents?: number | null | undefined;
+  consumerId?: string | null | undefined;
+  jitter?: number | null | undefined;
+  jitterBufferDelay?: number | null | undefined;
+  jitterBufferEmittedCount?: number | null | undefined;
+  mid?: string | null | undefined;
+  mosQuality?: number | null | undefined;
+  packetsLost?: number | null | undefined;
+  packetsReceived?: number | null | undefined;
+  peerId?: string | null | undefined;
+  producerId?: string | null | undefined;
+  ssrc?: number | null | undefined;
+  timestamp?: string | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerList =
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerItem>;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeJitterBufferDelay {
-  "100msOrGreaterEventFraction"?: number | null;
-  "250msOrGreaterEventFraction"?: number | null;
-  "500msOrGreaterEventFraction"?: number | null;
-  avg?: number | null;
+  "100msOrGreaterEventFraction"?: number | null | undefined;
+  "250msOrGreaterEventFraction"?: number | null | undefined;
+  "500msOrGreaterEventFraction"?: number | null | undefined;
+  avg?: number | null | undefined;
 }
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativePacketLoss {
-  "10OrGreaterEventFraction"?: number | null;
-  "25OrGreaterEventFraction"?: number | null;
-  "5OrGreaterEventFraction"?: number | null;
-  "50OrGreaterEventFraction"?: number | null;
-  avg?: number | null;
+  "10OrGreaterEventFraction"?: number | null | undefined;
+  "25OrGreaterEventFraction"?: number | null | undefined;
+  "5OrGreaterEventFraction"?: number | null | undefined;
+  "50OrGreaterEventFraction"?: number | null | undefined;
+  avg?: number | null | undefined;
 }
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos {
-  avg?: number | null;
-  p50?: number | null;
-  p75?: number | null;
-  p90?: number | null;
+  avg?: number | null | undefined;
+  p50?: number | null | undefined;
+  p75?: number | null | undefined;
+  p90?: number | null | undefined;
 }
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulative {
   /** Cumulative latency distribution (milliseconds-based thresholds). */
-  jitterBufferDelay?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeJitterBufferDelay | null;
+  jitterBufferDelay?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeJitterBufferDelay
+    | null
+    | undefined;
   /** Cumulative packet loss distribution. */
-  packetLoss?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativePacketLoss | null;
+  packetLoss?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativePacketLoss
+    | null
+    | undefined;
   /** Distribution summary with average and percentiles. */
-  qualityMos?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos | null;
+  qualityMos?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos
+    | null
+    | undefined;
 }
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioProducerItem {
-  bytesSent?: number | null;
-  jitter?: number | null;
-  mid?: string | null;
-  mosQuality?: number | null;
-  packetsLost?: number | null;
-  packetsSent?: number | null;
-  producerId?: string | null;
-  rtt?: number | null;
-  ssrc?: number | null;
-  timestamp?: string | null;
+  bytesSent?: number | null | undefined;
+  jitter?: number | null | undefined;
+  mid?: string | null | undefined;
+  mosQuality?: number | null | undefined;
+  packetsLost?: number | null | undefined;
+  packetsSent?: number | null | undefined;
+  producerId?: string | null | undefined;
+  rtt?: number | null | undefined;
+  ssrc?: number | null | undefined;
+  timestamp?: string | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioProducerList =
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioProducerItem>;
@@ -3240,11 +3572,20 @@ export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepor
   SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeJitterBufferDelay;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioProducerCumulative {
   /** Cumulative packet loss distribution. */
-  packetLoss?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativePacketLoss | null;
+  packetLoss?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativePacketLoss
+    | null
+    | undefined;
   /** Distribution summary with average and percentiles. */
-  qualityMos?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos | null;
+  qualityMos?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos
+    | null
+    | undefined;
   /** Cumulative latency distribution (milliseconds-based thresholds). */
-  rtt?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeJitterBufferDelay | null;
+  rtt?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeJitterBufferDelay
+    | null
+    | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareAudioConsumerItem =
   SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerItem;
@@ -3271,26 +3612,26 @@ export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepor
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareAudioProducerCumulative =
   SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioProducerCumulative;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoConsumerItem {
-  bytesReceived?: number | null;
-  consumerId?: string | null;
-  firCount?: number | null;
-  frameHeight?: number | null;
-  frameWidth?: number | null;
-  framesDecoded?: number | null;
-  framesDropped?: number | null;
-  framesPerSecond?: number | null;
-  jitter?: number | null;
-  jitterBufferDelay?: number | null;
-  jitterBufferEmittedCount?: number | null;
-  keyFramesDecoded?: number | null;
-  mid?: string | null;
-  mosQuality?: number | null;
-  packetsLost?: number | null;
-  packetsReceived?: number | null;
-  peerId?: string | null;
-  producerId?: string | null;
-  ssrc?: number | null;
-  timestamp?: string | null;
+  bytesReceived?: number | null | undefined;
+  consumerId?: string | null | undefined;
+  firCount?: number | null | undefined;
+  frameHeight?: number | null | undefined;
+  frameWidth?: number | null | undefined;
+  framesDecoded?: number | null | undefined;
+  framesDropped?: number | null | undefined;
+  framesPerSecond?: number | null | undefined;
+  jitter?: number | null | undefined;
+  jitterBufferDelay?: number | null | undefined;
+  jitterBufferEmittedCount?: number | null | undefined;
+  keyFramesDecoded?: number | null | undefined;
+  mid?: string | null | undefined;
+  mosQuality?: number | null | undefined;
+  packetsLost?: number | null | undefined;
+  packetsReceived?: number | null | undefined;
+  peerId?: string | null | undefined;
+  producerId?: string | null | undefined;
+  ssrc?: number | null | undefined;
+  timestamp?: string | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoConsumerList =
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoConsumerItem>;
@@ -3299,9 +3640,9 @@ export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepor
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoConsumerCumulativeFrameWidth =
   SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoConsumerCumulativeIssues {
-  lagFraction?: number | null;
-  noVideoFraction?: number | null;
-  poorResolutionFraction?: number | null;
+  lagFraction?: number | null | undefined;
+  noVideoFraction?: number | null | undefined;
+  poorResolutionFraction?: number | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoConsumerCumulativeJitterBufferDelay =
   SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeJitterBufferDelay;
@@ -3311,23 +3652,41 @@ export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepor
   SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoConsumerCumulative {
   /** Distribution summary with average and percentiles. */
-  framePerSecond?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos | null;
+  framePerSecond?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos
+    | null
+    | undefined;
   /** Distribution summary with average and percentiles. */
-  frameWidth?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos | null;
-  issues?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoConsumerCumulativeIssues | null;
+  frameWidth?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos
+    | null
+    | undefined;
+  issues?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoConsumerCumulativeIssues
+    | null
+    | undefined;
   /** Cumulative latency distribution (milliseconds-based thresholds). */
-  jitterBufferDelay?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeJitterBufferDelay | null;
-  keyFramesDecodedFraction?: number | null;
+  jitterBufferDelay?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeJitterBufferDelay
+    | null
+    | undefined;
+  keyFramesDecodedFraction?: number | null | undefined;
   /** Cumulative packet loss distribution. */
-  packetLoss?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativePacketLoss | null;
+  packetLoss?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativePacketLoss
+    | null
+    | undefined;
   /** Distribution summary with average and percentiles. */
-  qualityMos?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos | null;
+  qualityMos?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos
+    | null
+    | undefined;
 }
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerItemQualityLimitationDurations {
-  bandwidth?: number | null;
-  cpu?: number | null;
-  none?: number | null;
-  other?: number | null;
+  bandwidth?: number | null | undefined;
+  cpu?: number | null | undefined;
+  none?: number | null | undefined;
+  other?: number | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerItemQualityLimitationReason =
   | "cpu"
@@ -3335,26 +3694,32 @@ export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepor
   | "none"
   | "other";
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerItem {
-  bytesSent?: number | null;
-  firCount?: number | null;
-  frameHeight?: number | null;
-  frameWidth?: number | null;
-  framesEncoded?: number | null;
-  framesPerSecond?: number | null;
-  jitter?: number | null;
-  keyFramesEncoded?: number | null;
-  mid?: string | null;
-  mosQuality?: number | null;
-  packetsLost?: number | null;
-  packetsSent?: number | null;
-  pliCount?: number | null;
-  producerId?: string | null;
-  qualityLimitationDurations?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerItemQualityLimitationDurations | null;
-  qualityLimitationReason?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerItemQualityLimitationReason | null;
-  qualityLimitationResolutionChanges?: number | null;
-  rtt?: number | null;
-  ssrc?: number | null;
-  timestamp?: string | null;
+  bytesSent?: number | null | undefined;
+  firCount?: number | null | undefined;
+  frameHeight?: number | null | undefined;
+  frameWidth?: number | null | undefined;
+  framesEncoded?: number | null | undefined;
+  framesPerSecond?: number | null | undefined;
+  jitter?: number | null | undefined;
+  keyFramesEncoded?: number | null | undefined;
+  mid?: string | null | undefined;
+  mosQuality?: number | null | undefined;
+  packetsLost?: number | null | undefined;
+  packetsSent?: number | null | undefined;
+  pliCount?: number | null | undefined;
+  producerId?: string | null | undefined;
+  qualityLimitationDurations?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerItemQualityLimitationDurations
+    | null
+    | undefined;
+  qualityLimitationReason?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerItemQualityLimitationReason
+    | null
+    | undefined;
+  qualityLimitationResolutionChanges?: number | null | undefined;
+  rtt?: number | null | undefined;
+  ssrc?: number | null | undefined;
+  timestamp?: string | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerList =
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerItem>;
@@ -3363,11 +3728,11 @@ export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepor
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerCumulativeFrameWidth =
   SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerCumulativeIssues {
-  bandwidthQualityLimitationFraction?: number | null;
-  cpuQualityLimitationFraction?: number | null;
-  noVideoFraction?: number | null;
-  poorResolutionFraction?: number | null;
-  qualityLimitationFraction?: number | null;
+  bandwidthQualityLimitationFraction?: number | null | undefined;
+  cpuQualityLimitationFraction?: number | null | undefined;
+  noVideoFraction?: number | null | undefined;
+  poorResolutionFraction?: number | null | undefined;
+  qualityLimitationFraction?: number | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerCumulativePacketLoss =
   SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativePacketLoss;
@@ -3377,18 +3742,36 @@ export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepor
   SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeJitterBufferDelay;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerCumulative {
   /** Distribution summary with average and percentiles. */
-  framePerSecond?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos | null;
+  framePerSecond?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos
+    | null
+    | undefined;
   /** Distribution summary with average and percentiles. */
-  frameWidth?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos | null;
-  highNegativeFeedbackFraction?: number | null;
-  issues?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerCumulativeIssues | null;
-  keyFramesEncodedFraction?: number | null;
+  frameWidth?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos
+    | null
+    | undefined;
+  highNegativeFeedbackFraction?: number | null | undefined;
+  issues?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerCumulativeIssues
+    | null
+    | undefined;
+  keyFramesEncodedFraction?: number | null | undefined;
   /** Cumulative packet loss distribution. */
-  packetLoss?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativePacketLoss | null;
+  packetLoss?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativePacketLoss
+    | null
+    | undefined;
   /** Distribution summary with average and percentiles. */
-  qualityMos?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos | null;
+  qualityMos?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeQualityMos
+    | null
+    | undefined;
   /** Cumulative latency distribution (milliseconds-based thresholds). */
-  rtt?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeJitterBufferDelay | null;
+  rtt?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulativeJitterBufferDelay
+    | null
+    | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityVideoConsumerItem =
   SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoConsumerItem;
@@ -3416,26 +3799,32 @@ export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepor
   | "none"
   | "other";
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityVideoProducerItem {
-  bytesSent?: number | null;
-  firCount?: number | null;
-  frameHeight?: number | null;
-  frameWidth?: number | null;
-  framesEncoded?: number | null;
-  framesPerSecond?: number | null;
-  jitter?: number | null;
-  keyFramesEncoded?: number | null;
-  mid?: string | null;
-  mosQuality?: number | null;
-  packetsLost?: number | null;
-  packetsSent?: number | null;
-  pliCount?: number | null;
-  producerId?: string | null;
-  qualityLimitationDurations?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerItemQualityLimitationDurations | null;
-  qualityLimitationReason?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityVideoProducerItemQualityLimitationReason | null;
-  qualityLimitationResolutionChanges?: number | null;
-  rtt?: number | null;
-  ssrc?: number | null;
-  timestamp?: string | null;
+  bytesSent?: number | null | undefined;
+  firCount?: number | null | undefined;
+  frameHeight?: number | null | undefined;
+  frameWidth?: number | null | undefined;
+  framesEncoded?: number | null | undefined;
+  framesPerSecond?: number | null | undefined;
+  jitter?: number | null | undefined;
+  keyFramesEncoded?: number | null | undefined;
+  mid?: string | null | undefined;
+  mosQuality?: number | null | undefined;
+  packetsLost?: number | null | undefined;
+  packetsSent?: number | null | undefined;
+  pliCount?: number | null | undefined;
+  producerId?: string | null | undefined;
+  qualityLimitationDurations?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerItemQualityLimitationDurations
+    | null
+    | undefined;
+  qualityLimitationReason?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityVideoProducerItemQualityLimitationReason
+    | null
+    | undefined;
+  qualityLimitationResolutionChanges?: number | null | undefined;
+  rtt?: number | null | undefined;
+  ssrc?: number | null | undefined;
+  timestamp?: string | null | undefined;
 }
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityVideoProducerList =
   Array<SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityVideoProducerItem>;
@@ -3454,70 +3843,130 @@ export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerRepor
 export type SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityVideoProducerCumulative =
   SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerCumulative;
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQuality {
-  audioConsumer?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerList | null;
+  audioConsumer?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerList
+    | null
+    | undefined;
   /** Aggregated inbound (consumer) audio statistics for the session. */
-  audioConsumerCumulative?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulative | null;
-  audioProducer?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioProducerList | null;
+  audioConsumerCumulative?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulative
+    | null
+    | undefined;
+  audioProducer?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioProducerList
+    | null
+    | undefined;
   /** Aggregated outbound (producer) audio statistics for the session. */
-  audioProducerCumulative?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioProducerCumulative | null;
-  screenshareAudioConsumer?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareAudioConsumerList | null;
+  audioProducerCumulative?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioProducerCumulative
+    | null
+    | undefined;
+  screenshareAudioConsumer?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareAudioConsumerList
+    | null
+    | undefined;
   /** Aggregated inbound (consumer) audio statistics for the session. */
-  screenshareAudioConsumerCumulative?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulative | null;
-  screenshareAudioProducer?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareAudioProducerList | null;
+  screenshareAudioConsumerCumulative?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerCumulative
+    | null
+    | undefined;
+  screenshareAudioProducer?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareAudioProducerList
+    | null
+    | undefined;
   /** Aggregated outbound (producer) audio statistics for the session. */
-  screenshareAudioProducerCumulative?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioProducerCumulative | null;
-  screenshareVideoConsumer?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoConsumerList | null;
+  screenshareAudioProducerCumulative?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioProducerCumulative
+    | null
+    | undefined;
+  screenshareVideoConsumer?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoConsumerList
+    | null
+    | undefined;
   /** Aggregated inbound (consumer) video statistics for the session. */
-  screenshareVideoConsumerCumulative?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoConsumerCumulative | null;
-  screenshareVideoProducer?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerList | null;
+  screenshareVideoConsumerCumulative?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoConsumerCumulative
+    | null
+    | undefined;
+  screenshareVideoProducer?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerList
+    | null
+    | undefined;
   /** Aggregated outbound (producer) video statistics for the session. */
-  screenshareVideoProducerCumulative?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerCumulative | null;
-  videoConsumer?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityVideoConsumerList | null;
+  screenshareVideoProducerCumulative?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerCumulative
+    | null
+    | undefined;
+  videoConsumer?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityVideoConsumerList
+    | null
+    | undefined;
   /** Aggregated inbound (consumer) video statistics for the session. */
-  videoConsumerCumulative?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoConsumerCumulative | null;
-  videoProducer?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityVideoProducerList | null;
+  videoConsumerCumulative?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoConsumerCumulative
+    | null
+    | undefined;
+  videoProducer?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityVideoProducerList
+    | null
+    | undefined;
   /** Aggregated outbound (producer) video statistics for the session. */
-  videoProducerCumulative?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerCumulative | null;
+  videoProducerCumulative?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerCumulative
+    | null
+    | undefined;
 }
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReport {
   /** Connection and device metadata for the participant. */
-  metadata?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadata | null;
+  metadata?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadata
+    | null
+    | undefined;
   /** Media quality statistics for the participant. */
-  quality?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQuality | null;
+  quality?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQuality
+    | null
+    | undefined;
 }
 export interface SessionsGetParticipantDataFromPeerIdResponseDataParticipant {
   /** ID of the participant. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** timestamp when this participant was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** ID passed by client to create this participant. */
-  customParticipantId?: string | null;
+  customParticipantId?: string | null | undefined;
   /** Display name of participant when joining the session. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** number of minutes for which the participant was in the session. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** timestamp at which participant joined the session. */
-  joinedAt?: string | null;
+  joinedAt?: string | null | undefined;
   /** timestamp at which participant left the session. */
-  leftAt?: string | null;
+  leftAt?: string | null | undefined;
   /** Connection lifecycle events for the participant's peer. */
-  peerEvents?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerEventsList | null;
+  peerEvents?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerEventsList
+    | null
+    | undefined;
   /** Peer call statistics report. */
-  peerReport?: SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReport | null;
+  peerReport?:
+    | SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReport
+    | null
+    | undefined;
   /** Name of the preset associated with the participant. */
-  role?: string | null;
-  sessionId?: string | null;
+  role?: string | null | undefined;
+  sessionId?: string | null | undefined;
   /** timestamp when this participant's data was last updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** User id for this participant. */
-  userId?: string | null;
+  userId?: string | null | undefined;
 }
 export interface SessionsGetParticipantDataFromPeerIdResponseData {
-  participant?: SessionsGetParticipantDataFromPeerIdResponseDataParticipant | null;
+  participant?: SessionsGetParticipantDataFromPeerIdResponseDataParticipant | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetParticipantDataFromPeerIdSessionResponse {
-  data?: SessionsGetParticipantDataFromPeerIdResponseData | null;
+  data?: SessionsGetParticipantDataFromPeerIdResponseData | null | undefined;
 }
 export interface GetPresetRequest {
   /** The account identifier tag. */
@@ -3525,28 +3974,28 @@ export interface GetPresetRequest {
   /** The app identifier tag. */
   appId: string;
   /** The page number from which you want your page search results to be displayed. */
-  pageNo?: number;
+  pageNo?: number | undefined;
   /** Number of results per page */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Search presets by name. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface PresetsGetResponseDataItem {
   /** ID of the preset */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Timestamp this preset was created at */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Name of the preset */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Timestamp this preset was last updated */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export type PresetsGetResponseDataList = Array<PresetsGetResponseDataItem>;
-export type PresetsGetResponsePaging = MeetingsGetResponsePaging;
+export type PresetsGetResponsePaging = LivestreamsGetAllLivestreamsResponsePaging;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetPresetResponse {
   data: PresetsGetResponseDataList;
-  paging: MeetingsGetResponsePaging;
+  paging: LivestreamsGetAllLivestreamsResponsePaging;
 }
 export interface GetPresetByIdPresetRequest {
   /** The account identifier tag. */
@@ -3581,7 +4030,7 @@ export interface PresetsGetPresetByIdResponseDataConfigMediaVideo {
   /** Video quality of participants */
   quality: PresetsGetPresetByIdResponseDataConfigMediaVideoQuality;
   /** Enable simulcast for participant videos. */
-  simulcast?: boolean | null;
+  simulcast?: boolean | null | undefined;
 }
 export type PresetsGetPresetByIdResponseDataConfigMediaAudio =
   PresetsCreateResponseDataConfigMediaAudio;
@@ -3591,7 +4040,7 @@ export interface PresetsGetPresetByIdResponseDataConfigMedia {
   /** Configuration options for participant videos */
   video: PresetsGetPresetByIdResponseDataConfigMediaVideo;
   /** Control options for Audio quality. */
-  audio?: PresetsCreateResponseDataConfigMediaAudio | null;
+  audio?: PresetsCreateResponseDataConfigMediaAudio | null | undefined;
 }
 export type PresetsGetPresetByIdResponseDataConfigViewType =
   | "GROUP_CALL"
@@ -3609,7 +4058,10 @@ export interface PresetsGetPresetByIdResponseDataConfig {
   /** Type of the meeting */
   viewType: PresetsGetPresetByIdResponseDataConfigViewType;
   /** Livestream viewer quality levels. */
-  livestreamViewerQualities?: PresetsGetPresetByIdResponseDataConfigLivestreamViewerQualitiesList | null;
+  livestreamViewerQualities?:
+    | PresetsGetPresetByIdResponseDataConfigLivestreamViewerQualitiesList
+    | null
+    | undefined;
 }
 export type PresetsGetPresetByIdResponseDataPermissionsChatPrivate =
   PresetsCreateRequestPermissionsChatPrivate;
@@ -3694,11 +4146,11 @@ export interface PresetsGetPresetByIdResponseDataPermissions {
   showParticipantList: boolean;
   /** Waiting room type */
   waitingRoomType: PresetsGetPresetByIdResponseDataPermissionsWaitingRoomType;
-  acceptStageRequests?: boolean | null;
-  isRecorder?: boolean | null;
-  stageAccess?: PresetsGetPresetByIdResponseDataPermissionsStageAccess | null;
-  stageEnabled?: boolean | null;
-  transcriptionEnabled?: boolean | null;
+  acceptStageRequests?: boolean | null | undefined;
+  isRecorder?: boolean | null | undefined;
+  stageAccess?: PresetsGetPresetByIdResponseDataPermissionsStageAccess | null | undefined;
+  stageEnabled?: boolean | null | undefined;
+  transcriptionEnabled?: boolean | null | undefined;
 }
 export type PresetsGetPresetByIdResponseDataUiDesignTokensBorderRadius =
   | "sharp"
@@ -3719,14 +4171,14 @@ export interface PresetsGetPresetByIdResponseDataUiDesignTokens {
   colors: PresetsCreateRequestUiDesignTokensColors;
   spacingBase: number;
   theme: PresetsGetPresetByIdResponseDataUiDesignTokensTheme;
-  fontFamily?: string | null;
-  googleFont?: string | null;
-  logo?: string | null;
+  fontFamily?: string | null | undefined;
+  googleFont?: string | null | undefined;
+  logo?: string | null | undefined;
 }
 export interface PresetsGetPresetByIdResponseDataUi {
   designTokens: PresetsGetPresetByIdResponseDataUiDesignTokens;
   /** Difference between the preset's UI config and the defaults. */
-  configDiff?: unknown | null;
+  configDiff?: unknown | null | undefined;
 }
 export interface PresetsGetPresetByIdResponseData {
   /** ID of the preset */
@@ -3764,23 +4216,23 @@ export interface GetRecordingsRecordingRequest {
   /** The app identifier tag. */
   appId: string;
   /** The end time range for which you want to retrieve the meetings. The time must be specified in ISO format. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** If passed, only shows expired/non-expired recordings on RealtimeKit's bucket */
-  expired?: boolean;
+  expired?: boolean | undefined;
   /** ID of a meeting. Optional. Will limit results to only this meeting if passed. */
-  meetingId?: string;
+  meetingId?: string | undefined;
   /** The page number from which you want your page search results to be displayed. */
-  pageNo?: number;
+  pageNo?: number | undefined;
   /** Number of results per page */
-  perPage?: number;
+  perPage?: number | undefined;
   /** The search query string. You can search using the meeting ID or title. */
-  search?: string;
-  sortBy?: RecordingsGetRecordingsRequestSortBy | (string & {});
-  sortOrder?: RecordingsGetRecordingsRequestSortOrder | (string & {});
+  search?: string | undefined;
+  sortBy?: RecordingsGetRecordingsRequestSortBy | (string & {}) | undefined;
+  sortOrder?: RecordingsGetRecordingsRequestSortOrder | (string & {}) | undefined;
   /** The start time range for which you want to retrieve the meetings. The time must be specified in ISO format. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Filter by one or more recording status */
-  status?: RecordingsGetRecordingsRequestStatusList;
+  status?: RecordingsGetRecordingsRequestStatusList | undefined;
 }
 export type RecordingsGetRecordingsResponseDataItemStatus =
   | "INVOKED"
@@ -3797,11 +4249,17 @@ export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigAudioCo
   | "AAC";
 export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
-  channel?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigAudioConfigChannel | null;
+  channel?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigAudioConfigChannel
+    | null
+    | undefined;
   /** Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis. */
-  codec?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigAudioConfigCodec | null;
+  codec?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigAudioConfigCodec
+    | null
+    | undefined;
   /** Controls whether to export audio file seperately */
-  exportFile?: boolean | null;
+  exportFile?: boolean | null | undefined;
 }
 export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigLiveStreamingConfig =
   MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig;
@@ -3814,28 +4272,34 @@ export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorage
   "gcs";
 export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
+  accessKey?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0AuthMethod | null;
+  authMethod?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0Type | null;
+  secret?: string | null | undefined;
+  type?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0Type
+    | null
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1AuthMethod =
   | "KEY"
@@ -3848,24 +4312,30 @@ export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigSt
   accessKey: unknown;
   region: unknown;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1AuthMethod | null;
+  authMethod?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1Type | null;
+  secret?: string | null | undefined;
+  type?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase1Type
+    | null
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2AuthMethod =
   "KEY";
@@ -3879,26 +4349,32 @@ export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigSt
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2Type | null;
+  type?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase2Type
+    | null
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3AuthMethod =
   "PASSWORD";
@@ -3912,26 +4388,32 @@ export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigSt
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3Type | null;
+  type?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase3Type
+    | null
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfig =
   | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfigCase0
@@ -3951,35 +4433,59 @@ export type RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigVideoCo
   MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize;
 export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigVideoConfigWatermark {
   /** Position of the watermark */
-  position?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigVideoConfigWatermarkPosition | null;
+  position?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigVideoConfigWatermarkPosition
+    | null
+    | undefined;
   /** Size of the watermark */
-  size?: MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize | null;
+  size?: MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize | null | undefined;
   /** URL of the watermark image */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigVideoConfig {
   /** Codec using which the recording will be encoded. */
-  codec?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigVideoConfigCodec | null;
+  codec?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigVideoConfigCodec
+    | null
+    | undefined;
   /** Controls whether to export video file seperately */
-  exportFile?: boolean | null;
+  exportFile?: boolean | null | undefined;
   /** Height of the recording video in pixels */
-  height?: number | null;
+  height?: number | null | undefined;
   /** Watermark to be added to the recording */
-  watermark?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigVideoConfigWatermark | null;
+  watermark?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigVideoConfigWatermark
+    | null
+    | undefined;
   /** Width of the recording video in pixels */
-  width?: number | null;
+  width?: number | null | undefined;
 }
 export interface RecordingsGetRecordingsResponseDataItemMeetingRecordingConfig {
   /** Object containing configuration regarding the audio that is being recorded. */
-  audioConfig?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigAudioConfig | null;
+  audioConfig?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigAudioConfig
+    | null
+    | undefined;
   /** Adds a prefix to the beginning of the file name of the recording. */
-  fileNamePrefix?: string | null;
-  liveStreamingConfig?: MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig | null;
+  fileNamePrefix?: string | null | undefined;
+  liveStreamingConfig?:
+    | MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig
+    | null
+    | undefined;
   /** Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours. */
-  maxSeconds?: number | null;
-  realtimekitBucketConfig?: MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig | null;
-  storageConfig?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfig | null;
-  videoConfig?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigVideoConfig | null;
+  maxSeconds?: number | null | undefined;
+  realtimekitBucketConfig?:
+    | MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig
+    | null
+    | undefined;
+  storageConfig?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigStorageConfig
+    | null
+    | undefined;
+  videoConfig?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfigVideoConfig
+    | null
+    | undefined;
 }
 export type RecordingsGetRecordingsResponseDataItemMeetingStatus = "ACTIVE" | "INACTIVE";
 export interface RecordingsGetRecordingsResponseDataItemMeeting {
@@ -3990,23 +4496,26 @@ export interface RecordingsGetRecordingsResponseDataItemMeeting {
   /** Timestamp the object was updated at. The time is returned in ISO format. */
   updatedAt: string;
   /** Specifies if the meeting should start getting livestreamed on start. */
-  liveStreamOnStart?: boolean | null;
+  liveStreamOnStart?: boolean | null | undefined;
   /** Specifies if Chat within a meeting should persist for a week. */
-  persistChat?: boolean | null;
+  persistChat?: boolean | null | undefined;
   /** Specifies if the meeting should start getting recorded as soon as someone joins the meeting. */
-  recordOnStart?: boolean | null;
+  recordOnStart?: boolean | null | undefined;
   /** Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal. */
-  recordingConfig?: RecordingsGetRecordingsResponseDataItemMeetingRecordingConfig | null;
+  recordingConfig?:
+    | RecordingsGetRecordingsResponseDataItemMeetingRecordingConfig
+    | null
+    | undefined;
   /** Time in seconds, for which a session remains active, after the last participant has left the meeting. */
-  sessionKeepAliveTimeInSecs?: number | null;
+  sessionKeepAliveTimeInSecs?: number | null | undefined;
   /** Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting. */
-  status?: RecordingsGetRecordingsResponseDataItemMeetingStatus | null;
+  status?: RecordingsGetRecordingsResponseDataItemMeetingStatus | null | undefined;
   /** Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API. */
-  summarizeOnEnd?: boolean | null;
+  summarizeOnEnd?: boolean | null | undefined;
   /** Title of the meeting. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Automatically generate transcripts when the meeting ends. */
-  transcribeOnEnd?: boolean | null;
+  transcribeOnEnd?: boolean | null | undefined;
 }
 export type RecordingsGetRecordingsResponseDataItemStorageConfigCase0AuthMethod =
   | "KEY"
@@ -4014,28 +4523,31 @@ export type RecordingsGetRecordingsResponseDataItemStorageConfigCase0AuthMethod 
 export type RecordingsGetRecordingsResponseDataItemStorageConfigCase0Type = "gcs";
 export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
+  accessKey?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: RecordingsGetRecordingsResponseDataItemStorageConfigCase0AuthMethod | null;
+  authMethod?:
+    | RecordingsGetRecordingsResponseDataItemStorageConfigCase0AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase0Type | null;
+  secret?: string | null | undefined;
+  type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase0Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsGetRecordingsResponseDataItemStorageConfigCase1AuthMethod =
   | "KEY"
@@ -4048,24 +4560,27 @@ export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: RecordingsGetRecordingsResponseDataItemStorageConfigCase1AuthMethod | null;
+  authMethod?:
+    | RecordingsGetRecordingsResponseDataItemStorageConfigCase1AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase1Type | null;
+  secret?: string | null | undefined;
+  type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase1Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsGetRecordingsResponseDataItemStorageConfigCase2AuthMethod = "KEY";
 export type RecordingsGetRecordingsResponseDataItemStorageConfigCase2Type =
@@ -4078,26 +4593,29 @@ export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase2 {
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: RecordingsGetRecordingsResponseDataItemStorageConfigCase2AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?:
+    | RecordingsGetRecordingsResponseDataItemStorageConfigCase2AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase2Type | null;
+  type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase2Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsGetRecordingsResponseDataItemStorageConfigCase3AuthMethod = "PASSWORD";
 export type RecordingsGetRecordingsResponseDataItemStorageConfigCase3Type =
@@ -4110,26 +4628,29 @@ export interface RecordingsGetRecordingsResponseDataItemStorageConfigCase3 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: RecordingsGetRecordingsResponseDataItemStorageConfigCase3AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?:
+    | RecordingsGetRecordingsResponseDataItemStorageConfigCase3AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase3Type | null;
+  type?: RecordingsGetRecordingsResponseDataItemStorageConfigCase3Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsGetRecordingsResponseDataItemStorageConfig =
   | RecordingsGetRecordingsResponseDataItemStorageConfigCase0
@@ -4159,18 +4680,18 @@ export interface RecordingsGetRecordingsResponseDataItem {
   status: RecordingsGetRecordingsResponseDataItemStatus;
   /** Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped. */
   stoppedTime: string;
-  meeting?: RecordingsGetRecordingsResponseDataItemMeeting | null;
+  meeting?: RecordingsGetRecordingsResponseDataItemMeeting | null | undefined;
   /** Total recording time in seconds. */
-  recordingDuration?: number | null;
-  storageConfig?: RecordingsGetRecordingsResponseDataItemStorageConfig | null;
+  recordingDuration?: number | null | undefined;
+  storageConfig?: RecordingsGetRecordingsResponseDataItemStorageConfig | null | undefined;
 }
 export type RecordingsGetRecordingsResponseDataList =
   Array<RecordingsGetRecordingsResponseDataItem>;
-export type RecordingsGetRecordingsResponsePaging = MeetingsGetResponsePaging;
+export type RecordingsGetRecordingsResponsePaging = LivestreamsGetAllLivestreamsResponsePaging;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetRecordingsRecordingResponse {
   data: RecordingsGetRecordingsResponseDataList;
-  paging: MeetingsGetResponsePaging;
+  paging: LivestreamsGetAllLivestreamsResponsePaging;
 }
 export interface GetSessionChatSessionRequest {
   /** The account identifier tag. */
@@ -4187,7 +4708,7 @@ export interface SessionsGetSessionChatResponseData {
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetSessionChatSessionResponse {
-  data?: SessionsGetSessionChatResponseData | null;
+  data?: SessionsGetSessionChatResponseData | null | undefined;
 }
 export interface GetSessionDetailsSessionRequest {
   /** The account identifier tag. */
@@ -4196,7 +4717,7 @@ export interface GetSessionDetailsSessionRequest {
   appId: string;
   sessionId: string;
   /** List all breakout rooms */
-  includeBreakoutRooms?: boolean;
+  includeBreakoutRooms?: boolean | undefined;
 }
 export type SessionsGetSessionDetailsResponseDataStatus = "LIVE" | "ENDED";
 export type SessionsGetSessionDetailsResponseDataType = "meeting" | "livestream" | "participant";
@@ -4226,13 +4747,13 @@ export interface SessionsGetSessionDetailsResponseData {
   type: SessionsGetSessionDetailsResponseDataType;
   /** timestamp when session was last updated */
   updatedAt: string;
-  breakoutRooms?: SessionsGetSessionDetailsResponseDataBreakoutRoomsList | null;
+  breakoutRooms?: SessionsGetSessionDetailsResponseDataBreakoutRoomsList | null | undefined;
   /** timestamp when session ended */
-  endedAt?: string | null;
+  endedAt?: string | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetSessionDetailsSessionResponse {
-  data?: SessionsGetSessionDetailsResponseData | null;
+  data?: SessionsGetSessionDetailsResponseData | null | undefined;
 }
 export interface GetSessionParticipantDetailsSessionRequest {
   /** The account identifier tag. */
@@ -4242,7 +4763,7 @@ export interface GetSessionParticipantDetailsSessionRequest {
   sessionId: string;
   participantId: string;
   /** if true, response includes all the peer events of participant. */
-  includePeerEvents?: boolean;
+  includePeerEvents?: boolean | undefined;
 }
 export type SessionsGetSessionParticipantDetailsResponseDataParticipantPeerEventsItemEventName =
   | "PEER_CREATED"
@@ -4256,58 +4777,67 @@ export type SessionsGetSessionParticipantDetailsResponseDataParticipantPeerEvent
   | "CHAT";
 export interface SessionsGetSessionParticipantDetailsResponseDataParticipantPeerEventsItem {
   /** ID of the peer event. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Timestamp when this peer event was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Name of the peer event. */
-  eventName?: SessionsGetSessionParticipantDetailsResponseDataParticipantPeerEventsItemEventName | null;
+  eventName?:
+    | SessionsGetSessionParticipantDetailsResponseDataParticipantPeerEventsItemEventName
+    | null
+    | undefined;
   /** Minutes consumed attributed to this event. */
-  minutesConsumed?: number | null;
+  minutesConsumed?: number | null | undefined;
   /** ID of the participant this event belongs to. */
-  participantId?: string | null;
+  participantId?: string | null | undefined;
   /** Peer ID this event belongs to. */
-  peerId?: string | null;
+  peerId?: string | null | undefined;
   /** View type of the preset associated with the peer. */
-  presetViewType?: SessionsGetSessionParticipantDetailsResponseDataParticipantPeerEventsItemPresetViewType | null;
+  presetViewType?:
+    | SessionsGetSessionParticipantDetailsResponseDataParticipantPeerEventsItemPresetViewType
+    | null
+    | undefined;
   /** ID of the session this event belongs to. */
-  sessionId?: string | null;
+  sessionId?: string | null | undefined;
   /** ID of the socket session associated with this event. */
-  socketSessionId?: string | null;
+  socketSessionId?: string | null | undefined;
   /** Timestamp when this peer event was last updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export type SessionsGetSessionParticipantDetailsResponseDataParticipantPeerEventsList =
   Array<SessionsGetSessionParticipantDetailsResponseDataParticipantPeerEventsItem>;
 export interface SessionsGetSessionParticipantDetailsResponseDataParticipant {
   /** Participant ID. This maps to the corresponding peerId. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** timestamp when this participant was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** ID passed by client to create this participant. */
-  customParticipantId?: string | null;
+  customParticipantId?: string | null | undefined;
   /** Display name of participant when joining the session. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** number of minutes for which the participant was in the session. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** timestamp at which participant joined the session. */
-  joinedAt?: string | null;
+  joinedAt?: string | null | undefined;
   /** timestamp at which participant left the session. */
-  leftAt?: string | null;
+  leftAt?: string | null | undefined;
   /** Connection lifecycle events for the participant's peer. Only included when `include_peer_events` is true. */
-  peerEvents?: SessionsGetSessionParticipantDetailsResponseDataParticipantPeerEventsList | null;
+  peerEvents?:
+    | SessionsGetSessionParticipantDetailsResponseDataParticipantPeerEventsList
+    | null
+    | undefined;
   /** Name of the preset associated with the participant. */
-  presetName?: string | null;
+  presetName?: string | null | undefined;
   /** timestamp when this participant's data was last updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** User id for this participant. */
-  userId?: string | null;
+  userId?: string | null | undefined;
 }
 export interface SessionsGetSessionParticipantDetailsResponseData {
-  participant?: SessionsGetSessionParticipantDetailsResponseDataParticipant | null;
+  participant?: SessionsGetSessionParticipantDetailsResponseDataParticipant | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetSessionParticipantDetailsSessionResponse {
-  data?: SessionsGetSessionParticipantDetailsResponseData | null;
+  data?: SessionsGetSessionParticipantDetailsResponseData | null | undefined;
 }
 export type SessionsGetSessionParticipantsRequestSortBy = "joinedAt" | "duration";
 export type SessionsGetSessionParticipantsRequestSortOrder = "ASC" | "DESC";
@@ -4319,17 +4849,17 @@ export interface GetSessionParticipantsSessionRequest {
   appId: string;
   sessionId: string;
   /** if true, response includes all the peer events of participants. */
-  includePeerEvents?: boolean;
+  includePeerEvents?: boolean | undefined;
   /** The page number from which you want your page search results to be displayed. */
-  pageNo?: number;
+  pageNo?: number | undefined;
   /** Number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** The search query string. You can search using participant ID, custom participant ID, or display name. */
-  search?: string;
-  sortBy?: SessionsGetSessionParticipantsRequestSortBy | (string & {});
-  sortOrder?: SessionsGetSessionParticipantsRequestSortOrder | (string & {});
+  search?: string | undefined;
+  sortBy?: SessionsGetSessionParticipantsRequestSortBy | (string & {}) | undefined;
+  sortOrder?: SessionsGetSessionParticipantsRequestSortOrder | (string & {}) | undefined;
   /** In breakout room sessions, the view parameter can be set to `raw` for session specific duration for participants or `consolidated` to accumulate breakout room durations. */
-  view?: SessionsGetSessionParticipantsRequestView | (string & {});
+  view?: SessionsGetSessionParticipantsRequestView | (string & {}) | undefined;
 }
 export type SessionsGetSessionParticipantsResponseDataParticipantsItemPeerEventsItemEventName =
   | "PEER_CREATED"
@@ -4343,60 +4873,69 @@ export type SessionsGetSessionParticipantsResponseDataParticipantsItemPeerEvents
   | "CHAT";
 export interface SessionsGetSessionParticipantsResponseDataParticipantsItemPeerEventsItem {
   /** ID of the peer event. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Timestamp when this peer event was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Name of the peer event. */
-  eventName?: SessionsGetSessionParticipantsResponseDataParticipantsItemPeerEventsItemEventName | null;
+  eventName?:
+    | SessionsGetSessionParticipantsResponseDataParticipantsItemPeerEventsItemEventName
+    | null
+    | undefined;
   /** Minutes consumed attributed to this event. */
-  minutesConsumed?: number | null;
+  minutesConsumed?: number | null | undefined;
   /** ID of the participant this event belongs to. */
-  participantId?: string | null;
+  participantId?: string | null | undefined;
   /** Peer ID this event belongs to. */
-  peerId?: string | null;
+  peerId?: string | null | undefined;
   /** View type of the preset associated with the peer. */
-  presetViewType?: SessionsGetSessionParticipantsResponseDataParticipantsItemPeerEventsItemPresetViewType | null;
+  presetViewType?:
+    | SessionsGetSessionParticipantsResponseDataParticipantsItemPeerEventsItemPresetViewType
+    | null
+    | undefined;
   /** ID of the session this event belongs to. */
-  sessionId?: string | null;
+  sessionId?: string | null | undefined;
   /** ID of the socket session associated with this event. */
-  socketSessionId?: string | null;
+  socketSessionId?: string | null | undefined;
   /** Timestamp when this peer event was last updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export type SessionsGetSessionParticipantsResponseDataParticipantsItemPeerEventsList =
   Array<SessionsGetSessionParticipantsResponseDataParticipantsItemPeerEventsItem>;
 export interface SessionsGetSessionParticipantsResponseDataParticipantsItem {
   /** Participant ID. This maps to the corresponding peerId. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** timestamp when this participant was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** ID passed by client to create this participant. */
-  customParticipantId?: string | null;
+  customParticipantId?: string | null | undefined;
   /** Display name of participant when joining the session. */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** number of minutes for which the participant was in the session. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** timestamp at which participant joined the session. */
-  joinedAt?: string | null;
+  joinedAt?: string | null | undefined;
   /** timestamp at which participant left the session. */
-  leftAt?: string | null;
+  leftAt?: string | null | undefined;
   /** Connection lifecycle events for the participant's peer. Only included when `include_peer_events` is true. */
-  peerEvents?: SessionsGetSessionParticipantsResponseDataParticipantsItemPeerEventsList | null;
+  peerEvents?:
+    | SessionsGetSessionParticipantsResponseDataParticipantsItemPeerEventsList
+    | null
+    | undefined;
   /** Name of the preset associated with the participant. */
-  presetName?: string | null;
+  presetName?: string | null | undefined;
   /** timestamp when this participant's data was last updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** User id for this participant. */
-  userId?: string | null;
+  userId?: string | null | undefined;
 }
 export type SessionsGetSessionParticipantsResponseDataParticipantsList =
   Array<SessionsGetSessionParticipantsResponseDataParticipantsItem>;
 export interface SessionsGetSessionParticipantsResponseData {
-  participants?: SessionsGetSessionParticipantsResponseDataParticipantsList | null;
+  participants?: SessionsGetSessionParticipantsResponseDataParticipantsList | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetSessionParticipantsSessionResponse {
-  data?: SessionsGetSessionParticipantsResponseData | null;
+  data?: SessionsGetSessionParticipantsResponseData | null | undefined;
 }
 export type SessionsGetSessionsRequestSortBy = "minutesConsumed" | "createdAt";
 export type SessionsGetSessionsRequestSortOrder = "ASC" | "DESC";
@@ -4407,21 +4946,21 @@ export interface GetSessionsSessionRequest {
   /** The app identifier tag. */
   appId: string;
   /** ID of the meeting that sessions should be associated with */
-  associatedId?: string;
+  associatedId?: string | undefined;
   /** The end time range for which you want to retrieve the meetings. The time must be specified in ISO format. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The page number from which you want your page search results to be displayed. */
-  pageNo?: number;
-  participants?: string;
+  pageNo?: number | undefined;
+  participants?: string | undefined;
   /** Number of results per page */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Search string that matches sessions based on meeting title, meeting ID, and session ID */
-  search?: string;
-  sortBy?: SessionsGetSessionsRequestSortBy | (string & {});
-  sortOrder?: SessionsGetSessionsRequestSortOrder | (string & {});
+  search?: string | undefined;
+  sortBy?: SessionsGetSessionsRequestSortBy | (string & {}) | undefined;
+  sortOrder?: SessionsGetSessionsRequestSortOrder | (string & {}) | undefined;
   /** The start time range for which you want to retrieve the meetings. The time must be specified in ISO format. */
-  startTime?: string;
-  status?: SessionsGetSessionsRequestStatus | (string & {});
+  startTime?: string | undefined;
+  status?: SessionsGetSessionsRequestStatus | (string & {}) | undefined;
 }
 export type SessionsGetSessionsResponseDataSessionsItemStatus = "LIVE" | "ENDED";
 export type SessionsGetSessionsResponseDataSessionsItemType =
@@ -4454,20 +4993,20 @@ export interface SessionsGetSessionsResponseDataSessionsItem {
   type: SessionsGetSessionsResponseDataSessionsItemType;
   /** timestamp when session was last updated */
   updatedAt: string;
-  breakoutRooms?: SessionsGetSessionsResponseDataSessionsItemBreakoutRoomsList | null;
+  breakoutRooms?: SessionsGetSessionsResponseDataSessionsItemBreakoutRoomsList | null | undefined;
   /** timestamp when session ended */
-  endedAt?: string | null;
+  endedAt?: string | null | undefined;
 }
 export type SessionsGetSessionsResponseDataSessionsList =
   Array<SessionsGetSessionsResponseDataSessionsItem>;
 export interface SessionsGetSessionsResponseData {
-  sessions?: SessionsGetSessionsResponseDataSessionsList | null;
+  sessions?: SessionsGetSessionsResponseDataSessionsList | null | undefined;
 }
-export type SessionsGetSessionsResponsePaging = LivestreamsGetAllLivestreamsResponseDataPaging;
+export type SessionsGetSessionsResponsePaging = AppsGetResponsePaging;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetSessionsSessionResponse {
-  data?: SessionsGetSessionsResponseData | null;
-  paging?: LivestreamsGetAllLivestreamsResponseDataPaging | null;
+  data?: SessionsGetSessionsResponseData | null | undefined;
+  paging?: AppsGetResponsePaging | null | undefined;
 }
 export interface GetSessionSummarySessionRequest {
   /** The account identifier tag. */
@@ -4485,7 +5024,7 @@ export interface SessionsGetSessionSummaryResponseData {
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetSessionSummarySessionResponse {
-  data?: SessionsGetSessionSummaryResponseData | null;
+  data?: SessionsGetSessionSummaryResponseData | null | undefined;
 }
 export type SessionsGetSessionTranscriptsRequestFormat = "SRT" | "VTT" | "JSON" | "CSV";
 export interface GetSessionTranscriptsSessionRequest {
@@ -4495,7 +5034,7 @@ export interface GetSessionTranscriptsSessionRequest {
   appId: string;
   sessionId: string;
   /** Transcript file format to fetch. */
-  format?: SessionsGetSessionTranscriptsRequestFormat | (string & {});
+  format?: SessionsGetSessionTranscriptsRequestFormat | (string & {}) | undefined;
 }
 export interface SessionsGetSessionTranscriptsResponseData {
   sessionId: string;
@@ -4506,7 +5045,7 @@ export interface SessionsGetSessionTranscriptsResponseData {
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetSessionTranscriptsSessionResponse {
-  data?: SessionsGetSessionTranscriptsResponseData | null;
+  data?: SessionsGetSessionTranscriptsResponseData | null | undefined;
 }
 export interface GetWebhookByIdWebhookRequest {
   /** The account identifier tag. */
@@ -4594,12 +5133,12 @@ export interface KickAllParticipantsActiveSessionRequest {
   meetingId: string;
 }
 export interface ActiveSessionKickAllParticipantsResponseData {
-  action?: string | null;
-  kickedParticipantsCount?: number | null;
+  action?: string | null | undefined;
+  kickedParticipantsCount?: number | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface KickAllParticipantsActiveSessionResponse {
-  data?: ActiveSessionKickAllParticipantsResponseData | null;
+  data?: ActiveSessionKickAllParticipantsResponseData | null | undefined;
 }
 export type ActiveSessionKickParticipantsRequestCustomParticipantIdsList = Array<string>;
 export type ActiveSessionKickParticipantsRequestParticipantIdsList = Array<string>;
@@ -4609,30 +5148,20 @@ export interface KickParticipantsActiveSessionRequest {
   /** The app identifier tag. */
   appId: string;
   meetingId: string;
-  customParticipantIds?: ActiveSessionKickParticipantsRequestCustomParticipantIdsList;
-  participantIds?: ActiveSessionKickParticipantsRequestParticipantIdsList;
+  customParticipantIds?: ActiveSessionKickParticipantsRequestCustomParticipantIdsList | undefined;
+  participantIds?: ActiveSessionKickParticipantsRequestParticipantIdsList | undefined;
 }
-export interface ActiveSessionKickParticipantsResponseDataParticipantsItem {
-  /** ID of the session participant */
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-  /** Email of the session participant. */
-  email?: string | null;
-  /** Name of the session participant. */
-  name?: string | null;
-  /** A URL pointing to a picture of the participant. */
-  picture?: string | null;
-}
+export type ActiveSessionKickParticipantsResponseDataParticipantsItem =
+  ActiveSessionMuteParticipantsResponseDataParticipantsItem;
 export type ActiveSessionKickParticipantsResponseDataParticipantsList =
-  Array<ActiveSessionKickParticipantsResponseDataParticipantsItem>;
+  Array<ActiveSessionMuteParticipantsResponseDataParticipantsItem>;
 export interface ActiveSessionKickParticipantsResponseData {
-  action?: string | null;
-  participants?: ActiveSessionKickParticipantsResponseDataParticipantsList | null;
+  action?: string | null | undefined;
+  participants?: ActiveSessionKickParticipantsResponseDataParticipantsList | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface KickParticipantsActiveSessionResponse {
-  data?: ActiveSessionKickParticipantsResponseData | null;
+  data?: ActiveSessionKickParticipantsResponseData | null | undefined;
 }
 export interface LivestreamsGetOrgAnalyticsRequest {
   /** The account identifier tag. */
@@ -4640,9 +5169,9 @@ export interface LivestreamsGetOrgAnalyticsRequest {
   /** The app identifier tag. */
   appId: string;
   /** end date in YYYY-MM-DD format */
-  endDate?: string;
+  endDate?: string | undefined;
   /** start date in YYYY-MM-DD format */
-  startDate?: string;
+  startDate?: string | undefined;
 }
 export type LivestreamsGetOrgAnalyticsResponseDataRecordingStatsDayStatsItem =
   AnalyticsGetOrgAnalyticsResponseDataRecordingStatsDayStatsItem;
@@ -4650,11 +5179,11 @@ export type LivestreamsGetOrgAnalyticsResponseDataRecordingStatsDayStatsList =
   Array<AnalyticsGetOrgAnalyticsResponseDataRecordingStatsDayStatsItem>;
 export interface LivestreamsGetOrgAnalyticsResponseDataRecordingStats {
   /** Day wise recording stats */
-  dayStats?: LivestreamsGetOrgAnalyticsResponseDataRecordingStatsDayStatsList | null;
+  dayStats?: LivestreamsGetOrgAnalyticsResponseDataRecordingStatsDayStatsList | null | undefined;
   /** Total number of recordings during the range specified */
-  recordingCount?: number | null;
+  recordingCount?: number | null | undefined;
   /** Total recording minutes during the range specified */
-  recordingMinutesConsumed?: number | null;
+  recordingMinutesConsumed?: number | null | undefined;
 }
 export type LivestreamsGetOrgAnalyticsResponseDataSessionStatsDayStatsItem =
   AnalyticsGetOrgAnalyticsResponseDataSessionStatsDayStatsItem;
@@ -4662,28 +5191,67 @@ export type LivestreamsGetOrgAnalyticsResponseDataSessionStatsDayStatsList =
   Array<AnalyticsGetOrgAnalyticsResponseDataSessionStatsDayStatsItem>;
 export interface LivestreamsGetOrgAnalyticsResponseDataSessionStats {
   /** Day wise session stats */
-  dayStats?: LivestreamsGetOrgAnalyticsResponseDataSessionStatsDayStatsList | null;
+  dayStats?: LivestreamsGetOrgAnalyticsResponseDataSessionStatsDayStatsList | null | undefined;
   /** Total number of sessions during the range specified */
-  sessionsCount?: number | null;
+  sessionsCount?: number | null | undefined;
   /** Total session minutes during the range specified */
-  sessionsMinutesConsumed?: number | null;
+  sessionsMinutesConsumed?: number | null | undefined;
 }
 export interface LivestreamsGetOrgAnalyticsResponseData {
   /** Recording statistics of an App during the range specified */
-  recordingStats?: LivestreamsGetOrgAnalyticsResponseDataRecordingStats | null;
+  recordingStats?: LivestreamsGetOrgAnalyticsResponseDataRecordingStats | null | undefined;
   /** Session statistics of an App during the range specified */
-  sessionStats?: LivestreamsGetOrgAnalyticsResponseDataSessionStats | null;
+  sessionStats?: LivestreamsGetOrgAnalyticsResponseDataSessionStats | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface LivestreamsGetOrgAnalyticsResponse {
-  data?: LivestreamsGetOrgAnalyticsResponseData | null;
+  data?: LivestreamsGetOrgAnalyticsResponseData | null | undefined;
+}
+export interface MeetingsReplaceParticipantRequest {
+  /** The account identifier tag. */
+  accountId: string;
+  /** The app identifier tag. */
+  appId: string;
+  meetingId: string;
+  participantId: string;
+  /** Unique participant ID accepted by the replace participant API. */
+  customParticipantId: string;
+  /** Name of the preset to apply to this participant. */
+  presetName: string;
+  /** (Optional) Name of the participant. */
+  name?: string | undefined;
+  /** (Optional) A URL to a picture to be used for the participant. */
+  picture?: string | undefined;
+}
+export type MeetingsReplaceParticipantResponseData = MeetingsAddParticipantResponseData;
+/** Raw response payload (operation does not use the standard v4 result envelope). */
+export interface MeetingsReplaceParticipantResponse {
+  /** Represents a participant. */
+  data?: MeetingsAddParticipantResponseData | null | undefined;
+}
+export interface MeetingsRevokeParticipantTokenRequest {
+  /** The account identifier tag. */
+  accountId: string;
+  /** The app identifier tag. */
+  appId: string;
+  meetingId: string;
+  participantId: string;
+}
+export interface MeetingsRevokeParticipantTokenResponseData {
+  /** The revoked participant authentication token. */
+  token: string;
+}
+/** Raw response payload (operation does not use the standard v4 result envelope). */
+export interface MeetingsRevokeParticipantTokenResponse {
+  /** Data returned by the operation */
+  data: MeetingsRevokeParticipantTokenResponseData;
 }
 export type PresetsUpdateRequestConfigLivestreamViewerQualitiesList = Array<number>;
 export interface PresetsUpdateRequestConfigMaxVideoStreams {
   /** Maximum number of video streams visible on desktop devices */
-  desktop?: number;
+  desktop?: number | undefined;
   /** Maximum number of streams visible on mobile devices */
-  mobile?: number;
+  mobile?: number | undefined;
 }
 export type PresetsUpdateRequestConfigMediaAudio = PresetsCreateRequestConfigMediaAudio;
 export type PresetsUpdateRequestConfigMediaScreenshareQuality =
@@ -4694,26 +5262,26 @@ export type PresetsUpdateRequestConfigMediaScreenshareQuality =
   | "uhd";
 export interface PresetsUpdateRequestConfigMediaScreenshare {
   /** Frame rate of screen share */
-  frameRate?: number;
+  frameRate?: number | undefined;
   /** Quality of screen share */
-  quality?: PresetsUpdateRequestConfigMediaScreenshareQuality | (string & {});
+  quality?: PresetsUpdateRequestConfigMediaScreenshareQuality | (string & {}) | undefined;
 }
 export type PresetsUpdateRequestConfigMediaVideoQuality = "hd" | "vga" | "qvga" | "fhd" | "uhd";
 export interface PresetsUpdateRequestConfigMediaVideo {
   /** Frame rate of participants' video */
-  frameRate?: number;
+  frameRate?: number | undefined;
   /** Video quality of participants */
-  quality?: PresetsUpdateRequestConfigMediaVideoQuality | (string & {});
+  quality?: PresetsUpdateRequestConfigMediaVideoQuality | (string & {}) | undefined;
   /** Enable simulcast for participant videos. */
-  simulcast?: boolean;
+  simulcast?: boolean | undefined;
 }
 export interface PresetsUpdateRequestConfigMedia {
   /** Control options for Audio quality. */
-  audio?: PresetsCreateRequestConfigMediaAudio;
+  audio?: PresetsCreateRequestConfigMediaAudio | undefined;
   /** Configuration options for participant screen shares */
-  screenshare?: PresetsUpdateRequestConfigMediaScreenshare;
+  screenshare?: PresetsUpdateRequestConfigMediaScreenshare | undefined;
   /** Configuration options for participant videos */
-  video?: PresetsUpdateRequestConfigMediaVideo;
+  video?: PresetsUpdateRequestConfigMediaVideo | undefined;
 }
 export type PresetsUpdateRequestConfigViewType =
   | "GROUP_CALL"
@@ -4722,38 +5290,38 @@ export type PresetsUpdateRequestConfigViewType =
   | "LIVESTREAM";
 export interface PresetsUpdateRequestConfig {
   /** Livestream viewer quality levels. */
-  livestreamViewerQualities?: PresetsUpdateRequestConfigLivestreamViewerQualitiesList;
+  livestreamViewerQualities?: PresetsUpdateRequestConfigLivestreamViewerQualitiesList | undefined;
   /** Maximum number of screen shares that can be active at a given time */
-  maxScreenshareCount?: number;
+  maxScreenshareCount?: number | undefined;
   /** Maximum number of streams that are visible on a device */
-  maxVideoStreams?: PresetsUpdateRequestConfigMaxVideoStreams;
+  maxVideoStreams?: PresetsUpdateRequestConfigMaxVideoStreams | undefined;
   /** Media configuration options. eg: Video quality */
-  media?: PresetsUpdateRequestConfigMedia;
+  media?: PresetsUpdateRequestConfigMedia | undefined;
   /** Type of the meeting */
-  viewType?: PresetsUpdateRequestConfigViewType | (string & {});
+  viewType?: PresetsUpdateRequestConfigViewType | (string & {}) | undefined;
 }
 export interface PresetsUpdateRequestPermissionsChatPrivate {
-  canReceive?: boolean;
-  canSend?: boolean;
-  files?: boolean;
-  text?: boolean;
+  canReceive?: boolean | undefined;
+  canSend?: boolean | undefined;
+  files?: boolean | undefined;
+  text?: boolean | undefined;
 }
 export interface PresetsUpdateRequestPermissionsChatPublic {
   /** Can send messages in general */
-  canSend?: boolean;
+  canSend?: boolean | undefined;
   /** Can send file messages */
-  files?: boolean;
+  files?: boolean | undefined;
   /** Can send text messages */
-  text?: boolean;
+  text?: boolean | undefined;
 }
 export interface PresetsUpdateRequestPermissionsChat {
-  private?: PresetsUpdateRequestPermissionsChatPrivate;
-  public?: PresetsUpdateRequestPermissionsChatPublic;
+  private?: PresetsUpdateRequestPermissionsChatPrivate | undefined;
+  public?: PresetsUpdateRequestPermissionsChatPublic | undefined;
 }
 export interface PresetsUpdateRequestPermissionsConnectedMeetings {
-  canAlterConnectedMeetings?: boolean;
-  canSwitchConnectedMeetings?: boolean;
-  canSwitchToParentMeeting?: boolean;
+  canAlterConnectedMeetings?: boolean | undefined;
+  canSwitchConnectedMeetings?: boolean | undefined;
+  canSwitchToParentMeeting?: boolean | undefined;
 }
 export type PresetsUpdateRequestPermissionsMediaAudioCanProduce =
   | "ALLOWED"
@@ -4761,7 +5329,7 @@ export type PresetsUpdateRequestPermissionsMediaAudioCanProduce =
   | "CAN_REQUEST";
 export interface PresetsUpdateRequestPermissionsMediaAudio {
   /** Can produce audio */
-  canProduce?: PresetsUpdateRequestPermissionsMediaAudioCanProduce | (string & {});
+  canProduce?: PresetsUpdateRequestPermissionsMediaAudioCanProduce | (string & {}) | undefined;
 }
 export type PresetsUpdateRequestPermissionsMediaScreenshareCanProduce =
   | "ALLOWED"
@@ -4769,7 +5337,10 @@ export type PresetsUpdateRequestPermissionsMediaScreenshareCanProduce =
   | "CAN_REQUEST";
 export interface PresetsUpdateRequestPermissionsMediaScreenshare {
   /** Can produce screen share video */
-  canProduce?: PresetsUpdateRequestPermissionsMediaScreenshareCanProduce | (string & {});
+  canProduce?:
+    | PresetsUpdateRequestPermissionsMediaScreenshareCanProduce
+    | (string & {})
+    | undefined;
 }
 export type PresetsUpdateRequestPermissionsMediaVideoCanProduce =
   | "ALLOWED"
@@ -4777,33 +5348,33 @@ export type PresetsUpdateRequestPermissionsMediaVideoCanProduce =
   | "CAN_REQUEST";
 export interface PresetsUpdateRequestPermissionsMediaVideo {
   /** Can produce video */
-  canProduce?: PresetsUpdateRequestPermissionsMediaVideoCanProduce | (string & {});
+  canProduce?: PresetsUpdateRequestPermissionsMediaVideoCanProduce | (string & {}) | undefined;
 }
 export interface PresetsUpdateRequestPermissionsMedia {
   /** Audio permissions */
-  audio?: PresetsUpdateRequestPermissionsMediaAudio;
+  audio?: PresetsUpdateRequestPermissionsMediaAudio | undefined;
   /** Screenshare permissions */
-  screenshare?: PresetsUpdateRequestPermissionsMediaScreenshare;
+  screenshare?: PresetsUpdateRequestPermissionsMediaScreenshare | undefined;
   /** Video permissions */
-  video?: PresetsUpdateRequestPermissionsMediaVideo;
+  video?: PresetsUpdateRequestPermissionsMediaVideo | undefined;
 }
 export interface PresetsUpdateRequestPermissionsPlugins {
   /** Can close plugins that are already open */
-  canClose?: boolean;
+  canClose?: boolean | undefined;
   /** Can edit plugin config */
-  canEditConfig?: boolean;
+  canEditConfig?: boolean | undefined;
   /** Can start plugins */
-  canStart?: boolean;
+  canStart?: boolean | undefined;
   /** Plugin configuration keyed by plugin UUID. */
-  config?: unknown;
+  config?: unknown | undefined;
 }
 export interface PresetsUpdateRequestPermissionsPolls {
   /** Can create polls */
-  canCreate?: boolean;
+  canCreate?: boolean | undefined;
   /** Can view polls */
-  canView?: boolean;
+  canView?: boolean | undefined;
   /** Can vote on polls */
-  canVote?: boolean;
+  canVote?: boolean | undefined;
 }
 export type PresetsUpdateRequestPermissionsRecorderType = "RECORDER" | "LIVESTREAMER" | "NONE";
 export type PresetsUpdateRequestPermissionsStageAccess = "ALLOWED" | "NOT_ALLOWED" | "CAN_REQUEST";
@@ -4812,39 +5383,39 @@ export type PresetsUpdateRequestPermissionsWaitingRoomType =
   | "ON_PRIVILEGED_USER_ENTRY"
   | "SKIP_ON_ACCEPT";
 export interface PresetsUpdateRequestPermissions {
-  acceptStageRequests?: boolean;
+  acceptStageRequests?: boolean | undefined;
   /** Whether this participant can accept waiting requests */
-  acceptWaitingRequests?: boolean;
-  canAcceptProductionRequests?: boolean;
-  canChangeParticipantPermissions?: boolean;
-  canEditDisplayName?: boolean;
-  canLivestream?: boolean;
-  canRecord?: boolean;
-  canSpotlight?: boolean;
-  chat?: PresetsUpdateRequestPermissionsChat;
-  connectedMeetings?: PresetsUpdateRequestPermissionsConnectedMeetings;
-  disableParticipantAudio?: boolean;
-  disableParticipantScreensharing?: boolean;
-  disableParticipantVideo?: boolean;
+  acceptWaitingRequests?: boolean | undefined;
+  canAcceptProductionRequests?: boolean | undefined;
+  canChangeParticipantPermissions?: boolean | undefined;
+  canEditDisplayName?: boolean | undefined;
+  canLivestream?: boolean | undefined;
+  canRecord?: boolean | undefined;
+  canSpotlight?: boolean | undefined;
+  chat?: PresetsUpdateRequestPermissionsChat | undefined;
+  connectedMeetings?: PresetsUpdateRequestPermissionsConnectedMeetings | undefined;
+  disableParticipantAudio?: boolean | undefined;
+  disableParticipantScreensharing?: boolean | undefined;
+  disableParticipantVideo?: boolean | undefined;
   /** Whether this participant is visible to others or not */
-  hiddenParticipant?: boolean;
-  isRecorder?: boolean;
-  kickParticipant?: boolean;
+  hiddenParticipant?: boolean | undefined;
+  isRecorder?: boolean | undefined;
+  kickParticipant?: boolean | undefined;
   /** Media permissions */
-  media?: PresetsUpdateRequestPermissionsMedia;
-  pinParticipant?: boolean;
+  media?: PresetsUpdateRequestPermissionsMedia | undefined;
+  pinParticipant?: boolean | undefined;
   /** Plugin permissions */
-  plugins?: PresetsUpdateRequestPermissionsPlugins;
+  plugins?: PresetsUpdateRequestPermissionsPlugins | undefined;
   /** Poll permissions */
-  polls?: PresetsUpdateRequestPermissionsPolls;
+  polls?: PresetsUpdateRequestPermissionsPolls | undefined;
   /** Type of the recording peer */
-  recorderType?: PresetsUpdateRequestPermissionsRecorderType | (string & {});
-  showParticipantList?: boolean;
-  stageAccess?: PresetsUpdateRequestPermissionsStageAccess | (string & {});
-  stageEnabled?: boolean;
-  transcriptionEnabled?: boolean;
+  recorderType?: PresetsUpdateRequestPermissionsRecorderType | (string & {}) | undefined;
+  showParticipantList?: boolean | undefined;
+  stageAccess?: PresetsUpdateRequestPermissionsStageAccess | (string & {}) | undefined;
+  stageEnabled?: boolean | undefined;
+  transcriptionEnabled?: boolean | undefined;
   /** Waiting room type */
-  waitingRoomType?: PresetsUpdateRequestPermissionsWaitingRoomType | (string & {});
+  waitingRoomType?: PresetsUpdateRequestPermissionsWaitingRoomType | (string & {}) | undefined;
 }
 export type PresetsUpdateRequestUiDesignTokensBorderRadius =
   | "sharp"
@@ -4853,42 +5424,42 @@ export type PresetsUpdateRequestUiDesignTokensBorderRadius =
   | "circular";
 export type PresetsUpdateRequestUiDesignTokensBorderWidth = "none" | "thin" | "fat";
 export interface PresetsUpdateRequestUiDesignTokensColorsBackground {
-  "1000"?: string;
-  "600"?: string;
-  "700"?: string;
-  "800"?: string;
-  "900"?: string;
+  "1000"?: string | undefined;
+  "600"?: string | undefined;
+  "700"?: string | undefined;
+  "800"?: string | undefined;
+  "900"?: string | undefined;
 }
 export interface PresetsUpdateRequestUiDesignTokensColorsBrand {
-  "300"?: string;
-  "400"?: string;
-  "500"?: string;
-  "600"?: string;
-  "700"?: string;
+  "300"?: string | undefined;
+  "400"?: string | undefined;
+  "500"?: string | undefined;
+  "600"?: string | undefined;
+  "700"?: string | undefined;
 }
 export interface PresetsUpdateRequestUiDesignTokensColors {
-  background?: PresetsUpdateRequestUiDesignTokensColorsBackground;
-  brand?: PresetsUpdateRequestUiDesignTokensColorsBrand;
-  danger?: string;
-  success?: string;
-  text?: string;
-  textOnBrand?: string;
-  videoBg?: string;
-  warning?: string;
+  background?: PresetsUpdateRequestUiDesignTokensColorsBackground | undefined;
+  brand?: PresetsUpdateRequestUiDesignTokensColorsBrand | undefined;
+  danger?: string | undefined;
+  success?: string | undefined;
+  text?: string | undefined;
+  textOnBrand?: string | undefined;
+  videoBg?: string | undefined;
+  warning?: string | undefined;
 }
 export type PresetsUpdateRequestUiDesignTokensTheme = "darkest" | "dark" | "light";
 export interface PresetsUpdateRequestUiDesignTokens {
-  borderRadius?: PresetsUpdateRequestUiDesignTokensBorderRadius | (string & {});
-  borderWidth?: PresetsUpdateRequestUiDesignTokensBorderWidth | (string & {});
-  colors?: PresetsUpdateRequestUiDesignTokensColors;
-  fontFamily?: string;
-  googleFont?: string;
-  logo?: string;
-  spacingBase?: number;
-  theme?: PresetsUpdateRequestUiDesignTokensTheme | (string & {});
+  borderRadius?: PresetsUpdateRequestUiDesignTokensBorderRadius | (string & {}) | undefined;
+  borderWidth?: PresetsUpdateRequestUiDesignTokensBorderWidth | (string & {}) | undefined;
+  colors?: PresetsUpdateRequestUiDesignTokensColors | undefined;
+  fontFamily?: string | undefined;
+  googleFont?: string | undefined;
+  logo?: string | undefined;
+  spacingBase?: number | undefined;
+  theme?: PresetsUpdateRequestUiDesignTokensTheme | (string & {}) | undefined;
 }
 export interface PresetsUpdateRequestUi {
-  designTokens?: PresetsUpdateRequestUiDesignTokens;
+  designTokens?: PresetsUpdateRequestUiDesignTokens | undefined;
 }
 export interface PatchPresetRequest {
   /** The account identifier tag. */
@@ -4896,11 +5467,11 @@ export interface PatchPresetRequest {
   /** The app identifier tag. */
   appId: string;
   presetId: string;
-  config?: PresetsUpdateRequestConfig;
+  config?: PresetsUpdateRequestConfig | undefined;
   /** Name of the preset */
-  name?: string;
-  permissions?: PresetsUpdateRequestPermissions;
-  ui?: PresetsUpdateRequestUi;
+  name?: string | undefined;
+  permissions?: PresetsUpdateRequestPermissions | undefined;
+  ui?: PresetsUpdateRequestUi | undefined;
 }
 export type PresetsUpdateResponseDataConfigMaxVideoStreams =
   PresetsCreateRequestConfigMaxVideoStreams;
@@ -4928,7 +5499,7 @@ export interface PresetsUpdateResponseDataConfigMediaVideo {
   /** Video quality of participants */
   quality: PresetsUpdateResponseDataConfigMediaVideoQuality;
   /** Enable simulcast for participant videos. */
-  simulcast?: boolean | null;
+  simulcast?: boolean | null | undefined;
 }
 export type PresetsUpdateResponseDataConfigMediaAudio = PresetsCreateResponseDataConfigMediaAudio;
 export interface PresetsUpdateResponseDataConfigMedia {
@@ -4937,7 +5508,7 @@ export interface PresetsUpdateResponseDataConfigMedia {
   /** Configuration options for participant videos */
   video: PresetsUpdateResponseDataConfigMediaVideo;
   /** Control options for Audio quality. */
-  audio?: PresetsCreateResponseDataConfigMediaAudio | null;
+  audio?: PresetsCreateResponseDataConfigMediaAudio | null | undefined;
 }
 export type PresetsUpdateResponseDataConfigViewType =
   | "GROUP_CALL"
@@ -4955,7 +5526,10 @@ export interface PresetsUpdateResponseDataConfig {
   /** Type of the meeting */
   viewType: PresetsUpdateResponseDataConfigViewType;
   /** Livestream viewer quality levels. */
-  livestreamViewerQualities?: PresetsUpdateResponseDataConfigLivestreamViewerQualitiesList | null;
+  livestreamViewerQualities?:
+    | PresetsUpdateResponseDataConfigLivestreamViewerQualitiesList
+    | null
+    | undefined;
 }
 export type PresetsUpdateResponseDataPermissionsChatPrivate =
   PresetsCreateRequestPermissionsChatPrivate;
@@ -5036,11 +5610,11 @@ export interface PresetsUpdateResponseDataPermissions {
   showParticipantList: boolean;
   /** Waiting room type */
   waitingRoomType: PresetsUpdateResponseDataPermissionsWaitingRoomType;
-  acceptStageRequests?: boolean | null;
-  isRecorder?: boolean | null;
-  stageAccess?: PresetsUpdateResponseDataPermissionsStageAccess | null;
-  stageEnabled?: boolean | null;
-  transcriptionEnabled?: boolean | null;
+  acceptStageRequests?: boolean | null | undefined;
+  isRecorder?: boolean | null | undefined;
+  stageAccess?: PresetsUpdateResponseDataPermissionsStageAccess | null | undefined;
+  stageEnabled?: boolean | null | undefined;
+  transcriptionEnabled?: boolean | null | undefined;
 }
 export type PresetsUpdateResponseDataUiDesignTokensBorderRadius =
   | "sharp"
@@ -5061,9 +5635,9 @@ export interface PresetsUpdateResponseDataUiDesignTokens {
   colors: PresetsCreateRequestUiDesignTokensColors;
   spacingBase: number;
   theme: PresetsUpdateResponseDataUiDesignTokensTheme;
-  fontFamily?: string | null;
-  googleFont?: string | null;
-  logo?: string | null;
+  fontFamily?: string | null | undefined;
+  googleFont?: string | null | undefined;
+  logo?: string | null | undefined;
 }
 export interface PresetsUpdateResponseDataUi {
   designTokens: PresetsUpdateResponseDataUiDesignTokens;
@@ -5107,39 +5681,39 @@ export type RecordingsPauseResumeStopRecordingResponseDataStartReasonCallerType 
   | "USER";
 export interface RecordingsPauseResumeStopRecordingResponseDataStartReasonCaller {
   /** Name of the user who started the recording. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned. */
-  type?: RecordingsPauseResumeStopRecordingResponseDataStartReasonCallerType | null;
+  type?: RecordingsPauseResumeStopRecordingResponseDataStartReasonCallerType | null | undefined;
   /** The user ID of the person who started the recording. */
-  userId?: string | null;
+  userId?: string | null | undefined;
 }
 export type RecordingsPauseResumeStopRecordingResponseDataStartReasonReason =
   | "API_CALL"
   | "RECORD_ON_START";
 export interface RecordingsPauseResumeStopRecordingResponseDataStartReason {
-  caller?: RecordingsPauseResumeStopRecordingResponseDataStartReasonCaller | null;
+  caller?: RecordingsPauseResumeStopRecordingResponseDataStartReasonCaller | null | undefined;
   /** Specifies if the recording was started using the "Start a Recording"API or using the parameter RECORD_ON_START in the "Create a meeting" API. */
-  reason?: RecordingsPauseResumeStopRecordingResponseDataStartReasonReason | null;
+  reason?: RecordingsPauseResumeStopRecordingResponseDataStartReasonReason | null | undefined;
 }
 export type RecordingsPauseResumeStopRecordingResponseDataStopReasonCallerType =
   | "ORGANIZATION"
   | "USER";
 export interface RecordingsPauseResumeStopRecordingResponseDataStopReasonCaller {
   /** Name of the user who stopped the recording. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned. */
-  type?: RecordingsPauseResumeStopRecordingResponseDataStopReasonCallerType | null;
+  type?: RecordingsPauseResumeStopRecordingResponseDataStopReasonCallerType | null | undefined;
   /** The user ID of the person who stopped the recording. */
-  userId?: string | null;
+  userId?: string | null | undefined;
 }
 export type RecordingsPauseResumeStopRecordingResponseDataStopReasonReason =
   | "API_CALL"
   | "INTERNAL_ERROR"
   | "ALL_PEERS_LEFT";
 export interface RecordingsPauseResumeStopRecordingResponseDataStopReason {
-  caller?: RecordingsPauseResumeStopRecordingResponseDataStopReasonCaller | null;
+  caller?: RecordingsPauseResumeStopRecordingResponseDataStopReasonCaller | null | undefined;
   /** Specifies the reason why the recording stopped. */
-  reason?: RecordingsPauseResumeStopRecordingResponseDataStopReasonReason | null;
+  reason?: RecordingsPauseResumeStopRecordingResponseDataStopReasonReason | null | undefined;
 }
 export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0AuthMethod =
   | "KEY"
@@ -5147,28 +5721,31 @@ export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0Auth
 export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0Type = "gcs";
 export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
+  accessKey?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0AuthMethod | null;
+  authMethod?:
+    | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0Type | null;
+  secret?: string | null | undefined;
+  type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1AuthMethod =
   | "KEY"
@@ -5181,24 +5758,27 @@ export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase
   accessKey: unknown;
   region: unknown;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1AuthMethod | null;
+  authMethod?:
+    | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1Type | null;
+  secret?: string | null | undefined;
+  type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase1Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2AuthMethod = "KEY";
 export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2Type =
@@ -5211,26 +5791,29 @@ export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?:
+    | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2Type | null;
+  type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase2Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3AuthMethod = "PASSWORD";
 export type RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3Type =
@@ -5243,26 +5826,29 @@ export interface RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?:
+    | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3Type | null;
+  type?: RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase3Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsPauseResumeStopRecordingResponseDataStorageConfig =
   | RecordingsPauseResumeStopRecordingResponseDataStorageConfigCase0
@@ -5293,15 +5879,15 @@ export interface RecordingsPauseResumeStopRecordingResponseData {
   /** Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped. */
   stoppedTime: string;
   /** Total recording time in seconds. */
-  recordingDuration?: number | null;
-  startReason?: RecordingsPauseResumeStopRecordingResponseDataStartReason | null;
-  stopReason?: RecordingsPauseResumeStopRecordingResponseDataStopReason | null;
-  storageConfig?: RecordingsPauseResumeStopRecordingResponseDataStorageConfig | null;
+  recordingDuration?: number | null | undefined;
+  startReason?: RecordingsPauseResumeStopRecordingResponseDataStartReason | null | undefined;
+  stopReason?: RecordingsPauseResumeStopRecordingResponseDataStopReason | null | undefined;
+  storageConfig?: RecordingsPauseResumeStopRecordingResponseDataStorageConfig | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface PauseResumeStopRecordingRecordingResponse {
   /** Data returned by the operation */
-  data?: RecordingsPauseResumeStopRecordingResponseData | null;
+  data?: RecordingsPauseResumeStopRecordingResponseData | null | undefined;
 }
 export interface PostAppRequest {
   /** The account identifier tag. */
@@ -5310,11 +5896,11 @@ export interface PostAppRequest {
 }
 export type AppsPostResponseDataApp = AppsGetResponseDataItem;
 export interface AppsPostResponseData {
-  app?: AppsGetResponseDataItem | null;
+  app?: AppsGetResponseDataItem | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface PostAppResponse {
-  data?: AppsPostResponseData | null;
+  data?: AppsPostResponseData | null | undefined;
 }
 export interface RefreshParticipantTokenMeetingRequest {
   /** The account identifier tag. */
@@ -5323,10 +5909,18 @@ export interface RefreshParticipantTokenMeetingRequest {
   appId: string;
   meetingId: string;
   participantId: string;
+  /** RFC 3339 timestamp with a timezone at or after which the token cannot be used. Must be in the future. Defaults to not_before plus 100 days. */
+  expiresOn?: string | undefined;
+  /** RFC 3339 timestamp with a timezone before which the token cannot be used. Defaults to the current time. May be in the past. */
+  notBefore?: string | undefined;
 }
 export interface MeetingsRefreshParticipantTokenResponseData {
   /** Regenerated participant's authentication token. */
   token: string;
+  /** Time at which the token stops being valid, in UTC. */
+  expiresOn: string;
+  /** Time from which the token is valid, in UTC. */
+  notBefore: string;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface RefreshParticipantTokenMeetingResponse {
@@ -5348,11 +5942,17 @@ export type MeetingsReplaceMeetingByIdRequestAiConfigSummarizationTextFormat =
   | "markdown";
 export interface MeetingsReplaceMeetingByIdRequestAiConfigSummarization {
   /** Defines the style of the summary, such as general, team meeting, or sales call. */
-  summaryType?: MeetingsReplaceMeetingByIdRequestAiConfigSummarizationSummaryType | (string & {});
+  summaryType?:
+    | MeetingsReplaceMeetingByIdRequestAiConfigSummarizationSummaryType
+    | (string & {})
+    | undefined;
   /** Determines the text format of the summary, such as plain text or markdown. */
-  textFormat?: MeetingsReplaceMeetingByIdRequestAiConfigSummarizationTextFormat | (string & {});
+  textFormat?:
+    | MeetingsReplaceMeetingByIdRequestAiConfigSummarizationTextFormat
+    | (string & {})
+    | undefined;
   /** Sets the maximum number of words in the meeting summary. */
-  wordLimit?: number;
+  wordLimit?: number | undefined;
 }
 export type MeetingsReplaceMeetingByIdRequestAiConfigTranscriptionKeywordsList = Array<string>;
 export type MeetingsReplaceMeetingByIdRequestAiConfigTranscriptionLanguage =
@@ -5368,27 +5968,36 @@ export type MeetingsReplaceMeetingByIdRequestAiConfigTranscriptionLanguage =
   | "nl";
 export interface MeetingsReplaceMeetingByIdRequestAiConfigTranscription {
   /** Adds specific terms to improve accurate detection during transcription. */
-  keywords?: MeetingsReplaceMeetingByIdRequestAiConfigTranscriptionKeywordsList;
+  keywords?: MeetingsReplaceMeetingByIdRequestAiConfigTranscriptionKeywordsList | undefined;
   /** Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription. */
-  language?: MeetingsReplaceMeetingByIdRequestAiConfigTranscriptionLanguage | (string & {});
+  language?:
+    | MeetingsReplaceMeetingByIdRequestAiConfigTranscriptionLanguage
+    | (string & {})
+    | undefined;
   /** Control the inclusion of offensive language in transcriptions. */
-  profanityFilter?: boolean;
+  profanityFilter?: boolean | undefined;
 }
 export interface MeetingsReplaceMeetingByIdRequestAiConfig {
   /** Summary Config */
-  summarization?: MeetingsReplaceMeetingByIdRequestAiConfigSummarization;
+  summarization?: MeetingsReplaceMeetingByIdRequestAiConfigSummarization | undefined;
   /** Transcription Configurations */
-  transcription?: MeetingsReplaceMeetingByIdRequestAiConfigTranscription;
+  transcription?: MeetingsReplaceMeetingByIdRequestAiConfigTranscription | undefined;
 }
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigAudioConfigChannel = "mono" | "stereo";
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigAudioConfigCodec = "MP3" | "AAC";
 export interface MeetingsReplaceMeetingByIdRequestRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
-  channel?: MeetingsReplaceMeetingByIdRequestRecordingConfigAudioConfigChannel | (string & {});
+  channel?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigAudioConfigChannel
+    | (string & {})
+    | undefined;
   /** Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis. */
-  codec?: MeetingsReplaceMeetingByIdRequestRecordingConfigAudioConfigCodec | (string & {});
+  codec?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigAudioConfigCodec
+    | (string & {})
+    | undefined;
   /** Controls whether to export audio file seperately */
-  exportFile?: boolean;
+  exportFile?: boolean | undefined;
 }
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigLiveStreamingConfig =
   MeetingsCreateRequestRecordingConfigLiveStreamingConfig;
@@ -5400,30 +6009,34 @@ export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0Au
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0Type = "gcs";
 export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string;
+  accessKey?: string | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0AuthMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string;
+  host?: string | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string;
+  password?: string | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string;
+  path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number;
+  port?: number | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string;
+  privateKey?: string | undefined;
   /** Region of the storage medium. */
-  region?: string;
+  region?: string | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string;
-  type?: MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0Type | (string & {});
+  secret?: string | undefined;
+  type?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0Type
+    | (string & {})
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string;
+  username?: string | undefined;
 }
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1AuthMethod =
   | "KEY"
@@ -5438,24 +6051,28 @@ export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCa
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1AuthMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string;
+  host?: string | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string;
+  password?: string | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string;
+  path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number;
+  port?: number | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string;
+  privateKey?: string | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string;
-  type?: MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1Type | (string & {});
+  secret?: string | undefined;
+  type?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase1Type
+    | (string & {})
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string;
+  username?: string | undefined;
 }
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod = "KEY";
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2Type =
@@ -5468,28 +6085,32 @@ export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCa
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string;
+  accessKey?: string | undefined;
   authMethod?:
     | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string;
+  host?: string | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string;
+  password?: string | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string;
+  path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number;
+  port?: number | undefined;
   /** Region of the storage medium. */
-  region?: string;
+  region?: string | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string;
+  secret?: string | undefined;
   /** Type of storage media. */
-  type?: MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2Type | (string & {});
+  type?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase2Type
+    | (string & {})
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string;
+  username?: string | undefined;
 }
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod =
   "PASSWORD";
@@ -5503,28 +6124,32 @@ export interface MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCa
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string;
+  accessKey?: string | undefined;
   authMethod?:
     | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string;
+  host?: string | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string;
+  path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number;
+  port?: number | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string;
+  privateKey?: string | undefined;
   /** Region of the storage medium. */
-  region?: string;
+  region?: string | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string;
+  secret?: string | undefined;
   /** Type of storage media. */
-  type?: MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3Type | (string & {});
+  type?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase3Type
+    | (string & {})
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string;
+  username?: string | undefined;
 }
 export type MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfig =
   | MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfigCase0
@@ -5546,35 +6171,39 @@ export interface MeetingsReplaceMeetingByIdRequestRecordingConfigVideoConfigWate
   /** Position of the watermark */
   position?:
     | MeetingsReplaceMeetingByIdRequestRecordingConfigVideoConfigWatermarkPosition
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Size of the watermark */
-  size?: MeetingsCreateRequestRecordingConfigVideoConfigWatermarkSize;
+  size?: MeetingsCreateRequestRecordingConfigVideoConfigWatermarkSize | undefined;
   /** URL of the watermark image */
-  url?: string;
+  url?: string | undefined;
 }
 export interface MeetingsReplaceMeetingByIdRequestRecordingConfigVideoConfig {
   /** Codec using which the recording will be encoded. */
-  codec?: MeetingsReplaceMeetingByIdRequestRecordingConfigVideoConfigCodec | (string & {});
+  codec?:
+    | MeetingsReplaceMeetingByIdRequestRecordingConfigVideoConfigCodec
+    | (string & {})
+    | undefined;
   /** Controls whether to export video file seperately */
-  exportFile?: boolean;
+  exportFile?: boolean | undefined;
   /** Height of the recording video in pixels */
-  height?: number;
+  height?: number | undefined;
   /** Watermark to be added to the recording */
-  watermark?: MeetingsReplaceMeetingByIdRequestRecordingConfigVideoConfigWatermark;
+  watermark?: MeetingsReplaceMeetingByIdRequestRecordingConfigVideoConfigWatermark | undefined;
   /** Width of the recording video in pixels */
-  width?: number;
+  width?: number | undefined;
 }
 export interface MeetingsReplaceMeetingByIdRequestRecordingConfig {
   /** Object containing configuration regarding the audio that is being recorded. */
-  audioConfig?: MeetingsReplaceMeetingByIdRequestRecordingConfigAudioConfig;
+  audioConfig?: MeetingsReplaceMeetingByIdRequestRecordingConfigAudioConfig | undefined;
   /** Adds a prefix to the beginning of the file name of the recording. */
-  fileNamePrefix?: string;
-  liveStreamingConfig?: MeetingsCreateRequestRecordingConfigLiveStreamingConfig;
+  fileNamePrefix?: string | undefined;
+  liveStreamingConfig?: MeetingsCreateRequestRecordingConfigLiveStreamingConfig | undefined;
   /** Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours. */
-  maxSeconds?: number;
-  realtimekitBucketConfig?: MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig;
-  storageConfig?: MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfig;
-  videoConfig?: MeetingsReplaceMeetingByIdRequestRecordingConfigVideoConfig;
+  maxSeconds?: number | undefined;
+  realtimekitBucketConfig?: MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig | undefined;
+  storageConfig?: MeetingsReplaceMeetingByIdRequestRecordingConfigStorageConfig | undefined;
+  videoConfig?: MeetingsReplaceMeetingByIdRequestRecordingConfigVideoConfig | undefined;
 }
 export interface ReplaceMeetingByIdMeetingRequest {
   /** The account identifier tag. */
@@ -5583,23 +6212,23 @@ export interface ReplaceMeetingByIdMeetingRequest {
   appId: string;
   meetingId: string;
   /** The AI Config allows you to customize the behavior of meeting transcriptions and summaries */
-  aiConfig?: MeetingsReplaceMeetingByIdRequestAiConfig;
+  aiConfig?: MeetingsReplaceMeetingByIdRequestAiConfig | undefined;
   /** Specifies if the meeting should start getting livestreamed on start. */
-  liveStreamOnStart?: boolean;
+  liveStreamOnStart?: boolean | undefined;
   /** If a meeting is set to persist_chat, meeting chat would remain for a week within the meeting space. */
-  persistChat?: boolean;
+  persistChat?: boolean | undefined;
   /** Specifies if the meeting should start getting recorded as soon as someone joins the meeting. */
-  recordOnStart?: boolean;
+  recordOnStart?: boolean | undefined;
   /** Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal. */
-  recordingConfig?: MeetingsReplaceMeetingByIdRequestRecordingConfig;
+  recordingConfig?: MeetingsReplaceMeetingByIdRequestRecordingConfig | undefined;
   /** Time in seconds, for which a session remains active, after the last participant has left the meeting. */
-  sessionKeepAliveTimeInSecs?: number;
+  sessionKeepAliveTimeInSecs?: number | undefined;
   /** Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API. */
-  summarizeOnEnd?: boolean;
+  summarizeOnEnd?: boolean | undefined;
   /** Title of the meeting */
-  title?: string;
+  title?: string | undefined;
   /** Automatically generate transcripts when the meeting ends. */
-  transcribeOnEnd?: boolean;
+  transcribeOnEnd?: boolean | undefined;
 }
 export type MeetingsReplaceMeetingByIdResponseDataAiConfigSummarizationSummaryType =
   | "general"
@@ -5616,11 +6245,17 @@ export type MeetingsReplaceMeetingByIdResponseDataAiConfigSummarizationTextForma
   | "markdown";
 export interface MeetingsReplaceMeetingByIdResponseDataAiConfigSummarization {
   /** Defines the style of the summary, such as general, team meeting, or sales call. */
-  summaryType?: MeetingsReplaceMeetingByIdResponseDataAiConfigSummarizationSummaryType | null;
+  summaryType?:
+    | MeetingsReplaceMeetingByIdResponseDataAiConfigSummarizationSummaryType
+    | null
+    | undefined;
   /** Determines the text format of the summary, such as plain text or markdown. */
-  textFormat?: MeetingsReplaceMeetingByIdResponseDataAiConfigSummarizationTextFormat | null;
+  textFormat?:
+    | MeetingsReplaceMeetingByIdResponseDataAiConfigSummarizationTextFormat
+    | null
+    | undefined;
   /** Sets the maximum number of words in the meeting summary. */
-  wordLimit?: number | null;
+  wordLimit?: number | null | undefined;
 }
 export type MeetingsReplaceMeetingByIdResponseDataAiConfigTranscriptionKeywordsList = Array<string>;
 export type MeetingsReplaceMeetingByIdResponseDataAiConfigTranscriptionLanguage =
@@ -5636,17 +6271,20 @@ export type MeetingsReplaceMeetingByIdResponseDataAiConfigTranscriptionLanguage 
   | "nl";
 export interface MeetingsReplaceMeetingByIdResponseDataAiConfigTranscription {
   /** Adds specific terms to improve accurate detection during transcription. */
-  keywords?: MeetingsReplaceMeetingByIdResponseDataAiConfigTranscriptionKeywordsList | null;
+  keywords?:
+    | MeetingsReplaceMeetingByIdResponseDataAiConfigTranscriptionKeywordsList
+    | null
+    | undefined;
   /** Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription. */
-  language?: MeetingsReplaceMeetingByIdResponseDataAiConfigTranscriptionLanguage | null;
+  language?: MeetingsReplaceMeetingByIdResponseDataAiConfigTranscriptionLanguage | null | undefined;
   /** Control the inclusion of offensive language in transcriptions. */
-  profanityFilter?: boolean | null;
+  profanityFilter?: boolean | null | undefined;
 }
 export interface MeetingsReplaceMeetingByIdResponseDataAiConfig {
   /** Summary Config */
-  summarization?: MeetingsReplaceMeetingByIdResponseDataAiConfigSummarization | null;
+  summarization?: MeetingsReplaceMeetingByIdResponseDataAiConfigSummarization | null | undefined;
   /** Transcription Configurations */
-  transcription?: MeetingsReplaceMeetingByIdResponseDataAiConfigTranscription | null;
+  transcription?: MeetingsReplaceMeetingByIdResponseDataAiConfigTranscription | null | undefined;
 }
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigAudioConfigChannel =
   | "mono"
@@ -5654,11 +6292,14 @@ export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigAudioConfigChan
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigAudioConfigCodec = "MP3" | "AAC";
 export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
-  channel?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigAudioConfigChannel | null;
+  channel?:
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigAudioConfigChannel
+    | null
+    | undefined;
   /** Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis. */
-  codec?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigAudioConfigCodec | null;
+  codec?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigAudioConfigCodec | null | undefined;
   /** Controls whether to export audio file seperately */
-  exportFile?: boolean | null;
+  exportFile?: boolean | null | undefined;
 }
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigLiveStreamingConfig =
   MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig;
@@ -5670,28 +6311,34 @@ export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCa
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type = "gcs";
 export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
+  accessKey?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod | null;
+  authMethod?:
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type | null;
+  secret?: string | null | undefined;
+  type?:
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type
+    | null
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod =
   | "KEY"
@@ -5704,24 +6351,30 @@ export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageCon
   accessKey: unknown;
   region: unknown;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod | null;
+  authMethod?:
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type | null;
+  secret?: string | null | undefined;
+  type?:
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type
+    | null
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod =
   "KEY";
@@ -5735,26 +6388,32 @@ export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageCon
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?:
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type | null;
+  type?:
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type
+    | null
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod =
   "PASSWORD";
@@ -5768,26 +6427,32 @@ export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageCon
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?:
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type | null;
+  type?:
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type
+    | null
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfig =
   | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfigCase0
@@ -5807,35 +6472,50 @@ export type MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfigWate
   MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize;
 export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfigWatermark {
   /** Position of the watermark */
-  position?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfigWatermarkPosition | null;
+  position?:
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfigWatermarkPosition
+    | null
+    | undefined;
   /** Size of the watermark */
-  size?: MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize | null;
+  size?: MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize | null | undefined;
   /** URL of the watermark image */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfig {
   /** Codec using which the recording will be encoded. */
-  codec?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfigCodec | null;
+  codec?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfigCodec | null | undefined;
   /** Controls whether to export video file seperately */
-  exportFile?: boolean | null;
+  exportFile?: boolean | null | undefined;
   /** Height of the recording video in pixels */
-  height?: number | null;
+  height?: number | null | undefined;
   /** Watermark to be added to the recording */
-  watermark?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfigWatermark | null;
+  watermark?:
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfigWatermark
+    | null
+    | undefined;
   /** Width of the recording video in pixels */
-  width?: number | null;
+  width?: number | null | undefined;
 }
 export interface MeetingsReplaceMeetingByIdResponseDataRecordingConfig {
   /** Object containing configuration regarding the audio that is being recorded. */
-  audioConfig?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigAudioConfig | null;
+  audioConfig?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigAudioConfig | null | undefined;
   /** Adds a prefix to the beginning of the file name of the recording. */
-  fileNamePrefix?: string | null;
-  liveStreamingConfig?: MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig | null;
+  fileNamePrefix?: string | null | undefined;
+  liveStreamingConfig?:
+    | MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig
+    | null
+    | undefined;
   /** Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours. */
-  maxSeconds?: number | null;
-  realtimekitBucketConfig?: MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig | null;
-  storageConfig?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfig | null;
-  videoConfig?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfig | null;
+  maxSeconds?: number | null | undefined;
+  realtimekitBucketConfig?:
+    | MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig
+    | null
+    | undefined;
+  storageConfig?:
+    | MeetingsReplaceMeetingByIdResponseDataRecordingConfigStorageConfig
+    | null
+    | undefined;
+  videoConfig?: MeetingsReplaceMeetingByIdResponseDataRecordingConfigVideoConfig | null | undefined;
 }
 export type MeetingsReplaceMeetingByIdResponseDataStatus = "ACTIVE" | "INACTIVE";
 export interface MeetingsReplaceMeetingByIdResponseData {
@@ -5846,30 +6526,30 @@ export interface MeetingsReplaceMeetingByIdResponseData {
   /** Timestamp the object was updated at. The time is returned in ISO format. */
   updatedAt: string;
   /** The AI Config allows you to customize the behavior of meeting transcriptions and summaries */
-  aiConfig?: MeetingsReplaceMeetingByIdResponseDataAiConfig | null;
+  aiConfig?: MeetingsReplaceMeetingByIdResponseDataAiConfig | null | undefined;
   /** Specifies if the meeting should start getting livestreamed on start. */
-  liveStreamOnStart?: boolean | null;
+  liveStreamOnStart?: boolean | null | undefined;
   /** Specifies if Chat within a meeting should persist for a week. */
-  persistChat?: boolean | null;
+  persistChat?: boolean | null | undefined;
   /** Specifies if the meeting should start getting recorded as soon as someone joins the meeting. */
-  recordOnStart?: boolean | null;
+  recordOnStart?: boolean | null | undefined;
   /** Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal. */
-  recordingConfig?: MeetingsReplaceMeetingByIdResponseDataRecordingConfig | null;
+  recordingConfig?: MeetingsReplaceMeetingByIdResponseDataRecordingConfig | null | undefined;
   /** Time in seconds, for which a session remains active, after the last participant has left the meeting. */
-  sessionKeepAliveTimeInSecs?: number | null;
+  sessionKeepAliveTimeInSecs?: number | null | undefined;
   /** Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting. */
-  status?: MeetingsReplaceMeetingByIdResponseDataStatus | null;
+  status?: MeetingsReplaceMeetingByIdResponseDataStatus | null | undefined;
   /** Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API. */
-  summarizeOnEnd?: boolean | null;
+  summarizeOnEnd?: boolean | null | undefined;
   /** Title of the meeting. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Automatically generate transcripts when the meeting ends. */
-  transcribeOnEnd?: boolean | null;
+  transcribeOnEnd?: boolean | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface ReplaceMeetingByIdMeetingResponse {
   /** Data returned by the operation */
-  data?: MeetingsReplaceMeetingByIdResponseData | null;
+  data?: MeetingsReplaceMeetingByIdResponseData | null | undefined;
 }
 export type ReplacePresetByIdRequestConfigMaxVideoStreams =
   PresetsCreateRequestConfigMaxVideoStreams;
@@ -5892,7 +6572,7 @@ export interface ReplacePresetByIdRequestConfigMediaVideo {
   /** Video quality of participants */
   quality: ReplacePresetByIdRequestConfigMediaVideoQuality | (string & {});
   /** Enable simulcast for participant videos. */
-  simulcast?: boolean;
+  simulcast?: boolean | undefined;
 }
 export type ReplacePresetByIdRequestConfigMediaAudio = PresetsCreateRequestConfigMediaAudio;
 export interface ReplacePresetByIdRequestConfigMedia {
@@ -5901,7 +6581,7 @@ export interface ReplacePresetByIdRequestConfigMedia {
   /** Configuration options for participant videos */
   video: ReplacePresetByIdRequestConfigMediaVideo;
   /** Control options for Audio quality. */
-  audio?: PresetsCreateRequestConfigMediaAudio;
+  audio?: PresetsCreateRequestConfigMediaAudio | undefined;
 }
 export type ReplacePresetByIdRequestConfigViewType =
   | "GROUP_CALL"
@@ -5919,7 +6599,9 @@ export interface ReplacePresetByIdRequestConfig {
   /** Type of the meeting */
   viewType: ReplacePresetByIdRequestConfigViewType | (string & {});
   /** Livestream viewer quality levels. */
-  livestreamViewerQualities?: ReplacePresetByIdRequestConfigLivestreamViewerQualitiesList;
+  livestreamViewerQualities?:
+    | ReplacePresetByIdRequestConfigLivestreamViewerQualitiesList
+    | undefined;
 }
 export type ReplacePresetByIdRequestPermissionsChatPrivate =
   PresetsCreateRequestPermissionsChatPrivate;
@@ -5966,8 +6648,9 @@ export type ReplacePresetByIdRequestPermissionsPluginsConfigValueAccessControl =
 export interface ReplacePresetByIdRequestPermissionsPluginsConfigValue {
   accessControl?:
     | ReplacePresetByIdRequestPermissionsPluginsConfigValueAccessControl
-    | (string & {});
-  handlesViewOnly?: boolean;
+    | (string & {})
+    | undefined;
+  handlesViewOnly?: boolean | undefined;
 }
 export type ReplacePresetByIdRequestPermissionsPluginsConfigMap = {
   [key: string]: ReplacePresetByIdRequestPermissionsPluginsConfigValue | undefined;
@@ -6021,11 +6704,11 @@ export interface ReplacePresetByIdRequestPermissions {
   showParticipantList: boolean;
   /** Waiting room type */
   waitingRoomType: ReplacePresetByIdRequestPermissionsWaitingRoomType | (string & {});
-  acceptStageRequests?: boolean;
-  isRecorder?: boolean;
-  stageAccess?: ReplacePresetByIdRequestPermissionsStageAccess | (string & {});
-  stageEnabled?: boolean;
-  transcriptionEnabled?: boolean;
+  acceptStageRequests?: boolean | undefined;
+  isRecorder?: boolean | undefined;
+  stageAccess?: ReplacePresetByIdRequestPermissionsStageAccess | (string & {}) | undefined;
+  stageEnabled?: boolean | undefined;
+  transcriptionEnabled?: boolean | undefined;
 }
 export type ReplacePresetByIdRequestUiDesignTokensBorderRadius =
   | "sharp"
@@ -6045,9 +6728,9 @@ export interface ReplacePresetByIdRequestUiDesignTokens {
   colors: PresetsCreateRequestUiDesignTokensColors;
   spacingBase: number;
   theme: ReplacePresetByIdRequestUiDesignTokensTheme | (string & {});
-  fontFamily?: string;
-  googleFont?: string;
-  logo?: string;
+  fontFamily?: string | undefined;
+  googleFont?: string | undefined;
+  logo?: string | undefined;
 }
 export interface ReplacePresetByIdRequestUi {
   designTokens: ReplacePresetByIdRequestUiDesignTokens;
@@ -6090,7 +6773,7 @@ export interface ReplacePresetByIdResponseDataConfigMediaVideo {
   /** Video quality of participants */
   quality: ReplacePresetByIdResponseDataConfigMediaVideoQuality;
   /** Enable simulcast for participant videos. */
-  simulcast?: boolean | null;
+  simulcast?: boolean | null | undefined;
 }
 export type ReplacePresetByIdResponseDataConfigMediaAudio =
   PresetsCreateResponseDataConfigMediaAudio;
@@ -6100,7 +6783,7 @@ export interface ReplacePresetByIdResponseDataConfigMedia {
   /** Configuration options for participant videos */
   video: ReplacePresetByIdResponseDataConfigMediaVideo;
   /** Control options for Audio quality. */
-  audio?: PresetsCreateResponseDataConfigMediaAudio | null;
+  audio?: PresetsCreateResponseDataConfigMediaAudio | null | undefined;
 }
 export type ReplacePresetByIdResponseDataConfigViewType =
   | "GROUP_CALL"
@@ -6118,7 +6801,10 @@ export interface ReplacePresetByIdResponseDataConfig {
   /** Type of the meeting */
   viewType: ReplacePresetByIdResponseDataConfigViewType;
   /** Livestream viewer quality levels. */
-  livestreamViewerQualities?: ReplacePresetByIdResponseDataConfigLivestreamViewerQualitiesList | null;
+  livestreamViewerQualities?:
+    | ReplacePresetByIdResponseDataConfigLivestreamViewerQualitiesList
+    | null
+    | undefined;
 }
 export type ReplacePresetByIdResponseDataPermissionsChatPrivate =
   PresetsCreateRequestPermissionsChatPrivate;
@@ -6163,8 +6849,11 @@ export type ReplacePresetByIdResponseDataPermissionsPluginsConfigValueAccessCont
   | "FULL_ACCESS"
   | "VIEW_ONLY";
 export interface ReplacePresetByIdResponseDataPermissionsPluginsConfigValue {
-  accessControl?: ReplacePresetByIdResponseDataPermissionsPluginsConfigValueAccessControl | null;
-  handlesViewOnly?: boolean | null;
+  accessControl?:
+    | ReplacePresetByIdResponseDataPermissionsPluginsConfigValueAccessControl
+    | null
+    | undefined;
+  handlesViewOnly?: boolean | null | undefined;
 }
 export type ReplacePresetByIdResponseDataPermissionsPluginsConfigMap = {
   [key: string]: ReplacePresetByIdResponseDataPermissionsPluginsConfigValue | undefined;
@@ -6221,11 +6910,11 @@ export interface ReplacePresetByIdResponseDataPermissions {
   showParticipantList: boolean;
   /** Waiting room type */
   waitingRoomType: ReplacePresetByIdResponseDataPermissionsWaitingRoomType;
-  acceptStageRequests?: boolean | null;
-  isRecorder?: boolean | null;
-  stageAccess?: ReplacePresetByIdResponseDataPermissionsStageAccess | null;
-  stageEnabled?: boolean | null;
-  transcriptionEnabled?: boolean | null;
+  acceptStageRequests?: boolean | null | undefined;
+  isRecorder?: boolean | null | undefined;
+  stageAccess?: ReplacePresetByIdResponseDataPermissionsStageAccess | null | undefined;
+  stageEnabled?: boolean | null | undefined;
+  transcriptionEnabled?: boolean | null | undefined;
 }
 export type ReplacePresetByIdResponseDataUiDesignTokensBorderRadius =
   | "sharp"
@@ -6246,9 +6935,9 @@ export interface ReplacePresetByIdResponseDataUiDesignTokens {
   colors: PresetsCreateRequestUiDesignTokensColors;
   spacingBase: number;
   theme: ReplacePresetByIdResponseDataUiDesignTokensTheme;
-  fontFamily?: string | null;
-  googleFont?: string | null;
-  logo?: string | null;
+  fontFamily?: string | null | undefined;
+  googleFont?: string | null | undefined;
+  logo?: string | null | undefined;
 }
 export interface ReplacePresetByIdResponseDataUi {
   designTokens: ReplacePresetByIdResponseDataUiDesignTokens;
@@ -6297,7 +6986,7 @@ export interface ReplaceWebhookWebhookRequest {
   /** URL this webhook will send events to */
   url: string;
   /** Set whether or not the webhook should be active when created */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type WebhooksReplaceWebhookResponseDataEventsItem =
   | "meeting.started"
@@ -6333,9 +7022,9 @@ export interface ReplaceWebhookWebhookResponse {
 }
 export interface LivestreamsStartLivestreamingAMeetingRequestVideoConfig {
   /** Height of the livestreaming video in pixels */
-  height?: number;
+  height?: number | undefined;
   /** Width of the livestreaming video in pixels */
-  width?: number;
+  width?: number | undefined;
 }
 export interface StartLivestreamingAMeetingLivestreamRequest {
   /** The account identifier tag. */
@@ -6343,43 +7032,49 @@ export interface StartLivestreamingAMeetingLivestreamRequest {
   /** The app identifier tag. */
   appId: string;
   meetingId: string;
-  name?: string;
-  videoConfig?: LivestreamsStartLivestreamingAMeetingRequestVideoConfig;
+  name?: string | undefined;
+  videoConfig?: LivestreamsStartLivestreamingAMeetingRequestVideoConfig | undefined;
 }
 export type LivestreamsStartLivestreamingAMeetingResponseDataStatus =
   | "LIVE"
   | "IDLE"
   | "ERRORED"
-  | "INVOKED";
+  | "INVOKED"
+  | "METRICS_READY";
 export interface LivestreamsStartLivestreamingAMeetingResponseData {
-  /** The livestream ID. */
-  id?: string | null;
+  /** ID of the livestream. */
+  id: string;
   /** The server URL to which the RTMP encoder sends the video and audio data. */
-  ingestServer?: string | null;
+  ingestServer: string;
+  /** ID of the meeting being livestreamed, if any. */
+  meetingId: string;
+  /** Name of the livestream. */
+  name: string;
   /** The web address that viewers can use to watch the livestream. */
-  playbackUrl?: string | null;
-  status?: LivestreamsStartLivestreamingAMeetingResponseDataStatus | null;
-  /** Unique key for accessing each livestream. */
-  streamKey?: string | null;
+  playbackUrl: string;
+  /** Status of the livestream. */
+  status: LivestreamsStartLivestreamingAMeetingResponseDataStatus;
+  /** Unique key for accessing each livestream. Empty if the livestream is disabled. */
+  streamKey: string;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface StartLivestreamingAMeetingLivestreamResponse {
-  data?: LivestreamsStartLivestreamingAMeetingResponseData | null;
+  data: LivestreamsStartLivestreamingAMeetingResponseData;
 }
 export type RecordingsStartRecordingsRequestAudioConfigChannel = "mono" | "stereo";
 export type RecordingsStartRecordingsRequestAudioConfigCodec = "MP3" | "AAC";
 export interface RecordingsStartRecordingsRequestAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
-  channel?: RecordingsStartRecordingsRequestAudioConfigChannel | (string & {});
+  channel?: RecordingsStartRecordingsRequestAudioConfigChannel | (string & {}) | undefined;
   /** Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis. */
-  codec?: RecordingsStartRecordingsRequestAudioConfigCodec | (string & {});
+  codec?: RecordingsStartRecordingsRequestAudioConfigCodec | (string & {}) | undefined;
   /** Controls whether to export audio file seperately */
-  exportFile?: boolean;
+  exportFile?: boolean | undefined;
 }
 export type RecordingsStartRecordingsRequestInteractiveConfigType = "ID3";
 export interface RecordingsStartRecordingsRequestInteractiveConfig {
   /** The metadata is presented in the form of ID3 tags. */
-  type?: RecordingsStartRecordingsRequestInteractiveConfigType | (string & {});
+  type?: RecordingsStartRecordingsRequestInteractiveConfigType | (string & {}) | undefined;
 }
 export type RecordingsStartRecordingsRequestRealtimekitBucketConfig =
   MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig;
@@ -6389,28 +7084,31 @@ export type RecordingsStartRecordingsRequestStorageConfigCase0AuthMethod = "KEY"
 export type RecordingsStartRecordingsRequestStorageConfigCase0Type = "gcs";
 export interface RecordingsStartRecordingsRequestStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string;
+  accessKey?: string | undefined;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: RecordingsStartRecordingsRequestStorageConfigCase0AuthMethod | (string & {});
+  authMethod?:
+    | RecordingsStartRecordingsRequestStorageConfigCase0AuthMethod
+    | (string & {})
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string;
+  host?: string | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string;
+  password?: string | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string;
+  path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number;
+  port?: number | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string;
+  privateKey?: string | undefined;
   /** Region of the storage medium. */
-  region?: string;
+  region?: string | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string;
-  type?: RecordingsStartRecordingsRequestStorageConfigCase0Type | (string & {});
+  secret?: string | undefined;
+  type?: RecordingsStartRecordingsRequestStorageConfigCase0Type | (string & {}) | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string;
+  username?: string | undefined;
 }
 export type RecordingsStartRecordingsRequestStorageConfigCase1AuthMethod = "KEY" | "PASSWORD";
 export type RecordingsStartRecordingsRequestStorageConfigCase1Type =
@@ -6421,24 +7119,27 @@ export interface RecordingsStartRecordingsRequestStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: RecordingsStartRecordingsRequestStorageConfigCase1AuthMethod | (string & {});
+  authMethod?:
+    | RecordingsStartRecordingsRequestStorageConfigCase1AuthMethod
+    | (string & {})
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string;
+  host?: string | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string;
+  password?: string | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string;
+  path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number;
+  port?: number | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string;
+  privateKey?: string | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string;
-  type?: RecordingsStartRecordingsRequestStorageConfigCase1Type | (string & {});
+  secret?: string | undefined;
+  type?: RecordingsStartRecordingsRequestStorageConfigCase1Type | (string & {}) | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string;
+  username?: string | undefined;
 }
 export type RecordingsStartRecordingsRequestStorageConfigCase2AuthMethod = "KEY";
 export type RecordingsStartRecordingsRequestStorageConfigCase2Type =
@@ -6451,26 +7152,29 @@ export interface RecordingsStartRecordingsRequestStorageConfigCase2 {
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string;
-  authMethod?: RecordingsStartRecordingsRequestStorageConfigCase2AuthMethod | (string & {});
+  accessKey?: string | undefined;
+  authMethod?:
+    | RecordingsStartRecordingsRequestStorageConfigCase2AuthMethod
+    | (string & {})
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string;
+  host?: string | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string;
+  password?: string | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string;
+  path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number;
+  port?: number | undefined;
   /** Region of the storage medium. */
-  region?: string;
+  region?: string | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string;
+  secret?: string | undefined;
   /** Type of storage media. */
-  type?: RecordingsStartRecordingsRequestStorageConfigCase2Type | (string & {});
+  type?: RecordingsStartRecordingsRequestStorageConfigCase2Type | (string & {}) | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string;
+  username?: string | undefined;
 }
 export type RecordingsStartRecordingsRequestStorageConfigCase3AuthMethod = "PASSWORD";
 export type RecordingsStartRecordingsRequestStorageConfigCase3Type =
@@ -6483,26 +7187,29 @@ export interface RecordingsStartRecordingsRequestStorageConfigCase3 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string;
-  authMethod?: RecordingsStartRecordingsRequestStorageConfigCase3AuthMethod | (string & {});
+  accessKey?: string | undefined;
+  authMethod?:
+    | RecordingsStartRecordingsRequestStorageConfigCase3AuthMethod
+    | (string & {})
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string;
+  host?: string | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string;
+  path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number;
+  port?: number | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string;
+  privateKey?: string | undefined;
   /** Region of the storage medium. */
-  region?: string;
+  region?: string | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string;
+  secret?: string | undefined;
   /** Type of storage media. */
-  type?: RecordingsStartRecordingsRequestStorageConfigCase3Type | (string & {});
+  type?: RecordingsStartRecordingsRequestStorageConfigCase3Type | (string & {}) | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string;
+  username?: string | undefined;
 }
 export type RecordingsStartRecordingsRequestStorageConfig =
   | RecordingsStartRecordingsRequestStorageConfigCase0
@@ -6519,23 +7226,26 @@ export type RecordingsStartRecordingsRequestVideoConfigWatermarkSize =
   MeetingsCreateRequestRecordingConfigVideoConfigWatermarkSize;
 export interface RecordingsStartRecordingsRequestVideoConfigWatermark {
   /** Position of the watermark */
-  position?: RecordingsStartRecordingsRequestVideoConfigWatermarkPosition | (string & {});
+  position?:
+    | RecordingsStartRecordingsRequestVideoConfigWatermarkPosition
+    | (string & {})
+    | undefined;
   /** Size of the watermark */
-  size?: MeetingsCreateRequestRecordingConfigVideoConfigWatermarkSize;
+  size?: MeetingsCreateRequestRecordingConfigVideoConfigWatermarkSize | undefined;
   /** URL of the watermark image */
-  url?: string;
+  url?: string | undefined;
 }
 export interface RecordingsStartRecordingsRequestVideoConfig {
   /** Codec using which the recording will be encoded. */
-  codec?: RecordingsStartRecordingsRequestVideoConfigCodec | (string & {});
+  codec?: RecordingsStartRecordingsRequestVideoConfigCodec | (string & {}) | undefined;
   /** Controls whether to export video file seperately */
-  exportFile?: boolean;
+  exportFile?: boolean | undefined;
   /** Height of the recording video in pixels */
-  height?: number;
+  height?: number | undefined;
   /** Watermark to be added to the recording */
-  watermark?: RecordingsStartRecordingsRequestVideoConfigWatermark;
+  watermark?: RecordingsStartRecordingsRequestVideoConfigWatermark | undefined;
   /** Width of the recording video in pixels */
-  width?: number;
+  width?: number | undefined;
 }
 export interface StartRecordingsRecordingRequest {
   /** The account identifier tag. */
@@ -6545,21 +7255,21 @@ export interface StartRecordingsRecordingRequest {
   /** ID of the meeting to record. */
   meetingId: string;
   /** By default, a meeting allows only one recording to run at a time. Enabling the `allow_multiple_recordings` parameter to true allows you to initiate multiple recordings concurrently in the same meeting. This allows you to record separate videos of the same meeting with different configurations, such as portrait mode or landscape mode. */
-  allowMultipleRecordings?: boolean;
+  allowMultipleRecordings?: boolean | undefined;
   /** Object containing configuration regarding the audio that is being recorded. */
-  audioConfig?: RecordingsStartRecordingsRequestAudioConfig;
+  audioConfig?: RecordingsStartRecordingsRequestAudioConfig | undefined;
   /** Update the recording file name. */
-  fileNamePrefix?: string;
+  fileNamePrefix?: string | undefined;
   /** Allows you to add timed metadata to your recordings, which are digital markers inserted into a video file to provide contextual information at specific points in the content range. The ID3 tags containing this information are available to clients on the playback timeline in HLS format. The output files are generated in a compressed .tar format. */
-  interactiveConfig?: RecordingsStartRecordingsRequestInteractiveConfig;
+  interactiveConfig?: RecordingsStartRecordingsRequestInteractiveConfig | undefined;
   /** Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours. */
-  maxSeconds?: number;
-  realtimekitBucketConfig?: MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig;
-  rtmpOutConfig?: MeetingsCreateRequestRecordingConfigLiveStreamingConfig;
-  storageConfig?: RecordingsStartRecordingsRequestStorageConfig;
+  maxSeconds?: number | undefined;
+  realtimekitBucketConfig?: MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig | undefined;
+  rtmpOutConfig?: MeetingsCreateRequestRecordingConfigLiveStreamingConfig | undefined;
+  storageConfig?: RecordingsStartRecordingsRequestStorageConfig | undefined;
   /** Pass a custom url to record arbitary screen */
-  url?: string;
-  videoConfig?: RecordingsStartRecordingsRequestVideoConfig;
+  url?: string | undefined;
+  videoConfig?: RecordingsStartRecordingsRequestVideoConfig | undefined;
 }
 export type RecordingsStartRecordingsResponseDataStatus =
   | "INVOKED"
@@ -6571,62 +7281,62 @@ export type RecordingsStartRecordingsResponseDataStatus =
 export type RecordingsStartRecordingsResponseDataStartReasonCallerType = "ORGANIZATION" | "USER";
 export interface RecordingsStartRecordingsResponseDataStartReasonCaller {
   /** Name of the user who started the recording. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned. */
-  type?: RecordingsStartRecordingsResponseDataStartReasonCallerType | null;
+  type?: RecordingsStartRecordingsResponseDataStartReasonCallerType | null | undefined;
   /** The user ID of the person who started the recording. */
-  userId?: string | null;
+  userId?: string | null | undefined;
 }
 export type RecordingsStartRecordingsResponseDataStartReasonReason = "API_CALL" | "RECORD_ON_START";
 export interface RecordingsStartRecordingsResponseDataStartReason {
-  caller?: RecordingsStartRecordingsResponseDataStartReasonCaller | null;
+  caller?: RecordingsStartRecordingsResponseDataStartReasonCaller | null | undefined;
   /** Specifies if the recording was started using the "Start a Recording"API or using the parameter RECORD_ON_START in the "Create a meeting" API. */
-  reason?: RecordingsStartRecordingsResponseDataStartReasonReason | null;
+  reason?: RecordingsStartRecordingsResponseDataStartReasonReason | null | undefined;
 }
 export type RecordingsStartRecordingsResponseDataStopReasonCallerType = "ORGANIZATION" | "USER";
 export interface RecordingsStartRecordingsResponseDataStopReasonCaller {
   /** Name of the user who stopped the recording. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The type can be an App or a user. If the type is `user`, then only the `user_Id` and `name` are returned. */
-  type?: RecordingsStartRecordingsResponseDataStopReasonCallerType | null;
+  type?: RecordingsStartRecordingsResponseDataStopReasonCallerType | null | undefined;
   /** The user ID of the person who stopped the recording. */
-  userId?: string | null;
+  userId?: string | null | undefined;
 }
 export type RecordingsStartRecordingsResponseDataStopReasonReason =
   | "API_CALL"
   | "INTERNAL_ERROR"
   | "ALL_PEERS_LEFT";
 export interface RecordingsStartRecordingsResponseDataStopReason {
-  caller?: RecordingsStartRecordingsResponseDataStopReasonCaller | null;
+  caller?: RecordingsStartRecordingsResponseDataStopReasonCaller | null | undefined;
   /** Specifies the reason why the recording stopped. */
-  reason?: RecordingsStartRecordingsResponseDataStopReasonReason | null;
+  reason?: RecordingsStartRecordingsResponseDataStopReasonReason | null | undefined;
 }
 export type RecordingsStartRecordingsResponseDataStorageConfigCase0AuthMethod = "KEY" | "PASSWORD";
 export type RecordingsStartRecordingsResponseDataStorageConfigCase0Type = "gcs";
 export interface RecordingsStartRecordingsResponseDataStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
+  accessKey?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase0AuthMethod | null;
+  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase0AuthMethod | null | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: RecordingsStartRecordingsResponseDataStorageConfigCase0Type | null;
+  secret?: string | null | undefined;
+  type?: RecordingsStartRecordingsResponseDataStorageConfigCase0Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsStartRecordingsResponseDataStorageConfigCase1AuthMethod = "KEY" | "PASSWORD";
 export type RecordingsStartRecordingsResponseDataStorageConfigCase1Type =
@@ -6637,24 +7347,24 @@ export interface RecordingsStartRecordingsResponseDataStorageConfigCase1 {
   accessKey: unknown;
   region: unknown;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase1AuthMethod | null;
+  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase1AuthMethod | null | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: RecordingsStartRecordingsResponseDataStorageConfigCase1Type | null;
+  secret?: string | null | undefined;
+  type?: RecordingsStartRecordingsResponseDataStorageConfigCase1Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsStartRecordingsResponseDataStorageConfigCase2AuthMethod = "KEY";
 export type RecordingsStartRecordingsResponseDataStorageConfigCase2Type =
@@ -6667,26 +7377,26 @@ export interface RecordingsStartRecordingsResponseDataStorageConfigCase2 {
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase2AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase2AuthMethod | null | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: RecordingsStartRecordingsResponseDataStorageConfigCase2Type | null;
+  type?: RecordingsStartRecordingsResponseDataStorageConfigCase2Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsStartRecordingsResponseDataStorageConfigCase3AuthMethod = "PASSWORD";
 export type RecordingsStartRecordingsResponseDataStorageConfigCase3Type =
@@ -6699,26 +7409,26 @@ export interface RecordingsStartRecordingsResponseDataStorageConfigCase3 {
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase3AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?: RecordingsStartRecordingsResponseDataStorageConfigCase3AuthMethod | null | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: RecordingsStartRecordingsResponseDataStorageConfigCase3Type | null;
+  type?: RecordingsStartRecordingsResponseDataStorageConfigCase3Type | null | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type RecordingsStartRecordingsResponseDataStorageConfig =
   | RecordingsStartRecordingsResponseDataStorageConfigCase0
@@ -6749,22 +7459,22 @@ export interface RecordingsStartRecordingsResponseData {
   /** Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped. */
   stoppedTime: string;
   /** Total recording time in seconds. */
-  recordingDuration?: number | null;
-  startReason?: RecordingsStartRecordingsResponseDataStartReason | null;
-  stopReason?: RecordingsStartRecordingsResponseDataStopReason | null;
-  storageConfig?: RecordingsStartRecordingsResponseDataStorageConfig | null;
+  recordingDuration?: number | null | undefined;
+  startReason?: RecordingsStartRecordingsResponseDataStartReason | null | undefined;
+  stopReason?: RecordingsStartRecordingsResponseDataStopReason | null | undefined;
+  storageConfig?: RecordingsStartRecordingsResponseDataStorageConfig | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface StartRecordingsRecordingResponse {
   /** Data returned by the operation */
-  data?: RecordingsStartRecordingsResponseData | null;
+  data?: RecordingsStartRecordingsResponseData | null | undefined;
 }
 export type RecordingsStartTrackRecordingRequestLayersValueMediaKind = "audio";
 export interface RecordingsStartTrackRecordingRequestLayersValue {
   /** A file name prefix to apply for files generated from this layer */
-  fileNamePrefix?: string;
+  fileNamePrefix?: string | undefined;
   /** Media kind to record. Track recording currently supports audio only. */
-  mediaKind?: RecordingsStartTrackRecordingRequestLayersValueMediaKind | (string & {});
+  mediaKind?: RecordingsStartTrackRecordingRequestLayersValueMediaKind | (string & {}) | undefined;
 }
 export type RecordingsStartTrackRecordingRequestLayersMap = {
   [key: string]: RecordingsStartTrackRecordingRequestLayersValue | undefined;
@@ -6778,9 +7488,9 @@ export interface StartTrackRecordingRecordingRequest {
   /** ID of the meeting to record. */
   meetingId: string;
   /** Optional audio layer configuration. If omitted, RealtimeKit records all participant audio using the default file name prefix. */
-  layers?: RecordingsStartTrackRecordingRequestLayersMap;
+  layers?: RecordingsStartTrackRecordingRequestLayersMap | undefined;
   /** Optional list of participant user IDs to record. Selective track recording (`user_ids`) is in early beta contact support to use this feature. */
-  userIds?: RecordingsStartTrackRecordingRequestUserIdsList;
+  userIds?: RecordingsStartTrackRecordingRequestUserIdsList | undefined;
 }
 export type RecordingsStartTrackRecordingResponseDataRecordingStatus =
   | "INVOKED"
@@ -6813,7 +7523,7 @@ export interface RecordingsStartTrackRecordingResponseDataRecording {
   /** Timestamp when this recording was stopped. Optional; is present only when the recording has actually been stopped. */
   stoppedTime: string;
   /** Total recording time in seconds. */
-  recordingDuration?: number | null;
+  recordingDuration?: number | null | undefined;
 }
 export interface RecordingsStartTrackRecordingResponseData {
   recording: RecordingsStartTrackRecordingResponseDataRecording;
@@ -6821,7 +7531,7 @@ export interface RecordingsStartTrackRecordingResponseData {
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface StartTrackRecordingRecordingResponse {
   /** Data returned by the operation */
-  data?: RecordingsStartTrackRecordingResponseData | null;
+  data?: RecordingsStartTrackRecordingResponseData | null | undefined;
 }
 export interface StopLivestreamingAMeetingLivestreamRequest {
   /** The account identifier tag. */
@@ -6831,11 +7541,29 @@ export interface StopLivestreamingAMeetingLivestreamRequest {
   meetingId: string;
 }
 export interface LivestreamsStopLivestreamingAMeetingResponseData {
-  message?: string | null;
+  message?: string | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface StopLivestreamingAMeetingLivestreamResponse {
-  data?: LivestreamsStopLivestreamingAMeetingResponseData | null;
+  data?: LivestreamsStopLivestreamingAMeetingResponseData | null | undefined;
+}
+export interface UpdateAppByIdRequest {
+  /** The account identifier tag. */
+  accountId: string;
+  appId: string;
+  /** The app name. Leading and trailing whitespace is removed, and the name must contain at least one non-whitespace character. */
+  name: string;
+}
+export interface UpdateAppByIdResponseData {
+  id?: string | null | undefined;
+  cfAccountTag?: string | null | undefined;
+  createdAt?: string | null | undefined;
+  isOrgOnKv?: boolean | null | undefined;
+  name?: string | null | undefined;
+}
+/** Raw response payload (operation does not use the standard v4 result envelope). */
+export interface UpdateAppByIdResponse {
+  data: UpdateAppByIdResponseData;
 }
 export type MeetingsUpdateMeetingByIdRequestAiConfigSummarizationSummaryType =
   | "general"
@@ -6852,11 +7580,17 @@ export type MeetingsUpdateMeetingByIdRequestAiConfigSummarizationTextFormat =
   | "markdown";
 export interface MeetingsUpdateMeetingByIdRequestAiConfigSummarization {
   /** Defines the style of the summary, such as general, team meeting, or sales call. */
-  summaryType?: MeetingsUpdateMeetingByIdRequestAiConfigSummarizationSummaryType | (string & {});
+  summaryType?:
+    | MeetingsUpdateMeetingByIdRequestAiConfigSummarizationSummaryType
+    | (string & {})
+    | undefined;
   /** Determines the text format of the summary, such as plain text or markdown. */
-  textFormat?: MeetingsUpdateMeetingByIdRequestAiConfigSummarizationTextFormat | (string & {});
+  textFormat?:
+    | MeetingsUpdateMeetingByIdRequestAiConfigSummarizationTextFormat
+    | (string & {})
+    | undefined;
   /** Sets the maximum number of words in the meeting summary. */
-  wordLimit?: number;
+  wordLimit?: number | undefined;
 }
 export type MeetingsUpdateMeetingByIdRequestAiConfigTranscriptionKeywordsList = Array<string>;
 export type MeetingsUpdateMeetingByIdRequestAiConfigTranscriptionLanguage =
@@ -6872,27 +7606,36 @@ export type MeetingsUpdateMeetingByIdRequestAiConfigTranscriptionLanguage =
   | "nl";
 export interface MeetingsUpdateMeetingByIdRequestAiConfigTranscription {
   /** Adds specific terms to improve accurate detection during transcription. */
-  keywords?: MeetingsUpdateMeetingByIdRequestAiConfigTranscriptionKeywordsList;
+  keywords?: MeetingsUpdateMeetingByIdRequestAiConfigTranscriptionKeywordsList | undefined;
   /** Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription. */
-  language?: MeetingsUpdateMeetingByIdRequestAiConfigTranscriptionLanguage | (string & {});
+  language?:
+    | MeetingsUpdateMeetingByIdRequestAiConfigTranscriptionLanguage
+    | (string & {})
+    | undefined;
   /** Control the inclusion of offensive language in transcriptions. */
-  profanityFilter?: boolean;
+  profanityFilter?: boolean | undefined;
 }
 export interface MeetingsUpdateMeetingByIdRequestAiConfig {
   /** Summary Config */
-  summarization?: MeetingsUpdateMeetingByIdRequestAiConfigSummarization;
+  summarization?: MeetingsUpdateMeetingByIdRequestAiConfigSummarization | undefined;
   /** Transcription Configurations */
-  transcription?: MeetingsUpdateMeetingByIdRequestAiConfigTranscription;
+  transcription?: MeetingsUpdateMeetingByIdRequestAiConfigTranscription | undefined;
 }
 export type MeetingsUpdateMeetingByIdRequestRecordingConfigAudioConfigChannel = "mono" | "stereo";
 export type MeetingsUpdateMeetingByIdRequestRecordingConfigAudioConfigCodec = "MP3" | "AAC";
 export interface MeetingsUpdateMeetingByIdRequestRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
-  channel?: MeetingsUpdateMeetingByIdRequestRecordingConfigAudioConfigChannel | (string & {});
+  channel?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigAudioConfigChannel
+    | (string & {})
+    | undefined;
   /** Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis. */
-  codec?: MeetingsUpdateMeetingByIdRequestRecordingConfigAudioConfigCodec | (string & {});
+  codec?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigAudioConfigCodec
+    | (string & {})
+    | undefined;
   /** Controls whether to export audio file seperately */
-  exportFile?: boolean;
+  exportFile?: boolean | undefined;
 }
 export type MeetingsUpdateMeetingByIdRequestRecordingConfigLiveStreamingConfig =
   MeetingsCreateRequestRecordingConfigLiveStreamingConfig;
@@ -6904,30 +7647,34 @@ export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0Aut
 export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0Type = "gcs";
 export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string;
+  accessKey?: string | undefined;
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0AuthMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string;
+  host?: string | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string;
+  password?: string | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string;
+  path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number;
+  port?: number | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string;
+  privateKey?: string | undefined;
   /** Region of the storage medium. */
-  region?: string;
+  region?: string | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string;
-  type?: MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0Type | (string & {});
+  secret?: string | undefined;
+  type?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0Type
+    | (string & {})
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string;
+  username?: string | undefined;
 }
 export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1AuthMethod =
   | "KEY"
@@ -6942,24 +7689,28 @@ export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCas
   /** Authentication method used for "sftp" type storage medium */
   authMethod?:
     | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1AuthMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string;
+  host?: string | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string;
+  password?: string | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string;
+  path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number;
+  port?: number | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string;
+  privateKey?: string | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string;
-  type?: MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1Type | (string & {});
+  secret?: string | undefined;
+  type?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase1Type
+    | (string & {})
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string;
+  username?: string | undefined;
 }
 export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod = "KEY";
 export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2Type =
@@ -6972,28 +7723,32 @@ export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCas
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string;
+  accessKey?: string | undefined;
   authMethod?:
     | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2AuthMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string;
+  host?: string | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string;
+  password?: string | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string;
+  path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number;
+  port?: number | undefined;
   /** Region of the storage medium. */
-  region?: string;
+  region?: string | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string;
+  secret?: string | undefined;
   /** Type of storage media. */
-  type?: MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2Type | (string & {});
+  type?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase2Type
+    | (string & {})
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string;
+  username?: string | undefined;
 }
 export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod =
   "PASSWORD";
@@ -7007,28 +7762,32 @@ export interface MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCas
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string;
+  accessKey?: string | undefined;
   authMethod?:
     | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3AuthMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string;
+  host?: string | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string;
+  path?: string | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number;
+  port?: number | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string;
+  privateKey?: string | undefined;
   /** Region of the storage medium. */
-  region?: string;
+  region?: string | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string;
+  secret?: string | undefined;
   /** Type of storage media. */
-  type?: MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3Type | (string & {});
+  type?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase3Type
+    | (string & {})
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string;
+  username?: string | undefined;
 }
 export type MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfig =
   | MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfigCase0
@@ -7050,35 +7809,39 @@ export interface MeetingsUpdateMeetingByIdRequestRecordingConfigVideoConfigWater
   /** Position of the watermark */
   position?:
     | MeetingsUpdateMeetingByIdRequestRecordingConfigVideoConfigWatermarkPosition
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Size of the watermark */
-  size?: MeetingsCreateRequestRecordingConfigVideoConfigWatermarkSize;
+  size?: MeetingsCreateRequestRecordingConfigVideoConfigWatermarkSize | undefined;
   /** URL of the watermark image */
-  url?: string;
+  url?: string | undefined;
 }
 export interface MeetingsUpdateMeetingByIdRequestRecordingConfigVideoConfig {
   /** Codec using which the recording will be encoded. */
-  codec?: MeetingsUpdateMeetingByIdRequestRecordingConfigVideoConfigCodec | (string & {});
+  codec?:
+    | MeetingsUpdateMeetingByIdRequestRecordingConfigVideoConfigCodec
+    | (string & {})
+    | undefined;
   /** Controls whether to export video file seperately */
-  exportFile?: boolean;
+  exportFile?: boolean | undefined;
   /** Height of the recording video in pixels */
-  height?: number;
+  height?: number | undefined;
   /** Watermark to be added to the recording */
-  watermark?: MeetingsUpdateMeetingByIdRequestRecordingConfigVideoConfigWatermark;
+  watermark?: MeetingsUpdateMeetingByIdRequestRecordingConfigVideoConfigWatermark | undefined;
   /** Width of the recording video in pixels */
-  width?: number;
+  width?: number | undefined;
 }
 export interface MeetingsUpdateMeetingByIdRequestRecordingConfig {
   /** Object containing configuration regarding the audio that is being recorded. */
-  audioConfig?: MeetingsUpdateMeetingByIdRequestRecordingConfigAudioConfig;
+  audioConfig?: MeetingsUpdateMeetingByIdRequestRecordingConfigAudioConfig | undefined;
   /** Adds a prefix to the beginning of the file name of the recording. */
-  fileNamePrefix?: string;
-  liveStreamingConfig?: MeetingsCreateRequestRecordingConfigLiveStreamingConfig;
+  fileNamePrefix?: string | undefined;
+  liveStreamingConfig?: MeetingsCreateRequestRecordingConfigLiveStreamingConfig | undefined;
   /** Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours. */
-  maxSeconds?: number;
-  realtimekitBucketConfig?: MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig;
-  storageConfig?: MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfig;
-  videoConfig?: MeetingsUpdateMeetingByIdRequestRecordingConfigVideoConfig;
+  maxSeconds?: number | undefined;
+  realtimekitBucketConfig?: MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig | undefined;
+  storageConfig?: MeetingsUpdateMeetingByIdRequestRecordingConfigStorageConfig | undefined;
+  videoConfig?: MeetingsUpdateMeetingByIdRequestRecordingConfigVideoConfig | undefined;
 }
 export type MeetingsUpdateMeetingByIdRequestStatus = "ACTIVE" | "INACTIVE";
 export interface UpdateMeetingByIdMeetingRequest {
@@ -7088,25 +7851,25 @@ export interface UpdateMeetingByIdMeetingRequest {
   appId: string;
   meetingId: string;
   /** The AI Config allows you to customize the behavior of meeting transcriptions and summaries */
-  aiConfig?: MeetingsUpdateMeetingByIdRequestAiConfig;
+  aiConfig?: MeetingsUpdateMeetingByIdRequestAiConfig | undefined;
   /** Specifies if the meeting should start getting livestreamed on start. */
-  liveStreamOnStart?: boolean;
+  liveStreamOnStart?: boolean | undefined;
   /** If a meeting is updated to persist_chat, meeting chat would remain for a week within the meeting space. */
-  persistChat?: boolean;
+  persistChat?: boolean | undefined;
   /** Specifies if the meeting should start getting recorded as soon as someone joins the meeting. */
-  recordOnStart?: boolean;
+  recordOnStart?: boolean | undefined;
   /** Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal. */
-  recordingConfig?: MeetingsUpdateMeetingByIdRequestRecordingConfig;
+  recordingConfig?: MeetingsUpdateMeetingByIdRequestRecordingConfig | undefined;
   /** Time in seconds, for which a session remains active, after the last participant has left the meeting. */
-  sessionKeepAliveTimeInSecs?: number;
+  sessionKeepAliveTimeInSecs?: number | undefined;
   /** Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting. */
-  status?: MeetingsUpdateMeetingByIdRequestStatus | (string & {});
+  status?: MeetingsUpdateMeetingByIdRequestStatus | (string & {}) | undefined;
   /** Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API. */
-  summarizeOnEnd?: boolean;
+  summarizeOnEnd?: boolean | undefined;
   /** Title of the meeting */
-  title?: string;
+  title?: string | undefined;
   /** Automatically generate transcripts when the meeting ends. */
-  transcribeOnEnd?: boolean;
+  transcribeOnEnd?: boolean | undefined;
 }
 export type MeetingsUpdateMeetingByIdResponseDataAiConfigSummarizationSummaryType =
   | "general"
@@ -7123,11 +7886,17 @@ export type MeetingsUpdateMeetingByIdResponseDataAiConfigSummarizationTextFormat
   | "markdown";
 export interface MeetingsUpdateMeetingByIdResponseDataAiConfigSummarization {
   /** Defines the style of the summary, such as general, team meeting, or sales call. */
-  summaryType?: MeetingsUpdateMeetingByIdResponseDataAiConfigSummarizationSummaryType | null;
+  summaryType?:
+    | MeetingsUpdateMeetingByIdResponseDataAiConfigSummarizationSummaryType
+    | null
+    | undefined;
   /** Determines the text format of the summary, such as plain text or markdown. */
-  textFormat?: MeetingsUpdateMeetingByIdResponseDataAiConfigSummarizationTextFormat | null;
+  textFormat?:
+    | MeetingsUpdateMeetingByIdResponseDataAiConfigSummarizationTextFormat
+    | null
+    | undefined;
   /** Sets the maximum number of words in the meeting summary. */
-  wordLimit?: number | null;
+  wordLimit?: number | null | undefined;
 }
 export type MeetingsUpdateMeetingByIdResponseDataAiConfigTranscriptionKeywordsList = Array<string>;
 export type MeetingsUpdateMeetingByIdResponseDataAiConfigTranscriptionLanguage =
@@ -7143,17 +7912,20 @@ export type MeetingsUpdateMeetingByIdResponseDataAiConfigTranscriptionLanguage =
   | "nl";
 export interface MeetingsUpdateMeetingByIdResponseDataAiConfigTranscription {
   /** Adds specific terms to improve accurate detection during transcription. */
-  keywords?: MeetingsUpdateMeetingByIdResponseDataAiConfigTranscriptionKeywordsList | null;
+  keywords?:
+    | MeetingsUpdateMeetingByIdResponseDataAiConfigTranscriptionKeywordsList
+    | null
+    | undefined;
   /** Specifies the language code for transcription to ensure accurate results. If omitted, the language is auto-detected for post-meeting (Whisper) transcription. */
-  language?: MeetingsUpdateMeetingByIdResponseDataAiConfigTranscriptionLanguage | null;
+  language?: MeetingsUpdateMeetingByIdResponseDataAiConfigTranscriptionLanguage | null | undefined;
   /** Control the inclusion of offensive language in transcriptions. */
-  profanityFilter?: boolean | null;
+  profanityFilter?: boolean | null | undefined;
 }
 export interface MeetingsUpdateMeetingByIdResponseDataAiConfig {
   /** Summary Config */
-  summarization?: MeetingsUpdateMeetingByIdResponseDataAiConfigSummarization | null;
+  summarization?: MeetingsUpdateMeetingByIdResponseDataAiConfigSummarization | null | undefined;
   /** Transcription Configurations */
-  transcription?: MeetingsUpdateMeetingByIdResponseDataAiConfigTranscription | null;
+  transcription?: MeetingsUpdateMeetingByIdResponseDataAiConfigTranscription | null | undefined;
 }
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigAudioConfigChannel =
   | "mono"
@@ -7161,11 +7933,14 @@ export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigAudioConfigChann
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigAudioConfigCodec = "MP3" | "AAC";
 export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigAudioConfig {
   /** Audio signal pathway within an audio file that carries a specific sound source. */
-  channel?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigAudioConfigChannel | null;
+  channel?:
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigAudioConfigChannel
+    | null
+    | undefined;
   /** Codec using which the recording will be encoded. If VP8/VP9 is selected for videoConfig, changing audioConfig is not allowed. In this case, the codec in the audioConfig is automatically set to vorbis. */
-  codec?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigAudioConfigCodec | null;
+  codec?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigAudioConfigCodec | null | undefined;
   /** Controls whether to export audio file seperately */
-  exportFile?: boolean | null;
+  exportFile?: boolean | null | undefined;
 }
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigLiveStreamingConfig =
   MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig;
@@ -7177,28 +7952,34 @@ export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCas
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type = "gcs";
 export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0 {
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
+  accessKey?: string | null | undefined;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod | null;
+  authMethod?:
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type | null;
+  secret?: string | null | undefined;
+  type?:
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0Type
+    | null
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod =
   | "KEY"
@@ -7211,24 +7992,30 @@ export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConf
   accessKey: unknown;
   region: unknown;
   /** Authentication method used for "sftp" type storage medium */
-  authMethod?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod | null;
+  authMethod?:
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
-  type?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type | null;
+  secret?: string | null | undefined;
+  type?:
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase1Type
+    | null
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod =
   "KEY";
@@ -7242,26 +8029,32 @@ export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConf
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
   privateKey: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?:
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
-  password?: string | null;
+  password?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type | null;
+  type?:
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase2Type
+    | null
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod =
   "PASSWORD";
@@ -7275,26 +8068,32 @@ export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConf
   /** SSH destination server password for SFTP type storage medium when auth_method is "PASSWORD". If auth_method is "KEY", this specifies the password for the ssh private key. */
   password: string;
   /** Access key of the storage medium. Access key is not required for the `gcs` storage media type. */
-  accessKey?: string | null;
-  authMethod?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod | null;
+  accessKey?: string | null | undefined;
+  authMethod?:
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3AuthMethod
+    | null
+    | undefined;
   /** Name of the storage medium's bucket. */
-  bucket?: string | null;
+  bucket?: string | null | undefined;
   /** SSH destination server host for SFTP type storage medium */
-  host?: string | null;
+  host?: string | null | undefined;
   /** Path relative to the bucket root at which the recording will be placed. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** SSH destination server port for SFTP type storage medium */
-  port?: number | null;
+  port?: number | null | undefined;
   /** Private key used to login to destination SSH server for SFTP type storage medium, when auth_method used is "KEY" */
-  privateKey?: string | null;
+  privateKey?: string | null | undefined;
   /** Region of the storage medium. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Secret key of the storage medium. Similar to `access_key`, it is only writeable by clients, not readable. */
-  secret?: string | null;
+  secret?: string | null | undefined;
   /** Type of storage media. */
-  type?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type | null;
+  type?:
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase3Type
+    | null
+    | undefined;
   /** SSH destination server username for SFTP type storage medium */
-  username?: string | null;
+  username?: string | null | undefined;
 }
 export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfig =
   | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfigCase0
@@ -7314,35 +8113,50 @@ export type MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfigWater
   MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize;
 export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfigWatermark {
   /** Position of the watermark */
-  position?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfigWatermarkPosition | null;
+  position?:
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfigWatermarkPosition
+    | null
+    | undefined;
   /** Size of the watermark */
-  size?: MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize | null;
+  size?: MeetingsCreateResponseDataRecordingConfigVideoConfigWatermarkSize | null | undefined;
   /** URL of the watermark image */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfig {
   /** Codec using which the recording will be encoded. */
-  codec?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfigCodec | null;
+  codec?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfigCodec | null | undefined;
   /** Controls whether to export video file seperately */
-  exportFile?: boolean | null;
+  exportFile?: boolean | null | undefined;
   /** Height of the recording video in pixels */
-  height?: number | null;
+  height?: number | null | undefined;
   /** Watermark to be added to the recording */
-  watermark?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfigWatermark | null;
+  watermark?:
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfigWatermark
+    | null
+    | undefined;
   /** Width of the recording video in pixels */
-  width?: number | null;
+  width?: number | null | undefined;
 }
 export interface MeetingsUpdateMeetingByIdResponseDataRecordingConfig {
   /** Object containing configuration regarding the audio that is being recorded. */
-  audioConfig?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigAudioConfig | null;
+  audioConfig?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigAudioConfig | null | undefined;
   /** Adds a prefix to the beginning of the file name of the recording. */
-  fileNamePrefix?: string | null;
-  liveStreamingConfig?: MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig | null;
+  fileNamePrefix?: string | null | undefined;
+  liveStreamingConfig?:
+    | MeetingsCreateResponseDataRecordingConfigLiveStreamingConfig
+    | null
+    | undefined;
   /** Specifies the maximum duration for recording in seconds, ranging from a minimum of 60 seconds to a maximum of 24 hours. */
-  maxSeconds?: number | null;
-  realtimekitBucketConfig?: MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig | null;
-  storageConfig?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfig | null;
-  videoConfig?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfig | null;
+  maxSeconds?: number | null | undefined;
+  realtimekitBucketConfig?:
+    | MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig
+    | null
+    | undefined;
+  storageConfig?:
+    | MeetingsUpdateMeetingByIdResponseDataRecordingConfigStorageConfig
+    | null
+    | undefined;
+  videoConfig?: MeetingsUpdateMeetingByIdResponseDataRecordingConfigVideoConfig | null | undefined;
 }
 export type MeetingsUpdateMeetingByIdResponseDataStatus = "ACTIVE" | "INACTIVE";
 export interface MeetingsUpdateMeetingByIdResponseData {
@@ -7353,31 +8167,86 @@ export interface MeetingsUpdateMeetingByIdResponseData {
   /** Timestamp the object was updated at. The time is returned in ISO format. */
   updatedAt: string;
   /** The AI Config allows you to customize the behavior of meeting transcriptions and summaries */
-  aiConfig?: MeetingsUpdateMeetingByIdResponseDataAiConfig | null;
+  aiConfig?: MeetingsUpdateMeetingByIdResponseDataAiConfig | null | undefined;
   /** Specifies if the meeting should start getting livestreamed on start. */
-  liveStreamOnStart?: boolean | null;
+  liveStreamOnStart?: boolean | null | undefined;
   /** Specifies if Chat within a meeting should persist for a week. */
-  persistChat?: boolean | null;
+  persistChat?: boolean | null | undefined;
   /** Specifies if the meeting should start getting recorded as soon as someone joins the meeting. */
-  recordOnStart?: boolean | null;
+  recordOnStart?: boolean | null | undefined;
   /** Recording Configurations to be used for this meeting. This level of configs takes higher preference over App level configs on the RealtimeKit developer portal. */
-  recordingConfig?: MeetingsUpdateMeetingByIdResponseDataRecordingConfig | null;
+  recordingConfig?: MeetingsUpdateMeetingByIdResponseDataRecordingConfig | null | undefined;
   /** Time in seconds, for which a session remains active, after the last participant has left the meeting. */
-  sessionKeepAliveTimeInSecs?: number | null;
+  sessionKeepAliveTimeInSecs?: number | null | undefined;
   /** Whether the meeting is `ACTIVE` or `INACTIVE`. Users will not be able to join an `INACTIVE` meeting. */
-  status?: MeetingsUpdateMeetingByIdResponseDataStatus | null;
+  status?: MeetingsUpdateMeetingByIdResponseDataStatus | null | undefined;
   /** Automatically generate summary of meetings using transcripts. Requires Transcriptions to be enabled, and can be retrieved via Webhooks or summary API. */
-  summarizeOnEnd?: boolean | null;
+  summarizeOnEnd?: boolean | null | undefined;
   /** Title of the meeting. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Automatically generate transcripts when the meeting ends. */
-  transcribeOnEnd?: boolean | null;
+  transcribeOnEnd?: boolean | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface UpdateMeetingByIdMeetingResponse {
   /** Data returned by the operation */
-  data?: MeetingsUpdateMeetingByIdResponseData | null;
+  data?: MeetingsUpdateMeetingByIdResponseData | null | undefined;
 }
+export interface WebhooksGetAllWebhooksRequest {
+  /** The account identifier tag. */
+  accountId: string;
+  /** The app identifier tag. */
+  appId: string;
+}
+export type WebhooksGetAllWebhooksResponseDataItem =
+  | "meeting.started"
+  | "meeting.ended"
+  | "meeting.participantJoined"
+  | "meeting.participantLeft"
+  | "meeting.chatSynced"
+  | "recording.statusUpdate"
+  | "livestreaming.statusUpdate"
+  | "meeting.transcript"
+  | "meeting.summary";
+export type WebhooksGetAllWebhooksResponseDataList = Array<WebhooksGetAllWebhooksResponseDataItem>;
+/** Raw response payload (operation does not use the standard v4 result envelope). */
+export interface WebhooksGetAllWebhooksResponse {
+  data: WebhooksGetAllWebhooksResponseDataList;
+}
+export type ActiveSessionMuteAllParticipantsError = CloudflareOpError;
+/** Mutes all participants of an active session for the given meeting ID. */
+export const activeSessionMuteAllParticipants: API.OperationMethod<
+  ActiveSessionMuteAllParticipantsRequest,
+  ActiveSessionMuteAllParticipantsResponse,
+  ActiveSessionMuteAllParticipantsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2080, __c65, 0) as any as S.Schema<ActiveSessionMuteAllParticipantsRequest>,
+  output: __S(2082, __c65, 2) as any as S.Schema<ActiveSessionMuteAllParticipantsResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActiveSessionMuteAllParticipants",
+}));
+
+export type ActiveSessionMuteParticipantsError = CloudflareOpError;
+/** Mutes one or more participants from an active session using user ID or custom participant ID. */
+export const activeSessionMuteParticipants: API.OperationMethod<
+  ActiveSessionMuteParticipantsRequest,
+  ActiveSessionMuteParticipantsResponse,
+  ActiveSessionMuteParticipantsError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2432, __c76, 0) as any as S.Schema<ActiveSessionMuteParticipantsRequest>,
+  output: __S(2467, __c77, 3) as any as S.Schema<ActiveSessionMuteParticipantsResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ActiveSessionMuteParticipants",
+}));
+
 export type AddParticipantMeetingError = CloudflareOpError;
 /** Adds a participant to the given meeting ID. */
 export const addParticipantMeeting: API.OperationMethod<
@@ -7386,8 +8255,8 @@ export const addParticipantMeeting: API.OperationMethod<
   AddParticipantMeetingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<AddParticipantMeetingRequest>,
-  output: __S(1825, __c57, 1) as any as S.Schema<AddParticipantMeetingResponse>,
+  input: __S(2849, __c89, 1) as any as S.Schema<AddParticipantMeetingRequest>,
+  output: __S(2881, __c90, 1) as any as S.Schema<AddParticipantMeetingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7403,8 +8272,8 @@ export const createIndependentLivestreamLivestream: API.OperationMethod<
   CreateIndependentLivestreamLivestreamError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<CreateIndependentLivestreamLivestreamRequest>,
-  output: __S(2178, __c68, 2) as any as S.Schema<CreateIndependentLivestreamLivestreamResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<CreateIndependentLivestreamLivestreamRequest>,
+  output: __S(2914, __c91, 2) as any as S.Schema<CreateIndependentLivestreamLivestreamResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7420,8 +8289,8 @@ export const createMeeting: API.OperationMethod<
   CreateMeetingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2242, __c70, 2) as any as S.Schema<CreateMeetingRequest>,
-  output: __S(2246, __c70, 6) as any as S.Schema<CreateMeetingResponse>,
+  input: __S(2946, __c92, 2) as any as S.Schema<CreateMeetingRequest>,
+  output: __S(2950, __c92, 6) as any as S.Schema<CreateMeetingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7437,8 +8306,8 @@ export const createPollActiveSession: API.OperationMethod<
   CreatePollActiveSessionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<CreatePollActiveSessionRequest>,
-  output: __S(2503, __c78, 7) as any as S.Schema<CreatePollActiveSessionResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<CreatePollActiveSessionRequest>,
+  output: __S(7, __c0, 7) as any as S.Schema<CreatePollActiveSessionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7454,8 +8323,8 @@ export const createPreset: API.OperationMethod<
   CreatePresetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2529, __c79, 1) as any as S.Schema<CreatePresetRequest>,
-  output: __S(2625, __c82, 1) as any as S.Schema<CreatePresetResponse>,
+  input: __S(33, __c1, 1) as any as S.Schema<CreatePresetRequest>,
+  output: __S(129, __c4, 1) as any as S.Schema<CreatePresetResponse>,
   errors: [RealtimeKitPresetExists, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7471,8 +8340,8 @@ export const createWebhookWebhook: API.OperationMethod<
   CreateWebhookWebhookError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<CreateWebhookWebhookRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<CreateWebhookWebhookResponse>,
+  input: __S(256, __c8, 0) as any as S.Schema<CreateWebhookWebhookRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<CreateWebhookWebhookResponse>,
   errors: [RealtimeKitWebhookExists, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7488,8 +8357,8 @@ export const deleteMeetingParticipantMeeting: API.OperationMethod<
   DeleteMeetingParticipantMeetingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<DeleteMeetingParticipantMeetingRequest>,
-  output: __S(130, __c4, 2) as any as S.Schema<DeleteMeetingParticipantMeetingResponse>,
+  input: __S(384, __c12, 0) as any as S.Schema<DeleteMeetingParticipantMeetingRequest>,
+  output: __S(386, __c12, 2) as any as S.Schema<DeleteMeetingParticipantMeetingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7505,8 +8374,8 @@ export const deletePreset: API.OperationMethod<
   DeletePresetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<DeletePresetRequest>,
-  output: __S(2625, __c82, 1) as any as S.Schema<DeletePresetResponse>,
+  input: __S(416, __c13, 0) as any as S.Schema<DeletePresetRequest>,
+  output: __S(129, __c4, 1) as any as S.Schema<DeletePresetResponse>,
   errors: [RealtimeKitPresetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7522,8 +8391,8 @@ export const deleteWebhookWebhook: API.OperationMethod<
   DeleteWebhookWebhookError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c6, 0) as any as S.Schema<DeleteWebhookWebhookRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<DeleteWebhookWebhookResponse>,
+  input: __S(448, __c14, 0) as any as S.Schema<DeleteWebhookWebhookRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<DeleteWebhookWebhookResponse>,
   errors: [RealtimeKitWebhookNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7539,8 +8408,8 @@ export const editParticipantMeeting: API.OperationMethod<
   EditParticipantMeetingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c7, 0) as any as S.Schema<EditParticipantMeetingRequest>,
-  output: __S(1825, __c57, 1) as any as S.Schema<EditParticipantMeetingResponse>,
+  input: __S(480, __c15, 0) as any as S.Schema<EditParticipantMeetingRequest>,
+  output: __S(2881, __c90, 1) as any as S.Schema<EditParticipantMeetingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7556,8 +8425,8 @@ export const editWebhookWebhook: API.OperationMethod<
   EditWebhookWebhookError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c8, 0) as any as S.Schema<EditWebhookWebhookRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<EditWebhookWebhookResponse>,
+  input: __S(512, __c16, 0) as any as S.Schema<EditWebhookWebhookRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<EditWebhookWebhookResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7573,8 +8442,8 @@ export const generateSummaryOfTranscriptsSession: API.OperationMethod<
   GenerateSummaryOfTranscriptsSessionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<GenerateSummaryOfTranscriptsSessionRequest>,
-  output: __S(290, __c9, 2) as any as S.Schema<GenerateSummaryOfTranscriptsSessionResponse>,
+  input: __S(544, __c17, 0) as any as S.Schema<GenerateSummaryOfTranscriptsSessionRequest>,
+  output: __S(546, __c17, 2) as any as S.Schema<GenerateSummaryOfTranscriptsSessionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7591,14 +8460,14 @@ export const getActiveLivestreamsForLivestreamIdLivestream: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    320,
-    __c10,
+    576,
+    __c18,
     0,
   ) as any as S.Schema<GetActiveLivestreamsForLivestreamIdLivestreamRequest>,
   output: __S(
-    323,
-    __c10,
-    3,
+    578,
+    __c18,
+    2,
   ) as any as S.Schema<GetActiveLivestreamsForLivestreamIdLivestreamResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -7615,8 +8484,8 @@ export const getActiveRecordingsRecording: API.OperationMethod<
   GetActiveRecordingsRecordingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<GetActiveRecordingsRecordingRequest>,
-  output: __S(385, __c12, 1) as any as S.Schema<GetActiveRecordingsRecordingResponse>,
+  input: __S(672, __c21, 0) as any as S.Schema<GetActiveRecordingsRecordingRequest>,
+  output: __S(673, __c21, 1) as any as S.Schema<GetActiveRecordingsRecordingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7632,8 +8501,8 @@ export const getActiveSessionActiveSession: API.OperationMethod<
   GetActiveSessionActiveSessionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<GetActiveSessionActiveSessionRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<GetActiveSessionActiveSessionResponse>,
+  input: __S(736, __c23, 0) as any as S.Schema<GetActiveSessionActiveSessionRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<GetActiveSessionActiveSessionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7649,8 +8518,8 @@ export const getAllLivestreamsLivestream: API.OperationMethod<
   GetAllLivestreamsLivestreamError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<GetAllLivestreamsLivestreamRequest>,
-  output: __S(546, __c17, 2) as any as S.Schema<GetAllLivestreamsLivestreamResponse>,
+  input: __S(832, __c26, 0) as any as S.Schema<GetAllLivestreamsLivestreamRequest>,
+  output: __S(834, __c26, 2) as any as S.Schema<GetAllLivestreamsLivestreamResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7666,13 +8535,30 @@ export const getApp: API.OperationMethod<
   GetAppError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<GetAppRequest>,
-  output: __S(610, __c19, 2) as any as S.Schema<GetAppResponse>,
+  input: __S(896, __c28, 0) as any as S.Schema<GetAppRequest>,
+  output: __S(898, __c28, 2) as any as S.Schema<GetAppResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetApp",
+}));
+
+export type GetAppByIdError = CloudflareOpError;
+/** Fetch details for an app in your account. */
+export const getAppById: API.OperationMethod<
+  GetAppByIdRequest,
+  GetAppByIdResponse,
+  GetAppByIdError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(992, __c31, 0) as any as S.Schema<GetAppByIdRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<GetAppByIdResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetAppById",
 }));
 
 export type GetLivestreamAnalyticsCompleteLivestreamError = CloudflareOpError;
@@ -7683,8 +8569,8 @@ export const getLivestreamAnalyticsCompleteLivestream: API.OperationMethod<
   GetLivestreamAnalyticsCompleteLivestreamError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<GetLivestreamAnalyticsCompleteLivestreamRequest>,
-  output: __S(674, __c21, 2) as any as S.Schema<GetLivestreamAnalyticsCompleteLivestreamResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<GetLivestreamAnalyticsCompleteLivestreamRequest>,
+  output: __S(1026, __c32, 2) as any as S.Schema<GetLivestreamAnalyticsCompleteLivestreamResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7700,13 +8586,30 @@ export const getLivestreamAnalyticsDaywiseLivestream: API.OperationMethod<
   GetLivestreamAnalyticsDaywiseLivestreamError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(704, __c22, 0) as any as S.Schema<GetLivestreamAnalyticsDaywiseLivestreamRequest>,
-  output: __S(707, __c22, 3) as any as S.Schema<GetLivestreamAnalyticsDaywiseLivestreamResponse>,
+  input: __S(1056, __c33, 0) as any as S.Schema<GetLivestreamAnalyticsDaywiseLivestreamRequest>,
+  output: __S(1059, __c33, 3) as any as S.Schema<GetLivestreamAnalyticsDaywiseLivestreamResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetLivestreamAnalyticsDaywiseLivestream",
+}));
+
+export type GetLivestreamSessionDetailsForMeetingError = CloudflareOpError;
+/** Returns livestream session details for the given meeting ID. Retreive the meeting ID using the `Create a meeting` API. */
+export const getLivestreamSessionDetailsForMeeting: API.OperationMethod<
+  GetLivestreamSessionDetailsForMeetingRequest,
+  GetLivestreamSessionDetailsForMeetingResponse,
+  GetLivestreamSessionDetailsForMeetingError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1088, __c34, 0) as any as S.Schema<GetLivestreamSessionDetailsForMeetingRequest>,
+  output: __S(1090, __c34, 2) as any as S.Schema<GetLivestreamSessionDetailsForMeetingResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLivestreamSessionDetailsForMeeting",
 }));
 
 export type GetLivestreamSessionDetailsForSessionIdLivestreamError = CloudflareOpError;
@@ -7718,14 +8621,14 @@ export const getLivestreamSessionDetailsForSessionIdLivestream: API.OperationMet
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    736,
-    __c23,
+    1184,
+    __c37,
     0,
   ) as any as S.Schema<GetLivestreamSessionDetailsForSessionIdLivestreamRequest>,
   output: __S(
-    738,
-    __c23,
-    2,
+    1185,
+    __c37,
+    1,
   ) as any as S.Schema<GetLivestreamSessionDetailsForSessionIdLivestreamResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -7743,20 +8646,37 @@ export const getLivestreamSessionForLivestreamIdLivestream: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    768,
-    __c24,
+    1216,
+    __c38,
     0,
   ) as any as S.Schema<GetLivestreamSessionForLivestreamIdLivestreamRequest>,
   output: __S(
-    771,
-    __c24,
-    3,
+    1217,
+    __c38,
+    1,
   ) as any as S.Schema<GetLivestreamSessionForLivestreamIdLivestreamResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetLivestreamSessionForLivestreamIdLivestream",
+}));
+
+export type GetLivestreamSessionsForSessionError = CloudflareOpError;
+/** Returns livestream session details for the given session ID. Retreive the session ID using the `Fetch all sessions of an App` API. */
+export const getLivestreamSessionsForSession: API.OperationMethod<
+  GetLivestreamSessionsForSessionRequest,
+  GetLivestreamSessionsForSessionResponse,
+  GetLivestreamSessionsForSessionError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1248, __c39, 0) as any as S.Schema<GetLivestreamSessionsForSessionRequest>,
+  output: __S(1250, __c39, 2) as any as S.Schema<GetLivestreamSessionsForSessionResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetLivestreamSessionsForSession",
 }));
 
 export type GetMeetingError = CloudflareOpError;
@@ -7767,8 +8687,8 @@ export const getMeeting: API.OperationMethod<
   GetMeetingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(800, __c25, 0) as any as S.Schema<GetMeetingRequest>,
-  output: __S(805, __c25, 5) as any as S.Schema<GetMeetingResponse>,
+  input: __S(1280, __c40, 0) as any as S.Schema<GetMeetingRequest>,
+  output: __S(1285, __c40, 5) as any as S.Schema<GetMeetingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7784,8 +8704,8 @@ export const getMeetingActiveLivestreamsLivestream: API.OperationMethod<
   GetMeetingActiveLivestreamsLivestreamError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(864, __c27, 0) as any as S.Schema<GetMeetingActiveLivestreamsLivestreamRequest>,
-  output: __S(865, __c27, 1) as any as S.Schema<GetMeetingActiveLivestreamsLivestreamResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<GetMeetingActiveLivestreamsLivestreamRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<GetMeetingActiveLivestreamsLivestreamResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7801,8 +8721,8 @@ export const getMeetingByIdMeeting: API.OperationMethod<
   GetMeetingByIdMeetingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<GetMeetingByIdMeetingRequest>,
-  output: __S(900, __c28, 4) as any as S.Schema<GetMeetingByIdMeetingResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<GetMeetingByIdMeetingRequest>,
+  output: __S(1348, __c42, 4) as any as S.Schema<GetMeetingByIdMeetingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7818,8 +8738,8 @@ export const getMeetingParticipantMeeting: API.OperationMethod<
   GetMeetingParticipantMeetingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c29, 0) as any as S.Schema<GetMeetingParticipantMeetingRequest>,
-  output: __S(929, __c29, 1) as any as S.Schema<GetMeetingParticipantMeetingResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<GetMeetingParticipantMeetingRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<GetMeetingParticipantMeetingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7835,8 +8755,8 @@ export const getMeetingParticipantsMeeting: API.OperationMethod<
   GetMeetingParticipantsMeetingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<GetMeetingParticipantsMeetingRequest>,
-  output: __S(994, __c31, 2) as any as S.Schema<GetMeetingParticipantsMeetingResponse>,
+  input: __S(1440, __c45, 0) as any as S.Schema<GetMeetingParticipantsMeetingRequest>,
+  output: __S(1442, __c45, 2) as any as S.Schema<GetMeetingParticipantsMeetingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7852,8 +8772,8 @@ export const getOneRecordingRecording: API.OperationMethod<
   GetOneRecordingRecordingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<GetOneRecordingRecordingRequest>,
-  output: __S(1027, __c32, 3) as any as S.Schema<GetOneRecordingRecordingResponse>,
+  input: __S(1472, __c46, 0) as any as S.Schema<GetOneRecordingRecordingRequest>,
+  output: __S(1475, __c46, 3) as any as S.Schema<GetOneRecordingRecordingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7869,8 +8789,8 @@ export const getOrgAnalyticsAnalytic: API.OperationMethod<
   GetOrgAnalyticsAnalyticError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<GetOrgAnalyticsAnalyticRequest>,
-  output: __S(1127, __c35, 7) as any as S.Schema<GetOrgAnalyticsAnalyticResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<GetOrgAnalyticsAnalyticRequest>,
+  output: __S(1575, __c49, 7) as any as S.Schema<GetOrgAnalyticsAnalyticResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7886,8 +8806,8 @@ export const getParticipantDataFromPeerIdSession: API.OperationMethod<
   GetParticipantDataFromPeerIdSessionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c36, 0) as any as S.Schema<GetParticipantDataFromPeerIdSessionRequest>,
-  output: __S(1196, __c37, 12) as any as S.Schema<GetParticipantDataFromPeerIdSessionResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<GetParticipantDataFromPeerIdSessionRequest>,
+  output: __S(1644, __c51, 12) as any as S.Schema<GetParticipantDataFromPeerIdSessionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7903,8 +8823,8 @@ export const getPreset: API.OperationMethod<
   GetPresetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<GetPresetRequest>,
-  output: __S(1251, __c39, 3) as any as S.Schema<GetPresetResponse>,
+  input: __S(1696, __c53, 0) as any as S.Schema<GetPresetRequest>,
+  output: __S(1699, __c53, 3) as any as S.Schema<GetPresetResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7920,8 +8840,8 @@ export const getPresetByIdPreset: API.OperationMethod<
   GetPresetByIdPresetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<GetPresetByIdPresetRequest>,
-  output: __S(1283, __c40, 3) as any as S.Schema<GetPresetByIdPresetResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<GetPresetByIdPresetRequest>,
+  output: __S(1731, __c54, 3) as any as S.Schema<GetPresetByIdPresetResponse>,
   errors: [RealtimeKitPresetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7937,8 +8857,8 @@ export const getRecordingsRecording: API.OperationMethod<
   GetRecordingsRecordingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<GetRecordingsRecordingRequest>,
-  output: __S(1319, __c41, 7) as any as S.Schema<GetRecordingsRecordingResponse>,
+  input: __S(1760, __c55, 0) as any as S.Schema<GetRecordingsRecordingRequest>,
+  output: __S(1767, __c55, 7) as any as S.Schema<GetRecordingsRecordingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7954,8 +8874,8 @@ export const getSessionChatSession: API.OperationMethod<
   GetSessionChatSessionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c42, 0) as any as S.Schema<GetSessionChatSessionRequest>,
-  output: __S(1346, __c42, 2) as any as S.Schema<GetSessionChatSessionResponse>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetSessionChatSessionRequest>,
+  output: __S(1794, __c56, 2) as any as S.Schema<GetSessionChatSessionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7971,8 +8891,8 @@ export const getSessionDetailsSession: API.OperationMethod<
   GetSessionDetailsSessionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c43, 0) as any as S.Schema<GetSessionDetailsSessionRequest>,
-  output: __S(480, __c15, 0) as any as S.Schema<GetSessionDetailsSessionResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetSessionDetailsSessionRequest>,
+  output: __S(768, __c24, 0) as any as S.Schema<GetSessionDetailsSessionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7988,8 +8908,8 @@ export const getSessionParticipantDetailsSession: API.OperationMethod<
   GetSessionParticipantDetailsSessionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<GetSessionParticipantDetailsSessionRequest>,
-  output: __S(1410, __c44, 2) as any as S.Schema<GetSessionParticipantDetailsSessionResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<GetSessionParticipantDetailsSessionRequest>,
+  output: __S(1858, __c58, 2) as any as S.Schema<GetSessionParticipantDetailsSessionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8005,8 +8925,8 @@ export const getSessionParticipantsSession: API.OperationMethod<
   GetSessionParticipantsSessionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<GetSessionParticipantsSessionRequest>,
-  output: __S(1475, __c46, 3) as any as S.Schema<GetSessionParticipantsSessionResponse>,
+  input: __S(1920, __c60, 0) as any as S.Schema<GetSessionParticipantsSessionRequest>,
+  output: __S(1923, __c60, 3) as any as S.Schema<GetSessionParticipantsSessionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8022,8 +8942,8 @@ export const getSessionsSession: API.OperationMethod<
   GetSessionsSessionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<GetSessionsSessionRequest>,
-  output: __S(1507, __c47, 3) as any as S.Schema<GetSessionsSessionResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<GetSessionsSessionRequest>,
+  output: __S(1955, __c61, 3) as any as S.Schema<GetSessionsSessionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8039,8 +8959,8 @@ export const getSessionSummarySession: API.OperationMethod<
   GetSessionSummarySessionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<GetSessionSummarySessionRequest>,
-  output: __S(1538, __c48, 2) as any as S.Schema<GetSessionSummarySessionResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<GetSessionSummarySessionRequest>,
+  output: __S(1986, __c62, 2) as any as S.Schema<GetSessionSummarySessionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8056,8 +8976,8 @@ export const getSessionTranscriptsSession: API.OperationMethod<
   GetSessionTranscriptsSessionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<GetSessionTranscriptsSessionRequest>,
-  output: __S(1570, __c49, 2) as any as S.Schema<GetSessionTranscriptsSessionResponse>,
+  input: __S(2016, __c63, 0) as any as S.Schema<GetSessionTranscriptsSessionRequest>,
+  output: __S(2018, __c63, 2) as any as S.Schema<GetSessionTranscriptsSessionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8073,8 +8993,8 @@ export const getWebhookByIdWebhook: API.OperationMethod<
   GetWebhookByIdWebhookError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetWebhookByIdWebhookRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<GetWebhookByIdWebhookResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetWebhookByIdWebhookRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<GetWebhookByIdWebhookResponse>,
   errors: [RealtimeKitWebhookNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8090,8 +9010,8 @@ export const getWebhooksWebhook: API.OperationMethod<
   GetWebhooksWebhookError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<GetWebhooksWebhookRequest>,
-  output: __S(1634, __c51, 2) as any as S.Schema<GetWebhooksWebhookResponse>,
+  input: __S(2112, __c66, 0) as any as S.Schema<GetWebhooksWebhookRequest>,
+  output: __S(2114, __c66, 2) as any as S.Schema<GetWebhooksWebhookResponse>,
   errors: [RealtimeKitWebhookNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8107,8 +9027,8 @@ export const kickAllParticipantsActiveSession: API.OperationMethod<
   KickAllParticipantsActiveSessionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<KickAllParticipantsActiveSessionRequest>,
-  output: __S(1666, __c52, 2) as any as S.Schema<KickAllParticipantsActiveSessionResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<KickAllParticipantsActiveSessionRequest>,
+  output: __S(2146, __c67, 2) as any as S.Schema<KickAllParticipantsActiveSessionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8124,8 +9044,8 @@ export const kickParticipantsActiveSession: API.OperationMethod<
   KickParticipantsActiveSessionError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<KickParticipantsActiveSessionRequest>,
-  output: __S(1700, __c53, 4) as any as S.Schema<KickParticipantsActiveSessionResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<KickParticipantsActiveSessionRequest>,
+  output: __S(2467, __c77, 3) as any as S.Schema<KickParticipantsActiveSessionResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8141,13 +9061,47 @@ export const livestreamsGetOrgAnalytics: API.OperationMethod<
   LivestreamsGetOrgAnalyticsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<LivestreamsGetOrgAnalyticsRequest>,
-  output: __S(1127, __c35, 7) as any as S.Schema<LivestreamsGetOrgAnalyticsResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<LivestreamsGetOrgAnalyticsRequest>,
+  output: __S(1575, __c49, 7) as any as S.Schema<LivestreamsGetOrgAnalyticsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LivestreamsGetOrgAnalytics",
+}));
+
+export type MeetingsReplaceParticipantError = CloudflareOpError;
+/** Replaces a participant's details for the given meeting and participant ID. */
+export const meetingsReplaceParticipant: API.OperationMethod<
+  MeetingsReplaceParticipantRequest,
+  MeetingsReplaceParticipantResponse,
+  MeetingsReplaceParticipantError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2240, __c70, 0) as any as S.Schema<MeetingsReplaceParticipantRequest>,
+  output: __S(2881, __c90, 1) as any as S.Schema<MeetingsReplaceParticipantResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MeetingsReplaceParticipant",
+}));
+
+export type MeetingsRevokeParticipantTokenError = CloudflareOpError;
+/** Revokes a previously issued participant authentication token without deleting the participant. Other tokens issued to the participant remain valid. */
+export const meetingsRevokeParticipantToken: API.OperationMethod<
+  MeetingsRevokeParticipantTokenRequest,
+  MeetingsRevokeParticipantTokenResponse,
+  MeetingsRevokeParticipantTokenError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2272, __c71, 0) as any as S.Schema<MeetingsRevokeParticipantTokenRequest>,
+  output: __S(2274, __c71, 2) as any as S.Schema<MeetingsRevokeParticipantTokenResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "MeetingsRevokeParticipantToken",
 }));
 
 export type PatchPresetError = RealtimeKitPresetNotFound | Forbidden | CloudflareOpError;
@@ -8158,8 +9112,8 @@ export const patchPreset: API.OperationMethod<
   PatchPresetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1779, __c55, 19) as any as S.Schema<PatchPresetRequest>,
-  output: __S(2625, __c82, 1) as any as S.Schema<PatchPresetResponse>,
+  input: __S(2323, __c72, 19) as any as S.Schema<PatchPresetRequest>,
+  output: __S(129, __c4, 1) as any as S.Schema<PatchPresetResponse>,
   errors: [RealtimeKitPresetNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8175,8 +9129,8 @@ export const pauseResumeStopRecordingRecording: API.OperationMethod<
   PauseResumeStopRecordingRecordingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<PauseResumeStopRecordingRecordingRequest>,
-  output: __S(1859, __c58, 3) as any as S.Schema<PauseResumeStopRecordingRecordingResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<PauseResumeStopRecordingRecordingRequest>,
+  output: __S(2339, __c73, 3) as any as S.Schema<PauseResumeStopRecordingRecordingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8192,8 +9146,8 @@ export const postApp: API.OperationMethod<
   PostAppError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<PostAppRequest>,
-  output: __S(1890, __c59, 2) as any as S.Schema<PostAppResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<PostAppRequest>,
+  output: __S(2370, __c74, 2) as any as S.Schema<PostAppResponse>,
   errors: [Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8209,8 +9163,8 @@ export const refreshParticipantTokenMeeting: API.OperationMethod<
   RefreshParticipantTokenMeetingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<RefreshParticipantTokenMeetingRequest>,
-  output: __S(1922, __c60, 2) as any as S.Schema<RefreshParticipantTokenMeetingResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<RefreshParticipantTokenMeetingRequest>,
+  output: __S(2402, __c75, 2) as any as S.Schema<RefreshParticipantTokenMeetingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8226,8 +9180,8 @@ export const replaceMeetingByIdMeeting: API.OperationMethod<
   ReplaceMeetingByIdMeetingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1954, __c61, 2) as any as S.Schema<ReplaceMeetingByIdMeetingRequest>,
-  output: __S(1958, __c61, 6) as any as S.Schema<ReplaceMeetingByIdMeetingResponse>,
+  input: __S(2530, __c79, 2) as any as S.Schema<ReplaceMeetingByIdMeetingRequest>,
+  output: __S(2534, __c79, 6) as any as S.Schema<ReplaceMeetingByIdMeetingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8243,8 +9197,8 @@ export const replacePresetById: API.OperationMethod<
   ReplacePresetByIdError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1988, __c62, 4) as any as S.Schema<ReplacePresetByIdRequest>,
-  output: __S(1994, __c62, 10) as any as S.Schema<ReplacePresetByIdResponse>,
+  input: __S(2564, __c80, 4) as any as S.Schema<ReplacePresetByIdRequest>,
+  output: __S(2570, __c80, 10) as any as S.Schema<ReplacePresetByIdResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8260,8 +9214,8 @@ export const replaceWebhookWebhook: API.OperationMethod<
   ReplaceWebhookWebhookError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<ReplaceWebhookWebhookRequest>,
-  output: __S(96, __c3, 0) as any as S.Schema<ReplaceWebhookWebhookResponse>,
+  input: __S(2592, __c81, 0) as any as S.Schema<ReplaceWebhookWebhookRequest>,
+  output: __S(352, __c11, 0) as any as S.Schema<ReplaceWebhookWebhookResponse>,
   errors: [RealtimeKitWebhookNotFound, Forbidden, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8277,8 +9231,8 @@ export const startLivestreamingAMeetingLivestream: API.OperationMethod<
   StartLivestreamingAMeetingLivestreamError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<StartLivestreamingAMeetingLivestreamRequest>,
-  output: __S(2050, __c64, 2) as any as S.Schema<StartLivestreamingAMeetingLivestreamResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<StartLivestreamingAMeetingLivestreamRequest>,
+  output: __S(2626, __c82, 2) as any as S.Schema<StartLivestreamingAMeetingLivestreamResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8294,8 +9248,8 @@ export const startRecordingsRecording: API.OperationMethod<
   StartRecordingsRecordingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2082, __c65, 2) as any as S.Schema<StartRecordingsRecordingRequest>,
-  output: __S(2085, __c65, 5) as any as S.Schema<StartRecordingsRecordingResponse>,
+  input: __S(2658, __c83, 2) as any as S.Schema<StartRecordingsRecordingRequest>,
+  output: __S(2661, __c83, 5) as any as S.Schema<StartRecordingsRecordingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8311,8 +9265,8 @@ export const startTrackRecordingRecording: API.OperationMethod<
   StartTrackRecordingRecordingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2114, __c66, 2) as any as S.Schema<StartTrackRecordingRecordingRequest>,
-  output: __S(2116, __c66, 4) as any as S.Schema<StartTrackRecordingRecordingResponse>,
+  input: __S(2690, __c84, 2) as any as S.Schema<StartTrackRecordingRecordingRequest>,
+  output: __S(2692, __c84, 4) as any as S.Schema<StartTrackRecordingRecordingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -8328,13 +9282,30 @@ export const stopLivestreamingAMeetingLivestream: API.OperationMethod<
   StopLivestreamingAMeetingLivestreamError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<StopLivestreamingAMeetingLivestreamRequest>,
-  output: __S(2146, __c67, 2) as any as S.Schema<StopLivestreamingAMeetingLivestreamResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<StopLivestreamingAMeetingLivestreamRequest>,
+  output: __S(2722, __c85, 2) as any as S.Schema<StopLivestreamingAMeetingLivestreamResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopLivestreamingAMeetingLivestream",
+}));
+
+export type UpdateAppByIdError = CloudflareOpError;
+/** Update the name of an app in your account. */
+export const updateAppById: API.OperationMethod<
+  UpdateAppByIdRequest,
+  UpdateAppByIdResponse,
+  UpdateAppByIdError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2752, __c86, 0) as any as S.Schema<UpdateAppByIdRequest>,
+  output: __S(2754, __c86, 2) as any as S.Schema<UpdateAppByIdResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateAppById",
 }));
 
 export type UpdateMeetingByIdMeetingError = CloudflareOpError;
@@ -8345,13 +9316,30 @@ export const updateMeetingByIdMeeting: API.OperationMethod<
   UpdateMeetingByIdMeetingError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2210, __c69, 2) as any as S.Schema<UpdateMeetingByIdMeetingRequest>,
-  output: __S(2214, __c69, 6) as any as S.Schema<UpdateMeetingByIdMeetingResponse>,
+  input: __S(2786, __c87, 2) as any as S.Schema<UpdateMeetingByIdMeetingRequest>,
+  output: __S(2790, __c87, 6) as any as S.Schema<UpdateMeetingByIdMeetingResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateMeetingByIdMeeting",
+}));
+
+export type WebhooksGetAllWebhooksError = CloudflareOpError;
+/** Returns the list of webhook event names supported by RealtimeKit. */
+export const webhooksGetAllWebhooks: API.OperationMethod<
+  WebhooksGetAllWebhooksRequest,
+  WebhooksGetAllWebhooksResponse,
+  WebhooksGetAllWebhooksError,
+  CloudflareOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2816, __c88, 0) as any as S.Schema<WebhooksGetAllWebhooksRequest>,
+  output: __S(2817, __c88, 1) as any as S.Schema<WebhooksGetAllWebhooksResponse>,
+  errors: [CloudflareRateLimited, CloudflareError],
+  protocol: CloudflareProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "WebhooksGetAllWebhooks",
 }));
 
 // Alias of getOrgAnalyticsAnalytic (same route, alternate export name upstream).
@@ -8368,7 +9356,434 @@ function __c0(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           appId: S.String.pipe(T.Label("app_id")),
-          events: __S(32, __c1, 0),
+          meetingId: S.String.pipe(T.Label("meeting_id")),
+          options: __S(2496, __c78, 0),
+          question: S.String,
+          anonymous: S.optional(S.Boolean),
+          hideVotes: S.optional(S.Boolean.pipe(T.Body("hide_votes"))),
+        })
+          .pipe(
+            T.Http({
+              method: "POST",
+              uri: "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-session/poll",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreatePollActiveSessionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          name: S.String,
+        }),
+      ).annotate({ identifier: "ActiveSessionCreatePollResponseDataPollOptionsItemVotesItem" });
+    case 2:
+      return S.Array(__S(1, __c0, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          count: S.Number,
+          text: S.String,
+          votes: __S(2, __c0, 2),
+        }),
+      ).annotate({ identifier: "ActiveSessionCreatePollResponseDataPollOptionsItem" });
+    case 4:
+      return S.Array(__S(3, __c0, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          options: __S(4, __c0, 4),
+          question: S.String,
+          anonymous: S.optional(S.NullOr(S.Boolean)),
+          createdBy: S.optional(S.NullOr(S.String).pipe(T.Body("created_by"))),
+          hideVotes: S.optional(S.NullOr(S.Boolean).pipe(T.Body("hide_votes"))),
+          voted: S.optional(S.NullOr(__S(2496, __c78, 0))),
+        }),
+      ).annotate({ identifier: "ActiveSessionCreatePollResponseDataPoll" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.optional(S.NullOr(S.String)),
+          poll: S.optional(S.NullOr(__S(5, __c0, 5))),
+        }),
+      ).annotate({ identifier: "ActiveSessionCreatePollResponseData" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(S.NullOr(__S(6, __c0, 6))),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreatePollActiveSessionResponse" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          acceptWaitingRequests: S.Boolean.pipe(T.Body("accept_waiting_requests")),
+          canAcceptProductionRequests: S.Boolean.pipe(T.Body("can_accept_production_requests")),
+          canChangeParticipantPermissions: S.Boolean.pipe(
+            T.Body("can_change_participant_permissions"),
+          ),
+          canEditDisplayName: S.Boolean.pipe(T.Body("can_edit_display_name")),
+          canLivestream: S.Boolean.pipe(T.Body("can_livestream")),
+          canRecord: S.Boolean.pipe(T.Body("can_record")),
+          canSpotlight: S.Boolean.pipe(T.Body("can_spotlight")),
+          chat: __S(101, __c3, 5),
+          connectedMeetings: __S(102, __c3, 6).pipe(T.Body("connected_meetings")),
+          disableParticipantAudio: S.Boolean.pipe(T.Body("disable_participant_audio")),
+          disableParticipantScreensharing: S.Boolean.pipe(
+            T.Body("disable_participant_screensharing"),
+          ),
+          disableParticipantVideo: S.Boolean.pipe(T.Body("disable_participant_video")),
+          hiddenParticipant: S.Boolean.pipe(T.Body("hidden_participant")),
+          kickParticipant: S.Boolean.pipe(T.Body("kick_participant")),
+          media: __S(104, __c3, 8),
+          pinParticipant: S.Boolean.pipe(T.Body("pin_participant")),
+          plugins: __S(64, __c2, 0),
+          polls: __S(105, __c3, 9),
+          recorderType: S.String.pipe(T.Body("recorder_type")),
+          showParticipantList: S.Boolean.pipe(T.Body("show_participant_list")),
+          waitingRoomType: S.String.pipe(T.Body("waiting_room_type")),
+          acceptStageRequests: S.optional(S.Boolean.pipe(T.Body("accept_stage_requests"))),
+          isRecorder: S.optional(S.Boolean.pipe(T.Body("is_recorder"))),
+          stageAccess: S.optional(S.String.pipe(T.Body("stage_access"))),
+          stageEnabled: S.optional(S.Boolean.pipe(T.Body("stage_enabled"))),
+          transcriptionEnabled: S.optional(S.Boolean.pipe(T.Body("transcription_enabled"))),
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestPermissions" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          appId: S.String.pipe(T.Label("app_id")),
+          config: __S(226, __c7, 2),
+          name: S.String,
+          permissions: __S(32, __c1, 0),
+          ui: __S(228, __c7, 4),
+        })
+          .pipe(
+            T.Http({
+              method: "POST",
+              uri: "/accounts/{account_id}/realtime/kit/{app_id}/presets",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreatePresetRequest" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          canClose: S.Boolean.pipe(T.Body("can_close")),
+          canEditConfig: S.Boolean.pipe(T.Body("can_edit_config")),
+          canStart: S.Boolean.pipe(T.Body("can_start")),
+          config: S.Unknown,
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestPermissionsPlugins" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          acceptWaitingRequests: S.Boolean.pipe(T.Body("accept_waiting_requests")),
+          canAcceptProductionRequests: S.Boolean.pipe(T.Body("can_accept_production_requests")),
+          canChangeParticipantPermissions: S.Boolean.pipe(
+            T.Body("can_change_participant_permissions"),
+          ),
+          canEditDisplayName: S.Boolean.pipe(T.Body("can_edit_display_name")),
+          canLivestream: S.Boolean.pipe(T.Body("can_livestream")),
+          canRecord: S.Boolean.pipe(T.Body("can_record")),
+          canSpotlight: S.Boolean.pipe(T.Body("can_spotlight")),
+          chat: __S(101, __c3, 5),
+          connectedMeetings: __S(102, __c3, 6).pipe(T.Body("connected_meetings")),
+          disableParticipantAudio: S.Boolean.pipe(T.Body("disable_participant_audio")),
+          disableParticipantScreensharing: S.Boolean.pipe(
+            T.Body("disable_participant_screensharing"),
+          ),
+          disableParticipantVideo: S.Boolean.pipe(T.Body("disable_participant_video")),
+          hiddenParticipant: S.Boolean.pipe(T.Body("hidden_participant")),
+          kickParticipant: S.Boolean.pipe(T.Body("kick_participant")),
+          media: __S(104, __c3, 8),
+          pinParticipant: S.Boolean.pipe(T.Body("pin_participant")),
+          plugins: __S(64, __c2, 0),
+          polls: __S(105, __c3, 9),
+          recorderType: S.String.pipe(T.Body("recorder_type")),
+          showParticipantList: S.Boolean.pipe(T.Body("show_participant_list")),
+          waitingRoomType: S.String.pipe(T.Body("waiting_room_type")),
+          acceptStageRequests: S.optional(
+            S.NullOr(S.Boolean).pipe(T.Body("accept_stage_requests")),
+          ),
+          isRecorder: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_recorder"))),
+          stageAccess: S.optional(S.NullOr(S.String).pipe(T.Body("stage_access"))),
+          stageEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("stage_enabled"))),
+          transcriptionEnabled: S.optional(
+            S.NullOr(S.Boolean).pipe(T.Body("transcription_enabled")),
+          ),
+        }),
+      ).annotate({ identifier: "PresetsCreateResponseDataPermissions" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          desktop: S.Number,
+          mobile: S.Number,
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestConfigMaxVideoStreams" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          frameRate: S.Number.pipe(T.Body("frame_rate")),
+          quality: S.String,
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestConfigMediaScreenshare" });
+    case 2:
+      return S.Array(S.Number);
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          canReceive: S.Boolean.pipe(T.Body("can_receive")),
+          canSend: S.Boolean.pipe(T.Body("can_send")),
+          files: S.Boolean,
+          text: S.Boolean,
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestPermissionsChatPrivate" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          canSend: S.Boolean.pipe(T.Body("can_send")),
+          files: S.Boolean,
+          text: S.Boolean,
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestPermissionsChatPublic" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          private: __S(99, __c3, 3),
+          public: __S(100, __c3, 4),
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestPermissionsChat" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          canAlterConnectedMeetings: S.Boolean.pipe(T.Body("can_alter_connected_meetings")),
+          canSwitchConnectedMeetings: S.Boolean.pipe(T.Body("can_switch_connected_meetings")),
+          canSwitchToParentMeeting: S.Boolean.pipe(T.Body("can_switch_to_parent_meeting")),
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestPermissionsConnectedMeetings" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
+          canProduce: S.String.pipe(T.Body("can_produce")),
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestPermissionsMediaAudio" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          audio: __S(103, __c3, 7),
+          screenshare: __S(103, __c3, 7),
+          video: __S(103, __c3, 7),
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestPermissionsMedia" });
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          canCreate: S.Boolean.pipe(T.Body("can_create")),
+          canView: S.Boolean.pipe(T.Body("can_view")),
+          canVote: S.Boolean.pipe(T.Body("can_vote")),
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestPermissionsPolls" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
+          "1000": S.String,
+          "600": S.String,
+          "700": S.String,
+          "800": S.String,
+          "900": S.String,
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestUiDesignTokensColorsBackground" });
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          "300": S.String,
+          "400": S.String,
+          "500": S.String,
+          "600": S.String,
+          "700": S.String,
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestUiDesignTokensColorsBrand" });
+    case 12:
+      return S.suspend(() =>
+        S.Struct({
+          background: __S(106, __c3, 10),
+          brand: __S(107, __c3, 11),
+          danger: S.String,
+          success: S.String,
+          text: S.String,
+          textOnBrand: S.String.pipe(T.Body("text_on_brand")),
+          videoBg: S.String.pipe(T.Body("video_bg")),
+          warning: S.String,
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestUiDesignTokensColors" });
+    case 13:
+      return S.suspend(() =>
+        S.Struct({
+          frameRate: S.Number.pipe(T.Body("frame_rate")),
+          quality: S.String,
+          simulcast: S.optional(S.NullOr(S.Boolean)),
+        }),
+      ).annotate({ identifier: "PresetsCreateResponseDataConfigMediaVideo" });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          enableHighBitrate: S.optional(S.NullOr(S.Boolean).pipe(T.Body("enable_high_bitrate"))),
+          enableStereo: S.optional(S.NullOr(S.Boolean).pipe(T.Body("enable_stereo"))),
+        }),
+      ).annotate({ identifier: "PresetsCreateResponseDataConfigMediaAudio" });
+    case 15:
+      return S.suspend(() =>
+        S.Struct({
+          screenshare: __S(97, __c3, 1),
+          video: __S(109, __c3, 13),
+          audio: S.optional(S.NullOr(__S(110, __c3, 14))),
+        }),
+      ).annotate({ identifier: "PresetsCreateResponseDataConfigMedia" });
+    case 16:
+      return S.suspend(() =>
+        S.Struct({
+          maxScreenshareCount: S.Number.pipe(T.Body("max_screenshare_count")),
+          maxVideoStreams: __S(96, __c3, 0).pipe(T.Body("max_video_streams")),
+          media: __S(111, __c3, 15),
+          viewType: S.String.pipe(T.Body("view_type")),
+          livestreamViewerQualities: S.optional(
+            S.NullOr(__S(98, __c3, 2)).pipe(T.Body("livestream_viewer_qualities")),
+          ),
+        }),
+      ).annotate({ identifier: "PresetsCreateResponseDataConfig" });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          borderRadius: S.String.pipe(T.Body("border_radius")),
+          borderWidth: S.String.pipe(T.Body("border_width")),
+          colors: __S(108, __c3, 12),
+          spacingBase: S.Number.pipe(T.Body("spacing_base")),
+          theme: S.String,
+          fontFamily: S.optional(S.NullOr(S.String).pipe(T.Body("font_family"))),
+          googleFont: S.optional(S.NullOr(S.String).pipe(T.Body("google_font"))),
+          logo: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "PresetsCreateResponseDataUiDesignTokens" });
+  }
+}
+function __c4(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          config: __S(112, __c3, 16),
+          createdAt: S.String.pipe(T.Body("created_at")),
+          name: S.String,
+          permissions: __S(65, __c2, 1),
+          ui: __S(160, __c5, 0),
+          updatedAt: S.String.pipe(T.Body("updated_at")),
+        }),
+      ).annotate({ identifier: "PresetsCreateResponseData" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(128, __c4, 0),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreatePresetResponse" });
+  }
+}
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          designTokens: __S(113, __c3, 17).pipe(T.Body("design_tokens")),
+        }),
+      ).annotate({ identifier: "PresetsCreateResponseDataUi" });
+  }
+}
+function __c6(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          enableHighBitrate: S.optional(S.Boolean.pipe(T.Body("enable_high_bitrate"))),
+          enableStereo: S.optional(S.Boolean.pipe(T.Body("enable_stereo"))),
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestConfigMediaAudio" });
+  }
+}
+function __c7(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          frameRate: S.Number.pipe(T.Body("frame_rate")),
+          quality: S.String,
+          simulcast: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestConfigMediaVideo" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          screenshare: __S(97, __c3, 1),
+          video: __S(224, __c7, 0),
+          audio: S.optional(__S(192, __c6, 0)),
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestConfigMedia" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          maxScreenshareCount: S.Number.pipe(T.Body("max_screenshare_count")),
+          maxVideoStreams: __S(96, __c3, 0).pipe(T.Body("max_video_streams")),
+          media: __S(225, __c7, 1),
+          viewType: S.String.pipe(T.Body("view_type")),
+          livestreamViewerQualities: S.optional(
+            __S(98, __c3, 2).pipe(T.Body("livestream_viewer_qualities")),
+          ),
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestConfig" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          borderRadius: S.String.pipe(T.Body("border_radius")),
+          borderWidth: S.String.pipe(T.Body("border_width")),
+          colors: __S(108, __c3, 12),
+          spacingBase: S.Number.pipe(T.Body("spacing_base")),
+          theme: S.String,
+          fontFamily: S.optional(S.String.pipe(T.Body("font_family"))),
+          googleFont: S.optional(S.String.pipe(T.Body("google_font"))),
+          logo: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestUiDesignTokens" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          designTokens: __S(227, __c7, 3).pipe(T.Body("design_tokens")),
+        }),
+      ).annotate({ identifier: "PresetsCreateRequestUi" });
+  }
+}
+function __c8(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          appId: S.String.pipe(T.Label("app_id")),
+          events: __S(288, __c9, 0),
           name: S.String,
           url: S.String,
           enabled: S.optional(S.Boolean),
@@ -8384,13 +9799,13 @@ function __c0(j: number): any {
       ).annotate({ identifier: "CreateWebhookWebhookRequest" });
   }
 }
-function __c1(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c2(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8398,7 +9813,7 @@ function __c2(j: number): any {
           id: S.String,
           createdAt: S.String.pipe(T.Body("created_at")),
           enabled: S.Boolean,
-          events: __S(32, __c1, 0),
+          events: __S(288, __c9, 0),
           name: S.String,
           updatedAt: S.String.pipe(T.Body("updated_at")),
           url: S.String,
@@ -8406,17 +9821,17 @@ function __c2(j: number): any {
       ).annotate({ identifier: "WebhooksCreateWebhookResponseData" });
   }
 }
-function __c3(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: __S(64, __c2, 0),
+          data: __S(320, __c10, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateWebhookWebhookResponse" });
   }
 }
-function __c4(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8447,12 +9862,12 @@ function __c4(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(129, __c4, 1))),
+          data: S.optional(S.NullOr(__S(385, __c12, 1))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "DeleteMeetingParticipantMeetingResponse" });
   }
 }
-function __c5(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8472,7 +9887,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "DeletePresetRequest" });
   }
 }
-function __c6(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8492,7 +9907,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DeleteWebhookWebhookRequest" });
   }
 }
-function __c7(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8516,7 +9931,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "EditParticipantMeetingRequest" });
   }
 }
-function __c8(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8525,7 +9940,7 @@ function __c8(j: number): any {
           appId: S.String.pipe(T.Label("app_id")),
           webhookId: S.String.pipe(T.Label("webhook_id")),
           enabled: S.optional(S.Boolean),
-          events: S.optional(__S(32, __c1, 0)),
+          events: S.optional(__S(288, __c9, 0)),
           name: S.optional(S.String),
           url: S.optional(S.String),
         })
@@ -8540,7 +9955,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "EditWebhookWebhookRequest" });
   }
 }
-function __c9(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8568,12 +9983,12 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(289, __c9, 1))),
+          data: S.optional(S.NullOr(__S(545, __c17, 1))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GenerateSummaryOfTranscriptsSessionResponse" });
   }
 }
-function __c10(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8594,57 +10009,63 @@ function __c10(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.NullOr(S.String)),
-          createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
-          errMessage: S.optional(S.NullOr(S.String).pipe(T.Body("err_message"))),
-          ingestSeconds: S.optional(S.NullOr(S.String).pipe(T.Body("ingest_seconds"))),
-          invokedTime: S.optional(S.NullOr(S.String).pipe(T.Body("invoked_time"))),
-          livestreamId: S.optional(S.NullOr(S.String).pipe(T.Body("livestream_id"))),
-          startedTime: S.optional(S.NullOr(S.String).pipe(T.Body("started_time"))),
-          stoppedTime: S.optional(S.NullOr(S.String).pipe(T.Body("stopped_time"))),
-          updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
-          viewerSeconds: S.optional(S.NullOr(S.String).pipe(T.Body("viewer_seconds"))),
+          livestream: __S(608, __c19, 0),
+          session: __S(640, __c20, 0),
         }),
-      ).annotate({
-        identifier: "LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataSession",
-      });
+      ).annotate({ identifier: "LivestreamsGetActiveLivestreamsForLivestreamIdResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          livestream: S.optional(S.NullOr(__S(352, __c11, 0))),
-          session: S.optional(S.NullOr(__S(321, __c10, 1))),
-        }),
-      ).annotate({ identifier: "LivestreamsGetActiveLivestreamsForLivestreamIdResponseData" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.optional(S.NullOr(__S(322, __c10, 2))),
+          data: __S(577, __c18, 1),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetActiveLivestreamsForLivestreamIdLivestreamResponse" });
   }
 }
-function __c11(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.NullOr(S.String)),
-          createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
-          disabled: S.optional(S.NullOr(S.String)),
-          ingestServer: S.optional(S.NullOr(S.String).pipe(T.Body("ingest_server"))),
-          meetingId: S.optional(S.NullOr(S.String).pipe(T.Body("meeting_id"))),
-          name: S.optional(S.NullOr(S.String)),
-          playbackUrl: S.optional(S.NullOr(S.String).pipe(T.Body("playback_url"))),
-          status: S.optional(S.NullOr(S.String)),
-          streamKey: S.optional(S.NullOr(S.String).pipe(T.Body("stream_key"))),
-          updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
+          id: S.String,
+          createdAt: S.String.pipe(T.Body("created_at")),
+          disabled: S.Boolean,
+          externalId: S.String.pipe(T.Body("external_id")),
+          ingestServer: S.String.pipe(T.Body("ingest_server")),
+          manualIngest: S.Boolean.pipe(T.Body("manual_ingest")),
+          meetingId: S.String.pipe(T.Body("meeting_id")),
+          name: S.String,
+          playbackUrl: S.String.pipe(T.Body("playback_url")),
+          status: S.String,
+          streamKey: S.String.pipe(T.Body("stream_key")),
+          updatedAt: S.String.pipe(T.Body("updated_at")),
         }),
       ).annotate({
         identifier: "LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataLivestream",
       });
   }
 }
-function __c12(j: number): any {
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          createdAt: S.String.pipe(T.Body("created_at")),
+          errMessage: S.String.pipe(T.Body("err_message")),
+          ingestSeconds: S.Number.pipe(T.Body("ingest_seconds")),
+          invokedTime: S.String.pipe(T.Body("invoked_time")),
+          livestreamId: S.String.pipe(T.Body("livestream_id")),
+          startedTime: S.String.pipe(T.Body("started_time")),
+          stoppedTime: S.String.pipe(T.Body("stopped_time")),
+          updatedAt: S.String.pipe(T.Body("updated_at")),
+          viewerSeconds: S.Number.pipe(T.Body("viewer_seconds")),
+        }),
+      ).annotate({
+        identifier: "LivestreamsGetActiveLivestreamsForLivestreamIdResponseDataSession",
+      });
+  }
+}
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8665,12 +10086,12 @@ function __c12(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(416, __c13, 0),
+          data: __S(704, __c22, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetActiveRecordingsRecordingResponse" });
   }
 }
-function __c13(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8691,7 +10112,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "RecordingsGetActiveRecordingsResponseData" });
   }
 }
-function __c14(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8711,17 +10132,17 @@ function __c14(j: number): any {
       ).annotate({ identifier: "GetActiveSessionActiveSessionRequest" });
   }
 }
-function __c15(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(513, __c16, 1))),
+          data: S.optional(S.NullOr(__S(801, __c25, 1))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetActiveSessionActiveSessionResponse" });
   }
 }
-function __c16(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Unknown);
@@ -8740,13 +10161,13 @@ function __c16(j: number): any {
           status: S.String,
           type: S.String,
           updatedAt: S.String.pipe(T.Body("updated_at")),
-          breakoutRooms: S.optional(S.NullOr(__S(512, __c16, 0)).pipe(T.Body("breakout_rooms"))),
+          breakoutRooms: S.optional(S.NullOr(__S(800, __c25, 0)).pipe(T.Body("breakout_rooms"))),
           endedAt: S.optional(S.NullOr(S.String).pipe(T.Body("ended_at"))),
         }),
       ).annotate({ identifier: "ActiveSessionGetActiveSessionResponseData" });
   }
 }
-function __c17(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8771,42 +10192,29 @@ function __c17(j: number): any {
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetAllLivestreamsLivestreamRequest" });
     case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.optional(S.NullOr(S.String)),
-          createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
-          disabled: S.optional(S.NullOr(S.String)),
-          ingestServer: S.optional(S.NullOr(S.String).pipe(T.Body("ingest_server"))),
-          meetingId: S.optional(S.NullOr(S.String).pipe(T.Body("meeting_id"))),
-          name: S.optional(S.NullOr(S.String)),
-          paging: S.optional(S.NullOr(__S(576, __c18, 0))),
-          playbackUrl: S.optional(S.NullOr(S.String).pipe(T.Body("playback_url"))),
-          status: S.optional(S.NullOr(S.String)),
-          streamKey: S.optional(S.NullOr(S.String).pipe(T.Body("stream_key"))),
-          updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
-        }),
-      ).annotate({ identifier: "LivestreamsGetAllLivestreamsResponseData" });
+      return S.Array(__S(608, __c19, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(545, __c17, 1))),
+          data: __S(833, __c26, 1),
+          paging: __S(864, __c27, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetAllLivestreamsLivestreamResponse" });
   }
 }
-function __c18(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          endOffset: S.optional(S.NullOr(S.Number).pipe(T.Body("end_offset"))),
-          startOffset: S.optional(S.NullOr(S.Number).pipe(T.Body("start_offset"))),
-          totalCount: S.optional(S.NullOr(S.Number).pipe(T.Body("total_count"))),
+          endOffset: S.Number.pipe(T.Body("end_offset")),
+          startOffset: S.Number.pipe(T.Body("start_offset")),
+          totalCount: S.Number.pipe(T.Body("total_count")),
         }),
-      ).annotate({ identifier: "LivestreamsGetAllLivestreamsResponseDataPaging" });
+      ).annotate({ identifier: "LivestreamsGetAllLivestreamsResponsePaging" });
   }
 }
-function __c19(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8823,17 +10231,17 @@ function __c19(j: number): any {
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetAppRequest" });
     case 1:
-      return S.Array(__S(640, __c20, 0));
+      return S.Array(__S(928, __c29, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(609, __c19, 1))),
-          paging: S.optional(S.NullOr(__S(576, __c18, 0))),
+          data: S.optional(S.NullOr(__S(897, __c28, 1))),
+          paging: S.optional(S.NullOr(__S(960, __c30, 0))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetAppResponse" });
   }
 }
-function __c20(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8845,7 +10253,44 @@ function __c20(j: number): any {
       ).annotate({ identifier: "AppsGetResponseDataItem" });
   }
 }
-function __c21(j: number): any {
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          endOffset: S.optional(S.NullOr(S.Number).pipe(T.Body("end_offset"))),
+          startOffset: S.optional(S.NullOr(S.Number).pipe(T.Body("start_offset"))),
+          totalCount: S.optional(S.NullOr(S.Number).pipe(T.Body("total_count"))),
+        }),
+      ).annotate({ identifier: "AppsGetResponsePaging" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          appId: S.String.pipe(T.Label("app_id")),
+        })
+          .pipe(
+            T.Http({
+              method: "GET",
+              uri: "/accounts/{account_id}/realtime/kit/apps/{app_id}",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetAppByIdRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(S.NullOr(__S(928, __c29, 0))),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetAppByIdResponse" });
+  }
+}
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8876,12 +10321,12 @@ function __c21(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(673, __c21, 1))),
+          data: S.optional(S.NullOr(__S(1025, __c32, 1))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetLivestreamAnalyticsCompleteLivestreamResponse" });
   }
 }
-function __c22(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8911,16 +10356,68 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "LivestreamsGetLivestreamAnalyticsDaywiseResponseDataItem" });
     case 2:
-      return S.Array(__S(705, __c22, 1));
+      return S.Array(__S(1057, __c33, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(706, __c22, 2))),
+          data: S.optional(S.NullOr(__S(1058, __c33, 2))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetLivestreamAnalyticsDaywiseLivestreamResponse" });
   }
 }
-function __c23(j: number): any {
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          appId: S.String.pipe(T.Label("app_id")),
+          meetingId: S.String.pipe(T.Label("meeting_id")),
+          pageNo: S.optional(S.Number.pipe(T.Query("page_no"))),
+          perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+        })
+          .pipe(
+            T.Http({
+              method: "GET",
+              uri: "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/livestream",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetLivestreamSessionDetailsForMeetingRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1120, __c35, 0),
+          paging: __S(864, __c27, 0),
+        }),
+      ).annotate({ identifier: "GetLivestreamSessionDetailsForMeetingResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1089, __c34, 1),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetLivestreamSessionDetailsForMeetingResponse" });
+  }
+}
+function __c35(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          livestream: __S(608, __c19, 0),
+          sessions: __S(1152, __c36, 0),
+        }),
+      ).annotate({ identifier: "GetLivestreamSessionDetailsForMeetingResponseDataData" });
+  }
+}
+function __c36(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(__S(640, __c20, 0));
+  }
+}
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8941,26 +10438,12 @@ function __c23(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.NullOr(S.String)),
-          createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
-          errMessage: S.optional(S.NullOr(S.String).pipe(T.Body("err_message"))),
-          ingestSeconds: S.optional(S.NullOr(S.Number).pipe(T.Body("ingest_seconds"))),
-          livestreamId: S.optional(S.NullOr(S.String).pipe(T.Body("livestream_id"))),
-          startedTime: S.optional(S.NullOr(S.String).pipe(T.Body("started_time"))),
-          stoppedTime: S.optional(S.NullOr(S.String).pipe(T.Body("stopped_time"))),
-          updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
-          viewerSeconds: S.optional(S.NullOr(S.Number).pipe(T.Body("viewer_seconds"))),
-        }),
-      ).annotate({ identifier: "LivestreamsGetLivestreamSessionDetailsForSessionIdResponseData" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.optional(S.NullOr(__S(737, __c23, 1))),
+          data: __S(640, __c20, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetLivestreamSessionDetailsForSessionIdLivestreamResponse" });
   }
 }
-function __c24(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8983,37 +10466,48 @@ function __c24(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.NullOr(S.String)),
-          createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
-          errMessage: S.optional(S.NullOr(S.String).pipe(T.Body("err_message"))),
-          ingestSeconds: S.optional(S.NullOr(S.Number).pipe(T.Body("ingest_seconds"))),
-          invokedTime: S.optional(S.NullOr(S.String).pipe(T.Body("invoked_time"))),
-          livestreamId: S.optional(S.NullOr(S.String).pipe(T.Body("livestream_id"))),
-          startedTime: S.optional(S.NullOr(S.String).pipe(T.Body("started_time"))),
-          stoppedTime: S.optional(S.NullOr(S.String).pipe(T.Body("stopped_time"))),
-          updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
-          viewerSeconds: S.optional(S.NullOr(S.Number).pipe(T.Body("viewer_seconds"))),
-        }),
-      ).annotate({
-        identifier: "LivestreamsGetLivestreamSessionForLivestreamIdResponseDataSession",
-      });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          livestream: S.optional(S.NullOr(__S(352, __c11, 0))),
-          paging: S.optional(S.NullOr(__S(576, __c18, 0))),
-          session: S.optional(S.NullOr(__S(769, __c24, 1))),
-        }),
-      ).annotate({ identifier: "LivestreamsGetLivestreamSessionForLivestreamIdResponseData" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.optional(S.NullOr(__S(770, __c24, 2))),
+          data: __S(1120, __c35, 0),
+          paging: __S(864, __c27, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetLivestreamSessionForLivestreamIdLivestreamResponse" });
   }
 }
-function __c25(j: number): any {
+function __c39(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          appId: S.String.pipe(T.Label("app_id")),
+          sessionId: S.String.pipe(T.Label("session_id")),
+          pageNo: S.optional(S.Number.pipe(T.Query("page_no"))),
+          perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+        })
+          .pipe(
+            T.Http({
+              method: "GET",
+              uri: "/accounts/{account_id}/realtime/kit/{app_id}/sessions/{session_id}/livestream-sessions",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetLivestreamSessionsForSessionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1152, __c36, 0),
+          paging: __S(864, __c27, 0),
+        }),
+      ).annotate({ identifier: "GetLivestreamSessionsForSessionResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(1249, __c39, 1),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetLivestreamSessionsForSessionResponse" });
+  }
+}
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9100,17 +10594,17 @@ function __c25(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          audioConfig: S.optional(S.NullOr(__S(2304, __c72, 0)).pipe(T.Body("audio_config"))),
+          audioConfig: S.optional(S.NullOr(__S(3008, __c94, 0)).pipe(T.Body("audio_config"))),
           fileNamePrefix: S.optional(S.NullOr(S.String).pipe(T.Body("file_name_prefix"))),
           liveStreamingConfig: S.optional(
-            S.NullOr(__S(2305, __c72, 1)).pipe(T.Body("live_streaming_config")),
+            S.NullOr(__S(3009, __c94, 1)).pipe(T.Body("live_streaming_config")),
           ),
           maxSeconds: S.optional(S.NullOr(S.Number).pipe(T.Body("max_seconds"))),
           realtimekitBucketConfig: S.optional(
-            S.NullOr(__S(2272, __c71, 0)).pipe(T.Body("realtimekit_bucket_config")),
+            S.NullOr(__S(2976, __c93, 0)).pipe(T.Body("realtimekit_bucket_config")),
           ),
-          storageConfig: S.optional(S.NullOr(__S(801, __c25, 1)).pipe(T.Body("storage_config"))),
-          videoConfig: S.optional(S.NullOr(__S(2308, __c72, 4)).pipe(T.Body("video_config"))),
+          storageConfig: S.optional(S.NullOr(__S(1281, __c40, 1)).pipe(T.Body("storage_config"))),
+          videoConfig: S.optional(S.NullOr(__S(3012, __c94, 4)).pipe(T.Body("video_config"))),
         }),
       ).annotate({ identifier: "MeetingsGetResponseDataItemRecordingConfig" });
     case 3:
@@ -9123,7 +10617,7 @@ function __c25(j: number): any {
           persistChat: S.optional(S.NullOr(S.Boolean).pipe(T.Body("persist_chat"))),
           recordOnStart: S.optional(S.NullOr(S.Boolean).pipe(T.Body("record_on_start"))),
           recordingConfig: S.optional(
-            S.NullOr(__S(802, __c25, 2)).pipe(T.Body("recording_config")),
+            S.NullOr(__S(1282, __c40, 2)).pipe(T.Body("recording_config")),
           ),
           sessionKeepAliveTimeInSecs: S.optional(
             S.NullOr(S.Number).pipe(T.Body("session_keep_alive_time_in_secs")),
@@ -9135,29 +10629,17 @@ function __c25(j: number): any {
         }),
       ).annotate({ identifier: "MeetingsGetResponseDataItem" });
     case 4:
-      return S.Array(__S(803, __c25, 3));
+      return S.Array(__S(1283, __c40, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: __S(804, __c25, 4),
-          paging: __S(832, __c26, 0),
+          data: __S(1284, __c40, 4),
+          paging: __S(864, __c27, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetMeetingResponse" });
   }
 }
-function __c26(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          endOffset: S.Number.pipe(T.Body("end_offset")),
-          startOffset: S.Number.pipe(T.Body("start_offset")),
-          totalCount: S.Number.pipe(T.Body("total_count")),
-        }),
-      ).annotate({ identifier: "MeetingsGetResponsePaging" });
-  }
-}
-function __c27(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9178,12 +10660,12 @@ function __c27(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(352, __c11, 0))),
+          data: __S(608, __c19, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetMeetingActiveLivestreamsLivestreamResponse" });
   }
 }
-function __c28(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9266,17 +10748,17 @@ function __c28(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          audioConfig: S.optional(S.NullOr(__S(2304, __c72, 0)).pipe(T.Body("audio_config"))),
+          audioConfig: S.optional(S.NullOr(__S(3008, __c94, 0)).pipe(T.Body("audio_config"))),
           fileNamePrefix: S.optional(S.NullOr(S.String).pipe(T.Body("file_name_prefix"))),
           liveStreamingConfig: S.optional(
-            S.NullOr(__S(2305, __c72, 1)).pipe(T.Body("live_streaming_config")),
+            S.NullOr(__S(3009, __c94, 1)).pipe(T.Body("live_streaming_config")),
           ),
           maxSeconds: S.optional(S.NullOr(S.Number).pipe(T.Body("max_seconds"))),
           realtimekitBucketConfig: S.optional(
-            S.NullOr(__S(2272, __c71, 0)).pipe(T.Body("realtimekit_bucket_config")),
+            S.NullOr(__S(2976, __c93, 0)).pipe(T.Body("realtimekit_bucket_config")),
           ),
-          storageConfig: S.optional(S.NullOr(__S(897, __c28, 1)).pipe(T.Body("storage_config"))),
-          videoConfig: S.optional(S.NullOr(__S(2308, __c72, 4)).pipe(T.Body("video_config"))),
+          storageConfig: S.optional(S.NullOr(__S(1345, __c42, 1)).pipe(T.Body("storage_config"))),
+          videoConfig: S.optional(S.NullOr(__S(3012, __c94, 4)).pipe(T.Body("video_config"))),
         }),
       ).annotate({ identifier: "MeetingsGetMeetingByIdResponseDataRecordingConfig" });
     case 3:
@@ -9285,12 +10767,12 @@ function __c28(j: number): any {
           id: S.String,
           createdAt: S.String.pipe(T.Body("created_at")),
           updatedAt: S.String.pipe(T.Body("updated_at")),
-          aiConfig: S.optional(S.NullOr(__S(2338, __c73, 2)).pipe(T.Body("ai_config"))),
+          aiConfig: S.optional(S.NullOr(__S(3042, __c95, 2)).pipe(T.Body("ai_config"))),
           liveStreamOnStart: S.optional(S.NullOr(S.Boolean).pipe(T.Body("live_stream_on_start"))),
           persistChat: S.optional(S.NullOr(S.Boolean).pipe(T.Body("persist_chat"))),
           recordOnStart: S.optional(S.NullOr(S.Boolean).pipe(T.Body("record_on_start"))),
           recordingConfig: S.optional(
-            S.NullOr(__S(898, __c28, 2)).pipe(T.Body("recording_config")),
+            S.NullOr(__S(1346, __c42, 2)).pipe(T.Body("recording_config")),
           ),
           sessionKeepAliveTimeInSecs: S.optional(
             S.NullOr(S.Number).pipe(T.Body("session_keep_alive_time_in_secs")),
@@ -9304,12 +10786,12 @@ function __c28(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(899, __c28, 3))),
+          data: S.optional(S.NullOr(__S(1347, __c42, 3))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetMeetingByIdMeetingResponse" });
   }
 }
-function __c29(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9331,12 +10813,12 @@ function __c29(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          data: __S(960, __c30, 0),
+          data: __S(1408, __c44, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetMeetingParticipantMeetingResponse" });
   }
 }
-function __c30(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9352,7 +10834,7 @@ function __c30(j: number): any {
       ).annotate({ identifier: "MeetingsGetMeetingParticipantResponseData" });
   }
 }
-function __c31(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9373,17 +10855,17 @@ function __c31(j: number): any {
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetMeetingParticipantsMeetingRequest" });
     case 1:
-      return S.Array(__S(960, __c30, 0));
+      return S.Array(__S(1408, __c44, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(993, __c31, 1),
-          paging: __S(832, __c26, 0),
+          data: __S(1441, __c45, 1),
+          paging: __S(864, __c27, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetMeetingParticipantsMeetingResponse" });
   }
 }
-function __c32(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9477,20 +10959,20 @@ function __c32(j: number): any {
           status: S.String,
           stoppedTime: S.String.pipe(T.Body("stopped_time")),
           recordingDuration: S.optional(S.NullOr(S.Number).pipe(T.Body("recording_duration"))),
-          startReason: S.optional(S.NullOr(__S(1057, __c33, 1)).pipe(T.Body("start_reason"))),
-          stopReason: S.optional(S.NullOr(__S(1057, __c33, 1)).pipe(T.Body("stop_reason"))),
-          storageConfig: S.optional(S.NullOr(__S(1025, __c32, 1)).pipe(T.Body("storage_config"))),
+          startReason: S.optional(S.NullOr(__S(1505, __c47, 1)).pipe(T.Body("start_reason"))),
+          stopReason: S.optional(S.NullOr(__S(1505, __c47, 1)).pipe(T.Body("stop_reason"))),
+          storageConfig: S.optional(S.NullOr(__S(1473, __c46, 1)).pipe(T.Body("storage_config"))),
         }),
       ).annotate({ identifier: "RecordingsGetOneRecordingResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(1026, __c32, 2))),
+          data: S.optional(S.NullOr(__S(1474, __c46, 2))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetOneRecordingRecordingResponse" });
   }
 }
-function __c33(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9503,13 +10985,13 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          caller: S.optional(S.NullOr(__S(1056, __c33, 0))),
+          caller: S.optional(S.NullOr(__S(1504, __c47, 0))),
           reason: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "RecordingsGetOneRecordingResponseDataStartReason" });
   }
 }
-function __c34(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9530,7 +11012,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "GetOrgAnalyticsAnalyticRequest" });
   }
 }
-function __c35(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9543,11 +11025,11 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "AnalyticsGetOrgAnalyticsResponseDataRecordingStatsDayStatsItem" });
     case 1:
-      return S.Array(__S(1120, __c35, 0));
+      return S.Array(__S(1568, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dayStats: S.optional(S.NullOr(__S(1121, __c35, 1)).pipe(T.Body("day_stats"))),
+          dayStats: S.optional(S.NullOr(__S(1569, __c49, 1)).pipe(T.Body("day_stats"))),
           recordingCount: S.optional(S.NullOr(S.Number).pipe(T.Body("recording_count"))),
           recordingMinutesConsumed: S.optional(
             S.NullOr(S.Number).pipe(T.Body("recording_minutes_consumed")),
@@ -9563,11 +11045,11 @@ function __c35(j: number): any {
         }),
       ).annotate({ identifier: "AnalyticsGetOrgAnalyticsResponseDataSessionStatsDayStatsItem" });
     case 4:
-      return S.Array(__S(1123, __c35, 3));
+      return S.Array(__S(1571, __c49, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          dayStats: S.optional(S.NullOr(__S(1124, __c35, 4)).pipe(T.Body("day_stats"))),
+          dayStats: S.optional(S.NullOr(__S(1572, __c49, 4)).pipe(T.Body("day_stats"))),
           sessionsCount: S.optional(S.NullOr(S.Number).pipe(T.Body("sessions_count"))),
           sessionsMinutesConsumed: S.optional(
             S.NullOr(S.Number).pipe(T.Body("sessions_minutes_consumed")),
@@ -9577,19 +11059,19 @@ function __c35(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          recordingStats: S.optional(S.NullOr(__S(1122, __c35, 2)).pipe(T.Body("recording_stats"))),
-          sessionStats: S.optional(S.NullOr(__S(1125, __c35, 5)).pipe(T.Body("session_stats"))),
+          recordingStats: S.optional(S.NullOr(__S(1570, __c49, 2)).pipe(T.Body("recording_stats"))),
+          sessionStats: S.optional(S.NullOr(__S(1573, __c49, 5)).pipe(T.Body("session_stats"))),
         }),
       ).annotate({ identifier: "AnalyticsGetOrgAnalyticsResponseData" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(1126, __c35, 6))),
+          data: S.optional(S.NullOr(__S(1574, __c49, 6))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetOrgAnalyticsAnalyticResponse" });
   }
 }
-function __c36(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9621,12 +11103,12 @@ function __c36(j: number): any {
           "SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesItemAddedItem",
       });
     case 2:
-      return S.Array(__S(1153, __c36, 1));
+      return S.Array(__S(1601, __c50, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          added: S.optional(S.NullOr(__S(1154, __c36, 2))),
-          removed: S.optional(S.NullOr(__S(1154, __c36, 2))),
+          added: S.optional(S.NullOr(__S(1602, __c50, 2))),
+          removed: S.optional(S.NullOr(__S(1602, __c50, 2))),
           timestamp: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({
@@ -9634,7 +11116,7 @@ function __c36(j: number): any {
           "SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataAudioDevicesUpdatesItem",
       });
     case 4:
-      return S.Array(__S(1155, __c36, 3));
+      return S.Array(__S(1603, __c50, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -9713,15 +11195,15 @@ function __c36(j: number): any {
           "SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataCandidatePairsConsumingTransportItem",
       });
     case 7:
-      return S.Array(__S(1158, __c36, 6));
+      return S.Array(__S(1606, __c50, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           consumingTransport: S.optional(
-            S.NullOr(__S(1159, __c36, 7)).pipe(T.Body("consuming_transport")),
+            S.NullOr(__S(1607, __c50, 7)).pipe(T.Body("consuming_transport")),
           ),
           producingTransport: S.optional(
-            S.NullOr(__S(1159, __c36, 7)).pipe(T.Body("producing_transport")),
+            S.NullOr(__S(1607, __c50, 7)).pipe(T.Body("producing_transport")),
           ),
         }),
       ).annotate({
@@ -9743,11 +11225,11 @@ function __c36(j: number): any {
     case 10:
       return S.Unknown.pipe(/*@__PURE__*/ T.UnionCases([[], [], []]));
     case 11:
-      return S.Record(S.String, __S(1162, __c36, 10));
+      return S.Record(S.String, __S(1610, __c50, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(S.NullOr(__S(1163, __c36, 11))),
+          metadata: S.optional(S.NullOr(__S(1611, __c50, 11))),
           name: S.optional(S.NullOr(S.String)),
           timestamp: S.optional(S.NullOr(S.String)),
         }),
@@ -9756,7 +11238,7 @@ function __c36(j: number): any {
           "SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataEventsItem",
       });
     case 13:
-      return S.Array(__S(1164, __c36, 12));
+      return S.Array(__S(1612, __c50, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
@@ -9773,7 +11255,7 @@ function __c36(j: number): any {
     case 15:
       return S.suspend(() =>
         S.Struct({
-          asn: S.optional(S.NullOr(__S(1166, __c36, 14))),
+          asn: S.optional(S.NullOr(__S(1614, __c50, 14))),
           city: S.optional(S.NullOr(S.String)),
           country: S.optional(S.NullOr(S.String)),
           ipv4: S.optional(S.NullOr(S.String)),
@@ -9805,7 +11287,7 @@ function __c36(j: number): any {
             S.NullOr(S.Boolean).pipe(T.Body("reflexive_connectivity")),
           ),
           relayConnectivity: S.optional(S.NullOr(S.Boolean).pipe(T.Body("relay_connectivity"))),
-          sdp: S.optional(S.NullOr(__S(2464, __c77, 0))),
+          sdp: S.optional(S.NullOr(__S(2496, __c78, 0))),
           timestamp: S.optional(S.NullOr(S.String)),
           turnConnectivity: S.optional(S.NullOr(S.Boolean).pipe(T.Body("turn_connectivity"))),
         }),
@@ -9814,11 +11296,11 @@ function __c36(j: number): any {
           "SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataPcMetadataItem",
       });
     case 18:
-      return S.Array(__S(1169, __c36, 17));
+      return S.Array(__S(1617, __c50, 17));
     case 19:
       return S.suspend(() =>
         S.Struct({
-          device: S.optional(S.NullOr(__S(1153, __c36, 1))),
+          device: S.optional(S.NullOr(__S(1601, __c50, 1))),
           timestamp: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({
@@ -9826,36 +11308,36 @@ function __c36(j: number): any {
           "SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportMetadataSelectedDeviceUpdatesItem",
       });
     case 20:
-      return S.Array(__S(1171, __c36, 19));
+      return S.Array(__S(1619, __c50, 19));
     case 21:
       return S.suspend(() =>
         S.Struct({
           audioDevicesUpdates: S.optional(
-            S.NullOr(__S(1156, __c36, 4)).pipe(T.Body("audio_devices_updates")),
+            S.NullOr(__S(1604, __c50, 4)).pipe(T.Body("audio_devices_updates")),
           ),
           browserMetadata: S.optional(
-            S.NullOr(__S(1157, __c36, 5)).pipe(T.Body("browser_metadata")),
+            S.NullOr(__S(1605, __c50, 5)).pipe(T.Body("browser_metadata")),
           ),
-          candidatePairs: S.optional(S.NullOr(__S(1160, __c36, 8)).pipe(T.Body("candidate_pairs"))),
-          deviceInfo: S.optional(S.NullOr(__S(1161, __c36, 9)).pipe(T.Body("device_info"))),
-          events: S.optional(S.NullOr(__S(1165, __c36, 13))),
-          ipInformation: S.optional(S.NullOr(__S(1167, __c36, 15)).pipe(T.Body("ip_information"))),
+          candidatePairs: S.optional(S.NullOr(__S(1608, __c50, 8)).pipe(T.Body("candidate_pairs"))),
+          deviceInfo: S.optional(S.NullOr(__S(1609, __c50, 9)).pipe(T.Body("device_info"))),
+          events: S.optional(S.NullOr(__S(1613, __c50, 13))),
+          ipInformation: S.optional(S.NullOr(__S(1615, __c50, 15)).pipe(T.Body("ip_information"))),
           nativeMetadata: S.optional(
-            S.NullOr(__S(1168, __c36, 16)).pipe(T.Body("native_metadata")),
+            S.NullOr(__S(1616, __c50, 16)).pipe(T.Body("native_metadata")),
           ),
-          pcMetadata: S.optional(S.NullOr(__S(1170, __c36, 18)).pipe(T.Body("pc_metadata"))),
+          pcMetadata: S.optional(S.NullOr(__S(1618, __c50, 18)).pipe(T.Body("pc_metadata"))),
           roomViewType: S.optional(S.NullOr(S.String).pipe(T.Body("room_view_type"))),
           sdkName: S.optional(S.NullOr(S.String).pipe(T.Body("sdk_name"))),
           sdkType: S.optional(S.NullOr(S.String).pipe(T.Body("sdk_type"))),
           sdkVersion: S.optional(S.NullOr(S.String).pipe(T.Body("sdk_version"))),
           selectedDeviceUpdates: S.optional(
-            S.NullOr(__S(1172, __c36, 20)).pipe(T.Body("selected_device_updates")),
+            S.NullOr(__S(1620, __c50, 20)).pipe(T.Body("selected_device_updates")),
           ),
           speakerDevicesUpdates: S.optional(
-            S.NullOr(__S(1156, __c36, 4)).pipe(T.Body("speaker_devices_updates")),
+            S.NullOr(__S(1604, __c50, 4)).pipe(T.Body("speaker_devices_updates")),
           ),
           videoDevicesUpdates: S.optional(
-            S.NullOr(__S(1156, __c36, 4)).pipe(T.Body("video_devices_updates")),
+            S.NullOr(__S(1604, __c50, 4)).pipe(T.Body("video_devices_updates")),
           ),
         }),
       ).annotate({
@@ -9886,7 +11368,7 @@ function __c36(j: number): any {
           "SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioConsumerItem",
       });
     case 23:
-      return S.Array(__S(1174, __c36, 22));
+      return S.Array(__S(1622, __c50, 22));
     case 24:
       return S.suspend(() =>
         S.Struct({
@@ -9942,10 +11424,10 @@ function __c36(j: number): any {
       return S.suspend(() =>
         S.Struct({
           jitterBufferDelay: S.optional(
-            S.NullOr(__S(1176, __c36, 24)).pipe(T.Body("jitter_buffer_delay")),
+            S.NullOr(__S(1624, __c50, 24)).pipe(T.Body("jitter_buffer_delay")),
           ),
-          packetLoss: S.optional(S.NullOr(__S(1177, __c36, 25)).pipe(T.Body("packet_loss"))),
-          qualityMos: S.optional(S.NullOr(__S(1178, __c36, 26)).pipe(T.Body("quality_mos"))),
+          packetLoss: S.optional(S.NullOr(__S(1625, __c50, 25)).pipe(T.Body("packet_loss"))),
+          qualityMos: S.optional(S.NullOr(__S(1626, __c50, 26)).pipe(T.Body("quality_mos"))),
         }),
       ).annotate({
         identifier:
@@ -9970,13 +11452,13 @@ function __c36(j: number): any {
           "SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityAudioProducerItem",
       });
     case 29:
-      return S.Array(__S(1180, __c36, 28));
+      return S.Array(__S(1628, __c50, 28));
     case 30:
       return S.suspend(() =>
         S.Struct({
-          packetLoss: S.optional(S.NullOr(__S(1177, __c36, 25)).pipe(T.Body("packet_loss"))),
-          qualityMos: S.optional(S.NullOr(__S(1178, __c36, 26)).pipe(T.Body("quality_mos"))),
-          rtt: S.optional(S.NullOr(__S(1176, __c36, 24))),
+          packetLoss: S.optional(S.NullOr(__S(1625, __c50, 25)).pipe(T.Body("packet_loss"))),
+          qualityMos: S.optional(S.NullOr(__S(1626, __c50, 26)).pipe(T.Body("quality_mos"))),
+          rtt: S.optional(S.NullOr(__S(1624, __c50, 24))),
         }),
       ).annotate({
         identifier:
@@ -10014,10 +11496,10 @@ function __c36(j: number): any {
       });
   }
 }
-function __c37(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1183, __c36, 31));
+      return S.Array(__S(1631, __c50, 31));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -10035,18 +11517,18 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           framePerSecond: S.optional(
-            S.NullOr(__S(1178, __c36, 26)).pipe(T.Body("frame_per_second")),
+            S.NullOr(__S(1626, __c50, 26)).pipe(T.Body("frame_per_second")),
           ),
-          frameWidth: S.optional(S.NullOr(__S(1178, __c36, 26)).pipe(T.Body("frame_width"))),
-          issues: S.optional(S.NullOr(__S(1185, __c37, 1))),
+          frameWidth: S.optional(S.NullOr(__S(1626, __c50, 26)).pipe(T.Body("frame_width"))),
+          issues: S.optional(S.NullOr(__S(1633, __c51, 1))),
           jitterBufferDelay: S.optional(
-            S.NullOr(__S(1176, __c36, 24)).pipe(T.Body("jitter_buffer_delay")),
+            S.NullOr(__S(1624, __c50, 24)).pipe(T.Body("jitter_buffer_delay")),
           ),
           keyFramesDecodedFraction: S.optional(
             S.NullOr(S.Number).pipe(T.Body("key_frames_decoded_fraction")),
           ),
-          packetLoss: S.optional(S.NullOr(__S(1177, __c36, 25)).pipe(T.Body("packet_loss"))),
-          qualityMos: S.optional(S.NullOr(__S(1178, __c36, 26)).pipe(T.Body("quality_mos"))),
+          packetLoss: S.optional(S.NullOr(__S(1625, __c50, 25)).pipe(T.Body("packet_loss"))),
+          qualityMos: S.optional(S.NullOr(__S(1626, __c50, 26)).pipe(T.Body("quality_mos"))),
         }),
       ).annotate({
         identifier:
@@ -10082,7 +11564,7 @@ function __c37(j: number): any {
           pliCount: S.optional(S.NullOr(S.Number).pipe(T.Body("pli_count"))),
           producerId: S.optional(S.NullOr(S.String).pipe(T.Body("producer_id"))),
           qualityLimitationDurations: S.optional(
-            S.NullOr(__S(1187, __c37, 3)).pipe(T.Body("quality_limitation_durations")),
+            S.NullOr(__S(1635, __c51, 3)).pipe(T.Body("quality_limitation_durations")),
           ),
           qualityLimitationReason: S.optional(
             S.NullOr(S.String).pipe(T.Body("quality_limitation_reason")),
@@ -10099,7 +11581,7 @@ function __c37(j: number): any {
           "SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReportQualityScreenshareVideoProducerItem",
       });
     case 5:
-      return S.Array(__S(1188, __c37, 4));
+      return S.Array(__S(1636, __c51, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -10125,19 +11607,19 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           framePerSecond: S.optional(
-            S.NullOr(__S(1178, __c36, 26)).pipe(T.Body("frame_per_second")),
+            S.NullOr(__S(1626, __c50, 26)).pipe(T.Body("frame_per_second")),
           ),
-          frameWidth: S.optional(S.NullOr(__S(1178, __c36, 26)).pipe(T.Body("frame_width"))),
+          frameWidth: S.optional(S.NullOr(__S(1626, __c50, 26)).pipe(T.Body("frame_width"))),
           highNegativeFeedbackFraction: S.optional(
             S.NullOr(S.Number).pipe(T.Body("high_negative_feedback_fraction")),
           ),
-          issues: S.optional(S.NullOr(__S(1190, __c37, 6))),
+          issues: S.optional(S.NullOr(__S(1638, __c51, 6))),
           keyFramesEncodedFraction: S.optional(
             S.NullOr(S.Number).pipe(T.Body("key_frames_encoded_fraction")),
           ),
-          packetLoss: S.optional(S.NullOr(__S(1177, __c36, 25)).pipe(T.Body("packet_loss"))),
-          qualityMos: S.optional(S.NullOr(__S(1178, __c36, 26)).pipe(T.Body("quality_mos"))),
-          rtt: S.optional(S.NullOr(__S(1176, __c36, 24))),
+          packetLoss: S.optional(S.NullOr(__S(1625, __c50, 25)).pipe(T.Body("packet_loss"))),
+          qualityMos: S.optional(S.NullOr(__S(1626, __c50, 26)).pipe(T.Body("quality_mos"))),
+          rtt: S.optional(S.NullOr(__S(1624, __c50, 24))),
         }),
       ).annotate({
         identifier:
@@ -10146,45 +11628,45 @@ function __c37(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          audioConsumer: S.optional(S.NullOr(__S(1175, __c36, 23)).pipe(T.Body("audio_consumer"))),
+          audioConsumer: S.optional(S.NullOr(__S(1623, __c50, 23)).pipe(T.Body("audio_consumer"))),
           audioConsumerCumulative: S.optional(
-            S.NullOr(__S(1179, __c36, 27)).pipe(T.Body("audio_consumer_cumulative")),
+            S.NullOr(__S(1627, __c50, 27)).pipe(T.Body("audio_consumer_cumulative")),
           ),
-          audioProducer: S.optional(S.NullOr(__S(1181, __c36, 29)).pipe(T.Body("audio_producer"))),
+          audioProducer: S.optional(S.NullOr(__S(1629, __c50, 29)).pipe(T.Body("audio_producer"))),
           audioProducerCumulative: S.optional(
-            S.NullOr(__S(1182, __c36, 30)).pipe(T.Body("audio_producer_cumulative")),
+            S.NullOr(__S(1630, __c50, 30)).pipe(T.Body("audio_producer_cumulative")),
           ),
           screenshareAudioConsumer: S.optional(
-            S.NullOr(__S(1175, __c36, 23)).pipe(T.Body("screenshare_audio_consumer")),
+            S.NullOr(__S(1623, __c50, 23)).pipe(T.Body("screenshare_audio_consumer")),
           ),
           screenshareAudioConsumerCumulative: S.optional(
-            S.NullOr(__S(1179, __c36, 27)).pipe(T.Body("screenshare_audio_consumer_cumulative")),
+            S.NullOr(__S(1627, __c50, 27)).pipe(T.Body("screenshare_audio_consumer_cumulative")),
           ),
           screenshareAudioProducer: S.optional(
-            S.NullOr(__S(1181, __c36, 29)).pipe(T.Body("screenshare_audio_producer")),
+            S.NullOr(__S(1629, __c50, 29)).pipe(T.Body("screenshare_audio_producer")),
           ),
           screenshareAudioProducerCumulative: S.optional(
-            S.NullOr(__S(1182, __c36, 30)).pipe(T.Body("screenshare_audio_producer_cumulative")),
+            S.NullOr(__S(1630, __c50, 30)).pipe(T.Body("screenshare_audio_producer_cumulative")),
           ),
           screenshareVideoConsumer: S.optional(
-            S.NullOr(__S(1184, __c37, 0)).pipe(T.Body("screenshare_video_consumer")),
+            S.NullOr(__S(1632, __c51, 0)).pipe(T.Body("screenshare_video_consumer")),
           ),
           screenshareVideoConsumerCumulative: S.optional(
-            S.NullOr(__S(1186, __c37, 2)).pipe(T.Body("screenshare_video_consumer_cumulative")),
+            S.NullOr(__S(1634, __c51, 2)).pipe(T.Body("screenshare_video_consumer_cumulative")),
           ),
           screenshareVideoProducer: S.optional(
-            S.NullOr(__S(1189, __c37, 5)).pipe(T.Body("screenshare_video_producer")),
+            S.NullOr(__S(1637, __c51, 5)).pipe(T.Body("screenshare_video_producer")),
           ),
           screenshareVideoProducerCumulative: S.optional(
-            S.NullOr(__S(1191, __c37, 7)).pipe(T.Body("screenshare_video_producer_cumulative")),
+            S.NullOr(__S(1639, __c51, 7)).pipe(T.Body("screenshare_video_producer_cumulative")),
           ),
-          videoConsumer: S.optional(S.NullOr(__S(1184, __c37, 0)).pipe(T.Body("video_consumer"))),
+          videoConsumer: S.optional(S.NullOr(__S(1632, __c51, 0)).pipe(T.Body("video_consumer"))),
           videoConsumerCumulative: S.optional(
-            S.NullOr(__S(1186, __c37, 2)).pipe(T.Body("video_consumer_cumulative")),
+            S.NullOr(__S(1634, __c51, 2)).pipe(T.Body("video_consumer_cumulative")),
           ),
-          videoProducer: S.optional(S.NullOr(__S(1189, __c37, 5)).pipe(T.Body("video_producer"))),
+          videoProducer: S.optional(S.NullOr(__S(1637, __c51, 5)).pipe(T.Body("video_producer"))),
           videoProducerCumulative: S.optional(
-            S.NullOr(__S(1191, __c37, 7)).pipe(T.Body("video_producer_cumulative")),
+            S.NullOr(__S(1639, __c51, 7)).pipe(T.Body("video_producer_cumulative")),
           ),
         }),
       ).annotate({
@@ -10193,8 +11675,8 @@ function __c37(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
-          metadata: S.optional(S.NullOr(__S(1173, __c36, 21))),
-          quality: S.optional(S.NullOr(__S(1192, __c37, 8))),
+          metadata: S.optional(S.NullOr(__S(1621, __c50, 21))),
+          quality: S.optional(S.NullOr(__S(1640, __c51, 8))),
         }),
       ).annotate({
         identifier: "SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerReport",
@@ -10209,8 +11691,8 @@ function __c37(j: number): any {
           duration: S.optional(S.NullOr(S.Number)),
           joinedAt: S.optional(S.NullOr(S.String).pipe(T.Body("joined_at"))),
           leftAt: S.optional(S.NullOr(S.String).pipe(T.Body("left_at"))),
-          peerEvents: S.optional(S.NullOr(__S(1217, __c38, 1)).pipe(T.Body("peer_events"))),
-          peerReport: S.optional(S.NullOr(__S(1193, __c37, 9)).pipe(T.Body("peer_report"))),
+          peerEvents: S.optional(S.NullOr(__S(1665, __c52, 1)).pipe(T.Body("peer_events"))),
+          peerReport: S.optional(S.NullOr(__S(1641, __c51, 9)).pipe(T.Body("peer_report"))),
           role: S.optional(S.NullOr(S.String)),
           sessionId: S.optional(S.NullOr(S.String).pipe(T.Body("session_id"))),
           updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
@@ -10220,18 +11702,18 @@ function __c37(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          participant: S.optional(S.NullOr(__S(1194, __c37, 10))),
+          participant: S.optional(S.NullOr(__S(1642, __c51, 10))),
         }),
       ).annotate({ identifier: "SessionsGetParticipantDataFromPeerIdResponseData" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(1195, __c37, 11))),
+          data: S.optional(S.NullOr(__S(1643, __c51, 11))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetParticipantDataFromPeerIdSessionResponse" });
   }
 }
-function __c38(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10251,10 +11733,10 @@ function __c38(j: number): any {
         identifier: "SessionsGetParticipantDataFromPeerIdResponseDataParticipantPeerEventsItem",
       });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(1664, __c52, 0));
   }
 }
-function __c39(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10284,17 +11766,17 @@ function __c39(j: number): any {
         }),
       ).annotate({ identifier: "PresetsGetResponseDataItem" });
     case 2:
-      return S.Array(__S(1249, __c39, 1));
+      return S.Array(__S(1697, __c53, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1250, __c39, 2),
-          paging: __S(832, __c26, 0),
+          data: __S(1698, __c53, 2),
+          paging: __S(864, __c27, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetPresetResponse" });
   }
 }
-function __c40(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10315,7 +11797,7 @@ function __c40(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          designTokens: __S(2609, __c81, 17).pipe(T.Body("design_tokens")),
+          designTokens: __S(113, __c3, 17).pipe(T.Body("design_tokens")),
           configDiff: S.optional(S.NullOr(S.Unknown).pipe(T.Body("config_diff"))),
         }),
       ).annotate({ identifier: "PresetsGetPresetByIdResponseDataUi" });
@@ -10323,23 +11805,23 @@ function __c40(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          config: __S(2608, __c81, 16),
+          config: __S(112, __c3, 16),
           createdAt: S.String.pipe(T.Body("created_at")),
           name: S.String,
-          permissions: __S(2561, __c80, 1),
-          ui: __S(1281, __c40, 1),
+          permissions: __S(65, __c2, 1),
+          ui: __S(1729, __c54, 1),
           updatedAt: S.String.pipe(T.Body("updated_at")),
         }),
       ).annotate({ identifier: "PresetsGetPresetByIdResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1282, __c40, 2),
+          data: __S(1730, __c54, 2),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetPresetByIdPresetResponse" });
   }
 }
-function __c41(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10355,7 +11837,7 @@ function __c41(j: number): any {
           sortBy: S.optional(S.String.pipe(T.Query("sort_by"))),
           sortOrder: S.optional(S.String.pipe(T.Query("sort_order"))),
           startTime: S.optional(S.String.pipe(T.Query("start_time"))),
-          status: S.optional(__S(32, __c1, 0).pipe(T.Query())),
+          status: S.optional(__S(288, __c9, 0).pipe(T.Query())),
         })
           .pipe(
             T.Http({
@@ -10430,17 +11912,17 @@ function __c41(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          audioConfig: S.optional(S.NullOr(__S(2304, __c72, 0)).pipe(T.Body("audio_config"))),
+          audioConfig: S.optional(S.NullOr(__S(3008, __c94, 0)).pipe(T.Body("audio_config"))),
           fileNamePrefix: S.optional(S.NullOr(S.String).pipe(T.Body("file_name_prefix"))),
           liveStreamingConfig: S.optional(
-            S.NullOr(__S(2305, __c72, 1)).pipe(T.Body("live_streaming_config")),
+            S.NullOr(__S(3009, __c94, 1)).pipe(T.Body("live_streaming_config")),
           ),
           maxSeconds: S.optional(S.NullOr(S.Number).pipe(T.Body("max_seconds"))),
           realtimekitBucketConfig: S.optional(
-            S.NullOr(__S(2272, __c71, 0)).pipe(T.Body("realtimekit_bucket_config")),
+            S.NullOr(__S(2976, __c93, 0)).pipe(T.Body("realtimekit_bucket_config")),
           ),
-          storageConfig: S.optional(S.NullOr(__S(1313, __c41, 1)).pipe(T.Body("storage_config"))),
-          videoConfig: S.optional(S.NullOr(__S(2308, __c72, 4)).pipe(T.Body("video_config"))),
+          storageConfig: S.optional(S.NullOr(__S(1761, __c55, 1)).pipe(T.Body("storage_config"))),
+          videoConfig: S.optional(S.NullOr(__S(3012, __c94, 4)).pipe(T.Body("video_config"))),
         }),
       ).annotate({ identifier: "RecordingsGetRecordingsResponseDataItemMeetingRecordingConfig" });
     case 3:
@@ -10453,7 +11935,7 @@ function __c41(j: number): any {
           persistChat: S.optional(S.NullOr(S.Boolean).pipe(T.Body("persist_chat"))),
           recordOnStart: S.optional(S.NullOr(S.Boolean).pipe(T.Body("record_on_start"))),
           recordingConfig: S.optional(
-            S.NullOr(__S(1314, __c41, 2)).pipe(T.Body("recording_config")),
+            S.NullOr(__S(1762, __c55, 2)).pipe(T.Body("recording_config")),
           ),
           sessionKeepAliveTimeInSecs: S.optional(
             S.NullOr(S.Number).pipe(T.Body("session_keep_alive_time_in_secs")),
@@ -10539,23 +12021,23 @@ function __c41(j: number): any {
           startedTime: S.String.pipe(T.Body("started_time")),
           status: S.String,
           stoppedTime: S.String.pipe(T.Body("stopped_time")),
-          meeting: S.optional(S.NullOr(__S(1315, __c41, 3))),
+          meeting: S.optional(S.NullOr(__S(1763, __c55, 3))),
           recordingDuration: S.optional(S.NullOr(S.Number).pipe(T.Body("recording_duration"))),
-          storageConfig: S.optional(S.NullOr(__S(1316, __c41, 4)).pipe(T.Body("storage_config"))),
+          storageConfig: S.optional(S.NullOr(__S(1764, __c55, 4)).pipe(T.Body("storage_config"))),
         }),
       ).annotate({ identifier: "RecordingsGetRecordingsResponseDataItem" });
     case 6:
-      return S.Array(__S(1317, __c41, 5));
+      return S.Array(__S(1765, __c55, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1318, __c41, 6),
-          paging: __S(832, __c26, 0),
+          data: __S(1766, __c55, 6),
+          paging: __S(864, __c27, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetRecordingsRecordingResponse" });
   }
 }
-function __c42(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10583,12 +12065,12 @@ function __c42(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(1345, __c42, 1))),
+          data: S.optional(S.NullOr(__S(1793, __c56, 1))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSessionChatSessionResponse" });
   }
 }
-function __c43(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10609,7 +12091,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "GetSessionDetailsSessionRequest" });
   }
 }
-function __c44(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10632,18 +12114,18 @@ function __c44(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          participant: S.optional(S.NullOr(__S(1440, __c45, 0))),
+          participant: S.optional(S.NullOr(__S(1888, __c59, 0))),
         }),
       ).annotate({ identifier: "SessionsGetSessionParticipantDetailsResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(1409, __c44, 1))),
+          data: S.optional(S.NullOr(__S(1857, __c58, 1))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSessionParticipantDetailsSessionResponse" });
   }
 }
-function __c45(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10655,7 +12137,7 @@ function __c45(j: number): any {
           duration: S.optional(S.NullOr(S.Number)),
           joinedAt: S.optional(S.NullOr(S.String).pipe(T.Body("joined_at"))),
           leftAt: S.optional(S.NullOr(S.String).pipe(T.Body("left_at"))),
-          peerEvents: S.optional(S.NullOr(__S(1217, __c38, 1)).pipe(T.Body("peer_events"))),
+          peerEvents: S.optional(S.NullOr(__S(1665, __c52, 1)).pipe(T.Body("peer_events"))),
           presetName: S.optional(S.NullOr(S.String).pipe(T.Body("preset_name"))),
           updatedAt: S.optional(S.NullOr(S.String).pipe(T.Body("updated_at"))),
           userId: S.optional(S.NullOr(S.String).pipe(T.Body("user_id"))),
@@ -10663,7 +12145,7 @@ function __c45(j: number): any {
       ).annotate({ identifier: "SessionsGetSessionParticipantDetailsResponseDataParticipant" });
   }
 }
-function __c46(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10689,22 +12171,22 @@ function __c46(j: number): any {
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSessionParticipantsSessionRequest" });
     case 1:
-      return S.Array(__S(1440, __c45, 0));
+      return S.Array(__S(1888, __c59, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          participants: S.optional(S.NullOr(__S(1473, __c46, 1))),
+          participants: S.optional(S.NullOr(__S(1921, __c60, 1))),
         }),
       ).annotate({ identifier: "SessionsGetSessionParticipantsResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(1474, __c46, 2))),
+          data: S.optional(S.NullOr(__S(1922, __c60, 2))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSessionParticipantsSessionResponse" });
   }
 }
-function __c47(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10732,23 +12214,23 @@ function __c47(j: number): any {
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSessionsSessionRequest" });
     case 1:
-      return S.Array(__S(513, __c16, 1));
+      return S.Array(__S(801, __c25, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          sessions: S.optional(S.NullOr(__S(1505, __c47, 1))),
+          sessions: S.optional(S.NullOr(__S(1953, __c61, 1))),
         }),
       ).annotate({ identifier: "SessionsGetSessionsResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(1506, __c47, 2))),
-          paging: S.optional(S.NullOr(__S(576, __c18, 0))),
+          data: S.optional(S.NullOr(__S(1954, __c61, 2))),
+          paging: S.optional(S.NullOr(__S(960, __c30, 0))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSessionsSessionResponse" });
   }
 }
-function __c48(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10777,12 +12259,12 @@ function __c48(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(1537, __c48, 1))),
+          data: S.optional(S.NullOr(__S(1985, __c62, 1))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSessionSummarySessionResponse" });
   }
 }
-function __c49(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10812,12 +12294,12 @@ function __c49(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(1569, __c49, 1))),
+          data: S.optional(S.NullOr(__S(2017, __c63, 1))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetSessionTranscriptsSessionResponse" });
   }
 }
-function __c50(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10837,7 +12319,43 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetWebhookByIdWebhookRequest" });
   }
 }
-function __c51(j: number): any {
+function __c65(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          appId: S.String.pipe(T.Label("app_id")),
+          meetingId: S.String.pipe(T.Label("meeting_id")),
+          allowUnmute: S.optional(S.Boolean.pipe(T.Body("allow_unmute"))),
+        })
+          .pipe(
+            T.Http({
+              method: "POST",
+              uri: "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-session/mute-all",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ActiveSessionMuteAllParticipantsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.optional(S.NullOr(S.String)),
+          mutedParticipantsCount: S.optional(
+            S.NullOr(S.Number).pipe(T.Body("muted_participants_count")),
+          ),
+        }),
+      ).annotate({ identifier: "ActiveSessionMuteAllParticipantsResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(S.NullOr(__S(2081, __c65, 1))),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ActiveSessionMuteAllParticipantsResponse" });
+  }
+}
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10855,16 +12373,16 @@ function __c51(j: number): any {
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetWebhooksWebhookRequest" });
     case 1:
-      return S.Array(__S(64, __c2, 0));
+      return S.Array(__S(320, __c10, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1633, __c51, 1),
+          data: __S(2113, __c66, 1),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetWebhooksWebhookResponse" });
   }
 }
-function __c52(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10894,12 +12412,12 @@ function __c52(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(1665, __c52, 1))),
+          data: S.optional(S.NullOr(__S(2145, __c67, 1))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "KickAllParticipantsActiveSessionResponse" });
   }
 }
-function __c53(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10908,9 +12426,9 @@ function __c53(j: number): any {
           appId: S.String.pipe(T.Label("app_id")),
           meetingId: S.String.pipe(T.Label("meeting_id")),
           customParticipantIds: S.optional(
-            __S(2464, __c77, 0).pipe(T.Body("custom_participant_ids")),
+            __S(2496, __c78, 0).pipe(T.Body("custom_participant_ids")),
           ),
-          participantIds: S.optional(__S(2464, __c77, 0).pipe(T.Body("participant_ids"))),
+          participantIds: S.optional(__S(2496, __c78, 0).pipe(T.Body("participant_ids"))),
         })
           .pipe(
             T.Http({
@@ -10921,35 +12439,9 @@ function __c53(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "KickParticipantsActiveSessionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          createdAt: S.String.pipe(T.Body("created_at")),
-          updatedAt: S.String.pipe(T.Body("updated_at")),
-          email: S.optional(S.NullOr(S.String)),
-          name: S.optional(S.NullOr(S.String)),
-          picture: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "ActiveSessionKickParticipantsResponseDataParticipantsItem" });
-    case 2:
-      return S.Array(__S(1697, __c53, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.optional(S.NullOr(S.String)),
-          participants: S.optional(S.NullOr(__S(1698, __c53, 2))),
-        }),
-      ).annotate({ identifier: "ActiveSessionKickParticipantsResponseData" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.optional(S.NullOr(__S(1699, __c53, 3))),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "KickParticipantsActiveSessionResponse" });
   }
 }
-function __c54(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10970,7 +12462,65 @@ function __c54(j: number): any {
       ).annotate({ identifier: "LivestreamsGetOrgAnalyticsRequest" });
   }
 }
-function __c55(j: number): any {
+function __c70(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          appId: S.String.pipe(T.Label("app_id")),
+          meetingId: S.String.pipe(T.Label("meeting_id")),
+          participantId: S.String.pipe(T.Label("participant_id")),
+          customParticipantId: S.String.pipe(T.Body("custom_participant_id")),
+          presetName: S.String.pipe(T.Body("preset_name")),
+          name: S.optional(S.String),
+          picture: S.optional(S.String),
+        })
+          .pipe(
+            T.Http({
+              method: "PUT",
+              uri: "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "MeetingsReplaceParticipantRequest" });
+  }
+}
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          appId: S.String.pipe(T.Label("app_id")),
+          meetingId: S.String.pipe(T.Label("meeting_id")),
+          participantId: S.String.pipe(T.Label("participant_id")),
+        })
+          .pipe(
+            T.Http({
+              method: "DELETE",
+              uri: "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants/{participant_id}/token",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "MeetingsRevokeParticipantTokenRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          token: S.String,
+        }),
+      ).annotate({ identifier: "MeetingsRevokeParticipantTokenResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(2273, __c71, 1),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "MeetingsRevokeParticipantTokenResponse" });
+  }
+}
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10997,20 +12547,20 @@ function __c55(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          audio: S.optional(__S(2688, __c84, 0)),
-          screenshare: S.optional(__S(1761, __c55, 1)),
-          video: S.optional(__S(1762, __c55, 2)),
+          audio: S.optional(__S(192, __c6, 0)),
+          screenshare: S.optional(__S(2305, __c72, 1)),
+          video: S.optional(__S(2306, __c72, 2)),
         }),
       ).annotate({ identifier: "PresetsUpdateRequestConfigMedia" });
     case 4:
       return S.suspend(() =>
         S.Struct({
           livestreamViewerQualities: S.optional(
-            __S(2594, __c81, 2).pipe(T.Body("livestream_viewer_qualities")),
+            __S(98, __c3, 2).pipe(T.Body("livestream_viewer_qualities")),
           ),
           maxScreenshareCount: S.optional(S.Number.pipe(T.Body("max_screenshare_count"))),
-          maxVideoStreams: S.optional(__S(1760, __c55, 0).pipe(T.Body("max_video_streams"))),
-          media: S.optional(__S(1763, __c55, 3)),
+          maxVideoStreams: S.optional(__S(2304, __c72, 0).pipe(T.Body("max_video_streams"))),
+          media: S.optional(__S(2307, __c72, 3)),
           viewType: S.optional(S.String.pipe(T.Body("view_type"))),
         }),
       ).annotate({ identifier: "PresetsUpdateRequestConfig" });
@@ -11034,8 +12584,8 @@ function __c55(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          private: S.optional(__S(1765, __c55, 5)),
-          public: S.optional(__S(1766, __c55, 6)),
+          private: S.optional(__S(2309, __c72, 5)),
+          public: S.optional(__S(2310, __c72, 6)),
         }),
       ).annotate({ identifier: "PresetsUpdateRequestPermissionsChat" });
     case 8:
@@ -11061,9 +12611,9 @@ function __c55(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          audio: S.optional(__S(1769, __c55, 9)),
-          screenshare: S.optional(__S(1769, __c55, 9)),
-          video: S.optional(__S(1769, __c55, 9)),
+          audio: S.optional(__S(2313, __c72, 9)),
+          screenshare: S.optional(__S(2313, __c72, 9)),
+          video: S.optional(__S(2313, __c72, 9)),
         }),
       ).annotate({ identifier: "PresetsUpdateRequestPermissionsMedia" });
     case 11:
@@ -11098,8 +12648,8 @@ function __c55(j: number): any {
           canLivestream: S.optional(S.Boolean.pipe(T.Body("can_livestream"))),
           canRecord: S.optional(S.Boolean.pipe(T.Body("can_record"))),
           canSpotlight: S.optional(S.Boolean.pipe(T.Body("can_spotlight"))),
-          chat: S.optional(__S(1767, __c55, 7)),
-          connectedMeetings: S.optional(__S(1768, __c55, 8).pipe(T.Body("connected_meetings"))),
+          chat: S.optional(__S(2311, __c72, 7)),
+          connectedMeetings: S.optional(__S(2312, __c72, 8).pipe(T.Body("connected_meetings"))),
           disableParticipantAudio: S.optional(S.Boolean.pipe(T.Body("disable_participant_audio"))),
           disableParticipantScreensharing: S.optional(
             S.Boolean.pipe(T.Body("disable_participant_screensharing")),
@@ -11108,10 +12658,10 @@ function __c55(j: number): any {
           hiddenParticipant: S.optional(S.Boolean.pipe(T.Body("hidden_participant"))),
           isRecorder: S.optional(S.Boolean.pipe(T.Body("is_recorder"))),
           kickParticipant: S.optional(S.Boolean.pipe(T.Body("kick_participant"))),
-          media: S.optional(__S(1770, __c55, 10)),
+          media: S.optional(__S(2314, __c72, 10)),
           pinParticipant: S.optional(S.Boolean.pipe(T.Body("pin_participant"))),
-          plugins: S.optional(__S(1771, __c55, 11)),
-          polls: S.optional(__S(1772, __c55, 12)),
+          plugins: S.optional(__S(2315, __c72, 11)),
+          polls: S.optional(__S(2316, __c72, 12)),
           recorderType: S.optional(S.String.pipe(T.Body("recorder_type"))),
           showParticipantList: S.optional(S.Boolean.pipe(T.Body("show_participant_list"))),
           stageAccess: S.optional(S.String.pipe(T.Body("stage_access"))),
@@ -11143,8 +12693,8 @@ function __c55(j: number): any {
     case 16:
       return S.suspend(() =>
         S.Struct({
-          background: S.optional(__S(1774, __c55, 14)),
-          brand: S.optional(__S(1775, __c55, 15)),
+          background: S.optional(__S(2318, __c72, 14)),
+          brand: S.optional(__S(2319, __c72, 15)),
           danger: S.optional(S.String),
           success: S.optional(S.String),
           text: S.optional(S.String),
@@ -11158,7 +12708,7 @@ function __c55(j: number): any {
         S.Struct({
           borderRadius: S.optional(S.String.pipe(T.Body("border_radius"))),
           borderWidth: S.optional(S.String.pipe(T.Body("border_width"))),
-          colors: S.optional(__S(1776, __c55, 16)),
+          colors: S.optional(__S(2320, __c72, 16)),
           fontFamily: S.optional(S.String.pipe(T.Body("font_family"))),
           googleFont: S.optional(S.String.pipe(T.Body("google_font"))),
           logo: S.optional(S.String),
@@ -11169,7 +12719,7 @@ function __c55(j: number): any {
     case 18:
       return S.suspend(() =>
         S.Struct({
-          designTokens: S.optional(__S(1777, __c55, 17).pipe(T.Body("design_tokens"))),
+          designTokens: S.optional(__S(2321, __c72, 17).pipe(T.Body("design_tokens"))),
         }),
       ).annotate({ identifier: "PresetsUpdateRequestUi" });
     case 19:
@@ -11178,10 +12728,10 @@ function __c55(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           appId: S.String.pipe(T.Label("app_id")),
           presetId: S.String.pipe(T.Label("preset_id")),
-          config: S.optional(__S(1764, __c55, 4)),
+          config: S.optional(__S(2308, __c72, 4)),
           name: S.optional(S.String),
-          permissions: S.optional(__S(1773, __c55, 13)),
-          ui: S.optional(__S(1778, __c55, 18)),
+          permissions: S.optional(__S(2317, __c72, 13)),
+          ui: S.optional(__S(2322, __c72, 18)),
         })
           .pipe(
             T.Http({
@@ -11194,54 +12744,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "PatchPresetRequest" });
   }
 }
-function __c56(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          appId: S.String.pipe(T.Label("app_id")),
-          meetingId: S.String.pipe(T.Label("meeting_id")),
-          customParticipantId: S.String.pipe(T.Body("custom_participant_id")),
-          presetName: S.String.pipe(T.Body("preset_name")),
-          name: S.optional(S.String),
-          picture: S.optional(S.String),
-        })
-          .pipe(
-            T.Http({
-              method: "POST",
-              uri: "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "AddParticipantMeetingRequest" });
-  }
-}
-function __c57(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          token: S.String,
-          createdAt: S.String.pipe(T.Body("created_at")),
-          customParticipantId: S.String.pipe(T.Body("custom_participant_id")),
-          presetName: S.String.pipe(T.Body("preset_name")),
-          updatedAt: S.String.pipe(T.Body("updated_at")),
-          name: S.optional(S.NullOr(S.String)),
-          picture: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "MeetingsAddParticipantResponseData" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.optional(S.NullOr(__S(1824, __c57, 0))),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "AddParticipantMeetingResponse" });
-  }
-}
-function __c58(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11336,20 +12839,20 @@ function __c58(j: number): any {
           status: S.String,
           stoppedTime: S.String.pipe(T.Body("stopped_time")),
           recordingDuration: S.optional(S.NullOr(S.Number).pipe(T.Body("recording_duration"))),
-          startReason: S.optional(S.NullOr(__S(1057, __c33, 1)).pipe(T.Body("start_reason"))),
-          stopReason: S.optional(S.NullOr(__S(1057, __c33, 1)).pipe(T.Body("stop_reason"))),
-          storageConfig: S.optional(S.NullOr(__S(1857, __c58, 1)).pipe(T.Body("storage_config"))),
+          startReason: S.optional(S.NullOr(__S(1505, __c47, 1)).pipe(T.Body("start_reason"))),
+          stopReason: S.optional(S.NullOr(__S(1505, __c47, 1)).pipe(T.Body("stop_reason"))),
+          storageConfig: S.optional(S.NullOr(__S(2337, __c73, 1)).pipe(T.Body("storage_config"))),
         }),
       ).annotate({ identifier: "RecordingsPauseResumeStopRecordingResponseData" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(1858, __c58, 2))),
+          data: S.optional(S.NullOr(__S(2338, __c73, 2))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PauseResumeStopRecordingRecordingResponse" });
   }
 }
-function __c59(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11365,18 +12868,18 @@ function __c59(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          app: S.optional(S.NullOr(__S(640, __c20, 0))),
+          app: S.optional(S.NullOr(__S(928, __c29, 0))),
         }),
       ).annotate({ identifier: "AppsPostResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(1889, __c59, 1))),
+          data: S.optional(S.NullOr(__S(2369, __c74, 1))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PostAppResponse" });
   }
 }
-function __c60(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11385,6 +12888,8 @@ function __c60(j: number): any {
           appId: S.String.pipe(T.Label("app_id")),
           meetingId: S.String.pipe(T.Label("meeting_id")),
           participantId: S.String.pipe(T.Label("participant_id")),
+          expiresOn: S.optional(S.String.pipe(T.Body("expires_on"))),
+          notBefore: S.optional(S.String.pipe(T.Body("not_before"))),
         })
           .pipe(
             T.Http({
@@ -11399,17 +12904,79 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           token: S.String,
+          expiresOn: S.String.pipe(T.Body("expires_on")),
+          notBefore: S.String.pipe(T.Body("not_before")),
         }),
       ).annotate({ identifier: "MeetingsRefreshParticipantTokenResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1921, __c60, 1),
+          data: __S(2401, __c75, 1),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "RefreshParticipantTokenMeetingResponse" });
   }
 }
-function __c61(j: number): any {
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          appId: S.String.pipe(T.Label("app_id")),
+          meetingId: S.String.pipe(T.Label("meeting_id")),
+          customParticipantIds: S.optional(
+            __S(2496, __c78, 0).pipe(T.Body("custom_participant_ids")),
+          ),
+          participantIds: S.optional(__S(2496, __c78, 0).pipe(T.Body("participant_ids"))),
+        })
+          .pipe(
+            T.Http({
+              method: "POST",
+              uri: "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-session/mute",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ActiveSessionMuteParticipantsRequest" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          createdAt: S.String.pipe(T.Body("created_at")),
+          updatedAt: S.String.pipe(T.Body("updated_at")),
+          email: S.optional(S.NullOr(S.String)),
+          name: S.optional(S.NullOr(S.String)),
+          picture: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "ActiveSessionMuteParticipantsResponseDataParticipantsItem" });
+    case 1:
+      return S.Array(__S(2464, __c77, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          action: S.optional(S.NullOr(S.String)),
+          participants: S.optional(S.NullOr(__S(2465, __c77, 1))),
+        }),
+      ).annotate({ identifier: "ActiveSessionMuteParticipantsResponseData" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(S.NullOr(__S(2466, __c77, 2))),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "ActiveSessionMuteParticipantsResponse" });
+  }
+}
+function __c78(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -11475,17 +13042,17 @@ function __c61(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          audioConfig: S.optional(__S(2400, __c75, 0).pipe(T.Body("audio_config"))),
+          audioConfig: S.optional(__S(3104, __c97, 0).pipe(T.Body("audio_config"))),
           fileNamePrefix: S.optional(S.String.pipe(T.Body("file_name_prefix"))),
           liveStreamingConfig: S.optional(
-            __S(2401, __c75, 1).pipe(T.Body("live_streaming_config")),
+            __S(3105, __c97, 1).pipe(T.Body("live_streaming_config")),
           ),
           maxSeconds: S.optional(S.Number.pipe(T.Body("max_seconds"))),
           realtimekitBucketConfig: S.optional(
-            __S(2272, __c71, 0).pipe(T.Body("realtimekit_bucket_config")),
+            __S(2976, __c93, 0).pipe(T.Body("realtimekit_bucket_config")),
           ),
-          storageConfig: S.optional(__S(1952, __c61, 0).pipe(T.Body("storage_config"))),
-          videoConfig: S.optional(__S(2403, __c75, 3).pipe(T.Body("video_config"))),
+          storageConfig: S.optional(__S(2528, __c79, 0).pipe(T.Body("storage_config"))),
+          videoConfig: S.optional(__S(3107, __c97, 3).pipe(T.Body("video_config"))),
         }),
       ).annotate({ identifier: "MeetingsReplaceMeetingByIdRequestRecordingConfig" });
     case 2:
@@ -11494,11 +13061,11 @@ function __c61(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           appId: S.String.pipe(T.Label("app_id")),
           meetingId: S.String.pipe(T.Label("meeting_id")),
-          aiConfig: S.optional(__S(2434, __c76, 2).pipe(T.Body("ai_config"))),
+          aiConfig: S.optional(__S(3138, __c98, 2).pipe(T.Body("ai_config"))),
           liveStreamOnStart: S.optional(S.Boolean.pipe(T.Body("live_stream_on_start"))),
           persistChat: S.optional(S.Boolean.pipe(T.Body("persist_chat"))),
           recordOnStart: S.optional(S.Boolean.pipe(T.Body("record_on_start"))),
-          recordingConfig: S.optional(__S(1953, __c61, 1).pipe(T.Body("recording_config"))),
+          recordingConfig: S.optional(__S(2529, __c79, 1).pipe(T.Body("recording_config"))),
           sessionKeepAliveTimeInSecs: S.optional(
             S.Number.pipe(T.Body("session_keep_alive_time_in_secs")),
           ),
@@ -11579,17 +13146,17 @@ function __c61(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          audioConfig: S.optional(S.NullOr(__S(2304, __c72, 0)).pipe(T.Body("audio_config"))),
+          audioConfig: S.optional(S.NullOr(__S(3008, __c94, 0)).pipe(T.Body("audio_config"))),
           fileNamePrefix: S.optional(S.NullOr(S.String).pipe(T.Body("file_name_prefix"))),
           liveStreamingConfig: S.optional(
-            S.NullOr(__S(2305, __c72, 1)).pipe(T.Body("live_streaming_config")),
+            S.NullOr(__S(3009, __c94, 1)).pipe(T.Body("live_streaming_config")),
           ),
           maxSeconds: S.optional(S.NullOr(S.Number).pipe(T.Body("max_seconds"))),
           realtimekitBucketConfig: S.optional(
-            S.NullOr(__S(2272, __c71, 0)).pipe(T.Body("realtimekit_bucket_config")),
+            S.NullOr(__S(2976, __c93, 0)).pipe(T.Body("realtimekit_bucket_config")),
           ),
-          storageConfig: S.optional(S.NullOr(__S(1955, __c61, 3)).pipe(T.Body("storage_config"))),
-          videoConfig: S.optional(S.NullOr(__S(2308, __c72, 4)).pipe(T.Body("video_config"))),
+          storageConfig: S.optional(S.NullOr(__S(2531, __c79, 3)).pipe(T.Body("storage_config"))),
+          videoConfig: S.optional(S.NullOr(__S(3012, __c94, 4)).pipe(T.Body("video_config"))),
         }),
       ).annotate({ identifier: "MeetingsReplaceMeetingByIdResponseDataRecordingConfig" });
     case 5:
@@ -11598,12 +13165,12 @@ function __c61(j: number): any {
           id: S.String,
           createdAt: S.String.pipe(T.Body("created_at")),
           updatedAt: S.String.pipe(T.Body("updated_at")),
-          aiConfig: S.optional(S.NullOr(__S(2338, __c73, 2)).pipe(T.Body("ai_config"))),
+          aiConfig: S.optional(S.NullOr(__S(3042, __c95, 2)).pipe(T.Body("ai_config"))),
           liveStreamOnStart: S.optional(S.NullOr(S.Boolean).pipe(T.Body("live_stream_on_start"))),
           persistChat: S.optional(S.NullOr(S.Boolean).pipe(T.Body("persist_chat"))),
           recordOnStart: S.optional(S.NullOr(S.Boolean).pipe(T.Body("record_on_start"))),
           recordingConfig: S.optional(
-            S.NullOr(__S(1956, __c61, 4)).pipe(T.Body("recording_config")),
+            S.NullOr(__S(2532, __c79, 4)).pipe(T.Body("recording_config")),
           ),
           sessionKeepAliveTimeInSecs: S.optional(
             S.NullOr(S.Number).pipe(T.Body("session_keep_alive_time_in_secs")),
@@ -11617,12 +13184,12 @@ function __c61(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(1957, __c61, 5))),
+          data: S.optional(S.NullOr(__S(2533, __c79, 5))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ReplaceMeetingByIdMeetingResponse" });
   }
 }
-function __c62(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11632,14 +13199,14 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "ReplacePresetByIdRequestPermissionsPluginsConfigValue" });
     case 1:
-      return S.Record(S.String, __S(1984, __c62, 0));
+      return S.Record(S.String, __S(2560, __c80, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           canClose: S.Boolean.pipe(T.Body("can_close")),
           canEditConfig: S.Boolean.pipe(T.Body("can_edit_config")),
           canStart: S.Boolean.pipe(T.Body("can_start")),
-          config: __S(1985, __c62, 1),
+          config: __S(2561, __c80, 1),
         }),
       ).annotate({ identifier: "ReplacePresetByIdRequestPermissionsPlugins" });
     case 3:
@@ -11654,8 +13221,8 @@ function __c62(j: number): any {
           canLivestream: S.Boolean.pipe(T.Body("can_livestream")),
           canRecord: S.Boolean.pipe(T.Body("can_record")),
           canSpotlight: S.Boolean.pipe(T.Body("can_spotlight")),
-          chat: __S(2597, __c81, 5),
-          connectedMeetings: __S(2598, __c81, 6).pipe(T.Body("connected_meetings")),
+          chat: __S(101, __c3, 5),
+          connectedMeetings: __S(102, __c3, 6).pipe(T.Body("connected_meetings")),
           disableParticipantAudio: S.Boolean.pipe(T.Body("disable_participant_audio")),
           disableParticipantScreensharing: S.Boolean.pipe(
             T.Body("disable_participant_screensharing"),
@@ -11663,10 +13230,10 @@ function __c62(j: number): any {
           disableParticipantVideo: S.Boolean.pipe(T.Body("disable_participant_video")),
           hiddenParticipant: S.Boolean.pipe(T.Body("hidden_participant")),
           kickParticipant: S.Boolean.pipe(T.Body("kick_participant")),
-          media: __S(2600, __c81, 8),
+          media: __S(104, __c3, 8),
           pinParticipant: S.Boolean.pipe(T.Body("pin_participant")),
-          plugins: __S(1986, __c62, 2),
-          polls: __S(2601, __c81, 9),
+          plugins: __S(2562, __c80, 2),
+          polls: __S(105, __c3, 9),
           recorderType: S.String.pipe(T.Body("recorder_type")),
           showParticipantList: S.Boolean.pipe(T.Body("show_participant_list")),
           waitingRoomType: S.String.pipe(T.Body("waiting_room_type")),
@@ -11683,10 +13250,10 @@ function __c62(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           appId: S.String.pipe(T.Label("app_id")),
           presetId: S.String.pipe(T.Label("preset_id")),
-          config: __S(2722, __c85, 2),
+          config: __S(226, __c7, 2),
           name: S.String,
-          permissions: __S(1987, __c62, 3),
-          ui: __S(2724, __c85, 4),
+          permissions: __S(2563, __c80, 3),
+          ui: __S(228, __c7, 4),
         })
           .pipe(
             T.Http({
@@ -11705,14 +13272,14 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "ReplacePresetByIdResponseDataPermissionsPluginsConfigValue" });
     case 6:
-      return S.Record(S.String, __S(1989, __c62, 5));
+      return S.Record(S.String, __S(2565, __c80, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
           canClose: S.Boolean.pipe(T.Body("can_close")),
           canEditConfig: S.Boolean.pipe(T.Body("can_edit_config")),
           canStart: S.Boolean.pipe(T.Body("can_start")),
-          config: __S(1990, __c62, 6),
+          config: __S(2566, __c80, 6),
         }),
       ).annotate({ identifier: "ReplacePresetByIdResponseDataPermissionsPlugins" });
     case 8:
@@ -11727,8 +13294,8 @@ function __c62(j: number): any {
           canLivestream: S.Boolean.pipe(T.Body("can_livestream")),
           canRecord: S.Boolean.pipe(T.Body("can_record")),
           canSpotlight: S.Boolean.pipe(T.Body("can_spotlight")),
-          chat: __S(2597, __c81, 5),
-          connectedMeetings: __S(2598, __c81, 6).pipe(T.Body("connected_meetings")),
+          chat: __S(101, __c3, 5),
+          connectedMeetings: __S(102, __c3, 6).pipe(T.Body("connected_meetings")),
           disableParticipantAudio: S.Boolean.pipe(T.Body("disable_participant_audio")),
           disableParticipantScreensharing: S.Boolean.pipe(
             T.Body("disable_participant_screensharing"),
@@ -11736,10 +13303,10 @@ function __c62(j: number): any {
           disableParticipantVideo: S.Boolean.pipe(T.Body("disable_participant_video")),
           hiddenParticipant: S.Boolean.pipe(T.Body("hidden_participant")),
           kickParticipant: S.Boolean.pipe(T.Body("kick_participant")),
-          media: __S(2600, __c81, 8),
+          media: __S(104, __c3, 8),
           pinParticipant: S.Boolean.pipe(T.Body("pin_participant")),
-          plugins: __S(1991, __c62, 7),
-          polls: __S(2601, __c81, 9),
+          plugins: __S(2567, __c80, 7),
+          polls: __S(105, __c3, 9),
           recorderType: S.String.pipe(T.Body("recorder_type")),
           showParticipantList: S.Boolean.pipe(T.Body("show_participant_list")),
           waitingRoomType: S.String.pipe(T.Body("waiting_room_type")),
@@ -11758,23 +13325,23 @@ function __c62(j: number): any {
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          config: __S(2608, __c81, 16),
+          config: __S(112, __c3, 16),
           createdAt: S.String.pipe(T.Body("created_at")),
           name: S.String,
-          permissions: __S(1992, __c62, 8),
-          ui: __S(2656, __c83, 0),
+          permissions: __S(2568, __c80, 8),
+          ui: __S(160, __c5, 0),
           updatedAt: S.String.pipe(T.Body("updated_at")),
         }),
       ).annotate({ identifier: "ReplacePresetByIdResponseData" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          data: __S(1993, __c62, 9),
+          data: __S(2569, __c80, 9),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ReplacePresetByIdResponse" });
   }
 }
-function __c63(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11782,7 +13349,7 @@ function __c63(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           appId: S.String.pipe(T.Label("app_id")),
           webhookId: S.String.pipe(T.Label("webhook_id")),
-          events: __S(32, __c1, 0),
+          events: __S(288, __c9, 0),
           name: S.String,
           url: S.String,
           enabled: S.optional(S.Boolean),
@@ -11798,7 +13365,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "ReplaceWebhookWebhookRequest" });
   }
 }
-function __c64(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11807,7 +13374,7 @@ function __c64(j: number): any {
           appId: S.String.pipe(T.Label("app_id")),
           meetingId: S.String.pipe(T.Label("meeting_id")),
           name: S.optional(S.String),
-          videoConfig: S.optional(__S(2368, __c74, 0).pipe(T.Body("video_config"))),
+          videoConfig: S.optional(__S(3072, __c96, 0).pipe(T.Body("video_config"))),
         })
           .pipe(
             T.Http({
@@ -11821,22 +13388,24 @@ function __c64(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.NullOr(S.String)),
-          ingestServer: S.optional(S.NullOr(S.String).pipe(T.Body("ingest_server"))),
-          playbackUrl: S.optional(S.NullOr(S.String).pipe(T.Body("playback_url"))),
-          status: S.optional(S.NullOr(S.String)),
-          streamKey: S.optional(S.NullOr(S.String).pipe(T.Body("stream_key"))),
+          id: S.String,
+          ingestServer: S.String.pipe(T.Body("ingest_server")),
+          meetingId: S.String.pipe(T.Body("meeting_id")),
+          name: S.String,
+          playbackUrl: S.String.pipe(T.Body("playback_url")),
+          status: S.String,
+          streamKey: S.String.pipe(T.Body("stream_key")),
         }),
       ).annotate({ identifier: "LivestreamsStartLivestreamingAMeetingResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(2049, __c64, 1))),
+          data: __S(2625, __c82, 1),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "StartLivestreamingAMeetingLivestreamResponse" });
   }
 }
-function __c65(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -11912,17 +13481,17 @@ function __c65(j: number): any {
           appId: S.String.pipe(T.Label("app_id")),
           meetingId: S.String.pipe(T.Body("meeting_id")),
           allowMultipleRecordings: S.optional(S.Boolean.pipe(T.Body("allow_multiple_recordings"))),
-          audioConfig: S.optional(__S(2400, __c75, 0).pipe(T.Body("audio_config"))),
+          audioConfig: S.optional(__S(3104, __c97, 0).pipe(T.Body("audio_config"))),
           fileNamePrefix: S.optional(S.String.pipe(T.Body("file_name_prefix"))),
-          interactiveConfig: S.optional(__S(2080, __c65, 0).pipe(T.Body("interactive_config"))),
+          interactiveConfig: S.optional(__S(2656, __c83, 0).pipe(T.Body("interactive_config"))),
           maxSeconds: S.optional(S.Number.pipe(T.Body("max_seconds"))),
           realtimekitBucketConfig: S.optional(
-            __S(2272, __c71, 0).pipe(T.Body("realtimekit_bucket_config")),
+            __S(2976, __c93, 0).pipe(T.Body("realtimekit_bucket_config")),
           ),
-          rtmpOutConfig: S.optional(__S(2401, __c75, 1).pipe(T.Body("rtmp_out_config"))),
-          storageConfig: S.optional(__S(2081, __c65, 1).pipe(T.Body("storage_config"))),
+          rtmpOutConfig: S.optional(__S(3105, __c97, 1).pipe(T.Body("rtmp_out_config"))),
+          storageConfig: S.optional(__S(2657, __c83, 1).pipe(T.Body("storage_config"))),
           url: S.optional(S.String),
-          videoConfig: S.optional(__S(2403, __c75, 3).pipe(T.Body("video_config"))),
+          videoConfig: S.optional(__S(3107, __c97, 3).pipe(T.Body("video_config"))),
         })
           .pipe(
             T.Http({
@@ -12009,20 +13578,20 @@ function __c65(j: number): any {
           status: S.String,
           stoppedTime: S.String.pipe(T.Body("stopped_time")),
           recordingDuration: S.optional(S.NullOr(S.Number).pipe(T.Body("recording_duration"))),
-          startReason: S.optional(S.NullOr(__S(1057, __c33, 1)).pipe(T.Body("start_reason"))),
-          stopReason: S.optional(S.NullOr(__S(1057, __c33, 1)).pipe(T.Body("stop_reason"))),
-          storageConfig: S.optional(S.NullOr(__S(2083, __c65, 3)).pipe(T.Body("storage_config"))),
+          startReason: S.optional(S.NullOr(__S(1505, __c47, 1)).pipe(T.Body("start_reason"))),
+          stopReason: S.optional(S.NullOr(__S(1505, __c47, 1)).pipe(T.Body("stop_reason"))),
+          storageConfig: S.optional(S.NullOr(__S(2659, __c83, 3)).pipe(T.Body("storage_config"))),
         }),
       ).annotate({ identifier: "RecordingsStartRecordingsResponseData" });
     case 5:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(2084, __c65, 4))),
+          data: S.optional(S.NullOr(__S(2660, __c83, 4))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "StartRecordingsRecordingResponse" });
   }
 }
-function __c66(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12032,15 +13601,15 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "RecordingsStartTrackRecordingRequestLayersValue" });
     case 1:
-      return S.Record(S.String, __S(2112, __c66, 0));
+      return S.Record(S.String, __S(2688, __c84, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           appId: S.String.pipe(T.Label("app_id")),
           meetingId: S.String.pipe(T.Body("meeting_id")),
-          layers: S.optional(__S(2113, __c66, 1)),
-          userIds: S.optional(__S(2464, __c77, 0).pipe(T.Body("user_ids"))),
+          layers: S.optional(__S(2689, __c84, 1)),
+          userIds: S.optional(__S(2496, __c78, 0).pipe(T.Body("user_ids"))),
         })
           .pipe(
             T.Http({
@@ -12054,18 +13623,18 @@ function __c66(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          recording: __S(416, __c13, 0),
+          recording: __S(704, __c22, 0),
         }),
       ).annotate({ identifier: "RecordingsStartTrackRecordingResponseData" });
     case 4:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(2115, __c66, 3))),
+          data: S.optional(S.NullOr(__S(2691, __c84, 3))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "StartTrackRecordingRecordingResponse" });
   }
 }
-function __c67(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12092,51 +13661,48 @@ function __c67(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(2145, __c67, 1))),
+          data: S.optional(S.NullOr(__S(2721, __c85, 1))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "StopLivestreamingAMeetingLivestreamResponse" });
   }
 }
-function __c68(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           appId: S.String.pipe(T.Label("app_id")),
-          name: S.optional(S.String),
+          name: S.String,
         })
           .pipe(
             T.Http({
-              method: "POST",
-              uri: "/accounts/{account_id}/realtime/kit/{app_id}/livestreams",
+              method: "PATCH",
+              uri: "/accounts/{account_id}/realtime/kit/apps/{app_id}",
               code: 200,
             }),
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateIndependentLivestreamLivestreamRequest" });
+      ).annotate({ identifier: "UpdateAppByIdRequest" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           id: S.optional(S.NullOr(S.String)),
-          disabled: S.optional(S.NullOr(S.Boolean)),
-          ingestServer: S.optional(S.NullOr(S.String).pipe(T.Body("ingest_server"))),
-          meetingId: S.optional(S.NullOr(S.String).pipe(T.Body("meeting_id"))),
+          cfAccountTag: S.optional(S.NullOr(S.String).pipe(T.Body("cf_account_tag"))),
+          createdAt: S.optional(S.NullOr(S.String).pipe(T.Body("created_at"))),
+          isOrgOnKv: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_org_on_kv"))),
           name: S.optional(S.NullOr(S.String)),
-          playbackUrl: S.optional(S.NullOr(S.String).pipe(T.Body("playback_url"))),
-          status: S.optional(S.NullOr(S.String)),
-          streamKey: S.optional(S.NullOr(S.String).pipe(T.Body("stream_key"))),
         }),
-      ).annotate({ identifier: "LivestreamsCreateIndependentLivestreamResponseData" });
+      ).annotate({ identifier: "UpdateAppByIdResponseData" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(2177, __c68, 1))),
+          data: __S(2753, __c86, 1),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreateIndependentLivestreamLivestreamResponse" });
+      ).annotate({ identifier: "UpdateAppByIdResponse" });
   }
 }
-function __c69(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -12202,17 +13768,17 @@ function __c69(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          audioConfig: S.optional(__S(2400, __c75, 0).pipe(T.Body("audio_config"))),
+          audioConfig: S.optional(__S(3104, __c97, 0).pipe(T.Body("audio_config"))),
           fileNamePrefix: S.optional(S.String.pipe(T.Body("file_name_prefix"))),
           liveStreamingConfig: S.optional(
-            __S(2401, __c75, 1).pipe(T.Body("live_streaming_config")),
+            __S(3105, __c97, 1).pipe(T.Body("live_streaming_config")),
           ),
           maxSeconds: S.optional(S.Number.pipe(T.Body("max_seconds"))),
           realtimekitBucketConfig: S.optional(
-            __S(2272, __c71, 0).pipe(T.Body("realtimekit_bucket_config")),
+            __S(2976, __c93, 0).pipe(T.Body("realtimekit_bucket_config")),
           ),
-          storageConfig: S.optional(__S(2208, __c69, 0).pipe(T.Body("storage_config"))),
-          videoConfig: S.optional(__S(2403, __c75, 3).pipe(T.Body("video_config"))),
+          storageConfig: S.optional(__S(2784, __c87, 0).pipe(T.Body("storage_config"))),
+          videoConfig: S.optional(__S(3107, __c97, 3).pipe(T.Body("video_config"))),
         }),
       ).annotate({ identifier: "MeetingsUpdateMeetingByIdRequestRecordingConfig" });
     case 2:
@@ -12221,11 +13787,11 @@ function __c69(j: number): any {
           accountId: S.String.pipe(T.Label("account_id")),
           appId: S.String.pipe(T.Label("app_id")),
           meetingId: S.String.pipe(T.Label("meeting_id")),
-          aiConfig: S.optional(__S(2434, __c76, 2).pipe(T.Body("ai_config"))),
+          aiConfig: S.optional(__S(3138, __c98, 2).pipe(T.Body("ai_config"))),
           liveStreamOnStart: S.optional(S.Boolean.pipe(T.Body("live_stream_on_start"))),
           persistChat: S.optional(S.Boolean.pipe(T.Body("persist_chat"))),
           recordOnStart: S.optional(S.Boolean.pipe(T.Body("record_on_start"))),
-          recordingConfig: S.optional(__S(2209, __c69, 1).pipe(T.Body("recording_config"))),
+          recordingConfig: S.optional(__S(2785, __c87, 1).pipe(T.Body("recording_config"))),
           sessionKeepAliveTimeInSecs: S.optional(
             S.Number.pipe(T.Body("session_keep_alive_time_in_secs")),
           ),
@@ -12307,17 +13873,17 @@ function __c69(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          audioConfig: S.optional(S.NullOr(__S(2304, __c72, 0)).pipe(T.Body("audio_config"))),
+          audioConfig: S.optional(S.NullOr(__S(3008, __c94, 0)).pipe(T.Body("audio_config"))),
           fileNamePrefix: S.optional(S.NullOr(S.String).pipe(T.Body("file_name_prefix"))),
           liveStreamingConfig: S.optional(
-            S.NullOr(__S(2305, __c72, 1)).pipe(T.Body("live_streaming_config")),
+            S.NullOr(__S(3009, __c94, 1)).pipe(T.Body("live_streaming_config")),
           ),
           maxSeconds: S.optional(S.NullOr(S.Number).pipe(T.Body("max_seconds"))),
           realtimekitBucketConfig: S.optional(
-            S.NullOr(__S(2272, __c71, 0)).pipe(T.Body("realtimekit_bucket_config")),
+            S.NullOr(__S(2976, __c93, 0)).pipe(T.Body("realtimekit_bucket_config")),
           ),
-          storageConfig: S.optional(S.NullOr(__S(2211, __c69, 3)).pipe(T.Body("storage_config"))),
-          videoConfig: S.optional(S.NullOr(__S(2308, __c72, 4)).pipe(T.Body("video_config"))),
+          storageConfig: S.optional(S.NullOr(__S(2787, __c87, 3)).pipe(T.Body("storage_config"))),
+          videoConfig: S.optional(S.NullOr(__S(3012, __c94, 4)).pipe(T.Body("video_config"))),
         }),
       ).annotate({ identifier: "MeetingsUpdateMeetingByIdResponseDataRecordingConfig" });
     case 5:
@@ -12326,12 +13892,12 @@ function __c69(j: number): any {
           id: S.String,
           createdAt: S.String.pipe(T.Body("created_at")),
           updatedAt: S.String.pipe(T.Body("updated_at")),
-          aiConfig: S.optional(S.NullOr(__S(2338, __c73, 2)).pipe(T.Body("ai_config"))),
+          aiConfig: S.optional(S.NullOr(__S(3042, __c95, 2)).pipe(T.Body("ai_config"))),
           liveStreamOnStart: S.optional(S.NullOr(S.Boolean).pipe(T.Body("live_stream_on_start"))),
           persistChat: S.optional(S.NullOr(S.Boolean).pipe(T.Body("persist_chat"))),
           recordOnStart: S.optional(S.NullOr(S.Boolean).pipe(T.Body("record_on_start"))),
           recordingConfig: S.optional(
-            S.NullOr(__S(2212, __c69, 4)).pipe(T.Body("recording_config")),
+            S.NullOr(__S(2788, __c87, 4)).pipe(T.Body("recording_config")),
           ),
           sessionKeepAliveTimeInSecs: S.optional(
             S.NullOr(S.Number).pipe(T.Body("session_keep_alive_time_in_secs")),
@@ -12345,12 +13911,133 @@ function __c69(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(2213, __c69, 5))),
+          data: S.optional(S.NullOr(__S(2789, __c87, 5))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "UpdateMeetingByIdMeetingResponse" });
   }
 }
-function __c70(j: number): any {
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          appId: S.String.pipe(T.Label("app_id")),
+        })
+          .pipe(
+            T.Http({
+              method: "GET",
+              uri: "/accounts/{account_id}/realtime/kit/{app_id}/webhooks/all",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "WebhooksGetAllWebhooksRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: __S(288, __c9, 0),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "WebhooksGetAllWebhooksResponse" });
+  }
+}
+function __c89(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          expiresOn: S.optional(S.String.pipe(T.Body("expires_on"))),
+          notBefore: S.optional(S.String.pipe(T.Body("not_before"))),
+        }),
+      ).annotate({ identifier: "MeetingsAddParticipantRequestToken" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          appId: S.String.pipe(T.Label("app_id")),
+          meetingId: S.String.pipe(T.Label("meeting_id")),
+          customParticipantId: S.String.pipe(T.Body("custom_participant_id")),
+          presetName: S.String.pipe(T.Body("preset_name")),
+          token: S.optional(__S(2848, __c89, 0)),
+          name: S.optional(S.String),
+          picture: S.optional(S.String),
+        })
+          .pipe(
+            T.Http({
+              method: "POST",
+              uri: "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/participants",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "AddParticipantMeetingRequest" });
+  }
+}
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          token: S.String,
+          createdAt: S.String.pipe(T.Body("created_at")),
+          customParticipantId: S.String.pipe(T.Body("custom_participant_id")),
+          presetName: S.String.pipe(T.Body("preset_name")),
+          updatedAt: S.String.pipe(T.Body("updated_at")),
+          expiresOn: S.optional(S.NullOr(S.String).pipe(T.Body("expires_on"))),
+          name: S.optional(S.NullOr(S.String)),
+          notBefore: S.optional(S.NullOr(S.String).pipe(T.Body("not_before"))),
+          picture: S.optional(S.NullOr(S.String)),
+        }),
+      ).annotate({ identifier: "MeetingsAddParticipantResponseData" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(S.NullOr(__S(2880, __c90, 0))),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "AddParticipantMeetingResponse" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          accountId: S.String.pipe(T.Label("account_id")),
+          appId: S.String.pipe(T.Label("app_id")),
+          name: S.optional(S.String),
+        })
+          .pipe(
+            T.Http({
+              method: "POST",
+              uri: "/accounts/{account_id}/realtime/kit/{app_id}/livestreams",
+              code: 200,
+            }),
+          )
+          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateIndependentLivestreamLivestreamRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.optional(S.NullOr(S.String)),
+          disabled: S.optional(S.NullOr(S.Boolean)),
+          ingestServer: S.optional(S.NullOr(S.String).pipe(T.Body("ingest_server"))),
+          meetingId: S.optional(S.NullOr(S.String).pipe(T.Body("meeting_id"))),
+          name: S.optional(S.NullOr(S.String)),
+          playbackUrl: S.optional(S.NullOr(S.String).pipe(T.Body("playback_url"))),
+          status: S.optional(S.NullOr(S.String)),
+          streamKey: S.optional(S.NullOr(S.String).pipe(T.Body("stream_key"))),
+        }),
+      ).annotate({ identifier: "LivestreamsCreateIndependentLivestreamResponseData" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          data: S.optional(S.NullOr(__S(2913, __c91, 1))),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "CreateIndependentLivestreamLivestreamResponse" });
+  }
+}
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.Unknown.pipe(
@@ -12416,17 +14103,17 @@ function __c70(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          audioConfig: S.optional(__S(2400, __c75, 0).pipe(T.Body("audio_config"))),
+          audioConfig: S.optional(__S(3104, __c97, 0).pipe(T.Body("audio_config"))),
           fileNamePrefix: S.optional(S.String.pipe(T.Body("file_name_prefix"))),
           liveStreamingConfig: S.optional(
-            __S(2401, __c75, 1).pipe(T.Body("live_streaming_config")),
+            __S(3105, __c97, 1).pipe(T.Body("live_streaming_config")),
           ),
           maxSeconds: S.optional(S.Number.pipe(T.Body("max_seconds"))),
           realtimekitBucketConfig: S.optional(
-            __S(2272, __c71, 0).pipe(T.Body("realtimekit_bucket_config")),
+            __S(2976, __c93, 0).pipe(T.Body("realtimekit_bucket_config")),
           ),
-          storageConfig: S.optional(__S(2240, __c70, 0).pipe(T.Body("storage_config"))),
-          videoConfig: S.optional(__S(2403, __c75, 3).pipe(T.Body("video_config"))),
+          storageConfig: S.optional(__S(2944, __c92, 0).pipe(T.Body("storage_config"))),
+          videoConfig: S.optional(__S(3107, __c97, 3).pipe(T.Body("video_config"))),
         }),
       ).annotate({ identifier: "MeetingsCreateRequestRecordingConfig" });
     case 2:
@@ -12434,11 +14121,11 @@ function __c70(j: number): any {
         S.Struct({
           accountId: S.String.pipe(T.Label("account_id")),
           appId: S.String.pipe(T.Label("app_id")),
-          aiConfig: S.optional(__S(2434, __c76, 2).pipe(T.Body("ai_config"))),
+          aiConfig: S.optional(__S(3138, __c98, 2).pipe(T.Body("ai_config"))),
           liveStreamOnStart: S.optional(S.Boolean.pipe(T.Body("live_stream_on_start"))),
           persistChat: S.optional(S.Boolean.pipe(T.Body("persist_chat"))),
           recordOnStart: S.optional(S.Boolean.pipe(T.Body("record_on_start"))),
-          recordingConfig: S.optional(__S(2241, __c70, 1).pipe(T.Body("recording_config"))),
+          recordingConfig: S.optional(__S(2945, __c92, 1).pipe(T.Body("recording_config"))),
           sessionKeepAliveTimeInSecs: S.optional(
             S.Number.pipe(T.Body("session_keep_alive_time_in_secs")),
           ),
@@ -12519,17 +14206,17 @@ function __c70(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          audioConfig: S.optional(S.NullOr(__S(2304, __c72, 0)).pipe(T.Body("audio_config"))),
+          audioConfig: S.optional(S.NullOr(__S(3008, __c94, 0)).pipe(T.Body("audio_config"))),
           fileNamePrefix: S.optional(S.NullOr(S.String).pipe(T.Body("file_name_prefix"))),
           liveStreamingConfig: S.optional(
-            S.NullOr(__S(2305, __c72, 1)).pipe(T.Body("live_streaming_config")),
+            S.NullOr(__S(3009, __c94, 1)).pipe(T.Body("live_streaming_config")),
           ),
           maxSeconds: S.optional(S.NullOr(S.Number).pipe(T.Body("max_seconds"))),
           realtimekitBucketConfig: S.optional(
-            S.NullOr(__S(2272, __c71, 0)).pipe(T.Body("realtimekit_bucket_config")),
+            S.NullOr(__S(2976, __c93, 0)).pipe(T.Body("realtimekit_bucket_config")),
           ),
-          storageConfig: S.optional(S.NullOr(__S(2243, __c70, 3)).pipe(T.Body("storage_config"))),
-          videoConfig: S.optional(S.NullOr(__S(2308, __c72, 4)).pipe(T.Body("video_config"))),
+          storageConfig: S.optional(S.NullOr(__S(2947, __c92, 3)).pipe(T.Body("storage_config"))),
+          videoConfig: S.optional(S.NullOr(__S(3012, __c94, 4)).pipe(T.Body("video_config"))),
         }),
       ).annotate({ identifier: "MeetingsCreateResponseDataRecordingConfig" });
     case 5:
@@ -12538,12 +14225,12 @@ function __c70(j: number): any {
           id: S.String,
           createdAt: S.String.pipe(T.Body("created_at")),
           updatedAt: S.String.pipe(T.Body("updated_at")),
-          aiConfig: S.optional(S.NullOr(__S(2338, __c73, 2)).pipe(T.Body("ai_config"))),
+          aiConfig: S.optional(S.NullOr(__S(3042, __c95, 2)).pipe(T.Body("ai_config"))),
           liveStreamOnStart: S.optional(S.NullOr(S.Boolean).pipe(T.Body("live_stream_on_start"))),
           persistChat: S.optional(S.NullOr(S.Boolean).pipe(T.Body("persist_chat"))),
           recordOnStart: S.optional(S.NullOr(S.Boolean).pipe(T.Body("record_on_start"))),
           recordingConfig: S.optional(
-            S.NullOr(__S(2244, __c70, 4)).pipe(T.Body("recording_config")),
+            S.NullOr(__S(2948, __c92, 4)).pipe(T.Body("recording_config")),
           ),
           sessionKeepAliveTimeInSecs: S.optional(
             S.NullOr(S.Number).pipe(T.Body("session_keep_alive_time_in_secs")),
@@ -12557,12 +14244,12 @@ function __c70(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          data: S.optional(S.NullOr(__S(2245, __c70, 5))),
+          data: S.optional(S.NullOr(__S(2949, __c92, 5))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "CreateMeetingResponse" });
   }
 }
-function __c71(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12572,7 +14259,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "MeetingsCreateRequestRecordingConfigRealtimekitBucketConfig" });
   }
 }
-function __c72(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12601,7 +14288,7 @@ function __c72(j: number): any {
       return S.suspend(() =>
         S.Struct({
           position: S.optional(S.NullOr(S.String)),
-          size: S.optional(S.NullOr(__S(2306, __c72, 2))),
+          size: S.optional(S.NullOr(__S(3010, __c94, 2))),
           url: S.optional(S.NullOr(S.String)),
         }),
       ).annotate({ identifier: "MeetingsCreateResponseDataRecordingConfigVideoConfigWatermark" });
@@ -12611,13 +14298,13 @@ function __c72(j: number): any {
           codec: S.optional(S.NullOr(S.String)),
           exportFile: S.optional(S.NullOr(S.Boolean).pipe(T.Body("export_file"))),
           height: S.optional(S.NullOr(S.Number)),
-          watermark: S.optional(S.NullOr(__S(2307, __c72, 3))),
+          watermark: S.optional(S.NullOr(__S(3011, __c94, 3))),
           width: S.optional(S.NullOr(S.Number)),
         }),
       ).annotate({ identifier: "MeetingsCreateResponseDataRecordingConfigVideoConfig" });
   }
 }
-function __c73(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12630,7 +14317,7 @@ function __c73(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          keywords: S.optional(S.NullOr(__S(2464, __c77, 0))),
+          keywords: S.optional(S.NullOr(__S(2496, __c78, 0))),
           language: S.optional(S.NullOr(S.String)),
           profanityFilter: S.optional(S.NullOr(S.Boolean).pipe(T.Body("profanity_filter"))),
         }),
@@ -12638,13 +14325,13 @@ function __c73(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          summarization: S.optional(S.NullOr(__S(2336, __c73, 0))),
-          transcription: S.optional(S.NullOr(__S(2337, __c73, 1))),
+          summarization: S.optional(S.NullOr(__S(3040, __c95, 0))),
+          transcription: S.optional(S.NullOr(__S(3041, __c95, 1))),
         }),
       ).annotate({ identifier: "MeetingsCreateResponseDataAiConfig" });
   }
 }
-function __c74(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12655,7 +14342,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "MeetingsCreateRequestRecordingConfigVideoConfigWatermarkSize" });
   }
 }
-function __c75(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12675,7 +14362,7 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           position: S.optional(S.String),
-          size: S.optional(__S(2368, __c74, 0)),
+          size: S.optional(__S(3072, __c96, 0)),
           url: S.optional(S.String),
         }),
       ).annotate({ identifier: "MeetingsCreateRequestRecordingConfigVideoConfigWatermark" });
@@ -12685,13 +14372,13 @@ function __c75(j: number): any {
           codec: S.optional(S.String),
           exportFile: S.optional(S.Boolean.pipe(T.Body("export_file"))),
           height: S.optional(S.Number),
-          watermark: S.optional(__S(2402, __c75, 2)),
+          watermark: S.optional(__S(3106, __c97, 2)),
           width: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MeetingsCreateRequestRecordingConfigVideoConfig" });
   }
 }
-function __c76(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -12704,7 +14391,7 @@ function __c76(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          keywords: S.optional(__S(2464, __c77, 0)),
+          keywords: S.optional(__S(2496, __c78, 0)),
           language: S.optional(S.String),
           profanityFilter: S.optional(S.Boolean.pipe(T.Body("profanity_filter"))),
         }),
@@ -12712,443 +14399,10 @@ function __c76(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          summarization: S.optional(__S(2432, __c76, 0)),
-          transcription: S.optional(__S(2433, __c76, 1)),
+          summarization: S.optional(__S(3136, __c98, 0)),
+          transcription: S.optional(__S(3137, __c98, 1)),
         }),
       ).annotate({ identifier: "MeetingsCreateRequestAiConfig" });
-  }
-}
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c78(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          appId: S.String.pipe(T.Label("app_id")),
-          meetingId: S.String.pipe(T.Label("meeting_id")),
-          options: __S(2464, __c77, 0),
-          question: S.String,
-          anonymous: S.optional(S.Boolean),
-          hideVotes: S.optional(S.Boolean.pipe(T.Body("hide_votes"))),
-        })
-          .pipe(
-            T.Http({
-              method: "POST",
-              uri: "/accounts/{account_id}/realtime/kit/{app_id}/meetings/{meeting_id}/active-session/poll",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreatePollActiveSessionRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          name: S.String,
-        }),
-      ).annotate({ identifier: "ActiveSessionCreatePollResponseDataPollOptionsItemVotesItem" });
-    case 2:
-      return S.Array(__S(2497, __c78, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          count: S.Number,
-          text: S.String,
-          votes: __S(2498, __c78, 2),
-        }),
-      ).annotate({ identifier: "ActiveSessionCreatePollResponseDataPollOptionsItem" });
-    case 4:
-      return S.Array(__S(2499, __c78, 3));
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          options: __S(2500, __c78, 4),
-          question: S.String,
-          anonymous: S.optional(S.NullOr(S.Boolean)),
-          createdBy: S.optional(S.NullOr(S.String).pipe(T.Body("created_by"))),
-          hideVotes: S.optional(S.NullOr(S.Boolean).pipe(T.Body("hide_votes"))),
-          voted: S.optional(S.NullOr(__S(2464, __c77, 0))),
-        }),
-      ).annotate({ identifier: "ActiveSessionCreatePollResponseDataPoll" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          action: S.optional(S.NullOr(S.String)),
-          poll: S.optional(S.NullOr(__S(2501, __c78, 5))),
-        }),
-      ).annotate({ identifier: "ActiveSessionCreatePollResponseData" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          data: S.optional(S.NullOr(__S(2502, __c78, 6))),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreatePollActiveSessionResponse" });
-  }
-}
-function __c79(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          acceptWaitingRequests: S.Boolean.pipe(T.Body("accept_waiting_requests")),
-          canAcceptProductionRequests: S.Boolean.pipe(T.Body("can_accept_production_requests")),
-          canChangeParticipantPermissions: S.Boolean.pipe(
-            T.Body("can_change_participant_permissions"),
-          ),
-          canEditDisplayName: S.Boolean.pipe(T.Body("can_edit_display_name")),
-          canLivestream: S.Boolean.pipe(T.Body("can_livestream")),
-          canRecord: S.Boolean.pipe(T.Body("can_record")),
-          canSpotlight: S.Boolean.pipe(T.Body("can_spotlight")),
-          chat: __S(2597, __c81, 5),
-          connectedMeetings: __S(2598, __c81, 6).pipe(T.Body("connected_meetings")),
-          disableParticipantAudio: S.Boolean.pipe(T.Body("disable_participant_audio")),
-          disableParticipantScreensharing: S.Boolean.pipe(
-            T.Body("disable_participant_screensharing"),
-          ),
-          disableParticipantVideo: S.Boolean.pipe(T.Body("disable_participant_video")),
-          hiddenParticipant: S.Boolean.pipe(T.Body("hidden_participant")),
-          kickParticipant: S.Boolean.pipe(T.Body("kick_participant")),
-          media: __S(2600, __c81, 8),
-          pinParticipant: S.Boolean.pipe(T.Body("pin_participant")),
-          plugins: __S(2560, __c80, 0),
-          polls: __S(2601, __c81, 9),
-          recorderType: S.String.pipe(T.Body("recorder_type")),
-          showParticipantList: S.Boolean.pipe(T.Body("show_participant_list")),
-          waitingRoomType: S.String.pipe(T.Body("waiting_room_type")),
-          acceptStageRequests: S.optional(S.Boolean.pipe(T.Body("accept_stage_requests"))),
-          isRecorder: S.optional(S.Boolean.pipe(T.Body("is_recorder"))),
-          stageAccess: S.optional(S.String.pipe(T.Body("stage_access"))),
-          stageEnabled: S.optional(S.Boolean.pipe(T.Body("stage_enabled"))),
-          transcriptionEnabled: S.optional(S.Boolean.pipe(T.Body("transcription_enabled"))),
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestPermissions" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          accountId: S.String.pipe(T.Label("account_id")),
-          appId: S.String.pipe(T.Label("app_id")),
-          config: __S(2722, __c85, 2),
-          name: S.String,
-          permissions: __S(2528, __c79, 0),
-          ui: __S(2724, __c85, 4),
-        })
-          .pipe(
-            T.Http({
-              method: "POST",
-              uri: "/accounts/{account_id}/realtime/kit/{app_id}/presets",
-              code: 200,
-            }),
-          )
-          .pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreatePresetRequest" });
-  }
-}
-function __c80(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          canClose: S.Boolean.pipe(T.Body("can_close")),
-          canEditConfig: S.Boolean.pipe(T.Body("can_edit_config")),
-          canStart: S.Boolean.pipe(T.Body("can_start")),
-          config: S.Unknown,
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestPermissionsPlugins" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          acceptWaitingRequests: S.Boolean.pipe(T.Body("accept_waiting_requests")),
-          canAcceptProductionRequests: S.Boolean.pipe(T.Body("can_accept_production_requests")),
-          canChangeParticipantPermissions: S.Boolean.pipe(
-            T.Body("can_change_participant_permissions"),
-          ),
-          canEditDisplayName: S.Boolean.pipe(T.Body("can_edit_display_name")),
-          canLivestream: S.Boolean.pipe(T.Body("can_livestream")),
-          canRecord: S.Boolean.pipe(T.Body("can_record")),
-          canSpotlight: S.Boolean.pipe(T.Body("can_spotlight")),
-          chat: __S(2597, __c81, 5),
-          connectedMeetings: __S(2598, __c81, 6).pipe(T.Body("connected_meetings")),
-          disableParticipantAudio: S.Boolean.pipe(T.Body("disable_participant_audio")),
-          disableParticipantScreensharing: S.Boolean.pipe(
-            T.Body("disable_participant_screensharing"),
-          ),
-          disableParticipantVideo: S.Boolean.pipe(T.Body("disable_participant_video")),
-          hiddenParticipant: S.Boolean.pipe(T.Body("hidden_participant")),
-          kickParticipant: S.Boolean.pipe(T.Body("kick_participant")),
-          media: __S(2600, __c81, 8),
-          pinParticipant: S.Boolean.pipe(T.Body("pin_participant")),
-          plugins: __S(2560, __c80, 0),
-          polls: __S(2601, __c81, 9),
-          recorderType: S.String.pipe(T.Body("recorder_type")),
-          showParticipantList: S.Boolean.pipe(T.Body("show_participant_list")),
-          waitingRoomType: S.String.pipe(T.Body("waiting_room_type")),
-          acceptStageRequests: S.optional(
-            S.NullOr(S.Boolean).pipe(T.Body("accept_stage_requests")),
-          ),
-          isRecorder: S.optional(S.NullOr(S.Boolean).pipe(T.Body("is_recorder"))),
-          stageAccess: S.optional(S.NullOr(S.String).pipe(T.Body("stage_access"))),
-          stageEnabled: S.optional(S.NullOr(S.Boolean).pipe(T.Body("stage_enabled"))),
-          transcriptionEnabled: S.optional(
-            S.NullOr(S.Boolean).pipe(T.Body("transcription_enabled")),
-          ),
-        }),
-      ).annotate({ identifier: "PresetsCreateResponseDataPermissions" });
-  }
-}
-function __c81(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          desktop: S.Number,
-          mobile: S.Number,
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestConfigMaxVideoStreams" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          frameRate: S.Number.pipe(T.Body("frame_rate")),
-          quality: S.String,
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestConfigMediaScreenshare" });
-    case 2:
-      return S.Array(S.Number);
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          canReceive: S.Boolean.pipe(T.Body("can_receive")),
-          canSend: S.Boolean.pipe(T.Body("can_send")),
-          files: S.Boolean,
-          text: S.Boolean,
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestPermissionsChatPrivate" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          canSend: S.Boolean.pipe(T.Body("can_send")),
-          files: S.Boolean,
-          text: S.Boolean,
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestPermissionsChatPublic" });
-    case 5:
-      return S.suspend(() =>
-        S.Struct({
-          private: __S(2595, __c81, 3),
-          public: __S(2596, __c81, 4),
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestPermissionsChat" });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          canAlterConnectedMeetings: S.Boolean.pipe(T.Body("can_alter_connected_meetings")),
-          canSwitchConnectedMeetings: S.Boolean.pipe(T.Body("can_switch_connected_meetings")),
-          canSwitchToParentMeeting: S.Boolean.pipe(T.Body("can_switch_to_parent_meeting")),
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestPermissionsConnectedMeetings" });
-    case 7:
-      return S.suspend(() =>
-        S.Struct({
-          canProduce: S.String.pipe(T.Body("can_produce")),
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestPermissionsMediaAudio" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({
-          audio: __S(2599, __c81, 7),
-          screenshare: __S(2599, __c81, 7),
-          video: __S(2599, __c81, 7),
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestPermissionsMedia" });
-    case 9:
-      return S.suspend(() =>
-        S.Struct({
-          canCreate: S.Boolean.pipe(T.Body("can_create")),
-          canView: S.Boolean.pipe(T.Body("can_view")),
-          canVote: S.Boolean.pipe(T.Body("can_vote")),
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestPermissionsPolls" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({
-          "1000": S.String,
-          "600": S.String,
-          "700": S.String,
-          "800": S.String,
-          "900": S.String,
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestUiDesignTokensColorsBackground" });
-    case 11:
-      return S.suspend(() =>
-        S.Struct({
-          "300": S.String,
-          "400": S.String,
-          "500": S.String,
-          "600": S.String,
-          "700": S.String,
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestUiDesignTokensColorsBrand" });
-    case 12:
-      return S.suspend(() =>
-        S.Struct({
-          background: __S(2602, __c81, 10),
-          brand: __S(2603, __c81, 11),
-          danger: S.String,
-          success: S.String,
-          text: S.String,
-          textOnBrand: S.String.pipe(T.Body("text_on_brand")),
-          videoBg: S.String.pipe(T.Body("video_bg")),
-          warning: S.String,
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestUiDesignTokensColors" });
-    case 13:
-      return S.suspend(() =>
-        S.Struct({
-          frameRate: S.Number.pipe(T.Body("frame_rate")),
-          quality: S.String,
-          simulcast: S.optional(S.NullOr(S.Boolean)),
-        }),
-      ).annotate({ identifier: "PresetsCreateResponseDataConfigMediaVideo" });
-    case 14:
-      return S.suspend(() =>
-        S.Struct({
-          enableHighBitrate: S.optional(S.NullOr(S.Boolean).pipe(T.Body("enable_high_bitrate"))),
-          enableStereo: S.optional(S.NullOr(S.Boolean).pipe(T.Body("enable_stereo"))),
-        }),
-      ).annotate({ identifier: "PresetsCreateResponseDataConfigMediaAudio" });
-    case 15:
-      return S.suspend(() =>
-        S.Struct({
-          screenshare: __S(2593, __c81, 1),
-          video: __S(2605, __c81, 13),
-          audio: S.optional(S.NullOr(__S(2606, __c81, 14))),
-        }),
-      ).annotate({ identifier: "PresetsCreateResponseDataConfigMedia" });
-    case 16:
-      return S.suspend(() =>
-        S.Struct({
-          maxScreenshareCount: S.Number.pipe(T.Body("max_screenshare_count")),
-          maxVideoStreams: __S(2592, __c81, 0).pipe(T.Body("max_video_streams")),
-          media: __S(2607, __c81, 15),
-          viewType: S.String.pipe(T.Body("view_type")),
-          livestreamViewerQualities: S.optional(
-            S.NullOr(__S(2594, __c81, 2)).pipe(T.Body("livestream_viewer_qualities")),
-          ),
-        }),
-      ).annotate({ identifier: "PresetsCreateResponseDataConfig" });
-    case 17:
-      return S.suspend(() =>
-        S.Struct({
-          borderRadius: S.String.pipe(T.Body("border_radius")),
-          borderWidth: S.String.pipe(T.Body("border_width")),
-          colors: __S(2604, __c81, 12),
-          spacingBase: S.Number.pipe(T.Body("spacing_base")),
-          theme: S.String,
-          fontFamily: S.optional(S.NullOr(S.String).pipe(T.Body("font_family"))),
-          googleFont: S.optional(S.NullOr(S.String).pipe(T.Body("google_font"))),
-          logo: S.optional(S.NullOr(S.String)),
-        }),
-      ).annotate({ identifier: "PresetsCreateResponseDataUiDesignTokens" });
-  }
-}
-function __c82(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          config: __S(2608, __c81, 16),
-          createdAt: S.String.pipe(T.Body("created_at")),
-          name: S.String,
-          permissions: __S(2561, __c80, 1),
-          ui: __S(2656, __c83, 0),
-          updatedAt: S.String.pipe(T.Body("updated_at")),
-        }),
-      ).annotate({ identifier: "PresetsCreateResponseData" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          data: __S(2624, __c82, 0),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "CreatePresetResponse" });
-  }
-}
-function __c83(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          designTokens: __S(2609, __c81, 17).pipe(T.Body("design_tokens")),
-        }),
-      ).annotate({ identifier: "PresetsCreateResponseDataUi" });
-  }
-}
-function __c84(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          enableHighBitrate: S.optional(S.Boolean.pipe(T.Body("enable_high_bitrate"))),
-          enableStereo: S.optional(S.Boolean.pipe(T.Body("enable_stereo"))),
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestConfigMediaAudio" });
-  }
-}
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          frameRate: S.Number.pipe(T.Body("frame_rate")),
-          quality: S.String,
-          simulcast: S.optional(S.Boolean),
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestConfigMediaVideo" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          screenshare: __S(2593, __c81, 1),
-          video: __S(2720, __c85, 0),
-          audio: S.optional(__S(2688, __c84, 0)),
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestConfigMedia" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          maxScreenshareCount: S.Number.pipe(T.Body("max_screenshare_count")),
-          maxVideoStreams: __S(2592, __c81, 0).pipe(T.Body("max_video_streams")),
-          media: __S(2721, __c85, 1),
-          viewType: S.String.pipe(T.Body("view_type")),
-          livestreamViewerQualities: S.optional(
-            __S(2594, __c81, 2).pipe(T.Body("livestream_viewer_qualities")),
-          ),
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestConfig" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          borderRadius: S.String.pipe(T.Body("border_radius")),
-          borderWidth: S.String.pipe(T.Body("border_width")),
-          colors: __S(2604, __c81, 12),
-          spacingBase: S.Number.pipe(T.Body("spacing_base")),
-          theme: S.String,
-          fontFamily: S.optional(S.String.pipe(T.Body("font_family"))),
-          googleFont: S.optional(S.String.pipe(T.Body("google_font"))),
-          logo: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestUiDesignTokens" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          designTokens: __S(2723, __c85, 3).pipe(T.Body("design_tokens")),
-        }),
-      ).annotate({ identifier: "PresetsCreateRequestUi" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

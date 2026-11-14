@@ -100,11 +100,11 @@ export interface OriginCloudRegionsBulkDeleteResponseFailedItem {
   /** The origin IP address for this item. */
   originIp: string;
   /** Error message explaining why the item failed. Present only on failed items. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Cloud vendor region identifier. Present on succeeded items (the new value for upsert, the deleted value for delete). */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Cloud vendor identifier. Present on succeeded items (the new value for upsert, the deleted value for delete). */
-  vendor?: string | null;
+  vendor?: string | null | undefined;
 }
 export type OriginCloudRegionsBulkDeleteResponseFailedList =
   Array<OriginCloudRegionsBulkDeleteResponseFailedItem>;
@@ -165,9 +165,9 @@ export interface ClearCacheReserveResponse {
   /** The current state of the Cache Reserve Clear operation. */
   state: CacheReserveClearResponseState;
   /** The time that the latest Cache Reserve Clear operation completed. */
-  endTs?: string | null;
+  endTs?: string | null | undefined;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SmartTieredCacheCreateRequestValue = "on" | "off";
 export interface CreateSmartTieredCacheRequest {
@@ -187,7 +187,7 @@ export interface CreateSmartTieredCacheResponse {
   /** Value of the Smart Tiered Cache zone setting. */
   value: SmartTieredCacheCreateResponseValue;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export interface DeleteOriginCloudRegionRequest {
   /** Identifier. */
@@ -211,7 +211,7 @@ export interface DeleteSmartTieredCacheResponse {
   /** Whether the setting is editable. */
   editable: boolean;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export interface DeleteVariantRequest {
   /** Identifier. */
@@ -225,7 +225,7 @@ export interface DeleteVariantResponse {
   /** Whether the setting is editable. */
   editable: boolean;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export interface GetCacheReserveRequest {
   /** Identifier. */
@@ -242,7 +242,7 @@ export interface GetCacheReserveResponse {
   /** Value of the Cache Reserve zone setting. */
   value: CacheReserveGetResponseValue;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export interface GetOriginCloudRegionRequest {
   /** Identifier. */
@@ -259,7 +259,7 @@ export interface GetOriginCloudRegionResponse {
   /** Cloud vendor hosting the origin. */
   vendor: OriginCloudRegionsGetResponseVendor;
   /** Time this mapping was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export interface GetRegionalTieredCacheRequest {
   /** Identifier. */
@@ -276,7 +276,7 @@ export interface GetRegionalTieredCacheResponse {
   /** Value of the Regional Tiered Cache zone setting. */
   value: RegionalTieredCacheGetResponseValue;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export interface GetSmartTieredCacheRequest {
   /** Identifier. */
@@ -293,7 +293,7 @@ export interface GetSmartTieredCacheResponse {
   /** Value of the Smart Tiered Cache zone setting. */
   value: SmartTieredCacheGetResponseValue;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export interface GetVariantRequest {
   /** Identifier. */
@@ -313,27 +313,27 @@ export type VariantsGetResponseValueTiffList = Array<string>;
 export type VariantsGetResponseValueWebpList = Array<string>;
 export interface VariantsGetResponseValue {
   /** List of strings with the MIME types of all the variants that should be served for avif. */
-  avif?: VariantsGetResponseValueAvifList | null;
+  avif?: VariantsGetResponseValueAvifList | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for bmp. */
-  bmp?: VariantsGetResponseValueBmpList | null;
+  bmp?: VariantsGetResponseValueBmpList | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for gif. */
-  gif?: VariantsGetResponseValueGifList | null;
+  gif?: VariantsGetResponseValueGifList | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for jp2. */
-  jp2?: VariantsGetResponseValueJp2List | null;
+  jp2?: VariantsGetResponseValueJp2List | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for jpeg. */
-  jpeg?: VariantsGetResponseValueJpegList | null;
+  jpeg?: VariantsGetResponseValueJpegList | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for jpg. */
-  jpg?: VariantsGetResponseValueJpgList | null;
+  jpg?: VariantsGetResponseValueJpgList | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for jpg2. */
-  jpg2?: VariantsGetResponseValueJpg2List | null;
+  jpg2?: VariantsGetResponseValueJpg2List | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for png. */
-  png?: VariantsGetResponseValuePngList | null;
+  png?: VariantsGetResponseValuePngList | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for tif. */
-  tif?: VariantsGetResponseValueTifList | null;
+  tif?: VariantsGetResponseValueTifList | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for tiff. */
-  tiff?: VariantsGetResponseValueTiffList | null;
+  tiff?: VariantsGetResponseValueTiffList | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for webp. */
-  webp?: VariantsGetResponseValueWebpList | null;
+  webp?: VariantsGetResponseValueWebpList | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetVariantResponse {
@@ -344,7 +344,7 @@ export interface GetVariantResponse {
   /** Value of the zone setting. */
   value: VariantsGetResponseValue;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type InvalidateRequestTagsList = Array<string>;
 export type InvalidateRequestHostsList = Array<string>;
@@ -355,9 +355,9 @@ export type InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeade
 };
 export interface InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItem {
   /** Request headers and the values the content was cached with. */
-  headers?: InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap;
+  headers?: InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap | undefined;
   /** Full URL of the content. */
-  url?: string;
+  url?: string | undefined;
 }
 export type InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersList =
   Array<InvalidateRequestFilesCachePurgeSingleFileWithURLAndHeadersItem>;
@@ -367,15 +367,15 @@ export type InvalidateRequestFiles =
 export interface InvalidateRequest {
   zoneId: string;
   /** Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/). */
-  tags?: InvalidateRequestTagsList;
+  tags?: InvalidateRequestTagsList | undefined;
   /** Hostnames, such as `www.example.com`. Targets all content cached for these hostnames. See [Purge cache by hostname](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/). */
-  hosts?: InvalidateRequestHostsList;
+  hosts?: InvalidateRequestHostsList | undefined;
   /** URL prefixes, each a hostname followed by a path, such as `www.example.com/blog/`. Targets all content whose URL starts with one of these prefixes. Do not include a scheme, query string, or fragment. See [Purge cache by prefix](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/). */
-  prefixes?: InvalidateRequestPrefixesList;
+  prefixes?: InvalidateRequestPrefixesList | undefined;
   /** Set to `true` to target all cached content in the zone, or in the environment for the environment endpoints. Must be the only field in the request. See [Purge everything](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/). */
-  purgeEverything?: boolean;
+  purgeEverything?: boolean | undefined;
   /** Full URLs, such as `https://www.example.com/css/styles.css`. Targets the content cached for each URL. If your cache key includes request headers, send objects with `url` and `headers` instead. See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/). */
-  files?: InvalidateRequestFiles;
+  files?: InvalidateRequestFiles | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface InvalidateResponse {
@@ -390,9 +390,11 @@ export type InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeade
 };
 export interface InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItem {
   /** Request headers and the values the content was cached with. */
-  headers?: InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap;
+  headers?:
+    | InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap
+    | undefined;
   /** Full URL of the content. */
-  url?: string;
+  url?: string | undefined;
 }
 export type InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersList =
   Array<InvalidateEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItem>;
@@ -403,15 +405,15 @@ export interface InvalidateEnvironmentRequest {
   zoneId: string;
   environmentId: string;
   /** Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/). */
-  tags?: InvalidateEnvironmentRequestTagsList;
+  tags?: InvalidateEnvironmentRequestTagsList | undefined;
   /** Hostnames, such as `www.example.com`. Targets all content cached for these hostnames. See [Purge cache by hostname](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/). */
-  hosts?: InvalidateEnvironmentRequestHostsList;
+  hosts?: InvalidateEnvironmentRequestHostsList | undefined;
   /** URL prefixes, each a hostname followed by a path, such as `www.example.com/blog/`. Targets all content whose URL starts with one of these prefixes. Do not include a scheme, query string, or fragment. See [Purge cache by prefix](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/). */
-  prefixes?: InvalidateEnvironmentRequestPrefixesList;
+  prefixes?: InvalidateEnvironmentRequestPrefixesList | undefined;
   /** Set to `true` to target all cached content in the zone, or in the environment for the environment endpoints. Must be the only field in the request. See [Purge everything](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/). */
-  purgeEverything?: boolean;
+  purgeEverything?: boolean | undefined;
   /** Full URLs, such as `https://www.example.com/css/styles.css`. Targets the content cached for each URL. If your cache key includes request headers, send objects with `url` and `headers` instead. See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/). */
-  files?: InvalidateEnvironmentRequestFiles;
+  files?: InvalidateEnvironmentRequestFiles | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface InvalidateEnvironmentResponse {
@@ -421,9 +423,9 @@ export interface ListOriginCloudRegionsRequest {
   /** Identifier. */
   zoneId: string;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type OriginCloudRegionsListResultItemVendor = "aws" | "azure" | "gcp" | "oci";
 export interface OriginCloudRegionsListResultItem {
@@ -434,14 +436,14 @@ export interface OriginCloudRegionsListResultItem {
   /** Cloud vendor hosting the origin. */
   vendor: OriginCloudRegionsListResultItemVendor;
   /** Time this mapping was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type OriginCloudRegionsListResultList = Array<OriginCloudRegionsListResultItem>;
 export interface ListOriginCloudRegionsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: OriginCloudRegionsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface OriginCloudRegionsBulkDeleteV1Request {
   /** Identifier. */
@@ -452,11 +454,11 @@ export interface OriginCloudRegionsBulkDeleteV1ResponseValueFailedItem {
   /** The origin IP address for this item. */
   originIp: string;
   /** Error message explaining why the item failed. Present only on failed items. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Cloud vendor region identifier. Present on succeeded items for patch operations. */
-  region?: string | null;
+  region?: string | null | undefined;
   /** Cloud vendor identifier. Present on succeeded items for patch operations. */
-  vendor?: string | null;
+  vendor?: string | null | undefined;
 }
 export type OriginCloudRegionsBulkDeleteV1ResponseValueFailedList =
   Array<OriginCloudRegionsBulkDeleteV1ResponseValueFailedItem>;
@@ -477,7 +479,7 @@ export interface OriginCloudRegionsBulkDeleteV1Response {
   editable: boolean;
   value: OriginCloudRegionsBulkDeleteV1ResponseValue;
   /** Time the mapping set was last modified. Null when no items were successfully applied. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type OriginCloudRegionsBulkEditV1RequestBodyItemVendor = "aws" | "azure" | "gcp" | "oci";
 export interface OriginCloudRegionsBulkEditV1RequestBodyItem {
@@ -517,7 +519,7 @@ export interface OriginCloudRegionsBulkEditV1Response {
   editable: boolean;
   value: OriginCloudRegionsBulkEditV1ResponseValue;
   /** Time the mapping set was last modified. Null when no items were successfully applied. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type OriginCloudRegionsCreateV1RequestVendor = "aws" | "azure" | "gcp" | "oci";
 export interface OriginCloudRegionsCreateV1Request {
@@ -540,7 +542,7 @@ export interface OriginCloudRegionsCreateV1ResponseValue {
   /** Cloud vendor hosting the origin. */
   vendor: OriginCloudRegionsCreateV1ResponseValueVendor;
   /** Time this mapping was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface OriginCloudRegionsCreateV1Response {
@@ -550,7 +552,7 @@ export interface OriginCloudRegionsCreateV1Response {
   /** A single origin IP-to-cloud-region mapping. */
   value: OriginCloudRegionsCreateV1ResponseValue;
   /** Time the mapping was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export interface OriginCloudRegionsDeleteV1Request {
   /** Identifier. */
@@ -567,7 +569,7 @@ export interface OriginCloudRegionsDeleteV1ResponseValue {
   /** Cloud vendor hosting the origin. */
   vendor: OriginCloudRegionsDeleteV1ResponseValueVendor;
   /** Time this mapping was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface OriginCloudRegionsDeleteV1Response {
@@ -577,7 +579,7 @@ export interface OriginCloudRegionsDeleteV1Response {
   /** A single origin IP-to-cloud-region mapping. */
   value: OriginCloudRegionsDeleteV1ResponseValue;
   /** Time the mapping was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type OriginCloudRegionsEditV1RequestVendor = "aws" | "azure" | "gcp" | "oci";
 export interface OriginCloudRegionsEditV1Request {
@@ -600,7 +602,7 @@ export interface OriginCloudRegionsEditV1ResponseValueItem {
   /** Cloud vendor hosting the origin. */
   vendor: OriginCloudRegionsEditV1ResponseValueItemVendor;
   /** Time this mapping was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type OriginCloudRegionsEditV1ResponseValueList =
   Array<OriginCloudRegionsEditV1ResponseValueItem>;
@@ -611,7 +613,7 @@ export interface OriginCloudRegionsEditV1Response {
   editable: boolean;
   value: OriginCloudRegionsEditV1ResponseValueList;
   /** Time the mapping set was last modified. Null when no mappings exist. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export interface OriginCloudRegionsGetV1Request {
   /** Identifier. */
@@ -628,7 +630,7 @@ export interface OriginCloudRegionsGetV1ResponseValue {
   /** Cloud vendor hosting the origin. */
   vendor: OriginCloudRegionsGetV1ResponseValueVendor;
   /** Time this mapping was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface OriginCloudRegionsGetV1Response {
@@ -638,7 +640,7 @@ export interface OriginCloudRegionsGetV1Response {
   /** A single origin IP-to-cloud-region mapping. */
   value: OriginCloudRegionsGetV1ResponseValue;
   /** Time the mapping was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export interface OriginCloudRegionsListV1Request {
   /** Identifier. */
@@ -654,7 +656,7 @@ export interface OriginCloudRegionsListV1ResponseValueItem {
   /** Cloud vendor hosting the origin. */
   vendor: OriginCloudRegionsListV1ResponseValueItemVendor;
   /** Time this mapping was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type OriginCloudRegionsListV1ResponseValueList =
   Array<OriginCloudRegionsListV1ResponseValueItem>;
@@ -665,7 +667,7 @@ export interface OriginCloudRegionsListV1Response {
   editable: boolean;
   value: OriginCloudRegionsListV1ResponseValueList;
   /** Time the mapping set was last modified. Null when no mappings exist. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export interface OriginCloudRegionsSupportedRegionsV1Request {
   /** Identifier. */
@@ -709,7 +711,7 @@ export interface PatchCacheReserveResponse {
   /** Value of the Cache Reserve zone setting. */
   value: CacheReserveEditResponseValue;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type RegionalTieredCacheEditRequestValue = "on" | "off";
 export interface PatchRegionalTieredCacheRequest {
@@ -729,7 +731,7 @@ export interface PatchRegionalTieredCacheResponse {
   /** Value of the Regional Tiered Cache zone setting. */
   value: RegionalTieredCacheEditResponseValue;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type SmartTieredCacheEditRequestValue = "on" | "off";
 export interface PatchSmartTieredCacheRequest {
@@ -749,7 +751,7 @@ export interface PatchSmartTieredCacheResponse {
   /** Value of the Smart Tiered Cache zone setting. */
   value: SmartTieredCacheEditResponseValue;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type VariantsEditRequestValueAvifList = Array<string>;
 export type VariantsEditRequestValueBmpList = Array<string>;
@@ -764,27 +766,27 @@ export type VariantsEditRequestValueTiffList = Array<string>;
 export type VariantsEditRequestValueWebpList = Array<string>;
 export interface VariantsEditRequestValue {
   /** List of strings with the MIME types of all the variants that should be served for avif. */
-  avif?: VariantsEditRequestValueAvifList;
+  avif?: VariantsEditRequestValueAvifList | undefined;
   /** List of strings with the MIME types of all the variants that should be served for bmp. */
-  bmp?: VariantsEditRequestValueBmpList;
+  bmp?: VariantsEditRequestValueBmpList | undefined;
   /** List of strings with the MIME types of all the variants that should be served for gif. */
-  gif?: VariantsEditRequestValueGifList;
+  gif?: VariantsEditRequestValueGifList | undefined;
   /** List of strings with the MIME types of all the variants that should be served for jp2. */
-  jp2?: VariantsEditRequestValueJp2List;
+  jp2?: VariantsEditRequestValueJp2List | undefined;
   /** List of strings with the MIME types of all the variants that should be served for jpeg. */
-  jpeg?: VariantsEditRequestValueJpegList;
+  jpeg?: VariantsEditRequestValueJpegList | undefined;
   /** List of strings with the MIME types of all the variants that should be served for jpg. */
-  jpg?: VariantsEditRequestValueJpgList;
+  jpg?: VariantsEditRequestValueJpgList | undefined;
   /** List of strings with the MIME types of all the variants that should be served for jpg2. */
-  jpg2?: VariantsEditRequestValueJpg2List;
+  jpg2?: VariantsEditRequestValueJpg2List | undefined;
   /** List of strings with the MIME types of all the variants that should be served for png. */
-  png?: VariantsEditRequestValuePngList;
+  png?: VariantsEditRequestValuePngList | undefined;
   /** List of strings with the MIME types of all the variants that should be served for tif. */
-  tif?: VariantsEditRequestValueTifList;
+  tif?: VariantsEditRequestValueTifList | undefined;
   /** List of strings with the MIME types of all the variants that should be served for tiff. */
-  tiff?: VariantsEditRequestValueTiffList;
+  tiff?: VariantsEditRequestValueTiffList | undefined;
   /** List of strings with the MIME types of all the variants that should be served for webp. */
-  webp?: VariantsEditRequestValueWebpList;
+  webp?: VariantsEditRequestValueWebpList | undefined;
 }
 export interface PatchVariantRequest {
   /** Identifier. */
@@ -806,27 +808,27 @@ export type VariantsEditResponseValueTiffList = Array<string>;
 export type VariantsEditResponseValueWebpList = Array<string>;
 export interface VariantsEditResponseValue {
   /** List of strings with the MIME types of all the variants that should be served for avif. */
-  avif?: VariantsEditResponseValueAvifList | null;
+  avif?: VariantsEditResponseValueAvifList | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for bmp. */
-  bmp?: VariantsEditResponseValueBmpList | null;
+  bmp?: VariantsEditResponseValueBmpList | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for gif. */
-  gif?: VariantsEditResponseValueGifList | null;
+  gif?: VariantsEditResponseValueGifList | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for jp2. */
-  jp2?: VariantsEditResponseValueJp2List | null;
+  jp2?: VariantsEditResponseValueJp2List | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for jpeg. */
-  jpeg?: VariantsEditResponseValueJpegList | null;
+  jpeg?: VariantsEditResponseValueJpegList | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for jpg. */
-  jpg?: VariantsEditResponseValueJpgList | null;
+  jpg?: VariantsEditResponseValueJpgList | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for jpg2. */
-  jpg2?: VariantsEditResponseValueJpg2List | null;
+  jpg2?: VariantsEditResponseValueJpg2List | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for png. */
-  png?: VariantsEditResponseValuePngList | null;
+  png?: VariantsEditResponseValuePngList | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for tif. */
-  tif?: VariantsEditResponseValueTifList | null;
+  tif?: VariantsEditResponseValueTifList | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for tiff. */
-  tiff?: VariantsEditResponseValueTiffList | null;
+  tiff?: VariantsEditResponseValueTiffList | null | undefined;
   /** List of strings with the MIME types of all the variants that should be served for webp. */
-  webp?: VariantsEditResponseValueWebpList | null;
+  webp?: VariantsEditResponseValueWebpList | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchVariantResponse {
@@ -837,7 +839,7 @@ export interface PatchVariantResponse {
   /** Value of the zone setting. */
   value: VariantsEditResponseValue;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export type PurgeRequestTagsList = Array<string>;
 export type PurgeRequestHostsList = Array<string>;
@@ -848,9 +850,9 @@ export type PurgeRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap
 };
 export interface PurgeRequestFilesCachePurgeSingleFileWithURLAndHeadersItem {
   /** Request headers and the values the content was cached with. */
-  headers?: PurgeRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap;
+  headers?: PurgeRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap | undefined;
   /** Full URL of the content. */
-  url?: string;
+  url?: string | undefined;
 }
 export type PurgeRequestFilesCachePurgeSingleFileWithURLAndHeadersList =
   Array<PurgeRequestFilesCachePurgeSingleFileWithURLAndHeadersItem>;
@@ -860,15 +862,15 @@ export type PurgeRequestFiles =
 export interface PurgeCacheRequest {
   zoneId: string;
   /** Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/). */
-  tags?: PurgeRequestTagsList;
+  tags?: PurgeRequestTagsList | undefined;
   /** Hostnames, such as `www.example.com`. Targets all content cached for these hostnames. See [Purge cache by hostname](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/). */
-  hosts?: PurgeRequestHostsList;
+  hosts?: PurgeRequestHostsList | undefined;
   /** URL prefixes, each a hostname followed by a path, such as `www.example.com/blog/`. Targets all content whose URL starts with one of these prefixes. Do not include a scheme, query string, or fragment. See [Purge cache by prefix](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/). */
-  prefixes?: PurgeRequestPrefixesList;
+  prefixes?: PurgeRequestPrefixesList | undefined;
   /** Set to `true` to target all cached content in the zone, or in the environment for the environment endpoints. Must be the only field in the request. See [Purge everything](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/). */
-  purgeEverything?: boolean;
+  purgeEverything?: boolean | undefined;
   /** Full URLs, such as `https://www.example.com/css/styles.css`. Targets the content cached for each URL. If your cache key includes request headers, send objects with `url` and `headers` instead. See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/). */
-  files?: PurgeRequestFiles;
+  files?: PurgeRequestFiles | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PurgeCacheResponse {
@@ -883,9 +885,11 @@ export type PurgeEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersIte
 };
 export interface PurgeEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItem {
   /** Request headers and the values the content was cached with. */
-  headers?: PurgeEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap;
+  headers?:
+    | PurgeEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItemHeadersMap
+    | undefined;
   /** Full URL of the content. */
-  url?: string;
+  url?: string | undefined;
 }
 export type PurgeEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersList =
   Array<PurgeEnvironmentRequestFilesCachePurgeSingleFileWithURLAndHeadersItem>;
@@ -896,15 +900,15 @@ export interface PurgeEnvironmentCacheRequest {
   zoneId: string;
   environmentId: string;
   /** Cache tags. Targets all content whose `Cache-Tag` response header contains at least one of these tags. See [Purge cache by cache-tags](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-tags/). */
-  tags?: PurgeEnvironmentRequestTagsList;
+  tags?: PurgeEnvironmentRequestTagsList | undefined;
   /** Hostnames, such as `www.example.com`. Targets all content cached for these hostnames. See [Purge cache by hostname](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-hostname/). */
-  hosts?: PurgeEnvironmentRequestHostsList;
+  hosts?: PurgeEnvironmentRequestHostsList | undefined;
   /** URL prefixes, each a hostname followed by a path, such as `www.example.com/blog/`. Targets all content whose URL starts with one of these prefixes. Do not include a scheme, query string, or fragment. See [Purge cache by prefix](https://developers.cloudflare.com/cache/how-to/purge-cache/purge_by_prefix/). */
-  prefixes?: PurgeEnvironmentRequestPrefixesList;
+  prefixes?: PurgeEnvironmentRequestPrefixesList | undefined;
   /** Set to `true` to target all cached content in the zone, or in the environment for the environment endpoints. Must be the only field in the request. See [Purge everything](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-everything/). */
-  purgeEverything?: boolean;
+  purgeEverything?: boolean | undefined;
   /** Full URLs, such as `https://www.example.com/css/styles.css`. Targets the content cached for each URL. If your cache key includes request headers, send objects with `url` and `headers` instead. See [Purge by single-file](https://developers.cloudflare.com/cache/how-to/purge-cache/purge-by-single-file/). */
-  files?: PurgeEnvironmentRequestFiles;
+  files?: PurgeEnvironmentRequestFiles | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PurgeEnvironmentCacheResponse {
@@ -932,7 +936,7 @@ export interface PutOriginCloudRegionResponse {
   /** Cloud vendor hosting the origin. */
   vendor: OriginCloudRegionsUpdateResponseVendor;
   /** Time this mapping was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export interface StatusCacheReserveRequest {
   /** Identifier. */
@@ -949,9 +953,9 @@ export interface StatusCacheReserveResponse {
   /** The current state of the Cache Reserve Clear operation. */
   state: CacheReserveStatusResponseState;
   /** The time that the latest Cache Reserve Clear operation completed. */
-  endTs?: string | null;
+  endTs?: string | null | undefined;
   /** Last time this setting was modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
 }
 export interface SupportedRegionsOriginCloudRegionRequest {
   /** Identifier. */

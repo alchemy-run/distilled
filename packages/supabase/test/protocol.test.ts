@@ -1,4 +1,6 @@
+import { inspect } from "node:util";
 import * as CoreErrors from "@distilled.cloud/core/errors";
+import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Effect from "effect/Effect";
 import * as HttpClient from "effect/http/HttpClient";
 import * as HttpClientResponse from "effect/http/HttpClientResponse";
@@ -6,7 +8,11 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import { describe, expect, test } from "vitest";
 import { type Credentials, credentials } from "../src/credentials.ts";
-import { FreeProjectLimitReached, UnknownSupabaseError } from "../src/errors.ts";
+import {
+  FreeProjectLimitReached,
+  SupabaseParseError,
+  UnknownSupabaseError,
+} from "../src/errors.ts";
 import * as Retry from "../src/retry.ts";
 import {
   BadRequest,
@@ -51,6 +57,8 @@ const fakeSupabase = (
 };
 
 const creds = credentials({ accessToken: Redacted.make("sbp_test") });
+
+const SECRET = "sentinel-secret-7f3a";
 
 const run = <A, E>(
   operation: Effect.Effect<A, E, Credentials | HttpClient.HttpClient>,
@@ -155,6 +163,26 @@ describe("REST behaviour", () => {
     expect(Redacted.isRedacted(token.access_token)).toBe(true);
     expect(Redacted.value(token.access_token as Redacted.Redacted<string>)).toBe("at");
     expect(token.expires_in).toBe(3600);
+  });
+
+  const exchange = v1ExchangeOauthToken({ grant_type: "authorization_code", client_id: "cid" });
+
+  test("a body cut off mid-secret fails in both modes without exposing it", async () => {
+    for (const mode of [ResponseValidation.lenient, ResponseValidation.strict]) {
+      const { layer } = fakeSupabase(200, `{"access_token":"${SECRET}`);
+      const error = await runFlip(exchange.pipe(Effect.provide(mode)), layer);
+      expect(error).toBeInstanceOf(SupabaseParseError);
+      expect(error).toMatchObject({ body: "[REDACTED]" });
+      expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
+    }
+  });
+
+  test("a strict mismatch with a sensitive output fails without exposing the body", async () => {
+    const { layer } = fakeSupabase(200, JSON.stringify({ access_token: SECRET }));
+    const error = await runFlip(exchange.pipe(Effect.provide(ResponseValidation.strict)), layer);
+    expect(error).toBeInstanceOf(SupabaseParseError);
+    expect(error).toMatchObject({ body: "[REDACTED]" });
+    expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
   });
 
   test("ordinary operations send a JSON body", async () => {

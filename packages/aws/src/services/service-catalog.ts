@@ -6,6 +6,7 @@ import type * as HttpClient from "effect/http/HttpClient";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -142,9 +143,9 @@ export type PortfolioShareType =
   | "AWS_ORGANIZATIONS"
   | (string & {});
 export interface AcceptPortfolioShareInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
-  PortfolioShareType?: PortfolioShareType;
+  PortfolioShareType?: PortfolioShareType | undefined;
 }
 export interface AcceptPortfolioShareOutput {}
 export type BudgetName = string;
@@ -156,17 +157,17 @@ export interface AssociateBudgetWithResourceOutput {}
 export type PrincipalARN = string;
 export type PrincipalType = "IAM" | "IAM_PATTERN" | (string & {});
 export interface AssociatePrincipalWithPortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
   PrincipalARN: string;
   PrincipalType: PrincipalType;
 }
 export interface AssociatePrincipalWithPortfolioOutput {}
 export interface AssociateProductWithPortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
   PortfolioId: string;
-  SourcePortfolioId?: string;
+  SourcePortfolioId?: string | undefined;
 }
 export interface AssociateProductWithPortfolioOutput {}
 export type IdempotencyToken = string;
@@ -174,8 +175,8 @@ export interface AssociateServiceActionWithProvisioningArtifactInput {
   ProductId: string;
   ProvisioningArtifactId: string;
   ServiceActionId: string;
-  AcceptLanguage?: string;
-  IdempotencyToken?: string;
+  AcceptLanguage?: string | undefined;
+  IdempotencyToken?: string | undefined;
 }
 export interface AssociateServiceActionWithProvisioningArtifactOutput {}
 export type ResourceId = string;
@@ -193,7 +194,7 @@ export interface ServiceActionAssociation {
 export type ServiceActionAssociations = ServiceActionAssociation[];
 export interface BatchAssociateServiceActionWithProvisioningArtifactInput {
   ServiceActionAssociations: ServiceActionAssociation[];
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
 }
 export type ServiceActionAssociationErrorCode =
   | "DUPLICATE_RESOURCE"
@@ -205,71 +206,71 @@ export type ServiceActionAssociationErrorCode =
   | (string & {});
 export type ServiceActionAssociationErrorMessage = string;
 export interface FailedServiceActionAssociation {
-  ServiceActionId?: string;
-  ProductId?: string;
-  ProvisioningArtifactId?: string;
-  ErrorCode?: ServiceActionAssociationErrorCode;
-  ErrorMessage?: string;
+  ServiceActionId?: string | undefined;
+  ProductId?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  ErrorCode?: ServiceActionAssociationErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type FailedServiceActionAssociations = FailedServiceActionAssociation[];
 export interface BatchAssociateServiceActionWithProvisioningArtifactOutput {
-  FailedServiceActionAssociations?: FailedServiceActionAssociation[];
+  FailedServiceActionAssociations?: FailedServiceActionAssociation[] | undefined;
 }
 export interface BatchDisassociateServiceActionFromProvisioningArtifactInput {
   ServiceActionAssociations: ServiceActionAssociation[];
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
 }
 export interface BatchDisassociateServiceActionFromProvisioningArtifactOutput {
-  FailedServiceActionAssociations?: FailedServiceActionAssociation[];
+  FailedServiceActionAssociations?: FailedServiceActionAssociation[] | undefined;
 }
 export type ProductArn = string;
 export type ProductViewName = string;
 export type ProvisioningArtifactPropertyName = "Id" | (string & {});
 export type ProvisioningArtifactPropertyValue = string;
 export type SourceProvisioningArtifactPropertiesMap = {
-  [key in ProvisioningArtifactPropertyName]?: string;
+  [key in ProvisioningArtifactPropertyName]?: string | undefined;
 };
 export type SourceProvisioningArtifactProperties = { [key: string]: string | undefined }[];
 export type CopyOption = "CopyTags" | (string & {});
 export type CopyOptions = CopyOption[];
 export interface CopyProductInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   SourceProductArn: string;
-  TargetProductId?: string;
-  TargetProductName?: string;
-  SourceProvisioningArtifactIdentifiers?: { [key: string]: string | undefined }[];
-  CopyOptions?: CopyOption[];
+  TargetProductId?: string | undefined;
+  TargetProductName?: string | undefined;
+  SourceProvisioningArtifactIdentifiers?: { [key: string]: string | undefined }[] | undefined;
+  CopyOptions?: CopyOption[] | undefined;
   IdempotencyToken: string;
 }
 export interface CopyProductOutput {
-  CopyProductToken?: string;
+  CopyProductToken?: string | undefined;
 }
 export type ConstraintParameters = string;
 export type ConstraintType = string;
 export type ConstraintDescription = string;
 export interface CreateConstraintInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
   ProductId: string;
   Parameters: string;
   Type: string;
-  Description?: string;
+  Description?: string | undefined;
   IdempotencyToken: string;
 }
 export type AccountId = string;
 export interface ConstraintDetail {
-  ConstraintId?: string;
-  Type?: string;
-  Description?: string;
-  Owner?: string;
-  ProductId?: string;
-  PortfolioId?: string;
+  ConstraintId?: string | undefined;
+  Type?: string | undefined;
+  Description?: string | undefined;
+  Owner?: string | undefined;
+  ProductId?: string | undefined;
+  PortfolioId?: string | undefined;
 }
 export type Status = "AVAILABLE" | "CREATING" | "FAILED" | (string & {});
 export interface CreateConstraintOutput {
-  ConstraintDetail?: ConstraintDetail;
-  ConstraintParameters?: string;
-  Status?: Status;
+  ConstraintDetail?: ConstraintDetail | undefined;
+  ConstraintParameters?: string | undefined;
+  Status?: Status | undefined;
 }
 export type PortfolioDisplayName = string;
 export type PortfolioDescription = string;
@@ -282,27 +283,27 @@ export interface Tag {
 }
 export type AddTags = Tag[];
 export interface CreatePortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   DisplayName: string;
-  Description?: string;
+  Description?: string | undefined;
   ProviderName: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
   IdempotencyToken: string;
 }
 export type ResourceARN = string;
 export type CreationTime = Date;
 export interface PortfolioDetail {
-  Id?: string;
-  ARN?: string;
-  DisplayName?: string;
-  Description?: string;
-  CreatedTime?: Date;
-  ProviderName?: string;
+  Id?: string | undefined;
+  ARN?: string | undefined;
+  DisplayName?: string | undefined;
+  Description?: string | undefined;
+  CreatedTime?: Date | undefined;
+  ProviderName?: string | undefined;
 }
 export type Tags = Tag[];
 export interface CreatePortfolioOutput {
-  PortfolioDetail?: PortfolioDetail;
-  Tags?: Tag[];
+  PortfolioDetail?: PortfolioDetail | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type OrganizationNodeType =
   | "ORGANIZATION"
@@ -311,19 +312,19 @@ export type OrganizationNodeType =
   | (string & {});
 export type OrganizationNodeValue = string;
 export interface OrganizationNode {
-  Type?: OrganizationNodeType;
-  Value?: string;
+  Type?: OrganizationNodeType | undefined;
+  Value?: string | undefined;
 }
 export interface CreatePortfolioShareInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
-  AccountId?: string;
-  OrganizationNode?: OrganizationNode;
-  ShareTagOptions?: boolean;
-  SharePrincipals?: boolean;
+  AccountId?: string | undefined;
+  OrganizationNode?: OrganizationNode | undefined;
+  ShareTagOptions?: boolean | undefined;
+  SharePrincipals?: boolean | undefined;
 }
 export interface CreatePortfolioShareOutput {
-  PortfolioShareToken?: string;
+  PortfolioShareToken?: string | undefined;
 }
 export type ProductViewOwner = string;
 export type ProductViewShortDescription = string;
@@ -352,11 +353,11 @@ export type ProvisioningArtifactType =
   | (string & {});
 export type DisableTemplateValidation = boolean;
 export interface ProvisioningArtifactProperties {
-  Name?: string;
-  Description?: string;
-  Info?: { [key: string]: string | undefined };
-  Type?: ProvisioningArtifactType;
-  DisableTemplateValidation?: boolean;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Info?: { [key: string]: string | undefined } | undefined;
+  Type?: ProvisioningArtifactType | undefined;
+  DisableTemplateValidation?: boolean | undefined;
 }
 export type SourceType = "CODESTAR" | (string & {});
 export type CodeStarConnectionArn = string;
@@ -370,41 +371,41 @@ export interface CodeStarParameters {
   ArtifactPath: string;
 }
 export interface SourceConnectionParameters {
-  CodeStar?: CodeStarParameters;
+  CodeStar?: CodeStarParameters | undefined;
 }
 export interface SourceConnection {
-  Type?: SourceType;
+  Type?: SourceType | undefined;
   ConnectionParameters: SourceConnectionParameters;
 }
 export interface CreateProductInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Name: string;
   Owner: string;
-  Description?: string;
-  Distributor?: string;
-  SupportDescription?: string;
-  SupportEmail?: string;
-  SupportUrl?: string;
+  Description?: string | undefined;
+  Distributor?: string | undefined;
+  SupportDescription?: string | undefined;
+  SupportEmail?: string | undefined;
+  SupportUrl?: string | undefined;
   ProductType: ProductType;
-  Tags?: Tag[];
-  ProvisioningArtifactParameters?: ProvisioningArtifactProperties;
+  Tags?: Tag[] | undefined;
+  ProvisioningArtifactParameters?: ProvisioningArtifactProperties | undefined;
   IdempotencyToken: string;
-  SourceConnection?: SourceConnection;
+  SourceConnection?: SourceConnection | undefined;
 }
 export type ProductViewDistributor = string;
 export type HasDefaultPath = boolean;
 export interface ProductViewSummary {
-  Id?: string;
-  ProductId?: string;
-  Name?: string;
-  Owner?: string;
-  ShortDescription?: string;
-  Type?: ProductType;
-  Distributor?: string;
-  HasDefaultPath?: boolean;
-  SupportEmail?: string;
-  SupportDescription?: string;
-  SupportUrl?: string;
+  Id?: string | undefined;
+  ProductId?: string | undefined;
+  Name?: string | undefined;
+  Owner?: string | undefined;
+  ShortDescription?: string | undefined;
+  Type?: ProductType | undefined;
+  Distributor?: string | undefined;
+  HasDefaultPath?: boolean | undefined;
+  SupportEmail?: string | undefined;
+  SupportDescription?: string | undefined;
+  SupportUrl?: string | undefined;
 }
 export type CreatedTime = Date;
 export type LastSyncTime = Date;
@@ -412,41 +413,41 @@ export type LastSyncStatus = "SUCCEEDED" | "FAILED" | (string & {});
 export type LastSyncStatusMessage = string;
 export type LastSuccessfulSyncTime = Date;
 export interface LastSync {
-  LastSyncTime?: Date;
-  LastSyncStatus?: LastSyncStatus;
-  LastSyncStatusMessage?: string;
-  LastSuccessfulSyncTime?: Date;
-  LastSuccessfulSyncProvisioningArtifactId?: string;
+  LastSyncTime?: Date | undefined;
+  LastSyncStatus?: LastSyncStatus | undefined;
+  LastSyncStatusMessage?: string | undefined;
+  LastSuccessfulSyncTime?: Date | undefined;
+  LastSuccessfulSyncProvisioningArtifactId?: string | undefined;
 }
 export interface SourceConnectionDetail {
-  Type?: SourceType;
-  ConnectionParameters?: SourceConnectionParameters;
-  LastSync?: LastSync;
+  Type?: SourceType | undefined;
+  ConnectionParameters?: SourceConnectionParameters | undefined;
+  LastSync?: LastSync | undefined;
 }
 export interface ProductViewDetail {
-  ProductViewSummary?: ProductViewSummary;
-  Status?: Status;
-  ProductARN?: string;
-  CreatedTime?: Date;
-  SourceConnection?: SourceConnectionDetail;
+  ProductViewSummary?: ProductViewSummary | undefined;
+  Status?: Status | undefined;
+  ProductARN?: string | undefined;
+  CreatedTime?: Date | undefined;
+  SourceConnection?: SourceConnectionDetail | undefined;
 }
 export type ProvisioningArtifactActive = boolean;
 export type ProvisioningArtifactGuidance = "DEFAULT" | "DEPRECATED" | (string & {});
 export type SourceRevision = string;
 export interface ProvisioningArtifactDetail {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  Type?: ProvisioningArtifactType;
-  CreatedTime?: Date;
-  Active?: boolean;
-  Guidance?: ProvisioningArtifactGuidance;
-  SourceRevision?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Type?: ProvisioningArtifactType | undefined;
+  CreatedTime?: Date | undefined;
+  Active?: boolean | undefined;
+  Guidance?: ProvisioningArtifactGuidance | undefined;
+  SourceRevision?: string | undefined;
 }
 export interface CreateProductOutput {
-  ProductViewDetail?: ProductViewDetail;
-  ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
-  Tags?: Tag[];
+  ProductViewDetail?: ProductViewDetail | undefined;
+  ProvisioningArtifactDetail?: ProvisioningArtifactDetail | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type ProvisionedProductPlanName = string;
 export type ProvisionedProductPlanType = "CLOUDFORMATION" | (string & {});
@@ -457,41 +458,41 @@ export type ParameterKey = string;
 export type ParameterValue = string;
 export type UsePreviousValue = boolean;
 export interface UpdateProvisioningParameter {
-  Key?: string;
-  Value?: string;
-  UsePreviousValue?: boolean;
+  Key?: string | undefined;
+  Value?: string | undefined;
+  UsePreviousValue?: boolean | undefined;
 }
 export type UpdateProvisioningParameters = UpdateProvisioningParameter[];
 export interface CreateProvisionedProductPlanInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PlanName: string;
   PlanType: ProvisionedProductPlanType;
-  NotificationArns?: string[];
-  PathId?: string;
+  NotificationArns?: string[] | undefined;
+  PathId?: string | undefined;
   ProductId: string;
   ProvisionedProductName: string;
   ProvisioningArtifactId: string;
-  ProvisioningParameters?: UpdateProvisioningParameter[];
+  ProvisioningParameters?: UpdateProvisioningParameter[] | undefined;
   IdempotencyToken: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateProvisionedProductPlanOutput {
-  PlanName?: string;
-  PlanId?: string;
-  ProvisionProductId?: string;
-  ProvisionedProductName?: string;
-  ProvisioningArtifactId?: string;
+  PlanName?: string | undefined;
+  PlanId?: string | undefined;
+  ProvisionProductId?: string | undefined;
+  ProvisionedProductName?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
 }
 export interface CreateProvisioningArtifactInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
   Parameters: ProvisioningArtifactProperties;
   IdempotencyToken: string;
 }
 export interface CreateProvisioningArtifactOutput {
-  ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
-  Info?: { [key: string]: string | undefined };
-  Status?: Status;
+  ProvisioningArtifactDetail?: ProvisioningArtifactDetail | undefined;
+  Info?: { [key: string]: string | undefined } | undefined;
+  Status?: Status | undefined;
 }
 export type ServiceActionName = string;
 export type ServiceActionDefinitionType = "SSM_AUTOMATION" | (string & {});
@@ -502,28 +503,30 @@ export type ServiceActionDefinitionKey =
   | "Parameters"
   | (string & {});
 export type ServiceActionDefinitionValue = string;
-export type ServiceActionDefinitionMap = { [key in ServiceActionDefinitionKey]?: string };
+export type ServiceActionDefinitionMap = {
+  [key in ServiceActionDefinitionKey]?: string | undefined;
+};
 export type ServiceActionDescription = string;
 export interface CreateServiceActionInput {
   Name: string;
   DefinitionType: ServiceActionDefinitionType;
   Definition: { [key: string]: string | undefined };
-  Description?: string;
-  AcceptLanguage?: string;
+  Description?: string | undefined;
+  AcceptLanguage?: string | undefined;
   IdempotencyToken: string;
 }
 export interface ServiceActionSummary {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  DefinitionType?: ServiceActionDefinitionType;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  DefinitionType?: ServiceActionDefinitionType | undefined;
 }
 export interface ServiceActionDetail {
-  ServiceActionSummary?: ServiceActionSummary;
-  Definition?: { [key: string]: string | undefined };
+  ServiceActionSummary?: ServiceActionSummary | undefined;
+  Definition?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateServiceActionOutput {
-  ServiceActionDetail?: ServiceActionDetail;
+  ServiceActionDetail?: ServiceActionDetail | undefined;
 }
 export type TagOptionKey = string;
 export type TagOptionValue = string;
@@ -534,56 +537,56 @@ export interface CreateTagOptionInput {
 export type TagOptionActive = boolean;
 export type Owner = string;
 export interface TagOptionDetail {
-  Key?: string;
-  Value?: string;
-  Active?: boolean;
-  Id?: string;
-  Owner?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
+  Active?: boolean | undefined;
+  Id?: string | undefined;
+  Owner?: string | undefined;
 }
 export interface CreateTagOptionOutput {
-  TagOptionDetail?: TagOptionDetail;
+  TagOptionDetail?: TagOptionDetail | undefined;
 }
 export interface DeleteConstraintInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
 }
 export interface DeleteConstraintOutput {}
 export interface DeletePortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
 }
 export interface DeletePortfolioOutput {}
 export interface DeletePortfolioShareInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
-  AccountId?: string;
-  OrganizationNode?: OrganizationNode;
+  AccountId?: string | undefined;
+  OrganizationNode?: OrganizationNode | undefined;
 }
 export interface DeletePortfolioShareOutput {
-  PortfolioShareToken?: string;
+  PortfolioShareToken?: string | undefined;
 }
 export interface DeleteProductInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
 }
 export interface DeleteProductOutput {}
 export type IgnoreErrors = boolean;
 export interface DeleteProvisionedProductPlanInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PlanId: string;
-  IgnoreErrors?: boolean;
+  IgnoreErrors?: boolean | undefined;
 }
 export interface DeleteProvisionedProductPlanOutput {}
 export interface DeleteProvisioningArtifactInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
   ProvisioningArtifactId: string;
 }
 export interface DeleteProvisioningArtifactOutput {}
 export interface DeleteServiceActionInput {
   Id: string;
-  AcceptLanguage?: string;
-  IdempotencyToken?: string;
+  AcceptLanguage?: string | undefined;
+  IdempotencyToken?: string | undefined;
 }
 export interface DeleteServiceActionOutput {}
 export interface DeleteTagOptionInput {
@@ -591,39 +594,39 @@ export interface DeleteTagOptionInput {
 }
 export interface DeleteTagOptionOutput {}
 export interface DescribeConstraintInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
 }
 export interface DescribeConstraintOutput {
-  ConstraintDetail?: ConstraintDetail;
-  ConstraintParameters?: string;
-  Status?: Status;
+  ConstraintDetail?: ConstraintDetail | undefined;
+  ConstraintParameters?: string | undefined;
+  Status?: Status | undefined;
 }
 export interface DescribeCopyProductStatusInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   CopyProductToken: string;
 }
 export type CopyProductStatus = "SUCCEEDED" | "IN_PROGRESS" | "FAILED" | (string & {});
 export type StatusDetail = string;
 export interface DescribeCopyProductStatusOutput {
-  CopyProductStatus?: CopyProductStatus;
-  TargetProductId?: string;
-  StatusDetail?: string;
+  CopyProductStatus?: CopyProductStatus | undefined;
+  TargetProductId?: string | undefined;
+  StatusDetail?: string | undefined;
 }
 export interface DescribePortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
 }
 export type TagOptionDetails = TagOptionDetail[];
 export interface BudgetDetail {
-  BudgetName?: string;
+  BudgetName?: string | undefined;
 }
 export type Budgets = BudgetDetail[];
 export interface DescribePortfolioOutput {
-  PortfolioDetail?: PortfolioDetail;
-  Tags?: Tag[];
-  TagOptions?: TagOptionDetail[];
-  Budgets?: BudgetDetail[];
+  PortfolioDetail?: PortfolioDetail | undefined;
+  Tags?: Tag[] | undefined;
+  TagOptions?: TagOptionDetail[] | undefined;
+  Budgets?: BudgetDetail[] | undefined;
 }
 export type DescribePortfolioShareType =
   | "ACCOUNT"
@@ -636,20 +639,20 @@ export type PageSizeMax100 = number;
 export interface DescribePortfolioSharesInput {
   PortfolioId: string;
   Type: DescribePortfolioShareType;
-  PageToken?: string;
-  PageSize?: number;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface PortfolioShareDetail {
-  PrincipalId?: string;
-  Type?: DescribePortfolioShareType;
-  Accepted?: boolean;
-  ShareTagOptions?: boolean;
-  SharePrincipals?: boolean;
+  PrincipalId?: string | undefined;
+  Type?: DescribePortfolioShareType | undefined;
+  Accepted?: boolean | undefined;
+  ShareTagOptions?: boolean | undefined;
+  SharePrincipals?: boolean | undefined;
 }
 export type PortfolioShareDetails = PortfolioShareDetail[];
 export interface DescribePortfolioSharesOutput {
-  NextPageToken?: string;
-  PortfolioShareDetails?: PortfolioShareDetail[];
+  NextPageToken?: string | undefined;
+  PortfolioShareDetails?: PortfolioShareDetail[] | undefined;
 }
 export interface DescribePortfolioShareStatusInput {
   PortfolioShareToken: string;
@@ -665,81 +668,81 @@ export type SuccessfulShares = string[];
 export type Namespaces = string[];
 export type Message = string;
 export interface ShareError {
-  Accounts?: string[];
-  Message?: string;
-  Error?: string;
+  Accounts?: string[] | undefined;
+  Message?: string | undefined;
+  Error?: string | undefined;
 }
 export type ShareErrors = ShareError[];
 export interface ShareDetails {
-  SuccessfulShares?: string[];
-  ShareErrors?: ShareError[];
+  SuccessfulShares?: string[] | undefined;
+  ShareErrors?: ShareError[] | undefined;
 }
 export interface DescribePortfolioShareStatusOutput {
-  PortfolioShareToken?: string;
-  PortfolioId?: string;
-  OrganizationNodeValue?: string;
-  Status?: ShareStatus;
-  ShareDetails?: ShareDetails;
+  PortfolioShareToken?: string | undefined;
+  PortfolioId?: string | undefined;
+  OrganizationNodeValue?: string | undefined;
+  Status?: ShareStatus | undefined;
+  ShareDetails?: ShareDetails | undefined;
 }
 export interface DescribeProductInput {
-  AcceptLanguage?: string;
-  Id?: string;
-  Name?: string;
+  AcceptLanguage?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
 }
 export type ProvisioningArtifactCreatedTime = Date;
 export interface ProvisioningArtifact {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  CreatedTime?: Date;
-  Guidance?: ProvisioningArtifactGuidance;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedTime?: Date | undefined;
+  Guidance?: ProvisioningArtifactGuidance | undefined;
 }
 export type ProvisioningArtifacts = ProvisioningArtifact[];
 export type PortfolioName = string;
 export interface LaunchPath {
-  Id?: string;
-  Name?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
 }
 export type LaunchPaths = LaunchPath[];
 export interface DescribeProductOutput {
-  ProductViewSummary?: ProductViewSummary;
-  ProvisioningArtifacts?: ProvisioningArtifact[];
-  Budgets?: BudgetDetail[];
-  LaunchPaths?: LaunchPath[];
+  ProductViewSummary?: ProductViewSummary | undefined;
+  ProvisioningArtifacts?: ProvisioningArtifact[] | undefined;
+  Budgets?: BudgetDetail[] | undefined;
+  LaunchPaths?: LaunchPath[] | undefined;
 }
 export interface DescribeProductAsAdminInput {
-  AcceptLanguage?: string;
-  Id?: string;
-  Name?: string;
-  SourcePortfolioId?: string;
+  AcceptLanguage?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  SourcePortfolioId?: string | undefined;
 }
 export interface ProvisioningArtifactSummary {
-  Id?: string;
-  Name?: string;
-  Description?: string;
-  CreatedTime?: Date;
-  ProvisioningArtifactMetadata?: { [key: string]: string | undefined };
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedTime?: Date | undefined;
+  ProvisioningArtifactMetadata?: { [key: string]: string | undefined } | undefined;
 }
 export type ProvisioningArtifactSummaries = ProvisioningArtifactSummary[];
 export interface DescribeProductAsAdminOutput {
-  ProductViewDetail?: ProductViewDetail;
-  ProvisioningArtifactSummaries?: ProvisioningArtifactSummary[];
-  Tags?: Tag[];
-  TagOptions?: TagOptionDetail[];
-  Budgets?: BudgetDetail[];
+  ProductViewDetail?: ProductViewDetail | undefined;
+  ProvisioningArtifactSummaries?: ProvisioningArtifactSummary[] | undefined;
+  Tags?: Tag[] | undefined;
+  TagOptions?: TagOptionDetail[] | undefined;
+  Budgets?: BudgetDetail[] | undefined;
 }
 export interface DescribeProductViewInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
 }
 export interface DescribeProductViewOutput {
-  ProductViewSummary?: ProductViewSummary;
-  ProvisioningArtifacts?: ProvisioningArtifact[];
+  ProductViewSummary?: ProductViewSummary | undefined;
+  ProvisioningArtifacts?: ProvisioningArtifact[] | undefined;
 }
 export interface DescribeProvisionedProductInput {
-  AcceptLanguage?: string;
-  Id?: string;
-  Name?: string;
+  AcceptLanguage?: string | undefined;
+  Id?: string | undefined;
+  Name?: string | undefined;
 }
 export type ProvisionedProductNameOrArn = string;
 export type ProvisionedProductType = string;
@@ -755,36 +758,36 @@ export type ProvisionedProductStatusMessage = string;
 export type LastRequestId = string;
 export type RoleArn = string;
 export interface ProvisionedProductDetail {
-  Name?: string;
-  Arn?: string;
-  Type?: string;
-  Id?: string;
-  Status?: ProvisionedProductStatus;
-  StatusMessage?: string;
-  CreatedTime?: Date;
-  IdempotencyToken?: string;
-  LastRecordId?: string;
-  LastProvisioningRecordId?: string;
-  LastSuccessfulProvisioningRecordId?: string;
-  ProductId?: string;
-  ProvisioningArtifactId?: string;
-  LaunchRoleArn?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  Type?: string | undefined;
+  Id?: string | undefined;
+  Status?: ProvisionedProductStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreatedTime?: Date | undefined;
+  IdempotencyToken?: string | undefined;
+  LastRecordId?: string | undefined;
+  LastProvisioningRecordId?: string | undefined;
+  LastSuccessfulProvisioningRecordId?: string | undefined;
+  ProductId?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  LaunchRoleArn?: string | undefined;
 }
 export type CloudWatchDashboardName = string;
 export interface CloudWatchDashboard {
-  Name?: string;
+  Name?: string | undefined;
 }
 export type CloudWatchDashboards = CloudWatchDashboard[];
 export interface DescribeProvisionedProductOutput {
-  ProvisionedProductDetail?: ProvisionedProductDetail;
-  CloudWatchDashboards?: CloudWatchDashboard[];
+  ProvisionedProductDetail?: ProvisionedProductDetail | undefined;
+  CloudWatchDashboards?: CloudWatchDashboard[] | undefined;
 }
 export type PageSize = number;
 export interface DescribeProvisionedProductPlanInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PlanId: string;
-  PageSize?: number;
-  PageToken?: string;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export type ProvisionedProductPlanStatus =
   | "CREATE_IN_PROGRESS"
@@ -797,21 +800,21 @@ export type ProvisionedProductPlanStatus =
 export type UpdatedTime = Date;
 export type StatusMessage = string;
 export interface ProvisionedProductPlanDetails {
-  CreatedTime?: Date;
-  PathId?: string;
-  ProductId?: string;
-  PlanName?: string;
-  PlanId?: string;
-  ProvisionProductId?: string;
-  ProvisionProductName?: string;
-  PlanType?: ProvisionedProductPlanType;
-  ProvisioningArtifactId?: string;
-  Status?: ProvisionedProductPlanStatus;
-  UpdatedTime?: Date;
-  NotificationArns?: string[];
-  ProvisioningParameters?: UpdateProvisioningParameter[];
-  Tags?: Tag[];
-  StatusMessage?: string;
+  CreatedTime?: Date | undefined;
+  PathId?: string | undefined;
+  ProductId?: string | undefined;
+  PlanName?: string | undefined;
+  PlanId?: string | undefined;
+  ProvisionProductId?: string | undefined;
+  ProvisionProductName?: string | undefined;
+  PlanType?: ProvisionedProductPlanType | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  Status?: ProvisionedProductPlanStatus | undefined;
+  UpdatedTime?: Date | undefined;
+  NotificationArns?: string[] | undefined;
+  ProvisioningParameters?: UpdateProvisioningParameter[] | undefined;
+  Tags?: Tag[] | undefined;
+  StatusMessage?: string | undefined;
 }
 export type ChangeAction = "ADD" | "MODIFY" | "REMOVE" | (string & {});
 export type LogicalResourceId = string;
@@ -830,42 +833,42 @@ export type Scope = ResourceAttribute[];
 export type PropertyName = string;
 export type RequiresRecreation = "NEVER" | "CONDITIONALLY" | "ALWAYS" | (string & {});
 export interface ResourceTargetDefinition {
-  Attribute?: ResourceAttribute;
-  Name?: string;
-  RequiresRecreation?: RequiresRecreation;
+  Attribute?: ResourceAttribute | undefined;
+  Name?: string | undefined;
+  RequiresRecreation?: RequiresRecreation | undefined;
 }
 export type EvaluationType = "STATIC" | "DYNAMIC" | (string & {});
 export type CausingEntity = string;
 export interface ResourceChangeDetail {
-  Target?: ResourceTargetDefinition;
-  Evaluation?: EvaluationType;
-  CausingEntity?: string;
+  Target?: ResourceTargetDefinition | undefined;
+  Evaluation?: EvaluationType | undefined;
+  CausingEntity?: string | undefined;
 }
 export type ResourceChangeDetails = ResourceChangeDetail[];
 export interface ResourceChange {
-  Action?: ChangeAction;
-  LogicalResourceId?: string;
-  PhysicalResourceId?: string;
-  ResourceType?: string;
-  Replacement?: Replacement;
-  Scope?: ResourceAttribute[];
-  Details?: ResourceChangeDetail[];
+  Action?: ChangeAction | undefined;
+  LogicalResourceId?: string | undefined;
+  PhysicalResourceId?: string | undefined;
+  ResourceType?: string | undefined;
+  Replacement?: Replacement | undefined;
+  Scope?: ResourceAttribute[] | undefined;
+  Details?: ResourceChangeDetail[] | undefined;
 }
 export type ResourceChanges = ResourceChange[];
 export interface DescribeProvisionedProductPlanOutput {
-  ProvisionedProductPlanDetails?: ProvisionedProductPlanDetails;
-  ResourceChanges?: ResourceChange[];
-  NextPageToken?: string;
+  ProvisionedProductPlanDetails?: ProvisionedProductPlanDetails | undefined;
+  ResourceChanges?: ResourceChange[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export type Verbose = boolean;
 export interface DescribeProvisioningArtifactInput {
-  AcceptLanguage?: string;
-  ProvisioningArtifactId?: string;
-  ProductId?: string;
-  ProvisioningArtifactName?: string;
-  ProductName?: string;
-  Verbose?: boolean;
-  IncludeProvisioningArtifactParameters?: boolean;
+  AcceptLanguage?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  ProductId?: string | undefined;
+  ProvisioningArtifactName?: string | undefined;
+  ProductName?: string | undefined;
+  Verbose?: boolean | undefined;
+  IncludeProvisioningArtifactParameters?: boolean | undefined;
 }
 export type DefaultValue = string;
 export type ParameterType = string;
@@ -873,84 +876,84 @@ export type NoEcho = boolean;
 export type Description = string;
 export type AllowedValues = string[];
 export interface ParameterConstraints {
-  AllowedValues?: string[];
-  AllowedPattern?: string;
-  ConstraintDescription?: string;
-  MaxLength?: string;
-  MinLength?: string;
-  MaxValue?: string;
-  MinValue?: string;
+  AllowedValues?: string[] | undefined;
+  AllowedPattern?: string | undefined;
+  ConstraintDescription?: string | undefined;
+  MaxLength?: string | undefined;
+  MinLength?: string | undefined;
+  MaxValue?: string | undefined;
+  MinValue?: string | undefined;
 }
 export interface ProvisioningArtifactParameter {
-  ParameterKey?: string;
-  DefaultValue?: string;
-  ParameterType?: string;
-  IsNoEcho?: boolean;
-  Description?: string;
-  ParameterConstraints?: ParameterConstraints;
+  ParameterKey?: string | undefined;
+  DefaultValue?: string | undefined;
+  ParameterType?: string | undefined;
+  IsNoEcho?: boolean | undefined;
+  Description?: string | undefined;
+  ParameterConstraints?: ParameterConstraints | undefined;
 }
 export type ProvisioningArtifactParameters = ProvisioningArtifactParameter[];
 export interface DescribeProvisioningArtifactOutput {
-  ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
-  Info?: { [key: string]: string | undefined };
-  Status?: Status;
-  ProvisioningArtifactParameters?: ProvisioningArtifactParameter[];
+  ProvisioningArtifactDetail?: ProvisioningArtifactDetail | undefined;
+  Info?: { [key: string]: string | undefined } | undefined;
+  Status?: Status | undefined;
+  ProvisioningArtifactParameters?: ProvisioningArtifactParameter[] | undefined;
 }
 export interface DescribeProvisioningParametersInput {
-  AcceptLanguage?: string;
-  ProductId?: string;
-  ProductName?: string;
-  ProvisioningArtifactId?: string;
-  ProvisioningArtifactName?: string;
-  PathId?: string;
-  PathName?: string;
+  AcceptLanguage?: string | undefined;
+  ProductId?: string | undefined;
+  ProductName?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  ProvisioningArtifactName?: string | undefined;
+  PathId?: string | undefined;
+  PathName?: string | undefined;
 }
 export interface ConstraintSummary {
-  Type?: string;
-  Description?: string;
+  Type?: string | undefined;
+  Description?: string | undefined;
 }
 export type ConstraintSummaries = ConstraintSummary[];
 export type InstructionType = string;
 export type InstructionValue = string;
 export interface UsageInstruction {
-  Type?: string;
-  Value?: string;
+  Type?: string | undefined;
+  Value?: string | undefined;
 }
 export type UsageInstructions = UsageInstruction[];
 export type TagOptionValues = string[];
 export interface TagOptionSummary {
-  Key?: string;
-  Values?: string[];
+  Key?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type TagOptionSummaries = TagOptionSummary[];
 export type StackSetAccounts = string[];
 export type Region = string;
 export type StackSetRegions = string[];
 export interface ProvisioningArtifactPreferences {
-  StackSetAccounts?: string[];
-  StackSetRegions?: string[];
+  StackSetAccounts?: string[] | undefined;
+  StackSetRegions?: string[] | undefined;
 }
 export type ProvisioningArtifactOutputKey = string;
 export type OutputDescription = string;
 export interface ProvisioningArtifactOutput {
-  Key?: string;
-  Description?: string;
+  Key?: string | undefined;
+  Description?: string | undefined;
 }
 export type ProvisioningArtifactOutputs = ProvisioningArtifactOutput[];
 export interface DescribeProvisioningParametersOutput {
-  ProvisioningArtifactParameters?: ProvisioningArtifactParameter[];
-  ConstraintSummaries?: ConstraintSummary[];
-  UsageInstructions?: UsageInstruction[];
-  TagOptions?: TagOptionSummary[];
-  ProvisioningArtifactPreferences?: ProvisioningArtifactPreferences;
-  ProvisioningArtifactOutputs?: ProvisioningArtifactOutput[];
-  ProvisioningArtifactOutputKeys?: ProvisioningArtifactOutput[];
+  ProvisioningArtifactParameters?: ProvisioningArtifactParameter[] | undefined;
+  ConstraintSummaries?: ConstraintSummary[] | undefined;
+  UsageInstructions?: UsageInstruction[] | undefined;
+  TagOptions?: TagOptionSummary[] | undefined;
+  ProvisioningArtifactPreferences?: ProvisioningArtifactPreferences | undefined;
+  ProvisioningArtifactOutputs?: ProvisioningArtifactOutput[] | undefined;
+  ProvisioningArtifactOutputKeys?: ProvisioningArtifactOutput[] | undefined;
 }
 export interface DescribeRecordInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
-  PageToken?: string;
-  PageSize?: number;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type RecordStatus =
   | "CREATED"
@@ -963,76 +966,76 @@ export type RecordType = string;
 export type ErrorCode = string;
 export type ErrorDescription = string;
 export interface RecordError {
-  Code?: string;
-  Description?: string;
+  Code?: string | undefined;
+  Description?: string | undefined;
 }
 export type RecordErrors = RecordError[];
 export type RecordTagKey = string;
 export type RecordTagValue = string;
 export interface RecordTag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type RecordTags = RecordTag[];
 export interface RecordDetail {
-  RecordId?: string;
-  ProvisionedProductName?: string;
-  Status?: RecordStatus;
-  CreatedTime?: Date;
-  UpdatedTime?: Date;
-  ProvisionedProductType?: string;
-  RecordType?: string;
-  ProvisionedProductId?: string;
-  ProductId?: string;
-  ProvisioningArtifactId?: string;
-  PathId?: string;
-  RecordErrors?: RecordError[];
-  RecordTags?: RecordTag[];
-  LaunchRoleArn?: string;
+  RecordId?: string | undefined;
+  ProvisionedProductName?: string | undefined;
+  Status?: RecordStatus | undefined;
+  CreatedTime?: Date | undefined;
+  UpdatedTime?: Date | undefined;
+  ProvisionedProductType?: string | undefined;
+  RecordType?: string | undefined;
+  ProvisionedProductId?: string | undefined;
+  ProductId?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  PathId?: string | undefined;
+  RecordErrors?: RecordError[] | undefined;
+  RecordTags?: RecordTag[] | undefined;
+  LaunchRoleArn?: string | undefined;
 }
 export type OutputKey = string;
 export type OutputValue = string;
 export interface RecordOutput {
-  OutputKey?: string;
-  OutputValue?: string;
-  Description?: string;
+  OutputKey?: string | undefined;
+  OutputValue?: string | undefined;
+  Description?: string | undefined;
 }
 export type RecordOutputs = RecordOutput[];
 export interface DescribeRecordOutput {
-  RecordDetail?: RecordDetail;
-  RecordOutputs?: RecordOutput[];
-  NextPageToken?: string;
+  RecordDetail?: RecordDetail | undefined;
+  RecordOutputs?: RecordOutput[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface DescribeServiceActionInput {
   Id: string;
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
 }
 export interface DescribeServiceActionOutput {
-  ServiceActionDetail?: ServiceActionDetail;
+  ServiceActionDetail?: ServiceActionDetail | undefined;
 }
 export interface DescribeServiceActionExecutionParametersInput {
   ProvisionedProductId: string;
   ServiceActionId: string;
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
 }
 export type ExecutionParameterKey = string;
 export type ExecutionParameterType = string;
 export type ExecutionParameterValue = string;
 export type ExecutionParameterValueList = string[];
 export interface ExecutionParameter {
-  Name?: string;
-  Type?: string;
-  DefaultValues?: string[];
+  Name?: string | undefined;
+  Type?: string | undefined;
+  DefaultValues?: string[] | undefined;
 }
 export type ExecutionParameters = ExecutionParameter[];
 export interface DescribeServiceActionExecutionParametersOutput {
-  ServiceActionParameters?: ExecutionParameter[];
+  ServiceActionParameters?: ExecutionParameter[] | undefined;
 }
 export interface DescribeTagOptionInput {
   Id: string;
 }
 export interface DescribeTagOptionOutput {
-  TagOptionDetail?: TagOptionDetail;
+  TagOptionDetail?: TagOptionDetail | undefined;
 }
 export interface DisableAWSOrganizationsAccessInput {}
 export interface DisableAWSOrganizationsAccessOutput {}
@@ -1042,14 +1045,14 @@ export interface DisassociateBudgetFromResourceInput {
 }
 export interface DisassociateBudgetFromResourceOutput {}
 export interface DisassociatePrincipalFromPortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
   PrincipalARN: string;
-  PrincipalType?: PrincipalType;
+  PrincipalType?: PrincipalType | undefined;
 }
 export interface DisassociatePrincipalFromPortfolioOutput {}
 export interface DisassociateProductFromPortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
   PortfolioId: string;
 }
@@ -1058,8 +1061,8 @@ export interface DisassociateServiceActionFromProvisioningArtifactInput {
   ProductId: string;
   ProvisioningArtifactId: string;
   ServiceActionId: string;
-  AcceptLanguage?: string;
-  IdempotencyToken?: string;
+  AcceptLanguage?: string | undefined;
+  IdempotencyToken?: string | undefined;
 }
 export interface DisassociateServiceActionFromProvisioningArtifactOutput {}
 export interface DisassociateTagOptionFromResourceInput {
@@ -1070,45 +1073,45 @@ export interface DisassociateTagOptionFromResourceOutput {}
 export interface EnableAWSOrganizationsAccessInput {}
 export interface EnableAWSOrganizationsAccessOutput {}
 export interface ExecuteProvisionedProductPlanInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PlanId: string;
   IdempotencyToken: string;
 }
 export interface ExecuteProvisionedProductPlanOutput {
-  RecordDetail?: RecordDetail;
+  RecordDetail?: RecordDetail | undefined;
 }
 export type ExecutionParameterMap = { [key: string]: string[] | undefined };
 export interface ExecuteProvisionedProductServiceActionInput {
   ProvisionedProductId: string;
   ServiceActionId: string;
   ExecuteToken: string;
-  AcceptLanguage?: string;
-  Parameters?: { [key: string]: string[] | undefined };
+  AcceptLanguage?: string | undefined;
+  Parameters?: { [key: string]: string[] | undefined } | undefined;
 }
 export interface ExecuteProvisionedProductServiceActionOutput {
-  RecordDetail?: RecordDetail;
+  RecordDetail?: RecordDetail | undefined;
 }
 export interface GetAWSOrganizationsAccessStatusInput {}
 export type AccessStatus = "ENABLED" | "UNDER_CHANGE" | "DISABLED" | (string & {});
 export interface GetAWSOrganizationsAccessStatusOutput {
-  AccessStatus?: AccessStatus;
+  AccessStatus?: AccessStatus | undefined;
 }
 export type OutputKeys = string[];
 export interface GetProvisionedProductOutputsInput {
-  AcceptLanguage?: string;
-  ProvisionedProductId?: string;
-  ProvisionedProductName?: string;
-  OutputKeys?: string[];
-  PageSize?: number;
-  PageToken?: string;
+  AcceptLanguage?: string | undefined;
+  ProvisionedProductId?: string | undefined;
+  ProvisionedProductName?: string | undefined;
+  OutputKeys?: string[] | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export interface GetProvisionedProductOutputsOutput {
-  Outputs?: RecordOutput[];
-  NextPageToken?: string;
+  Outputs?: RecordOutput[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export type PhysicalId = string;
 export interface ImportAsProvisionedProductInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
   ProvisioningArtifactId: string;
   ProvisionedProductName: string;
@@ -1116,190 +1119,190 @@ export interface ImportAsProvisionedProductInput {
   IdempotencyToken: string;
 }
 export interface ImportAsProvisionedProductOutput {
-  RecordDetail?: RecordDetail;
+  RecordDetail?: RecordDetail | undefined;
 }
 export interface ListAcceptedPortfolioSharesInput {
-  AcceptLanguage?: string;
-  PageToken?: string;
-  PageSize?: number;
-  PortfolioShareType?: PortfolioShareType;
+  AcceptLanguage?: string | undefined;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
+  PortfolioShareType?: PortfolioShareType | undefined;
 }
 export type PortfolioDetails = PortfolioDetail[];
 export interface ListAcceptedPortfolioSharesOutput {
-  PortfolioDetails?: PortfolioDetail[];
-  NextPageToken?: string;
+  PortfolioDetails?: PortfolioDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListBudgetsForResourceInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ResourceId: string;
-  PageSize?: number;
-  PageToken?: string;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export interface ListBudgetsForResourceOutput {
-  Budgets?: BudgetDetail[];
-  NextPageToken?: string;
+  Budgets?: BudgetDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListConstraintsForPortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
-  ProductId?: string;
-  PageSize?: number;
-  PageToken?: string;
+  ProductId?: string | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export type ConstraintDetails = ConstraintDetail[];
 export interface ListConstraintsForPortfolioOutput {
-  ConstraintDetails?: ConstraintDetail[];
-  NextPageToken?: string;
+  ConstraintDetails?: ConstraintDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListLaunchPathsInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
-  PageSize?: number;
-  PageToken?: string;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export interface LaunchPathSummary {
-  Id?: string;
-  ConstraintSummaries?: ConstraintSummary[];
-  Tags?: Tag[];
-  Name?: string;
+  Id?: string | undefined;
+  ConstraintSummaries?: ConstraintSummary[] | undefined;
+  Tags?: Tag[] | undefined;
+  Name?: string | undefined;
 }
 export type LaunchPathSummaries = LaunchPathSummary[];
 export interface ListLaunchPathsOutput {
-  LaunchPathSummaries?: LaunchPathSummary[];
-  NextPageToken?: string;
+  LaunchPathSummaries?: LaunchPathSummary[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListOrganizationPortfolioAccessInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
   OrganizationNodeType: OrganizationNodeType;
-  PageToken?: string;
-  PageSize?: number;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type OrganizationNodes = OrganizationNode[];
 export interface ListOrganizationPortfolioAccessOutput {
-  OrganizationNodes?: OrganizationNode[];
-  NextPageToken?: string;
+  OrganizationNodes?: OrganizationNode[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListPortfolioAccessInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
-  OrganizationParentId?: string;
-  PageToken?: string;
-  PageSize?: number;
+  OrganizationParentId?: string | undefined;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type AccountIds = string[];
 export interface ListPortfolioAccessOutput {
-  AccountIds?: string[];
-  NextPageToken?: string;
+  AccountIds?: string[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListPortfoliosInput {
-  AcceptLanguage?: string;
-  PageToken?: string;
-  PageSize?: number;
+  AcceptLanguage?: string | undefined;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface ListPortfoliosOutput {
-  PortfolioDetails?: PortfolioDetail[];
-  NextPageToken?: string;
+  PortfolioDetails?: PortfolioDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListPortfoliosForProductInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
-  PageToken?: string;
-  PageSize?: number;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export interface ListPortfoliosForProductOutput {
-  PortfolioDetails?: PortfolioDetail[];
-  NextPageToken?: string;
+  PortfolioDetails?: PortfolioDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListPrincipalsForPortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
-  PageSize?: number;
-  PageToken?: string;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export interface Principal {
-  PrincipalARN?: string;
-  PrincipalType?: PrincipalType;
+  PrincipalARN?: string | undefined;
+  PrincipalType?: PrincipalType | undefined;
 }
 export type Principals = Principal[];
 export interface ListPrincipalsForPortfolioOutput {
-  Principals?: Principal[];
-  NextPageToken?: string;
+  Principals?: Principal[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export type AccessLevelFilterKey = "Account" | "Role" | "User" | (string & {});
 export type AccessLevelFilterValue = string;
 export interface AccessLevelFilter {
-  Key?: AccessLevelFilterKey;
-  Value?: string;
+  Key?: AccessLevelFilterKey | undefined;
+  Value?: string | undefined;
 }
 export interface ListProvisionedProductPlansInput {
-  AcceptLanguage?: string;
-  ProvisionProductId?: string;
-  PageSize?: number;
-  PageToken?: string;
-  AccessLevelFilter?: AccessLevelFilter;
+  AcceptLanguage?: string | undefined;
+  ProvisionProductId?: string | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
+  AccessLevelFilter?: AccessLevelFilter | undefined;
 }
 export interface ProvisionedProductPlanSummary {
-  PlanName?: string;
-  PlanId?: string;
-  ProvisionProductId?: string;
-  ProvisionProductName?: string;
-  PlanType?: ProvisionedProductPlanType;
-  ProvisioningArtifactId?: string;
+  PlanName?: string | undefined;
+  PlanId?: string | undefined;
+  ProvisionProductId?: string | undefined;
+  ProvisionProductName?: string | undefined;
+  PlanType?: ProvisionedProductPlanType | undefined;
+  ProvisioningArtifactId?: string | undefined;
 }
 export type ProvisionedProductPlans = ProvisionedProductPlanSummary[];
 export interface ListProvisionedProductPlansOutput {
-  ProvisionedProductPlans?: ProvisionedProductPlanSummary[];
-  NextPageToken?: string;
+  ProvisionedProductPlans?: ProvisionedProductPlanSummary[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListProvisioningArtifactsInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
 }
 export type ProvisioningArtifactDetails = ProvisioningArtifactDetail[];
 export interface ListProvisioningArtifactsOutput {
-  ProvisioningArtifactDetails?: ProvisioningArtifactDetail[];
-  NextPageToken?: string;
+  ProvisioningArtifactDetails?: ProvisioningArtifactDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListProvisioningArtifactsForServiceActionInput {
   ServiceActionId: string;
-  PageSize?: number;
-  PageToken?: string;
-  AcceptLanguage?: string;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
+  AcceptLanguage?: string | undefined;
 }
 export interface ProvisioningArtifactView {
-  ProductViewSummary?: ProductViewSummary;
-  ProvisioningArtifact?: ProvisioningArtifact;
+  ProductViewSummary?: ProductViewSummary | undefined;
+  ProvisioningArtifact?: ProvisioningArtifact | undefined;
 }
 export type ProvisioningArtifactViews = ProvisioningArtifactView[];
 export interface ListProvisioningArtifactsForServiceActionOutput {
-  ProvisioningArtifactViews?: ProvisioningArtifactView[];
-  NextPageToken?: string;
+  ProvisioningArtifactViews?: ProvisioningArtifactView[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export type SearchFilterKey = string;
 export type SearchFilterValue = string;
 export interface ListRecordHistorySearchFilter {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export interface ListRecordHistoryInput {
-  AcceptLanguage?: string;
-  AccessLevelFilter?: AccessLevelFilter;
-  SearchFilter?: ListRecordHistorySearchFilter;
-  PageSize?: number;
-  PageToken?: string;
+  AcceptLanguage?: string | undefined;
+  AccessLevelFilter?: AccessLevelFilter | undefined;
+  SearchFilter?: ListRecordHistorySearchFilter | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export type RecordDetails = RecordDetail[];
 export interface ListRecordHistoryOutput {
-  RecordDetails?: RecordDetail[];
-  NextPageToken?: string;
+  RecordDetails?: RecordDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export type ResourceType = string;
 export interface ListResourcesForTagOptionInput {
   TagOptionId: string;
-  ResourceType?: string;
-  PageSize?: number;
-  PageToken?: string;
+  ResourceType?: string | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export type ResourceDetailId = string;
 export type ResourceDetailARN = string;
@@ -1307,68 +1310,68 @@ export type ResourceDetailName = string;
 export type ResourceDetailDescription = string;
 export type ResourceDetailCreatedTime = Date;
 export interface ResourceDetail {
-  Id?: string;
-  ARN?: string;
-  Name?: string;
-  Description?: string;
-  CreatedTime?: Date;
+  Id?: string | undefined;
+  ARN?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  CreatedTime?: Date | undefined;
 }
 export type ResourceDetails = ResourceDetail[];
 export interface ListResourcesForTagOptionOutput {
-  ResourceDetails?: ResourceDetail[];
-  PageToken?: string;
+  ResourceDetails?: ResourceDetail[] | undefined;
+  PageToken?: string | undefined;
 }
 export interface ListServiceActionsInput {
-  AcceptLanguage?: string;
-  PageSize?: number;
-  PageToken?: string;
+  AcceptLanguage?: string | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export type ServiceActionSummaries = ServiceActionSummary[];
 export interface ListServiceActionsOutput {
-  ServiceActionSummaries?: ServiceActionSummary[];
-  NextPageToken?: string;
+  ServiceActionSummaries?: ServiceActionSummary[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListServiceActionsForProvisioningArtifactInput {
   ProductId: string;
   ProvisioningArtifactId: string;
-  PageSize?: number;
-  PageToken?: string;
-  AcceptLanguage?: string;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
+  AcceptLanguage?: string | undefined;
 }
 export interface ListServiceActionsForProvisioningArtifactOutput {
-  ServiceActionSummaries?: ServiceActionSummary[];
-  NextPageToken?: string;
+  ServiceActionSummaries?: ServiceActionSummary[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListStackInstancesForProvisionedProductInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProvisionedProductId: string;
-  PageToken?: string;
-  PageSize?: number;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
 }
 export type StackInstanceStatus = "CURRENT" | "OUTDATED" | "INOPERABLE" | (string & {});
 export interface StackInstance {
-  Account?: string;
-  Region?: string;
-  StackInstanceStatus?: StackInstanceStatus;
+  Account?: string | undefined;
+  Region?: string | undefined;
+  StackInstanceStatus?: StackInstanceStatus | undefined;
 }
 export type StackInstances = StackInstance[];
 export interface ListStackInstancesForProvisionedProductOutput {
-  StackInstances?: StackInstance[];
-  NextPageToken?: string;
+  StackInstances?: StackInstance[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export interface ListTagOptionsFilters {
-  Key?: string;
-  Value?: string;
-  Active?: boolean;
+  Key?: string | undefined;
+  Value?: string | undefined;
+  Active?: boolean | undefined;
 }
 export interface ListTagOptionsInput {
-  Filters?: ListTagOptionsFilters;
-  PageSize?: number;
-  PageToken?: string;
+  Filters?: ListTagOptionsFilters | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export interface ListTagOptionsOutput {
-  TagOptionDetails?: TagOptionDetail[];
-  PageToken?: string;
+  TagOptionDetails?: TagOptionDetail[] | undefined;
+  PageToken?: string | undefined;
 }
 export type EngineWorkflowToken = string;
 export type EngineWorkflowStatus = "SUCCEEDED" | "FAILED" | (string & {});
@@ -1376,19 +1379,19 @@ export type EngineWorkflowFailureReason = string;
 export type UniqueTagKey = string;
 export type UniqueTagValue = string;
 export interface UniqueTagResourceIdentifier {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export interface EngineWorkflowResourceIdentifier {
-  UniqueTag?: UniqueTagResourceIdentifier;
+  UniqueTag?: UniqueTagResourceIdentifier | undefined;
 }
 export interface NotifyProvisionProductEngineWorkflowResultInput {
   WorkflowToken: string;
   RecordId: string;
   Status: EngineWorkflowStatus;
-  FailureReason?: string;
-  ResourceIdentifier?: EngineWorkflowResourceIdentifier;
-  Outputs?: RecordOutput[];
+  FailureReason?: string | undefined;
+  ResourceIdentifier?: EngineWorkflowResourceIdentifier | undefined;
+  Outputs?: RecordOutput[] | undefined;
   IdempotencyToken: string;
 }
 export interface NotifyProvisionProductEngineWorkflowResultOutput {}
@@ -1396,7 +1399,7 @@ export interface NotifyTerminateProvisionedProductEngineWorkflowResultInput {
   WorkflowToken: string;
   RecordId: string;
   Status: EngineWorkflowStatus;
-  FailureReason?: string;
+  FailureReason?: string | undefined;
   IdempotencyToken: string;
 }
 export interface NotifyTerminateProvisionedProductEngineWorkflowResultOutput {}
@@ -1404,14 +1407,14 @@ export interface NotifyUpdateProvisionedProductEngineWorkflowResultInput {
   WorkflowToken: string;
   RecordId: string;
   Status: EngineWorkflowStatus;
-  FailureReason?: string;
-  Outputs?: RecordOutput[];
+  FailureReason?: string | undefined;
+  Outputs?: RecordOutput[] | undefined;
   IdempotencyToken: string;
 }
 export interface NotifyUpdateProvisionedProductEngineWorkflowResultOutput {}
 export interface ProvisioningParameter {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type ProvisioningParameters = ProvisioningParameter[];
 export type StackSetFailureToleranceCount = number;
@@ -1419,47 +1422,47 @@ export type StackSetFailureTolerancePercentage = number;
 export type StackSetMaxConcurrencyCount = number;
 export type StackSetMaxConcurrencyPercentage = number;
 export interface ProvisioningPreferences {
-  StackSetAccounts?: string[];
-  StackSetRegions?: string[];
-  StackSetFailureToleranceCount?: number;
-  StackSetFailureTolerancePercentage?: number;
-  StackSetMaxConcurrencyCount?: number;
-  StackSetMaxConcurrencyPercentage?: number;
+  StackSetAccounts?: string[] | undefined;
+  StackSetRegions?: string[] | undefined;
+  StackSetFailureToleranceCount?: number | undefined;
+  StackSetFailureTolerancePercentage?: number | undefined;
+  StackSetMaxConcurrencyCount?: number | undefined;
+  StackSetMaxConcurrencyPercentage?: number | undefined;
 }
 export interface ProvisionProductInput {
-  AcceptLanguage?: string;
-  ProductId?: string;
-  ProductName?: string;
-  ProvisioningArtifactId?: string;
-  ProvisioningArtifactName?: string;
-  PathId?: string;
-  PathName?: string;
+  AcceptLanguage?: string | undefined;
+  ProductId?: string | undefined;
+  ProductName?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  ProvisioningArtifactName?: string | undefined;
+  PathId?: string | undefined;
+  PathName?: string | undefined;
   ProvisionedProductName: string;
-  ProvisioningParameters?: ProvisioningParameter[];
-  ProvisioningPreferences?: ProvisioningPreferences;
-  Tags?: Tag[];
-  NotificationArns?: string[];
+  ProvisioningParameters?: ProvisioningParameter[] | undefined;
+  ProvisioningPreferences?: ProvisioningPreferences | undefined;
+  Tags?: Tag[] | undefined;
+  NotificationArns?: string[] | undefined;
   ProvisionToken: string;
 }
 export interface ProvisionProductOutput {
-  RecordDetail?: RecordDetail;
+  RecordDetail?: RecordDetail | undefined;
 }
 export interface RejectPortfolioShareInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
-  PortfolioShareType?: PortfolioShareType;
+  PortfolioShareType?: PortfolioShareType | undefined;
 }
 export interface RejectPortfolioShareOutput {}
 export interface ScanProvisionedProductsInput {
-  AcceptLanguage?: string;
-  AccessLevelFilter?: AccessLevelFilter;
-  PageSize?: number;
-  PageToken?: string;
+  AcceptLanguage?: string | undefined;
+  AccessLevelFilter?: AccessLevelFilter | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export type ProvisionedProductDetails = ProvisionedProductDetail[];
 export interface ScanProvisionedProductsOutput {
-  ProvisionedProducts?: ProvisionedProductDetail[];
-  NextPageToken?: string;
+  ProvisionedProducts?: ProvisionedProductDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export type ProductViewFilterBy =
   | "FullTextSearch"
@@ -1469,234 +1472,238 @@ export type ProductViewFilterBy =
   | (string & {});
 export type ProductViewFilterValue = string;
 export type ProductViewFilterValues = string[];
-export type ProductViewFilters = { [key in ProductViewFilterBy]?: string[] };
+export type ProductViewFilters = { [key in ProductViewFilterBy]?: string[] | undefined };
 export type ProductViewSortBy = "Title" | "VersionCount" | "CreationDate" | (string & {});
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface SearchProductsInput {
-  AcceptLanguage?: string;
-  Filters?: { [key: string]: string[] | undefined };
-  PageSize?: number;
-  SortBy?: ProductViewSortBy;
-  SortOrder?: SortOrder;
-  PageToken?: string;
+  AcceptLanguage?: string | undefined;
+  Filters?: { [key: string]: string[] | undefined } | undefined;
+  PageSize?: number | undefined;
+  SortBy?: ProductViewSortBy | undefined;
+  SortOrder?: SortOrder | undefined;
+  PageToken?: string | undefined;
 }
 export type ProductViewSummaries = ProductViewSummary[];
 export type ProductViewAggregationType = string;
 export type AttributeValue = string;
 export type ApproximateCount = number;
 export interface ProductViewAggregationValue {
-  Value?: string;
-  ApproximateCount?: number;
+  Value?: string | undefined;
+  ApproximateCount?: number | undefined;
 }
 export type ProductViewAggregationValues = ProductViewAggregationValue[];
 export type ProductViewAggregations = { [key: string]: ProductViewAggregationValue[] | undefined };
 export interface SearchProductsOutput {
-  ProductViewSummaries?: ProductViewSummary[];
-  ProductViewAggregations?: { [key: string]: ProductViewAggregationValue[] | undefined };
-  NextPageToken?: string;
+  ProductViewSummaries?: ProductViewSummary[] | undefined;
+  ProductViewAggregations?:
+    | { [key: string]: ProductViewAggregationValue[] | undefined }
+    | undefined;
+  NextPageToken?: string | undefined;
 }
 export type ProductSource = "ACCOUNT" | (string & {});
 export interface SearchProductsAsAdminInput {
-  AcceptLanguage?: string;
-  PortfolioId?: string;
-  Filters?: { [key: string]: string[] | undefined };
-  SortBy?: ProductViewSortBy;
-  SortOrder?: SortOrder;
-  PageToken?: string;
-  PageSize?: number;
-  ProductSource?: ProductSource;
+  AcceptLanguage?: string | undefined;
+  PortfolioId?: string | undefined;
+  Filters?: { [key: string]: string[] | undefined } | undefined;
+  SortBy?: ProductViewSortBy | undefined;
+  SortOrder?: SortOrder | undefined;
+  PageToken?: string | undefined;
+  PageSize?: number | undefined;
+  ProductSource?: ProductSource | undefined;
 }
 export type ProductViewDetails = ProductViewDetail[];
 export interface SearchProductsAsAdminOutput {
-  ProductViewDetails?: ProductViewDetail[];
-  NextPageToken?: string;
+  ProductViewDetails?: ProductViewDetail[] | undefined;
+  NextPageToken?: string | undefined;
 }
 export type ProvisionedProductViewFilterBy = "SearchQuery" | (string & {});
 export type ProvisionedProductViewFilterValue = string;
 export type ProvisionedProductViewFilterValues = string[];
-export type ProvisionedProductFilters = { [key in ProvisionedProductViewFilterBy]?: string[] };
+export type ProvisionedProductFilters = {
+  [key in ProvisionedProductViewFilterBy]?: string[] | undefined;
+};
 export type SortField = string;
 export type SearchProvisionedProductsPageSize = number;
 export interface SearchProvisionedProductsInput {
-  AcceptLanguage?: string;
-  AccessLevelFilter?: AccessLevelFilter;
-  Filters?: { [key: string]: string[] | undefined };
-  SortBy?: string;
-  SortOrder?: SortOrder;
-  PageSize?: number;
-  PageToken?: string;
+  AcceptLanguage?: string | undefined;
+  AccessLevelFilter?: AccessLevelFilter | undefined;
+  Filters?: { [key: string]: string[] | undefined } | undefined;
+  SortBy?: string | undefined;
+  SortOrder?: SortOrder | undefined;
+  PageSize?: number | undefined;
+  PageToken?: string | undefined;
 }
 export type UserArn = string;
 export type UserArnSession = string;
 export interface ProvisionedProductAttribute {
-  Name?: string;
-  Arn?: string;
-  Type?: string;
-  Id?: string;
-  Status?: ProvisionedProductStatus;
-  StatusMessage?: string;
-  CreatedTime?: Date;
-  IdempotencyToken?: string;
-  LastRecordId?: string;
-  LastProvisioningRecordId?: string;
-  LastSuccessfulProvisioningRecordId?: string;
-  Tags?: Tag[];
-  PhysicalId?: string;
-  ProductId?: string;
-  ProductName?: string;
-  ProvisioningArtifactId?: string;
-  ProvisioningArtifactName?: string;
-  UserArn?: string;
-  UserArnSession?: string;
+  Name?: string | undefined;
+  Arn?: string | undefined;
+  Type?: string | undefined;
+  Id?: string | undefined;
+  Status?: ProvisionedProductStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreatedTime?: Date | undefined;
+  IdempotencyToken?: string | undefined;
+  LastRecordId?: string | undefined;
+  LastProvisioningRecordId?: string | undefined;
+  LastSuccessfulProvisioningRecordId?: string | undefined;
+  Tags?: Tag[] | undefined;
+  PhysicalId?: string | undefined;
+  ProductId?: string | undefined;
+  ProductName?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  ProvisioningArtifactName?: string | undefined;
+  UserArn?: string | undefined;
+  UserArnSession?: string | undefined;
 }
 export type ProvisionedProductAttributes = ProvisionedProductAttribute[];
 export type TotalResultsCount = number;
 export interface SearchProvisionedProductsOutput {
-  ProvisionedProducts?: ProvisionedProductAttribute[];
-  TotalResultsCount?: number;
-  NextPageToken?: string;
+  ProvisionedProducts?: ProvisionedProductAttribute[] | undefined;
+  TotalResultsCount?: number | undefined;
+  NextPageToken?: string | undefined;
 }
 export type RetainPhysicalResources = boolean;
 export interface TerminateProvisionedProductInput {
-  ProvisionedProductName?: string;
-  ProvisionedProductId?: string;
+  ProvisionedProductName?: string | undefined;
+  ProvisionedProductId?: string | undefined;
   TerminateToken: string;
-  IgnoreErrors?: boolean;
-  AcceptLanguage?: string;
-  RetainPhysicalResources?: boolean;
+  IgnoreErrors?: boolean | undefined;
+  AcceptLanguage?: string | undefined;
+  RetainPhysicalResources?: boolean | undefined;
 }
 export interface TerminateProvisionedProductOutput {
-  RecordDetail?: RecordDetail;
+  RecordDetail?: RecordDetail | undefined;
 }
 export interface UpdateConstraintInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
-  Description?: string;
-  Parameters?: string;
+  Description?: string | undefined;
+  Parameters?: string | undefined;
 }
 export interface UpdateConstraintOutput {
-  ConstraintDetail?: ConstraintDetail;
-  ConstraintParameters?: string;
-  Status?: Status;
+  ConstraintDetail?: ConstraintDetail | undefined;
+  ConstraintParameters?: string | undefined;
+  Status?: Status | undefined;
 }
 export type TagKeys = string[];
 export interface UpdatePortfolioInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
-  DisplayName?: string;
-  Description?: string;
-  ProviderName?: string;
-  AddTags?: Tag[];
-  RemoveTags?: string[];
+  DisplayName?: string | undefined;
+  Description?: string | undefined;
+  ProviderName?: string | undefined;
+  AddTags?: Tag[] | undefined;
+  RemoveTags?: string[] | undefined;
 }
 export interface UpdatePortfolioOutput {
-  PortfolioDetail?: PortfolioDetail;
-  Tags?: Tag[];
+  PortfolioDetail?: PortfolioDetail | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface UpdatePortfolioShareInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   PortfolioId: string;
-  AccountId?: string;
-  OrganizationNode?: OrganizationNode;
-  ShareTagOptions?: boolean;
-  SharePrincipals?: boolean;
+  AccountId?: string | undefined;
+  OrganizationNode?: OrganizationNode | undefined;
+  ShareTagOptions?: boolean | undefined;
+  SharePrincipals?: boolean | undefined;
 }
 export interface UpdatePortfolioShareOutput {
-  PortfolioShareToken?: string;
-  Status?: ShareStatus;
+  PortfolioShareToken?: string | undefined;
+  Status?: ShareStatus | undefined;
 }
 export interface UpdateProductInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   Id: string;
-  Name?: string;
-  Owner?: string;
-  Description?: string;
-  Distributor?: string;
-  SupportDescription?: string;
-  SupportEmail?: string;
-  SupportUrl?: string;
-  AddTags?: Tag[];
-  RemoveTags?: string[];
-  SourceConnection?: SourceConnection;
+  Name?: string | undefined;
+  Owner?: string | undefined;
+  Description?: string | undefined;
+  Distributor?: string | undefined;
+  SupportDescription?: string | undefined;
+  SupportEmail?: string | undefined;
+  SupportUrl?: string | undefined;
+  AddTags?: Tag[] | undefined;
+  RemoveTags?: string[] | undefined;
+  SourceConnection?: SourceConnection | undefined;
 }
 export interface UpdateProductOutput {
-  ProductViewDetail?: ProductViewDetail;
-  Tags?: Tag[];
+  ProductViewDetail?: ProductViewDetail | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type StackSetOperationType = "CREATE" | "UPDATE" | "DELETE" | (string & {});
 export interface UpdateProvisioningPreferences {
-  StackSetAccounts?: string[];
-  StackSetRegions?: string[];
-  StackSetFailureToleranceCount?: number;
-  StackSetFailureTolerancePercentage?: number;
-  StackSetMaxConcurrencyCount?: number;
-  StackSetMaxConcurrencyPercentage?: number;
-  StackSetOperationType?: StackSetOperationType;
+  StackSetAccounts?: string[] | undefined;
+  StackSetRegions?: string[] | undefined;
+  StackSetFailureToleranceCount?: number | undefined;
+  StackSetFailureTolerancePercentage?: number | undefined;
+  StackSetMaxConcurrencyCount?: number | undefined;
+  StackSetMaxConcurrencyPercentage?: number | undefined;
+  StackSetOperationType?: StackSetOperationType | undefined;
 }
 export interface UpdateProvisionedProductInput {
-  AcceptLanguage?: string;
-  ProvisionedProductName?: string;
-  ProvisionedProductId?: string;
-  ProductId?: string;
-  ProductName?: string;
-  ProvisioningArtifactId?: string;
-  ProvisioningArtifactName?: string;
-  PathId?: string;
-  PathName?: string;
-  ProvisioningParameters?: UpdateProvisioningParameter[];
-  ProvisioningPreferences?: UpdateProvisioningPreferences;
-  Tags?: Tag[];
+  AcceptLanguage?: string | undefined;
+  ProvisionedProductName?: string | undefined;
+  ProvisionedProductId?: string | undefined;
+  ProductId?: string | undefined;
+  ProductName?: string | undefined;
+  ProvisioningArtifactId?: string | undefined;
+  ProvisioningArtifactName?: string | undefined;
+  PathId?: string | undefined;
+  PathName?: string | undefined;
+  ProvisioningParameters?: UpdateProvisioningParameter[] | undefined;
+  ProvisioningPreferences?: UpdateProvisioningPreferences | undefined;
+  Tags?: Tag[] | undefined;
   UpdateToken: string;
 }
 export interface UpdateProvisionedProductOutput {
-  RecordDetail?: RecordDetail;
+  RecordDetail?: RecordDetail | undefined;
 }
 export type PropertyKey = "OWNER" | "LAUNCH_ROLE" | (string & {});
 export type PropertyValue = string;
-export type ProvisionedProductProperties = { [key in PropertyKey]?: string };
+export type ProvisionedProductProperties = { [key in PropertyKey]?: string | undefined };
 export interface UpdateProvisionedProductPropertiesInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProvisionedProductId: string;
   ProvisionedProductProperties: { [key: string]: string | undefined };
   IdempotencyToken: string;
 }
 export interface UpdateProvisionedProductPropertiesOutput {
-  ProvisionedProductId?: string;
-  ProvisionedProductProperties?: { [key: string]: string | undefined };
-  RecordId?: string;
-  Status?: RecordStatus;
+  ProvisionedProductId?: string | undefined;
+  ProvisionedProductProperties?: { [key: string]: string | undefined } | undefined;
+  RecordId?: string | undefined;
+  Status?: RecordStatus | undefined;
 }
 export interface UpdateProvisioningArtifactInput {
-  AcceptLanguage?: string;
+  AcceptLanguage?: string | undefined;
   ProductId: string;
   ProvisioningArtifactId: string;
-  Name?: string;
-  Description?: string;
-  Active?: boolean;
-  Guidance?: ProvisioningArtifactGuidance;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  Active?: boolean | undefined;
+  Guidance?: ProvisioningArtifactGuidance | undefined;
 }
 export interface UpdateProvisioningArtifactOutput {
-  ProvisioningArtifactDetail?: ProvisioningArtifactDetail;
-  Info?: { [key: string]: string | undefined };
-  Status?: Status;
+  ProvisioningArtifactDetail?: ProvisioningArtifactDetail | undefined;
+  Info?: { [key: string]: string | undefined } | undefined;
+  Status?: Status | undefined;
 }
 export interface UpdateServiceActionInput {
   Id: string;
-  Name?: string;
-  Definition?: { [key: string]: string | undefined };
-  Description?: string;
-  AcceptLanguage?: string;
+  Name?: string | undefined;
+  Definition?: { [key: string]: string | undefined } | undefined;
+  Description?: string | undefined;
+  AcceptLanguage?: string | undefined;
 }
 export interface UpdateServiceActionOutput {
-  ServiceActionDetail?: ServiceActionDetail;
+  ServiceActionDetail?: ServiceActionDetail | undefined;
 }
 export interface UpdateTagOptionInput {
   Id: string;
-  Value?: string;
-  Active?: boolean;
+  Value?: string | undefined;
+  Active?: boolean | undefined;
 }
 export interface UpdateTagOptionOutput {
-  TagOptionDetail?: TagOptionDetail;
+  TagOptionDetail?: TagOptionDetail | undefined;
 }
 export type ErrorMessage = string;
 export type AcceptPortfolioShareError =
@@ -1708,7 +1715,7 @@ export type AcceptPortfolioShareError =
  * Accepts an offer to share the specified portfolio.
  */
 export const acceptPortfolioShare: API.OperationMethod<
-  AcceptPortfolioShareInput,
+  AcceptPortfolioShareInput & RegionInput,
   AcceptPortfolioShareOutput,
   AcceptPortfolioShareError,
   Credentials | HttpClient.HttpClient
@@ -1733,7 +1740,7 @@ export type AssociateBudgetWithResourceError =
  * Associates the specified budget with the specified resource.
  */
 export const associateBudgetWithResource: API.OperationMethod<
-  AssociateBudgetWithResourceInput,
+  AssociateBudgetWithResourceInput & RegionInput,
   AssociateBudgetWithResourceOutput,
   AssociateBudgetWithResourceError,
   Credentials | HttpClient.HttpClient
@@ -1778,7 +1785,7 @@ export type AssociatePrincipalWithPortfolioError =
  * the `PrincipalARN` must already exist in the recipient account before it can be associated.
  */
 export const associatePrincipalWithPortfolio: API.OperationMethod<
-  AssociatePrincipalWithPortfolioInput,
+  AssociatePrincipalWithPortfolioInput & RegionInput,
   AssociatePrincipalWithPortfolioOutput,
   AssociatePrincipalWithPortfolioError,
   Credentials | HttpClient.HttpClient
@@ -1804,7 +1811,7 @@ export type AssociateProductWithPortfolioError =
  * A delegated admin is authorized to invoke this command.
  */
 export const associateProductWithPortfolio: API.OperationMethod<
-  AssociateProductWithPortfolioInput,
+  AssociateProductWithPortfolioInput & RegionInput,
   AssociateProductWithPortfolioOutput,
   AssociateProductWithPortfolioError,
   Credentials | HttpClient.HttpClient
@@ -1829,7 +1836,7 @@ export type AssociateServiceActionWithProvisioningArtifactError =
  * Associates a self-service action with a provisioning artifact.
  */
 export const associateServiceActionWithProvisioningArtifact: API.OperationMethod<
-  AssociateServiceActionWithProvisioningArtifactInput,
+  AssociateServiceActionWithProvisioningArtifactInput & RegionInput,
   AssociateServiceActionWithProvisioningArtifactOutput,
   AssociateServiceActionWithProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -1865,7 +1872,7 @@ export type AssociateTagOptionWithResourceError =
  * Associate the specified TagOption with the specified portfolio or product.
  */
 export const associateTagOptionWithResource: API.OperationMethod<
-  AssociateTagOptionWithResourceInput,
+  AssociateTagOptionWithResourceInput & RegionInput,
   AssociateTagOptionWithResourceOutput,
   AssociateTagOptionWithResourceError,
   Credentials | HttpClient.HttpClient
@@ -1894,7 +1901,7 @@ export type BatchAssociateServiceActionWithProvisioningArtifactError =
  * Associates multiple self-service actions with provisioning artifacts.
  */
 export const batchAssociateServiceActionWithProvisioningArtifact: API.OperationMethod<
-  BatchAssociateServiceActionWithProvisioningArtifactInput,
+  BatchAssociateServiceActionWithProvisioningArtifactInput & RegionInput,
   BatchAssociateServiceActionWithProvisioningArtifactOutput,
   BatchAssociateServiceActionWithProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -1924,7 +1931,7 @@ export type BatchDisassociateServiceActionFromProvisioningArtifactError =
  * Disassociates a batch of self-service actions from the specified provisioning artifact.
  */
 export const batchDisassociateServiceActionFromProvisioningArtifact: API.OperationMethod<
-  BatchDisassociateServiceActionFromProvisioningArtifactInput,
+  BatchDisassociateServiceActionFromProvisioningArtifactInput & RegionInput,
   BatchDisassociateServiceActionFromProvisioningArtifactOutput,
   BatchDisassociateServiceActionFromProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -1963,7 +1970,7 @@ export type CopyProductError =
  * operation, use DescribeCopyProductStatus.
  */
 export const copyProduct: API.OperationMethod<
-  CopyProductInput,
+  CopyProductInput & RegionInput,
   CopyProductOutput,
   CopyProductError,
   Credentials | HttpClient.HttpClient
@@ -1990,7 +1997,7 @@ export type CreateConstraintError =
  * A delegated admin is authorized to invoke this command.
  */
 export const createConstraint: API.OperationMethod<
-  CreateConstraintInput,
+  CreateConstraintInput & RegionInput,
   CreateConstraintOutput,
   CreateConstraintError,
   Credentials | HttpClient.HttpClient
@@ -2021,7 +2028,7 @@ export type CreatePortfolioError =
  * A delegated admin is authorized to invoke this command.
  */
 export const createPortfolio: API.OperationMethod<
-  CreatePortfolioInput,
+  CreatePortfolioInput & RegionInput,
   CreatePortfolioOutput,
   CreatePortfolioError,
   Credentials | HttpClient.HttpClient
@@ -2067,7 +2074,7 @@ export type CreatePortfolioShareError =
  * the `PrincipalARN` must already exist in the recipient account before it can be associated.
  */
 export const createPortfolioShare: API.OperationMethod<
-  CreatePortfolioShareInput,
+  CreatePortfolioShareInput & RegionInput,
   CreatePortfolioShareOutput,
   CreatePortfolioShareError,
   Credentials | HttpClient.HttpClient
@@ -2104,7 +2111,7 @@ export type CreateProductError =
  * information data section.
  */
 export const createProduct: API.OperationMethod<
-  CreateProductInput,
+  CreateProductInput & RegionInput,
   CreateProductOutput,
   CreateProductError,
   Credentials | HttpClient.HttpClient
@@ -2138,7 +2145,7 @@ export type CreateProvisionedProductPlanError =
  * To create or modify the provisioned product, use ExecuteProvisionedProductPlan.
  */
 export const createProvisionedProductPlan: API.OperationMethod<
-  CreateProvisionedProductPlanInput,
+  CreateProvisionedProductPlanInput & RegionInput,
   CreateProvisionedProductPlanOutput,
   CreateProvisionedProductPlanError,
   Credentials | HttpClient.HttpClient
@@ -2168,7 +2175,7 @@ export type CreateProvisioningArtifactError =
  * `ImportFromPhysicalId` template source in the information data section.
  */
 export const createProvisioningArtifact: API.OperationMethod<
-  CreateProvisioningArtifactInput,
+  CreateProvisioningArtifactInput & RegionInput,
   CreateProvisioningArtifactOutput,
   CreateProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -2191,7 +2198,7 @@ export type CreateServiceActionError =
  * Creates a self-service action.
  */
 export const createServiceAction: API.OperationMethod<
-  CreateServiceActionInput,
+  CreateServiceActionInput & RegionInput,
   CreateServiceActionOutput,
   CreateServiceActionError,
   Credentials | HttpClient.HttpClient
@@ -2215,7 +2222,7 @@ export type CreateTagOptionError =
  * Creates a TagOption.
  */
 export const createTagOption: API.OperationMethod<
-  CreateTagOptionInput,
+  CreateTagOptionInput & RegionInput,
   CreateTagOptionOutput,
   CreateTagOptionError,
   Credentials | HttpClient.HttpClient
@@ -2240,7 +2247,7 @@ export type DeleteConstraintError =
  * A delegated admin is authorized to invoke this command.
  */
 export const deleteConstraint: API.OperationMethod<
-  DeleteConstraintInput,
+  DeleteConstraintInput & RegionInput,
   DeleteConstraintOutput,
   DeleteConstraintError,
   Credentials | HttpClient.HttpClient
@@ -2270,7 +2277,7 @@ export type DeletePortfolioError =
  * A delegated admin is authorized to invoke this command.
  */
 export const deletePortfolio: API.OperationMethod<
-  DeletePortfolioInput,
+  DeletePortfolioInput & RegionInput,
   DeletePortfolioOutput,
   DeletePortfolioError,
   Credentials | HttpClient.HttpClient
@@ -2304,7 +2311,7 @@ export type DeletePortfolioShareError =
  * Note that if a delegated admin is de-registered, portfolio shares created from that account are removed.
  */
 export const deletePortfolioShare: API.OperationMethod<
-  DeletePortfolioShareInput,
+  DeletePortfolioShareInput & RegionInput,
   DeletePortfolioShareOutput,
   DeletePortfolioShareError,
   Credentials | HttpClient.HttpClient
@@ -2338,7 +2345,7 @@ export type DeleteProductError =
  * A delegated admin is authorized to invoke this command.
  */
 export const deleteProduct: API.OperationMethod<
-  DeleteProductInput,
+  DeleteProductInput & RegionInput,
   DeleteProductOutput,
   DeleteProductError,
   Credentials | HttpClient.HttpClient
@@ -2366,7 +2373,7 @@ export type DeleteProvisionedProductPlanError =
  * Deletes the specified plan.
  */
 export const deleteProvisionedProductPlan: API.OperationMethod<
-  DeleteProvisionedProductPlanInput,
+  DeleteProvisionedProductPlanInput & RegionInput,
   DeleteProvisionedProductPlanOutput,
   DeleteProvisionedProductPlanError,
   Credentials | HttpClient.HttpClient
@@ -2394,7 +2401,7 @@ export type DeleteProvisioningArtifactError =
  * least one provisioning artifact.
  */
 export const deleteProvisioningArtifact: API.OperationMethod<
-  DeleteProvisioningArtifactInput,
+  DeleteProvisioningArtifactInput & RegionInput,
   DeleteProvisioningArtifactOutput,
   DeleteProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -2418,7 +2425,7 @@ export type DeleteServiceActionError =
  * Deletes a self-service action.
  */
 export const deleteServiceAction: API.OperationMethod<
-  DeleteServiceActionInput,
+  DeleteServiceActionInput & RegionInput,
   DeleteServiceActionOutput,
   DeleteServiceActionError,
   Credentials | HttpClient.HttpClient
@@ -2444,7 +2451,7 @@ export type DeleteTagOptionError =
  * You cannot delete a TagOption if it is associated with a product or portfolio.
  */
 export const deleteTagOption: API.OperationMethod<
-  DeleteTagOptionInput,
+  DeleteTagOptionInput & RegionInput,
   DeleteTagOptionOutput,
   DeleteTagOptionError,
   Credentials | HttpClient.HttpClient
@@ -2464,7 +2471,7 @@ export type DescribeConstraintError = ResourceNotFoundException | CommonErrors;
  * Gets information about the specified constraint.
  */
 export const describeConstraint: API.OperationMethod<
-  DescribeConstraintInput,
+  DescribeConstraintInput & RegionInput,
   DescribeConstraintOutput,
   DescribeConstraintError,
   Credentials | HttpClient.HttpClient
@@ -2484,7 +2491,7 @@ export type DescribeCopyProductStatusError = ResourceNotFoundException | CommonE
  * Gets the status of the specified copy product operation.
  */
 export const describeCopyProductStatus: API.OperationMethod<
-  DescribeCopyProductStatusInput,
+  DescribeCopyProductStatusInput & RegionInput,
   DescribeCopyProductStatusOutput,
   DescribeCopyProductStatusError,
   Credentials | HttpClient.HttpClient
@@ -2506,7 +2513,7 @@ export type DescribePortfolioError = ResourceNotFoundException | CommonErrors;
  * A delegated admin is authorized to invoke this command.
  */
 export const describePortfolio: API.OperationMethod<
-  DescribePortfolioInput,
+  DescribePortfolioInput & RegionInput,
   DescribePortfolioOutput,
   DescribePortfolioError,
   Credentials | HttpClient.HttpClient
@@ -2535,7 +2542,7 @@ export type DescribePortfolioSharesError =
  * The `PortfolioId` and `Type` parameters are both required.
  */
 export const describePortfolioShares: API.PaginatedOperationMethod<
-  DescribePortfolioSharesInput,
+  DescribePortfolioSharesInput & RegionInput,
   DescribePortfolioSharesOutput,
   DescribePortfolioSharesError,
   Credentials | HttpClient.HttpClient,
@@ -2566,7 +2573,7 @@ export type DescribePortfolioShareStatusError =
  * by the management account in the organization or by a delegated admin.
  */
 export const describePortfolioShareStatus: API.OperationMethod<
-  DescribePortfolioShareStatusInput,
+  DescribePortfolioShareStatusInput & RegionInput,
   DescribePortfolioShareStatusOutput,
   DescribePortfolioShareStatusError,
   Credentials | HttpClient.HttpClient
@@ -2595,7 +2602,7 @@ export type DescribeProductError =
  * DescribeProductAsAdmin should be used instead.
  */
 export const describeProduct: API.OperationMethod<
-  DescribeProductInput,
+  DescribeProductInput & RegionInput,
   DescribeProductOutput,
   DescribeProductError,
   Credentials | HttpClient.HttpClient
@@ -2618,7 +2625,7 @@ export type DescribeProductAsAdminError =
  * Gets information about the specified product. This operation is run with administrator access.
  */
 export const describeProductAsAdmin: API.OperationMethod<
-  DescribeProductAsAdminInput,
+  DescribeProductAsAdminInput & RegionInput,
   DescribeProductAsAdminOutput,
   DescribeProductAsAdminError,
   Credentials | HttpClient.HttpClient
@@ -2641,7 +2648,7 @@ export type DescribeProductViewError =
  * Gets information about the specified product.
  */
 export const describeProductView: API.OperationMethod<
-  DescribeProductViewInput,
+  DescribeProductViewInput & RegionInput,
   DescribeProductViewOutput,
   DescribeProductViewError,
   Credentials | HttpClient.HttpClient
@@ -2664,7 +2671,7 @@ export type DescribeProvisionedProductError =
  * Gets information about the specified provisioned product.
  */
 export const describeProvisionedProduct: API.OperationMethod<
-  DescribeProvisionedProductInput,
+  DescribeProvisionedProductInput & RegionInput,
   DescribeProvisionedProductOutput,
   DescribeProvisionedProductError,
   Credentials | HttpClient.HttpClient
@@ -2687,7 +2694,7 @@ export type DescribeProvisionedProductPlanError =
  * Gets information about the resource changes for the specified plan.
  */
 export const describeProvisionedProductPlan: API.OperationMethod<
-  DescribeProvisionedProductPlanInput,
+  DescribeProvisionedProductPlanInput & RegionInput,
   DescribeProvisionedProductPlanOutput,
   DescribeProvisionedProductPlanError,
   Credentials | HttpClient.HttpClient
@@ -2710,7 +2717,7 @@ export type DescribeProvisioningArtifactError =
  * Gets information about the specified provisioning artifact (also known as a version) for the specified product.
  */
 export const describeProvisioningArtifact: API.OperationMethod<
-  DescribeProvisioningArtifactInput,
+  DescribeProvisioningArtifactInput & RegionInput,
   DescribeProvisioningArtifactOutput,
   DescribeProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -2741,7 +2748,7 @@ export type DescribeProvisioningParametersError =
  * Tag the provisioned product with the value `sc-tagoption-conflict-portfolioId-productId`.
  */
 export const describeProvisioningParameters: API.OperationMethod<
-  DescribeProvisioningParametersInput,
+  DescribeProvisioningParametersInput & RegionInput,
   DescribeProvisioningParametersOutput,
   DescribeProvisioningParametersError,
   Credentials | HttpClient.HttpClient
@@ -2768,7 +2775,7 @@ export type DescribeRecordError = ResourceNotFoundException | CommonErrors;
  * use ListRecordHistory to see the product's history from when he was the owner.
  */
 export const describeRecord: API.OperationMethod<
-  DescribeRecordInput,
+  DescribeRecordInput & RegionInput,
   DescribeRecordOutput,
   DescribeRecordError,
   Credentials | HttpClient.HttpClient
@@ -2788,7 +2795,7 @@ export type DescribeServiceActionError = ResourceNotFoundException | CommonError
  * Describes a self-service action.
  */
 export const describeServiceAction: API.OperationMethod<
-  DescribeServiceActionInput,
+  DescribeServiceActionInput & RegionInput,
   DescribeServiceActionOutput,
   DescribeServiceActionError,
   Credentials | HttpClient.HttpClient
@@ -2811,7 +2818,7 @@ export type DescribeServiceActionExecutionParametersError =
  * Finds the default parameters for a specific self-service action on a specific provisioned product and returns a map of the results to the user.
  */
 export const describeServiceActionExecutionParameters: API.OperationMethod<
-  DescribeServiceActionExecutionParametersInput,
+  DescribeServiceActionExecutionParametersInput & RegionInput,
   DescribeServiceActionExecutionParametersOutput,
   DescribeServiceActionExecutionParametersError,
   Credentials | HttpClient.HttpClient
@@ -2834,7 +2841,7 @@ export type DescribeTagOptionError =
  * Gets information about the specified TagOption.
  */
 export const describeTagOption: API.OperationMethod<
-  DescribeTagOptionInput,
+  DescribeTagOptionInput & RegionInput,
   DescribeTagOptionOutput,
   DescribeTagOptionError,
   Credentials | HttpClient.HttpClient
@@ -2871,7 +2878,7 @@ export type DisableAWSOrganizationsAccessError =
  * disabling Service Catalog access will retain access to the previously shared portfolio.
  */
 export const disableAWSOrganizationsAccess: API.OperationMethod<
-  DisableAWSOrganizationsAccessInput,
+  DisableAWSOrganizationsAccessInput & RegionInput,
   DisableAWSOrganizationsAccessOutput,
   DisableAWSOrganizationsAccessError,
   Credentials | HttpClient.HttpClient
@@ -2891,7 +2898,7 @@ export type DisassociateBudgetFromResourceError = ResourceNotFoundException | Co
  * Disassociates the specified budget from the specified resource.
  */
 export const disassociateBudgetFromResource: API.OperationMethod<
-  DisassociateBudgetFromResourceInput,
+  DisassociateBudgetFromResourceInput & RegionInput,
   DisassociateBudgetFromResourceOutput,
   DisassociateBudgetFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -2933,7 +2940,7 @@ export type DisassociatePrincipalFromPortfolioError =
  * whose access you are removing.
  */
 export const disassociatePrincipalFromPortfolio: API.OperationMethod<
-  DisassociatePrincipalFromPortfolioInput,
+  DisassociatePrincipalFromPortfolioInput & RegionInput,
   DisassociatePrincipalFromPortfolioOutput,
   DisassociatePrincipalFromPortfolioError,
   Credentials | HttpClient.HttpClient
@@ -2959,7 +2966,7 @@ export type DisassociateProductFromPortfolioError =
  * A delegated admin is authorized to invoke this command.
  */
 export const disassociateProductFromPortfolio: API.OperationMethod<
-  DisassociateProductFromPortfolioInput,
+  DisassociateProductFromPortfolioInput & RegionInput,
   DisassociateProductFromPortfolioOutput,
   DisassociateProductFromPortfolioError,
   Credentials | HttpClient.HttpClient
@@ -2982,7 +2989,7 @@ export type DisassociateServiceActionFromProvisioningArtifactError =
  * Disassociates the specified self-service action association from the specified provisioning artifact.
  */
 export const disassociateServiceActionFromProvisioningArtifact: API.OperationMethod<
-  DisassociateServiceActionFromProvisioningArtifactInput,
+  DisassociateServiceActionFromProvisioningArtifactInput & RegionInput,
   DisassociateServiceActionFromProvisioningArtifactOutput,
   DisassociateServiceActionFromProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -3013,7 +3020,7 @@ export type DisassociateTagOptionFromResourceError =
  * Disassociates the specified TagOption from the specified resource.
  */
 export const disassociateTagOptionFromResource: API.OperationMethod<
-  DisassociateTagOptionFromResourceInput,
+  DisassociateTagOptionFromResourceInput & RegionInput,
   DisassociateTagOptionFromResourceOutput,
   DisassociateTagOptionFromResourceError,
   Credentials | HttpClient.HttpClient
@@ -3050,7 +3057,7 @@ export type EnableAWSOrganizationsAccessError =
  * authorized to do so. Amazon Web Services is working to resolve this issue.
  */
 export const enableAWSOrganizationsAccess: API.OperationMethod<
-  EnableAWSOrganizationsAccessInput,
+  EnableAWSOrganizationsAccessInput & RegionInput,
   EnableAWSOrganizationsAccessOutput,
   EnableAWSOrganizationsAccessError,
   Credentials | HttpClient.HttpClient
@@ -3074,7 +3081,7 @@ export type ExecuteProvisionedProductPlanError =
  * Provisions or modifies a product based on the resource changes for the specified plan.
  */
 export const executeProvisionedProductPlan: API.OperationMethod<
-  ExecuteProvisionedProductPlanInput,
+  ExecuteProvisionedProductPlanInput & RegionInput,
   ExecuteProvisionedProductPlanOutput,
   ExecuteProvisionedProductPlanError,
   Credentials | HttpClient.HttpClient
@@ -3099,7 +3106,7 @@ export type ExecuteProvisionedProductServiceActionError =
  * Executes a self-service action against a provisioned product.
  */
 export const executeProvisionedProductServiceAction: API.OperationMethod<
-  ExecuteProvisionedProductServiceActionInput,
+  ExecuteProvisionedProductServiceActionInput & RegionInput,
   ExecuteProvisionedProductServiceActionOutput,
   ExecuteProvisionedProductServiceActionError,
   Credentials | HttpClient.HttpClient
@@ -3128,7 +3135,7 @@ export type GetAWSOrganizationsAccessStatusError =
  * called by the management account in the organization or by a delegated admin.
  */
 export const getAWSOrganizationsAccessStatus: API.OperationMethod<
-  GetAWSOrganizationsAccessStatusInput,
+  GetAWSOrganizationsAccessStatusInput & RegionInput,
   GetAWSOrganizationsAccessStatusOutput,
   GetAWSOrganizationsAccessStatusError,
   Credentials | HttpClient.HttpClient
@@ -3151,7 +3158,7 @@ export type GetProvisionedProductOutputsError =
  * This API takes either a `ProvisonedProductId` or a `ProvisionedProductName`, along with a list of one or more output keys, and responds with the key/value pairs of those outputs.
  */
 export const getProvisionedProductOutputs: API.PaginatedOperationMethod<
-  GetProvisionedProductOutputsInput,
+  GetProvisionedProductOutputsInput & RegionInput,
   GetProvisionedProductOutputsOutput,
   GetProvisionedProductOutputsError,
   Credentials | HttpClient.HttpClient,
@@ -3207,7 +3214,7 @@ export type ImportAsProvisionedProductError =
  * `IMPORT_COMPLETE` status before you import another.
  */
 export const importAsProvisionedProduct: API.OperationMethod<
-  ImportAsProvisionedProductInput,
+  ImportAsProvisionedProductInput & RegionInput,
   ImportAsProvisionedProductOutput,
   ImportAsProvisionedProductError,
   Credentials | HttpClient.HttpClient
@@ -3237,7 +3244,7 @@ export type ListAcceptedPortfolioSharesError =
  * organizational shares were accepted by this account.
  */
 export const listAcceptedPortfolioShares: API.PaginatedOperationMethod<
-  ListAcceptedPortfolioSharesInput,
+  ListAcceptedPortfolioSharesInput & RegionInput,
   ListAcceptedPortfolioSharesOutput,
   ListAcceptedPortfolioSharesError,
   Credentials | HttpClient.HttpClient,
@@ -3266,7 +3273,7 @@ export type ListBudgetsForResourceError =
  * Lists all the budgets associated to the specified resource.
  */
 export const listBudgetsForResource: API.PaginatedOperationMethod<
-  ListBudgetsForResourceInput,
+  ListBudgetsForResourceInput & RegionInput,
   ListBudgetsForResourceOutput,
   ListBudgetsForResourceError,
   Credentials | HttpClient.HttpClient,
@@ -3295,7 +3302,7 @@ export type ListConstraintsForPortfolioError =
  * Lists the constraints for the specified portfolio and product.
  */
 export const listConstraintsForPortfolio: API.PaginatedOperationMethod<
-  ListConstraintsForPortfolioInput,
+  ListConstraintsForPortfolioInput & RegionInput,
   ListConstraintsForPortfolioOutput,
   ListConstraintsForPortfolioError,
   Credentials | HttpClient.HttpClient,
@@ -3344,7 +3351,7 @@ export type ListLaunchPathsError =
  * in the *Service Catalog User Guide*.
  */
 export const listLaunchPaths: API.PaginatedOperationMethod<
-  ListLaunchPathsInput,
+  ListLaunchPathsInput & RegionInput,
   ListLaunchPathsOutput,
   ListLaunchPathsError,
   Credentials | HttpClient.HttpClient,
@@ -3378,7 +3385,7 @@ export type ListOrganizationPortfolioAccessError =
  * If a delegated admin is de-registered, they can no longer perform this operation.
  */
 export const listOrganizationPortfolioAccess: API.PaginatedOperationMethod<
-  ListOrganizationPortfolioAccessInput,
+  ListOrganizationPortfolioAccessInput & RegionInput,
   ListOrganizationPortfolioAccessOutput,
   ListOrganizationPortfolioAccessError,
   Credentials | HttpClient.HttpClient,
@@ -3409,7 +3416,7 @@ export type ListPortfolioAccessError =
  * A delegated admin can list the accounts that have access to the shared portfolio. Note that if a delegated admin is de-registered, they can no longer perform this operation.
  */
 export const listPortfolioAccess: API.PaginatedOperationMethod<
-  ListPortfolioAccessInput,
+  ListPortfolioAccessInput & RegionInput,
   ListPortfolioAccessOutput,
   ListPortfolioAccessError,
   Credentials | HttpClient.HttpClient,
@@ -3435,7 +3442,7 @@ export type ListPortfoliosError = InvalidParametersException | CommonErrors;
  * Lists all portfolios in the catalog.
  */
 export const listPortfolios: API.PaginatedOperationMethod<
-  ListPortfoliosInput,
+  ListPortfoliosInput & RegionInput,
   ListPortfoliosOutput,
   ListPortfoliosError,
   Credentials | HttpClient.HttpClient,
@@ -3464,7 +3471,7 @@ export type ListPortfoliosForProductError =
  * Lists all portfolios that the specified product is associated with.
  */
 export const listPortfoliosForProduct: API.PaginatedOperationMethod<
-  ListPortfoliosForProductInput,
+  ListPortfoliosForProductInput & RegionInput,
   ListPortfoliosForProductOutput,
   ListPortfoliosForProductError,
   Credentials | HttpClient.HttpClient,
@@ -3493,7 +3500,7 @@ export type ListPrincipalsForPortfolioError =
  * Lists all `PrincipalARN`s and corresponding `PrincipalType`s associated with the specified portfolio.
  */
 export const listPrincipalsForPortfolio: API.PaginatedOperationMethod<
-  ListPrincipalsForPortfolioInput,
+  ListPrincipalsForPortfolioInput & RegionInput,
   ListPrincipalsForPortfolioOutput,
   ListPrincipalsForPortfolioError,
   Credentials | HttpClient.HttpClient,
@@ -3522,7 +3529,7 @@ export type ListProvisionedProductPlansError =
  * Lists the plans for the specified provisioned product or all plans to which the user has access.
  */
 export const listProvisionedProductPlans: API.OperationMethod<
-  ListProvisionedProductPlansInput,
+  ListProvisionedProductPlansInput & RegionInput,
   ListProvisionedProductPlansOutput,
   ListProvisionedProductPlansError,
   Credentials | HttpClient.HttpClient
@@ -3545,7 +3552,7 @@ export type ListProvisioningArtifactsError =
  * Lists all provisioning artifacts (also known as versions) for the specified product.
  */
 export const listProvisioningArtifacts: API.OperationMethod<
-  ListProvisioningArtifactsInput,
+  ListProvisioningArtifactsInput & RegionInput,
   ListProvisioningArtifactsOutput,
   ListProvisioningArtifactsError,
   Credentials | HttpClient.HttpClient
@@ -3568,7 +3575,7 @@ export type ListProvisioningArtifactsForServiceActionError =
  * Lists all provisioning artifacts (also known as versions) for the specified self-service action.
  */
 export const listProvisioningArtifactsForServiceAction: API.PaginatedOperationMethod<
-  ListProvisioningArtifactsForServiceActionInput,
+  ListProvisioningArtifactsForServiceActionInput & RegionInput,
   ListProvisioningArtifactsForServiceActionOutput,
   ListProvisioningArtifactsForServiceActionError,
   Credentials | HttpClient.HttpClient,
@@ -3594,7 +3601,7 @@ export type ListRecordHistoryError = InvalidParametersException | CommonErrors;
  * Lists the specified requests or all performed requests.
  */
 export const listRecordHistory: API.OperationMethod<
-  ListRecordHistoryInput,
+  ListRecordHistoryInput & RegionInput,
   ListRecordHistoryOutput,
   ListRecordHistoryError,
   Credentials | HttpClient.HttpClient
@@ -3618,7 +3625,7 @@ export type ListResourcesForTagOptionError =
  * Lists the resources associated with the specified TagOption.
  */
 export const listResourcesForTagOption: API.PaginatedOperationMethod<
-  ListResourcesForTagOptionInput,
+  ListResourcesForTagOptionInput & RegionInput,
   ListResourcesForTagOptionOutput,
   ListResourcesForTagOptionError,
   Credentials | HttpClient.HttpClient,
@@ -3640,7 +3647,7 @@ export type ListServiceActionsError = InvalidParametersException | CommonErrors;
  * Lists all self-service actions.
  */
 export const listServiceActions: API.PaginatedOperationMethod<
-  ListServiceActionsInput,
+  ListServiceActionsInput & RegionInput,
   ListServiceActionsOutput,
   ListServiceActionsError,
   Credentials | HttpClient.HttpClient,
@@ -3669,7 +3676,7 @@ export type ListServiceActionsForProvisioningArtifactError =
  * Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID.
  */
 export const listServiceActionsForProvisioningArtifact: API.PaginatedOperationMethod<
-  ListServiceActionsForProvisioningArtifactInput,
+  ListServiceActionsForProvisioningArtifactInput & RegionInput,
   ListServiceActionsForProvisioningArtifactOutput,
   ListServiceActionsForProvisioningArtifactError,
   Credentials | HttpClient.HttpClient,
@@ -3698,7 +3705,7 @@ export type ListStackInstancesForProvisionedProductError =
  * Returns summary information about stack instances that are associated with the specified `CFN_STACKSET` type provisioned product. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region.
  */
 export const listStackInstancesForProvisionedProduct: API.OperationMethod<
-  ListStackInstancesForProvisionedProductInput,
+  ListStackInstancesForProvisionedProductInput & RegionInput,
   ListStackInstancesForProvisionedProductOutput,
   ListStackInstancesForProvisionedProductError,
   Credentials | HttpClient.HttpClient
@@ -3721,7 +3728,7 @@ export type ListTagOptionsError =
  * Lists the specified TagOptions or all TagOptions.
  */
 export const listTagOptions: API.PaginatedOperationMethod<
-  ListTagOptionsInput,
+  ListTagOptionsInput & RegionInput,
   ListTagOptionsOutput,
   ListTagOptionsError,
   Credentials | HttpClient.HttpClient,
@@ -3747,7 +3754,7 @@ export type NotifyProvisionProductEngineWorkflowResultError =
  * of the provisioning engine execution.
  */
 export const notifyProvisionProductEngineWorkflowResult: API.OperationMethod<
-  NotifyProvisionProductEngineWorkflowResultInput,
+  NotifyProvisionProductEngineWorkflowResultInput & RegionInput,
   NotifyProvisionProductEngineWorkflowResultOutput,
   NotifyProvisionProductEngineWorkflowResultError,
   Credentials | HttpClient.HttpClient
@@ -3771,7 +3778,7 @@ export type NotifyTerminateProvisionedProductEngineWorkflowResultError =
  * of the terminate engine execution.
  */
 export const notifyTerminateProvisionedProductEngineWorkflowResult: API.OperationMethod<
-  NotifyTerminateProvisionedProductEngineWorkflowResultInput,
+  NotifyTerminateProvisionedProductEngineWorkflowResultInput & RegionInput,
   NotifyTerminateProvisionedProductEngineWorkflowResultOutput,
   NotifyTerminateProvisionedProductEngineWorkflowResultError,
   Credentials | HttpClient.HttpClient
@@ -3803,7 +3810,7 @@ export type NotifyUpdateProvisionedProductEngineWorkflowResultError =
  * of the update engine execution.
  */
 export const notifyUpdateProvisionedProductEngineWorkflowResult: API.OperationMethod<
-  NotifyUpdateProvisionedProductEngineWorkflowResultInput,
+  NotifyUpdateProvisionedProductEngineWorkflowResultInput & RegionInput,
   NotifyUpdateProvisionedProductEngineWorkflowResultOutput,
   NotifyUpdateProvisionedProductEngineWorkflowResultError,
   Credentials | HttpClient.HttpClient
@@ -3864,7 +3871,7 @@ export type ProvisionProductError =
  * in the *Service Catalog User Guide*.
  */
 export const provisionProduct: API.OperationMethod<
-  ProvisionProductInput,
+  ProvisionProductInput & RegionInput,
   ProvisionProductOutput,
   ProvisionProductError,
   Credentials | HttpClient.HttpClient
@@ -3884,7 +3891,7 @@ export type RejectPortfolioShareError = ResourceNotFoundException | CommonErrors
  * Rejects an offer to share the specified portfolio.
  */
 export const rejectPortfolioShare: API.OperationMethod<
-  RejectPortfolioShareInput,
+  RejectPortfolioShareInput & RegionInput,
   RejectPortfolioShareOutput,
   RejectPortfolioShareError,
   Credentials | HttpClient.HttpClient
@@ -3906,7 +3913,7 @@ export type ScanProvisionedProductsError = InvalidParametersException | CommonEr
  * To use additional filtering, see SearchProvisionedProducts.
  */
 export const scanProvisionedProducts: API.OperationMethod<
-  ScanProvisionedProductsInput,
+  ScanProvisionedProductsInput & RegionInput,
   ScanProvisionedProductsOutput,
   ScanProvisionedProductsError,
   Credentials | HttpClient.HttpClient
@@ -3926,7 +3933,7 @@ export type SearchProductsError = InvalidParametersException | CommonErrors;
  * Gets information about the products to which the caller has access.
  */
 export const searchProducts: API.PaginatedOperationMethod<
-  SearchProductsInput,
+  SearchProductsInput & RegionInput,
   SearchProductsOutput,
   SearchProductsError,
   Credentials | HttpClient.HttpClient,
@@ -3955,7 +3962,7 @@ export type SearchProductsAsAdminError =
  * Gets information about the products for the specified portfolio or all products.
  */
 export const searchProductsAsAdmin: API.PaginatedOperationMethod<
-  SearchProductsAsAdminInput,
+  SearchProductsAsAdminInput & RegionInput,
   SearchProductsAsAdminOutput,
   SearchProductsAsAdminError,
   Credentials | HttpClient.HttpClient,
@@ -3981,7 +3988,7 @@ export type SearchProvisionedProductsError = InvalidParametersException | Common
  * Gets information about the provisioned products that meet the specified criteria.
  */
 export const searchProvisionedProducts: API.PaginatedOperationMethod<
-  SearchProvisionedProductsInput,
+  SearchProvisionedProductsInput & RegionInput,
   SearchProvisionedProductsOutput,
   SearchProvisionedProductsError,
   Credentials | HttpClient.HttpClient,
@@ -4011,7 +4018,7 @@ export type TerminateProvisionedProductError = ResourceNotFoundException | Commo
  * You can check the status of this request using DescribeRecord.
  */
 export const terminateProvisionedProduct: API.OperationMethod<
-  TerminateProvisionedProductInput,
+  TerminateProvisionedProductInput & RegionInput,
   TerminateProvisionedProductOutput,
   TerminateProvisionedProductError,
   Credentials | HttpClient.HttpClient
@@ -4034,7 +4041,7 @@ export type UpdateConstraintError =
  * Updates the specified constraint.
  */
 export const updateConstraint: API.OperationMethod<
-  UpdateConstraintInput,
+  UpdateConstraintInput & RegionInput,
   UpdateConstraintOutput,
   UpdateConstraintError,
   Credentials | HttpClient.HttpClient
@@ -4061,7 +4068,7 @@ export type UpdatePortfolioError =
  * You cannot update a product that was shared with you.
  */
 export const updatePortfolio: API.OperationMethod<
-  UpdatePortfolioInput,
+  UpdatePortfolioInput & RegionInput,
   UpdatePortfolioOutput,
   UpdatePortfolioError,
   Credentials | HttpClient.HttpClient
@@ -4109,7 +4116,7 @@ export type UpdatePortfolioShareError =
  * the `PrincipalARN` must already exist in the recipient account before it can be associated.
  */
 export const updatePortfolioShare: API.OperationMethod<
-  UpdatePortfolioShareInput,
+  UpdatePortfolioShareInput & RegionInput,
   UpdatePortfolioShareOutput,
   UpdatePortfolioShareError,
   Credentials | HttpClient.HttpClient
@@ -4138,7 +4145,7 @@ export type UpdateProductError =
  * Updates the specified product.
  */
 export const updateProduct: API.OperationMethod<
-  UpdateProductInput,
+  UpdateProductInput & RegionInput,
   UpdateProductOutput,
   UpdateProductError,
   Credentials | HttpClient.HttpClient
@@ -4167,7 +4174,7 @@ export type UpdateProvisionedProductError =
  * You can check the status of this request using DescribeRecord.
  */
 export const updateProvisionedProduct: API.OperationMethod<
-  UpdateProvisionedProductInput,
+  UpdateProvisionedProductInput & RegionInput,
   UpdateProvisionedProductOutput,
   UpdateProvisionedProductError,
   Credentials | HttpClient.HttpClient
@@ -4191,7 +4198,7 @@ export type UpdateProvisionedProductPropertiesError =
  * Requests updates to the properties of the specified provisioned product.
  */
 export const updateProvisionedProductProperties: API.OperationMethod<
-  UpdateProvisionedProductPropertiesInput,
+  UpdateProvisionedProductPropertiesInput & RegionInput,
   UpdateProvisionedProductPropertiesOutput,
   UpdateProvisionedProductPropertiesError,
   Credentials | HttpClient.HttpClient
@@ -4216,7 +4223,7 @@ export type UpdateProvisioningArtifactError =
  * You cannot update a provisioning artifact for a product that was shared with you.
  */
 export const updateProvisioningArtifact: API.OperationMethod<
-  UpdateProvisioningArtifactInput,
+  UpdateProvisioningArtifactInput & RegionInput,
   UpdateProvisioningArtifactOutput,
   UpdateProvisioningArtifactError,
   Credentials | HttpClient.HttpClient
@@ -4239,7 +4246,7 @@ export type UpdateServiceActionError =
  * Updates a self-service action.
  */
 export const updateServiceAction: API.OperationMethod<
-  UpdateServiceActionInput,
+  UpdateServiceActionInput & RegionInput,
   UpdateServiceActionOutput,
   UpdateServiceActionError,
   Credentials | HttpClient.HttpClient
@@ -4264,7 +4271,7 @@ export type UpdateTagOptionError =
  * Updates the specified TagOption.
  */
 export const updateTagOption: API.OperationMethod<
-  UpdateTagOptionInput,
+  UpdateTagOptionInput & RegionInput,
   UpdateTagOptionOutput,
   UpdateTagOptionError,
   Credentials | HttpClient.HttpClient

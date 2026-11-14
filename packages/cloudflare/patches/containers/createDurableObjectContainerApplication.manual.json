@@ -1,0 +1,107 @@
+{
+  "description": "A typed operation for the durable_object case of POST /accounts/{account_id}/containers/applications. The docs describe it as one case of the create request (CcContainersCreateDurableObjectApplicationRequest): name, scheduling_policy durable_object, durable_objects, and optional configuration, constraints and observability. It requires an existing SQLite Durable Object namespace; the application ID is the namespace ID. Source: https://developers.cloudflare.com/api/resources/containers/subresources/applications/methods/create/ and cloudflare/workers-sdk packages/deploy-helpers/src/deploy/helpers/durable-object-container-applications.ts.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#CreateDurableObjectContainerApplicationRequest",
+      "value": {
+        "type": "structure",
+        "members": {
+          "account_id": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpLabel": {},
+              "smithy.api#required": {}
+            }
+          },
+          "name": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "scheduling_policy": {
+            "target": "com.cloudflare.containers#DurableObjectSchedulingPolicy",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "durable_objects": {
+            "target": "com.cloudflare.containers#DurableObjectsConfiguration",
+            "traits": {
+              "smithy.api#required": {}
+            }
+          },
+          "configuration": {
+            "target": "com.cloudflare.containers#DurableObjectContainerConfiguration"
+          },
+          "constraints": {
+            "target": "com.cloudflare.containers#DurableObjectApplicationConstraints"
+          },
+          "observability": {
+            "target": "com.cloudflare.containers#ContainerApplicationObservability"
+          }
+        },
+        "traits": {
+          "smithy.api#input": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#CreateDurableObjectContainerApplicationResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "result": {
+            "target": "com.cloudflare.containers#ContainerApplicationItem",
+            "traits": {
+              "com.cloudflare.protocols#envelopePayload": {}
+            }
+          }
+        },
+        "traits": {
+          "smithy.api#output": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.cloudflare.containers#CreateDurableObjectContainerApplication",
+      "value": {
+        "type": "operation",
+        "input": {
+          "target": "com.cloudflare.containers#CreateDurableObjectContainerApplicationRequest"
+        },
+        "output": {
+          "target": "com.cloudflare.containers#CreateDurableObjectContainerApplicationResponse"
+        },
+        "errors": [
+          {
+            "target": "com.cloudflare.containers#InvalidRoute"
+          },
+          {
+            "target": "com.cloudflare.containers#DurableObjectAlreadyHasApplication"
+          },
+          {
+            "target": "com.cloudflare.containers#DurableObjectNotContainerEnabled"
+          },
+          {
+            "target": "com.cloudflare.containers#DurableObjectCheckError"
+          },
+          {
+            "target": "com.cloudflare.containers#DurableObjectNamespaceNotFound"
+          }
+        ],
+        "traits": {
+          "smithy.api#http": {
+            "method": "POST",
+            "uri": "/accounts/{account_id}/containers/applications",
+            "code": 200
+          },
+          "smithy.api#documentation": "Create a Durable Object-managed application. Requires an existing SQLite Durable Object namespace; the application ID is the namespace ID."
+        }
+      }
+    }
+  ]
+}

@@ -146,11 +146,11 @@ export interface UpdateAccountViewsPartialRequest {
   project_id: string;
   id: string;
   /** New view name. Omit to keep the current name. */
-  name?: string;
+  name?: string | undefined;
   /** Replacement account view components. Omit to keep current content. */
-  content?: AccountViewContent;
+  content?: AccountViewContent | undefined;
   /** New visibility. Only the creator or a project admin can change it. * `private` - Personal * `team` - Team */
-  visibility?: AccountViewVisibilityEnum | (string & {});
+  visibility?: AccountViewVisibilityEnum | (string & {}) | undefined;
   /** Version returned by the last read. */
   version: number;
 }

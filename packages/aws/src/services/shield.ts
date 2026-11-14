@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -232,8 +233,8 @@ export type PhoneNumber = string;
 export type ContactNotes = string;
 export interface EmergencyContact {
   EmailAddress: string;
-  PhoneNumber?: string;
-  ContactNotes?: string;
+  PhoneNumber?: string | undefined;
+  ContactNotes?: string | undefined;
 }
 export type EmergencyContactList = EmergencyContact[];
 export interface AssociateProactiveEngagementDetailsRequest {
@@ -245,17 +246,17 @@ export type ResourceArn = string;
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface CreateProtectionRequest {
   Name: string;
   ResourceArn: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateProtectionResponse {
-  ProtectionId?: string;
+  ProtectionId?: string | undefined;
 }
 export type ProtectionGroupId = string;
 export type ProtectionGroupAggregation = "SUM" | "MEAN" | "MAX" | (string & {});
@@ -273,9 +274,9 @@ export interface CreateProtectionGroupRequest {
   ProtectionGroupId: string;
   Aggregation: ProtectionGroupAggregation;
   Pattern: ProtectionGroupPattern;
-  ResourceType?: ProtectedResourceType;
-  Members?: string[];
-  Tags?: Tag[];
+  ResourceType?: ProtectedResourceType | undefined;
+  Members?: string[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateProtectionGroupResponse {}
 export interface CreateSubscriptionRequest {}
@@ -296,24 +297,24 @@ export interface DescribeAttackRequest {
 }
 export type SubResourceType = "IP" | "URL" | (string & {});
 export interface SummarizedCounter {
-  Name?: string;
-  Max?: number;
-  Average?: number;
-  Sum?: number;
-  N?: number;
-  Unit?: string;
+  Name?: string | undefined;
+  Max?: number | undefined;
+  Average?: number | undefined;
+  Sum?: number | undefined;
+  N?: number | undefined;
+  Unit?: string | undefined;
 }
 export type SummarizedCounterList = SummarizedCounter[];
 export interface SummarizedAttackVector {
   VectorType: string;
-  VectorCounters?: SummarizedCounter[];
+  VectorCounters?: SummarizedCounter[] | undefined;
 }
 export type SummarizedAttackVectorList = SummarizedAttackVector[];
 export interface SubResourceSummary {
-  Type?: SubResourceType;
-  Id?: string;
-  AttackVectors?: SummarizedAttackVector[];
-  Counters?: SummarizedCounter[];
+  Type?: SubResourceType | undefined;
+  Id?: string | undefined;
+  AttackVectors?: SummarizedAttackVector[] | undefined;
+  Counters?: SummarizedCounter[] | undefined;
 }
 export type SubResourceSummaryList = SubResourceSummary[];
 export type AttackTimestamp = Date;
@@ -329,51 +330,51 @@ export type AttackPropertyIdentifier =
   | "WORDPRESS_PINGBACK_SOURCE"
   | (string & {});
 export interface Contributor {
-  Name?: string;
-  Value?: number;
+  Name?: string | undefined;
+  Value?: number | undefined;
 }
 export type TopContributors = Contributor[];
 export type Unit = "BITS" | "BYTES" | "PACKETS" | "REQUESTS" | (string & {});
 export interface AttackProperty {
-  AttackLayer?: AttackLayer;
-  AttackPropertyIdentifier?: AttackPropertyIdentifier;
-  TopContributors?: Contributor[];
-  Unit?: Unit;
-  Total?: number;
+  AttackLayer?: AttackLayer | undefined;
+  AttackPropertyIdentifier?: AttackPropertyIdentifier | undefined;
+  TopContributors?: Contributor[] | undefined;
+  Unit?: Unit | undefined;
+  Total?: number | undefined;
 }
 export type AttackProperties = AttackProperty[];
 export interface Mitigation {
-  MitigationName?: string;
+  MitigationName?: string | undefined;
 }
 export type MitigationList = Mitigation[];
 export interface AttackDetail {
-  AttackId?: string;
-  ResourceArn?: string;
-  SubResources?: SubResourceSummary[];
-  StartTime?: Date;
-  EndTime?: Date;
-  AttackCounters?: SummarizedCounter[];
-  AttackProperties?: AttackProperty[];
-  Mitigations?: Mitigation[];
+  AttackId?: string | undefined;
+  ResourceArn?: string | undefined;
+  SubResources?: SubResourceSummary[] | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  AttackCounters?: SummarizedCounter[] | undefined;
+  AttackProperties?: AttackProperty[] | undefined;
+  Mitigations?: Mitigation[] | undefined;
 }
 export interface DescribeAttackResponse {
-  Attack?: AttackDetail;
+  Attack?: AttackDetail | undefined;
 }
 export interface DescribeAttackStatisticsRequest {}
 export interface TimeRange {
-  FromInclusive?: Date;
-  ToExclusive?: Date;
+  FromInclusive?: Date | undefined;
+  ToExclusive?: Date | undefined;
 }
 export interface AttackVolumeStatistics {
   Max: number;
 }
 export interface AttackVolume {
-  BitsPerSecond?: AttackVolumeStatistics;
-  PacketsPerSecond?: AttackVolumeStatistics;
-  RequestsPerSecond?: AttackVolumeStatistics;
+  BitsPerSecond?: AttackVolumeStatistics | undefined;
+  PacketsPerSecond?: AttackVolumeStatistics | undefined;
+  RequestsPerSecond?: AttackVolumeStatistics | undefined;
 }
 export interface AttackStatisticsDataItem {
-  AttackVolume?: AttackVolume;
+  AttackVolume?: AttackVolume | undefined;
   AttackCount: number;
 }
 export type AttackStatisticsDataList = AttackStatisticsDataItem[];
@@ -384,16 +385,16 @@ export interface DescribeAttackStatisticsResponse {
 export interface DescribeDRTAccessRequest {}
 export type LogBucketList = string[];
 export interface DescribeDRTAccessResponse {
-  RoleArn?: string;
-  LogBucketList?: string[];
+  RoleArn?: string | undefined;
+  LogBucketList?: string[] | undefined;
 }
 export interface DescribeEmergencyContactSettingsRequest {}
 export interface DescribeEmergencyContactSettingsResponse {
-  EmergencyContactList?: EmergencyContact[];
+  EmergencyContactList?: EmergencyContact[] | undefined;
 }
 export interface DescribeProtectionRequest {
-  ProtectionId?: string;
-  ResourceArn?: string;
+  ProtectionId?: string | undefined;
+  ResourceArn?: string | undefined;
 }
 export type HealthCheckId = string;
 export type HealthCheckIds = string[];
@@ -401,23 +402,25 @@ export type ApplicationLayerAutomaticResponseStatus = "ENABLED" | "DISABLED" | (
 export interface BlockAction {}
 export interface CountAction {}
 export interface ResponseAction {
-  Block?: BlockAction;
-  Count?: CountAction;
+  Block?: BlockAction | undefined;
+  Count?: CountAction | undefined;
 }
 export interface ApplicationLayerAutomaticResponseConfiguration {
   Status: ApplicationLayerAutomaticResponseStatus;
   Action: ResponseAction;
 }
 export interface Protection {
-  Id?: string;
-  Name?: string;
-  ResourceArn?: string;
-  HealthCheckIds?: string[];
-  ProtectionArn?: string;
-  ApplicationLayerAutomaticResponseConfiguration?: ApplicationLayerAutomaticResponseConfiguration;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  ResourceArn?: string | undefined;
+  HealthCheckIds?: string[] | undefined;
+  ProtectionArn?: string | undefined;
+  ApplicationLayerAutomaticResponseConfiguration?:
+    | ApplicationLayerAutomaticResponseConfiguration
+    | undefined;
 }
 export interface DescribeProtectionResponse {
-  Protection?: Protection;
+  Protection?: Protection | undefined;
 }
 export interface DescribeProtectionGroupRequest {
   ProtectionGroupId: string;
@@ -426,9 +429,9 @@ export interface ProtectionGroup {
   ProtectionGroupId: string;
   Aggregation: ProtectionGroupAggregation;
   Pattern: ProtectionGroupPattern;
-  ResourceType?: ProtectedResourceType;
+  ResourceType?: ProtectedResourceType | undefined;
   Members: string[];
-  ProtectionGroupArn?: string;
+  ProtectionGroupArn?: string | undefined;
 }
 export interface DescribeProtectionGroupResponse {
   ProtectionGroup: ProtectionGroup;
@@ -437,8 +440,8 @@ export interface DescribeSubscriptionRequest {}
 export type DurationInSeconds = number;
 export type AutoRenew = "ENABLED" | "DISABLED" | (string & {});
 export interface Limit {
-  Type?: string;
-  Max?: number;
+  Type?: string | undefined;
+  Max?: number | undefined;
 }
 export type Limits = Limit[];
 export type ProactiveEngagementStatus = "ENABLED" | "DISABLED" | "PENDING" | (string & {});
@@ -460,17 +463,17 @@ export interface SubscriptionLimits {
   ProtectionGroupLimits: ProtectionGroupLimits;
 }
 export interface Subscription {
-  StartTime?: Date;
-  EndTime?: Date;
-  TimeCommitmentInSeconds?: number;
-  AutoRenew?: AutoRenew;
-  Limits?: Limit[];
-  ProactiveEngagementStatus?: ProactiveEngagementStatus;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  TimeCommitmentInSeconds?: number | undefined;
+  AutoRenew?: AutoRenew | undefined;
+  Limits?: Limit[] | undefined;
+  ProactiveEngagementStatus?: ProactiveEngagementStatus | undefined;
   SubscriptionLimits: SubscriptionLimits;
-  SubscriptionArn?: string;
+  SubscriptionArn?: string | undefined;
 }
 export interface DescribeSubscriptionResponse {
-  Subscription?: Subscription;
+  Subscription?: Subscription | undefined;
 }
 export interface DisableApplicationLayerAutomaticResponseRequest {
   ResourceArn: string;
@@ -505,80 +508,80 @@ export type ResourceArnFilterList = string[];
 export type Token = string;
 export type MaxResults = number;
 export interface ListAttacksRequest {
-  ResourceArns?: string[];
-  StartTime?: TimeRange;
-  EndTime?: TimeRange;
-  NextToken?: string;
-  MaxResults?: number;
+  ResourceArns?: string[] | undefined;
+  StartTime?: TimeRange | undefined;
+  EndTime?: TimeRange | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AttackVectorDescription {
   VectorType: string;
 }
 export type AttackVectorDescriptionList = AttackVectorDescription[];
 export interface AttackSummary {
-  AttackId?: string;
-  ResourceArn?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  AttackVectors?: AttackVectorDescription[];
+  AttackId?: string | undefined;
+  ResourceArn?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  AttackVectors?: AttackVectorDescription[] | undefined;
 }
 export type AttackSummaries = AttackSummary[];
 export interface ListAttacksResponse {
-  AttackSummaries?: AttackSummary[];
-  NextToken?: string;
+  AttackSummaries?: AttackSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ProtectionGroupIdFilters = string[];
 export type ProtectionGroupPatternFilters = ProtectionGroupPattern[];
 export type ProtectedResourceTypeFilters = ProtectedResourceType[];
 export type ProtectionGroupAggregationFilters = ProtectionGroupAggregation[];
 export interface InclusionProtectionGroupFilters {
-  ProtectionGroupIds?: string[];
-  Patterns?: ProtectionGroupPattern[];
-  ResourceTypes?: ProtectedResourceType[];
-  Aggregations?: ProtectionGroupAggregation[];
+  ProtectionGroupIds?: string[] | undefined;
+  Patterns?: ProtectionGroupPattern[] | undefined;
+  ResourceTypes?: ProtectedResourceType[] | undefined;
+  Aggregations?: ProtectionGroupAggregation[] | undefined;
 }
 export interface ListProtectionGroupsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  InclusionFilters?: InclusionProtectionGroupFilters;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  InclusionFilters?: InclusionProtectionGroupFilters | undefined;
 }
 export type ProtectionGroups = ProtectionGroup[];
 export interface ListProtectionGroupsResponse {
   ProtectionGroups: ProtectionGroup[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type ResourceArnFilters = string[];
 export type ProtectionNameFilters = string[];
 export interface InclusionProtectionFilters {
-  ResourceArns?: string[];
-  ProtectionNames?: string[];
-  ResourceTypes?: ProtectedResourceType[];
+  ResourceArns?: string[] | undefined;
+  ProtectionNames?: string[] | undefined;
+  ResourceTypes?: ProtectedResourceType[] | undefined;
 }
 export interface ListProtectionsRequest {
-  NextToken?: string;
-  MaxResults?: number;
-  InclusionFilters?: InclusionProtectionFilters;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  InclusionFilters?: InclusionProtectionFilters | undefined;
 }
 export type Protections = Protection[];
 export interface ListProtectionsResponse {
-  Protections?: Protection[];
-  NextToken?: string;
+  Protections?: Protection[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListResourcesInProtectionGroupRequest {
   ProtectionGroupId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type ResourceArnList = string[];
 export interface ListResourcesInProtectionGroupResponse {
   ResourceArns: string[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceARN: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface TagResourceRequest {
   ResourceARN: string;
@@ -597,19 +600,19 @@ export interface UpdateApplicationLayerAutomaticResponseRequest {
 }
 export interface UpdateApplicationLayerAutomaticResponseResponse {}
 export interface UpdateEmergencyContactSettingsRequest {
-  EmergencyContactList?: EmergencyContact[];
+  EmergencyContactList?: EmergencyContact[] | undefined;
 }
 export interface UpdateEmergencyContactSettingsResponse {}
 export interface UpdateProtectionGroupRequest {
   ProtectionGroupId: string;
   Aggregation: ProtectionGroupAggregation;
   Pattern: ProtectionGroupPattern;
-  ResourceType?: ProtectedResourceType;
-  Members?: string[];
+  ResourceType?: ProtectedResourceType | undefined;
+  Members?: string[] | undefined;
 }
 export interface UpdateProtectionGroupResponse {}
 export interface UpdateSubscriptionRequest {
-  AutoRenew?: AutoRenew;
+  AutoRenew?: AutoRenew | undefined;
 }
 export interface UpdateSubscriptionResponse {}
 export type ErrorMessage = string;
@@ -637,7 +640,7 @@ export type AssociateDRTLogBucketError =
  * To use the services of the SRT and make an `AssociateDRTLogBucket` request, you must be subscribed to the Business Support plan or the Enterprise Support plan.
  */
 export const associateDRTLogBucket: API.OperationMethod<
-  AssociateDRTLogBucketRequest,
+  AssociateDRTLogBucketRequest & RegionInput,
   AssociateDRTLogBucketResponse,
   AssociateDRTLogBucketError,
   Credentials | HttpClient.HttpClient
@@ -684,7 +687,7 @@ export type AssociateDRTRoleError =
  * To use the services of the SRT and make an `AssociateDRTRole` request, you must be subscribed to the Business Support plan or the Enterprise Support plan.
  */
 export const associateDRTRole: API.OperationMethod<
-  AssociateDRTRoleRequest,
+  AssociateDRTRoleRequest & RegionInput,
   AssociateDRTRoleResponse,
   AssociateDRTRoleError,
   Credentials | HttpClient.HttpClient
@@ -720,7 +723,7 @@ export type AssociateHealthCheckError =
  * You define the health check in Route 53 and then associate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the *WAF Developer Guide*.
  */
 export const associateHealthCheck: API.OperationMethod<
-  AssociateHealthCheckRequest,
+  AssociateHealthCheckRequest & RegionInput,
   AssociateHealthCheckResponse,
   AssociateHealthCheckError,
   Credentials | HttpClient.HttpClient
@@ -759,7 +762,7 @@ export type AssociateProactiveEngagementDetailsError =
  * The contacts that you provide in the request replace any contacts that were already defined. If you already have contacts defined and want to use them, retrieve the list using `DescribeEmergencyContactSettings` and then provide it to this call.
  */
 export const associateProactiveEngagementDetails: API.OperationMethod<
-  AssociateProactiveEngagementDetailsRequest,
+  AssociateProactiveEngagementDetailsRequest & RegionInput,
   AssociateProactiveEngagementDetailsResponse,
   AssociateProactiveEngagementDetailsError,
   Credentials | HttpClient.HttpClient
@@ -801,7 +804,7 @@ export type CreateProtectionError =
  * and Adding Shield Advanced protection to Amazon Web Services resources.
  */
 export const createProtection: API.OperationMethod<
-  CreateProtectionRequest,
+  CreateProtectionRequest & RegionInput,
   CreateProtectionResponse,
   CreateProtectionError,
   Credentials | HttpClient.HttpClient
@@ -839,7 +842,7 @@ export type CreateProtectionGroupError =
  * Creates a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
  */
 export const createProtectionGroup: API.OperationMethod<
-  CreateProtectionGroupRequest,
+  CreateProtectionGroupRequest & RegionInput,
   CreateProtectionGroupResponse,
   CreateProtectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -875,7 +878,7 @@ export type CreateSubscriptionError =
  * When you initially create a subscription, your subscription is set to be automatically renewed at the end of the existing subscription period. You can change this by submitting an `UpdateSubscription` request.
  */
 export const createSubscription: API.OperationMethod<
-  CreateSubscriptionRequest,
+  CreateSubscriptionRequest & RegionInput,
   CreateSubscriptionResponse,
   CreateSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -900,7 +903,7 @@ export type DeleteProtectionError =
  * Deletes an Shield Advanced Protection.
  */
 export const deleteProtection: API.OperationMethod<
-  DeleteProtectionRequest,
+  DeleteProtectionRequest & RegionInput,
   DeleteProtectionResponse,
   DeleteProtectionError,
   Credentials | HttpClient.HttpClient
@@ -930,7 +933,7 @@ export type DeleteProtectionGroupError =
  * Removes the specified protection group.
  */
 export const deleteProtectionGroup: API.OperationMethod<
-  DeleteProtectionGroupRequest,
+  DeleteProtectionGroupRequest & RegionInput,
   DeleteProtectionGroupResponse,
   DeleteProtectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -960,7 +963,7 @@ export type DeleteSubscriptionError =
  * Removes Shield Advanced from an account. Shield Advanced requires a 1-year subscription commitment. You cannot delete a subscription prior to the completion of that commitment.
  */
 export const deleteSubscription: API.OperationMethod<
-  DeleteSubscriptionRequest,
+  DeleteSubscriptionRequest & RegionInput,
   DeleteSubscriptionResponse,
   DeleteSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -985,7 +988,7 @@ export type DescribeAttackError = AccessDeniedException | InternalErrorException
  * Describes the details of a DDoS attack.
  */
 export const describeAttack: API.OperationMethod<
-  DescribeAttackRequest,
+  DescribeAttackRequest & RegionInput,
   DescribeAttackResponse,
   DescribeAttackError,
   Credentials | HttpClient.HttpClient
@@ -1009,7 +1012,7 @@ export type DescribeAttackStatisticsError = InternalErrorException | CommonError
  * The time range indicates the period covered by the attack statistics data items.
  */
 export const describeAttackStatistics: API.OperationMethod<
-  DescribeAttackStatisticsRequest,
+  DescribeAttackStatisticsRequest & RegionInput,
   DescribeAttackStatisticsResponse,
   DescribeAttackStatisticsError,
   Credentials | HttpClient.HttpClient
@@ -1032,7 +1035,7 @@ export type DescribeDRTAccessError =
  * Returns the current role and list of Amazon S3 log buckets used by the Shield Response Team (SRT) to access your Amazon Web Services account while assisting with attack mitigation.
  */
 export const describeDRTAccess: API.OperationMethod<
-  DescribeDRTAccessRequest,
+  DescribeDRTAccessRequest & RegionInput,
   DescribeDRTAccessResponse,
   DescribeDRTAccessError,
   Credentials | HttpClient.HttpClient
@@ -1055,7 +1058,7 @@ export type DescribeEmergencyContactSettingsError =
  * A list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
  */
 export const describeEmergencyContactSettings: API.OperationMethod<
-  DescribeEmergencyContactSettingsRequest,
+  DescribeEmergencyContactSettingsRequest & RegionInput,
   DescribeEmergencyContactSettingsResponse,
   DescribeEmergencyContactSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1080,7 +1083,7 @@ export type DescribeProtectionError =
  * Lists the details of a Protection object.
  */
 export const describeProtection: API.OperationMethod<
-  DescribeProtectionRequest,
+  DescribeProtectionRequest & RegionInput,
   DescribeProtectionResponse,
   DescribeProtectionError,
   Credentials | HttpClient.HttpClient
@@ -1109,7 +1112,7 @@ export type DescribeProtectionGroupError =
  * Returns the specification for the specified protection group.
  */
 export const describeProtectionGroup: API.OperationMethod<
-  DescribeProtectionGroupRequest,
+  DescribeProtectionGroupRequest & RegionInput,
   DescribeProtectionGroupResponse,
   DescribeProtectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -1133,7 +1136,7 @@ export type DescribeSubscriptionError =
  * Provides details about the Shield Advanced subscription for an account.
  */
 export const describeSubscription: API.OperationMethod<
-  DescribeSubscriptionRequest,
+  DescribeSubscriptionRequest & RegionInput,
   DescribeSubscriptionResponse,
   DescribeSubscriptionError,
   Credentials | HttpClient.HttpClient
@@ -1160,7 +1163,7 @@ export type DisableApplicationLayerAutomaticResponseError =
  * stops Shield Advanced from creating, verifying, and applying WAF rules for attacks that it detects for the resource.
  */
 export const disableApplicationLayerAutomaticResponse: API.OperationMethod<
-  DisableApplicationLayerAutomaticResponseRequest,
+  DisableApplicationLayerAutomaticResponseRequest & RegionInput,
   DisableApplicationLayerAutomaticResponseResponse,
   DisableApplicationLayerAutomaticResponseError,
   Credentials | HttpClient.HttpClient
@@ -1192,7 +1195,7 @@ export type DisableProactiveEngagementError =
  * Removes authorization from the Shield Response Team (SRT) to notify contacts about escalations to the SRT and to initiate proactive customer support.
  */
 export const disableProactiveEngagement: API.OperationMethod<
-  DisableProactiveEngagementRequest,
+  DisableProactiveEngagementRequest & RegionInput,
   DisableProactiveEngagementResponse,
   DisableProactiveEngagementError,
   Credentials | HttpClient.HttpClient
@@ -1225,7 +1228,7 @@ export type DisassociateDRTLogBucketError =
  * Removes the Shield Response Team's (SRT) access to the specified Amazon S3 bucket containing the logs that you shared previously.
  */
 export const disassociateDRTLogBucket: API.OperationMethod<
-  DisassociateDRTLogBucketRequest,
+  DisassociateDRTLogBucketRequest & RegionInput,
   DisassociateDRTLogBucketResponse,
   DisassociateDRTLogBucketError,
   Credentials | HttpClient.HttpClient
@@ -1257,7 +1260,7 @@ export type DisassociateDRTRoleError =
  * Removes the Shield Response Team's (SRT) access to your Amazon Web Services account.
  */
 export const disassociateDRTRole: API.OperationMethod<
-  DisassociateDRTRoleRequest,
+  DisassociateDRTRoleRequest & RegionInput,
   DisassociateDRTRoleResponse,
   DisassociateDRTRoleError,
   Credentials | HttpClient.HttpClient
@@ -1290,7 +1293,7 @@ export type DisassociateHealthCheckError =
  * You define the health check in Route 53 and then associate or disassociate it with your Shield Advanced protection. For more information, see Shield Advanced Health-Based Detection in the *WAF Developer Guide*.
  */
 export const disassociateHealthCheck: API.OperationMethod<
-  DisassociateHealthCheckRequest,
+  DisassociateHealthCheckRequest & RegionInput,
   DisassociateHealthCheckResponse,
   DisassociateHealthCheckError,
   Credentials | HttpClient.HttpClient
@@ -1337,7 +1340,7 @@ export type EnableApplicationLayerAutomaticResponseError =
  * WAF Developer Guide.
  */
 export const enableApplicationLayerAutomaticResponse: API.OperationMethod<
-  EnableApplicationLayerAutomaticResponseRequest,
+  EnableApplicationLayerAutomaticResponseRequest & RegionInput,
   EnableApplicationLayerAutomaticResponseResponse,
   EnableApplicationLayerAutomaticResponseError,
   Credentials | HttpClient.HttpClient
@@ -1370,7 +1373,7 @@ export type EnableProactiveEngagementError =
  * Authorizes the Shield Response Team (SRT) to use email and phone to notify contacts about escalations to the SRT and to initiate proactive customer support.
  */
 export const enableProactiveEngagement: API.OperationMethod<
-  EnableProactiveEngagementRequest,
+  EnableProactiveEngagementRequest & RegionInput,
   EnableProactiveEngagementResponse,
   EnableProactiveEngagementError,
   Credentials | HttpClient.HttpClient
@@ -1396,7 +1399,7 @@ export type GetSubscriptionStateError = InternalErrorException | CommonErrors;
  * Returns the `SubscriptionState`, either `Active` or `Inactive`.
  */
 export const getSubscriptionState: API.OperationMethod<
-  GetSubscriptionStateRequest,
+  GetSubscriptionStateRequest & RegionInput,
   GetSubscriptionStateResponse,
   GetSubscriptionStateError,
   Credentials | HttpClient.HttpClient
@@ -1421,7 +1424,7 @@ export type ListAttacksError =
  * period.
  */
 export const listAttacks: API.PaginatedOperationMethod<
-  ListAttacksRequest,
+  ListAttacksRequest & RegionInput,
   ListAttacksResponse,
   ListAttacksError,
   Credentials | HttpClient.HttpClient,
@@ -1454,7 +1457,7 @@ export type ListProtectionGroupsError =
  * filtering criteria and retrieve just the subset of protection groups that match the criteria.
  */
 export const listProtectionGroups: API.PaginatedOperationMethod<
-  ListProtectionGroupsRequest,
+  ListProtectionGroupsRequest & RegionInput,
   ListProtectionGroupsResponse,
   ListProtectionGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1491,7 +1494,7 @@ export type ListProtectionsError =
  * filtering criteria and retrieve just the subset of protections that match the criteria.
  */
 export const listProtections: API.PaginatedOperationMethod<
-  ListProtectionsRequest,
+  ListProtectionsRequest & RegionInput,
   ListProtectionsResponse,
   ListProtectionsError,
   Credentials | HttpClient.HttpClient,
@@ -1527,7 +1530,7 @@ export type ListResourcesInProtectionGroupError =
  * Retrieves the resources that are included in the protection group.
  */
 export const listResourcesInProtectionGroup: API.PaginatedOperationMethod<
-  ListResourcesInProtectionGroupRequest,
+  ListResourcesInProtectionGroupRequest & RegionInput,
   ListResourcesInProtectionGroupResponse,
   ListResourcesInProtectionGroupError,
   Credentials | HttpClient.HttpClient,
@@ -1558,7 +1561,7 @@ export type ListTagsForResourceError =
  * Gets information about Amazon Web Services tags for a specified Amazon Resource Name (ARN) in Shield.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1589,7 +1592,7 @@ export type TagResourceError =
  * Adds or updates tags for a resource in Shield.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1621,7 +1624,7 @@ export type UntagResourceError =
  * Removes tags from a resource in Shield.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1653,7 +1656,7 @@ export type UpdateApplicationLayerAutomaticResponseError =
  * Updates an existing Shield Advanced automatic application layer DDoS mitigation configuration for the specified resource.
  */
 export const updateApplicationLayerAutomaticResponse: API.OperationMethod<
-  UpdateApplicationLayerAutomaticResponseRequest,
+  UpdateApplicationLayerAutomaticResponseRequest & RegionInput,
   UpdateApplicationLayerAutomaticResponseResponse,
   UpdateApplicationLayerAutomaticResponseError,
   Credentials | HttpClient.HttpClient
@@ -1684,7 +1687,7 @@ export type UpdateEmergencyContactSettingsError =
  * Updates the details of the list of email addresses and phone numbers that the Shield Response Team (SRT) can use to contact you if you have proactive engagement enabled, for escalations to the SRT and to initiate proactive customer support.
  */
 export const updateEmergencyContactSettings: API.OperationMethod<
-  UpdateEmergencyContactSettingsRequest,
+  UpdateEmergencyContactSettingsRequest & RegionInput,
   UpdateEmergencyContactSettingsResponse,
   UpdateEmergencyContactSettingsError,
   Credentials | HttpClient.HttpClient
@@ -1715,7 +1718,7 @@ export type UpdateProtectionGroupError =
  * Updates an existing protection group. A protection group is a grouping of protected resources so they can be handled as a collective. This resource grouping improves the accuracy of detection and reduces false positives.
  */
 export const updateProtectionGroup: API.OperationMethod<
-  UpdateProtectionGroupRequest,
+  UpdateProtectionGroupRequest & RegionInput,
   UpdateProtectionGroupResponse,
   UpdateProtectionGroupError,
   Credentials | HttpClient.HttpClient
@@ -1751,7 +1754,7 @@ export type UpdateSubscriptionError =
  * regardless of whether the payer account itself is subscribed.
  */
 export const updateSubscription: API.OperationMethod<
-  UpdateSubscriptionRequest,
+  UpdateSubscriptionRequest & RegionInput,
   UpdateSubscriptionResponse,
   UpdateSubscriptionError,
   Credentials | HttpClient.HttpClient

@@ -1,0 +1,15 @@
+{
+  "description": "listDisks returns a nextCursor when more disks remain (observed live with limit=1); the spec leaves it out of the response",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#ApiResponseDiskList/members/nextCursor",
+      "value": {
+        "target": "smithy.api#String",
+        "traits": {
+          "smithy.api#documentation": "Set when more disks remain. Pass it as `cursor` to read the next page."
+        }
+      }
+    }
+  ]
+}

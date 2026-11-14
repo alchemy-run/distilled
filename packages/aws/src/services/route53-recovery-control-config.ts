@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -187,137 +188,141 @@ export type __mapOf__stringMin0Max256PatternS = { [key: string]: string | undefi
 const __mapOf__stringMin0Max256PatternS = /*@__PURE__*/ __L.at(__c29, 0);
 export type NetworkType = "IPV4" | "DUALSTACK" | (string & {});
 export interface CreateClusterRequest {
-  ClientToken?: string;
-  ClusterName?: string;
-  Tags?: { [key: string]: string | undefined };
-  NetworkType?: NetworkType;
+  ClientToken?: string | undefined;
+  ClusterName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  NetworkType?: NetworkType | undefined;
 }
 export type __stringMin1Max256PatternAZaZ09 = string;
 export type __stringMin1Max128PatternAZaZ09 = string;
 export type __stringMin1Max32PatternS = string;
 export interface ClusterEndpoint {
-  Endpoint?: string;
-  Region?: string;
+  Endpoint?: string | undefined;
+  Region?: string | undefined;
 }
 export type __listOfClusterEndpoint = ClusterEndpoint[];
 const __listOfClusterEndpoint = /*@__PURE__*/ __L.at(__c27, 1);
 export type Status = "PENDING" | "DEPLOYED" | "PENDING_DELETION" | (string & {});
 export type __stringMin12Max12PatternD12 = string;
 export interface Cluster {
-  ClusterArn?: string;
-  ClusterEndpoints?: ClusterEndpoint[];
-  Name?: string;
-  Status?: Status;
-  Owner?: string;
-  NetworkType?: NetworkType;
+  ClusterArn?: string | undefined;
+  ClusterEndpoints?: ClusterEndpoint[] | undefined;
+  Name?: string | undefined;
+  Status?: Status | undefined;
+  Owner?: string | undefined;
+  NetworkType?: NetworkType | undefined;
 }
 export interface CreateClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface CreateControlPanelRequest {
-  ClientToken?: string;
-  ClusterArn?: string;
-  ControlPanelName?: string;
-  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string | undefined;
+  ClusterArn?: string | undefined;
+  ControlPanelName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ControlPanel {
-  ClusterArn?: string;
-  ControlPanelArn?: string;
-  DefaultControlPanel?: boolean;
-  Name?: string;
-  RoutingControlCount?: number;
-  Status?: Status;
-  Owner?: string;
+  ClusterArn?: string | undefined;
+  ControlPanelArn?: string | undefined;
+  DefaultControlPanel?: boolean | undefined;
+  Name?: string | undefined;
+  RoutingControlCount?: number | undefined;
+  Status?: Status | undefined;
+  Owner?: string | undefined;
 }
 export interface CreateControlPanelResponse {
-  ControlPanel?: ControlPanel;
+  ControlPanel?: ControlPanel | undefined;
 }
 export interface CreateRoutingControlRequest {
-  ClientToken?: string;
-  ClusterArn?: string;
-  ControlPanelArn?: string;
-  RoutingControlName?: string;
+  ClientToken?: string | undefined;
+  ClusterArn?: string | undefined;
+  ControlPanelArn?: string | undefined;
+  RoutingControlName?: string | undefined;
 }
 export interface RoutingControl {
-  ControlPanelArn?: string;
-  Name?: string;
-  RoutingControlArn?: string;
-  Status?: Status;
-  Owner?: string;
+  ControlPanelArn?: string | undefined;
+  Name?: string | undefined;
+  RoutingControlArn?: string | undefined;
+  Status?: Status | undefined;
+  Owner?: string | undefined;
 }
 export interface CreateRoutingControlResponse {
-  RoutingControl?: RoutingControl;
+  RoutingControl?: RoutingControl | undefined;
 }
 export type __listOf__stringMin1Max256PatternAZaZ09 = string[];
 const __listOf__stringMin1Max256PatternAZaZ09 = /*@__PURE__*/ __L.at(__c1, 0);
 export type RuleType = "ATLEAST" | "AND" | "OR" | (string & {});
 export interface RuleConfig {
-  Inverted?: boolean;
-  Threshold?: number;
-  Type?: RuleType;
+  Inverted?: boolean | undefined;
+  Threshold?: number | undefined;
+  Type?: RuleType | undefined;
 }
 export interface NewAssertionRule {
-  AssertedControls?: string[];
-  ControlPanelArn?: string;
-  Name?: string;
-  RuleConfig?: RuleConfig;
-  WaitPeriodMs?: number;
+  AssertedControls?: string[] | undefined;
+  ControlPanelArn?: string | undefined;
+  Name?: string | undefined;
+  RuleConfig?: RuleConfig | undefined;
+  WaitPeriodMs?: number | undefined;
 }
 export interface NewGatingRule {
-  ControlPanelArn?: string;
-  GatingControls?: string[];
-  Name?: string;
-  RuleConfig?: RuleConfig;
-  TargetControls?: string[];
-  WaitPeriodMs?: number;
+  ControlPanelArn?: string | undefined;
+  GatingControls?: string[] | undefined;
+  Name?: string | undefined;
+  RuleConfig?: RuleConfig | undefined;
+  TargetControls?: string[] | undefined;
+  WaitPeriodMs?: number | undefined;
 }
 export interface CreateSafetyRuleRequest {
-  AssertionRule?: NewAssertionRule;
-  ClientToken?: string;
-  GatingRule?: NewGatingRule;
-  Tags?: { [key: string]: string | undefined };
+  AssertionRule?: NewAssertionRule | undefined;
+  ClientToken?: string | undefined;
+  GatingRule?: NewGatingRule | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface AssertionRule {
-  AssertedControls?: string[];
-  ControlPanelArn?: string;
-  Name?: string;
-  RuleConfig?: RuleConfig;
-  SafetyRuleArn?: string;
-  Status?: Status;
-  WaitPeriodMs?: number;
-  Owner?: string;
+  AssertedControls?: string[] | undefined;
+  ControlPanelArn?: string | undefined;
+  Name?: string | undefined;
+  RuleConfig?: RuleConfig | undefined;
+  SafetyRuleArn?: string | undefined;
+  Status?: Status | undefined;
+  WaitPeriodMs?: number | undefined;
+  Owner?: string | undefined;
 }
 export interface GatingRule {
-  ControlPanelArn?: string;
-  GatingControls?: string[];
-  Name?: string;
-  RuleConfig?: RuleConfig;
-  SafetyRuleArn?: string;
-  Status?: Status;
-  TargetControls?: string[];
-  WaitPeriodMs?: number;
-  Owner?: string;
+  ControlPanelArn?: string | undefined;
+  GatingControls?: string[] | undefined;
+  Name?: string | undefined;
+  RuleConfig?: RuleConfig | undefined;
+  SafetyRuleArn?: string | undefined;
+  Status?: Status | undefined;
+  TargetControls?: string[] | undefined;
+  WaitPeriodMs?: number | undefined;
+  Owner?: string | undefined;
 }
 export interface CreateSafetyRuleResponse {
-  AssertionRule?: AssertionRule & {
-    AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
-    ControlPanelArn: __stringMin1Max256PatternAZaZ09;
-    Name: __stringMin1Max64PatternS;
-    RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
-    SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
-    Status: Status;
-    WaitPeriodMs: number;
-  };
-  GatingRule?: GatingRule & {
-    ControlPanelArn: __stringMin1Max256PatternAZaZ09;
-    GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
-    Name: __stringMin1Max64PatternS;
-    RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
-    SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
-    Status: Status;
-    TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
-    WaitPeriodMs: number;
-  };
+  AssertionRule?:
+    | (AssertionRule & {
+        AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
+        ControlPanelArn: __stringMin1Max256PatternAZaZ09;
+        Name: __stringMin1Max64PatternS;
+        RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
+        SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
+        Status: Status;
+        WaitPeriodMs: number;
+      })
+    | undefined;
+  GatingRule?:
+    | (GatingRule & {
+        ControlPanelArn: __stringMin1Max256PatternAZaZ09;
+        GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
+        Name: __stringMin1Max64PatternS;
+        RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
+        SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
+        Status: Status;
+        TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
+        WaitPeriodMs: number;
+      })
+    | undefined;
 }
 export interface DeleteClusterRequest {
   ClusterArn: string;
@@ -339,55 +344,59 @@ export interface DescribeClusterRequest {
   ClusterArn: string;
 }
 export interface DescribeClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface DescribeControlPanelRequest {
   ControlPanelArn: string;
 }
 export interface DescribeControlPanelResponse {
-  ControlPanel?: ControlPanel;
+  ControlPanel?: ControlPanel | undefined;
 }
 export interface DescribeRoutingControlRequest {
   RoutingControlArn: string;
 }
 export interface DescribeRoutingControlResponse {
-  RoutingControl?: RoutingControl;
+  RoutingControl?: RoutingControl | undefined;
 }
 export interface DescribeSafetyRuleRequest {
   SafetyRuleArn: string;
 }
 export interface DescribeSafetyRuleResponse {
-  AssertionRule?: AssertionRule & {
-    AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
-    ControlPanelArn: __stringMin1Max256PatternAZaZ09;
-    Name: __stringMin1Max64PatternS;
-    RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
-    SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
-    Status: Status;
-    WaitPeriodMs: number;
-  };
-  GatingRule?: GatingRule & {
-    ControlPanelArn: __stringMin1Max256PatternAZaZ09;
-    GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
-    Name: __stringMin1Max64PatternS;
-    RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
-    SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
-    Status: Status;
-    TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
-    WaitPeriodMs: number;
-  };
+  AssertionRule?:
+    | (AssertionRule & {
+        AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
+        ControlPanelArn: __stringMin1Max256PatternAZaZ09;
+        Name: __stringMin1Max64PatternS;
+        RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
+        SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
+        Status: Status;
+        WaitPeriodMs: number;
+      })
+    | undefined;
+  GatingRule?:
+    | (GatingRule & {
+        ControlPanelArn: __stringMin1Max256PatternAZaZ09;
+        GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
+        Name: __stringMin1Max64PatternS;
+        RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
+        SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
+        Status: Status;
+        TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
+        WaitPeriodMs: number;
+      })
+    | undefined;
 }
 export interface GetResourcePolicyRequest {
   ResourceArn: string;
 }
 export type __policy = string;
 export interface GetResourcePolicyResponse {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export type MaxResults = number;
 export interface ListAssociatedRoute53HealthChecksRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   RoutingControlArn: string;
 }
 export type __stringMax36PatternS = string;
@@ -396,85 +405,87 @@ const __listOf__stringMax36PatternS =
   __listOf__stringMin1Max256PatternAZaZ09 as any as S.Schema<__listOf__stringMax36PatternS>;
 export type __stringMin1Max8096PatternS = string;
 export interface ListAssociatedRoute53HealthChecksResponse {
-  HealthCheckIds?: string[];
-  NextToken?: string;
+  HealthCheckIds?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListClustersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type __listOfCluster = Cluster[];
 const __listOfCluster = /*@__PURE__*/ __L.at(__c15, 1);
 export interface ListClustersResponse {
-  Clusters?: Cluster[];
-  NextToken?: string;
+  Clusters?: Cluster[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListControlPanelsRequest {
-  ClusterArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ClusterArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type __listOfControlPanel = ControlPanel[];
 const __listOfControlPanel = /*@__PURE__*/ __L.at(__c16, 1);
 export interface ListControlPanelsResponse {
-  ControlPanels?: ControlPanel[];
-  NextToken?: string;
+  ControlPanels?: ControlPanel[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRoutingControlsRequest {
   ControlPanelArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type __listOfRoutingControl = RoutingControl[];
 const __listOfRoutingControl = /*@__PURE__*/ __L.at(__c17, 1);
 export interface ListRoutingControlsResponse {
-  NextToken?: string;
-  RoutingControls?: RoutingControl[];
+  NextToken?: string | undefined;
+  RoutingControls?: RoutingControl[] | undefined;
 }
 export interface ListSafetyRulesRequest {
   ControlPanelArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Rule {
-  ASSERTION?: AssertionRule;
-  GATING?: GatingRule;
+  ASSERTION?: AssertionRule | undefined;
+  GATING?: GatingRule | undefined;
 }
 export type __listOfRule = Rule[];
 const __listOfRule = /*@__PURE__*/ __L.at(__c18, 2);
 export interface ListSafetyRulesResponse {
-  NextToken?: string;
-  SafetyRules?: (Rule & {
-    ASSERTION: AssertionRule & {
-      AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
-      ControlPanelArn: __stringMin1Max256PatternAZaZ09;
-      Name: __stringMin1Max64PatternS;
-      RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
-      SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
-      Status: Status;
-      WaitPeriodMs: number;
-    };
-    GATING: GatingRule & {
-      ControlPanelArn: __stringMin1Max256PatternAZaZ09;
-      GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
-      Name: __stringMin1Max64PatternS;
-      RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
-      SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
-      Status: Status;
-      TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
-      WaitPeriodMs: number;
-    };
-  })[];
+  NextToken?: string | undefined;
+  SafetyRules?:
+    | (Rule & {
+        ASSERTION: AssertionRule & {
+          AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
+          ControlPanelArn: __stringMin1Max256PatternAZaZ09;
+          Name: __stringMin1Max64PatternS;
+          RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
+          SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
+          Status: Status;
+          WaitPeriodMs: number;
+        };
+        GATING: GatingRule & {
+          ControlPanelArn: __stringMin1Max256PatternAZaZ09;
+          GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
+          Name: __stringMin1Max64PatternS;
+          RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
+          SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
+          Status: Status;
+          TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
+          WaitPeriodMs: number;
+        };
+      })[]
+    | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export type __listOf__string = string[];
@@ -482,64 +493,68 @@ const __listOf__string =
   __listOf__stringMin1Max256PatternAZaZ09 as any as S.Schema<__listOf__string>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateClusterRequest {
-  ClusterArn?: string;
-  NetworkType?: NetworkType;
+  ClusterArn?: string | undefined;
+  NetworkType?: NetworkType | undefined;
 }
 export interface UpdateClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface UpdateControlPanelRequest {
-  ControlPanelArn?: string;
-  ControlPanelName?: string;
+  ControlPanelArn?: string | undefined;
+  ControlPanelName?: string | undefined;
 }
 export interface UpdateControlPanelResponse {
-  ControlPanel?: ControlPanel;
+  ControlPanel?: ControlPanel | undefined;
 }
 export interface UpdateRoutingControlRequest {
-  RoutingControlArn?: string;
-  RoutingControlName?: string;
+  RoutingControlArn?: string | undefined;
+  RoutingControlName?: string | undefined;
 }
 export interface UpdateRoutingControlResponse {
-  RoutingControl?: RoutingControl;
+  RoutingControl?: RoutingControl | undefined;
 }
 export interface AssertionRuleUpdate {
-  Name?: string;
-  SafetyRuleArn?: string;
-  WaitPeriodMs?: number;
+  Name?: string | undefined;
+  SafetyRuleArn?: string | undefined;
+  WaitPeriodMs?: number | undefined;
 }
 export interface GatingRuleUpdate {
-  Name?: string;
-  SafetyRuleArn?: string;
-  WaitPeriodMs?: number;
+  Name?: string | undefined;
+  SafetyRuleArn?: string | undefined;
+  WaitPeriodMs?: number | undefined;
 }
 export interface UpdateSafetyRuleRequest {
-  AssertionRuleUpdate?: AssertionRuleUpdate;
-  GatingRuleUpdate?: GatingRuleUpdate;
+  AssertionRuleUpdate?: AssertionRuleUpdate | undefined;
+  GatingRuleUpdate?: GatingRuleUpdate | undefined;
 }
 export interface UpdateSafetyRuleResponse {
-  AssertionRule?: AssertionRule & {
-    AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
-    ControlPanelArn: __stringMin1Max256PatternAZaZ09;
-    Name: __stringMin1Max64PatternS;
-    RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
-    SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
-    Status: Status;
-    WaitPeriodMs: number;
-  };
-  GatingRule?: GatingRule & {
-    ControlPanelArn: __stringMin1Max256PatternAZaZ09;
-    GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
-    Name: __stringMin1Max64PatternS;
-    RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
-    SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
-    Status: Status;
-    TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
-    WaitPeriodMs: number;
-  };
+  AssertionRule?:
+    | (AssertionRule & {
+        AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
+        ControlPanelArn: __stringMin1Max256PatternAZaZ09;
+        Name: __stringMin1Max64PatternS;
+        RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
+        SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
+        Status: Status;
+        WaitPeriodMs: number;
+      })
+    | undefined;
+  GatingRule?:
+    | (GatingRule & {
+        ControlPanelArn: __stringMin1Max256PatternAZaZ09;
+        GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
+        Name: __stringMin1Max64PatternS;
+        RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
+        SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
+        Status: Status;
+        TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
+        WaitPeriodMs: number;
+      })
+    | undefined;
 }
 export type CreateClusterError =
   | AccessDeniedException
@@ -554,7 +569,7 @@ export type CreateClusterError =
  * Create a new cluster. A cluster is a set of redundant Regional endpoints against which you can run API calls to update or get the state of one or more routing controls. Each cluster has a name, status, Amazon Resource Name (ARN), and an array of the five cluster endpoints (one for each supported Amazon Web Services Region) that you can use with API calls to the cluster data plane.
  */
 export const createCluster: API.OperationMethod<
-  CreateClusterRequest,
+  CreateClusterRequest & RegionInput,
   CreateClusterResponse,
   CreateClusterError,
   Credentials | HttpClient.HttpClient
@@ -590,7 +605,7 @@ export type CreateControlPanelError =
  * Creates a new control panel. A control panel represents a group of routing controls that can be changed together in a single transaction. You can use a control panel to centrally view the operational status of applications across your organization, and trigger multi-app failovers in a single transaction, for example, to fail over an Availability Zone or Amazon Web Services Region.
  */
 export const createControlPanel: API.OperationMethod<
-  CreateControlPanelRequest,
+  CreateControlPanelRequest & RegionInput,
   CreateControlPanelResponse,
   CreateControlPanelError,
   Credentials | HttpClient.HttpClient
@@ -630,7 +645,7 @@ export type CreateRoutingControlError =
  * To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller.
  */
 export const createRoutingControl: API.OperationMethod<
-  CreateRoutingControlRequest,
+  CreateRoutingControlRequest & RegionInput,
   CreateRoutingControlResponse,
   CreateRoutingControlError,
   Credentials | HttpClient.HttpClient
@@ -666,7 +681,7 @@ export type CreateSafetyRuleError = InternalServerException | ValidationExceptio
  * For more information, see Safety rules in the Amazon Route 53 Application Recovery Controller Developer Guide.
  */
 export const createSafetyRule: API.OperationMethod<
-  CreateSafetyRuleRequest,
+  CreateSafetyRuleRequest & RegionInput,
   CreateSafetyRuleResponse,
   CreateSafetyRuleError,
   Credentials | HttpClient.HttpClient
@@ -693,7 +708,7 @@ export type DeleteClusterError =
  * Delete a cluster.
  */
 export const deleteCluster: API.OperationMethod<
-  DeleteClusterRequest,
+  DeleteClusterRequest & RegionInput,
   DeleteClusterResponse,
   DeleteClusterError,
   Credentials | HttpClient.HttpClient
@@ -727,7 +742,7 @@ export type DeleteControlPanelError =
  * Deletes a control panel.
  */
 export const deleteControlPanel: API.OperationMethod<
-  DeleteControlPanelRequest,
+  DeleteControlPanelRequest & RegionInput,
   DeleteControlPanelResponse,
   DeleteControlPanelError,
   Credentials | HttpClient.HttpClient
@@ -761,7 +776,7 @@ export type DeleteRoutingControlError =
  * Deletes a routing control.
  */
 export const deleteRoutingControl: API.OperationMethod<
-  DeleteRoutingControlRequest,
+  DeleteRoutingControlRequest & RegionInput,
   DeleteRoutingControlResponse,
   DeleteRoutingControlError,
   Credentials | HttpClient.HttpClient
@@ -793,7 +808,7 @@ export type DeleteSafetyRuleError =
  * />
  */
 export const deleteSafetyRule: API.OperationMethod<
-  DeleteSafetyRuleRequest,
+  DeleteSafetyRuleRequest & RegionInput,
   DeleteSafetyRuleResponse,
   DeleteSafetyRuleError,
   Credentials | HttpClient.HttpClient
@@ -820,7 +835,7 @@ export type DescribeClusterError =
  * Display the details about a cluster. The response includes the cluster name, endpoints, status, and Amazon Resource Name (ARN).
  */
 export const describeCluster: API.OperationMethod<
-  DescribeClusterRequest,
+  DescribeClusterRequest & RegionInput,
   DescribeClusterResponse,
   DescribeClusterError,
   Credentials | HttpClient.HttpClient
@@ -854,7 +869,7 @@ export type DescribeControlPanelError =
  * Displays details about a control panel.
  */
 export const describeControlPanel: API.OperationMethod<
-  DescribeControlPanelRequest,
+  DescribeControlPanelRequest & RegionInput,
   DescribeControlPanelResponse,
   DescribeControlPanelError,
   Credentials | HttpClient.HttpClient
@@ -890,7 +905,7 @@ export type DescribeRoutingControlError =
  * To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller.
  */
 export const describeRoutingControl: API.OperationMethod<
-  DescribeRoutingControlRequest,
+  DescribeRoutingControlRequest & RegionInput,
   DescribeRoutingControlResponse,
   DescribeRoutingControlError,
   Credentials | HttpClient.HttpClient
@@ -920,7 +935,7 @@ export type DescribeSafetyRuleError =
  * Returns information about a safety rule.
  */
 export const describeSafetyRule: API.OperationMethod<
-  DescribeSafetyRuleRequest,
+  DescribeSafetyRuleRequest & RegionInput,
   DescribeSafetyRuleResponse,
   DescribeSafetyRuleError,
   Credentials | HttpClient.HttpClient
@@ -943,7 +958,7 @@ export type GetResourcePolicyError =
  * Get information about the resource policy for a cluster.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
@@ -967,7 +982,7 @@ export type ListAssociatedRoute53HealthChecksError =
  * Returns an array of all Amazon Route 53 health checks associated with a specific routing control.
  */
 export const listAssociatedRoute53HealthChecks: API.PaginatedOperationMethod<
-  ListAssociatedRoute53HealthChecksRequest,
+  ListAssociatedRoute53HealthChecksRequest & RegionInput,
   ListAssociatedRoute53HealthChecksResponse,
   ListAssociatedRoute53HealthChecksError,
   Credentials | HttpClient.HttpClient,
@@ -1000,7 +1015,7 @@ export type ListClustersError =
  * Returns an array of all the clusters in an account.
  */
 export const listClusters: API.PaginatedOperationMethod<
-  ListClustersRequest,
+  ListClustersRequest & RegionInput,
   ListClustersResponse,
   ListClustersError,
   Credentials | HttpClient.HttpClient,
@@ -1039,7 +1054,7 @@ export type ListControlPanelsError =
  * Returns an array of control panels in an account or in a cluster.
  */
 export const listControlPanels: API.PaginatedOperationMethod<
-  ListControlPanelsRequest,
+  ListControlPanelsRequest & RegionInput,
   ListControlPanelsResponse,
   ListControlPanelsError,
   Credentials | HttpClient.HttpClient,
@@ -1078,7 +1093,7 @@ export type ListRoutingControlsError =
  * Returns an array of routing controls for a control panel. A routing control is an Amazon Route 53 Application Recovery Controller construct that has one of two states: ON and OFF. You can map the routing control state to the state of an Amazon Route 53 health check, which can be used to control routing.
  */
 export const listRoutingControls: API.PaginatedOperationMethod<
-  ListRoutingControlsRequest,
+  ListRoutingControlsRequest & RegionInput,
   ListRoutingControlsResponse,
   ListRoutingControlsError,
   Credentials | HttpClient.HttpClient,
@@ -1117,7 +1132,7 @@ export type ListSafetyRulesError =
  * List the safety rules (the assertion rules and gating rules) that you've defined for the routing controls in a control panel.
  */
 export const listSafetyRules: API.PaginatedOperationMethod<
-  ListSafetyRulesRequest,
+  ListSafetyRulesRequest & RegionInput,
   ListSafetyRulesResponse,
   ListSafetyRulesError,
   Credentials | HttpClient.HttpClient,
@@ -1154,7 +1169,7 @@ export type ListTagsForResourceError =
  * Lists the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1178,7 +1193,7 @@ export type TagResourceError =
  * Adds a tag to a resource.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1202,7 +1217,7 @@ export type UntagResourceError =
  * Removes a tag from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1229,7 +1244,7 @@ export type UpdateClusterError =
  * Updates an existing cluster. You can only update the network type of a cluster.
  */
 export const updateCluster: API.OperationMethod<
-  UpdateClusterRequest,
+  UpdateClusterRequest & RegionInput,
   UpdateClusterResponse,
   UpdateClusterError,
   Credentials | HttpClient.HttpClient
@@ -1263,7 +1278,7 @@ export type UpdateControlPanelError =
  * Updates a control panel. The only update you can make to a control panel is to change the name of the control panel.
  */
 export const updateControlPanel: API.OperationMethod<
-  UpdateControlPanelRequest,
+  UpdateControlPanelRequest & RegionInput,
   UpdateControlPanelResponse,
   UpdateControlPanelError,
   Credentials | HttpClient.HttpClient
@@ -1297,7 +1312,7 @@ export type UpdateRoutingControlError =
  * Updates a routing control. You can only update the name of the routing control. To get or update the routing control state, see the Recovery Cluster (data plane) API actions for Amazon Route 53 Application Recovery Controller.
  */
 export const updateRoutingControl: API.OperationMethod<
-  UpdateRoutingControlRequest,
+  UpdateRoutingControlRequest & RegionInput,
   UpdateRoutingControlResponse,
   UpdateRoutingControlError,
   Credentials | HttpClient.HttpClient
@@ -1328,7 +1343,7 @@ export type UpdateSafetyRuleError =
  * Update a safety rule (an assertion rule or gating rule). You can only update the name and the waiting period for a safety rule. To make other updates, delete the safety rule and create a new one.
  */
 export const updateSafetyRule: API.OperationMethod<
-  UpdateSafetyRuleRequest,
+  UpdateSafetyRuleRequest & RegionInput,
   UpdateSafetyRuleResponse,
   UpdateSafetyRuleError,
   Credentials | HttpClient.HttpClient

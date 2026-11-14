@@ -21,6 +21,7 @@ import {
 import {
   BinaryResponse,
   makeRestProtocol,
+  RawResponse,
   RawResponseRoot,
   SensitiveValue,
   type RestErrorInfo,
@@ -28,6 +29,7 @@ import {
   type RestProtocolOptions,
 } from "../src/protocol-rest.ts";
 import * as ResponseValidation from "../src/response-validation.ts";
+import * as L from "../src/schema-lite.ts";
 import * as S from "../src/schema.ts";
 import * as T from "../src/trait.ts";
 
@@ -99,6 +101,7 @@ const ThingInput = S.Struct({
   id: S.String.pipe(T.Label()),
   limit: S.optional(S.Number.pipe(T.Query("limit"))),
   tags: S.optional(S.Array(S.String).pipe(T.Query("tag"))),
+  states: S.optional(S.Array(S.String).pipe(T.Query("state"), T.CommaDelimited())),
   trace: S.optional(S.String.pipe(T.Header("X-Trace-Id"))),
   displayName: S.optional(S.String.pipe(T.Body("display_name"))),
   secret: S.optional(S.String.pipe(SensitiveValue(), T.Body("secret_value"))),
@@ -205,6 +208,16 @@ describe("makeRestProtocol request encoding", () => {
     expect(request!.url).toBe("https://api.test/things/a%20b%2Fc?limit=5&tag=x&tag=y");
     expect(request!.headers["x-trace-id"]).toBe("trace-1");
     expect(JSON.parse(bodyText(request!)!)).toEqual({ display_name: "Widget" });
+  });
+
+  test("sends a CommaDelimited query list as one comma-separated parameter", async () => {
+    const recorded: Recorded = { requests: [] };
+    await succeed(
+      createThing({ id: "t1", states: ["running", "paused"] }),
+      fakeClient(() => json({}), recorded),
+      creds(),
+    );
+    expect(recorded.requests[0]!.url).toBe("https://api.test/things/t1?state=running%2Cpaused");
   });
 
   test("unwraps Redacted input values before serializing them", async () => {
@@ -390,6 +403,74 @@ describe("makeRestProtocol raw request bodies", () => {
     const request = await send(untypedUpload({ body: new Blob(["<p>"], { type: "text/html" }) }));
     expect(request.headers.get("content-type")).toBe("text/html");
   });
+
+  test("a JSON body is sent under the Content-Type member, else as application/json", async () => {
+    // Shaped like a Kubernetes patch: the patch type is the Content-Type.
+    const patch = op(
+      S.Struct({
+        body: S.Unknown.pipe(T.HttpBody()),
+        contentType: S.optional(S.String.pipe(T.Header("Content-Type"))),
+      }).pipe(T.Http({ method: "PATCH", uri: "/things" })),
+    );
+    const merge = await send(
+      patch({ body: { spec: { replicas: 3 } }, contentType: "application/merge-patch+json" }),
+    );
+    expect(merge.headers.get("content-type")).toBe("application/merge-patch+json");
+    expect(await merge.text()).toBe('{"spec":{"replicas":3}}');
+    const plain = await send(patch({ body: { spec: { replicas: 3 } } }));
+    expect(plain.headers.get("content-type")).toBe("application/json");
+  });
+
+  test("an Extend input sends the base struct's fields as the body", async () => {
+    // Shaped like a flattened GCP request: the body struct, extended with the
+    // path and query members. A shadowed body field keeps its member binding.
+    const Firewall = L.suspend(() =>
+      L.Struct({ name: L.optional(L.String), sourceRanges: L.optional(L.Array(L.String)) }),
+    );
+    const patch = op(
+      L.suspend(() =>
+        L.Extend(
+          Firewall,
+          L.Struct({
+            project: L.String.pipe(T.Label()),
+            name: L.String.pipe(T.Label()),
+            requestId: L.optional(L.String.pipe(T.Query())),
+          }),
+        ).pipe(T.Http({ method: "PATCH", uri: "/projects/{project}/firewalls/{name}" })),
+      ),
+    );
+    const request = await send(
+      patch({ project: "p", name: "fw", requestId: "r", sourceRanges: ["10.0.0.0/8"] }),
+    );
+    expect(new URL(request.url).pathname).toBe("/projects/p/firewalls/fw");
+    expect(new URL(request.url).searchParams.get("requestId")).toBe("r");
+    expect(await request.text()).toBe('{"sourceRanges":["10.0.0.0/8"]}');
+  });
+
+  test("body fields go out under the Content-Type member; a set payload wins", async () => {
+    // Shaped like a flattened Kubernetes patch: resource fields for a merge
+    // patch, the `patch` payload for a JSON patch array.
+    const patch = op(
+      S.Struct({
+        contentType: S.String.pipe(T.Header("Content-Type")),
+        spec: S.optional(S.Unknown),
+        patch: S.optional(S.Unknown.pipe(T.HttpBody())),
+      }).pipe(T.Http({ method: "PATCH", uri: "/things" })),
+    );
+    const merge = await send(
+      patch({ contentType: "application/merge-patch+json", spec: { replicas: 3 } }),
+    );
+    expect(merge.headers.get("content-type")).toBe("application/merge-patch+json");
+    expect(await merge.text()).toBe('{"spec":{"replicas":3}}');
+    const json = await send(
+      patch({
+        contentType: "application/json-patch+json",
+        patch: [{ op: "replace", path: "/spec/replicas", value: 3 }],
+      }),
+    );
+    expect(json.headers.get("content-type")).toBe("application/json-patch+json");
+    expect(await json.text()).toBe('[{"op":"replace","path":"/spec/replicas","value":3}]');
+  });
 });
 
 // =============================================================================
@@ -444,6 +525,33 @@ describe("makeRestProtocol success decoding", () => {
     expect(
       await succeed(nullableOp({ id: "t1" }), respond, creds(), ResponseValidation.strict),
     ).toBeNull();
+  });
+
+  test("an empty 200 body decodes to an empty string when the output is a string", async () => {
+    const getText = API.make(() => ({
+      input: S.Struct({ id: S.String.pipe(T.Label()) }).pipe(
+        T.Http({ method: "GET", uri: "/things/{id}/logs" }),
+      ),
+      output: S.String,
+      errors: [],
+      protocol: DefaultProtocol,
+    }));
+    const empty = await succeed(
+      getText({ id: "t1" }),
+      fakeClient(
+        () => new Response("", { status: 200, headers: { "content-type": "text/plain" } }),
+      ),
+      creds(),
+    );
+    expect(empty).toEqual("");
+    const text = await succeed(
+      getText({ id: "t1" }),
+      fakeClient(
+        () => new Response("done\n", { status: 200, headers: { "content-type": "text/plain" } }),
+      ),
+      creds(),
+    );
+    expect(text).toEqual("done\n");
   });
 
   test("transformResponse runs on the parsed body before key mapping", async () => {
@@ -885,5 +993,38 @@ describe("Link-header pagination", () => {
     );
     expect(items).toEqual([{ id: "x" }]);
     expect(recorded.requests).toHaveLength(1);
+  });
+});
+
+describe("makeRestProtocol raw body members", () => {
+  // Shaped like E2B's list endpoints: a bare JSON array body, with the next
+  // page token in a response header.
+  const PageOutput = S.Struct({
+    items: S.Array(S.Struct({ id: S.String })).pipe(RawResponse()),
+    nextToken: S.optional(S.String.pipe(T.Header("X-Next-Token"))),
+  });
+  const pageOp = API.make(() => ({
+    input: ThingInput,
+    output: PageOutput,
+    errors: [],
+    protocol: DefaultProtocol,
+  })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+
+  test("a bare array body lands in the raw member, next to header members", async () => {
+    const out = await succeed(
+      pageOp({ id: "t1" }),
+      fakeClient(() => json([{ id: "a" }, { id: "b" }], 200, { "X-Next-Token": "page-2" })),
+      creds(),
+    );
+    expect(out).toEqual({ items: [{ id: "a" }, { id: "b" }], nextToken: "page-2" });
+  });
+
+  test("a missing header leaves the header member unset", async () => {
+    const out = await succeed(
+      pageOp({ id: "t1" }),
+      fakeClient(() => json([])),
+      creds(),
+    );
+    expect(out).toEqual({ items: [] });
   });
 });

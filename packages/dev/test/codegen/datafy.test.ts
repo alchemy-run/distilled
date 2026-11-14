@@ -216,3 +216,19 @@ describe("datafyOperations", () => {
     expect(new run2.Gone({ message: "x" })).not.toBeInstanceOf(Sub);
   });
 });
+
+describe("server-streaming operations", () => {
+  const streaming = tabled.replace(
+    "export const getThing: API.OperationMethod<any, any, any, any> = /*@__PURE__*/ API.make(() => ({",
+    "export const getThing: API.StreamingOperationMethod<any, any, any, any> = /*@__PURE__*/ API.makeStreaming(() => ({",
+  );
+  const { code } = datafyOperations(streaming);
+
+  test("become data operations that keep .stream", () => {
+    expect(code).toContain(`API.opStreaming((i: any): any => i === API.D ? ['`);
+    const { getThing, listThings } = run(code);
+    expect(typeof getThing.stream).toBe("function");
+    expect(typeof listThings.pages).toBe("function");
+    expect(getThing.operationName).toBeUndefined();
+  });
+});

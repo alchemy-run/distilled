@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -139,12 +140,12 @@ export interface CreateEndpointRequest {
   OutpostId: string;
   SubnetId: string;
   SecurityGroupId: string;
-  AccessType?: EndpointAccessType;
-  CustomerOwnedIpv4Pool?: string;
+  AccessType?: EndpointAccessType | undefined;
+  CustomerOwnedIpv4Pool?: string | undefined;
 }
 export type EndpointArn = string;
 export interface CreateEndpointResult {
-  EndpointArn?: string;
+  EndpointArn?: string | undefined;
 }
 export type EndpointId = string;
 export interface DeleteEndpointRequest {
@@ -155,8 +156,8 @@ export interface DeleteEndpointResponse {}
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListEndpointsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type CidrBlock = string;
 export type EndpointStatus =
@@ -169,64 +170,64 @@ export type EndpointStatus =
 export type CreationTime = Date;
 export type NetworkInterfaceId = string;
 export interface NetworkInterface {
-  NetworkInterfaceId?: string;
+  NetworkInterfaceId?: string | undefined;
 }
 export type NetworkInterfaces = NetworkInterface[];
 export type VpcId = string;
 export type ErrorCode = string;
 export type Message = string;
 export interface FailedReason {
-  ErrorCode?: string;
-  Message?: string;
+  ErrorCode?: string | undefined;
+  Message?: string | undefined;
 }
 export interface Endpoint {
-  EndpointArn?: string;
-  OutpostsId?: string;
-  CidrBlock?: string;
-  Status?: EndpointStatus;
-  CreationTime?: Date;
-  NetworkInterfaces?: NetworkInterface[];
-  VpcId?: string;
-  SubnetId?: string;
-  SecurityGroupId?: string;
-  AccessType?: EndpointAccessType;
-  CustomerOwnedIpv4Pool?: string;
-  FailedReason?: FailedReason;
+  EndpointArn?: string | undefined;
+  OutpostsId?: string | undefined;
+  CidrBlock?: string | undefined;
+  Status?: EndpointStatus | undefined;
+  CreationTime?: Date | undefined;
+  NetworkInterfaces?: NetworkInterface[] | undefined;
+  VpcId?: string | undefined;
+  SubnetId?: string | undefined;
+  SecurityGroupId?: string | undefined;
+  AccessType?: EndpointAccessType | undefined;
+  CustomerOwnedIpv4Pool?: string | undefined;
+  FailedReason?: FailedReason | undefined;
 }
 const Endpoint = /*@__PURE__*/ __L.at(__c3, 3) as any as S.Schema<Endpoint>;
 export type Endpoints = Endpoint[];
 export interface ListEndpointsResult {
-  Endpoints?: Endpoint[];
-  NextToken?: string;
+  Endpoints?: Endpoint[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOutpostsWithS3Request {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type OutpostArn = string;
 export type S3OutpostArn = string;
 export type AwsAccountId = string;
 export type CapacityInBytes = number;
 export interface Outpost {
-  OutpostArn?: string;
-  S3OutpostArn?: string;
-  OutpostId?: string;
-  OwnerId?: string;
-  CapacityInBytes?: number;
+  OutpostArn?: string | undefined;
+  S3OutpostArn?: string | undefined;
+  OutpostId?: string | undefined;
+  OwnerId?: string | undefined;
+  CapacityInBytes?: number | undefined;
 }
 export type Outposts = Outpost[];
 export interface ListOutpostsWithS3Result {
-  Outposts?: Outpost[];
-  NextToken?: string;
+  Outposts?: Outpost[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSharedEndpointsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   OutpostId: string;
 }
 export interface ListSharedEndpointsResult {
-  Endpoints?: Endpoint[];
-  NextToken?: string;
+  Endpoints?: Endpoint[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ErrorMessage = string;
 export type CreateEndpointError =
@@ -250,7 +251,7 @@ export type CreateEndpointError =
  * - ListEndpoints
  */
 export const createEndpoint: API.OperationMethod<
-  CreateEndpointRequest,
+  CreateEndpointRequest & RegionInput,
   CreateEndpointResult,
   CreateEndpointError,
   Credentials | HttpClient.HttpClient
@@ -293,7 +294,7 @@ export type DeleteEndpointError =
  * - ListEndpoints
  */
 export const deleteEndpoint: API.OperationMethod<
-  DeleteEndpointRequest,
+  DeleteEndpointRequest & RegionInput,
   DeleteEndpointResponse,
   DeleteEndpointError,
   Credentials | HttpClient.HttpClient
@@ -332,7 +333,7 @@ export type ListEndpointsError =
  * - DeleteEndpoint
  */
 export const listEndpoints: API.PaginatedOperationMethod<
-  ListEndpointsRequest,
+  ListEndpointsRequest & RegionInput,
   ListEndpointsResult,
   ListEndpointsError,
   Credentials | HttpClient.HttpClient,
@@ -372,7 +373,7 @@ export type ListOutpostsWithS3Error =
  * from Resource Access Manager (RAM).
  */
 export const listOutpostsWithS3: API.PaginatedOperationMethod<
-  ListOutpostsWithS3Request,
+  ListOutpostsWithS3Request & RegionInput,
   ListOutpostsWithS3Result,
   ListOutpostsWithS3Error,
   Credentials | HttpClient.HttpClient,
@@ -416,7 +417,7 @@ export type ListSharedEndpointsError =
  * - DeleteEndpoint
  */
 export const listSharedEndpoints: API.PaginatedOperationMethod<
-  ListSharedEndpointsRequest,
+  ListSharedEndpointsRequest & RegionInput,
   ListSharedEndpointsResult,
   ListSharedEndpointsError,
   Credentials | HttpClient.HttpClient,

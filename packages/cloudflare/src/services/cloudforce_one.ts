@@ -65,8 +65,8 @@ export type ThreatEventsBulkCreateRequestDataItemRawDataMap = {
 };
 export interface ThreatEventsBulkCreateRequestDataItemRaw {
   data: ThreatEventsBulkCreateRequestDataItemRawDataMap;
-  source?: string;
-  tlp?: string;
+  source?: string | undefined;
+  tlp?: string | undefined;
 }
 export interface ThreatEventsBulkCreateRequestDataItemIndicatorsItem {
   /** The type of indicator (e.g., DOMAIN, IP, JA3, HASH) */
@@ -83,18 +83,18 @@ export interface ThreatEventsBulkCreateRequestDataItem {
   event: string;
   raw: ThreatEventsBulkCreateRequestDataItemRaw;
   tlp: string;
-  accountId?: number;
-  attacker?: string;
-  attackerCountry?: string;
-  datasetId?: string;
-  indicator?: string;
+  accountId?: number | undefined;
+  attacker?: string | undefined;
+  attackerCountry?: string | undefined;
+  datasetId?: string | undefined;
+  indicator?: string | undefined;
   /** Array of indicators for this event. Supports multiple indicators per event for complex scenarios. */
-  indicators?: ThreatEventsBulkCreateRequestDataItemIndicatorsList;
-  indicatorType?: string;
-  insight?: string;
-  tags?: ThreatEventsBulkCreateRequestDataItemTagsList;
-  targetCountry?: string;
-  targetIndustry?: string;
+  indicators?: ThreatEventsBulkCreateRequestDataItemIndicatorsList | undefined;
+  indicatorType?: string | undefined;
+  insight?: string | undefined;
+  tags?: ThreatEventsBulkCreateRequestDataItemTagsList | undefined;
+  targetCountry?: string | undefined;
+  targetIndustry?: string | undefined;
 }
 export type ThreatEventsBulkCreateRequestDataList = Array<ThreatEventsBulkCreateRequestDataItem>;
 export interface BulkCreateThreatEventsRequest {
@@ -103,7 +103,7 @@ export interface BulkCreateThreatEventsRequest {
   data: ThreatEventsBulkCreateRequestDataList;
   datasetId: string;
   /** When true, response includes array of created event UUIDs and shard IDs. Useful for tracking which events were created and where. */
-  includeCreatedEvents?: boolean;
+  includeCreatedEvents?: boolean | undefined;
 }
 export interface ThreatEventsBulkCreateResponseCreatedEventsItem {
   /** Original index in the input data array */
@@ -126,9 +126,9 @@ export interface BulkCreateThreatEventsResponse {
   /** Number of indicators queued for async processing */
   queuedIndicatorsCount: number;
   /** Correlation ID for async indicator processing */
-  createBulkEventsRequestId?: string | null;
+  createBulkEventsRequestId?: string | null | undefined;
   /** Array of created events with UUIDs and shard locations. Only present when includeCreatedEvents=true */
-  createdEvents?: ThreatEventsBulkCreateResponseCreatedEventsList | null;
+  createdEvents?: ThreatEventsBulkCreateResponseCreatedEventsList | null | undefined;
 }
 export interface CreateBinaryStorageRequest {
   /** Account ID. */
@@ -148,15 +148,15 @@ export interface CreateRequestRequest {
   /** Identifier. */
   accountId: string;
   /** Request content. */
-  content?: string;
+  content?: string | undefined;
   /** Priority for analyzing the request. */
-  priority?: string;
+  priority?: string | undefined;
   /** Requested information from request. */
-  requestType?: string;
+  requestType?: string | undefined;
   /** Brief description of the request. */
-  summary?: string;
+  summary?: string | undefined;
   /** The CISA defined Traffic Light Protocol (TLP). */
-  tlp?: RequestsCreateRequestTlp | (string & {});
+  tlp?: RequestsCreateRequestTlp | (string & {}) | undefined;
 }
 export type RequestsCreateResponseTlp = "clear" | "amber" | "amber-strict" | "green" | "red";
 export type RequestsCreateResponseStatus =
@@ -181,15 +181,15 @@ export interface CreateRequestResponse {
   /** The CISA defined Traffic Light Protocol (TLP). */
   tlp: RequestsCreateResponseTlp;
   updated: string;
-  completed?: string | null;
+  completed?: string | null | undefined;
   /** Tokens for the request messages. */
-  messageTokens?: number | null;
+  messageTokens?: number | null | undefined;
   /** Readable Request ID. */
-  readableId?: string | null;
+  readableId?: string | null | undefined;
   /** Request Status. */
-  status?: RequestsCreateResponseStatus | null;
+  status?: RequestsCreateResponseStatus | null | undefined;
   /** Tokens for the request. */
-  tokens?: number | null;
+  tokens?: number | null | undefined;
 }
 export interface CreateRequestAssetRequest {
   /** Identifier. */
@@ -207,18 +207,18 @@ export interface RequestsAssetsCreateResultItem {
   /** Asset name. */
   name: string;
   /** Defines the asset creation time. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** Asset description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Asset file type. */
-  fileType?: string | null;
+  fileType?: string | null | undefined;
 }
 export type RequestsAssetsCreateResultList = Array<RequestsAssetsCreateResultItem>;
 export interface CreateRequestAssetResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RequestsAssetsCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface CreateRequestMessageRequest {
   /** Identifier. */
@@ -226,7 +226,7 @@ export interface CreateRequestMessageRequest {
   /** UUID. */
   requestId: string;
   /** Content of message. */
-  content?: string;
+  content?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateRequestMessageResponse {
@@ -241,7 +241,7 @@ export interface CreateRequestMessageResponse {
   /** Defines the message last updated time. */
   updated: string;
   /** Defines the message creation time. */
-  created?: string | null;
+  created?: string | null | undefined;
 }
 export type RequestsPriorityCreateRequestLabelsList = Array<string>;
 export type RequestsPriorityCreateRequestTlp = "clear" | "amber" | "amber-strict" | "green" | "red";
@@ -289,9 +289,9 @@ export interface CreateScanConfigRequest {
   /** Defines a list of IP addresses or CIDR blocks to scan. The maximum number of total IP addresses allowed is 5000. */
   ips: ScansConfigCreateRequestIpsList;
   /** Defines the number of days between each scan (0 = One-off scan). */
-  frequency?: number;
+  frequency?: number | undefined;
   /** Defines a list of ports to scan. Valid values are:"default", "all", or a comma-separated list of ports or range of ports (e.g. ["1-80", "443"]). "default" scans the 100 most commonly open ports. */
-  ports?: ScansConfigCreateRequestPortsList;
+  ports?: ScansConfigCreateRequestPortsList | undefined;
 }
 export type ScansConfigCreateResponseIpsList = Array<string>;
 export type ScansConfigCreateResponsePortsList = Array<string>;
@@ -310,8 +310,8 @@ export interface CreateScanConfigResponse {
 export type ThreatEventsCreateRequestRawDataMap = { [key: string]: unknown | undefined };
 export interface ThreatEventsCreateRequestRaw {
   data: ThreatEventsCreateRequestRawDataMap;
-  source?: string;
-  tlp?: string;
+  source?: string | undefined;
+  tlp?: string | undefined;
 }
 export type ThreatEventsCreateRequestIndicatorsItem =
   ThreatEventsBulkCreateRequestDataItemIndicatorsItem;
@@ -324,7 +324,7 @@ export interface ThreatEventsCreateRequestSource {
   resourceType: ThreatEventsCreateRequestSourceResourceType | (string & {});
   system: ThreatEventsCreateRequestSourceSystem | (string & {});
   /** Threat Signals article title; null for historical provenance without a stored title. */
-  title?: string;
+  title?: string | undefined;
 }
 export type ThreatEventsCreateRequestTagsList = Array<string>;
 export interface CreateThreatEventRequest {
@@ -335,19 +335,19 @@ export interface CreateThreatEventRequest {
   event: string;
   raw: ThreatEventsCreateRequestRaw;
   tlp: string;
-  attacker?: string;
-  attackerCountry?: string;
-  datasetId?: string;
-  indicator?: string;
+  attacker?: string | undefined;
+  attackerCountry?: string | undefined;
+  datasetId?: string | undefined;
+  indicator?: string | undefined;
   /** Array of indicators for this event. Supports multiple indicators per event for complex scenarios. */
-  indicators?: ThreatEventsCreateRequestIndicatorsList;
-  indicatorType?: string;
-  insight?: string;
+  indicators?: ThreatEventsCreateRequestIndicatorsList | undefined;
+  indicatorType?: string | undefined;
+  insight?: string | undefined;
   /** Controlled provenance for an event and its indicators derived from a Threat Signals article. */
-  source?: ThreatEventsCreateRequestSource;
-  tags?: ThreatEventsCreateRequestTagsList;
-  targetCountry?: string;
-  targetIndustry?: string;
+  source?: ThreatEventsCreateRequestSource | undefined;
+  tags?: ThreatEventsCreateRequestTagsList | undefined;
+  targetCountry?: string | undefined;
+  targetIndustry?: string | undefined;
 }
 export type ThreatEventsCreateResponseMitreAttackList = Array<string>;
 export type ThreatEventsCreateResponseMitreCapecList = Array<string>;
@@ -385,8 +385,8 @@ export interface CreateThreatEventResponse {
   targetIndustry: string;
   tlp: string;
   uuid: string;
-  insight?: string | null;
-  releasabilityId?: string | null;
+  insight?: string | null | undefined;
+  releasabilityId?: string | null | undefined;
 }
 export type ThreatEventsCategoriesCreateRequestMitreAttackList = Array<string>;
 export type ThreatEventsCategoriesCreateRequestMitreCapecList = Array<string>;
@@ -395,9 +395,9 @@ export interface CreateThreatEventCategoryRequest {
   accountId: string;
   killChain: number;
   name: string;
-  mitreAttack?: ThreatEventsCategoriesCreateRequestMitreAttackList;
-  mitreCapec?: ThreatEventsCategoriesCreateRequestMitreCapecList;
-  shortname?: string;
+  mitreAttack?: ThreatEventsCategoriesCreateRequestMitreAttackList | undefined;
+  mitreCapec?: ThreatEventsCategoriesCreateRequestMitreCapecList | undefined;
+  shortname?: string | undefined;
 }
 export type ThreatEventsCategoriesCreateResponseMitreAttackList = Array<string>;
 export type ThreatEventsCategoriesCreateResponseMitreCapecList = Array<string>;
@@ -406,9 +406,9 @@ export interface CreateThreatEventCategoryResponse {
   killChain: number;
   name: string;
   uuid: string;
-  mitreAttack?: ThreatEventsCategoriesCreateResponseMitreAttackList | null;
-  mitreCapec?: ThreatEventsCategoriesCreateResponseMitreCapecList | null;
-  shortname?: string | null;
+  mitreAttack?: ThreatEventsCategoriesCreateResponseMitreAttackList | null | undefined;
+  mitreCapec?: ThreatEventsCategoriesCreateResponseMitreCapecList | null | undefined;
+  shortname?: string | null | undefined;
 }
 export interface CreateThreatEventDatasetRequest {
   /** Account ID. */
@@ -443,7 +443,7 @@ export interface CreateThreatEventsGraphqlRequest {
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface CreateThreatEventsGraphqlResponse {
-  data?: unknown | null;
+  data?: unknown | null | undefined;
 }
 export interface CreateThreatEventsQueryRequest {
   /** Account ID. */
@@ -453,13 +453,13 @@ export interface CreateThreatEventsQueryRequest {
   /** JSON string containing the query parameters */
   queryJson: string;
   /** Deprecated and ignored: saved-query alerting and rules were removed. */
-  alertEnabled?: boolean;
+  alertEnabled?: boolean | undefined;
   /** Deprecated and ignored: saved-query alerting and rules were removed. */
-  alertRollupEnabled?: boolean;
+  alertRollupEnabled?: boolean | undefined;
   /** Deprecated and ignored: saved-query alerting and rules were removed. */
-  ruleEnabled?: boolean;
+  ruleEnabled?: boolean | undefined;
   /** Deprecated and ignored: saved-query alerting and rules were removed. */
-  ruleScope?: string;
+  ruleScope?: string | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface CreateThreatEventsQueryResponse {
@@ -484,11 +484,11 @@ export interface CreateThreatEventsQueryResponse {
   /** Email of the user who created the query */
   userEmail: string;
   /** Deprecated: saved-query alerting and rules were removed. Always null. */
-  customThreatFeedId?: number | null;
+  customThreatFeedId?: number | null | undefined;
   /** Deprecated: saved-query alerting and rules were removed. Always null. */
-  ruleListId?: string | null;
+  ruleListId?: string | null | undefined;
   /** Deprecated: saved-query alerting and rules were removed. Always null. */
-  ruleScope?: string | null;
+  ruleScope?: string | null | undefined;
 }
 export type CreateThreatEventsTagsCategoryRequestSchemaItemKind =
   | "string"
@@ -499,8 +499,8 @@ export type CreateThreatEventsTagsCategoryRequestSchemaItemKind =
   | "object";
 export type CreateThreatEventsTagsCategoryRequestSchemaItemAllowedValuesList = Array<string>;
 export interface CreateThreatEventsTagsCategoryRequestSchemaItemAnnotations {
-  confidence?: boolean;
-  tlp?: boolean;
+  confidence?: boolean | undefined;
+  tlp?: boolean | undefined;
 }
 export type CreateThreatEventsTagsCategoryRequestSchemaItemDeprecatedValuesList = Array<string>;
 export type CreateThreatEventsTagsCategoryRequestSchemaItemEnforcement = "error" | "warn" | "off";
@@ -510,9 +510,9 @@ export type CreateThreatEventsTagsCategoryRequestSchemaItemFormat =
   | "duration"
   | "country";
 export interface CreateThreatEventsTagsCategoryRequestSchemaItemNumberConstraint {
-  integer?: boolean;
-  max?: number;
-  min?: number;
+  integer?: boolean | undefined;
+  max?: number | undefined;
+  min?: number | undefined;
 }
 export type CreateThreatEventsTagsCategoryRequestSchemaItemPropertiesMap = {
   [key: string]: unknown | undefined;
@@ -520,22 +520,27 @@ export type CreateThreatEventsTagsCategoryRequestSchemaItemPropertiesMap = {
 export interface CreateThreatEventsTagsCategoryRequestSchemaItem {
   key: string;
   kind: CreateThreatEventsTagsCategoryRequestSchemaItemKind | (string & {});
-  allowedValues?: CreateThreatEventsTagsCategoryRequestSchemaItemAllowedValuesList;
-  annotations?: CreateThreatEventsTagsCategoryRequestSchemaItemAnnotations;
+  allowedValues?: CreateThreatEventsTagsCategoryRequestSchemaItemAllowedValuesList | undefined;
+  annotations?: CreateThreatEventsTagsCategoryRequestSchemaItemAnnotations | undefined;
   /** Marks a field as unavailable for new values while retaining its definition for historical values. */
-  deprecated?: boolean;
+  deprecated?: boolean | undefined;
   /** Enum values unavailable for new writes but retained in allowedValues for historical display. */
-  deprecatedValues?: CreateThreatEventsTagsCategoryRequestSchemaItemDeprecatedValuesList;
-  element?: unknown;
-  enforcement?: CreateThreatEventsTagsCategoryRequestSchemaItemEnforcement | (string & {});
-  format?: CreateThreatEventsTagsCategoryRequestSchemaItemFormat | (string & {});
-  label?: string;
+  deprecatedValues?:
+    | CreateThreatEventsTagsCategoryRequestSchemaItemDeprecatedValuesList
+    | undefined;
+  element?: unknown | undefined;
+  enforcement?:
+    | CreateThreatEventsTagsCategoryRequestSchemaItemEnforcement
+    | (string & {})
+    | undefined;
+  format?: CreateThreatEventsTagsCategoryRequestSchemaItemFormat | (string & {}) | undefined;
+  label?: string | undefined;
   /** exclusiveMinimum */
-  maxLength?: number;
-  numberConstraint?: CreateThreatEventsTagsCategoryRequestSchemaItemNumberConstraint;
+  maxLength?: number | undefined;
+  numberConstraint?: CreateThreatEventsTagsCategoryRequestSchemaItemNumberConstraint | undefined;
   /** Map of property key to FieldDefinition for object fields. Required when kind is 'object'. See FieldDefinition (recursive). */
-  properties?: CreateThreatEventsTagsCategoryRequestSchemaItemPropertiesMap;
-  required?: boolean;
+  properties?: CreateThreatEventsTagsCategoryRequestSchemaItemPropertiesMap | undefined;
+  required?: boolean | undefined;
 }
 export type CreateThreatEventsTagsCategoryRequestSchemaList =
   Array<CreateThreatEventsTagsCategoryRequestSchemaItem>;
@@ -543,9 +548,9 @@ export interface CreateThreatEventsTagsCategoryRequest {
   /** Account ID. */
   accountId: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   /** Optional array of FieldDefinition objects defining custom fields for tags in this category. Persisted as JSON; returned as a parsed array. */
-  schema?: CreateThreatEventsTagsCategoryRequestSchemaList;
+  schema?: CreateThreatEventsTagsCategoryRequestSchemaList | undefined;
 }
 export type CreateThreatEventsTagsCategoryResponseSchemaItemKind =
   | "string"
@@ -556,8 +561,8 @@ export type CreateThreatEventsTagsCategoryResponseSchemaItemKind =
   | "object";
 export type CreateThreatEventsTagsCategoryResponseSchemaItemAllowedValuesList = Array<string>;
 export interface CreateThreatEventsTagsCategoryResponseSchemaItemAnnotations {
-  confidence?: boolean | null;
-  tlp?: boolean | null;
+  confidence?: boolean | null | undefined;
+  tlp?: boolean | null | undefined;
 }
 export type CreateThreatEventsTagsCategoryResponseSchemaItemDeprecatedValuesList = Array<string>;
 export type CreateThreatEventsTagsCategoryResponseSchemaItemEnforcement = "error" | "warn" | "off";
@@ -567,9 +572,9 @@ export type CreateThreatEventsTagsCategoryResponseSchemaItemFormat =
   | "duration"
   | "country";
 export interface CreateThreatEventsTagsCategoryResponseSchemaItemNumberConstraint {
-  integer?: boolean | null;
-  max?: number | null;
-  min?: number | null;
+  integer?: boolean | null | undefined;
+  max?: number | null | undefined;
+  min?: number | null | undefined;
 }
 export type CreateThreatEventsTagsCategoryResponseSchemaItemPropertiesMap = {
   [key: string]: unknown | undefined;
@@ -577,22 +582,31 @@ export type CreateThreatEventsTagsCategoryResponseSchemaItemPropertiesMap = {
 export interface CreateThreatEventsTagsCategoryResponseSchemaItem {
   key: string;
   kind: CreateThreatEventsTagsCategoryResponseSchemaItemKind;
-  allowedValues?: CreateThreatEventsTagsCategoryResponseSchemaItemAllowedValuesList | null;
-  annotations?: CreateThreatEventsTagsCategoryResponseSchemaItemAnnotations | null;
+  allowedValues?:
+    | CreateThreatEventsTagsCategoryResponseSchemaItemAllowedValuesList
+    | null
+    | undefined;
+  annotations?: CreateThreatEventsTagsCategoryResponseSchemaItemAnnotations | null | undefined;
   /** Marks a field as unavailable for new values while retaining its definition for historical values. */
-  deprecated?: boolean | null;
+  deprecated?: boolean | null | undefined;
   /** Enum values unavailable for new writes but retained in allowedValues for historical display. */
-  deprecatedValues?: CreateThreatEventsTagsCategoryResponseSchemaItemDeprecatedValuesList | null;
-  element?: unknown | null;
-  enforcement?: CreateThreatEventsTagsCategoryResponseSchemaItemEnforcement | null;
-  format?: CreateThreatEventsTagsCategoryResponseSchemaItemFormat | null;
-  label?: string | null;
+  deprecatedValues?:
+    | CreateThreatEventsTagsCategoryResponseSchemaItemDeprecatedValuesList
+    | null
+    | undefined;
+  element?: unknown | null | undefined;
+  enforcement?: CreateThreatEventsTagsCategoryResponseSchemaItemEnforcement | null | undefined;
+  format?: CreateThreatEventsTagsCategoryResponseSchemaItemFormat | null | undefined;
+  label?: string | null | undefined;
   /** exclusiveMinimum */
-  maxLength?: number | null;
-  numberConstraint?: CreateThreatEventsTagsCategoryResponseSchemaItemNumberConstraint | null;
+  maxLength?: number | null | undefined;
+  numberConstraint?:
+    | CreateThreatEventsTagsCategoryResponseSchemaItemNumberConstraint
+    | null
+    | undefined;
   /** Map of property key to FieldDefinition for object fields. Required when kind is 'object'. See FieldDefinition (recursive). */
-  properties?: CreateThreatEventsTagsCategoryResponseSchemaItemPropertiesMap | null;
-  required?: boolean | null;
+  properties?: CreateThreatEventsTagsCategoryResponseSchemaItemPropertiesMap | null | undefined;
+  required?: boolean | null | undefined;
 }
 export type CreateThreatEventsTagsCategoryResponseSchemaList =
   Array<CreateThreatEventsTagsCategoryResponseSchemaItem>;
@@ -600,11 +614,11 @@ export type CreateThreatEventsTagsCategoryResponseSchemaList =
 export interface CreateThreatEventsTagsCategoryResponse {
   name: string;
   uuid: string;
-  createdAt?: string | null;
-  description?: string | null;
+  createdAt?: string | null | undefined;
+  description?: string | null | undefined;
   /** Parsed FieldDefinition[] defining custom fields for this category, or null if none. */
-  schema?: CreateThreatEventsTagsCategoryResponseSchemaList | null;
-  updatedAt?: string | null;
+  schema?: CreateThreatEventsTagsCategoryResponseSchemaList | null | undefined;
+  updatedAt?: string | null | undefined;
 }
 export type ThreatEventsTagsCreateRequestActiveDurationCase1Tlp =
   | "red"
@@ -616,8 +630,8 @@ export type ThreatEventsTagsCreateRequestActiveDurationCase1Tlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateRequestActiveDurationCase1 {
   value: string;
-  confidence?: number;
-  tlp?: ThreatEventsTagsCreateRequestActiveDurationCase1Tlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: ThreatEventsTagsCreateRequestActiveDurationCase1Tlp | (string & {}) | undefined;
 }
 export type ThreatEventsTagsCreateRequestActiveDuration =
   | string
@@ -632,8 +646,8 @@ export type ThreatEventsTagsCreateRequestActorCategoryCase1Tlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateRequestActorCategoryCase1 {
   value: string;
-  confidence?: number;
-  tlp?: ThreatEventsTagsCreateRequestActorCategoryCase1Tlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: ThreatEventsTagsCreateRequestActorCategoryCase1Tlp | (string & {}) | undefined;
 }
 export type ThreatEventsTagsCreateRequestActorCategory =
   | string
@@ -648,8 +662,8 @@ export type ThreatEventsTagsCreateRequestAliasesItemTlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateRequestAliasesItem {
   value: string;
-  confidence?: number;
-  tlp?: ThreatEventsTagsCreateRequestAliasesItemTlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: ThreatEventsTagsCreateRequestAliasesItemTlp | (string & {}) | undefined;
 }
 export type ThreatEventsTagsCreateRequestAliasesList =
   Array<ThreatEventsTagsCreateRequestAliasesItem>;
@@ -665,8 +679,8 @@ export type ThreatEventsTagsCreateRequestAttributionOrganizationCase1Tlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateRequestAttributionOrganizationCase1 {
   value: string;
-  confidence?: number;
-  tlp?: ThreatEventsTagsCreateRequestAttributionOrganizationCase1Tlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: ThreatEventsTagsCreateRequestAttributionOrganizationCase1Tlp | (string & {}) | undefined;
 }
 export type ThreatEventsTagsCreateRequestAttributionOrganization =
   | string
@@ -674,7 +688,7 @@ export type ThreatEventsTagsCreateRequestAttributionOrganization =
 export type ThreatEventsTagsCreateRequestExternalReferenceLinksList = Array<string>;
 export interface ThreatEventsTagsCreateRequestExternalReferencesItem {
   url: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type ThreatEventsTagsCreateRequestExternalReferencesList =
   Array<ThreatEventsTagsCreateRequestExternalReferencesItem>;
@@ -688,8 +702,8 @@ export type ThreatEventsTagsCreateRequestInternalAliasesItemTlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateRequestInternalAliasesItem {
   value: string;
-  confidence?: number;
-  tlp?: ThreatEventsTagsCreateRequestInternalAliasesItemTlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: ThreatEventsTagsCreateRequestInternalAliasesItemTlp | (string & {}) | undefined;
 }
 export type ThreatEventsTagsCreateRequestInternalAliasesList =
   Array<ThreatEventsTagsCreateRequestInternalAliasesItem>;
@@ -703,8 +717,8 @@ export type ThreatEventsTagsCreateRequestMotiveCase1Tlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateRequestMotiveCase1 {
   value: string;
-  confidence?: number;
-  tlp?: ThreatEventsTagsCreateRequestMotiveCase1Tlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: ThreatEventsTagsCreateRequestMotiveCase1Tlp | (string & {}) | undefined;
 }
 export type ThreatEventsTagsCreateRequestMotive = string | ThreatEventsTagsCreateRequestMotiveCase1;
 export type ThreatEventsTagsCreateRequestOpsecLevelCase1Tlp =
@@ -717,8 +731,8 @@ export type ThreatEventsTagsCreateRequestOpsecLevelCase1Tlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateRequestOpsecLevelCase1 {
   value: string;
-  confidence?: number;
-  tlp?: ThreatEventsTagsCreateRequestOpsecLevelCase1Tlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: ThreatEventsTagsCreateRequestOpsecLevelCase1Tlp | (string & {}) | undefined;
 }
 export type ThreatEventsTagsCreateRequestOpsecLevel =
   | string
@@ -733,8 +747,8 @@ export type ThreatEventsTagsCreateRequestOriginCountryISOCase1Tlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateRequestOriginCountryISOCase1 {
   value: string;
-  confidence?: number;
-  tlp?: ThreatEventsTagsCreateRequestOriginCountryISOCase1Tlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: ThreatEventsTagsCreateRequestOriginCountryISOCase1Tlp | (string & {}) | undefined;
 }
 export type ThreatEventsTagsCreateRequestOriginCountryISO =
   | string
@@ -749,8 +763,8 @@ export type ThreatEventsTagsCreateRequestPriorityCase1Tlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateRequestPriorityCase1 {
   value: number;
-  confidence?: number;
-  tlp?: ThreatEventsTagsCreateRequestPriorityCase1Tlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: ThreatEventsTagsCreateRequestPriorityCase1Tlp | (string & {}) | undefined;
 }
 export type ThreatEventsTagsCreateRequestPriority =
   | number
@@ -766,8 +780,8 @@ export type ThreatEventsTagsCreateRequestSophisticationLevelCase1Tlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateRequestSophisticationLevelCase1 {
   value: string;
-  confidence?: number;
-  tlp?: ThreatEventsTagsCreateRequestSophisticationLevelCase1Tlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: ThreatEventsTagsCreateRequestSophisticationLevelCase1Tlp | (string & {}) | undefined;
 }
 export type ThreatEventsTagsCreateRequestSophisticationLevel =
   | string
@@ -784,36 +798,36 @@ export interface CreateThreatEventTagRequest {
   /** Account ID. */
   accountId: string;
   value: string;
-  activeDuration?: ThreatEventsTagsCreateRequestActiveDuration;
-  actorCategory?: ThreatEventsTagsCreateRequestActorCategory;
+  activeDuration?: ThreatEventsTagsCreateRequestActiveDuration | undefined;
+  actorCategory?: ThreatEventsTagsCreateRequestActorCategory | undefined;
   /** Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts). */
-  aliases?: ThreatEventsTagsCreateRequestAliasesList;
-  aliasGroupNames?: ThreatEventsTagsCreateRequestAliasGroupNamesList;
-  aliasGroupNamesInternal?: ThreatEventsTagsCreateRequestAliasGroupNamesInternalList;
-  attributionOrganization?: ThreatEventsTagsCreateRequestAttributionOrganization;
+  aliases?: ThreatEventsTagsCreateRequestAliasesList | undefined;
+  aliasGroupNames?: ThreatEventsTagsCreateRequestAliasGroupNamesList | undefined;
+  aliasGroupNamesInternal?: ThreatEventsTagsCreateRequestAliasGroupNamesInternalList | undefined;
+  attributionOrganization?: ThreatEventsTagsCreateRequestAttributionOrganization | undefined;
   /** Tag type (category) UUID. Optional -- when present, `properties` is validated against this category's schema. When absent, the tag is typeless and properties are accepted free-form. */
-  categoryUuid?: string;
+  categoryUuid?: string | undefined;
   /** Overall tag confidence (1-10). Optional. */
-  confidence?: number;
+  confidence?: number | undefined;
   /** Date of discovery (ISO YYYY-MM-DD). Optional. */
-  dateOfDiscovery?: string;
-  description?: string;
-  externalReferenceLinks?: ThreatEventsTagsCreateRequestExternalReferenceLinksList;
+  dateOfDiscovery?: string | undefined;
+  description?: string | undefined;
+  externalReferenceLinks?: ThreatEventsTagsCreateRequestExternalReferenceLinksList | undefined;
   /** Structured external references ({ url, description }). Public: returned to all accounts. */
-  externalReferences?: ThreatEventsTagsCreateRequestExternalReferencesList;
+  externalReferences?: ThreatEventsTagsCreateRequestExternalReferencesList | undefined;
   /** Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. */
-  internalAliases?: ThreatEventsTagsCreateRequestInternalAliasesList;
-  internalDescription?: string;
-  lastSeen?: string;
-  motive?: ThreatEventsTagsCreateRequestMotive;
-  opsecLevel?: ThreatEventsTagsCreateRequestOpsecLevel;
-  originCountryISO?: ThreatEventsTagsCreateRequestOriginCountryISO;
-  priority?: ThreatEventsTagsCreateRequestPriority;
+  internalAliases?: ThreatEventsTagsCreateRequestInternalAliasesList | undefined;
+  internalDescription?: string | undefined;
+  lastSeen?: string | undefined;
+  motive?: ThreatEventsTagsCreateRequestMotive | undefined;
+  opsecLevel?: ThreatEventsTagsCreateRequestOpsecLevel | undefined;
+  originCountryISO?: ThreatEventsTagsCreateRequestOriginCountryISO | undefined;
+  priority?: ThreatEventsTagsCreateRequestPriority | undefined;
   /** Structured metadata blob. Optional. When `categoryUuid` is given, validated against this category's schema on write. When typeless, accepted free-form. Use `{}` for a tag with no custom data. */
-  properties?: ThreatEventsTagsCreateRequestPropertiesMap;
-  sophisticationLevel?: ThreatEventsTagsCreateRequestSophisticationLevel;
+  properties?: ThreatEventsTagsCreateRequestPropertiesMap | undefined;
+  sophisticationLevel?: ThreatEventsTagsCreateRequestSophisticationLevel | undefined;
   /** Tag-level TLP handling marking. Optional. Allowed values: red, amber, amber-strict, green, clear, purple, amber+strict. */
-  tlp?: ThreatEventsTagsCreateRequestTlp | (string & {});
+  tlp?: ThreatEventsTagsCreateRequestTlp | (string & {}) | undefined;
 }
 export type ThreatEventsTagsCreateResponseActiveDurationAnnotatedTlp =
   | "red"
@@ -825,7 +839,7 @@ export type ThreatEventsTagsCreateResponseActiveDurationAnnotatedTlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateResponseActiveDurationAnnotated {
   value: string;
-  tlp?: ThreatEventsTagsCreateResponseActiveDurationAnnotatedTlp | null;
+  tlp?: ThreatEventsTagsCreateResponseActiveDurationAnnotatedTlp | null | undefined;
 }
 export type ThreatEventsTagsCreateResponseActorCategoryAnnotatedTlp =
   | "red"
@@ -837,8 +851,8 @@ export type ThreatEventsTagsCreateResponseActorCategoryAnnotatedTlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateResponseActorCategoryAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: ThreatEventsTagsCreateResponseActorCategoryAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: ThreatEventsTagsCreateResponseActorCategoryAnnotatedTlp | null | undefined;
 }
 export type ThreatEventsTagsCreateResponseAliasesItemTlp =
   | "red"
@@ -850,8 +864,8 @@ export type ThreatEventsTagsCreateResponseAliasesItemTlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateResponseAliasesItem {
   value: string;
-  confidence?: number | null;
-  tlp?: ThreatEventsTagsCreateResponseAliasesItemTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: ThreatEventsTagsCreateResponseAliasesItemTlp | null | undefined;
 }
 export type ThreatEventsTagsCreateResponseAliasesList =
   Array<ThreatEventsTagsCreateResponseAliasesItem>;
@@ -867,13 +881,13 @@ export type ThreatEventsTagsCreateResponseAttributionOrganizationAnnotatedTlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateResponseAttributionOrganizationAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: ThreatEventsTagsCreateResponseAttributionOrganizationAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: ThreatEventsTagsCreateResponseAttributionOrganizationAnnotatedTlp | null | undefined;
 }
 export type ThreatEventsTagsCreateResponseExternalReferenceLinksList = Array<string>;
 export interface ThreatEventsTagsCreateResponseExternalReferencesItem {
   url: string;
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export type ThreatEventsTagsCreateResponseExternalReferencesList =
   Array<ThreatEventsTagsCreateResponseExternalReferencesItem>;
@@ -887,7 +901,7 @@ export type ThreatEventsTagsCreateResponseExternalReferencesAnnotatedItemTlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateResponseExternalReferencesAnnotatedItem {
   value: string;
-  tlp?: ThreatEventsTagsCreateResponseExternalReferencesAnnotatedItemTlp | null;
+  tlp?: ThreatEventsTagsCreateResponseExternalReferencesAnnotatedItemTlp | null | undefined;
 }
 export type ThreatEventsTagsCreateResponseExternalReferencesAnnotatedList =
   Array<ThreatEventsTagsCreateResponseExternalReferencesAnnotatedItem>;
@@ -901,8 +915,8 @@ export type ThreatEventsTagsCreateResponseInternalAliasesItemTlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateResponseInternalAliasesItem {
   value: string;
-  confidence?: number | null;
-  tlp?: ThreatEventsTagsCreateResponseInternalAliasesItemTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: ThreatEventsTagsCreateResponseInternalAliasesItemTlp | null | undefined;
 }
 export type ThreatEventsTagsCreateResponseInternalAliasesList =
   Array<ThreatEventsTagsCreateResponseInternalAliasesItem>;
@@ -916,8 +930,8 @@ export type ThreatEventsTagsCreateResponseMotiveAnnotatedTlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateResponseMotiveAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: ThreatEventsTagsCreateResponseMotiveAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: ThreatEventsTagsCreateResponseMotiveAnnotatedTlp | null | undefined;
 }
 export type ThreatEventsTagsCreateResponseOpsecLevelAnnotatedTlp =
   | "red"
@@ -929,8 +943,8 @@ export type ThreatEventsTagsCreateResponseOpsecLevelAnnotatedTlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateResponseOpsecLevelAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: ThreatEventsTagsCreateResponseOpsecLevelAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: ThreatEventsTagsCreateResponseOpsecLevelAnnotatedTlp | null | undefined;
 }
 export type ThreatEventsTagsCreateResponseOriginCountryISOAnnotatedTlp =
   | "red"
@@ -942,8 +956,8 @@ export type ThreatEventsTagsCreateResponseOriginCountryISOAnnotatedTlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateResponseOriginCountryISOAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: ThreatEventsTagsCreateResponseOriginCountryISOAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: ThreatEventsTagsCreateResponseOriginCountryISOAnnotatedTlp | null | undefined;
 }
 export type ThreatEventsTagsCreateResponsePriorityAnnotatedTlp =
   | "red"
@@ -955,7 +969,7 @@ export type ThreatEventsTagsCreateResponsePriorityAnnotatedTlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateResponsePriorityAnnotated {
   value: number;
-  tlp?: ThreatEventsTagsCreateResponsePriorityAnnotatedTlp | null;
+  tlp?: ThreatEventsTagsCreateResponsePriorityAnnotatedTlp | null | undefined;
 }
 export type ThreatEventsTagsCreateResponsePropertiesMap = { [key: string]: unknown | undefined };
 export type ThreatEventsTagsCreateResponseSophisticationLevelAnnotatedTlp =
@@ -968,8 +982,8 @@ export type ThreatEventsTagsCreateResponseSophisticationLevelAnnotatedTlp =
   | "amber+strict";
 export interface ThreatEventsTagsCreateResponseSophisticationLevelAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: ThreatEventsTagsCreateResponseSophisticationLevelAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: ThreatEventsTagsCreateResponseSophisticationLevelAnnotatedTlp | null | undefined;
 }
 export type ThreatEventsTagsCreateResponseTlp =
   | "red"
@@ -983,48 +997,69 @@ export type ThreatEventsTagsCreateResponseTlp =
 export interface CreateThreatEventTagResponse {
   uuid: string;
   value: string;
-  activeDuration?: string | null;
-  activeDurationAnnotated?: ThreatEventsTagsCreateResponseActiveDurationAnnotated | null;
-  actorCategory?: string | null;
-  actorCategoryAnnotated?: ThreatEventsTagsCreateResponseActorCategoryAnnotated | null;
+  activeDuration?: string | null | undefined;
+  activeDurationAnnotated?:
+    | ThreatEventsTagsCreateResponseActiveDurationAnnotated
+    | null
+    | undefined;
+  actorCategory?: string | null | undefined;
+  actorCategoryAnnotated?: ThreatEventsTagsCreateResponseActorCategoryAnnotated | null | undefined;
   /** Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts). */
-  aliases?: ThreatEventsTagsCreateResponseAliasesList | null;
-  aliasGroupNames?: ThreatEventsTagsCreateResponseAliasGroupNamesList | null;
-  aliasGroupNamesInternal?: ThreatEventsTagsCreateResponseAliasGroupNamesInternalList | null;
-  attributionOrganization?: string | null;
-  attributionOrganizationAnnotated?: ThreatEventsTagsCreateResponseAttributionOrganizationAnnotated | null;
-  categoryName?: string | null;
-  categoryUuid?: string | null;
+  aliases?: ThreatEventsTagsCreateResponseAliasesList | null | undefined;
+  aliasGroupNames?: ThreatEventsTagsCreateResponseAliasGroupNamesList | null | undefined;
+  aliasGroupNamesInternal?:
+    | ThreatEventsTagsCreateResponseAliasGroupNamesInternalList
+    | null
+    | undefined;
+  attributionOrganization?: string | null | undefined;
+  attributionOrganizationAnnotated?:
+    | ThreatEventsTagsCreateResponseAttributionOrganizationAnnotated
+    | null
+    | undefined;
+  categoryName?: string | null | undefined;
+  categoryUuid?: string | null | undefined;
   /** Overall tag confidence (1-10). */
-  confidence?: number | null;
-  createdAt?: string | null;
-  dateOfDiscovery?: string | null;
-  description?: string | null;
-  externalReferenceLinks?: ThreatEventsTagsCreateResponseExternalReferenceLinksList | null;
+  confidence?: number | null | undefined;
+  createdAt?: string | null | undefined;
+  dateOfDiscovery?: string | null | undefined;
+  description?: string | null | undefined;
+  externalReferenceLinks?:
+    | ThreatEventsTagsCreateResponseExternalReferenceLinksList
+    | null
+    | undefined;
   /** Structured external references ({ url, description }). Public: returned to all accounts. */
-  externalReferences?: ThreatEventsTagsCreateResponseExternalReferencesList | null;
-  externalReferencesAnnotated?: ThreatEventsTagsCreateResponseExternalReferencesAnnotatedList | null;
+  externalReferences?: ThreatEventsTagsCreateResponseExternalReferencesList | null | undefined;
+  externalReferencesAnnotated?:
+    | ThreatEventsTagsCreateResponseExternalReferencesAnnotatedList
+    | null
+    | undefined;
   /** Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. */
-  internalAliases?: ThreatEventsTagsCreateResponseInternalAliasesList | null;
-  internalDescription?: string | null;
-  lastSeen?: string | null;
-  motive?: string | null;
-  motiveAnnotated?: ThreatEventsTagsCreateResponseMotiveAnnotated | null;
-  opsecLevel?: string | null;
-  opsecLevelAnnotated?: ThreatEventsTagsCreateResponseOpsecLevelAnnotated | null;
+  internalAliases?: ThreatEventsTagsCreateResponseInternalAliasesList | null | undefined;
+  internalDescription?: string | null | undefined;
+  lastSeen?: string | null | undefined;
+  motive?: string | null | undefined;
+  motiveAnnotated?: ThreatEventsTagsCreateResponseMotiveAnnotated | null | undefined;
+  opsecLevel?: string | null | undefined;
+  opsecLevelAnnotated?: ThreatEventsTagsCreateResponseOpsecLevelAnnotated | null | undefined;
   /** ISO country code (alpha-2 or alpha-3). Normalized to uppercase on read. Null when stored value is blank/whitespace. */
-  originCountryISO?: string | null;
-  originCountryISOAnnotated?: ThreatEventsTagsCreateResponseOriginCountryISOAnnotated | null;
-  priority?: number | null;
-  priorityAnnotated?: ThreatEventsTagsCreateResponsePriorityAnnotated | null;
+  originCountryISO?: string | null | undefined;
+  originCountryISOAnnotated?:
+    | ThreatEventsTagsCreateResponseOriginCountryISOAnnotated
+    | null
+    | undefined;
+  priority?: number | null | undefined;
+  priorityAnnotated?: ThreatEventsTagsCreateResponsePriorityAnnotated | null | undefined;
   /** Parsed custom field values. Null when the tag has no custom fields. */
-  properties?: ThreatEventsTagsCreateResponsePropertiesMap | null;
-  sophisticationLevel?: string | null;
-  sophisticationLevelAnnotated?: ThreatEventsTagsCreateResponseSophisticationLevelAnnotated | null;
+  properties?: ThreatEventsTagsCreateResponsePropertiesMap | null | undefined;
+  sophisticationLevel?: string | null | undefined;
+  sophisticationLevelAnnotated?:
+    | ThreatEventsTagsCreateResponseSophisticationLevelAnnotated
+    | null
+    | undefined;
   /** Tag-level TLP handling marking. */
-  tlp?: ThreatEventsTagsCreateResponseTlp | null;
-  updatedAt?: string | null;
-  version?: number | null;
+  tlp?: ThreatEventsTagsCreateResponseTlp | null | undefined;
+  updatedAt?: string | null | undefined;
+  version?: number | null | undefined;
 }
 export interface CreateThreatSignalsArticlesTagRequest {
   accountId: string;
@@ -1053,19 +1088,19 @@ export type CreateThreatSignalsFeedRequestCategoryId =
 export interface CreateThreatSignalsFeedRequest {
   accountId: string;
   /** One of the predefined Threat Signals feed categories; see GET /:account_id/v2/threat-signals/categories. */
-  categoryId?: CreateThreatSignalsFeedRequestCategoryId | (string & {});
+  categoryId?: CreateThreatSignalsFeedRequestCategoryId | (string & {}) | undefined;
   /** UUID of a curated feed to subscribe to. Provide exactly one of url or curated_feed_id. The account must have feed creation entitlement and not exceed feed allowance. */
-  curatedFeedId?: string;
+  curatedFeedId?: string | undefined;
   /** Override the feed's display name. Null clears it; omit to keep existing or derived value. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Whether to actively poll the feed. Default true. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Polling interval in seconds (60-86400). Default 300s (5 minutes). */
-  pollIntervalS?: number;
+  pollIntervalS?: number | undefined;
   /** Override the feed's title. Null clears it; omit to keep existing or derived value. */
-  title?: string;
+  title?: string | undefined;
   /** HTTPS RSS feed URL. Provide exactly one of url or curated_feed_id. The account must have feed creation entitlement and not exceed feed allowance. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateThreatSignalsFeedResponse {
@@ -1100,7 +1135,7 @@ export interface CreateThreatSignalsSkillRequest {
   /** AI prompt (1-4000 characters) defining the skill's instructions. */
   prompt: string;
   /** Optional label; does not affect execution. Defaults to "summary". */
-  type?: CreateThreatSignalsSkillRequestType | (string & {});
+  type?: CreateThreatSignalsSkillRequestType | (string & {}) | undefined;
 }
 export type CreateThreatSignalsSkillResponseSource = "default" | "custom";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -1298,17 +1333,17 @@ export interface EditThreatEventsQueryRequest {
   /** Event query ID */
   queryId: number;
   /** Deprecated and ignored: saved-query alerting and rules were removed. */
-  alertEnabled?: boolean;
+  alertEnabled?: boolean | undefined;
   /** Deprecated and ignored: saved-query alerting and rules were removed. */
-  alertRollupEnabled?: boolean;
+  alertRollupEnabled?: boolean | undefined;
   /** Unique name for the saved query */
-  name?: string;
+  name?: string | undefined;
   /** JSON string containing the query parameters */
-  queryJson?: string;
+  queryJson?: string | undefined;
   /** Deprecated and ignored: saved-query alerting and rules were removed. */
-  ruleEnabled?: boolean;
+  ruleEnabled?: boolean | undefined;
   /** Deprecated and ignored: saved-query alerting and rules were removed. */
-  ruleScope?: string;
+  ruleScope?: string | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface EditThreatEventsQueryResponse {
@@ -1333,11 +1368,11 @@ export interface EditThreatEventsQueryResponse {
   /** Email of the user who created the query */
   userEmail: string;
   /** Deprecated: saved-query alerting and rules were removed. Always null. */
-  customThreatFeedId?: number | null;
+  customThreatFeedId?: number | null | undefined;
   /** Deprecated: saved-query alerting and rules were removed. Always null. */
-  ruleListId?: string | null;
+  ruleListId?: string | null | undefined;
   /** Deprecated: saved-query alerting and rules were removed. Always null. */
-  ruleScope?: string | null;
+  ruleScope?: string | null | undefined;
 }
 export type EditThreatEventsTagRequestActiveDurationCase1Tlp =
   | "red"
@@ -1349,8 +1384,8 @@ export type EditThreatEventsTagRequestActiveDurationCase1Tlp =
   | "amber+strict";
 export interface EditThreatEventsTagRequestActiveDurationCase1 {
   value: string;
-  confidence?: number;
-  tlp?: EditThreatEventsTagRequestActiveDurationCase1Tlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: EditThreatEventsTagRequestActiveDurationCase1Tlp | (string & {}) | undefined;
 }
 export type EditThreatEventsTagRequestActiveDuration =
   | string
@@ -1365,8 +1400,8 @@ export type EditThreatEventsTagRequestActorCategoryCase1Tlp =
   | "amber+strict";
 export interface EditThreatEventsTagRequestActorCategoryCase1 {
   value: string;
-  confidence?: number;
-  tlp?: EditThreatEventsTagRequestActorCategoryCase1Tlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: EditThreatEventsTagRequestActorCategoryCase1Tlp | (string & {}) | undefined;
 }
 export type EditThreatEventsTagRequestActorCategory =
   | string
@@ -1381,8 +1416,8 @@ export type EditThreatEventsTagRequestAliasesItemTlp =
   | "amber+strict";
 export interface EditThreatEventsTagRequestAliasesItem {
   value: string;
-  confidence?: number;
-  tlp?: EditThreatEventsTagRequestAliasesItemTlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: EditThreatEventsTagRequestAliasesItemTlp | (string & {}) | undefined;
 }
 export type EditThreatEventsTagRequestAliasesList = Array<EditThreatEventsTagRequestAliasesItem>;
 export type EditThreatEventsTagRequestAliasGroupNamesList = Array<string>;
@@ -1397,8 +1432,8 @@ export type EditThreatEventsTagRequestAttributionOrganizationCase1Tlp =
   | "amber+strict";
 export interface EditThreatEventsTagRequestAttributionOrganizationCase1 {
   value: string;
-  confidence?: number;
-  tlp?: EditThreatEventsTagRequestAttributionOrganizationCase1Tlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: EditThreatEventsTagRequestAttributionOrganizationCase1Tlp | (string & {}) | undefined;
 }
 export type EditThreatEventsTagRequestAttributionOrganization =
   | string
@@ -1418,8 +1453,8 @@ export type EditThreatEventsTagRequestInternalAliasesItemTlp =
   | "amber+strict";
 export interface EditThreatEventsTagRequestInternalAliasesItem {
   value: string;
-  confidence?: number;
-  tlp?: EditThreatEventsTagRequestInternalAliasesItemTlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: EditThreatEventsTagRequestInternalAliasesItemTlp | (string & {}) | undefined;
 }
 export type EditThreatEventsTagRequestInternalAliasesList =
   Array<EditThreatEventsTagRequestInternalAliasesItem>;
@@ -1433,8 +1468,8 @@ export type EditThreatEventsTagRequestMotiveCase1Tlp =
   | "amber+strict";
 export interface EditThreatEventsTagRequestMotiveCase1 {
   value: string;
-  confidence?: number;
-  tlp?: EditThreatEventsTagRequestMotiveCase1Tlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: EditThreatEventsTagRequestMotiveCase1Tlp | (string & {}) | undefined;
 }
 export type EditThreatEventsTagRequestMotive = string | EditThreatEventsTagRequestMotiveCase1;
 export type EditThreatEventsTagRequestOpsecLevelCase1Tlp =
@@ -1447,8 +1482,8 @@ export type EditThreatEventsTagRequestOpsecLevelCase1Tlp =
   | "amber+strict";
 export interface EditThreatEventsTagRequestOpsecLevelCase1 {
   value: string;
-  confidence?: number;
-  tlp?: EditThreatEventsTagRequestOpsecLevelCase1Tlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: EditThreatEventsTagRequestOpsecLevelCase1Tlp | (string & {}) | undefined;
 }
 export type EditThreatEventsTagRequestOpsecLevel =
   | string
@@ -1463,8 +1498,8 @@ export type EditThreatEventsTagRequestOriginCountryISOCase1Tlp =
   | "amber+strict";
 export interface EditThreatEventsTagRequestOriginCountryISOCase1 {
   value: string;
-  confidence?: number;
-  tlp?: EditThreatEventsTagRequestOriginCountryISOCase1Tlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: EditThreatEventsTagRequestOriginCountryISOCase1Tlp | (string & {}) | undefined;
 }
 export type EditThreatEventsTagRequestOriginCountryISO =
   | string
@@ -1479,8 +1514,8 @@ export type EditThreatEventsTagRequestPriorityCase1Tlp =
   | "amber+strict";
 export interface EditThreatEventsTagRequestPriorityCase1 {
   value: number;
-  confidence?: number;
-  tlp?: EditThreatEventsTagRequestPriorityCase1Tlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: EditThreatEventsTagRequestPriorityCase1Tlp | (string & {}) | undefined;
 }
 export type EditThreatEventsTagRequestPriority = number | EditThreatEventsTagRequestPriorityCase1;
 export type EditThreatEventsTagRequestPropertiesMap = { [key: string]: unknown | undefined };
@@ -1494,8 +1529,8 @@ export type EditThreatEventsTagRequestSophisticationLevelCase1Tlp =
   | "amber+strict";
 export interface EditThreatEventsTagRequestSophisticationLevelCase1 {
   value: string;
-  confidence?: number;
-  tlp?: EditThreatEventsTagRequestSophisticationLevelCase1Tlp | (string & {});
+  confidence?: number | undefined;
+  tlp?: EditThreatEventsTagRequestSophisticationLevelCase1Tlp | (string & {}) | undefined;
 }
 export type EditThreatEventsTagRequestSophisticationLevel =
   | string
@@ -1513,37 +1548,37 @@ export interface EditThreatEventsTagRequest {
   accountId: string;
   /** Tag UUID. */
   tagUuid: string;
-  activeDuration?: EditThreatEventsTagRequestActiveDuration;
-  actorCategory?: EditThreatEventsTagRequestActorCategory;
+  activeDuration?: EditThreatEventsTagRequestActiveDuration | undefined;
+  actorCategory?: EditThreatEventsTagRequestActorCategory | undefined;
   /** Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts). */
-  aliases?: EditThreatEventsTagRequestAliasesList;
-  aliasGroupNames?: EditThreatEventsTagRequestAliasGroupNamesList;
-  aliasGroupNamesInternal?: EditThreatEventsTagRequestAliasGroupNamesInternalList;
-  attributionOrganization?: EditThreatEventsTagRequestAttributionOrganization;
+  aliases?: EditThreatEventsTagRequestAliasesList | undefined;
+  aliasGroupNames?: EditThreatEventsTagRequestAliasGroupNamesList | undefined;
+  aliasGroupNamesInternal?: EditThreatEventsTagRequestAliasGroupNamesInternalList | undefined;
+  attributionOrganization?: EditThreatEventsTagRequestAttributionOrganization | undefined;
   /** Tag type (category) UUID. When changed, existing `properties` are re-validated against the new category's schema (400 on mismatch). Set to null to unlink (typeless; properties stop being validated). */
-  categoryUuid?: string;
+  categoryUuid?: string | undefined;
   /** Overall tag confidence (1-10). Omit to preserve existing. */
-  confidence?: number;
+  confidence?: number | undefined;
   /** Date of discovery (ISO YYYY-MM-DD). Omit to preserve existing. */
-  dateOfDiscovery?: string;
-  description?: string;
-  externalReferenceLinks?: EditThreatEventsTagRequestExternalReferenceLinksList;
+  dateOfDiscovery?: string | undefined;
+  description?: string | undefined;
+  externalReferenceLinks?: EditThreatEventsTagRequestExternalReferenceLinksList | undefined;
   /** Structured external references ({ url, description }). Public: returned to all accounts. */
-  externalReferences?: EditThreatEventsTagRequestExternalReferencesList;
+  externalReferences?: EditThreatEventsTagRequestExternalReferencesList | undefined;
   /** Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. */
-  internalAliases?: EditThreatEventsTagRequestInternalAliasesList;
-  internalDescription?: string;
-  lastSeen?: string;
-  motive?: EditThreatEventsTagRequestMotive;
-  opsecLevel?: EditThreatEventsTagRequestOpsecLevel;
-  originCountryISO?: EditThreatEventsTagRequestOriginCountryISO;
-  priority?: EditThreatEventsTagRequestPriority;
+  internalAliases?: EditThreatEventsTagRequestInternalAliasesList | undefined;
+  internalDescription?: string | undefined;
+  lastSeen?: string | undefined;
+  motive?: EditThreatEventsTagRequestMotive | undefined;
+  opsecLevel?: EditThreatEventsTagRequestOpsecLevel | undefined;
+  originCountryISO?: EditThreatEventsTagRequestOriginCountryISO | undefined;
+  priority?: EditThreatEventsTagRequestPriority | undefined;
   /** Custom field values blob. When omitted, the existing value is preserved. When provided, performs a shallow per-key merge over the stored value (unmentioned keys are retained). Setting an individual key to null deletes that key. Validation runs against the merged result, so a partial update may omit a schema-required key if the stored value supplies it. */
-  properties?: EditThreatEventsTagRequestPropertiesMap;
-  sophisticationLevel?: EditThreatEventsTagRequestSophisticationLevel;
+  properties?: EditThreatEventsTagRequestPropertiesMap | undefined;
+  sophisticationLevel?: EditThreatEventsTagRequestSophisticationLevel | undefined;
   /** Tag-level TLP marking. Omit to preserve existing. Cannot be cleared to null. */
-  tlp?: EditThreatEventsTagRequestTlp | (string & {});
-  value?: string;
+  tlp?: EditThreatEventsTagRequestTlp | (string & {}) | undefined;
+  value?: string | undefined;
 }
 export type EditThreatEventsTagResponseActiveDurationAnnotatedTlp =
   | "red"
@@ -1555,7 +1590,7 @@ export type EditThreatEventsTagResponseActiveDurationAnnotatedTlp =
   | "amber+strict";
 export interface EditThreatEventsTagResponseActiveDurationAnnotated {
   value: string;
-  tlp?: EditThreatEventsTagResponseActiveDurationAnnotatedTlp | null;
+  tlp?: EditThreatEventsTagResponseActiveDurationAnnotatedTlp | null | undefined;
 }
 export type EditThreatEventsTagResponseActorCategoryAnnotatedTlp =
   | "red"
@@ -1567,8 +1602,8 @@ export type EditThreatEventsTagResponseActorCategoryAnnotatedTlp =
   | "amber+strict";
 export interface EditThreatEventsTagResponseActorCategoryAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: EditThreatEventsTagResponseActorCategoryAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: EditThreatEventsTagResponseActorCategoryAnnotatedTlp | null | undefined;
 }
 export type EditThreatEventsTagResponseAliasesItemTlp =
   | "red"
@@ -1580,8 +1615,8 @@ export type EditThreatEventsTagResponseAliasesItemTlp =
   | "amber+strict";
 export interface EditThreatEventsTagResponseAliasesItem {
   value: string;
-  confidence?: number | null;
-  tlp?: EditThreatEventsTagResponseAliasesItemTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: EditThreatEventsTagResponseAliasesItemTlp | null | undefined;
 }
 export type EditThreatEventsTagResponseAliasesList = Array<EditThreatEventsTagResponseAliasesItem>;
 export type EditThreatEventsTagResponseAliasGroupNamesList = Array<string>;
@@ -1596,8 +1631,8 @@ export type EditThreatEventsTagResponseAttributionOrganizationAnnotatedTlp =
   | "amber+strict";
 export interface EditThreatEventsTagResponseAttributionOrganizationAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: EditThreatEventsTagResponseAttributionOrganizationAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: EditThreatEventsTagResponseAttributionOrganizationAnnotatedTlp | null | undefined;
 }
 export type EditThreatEventsTagResponseExternalReferenceLinksList = Array<string>;
 export type EditThreatEventsTagResponseExternalReferencesItem =
@@ -1614,7 +1649,7 @@ export type EditThreatEventsTagResponseExternalReferencesAnnotatedItemTlp =
   | "amber+strict";
 export interface EditThreatEventsTagResponseExternalReferencesAnnotatedItem {
   value: string;
-  tlp?: EditThreatEventsTagResponseExternalReferencesAnnotatedItemTlp | null;
+  tlp?: EditThreatEventsTagResponseExternalReferencesAnnotatedItemTlp | null | undefined;
 }
 export type EditThreatEventsTagResponseExternalReferencesAnnotatedList =
   Array<EditThreatEventsTagResponseExternalReferencesAnnotatedItem>;
@@ -1628,8 +1663,8 @@ export type EditThreatEventsTagResponseInternalAliasesItemTlp =
   | "amber+strict";
 export interface EditThreatEventsTagResponseInternalAliasesItem {
   value: string;
-  confidence?: number | null;
-  tlp?: EditThreatEventsTagResponseInternalAliasesItemTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: EditThreatEventsTagResponseInternalAliasesItemTlp | null | undefined;
 }
 export type EditThreatEventsTagResponseInternalAliasesList =
   Array<EditThreatEventsTagResponseInternalAliasesItem>;
@@ -1643,8 +1678,8 @@ export type EditThreatEventsTagResponseMotiveAnnotatedTlp =
   | "amber+strict";
 export interface EditThreatEventsTagResponseMotiveAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: EditThreatEventsTagResponseMotiveAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: EditThreatEventsTagResponseMotiveAnnotatedTlp | null | undefined;
 }
 export type EditThreatEventsTagResponseOpsecLevelAnnotatedTlp =
   | "red"
@@ -1656,8 +1691,8 @@ export type EditThreatEventsTagResponseOpsecLevelAnnotatedTlp =
   | "amber+strict";
 export interface EditThreatEventsTagResponseOpsecLevelAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: EditThreatEventsTagResponseOpsecLevelAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: EditThreatEventsTagResponseOpsecLevelAnnotatedTlp | null | undefined;
 }
 export type EditThreatEventsTagResponseOriginCountryISOAnnotatedTlp =
   | "red"
@@ -1669,8 +1704,8 @@ export type EditThreatEventsTagResponseOriginCountryISOAnnotatedTlp =
   | "amber+strict";
 export interface EditThreatEventsTagResponseOriginCountryISOAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: EditThreatEventsTagResponseOriginCountryISOAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: EditThreatEventsTagResponseOriginCountryISOAnnotatedTlp | null | undefined;
 }
 export type EditThreatEventsTagResponsePriorityAnnotatedTlp =
   | "red"
@@ -1682,7 +1717,7 @@ export type EditThreatEventsTagResponsePriorityAnnotatedTlp =
   | "amber+strict";
 export interface EditThreatEventsTagResponsePriorityAnnotated {
   value: number;
-  tlp?: EditThreatEventsTagResponsePriorityAnnotatedTlp | null;
+  tlp?: EditThreatEventsTagResponsePriorityAnnotatedTlp | null | undefined;
 }
 export type EditThreatEventsTagResponsePropertiesMap = { [key: string]: unknown | undefined };
 export type EditThreatEventsTagResponseSophisticationLevelAnnotatedTlp =
@@ -1695,8 +1730,8 @@ export type EditThreatEventsTagResponseSophisticationLevelAnnotatedTlp =
   | "amber+strict";
 export interface EditThreatEventsTagResponseSophisticationLevelAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: EditThreatEventsTagResponseSophisticationLevelAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: EditThreatEventsTagResponseSophisticationLevelAnnotatedTlp | null | undefined;
 }
 export type EditThreatEventsTagResponseTlp =
   | "red"
@@ -1710,48 +1745,63 @@ export type EditThreatEventsTagResponseTlp =
 export interface EditThreatEventsTagResponse {
   uuid: string;
   value: string;
-  activeDuration?: string | null;
-  activeDurationAnnotated?: EditThreatEventsTagResponseActiveDurationAnnotated | null;
-  actorCategory?: string | null;
-  actorCategoryAnnotated?: EditThreatEventsTagResponseActorCategoryAnnotated | null;
+  activeDuration?: string | null | undefined;
+  activeDurationAnnotated?: EditThreatEventsTagResponseActiveDurationAnnotated | null | undefined;
+  actorCategory?: string | null | undefined;
+  actorCategoryAnnotated?: EditThreatEventsTagResponseActorCategoryAnnotated | null | undefined;
   /** Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts). */
-  aliases?: EditThreatEventsTagResponseAliasesList | null;
-  aliasGroupNames?: EditThreatEventsTagResponseAliasGroupNamesList | null;
-  aliasGroupNamesInternal?: EditThreatEventsTagResponseAliasGroupNamesInternalList | null;
-  attributionOrganization?: string | null;
-  attributionOrganizationAnnotated?: EditThreatEventsTagResponseAttributionOrganizationAnnotated | null;
-  categoryName?: string | null;
-  categoryUuid?: string | null;
+  aliases?: EditThreatEventsTagResponseAliasesList | null | undefined;
+  aliasGroupNames?: EditThreatEventsTagResponseAliasGroupNamesList | null | undefined;
+  aliasGroupNamesInternal?:
+    | EditThreatEventsTagResponseAliasGroupNamesInternalList
+    | null
+    | undefined;
+  attributionOrganization?: string | null | undefined;
+  attributionOrganizationAnnotated?:
+    | EditThreatEventsTagResponseAttributionOrganizationAnnotated
+    | null
+    | undefined;
+  categoryName?: string | null | undefined;
+  categoryUuid?: string | null | undefined;
   /** Overall tag confidence (1-10). */
-  confidence?: number | null;
-  createdAt?: string | null;
-  dateOfDiscovery?: string | null;
-  description?: string | null;
-  externalReferenceLinks?: EditThreatEventsTagResponseExternalReferenceLinksList | null;
+  confidence?: number | null | undefined;
+  createdAt?: string | null | undefined;
+  dateOfDiscovery?: string | null | undefined;
+  description?: string | null | undefined;
+  externalReferenceLinks?: EditThreatEventsTagResponseExternalReferenceLinksList | null | undefined;
   /** Structured external references ({ url, description }). Public: returned to all accounts. */
-  externalReferences?: EditThreatEventsTagResponseExternalReferencesList | null;
-  externalReferencesAnnotated?: EditThreatEventsTagResponseExternalReferencesAnnotatedList | null;
+  externalReferences?: EditThreatEventsTagResponseExternalReferencesList | null | undefined;
+  externalReferencesAnnotated?:
+    | EditThreatEventsTagResponseExternalReferencesAnnotatedList
+    | null
+    | undefined;
   /** Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. */
-  internalAliases?: EditThreatEventsTagResponseInternalAliasesList | null;
-  internalDescription?: string | null;
-  lastSeen?: string | null;
-  motive?: string | null;
-  motiveAnnotated?: EditThreatEventsTagResponseMotiveAnnotated | null;
-  opsecLevel?: string | null;
-  opsecLevelAnnotated?: EditThreatEventsTagResponseOpsecLevelAnnotated | null;
+  internalAliases?: EditThreatEventsTagResponseInternalAliasesList | null | undefined;
+  internalDescription?: string | null | undefined;
+  lastSeen?: string | null | undefined;
+  motive?: string | null | undefined;
+  motiveAnnotated?: EditThreatEventsTagResponseMotiveAnnotated | null | undefined;
+  opsecLevel?: string | null | undefined;
+  opsecLevelAnnotated?: EditThreatEventsTagResponseOpsecLevelAnnotated | null | undefined;
   /** ISO country code (alpha-2 or alpha-3). Normalized to uppercase on read. Null when stored value is blank/whitespace. */
-  originCountryISO?: string | null;
-  originCountryISOAnnotated?: EditThreatEventsTagResponseOriginCountryISOAnnotated | null;
-  priority?: number | null;
-  priorityAnnotated?: EditThreatEventsTagResponsePriorityAnnotated | null;
+  originCountryISO?: string | null | undefined;
+  originCountryISOAnnotated?:
+    | EditThreatEventsTagResponseOriginCountryISOAnnotated
+    | null
+    | undefined;
+  priority?: number | null | undefined;
+  priorityAnnotated?: EditThreatEventsTagResponsePriorityAnnotated | null | undefined;
   /** Parsed custom field values. Null when the tag has no custom fields. */
-  properties?: EditThreatEventsTagResponsePropertiesMap | null;
-  sophisticationLevel?: string | null;
-  sophisticationLevelAnnotated?: EditThreatEventsTagResponseSophisticationLevelAnnotated | null;
+  properties?: EditThreatEventsTagResponsePropertiesMap | null | undefined;
+  sophisticationLevel?: string | null | undefined;
+  sophisticationLevelAnnotated?:
+    | EditThreatEventsTagResponseSophisticationLevelAnnotated
+    | null
+    | undefined;
   /** Tag-level TLP handling marking. */
-  tlp?: EditThreatEventsTagResponseTlp | null;
-  updatedAt?: string | null;
-  version?: number | null;
+  tlp?: EditThreatEventsTagResponseTlp | null | undefined;
+  updatedAt?: string | null | undefined;
+  version?: number | null | undefined;
 }
 export type EditThreatEventsTagsCategoryRequestSchemaItemKind =
   | "string"
@@ -1778,22 +1828,25 @@ export type EditThreatEventsTagsCategoryRequestSchemaItemPropertiesMap = {
 export interface EditThreatEventsTagsCategoryRequestSchemaItem {
   key: string;
   kind: EditThreatEventsTagsCategoryRequestSchemaItemKind | (string & {});
-  allowedValues?: EditThreatEventsTagsCategoryRequestSchemaItemAllowedValuesList;
-  annotations?: CreateThreatEventsTagsCategoryRequestSchemaItemAnnotations;
+  allowedValues?: EditThreatEventsTagsCategoryRequestSchemaItemAllowedValuesList | undefined;
+  annotations?: CreateThreatEventsTagsCategoryRequestSchemaItemAnnotations | undefined;
   /** Marks a field as unavailable for new values while retaining its definition for historical values. */
-  deprecated?: boolean;
+  deprecated?: boolean | undefined;
   /** Enum values unavailable for new writes but retained in allowedValues for historical display. */
-  deprecatedValues?: EditThreatEventsTagsCategoryRequestSchemaItemDeprecatedValuesList;
-  element?: unknown;
-  enforcement?: EditThreatEventsTagsCategoryRequestSchemaItemEnforcement | (string & {});
-  format?: EditThreatEventsTagsCategoryRequestSchemaItemFormat | (string & {});
-  label?: string;
+  deprecatedValues?: EditThreatEventsTagsCategoryRequestSchemaItemDeprecatedValuesList | undefined;
+  element?: unknown | undefined;
+  enforcement?:
+    | EditThreatEventsTagsCategoryRequestSchemaItemEnforcement
+    | (string & {})
+    | undefined;
+  format?: EditThreatEventsTagsCategoryRequestSchemaItemFormat | (string & {}) | undefined;
+  label?: string | undefined;
   /** exclusiveMinimum */
-  maxLength?: number;
-  numberConstraint?: CreateThreatEventsTagsCategoryRequestSchemaItemNumberConstraint;
+  maxLength?: number | undefined;
+  numberConstraint?: CreateThreatEventsTagsCategoryRequestSchemaItemNumberConstraint | undefined;
   /** Map of property key to FieldDefinition for object fields. Required when kind is 'object'. See FieldDefinition (recursive). */
-  properties?: EditThreatEventsTagsCategoryRequestSchemaItemPropertiesMap;
-  required?: boolean;
+  properties?: EditThreatEventsTagsCategoryRequestSchemaItemPropertiesMap | undefined;
+  required?: boolean | undefined;
 }
 export type EditThreatEventsTagsCategoryRequestSchemaList =
   Array<EditThreatEventsTagsCategoryRequestSchemaItem>;
@@ -1802,10 +1855,10 @@ export interface EditThreatEventsTagsCategoryRequest {
   accountId: string;
   /** Tag Category UUID. */
   categoryUuid: string;
-  description?: string;
-  name?: string;
+  description?: string | undefined;
+  name?: string | undefined;
   /** Optional array of FieldDefinition objects. When provided, replaces the existing field schema. When omitted, the existing schema is preserved. */
-  schema?: EditThreatEventsTagsCategoryRequestSchemaList;
+  schema?: EditThreatEventsTagsCategoryRequestSchemaList | undefined;
 }
 export type EditThreatEventsTagsCategoryResponseSchemaItemKind =
   | "string"
@@ -1832,22 +1885,31 @@ export type EditThreatEventsTagsCategoryResponseSchemaItemPropertiesMap = {
 export interface EditThreatEventsTagsCategoryResponseSchemaItem {
   key: string;
   kind: EditThreatEventsTagsCategoryResponseSchemaItemKind;
-  allowedValues?: EditThreatEventsTagsCategoryResponseSchemaItemAllowedValuesList | null;
-  annotations?: CreateThreatEventsTagsCategoryResponseSchemaItemAnnotations | null;
+  allowedValues?:
+    | EditThreatEventsTagsCategoryResponseSchemaItemAllowedValuesList
+    | null
+    | undefined;
+  annotations?: CreateThreatEventsTagsCategoryResponseSchemaItemAnnotations | null | undefined;
   /** Marks a field as unavailable for new values while retaining its definition for historical values. */
-  deprecated?: boolean | null;
+  deprecated?: boolean | null | undefined;
   /** Enum values unavailable for new writes but retained in allowedValues for historical display. */
-  deprecatedValues?: EditThreatEventsTagsCategoryResponseSchemaItemDeprecatedValuesList | null;
-  element?: unknown | null;
-  enforcement?: EditThreatEventsTagsCategoryResponseSchemaItemEnforcement | null;
-  format?: EditThreatEventsTagsCategoryResponseSchemaItemFormat | null;
-  label?: string | null;
+  deprecatedValues?:
+    | EditThreatEventsTagsCategoryResponseSchemaItemDeprecatedValuesList
+    | null
+    | undefined;
+  element?: unknown | null | undefined;
+  enforcement?: EditThreatEventsTagsCategoryResponseSchemaItemEnforcement | null | undefined;
+  format?: EditThreatEventsTagsCategoryResponseSchemaItemFormat | null | undefined;
+  label?: string | null | undefined;
   /** exclusiveMinimum */
-  maxLength?: number | null;
-  numberConstraint?: CreateThreatEventsTagsCategoryResponseSchemaItemNumberConstraint | null;
+  maxLength?: number | null | undefined;
+  numberConstraint?:
+    | CreateThreatEventsTagsCategoryResponseSchemaItemNumberConstraint
+    | null
+    | undefined;
   /** Map of property key to FieldDefinition for object fields. Required when kind is 'object'. See FieldDefinition (recursive). */
-  properties?: EditThreatEventsTagsCategoryResponseSchemaItemPropertiesMap | null;
-  required?: boolean | null;
+  properties?: EditThreatEventsTagsCategoryResponseSchemaItemPropertiesMap | null | undefined;
+  required?: boolean | null | undefined;
 }
 export type EditThreatEventsTagsCategoryResponseSchemaList =
   Array<EditThreatEventsTagsCategoryResponseSchemaItem>;
@@ -1855,11 +1917,11 @@ export type EditThreatEventsTagsCategoryResponseSchemaList =
 export interface EditThreatEventsTagsCategoryResponse {
   name: string;
   uuid: string;
-  createdAt?: string | null;
-  description?: string | null;
+  createdAt?: string | null | undefined;
+  description?: string | null | undefined;
   /** Parsed FieldDefinition[] defining custom fields for this category, or null if none. */
-  schema?: EditThreatEventsTagsCategoryResponseSchemaList | null;
-  updatedAt?: string | null;
+  schema?: EditThreatEventsTagsCategoryResponseSchemaList | null | undefined;
+  updatedAt?: string | null | undefined;
 }
 export interface EditThreatSignalsArticleRequest {
   accountId: string;
@@ -1879,6 +1941,12 @@ export type EditThreatSignalsArticleResponseIndicatorExtractionStatus =
   | "failed"
   | "unknown";
 export type EditThreatSignalsArticleResponseMetadataMap = { [key: string]: unknown | undefined };
+export type EditThreatSignalsArticleResponseSeverity =
+  | "informational"
+  | "low"
+  | "medium"
+  | "high"
+  | "critical";
 export type EditThreatSignalsArticleResponseTagsItemAppliedBy = "ai" | "analyst" | "system";
 export interface EditThreatSignalsArticleResponseTagsItem {
   appliedBy: EditThreatSignalsArticleResponseTagsItemAppliedBy;
@@ -1903,14 +1971,16 @@ export interface EditThreatSignalsArticleResponse {
   publishedAt: string;
   read: boolean;
   readAt: string;
+  /** Beta. Intrinsic article severity band, from informational to critical, independent of any organisation or Priority Intelligence Requirement. Null when the account has no active Priority Intelligence Requirements, scoring has not completed, or a historic article has not entered an automatic rescore window. */
+  severity: EditThreatSignalsArticleResponseSeverity;
   sourceCount: number;
   /** Persisted enrichment summary. Null until enrichment produces a summary. */
   summary: string;
   summaryR2Key: string;
   tags: EditThreatSignalsArticleResponseTagsList;
   title: string;
-  skillVersion?: string | null;
-  tagSkillVersion?: string | null;
+  skillVersion?: string | null | undefined;
+  tagSkillVersion?: string | null | undefined;
 }
 export type EditThreatSignalsFeedRequestCategoryId =
   | "b12a0fd6-f7b9-5393-9ef3-f888d506c550"
@@ -1926,15 +1996,15 @@ export interface EditThreatSignalsFeedRequest {
   /** UUID of the Threat Signals feed */
   feedId: string;
   /** One of the predefined Threat Signals feed categories; see GET /:account_id/v2/threat-signals/categories. */
-  categoryId?: EditThreatSignalsFeedRequestCategoryId | (string & {});
+  categoryId?: EditThreatSignalsFeedRequestCategoryId | (string & {}) | undefined;
   /** Override the feed's display name. Null clears it; omit to keep existing or derived value. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Whether to actively poll the feed. Omit to keep current value. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** New polling interval in seconds (60-86400). Omit to keep current value. */
-  pollIntervalS?: number;
+  pollIntervalS?: number | undefined;
   /** Override the feed's title. Null clears it; omit to keep existing or derived value. */
-  title?: string;
+  title?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface EditThreatSignalsFeedResponse {
@@ -1964,15 +2034,15 @@ export interface EditThreatSignalsSkillRequest {
   /** Custom Skill UUID or a Managed Default Skill ID */
   skillId: string;
   /** Optional skill configuration (stored but not currently interpreted). */
-  config?: string;
+  config?: string | undefined;
   /** Whether the skill is active and eligible for feed assignment. */
-  isActive?: boolean;
+  isActive?: boolean | undefined;
   /** Custom Skill name (1-100 characters). */
-  name?: string;
+  name?: string | undefined;
   /** JSON Schema serialized as a string (max 4096 characters). */
-  outputSchema?: string;
+  outputSchema?: string | undefined;
   /** AI prompt (1-4000 characters) defining the skill's instructions. */
-  prompt?: string;
+  prompt?: string | undefined;
 }
 export type EditThreatSignalsSkillResponseSource = "default" | "custom";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -2048,15 +2118,15 @@ export interface GetRequestResponse {
   /** The CISA defined Traffic Light Protocol (TLP). */
   tlp: RequestsGetResponseTlp;
   updated: string;
-  completed?: string | null;
+  completed?: string | null | undefined;
   /** Tokens for the request messages. */
-  messageTokens?: number | null;
+  messageTokens?: number | null | undefined;
   /** Readable Request ID. */
-  readableId?: string | null;
+  readableId?: string | null | undefined;
   /** Request Status. */
-  status?: RequestsGetResponseStatus | null;
+  status?: RequestsGetResponseStatus | null | undefined;
   /** Tokens for the request. */
-  tokens?: number | null;
+  tokens?: number | null | undefined;
 }
 export type RequestsMessageGetRequestSortOrder = "asc" | "desc";
 export interface GetRequestMessageRequest {
@@ -2069,13 +2139,13 @@ export interface GetRequestMessageRequest {
   /** Number of results per page. */
   perPage: number;
   /** Retrieve mes ges created after this time. */
-  after?: string;
+  after?: string | undefined;
   /** Retrieve messages created before this time. */
-  before?: string;
+  before?: string | undefined;
   /** Field to sort results by. */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** Sort order (asc or desc). */
-  sortOrder?: RequestsMessageGetRequestSortOrder | (string & {});
+  sortOrder?: RequestsMessageGetRequestSortOrder | (string & {}) | undefined;
 }
 export interface RequestsMessageGetResultItem {
   /** Message ID. */
@@ -2089,14 +2159,14 @@ export interface RequestsMessageGetResultItem {
   /** Defines the message last updated time. */
   updated: string;
   /** Defines the message creation time. */
-  created?: string | null;
+  created?: string | null | undefined;
 }
 export type RequestsMessageGetResultList = Array<RequestsMessageGetResultItem>;
 export interface GetRequestMessageResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RequestsMessageGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetRequestPriorityRequest {
   /** Identifier. */
@@ -2127,15 +2197,15 @@ export interface GetRequestPriorityResponse {
   /** The CISA defined Traffic Light Protocol (TLP). */
   tlp: RequestsPriorityGetResponseTlp;
   updated: string;
-  completed?: string | null;
+  completed?: string | null | undefined;
   /** Tokens for the request messages. */
-  messageTokens?: number | null;
+  messageTokens?: number | null | undefined;
   /** Readable Request ID. */
-  readableId?: string | null;
+  readableId?: string | null | undefined;
   /** Request Status. */
-  status?: RequestsPriorityGetResponseStatus | null;
+  status?: RequestsPriorityGetResponseStatus | null | undefined;
   /** Tokens for the request. */
-  tokens?: number | null;
+  tokens?: number | null | undefined;
 }
 export interface GetRequestsAssetRequest {
   /** Identifier. */
@@ -2155,9 +2225,9 @@ export interface GetScanResultRequest {
   configId: string;
 }
 export interface ScansResultsGetResponse1111Item {
-  number?: number | null;
-  proto?: string | null;
-  status?: string | null;
+  number?: number | null | undefined;
+  proto?: string | null | undefined;
+  status?: string | null | undefined;
 }
 export type ScansResultsGetResponse1111List = Array<ScansResultsGetResponse1111Item>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -2206,8 +2276,8 @@ export interface GetThreatEventResponse {
   targetIndustry: string;
   tlp: string;
   uuid: string;
-  insight?: string | null;
-  releasabilityId?: string | null;
+  insight?: string | null | undefined;
+  releasabilityId?: string | null | undefined;
 }
 export interface GetThreatEventCategoryRequest {
   /** Account ID. */
@@ -2222,9 +2292,9 @@ export interface GetThreatEventCategoryResponse {
   killChain: number;
   name: string;
   uuid: string;
-  mitreAttack?: ThreatEventsCategoriesGetResponseMitreAttackList | null;
-  mitreCapec?: ThreatEventsCategoriesGetResponseMitreCapecList | null;
-  shortname?: string | null;
+  mitreAttack?: ThreatEventsCategoriesGetResponseMitreAttackList | null | undefined;
+  mitreCapec?: ThreatEventsCategoriesGetResponseMitreCapecList | null | undefined;
+  shortname?: string | null | undefined;
 }
 export interface GetThreatEventDatasetRequest {
   /** Account ID. */
@@ -2300,8 +2370,8 @@ export interface GetThreatEventsDatasetsEventResponse {
   targetIndustry: string;
   tlp: string;
   uuid: string;
-  insight?: string | null;
-  releasabilityId?: string | null;
+  insight?: string | null | undefined;
+  releasabilityId?: string | null | undefined;
 }
 export interface GetThreatEventsIndicatorsByDatasetRequest {
   /** Account ID. */
@@ -2315,16 +2385,16 @@ export interface GetThreatEventsIndicatorsByDatasetResponseRelatedEventsItem {
   datasetId: string;
   eventId: string;
   /** ISO 8601 date of the related event. Null for legacy relationships created before event-date tracking was added. */
-  eventDate?: string | null;
+  eventDate?: string | null | undefined;
 }
 export type GetThreatEventsIndicatorsByDatasetResponseRelatedEventsList =
   Array<GetThreatEventsIndicatorsByDatasetResponseRelatedEventsItem>;
 export interface GetThreatEventsIndicatorsByDatasetResponseTagsItem {
   /** The UUID of the tag category, or null when the tag is uncategorized. */
-  categoryId?: string | null;
-  categoryName?: string | null;
-  uuid?: string | null;
-  value?: string | null;
+  categoryId?: string | null | undefined;
+  categoryName?: string | null | undefined;
+  uuid?: string | null | undefined;
+  value?: string | null | undefined;
 }
 export type GetThreatEventsIndicatorsByDatasetResponseTagsList =
   Array<GetThreatEventsIndicatorsByDatasetResponseTagsItem>;
@@ -2336,14 +2406,14 @@ export interface GetThreatEventsIndicatorsByDatasetResponse {
   uuid: string;
   value: string;
   /** The dataset ID this indicator belongs to. Included in list responses. */
-  datasetId?: string | null;
+  datasetId?: string | null | undefined;
   /** Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-1` to retrieve all of them. */
-  relatedEvents?: GetThreatEventsIndicatorsByDatasetResponseRelatedEventsList | null;
+  relatedEvents?: GetThreatEventsIndicatorsByDatasetResponseRelatedEventsList | null | undefined;
   /** True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEventsLimit=-1` to retrieve every related event. */
-  relatedEventsHasMore?: boolean | null;
-  tags?: GetThreatEventsIndicatorsByDatasetResponseTagsList | null;
+  relatedEventsHasMore?: boolean | null | undefined;
+  tags?: GetThreatEventsIndicatorsByDatasetResponseTagsList | null | undefined;
   /** Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set. */
-  tlp?: string | null;
+  tlp?: string | null | undefined;
 }
 export interface GetThreatEventsQueryRequest {
   /** Account ID. */
@@ -2374,11 +2444,11 @@ export interface GetThreatEventsQueryResponse {
   /** Email of the user who created the query */
   userEmail: string;
   /** Deprecated: saved-query alerting and rules were removed. Always null. */
-  customThreatFeedId?: number | null;
+  customThreatFeedId?: number | null | undefined;
   /** Deprecated: saved-query alerting and rules were removed. Always null. */
-  ruleListId?: string | null;
+  ruleListId?: string | null | undefined;
   /** Deprecated: saved-query alerting and rules were removed. Always null. */
-  ruleScope?: string | null;
+  ruleScope?: string | null | undefined;
 }
 export interface GetThreatSignalsArticleRequest {
   accountId: string;
@@ -2393,6 +2463,29 @@ export type GetThreatSignalsArticleResponseIndicatorExtractionStatus =
   | "failed"
   | "unknown";
 export type GetThreatSignalsArticleResponseMetadataMap = { [key: string]: unknown | undefined };
+export type GetThreatSignalsArticleResponseRelevanceBand = "low" | "medium" | "high";
+export type GetThreatSignalsArticleResponseRelevancePirsItemBand = "low" | "medium" | "high";
+export interface GetThreatSignalsArticleResponseRelevancePirsItem {
+  /** Beta. How relevant the article is to a Priority Intelligence Requirement: high, medium, or low. Cloudflare may change the scores behind each band as relevance scoring is calibrated. */
+  band: GetThreatSignalsArticleResponseRelevancePirsItemBand;
+  pirId: string;
+}
+export type GetThreatSignalsArticleResponseRelevancePirsList =
+  Array<GetThreatSignalsArticleResponseRelevancePirsItem>;
+export interface GetThreatSignalsArticleResponseRelevance {
+  /** Beta. How relevant the article is to a Priority Intelligence Requirement: high, medium, or low. Cloudflare may change the scores behind each band as relevance scoring is calibrated. */
+  band: GetThreatSignalsArticleResponseRelevanceBand;
+  /** Beta. The pir_id requested from the article list, or otherwise the account's most relevant active PIR for this article. */
+  pirId: string;
+  /** Beta. Every active PIR the article was scored against, most relevant first. Draft and deleted PIRs are excluded. */
+  pirs: GetThreatSignalsArticleResponseRelevancePirsList;
+}
+export type GetThreatSignalsArticleResponseSeverity =
+  | "informational"
+  | "low"
+  | "medium"
+  | "high"
+  | "critical";
 export type GetThreatSignalsArticleResponseTagsItemAppliedBy = "ai" | "analyst" | "system";
 export interface GetThreatSignalsArticleResponseTagsItem {
   appliedBy: GetThreatSignalsArticleResponseTagsItemAppliedBy;
@@ -2417,14 +2510,18 @@ export interface GetThreatSignalsArticleResponse {
   publishedAt: string;
   read: boolean;
   readAt: string;
+  /** Beta. The article's relevance to the account's active Priority Intelligence Requirements. Null when the article has not been scored against them, including when the account has no active PIRs, or has not been scored against the requested pir_id. */
+  relevance: GetThreatSignalsArticleResponseRelevance;
+  /** Beta. Intrinsic article severity band, from informational to critical, independent of any organisation or Priority Intelligence Requirement. Null when the account has no active Priority Intelligence Requirements, scoring has not completed, or a historic article has not entered an automatic rescore window. */
+  severity: GetThreatSignalsArticleResponseSeverity;
   sourceCount: number;
   /** Persisted enrichment summary. Null until enrichment produces a summary. */
   summary: string;
   summaryR2Key: string;
   tags: GetThreatSignalsArticleResponseTagsList;
   title: string;
-  skillVersion?: string | null;
-  tagSkillVersion?: string | null;
+  skillVersion?: string | null | undefined;
+  tagSkillVersion?: string | null | undefined;
 }
 export type GetThreatSignalsArticlesContentRequestFormat = "text" | "html";
 export interface GetThreatSignalsArticlesContentRequest {
@@ -2432,7 +2529,7 @@ export interface GetThreatSignalsArticlesContentRequest {
   /** Threat Signals article UUID */
   articleId: string;
   /** Response Content-Type: text (the default) for text/plain or html for text/html. Neither value converts the content. html is deprecated; use text. */
-  format?: GetThreatSignalsArticlesContentRequestFormat | (string & {});
+  format?: GetThreatSignalsArticlesContentRequestFormat | (string & {}) | undefined;
 }
 export interface GetThreatSignalsArticlesContentResponse {}
 export interface GetThreatSignalsArticlesSkillOutputRequest {
@@ -2492,7 +2589,7 @@ export interface GetThreatSignalsFeedsRawRequest {
   /** UUID of the Threat Signals feed */
   feedId: string;
   /** Response format. Use xml for application/xml; omit it for the default text/plain response. */
-  format?: GetThreatSignalsFeedsRawRequestFormat | (string & {});
+  format?: GetThreatSignalsFeedsRawRequestFormat | (string & {}) | undefined;
 }
 export interface GetThreatSignalsFeedsRawResponse {}
 export interface GetThreatSignalsFeedsSkillRequest {
@@ -2576,21 +2673,21 @@ export interface ListRequestsRequest {
   /** Number of results per page. */
   perPage: number;
   /** Retrieve requests completed after this time. */
-  completedAfter?: string;
+  completedAfter?: string | undefined;
   /** Retrieve requests completed before this time. */
-  completedBefore?: string;
+  completedBefore?: string | undefined;
   /** Retrieve requests created after this time. */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Retrieve requests created before this time. */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Requested information from request. */
-  requestType?: string;
+  requestType?: string | undefined;
   /** Field to sort results by. */
-  sortBy?: string;
+  sortBy?: string | undefined;
   /** Sort order (asc or desc). */
-  sortOrder?: ListRequestsRequestSortOrder | (string & {});
+  sortOrder?: ListRequestsRequestSortOrder | (string & {}) | undefined;
   /** Request Status. */
-  status?: ListRequestsRequestStatus | (string & {});
+  status?: ListRequestsRequestStatus | (string & {}) | undefined;
 }
 export type ListRequestsResultItemPriority = "routine" | "high" | "urgent";
 export type ListRequestsResultItemTlp = "clear" | "amber" | "amber-strict" | "green" | "red";
@@ -2616,15 +2713,15 @@ export interface ListRequestsResultItem {
   /** Request last updated time. */
   updated: string;
   /** Request completion time. */
-  completed?: string | null;
+  completed?: string | null | undefined;
   /** Tokens for the request messages. */
-  messageTokens?: number | null;
+  messageTokens?: number | null | undefined;
   /** Readable Request ID. */
-  readableId?: string | null;
+  readableId?: string | null | undefined;
   /** Request Status. */
-  status?: ListRequestsResultItemStatus | null;
+  status?: ListRequestsResultItemStatus | null | undefined;
   /** Tokens for the request. */
-  tokens?: number | null;
+  tokens?: number | null | undefined;
 }
 export type ListRequestsResultList = Array<ListRequestsResultItem>;
 export type ListRequestsResponse = ListRequestsResultList;
@@ -2650,14 +2747,14 @@ export interface ListScanConfigsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ScansConfigListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ThreatEventsAttackersListRequestDatasetIdsList = Array<string>;
 export interface ListThreatEventAttackersRequest {
   /** Account ID. */
   accountId: string;
   /** Array of dataset IDs to query attackers from. If not provided, uses the default dataset. */
-  datasetIds?: ThreatEventsAttackersListRequestDatasetIdsList;
+  datasetIds?: ThreatEventsAttackersListRequestDatasetIdsList | undefined;
 }
 export interface ThreatEventsAttackersListResponseItems {
   type: string;
@@ -2672,7 +2769,7 @@ export interface ListThreatEventCategoriesRequest {
   /** Account ID. */
   accountId: string;
   /** Array of dataset IDs to query categories from. If not provided, uses the default dataset. */
-  datasetIds?: ThreatEventsCategoriesListRequestDatasetIdsList;
+  datasetIds?: ThreatEventsCategoriesListRequestDatasetIdsList | undefined;
 }
 export type ThreatEventsCategoriesListResponseMitreAttackList = Array<string>;
 export type ThreatEventsCategoriesListResponseMitreCapecList = Array<string>;
@@ -2681,9 +2778,9 @@ export interface ListThreatEventCategoriesResponse {
   killChain: number;
   name: string;
   uuid: string;
-  mitreAttack?: ThreatEventsCategoriesListResponseMitreAttackList | null;
-  mitreCapec?: ThreatEventsCategoriesListResponseMitreCapecList | null;
-  shortname?: string | null;
+  mitreAttack?: ThreatEventsCategoriesListResponseMitreAttackList | null | undefined;
+  mitreCapec?: ThreatEventsCategoriesListResponseMitreCapecList | null | undefined;
+  shortname?: string | null | undefined;
 }
 export interface ListThreatEventCountriesRequest {
   /** Account ID. */
@@ -2700,7 +2797,7 @@ export interface ListThreatEventDatasetsRequest {
   /** Account ID. */
   accountId: string;
   /** When true, include soft-deleted datasets in the response. Each item includes a `deletedAt` field (ISO 8601 or null). Default: false. */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
 }
 export type ThreatEventsDatasetsListResponseIndicatorWriteMode =
   | "read_only"
@@ -2714,7 +2811,7 @@ export interface ListThreatEventDatasetsResponse {
   isPublic: boolean;
   name: string;
   uuid: string;
-  deletedAt?: string | null;
+  deletedAt?: string | null | undefined;
 }
 export interface ListThreatEventIndicatorTypesRequest {
   /** Account ID. */
@@ -2736,22 +2833,23 @@ export interface ListThreatEventsRequest {
   /** Account ID. */
   accountId: string;
   /** Cache strategy. 'from-graph' serves results from the graph-node KV cache when all requested UUIDs are cached; falls back to normal path on partial/zero hit. */
-  cache?: ThreatEventsListRequestCache | (string & {});
+  cache?: ThreatEventsListRequestCache | (string & {}) | undefined;
   /** Cursor for pagination. When provided, filters are embedded in the cursor so you only need to pass cursor and pageSize. Returned in the previous response's result_info.cursor field. Use cursor-based pagination for deep pagination (beyond 100,000 records) or for optimal performance. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Dataset UUIDs to query, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets. If not provided, uses the default dataset. */
-  datasetId?: ThreatEventsListRequestDatasetIdList;
-  forceRefresh?: boolean;
-  format?: ThreatEventsListRequestFormat | (string & {});
-  order?: ThreatEventsListRequestOrder | (string & {});
-  orderBy?: string;
+  datasetId?: ThreatEventsListRequestDatasetIdList | undefined;
+  forceRefresh?: boolean | undefined;
+  format?: ThreatEventsListRequestFormat | (string & {}) | undefined;
+  order?: ThreatEventsListRequestOrder | (string & {}) | undefined;
+  orderBy?: string | undefined;
   /** Page number (1-indexed) for offset-based pagination. Limited to offset of 100,000 records. For deep pagination, use cursor-based pagination instead. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results per page. Maximum 25,000. */
-  pageSize?: number;
-  search?: ThreatEventsListRequestSearchList;
+  pageSize?: number | undefined;
+  /** JSON-encoded. Structured search as a JSON array of {field, op, value} objects, AND'd together. Max 10 conditions per request. `in` and `notIn` take an array of up to 100 values. Exclusions: `not` drops events without a value for the field; `notIn` and `notContains` keep them. On intelligence datasets, a `notIn` list containing `"unknown"` also drops them; analytics datasets treat `"unknown"` as a literal value. */
+  search?: ThreatEventsListRequestSearchList | undefined;
   /** JSON-encoded. OR branches of structured search filters. Filters within a branch are AND'd, branches are OR'd, and the result is AND'd with `search`: `AND(search) AND OR(AND(branch 1), ...)`. Max 8 branches of 1-10 conditions each. Not supported for analytics datasets, and `indicator` filters are not yet supported inside branches. Cursor pages carry the original branches, so do not resend them with `cursor`. */
-  searchBranches?: ThreatEventsListRequestSearchBranchesList;
+  searchBranches?: ThreatEventsListRequestSearchBranchesList | undefined;
 }
 export type ThreatEventsListResponseMitreAttackList = Array<string>;
 export type ThreatEventsListResponseMitreCapecList = Array<string>;
@@ -2789,37 +2887,37 @@ export interface ListThreatEventsResponse {
   targetIndustry: string;
   tlp: string;
   uuid: string;
-  insight?: string | null;
-  releasabilityId?: string | null;
+  insight?: string | null | undefined;
+  releasabilityId?: string | null | undefined;
 }
 export type ListThreatEventsAggregateRequestDatasetIdList = Array<string>;
 export interface ListThreatEventsAggregateRequest {
   /** Account ID. */
   accountId: string;
-  /** Column(s) to aggregate by - single column or comma-separated list (e.g., 'attacker', 'targetIndustry', 'attacker,targetIndustry') */
+  /** Column(s) to aggregate by - single column or comma-separated list (e.g., 'attacker', 'targetIndustry', 'attacker,targetIndustry'). With `tags`, an event counts once for each of its tags, in the bucket counts and in `total`, and events without tags count as `Unknown`; `tags` is not supported for analytics datasets. */
   aggregateBy: string;
   /** Dataset UUIDs to filter by, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets. If not provided, uses the default dataset. */
-  datasetId?: ListThreatEventsAggregateRequestDatasetIdList;
+  datasetId?: ListThreatEventsAggregateRequestDatasetIdList | undefined;
   /** End date for filtering (ISO 8601 format, e.g., '2024-12-31') */
-  endDate?: string;
+  endDate?: string | undefined;
   /** Whether to group results by date (daily aggregation) */
-  groupByDate?: boolean;
+  groupByDate?: boolean | undefined;
   /** Maximum number of results to return */
-  limit?: number;
+  limit?: number | undefined;
   /** Start date for filtering (ISO 8601 format, e.g., '2024-01-01') */
-  startDate?: string;
+  startDate?: string | undefined;
 }
 export interface ListThreatEventsAggregateResponseAggregationsItem {
   /** Number of events for this aggregation */
   count: number;
   /** Date (if groupByDate is true) */
-  date?: string | null;
+  date?: string | null | undefined;
 }
 export type ListThreatEventsAggregateResponseAggregationsList =
   Array<ListThreatEventsAggregateResponseAggregationsItem>;
 export interface ListThreatEventsAggregateResponseDateRange {
-  endDate?: string | null;
-  startDate?: string | null;
+  endDate?: string | null | undefined;
+  startDate?: string | null | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface ListThreatEventsAggregateResponse {
@@ -2830,7 +2928,7 @@ export interface ListThreatEventsAggregateResponse {
   /** Total number of events in the aggregation */
   total: number;
   /** Date range used for filtering */
-  dateRange?: ListThreatEventsAggregateResponseDateRange | null;
+  dateRange?: ListThreatEventsAggregateResponseDateRange | null | undefined;
 }
 export interface ListThreatEventsCategoriesCatalogRequest {
   /** Account ID. */
@@ -2843,9 +2941,9 @@ export interface ListThreatEventsCategoriesCatalogResponse {
   killChain: number;
   name: string;
   uuid: string;
-  mitreAttack?: ListThreatEventsCategoriesCatalogResponseMitreAttackList | null;
-  mitreCapec?: ListThreatEventsCategoriesCatalogResponseMitreCapecList | null;
-  shortname?: string | null;
+  mitreAttack?: ListThreatEventsCategoriesCatalogResponseMitreAttackList | null | undefined;
+  mitreCapec?: ListThreatEventsCategoriesCatalogResponseMitreCapecList | null | undefined;
+  shortname?: string | null | undefined;
 }
 export type ListThreatEventsGraphRequestDatasetIdsList = Array<string>;
 export type ListThreatEventsGraphRequestExpandList = Array<string>;
@@ -2855,23 +2953,23 @@ export interface ListThreatEventsGraphRequest {
   /** Account ID. */
   accountId: string;
   /** Opaque pagination token. Only valid when seeds has exactly 1 entry; 400 otherwise. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Comma-separated dataset UUIDs to restrict neighbor scope, or one standalone scope value: 'operational' for readable intelligence datasets (isAnalytics=false), 'analytics' for readable analytics datasets (isAnalytics=true), or 'all'/'*' for every readable dataset including analytics datasets (the graph reads analytics relationships from R2). Intersected with access grants. */
-  datasetIds?: ListThreatEventsGraphRequestDatasetIdsList;
+  datasetIds?: ListThreatEventsGraphRequestDatasetIdsList | undefined;
   /** Edge direction relative to each seed: out (seed->neighbors), in (neighbors->seed), both (default). */
-  direction?: string;
+  direction?: string | undefined;
   /** Comma-separated list of response sections to expand (hydrate). Allowed: `nodes`. Omitting `expand` returns identifier-only nodes. */
-  expand?: ListThreatEventsGraphRequestExpandList;
+  expand?: ListThreatEventsGraphRequestExpandList | undefined;
   /** Hydration strategy for neighbor nodes when expand=nodes is set. r2_join (default): use R2 JOIN query + DO fallback. do_only: use plain R2 query + hydrate all neighbors via Durable Objects. */
-  hydration?: string;
+  hydration?: string | undefined;
   /** Max neighbors per seed (default: 100, max: 1000). Values above 1000 return 400. */
-  limit?: number;
+  limit?: number | undefined;
   /** Total accumulated node cap across all seeds (default: 500, max: 1000). Values above 1000 return 400. */
-  maxNodes?: number;
+  maxNodes?: number | undefined;
   /** Comma-separated relationship types to filter by. Allowed: tagged_with, appears_in, related_to, caused_by, attributed_to. */
-  relationshipTypes?: ListThreatEventsGraphRequestRelationshipTypesList;
+  relationshipTypes?: ListThreatEventsGraphRequestRelationshipTypesList | undefined;
   /** Comma-separated compact seed ids (type:uuid). Example: seeds=event:550e8400-...,indicator:661fa920-... Provide 1-50 entries; omitting seeds returns 400. */
-  seeds?: ListThreatEventsGraphRequestSeedsList;
+  seeds?: ListThreatEventsGraphRequestSeedsList | undefined;
 }
 export interface ListThreatEventsGraphResponseEdgesItem {
   /** Deterministic composite edge id (source->target:relationshipType) */
@@ -2909,36 +3007,36 @@ export interface ListThreatEventsIndicatorsRequest {
   /** Account ID. */
   accountId: string;
   /** Cache strategy. 'from-graph' serves results from the graph-node KV cache when all requested UUIDs are cached; falls back to normal path on partial/zero hit. Cannot be combined with `cursor`. */
-  cache?: ListThreatEventsIndicatorsRequestCache | (string & {});
+  cache?: ListThreatEventsIndicatorsRequestCache | (string & {}) | undefined;
   /** Filter indicators created on or after this date. Must use ISO 8601 format (e.g., '2024-01-15T00:00:00Z'). */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter indicators created on or before this date. Must use ISO 8601 format (e.g., '2024-12-31T23:59:59Z'). */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Opaque cursor from a previous response's `pagination.cursor`. When provided, all filters, datasetIds, page, `pageSize`, `includeTags` and `relatedEventsLimit` come from the cursor -- do not resend them. Sending any filter, `page`, `pageSize`, `includeTags`, `relatedEventsLimit`, `includeTotalCount=true`, or `cache=from-graph` alongside a cursor yields a 400 `CursorFilterConflictError`. A cursor issued for a different entity, an unsupported version, or a dataset that has since been reconfigured as analytics-only yields a 400 `InvalidCursorError`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Dataset UUIDs to query, or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). If not provided, uses the default dataset. */
-  datasetIds?: ListThreatEventsIndicatorsRequestDatasetIdsList;
+  datasetIds?: ListThreatEventsIndicatorsRequestDatasetIdsList | undefined;
   /** Output format for indicator data. 'json' returns the default format, 'stix2' returns STIX 2.1 Indicator SDOs, 'taxii' returns a TAXII 2.1 Envelope with Content-Type application/taxii+json;version=2.1. */
-  format?: ListThreatEventsIndicatorsRequestFormat | (string & {});
+  format?: ListThreatEventsIndicatorsRequestFormat | (string & {}) | undefined;
   /** Whether to include full tag details for each indicator. Defaults to true. */
-  includeTags?: boolean;
+  includeTags?: boolean | undefined;
   /** Whether to compute total count via COUNT(*). Defaults to false for performance. total_count is null unless this is true and the complete fan-out succeeds. */
-  includeTotalCount?: boolean;
-  indicatorType?: string;
+  includeTotalCount?: boolean | undefined;
+  indicatorType?: string | undefined;
   /** Filter indicators by value using substring match (LIKE). Legacy alternative to structured search. */
-  name?: string;
-  page?: number;
-  pageSize?: number;
+  name?: string | undefined;
+  page?: number | undefined;
+  pageSize?: number | undefined;
   /** Filter by related event IDs */
-  relatedEvents?: ListThreatEventsIndicatorsRequestRelatedEventsList;
+  relatedEvents?: ListThreatEventsIndicatorsRequestRelatedEventsList | undefined;
   /** Limit the number of related events returned per indicator. Default: 2. Set to 0 for none, -1 for all events. For JSON responses, when the limit hides events, the indicator carries `relatedEventsHasMore: true` and the response includes an advisory message -- the cap is never applied silently. STIX and TAXII representations do not include related-event data. */
-  relatedEventsLimit?: number;
+  relatedEventsLimit?: number | undefined;
   /** Structured search as a JSON array of {field, op, value} objects. Searchable fields: value, indicatorType, uuid. Supports operators: equals, not, contains, startsWith, endsWith, gt, lt, gte, lte, like, in, find. Use the 'in' operator with an array value to bulk-check up to 100 indicators in a single request, e.g. search=[{"field":"value","op":"in","value":["evil.com","bad.org"]}]. Multiple conditions are AND'd together. Max 10 conditions per request. */
-  search?: ListThreatEventsIndicatorsRequestSearchList;
+  search?: ListThreatEventsIndicatorsRequestSearchList | undefined;
   /** Filter by tag values or UUIDs. Indicators must have at least one of the specified tags (OR logic). Supports both tag UUID and tag value. */
-  tags?: ListThreatEventsIndicatorsRequestTagsList;
+  tags?: ListThreatEventsIndicatorsRequestTagsList | undefined;
   /** Structured tag-metadata filter as a JSON array of {field, op, value} objects. Operates against the per-dataset IndicatorTag mirror so you can find indicators by tag attributes (origin country, motive, sophistication, priority, etc.) without a separate Tags lookup. Common dashboard usage: drill from a country into indicators, e.g. tagSearch=[{"field":"originCountryISO","op":"in","value":["IR","CN"]}]. Country values may be passed as alpha-2, alpha-3, name, or alias (e.g. "iran"). Operators: equals, not, gt/gte/lt/lte (numeric only), contains/like/find/startsWith/endsWith (string only), in. AND-joined across entries; combined with `tags`, a matching tag must satisfy both. Max 10 entries per request, max 100 values per 'in'. Performance notes: `originCountryISO` uses its B-tree index for equals/not/in. `priority` uses its B-tree index for numeric comparisons. Other string columns (`actorCategory`, `motive`, etc.) are case-insensitive and unindexed; current catalog size makes this a non-issue. `endsWith` and `aliasGroupNames` contains/like are leading-wildcard scans and slow on large result sets. `aliasGroupNames` matches on the JSON-encoded text, so substrings can cross alias boundaries ("apt28" also matches "apt280" when both appear in the same tag's alias list). */
-  tagSearch?: ListThreatEventsIndicatorsRequestTagSearchList;
+  tagSearch?: ListThreatEventsIndicatorsRequestTagSearchList | undefined;
 }
 export type ListThreatEventsIndicatorsResponsePropertiesCompletenessPropertiesComplete =
   ThreatEventsAttackersListResponseItems;
@@ -3008,14 +3106,17 @@ export interface ListThreatEventsIndicatorsResponsePropertiesIndicatorsItems {
   uuid: string;
   value: string;
   /** The dataset ID this indicator belongs to. Included in list responses. */
-  datasetId?: string | null;
+  datasetId?: string | null | undefined;
   /** Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-1` to retrieve all of them. */
-  relatedEvents?: ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsRelatedEventsList | null;
+  relatedEvents?:
+    | ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsRelatedEventsList
+    | null
+    | undefined;
   /** True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEventsLimit=-1` to retrieve every related event. */
-  relatedEventsHasMore?: boolean | null;
-  tags?: ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsTagsList | null;
+  relatedEventsHasMore?: boolean | null | undefined;
+  tags?: ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsTagsList | null | undefined;
   /** Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set. */
-  tlp?: string | null;
+  tlp?: string | null | undefined;
 }
 export interface ListThreatEventsIndicatorsResponsePropertiesIndicators {
   items: ListThreatEventsIndicatorsResponsePropertiesIndicatorsItems;
@@ -3071,21 +3172,21 @@ export interface ListThreatEventsIndicatorsAggregateRequest {
   /** Column(s) to aggregate by - single column or comma-separated list (e.g., 'indicatorType', 'value', 'indicatorType,value') */
   aggregateBy: string;
   /** Filter indicators created after this date/datetime (ISO 8601, e.g., '2024-01-01' or '2024-01-01T00:00:00Z') */
-  createdAfter?: string;
+  createdAfter?: string | undefined;
   /** Filter indicators created before this date/datetime (ISO 8601, e.g., '2024-12-31' or '2024-12-31T23:59:59Z') */
-  createdBefore?: string;
+  createdBefore?: string | undefined;
   /** Dataset UUIDs to filter by, or one standalone scope value: 'operational' for readable intelligence datasets (isAnalytics=false), 'analytics' for readable analytics datasets (isAnalytics=true), or 'all'/'*' for every readable dataset including analytics datasets. If not provided, aggregates across all accessible datasets, including analytics datasets. */
-  datasetIds?: ListThreatEventsIndicatorsAggregateRequestDatasetIdsList;
+  datasetIds?: ListThreatEventsIndicatorsAggregateRequestDatasetIdsList | undefined;
   /** For measure=relationships: only count indicator->event links whose relationship was created/observed on or after this date (ISO 8601). Bounds the activity view to recently-observed links. Note: this filters by the relationship's createdAt (link-observation time), not the underlying event's business date. */
-  eventDateAfter?: string;
+  eventDateAfter?: string | undefined;
   /** For measure=relationships: only count indicator->event links whose relationship was created/observed on or before this date (ISO 8601). Bounds the activity view by the relationship's createdAt (link-observation time), not the underlying event's business date. */
-  eventDateBefore?: string;
+  eventDateBefore?: string | undefined;
   /** Maximum number of aggregation results to return (1-100) */
-  limit?: number;
+  limit?: number | undefined;
   /** What to count per group: 'indicators' (catalog rows, default) or 'relationships' (linked events per indicator). Use 'relationships' for 'top indicator by event activity'. */
-  measure?: ListThreatEventsIndicatorsAggregateRequestMeasure | (string & {});
+  measure?: ListThreatEventsIndicatorsAggregateRequestMeasure | (string & {}) | undefined;
   /** Scope to indicators associated with this tag/actor UUID. Combine with measure=relationships for 'top indicator for an actor'. */
-  tagUuid?: string;
+  tagUuid?: string | undefined;
 }
 export interface ListThreatEventsIndicatorsAggregateResponseAggregationsItem {
   /** Number of indicators for this aggregation */
@@ -3110,13 +3211,13 @@ export interface ListThreatEventsIndicatorsByDatasetRequest {
   accountId: string;
   /** Dataset UUID. */
   datasetId: string;
-  indicatorType?: string;
+  indicatorType?: string | undefined;
   /** Filter by indicator value (substring match) */
-  name?: string;
-  page?: number;
-  pageSize?: number;
+  name?: string | undefined;
+  page?: number | undefined;
+  pageSize?: number | undefined;
   /** Filter indicators by related event UUID(s). Multiple UUIDs can be provided by repeating the parameter. */
-  relatedEvent?: ListThreatEventsIndicatorsByDatasetRequestRelatedEventList;
+  relatedEvent?: ListThreatEventsIndicatorsByDatasetRequestRelatedEventList | undefined;
 }
 export type ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemSourcesItemResourceType =
   "article";
@@ -3148,14 +3249,17 @@ export interface ListThreatEventsIndicatorsByDatasetResponseIndicatorsItem {
   uuid: string;
   value: string;
   /** The dataset ID this indicator belongs to. Included in list responses. */
-  datasetId?: string | null;
+  datasetId?: string | null | undefined;
   /** Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-1` to retrieve all of them. */
-  relatedEvents?: ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemRelatedEventsList | null;
+  relatedEvents?:
+    | ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemRelatedEventsList
+    | null
+    | undefined;
   /** True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEventsLimit=-1` to retrieve every related event. */
-  relatedEventsHasMore?: boolean | null;
-  tags?: ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemTagsList | null;
+  relatedEventsHasMore?: boolean | null | undefined;
+  tags?: ListThreatEventsIndicatorsByDatasetResponseIndicatorsItemTagsList | null | undefined;
   /** Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set. */
-  tlp?: string | null;
+  tlp?: string | null | undefined;
 }
 export type ListThreatEventsIndicatorsByDatasetResponseIndicatorsList =
   Array<ListThreatEventsIndicatorsByDatasetResponseIndicatorsItem>;
@@ -3182,7 +3286,7 @@ export interface ListThreatEventsIndicatorsTypesRequest {
   /** Account ID. */
   accountId: string;
   /** Dataset UUIDs to query, or one standalone scope value: 'operational' for readable intelligence datasets (isAnalytics=false), 'analytics' for readable analytics datasets (isAnalytics=true), or 'all'/'*' for every readable dataset including analytics datasets. If not provided, queries all accessible datasets, including analytics datasets. */
-  datasetIds?: ListThreatEventsIndicatorsTypesRequestDatasetIdsList;
+  datasetIds?: ListThreatEventsIndicatorsTypesRequestDatasetIdsList | undefined;
 }
 export type ListThreatEventsIndicatorsTypesResponseItems = ThreatEventsAttackersListResponseItems;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
@@ -3217,11 +3321,11 @@ export interface ListThreatEventsQueriesResponse {
   /** Email of the user who created the query */
   userEmail: string;
   /** Deprecated: saved-query alerting and rules were removed. Always null. */
-  customThreatFeedId?: number | null;
+  customThreatFeedId?: number | null | undefined;
   /** Deprecated: saved-query alerting and rules were removed. Always null. */
-  ruleListId?: string | null;
+  ruleListId?: string | null | undefined;
   /** Deprecated: saved-query alerting and rules were removed. Always null. */
-  ruleScope?: string | null;
+  ruleScope?: string | null | undefined;
 }
 export type ListThreatEventsRelationshipsRequestDirection = "ancestors" | "descendants" | "both";
 export type ListThreatEventsRelationshipsRequestIndicatorTypeIdsList = Array<string>;
@@ -3233,17 +3337,17 @@ export interface ListThreatEventsRelationshipsRequest {
   /** The dataset ID to search within. */
   datasetId: string;
   /** The direction to traverse the graph. Defaults to 'both' to search all. */
-  direction?: ListThreatEventsRelationshipsRequestDirection | (string & {});
+  direction?: ListThreatEventsRelationshipsRequestDirection | (string & {}) | undefined;
   /** Whether to include the starting event in the results. Defaults to true. */
-  includeParent?: boolean;
+  includeParent?: boolean | undefined;
   /** An optional array of indicator type IDs to filter the results by. */
-  indicatorTypeIds?: ListThreatEventsRelationshipsRequestIndicatorTypeIdsList;
+  indicatorTypeIds?: ListThreatEventsRelationshipsRequestIndicatorTypeIdsList | undefined;
   /** The maximum depth to traverse. Defaults to 5. */
-  maxDepth?: number;
-  page?: number;
-  pageSize?: number;
+  maxDepth?: number | undefined;
+  page?: number | undefined;
+  pageSize?: number | undefined;
   /** An optional array of relationship types to filter by. */
-  relationshipTypes?: string;
+  relationshipTypes?: string | undefined;
 }
 export type ListThreatEventsRelationshipsResponseMitreAttackList = Array<string>;
 export type ListThreatEventsRelationshipsResponseMitreCapecList = Array<string>;
@@ -3281,8 +3385,8 @@ export interface ListThreatEventsRelationshipsResponse {
   targetIndustry: string;
   tlp: string;
   uuid: string;
-  insight?: string | null;
-  releasabilityId?: string | null;
+  insight?: string | null | undefined;
+  releasabilityId?: string | null | undefined;
 }
 export type ListThreatEventsTagsRequestCache = "from-graph";
 export type ListThreatEventsTagsRequestFiltersList = Array<string>;
@@ -3290,14 +3394,14 @@ export interface ListThreatEventsTagsRequest {
   /** Account ID. */
   accountId: string;
   /** Cache strategy. 'from-graph' serves results from the graph-node KV cache when all requested UUIDs are cached; falls back to normal path on partial/zero hit. */
-  cache?: ListThreatEventsTagsRequestCache | (string & {});
-  categoryUuid?: string;
+  cache?: ListThreatEventsTagsRequestCache | (string & {}) | undefined;
+  categoryUuid?: string | undefined;
   /** Structured filters as a JSON array of {field, op, value} objects. Searchable fields: uuid, value, categoryName, description, dateOfDiscovery, tlp, confidence, actorCategory, motive, attributionOrganization, originCountryISO, aliases, externalReferences, opsecLevel, sophisticationLevel, activeDuration, priority, lastSeen, aliasGroupNames. Operators: equals, not, contains, startsWith, endsWith, gt, lt, gte, lte, like, in, find. Use 'in' for bulk OR within a single field, e.g. filters=[{"field":"originCountryISO","op":"in","value":["IR","CN"]}]. Multiple entries are AND-joined. Max 10 entries per request, max 100 values per 'in'. Per-field notes: `uuid` accepts only 'equals' and 'in' (other operators throw ValidationError) -- matched against the canonical lowercase storage but callers may pass either case (the server lowercases before comparison); index-backed by the column's UNIQUE constraint and intended for batched UUID -> tag resolution. `originCountryISO` uses its B-tree index for equals/not/in. `priority` uses its B-tree index for numeric comparisons. Other string columns (`actorCategory`, `motive`, etc.) are case-insensitive and unindexed; current catalog size makes this a non-issue. `endsWith` and `aliasGroupNames` contains/like are leading-wildcard scans and slow on large result sets. `aliasGroupNames` matches on the JSON-encoded text, so substrings can cross alias boundaries (a search for "apt28" will also match "apt280" if both appear in the same tag's alias list). */
-  filters?: ListThreatEventsTagsRequestFiltersList;
-  page?: number;
-  pageSize?: number;
+  filters?: ListThreatEventsTagsRequestFiltersList | undefined;
+  page?: number | undefined;
+  pageSize?: number | undefined;
   /** Free-text substring match on tag value AND custom-field properties. Searches case-insensitively inside both `Tag.value` and the serialized `Tag.properties` JSON blob (keys, values, and annotation metadata like confidence/tlp are all searchable). Same serialized-text tradeoff as `aliasGroupNames` -- substrings can cross JSON boundaries. */
-  search?: string;
+  search?: string | undefined;
 }
 export type ListThreatEventsTagsResponsePagination =
   ListThreatEventsIndicatorsByDatasetResponsePagination;
@@ -3311,7 +3415,7 @@ export type ListThreatEventsTagsResponseTagsItemActiveDurationAnnotatedTlp =
   | "amber+strict";
 export interface ListThreatEventsTagsResponseTagsItemActiveDurationAnnotated {
   value: string;
-  tlp?: ListThreatEventsTagsResponseTagsItemActiveDurationAnnotatedTlp | null;
+  tlp?: ListThreatEventsTagsResponseTagsItemActiveDurationAnnotatedTlp | null | undefined;
 }
 export type ListThreatEventsTagsResponseTagsItemActorCategoryAnnotatedTlp =
   | "red"
@@ -3323,8 +3427,8 @@ export type ListThreatEventsTagsResponseTagsItemActorCategoryAnnotatedTlp =
   | "amber+strict";
 export interface ListThreatEventsTagsResponseTagsItemActorCategoryAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: ListThreatEventsTagsResponseTagsItemActorCategoryAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: ListThreatEventsTagsResponseTagsItemActorCategoryAnnotatedTlp | null | undefined;
 }
 export type ListThreatEventsTagsResponseTagsItemAliasesItemTlp =
   | "red"
@@ -3336,8 +3440,8 @@ export type ListThreatEventsTagsResponseTagsItemAliasesItemTlp =
   | "amber+strict";
 export interface ListThreatEventsTagsResponseTagsItemAliasesItem {
   value: string;
-  confidence?: number | null;
-  tlp?: ListThreatEventsTagsResponseTagsItemAliasesItemTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: ListThreatEventsTagsResponseTagsItemAliasesItemTlp | null | undefined;
 }
 export type ListThreatEventsTagsResponseTagsItemAliasesList =
   Array<ListThreatEventsTagsResponseTagsItemAliasesItem>;
@@ -3353,8 +3457,8 @@ export type ListThreatEventsTagsResponseTagsItemAttributionOrganizationAnnotated
   | "amber+strict";
 export interface ListThreatEventsTagsResponseTagsItemAttributionOrganizationAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: ListThreatEventsTagsResponseTagsItemAttributionOrganizationAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: ListThreatEventsTagsResponseTagsItemAttributionOrganizationAnnotatedTlp | null | undefined;
 }
 export type ListThreatEventsTagsResponseTagsItemExternalReferenceLinksList = Array<string>;
 export type ListThreatEventsTagsResponseTagsItemExternalReferencesItem =
@@ -3371,7 +3475,7 @@ export type ListThreatEventsTagsResponseTagsItemExternalReferencesAnnotatedItemT
   | "amber+strict";
 export interface ListThreatEventsTagsResponseTagsItemExternalReferencesAnnotatedItem {
   value: string;
-  tlp?: ListThreatEventsTagsResponseTagsItemExternalReferencesAnnotatedItemTlp | null;
+  tlp?: ListThreatEventsTagsResponseTagsItemExternalReferencesAnnotatedItemTlp | null | undefined;
 }
 export type ListThreatEventsTagsResponseTagsItemExternalReferencesAnnotatedList =
   Array<ListThreatEventsTagsResponseTagsItemExternalReferencesAnnotatedItem>;
@@ -3385,8 +3489,8 @@ export type ListThreatEventsTagsResponseTagsItemInternalAliasesItemTlp =
   | "amber+strict";
 export interface ListThreatEventsTagsResponseTagsItemInternalAliasesItem {
   value: string;
-  confidence?: number | null;
-  tlp?: ListThreatEventsTagsResponseTagsItemInternalAliasesItemTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: ListThreatEventsTagsResponseTagsItemInternalAliasesItemTlp | null | undefined;
 }
 export type ListThreatEventsTagsResponseTagsItemInternalAliasesList =
   Array<ListThreatEventsTagsResponseTagsItemInternalAliasesItem>;
@@ -3400,8 +3504,8 @@ export type ListThreatEventsTagsResponseTagsItemMotiveAnnotatedTlp =
   | "amber+strict";
 export interface ListThreatEventsTagsResponseTagsItemMotiveAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: ListThreatEventsTagsResponseTagsItemMotiveAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: ListThreatEventsTagsResponseTagsItemMotiveAnnotatedTlp | null | undefined;
 }
 export type ListThreatEventsTagsResponseTagsItemOpsecLevelAnnotatedTlp =
   | "red"
@@ -3413,8 +3517,8 @@ export type ListThreatEventsTagsResponseTagsItemOpsecLevelAnnotatedTlp =
   | "amber+strict";
 export interface ListThreatEventsTagsResponseTagsItemOpsecLevelAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: ListThreatEventsTagsResponseTagsItemOpsecLevelAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: ListThreatEventsTagsResponseTagsItemOpsecLevelAnnotatedTlp | null | undefined;
 }
 export type ListThreatEventsTagsResponseTagsItemOriginCountryISOAnnotatedTlp =
   | "red"
@@ -3426,8 +3530,8 @@ export type ListThreatEventsTagsResponseTagsItemOriginCountryISOAnnotatedTlp =
   | "amber+strict";
 export interface ListThreatEventsTagsResponseTagsItemOriginCountryISOAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: ListThreatEventsTagsResponseTagsItemOriginCountryISOAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: ListThreatEventsTagsResponseTagsItemOriginCountryISOAnnotatedTlp | null | undefined;
 }
 export type ListThreatEventsTagsResponseTagsItemPriorityAnnotatedTlp =
   | "red"
@@ -3439,7 +3543,7 @@ export type ListThreatEventsTagsResponseTagsItemPriorityAnnotatedTlp =
   | "amber+strict";
 export interface ListThreatEventsTagsResponseTagsItemPriorityAnnotated {
   value: number;
-  tlp?: ListThreatEventsTagsResponseTagsItemPriorityAnnotatedTlp | null;
+  tlp?: ListThreatEventsTagsResponseTagsItemPriorityAnnotatedTlp | null | undefined;
 }
 export type ListThreatEventsTagsResponseTagsItemPropertiesMap = {
   [key: string]: unknown | undefined;
@@ -3454,8 +3558,8 @@ export type ListThreatEventsTagsResponseTagsItemSophisticationLevelAnnotatedTlp 
   | "amber+strict";
 export interface ListThreatEventsTagsResponseTagsItemSophisticationLevelAnnotated {
   value: string;
-  confidence?: number | null;
-  tlp?: ListThreatEventsTagsResponseTagsItemSophisticationLevelAnnotatedTlp | null;
+  confidence?: number | null | undefined;
+  tlp?: ListThreatEventsTagsResponseTagsItemSophisticationLevelAnnotatedTlp | null | undefined;
 }
 export type ListThreatEventsTagsResponseTagsItemTlp =
   | "red"
@@ -3468,48 +3572,75 @@ export type ListThreatEventsTagsResponseTagsItemTlp =
 export interface ListThreatEventsTagsResponseTagsItem {
   uuid: string;
   value: string;
-  activeDuration?: string | null;
-  activeDurationAnnotated?: ListThreatEventsTagsResponseTagsItemActiveDurationAnnotated | null;
-  actorCategory?: string | null;
-  actorCategoryAnnotated?: ListThreatEventsTagsResponseTagsItemActorCategoryAnnotated | null;
+  activeDuration?: string | null | undefined;
+  activeDurationAnnotated?:
+    | ListThreatEventsTagsResponseTagsItemActiveDurationAnnotated
+    | null
+    | undefined;
+  actorCategory?: string | null | undefined;
+  actorCategoryAnnotated?:
+    | ListThreatEventsTagsResponseTagsItemActorCategoryAnnotated
+    | null
+    | undefined;
   /** Structured aliases ({ value, confidence 1-10, tlp }). Public: returned to all accounts with per-entry TLP filtering (entries with tlp: purple are removed for non-CFONE accounts). */
-  aliases?: ListThreatEventsTagsResponseTagsItemAliasesList | null;
-  aliasGroupNames?: ListThreatEventsTagsResponseTagsItemAliasGroupNamesList | null;
-  aliasGroupNamesInternal?: ListThreatEventsTagsResponseTagsItemAliasGroupNamesInternalList | null;
-  attributionOrganization?: string | null;
-  attributionOrganizationAnnotated?: ListThreatEventsTagsResponseTagsItemAttributionOrganizationAnnotated | null;
-  categoryName?: string | null;
-  categoryUuid?: string | null;
+  aliases?: ListThreatEventsTagsResponseTagsItemAliasesList | null | undefined;
+  aliasGroupNames?: ListThreatEventsTagsResponseTagsItemAliasGroupNamesList | null | undefined;
+  aliasGroupNamesInternal?:
+    | ListThreatEventsTagsResponseTagsItemAliasGroupNamesInternalList
+    | null
+    | undefined;
+  attributionOrganization?: string | null | undefined;
+  attributionOrganizationAnnotated?:
+    | ListThreatEventsTagsResponseTagsItemAttributionOrganizationAnnotated
+    | null
+    | undefined;
+  categoryName?: string | null | undefined;
+  categoryUuid?: string | null | undefined;
   /** Overall tag confidence (1-10). */
-  confidence?: number | null;
-  createdAt?: string | null;
-  dateOfDiscovery?: string | null;
-  description?: string | null;
-  externalReferenceLinks?: ListThreatEventsTagsResponseTagsItemExternalReferenceLinksList | null;
+  confidence?: number | null | undefined;
+  createdAt?: string | null | undefined;
+  dateOfDiscovery?: string | null | undefined;
+  description?: string | null | undefined;
+  externalReferenceLinks?:
+    | ListThreatEventsTagsResponseTagsItemExternalReferenceLinksList
+    | null
+    | undefined;
   /** Structured external references ({ url, description }). Public: returned to all accounts. */
-  externalReferences?: ListThreatEventsTagsResponseTagsItemExternalReferencesList | null;
-  externalReferencesAnnotated?: ListThreatEventsTagsResponseTagsItemExternalReferencesAnnotatedList | null;
+  externalReferences?:
+    | ListThreatEventsTagsResponseTagsItemExternalReferencesList
+    | null
+    | undefined;
+  externalReferencesAnnotated?:
+    | ListThreatEventsTagsResponseTagsItemExternalReferencesAnnotatedList
+    | null
+    | undefined;
   /** Owner-private structured aliases ({ value, confidence 1-10, tlp }). Returned to the owning account and omitted from shared-catalog non-owner responses. */
-  internalAliases?: ListThreatEventsTagsResponseTagsItemInternalAliasesList | null;
-  internalDescription?: string | null;
-  lastSeen?: string | null;
-  motive?: string | null;
-  motiveAnnotated?: ListThreatEventsTagsResponseTagsItemMotiveAnnotated | null;
-  opsecLevel?: string | null;
-  opsecLevelAnnotated?: ListThreatEventsTagsResponseTagsItemOpsecLevelAnnotated | null;
+  internalAliases?: ListThreatEventsTagsResponseTagsItemInternalAliasesList | null | undefined;
+  internalDescription?: string | null | undefined;
+  lastSeen?: string | null | undefined;
+  motive?: string | null | undefined;
+  motiveAnnotated?: ListThreatEventsTagsResponseTagsItemMotiveAnnotated | null | undefined;
+  opsecLevel?: string | null | undefined;
+  opsecLevelAnnotated?: ListThreatEventsTagsResponseTagsItemOpsecLevelAnnotated | null | undefined;
   /** ISO country code (alpha-2 or alpha-3). Normalized to uppercase on read. Null when stored value is blank/whitespace. */
-  originCountryISO?: string | null;
-  originCountryISOAnnotated?: ListThreatEventsTagsResponseTagsItemOriginCountryISOAnnotated | null;
-  priority?: number | null;
-  priorityAnnotated?: ListThreatEventsTagsResponseTagsItemPriorityAnnotated | null;
+  originCountryISO?: string | null | undefined;
+  originCountryISOAnnotated?:
+    | ListThreatEventsTagsResponseTagsItemOriginCountryISOAnnotated
+    | null
+    | undefined;
+  priority?: number | null | undefined;
+  priorityAnnotated?: ListThreatEventsTagsResponseTagsItemPriorityAnnotated | null | undefined;
   /** Parsed custom field values. Null when the tag has no custom fields. */
-  properties?: ListThreatEventsTagsResponseTagsItemPropertiesMap | null;
-  sophisticationLevel?: string | null;
-  sophisticationLevelAnnotated?: ListThreatEventsTagsResponseTagsItemSophisticationLevelAnnotated | null;
+  properties?: ListThreatEventsTagsResponseTagsItemPropertiesMap | null | undefined;
+  sophisticationLevel?: string | null | undefined;
+  sophisticationLevelAnnotated?:
+    | ListThreatEventsTagsResponseTagsItemSophisticationLevelAnnotated
+    | null
+    | undefined;
   /** Tag-level TLP handling marking. */
-  tlp?: ListThreatEventsTagsResponseTagsItemTlp | null;
-  updatedAt?: string | null;
-  version?: number | null;
+  tlp?: ListThreatEventsTagsResponseTagsItemTlp | null | undefined;
+  updatedAt?: string | null | undefined;
+  version?: number | null | undefined;
 }
 export type ListThreatEventsTagsResponseTagsList = Array<ListThreatEventsTagsResponseTagsItem>;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
@@ -3520,7 +3651,7 @@ export interface ListThreatEventsTagsResponse {
 export interface ListThreatEventsTagsCategoriesRequest {
   /** Account ID. */
   accountId: string;
-  search?: string;
+  search?: string | undefined;
 }
 export type ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaItemKind =
   | "string"
@@ -3552,33 +3683,48 @@ export type ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaItemProper
 export interface ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaItem {
   key: string;
   kind: ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaItemKind;
-  allowedValues?: ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaItemAllowedValuesList | null;
-  annotations?: CreateThreatEventsTagsCategoryResponseSchemaItemAnnotations | null;
+  allowedValues?:
+    | ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaItemAllowedValuesList
+    | null
+    | undefined;
+  annotations?: CreateThreatEventsTagsCategoryResponseSchemaItemAnnotations | null | undefined;
   /** Marks a field as unavailable for new values while retaining its definition for historical values. */
-  deprecated?: boolean | null;
+  deprecated?: boolean | null | undefined;
   /** Enum values unavailable for new writes but retained in allowedValues for historical display. */
-  deprecatedValues?: ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaItemDeprecatedValuesList | null;
-  element?: unknown | null;
-  enforcement?: ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaItemEnforcement | null;
-  format?: ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaItemFormat | null;
-  label?: string | null;
+  deprecatedValues?:
+    | ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaItemDeprecatedValuesList
+    | null
+    | undefined;
+  element?: unknown | null | undefined;
+  enforcement?:
+    | ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaItemEnforcement
+    | null
+    | undefined;
+  format?: ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaItemFormat | null | undefined;
+  label?: string | null | undefined;
   /** exclusiveMinimum */
-  maxLength?: number | null;
-  numberConstraint?: CreateThreatEventsTagsCategoryResponseSchemaItemNumberConstraint | null;
+  maxLength?: number | null | undefined;
+  numberConstraint?:
+    | CreateThreatEventsTagsCategoryResponseSchemaItemNumberConstraint
+    | null
+    | undefined;
   /** Map of property key to FieldDefinition for object fields. Required when kind is 'object'. See FieldDefinition (recursive). */
-  properties?: ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaItemPropertiesMap | null;
-  required?: boolean | null;
+  properties?:
+    | ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaItemPropertiesMap
+    | null
+    | undefined;
+  required?: boolean | null | undefined;
 }
 export type ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaList =
   Array<ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaItem>;
 export interface ListThreatEventsTagsCategoriesResponseCategoriesItem {
   name: string;
   uuid: string;
-  createdAt?: string | null;
-  description?: string | null;
+  createdAt?: string | null | undefined;
+  description?: string | null | undefined;
   /** Parsed FieldDefinition[] defining custom fields for this category, or null if none. */
-  schema?: ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaList | null;
-  updatedAt?: string | null;
+  schema?: ListThreatEventsTagsCategoriesResponseCategoriesItemSchemaList | null | undefined;
+  updatedAt?: string | null | undefined;
 }
 export type ListThreatEventsTagsCategoriesResponseCategoriesList =
   Array<ListThreatEventsTagsCategoriesResponseCategoriesItem>;
@@ -3595,14 +3741,16 @@ export interface ListThreatEventsTagsIndicatorsRequest {
   /** Tag UUID. */
   tagUuid: string;
   /** Dataset UUIDs to scope to (repeat the param for multiple), or one standalone scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Analytics datasets do not expose tag associations, so 'analytics' returns an empty result. Omit for 'all'. */
-  datasetIds?: ListThreatEventsTagsIndicatorsRequestDatasetIdsList;
-  indicatorType?: string;
-  page?: number;
-  pageSize?: number;
+  datasetIds?: ListThreatEventsTagsIndicatorsRequestDatasetIdsList | undefined;
+  indicatorType?: string | undefined;
+  /** Page number (default 1). page × pageSize may not exceed 10000. */
+  page?: number | undefined;
+  /** Results per page (default 100, maximum 1000; larger values are clamped). */
+  pageSize?: number | undefined;
   /** Filter indicators by related event UUID(s). Multiple UUIDs can be provided by repeating the parameter. */
-  relatedEvent?: ListThreatEventsTagsIndicatorsRequestRelatedEventList;
+  relatedEvent?: ListThreatEventsTagsIndicatorsRequestRelatedEventList | undefined;
   /** Structured search as a JSON array of {field, op, value} objects. Searchable fields: value, indicatorType. Multiple conditions are AND'd together. Max 10 conditions per request. */
-  search?: ListThreatEventsTagsIndicatorsRequestSearchList;
+  search?: ListThreatEventsTagsIndicatorsRequestSearchList | undefined;
 }
 export type ListThreatEventsTagsIndicatorsResponseIndicatorsItemRelatedEventsItem =
   GetThreatEventsIndicatorsByDatasetResponseRelatedEventsItem;
@@ -3619,14 +3767,17 @@ export interface ListThreatEventsTagsIndicatorsResponseIndicatorsItem {
   uuid: string;
   value: string;
   /** The dataset ID this indicator belongs to. Included in list responses. */
-  datasetId?: string | null;
+  datasetId?: string | null | undefined;
   /** Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-1` to retrieve all of them. */
-  relatedEvents?: ListThreatEventsTagsIndicatorsResponseIndicatorsItemRelatedEventsList | null;
+  relatedEvents?:
+    | ListThreatEventsTagsIndicatorsResponseIndicatorsItemRelatedEventsList
+    | null
+    | undefined;
   /** True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEventsLimit=-1` to retrieve every related event. */
-  relatedEventsHasMore?: boolean | null;
-  tags?: ListThreatEventsTagsIndicatorsResponseIndicatorsItemTagsList | null;
+  relatedEventsHasMore?: boolean | null | undefined;
+  tags?: ListThreatEventsTagsIndicatorsResponseIndicatorsItemTagsList | null | undefined;
   /** Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set. */
-  tlp?: string | null;
+  tlp?: string | null | undefined;
 }
 export type ListThreatEventsTagsIndicatorsResponseIndicatorsList =
   Array<ListThreatEventsTagsIndicatorsResponseIndicatorsItem>;
@@ -3636,6 +3787,10 @@ export type ListThreatEventsTagsIndicatorsResponsePagination =
 export interface ListThreatEventsTagsIndicatorsResponse {
   indicators: ListThreatEventsTagsIndicatorsResponseIndicatorsList;
   pagination: ListThreatEventsIndicatorsByDatasetResponsePagination;
+  /** Number of shards that failed or timed out. Present only with partialResults. */
+  failedShardCount?: number | null | undefined;
+  /** Present and true when one or more shards failed or timed out. Indicators from those shards may be missing from this page and from totalCount. */
+  partialResults?: boolean | null | undefined;
 }
 export type ListThreatEventsTagsIndicatorsByDatasetRequestRelatedEventList = Array<string>;
 export type ListThreatEventsTagsIndicatorsByDatasetRequestSearchList = Array<string>;
@@ -3646,13 +3801,15 @@ export interface ListThreatEventsTagsIndicatorsByDatasetRequest {
   datasetId: string;
   /** Tag UUID. */
   tagUuid: string;
-  indicatorType?: string;
-  page?: number;
-  pageSize?: number;
+  indicatorType?: string | undefined;
+  /** Page number (default 1). page × pageSize may not exceed 10000. */
+  page?: number | undefined;
+  /** Results per page (default 100, maximum 1000; larger values are clamped). */
+  pageSize?: number | undefined;
   /** Filter indicators by related event UUID(s). Multiple UUIDs can be provided by repeating the parameter. */
-  relatedEvent?: ListThreatEventsTagsIndicatorsByDatasetRequestRelatedEventList;
+  relatedEvent?: ListThreatEventsTagsIndicatorsByDatasetRequestRelatedEventList | undefined;
   /** Structured search as a JSON array of {field, op, value} objects. Searchable fields: value, indicatorType. Multiple conditions are AND'd together. Max 10 conditions per request. */
-  search?: ListThreatEventsTagsIndicatorsByDatasetRequestSearchList;
+  search?: ListThreatEventsTagsIndicatorsByDatasetRequestSearchList | undefined;
 }
 export type ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsItemRelatedEventsItem =
   GetThreatEventsIndicatorsByDatasetResponseRelatedEventsItem;
@@ -3669,14 +3826,17 @@ export interface ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsItem {
   uuid: string;
   value: string;
   /** The dataset ID this indicator belongs to. Included in list responses. */
-  datasetId?: string | null;
+  datasetId?: string | null | undefined;
   /** Related events, capped by `relatedEventsLimit` (default 2). Check `relatedEventsHasMore` to detect a capped list; pass `relatedEventsLimit=-1` to retrieve all of them. */
-  relatedEvents?: ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsItemRelatedEventsList | null;
+  relatedEvents?:
+    | ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsItemRelatedEventsList
+    | null
+    | undefined;
   /** True when this indicator appears in more events than `relatedEvents` contains because `relatedEventsLimit` capped the list. Pass `relatedEventsLimit=-1` to retrieve every related event. */
-  relatedEventsHasMore?: boolean | null;
-  tags?: ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsItemTagsList | null;
+  relatedEventsHasMore?: boolean | null | undefined;
+  tags?: ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsItemTagsList | null | undefined;
   /** Traffic Light Protocol designation. UPPERCASE. Possible values: CLEAR, GREEN, AMBER, AMBER-STRICT, RED, PURPLE. Null when not set. */
-  tlp?: string | null;
+  tlp?: string | null | undefined;
 }
 export type ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsList =
   Array<ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsItem>;
@@ -3686,6 +3846,10 @@ export type ListThreatEventsTagsIndicatorsByDatasetResponsePagination =
 export interface ListThreatEventsTagsIndicatorsByDatasetResponse {
   indicators: ListThreatEventsTagsIndicatorsByDatasetResponseIndicatorsList;
   pagination: ListThreatEventsIndicatorsByDatasetResponsePagination;
+  /** Number of shards that failed or timed out. Present only with partialResults. */
+  failedShardCount?: number | null | undefined;
+  /** Present and true when one or more shards failed or timed out. Indicators from those shards may be missing from this page and from totalCount. */
+  partialResults?: boolean | null | undefined;
 }
 export interface ListThreatEventsTargetIndustriesByDatasetRequest {
   /** Account ID. */
@@ -3716,7 +3880,7 @@ export interface ListThreatEventTargetIndustriesRequest {
   /** Account ID. */
   accountId: string;
   /** Array of dataset IDs to query target industries from. If not provided, uses the default dataset. */
-  datasetIds?: ThreatEventsTargetIndustriesListRequestDatasetIdsList;
+  datasetIds?: ThreatEventsTargetIndustriesListRequestDatasetIdsList | undefined;
 }
 export type ThreatEventsTargetIndustriesListResponseItems = ThreatEventsAttackersListResponseItems;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
@@ -3725,6 +3889,16 @@ export interface ListThreatEventTargetIndustriesResponse {
   type: string;
 }
 export type ListThreatSignalsArticlesRequestArticleIdList = Array<string>;
+export type ListThreatSignalsArticlesRequestMinRelevance = "low" | "medium" | "high";
+export type ListThreatSignalsArticlesRequestSeverity =
+  | "informational"
+  | "low"
+  | "medium"
+  | "high"
+  | "critical";
+export type ListThreatSignalsArticlesRequestSeverityList = Array<
+  ListThreatSignalsArticlesRequestSeverity | (string & {})
+>;
 export type ListThreatSignalsArticlesRequestSourceType = "curated" | "custom";
 export type ListThreatSignalsArticlesRequestTagAppliedBy = "ai" | "analyst" | "system";
 export type ListThreatSignalsArticlesRequestTagCategoryIdList = Array<string>;
@@ -3732,44 +3906,76 @@ export type ListThreatSignalsArticlesRequestTagIdList = Array<string>;
 export interface ListThreatSignalsArticlesRequest {
   accountId: string;
   /** Repeatable article UUID filter. Returns the union of matching account-owned articles; use this to list every Threat Signals article referenced by an indicator's sources. */
-  articleId?: ListThreatSignalsArticlesRequestArticleIdList;
+  articleId?: ListThreatSignalsArticlesRequestArticleIdList | undefined;
   /** Opaque cursor from a previous response's `next_cursor`. When provided, pagination, ordering, totals, and article filters come from the cursor. Sending `per_page`, `sort`, `include_total`, or any article filter alongside it returns a 400 `CursorFilterConflictError`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Exact feed-category filter after trimming. Omit to include every category. */
-  feedCategory?: string;
+  feedCategory?: string | undefined;
   /** Feed UUID filter. Omit to include articles from every account feed. */
-  feedId?: string;
+  feedId?: string | undefined;
   /** Include articles fetched at or after this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC. */
-  fetchedAfter?: string;
+  fetchedAfter?: string | undefined;
   /** Include articles fetched at or before this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC. */
-  fetchedBefore?: string;
+  fetchedBefore?: string | undefined;
   /** When true on the first page, count matching articles and return an exact total. Defaults to false; cursor pages do not recalculate totals. */
-  includeTotal?: boolean;
+  includeTotal?: boolean | undefined;
+  /** Beta. Return only articles at or above this relevance band for pir_id, or for any active PIR when pir_id is omitted. Excludes articles that have not been scored. */
+  minRelevance?: ListThreatSignalsArticlesRequestMinRelevance | (string & {}) | undefined;
   /** Number of articles per cursor page, from 1 to 100. Defaults to 20. */
-  perPage?: number;
+  perPage?: number | undefined;
+  /** Beta. Active Priority Intelligence Requirement to report, filter, and sort relevance by. Omit to use each article's most relevant active PIR. Returns a 400 error unless the PIR is active. */
+  pirId?: string | undefined;
   /** Include articles published at or after this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC. */
-  publishedAfter?: string;
+  publishedAfter?: string | undefined;
   /** Include articles published at or before this ISO 8601 date-time with Z or a numeric UTC offset; normalized to UTC. */
-  publishedBefore?: string;
+  publishedBefore?: string | undefined;
   /** Filter by read state. Accepts true, false, 1, or 0; omit to include read and unread articles. */
-  read?: boolean;
+  read?: boolean | undefined;
   /** NFC-normalized, trimmed literal substring filter on article titles; ASCII case-insensitive, from 1 to 500 characters. */
-  search?: string;
-  /** Sort by fetched_at, published_at, or title. Prefix the field with - for descending order; defaults to -fetched_at. */
-  sort?: string;
+  search?: string | undefined;
+  /** Beta. Repeatable intrinsic severity band filter. An article matches any selected band, the band reported as its severity. Excludes articles without a severity. Like the severity field, severity is reported only while the account has an active Priority Intelligence Requirement; otherwise no articles match. */
+  severity?: ListThreatSignalsArticlesRequestSeverityList | undefined;
+  /** Sort by fetched_at, published_at, title, or relevance (beta). Prefix the field with - for descending order; defaults to -fetched_at. -relevance lists the most relevant articles first, by pir_id or by each article's most relevant active PIR, with unscored articles last. */
+  sort?: string | undefined;
   /** Filter by curated or custom feed source. Omit to include both source types. */
-  sourceType?: ListThreatSignalsArticlesRequestSourceType | (string & {});
+  sourceType?: ListThreatSignalsArticlesRequestSourceType | (string & {}) | undefined;
   /** Legacy human-readable tag-value filter. Ignored when tag_id is supplied; prefer tag_id. */
-  tag?: string;
+  tag?: string | undefined;
   /** Assignment provenance filter. When combined with tag_id or tag_category_id, the matching assignment must have this provenance. */
-  tagAppliedBy?: ListThreatSignalsArticlesRequestTagAppliedBy | (string & {});
+  tagAppliedBy?: ListThreatSignalsArticlesRequestTagAppliedBy | (string & {}) | undefined;
   /** Legacy category-name disambiguator for tag. It has no effect without tag; prefer tag_category_id. */
-  tagCategory?: string;
+  tagCategory?: string | undefined;
   /** Repeatable tag-category UUID filter. An article matches any selected category; when tag_id is also present, the tag and category groups are ANDed. */
-  tagCategoryId?: ListThreatSignalsArticlesRequestTagCategoryIdList;
+  tagCategoryId?: ListThreatSignalsArticlesRequestTagCategoryIdList | undefined;
   /** Repeatable tag UUID filter. An article matches any selected tag. */
-  tagId?: ListThreatSignalsArticlesRequestTagIdList;
+  tagId?: ListThreatSignalsArticlesRequestTagIdList | undefined;
 }
+export type ListThreatSignalsArticlesResponseArticlesItemRelevanceBand = "low" | "medium" | "high";
+export type ListThreatSignalsArticlesResponseArticlesItemRelevancePirsItemBand =
+  | "low"
+  | "medium"
+  | "high";
+export interface ListThreatSignalsArticlesResponseArticlesItemRelevancePirsItem {
+  /** Beta. How relevant the article is to a Priority Intelligence Requirement: high, medium, or low. Cloudflare may change the scores behind each band as relevance scoring is calibrated. */
+  band: ListThreatSignalsArticlesResponseArticlesItemRelevancePirsItemBand;
+  pirId: string;
+}
+export type ListThreatSignalsArticlesResponseArticlesItemRelevancePirsList =
+  Array<ListThreatSignalsArticlesResponseArticlesItemRelevancePirsItem>;
+export interface ListThreatSignalsArticlesResponseArticlesItemRelevance {
+  /** Beta. How relevant the article is to a Priority Intelligence Requirement: high, medium, or low. Cloudflare may change the scores behind each band as relevance scoring is calibrated. */
+  band: ListThreatSignalsArticlesResponseArticlesItemRelevanceBand;
+  /** Beta. The pir_id requested from the article list, or otherwise the account's most relevant active PIR for this article. */
+  pirId: string;
+  /** Beta. Every active PIR the article was scored against, most relevant first. Draft and deleted PIRs are excluded. */
+  pirs: ListThreatSignalsArticlesResponseArticlesItemRelevancePirsList;
+}
+export type ListThreatSignalsArticlesResponseArticlesItemSeverity =
+  | "informational"
+  | "low"
+  | "medium"
+  | "high"
+  | "critical";
 export type ListThreatSignalsArticlesResponseArticlesItemTagsItemAppliedBy =
   | "ai"
   | "analyst"
@@ -3795,6 +4001,10 @@ export interface ListThreatSignalsArticlesResponseArticlesItem {
   publishedAt: string;
   read: boolean;
   readAt: string;
+  /** Beta. The article's relevance to the account's active Priority Intelligence Requirements. Null when the article has not been scored against them, including when the account has no active PIRs, or has not been scored against the requested pir_id. */
+  relevance: ListThreatSignalsArticlesResponseArticlesItemRelevance;
+  /** Beta. Intrinsic article severity band, from informational to critical, independent of any organisation or Priority Intelligence Requirement. Null when the account has no active Priority Intelligence Requirements, scoring has not completed, or a historic article has not entered an automatic rescore window. */
+  severity: ListThreatSignalsArticlesResponseArticlesItemSeverity;
   /** Persisted enrichment summary. Null until enrichment produces a summary. */
   summary: string;
   tags: ListThreatSignalsArticlesResponseArticlesItemTagsList;
@@ -3831,21 +4041,21 @@ export type ListThreatSignalsFeedsRequestSourceType = "curated" | "custom";
 export interface ListThreatSignalsFeedsRequest {
   accountId: string;
   /** Exact feed-category filter, up to 100 characters. Omit to include all categories. */
-  category?: string;
+  category?: string | undefined;
   /** Filter by enabled state. Accepts true, false, 1, or 0; omit to include enabled and disabled feeds. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Optional 1-100 alias for per_page. When provided, limit takes precedence. */
-  limit?: number;
+  limit?: number | undefined;
   /** 1-based page number. Minimum 1; defaults to 1. */
-  page?: number;
+  page?: number | undefined;
   /** Number of feeds per page, from 1 to 100. Defaults to 20. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Sort by created_at, title, category, or url. Prefix the field with - for descending order; defaults to -created_at. */
-  sort?: string;
+  sort?: string | undefined;
   /** Filter by curated or custom feed source. Omit to include both source types. */
-  sourceType?: ListThreatSignalsFeedsRequestSourceType | (string & {});
+  sourceType?: ListThreatSignalsFeedsRequestSourceType | (string & {}) | undefined;
   /** Exact stored polling-status filter, such as active or error. Omit to include every status. */
-  status?: string;
+  status?: string | undefined;
 }
 export interface ListThreatSignalsFeedsResponseFeedsItem {
   id: string;
@@ -3887,19 +4097,19 @@ export interface ListThreatSignalsFeedsResponse {
 export interface ListThreatSignalsIndicatorsRequest {
   accountId: string;
   /** Article UUID filter. Omit to include indicators from every article. */
-  articleId?: string;
+  articleId?: string | undefined;
   /** Opaque cursor from the previous response's `pagination.cursor`. When provided, page size, ordering, and filters come from the cursor. Sending `per_page`, `sort`, `include_total`, `feed_id`, `article_id`, or `search` alongside it returns a 400 `CursorFilterConflictError`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Feed UUID filter. Omit to include indicators from every account feed. */
-  feedId?: string;
+  feedId?: string | undefined;
   /** When true on the first page, count matching indicators and return an exact total. Defaults to false; cursor pages do not recalculate totals. */
-  includeTotal?: boolean;
+  includeTotal?: boolean | undefined;
   /** Number of indicators per cursor page, from 1 to 100. Defaults to 20. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** NFC-normalized and trimmed, case-insensitive literal substring search of indicator values. Requires 3-500 Unicode code points; the upper code-point bound is described here because OpenAPI string length cannot precisely express it without imposing UTF-16 semantics. */
-  search?: string;
+  search?: string | undefined;
   /** Sort by id. Use id for ascending or -id for descending order; defaults to id. */
-  sort?: string;
+  sort?: string | undefined;
 }
 export interface ListThreatSignalsIndicatorsResponseIndicatorsItem {
   id: string;
@@ -3932,9 +4142,9 @@ export interface ListThreatSignalsIndicatorsResponse {
 export interface ListThreatSignalsSkillsRequest {
   accountId: string;
   /** Page number (>= 1, default 1). */
-  page?: number;
+  page?: number | undefined;
   /** Results per page (1-100, default 20). */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ListThreatSignalsSkillsResponseSkillsItemSource = "default" | "custom";
 export interface ListThreatSignalsSkillsResponseSkillsItem {
@@ -3974,11 +4184,11 @@ export interface PatchScanConfigRequest {
   /** Defines the Config ID. */
   configId: string;
   /** Defines the number of days between each scan (0 = One-off scan). */
-  frequency?: number;
+  frequency?: number | undefined;
   /** Defines a list of IP addresses or CIDR blocks to scan. The maximum number of total IP addresses allowed is 5000. */
-  ips?: ScansConfigEditRequestIpsList;
+  ips?: ScansConfigEditRequestIpsList | undefined;
   /** Defines a list of ports to scan. Valid values are:"default", "all", or a comma-separated list of ports or range of ports (e.g. ["1-80", "443"]). "default" scans the 100 most commonly open ports. */
-  ports?: ScansConfigEditRequestPortsList;
+  ports?: ScansConfigEditRequestPortsList | undefined;
 }
 export type ScansConfigEditResponseIpsList = Array<string>;
 export type ScansConfigEditResponsePortsList = Array<string>;
@@ -3996,9 +4206,9 @@ export interface PatchScanConfigResponse {
 }
 export type ThreatEventsEditRequestRawDataMap = { [key: string]: unknown | undefined };
 export interface ThreatEventsEditRequestRaw {
-  data?: ThreatEventsEditRequestRawDataMap;
-  source?: string;
-  tlp?: string;
+  data?: ThreatEventsEditRequestRawDataMap | undefined;
+  source?: string | undefined;
+  tlp?: string | undefined;
 }
 export interface PatchThreatEventRequest {
   /** Account ID. */
@@ -4007,19 +4217,19 @@ export interface PatchThreatEventRequest {
   eventId: string;
   /** Dataset ID containing the event to update. */
   datasetId: string;
-  attacker?: string;
-  attackerCountry?: string;
-  category?: string;
-  createdAt?: string;
-  date?: string;
-  event?: string;
-  indicator?: string;
-  indicatorType?: string;
-  insight?: string;
-  raw?: ThreatEventsEditRequestRaw;
-  targetCountry?: string;
-  targetIndustry?: string;
-  tlp?: string;
+  attacker?: string | undefined;
+  attackerCountry?: string | undefined;
+  category?: string | undefined;
+  createdAt?: string | undefined;
+  date?: string | undefined;
+  event?: string | undefined;
+  indicator?: string | undefined;
+  indicatorType?: string | undefined;
+  insight?: string | undefined;
+  raw?: ThreatEventsEditRequestRaw | undefined;
+  targetCountry?: string | undefined;
+  targetIndustry?: string | undefined;
+  tlp?: string | undefined;
 }
 export type ThreatEventsEditResponseMitreAttackList = Array<string>;
 export type ThreatEventsEditResponseMitreCapecList = Array<string>;
@@ -4057,8 +4267,8 @@ export interface PatchThreatEventResponse {
   targetIndustry: string;
   tlp: string;
   uuid: string;
-  insight?: string | null;
-  releasabilityId?: string | null;
+  insight?: string | null | undefined;
+  releasabilityId?: string | null | undefined;
 }
 export type ThreatEventsCategoriesEditRequestMitreAttackList = Array<string>;
 export type ThreatEventsCategoriesEditRequestMitreCapecList = Array<string>;
@@ -4067,11 +4277,11 @@ export interface PatchThreatEventCategoryRequest {
   accountId: string;
   /** Category UUID. */
   categoryId: string;
-  killChain?: number;
-  mitreAttack?: ThreatEventsCategoriesEditRequestMitreAttackList;
-  mitreCapec?: ThreatEventsCategoriesEditRequestMitreCapecList;
-  name?: string;
-  shortname?: string;
+  killChain?: number | undefined;
+  mitreAttack?: ThreatEventsCategoriesEditRequestMitreAttackList | undefined;
+  mitreCapec?: ThreatEventsCategoriesEditRequestMitreCapecList | undefined;
+  name?: string | undefined;
+  shortname?: string | undefined;
 }
 export type ThreatEventsCategoriesEditResponseMitreAttackList = Array<string>;
 export type ThreatEventsCategoriesEditResponseMitreCapecList = Array<string>;
@@ -4080,9 +4290,9 @@ export interface PatchThreatEventCategoryResponse {
   killChain: number;
   name: string;
   uuid: string;
-  mitreAttack?: ThreatEventsCategoriesEditResponseMitreAttackList | null;
-  mitreCapec?: ThreatEventsCategoriesEditResponseMitreCapecList | null;
-  shortname?: string | null;
+  mitreAttack?: ThreatEventsCategoriesEditResponseMitreAttackList | null | undefined;
+  mitreCapec?: ThreatEventsCategoriesEditResponseMitreCapecList | null | undefined;
+  shortname?: string | null | undefined;
 }
 export interface PatchThreatEventDatasetRequest {
   /** Account ID. */
@@ -4108,9 +4318,9 @@ export interface PatchThreatEventRawRequest {
   eventId: string;
   /** Raw Event UUID. */
   rawId: string;
-  data?: unknown;
-  source?: string;
-  tlp?: string;
+  data?: unknown | undefined;
+  source?: string | undefined;
+  tlp?: string | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface PatchThreatEventRawResponse {
@@ -4120,14 +4330,14 @@ export interface PatchThreatEventRawResponse {
 export interface PollThreatSignalsFeedRequest {
   accountId: string;
   /** UUID of a specific feed to poll, or "all" to poll all feeds. Omit or pass "all" for all feeds. */
-  feedId?: string;
+  feedId?: string | undefined;
 }
 export type PollThreatSignalsFeedResponseFeedsItemStatus = "workflow_created" | "error";
 export interface PollThreatSignalsFeedResponseFeedsItem {
   feedId: string;
   status: PollThreatSignalsFeedResponseFeedsItemStatus;
   workflowId: string;
-  feedEnabled?: boolean | null;
+  feedEnabled?: boolean | null | undefined;
 }
 export type PollThreatSignalsFeedResponseFeedsList = Array<PollThreatSignalsFeedResponseFeedsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -4143,13 +4353,13 @@ export interface QuotaRequestPriorityRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface QuotaRequestPriorityResponse {
   /** Anniversary date is when annual quota limit is refreshed. */
-  anniversaryDate?: string | null;
+  anniversaryDate?: string | null | undefined;
   /** Quarter anniversary date is when quota limit is refreshed each quarter. */
-  quarterAnniversaryDate?: string | null;
+  quarterAnniversaryDate?: string | null | undefined;
   /** Tokens for the quarter. */
-  quota?: number | null;
+  quota?: number | null | undefined;
   /** Tokens remaining for the quarter. */
-  remaining?: number | null;
+  remaining?: number | null | undefined;
 }
 export interface RawThreatEventDatasetRequest {
   /** Account ID. */
@@ -4186,9 +4396,9 @@ export type RequestsConstantsResponseTlpItem = "clear" | "amber" | "amber-strict
 export type RequestsConstantsResponseTlpList = Array<RequestsConstantsResponseTlpItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface RequestsConstantsResponse {
-  priority?: RequestsConstantsResponsePriorityList | null;
-  status?: RequestsConstantsResponseStatusList | null;
-  tlp?: RequestsConstantsResponseTlpList | null;
+  priority?: RequestsConstantsResponsePriorityList | null | undefined;
+  status?: RequestsConstantsResponseStatusList | null | undefined;
+  tlp?: RequestsConstantsResponseTlpList | null | undefined;
 }
 export interface RequestsQuotaRequest {
   /** Identifier. */
@@ -4197,13 +4407,13 @@ export interface RequestsQuotaRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface RequestsQuotaResponse {
   /** Anniversary date is when annual quota limit is refreshed. */
-  anniversaryDate?: string | null;
+  anniversaryDate?: string | null | undefined;
   /** Quarter anniversary date is when quota limit is refreshed each quarter. */
-  quarterAnniversaryDate?: string | null;
+  quarterAnniversaryDate?: string | null | undefined;
   /** Tokens for the quarter. */
-  quota?: number | null;
+  quota?: number | null | undefined;
   /** Tokens remaining for the quarter. */
-  remaining?: number | null;
+  remaining?: number | null | undefined;
 }
 export interface RequestsTypesRequest {
   /** Identifier. */
@@ -4214,8 +4424,8 @@ export type RequestsTypesResponse = RequestsTypesResultList;
 export interface SearchThreatSignalRequest {
   accountId: string;
   query: string;
-  feedId?: string;
-  maxResults?: string;
+  feedId?: string | undefined;
+  maxResults?: string | undefined;
 }
 export interface SearchThreatSignalResponseResultsItem {
   articleId: string;
@@ -4237,8 +4447,8 @@ export type ThreatEventsBulkCreateRelationshipsRequestDataItemRawDataMap = {
 };
 export interface ThreatEventsBulkCreateRelationshipsRequestDataItemRaw {
   data: ThreatEventsBulkCreateRelationshipsRequestDataItemRawDataMap;
-  source?: string;
-  tlp?: string;
+  source?: string | undefined;
+  tlp?: string | undefined;
 }
 export type ThreatEventsBulkCreateRelationshipsRequestDataItemIndicatorsItem =
   ThreatEventsBulkCreateRequestDataItemIndicatorsItem;
@@ -4251,18 +4461,18 @@ export interface ThreatEventsBulkCreateRelationshipsRequestDataItem {
   event: string;
   raw: ThreatEventsBulkCreateRelationshipsRequestDataItemRaw;
   tlp: string;
-  accountId?: number;
-  attacker?: string;
-  attackerCountry?: string;
-  datasetId?: string;
-  indicator?: string;
+  accountId?: number | undefined;
+  attacker?: string | undefined;
+  attackerCountry?: string | undefined;
+  datasetId?: string | undefined;
+  indicator?: string | undefined;
   /** Array of indicators for this event. Supports multiple indicators per event for complex scenarios. */
-  indicators?: ThreatEventsBulkCreateRelationshipsRequestDataItemIndicatorsList;
-  indicatorType?: string;
-  insight?: string;
-  tags?: ThreatEventsBulkCreateRelationshipsRequestDataItemTagsList;
-  targetCountry?: string;
-  targetIndustry?: string;
+  indicators?: ThreatEventsBulkCreateRelationshipsRequestDataItemIndicatorsList | undefined;
+  indicatorType?: string | undefined;
+  insight?: string | undefined;
+  tags?: ThreatEventsBulkCreateRelationshipsRequestDataItemTagsList | undefined;
+  targetCountry?: string | undefined;
+  targetIndustry?: string | undefined;
 }
 export type ThreatEventsBulkCreateRelationshipsRequestDataList =
   Array<ThreatEventsBulkCreateRelationshipsRequestDataItem>;
@@ -4308,9 +4518,9 @@ export interface ThreatSignalsSearchSearchRequest {
   /** Keyword and semantic article-search text, from 1 to 1000 characters. */
   query: string;
   /** Optional feed UUID that restricts results to articles from that feed. */
-  feedId?: string;
+  feedId?: string | undefined;
   /** Maximum search matches to request, an integer from 1 to 50. Defaults to 20 when omitted or empty; multiple matches from one article can produce fewer returned articles. */
-  maxResults?: string;
+  maxResults?: string | undefined;
 }
 export type ThreatSignalsSearchSearchResponseResultsItem = SearchThreatSignalResponseResultsItem;
 export type ThreatSignalsSearchSearchResponseResultsList =
@@ -4328,15 +4538,15 @@ export interface UpdateRequestRequest {
   /** UUID. */
   requestId: string;
   /** Request content. */
-  content?: string;
+  content?: string | undefined;
   /** Priority for analyzing the request. */
-  priority?: string;
+  priority?: string | undefined;
   /** Requested information from request. */
-  requestType?: string;
+  requestType?: string | undefined;
   /** Brief description of the request. */
-  summary?: string;
+  summary?: string | undefined;
   /** The CISA defined Traffic Light Protocol (TLP). */
-  tlp?: UpdateRequestRequestTlp | (string & {});
+  tlp?: UpdateRequestRequestTlp | (string & {}) | undefined;
 }
 export type UpdateRequestResponseTlp = "clear" | "amber" | "amber-strict" | "green" | "red";
 export type UpdateRequestResponseStatus =
@@ -4361,15 +4571,15 @@ export interface UpdateRequestResponse {
   /** The CISA defined Traffic Light Protocol (TLP). */
   tlp: UpdateRequestResponseTlp;
   updated: string;
-  completed?: string | null;
+  completed?: string | null | undefined;
   /** Tokens for the request messages. */
-  messageTokens?: number | null;
+  messageTokens?: number | null | undefined;
   /** Readable Request ID. */
-  readableId?: string | null;
+  readableId?: string | null | undefined;
   /** Request Status. */
-  status?: UpdateRequestResponseStatus | null;
+  status?: UpdateRequestResponseStatus | null | undefined;
   /** Tokens for the request. */
-  tokens?: number | null;
+  tokens?: number | null | undefined;
 }
 export interface UpdateRequestAssetRequest {
   /** Identifier. */
@@ -4379,7 +4589,7 @@ export interface UpdateRequestAssetRequest {
   /** UUID. */
   assetId: string;
   /** Asset file to upload. */
-  source?: string;
+  source?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateRequestAssetResponse {
@@ -4388,11 +4598,11 @@ export interface UpdateRequestAssetResponse {
   /** Asset name. */
   name: string;
   /** Defines the asset creation time. */
-  created?: string | null;
+  created?: string | null | undefined;
   /** Asset description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Asset file type. */
-  fileType?: string | null;
+  fileType?: string | null | undefined;
 }
 export interface UpdateRequestMessageRequest {
   /** Identifier. */
@@ -4401,7 +4611,7 @@ export interface UpdateRequestMessageRequest {
   requestId: string;
   messageId: number;
   /** Content of message. */
-  content?: string;
+  content?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateRequestMessageResponse {
@@ -4416,7 +4626,7 @@ export interface UpdateRequestMessageResponse {
   /** Defines the message last updated time. */
   updated: string;
   /** Defines the message creation time. */
-  created?: string | null;
+  created?: string | null | undefined;
 }
 export type RequestsPriorityUpdateRequestLabelsList = Array<string>;
 export type RequestsPriorityUpdateRequestTlp = "clear" | "amber" | "amber-strict" | "green" | "red";
@@ -4462,15 +4672,15 @@ export interface UpdateRequestPriorityResponse {
   /** The CISA defined Traffic Light Protocol (TLP). */
   tlp: RequestsPriorityUpdateResponseTlp;
   updated: string;
-  completed?: string | null;
+  completed?: string | null | undefined;
   /** Tokens for the request messages. */
-  messageTokens?: number | null;
+  messageTokens?: number | null | undefined;
   /** Readable Request ID. */
-  readableId?: string | null;
+  readableId?: string | null | undefined;
   /** Request Status. */
-  status?: RequestsPriorityUpdateResponseStatus | null;
+  status?: RequestsPriorityUpdateResponseStatus | null | undefined;
   /** Tokens for the request. */
-  tokens?: number | null;
+  tokens?: number | null | undefined;
 }
 export type UpdateThreatSignalsFeedsSkillRequestSkillIdsList = Array<string>;
 export interface UpdateThreatSignalsFeedsSkillRequest {
@@ -4509,7 +4719,7 @@ export interface UpdateThreatSignalsSkillsTagCategoryResponse {
   skillId: UpdateThreatSignalsSkillsTagCategoryResponseSkillId;
 }
 export type BulkCreateThreatEventsError = CloudflareOpError;
-/** The `datasetId` parameter must be defined. To list existing datasets (and their IDs) in your account, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint. */
+/** Creates multiple events in one dataset. `datasetId` is required; to find dataset IDs, use `threat-intel datasets list`. Set `includeCreatedEvents` to return the UUIDs of the created events. */
 export const bulkCreateThreatEvents: API.OperationMethod<
   BulkCreateThreatEventsRequest,
   BulkCreateThreatEventsResponse,
@@ -4606,8 +4816,8 @@ export const createRequestPriority: API.OperationMethod<
   CreateRequestPriorityError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<CreateRequestPriorityRequest>,
-  output: __S(1473, __c92, 1) as any as S.Schema<CreateRequestPriorityResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<CreateRequestPriorityRequest>,
+  output: __S(1489, __c93, 1) as any as S.Schema<CreateRequestPriorityResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -4623,8 +4833,8 @@ export const createScanConfig: API.OperationMethod<
   CreateScanConfigError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c106, 0) as any as S.Schema<CreateScanConfigRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<CreateScanConfigResponse>,
+  input: __S(1712, __c107, 0) as any as S.Schema<CreateScanConfigRequest>,
+  output: __S(1728, __c108, 0) as any as S.Schema<CreateScanConfigResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -4633,15 +4843,15 @@ export const createScanConfig: API.OperationMethod<
 }));
 
 export type CreateThreatEventError = CloudflareOpError;
-/** To create a dataset, see the [`Create Dataset`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/create/) endpoint. When `datasetId` parameter is unspecified, it will be created in a default dataset named `Cloudforce One Threat Events`. */
+/** Creates an event in the dataset given by `datasetId`. Omitting `datasetId` is deprecated: the event is created in the default Cloudforce One Threat Events dataset, and a future release will reject the request. To create a dataset, use `threat-intel datasets create`. */
 export const createThreatEvent: API.OperationMethod<
   CreateThreatEventRequest,
   CreateThreatEventResponse,
   CreateThreatEventError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1921, __c120, 1) as any as S.Schema<CreateThreatEventRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<CreateThreatEventResponse>,
+  input: __S(1937, __c121, 1) as any as S.Schema<CreateThreatEventRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<CreateThreatEventResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -4650,15 +4860,15 @@ export const createThreatEvent: API.OperationMethod<
 }));
 
 export type CreateThreatEventCategoryError = CloudflareOpError;
-/** Creates a new threat event category in Cloudforce One for organizing and classifying threat events. */
+/** Creates an event category for classifying events. `name` and `killChain` are required. */
 export const createThreatEventCategory: API.OperationMethod<
   CreateThreatEventCategoryRequest,
   CreateThreatEventCategoryResponse,
   CreateThreatEventCategoryError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2128, __c133, 0) as any as S.Schema<CreateThreatEventCategoryRequest>,
-  output: __S(2144, __c134, 0) as any as S.Schema<CreateThreatEventCategoryResponse>,
+  input: __S(2160, __c135, 0) as any as S.Schema<CreateThreatEventCategoryRequest>,
+  output: __S(2176, __c136, 0) as any as S.Schema<CreateThreatEventCategoryResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -4667,7 +4877,7 @@ export const createThreatEventCategory: API.OperationMethod<
 }));
 
 export type CreateThreatEventDatasetError = CloudflareOpError;
-/** Creates a new threat event dataset in Cloudforce One for organizing related threat events. */
+/** Creates a dataset for grouping events. Set `isPublic` to true to let anyone search it; otherwise only the account can. */
 export const createThreatEventDataset: API.OperationMethod<
   CreateThreatEventDatasetRequest,
   CreateThreatEventDatasetResponse,
@@ -4684,7 +4894,7 @@ export const createThreatEventDataset: API.OperationMethod<
 }));
 
 export type CreateThreatEventEventTagError = CloudflareOpError;
-/** Adds a tag to a threat event in Cloudforce One for classification and filtering. */
+/** Legacy. Use `threat-intel tags relationships create` (`POST /events/tags/{tag_uuid}/relationships`) instead. */
 export const createThreatEventEventTag: API.OperationMethod<
   CreateThreatEventEventTagRequest,
   CreateThreatEventEventTagResponse,
@@ -4701,7 +4911,7 @@ export const createThreatEventEventTag: API.OperationMethod<
 }));
 
 export type CreateThreatEventsGraphqlError = CloudflareOpError;
-/** Execute GraphQL aggregations over threat events. Supports multi-dimensional group-bys, optional date range filtering, and multi-dataset aggregation. */
+/** Runs a GraphQL aggregation query over events. Supports grouping by multiple fields, date range filters, and aggregation across datasets. */
 export const createThreatEventsGraphql: API.OperationMethod<
   CreateThreatEventsGraphqlRequest,
   CreateThreatEventsGraphqlResponse,
@@ -4718,7 +4928,7 @@ export const createThreatEventsGraphql: API.OperationMethod<
 }));
 
 export type CreateThreatEventsQueryError = CloudflareOpError;
-/** Create a new saved event query for the account */
+/** Saves an event query under a unique `name`. `query_json` holds the query parameters as a JSON string. */
 export const createThreatEventsQuery: API.OperationMethod<
   CreateThreatEventsQueryRequest,
   CreateThreatEventsQueryResponse,
@@ -4735,7 +4945,7 @@ export const createThreatEventsQuery: API.OperationMethod<
 }));
 
 export type CreateThreatEventsTagsCategoryError = CloudflareOpError;
-/** Creates a new Source-of-Truth tag category for an account. */
+/** Creates a tag category. Use `schema` to define the custom fields its tags can have. */
 export const createThreatEventsTagsCategory: API.OperationMethod<
   CreateThreatEventsTagsCategoryRequest,
   CreateThreatEventsTagsCategoryResponse,
@@ -4752,7 +4962,7 @@ export const createThreatEventsTagsCategory: API.OperationMethod<
 }));
 
 export type CreateThreatEventTagError = CloudflareOpError;
-/** Creates an account-owned tag for threat events and returns its complete owner projection. */
+/** Creates a tag in the account and returns the complete tag. */
 export const createThreatEventTag: API.OperationMethod<
   CreateThreatEventTagRequest,
   CreateThreatEventTagResponse,
@@ -4905,7 +5115,7 @@ export const deleteScanConfig: API.OperationMethod<
 }));
 
 export type DeleteThreatEventCategoryError = CloudflareOpError;
-/** Deprecated; use DELETE /events/event-categories/by-id/{category_id}. Available through 2026-11-28. */
+/** Legacy. Use `threat-intel events categories delete` (`DELETE /events/event-categories/by-id/{category_id}`) instead. Available through 2026-11-28. */
 export const deleteThreatEventCategory: API.OperationMethod<
   DeleteThreatEventCategoryRequest,
   DeleteThreatEventCategoryResponse,
@@ -4922,7 +5132,7 @@ export const deleteThreatEventCategory: API.OperationMethod<
 }));
 
 export type DeleteThreatEventEventTagError = CloudflareOpError;
-/** Removes a tag from a threat event in Cloudforce One. */
+/** Legacy. Use `threat-intel tags relationships delete` (`DELETE /events/tags/{tag_uuid}/relationships/{rel_uuid}`) instead. */
 export const deleteThreatEventEventTag: API.OperationMethod<
   DeleteThreatEventEventTagRequest,
   DeleteThreatEventEventTagResponse,
@@ -4939,7 +5149,7 @@ export const deleteThreatEventEventTag: API.OperationMethod<
 }));
 
 export type DeleteThreatEventRelateError = CloudflareOpError;
-/** Removes a reference link between related threat events in Cloudforce One. */
+/** Legacy. Removes references created with `threat-intel events legacy references create`. Use `threat-intel events relationships` for new event links. */
 export const deleteThreatEventRelate: API.OperationMethod<
   DeleteThreatEventRelateRequest,
   DeleteThreatEventRelateResponse,
@@ -4956,7 +5166,7 @@ export const deleteThreatEventRelate: API.OperationMethod<
 }));
 
 export type DeleteThreatEventsDatasetError = CloudflareOpError;
-/** Soft-deletes a dataset given a datasetId. */
+/** Deletes a dataset. To see deleted datasets, use `threat-intel datasets list` with `includeDeleted`. */
 export const deleteThreatEventsDataset: API.OperationMethod<
   DeleteThreatEventsDatasetRequest,
   DeleteThreatEventsDatasetResponse,
@@ -4973,7 +5183,7 @@ export const deleteThreatEventsDataset: API.OperationMethod<
 }));
 
 export type DeleteThreatEventsQueryError = CloudflareOpError;
-/** Delete a saved event query by its ID */
+/** Deletes a saved event query by its ID. */
 export const deleteThreatEventsQuery: API.OperationMethod<
   DeleteThreatEventsQueryRequest,
   DeleteThreatEventsQueryResponse,
@@ -4990,7 +5200,7 @@ export const deleteThreatEventsQuery: API.OperationMethod<
 }));
 
 export type DeleteThreatEventsTagError = CloudflareOpError;
-/** Deletes a Source-of-Truth tag by UUID. */
+/** Deletes a tag by its UUID. */
 export const deleteThreatEventsTag: API.OperationMethod<
   DeleteThreatEventsTagRequest,
   DeleteThreatEventsTagResponse,
@@ -5007,7 +5217,7 @@ export const deleteThreatEventsTag: API.OperationMethod<
 }));
 
 export type DeleteThreatEventsTagsCategoryError = CloudflareOpError;
-/** Deprecated; use DELETE /events/tag-categories/{category_uuid}. Available through 2026-11-28. */
+/** Legacy. Use `threat-intel tags categories delete` (`DELETE /events/tag-categories/{category_uuid}`) instead. Available through 2026-11-28. */
 export const deleteThreatEventsTagsCategory: API.OperationMethod<
   DeleteThreatEventsTagsCategoryRequest,
   DeleteThreatEventsTagsCategoryResponse,
@@ -5075,7 +5285,7 @@ export const deleteThreatSignalsSkill: API.OperationMethod<
 }));
 
 export type EditThreatEventsQueryError = CloudflareOpError;
-/** Update an existing saved event query by its ID */
+/** Updates the given fields of a saved event query. */
 export const editThreatEventsQuery: API.OperationMethod<
   EditThreatEventsQueryRequest,
   EditThreatEventsQueryResponse,
@@ -5092,7 +5302,7 @@ export const editThreatEventsQuery: API.OperationMethod<
 }));
 
 export type EditThreatEventsTagError = CloudflareOpError;
-/** Updates an account-owned Source-of-Truth tag by UUID and returns its complete owner projection. */
+/** Updates the given fields of a tag and returns the complete tag. */
 export const editThreatEventsTag: API.OperationMethod<
   EditThreatEventsTagRequest,
   EditThreatEventsTagResponse,
@@ -5109,7 +5319,7 @@ export const editThreatEventsTag: API.OperationMethod<
 }));
 
 export type EditThreatEventsTagsCategoryError = CloudflareOpError;
-/** Deprecated; use PATCH /events/tag-categories/{category_uuid}. Available through 2026-11-28. */
+/** Legacy. Use `threat-intel tags categories update` (`PATCH /events/tag-categories/{category_uuid}`) instead. Available through 2026-11-28. */
 export const editThreatEventsTagsCategory: API.OperationMethod<
   EditThreatEventsTagsCategoryRequest,
   EditThreatEventsTagsCategoryResponse,
@@ -5134,7 +5344,7 @@ export const editThreatSignalsArticle: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<EditThreatSignalsArticleRequest>,
-  output: __S(1009, __c63, 1) as any as S.Schema<EditThreatSignalsArticleResponse>,
+  output: __S(977, __c61, 1) as any as S.Schema<EditThreatSignalsArticleResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5301,7 +5511,7 @@ export const getScanResult: API.OperationMethod<
 }));
 
 export type GetThreatEventError = CloudflareOpError;
-/** This Method is deprecated. Please use /events/dataset/:dataset_id/events/:event_id instead. */
+/** Legacy. Use `threat-intel events get` (`GET /events/dataset/{dataset_id}/events/{event_id}`) instead. */
 export const getThreatEvent: API.OperationMethod<
   GetThreatEventRequest,
   GetThreatEventResponse,
@@ -5309,7 +5519,7 @@ export const getThreatEvent: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1200, __c75, 0) as any as S.Schema<GetThreatEventRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<GetThreatEventResponse>,
+  output: __S(1953, __c122, 1) as any as S.Schema<GetThreatEventResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5318,7 +5528,7 @@ export const getThreatEvent: API.OperationMethod<
 }));
 
 export type GetThreatEventCategoryError = CloudflareOpError;
-/** Deprecated; use GET /events/event-categories/by-id/{category_id}. Available through 2026-11-28. */
+/** Legacy. Use `threat-intel events categories get` (`GET /events/event-categories/by-id/{category_id}`) instead. Available through 2026-11-28. */
 export const getThreatEventCategory: API.OperationMethod<
   GetThreatEventCategoryRequest,
   GetThreatEventCategoryResponse,
@@ -5326,7 +5536,7 @@ export const getThreatEventCategory: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1216, __c76, 0) as any as S.Schema<GetThreatEventCategoryRequest>,
-  output: __S(2144, __c134, 0) as any as S.Schema<GetThreatEventCategoryResponse>,
+  output: __S(2176, __c136, 0) as any as S.Schema<GetThreatEventCategoryResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5335,7 +5545,7 @@ export const getThreatEventCategory: API.OperationMethod<
 }));
 
 export type GetThreatEventDatasetError = CloudflareOpError;
-/** Retrieves details for a specific threat event dataset. */
+/** Returns a dataset by its ID. */
 export const getThreatEventDataset: API.OperationMethod<
   GetThreatEventDatasetRequest,
   GetThreatEventDatasetResponse,
@@ -5352,7 +5562,7 @@ export const getThreatEventDataset: API.OperationMethod<
 }));
 
 export type GetThreatEventRawError = CloudflareOpError;
-/** Retrieves raw threat event data for a specific event in Cloudforce One. */
+/** Legacy. Returns raw data stored under a `raw_id`, which new events don't use. Use `threat-intel events raw get` (`GET /events/datasets/{dataset_id}/events/{event_id}/raw`) instead. */
 export const getThreatEventRaw: API.OperationMethod<
   GetThreatEventRawRequest,
   GetThreatEventRawResponse,
@@ -5369,7 +5579,7 @@ export const getThreatEventRaw: API.OperationMethod<
 }));
 
 export type GetThreatEventsDatasetsEventError = CloudflareOpError;
-/** Retrieves a specific event by its UUID. */
+/** Returns an event from a dataset by its UUID. */
 export const getThreatEventsDatasetsEvent: API.OperationMethod<
   GetThreatEventsDatasetsEventRequest,
   GetThreatEventsDatasetsEventResponse,
@@ -5377,7 +5587,7 @@ export const getThreatEventsDatasetsEvent: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1296, __c81, 0) as any as S.Schema<GetThreatEventsDatasetsEventRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<GetThreatEventsDatasetsEventResponse>,
+  output: __S(1953, __c122, 1) as any as S.Schema<GetThreatEventsDatasetsEventResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5386,7 +5596,7 @@ export const getThreatEventsDatasetsEvent: API.OperationMethod<
 }));
 
 export type GetThreatEventsIndicatorsByDatasetError = CloudflareOpError;
-/** Retrieves a specific indicator by its UUID. */
+/** Returns an indicator by its UUID. */
 export const getThreatEventsIndicatorsByDataset: API.OperationMethod<
   GetThreatEventsIndicatorsByDatasetRequest,
   GetThreatEventsIndicatorsByDatasetResponse,
@@ -5403,7 +5613,7 @@ export const getThreatEventsIndicatorsByDataset: API.OperationMethod<
 }));
 
 export type GetThreatEventsQueryError = CloudflareOpError;
-/** Retrieve a saved event query by its ID */
+/** Returns a saved event query by its ID. */
 export const getThreatEventsQuery: API.OperationMethod<
   GetThreatEventsQueryRequest,
   GetThreatEventsQueryResponse,
@@ -5420,7 +5630,7 @@ export const getThreatEventsQuery: API.OperationMethod<
 }));
 
 export type GetThreatSignalsArticleError = CloudflareOpError;
-/** Retrieves a Threat Signals article with its summary, tags and indicator status. */
+/** Retrieves a Threat Signals article with its summary, tags, indicator status and relevance to the account's Priority Intelligence Requirements. */
 export const getThreatSignalsArticle: API.OperationMethod<
   GetThreatSignalsArticleRequest,
   GetThreatSignalsArticleResponse,
@@ -5428,7 +5638,7 @@ export const getThreatSignalsArticle: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1360, __c85, 0) as any as S.Schema<GetThreatSignalsArticleRequest>,
-  output: __S(1009, __c63, 1) as any as S.Schema<GetThreatSignalsArticleResponse>,
+  output: __S(1361, __c85, 1) as any as S.Schema<GetThreatSignalsArticleResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5444,7 +5654,7 @@ export const getThreatSignalsArticlesContent: API.OperationMethod<
   GetThreatSignalsArticlesContentError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<GetThreatSignalsArticlesContentRequest>,
+  input: __S(1392, __c87, 0) as any as S.Schema<GetThreatSignalsArticlesContentRequest>,
   output: __S(624, __c39, 0) as any as S.Schema<GetThreatSignalsArticlesContentResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -5461,8 +5671,8 @@ export const getThreatSignalsArticlesSkillOutput: API.OperationMethod<
   GetThreatSignalsArticlesSkillOutputError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<GetThreatSignalsArticlesSkillOutputRequest>,
-  output: __S(1394, __c87, 2) as any as S.Schema<GetThreatSignalsArticlesSkillOutputResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<GetThreatSignalsArticlesSkillOutputRequest>,
+  output: __S(1410, __c88, 2) as any as S.Schema<GetThreatSignalsArticlesSkillOutputResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5478,7 +5688,7 @@ export const getThreatSignalsFeedsRaw: API.OperationMethod<
   GetThreatSignalsFeedsRawError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c88, 0) as any as S.Schema<GetThreatSignalsFeedsRawRequest>,
+  input: __S(1424, __c89, 0) as any as S.Schema<GetThreatSignalsFeedsRawRequest>,
   output: __S(624, __c39, 0) as any as S.Schema<GetThreatSignalsFeedsRawResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -5495,8 +5705,8 @@ export const getThreatSignalsFeedsSkill: API.OperationMethod<
   GetThreatSignalsFeedsSkillError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<GetThreatSignalsFeedsSkillRequest>,
-  output: __S(1425, __c89, 1) as any as S.Schema<GetThreatSignalsFeedsSkillResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<GetThreatSignalsFeedsSkillRequest>,
+  output: __S(1441, __c90, 1) as any as S.Schema<GetThreatSignalsFeedsSkillResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5512,7 +5722,7 @@ export const getThreatSignalsSkill: API.OperationMethod<
   GetThreatSignalsSkillError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<GetThreatSignalsSkillRequest>,
+  input: __S(1472, __c92, 0) as any as S.Schema<GetThreatSignalsSkillRequest>,
   output: __S(592, __c37, 0) as any as S.Schema<GetThreatSignalsSkillResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -5529,8 +5739,8 @@ export const getThreatSignalsSkillsTagCategory: API.OperationMethod<
   GetThreatSignalsSkillsTagCategoryError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<GetThreatSignalsSkillsTagCategoryRequest>,
-  output: __S(1504, __c94, 0) as any as S.Schema<GetThreatSignalsSkillsTagCategoryResponse>,
+  input: __S(1504, __c94, 0) as any as S.Schema<GetThreatSignalsSkillsTagCategoryRequest>,
+  output: __S(1520, __c95, 0) as any as S.Schema<GetThreatSignalsSkillsTagCategoryResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5546,8 +5756,8 @@ export const listRequests: API.OperationMethod<
   ListRequestsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1520, __c95, 0) as any as S.Schema<ListRequestsRequest>,
-  output: __S(1523, __c95, 3) as any as S.Schema<ListRequestsResponse>,
+  input: __S(1536, __c96, 0) as any as S.Schema<ListRequestsRequest>,
+  output: __S(1539, __c96, 3) as any as S.Schema<ListRequestsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5565,8 +5775,8 @@ export const listScanConfigs: API.PaginatedOperationMethod<
   ScansConfigListResultItem
 > = /*@__PURE__*/ API.makePaginated(
   () => ({
-    input: __S(1536, __c96, 0) as any as S.Schema<ListScanConfigsRequest>,
-    output: __S(1539, __c96, 3) as any as S.Schema<ListScanConfigsResponse>,
+    input: __S(1552, __c97, 0) as any as S.Schema<ListScanConfigsRequest>,
+    output: __S(1555, __c97, 3) as any as S.Schema<ListScanConfigsResponse>,
     errors: [CloudflareRateLimited, CloudflareError],
     protocol: CloudflarePaginatedProtocol,
     retry: Retry.Retry,
@@ -5578,15 +5788,15 @@ export const listScanConfigs: API.PaginatedOperationMethod<
 ) as any;
 
 export type ListThreatEventAttackersError = CloudflareOpError;
-/** Lists known threat attackers tracked in Cloudforce One threat intelligence. */
+/** Lists the attackers referenced by events in the datasets given by `datasetIds`, or in the default dataset when `datasetIds` is omitted. */
 export const listThreatEventAttackers: API.OperationMethod<
   ListThreatEventAttackersRequest,
   ListThreatEventAttackersResponse,
   ListThreatEventAttackersError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<ListThreatEventAttackersRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<ListThreatEventAttackersResponse>,
+  input: __S(1568, __c98, 0) as any as S.Schema<ListThreatEventAttackersRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<ListThreatEventAttackersResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5595,15 +5805,15 @@ export const listThreatEventAttackers: API.OperationMethod<
 }));
 
 export type ListThreatEventCategoriesError = CloudflareOpError;
-/** Lists all threat event categories configured for classifying and organizing threat events. */
+/** Lists the event categories used by events in the datasets given by `datasetIds`, or in the default dataset when `datasetIds` is omitted. Dataset scope values are not supported. To list every category, use `threat-intel events categories catalog list`. */
 export const listThreatEventCategories: API.OperationMethod<
   ListThreatEventCategoriesRequest,
   ListThreatEventCategoriesResponse,
   ListThreatEventCategoriesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c100, 0) as any as S.Schema<ListThreatEventCategoriesRequest>,
-  output: __S(2144, __c134, 0) as any as S.Schema<ListThreatEventCategoriesResponse>,
+  input: __S(1616, __c101, 0) as any as S.Schema<ListThreatEventCategoriesRequest>,
+  output: __S(2176, __c136, 0) as any as S.Schema<ListThreatEventCategoriesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5612,15 +5822,15 @@ export const listThreatEventCategories: API.OperationMethod<
 }));
 
 export type ListThreatEventCountriesError = CloudflareOpError;
-/** Lists countries referenced in Cloudforce One threat intelligence data. */
+/** Lists the countries used in threat intelligence data, such as attacker and target countries. */
 export const listThreatEventCountries: API.OperationMethod<
   ListThreatEventCountriesRequest,
   ListThreatEventCountriesResponse,
   ListThreatEventCountriesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1616, __c101, 0) as any as S.Schema<ListThreatEventCountriesRequest>,
-  output: __S(1619, __c101, 3) as any as S.Schema<ListThreatEventCountriesResponse>,
+  input: __S(1632, __c102, 0) as any as S.Schema<ListThreatEventCountriesRequest>,
+  output: __S(1635, __c102, 3) as any as S.Schema<ListThreatEventCountriesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5629,15 +5839,15 @@ export const listThreatEventCountries: API.OperationMethod<
 }));
 
 export type ListThreatEventDatasetsError = CloudflareOpError;
-/** Lists all threat event datasets configured in Cloudforce One. */
+/** Lists the account's datasets. Set `includeDeleted` to include deleted datasets. */
 export const listThreatEventDatasets: API.OperationMethod<
   ListThreatEventDatasetsRequest,
   ListThreatEventDatasetsResponse,
   ListThreatEventDatasetsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c102, 0) as any as S.Schema<ListThreatEventDatasetsRequest>,
-  output: __S(1633, __c102, 1) as any as S.Schema<ListThreatEventDatasetsResponse>,
+  input: __S(1648, __c103, 0) as any as S.Schema<ListThreatEventDatasetsRequest>,
+  output: __S(1649, __c103, 1) as any as S.Schema<ListThreatEventDatasetsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5653,8 +5863,8 @@ export const listThreatEventIndicatorTypes: API.OperationMethod<
   ListThreatEventIndicatorTypesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1648, __c103, 0) as any as S.Schema<ListThreatEventIndicatorTypesRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<ListThreatEventIndicatorTypesResponse>,
+  input: __S(1664, __c104, 0) as any as S.Schema<ListThreatEventIndicatorTypesRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<ListThreatEventIndicatorTypesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5663,15 +5873,15 @@ export const listThreatEventIndicatorTypes: API.OperationMethod<
 }));
 
 export type ListThreatEventsError = CloudflareOpError;
-/** Use one standalone `datasetId` scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). Scope values query at most 50 datasets and must be used alone. When `datasetId` is unspecified, events are listed from the default Cloudforce One Threat Events dataset. To list existing datasets, use the [`List Datasets`](https://developers.cloudflare.com/api/resources/cloudforce_one/subresources/threat_events/subresources/datasets/methods/list/) endpoint. */
+/** Lists events, with filters passed as query parameters. `datasetId` accepts dataset UUIDs or one scope value used alone: `all` (or `*`) and `operational` select the intelligence datasets you can read, and `analytics` selects the analytics datasets you can read. A scope value covers at most 50 datasets. Without `datasetId`, the default Cloudforce One Threat Events dataset is used. To send filters in a JSON body instead, use `threat-intel events search`. */
 export const listThreatEvents: API.OperationMethod<
   ListThreatEventsRequest,
   ListThreatEventsResponse,
   ListThreatEventsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c104, 0) as any as S.Schema<ListThreatEventsRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<ListThreatEventsResponse>,
+  input: __S(1680, __c105, 0) as any as S.Schema<ListThreatEventsRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<ListThreatEventsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5680,15 +5890,15 @@ export const listThreatEvents: API.OperationMethod<
 }));
 
 export type ListThreatEventsAggregateError = CloudflareOpError;
-/** Aggregate threat events by one or more columns (e.g., attacker, targetIndustry) with optional date filtering and daily grouping. Supports multi-dimensional aggregation for cross-analysis. */
+/** Counts events grouped by one or more columns, such as `attacker` or `targetIndustry`. Optionally filter by date range and group the counts by day. */
 export const listThreatEventsAggregate: API.OperationMethod<
   ListThreatEventsAggregateRequest,
   ListThreatEventsAggregateResponse,
   ListThreatEventsAggregateError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1680, __c105, 0) as any as S.Schema<ListThreatEventsAggregateRequest>,
-  output: __S(1684, __c105, 4) as any as S.Schema<ListThreatEventsAggregateResponse>,
+  input: __S(1696, __c106, 0) as any as S.Schema<ListThreatEventsAggregateRequest>,
+  output: __S(1700, __c106, 4) as any as S.Schema<ListThreatEventsAggregateResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5697,15 +5907,15 @@ export const listThreatEventsAggregate: API.OperationMethod<
 }));
 
 export type ListThreatEventsCategoriesCatalogError = CloudflareOpError;
-/** Lists categories */
+/** Lists every event category in the catalog, whether or not an event uses it. To list only the categories used in specific datasets, use `threat-intel events categories list`. */
 export const listThreatEventsCategoriesCatalog: API.OperationMethod<
   ListThreatEventsCategoriesCatalogRequest,
   ListThreatEventsCategoriesCatalogResponse,
   ListThreatEventsCategoriesCatalogError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c108, 0) as any as S.Schema<ListThreatEventsCategoriesCatalogRequest>,
-  output: __S(2144, __c134, 0) as any as S.Schema<ListThreatEventsCategoriesCatalogResponse>,
+  input: __S(1744, __c109, 0) as any as S.Schema<ListThreatEventsCategoriesCatalogRequest>,
+  output: __S(2176, __c136, 0) as any as S.Schema<ListThreatEventsCategoriesCatalogResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5721,8 +5931,8 @@ export const listThreatEventsGraph: API.OperationMethod<
   ListThreatEventsGraphError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1744, __c109, 0) as any as S.Schema<ListThreatEventsGraphRequest>,
-  output: __S(1748, __c109, 4) as any as S.Schema<ListThreatEventsGraphResponse>,
+  input: __S(1760, __c110, 0) as any as S.Schema<ListThreatEventsGraphRequest>,
+  output: __S(1764, __c110, 4) as any as S.Schema<ListThreatEventsGraphResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5731,15 +5941,15 @@ export const listThreatEventsGraph: API.OperationMethod<
 }));
 
 export type ListThreatEventsIndicatorsError = CloudflareOpError;
-/** Retrieves indicators across specified datasets, ordered by createdAt descending then UUID, dataset ID, and shard ID ascending. Use one standalone datasetIds scope value: 'all'/'*' or 'operational' for readable intelligence datasets (isAnalytics=false), or 'analytics' for readable analytics datasets (isAnalytics=true). If no datasetIds are provided, uses the default dataset. */
+/** Lists indicators across datasets, newest first. `datasetIds` accepts dataset UUIDs or one scope value used alone: `all` (or `*`) and `operational` select the intelligence datasets you can read, and `analytics` selects the analytics datasets you can read. Without `datasetIds`, the default dataset is used. */
 export const listThreatEventsIndicators: API.OperationMethod<
   ListThreatEventsIndicatorsRequest,
   ListThreatEventsIndicatorsResponse,
   ListThreatEventsIndicatorsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c110, 0) as any as S.Schema<ListThreatEventsIndicatorsRequest>,
-  output: __S(1773, __c110, 13) as any as S.Schema<ListThreatEventsIndicatorsResponse>,
+  input: __S(1776, __c111, 0) as any as S.Schema<ListThreatEventsIndicatorsRequest>,
+  output: __S(1789, __c111, 13) as any as S.Schema<ListThreatEventsIndicatorsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5755,8 +5965,8 @@ export const listThreatEventsIndicatorsAggregate: API.OperationMethod<
   ListThreatEventsIndicatorsAggregateError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c112, 0) as any as S.Schema<ListThreatEventsIndicatorsAggregateRequest>,
-  output: __S(1795, __c112, 3) as any as S.Schema<ListThreatEventsIndicatorsAggregateResponse>,
+  input: __S(1808, __c113, 0) as any as S.Schema<ListThreatEventsIndicatorsAggregateRequest>,
+  output: __S(1811, __c113, 3) as any as S.Schema<ListThreatEventsIndicatorsAggregateResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5765,15 +5975,15 @@ export const listThreatEventsIndicatorsAggregate: API.OperationMethod<
 }));
 
 export type ListThreatEventsIndicatorsByDatasetError = CloudflareOpError;
-/** This method is deprecated. Please use /events/indicators to retrieve a paginated list of indicators. */
+/** Legacy. Use `threat-intel indicators list` (`GET /events/indicators`) instead. It supports multiple datasets and cursor pagination. */
 export const listThreatEventsIndicatorsByDataset: API.OperationMethod<
   ListThreatEventsIndicatorsByDatasetRequest,
   ListThreatEventsIndicatorsByDatasetResponse,
   ListThreatEventsIndicatorsByDatasetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1808, __c113, 0) as any as S.Schema<ListThreatEventsIndicatorsByDatasetRequest>,
-  output: __S(1810, __c113, 2) as any as S.Schema<ListThreatEventsIndicatorsByDatasetResponse>,
+  input: __S(1824, __c114, 0) as any as S.Schema<ListThreatEventsIndicatorsByDatasetRequest>,
+  output: __S(1826, __c114, 2) as any as S.Schema<ListThreatEventsIndicatorsByDatasetResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5782,14 +5992,14 @@ export const listThreatEventsIndicatorsByDataset: API.OperationMethod<
 }));
 
 export type ListThreatEventsIndicatorsByDatasetTagsError = CloudflareOpError;
-/** Returns all mirrored tags from the indicator dataset (DO mirror table). No pagination. */
+/** Lists the tags applied to indicators in a dataset. Results are not paginated. */
 export const listThreatEventsIndicatorsByDatasetTags: API.OperationMethod<
   ListThreatEventsIndicatorsByDatasetTagsRequest,
   ListThreatEventsIndicatorsByDatasetTagsResponse,
   ListThreatEventsIndicatorsByDatasetTagsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1840, __c115, 0) as any as S.Schema<ListThreatEventsIndicatorsByDatasetTagsRequest>,
+  input: __S(1856, __c116, 0) as any as S.Schema<ListThreatEventsIndicatorsByDatasetTagsRequest>,
   output: __S(624, __c39, 0) as any as S.Schema<ListThreatEventsIndicatorsByDatasetTagsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -5799,15 +6009,15 @@ export const listThreatEventsIndicatorsByDatasetTags: API.OperationMethod<
 }));
 
 export type ListThreatEventsIndicatorsTypesError = CloudflareOpError;
-/** Lists indicator types across multiple datasets */
+/** Lists the indicator types used in the datasets given by `datasetIds`, which accepts dataset UUIDs or one scope value used alone. Without `datasetIds`, every dataset you can read is included, analytics datasets too. */
 export const listThreatEventsIndicatorsTypes: API.OperationMethod<
   ListThreatEventsIndicatorsTypesRequest,
   ListThreatEventsIndicatorsTypesResponse,
   ListThreatEventsIndicatorsTypesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c116, 0) as any as S.Schema<ListThreatEventsIndicatorsTypesRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<ListThreatEventsIndicatorsTypesResponse>,
+  input: __S(1872, __c117, 0) as any as S.Schema<ListThreatEventsIndicatorsTypesRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<ListThreatEventsIndicatorsTypesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5816,14 +6026,14 @@ export const listThreatEventsIndicatorsTypes: API.OperationMethod<
 }));
 
 export type ListThreatEventsQueriesError = CloudflareOpError;
-/** Retrieve all saved event queries for the account */
+/** Lists the account's saved event queries. */
 export const listThreatEventsQueries: API.OperationMethod<
   ListThreatEventsQueriesRequest,
   ListThreatEventsQueriesResponse,
   ListThreatEventsQueriesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1872, __c117, 0) as any as S.Schema<ListThreatEventsQueriesRequest>,
+  input: __S(1888, __c118, 0) as any as S.Schema<ListThreatEventsQueriesRequest>,
   output: __S(400, __c25, 0) as any as S.Schema<ListThreatEventsQueriesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -5833,15 +6043,15 @@ export const listThreatEventsQueries: API.OperationMethod<
 }));
 
 export type ListThreatEventsRelationshipsError = CloudflareOpError;
-/** Deprecated; use GET /events/by-id/{event_id}/relationships. Available through 2026-11-28. */
+/** Legacy. Use `threat-intel events relationships list` (`GET /events/by-id/{event_id}/relationships`) instead. Available through 2026-11-28. */
 export const listThreatEventsRelationships: API.OperationMethod<
   ListThreatEventsRelationshipsRequest,
   ListThreatEventsRelationshipsResponse,
   ListThreatEventsRelationshipsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c118, 0) as any as S.Schema<ListThreatEventsRelationshipsRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<ListThreatEventsRelationshipsResponse>,
+  input: __S(1904, __c119, 0) as any as S.Schema<ListThreatEventsRelationshipsRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<ListThreatEventsRelationshipsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5850,15 +6060,15 @@ export const listThreatEventsRelationships: API.OperationMethod<
 }));
 
 export type ListThreatEventsTagsError = CloudflareOpError;
-/** Returns all Source-of-Truth tags for an account. Supports legacy free-text `search` on tag value and `categoryUuid` exact match, plus a structured `filters` JSON array for filtering by metadata fields (originCountryISO, actorCategory, motive, priority, etc.). The authenticated account owns these account-scoped tags and receives their complete owner projection. Country values may be passed as alpha-2, alpha-3, name, or common alias. Purple TLP remains CFONE-only. */
+/** Lists the account's tags. Use `search` to match tag values, `categoryUuid` to limit results to one category, and `filters` (a JSON array) to filter by fields such as `originCountryISO`, `actorCategory`, `motive`, or `priority`. Country filters accept alpha-2 or alpha-3 codes, names, or common aliases. Tags marked TLP:PURPLE are visible only to Cloudforce One. */
 export const listThreatEventsTags: API.OperationMethod<
   ListThreatEventsTagsRequest,
   ListThreatEventsTagsResponse,
   ListThreatEventsTagsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1904, __c119, 0) as any as S.Schema<ListThreatEventsTagsRequest>,
-  output: __S(1907, __c119, 3) as any as S.Schema<ListThreatEventsTagsResponse>,
+  input: __S(1920, __c120, 0) as any as S.Schema<ListThreatEventsTagsRequest>,
+  output: __S(1923, __c120, 3) as any as S.Schema<ListThreatEventsTagsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5867,15 +6077,15 @@ export const listThreatEventsTags: API.OperationMethod<
 }));
 
 export type ListThreatEventsTagsCategoriesError = CloudflareOpError;
-/** Returns all Source-of-Truth tag categories for an account. */
+/** Lists the account's tag categories. Use `search` to filter them. */
 export const listThreatEventsTagsCategories: API.OperationMethod<
   ListThreatEventsTagsCategoriesRequest,
   ListThreatEventsTagsCategoriesResponse,
   ListThreatEventsTagsCategoriesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c122, 0) as any as S.Schema<ListThreatEventsTagsCategoriesRequest>,
-  output: __S(1955, __c122, 3) as any as S.Schema<ListThreatEventsTagsCategoriesResponse>,
+  input: __S(1968, __c123, 0) as any as S.Schema<ListThreatEventsTagsCategoriesRequest>,
+  output: __S(1971, __c123, 3) as any as S.Schema<ListThreatEventsTagsCategoriesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5884,15 +6094,15 @@ export const listThreatEventsTagsCategories: API.OperationMethod<
 }));
 
 export type ListThreatEventsTagsIndicatorsError = CloudflareOpError;
-/** Returns indicators associated with the provided tag UUID, with pagination. By default fans out across every intelligence (isAnalytics=false) indicator dataset the account can read; pass datasetIds to scope to dataset UUIDs or a scope value. Analytics datasets do not expose tag associations, so the analytics scope returns an empty result. */
+/** Lists the indicators that carry a tag, with pagination. By default, every intelligence dataset you can read is searched; use `datasetIds` to limit the search to specific datasets or a scope value. Analytics datasets don't store tag associations, so the `analytics` scope returns no results. */
 export const listThreatEventsTagsIndicators: API.OperationMethod<
   ListThreatEventsTagsIndicatorsRequest,
   ListThreatEventsTagsIndicatorsResponse,
   ListThreatEventsTagsIndicatorsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1968, __c123, 0) as any as S.Schema<ListThreatEventsTagsIndicatorsRequest>,
-  output: __S(1986, __c124, 2) as any as S.Schema<ListThreatEventsTagsIndicatorsResponse>,
+  input: __S(1984, __c124, 0) as any as S.Schema<ListThreatEventsTagsIndicatorsRequest>,
+  output: __S(2002, __c125, 2) as any as S.Schema<ListThreatEventsTagsIndicatorsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5908,8 +6118,8 @@ export const listThreatEventsTagsIndicatorsByDataset: API.OperationMethod<
   ListThreatEventsTagsIndicatorsByDatasetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2000, __c125, 0) as any as S.Schema<ListThreatEventsTagsIndicatorsByDatasetRequest>,
-  output: __S(1986, __c124, 2) as any as S.Schema<ListThreatEventsTagsIndicatorsByDatasetResponse>,
+  input: __S(2016, __c126, 0) as any as S.Schema<ListThreatEventsTagsIndicatorsByDatasetRequest>,
+  output: __S(2002, __c125, 2) as any as S.Schema<ListThreatEventsTagsIndicatorsByDatasetResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5918,15 +6128,19 @@ export const listThreatEventsTagsIndicatorsByDataset: API.OperationMethod<
 }));
 
 export type ListThreatEventsTargetIndustriesByDatasetError = CloudflareOpError;
-/** Lists all target industries for a specific dataset */
+/** Legacy. Use `threat-intel events target-industries list` (`GET /events/targetIndustries`) instead. */
 export const listThreatEventsTargetIndustriesByDataset: API.OperationMethod<
   ListThreatEventsTargetIndustriesByDatasetRequest,
   ListThreatEventsTargetIndustriesByDatasetResponse,
   ListThreatEventsTargetIndustriesByDatasetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c126, 0) as any as S.Schema<ListThreatEventsTargetIndustriesByDatasetRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<ListThreatEventsTargetIndustriesByDatasetResponse>,
+  input: __S(2032, __c127, 0) as any as S.Schema<ListThreatEventsTargetIndustriesByDatasetRequest>,
+  output: __S(
+    1600,
+    __c100,
+    0,
+  ) as any as S.Schema<ListThreatEventsTargetIndustriesByDatasetResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5935,15 +6149,15 @@ export const listThreatEventsTargetIndustriesByDataset: API.OperationMethod<
 }));
 
 export type ListThreatEventsTargetIndustriesCatalogError = CloudflareOpError;
-/** Lists all target industries from industry map catalog */
+/** Lists every predefined target industry, whether or not an event uses it. To list only the industries used in specific datasets, use `threat-intel events target-industries list`. */
 export const listThreatEventsTargetIndustriesCatalog: API.OperationMethod<
   ListThreatEventsTargetIndustriesCatalogRequest,
   ListThreatEventsTargetIndustriesCatalogResponse,
   ListThreatEventsTargetIndustriesCatalogError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2032, __c127, 0) as any as S.Schema<ListThreatEventsTargetIndustriesCatalogRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<ListThreatEventsTargetIndustriesCatalogResponse>,
+  input: __S(2048, __c128, 0) as any as S.Schema<ListThreatEventsTargetIndustriesCatalogRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<ListThreatEventsTargetIndustriesCatalogResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5952,15 +6166,15 @@ export const listThreatEventsTargetIndustriesCatalog: API.OperationMethod<
 }));
 
 export type ListThreatEventTargetIndustriesError = CloudflareOpError;
-/** Retrieves the catalog of industry classifications used in Cloudforce One threat intelligence. */
+/** Lists the target industries referenced by events in the datasets given by `datasetIds`, or in the default dataset when `datasetIds` is omitted. To list every target industry, use `threat-intel events target-industries catalog list`. */
 export const listThreatEventTargetIndustries: API.OperationMethod<
   ListThreatEventTargetIndustriesRequest,
   ListThreatEventTargetIndustriesResponse,
   ListThreatEventTargetIndustriesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c128, 0) as any as S.Schema<ListThreatEventTargetIndustriesRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<ListThreatEventTargetIndustriesResponse>,
+  input: __S(2064, __c129, 0) as any as S.Schema<ListThreatEventTargetIndustriesRequest>,
+  output: __S(1600, __c100, 0) as any as S.Schema<ListThreatEventTargetIndustriesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5976,8 +6190,8 @@ export const listThreatSignalsArticles: API.OperationMethod<
   ListThreatSignalsArticlesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2064, __c129, 0) as any as S.Schema<ListThreatSignalsArticlesRequest>,
-  output: __S(2067, __c129, 3) as any as S.Schema<ListThreatSignalsArticlesResponse>,
+  input: __S(2080, __c130, 0) as any as S.Schema<ListThreatSignalsArticlesRequest>,
+  output: __S(2083, __c130, 3) as any as S.Schema<ListThreatSignalsArticlesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -5993,8 +6207,8 @@ export const listThreatSignalsCategories: API.OperationMethod<
   ListThreatSignalsCategoriesError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c130, 0) as any as S.Schema<ListThreatSignalsCategoriesRequest>,
-  output: __S(2083, __c130, 3) as any as S.Schema<ListThreatSignalsCategoriesResponse>,
+  input: __S(2112, __c132, 0) as any as S.Schema<ListThreatSignalsCategoriesRequest>,
+  output: __S(2115, __c132, 3) as any as S.Schema<ListThreatSignalsCategoriesResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6010,8 +6224,8 @@ export const listThreatSignalsFeeds: API.OperationMethod<
   ListThreatSignalsFeedsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2096, __c131, 0) as any as S.Schema<ListThreatSignalsFeedsRequest>,
-  output: __S(2099, __c131, 3) as any as S.Schema<ListThreatSignalsFeedsResponse>,
+  input: __S(2128, __c133, 0) as any as S.Schema<ListThreatSignalsFeedsRequest>,
+  output: __S(2131, __c133, 3) as any as S.Schema<ListThreatSignalsFeedsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6027,8 +6241,8 @@ export const listThreatSignalsIndicators: API.OperationMethod<
   ListThreatSignalsIndicatorsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c132, 0) as any as S.Schema<ListThreatSignalsIndicatorsRequest>,
-  output: __S(2116, __c132, 4) as any as S.Schema<ListThreatSignalsIndicatorsResponse>,
+  input: __S(2144, __c134, 0) as any as S.Schema<ListThreatSignalsIndicatorsRequest>,
+  output: __S(2148, __c134, 4) as any as S.Schema<ListThreatSignalsIndicatorsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6044,8 +6258,8 @@ export const listThreatSignalsSkills: API.OperationMethod<
   ListThreatSignalsSkillsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2160, __c135, 0) as any as S.Schema<ListThreatSignalsSkillsRequest>,
-  output: __S(2161, __c135, 1) as any as S.Schema<ListThreatSignalsSkillsResponse>,
+  input: __S(2192, __c137, 0) as any as S.Schema<ListThreatSignalsSkillsRequest>,
+  output: __S(2193, __c137, 1) as any as S.Schema<ListThreatSignalsSkillsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6061,8 +6275,8 @@ export const patchScanConfig: API.OperationMethod<
   PatchScanConfigError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c136, 0) as any as S.Schema<PatchScanConfigRequest>,
-  output: __S(1712, __c107, 0) as any as S.Schema<PatchScanConfigResponse>,
+  input: __S(2208, __c138, 0) as any as S.Schema<PatchScanConfigRequest>,
+  output: __S(1728, __c108, 0) as any as S.Schema<PatchScanConfigResponse>,
   errors: [ScanConfigNotFound, CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6071,15 +6285,15 @@ export const patchScanConfig: API.OperationMethod<
 }));
 
 export type PatchThreatEventError = CloudflareOpError;
-/** Partially updates a threat event in Cloudforce One, modifying specific fields without replacing the entire event. */
+/** Updates the given fields of an event and leaves the other fields unchanged. `datasetId` is required. */
 export const patchThreatEvent: API.OperationMethod<
   PatchThreatEventRequest,
   PatchThreatEventResponse,
   PatchThreatEventError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2193, __c137, 1) as any as S.Schema<PatchThreatEventRequest>,
-  output: __S(1937, __c121, 1) as any as S.Schema<PatchThreatEventResponse>,
+  input: __S(2225, __c139, 1) as any as S.Schema<PatchThreatEventRequest>,
+  output: __S(1953, __c122, 1) as any as S.Schema<PatchThreatEventResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6088,15 +6302,15 @@ export const patchThreatEvent: API.OperationMethod<
 }));
 
 export type PatchThreatEventCategoryError = CloudflareOpError;
-/** Deprecated; use PATCH /events/event-categories/by-id/{category_id}. Available through 2026-11-28. */
+/** Legacy. Use `threat-intel events categories update` (`PATCH /events/event-categories/by-id/{category_id}`) instead. Available through 2026-11-28. */
 export const patchThreatEventCategory: API.OperationMethod<
   PatchThreatEventCategoryRequest,
   PatchThreatEventCategoryResponse,
   PatchThreatEventCategoryError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c138, 0) as any as S.Schema<PatchThreatEventCategoryRequest>,
-  output: __S(2144, __c134, 0) as any as S.Schema<PatchThreatEventCategoryResponse>,
+  input: __S(2240, __c140, 0) as any as S.Schema<PatchThreatEventCategoryRequest>,
+  output: __S(2176, __c136, 0) as any as S.Schema<PatchThreatEventCategoryResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6105,14 +6319,14 @@ export const patchThreatEventCategory: API.OperationMethod<
 }));
 
 export type PatchThreatEventDatasetError = CloudflareOpError;
-/** Partially updates a threat event dataset in Cloudforce One, modifying specific fields without replacing the entire dataset configuration. */
+/** Updates a dataset's `name` and `isPublic` setting. Both fields are required. */
 export const patchThreatEventDataset: API.OperationMethod<
   PatchThreatEventDatasetRequest,
   PatchThreatEventDatasetResponse,
   PatchThreatEventDatasetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2224, __c139, 0) as any as S.Schema<PatchThreatEventDatasetRequest>,
+  input: __S(2256, __c141, 0) as any as S.Schema<PatchThreatEventDatasetRequest>,
   output: __S(96, __c6, 0) as any as S.Schema<PatchThreatEventDatasetResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
@@ -6122,15 +6336,15 @@ export const patchThreatEventDataset: API.OperationMethod<
 }));
 
 export type PatchThreatEventRawError = CloudflareOpError;
-/** Partially updates raw threat event data in Cloudforce One, modifying specific fields of the event. */
+/** Legacy. Updates raw data stored under a `raw_id`, which new events don't use. There is no direct replacement. */
 export const patchThreatEventRaw: API.OperationMethod<
   PatchThreatEventRawRequest,
   PatchThreatEventRawResponse,
   PatchThreatEventRawError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c140, 0) as any as S.Schema<PatchThreatEventRawRequest>,
-  output: __S(2241, __c140, 1) as any as S.Schema<PatchThreatEventRawResponse>,
+  input: __S(2272, __c142, 0) as any as S.Schema<PatchThreatEventRawRequest>,
+  output: __S(2273, __c142, 1) as any as S.Schema<PatchThreatEventRawResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6146,8 +6360,8 @@ export const pollThreatSignalsFeed: API.OperationMethod<
   PollThreatSignalsFeedError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2256, __c141, 0) as any as S.Schema<PollThreatSignalsFeedRequest>,
-  output: __S(2259, __c141, 3) as any as S.Schema<PollThreatSignalsFeedResponse>,
+  input: __S(2288, __c143, 0) as any as S.Schema<PollThreatSignalsFeedRequest>,
+  output: __S(2291, __c143, 3) as any as S.Schema<PollThreatSignalsFeedResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6163,8 +6377,8 @@ export const quotaRequestPriority: API.OperationMethod<
   QuotaRequestPriorityError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c142, 0) as any as S.Schema<QuotaRequestPriorityRequest>,
-  output: __S(2288, __c143, 0) as any as S.Schema<QuotaRequestPriorityResponse>,
+  input: __S(2304, __c144, 0) as any as S.Schema<QuotaRequestPriorityRequest>,
+  output: __S(2320, __c145, 0) as any as S.Schema<QuotaRequestPriorityResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6173,15 +6387,15 @@ export const quotaRequestPriority: API.OperationMethod<
 }));
 
 export type RawThreatEventDatasetError = CloudflareOpError;
-/** Deprecated; use GET /events/datasets/{dataset_id}/events/{event_id}/raw. Available through 2026-11-28. */
+/** Legacy. Use `threat-intel events raw get` (`GET /events/datasets/{dataset_id}/events/{event_id}/raw`) instead. Available through 2026-11-28. */
 export const rawThreatEventDataset: API.OperationMethod<
   RawThreatEventDatasetRequest,
   RawThreatEventDatasetResponse,
   RawThreatEventDatasetError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c144, 0) as any as S.Schema<RawThreatEventDatasetRequest>,
-  output: __S(2305, __c144, 1) as any as S.Schema<RawThreatEventDatasetResponse>,
+  input: __S(2336, __c146, 0) as any as S.Schema<RawThreatEventDatasetRequest>,
+  output: __S(2337, __c146, 1) as any as S.Schema<RawThreatEventDatasetResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6197,8 +6411,8 @@ export const requestsConstants: API.OperationMethod<
   RequestsConstantsError,
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2320, __c145, 0) as any as S.Schema<RequestsConstantsRequest>,
-  output: __S(2322, __c145, 2) as any as S.Schema<RequestsConstantsResponse>,
+  input: __S(2352, __c147, 0) as any as S.Schema<RequestsConstantsRequest>,
+  output: __S(2353, __c147, 1) as any as S.Schema<RequestsConstantsResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6215,7 +6429,7 @@ export const requestsQuota: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(112, __c7, 0) as any as S.Schema<RequestsQuotaRequest>,
-  output: __S(2288, __c143, 0) as any as S.Schema<RequestsQuotaResponse>,
+  output: __S(2320, __c145, 0) as any as S.Schema<RequestsQuotaResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -6258,7 +6472,7 @@ export const searchThreatSignal: API.OperationMethod<
 }));
 
 export type ThreatEventsBulkCreateRelationshipsError = CloudflareOpError;
-/** This method is deprecated. Please use `event_create_bulk` instead */
+/** Legacy. Use `threat-intel events bulk-create` (`POST /events/create/bulk`) and `threat-intel events relationships create` (`POST /events/relationships/create`) instead. */
 export const threatEventsBulkCreateRelationships: API.OperationMethod<
   ThreatEventsBulkCreateRelationshipsRequest,
   ThreatEventsBulkCreateRelationshipsResponse,
@@ -6419,7 +6633,7 @@ export const updateThreatSignalsSkillsTagCategory: API.OperationMethod<
   CloudflareOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(352, __c22, 0) as any as S.Schema<UpdateThreatSignalsSkillsTagCategoryRequest>,
-  output: __S(1504, __c94, 0) as any as S.Schema<UpdateThreatSignalsSkillsTagCategoryResponse>,
+  output: __S(1520, __c95, 0) as any as S.Schema<UpdateThreatSignalsSkillsTagCategoryResponse>,
   errors: [CloudflareRateLimited, CloudflareError],
   protocol: CloudflareProtocol,
   retry: Retry.Retry,
@@ -7932,6 +8146,31 @@ function __c61(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "EditThreatSignalsArticleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          bulletPoints: __S(1008, __c63, 0).pipe(T.Body("bullet_points")),
+          contentR2Key: S.String.pipe(T.Body("content_r2_key")),
+          feedDisplayName: S.String.pipe(T.Body("feed_display_name")),
+          feedId: S.String.pipe(T.Body("feed_id")),
+          fetchedAt: S.String.pipe(T.Body("fetched_at")),
+          indicatorExtractionStatus: S.String.pipe(T.Body("indicator_extraction_status")),
+          link: S.String,
+          metadata: __S(64, __c4, 0),
+          publishedAt: S.String.pipe(T.Body("published_at")),
+          read: S.Boolean,
+          readAt: S.String.pipe(T.Body("read_at")),
+          severity: S.String,
+          sourceCount: S.Number.pipe(T.Body("source_count")),
+          summary: S.String,
+          summaryR2Key: S.String.pipe(T.Body("summary_r2_key")),
+          tags: __S(993, __c62, 1),
+          title: S.String,
+          skillVersion: S.optional(S.NullOr(S.String).pipe(T.Body("skill_version"))),
+          tagSkillVersion: S.optional(S.NullOr(S.String).pipe(T.Body("tag_skill_version"))),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "EditThreatSignalsArticleResponse" });
   }
 }
 function __c62(j: number): any {
@@ -7959,30 +8198,6 @@ function __c63(j: number): any {
           whoAffected: S.String.pipe(T.Body("who_affected")),
         }),
       ).annotate({ identifier: "EditThreatSignalsArticleResponseBulletPoints" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          id: S.String,
-          bulletPoints: __S(1008, __c63, 0).pipe(T.Body("bullet_points")),
-          contentR2Key: S.String.pipe(T.Body("content_r2_key")),
-          feedDisplayName: S.String.pipe(T.Body("feed_display_name")),
-          feedId: S.String.pipe(T.Body("feed_id")),
-          fetchedAt: S.String.pipe(T.Body("fetched_at")),
-          indicatorExtractionStatus: S.String.pipe(T.Body("indicator_extraction_status")),
-          link: S.String,
-          metadata: __S(64, __c4, 0),
-          publishedAt: S.String.pipe(T.Body("published_at")),
-          read: S.Boolean,
-          readAt: S.String.pipe(T.Body("read_at")),
-          sourceCount: S.Number.pipe(T.Body("source_count")),
-          summary: S.String,
-          summaryR2Key: S.String.pipe(T.Body("summary_r2_key")),
-          tags: __S(993, __c62, 1),
-          title: S.String,
-          skillVersion: S.optional(S.NullOr(S.String).pipe(T.Body("skill_version"))),
-          tagSkillVersion: S.optional(S.NullOr(S.String).pipe(T.Body("tag_skill_version"))),
-        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
-      ).annotate({ identifier: "EditThreatSignalsArticleResponse" });
   }
 }
 function __c64(j: number): any {
@@ -8503,9 +8718,56 @@ function __c85(j: number): any {
           )
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetThreatSignalsArticleRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          id: S.String,
+          bulletPoints: __S(1008, __c63, 0).pipe(T.Body("bullet_points")),
+          contentR2Key: S.String.pipe(T.Body("content_r2_key")),
+          feedDisplayName: S.String.pipe(T.Body("feed_display_name")),
+          feedId: S.String.pipe(T.Body("feed_id")),
+          fetchedAt: S.String.pipe(T.Body("fetched_at")),
+          indicatorExtractionStatus: S.String.pipe(T.Body("indicator_extraction_status")),
+          link: S.String,
+          metadata: __S(64, __c4, 0),
+          publishedAt: S.String.pipe(T.Body("published_at")),
+          read: S.Boolean,
+          readAt: S.String.pipe(T.Body("read_at")),
+          relevance: __S(1378, __c86, 2),
+          severity: S.String,
+          sourceCount: S.Number.pipe(T.Body("source_count")),
+          summary: S.String,
+          summaryR2Key: S.String.pipe(T.Body("summary_r2_key")),
+          tags: __S(993, __c62, 1),
+          title: S.String,
+          skillVersion: S.optional(S.NullOr(S.String).pipe(T.Body("skill_version"))),
+          tagSkillVersion: S.optional(S.NullOr(S.String).pipe(T.Body("tag_skill_version"))),
+        }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
+      ).annotate({ identifier: "GetThreatSignalsArticleResponse" });
   }
 }
 function __c86(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          band: S.String,
+          pirId: S.String.pipe(T.Body("pir_id")),
+        }),
+      ).annotate({ identifier: "GetThreatSignalsArticleResponseRelevancePirsItem" });
+    case 1:
+      return S.Array(__S(1376, __c86, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          band: S.String,
+          pirId: S.String.pipe(T.Body("pir_id")),
+          pirs: __S(1377, __c86, 1),
+        }),
+      ).annotate({ identifier: "GetThreatSignalsArticleResponseRelevance" });
+  }
+}
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8525,7 +8787,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "GetThreatSignalsArticlesContentRequest" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8549,7 +8811,7 @@ function __c87(j: number): any {
       return S.suspend(() =>
         S.Struct({
           articleId: S.String.pipe(T.Body("article_id")),
-          customOutput: __S(1393, __c87, 1).pipe(T.Body("custom_output")),
+          customOutput: __S(1409, __c88, 1).pipe(T.Body("custom_output")),
           customOutputParseStatus: S.String.pipe(T.Body("custom_output_parse_status")),
           customOutputValidationStatus: S.String.pipe(T.Body("custom_output_validation_status")),
           customSkillVersion: S.String.pipe(T.Body("custom_skill_version")),
@@ -8559,7 +8821,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "GetThreatSignalsArticlesSkillOutputResponse" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8579,7 +8841,7 @@ function __c88(j: number): any {
       ).annotate({ identifier: "GetThreatSignalsFeedsRawRequest" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8600,12 +8862,12 @@ function __c89(j: number): any {
       return S.suspend(() =>
         S.Struct({
           feedId: S.String.pipe(T.Body("feed_id")),
-          skills: __S(1441, __c90, 1),
+          skills: __S(1457, __c91, 1),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "GetThreatSignalsFeedsSkillResponse" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8623,10 +8885,10 @@ function __c90(j: number): any {
         }),
       ).annotate({ identifier: "GetThreatSignalsFeedsSkillResponseSkillsItem" });
     case 1:
-      return S.Array(__S(1440, __c90, 0));
+      return S.Array(__S(1456, __c91, 0));
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8645,7 +8907,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "GetThreatSignalsSkillRequest" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8679,7 +8941,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "CreateRequestPriorityResponse" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8698,7 +8960,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "GetThreatSignalsSkillsTagCategoryRequest" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8709,7 +8971,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "GetThreatSignalsSkillsTagCategoryResponse" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8753,14 +9015,14 @@ function __c95(j: number): any {
         }),
       ).annotate({ identifier: "ListRequestsResultItem" });
     case 2:
-      return S.Array(__S(1521, __c95, 1));
+      return S.Array(__S(1537, __c96, 1));
     case 3:
       return S.suspend(() =>
-        __S(1522, __c95, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(1538, __c96, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListRequestsResponse" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8787,17 +9049,17 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "ScansConfigListResultItem" });
     case 2:
-      return S.Array(__S(1537, __c96, 1));
+      return S.Array(__S(1553, __c97, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          result: __S(1538, __c96, 2).pipe(T.EnvelopePayload()),
+          result: __S(1554, __c97, 2).pipe(T.EnvelopePayload()),
           resultInfo: S.optional(S.NullOr(ResultInfo).pipe(T.ResultInfo())),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListScanConfigsResponse" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8816,7 +9078,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "ListThreatEventAttackersRequest" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8826,18 +9088,18 @@ function __c98(j: number): any {
       ).annotate({ identifier: "ThreatEventsAttackersListResponseItems" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1568, __c98, 0),
+          items: __S(1584, __c99, 0),
           type: S.String,
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventAttackersResponse" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8856,7 +9118,7 @@ function __c100(j: number): any {
       ).annotate({ identifier: "ListThreatEventCategoriesRequest" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8881,14 +9143,14 @@ function __c101(j: number): any {
         }),
       ).annotate({ identifier: "ThreatEventsCountriesListResultItem" });
     case 2:
-      return S.Array(__S(1617, __c101, 1));
+      return S.Array(__S(1633, __c102, 1));
     case 3:
       return S.suspend(() =>
-        __S(1618, __c101, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
+        __S(1634, __c102, 2).pipe(T.EnvelopePayloadRoot(), T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventCountriesResponse" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8918,7 +9180,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "ListThreatEventDatasetsResponse" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8936,7 +9198,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "ListThreatEventIndicatorTypesRequest" });
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8965,7 +9227,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "ListThreatEventsRequest" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8995,7 +9257,7 @@ function __c105(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatEventsAggregateResponseAggregationsItem" });
     case 2:
-      return S.Array(__S(1681, __c105, 1));
+      return S.Array(__S(1697, __c106, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9007,14 +9269,14 @@ function __c105(j: number): any {
       return S.suspend(() =>
         S.Struct({
           aggregateBy: S.String,
-          aggregations: __S(1682, __c105, 2),
+          aggregations: __S(1698, __c106, 2),
           total: S.Number,
-          dateRange: S.optional(S.NullOr(__S(1683, __c105, 3))),
+          dateRange: S.optional(S.NullOr(__S(1699, __c106, 3))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsAggregateResponse" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9035,7 +9297,7 @@ function __c106(j: number): any {
       ).annotate({ identifier: "CreateScanConfigRequest" });
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9049,7 +9311,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "CreateScanConfigResponse" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9067,7 +9329,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ListThreatEventsCategoriesCatalogRequest" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9106,20 +9368,20 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatEventsGraphResponseEdgesItem" });
     case 2:
-      return S.Array(__S(1745, __c109, 1));
+      return S.Array(__S(1761, __c110, 1));
     case 3:
       return S.Array(__S(64, __c4, 0));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          edges: __S(1746, __c109, 2),
+          edges: __S(1762, __c110, 2),
           node: __S(64, __c4, 0),
-          nodes: __S(1747, __c109, 3),
+          nodes: __S(1763, __c110, 3),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsGraphResponse" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9155,7 +9417,7 @@ function __c110(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1568, __c98, 0),
+          items: __S(1584, __c99, 0),
           type: S.String,
         }),
       ).annotate({
@@ -9165,8 +9427,8 @@ function __c110(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          datasetId: __S(1568, __c98, 0),
-          shardId: __S(1568, __c98, 0),
+          datasetId: __S(1584, __c99, 0),
+          shardId: __S(1584, __c99, 0),
         }),
       ).annotate({
         identifier:
@@ -9175,7 +9437,7 @@ function __c110(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(1762, __c110, 2),
+          properties: __S(1778, __c111, 2),
           type: S.String,
         }),
       ).annotate({
@@ -9185,7 +9447,7 @@ function __c110(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1763, __c110, 3),
+          items: __S(1779, __c111, 3),
           type: S.String,
         }),
       ).annotate({
@@ -9195,10 +9457,10 @@ function __c110(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          complete: __S(1568, __c98, 0),
-          failedDatasets: __S(1761, __c110, 1),
-          failedShards: __S(1764, __c110, 4),
-          warnings: __S(1761, __c110, 1),
+          complete: __S(1584, __c99, 0),
+          failedDatasets: __S(1777, __c111, 1),
+          failedShards: __S(1780, __c111, 4),
+          warnings: __S(1777, __c111, 1),
         }),
       ).annotate({
         identifier: "ListThreatEventsIndicatorsResponsePropertiesCompletenessProperties",
@@ -9206,14 +9468,14 @@ function __c110(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(1765, __c110, 5),
+          properties: __S(1781, __c111, 5),
           type: S.String,
         }),
       ).annotate({ identifier: "ListThreatEventsIndicatorsResponsePropertiesCompleteness" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          items: __S(1778, __c111, 2),
+          items: __S(1794, __c112, 2),
           type: S.String,
         }),
       ).annotate({ identifier: "ListThreatEventsIndicatorsResponsePropertiesIndicators" });
@@ -9239,13 +9501,13 @@ function __c110(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          count: __S(1568, __c98, 0),
-          cursor: __S(1768, __c110, 8),
-          hasMore: __S(1769, __c110, 9).pipe(T.Body("has_more")),
-          page: __S(1568, __c98, 0),
-          perPage: __S(1568, __c98, 0).pipe(T.Body("per_page")),
-          totalCount: __S(1768, __c110, 8).pipe(T.Body("total_count")),
-          totalCountIsExact: __S(1769, __c110, 9).pipe(T.Body("total_count_is_exact")),
+          count: __S(1584, __c99, 0),
+          cursor: __S(1784, __c111, 8),
+          hasMore: __S(1785, __c111, 9).pipe(T.Body("has_more")),
+          page: __S(1584, __c99, 0),
+          perPage: __S(1584, __c99, 0).pipe(T.Body("per_page")),
+          totalCount: __S(1784, __c111, 8).pipe(T.Body("total_count")),
+          totalCountIsExact: __S(1785, __c111, 9).pipe(T.Body("total_count_is_exact")),
         }),
       ).annotate({
         identifier: "ListThreatEventsIndicatorsResponsePropertiesPaginationProperties",
@@ -9253,28 +9515,28 @@ function __c110(j: number): any {
     case 11:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(1770, __c110, 10),
+          properties: __S(1786, __c111, 10),
           type: S.String,
         }),
       ).annotate({ identifier: "ListThreatEventsIndicatorsResponsePropertiesPagination" });
     case 12:
       return S.suspend(() =>
         S.Struct({
-          completeness: __S(1766, __c110, 6),
-          indicators: __S(1767, __c110, 7),
-          pagination: __S(1771, __c110, 11),
+          completeness: __S(1782, __c111, 6),
+          indicators: __S(1783, __c111, 7),
+          pagination: __S(1787, __c111, 11),
         }),
       ).annotate({ identifier: "ListThreatEventsIndicatorsResponseProperties" });
     case 13:
       return S.suspend(() =>
         S.Struct({
-          properties: __S(1772, __c110, 12),
+          properties: __S(1788, __c111, 12),
           type: S.String,
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsIndicatorsResponse" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9288,13 +9550,13 @@ function __c111(j: number): any {
         identifier: "ListThreatEventsIndicatorsResponsePropertiesIndicatorsItemsSourcesItem",
       });
     case 1:
-      return S.Array(__S(1776, __c111, 0));
+      return S.Array(__S(1792, __c112, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           createdAt: S.String,
           indicatorType: S.String,
-          sources: __S(1777, __c111, 1),
+          sources: __S(1793, __c112, 1),
           updatedAt: S.String,
           uuid: S.String,
           value: S.String,
@@ -9307,7 +9569,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "ListThreatEventsIndicatorsResponsePropertiesIndicatorsItems" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9339,19 +9601,19 @@ function __c112(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatEventsIndicatorsAggregateResponseAggregationsItem" });
     case 2:
-      return S.Array(__S(1793, __c112, 1));
+      return S.Array(__S(1809, __c113, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           aggregateBy: S.String,
-          aggregations: __S(1794, __c112, 2),
+          aggregations: __S(1810, __c113, 2),
           failedDatasets: S.Number,
           total: S.Number,
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsIndicatorsAggregateResponse" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9374,17 +9636,17 @@ function __c113(j: number): any {
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsIndicatorsByDatasetRequest" });
     case 1:
-      return S.Array(__S(1778, __c111, 2));
+      return S.Array(__S(1794, __c112, 2));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          indicators: __S(1809, __c113, 1),
-          pagination: __S(1824, __c114, 0),
+          indicators: __S(1825, __c114, 1),
+          pagination: __S(1840, __c115, 0),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsIndicatorsByDatasetResponse" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9397,7 +9659,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "ListThreatEventsIndicatorsByDatasetResponsePagination" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9416,7 +9678,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "ListThreatEventsIndicatorsByDatasetTagsRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9435,7 +9697,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "ListThreatEventsIndicatorsTypesRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9453,7 +9715,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "ListThreatEventsQueriesRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9480,7 +9742,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "ListThreatEventsRelationshipsRequest" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9563,17 +9825,17 @@ function __c119(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatEventsTagsResponseTagsItem" });
     case 2:
-      return S.Array(__S(1905, __c119, 1));
+      return S.Array(__S(1921, __c120, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          pagination: __S(1824, __c114, 0),
-          tags: __S(1906, __c119, 2),
+          pagination: __S(1840, __c115, 0),
+          tags: __S(1922, __c120, 2),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsTagsResponse" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9600,7 +9862,7 @@ function __c120(j: number): any {
           indicators: S.optional(__S(50, __c3, 2)),
           indicatorType: S.optional(S.String),
           insight: S.optional(S.String),
-          source: S.optional(__S(1920, __c120, 0)),
+          source: S.optional(__S(1936, __c121, 0)),
           tags: S.optional(__S(32, __c2, 0)),
           targetCountry: S.optional(S.String),
           targetIndustry: S.optional(S.String),
@@ -9616,7 +9878,7 @@ function __c120(j: number): any {
       ).annotate({ identifier: "CreateThreatEventRequest" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
@@ -9641,9 +9903,9 @@ function __c121(j: number): any {
           numReferences: S.Number,
           rawId: S.String,
           referenced: __S(32, __c2, 0),
-          referencedIds: __S(1936, __c121, 0),
+          referencedIds: __S(1952, __c122, 0),
           references: __S(32, __c2, 0),
-          referencesIds: __S(1936, __c121, 0),
+          referencesIds: __S(1952, __c122, 0),
           tags: __S(32, __c2, 0),
           targetCountry: S.String,
           targetCountryAlpha3: S.String,
@@ -9656,7 +9918,7 @@ function __c121(j: number): any {
       ).annotate({ identifier: "CreateThreatEventResponse" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9685,16 +9947,16 @@ function __c122(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatEventsTagsCategoriesResponseCategoriesItem" });
     case 2:
-      return S.Array(__S(1953, __c122, 1));
+      return S.Array(__S(1969, __c123, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          categories: __S(1954, __c122, 2),
+          categories: __S(1970, __c123, 2),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsTagsCategoriesResponse" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9719,7 +9981,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "ListThreatEventsTagsIndicatorsRequest" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9737,17 +9999,19 @@ function __c124(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatEventsTagsIndicatorsResponseIndicatorsItem" });
     case 1:
-      return S.Array(__S(1984, __c124, 0));
+      return S.Array(__S(2000, __c125, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          indicators: __S(1985, __c124, 1),
-          pagination: __S(1824, __c114, 0),
+          indicators: __S(2001, __c125, 1),
+          pagination: __S(1840, __c115, 0),
+          failedShardCount: S.optional(S.NullOr(S.Number)),
+          partialResults: S.optional(S.NullOr(S.Boolean)),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatEventsTagsIndicatorsResponse" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9772,7 +10036,7 @@ function __c125(j: number): any {
       ).annotate({ identifier: "ListThreatEventsTagsIndicatorsByDatasetRequest" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9791,7 +10055,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "ListThreatEventsTargetIndustriesByDatasetRequest" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9809,7 +10073,7 @@ function __c127(j: number): any {
       ).annotate({ identifier: "ListThreatEventsTargetIndustriesCatalogRequest" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9828,7 +10092,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "ListThreatEventTargetIndustriesRequest" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9841,11 +10105,14 @@ function __c129(j: number): any {
           fetchedAfter: S.optional(S.String.pipe(T.Query("fetched_after"))),
           fetchedBefore: S.optional(S.String.pipe(T.Query("fetched_before"))),
           includeTotal: S.optional(S.Boolean.pipe(T.Query("include_total"))),
+          minRelevance: S.optional(S.String.pipe(T.Query("min_relevance"))),
           perPage: S.optional(S.Number.pipe(T.Query("per_page"))),
+          pirId: S.optional(S.String.pipe(T.Query("pir_id"))),
           publishedAfter: S.optional(S.String.pipe(T.Query("published_after"))),
           publishedBefore: S.optional(S.String.pipe(T.Query("published_before"))),
           read: S.optional(S.Boolean.pipe(T.Query())),
           search: S.optional(S.String.pipe(T.Query())),
+          severity: S.optional(__S(2096, __c131, 0).pipe(T.Query())),
           sort: S.optional(S.String.pipe(T.Query())),
           sourceType: S.optional(S.String.pipe(T.Query("source_type"))),
           tag: S.optional(S.String.pipe(T.Query())),
@@ -9876,17 +10143,19 @@ function __c129(j: number): any {
           publishedAt: S.String.pipe(T.Body("published_at")),
           read: S.Boolean,
           readAt: S.String.pipe(T.Body("read_at")),
+          relevance: __S(1378, __c86, 2),
+          severity: S.String,
           summary: S.String,
           tags: __S(993, __c62, 1),
           title: S.String,
         }),
       ).annotate({ identifier: "ListThreatSignalsArticlesResponseArticlesItem" });
     case 2:
-      return S.Array(__S(2065, __c129, 1));
+      return S.Array(__S(2081, __c130, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          articles: __S(2066, __c129, 2),
+          articles: __S(2082, __c130, 2),
           hasMore: S.Boolean.pipe(T.Body("has_more")),
           nextCursor: S.String.pipe(T.Body("next_cursor")),
           totalCount: S.Number.pipe(T.Body("total_count")),
@@ -9895,7 +10164,13 @@ function __c129(j: number): any {
       ).annotate({ identifier: "ListThreatSignalsArticlesResponse" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9920,16 +10195,16 @@ function __c130(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatSignalsCategoriesResponseCategoriesItem" });
     case 2:
-      return S.Array(__S(2081, __c130, 1));
+      return S.Array(__S(2113, __c132, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          categories: __S(2082, __c130, 2),
+          categories: __S(2114, __c132, 2),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatSignalsCategoriesResponse" });
   }
 }
-function __c131(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9974,14 +10249,14 @@ function __c131(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatSignalsFeedsResponseFeedsItem" });
     case 2:
-      return S.Array(__S(2097, __c131, 1));
+      return S.Array(__S(2129, __c133, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           count: S.Number,
           customFeedCount: S.Number.pipe(T.Body("custom_feed_count")),
           customFeedLimit: S.Number.pipe(T.Body("custom_feed_limit")),
-          feeds: __S(2098, __c131, 2),
+          feeds: __S(2130, __c133, 2),
           page: S.Number,
           perPage: S.Number.pipe(T.Body("per_page")),
           totalCount: S.Number.pipe(T.Body("total_count")),
@@ -9989,7 +10264,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "ListThreatSignalsFeedsResponse" });
   }
 }
-function __c132(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10026,7 +10301,7 @@ function __c132(j: number): any {
         }),
       ).annotate({ identifier: "ListThreatSignalsIndicatorsResponseIndicatorsItem" });
     case 2:
-      return S.Array(__S(2113, __c132, 1));
+      return S.Array(__S(2145, __c134, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10042,13 +10317,13 @@ function __c132(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          indicators: __S(2114, __c132, 2),
-          pagination: __S(2115, __c132, 3),
+          indicators: __S(2146, __c134, 2),
+          pagination: __S(2147, __c134, 3),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatSignalsIndicatorsResponse" });
   }
 }
-function __c133(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10071,7 +10346,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "CreateThreatEventCategoryRequest" });
   }
 }
-function __c134(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10086,7 +10361,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "CreateThreatEventCategoryResponse" });
   }
 }
-function __c135(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10111,13 +10386,13 @@ function __c135(j: number): any {
           customSkillsAvailable: S.Boolean.pipe(T.Body("custom_skills_available")),
           page: S.Number,
           perPage: S.Number.pipe(T.Body("per_page")),
-          skills: __S(1441, __c90, 1),
+          skills: __S(1457, __c91, 1),
           totalCount: S.Number.pipe(T.Body("total_count")),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "ListThreatSignalsSkillsResponse" });
   }
 }
-function __c136(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10139,7 +10414,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "PatchScanConfigRequest" });
   }
 }
-function __c137(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10164,7 +10439,7 @@ function __c137(j: number): any {
           indicator: S.optional(S.String),
           indicatorType: S.optional(S.String),
           insight: S.optional(S.String),
-          raw: S.optional(__S(2192, __c137, 0)),
+          raw: S.optional(__S(2224, __c139, 0)),
           targetCountry: S.optional(S.String),
           targetIndustry: S.optional(S.String),
           tlp: S.optional(S.String),
@@ -10180,7 +10455,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "PatchThreatEventRequest" });
   }
 }
-function __c138(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10204,7 +10479,7 @@ function __c138(j: number): any {
       ).annotate({ identifier: "PatchThreatEventCategoryRequest" });
   }
 }
-function __c139(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10225,7 +10500,7 @@ function __c139(j: number): any {
       ).annotate({ identifier: "PatchThreatEventDatasetRequest" });
   }
 }
-function __c140(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10255,7 +10530,7 @@ function __c140(j: number): any {
       ).annotate({ identifier: "PatchThreatEventRawResponse" });
   }
 }
-function __c141(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10282,18 +10557,18 @@ function __c141(j: number): any {
         }),
       ).annotate({ identifier: "PollThreatSignalsFeedResponseFeedsItem" });
     case 2:
-      return S.Array(__S(2257, __c141, 1));
+      return S.Array(__S(2289, __c143, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           errors: S.Number,
-          feeds: __S(2258, __c141, 2),
+          feeds: __S(2290, __c143, 2),
           triggered: S.Number,
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "PollThreatSignalsFeedResponse" });
   }
 }
-function __c142(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10311,7 +10586,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "QuotaRequestPriorityRequest" });
   }
 }
-function __c143(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10326,7 +10601,7 @@ function __c143(j: number): any {
       ).annotate({ identifier: "QuotaRequestPriorityResponse" });
   }
 }
-function __c144(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10357,7 +10632,7 @@ function __c144(j: number): any {
       ).annotate({ identifier: "RawThreatEventDatasetResponse" });
   }
 }
-function __c145(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10374,13 +10649,11 @@ function __c145(j: number): any {
           .pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "RequestsConstantsRequest" });
     case 1:
-      return S.Array(S.String);
-    case 2:
       return S.suspend(() =>
         S.Struct({
-          priority: S.optional(S.NullOr(__S(2321, __c145, 1))),
-          status: S.optional(S.NullOr(__S(2321, __c145, 1))),
-          tlp: S.optional(S.NullOr(__S(2321, __c145, 1))),
+          priority: S.optional(S.NullOr(__S(2096, __c131, 0))),
+          status: S.optional(S.NullOr(__S(2096, __c131, 0))),
+          tlp: S.optional(S.NullOr(__S(2096, __c131, 0))),
         }).pipe(T.KeyDictionary(KEY_DICTIONARY)),
       ).annotate({ identifier: "RequestsConstantsResponse" });
   }

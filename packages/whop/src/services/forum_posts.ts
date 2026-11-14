@@ -178,31 +178,31 @@ export interface CreateForumPostRequestPoll {
 export type ForumPostVisibilityTypes = "members_only" | "globally_visible";
 export interface CreateForumPostRequest {
   /** The unique identifier of the company whose public forum to post in. Required when experience_id is 'public'. For example, 'biz_xxxxx'. */
-  account_id?: string | null;
+  account_id?: string | null | undefined;
   /** A list of file attachments to include with the post, such as images or videos. */
-  attachments?: CreateForumPostRequestAttachmentsList | null;
+  attachments?: CreateForumPostRequestAttachmentsList | null | undefined;
   /** The main body of the post in Markdown format. For example, 'Check out this **update**'. Hidden if the post is paywalled and the viewer has not purchased access. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** The unique identifier of the experience to create this post in. For example, 'exp_xxxxx'. Pass 'public' along with account_id to automatically use the account's public forum. */
   experience_id: string;
   /** Whether to send this post as a mention notification to all users in the experience who have mentions enabled. */
-  is_mention?: boolean | null;
+  is_mention?: boolean | null | undefined;
   /** The unique identifier of the parent post to comment on. Omit this field to create a top-level post. */
-  parent_id?: string | null;
+  parent_id?: string | null | undefined;
   /** The price to unlock this post in the specified paywall currency. For example, 5.00 for $5.00. When set, users must purchase access to view the post content. */
-  paywall_amount?: number | null;
+  paywall_amount?: number | null | undefined;
   /** The currency for the paywall price on this post. When set along with paywall_amount, users must purchase access to view the post content. */
-  paywall_currency?: LegacyCurrencies | (string & {}) | null;
+  paywall_currency?: LegacyCurrencies | (string & {}) | null | undefined;
   /** Whether this post should be pinned to the top of the forum. */
-  pinned?: boolean | null;
+  pinned?: boolean | null | undefined;
   /** A poll to attach to this post, allowing members to vote on options. */
-  poll?: CreateForumPostRequestPoll | null;
+  poll?: CreateForumPostRequestPoll | null | undefined;
   /** The rich content of the post in Tiptap JSON format. When provided, takes priority over the markdown content field for rendering. */
-  rich_content?: string | null;
+  rich_content?: string | null | undefined;
   /** The title of the post, displayed prominently at the top. Required for paywalled posts as it remains visible to non-purchasers. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Controls who can see this forum post, such as members only or public. */
-  visibility?: ForumPostVisibilityTypes | (string & {}) | null;
+  visibility?: ForumPostVisibilityTypes | (string & {}) | null | undefined;
 }
 /** Represents an image attachment */
 export interface ForumPostAttachmentsItem {
@@ -262,14 +262,14 @@ export interface GetForumPostRequest {
   id: string;
 }
 export interface ListForumPostRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
   experience_id: string;
-  include_bounty_anchors?: boolean;
-  parent_id?: string;
-  pinned?: boolean;
+  include_bounty_anchors?: boolean | undefined;
+  parent_id?: string | undefined;
+  pinned?: boolean | undefined;
 }
 /** Represents an image attachment */
 export type ForumPostListItemAttachmentsItem = ForumPostAttachmentsItem;
@@ -335,15 +335,15 @@ export interface UpdateForumPostRequest {
   /** The unique identifier of the forum post to update. */
   id: string;
   /** A replacement list of file attachments for this post, such as images or videos. */
-  attachments?: UpdateForumPostRequestAttachmentsList | null;
+  attachments?: UpdateForumPostRequestAttachmentsList | null | undefined;
   /** The updated body of the post in Markdown format. For example, 'Check out this **update**'. Hidden if the post is paywalled and the viewer has not purchased access. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** Whether this post should be pinned to the top of the forum. Only top-level posts can be pinned, not comments. */
-  is_pinned?: boolean | null;
+  is_pinned?: boolean | null | undefined;
   /** The updated title of the post, displayed prominently at the top. Required for paywalled posts as it remains visible to non-purchasers. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Controls who can see this forum post, such as members only or public. */
-  visibility?: ForumPostVisibilityTypes | (string & {}) | null;
+  visibility?: ForumPostVisibilityTypes | (string & {}) | null | undefined;
 }
 export type CreateForumPostError =
   | BadRequest

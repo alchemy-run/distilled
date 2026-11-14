@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString, SensitiveBlob } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -135,7 +136,7 @@ export class ValidationException
     {
       message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()),
       fieldList: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(2465, __c77, 1)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(2529, __c79, 1)).annotate({
           identifier: "ValidationExceptionFieldList",
         }),
       ),
@@ -146,7 +147,7 @@ export type Id = string;
 export type DraftVersion = string;
 export type AgentAliasArn = string;
 export interface AgentDescriptor {
-  aliasArn?: string;
+  aliasArn?: string | undefined;
 }
 export type Name = string;
 export type CollaborationInstruction = string | redacted.Redacted<string>;
@@ -158,8 +159,8 @@ export interface AssociateAgentCollaboratorRequest {
   agentDescriptor: AgentDescriptor;
   collaboratorName: string;
   collaborationInstruction: string | redacted.Redacted<string>;
-  relayConversationHistory?: RelayConversationHistory;
-  clientToken?: string;
+  relayConversationHistory?: RelayConversationHistory | undefined;
+  clientToken?: string | undefined;
 }
 export type Version = string;
 export interface AgentCollaborator {
@@ -171,8 +172,8 @@ export interface AgentCollaborator {
   collaboratorName: string;
   createdAt: Date;
   lastUpdatedAt: Date;
-  relayConversationHistory?: RelayConversationHistory;
-  clientToken?: string;
+  relayConversationHistory?: RelayConversationHistory | undefined;
+  clientToken?: string | undefined;
 }
 export interface AssociateAgentCollaboratorResponse {
   agentCollaborator: AgentCollaborator;
@@ -184,7 +185,7 @@ export interface AssociateAgentKnowledgeBaseRequest {
   agentVersion: string;
   knowledgeBaseId: string;
   description: string;
-  knowledgeBaseState?: KnowledgeBaseState;
+  knowledgeBaseState?: KnowledgeBaseState | undefined;
 }
 export interface AgentKnowledgeBase {
   agentId: string;
@@ -204,7 +205,7 @@ export type OrchestrationType = "DEFAULT" | "CUSTOM_ORCHESTRATION" | (string & {
 export type LambdaArn = string;
 export type OrchestrationExecutor = { lambda: string };
 export interface CustomOrchestration {
-  executor?: OrchestrationExecutor;
+  executor?: OrchestrationExecutor | undefined;
 }
 export type SessionTTL = number;
 export type AgentRoleArn = string;
@@ -228,62 +229,62 @@ export type TopK = number;
 export type MaximumLength = number;
 export type StopSequences = string[];
 export interface InferenceConfiguration {
-  temperature?: number;
-  topP?: number;
-  topK?: number;
-  maximumLength?: number;
-  stopSequences?: string[];
+  temperature?: number | undefined;
+  topP?: number | undefined;
+  topK?: number | undefined;
+  maximumLength?: number | undefined;
+  stopSequences?: string[] | undefined;
 }
 export interface PromptConfiguration {
-  promptType?: PromptType;
-  promptCreationMode?: CreationMode;
-  promptState?: PromptState;
-  basePromptTemplate?: string | redacted.Redacted<string>;
-  inferenceConfiguration?: InferenceConfiguration;
-  parserMode?: CreationMode;
-  foundationModel?: string;
-  additionalModelRequestFields?: any;
+  promptType?: PromptType | undefined;
+  promptCreationMode?: CreationMode | undefined;
+  promptState?: PromptState | undefined;
+  basePromptTemplate?: string | redacted.Redacted<string> | undefined;
+  inferenceConfiguration?: InferenceConfiguration | undefined;
+  parserMode?: CreationMode | undefined;
+  foundationModel?: string | undefined;
+  additionalModelRequestFields?: any | undefined;
 }
 export type PromptConfigurations = PromptConfiguration[];
 export interface PromptOverrideConfiguration {
   promptConfigurations: PromptConfiguration[];
-  overrideLambda?: string;
+  overrideLambda?: string | undefined;
 }
 export type GuardrailIdentifier = string;
 export type GuardrailVersion = string;
 export interface GuardrailConfiguration {
-  guardrailIdentifier?: string;
-  guardrailVersion?: string;
+  guardrailIdentifier?: string | undefined;
+  guardrailVersion?: string | undefined;
 }
 export type MemoryType = "SESSION_SUMMARY" | (string & {});
 export type EnabledMemoryTypes = MemoryType[];
 export type StorageDays = number;
 export type MaxRecentSessions = number;
 export interface SessionSummaryConfiguration {
-  maxRecentSessions?: number;
+  maxRecentSessions?: number | undefined;
 }
 export interface MemoryConfiguration {
   enabledMemoryTypes: MemoryType[];
-  storageDays?: number;
-  sessionSummaryConfiguration?: SessionSummaryConfiguration;
+  storageDays?: number | undefined;
+  sessionSummaryConfiguration?: SessionSummaryConfiguration | undefined;
 }
 export type AgentCollaboration = "SUPERVISOR" | "SUPERVISOR_ROUTER" | "DISABLED" | (string & {});
 export interface CreateAgentRequest {
   agentName: string;
-  clientToken?: string;
-  instruction?: string | redacted.Redacted<string>;
-  foundationModel?: string;
-  description?: string;
-  orchestrationType?: OrchestrationType;
-  customOrchestration?: CustomOrchestration;
-  idleSessionTTLInSeconds?: number;
-  agentResourceRoleArn?: string;
-  customerEncryptionKeyArn?: string;
-  tags?: { [key: string]: string | undefined };
-  promptOverrideConfiguration?: PromptOverrideConfiguration;
-  guardrailConfiguration?: GuardrailConfiguration;
-  memoryConfiguration?: MemoryConfiguration;
-  agentCollaboration?: AgentCollaboration;
+  clientToken?: string | undefined;
+  instruction?: string | redacted.Redacted<string> | undefined;
+  foundationModel?: string | undefined;
+  description?: string | undefined;
+  orchestrationType?: OrchestrationType | undefined;
+  customOrchestration?: CustomOrchestration | undefined;
+  idleSessionTTLInSeconds?: number | undefined;
+  agentResourceRoleArn?: string | undefined;
+  customerEncryptionKeyArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  promptOverrideConfiguration?: PromptOverrideConfiguration | undefined;
+  guardrailConfiguration?: GuardrailConfiguration | undefined;
+  memoryConfiguration?: MemoryConfiguration | undefined;
+  agentCollaboration?: AgentCollaboration | undefined;
 }
 export type AgentArn = string;
 export type AgentStatus =
@@ -304,26 +305,26 @@ export interface Agent {
   agentId: string;
   agentName: string;
   agentArn: string;
-  agentVersion?: string;
-  clientToken?: string;
-  instruction?: string | redacted.Redacted<string>;
+  agentVersion?: string | undefined;
+  clientToken?: string | undefined;
+  instruction?: string | redacted.Redacted<string> | undefined;
   agentStatus: AgentStatus;
-  foundationModel?: string;
-  description?: string;
-  orchestrationType?: OrchestrationType;
-  customOrchestration?: CustomOrchestration;
+  foundationModel?: string | undefined;
+  description?: string | undefined;
+  orchestrationType?: OrchestrationType | undefined;
+  customOrchestration?: CustomOrchestration | undefined;
   idleSessionTTLInSeconds: number;
   agentResourceRoleArn: string;
-  customerEncryptionKeyArn?: string;
+  customerEncryptionKeyArn?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
-  preparedAt?: Date;
-  failureReasons?: string[];
-  recommendedActions?: string[];
-  promptOverrideConfiguration?: PromptOverrideConfiguration;
-  guardrailConfiguration?: GuardrailConfiguration;
-  memoryConfiguration?: MemoryConfiguration;
-  agentCollaboration?: AgentCollaboration;
+  preparedAt?: Date | undefined;
+  failureReasons?: string[] | undefined;
+  recommendedActions?: string[] | undefined;
+  promptOverrideConfiguration?: PromptOverrideConfiguration | undefined;
+  guardrailConfiguration?: GuardrailConfiguration | undefined;
+  memoryConfiguration?: MemoryConfiguration | undefined;
+  agentCollaboration?: AgentCollaboration | undefined;
 }
 export interface CreateAgentResponse {
   agent: Agent;
@@ -338,34 +339,34 @@ export type ActionGroupSignature =
 export type ActionGroupSignatureParams = { [key: string]: string | undefined };
 export type CustomControlMethod = "RETURN_CONTROL" | (string & {});
 export type ActionGroupExecutor =
-  | { lambda: string; customControl?: never }
-  | { lambda?: never; customControl: CustomControlMethod };
+  | { lambda: string; customControl?: undefined }
+  | { lambda?: undefined; customControl: CustomControlMethod };
 export type S3BucketName = string;
 export type S3ObjectKey = string;
 export interface S3Identifier {
-  s3BucketName?: string;
-  s3ObjectKey?: string;
+  s3BucketName?: string | undefined;
+  s3ObjectKey?: string | undefined;
 }
 export type Payload = string | redacted.Redacted<string>;
 export type APISchema =
-  | { s3: S3Identifier; payload?: never }
-  | { s3?: never; payload: string | redacted.Redacted<string> };
+  | { s3: S3Identifier; payload?: undefined }
+  | { s3?: undefined; payload: string | redacted.Redacted<string> };
 export type ActionGroupState = "ENABLED" | "DISABLED" | (string & {});
 export type FunctionDescription = string;
 export type ParameterDescription = string;
 export type Type = "string" | "number" | "integer" | "boolean" | "array" | (string & {});
 export interface ParameterDetail {
-  description?: string;
+  description?: string | undefined;
   type: Type;
-  required?: boolean;
+  required?: boolean | undefined;
 }
 export type ParameterMap = { [key: string]: ParameterDetail | undefined };
 export type RequireConfirmation = "ENABLED" | "DISABLED" | (string & {});
 export interface Function {
   name: string;
-  description?: string;
-  parameters?: { [key: string]: ParameterDetail | undefined };
-  requireConfirmation?: RequireConfirmation;
+  description?: string | undefined;
+  parameters?: { [key: string]: ParameterDetail | undefined } | undefined;
+  requireConfirmation?: RequireConfirmation | undefined;
 }
 export type Functions = Function[];
 export type FunctionSchema = { functions: Function[] };
@@ -373,29 +374,29 @@ export interface CreateAgentActionGroupRequest {
   agentId: string;
   agentVersion: string;
   actionGroupName: string;
-  clientToken?: string;
-  description?: string;
-  parentActionGroupSignature?: ActionGroupSignature;
-  parentActionGroupSignatureParams?: { [key: string]: string | undefined };
-  actionGroupExecutor?: ActionGroupExecutor;
-  apiSchema?: APISchema;
-  actionGroupState?: ActionGroupState;
-  functionSchema?: FunctionSchema;
+  clientToken?: string | undefined;
+  description?: string | undefined;
+  parentActionGroupSignature?: ActionGroupSignature | undefined;
+  parentActionGroupSignatureParams?: { [key: string]: string | undefined } | undefined;
+  actionGroupExecutor?: ActionGroupExecutor | undefined;
+  apiSchema?: APISchema | undefined;
+  actionGroupState?: ActionGroupState | undefined;
+  functionSchema?: FunctionSchema | undefined;
 }
 export interface AgentActionGroup {
   agentId: string;
   agentVersion: string;
   actionGroupId: string;
   actionGroupName: string;
-  clientToken?: string;
-  description?: string;
+  clientToken?: string | undefined;
+  description?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
-  parentActionSignature?: ActionGroupSignature;
-  parentActionGroupSignatureParams?: { [key: string]: string | undefined };
-  actionGroupExecutor?: ActionGroupExecutor;
-  apiSchema?: APISchema;
-  functionSchema?: FunctionSchema;
+  parentActionSignature?: ActionGroupSignature | undefined;
+  parentActionGroupSignatureParams?: { [key: string]: string | undefined } | undefined;
+  actionGroupExecutor?: ActionGroupExecutor | undefined;
+  apiSchema?: APISchema | undefined;
+  functionSchema?: FunctionSchema | undefined;
   actionGroupState: ActionGroupState;
 }
 export interface CreateAgentActionGroupResponse {
@@ -403,23 +404,23 @@ export interface CreateAgentActionGroupResponse {
 }
 export type ProvisionedModelIdentifier = string;
 export interface AgentAliasRoutingConfigurationListItem {
-  agentVersion?: string;
-  provisionedThroughput?: string;
+  agentVersion?: string | undefined;
+  provisionedThroughput?: string | undefined;
 }
 export type AgentAliasRoutingConfiguration = AgentAliasRoutingConfigurationListItem[];
 export interface CreateAgentAliasRequest {
   agentId: string;
   agentAliasName: string;
-  clientToken?: string;
-  description?: string;
-  routingConfiguration?: AgentAliasRoutingConfigurationListItem[];
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  description?: string | undefined;
+  routingConfiguration?: AgentAliasRoutingConfigurationListItem[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AgentAliasId = string;
 export interface AgentAliasHistoryEvent {
-  routingConfiguration?: AgentAliasRoutingConfigurationListItem[];
-  endDate?: Date;
-  startDate?: Date;
+  routingConfiguration?: AgentAliasRoutingConfigurationListItem[] | undefined;
+  endDate?: Date | undefined;
+  startDate?: Date | undefined;
 }
 export type AgentAliasHistoryEvents = AgentAliasHistoryEvent[];
 export type AgentAliasStatus =
@@ -436,15 +437,15 @@ export interface AgentAlias {
   agentAliasId: string;
   agentAliasName: string;
   agentAliasArn: string;
-  clientToken?: string;
-  description?: string;
+  clientToken?: string | undefined;
+  description?: string | undefined;
   routingConfiguration: AgentAliasRoutingConfigurationListItem[];
   createdAt: Date;
   updatedAt: Date;
-  agentAliasHistoryEvents?: AgentAliasHistoryEvent[];
+  agentAliasHistoryEvents?: AgentAliasHistoryEvent[] | undefined;
   agentAliasStatus: AgentAliasStatus;
-  failureReasons?: string[];
-  aliasInvocationState?: AliasInvocationState;
+  failureReasons?: string[] | undefined;
+  aliasInvocationState?: AliasInvocationState | undefined;
 }
 export interface CreateAgentAliasResponse {
   agentAlias: AgentAlias;
@@ -462,7 +463,7 @@ export type DataSourceType =
 export type EnabledOrDisabledState = "ENABLED" | "DISABLED" | (string & {});
 export interface DeletionProtectionConfiguration {
   deletionProtectionStatus: EnabledOrDisabledState;
-  deletionProtectionThreshold?: number;
+  deletionProtectionThreshold?: number | undefined;
 }
 export interface ImageExtractionConfiguration {
   imageExtractionStatus: EnabledOrDisabledState;
@@ -474,9 +475,9 @@ export interface VideoExtractionConfiguration {
   videoExtractionStatus: EnabledOrDisabledState;
 }
 export interface MediaExtractionConfiguration {
-  imageExtractionConfiguration?: ImageExtractionConfiguration;
-  audioExtractionConfiguration?: AudioExtractionConfiguration;
-  videoExtractionConfiguration?: VideoExtractionConfiguration;
+  imageExtractionConfiguration?: ImageExtractionConfiguration | undefined;
+  audioExtractionConfiguration?: AudioExtractionConfiguration | undefined;
+  videoExtractionConfiguration?: VideoExtractionConfiguration | undefined;
 }
 export interface DailySchedule {}
 export type DayOfWeek =
@@ -494,20 +495,20 @@ export interface WeeklySchedule {
 export type DayOfMonthNumber = number;
 export interface LastDayOfMonth {}
 export type DayOfMonth =
-  | { dayNumber: number; lastDayOfMonth?: never }
-  | { dayNumber?: never; lastDayOfMonth: LastDayOfMonth };
+  | { dayNumber: number; lastDayOfMonth?: undefined }
+  | { dayNumber?: undefined; lastDayOfMonth: LastDayOfMonth };
 export interface MonthlySchedule {
   dayOfMonth: DayOfMonth;
 }
 export type SyncSchedule =
-  | { daily: DailySchedule; weekly?: never; monthly?: never }
-  | { daily?: never; weekly: WeeklySchedule; monthly?: never }
-  | { daily?: never; weekly?: never; monthly: MonthlySchedule };
+  | { daily: DailySchedule; weekly?: undefined; monthly?: undefined }
+  | { daily?: undefined; weekly: WeeklySchedule; monthly?: undefined }
+  | { daily?: undefined; weekly?: undefined; monthly: MonthlySchedule };
 export interface ManagedKnowledgeBaseConnectorConfiguration {
-  deletionProtectionConfiguration?: DeletionProtectionConfiguration;
-  mediaExtractionConfiguration?: MediaExtractionConfiguration;
-  connectorParameters?: any;
-  syncSchedule?: SyncSchedule;
+  deletionProtectionConfiguration?: DeletionProtectionConfiguration | undefined;
+  mediaExtractionConfiguration?: MediaExtractionConfiguration | undefined;
+  connectorParameters?: any | undefined;
+  syncSchedule?: SyncSchedule | undefined;
 }
 export type S3BucketArn = string;
 export type S3Prefix = string | redacted.Redacted<string>;
@@ -515,23 +516,23 @@ export type S3Prefixes = (string | redacted.Redacted<string>)[];
 export type BucketOwnerAccountId = string;
 export interface S3DataSourceConfiguration {
   bucketArn: string;
-  inclusionPrefixes?: (string | redacted.Redacted<string>)[];
-  bucketOwnerAccountId?: string;
+  inclusionPrefixes?: (string | redacted.Redacted<string>)[] | undefined;
+  bucketOwnerAccountId?: string | undefined;
 }
 export type Url = string;
 export interface SeedUrl {
-  url?: string;
+  url?: string | undefined;
 }
 export type SeedUrls = SeedUrl[];
 export interface UrlConfiguration {
-  seedUrls?: SeedUrl[];
+  seedUrls?: SeedUrl[] | undefined;
 }
 export interface WebSourceConfiguration {
   urlConfiguration: UrlConfiguration;
 }
 export interface WebCrawlerLimits {
-  rateLimit?: number;
-  maxPages?: number;
+  rateLimit?: number | undefined;
+  maxPages?: number | undefined;
 }
 export type FilterPattern = string | redacted.Redacted<string>;
 export type FilterList = (string | redacted.Redacted<string>)[];
@@ -539,16 +540,16 @@ export type WebScopeType = "HOST_ONLY" | "SUBDOMAINS" | (string & {});
 export type UserAgent = string | redacted.Redacted<string>;
 export type UserAgentHeader = string | redacted.Redacted<string>;
 export interface WebCrawlerConfiguration {
-  crawlerLimits?: WebCrawlerLimits;
-  inclusionFilters?: (string | redacted.Redacted<string>)[];
-  exclusionFilters?: (string | redacted.Redacted<string>)[];
-  scope?: WebScopeType;
-  userAgent?: string | redacted.Redacted<string>;
-  userAgentHeader?: string | redacted.Redacted<string>;
+  crawlerLimits?: WebCrawlerLimits | undefined;
+  inclusionFilters?: (string | redacted.Redacted<string>)[] | undefined;
+  exclusionFilters?: (string | redacted.Redacted<string>)[] | undefined;
+  scope?: WebScopeType | undefined;
+  userAgent?: string | redacted.Redacted<string> | undefined;
+  userAgentHeader?: string | redacted.Redacted<string> | undefined;
 }
 export interface WebDataSourceConfiguration {
   sourceConfiguration: WebSourceConfiguration;
-  crawlerConfiguration?: WebCrawlerConfiguration;
+  crawlerConfiguration?: WebCrawlerConfiguration | undefined;
 }
 export type HttpsUrl = string;
 export type ConfluenceHostType = "SAAS" | (string & {});
@@ -564,8 +565,8 @@ export type CrawlFilterConfigurationType = "PATTERN" | (string & {});
 export type FilteredObjectType = string | redacted.Redacted<string>;
 export interface PatternObjectFilter {
   objectType: string | redacted.Redacted<string>;
-  inclusionFilters?: (string | redacted.Redacted<string>)[];
-  exclusionFilters?: (string | redacted.Redacted<string>)[];
+  inclusionFilters?: (string | redacted.Redacted<string>)[] | undefined;
+  exclusionFilters?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export type PatternObjectFilterList = PatternObjectFilter[];
 export interface PatternObjectFilterConfiguration {
@@ -573,14 +574,14 @@ export interface PatternObjectFilterConfiguration {
 }
 export interface CrawlFilterConfiguration {
   type: CrawlFilterConfigurationType;
-  patternObjectFilter?: PatternObjectFilterConfiguration;
+  patternObjectFilter?: PatternObjectFilterConfiguration | undefined;
 }
 export interface ConfluenceCrawlerConfiguration {
-  filterConfiguration?: CrawlFilterConfiguration;
+  filterConfiguration?: CrawlFilterConfiguration | undefined;
 }
 export interface ConfluenceDataSourceConfiguration {
   sourceConfiguration: ConfluenceSourceConfiguration;
-  crawlerConfiguration?: ConfluenceCrawlerConfiguration;
+  crawlerConfiguration?: ConfluenceCrawlerConfiguration | undefined;
 }
 export type SalesforceAuthType = "OAUTH2_CLIENT_CREDENTIALS" | (string & {});
 export interface SalesforceSourceConfiguration {
@@ -589,11 +590,11 @@ export interface SalesforceSourceConfiguration {
   credentialsSecretArn: string;
 }
 export interface SalesforceCrawlerConfiguration {
-  filterConfiguration?: CrawlFilterConfiguration;
+  filterConfiguration?: CrawlFilterConfiguration | undefined;
 }
 export interface SalesforceDataSourceConfiguration {
   sourceConfiguration: SalesforceSourceConfiguration;
-  crawlerConfiguration?: SalesforceCrawlerConfiguration;
+  crawlerConfiguration?: SalesforceCrawlerConfiguration | undefined;
 }
 export type Microsoft365TenantId = string;
 export type SharePointDomain = string;
@@ -604,7 +605,7 @@ export type SharePointAuthType =
   | "OAUTH2_SHAREPOINT_APP_ONLY_CLIENT_CREDENTIALS"
   | (string & {});
 export interface SharePointSourceConfiguration {
-  tenantId?: string;
+  tenantId?: string | undefined;
   domain: string;
   siteUrls: string[];
   hostType: SharePointHostType;
@@ -612,24 +613,26 @@ export interface SharePointSourceConfiguration {
   credentialsSecretArn: string;
 }
 export interface SharePointCrawlerConfiguration {
-  filterConfiguration?: CrawlFilterConfiguration;
+  filterConfiguration?: CrawlFilterConfiguration | undefined;
 }
 export interface SharePointDataSourceConfiguration {
   sourceConfiguration: SharePointSourceConfiguration;
-  crawlerConfiguration?: SharePointCrawlerConfiguration;
+  crawlerConfiguration?: SharePointCrawlerConfiguration | undefined;
 }
 export interface DataSourceConfiguration {
   type: DataSourceType;
-  managedKnowledgeBaseConnectorConfiguration?: ManagedKnowledgeBaseConnectorConfiguration;
-  s3Configuration?: S3DataSourceConfiguration;
-  webConfiguration?: WebDataSourceConfiguration;
-  confluenceConfiguration?: ConfluenceDataSourceConfiguration;
-  salesforceConfiguration?: SalesforceDataSourceConfiguration;
-  sharePointConfiguration?: SharePointDataSourceConfiguration;
+  managedKnowledgeBaseConnectorConfiguration?:
+    | ManagedKnowledgeBaseConnectorConfiguration
+    | undefined;
+  s3Configuration?: S3DataSourceConfiguration | undefined;
+  webConfiguration?: WebDataSourceConfiguration | undefined;
+  confluenceConfiguration?: ConfluenceDataSourceConfiguration | undefined;
+  salesforceConfiguration?: SalesforceDataSourceConfiguration | undefined;
+  sharePointConfiguration?: SharePointDataSourceConfiguration | undefined;
 }
 export type DataDeletionPolicy = "RETAIN" | "DELETE" | (string & {});
 export interface ServerSideEncryptionConfiguration {
-  kmsKeyArn?: string;
+  kmsKeyArn?: string | undefined;
 }
 export type ChunkingStrategy = "FIXED_SIZE" | "NONE" | "HIERARCHICAL" | "SEMANTIC" | (string & {});
 export interface FixedSizeChunkingConfiguration {
@@ -651,9 +654,9 @@ export interface SemanticChunkingConfiguration {
 }
 export interface ChunkingConfiguration {
   chunkingStrategy: ChunkingStrategy;
-  fixedSizeChunkingConfiguration?: FixedSizeChunkingConfiguration;
-  hierarchicalChunkingConfiguration?: HierarchicalChunkingConfiguration;
-  semanticChunkingConfiguration?: SemanticChunkingConfiguration;
+  fixedSizeChunkingConfiguration?: FixedSizeChunkingConfiguration | undefined;
+  hierarchicalChunkingConfiguration?: HierarchicalChunkingConfiguration | undefined;
+  semanticChunkingConfiguration?: SemanticChunkingConfiguration | undefined;
 }
 export type S3BucketUri = string;
 export interface S3Location {
@@ -692,16 +695,16 @@ export interface ParsingPrompt {
 export type ParsingModality = "MULTIMODAL" | (string & {});
 export interface BedrockFoundationModelConfiguration {
   modelArn: string;
-  parsingPrompt?: ParsingPrompt;
-  parsingModality?: ParsingModality;
+  parsingPrompt?: ParsingPrompt | undefined;
+  parsingModality?: ParsingModality | undefined;
 }
 export interface BedrockDataAutomationConfiguration {
-  parsingModality?: ParsingModality;
+  parsingModality?: ParsingModality | undefined;
 }
 export interface ParsingConfiguration {
   parsingStrategy: ParsingStrategy;
-  bedrockFoundationModelConfiguration?: BedrockFoundationModelConfiguration;
-  bedrockDataAutomationConfiguration?: BedrockDataAutomationConfiguration;
+  bedrockFoundationModelConfiguration?: BedrockFoundationModelConfiguration | undefined;
+  bedrockDataAutomationConfiguration?: BedrockDataAutomationConfiguration | undefined;
 }
 export type ContextEnrichmentType = "BEDROCK_FOUNDATION_MODEL" | (string & {});
 export type EnrichmentStrategyMethod = "CHUNK_ENTITY_EXTRACTION" | (string & {});
@@ -714,23 +717,25 @@ export interface BedrockFoundationModelContextEnrichmentConfiguration {
 }
 export interface ContextEnrichmentConfiguration {
   type: ContextEnrichmentType;
-  bedrockFoundationModelConfiguration?: BedrockFoundationModelContextEnrichmentConfiguration;
+  bedrockFoundationModelConfiguration?:
+    | BedrockFoundationModelContextEnrichmentConfiguration
+    | undefined;
 }
 export interface VectorIngestionConfiguration {
-  chunkingConfiguration?: ChunkingConfiguration;
-  customTransformationConfiguration?: CustomTransformationConfiguration;
-  parsingConfiguration?: ParsingConfiguration;
-  contextEnrichmentConfiguration?: ContextEnrichmentConfiguration;
+  chunkingConfiguration?: ChunkingConfiguration | undefined;
+  customTransformationConfiguration?: CustomTransformationConfiguration | undefined;
+  parsingConfiguration?: ParsingConfiguration | undefined;
+  contextEnrichmentConfiguration?: ContextEnrichmentConfiguration | undefined;
 }
 export interface CreateDataSourceRequest {
   knowledgeBaseId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   dataSourceConfiguration: DataSourceConfiguration;
-  dataDeletionPolicy?: DataDeletionPolicy;
-  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  vectorIngestionConfiguration?: VectorIngestionConfiguration;
+  dataDeletionPolicy?: DataDeletionPolicy | undefined;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  vectorIngestionConfiguration?: VectorIngestionConfiguration | undefined;
 }
 export type DataSourceStatus =
   | "AVAILABLE"
@@ -745,14 +750,14 @@ export interface DataSource {
   dataSourceId: string;
   name: string;
   status: DataSourceStatus;
-  description?: string;
+  description?: string | undefined;
   dataSourceConfiguration: DataSourceConfiguration;
-  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  vectorIngestionConfiguration?: VectorIngestionConfiguration;
-  dataDeletionPolicy?: DataDeletionPolicy;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  vectorIngestionConfiguration?: VectorIngestionConfiguration | undefined;
+  dataDeletionPolicy?: DataDeletionPolicy | undefined;
   createdAt: Date;
   updatedAt: Date;
-  failureReasons?: string[];
+  failureReasons?: string[] | undefined;
 }
 export interface CreateDataSourceResponse {
   dataSource: DataSource;
@@ -785,13 +790,13 @@ export type FlowKnowledgeBaseId = string;
 export type KnowledgeBaseModelIdentifier = string;
 export type KnowledgeBaseTextPrompt = string | redacted.Redacted<string>;
 export interface KnowledgeBasePromptTemplate {
-  textPromptTemplate?: string | redacted.Redacted<string>;
+  textPromptTemplate?: string | redacted.Redacted<string> | undefined;
 }
 export interface PromptModelInferenceConfiguration {
-  temperature?: number;
-  topP?: number;
-  maxTokens?: number;
-  stopSequences?: string[];
+  temperature?: number | undefined;
+  topP?: number | undefined;
+  maxTokens?: number | undefined;
+  stopSequences?: string[] | undefined;
 }
 export type PromptInferenceConfiguration = { text: PromptModelInferenceConfiguration };
 export type VectorSearchRerankingConfigurationType = "BEDROCK_RERANKING_MODEL" | (string & {});
@@ -801,7 +806,7 @@ export type AdditionalModelRequestFieldsValue = unknown;
 export type AdditionalModelRequestFields = { [key: string]: any | undefined };
 export interface VectorSearchBedrockRerankingModelConfiguration {
   modelArn: string;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
 }
 export type RerankingMetadataSelectionMode = "SELECTIVE" | "ALL" | (string & {});
 export interface FieldForReranking {
@@ -809,46 +814,46 @@ export interface FieldForReranking {
 }
 export type FieldsForReranking = FieldForReranking[];
 export type RerankingMetadataSelectiveModeConfiguration =
-  | { fieldsToInclude: FieldForReranking[]; fieldsToExclude?: never }
-  | { fieldsToInclude?: never; fieldsToExclude: FieldForReranking[] };
+  | { fieldsToInclude: FieldForReranking[]; fieldsToExclude?: undefined }
+  | { fieldsToInclude?: undefined; fieldsToExclude: FieldForReranking[] };
 export interface MetadataConfigurationForReranking {
   selectionMode: RerankingMetadataSelectionMode;
-  selectiveModeConfiguration?: RerankingMetadataSelectiveModeConfiguration;
+  selectiveModeConfiguration?: RerankingMetadataSelectiveModeConfiguration | undefined;
 }
 export interface VectorSearchBedrockRerankingConfiguration {
   modelConfiguration: VectorSearchBedrockRerankingModelConfiguration;
-  numberOfRerankedResults?: number;
-  metadataConfiguration?: MetadataConfigurationForReranking;
+  numberOfRerankedResults?: number | undefined;
+  metadataConfiguration?: MetadataConfigurationForReranking | undefined;
 }
 export interface VectorSearchRerankingConfiguration {
   type: VectorSearchRerankingConfigurationType;
-  bedrockRerankingConfiguration?: VectorSearchBedrockRerankingConfiguration;
+  bedrockRerankingConfiguration?: VectorSearchBedrockRerankingConfiguration | undefined;
 }
 export type PerformanceConfigLatency = "standard" | "optimized" | (string & {});
 export interface PerformanceConfiguration {
-  latency?: PerformanceConfigLatency;
+  latency?: PerformanceConfigLatency | undefined;
 }
 export interface KnowledgeBaseOrchestrationConfiguration {
-  promptTemplate?: KnowledgeBasePromptTemplate;
-  inferenceConfig?: PromptInferenceConfiguration;
-  additionalModelRequestFields?: { [key: string]: any | undefined };
-  performanceConfig?: PerformanceConfiguration;
+  promptTemplate?: KnowledgeBasePromptTemplate | undefined;
+  inferenceConfig?: PromptInferenceConfiguration | undefined;
+  additionalModelRequestFields?: { [key: string]: any | undefined } | undefined;
+  performanceConfig?: PerformanceConfiguration | undefined;
 }
 export interface KnowledgeBaseFlowNodeConfiguration {
   knowledgeBaseId: string;
-  modelId?: string;
-  guardrailConfiguration?: GuardrailConfiguration;
-  numberOfResults?: number;
-  promptTemplate?: KnowledgeBasePromptTemplate;
-  inferenceConfiguration?: PromptInferenceConfiguration;
-  rerankingConfiguration?: VectorSearchRerankingConfiguration;
-  orchestrationConfiguration?: KnowledgeBaseOrchestrationConfiguration;
+  modelId?: string | undefined;
+  guardrailConfiguration?: GuardrailConfiguration | undefined;
+  numberOfResults?: number | undefined;
+  promptTemplate?: KnowledgeBasePromptTemplate | undefined;
+  inferenceConfiguration?: PromptInferenceConfiguration | undefined;
+  rerankingConfiguration?: VectorSearchRerankingConfiguration | undefined;
+  orchestrationConfiguration?: KnowledgeBaseOrchestrationConfiguration | undefined;
 }
 export type FlowConditionName = string;
 export type FlowConditionExpression = string | redacted.Redacted<string>;
 export interface FlowCondition {
   name: string;
-  expression?: string | redacted.Redacted<string>;
+  expression?: string | redacted.Redacted<string> | undefined;
 }
 export type FlowConditions = FlowCondition[];
 export interface ConditionFlowNodeConfiguration {
@@ -872,18 +877,18 @@ export interface CachePointBlock {
 }
 export type PromptInputVariableName = string;
 export interface PromptInputVariable {
-  name?: string;
+  name?: string | undefined;
 }
 export type PromptInputVariablesList = PromptInputVariable[];
 export interface TextPromptTemplateConfiguration {
   text: string | redacted.Redacted<string>;
-  cachePoint?: CachePointBlock;
-  inputVariables?: PromptInputVariable[];
+  cachePoint?: CachePointBlock | undefined;
+  inputVariables?: PromptInputVariable[] | undefined;
 }
 export type ConversationRole = "user" | "assistant" | (string & {});
 export type ContentBlock =
-  | { text: string; cachePoint?: never }
-  | { text?: never; cachePoint: CachePointBlock };
+  | { text: string; cachePoint?: undefined }
+  | { text?: undefined; cachePoint: CachePointBlock };
 export type ContentBlocks = ContentBlock[];
 export interface Message {
   role: ConversationRole;
@@ -892,20 +897,20 @@ export interface Message {
 export type Messages = Message[];
 export type NonEmptyString = string;
 export type SystemContentBlock =
-  | { text: string; cachePoint?: never }
-  | { text?: never; cachePoint: CachePointBlock };
+  | { text: string; cachePoint?: undefined }
+  | { text?: undefined; cachePoint: CachePointBlock };
 export type SystemContentBlocks = SystemContentBlock[];
 export type ToolName = string;
 export type ToolInputSchema = { json: any };
 export interface ToolSpecification {
   name: string;
-  description?: string;
+  description?: string | undefined;
   inputSchema: ToolInputSchema;
-  strict?: boolean;
+  strict?: boolean | undefined;
 }
 export type Tool =
-  | { toolSpec: ToolSpecification; cachePoint?: never }
-  | { toolSpec?: never; cachePoint: CachePointBlock };
+  | { toolSpec: ToolSpecification; cachePoint?: undefined }
+  | { toolSpec?: undefined; cachePoint: CachePointBlock };
 export type Tools = Tool[];
 export interface AutoToolChoice {}
 export interface AnyToolChoice {}
@@ -913,36 +918,36 @@ export interface SpecificToolChoice {
   name: string;
 }
 export type ToolChoice =
-  | { auto: AutoToolChoice; any?: never; tool?: never }
-  | { auto?: never; any: AnyToolChoice; tool?: never }
-  | { auto?: never; any?: never; tool: SpecificToolChoice };
+  | { auto: AutoToolChoice; any?: undefined; tool?: undefined }
+  | { auto?: undefined; any: AnyToolChoice; tool?: undefined }
+  | { auto?: undefined; any?: undefined; tool: SpecificToolChoice };
 export interface ToolConfiguration {
   tools: Tool[];
-  toolChoice?: ToolChoice;
+  toolChoice?: ToolChoice | undefined;
 }
 export interface ChatPromptTemplateConfiguration {
   messages: Message[];
-  system?: SystemContentBlock[];
-  inputVariables?: PromptInputVariable[];
-  toolConfiguration?: ToolConfiguration;
+  system?: SystemContentBlock[] | undefined;
+  inputVariables?: PromptInputVariable[] | undefined;
+  toolConfiguration?: ToolConfiguration | undefined;
 }
 export type PromptTemplateConfiguration =
-  | { text: TextPromptTemplateConfiguration; chat?: never }
-  | { text?: never; chat: ChatPromptTemplateConfiguration };
+  | { text: TextPromptTemplateConfiguration; chat?: undefined }
+  | { text?: undefined; chat: ChatPromptTemplateConfiguration };
 export type FlowPromptModelIdentifier = string;
 export interface PromptFlowNodeInlineConfiguration {
   templateType: PromptTemplateType;
   templateConfiguration: PromptTemplateConfiguration;
   modelId: string;
-  inferenceConfiguration?: PromptInferenceConfiguration;
-  additionalModelRequestFields?: any;
+  inferenceConfiguration?: PromptInferenceConfiguration | undefined;
+  additionalModelRequestFields?: any | undefined;
 }
 export type PromptFlowNodeSourceConfiguration =
-  | { resource: PromptFlowNodeResourceConfiguration; inline?: never }
-  | { resource?: never; inline: PromptFlowNodeInlineConfiguration };
+  | { resource: PromptFlowNodeResourceConfiguration; inline?: undefined }
+  | { resource?: undefined; inline: PromptFlowNodeInlineConfiguration };
 export interface PromptFlowNodeConfiguration {
   sourceConfiguration: PromptFlowNodeSourceConfiguration;
-  guardrailConfiguration?: GuardrailConfiguration;
+  guardrailConfiguration?: GuardrailConfiguration | undefined;
 }
 export type FlowLambdaArn = string;
 export interface LambdaFunctionFlowNodeConfiguration {
@@ -981,295 +986,295 @@ export interface LoopFlowNodeConfiguration {
 export interface LoopInputFlowNodeConfiguration {}
 export interface LoopControllerFlowNodeConfiguration {
   continueCondition: FlowCondition;
-  maxIterations?: number;
+  maxIterations?: number | undefined;
 }
 export type FlowNodeConfiguration =
   | {
       input: InputFlowNodeConfiguration;
-      output?: never;
-      knowledgeBase?: never;
-      condition?: never;
-      lex?: never;
-      prompt?: never;
-      lambdaFunction?: never;
-      storage?: never;
-      agent?: never;
-      retrieval?: never;
-      iterator?: never;
-      collector?: never;
-      inlineCode?: never;
-      loop?: never;
-      loopInput?: never;
-      loopController?: never;
+      output?: undefined;
+      knowledgeBase?: undefined;
+      condition?: undefined;
+      lex?: undefined;
+      prompt?: undefined;
+      lambdaFunction?: undefined;
+      storage?: undefined;
+      agent?: undefined;
+      retrieval?: undefined;
+      iterator?: undefined;
+      collector?: undefined;
+      inlineCode?: undefined;
+      loop?: undefined;
+      loopInput?: undefined;
+      loopController?: undefined;
     }
   | {
-      input?: never;
+      input?: undefined;
       output: OutputFlowNodeConfiguration;
-      knowledgeBase?: never;
-      condition?: never;
-      lex?: never;
-      prompt?: never;
-      lambdaFunction?: never;
-      storage?: never;
-      agent?: never;
-      retrieval?: never;
-      iterator?: never;
-      collector?: never;
-      inlineCode?: never;
-      loop?: never;
-      loopInput?: never;
-      loopController?: never;
+      knowledgeBase?: undefined;
+      condition?: undefined;
+      lex?: undefined;
+      prompt?: undefined;
+      lambdaFunction?: undefined;
+      storage?: undefined;
+      agent?: undefined;
+      retrieval?: undefined;
+      iterator?: undefined;
+      collector?: undefined;
+      inlineCode?: undefined;
+      loop?: undefined;
+      loopInput?: undefined;
+      loopController?: undefined;
     }
   | {
-      input?: never;
-      output?: never;
+      input?: undefined;
+      output?: undefined;
       knowledgeBase: KnowledgeBaseFlowNodeConfiguration;
-      condition?: never;
-      lex?: never;
-      prompt?: never;
-      lambdaFunction?: never;
-      storage?: never;
-      agent?: never;
-      retrieval?: never;
-      iterator?: never;
-      collector?: never;
-      inlineCode?: never;
-      loop?: never;
-      loopInput?: never;
-      loopController?: never;
+      condition?: undefined;
+      lex?: undefined;
+      prompt?: undefined;
+      lambdaFunction?: undefined;
+      storage?: undefined;
+      agent?: undefined;
+      retrieval?: undefined;
+      iterator?: undefined;
+      collector?: undefined;
+      inlineCode?: undefined;
+      loop?: undefined;
+      loopInput?: undefined;
+      loopController?: undefined;
     }
   | {
-      input?: never;
-      output?: never;
-      knowledgeBase?: never;
+      input?: undefined;
+      output?: undefined;
+      knowledgeBase?: undefined;
       condition: ConditionFlowNodeConfiguration;
-      lex?: never;
-      prompt?: never;
-      lambdaFunction?: never;
-      storage?: never;
-      agent?: never;
-      retrieval?: never;
-      iterator?: never;
-      collector?: never;
-      inlineCode?: never;
-      loop?: never;
-      loopInput?: never;
-      loopController?: never;
+      lex?: undefined;
+      prompt?: undefined;
+      lambdaFunction?: undefined;
+      storage?: undefined;
+      agent?: undefined;
+      retrieval?: undefined;
+      iterator?: undefined;
+      collector?: undefined;
+      inlineCode?: undefined;
+      loop?: undefined;
+      loopInput?: undefined;
+      loopController?: undefined;
     }
   | {
-      input?: never;
-      output?: never;
-      knowledgeBase?: never;
-      condition?: never;
+      input?: undefined;
+      output?: undefined;
+      knowledgeBase?: undefined;
+      condition?: undefined;
       lex: LexFlowNodeConfiguration;
-      prompt?: never;
-      lambdaFunction?: never;
-      storage?: never;
-      agent?: never;
-      retrieval?: never;
-      iterator?: never;
-      collector?: never;
-      inlineCode?: never;
-      loop?: never;
-      loopInput?: never;
-      loopController?: never;
+      prompt?: undefined;
+      lambdaFunction?: undefined;
+      storage?: undefined;
+      agent?: undefined;
+      retrieval?: undefined;
+      iterator?: undefined;
+      collector?: undefined;
+      inlineCode?: undefined;
+      loop?: undefined;
+      loopInput?: undefined;
+      loopController?: undefined;
     }
   | {
-      input?: never;
-      output?: never;
-      knowledgeBase?: never;
-      condition?: never;
-      lex?: never;
+      input?: undefined;
+      output?: undefined;
+      knowledgeBase?: undefined;
+      condition?: undefined;
+      lex?: undefined;
       prompt: PromptFlowNodeConfiguration;
-      lambdaFunction?: never;
-      storage?: never;
-      agent?: never;
-      retrieval?: never;
-      iterator?: never;
-      collector?: never;
-      inlineCode?: never;
-      loop?: never;
-      loopInput?: never;
-      loopController?: never;
+      lambdaFunction?: undefined;
+      storage?: undefined;
+      agent?: undefined;
+      retrieval?: undefined;
+      iterator?: undefined;
+      collector?: undefined;
+      inlineCode?: undefined;
+      loop?: undefined;
+      loopInput?: undefined;
+      loopController?: undefined;
     }
   | {
-      input?: never;
-      output?: never;
-      knowledgeBase?: never;
-      condition?: never;
-      lex?: never;
-      prompt?: never;
+      input?: undefined;
+      output?: undefined;
+      knowledgeBase?: undefined;
+      condition?: undefined;
+      lex?: undefined;
+      prompt?: undefined;
       lambdaFunction: LambdaFunctionFlowNodeConfiguration;
-      storage?: never;
-      agent?: never;
-      retrieval?: never;
-      iterator?: never;
-      collector?: never;
-      inlineCode?: never;
-      loop?: never;
-      loopInput?: never;
-      loopController?: never;
+      storage?: undefined;
+      agent?: undefined;
+      retrieval?: undefined;
+      iterator?: undefined;
+      collector?: undefined;
+      inlineCode?: undefined;
+      loop?: undefined;
+      loopInput?: undefined;
+      loopController?: undefined;
     }
   | {
-      input?: never;
-      output?: never;
-      knowledgeBase?: never;
-      condition?: never;
-      lex?: never;
-      prompt?: never;
-      lambdaFunction?: never;
+      input?: undefined;
+      output?: undefined;
+      knowledgeBase?: undefined;
+      condition?: undefined;
+      lex?: undefined;
+      prompt?: undefined;
+      lambdaFunction?: undefined;
       storage: StorageFlowNodeConfiguration;
-      agent?: never;
-      retrieval?: never;
-      iterator?: never;
-      collector?: never;
-      inlineCode?: never;
-      loop?: never;
-      loopInput?: never;
-      loopController?: never;
+      agent?: undefined;
+      retrieval?: undefined;
+      iterator?: undefined;
+      collector?: undefined;
+      inlineCode?: undefined;
+      loop?: undefined;
+      loopInput?: undefined;
+      loopController?: undefined;
     }
   | {
-      input?: never;
-      output?: never;
-      knowledgeBase?: never;
-      condition?: never;
-      lex?: never;
-      prompt?: never;
-      lambdaFunction?: never;
-      storage?: never;
+      input?: undefined;
+      output?: undefined;
+      knowledgeBase?: undefined;
+      condition?: undefined;
+      lex?: undefined;
+      prompt?: undefined;
+      lambdaFunction?: undefined;
+      storage?: undefined;
       agent: AgentFlowNodeConfiguration;
-      retrieval?: never;
-      iterator?: never;
-      collector?: never;
-      inlineCode?: never;
-      loop?: never;
-      loopInput?: never;
-      loopController?: never;
+      retrieval?: undefined;
+      iterator?: undefined;
+      collector?: undefined;
+      inlineCode?: undefined;
+      loop?: undefined;
+      loopInput?: undefined;
+      loopController?: undefined;
     }
   | {
-      input?: never;
-      output?: never;
-      knowledgeBase?: never;
-      condition?: never;
-      lex?: never;
-      prompt?: never;
-      lambdaFunction?: never;
-      storage?: never;
-      agent?: never;
+      input?: undefined;
+      output?: undefined;
+      knowledgeBase?: undefined;
+      condition?: undefined;
+      lex?: undefined;
+      prompt?: undefined;
+      lambdaFunction?: undefined;
+      storage?: undefined;
+      agent?: undefined;
       retrieval: RetrievalFlowNodeConfiguration;
-      iterator?: never;
-      collector?: never;
-      inlineCode?: never;
-      loop?: never;
-      loopInput?: never;
-      loopController?: never;
+      iterator?: undefined;
+      collector?: undefined;
+      inlineCode?: undefined;
+      loop?: undefined;
+      loopInput?: undefined;
+      loopController?: undefined;
     }
   | {
-      input?: never;
-      output?: never;
-      knowledgeBase?: never;
-      condition?: never;
-      lex?: never;
-      prompt?: never;
-      lambdaFunction?: never;
-      storage?: never;
-      agent?: never;
-      retrieval?: never;
+      input?: undefined;
+      output?: undefined;
+      knowledgeBase?: undefined;
+      condition?: undefined;
+      lex?: undefined;
+      prompt?: undefined;
+      lambdaFunction?: undefined;
+      storage?: undefined;
+      agent?: undefined;
+      retrieval?: undefined;
       iterator: IteratorFlowNodeConfiguration;
-      collector?: never;
-      inlineCode?: never;
-      loop?: never;
-      loopInput?: never;
-      loopController?: never;
+      collector?: undefined;
+      inlineCode?: undefined;
+      loop?: undefined;
+      loopInput?: undefined;
+      loopController?: undefined;
     }
   | {
-      input?: never;
-      output?: never;
-      knowledgeBase?: never;
-      condition?: never;
-      lex?: never;
-      prompt?: never;
-      lambdaFunction?: never;
-      storage?: never;
-      agent?: never;
-      retrieval?: never;
-      iterator?: never;
+      input?: undefined;
+      output?: undefined;
+      knowledgeBase?: undefined;
+      condition?: undefined;
+      lex?: undefined;
+      prompt?: undefined;
+      lambdaFunction?: undefined;
+      storage?: undefined;
+      agent?: undefined;
+      retrieval?: undefined;
+      iterator?: undefined;
       collector: CollectorFlowNodeConfiguration;
-      inlineCode?: never;
-      loop?: never;
-      loopInput?: never;
-      loopController?: never;
+      inlineCode?: undefined;
+      loop?: undefined;
+      loopInput?: undefined;
+      loopController?: undefined;
     }
   | {
-      input?: never;
-      output?: never;
-      knowledgeBase?: never;
-      condition?: never;
-      lex?: never;
-      prompt?: never;
-      lambdaFunction?: never;
-      storage?: never;
-      agent?: never;
-      retrieval?: never;
-      iterator?: never;
-      collector?: never;
+      input?: undefined;
+      output?: undefined;
+      knowledgeBase?: undefined;
+      condition?: undefined;
+      lex?: undefined;
+      prompt?: undefined;
+      lambdaFunction?: undefined;
+      storage?: undefined;
+      agent?: undefined;
+      retrieval?: undefined;
+      iterator?: undefined;
+      collector?: undefined;
       inlineCode: InlineCodeFlowNodeConfiguration;
-      loop?: never;
-      loopInput?: never;
-      loopController?: never;
+      loop?: undefined;
+      loopInput?: undefined;
+      loopController?: undefined;
     }
   | {
-      input?: never;
-      output?: never;
-      knowledgeBase?: never;
-      condition?: never;
-      lex?: never;
-      prompt?: never;
-      lambdaFunction?: never;
-      storage?: never;
-      agent?: never;
-      retrieval?: never;
-      iterator?: never;
-      collector?: never;
-      inlineCode?: never;
+      input?: undefined;
+      output?: undefined;
+      knowledgeBase?: undefined;
+      condition?: undefined;
+      lex?: undefined;
+      prompt?: undefined;
+      lambdaFunction?: undefined;
+      storage?: undefined;
+      agent?: undefined;
+      retrieval?: undefined;
+      iterator?: undefined;
+      collector?: undefined;
+      inlineCode?: undefined;
       loop: LoopFlowNodeConfiguration;
-      loopInput?: never;
-      loopController?: never;
+      loopInput?: undefined;
+      loopController?: undefined;
     }
   | {
-      input?: never;
-      output?: never;
-      knowledgeBase?: never;
-      condition?: never;
-      lex?: never;
-      prompt?: never;
-      lambdaFunction?: never;
-      storage?: never;
-      agent?: never;
-      retrieval?: never;
-      iterator?: never;
-      collector?: never;
-      inlineCode?: never;
-      loop?: never;
+      input?: undefined;
+      output?: undefined;
+      knowledgeBase?: undefined;
+      condition?: undefined;
+      lex?: undefined;
+      prompt?: undefined;
+      lambdaFunction?: undefined;
+      storage?: undefined;
+      agent?: undefined;
+      retrieval?: undefined;
+      iterator?: undefined;
+      collector?: undefined;
+      inlineCode?: undefined;
+      loop?: undefined;
       loopInput: LoopInputFlowNodeConfiguration;
-      loopController?: never;
+      loopController?: undefined;
     }
   | {
-      input?: never;
-      output?: never;
-      knowledgeBase?: never;
-      condition?: never;
-      lex?: never;
-      prompt?: never;
-      lambdaFunction?: never;
-      storage?: never;
-      agent?: never;
-      retrieval?: never;
-      iterator?: never;
-      collector?: never;
-      inlineCode?: never;
-      loop?: never;
-      loopInput?: never;
+      input?: undefined;
+      output?: undefined;
+      knowledgeBase?: undefined;
+      condition?: undefined;
+      lex?: undefined;
+      prompt?: undefined;
+      lambdaFunction?: undefined;
+      storage?: undefined;
+      agent?: undefined;
+      retrieval?: undefined;
+      iterator?: undefined;
+      collector?: undefined;
+      inlineCode?: undefined;
+      loop?: undefined;
+      loopInput?: undefined;
       loopController: LoopControllerFlowNodeConfiguration;
     };
 export type FlowNodeInputName = string;
@@ -1290,7 +1295,7 @@ export interface FlowNodeInput {
   name: string;
   type: FlowNodeIODataType;
   expression: string | redacted.Redacted<string>;
-  category?: FlowNodeInputCategory;
+  category?: FlowNodeInputCategory | undefined;
 }
 export type FlowNodeInputs = FlowNodeInput[];
 export type FlowNodeOutputName = string;
@@ -1302,9 +1307,9 @@ export type FlowNodeOutputs = FlowNodeOutput[];
 export interface FlowNode {
   name: string;
   type: FlowNodeType;
-  configuration?: FlowNodeConfiguration;
-  inputs?: FlowNodeInput[];
-  outputs?: FlowNodeOutput[];
+  configuration?: FlowNodeConfiguration | undefined;
+  inputs?: FlowNodeInput[] | undefined;
+  outputs?: FlowNodeOutput[] | undefined;
 }
 export type FlowNodes = FlowNode[];
 export type FlowConnectionType = "Data" | "Conditional" | (string & {});
@@ -1317,71 +1322,71 @@ export interface FlowConditionalConnectionConfiguration {
   condition: string;
 }
 export type FlowConnectionConfiguration =
-  | { data: FlowDataConnectionConfiguration; conditional?: never }
-  | { data?: never; conditional: FlowConditionalConnectionConfiguration };
+  | { data: FlowDataConnectionConfiguration; conditional?: undefined }
+  | { data?: undefined; conditional: FlowConditionalConnectionConfiguration };
 export interface FlowConnection {
   type: FlowConnectionType;
   name: string;
   source: string;
   target: string;
-  configuration?: FlowConnectionConfiguration;
+  configuration?: FlowConnectionConfiguration | undefined;
 }
 export type FlowConnections = FlowConnection[];
 export interface FlowDefinition {
-  nodes?: FlowNode[];
-  connections?: FlowConnection[];
+  nodes?: FlowNode[] | undefined;
+  connections?: FlowConnection[] | undefined;
 }
 export interface CreateFlowRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   executionRoleArn: string;
-  customerEncryptionKeyArn?: string;
-  definition?: FlowDefinition;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  customerEncryptionKeyArn?: string | undefined;
+  definition?: FlowDefinition | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type FlowId = string;
 export type FlowArn = string;
 export type FlowStatus = "Failed" | "Prepared" | "Preparing" | "NotPrepared" | (string & {});
 export interface CreateFlowResponse {
   name: string;
-  description?: string;
+  description?: string | undefined;
   executionRoleArn: string;
-  customerEncryptionKeyArn?: string;
+  customerEncryptionKeyArn?: string | undefined;
   id: string;
   arn: string;
   status: FlowStatus;
   createdAt: Date;
   updatedAt: Date;
   version: string;
-  definition?: FlowDefinition;
+  definition?: FlowDefinition | undefined;
 }
 export interface FlowAliasRoutingConfigurationListItem {
-  flowVersion?: string;
+  flowVersion?: string | undefined;
 }
 export type FlowAliasRoutingConfiguration = FlowAliasRoutingConfigurationListItem[];
 export type ConcurrencyType = "Automatic" | "Manual" | (string & {});
 export interface FlowAliasConcurrencyConfiguration {
   type: ConcurrencyType;
-  maxConcurrency?: number;
+  maxConcurrency?: number | undefined;
 }
 export type FlowIdentifier = string;
 export interface CreateFlowAliasRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   routingConfiguration: FlowAliasRoutingConfigurationListItem[];
-  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
+  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration | undefined;
   flowIdentifier: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type FlowAliasId = string;
 export type FlowAliasArn = string;
 export interface CreateFlowAliasResponse {
   name: string;
-  description?: string;
+  description?: string | undefined;
   routingConfiguration: FlowAliasRoutingConfigurationListItem[];
-  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
+  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration | undefined;
   flowId: string;
   id: string;
   arn: string;
@@ -1390,21 +1395,21 @@ export interface CreateFlowAliasResponse {
 }
 export interface CreateFlowVersionRequest {
   flowIdentifier: string;
-  description?: string;
-  clientToken?: string;
+  description?: string | undefined;
+  clientToken?: string | undefined;
 }
 export type NumericalVersion = string;
 export interface CreateFlowVersionResponse {
   name: string;
-  description?: string;
+  description?: string | undefined;
   executionRoleArn: string;
-  customerEncryptionKeyArn?: string;
+  customerEncryptionKeyArn?: string | undefined;
   id: string;
   arn: string;
   status: FlowStatus;
   createdAt: Date;
   version: string;
-  definition?: FlowDefinition;
+  definition?: FlowDefinition | undefined;
 }
 export type KnowledgeBaseRoleArn = string;
 export type KnowledgeBaseType = "VECTOR" | "KENDRA" | "SQL" | "MANAGED" | (string & {});
@@ -1426,19 +1431,19 @@ export interface VideoConfiguration {
 }
 export type VideoConfigurations = VideoConfiguration[];
 export interface BedrockEmbeddingModelConfiguration {
-  dimensions?: number;
-  embeddingDataType?: EmbeddingDataType;
-  audio?: AudioConfiguration[];
-  video?: VideoConfiguration[];
-  modelConfiguration?: any;
+  dimensions?: number | undefined;
+  embeddingDataType?: EmbeddingDataType | undefined;
+  audio?: AudioConfiguration[] | undefined;
+  video?: VideoConfiguration[] | undefined;
+  modelConfiguration?: any | undefined;
 }
 export interface EmbeddingModelConfiguration {
-  bedrockEmbeddingModelConfiguration?: BedrockEmbeddingModelConfiguration;
+  bedrockEmbeddingModelConfiguration?: BedrockEmbeddingModelConfiguration | undefined;
 }
 export type SupplementalDataStorageLocationType = "S3" | (string & {});
 export interface SupplementalDataStorageLocation {
   type: SupplementalDataStorageLocationType;
-  s3Location?: S3Location;
+  s3Location?: S3Location | undefined;
 }
 export type SupplementalDataStorageLocations = SupplementalDataStorageLocation[];
 export interface SupplementalDataStorageConfiguration {
@@ -1446,16 +1451,16 @@ export interface SupplementalDataStorageConfiguration {
 }
 export interface VectorKnowledgeBaseConfiguration {
   embeddingModelArn: string;
-  embeddingModelConfiguration?: EmbeddingModelConfiguration;
-  supplementalDataStorageConfiguration?: SupplementalDataStorageConfiguration;
+  embeddingModelConfiguration?: EmbeddingModelConfiguration | undefined;
+  supplementalDataStorageConfiguration?: SupplementalDataStorageConfiguration | undefined;
 }
 export type EmbeddingModelType = "CUSTOM" | "MANAGED" | (string & {});
 export interface ManagedKnowledgeBaseConfiguration {
-  embeddingModelType?: EmbeddingModelType;
-  embeddingModelArn?: string;
-  embeddingModelConfiguration?: EmbeddingModelConfiguration;
-  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  supplementalDataStorageConfiguration?: SupplementalDataStorageConfiguration;
+  embeddingModelType?: EmbeddingModelType | undefined;
+  embeddingModelArn?: string | undefined;
+  embeddingModelConfiguration?: EmbeddingModelConfiguration | undefined;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  supplementalDataStorageConfiguration?: SupplementalDataStorageConfiguration | undefined;
 }
 export type KendraIndexArn = string;
 export interface KendraKnowledgeBaseConfiguration {
@@ -1474,8 +1479,8 @@ export interface RedshiftQueryEngineRedshiftStorageConfiguration {
 }
 export interface RedshiftQueryEngineStorageConfiguration {
   type: RedshiftQueryEngineStorageType;
-  awsDataCatalogConfiguration?: RedshiftQueryEngineAwsDataCatalogStorageConfiguration;
-  redshiftConfiguration?: RedshiftQueryEngineRedshiftStorageConfiguration;
+  awsDataCatalogConfiguration?: RedshiftQueryEngineAwsDataCatalogStorageConfiguration | undefined;
+  redshiftConfiguration?: RedshiftQueryEngineRedshiftStorageConfiguration | undefined;
 }
 export type RedshiftQueryEngineStorageConfigurations = RedshiftQueryEngineStorageConfiguration[];
 export type RedshiftQueryEngineType = "SERVERLESS" | "PROVISIONED" | (string & {});
@@ -1483,7 +1488,7 @@ export type WorkgroupArn = string;
 export type RedshiftServerlessAuthType = "IAM" | "USERNAME_PASSWORD" | (string & {});
 export interface RedshiftServerlessAuthConfiguration {
   type: RedshiftServerlessAuthType;
-  usernamePasswordSecretArn?: string;
+  usernamePasswordSecretArn?: string | undefined;
 }
 export interface RedshiftServerlessConfiguration {
   workgroupArn: string;
@@ -1493,8 +1498,8 @@ export type RedshiftClusterIdentifier = string;
 export type RedshiftProvisionedAuthType = "IAM" | "USERNAME_PASSWORD" | "USERNAME" | (string & {});
 export interface RedshiftProvisionedAuthConfiguration {
   type: RedshiftProvisionedAuthType;
-  databaseUser?: string;
-  usernamePasswordSecretArn?: string;
+  databaseUser?: string | undefined;
+  usernamePasswordSecretArn?: string | undefined;
 }
 export interface RedshiftProvisionedConfiguration {
   clusterIdentifier: string;
@@ -1502,8 +1507,8 @@ export interface RedshiftProvisionedConfiguration {
 }
 export interface RedshiftQueryEngineConfiguration {
   type: RedshiftQueryEngineType;
-  serverlessConfiguration?: RedshiftServerlessConfiguration;
-  provisionedConfiguration?: RedshiftProvisionedConfiguration;
+  serverlessConfiguration?: RedshiftServerlessConfiguration | undefined;
+  provisionedConfiguration?: RedshiftProvisionedConfiguration | undefined;
 }
 export type QueryExecutionTimeoutSeconds = number;
 export type QueryGenerationTableName = string;
@@ -1511,16 +1516,16 @@ export type DescriptionString = string;
 export type IncludeExclude = "INCLUDE" | "EXCLUDE" | (string & {});
 export type QueryGenerationColumnName = string;
 export interface QueryGenerationColumn {
-  name?: string;
-  description?: string;
-  inclusion?: IncludeExclude;
+  name?: string | undefined;
+  description?: string | undefined;
+  inclusion?: IncludeExclude | undefined;
 }
 export type QueryGenerationColumns = QueryGenerationColumn[];
 export interface QueryGenerationTable {
   name: string;
-  description?: string;
-  inclusion?: IncludeExclude;
-  columns?: QueryGenerationColumn[];
+  description?: string | undefined;
+  inclusion?: IncludeExclude | undefined;
+  columns?: QueryGenerationColumn[] | undefined;
 }
 export type QueryGenerationTables = QueryGenerationTable[];
 export type NaturalLanguageString = string;
@@ -1531,28 +1536,28 @@ export interface CuratedQuery {
 }
 export type CuratedQueries = CuratedQuery[];
 export interface QueryGenerationContext {
-  tables?: QueryGenerationTable[];
-  curatedQueries?: CuratedQuery[];
+  tables?: QueryGenerationTable[] | undefined;
+  curatedQueries?: CuratedQuery[] | undefined;
 }
 export interface QueryGenerationConfiguration {
-  executionTimeoutSeconds?: number;
-  generationContext?: QueryGenerationContext;
+  executionTimeoutSeconds?: number | undefined;
+  generationContext?: QueryGenerationContext | undefined;
 }
 export interface RedshiftConfiguration {
   storageConfigurations: RedshiftQueryEngineStorageConfiguration[];
   queryEngineConfiguration: RedshiftQueryEngineConfiguration;
-  queryGenerationConfiguration?: QueryGenerationConfiguration;
+  queryGenerationConfiguration?: QueryGenerationConfiguration | undefined;
 }
 export interface SqlKnowledgeBaseConfiguration {
   type: QueryEngineType;
-  redshiftConfiguration?: RedshiftConfiguration;
+  redshiftConfiguration?: RedshiftConfiguration | undefined;
 }
 export interface KnowledgeBaseConfiguration {
   type: KnowledgeBaseType;
-  vectorKnowledgeBaseConfiguration?: VectorKnowledgeBaseConfiguration;
-  managedKnowledgeBaseConfiguration?: ManagedKnowledgeBaseConfiguration;
-  kendraKnowledgeBaseConfiguration?: KendraKnowledgeBaseConfiguration;
-  sqlKnowledgeBaseConfiguration?: SqlKnowledgeBaseConfiguration;
+  vectorKnowledgeBaseConfiguration?: VectorKnowledgeBaseConfiguration | undefined;
+  managedKnowledgeBaseConfiguration?: ManagedKnowledgeBaseConfiguration | undefined;
+  kendraKnowledgeBaseConfiguration?: KendraKnowledgeBaseConfiguration | undefined;
+  sqlKnowledgeBaseConfiguration?: SqlKnowledgeBaseConfiguration | undefined;
 }
 export type KnowledgeBaseStorageType =
   | "OPENSEARCH_SERVERLESS"
@@ -1600,7 +1605,7 @@ export interface PineconeFieldMapping {
 export interface PineconeConfiguration {
   connectionString: string;
   credentialsSecretArn: string;
-  namespace?: string;
+  namespace?: string | undefined;
   fieldMapping: PineconeFieldMapping;
 }
 export type RedisEnterpriseCloudEndpoint = string;
@@ -1625,7 +1630,7 @@ export interface RdsFieldMapping {
   vectorField: string;
   textField: string;
   metadataField: string;
-  customMetadataField?: string;
+  customMetadataField?: string | undefined;
 }
 export interface RdsConfiguration {
   resourceArn: string;
@@ -1651,8 +1656,8 @@ export interface MongoDbAtlasConfiguration {
   vectorIndexName: string;
   credentialsSecretArn: string;
   fieldMapping: MongoDbAtlasFieldMapping;
-  endpointServiceName?: string;
-  textIndexName?: string;
+  endpointServiceName?: string | undefined;
+  textIndexName?: string | undefined;
 }
 export type GraphArn = string | redacted.Redacted<string>;
 export interface NeptuneAnalyticsFieldMapping {
@@ -1667,29 +1672,29 @@ export type VectorBucketArn = string | redacted.Redacted<string>;
 export type IndexArn = string | redacted.Redacted<string>;
 export type IndexName = string | redacted.Redacted<string>;
 export interface S3VectorsConfiguration {
-  vectorBucketArn?: string | redacted.Redacted<string>;
-  indexArn?: string | redacted.Redacted<string>;
-  indexName?: string | redacted.Redacted<string>;
+  vectorBucketArn?: string | redacted.Redacted<string> | undefined;
+  indexArn?: string | redacted.Redacted<string> | undefined;
+  indexName?: string | redacted.Redacted<string> | undefined;
 }
 export interface StorageConfiguration {
   type: KnowledgeBaseStorageType;
-  opensearchServerlessConfiguration?: OpenSearchServerlessConfiguration;
-  opensearchManagedClusterConfiguration?: OpenSearchManagedClusterConfiguration;
-  pineconeConfiguration?: PineconeConfiguration;
-  redisEnterpriseCloudConfiguration?: RedisEnterpriseCloudConfiguration;
-  rdsConfiguration?: RdsConfiguration;
-  mongoDbAtlasConfiguration?: MongoDbAtlasConfiguration;
-  neptuneAnalyticsConfiguration?: NeptuneAnalyticsConfiguration;
-  s3VectorsConfiguration?: S3VectorsConfiguration;
+  opensearchServerlessConfiguration?: OpenSearchServerlessConfiguration | undefined;
+  opensearchManagedClusterConfiguration?: OpenSearchManagedClusterConfiguration | undefined;
+  pineconeConfiguration?: PineconeConfiguration | undefined;
+  redisEnterpriseCloudConfiguration?: RedisEnterpriseCloudConfiguration | undefined;
+  rdsConfiguration?: RdsConfiguration | undefined;
+  mongoDbAtlasConfiguration?: MongoDbAtlasConfiguration | undefined;
+  neptuneAnalyticsConfiguration?: NeptuneAnalyticsConfiguration | undefined;
+  s3VectorsConfiguration?: S3VectorsConfiguration | undefined;
 }
 export interface CreateKnowledgeBaseRequest {
-  clientToken?: string;
+  clientToken?: string | undefined;
   name: string;
-  description?: string;
+  description?: string | undefined;
   roleArn: string;
   knowledgeBaseConfiguration: KnowledgeBaseConfiguration;
-  storageConfiguration?: StorageConfiguration;
-  tags?: { [key: string]: string | undefined };
+  storageConfiguration?: StorageConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type KnowledgeBaseArn = string;
 export type KnowledgeBaseStatus =
@@ -1701,18 +1706,28 @@ export type KnowledgeBaseStatus =
   | "DELETE_UNSUCCESSFUL"
   | "UPDATE_UNSUCCESSFUL"
   | (string & {});
+export type MetadataKeyName = string | redacted.Redacted<string>;
+export type FieldType = "STRING" | "STRING_LIST" | (string & {});
+export type SearchableStatus = "ENABLED" | "DISABLED" | (string & {});
+export interface MetadataConfiguration {
+  name: string | redacted.Redacted<string>;
+  type: FieldType;
+  searchability: SearchableStatus;
+}
+export type MetadataConfigurations = MetadataConfiguration[];
 export interface KnowledgeBase {
   knowledgeBaseId: string;
   name: string;
   knowledgeBaseArn: string;
-  description?: string;
+  description?: string | undefined;
   roleArn: string;
   knowledgeBaseConfiguration: KnowledgeBaseConfiguration;
-  storageConfiguration?: StorageConfiguration;
+  storageConfiguration?: StorageConfiguration | undefined;
   status: KnowledgeBaseStatus;
   createdAt: Date;
   updatedAt: Date;
-  failureReasons?: string[];
+  failureReasons?: string[] | undefined;
+  metadataConfigurations?: MetadataConfiguration[] | undefined;
 }
 export interface CreateKnowledgeBaseResponse {
   knowledgeBase: KnowledgeBase;
@@ -1736,30 +1751,30 @@ export interface PromptVariant {
   name: string;
   templateType: PromptTemplateType;
   templateConfiguration: PromptTemplateConfiguration;
-  modelId?: string;
-  inferenceConfiguration?: PromptInferenceConfiguration;
-  metadata?: PromptMetadataEntry[];
-  additionalModelRequestFields?: any;
-  genAiResource?: PromptGenAiResource;
+  modelId?: string | undefined;
+  inferenceConfiguration?: PromptInferenceConfiguration | undefined;
+  metadata?: PromptMetadataEntry[] | undefined;
+  additionalModelRequestFields?: any | undefined;
+  genAiResource?: PromptGenAiResource | undefined;
 }
 export type PromptVariantList = PromptVariant[];
 export interface CreatePromptRequest {
   name: string;
-  description?: string;
-  customerEncryptionKeyArn?: string;
-  defaultVariant?: string;
-  variants?: PromptVariant[];
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  customerEncryptionKeyArn?: string | undefined;
+  defaultVariant?: string | undefined;
+  variants?: PromptVariant[] | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type PromptId = string;
 export type PromptArn = string;
 export interface CreatePromptResponse {
   name: string;
-  description?: string;
-  customerEncryptionKeyArn?: string;
-  defaultVariant?: string;
-  variants?: PromptVariant[];
+  description?: string | undefined;
+  customerEncryptionKeyArn?: string | undefined;
+  defaultVariant?: string | undefined;
+  variants?: PromptVariant[] | undefined;
   id: string;
   arn: string;
   version: string;
@@ -1769,21 +1784,71 @@ export interface CreatePromptResponse {
 export type PromptIdentifier = string;
 export interface CreatePromptVersionRequest {
   promptIdentifier: string;
-  description?: string;
-  clientToken?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  clientToken?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreatePromptVersionResponse {
   name: string;
-  description?: string;
-  customerEncryptionKeyArn?: string;
-  defaultVariant?: string;
-  variants?: PromptVariant[];
+  description?: string | undefined;
+  customerEncryptionKeyArn?: string | undefined;
+  defaultVariant?: string | undefined;
+  variants?: PromptVariant[] | undefined;
   id: string;
   arn: string;
   version: string;
   createdAt: Date;
   updatedAt: Date;
+}
+export type RetrievalInstructionName = string | redacted.Redacted<string>;
+export type RetrievalInstructionFieldText = string | redacted.Redacted<string>;
+export interface RetrievalInstructionContent {
+  retrievalGuidance?: string | redacted.Redacted<string> | undefined;
+  persona?: string | redacted.Redacted<string> | undefined;
+  answerFormat?: string | redacted.Redacted<string> | undefined;
+  answerPolicy?: string | redacted.Redacted<string> | undefined;
+}
+export type RetrievalInstructionDescription = string | redacted.Redacted<string>;
+export interface CreateRetrievalInstructionRequest {
+  clientToken?: string | undefined;
+  name: string | redacted.Redacted<string>;
+  instruction: RetrievalInstructionContent;
+  description?: string | redacted.Redacted<string> | undefined;
+  customerEncryptionKeyArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+}
+export type RetrievalInstructionId = string;
+export type RetrievalInstructionArn = string;
+export type RetrievalInstructionStatus = "ACTIVE" | "INACTIVE" | (string & {});
+export type RetrievalInstructionLastTransitionStatus =
+  | "CREATING"
+  | "UPDATING"
+  | "CREATE_SUCCESSFUL"
+  | "CREATE_FAILED"
+  | "UPDATE_SUCCESSFUL"
+  | "UPDATE_FAILED"
+  | (string & {});
+export interface CreateRetrievalInstructionResponse {
+  retrievalInstructionId: string;
+  retrievalInstructionArn: string;
+  name: string | redacted.Redacted<string>;
+  status: RetrievalInstructionStatus;
+  lastTransitionStatus: RetrievalInstructionLastTransitionStatus;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export interface CreateRetrievalInstructionVersionRequest {
+  retrievalInstructionId: string;
+  description?: string | redacted.Redacted<string> | undefined;
+  clientToken?: string | undefined;
+}
+export type RetrievalInstructionNumericalVersion = string;
+export interface CreateRetrievalInstructionVersionResponse {
+  retrievalInstructionId: string;
+  retrievalInstructionArn: string;
+  version: string;
+  createdAt: Date;
+  description?: string | redacted.Redacted<string> | undefined;
 }
 export type VpcId = string;
 export type SubnetId = string;
@@ -1798,17 +1863,17 @@ export type VpcConfigurationName = string;
 export type VpcConfigurationDescription = string;
 export interface CreateVpcConfigurationRequest {
   knowledgeBaseId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   vpcId: string;
   subnetIds: string[];
   resourceTarget: string;
   port: number;
   protocol: VpcProtocol;
   resolutionMode: VpcResolutionMode;
-  hostHeader?: string;
-  tlsServerName?: string;
-  name?: string;
-  description?: string;
+  hostHeader?: string | undefined;
+  tlsServerName?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
 }
 export type VpcConfigurationId = string;
 export type VpcConfigurationStatus =
@@ -1824,7 +1889,7 @@ export interface CreateVpcConfigurationResponse {
 }
 export interface DeleteAgentRequest {
   agentId: string;
-  skipResourceInUseCheck?: boolean;
+  skipResourceInUseCheck?: boolean | undefined;
 }
 export interface DeleteAgentResponse {
   agentId: string;
@@ -1834,7 +1899,7 @@ export interface DeleteAgentActionGroupRequest {
   agentId: string;
   agentVersion: string;
   actionGroupId: string;
-  skipResourceInUseCheck?: boolean;
+  skipResourceInUseCheck?: boolean | undefined;
 }
 export interface DeleteAgentActionGroupResponse {}
 export interface DeleteAgentAliasRequest {
@@ -1849,7 +1914,7 @@ export interface DeleteAgentAliasResponse {
 export interface DeleteAgentVersionRequest {
   agentId: string;
   agentVersion: string;
-  skipResourceInUseCheck?: boolean;
+  skipResourceInUseCheck?: boolean | undefined;
 }
 export interface DeleteAgentVersionResponse {
   agentId: string;
@@ -1867,7 +1932,7 @@ export interface DeleteDataSourceResponse {
 }
 export interface DeleteFlowRequest {
   flowIdentifier: string;
-  skipResourceInUseCheck?: boolean;
+  skipResourceInUseCheck?: boolean | undefined;
 }
 export interface DeleteFlowResponse {
   id: string;
@@ -1884,7 +1949,7 @@ export interface DeleteFlowAliasResponse {
 export interface DeleteFlowVersionRequest {
   flowIdentifier: string;
   flowVersion: string;
-  skipResourceInUseCheck?: boolean;
+  skipResourceInUseCheck?: boolean | undefined;
 }
 export interface DeleteFlowVersionResponse {
   id: string;
@@ -1903,14 +1968,14 @@ export interface CustomDocumentIdentifier {
 }
 export interface DocumentIdentifier {
   dataSourceType: ContentDataSourceType;
-  s3?: S3Location;
-  custom?: CustomDocumentIdentifier;
+  s3?: S3Location | undefined;
+  custom?: CustomDocumentIdentifier | undefined;
 }
 export type DocumentIdentifiers = DocumentIdentifier[];
 export interface DeleteKnowledgeBaseDocumentsRequest {
   knowledgeBaseId: string;
   dataSourceId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   documentIdentifiers: DocumentIdentifier[];
 }
 export type DocumentStatus =
@@ -1932,30 +1997,39 @@ export interface KnowledgeBaseDocumentDetail {
   dataSourceId: string;
   status: DocumentStatus;
   identifier: DocumentIdentifier;
-  statusReason?: string;
-  updatedAt?: Date;
+  statusReason?: string | undefined;
+  updatedAt?: Date | undefined;
 }
 export type KnowledgeBaseDocumentDetails = KnowledgeBaseDocumentDetail[];
 export interface DeleteKnowledgeBaseDocumentsResponse {
-  documentDetails?: KnowledgeBaseDocumentDetail[];
+  documentDetails?: KnowledgeBaseDocumentDetail[] | undefined;
 }
 export interface DeletePromptRequest {
   promptIdentifier: string;
-  promptVersion?: string;
+  promptVersion?: string | undefined;
 }
 export interface DeletePromptResponse {
   id: string;
-  version?: string;
+  version?: string | undefined;
 }
 export type ResourceArn = string;
 export type RevisionId = string;
 export interface DeleteResourcePolicyRequest {
   resourceArn: string;
-  expectedRevisionId?: string;
+  expectedRevisionId?: string | undefined;
 }
 export interface DeleteResourcePolicyResponse {
   resourceArn: string;
-  revisionId?: string;
+  revisionId?: string | undefined;
+}
+export interface DeleteRetrievalInstructionRequest {
+  retrievalInstructionId: string;
+  retrievalInstructionVersion?: string | undefined;
+}
+export interface DeleteRetrievalInstructionResponse {
+  retrievalInstructionId: string;
+  retrievalInstructionArn: string;
+  version?: string | undefined;
 }
 export interface DeleteVpcConfigurationRequest {
   knowledgeBaseId: string;
@@ -2023,21 +2097,21 @@ export interface AgentVersion {
   agentName: string;
   agentArn: string;
   version: string;
-  instruction?: string | redacted.Redacted<string>;
+  instruction?: string | redacted.Redacted<string> | undefined;
   agentStatus: AgentStatus;
-  foundationModel?: string;
-  description?: string;
+  foundationModel?: string | undefined;
+  description?: string | undefined;
   idleSessionTTLInSeconds: number;
   agentResourceRoleArn: string;
-  customerEncryptionKeyArn?: string;
+  customerEncryptionKeyArn?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
-  failureReasons?: string[];
-  recommendedActions?: string[];
-  promptOverrideConfiguration?: PromptOverrideConfiguration;
-  guardrailConfiguration?: GuardrailConfiguration;
-  memoryConfiguration?: MemoryConfiguration;
-  agentCollaboration?: AgentCollaboration;
+  failureReasons?: string[] | undefined;
+  recommendedActions?: string[] | undefined;
+  promptOverrideConfiguration?: PromptOverrideConfiguration | undefined;
+  guardrailConfiguration?: GuardrailConfiguration | undefined;
+  memoryConfiguration?: MemoryConfiguration | undefined;
+  agentCollaboration?: AgentCollaboration | undefined;
 }
 export interface GetAgentVersionResponse {
   agentVersion: AgentVersion;
@@ -2052,7 +2126,7 @@ export interface GetDataSourceResponse {
 export type IncludedData = "ALL_DATA" | "METADATA_ONLY" | (string & {});
 export interface GetFlowRequest {
   flowIdentifier: string;
-  includedData?: IncludedData;
+  includedData?: IncludedData | undefined;
 }
 export type NonBlankString = string;
 export type FlowValidationSeverity = "Warning" | "Error" | (string & {});
@@ -2179,1157 +2253,1157 @@ export interface InvalidLoopBoundaryFlowValidationDetails {
 export type FlowValidationDetails =
   | {
       cyclicConnection: CyclicConnectionFlowValidationDetails;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
+      cyclicConnection?: undefined;
       duplicateConnections: DuplicateConnectionsFlowValidationDetails;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
       duplicateConditionExpression: DuplicateConditionExpressionFlowValidationDetails;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
       unreachableNode: UnreachableNodeFlowValidationDetails;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
       unknownConnectionSource: UnknownConnectionSourceFlowValidationDetails;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
       unknownConnectionSourceOutput: UnknownConnectionSourceOutputFlowValidationDetails;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
       unknownConnectionTarget: UnknownConnectionTargetFlowValidationDetails;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
       unknownConnectionTargetInput: UnknownConnectionTargetInputFlowValidationDetails;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
       unknownConnectionCondition: UnknownConnectionConditionFlowValidationDetails;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
       malformedConditionExpression: MalformedConditionExpressionFlowValidationDetails;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
       malformedNodeInputExpression: MalformedNodeInputExpressionFlowValidationDetails;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
       mismatchedNodeInputType: MismatchedNodeInputTypeFlowValidationDetails;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
       mismatchedNodeOutputType: MismatchedNodeOutputTypeFlowValidationDetails;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
       incompatibleConnectionDataType: IncompatibleConnectionDataTypeFlowValidationDetails;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
       missingConnectionConfiguration: MissingConnectionConfigurationFlowValidationDetails;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
       missingDefaultCondition: MissingDefaultConditionFlowValidationDetails;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
       missingEndingNodes: MissingEndingNodesFlowValidationDetails;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
       missingNodeConfiguration: MissingNodeConfigurationFlowValidationDetails;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
       missingNodeInput: MissingNodeInputFlowValidationDetails;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
       missingNodeOutput: MissingNodeOutputFlowValidationDetails;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
       missingStartingNodes: MissingStartingNodesFlowValidationDetails;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
       multipleNodeInputConnections: MultipleNodeInputConnectionsFlowValidationDetails;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
       unfulfilledNodeInput: UnfulfilledNodeInputFlowValidationDetails;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
       unsatisfiedConnectionConditions: UnsatisfiedConnectionConditionsFlowValidationDetails;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
       unspecified: UnspecifiedFlowValidationDetails;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
       unknownNodeInput: UnknownNodeInputFlowValidationDetails;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
       unknownNodeOutput: UnknownNodeOutputFlowValidationDetails;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
       missingLoopInputNode: MissingLoopInputNodeFlowValidationDetails;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
       missingLoopControllerNode: MissingLoopControllerNodeFlowValidationDetails;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
       multipleLoopInputNodes: MultipleLoopInputNodesFlowValidationDetails;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
       multipleLoopControllerNodes: MultipleLoopControllerNodesFlowValidationDetails;
-      loopIncompatibleNodeType?: never;
-      invalidLoopBoundary?: never;
+      loopIncompatibleNodeType?: undefined;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
       loopIncompatibleNodeType: LoopIncompatibleNodeTypeFlowValidationDetails;
-      invalidLoopBoundary?: never;
+      invalidLoopBoundary?: undefined;
     }
   | {
-      cyclicConnection?: never;
-      duplicateConnections?: never;
-      duplicateConditionExpression?: never;
-      unreachableNode?: never;
-      unknownConnectionSource?: never;
-      unknownConnectionSourceOutput?: never;
-      unknownConnectionTarget?: never;
-      unknownConnectionTargetInput?: never;
-      unknownConnectionCondition?: never;
-      malformedConditionExpression?: never;
-      malformedNodeInputExpression?: never;
-      mismatchedNodeInputType?: never;
-      mismatchedNodeOutputType?: never;
-      incompatibleConnectionDataType?: never;
-      missingConnectionConfiguration?: never;
-      missingDefaultCondition?: never;
-      missingEndingNodes?: never;
-      missingNodeConfiguration?: never;
-      missingNodeInput?: never;
-      missingNodeOutput?: never;
-      missingStartingNodes?: never;
-      multipleNodeInputConnections?: never;
-      unfulfilledNodeInput?: never;
-      unsatisfiedConnectionConditions?: never;
-      unspecified?: never;
-      unknownNodeInput?: never;
-      unknownNodeOutput?: never;
-      missingLoopInputNode?: never;
-      missingLoopControllerNode?: never;
-      multipleLoopInputNodes?: never;
-      multipleLoopControllerNodes?: never;
-      loopIncompatibleNodeType?: never;
+      cyclicConnection?: undefined;
+      duplicateConnections?: undefined;
+      duplicateConditionExpression?: undefined;
+      unreachableNode?: undefined;
+      unknownConnectionSource?: undefined;
+      unknownConnectionSourceOutput?: undefined;
+      unknownConnectionTarget?: undefined;
+      unknownConnectionTargetInput?: undefined;
+      unknownConnectionCondition?: undefined;
+      malformedConditionExpression?: undefined;
+      malformedNodeInputExpression?: undefined;
+      mismatchedNodeInputType?: undefined;
+      mismatchedNodeOutputType?: undefined;
+      incompatibleConnectionDataType?: undefined;
+      missingConnectionConfiguration?: undefined;
+      missingDefaultCondition?: undefined;
+      missingEndingNodes?: undefined;
+      missingNodeConfiguration?: undefined;
+      missingNodeInput?: undefined;
+      missingNodeOutput?: undefined;
+      missingStartingNodes?: undefined;
+      multipleNodeInputConnections?: undefined;
+      unfulfilledNodeInput?: undefined;
+      unsatisfiedConnectionConditions?: undefined;
+      unspecified?: undefined;
+      unknownNodeInput?: undefined;
+      unknownNodeOutput?: undefined;
+      missingLoopInputNode?: undefined;
+      missingLoopControllerNode?: undefined;
+      multipleLoopInputNodes?: undefined;
+      multipleLoopControllerNodes?: undefined;
+      loopIncompatibleNodeType?: undefined;
       invalidLoopBoundary: InvalidLoopBoundaryFlowValidationDetails;
     };
 export type FlowValidationType =
@@ -3370,23 +3444,23 @@ export type FlowValidationType =
 export interface FlowValidation {
   message: string;
   severity: FlowValidationSeverity;
-  details?: FlowValidationDetails;
-  type?: FlowValidationType;
+  details?: FlowValidationDetails | undefined;
+  type?: FlowValidationType | undefined;
 }
 export type FlowValidations = FlowValidation[];
 export interface GetFlowResponse {
   name: string;
-  description?: string;
+  description?: string | undefined;
   executionRoleArn: string;
-  customerEncryptionKeyArn?: string;
+  customerEncryptionKeyArn?: string | undefined;
   id: string;
   arn: string;
   status: FlowStatus;
   createdAt: Date;
   updatedAt: Date;
   version: string;
-  definition?: FlowDefinition;
-  validations?: FlowValidation[];
+  definition?: FlowDefinition | undefined;
+  validations?: FlowValidation[] | undefined;
 }
 export interface GetFlowAliasRequest {
   flowIdentifier: string;
@@ -3394,9 +3468,9 @@ export interface GetFlowAliasRequest {
 }
 export interface GetFlowAliasResponse {
   name: string;
-  description?: string;
+  description?: string | undefined;
   routingConfiguration: FlowAliasRoutingConfigurationListItem[];
-  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
+  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration | undefined;
   flowId: string;
   id: string;
   arn: string;
@@ -3406,19 +3480,19 @@ export interface GetFlowAliasResponse {
 export interface GetFlowVersionRequest {
   flowIdentifier: string;
   flowVersion: string;
-  includedData?: IncludedData;
+  includedData?: IncludedData | undefined;
 }
 export interface GetFlowVersionResponse {
   name: string;
-  description?: string;
+  description?: string | undefined;
   executionRoleArn: string;
-  customerEncryptionKeyArn?: string;
+  customerEncryptionKeyArn?: string | undefined;
   id: string;
   arn: string;
   status: FlowStatus;
   createdAt: Date;
   version: string;
-  definition?: FlowDefinition;
+  definition?: FlowDefinition | undefined;
 }
 export interface GetIngestionJobRequest {
   knowledgeBaseId: string;
@@ -3434,26 +3508,26 @@ export type IngestionJobStatus =
   | "STOPPED"
   | (string & {});
 export interface IngestionJobStatistics {
-  numberOfDocumentsScanned?: number;
-  numberOfMetadataDocumentsScanned?: number;
-  numberOfNewDocumentsIndexed?: number;
-  numberOfModifiedDocumentsIndexed?: number;
-  numberOfMetadataDocumentsModified?: number;
-  numberOfDocumentsDeleted?: number;
-  numberOfDocumentsFailed?: number;
-  numberOfDocumentsSkipped?: number;
+  numberOfDocumentsScanned?: number | undefined;
+  numberOfMetadataDocumentsScanned?: number | undefined;
+  numberOfNewDocumentsIndexed?: number | undefined;
+  numberOfModifiedDocumentsIndexed?: number | undefined;
+  numberOfMetadataDocumentsModified?: number | undefined;
+  numberOfDocumentsDeleted?: number | undefined;
+  numberOfDocumentsFailed?: number | undefined;
+  numberOfDocumentsSkipped?: number | undefined;
 }
 export interface IngestionJob {
   knowledgeBaseId: string;
   dataSourceId: string;
   ingestionJobId: string;
-  description?: string;
+  description?: string | undefined;
   status: IngestionJobStatus;
-  statistics?: IngestionJobStatistics;
-  failureReasons?: string[];
+  statistics?: IngestionJobStatistics | undefined;
+  failureReasons?: string[] | undefined;
   startedAt: Date;
   updatedAt: Date;
-  textReadyAt?: Date;
+  textReadyAt?: Date | undefined;
 }
 export interface GetIngestionJobResponse {
   ingestionJob: IngestionJob;
@@ -3470,19 +3544,19 @@ export interface GetKnowledgeBaseDocumentsRequest {
   documentIdentifiers: DocumentIdentifier[];
 }
 export interface GetKnowledgeBaseDocumentsResponse {
-  documentDetails?: KnowledgeBaseDocumentDetail[];
+  documentDetails?: KnowledgeBaseDocumentDetail[] | undefined;
 }
 export interface GetPromptRequest {
   promptIdentifier: string;
-  promptVersion?: string;
-  includedData?: IncludedData;
+  promptVersion?: string | undefined;
+  includedData?: IncludedData | undefined;
 }
 export interface GetPromptResponse {
   name: string;
-  description?: string;
-  customerEncryptionKeyArn?: string;
-  defaultVariant?: string;
-  variants?: PromptVariant[];
+  description?: string | undefined;
+  customerEncryptionKeyArn?: string | undefined;
+  defaultVariant?: string | undefined;
+  variants?: PromptVariant[] | undefined;
   id: string;
   arn: string;
   version: string;
@@ -3498,6 +3572,43 @@ export interface GetResourcePolicyResponse {
   policy: string;
   revisionId: string;
 }
+export type RetrievalInstructionVersionSelector = string;
+export interface GetRetrievalInstructionRequest {
+  retrievalInstructionId: string;
+  retrievalInstructionVersion?: string | undefined;
+}
+export type RetrievalInstructionFieldName =
+  | "RETRIEVAL_GUIDANCE"
+  | "PERSONA"
+  | "ANSWER_FORMAT"
+  | "ANSWER_POLICY"
+  | (string & {});
+export type RetrievalInstructionFailureReasonCode =
+  | "CONTENT_REJECTED"
+  | "CLIENT_ERROR"
+  | "INTERNAL_ERROR"
+  | (string & {});
+export interface RetrievalInstructionFailureReason {
+  fieldName?: RetrievalInstructionFieldName | undefined;
+  code: RetrievalInstructionFailureReasonCode;
+  message: string;
+}
+export type RetrievalInstructionFailureReasons = RetrievalInstructionFailureReason[];
+export interface GetRetrievalInstructionResponse {
+  retrievalInstructionId: string;
+  retrievalInstructionArn: string;
+  name: string | redacted.Redacted<string>;
+  status: RetrievalInstructionStatus;
+  lastTransitionStatus: RetrievalInstructionLastTransitionStatus;
+  instruction?: RetrievalInstructionContent | undefined;
+  createdAt: Date;
+  updatedAt: Date;
+  description?: string | redacted.Redacted<string> | undefined;
+  customerEncryptionKeyArn?: string | undefined;
+  lastTransitionStatusReasons?: RetrievalInstructionFailureReason[] | undefined;
+  version?: string | undefined;
+  latestVersion?: string | undefined;
+}
 export interface GetVpcConfigurationRequest {
   knowledgeBaseId: string;
   vpcConfigurationId: string;
@@ -3506,17 +3617,17 @@ export type VpcConfigurationStatusMessage = string;
 export interface VpcConfiguration {
   vpcConfigurationId: string;
   status: VpcConfigurationStatus;
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   vpcId: string;
   subnetIds: string[];
   resourceTarget: string;
   port: number;
   protocol: VpcProtocol;
   resolutionMode: VpcResolutionMode;
-  hostHeader?: string;
-  tlsServerName?: string;
-  name?: string;
-  description?: string;
+  hostHeader?: string | undefined;
+  tlsServerName?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -3531,10 +3642,10 @@ export type StringValue = string | redacted.Redacted<string>;
 export type StringListValue = (string | redacted.Redacted<string>)[];
 export interface MetadataAttributeValue {
   type: MetadataValueType;
-  numberValue?: number;
-  booleanValue?: boolean;
-  stringValue?: string | redacted.Redacted<string>;
-  stringListValue?: (string | redacted.Redacted<string>)[];
+  numberValue?: number | undefined;
+  booleanValue?: boolean | undefined;
+  stringValue?: string | redacted.Redacted<string> | undefined;
+  stringListValue?: (string | redacted.Redacted<string>)[] | undefined;
 }
 export interface MetadataAttribute {
   key: string | redacted.Redacted<string>;
@@ -3544,7 +3655,7 @@ export type MetadataAttributes = MetadataAttribute[];
 export type S3ObjectUri = string;
 export interface CustomS3Location {
   uri: string;
-  bucketOwnerAccountId?: string;
+  bucketOwnerAccountId?: string | undefined;
 }
 export type AccessControlPrincipalType = "USER" | (string & {});
 export type AccessControlAccess = "ALLOW" | "DENY" | (string & {});
@@ -3556,9 +3667,9 @@ export interface DocumentAccessControlEntry {
 export type DocumentAccessControlList = DocumentAccessControlEntry[];
 export interface DocumentMetadata {
   type: MetadataSourceType;
-  inlineAttributes?: MetadataAttribute[];
-  s3Location?: CustomS3Location;
-  accessControlList?: DocumentAccessControlEntry[];
+  inlineAttributes?: MetadataAttribute[] | undefined;
+  s3Location?: CustomS3Location | undefined;
+  accessControlList?: DocumentAccessControlEntry[] | undefined;
 }
 export type CustomSourceType = "IN_LINE" | "S3_LOCATION" | (string & {});
 export type InlineContentType = "BYTE" | "TEXT" | (string & {});
@@ -3573,82 +3684,82 @@ export interface TextContentDoc {
 }
 export interface InlineContent {
   type: InlineContentType;
-  byteContent?: ByteContentDoc;
-  textContent?: TextContentDoc;
+  byteContent?: ByteContentDoc | undefined;
+  textContent?: TextContentDoc | undefined;
 }
 export interface CustomContent {
   customDocumentIdentifier: CustomDocumentIdentifier;
   sourceType: CustomSourceType;
-  s3Location?: CustomS3Location;
-  inlineContent?: InlineContent;
+  s3Location?: CustomS3Location | undefined;
+  inlineContent?: InlineContent | undefined;
 }
 export interface S3Content {
   s3Location: S3Location;
 }
 export interface DocumentContent {
   dataSourceType: ContentDataSourceType;
-  custom?: CustomContent;
-  s3?: S3Content;
+  custom?: CustomContent | undefined;
+  s3?: S3Content | undefined;
 }
 export interface KnowledgeBaseDocument {
-  metadata?: DocumentMetadata;
+  metadata?: DocumentMetadata | undefined;
   content: DocumentContent;
 }
 export type KnowledgeBaseDocuments = KnowledgeBaseDocument[];
 export interface IngestKnowledgeBaseDocumentsRequest {
   knowledgeBaseId: string;
   dataSourceId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   documents: KnowledgeBaseDocument[];
 }
 export interface IngestKnowledgeBaseDocumentsResponse {
-  documentDetails?: KnowledgeBaseDocumentDetail[];
+  documentDetails?: KnowledgeBaseDocumentDetail[] | undefined;
 }
 export type MaxResults = number;
 export type NextToken = string;
 export interface ListAgentActionGroupsRequest {
   agentId: string;
   agentVersion: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ActionGroupSummary {
   actionGroupId: string;
   actionGroupName: string;
   actionGroupState: ActionGroupState;
-  description?: string;
+  description?: string | undefined;
   updatedAt: Date;
 }
 export type ActionGroupSummaries = ActionGroupSummary[];
 export interface ListAgentActionGroupsResponse {
   actionGroupSummaries: ActionGroupSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAgentAliasesRequest {
   agentId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AgentAliasSummary {
   agentAliasId: string;
   agentAliasName: string;
-  description?: string;
-  routingConfiguration?: AgentAliasRoutingConfigurationListItem[];
+  description?: string | undefined;
+  routingConfiguration?: AgentAliasRoutingConfigurationListItem[] | undefined;
   agentAliasStatus: AgentAliasStatus;
   createdAt: Date;
   updatedAt: Date;
-  aliasInvocationState?: AliasInvocationState;
+  aliasInvocationState?: AliasInvocationState | undefined;
 }
 export type AgentAliasSummaries = AgentAliasSummary[];
 export interface ListAgentAliasesResponse {
   agentAliasSummaries: AgentAliasSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAgentCollaboratorsRequest {
   agentId: string;
   agentVersion: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AgentCollaboratorSummary {
   agentId: string;
@@ -3664,47 +3775,47 @@ export interface AgentCollaboratorSummary {
 export type AgentCollaboratorSummaries = AgentCollaboratorSummary[];
 export interface ListAgentCollaboratorsResponse {
   agentCollaboratorSummaries: AgentCollaboratorSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAgentKnowledgeBasesRequest {
   agentId: string;
   agentVersion: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AgentKnowledgeBaseSummary {
   knowledgeBaseId: string;
-  description?: string;
+  description?: string | undefined;
   knowledgeBaseState: KnowledgeBaseState;
   updatedAt: Date;
 }
 export type AgentKnowledgeBaseSummaries = AgentKnowledgeBaseSummary[];
 export interface ListAgentKnowledgeBasesResponse {
   agentKnowledgeBaseSummaries: AgentKnowledgeBaseSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAgentsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AgentSummary {
   agentId: string;
   agentName: string;
   agentStatus: AgentStatus;
-  description?: string;
+  description?: string | undefined;
   updatedAt: Date;
-  latestAgentVersion?: string;
-  guardrailConfiguration?: GuardrailConfiguration;
+  latestAgentVersion?: string | undefined;
+  guardrailConfiguration?: GuardrailConfiguration | undefined;
 }
 export type AgentSummaries = AgentSummary[];
 export interface ListAgentsResponse {
   agentSummaries: AgentSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAgentVersionsRequest {
   agentId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface AgentVersionSummary {
   agentName: string;
@@ -3712,42 +3823,42 @@ export interface AgentVersionSummary {
   agentVersion: string;
   createdAt: Date;
   updatedAt: Date;
-  description?: string;
-  guardrailConfiguration?: GuardrailConfiguration;
+  description?: string | undefined;
+  guardrailConfiguration?: GuardrailConfiguration | undefined;
 }
 export type AgentVersionSummaries = AgentVersionSummary[];
 export interface ListAgentVersionsResponse {
   agentVersionSummaries: AgentVersionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDataSourcesRequest {
   knowledgeBaseId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DataSourceSummary {
   knowledgeBaseId: string;
   dataSourceId: string;
   name: string;
   status: DataSourceStatus;
-  description?: string;
+  description?: string | undefined;
   updatedAt: Date;
 }
 export type DataSourceSummaries = DataSourceSummary[];
 export interface ListDataSourcesResponse {
   dataSourceSummaries: DataSourceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFlowAliasesRequest {
   flowIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FlowAliasSummary {
   name: string;
-  description?: string;
+  description?: string | undefined;
   routingConfiguration: FlowAliasRoutingConfigurationListItem[];
-  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
+  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration | undefined;
   flowId: string;
   id: string;
   arn: string;
@@ -3757,15 +3868,15 @@ export interface FlowAliasSummary {
 export type FlowAliasSummaries = FlowAliasSummary[];
 export interface ListFlowAliasesResponse {
   flowAliasSummaries: FlowAliasSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFlowsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FlowSummary {
   name: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
   arn: string;
   status: FlowStatus;
@@ -3776,12 +3887,12 @@ export interface FlowSummary {
 export type FlowSummaries = FlowSummary[];
 export interface ListFlowsResponse {
   flowSummaries: FlowSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFlowVersionsRequest {
   flowIdentifier: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FlowVersionSummary {
   id: string;
@@ -3793,7 +3904,7 @@ export interface FlowVersionSummary {
 export type FlowVersionSummaries = FlowVersionSummary[];
 export interface ListFlowVersionsResponse {
   flowVersionSummaries: FlowVersionSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type IngestionJobFilterAttribute = "STATUS" | (string & {});
 export type IngestionJobFilterOperator = "EQ" | (string & {});
@@ -3814,61 +3925,61 @@ export interface IngestionJobSortBy {
 export interface ListIngestionJobsRequest {
   knowledgeBaseId: string;
   dataSourceId: string;
-  filters?: IngestionJobFilter[];
-  sortBy?: IngestionJobSortBy;
-  maxResults?: number;
-  nextToken?: string;
+  filters?: IngestionJobFilter[] | undefined;
+  sortBy?: IngestionJobSortBy | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface IngestionJobSummary {
   knowledgeBaseId: string;
   dataSourceId: string;
   ingestionJobId: string;
-  description?: string;
+  description?: string | undefined;
   status: IngestionJobStatus;
   startedAt: Date;
   updatedAt: Date;
-  textReadyAt?: Date;
-  statistics?: IngestionJobStatistics;
+  textReadyAt?: Date | undefined;
+  statistics?: IngestionJobStatistics | undefined;
 }
 export type IngestionJobSummaries = IngestionJobSummary[];
 export interface ListIngestionJobsResponse {
   ingestionJobSummaries: IngestionJobSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListKnowledgeBaseDocumentsRequest {
   knowledgeBaseId: string;
   dataSourceId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListKnowledgeBaseDocumentsResponse {
   documentDetails: KnowledgeBaseDocumentDetail[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListKnowledgeBasesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface KnowledgeBaseSummary {
   knowledgeBaseId: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   status: KnowledgeBaseStatus;
   updatedAt: Date;
 }
 export type KnowledgeBaseSummaries = KnowledgeBaseSummary[];
 export interface ListKnowledgeBasesResponse {
   knowledgeBaseSummaries: KnowledgeBaseSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListPromptsRequest {
-  promptIdentifier?: string;
-  maxResults?: number;
-  nextToken?: string;
+  promptIdentifier?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface PromptSummary {
   name: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
   arn: string;
   version: string;
@@ -3878,40 +3989,75 @@ export interface PromptSummary {
 export type PromptSummaries = PromptSummary[];
 export interface ListPromptsResponse {
   promptSummaries: PromptSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
+}
+export type RetrievalInstructionMaxResults = number;
+export interface ListRetrievalInstructionsRequest {
+  status?: RetrievalInstructionStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+}
+export interface RetrievalInstructionSummary {
+  retrievalInstructionId: string;
+  retrievalInstructionArn: string;
+  name: string | redacted.Redacted<string>;
+  status: RetrievalInstructionStatus;
+  lastTransitionStatus: RetrievalInstructionLastTransitionStatus;
+  createdAt: Date;
+  updatedAt: Date;
+  description?: string | redacted.Redacted<string> | undefined;
+}
+export type RetrievalInstructionSummaries = RetrievalInstructionSummary[];
+export interface ListRetrievalInstructionsResponse {
+  retrievalInstructionSummaries: RetrievalInstructionSummary[];
+  nextToken?: string | undefined;
+}
+export interface ListRetrievalInstructionVersionsRequest {
+  retrievalInstructionId: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+}
+export interface RetrievalInstructionVersionSummary {
+  version: string;
+  createdAt: Date;
+}
+export type RetrievalInstructionVersionSummaries = RetrievalInstructionVersionSummary[];
+export interface ListRetrievalInstructionVersionsResponse {
+  retrievalInstructionVersionSummaries: RetrievalInstructionVersionSummary[];
+  nextToken?: string | undefined;
 }
 export type TaggableResourcesArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ListVpcConfigurationsRequest {
   knowledgeBaseId: string;
-  statusFilter?: VpcConfigurationStatus;
-  maxResults?: number;
-  nextToken?: string;
+  statusFilter?: VpcConfigurationStatus | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface VpcConfigurationSummary {
   vpcConfigurationId: string;
   status: VpcConfigurationStatus;
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   vpcId: string;
   resourceTarget: string;
   port: number;
   protocol: VpcProtocol;
   resolutionMode: VpcResolutionMode;
-  hostHeader?: string;
-  tlsServerName?: string;
-  name?: string;
-  description?: string;
+  hostHeader?: string | undefined;
+  tlsServerName?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
   createdAt: Date;
 }
 export type VpcConfigurationSummaryList = VpcConfigurationSummary[];
 export interface ListVpcConfigurationsResponse {
   items: VpcConfigurationSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface PrepareAgentRequest {
   agentId: string;
@@ -3932,7 +4078,7 @@ export interface PrepareFlowResponse {
 export interface PutResourcePolicyRequest {
   resourceArn: string;
   policy: string;
-  expectedRevisionId?: string;
+  expectedRevisionId?: string | undefined;
 }
 export interface PutResourcePolicyResponse {
   resourceArn: string;
@@ -3941,8 +4087,8 @@ export interface PutResourcePolicyResponse {
 export interface StartIngestionJobRequest {
   knowledgeBaseId: string;
   dataSourceId: string;
-  clientToken?: string;
-  description?: string;
+  clientToken?: string | undefined;
+  description?: string | undefined;
 }
 export interface StartIngestionJobResponse {
   ingestionJob: IngestionJob;
@@ -3969,18 +4115,18 @@ export interface UntagResourceResponse {}
 export interface UpdateAgentRequest {
   agentId: string;
   agentName: string;
-  instruction?: string | redacted.Redacted<string>;
-  foundationModel?: string;
-  description?: string;
-  orchestrationType?: OrchestrationType;
-  customOrchestration?: CustomOrchestration;
-  idleSessionTTLInSeconds?: number;
+  instruction?: string | redacted.Redacted<string> | undefined;
+  foundationModel?: string | undefined;
+  description?: string | undefined;
+  orchestrationType?: OrchestrationType | undefined;
+  customOrchestration?: CustomOrchestration | undefined;
+  idleSessionTTLInSeconds?: number | undefined;
   agentResourceRoleArn: string;
-  customerEncryptionKeyArn?: string;
-  promptOverrideConfiguration?: PromptOverrideConfiguration;
-  guardrailConfiguration?: GuardrailConfiguration;
-  memoryConfiguration?: MemoryConfiguration;
-  agentCollaboration?: AgentCollaboration;
+  customerEncryptionKeyArn?: string | undefined;
+  promptOverrideConfiguration?: PromptOverrideConfiguration | undefined;
+  guardrailConfiguration?: GuardrailConfiguration | undefined;
+  memoryConfiguration?: MemoryConfiguration | undefined;
+  agentCollaboration?: AgentCollaboration | undefined;
 }
 export interface UpdateAgentResponse {
   agent: Agent;
@@ -3990,13 +4136,13 @@ export interface UpdateAgentActionGroupRequest {
   agentVersion: string;
   actionGroupId: string;
   actionGroupName: string;
-  description?: string;
-  parentActionGroupSignature?: ActionGroupSignature;
-  parentActionGroupSignatureParams?: { [key: string]: string | undefined };
-  actionGroupExecutor?: ActionGroupExecutor;
-  actionGroupState?: ActionGroupState;
-  apiSchema?: APISchema;
-  functionSchema?: FunctionSchema;
+  description?: string | undefined;
+  parentActionGroupSignature?: ActionGroupSignature | undefined;
+  parentActionGroupSignatureParams?: { [key: string]: string | undefined } | undefined;
+  actionGroupExecutor?: ActionGroupExecutor | undefined;
+  actionGroupState?: ActionGroupState | undefined;
+  apiSchema?: APISchema | undefined;
+  functionSchema?: FunctionSchema | undefined;
 }
 export interface UpdateAgentActionGroupResponse {
   agentActionGroup: AgentActionGroup;
@@ -4005,9 +4151,9 @@ export interface UpdateAgentAliasRequest {
   agentId: string;
   agentAliasId: string;
   agentAliasName: string;
-  description?: string;
-  routingConfiguration?: AgentAliasRoutingConfigurationListItem[];
-  aliasInvocationState?: AliasInvocationState;
+  description?: string | undefined;
+  routingConfiguration?: AgentAliasRoutingConfigurationListItem[] | undefined;
+  aliasInvocationState?: AliasInvocationState | undefined;
 }
 export interface UpdateAgentAliasResponse {
   agentAlias: AgentAlias;
@@ -4019,7 +4165,7 @@ export interface UpdateAgentCollaboratorRequest {
   agentDescriptor: AgentDescriptor;
   collaboratorName: string;
   collaborationInstruction: string | redacted.Redacted<string>;
-  relayConversationHistory?: RelayConversationHistory;
+  relayConversationHistory?: RelayConversationHistory | undefined;
 }
 export interface UpdateAgentCollaboratorResponse {
   agentCollaborator: AgentCollaborator;
@@ -4028,8 +4174,8 @@ export interface UpdateAgentKnowledgeBaseRequest {
   agentId: string;
   agentVersion: string;
   knowledgeBaseId: string;
-  description?: string;
-  knowledgeBaseState?: KnowledgeBaseState;
+  description?: string | undefined;
+  knowledgeBaseState?: KnowledgeBaseState | undefined;
 }
 export interface UpdateAgentKnowledgeBaseResponse {
   agentKnowledgeBase: AgentKnowledgeBase;
@@ -4038,49 +4184,49 @@ export interface UpdateDataSourceRequest {
   knowledgeBaseId: string;
   dataSourceId: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   dataSourceConfiguration: DataSourceConfiguration;
-  dataDeletionPolicy?: DataDeletionPolicy;
-  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration;
-  vectorIngestionConfiguration?: VectorIngestionConfiguration;
+  dataDeletionPolicy?: DataDeletionPolicy | undefined;
+  serverSideEncryptionConfiguration?: ServerSideEncryptionConfiguration | undefined;
+  vectorIngestionConfiguration?: VectorIngestionConfiguration | undefined;
 }
 export interface UpdateDataSourceResponse {
   dataSource: DataSource;
 }
 export interface UpdateFlowRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   executionRoleArn: string;
-  customerEncryptionKeyArn?: string;
-  definition?: FlowDefinition;
+  customerEncryptionKeyArn?: string | undefined;
+  definition?: FlowDefinition | undefined;
   flowIdentifier: string;
 }
 export interface UpdateFlowResponse {
   name: string;
-  description?: string;
+  description?: string | undefined;
   executionRoleArn: string;
-  customerEncryptionKeyArn?: string;
+  customerEncryptionKeyArn?: string | undefined;
   id: string;
   arn: string;
   status: FlowStatus;
   createdAt: Date;
   updatedAt: Date;
   version: string;
-  definition?: FlowDefinition;
+  definition?: FlowDefinition | undefined;
 }
 export interface UpdateFlowAliasRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   routingConfiguration: FlowAliasRoutingConfigurationListItem[];
-  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
+  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration | undefined;
   flowIdentifier: string;
   aliasIdentifier: string;
 }
 export interface UpdateFlowAliasResponse {
   name: string;
-  description?: string;
+  description?: string | undefined;
   routingConfiguration: FlowAliasRoutingConfigurationListItem[];
-  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration;
+  concurrencyConfiguration?: FlowAliasConcurrencyConfiguration | undefined;
   flowId: string;
   id: string;
   arn: string;
@@ -4090,31 +4236,46 @@ export interface UpdateFlowAliasResponse {
 export interface UpdateKnowledgeBaseRequest {
   knowledgeBaseId: string;
   name: string;
-  description?: string;
+  description?: string | undefined;
   roleArn: string;
   knowledgeBaseConfiguration: KnowledgeBaseConfiguration;
-  storageConfiguration?: StorageConfiguration;
+  storageConfiguration?: StorageConfiguration | undefined;
+  metadataConfigurations?: MetadataConfiguration[] | undefined;
 }
 export interface UpdateKnowledgeBaseResponse {
   knowledgeBase: KnowledgeBase;
 }
 export interface UpdatePromptRequest {
   name: string;
-  description?: string;
-  customerEncryptionKeyArn?: string;
-  defaultVariant?: string;
-  variants?: PromptVariant[];
+  description?: string | undefined;
+  customerEncryptionKeyArn?: string | undefined;
+  defaultVariant?: string | undefined;
+  variants?: PromptVariant[] | undefined;
   promptIdentifier: string;
 }
 export interface UpdatePromptResponse {
   name: string;
-  description?: string;
-  customerEncryptionKeyArn?: string;
-  defaultVariant?: string;
-  variants?: PromptVariant[];
+  description?: string | undefined;
+  customerEncryptionKeyArn?: string | undefined;
+  defaultVariant?: string | undefined;
+  variants?: PromptVariant[] | undefined;
   id: string;
   arn: string;
   version: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+export interface UpdateRetrievalInstructionRequest {
+  retrievalInstructionId: string;
+  instruction: RetrievalInstructionContent;
+  description?: string | redacted.Redacted<string> | undefined;
+}
+export interface UpdateRetrievalInstructionResponse {
+  retrievalInstructionId: string;
+  retrievalInstructionArn: string;
+  name: string | redacted.Redacted<string>;
+  status: RetrievalInstructionStatus;
+  lastTransitionStatus: RetrievalInstructionLastTransitionStatus;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -4142,13 +4303,13 @@ export type AssociateAgentCollaboratorError =
  * Makes an agent a collaborator for another agent.
  */
 export const associateAgentCollaborator: API.OperationMethod<
-  AssociateAgentCollaboratorRequest,
+  AssociateAgentCollaboratorRequest & RegionInput,
   AssociateAgentCollaboratorResponse,
   AssociateAgentCollaboratorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<AssociateAgentCollaboratorRequest>,
-  output: __S(2881, __c90, 1) as any as S.Schema<AssociateAgentCollaboratorResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<AssociateAgentCollaboratorRequest>,
+  output: __S(2945, __c92, 1) as any as S.Schema<AssociateAgentCollaboratorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4178,13 +4339,13 @@ export type AssociateAgentKnowledgeBaseError =
  * Associates a knowledge base with an agent. If a knowledge base is associated and its `indexState` is set to `Enabled`, the agent queries the knowledge base for information to augment its response to the user.
  */
 export const associateAgentKnowledgeBase: API.OperationMethod<
-  AssociateAgentKnowledgeBaseRequest,
+  AssociateAgentKnowledgeBaseRequest & RegionInput,
   AssociateAgentKnowledgeBaseResponse,
   AssociateAgentKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<AssociateAgentKnowledgeBaseRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<AssociateAgentKnowledgeBaseResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<AssociateAgentKnowledgeBaseRequest>,
+  output: __S(3329, __c104, 1) as any as S.Schema<AssociateAgentKnowledgeBaseResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4231,13 +4392,13 @@ export type CreateAgentError =
  * - The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
  */
 export const createAgent: API.OperationMethod<
-  CreateAgentRequest,
+  CreateAgentRequest & RegionInput,
   CreateAgentResponse,
   CreateAgentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<CreateAgentRequest>,
-  output: __S(3651, __c114, 3) as any as S.Schema<CreateAgentResponse>,
+  input: __S(3680, __c115, 0) as any as S.Schema<CreateAgentRequest>,
+  output: __S(3843, __c120, 3) as any as S.Schema<CreateAgentResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4272,7 +4433,7 @@ export type CreateAgentActionGroupError =
  * You must leave the `description`, `apiSchema`, and `actionGroupExecutor` fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an Observation reprompting the user for more information.
  */
 export const createAgentActionGroup: API.OperationMethod<
-  CreateAgentActionGroupRequest,
+  CreateAgentActionGroupRequest & RegionInput,
   CreateAgentActionGroupResponse,
   CreateAgentActionGroupError,
   Credentials | HttpClient.HttpClient
@@ -4308,7 +4469,7 @@ export type CreateAgentAliasError =
  * Creates an alias of an agent that can be used to deploy the agent.
  */
 export const createAgentAlias: API.OperationMethod<
-  CreateAgentAliasRequest,
+  CreateAgentAliasRequest & RegionInput,
   CreateAgentAliasResponse,
   CreateAgentAliasError,
   Credentials | HttpClient.HttpClient
@@ -4346,7 +4507,7 @@ export type CreateDataSourceError =
  * You can't change the `chunkingConfiguration` after you create the data source connector.
  */
 export const createDataSource: API.OperationMethod<
-  CreateDataSourceRequest,
+  CreateDataSourceRequest & RegionInput,
   CreateDataSourceResponse,
   CreateDataSourceError,
   Credentials | HttpClient.HttpClient
@@ -4381,7 +4542,7 @@ export type CreateFlowError =
  * Creates a prompt flow that you can use to send an input through various steps to yield an output. Configure nodes, each of which corresponds to a step of the flow, and create connections between the nodes to create paths to different outputs. For more information, see How it works and Create a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const createFlow: API.OperationMethod<
-  CreateFlowRequest,
+  CreateFlowRequest & RegionInput,
   CreateFlowResponse,
   CreateFlowError,
   Credentials | HttpClient.HttpClient
@@ -4416,7 +4577,7 @@ export type CreateFlowAliasError =
  * Creates an alias of a flow for deployment. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const createFlowAlias: API.OperationMethod<
-  CreateFlowAliasRequest,
+  CreateFlowAliasRequest & RegionInput,
   CreateFlowAliasResponse,
   CreateFlowAliasError,
   Credentials | HttpClient.HttpClient
@@ -4452,7 +4613,7 @@ export type CreateFlowVersionError =
  * Creates a version of the flow that you can deploy. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const createFlowVersion: API.OperationMethod<
-  CreateFlowVersionRequest,
+  CreateFlowVersionRequest & RegionInput,
   CreateFlowVersionResponse,
   CreateFlowVersionError,
   Credentials | HttpClient.HttpClient
@@ -4507,13 +4668,13 @@ export type CreateKnowledgeBaseError =
  * - For a Redis Enterprise Cloud database, use the `redisEnterpriseCloudConfiguration` object. For more information, see Create a vector store in Redis Enterprise Cloud.
  */
 export const createKnowledgeBase: API.OperationMethod<
-  CreateKnowledgeBaseRequest,
+  CreateKnowledgeBaseRequest & RegionInput,
   CreateKnowledgeBaseResponse,
   CreateKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(704, __c22, 0) as any as S.Schema<CreateKnowledgeBaseRequest>,
-  output: __S(780, __c24, 12) as any as S.Schema<CreateKnowledgeBaseResponse>,
+  output: __S(782, __c24, 14) as any as S.Schema<CreateKnowledgeBaseResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4541,7 +4702,7 @@ export type CreatePromptError =
  * Creates a prompt in your prompt library that you can add to a flow. For more information, see Prompt management in Amazon Bedrock, Create a prompt using Prompt management and Prompt flows in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const createPrompt: API.OperationMethod<
-  CreatePromptRequest,
+  CreatePromptRequest & RegionInput,
   CreatePromptResponse,
   CreatePromptError,
   Credentials | HttpClient.HttpClient
@@ -4576,7 +4737,7 @@ export type CreatePromptVersionError =
  * Creates a static snapshot of your prompt that can be deployed to production. For more information, see Deploy prompts using Prompt management by creating versions in the Amazon Bedrock User Guide.
  */
 export const createPromptVersion: API.OperationMethod<
-  CreatePromptVersionRequest,
+  CreatePromptVersionRequest & RegionInput,
   CreatePromptVersionResponse,
   CreatePromptVersionError,
   Credentials | HttpClient.HttpClient
@@ -4599,6 +4760,78 @@ export const createPromptVersion: API.OperationMethod<
   span: "CreatePromptVersion",
 }));
 
+export type CreateRetrievalInstructionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates a new retrieval instruction. The retrieval instruction is usable once its status becomes ACTIVE. Use GetRetrievalInstruction to check whether it is ready.
+ */
+export const createRetrievalInstruction: API.OperationMethod<
+  CreateRetrievalInstructionRequest & RegionInput,
+  CreateRetrievalInstructionResponse,
+  CreateRetrievalInstructionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(896, __c28, 0) as any as S.Schema<CreateRetrievalInstructionRequest>,
+  output: __S(960, __c30, 0) as any as S.Schema<CreateRetrievalInstructionResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateRetrievalInstruction",
+  telemetry: TELEMETRY,
+  span: "CreateRetrievalInstruction",
+}));
+
+export type CreateRetrievalInstructionVersionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Creates an immutable numbered version from the retrieval instruction's current reviewed content. The service creates the version synchronously.
+ *
+ * The service numbers versions from 1 and assigns them in order, never reusing a number.
+ */
+export const createRetrievalInstructionVersion: API.OperationMethod<
+  CreateRetrievalInstructionVersionRequest & RegionInput,
+  CreateRetrievalInstructionVersionResponse,
+  CreateRetrievalInstructionVersionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(992, __c31, 0) as any as S.Schema<CreateRetrievalInstructionVersionRequest>,
+  output: __S(993, __c31, 1) as any as S.Schema<CreateRetrievalInstructionVersionResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ServiceQuotaExceededException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "CreateRetrievalInstructionVersion",
+  telemetry: TELEMETRY,
+  span: "CreateRetrievalInstructionVersion",
+}));
+
 export type CreateVpcConfigurationError =
   | AccessDeniedException
   | ConflictException
@@ -4612,13 +4845,13 @@ export type CreateVpcConfigurationError =
  * Creates a VPC configuration that lets a knowledge base connect to a resource in your private VPC. This operation is asynchronous: it returns a `vpcConfigurationId` with status `CREATING`. Poll `GetVpcConfiguration` until the status becomes `CREATED` or `CREATE_FAILED`.
  */
 export const createVpcConfiguration: API.OperationMethod<
-  CreateVpcConfigurationRequest,
+  CreateVpcConfigurationRequest & RegionInput,
   CreateVpcConfigurationResponse,
   CreateVpcConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c28, 0) as any as S.Schema<CreateVpcConfigurationRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<CreateVpcConfigurationResponse>,
+  input: __S(1024, __c32, 0) as any as S.Schema<CreateVpcConfigurationRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<CreateVpcConfigurationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4647,13 +4880,13 @@ export type DeleteAgentError =
  * Deletes an agent.
  */
 export const deleteAgent: API.OperationMethod<
-  DeleteAgentRequest,
+  DeleteAgentRequest & RegionInput,
   DeleteAgentResponse,
   DeleteAgentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c30, 0) as any as S.Schema<DeleteAgentRequest>,
-  output: __S(961, __c30, 1) as any as S.Schema<DeleteAgentResponse>,
+  input: __S(1088, __c34, 0) as any as S.Schema<DeleteAgentRequest>,
+  output: __S(1089, __c34, 1) as any as S.Schema<DeleteAgentResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4681,12 +4914,12 @@ export type DeleteAgentActionGroupError =
  * Deletes an action group in an agent.
  */
 export const deleteAgentActionGroup: API.OperationMethod<
-  DeleteAgentActionGroupRequest,
+  DeleteAgentActionGroupRequest & RegionInput,
   DeleteAgentActionGroupResponse,
   DeleteAgentActionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c31, 0) as any as S.Schema<DeleteAgentActionGroupRequest>,
+  input: __S(1120, __c35, 0) as any as S.Schema<DeleteAgentActionGroupRequest>,
   output: __S(192, __c6, 0) as any as S.Schema<DeleteAgentActionGroupResponse>,
   errors: [
     AccessDeniedException,
@@ -4714,13 +4947,13 @@ export type DeleteAgentAliasError =
  * Deletes an alias of an agent.
  */
 export const deleteAgentAlias: API.OperationMethod<
-  DeleteAgentAliasRequest,
+  DeleteAgentAliasRequest & RegionInput,
   DeleteAgentAliasResponse,
   DeleteAgentAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c32, 0) as any as S.Schema<DeleteAgentAliasRequest>,
-  output: __S(1025, __c32, 1) as any as S.Schema<DeleteAgentAliasResponse>,
+  input: __S(1152, __c36, 0) as any as S.Schema<DeleteAgentAliasRequest>,
+  output: __S(1153, __c36, 1) as any as S.Schema<DeleteAgentAliasResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4747,13 +4980,13 @@ export type DeleteAgentVersionError =
  * Deletes a version of an agent.
  */
 export const deleteAgentVersion: API.OperationMethod<
-  DeleteAgentVersionRequest,
+  DeleteAgentVersionRequest & RegionInput,
   DeleteAgentVersionResponse,
   DeleteAgentVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<DeleteAgentVersionRequest>,
-  output: __S(1057, __c33, 1) as any as S.Schema<DeleteAgentVersionResponse>,
+  input: __S(1184, __c37, 0) as any as S.Schema<DeleteAgentVersionRequest>,
+  output: __S(1185, __c37, 1) as any as S.Schema<DeleteAgentVersionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4781,13 +5014,13 @@ export type DeleteDataSourceError =
  * Deletes a data source from a knowledge base.
  */
 export const deleteDataSource: API.OperationMethod<
-  DeleteDataSourceRequest,
+  DeleteDataSourceRequest & RegionInput,
   DeleteDataSourceResponse,
   DeleteDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<DeleteDataSourceRequest>,
-  output: __S(1089, __c34, 1) as any as S.Schema<DeleteDataSourceResponse>,
+  input: __S(1216, __c38, 0) as any as S.Schema<DeleteDataSourceRequest>,
+  output: __S(1217, __c38, 1) as any as S.Schema<DeleteDataSourceResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4815,13 +5048,13 @@ export type DeleteFlowError =
  * Deletes a flow.
  */
 export const deleteFlow: API.OperationMethod<
-  DeleteFlowRequest,
+  DeleteFlowRequest & RegionInput,
   DeleteFlowResponse,
   DeleteFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1120, __c35, 0) as any as S.Schema<DeleteFlowRequest>,
-  output: __S(1152, __c36, 0) as any as S.Schema<DeleteFlowResponse>,
+  input: __S(1248, __c39, 0) as any as S.Schema<DeleteFlowRequest>,
+  output: __S(1280, __c40, 0) as any as S.Schema<DeleteFlowResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4849,13 +5082,13 @@ export type DeleteFlowAliasError =
  * Deletes an alias of a flow.
  */
 export const deleteFlowAlias: API.OperationMethod<
-  DeleteFlowAliasRequest,
+  DeleteFlowAliasRequest & RegionInput,
   DeleteFlowAliasResponse,
   DeleteFlowAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1184, __c37, 0) as any as S.Schema<DeleteFlowAliasRequest>,
-  output: __S(1185, __c37, 1) as any as S.Schema<DeleteFlowAliasResponse>,
+  input: __S(1312, __c41, 0) as any as S.Schema<DeleteFlowAliasRequest>,
+  output: __S(1313, __c41, 1) as any as S.Schema<DeleteFlowAliasResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4883,13 +5116,13 @@ export type DeleteFlowVersionError =
  * Deletes a version of a flow.
  */
 export const deleteFlowVersion: API.OperationMethod<
-  DeleteFlowVersionRequest,
+  DeleteFlowVersionRequest & RegionInput,
   DeleteFlowVersionResponse,
   DeleteFlowVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1216, __c38, 0) as any as S.Schema<DeleteFlowVersionRequest>,
-  output: __S(1217, __c38, 1) as any as S.Schema<DeleteFlowVersionResponse>,
+  input: __S(1344, __c42, 0) as any as S.Schema<DeleteFlowVersionRequest>,
+  output: __S(1345, __c42, 1) as any as S.Schema<DeleteFlowVersionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4917,13 +5150,13 @@ export type DeleteKnowledgeBaseError =
  * Deletes a knowledge base. Before deleting a knowledge base, you should disassociate the knowledge base from any agents that it is associated with by making a DisassociateAgentKnowledgeBase request.
  */
 export const deleteKnowledgeBase: API.OperationMethod<
-  DeleteKnowledgeBaseRequest,
+  DeleteKnowledgeBaseRequest & RegionInput,
   DeleteKnowledgeBaseResponse,
   DeleteKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1248, __c39, 0) as any as S.Schema<DeleteKnowledgeBaseRequest>,
-  output: __S(1249, __c39, 1) as any as S.Schema<DeleteKnowledgeBaseResponse>,
+  input: __S(1376, __c43, 0) as any as S.Schema<DeleteKnowledgeBaseRequest>,
+  output: __S(1377, __c43, 1) as any as S.Schema<DeleteKnowledgeBaseResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -4951,13 +5184,13 @@ export type DeleteKnowledgeBaseDocumentsError =
  * Deletes documents from a data source and syncs the changes to the knowledge base that is connected to it. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
  */
 export const deleteKnowledgeBaseDocuments: API.OperationMethod<
-  DeleteKnowledgeBaseDocumentsRequest,
+  DeleteKnowledgeBaseDocumentsRequest & RegionInput,
   DeleteKnowledgeBaseDocumentsResponse,
   DeleteKnowledgeBaseDocumentsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<DeleteKnowledgeBaseDocumentsRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<DeleteKnowledgeBaseDocumentsResponse>,
+  input: __S(1408, __c44, 0) as any as S.Schema<DeleteKnowledgeBaseDocumentsRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<DeleteKnowledgeBaseDocumentsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4985,13 +5218,13 @@ export type DeletePromptError =
  * Deletes a prompt or a version of it, depending on whether you include the `promptVersion` field or not. For more information, see Delete prompts from the Prompt management tool and Delete a version of a prompt from the Prompt management tool in the Amazon Bedrock User Guide.
  */
 export const deletePrompt: API.OperationMethod<
-  DeletePromptRequest,
+  DeletePromptRequest & RegionInput,
   DeletePromptResponse,
   DeletePromptError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<DeletePromptRequest>,
-  output: __S(1409, __c44, 1) as any as S.Schema<DeletePromptResponse>,
+  input: __S(1536, __c48, 0) as any as S.Schema<DeletePromptRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<DeletePromptResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5019,13 +5252,13 @@ export type DeleteResourcePolicyError =
  * Removes the resource policy associated with a knowledge base. After deletion, other AWS accounts can no longer access the knowledge base using cross-account permissions.
  */
 export const deleteResourcePolicy: API.OperationMethod<
-  DeleteResourcePolicyRequest,
+  DeleteResourcePolicyRequest & RegionInput,
   DeleteResourcePolicyResponse,
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c45, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
-  output: __S(1441, __c45, 1) as any as S.Schema<DeleteResourcePolicyResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
+  output: __S(1569, __c49, 1) as any as S.Schema<DeleteResourcePolicyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5041,6 +5274,40 @@ export const deleteResourcePolicy: API.OperationMethod<
   span: "DeleteResourcePolicy",
 }));
 
+export type DeleteRetrievalInstructionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes a retrieval instruction or a single version of it. Omit retrievalInstructionVersion to delete the retrieval instruction itself; the service rejects that request with ConflictException while the retrieval instruction has versions or while lastTransitionStatus is CREATING or UPDATING. Specify retrievalInstructionVersion to delete only that version; the retrieval instruction and its other versions are unaffected.
+ */
+export const deleteRetrievalInstruction: API.OperationMethod<
+  DeleteRetrievalInstructionRequest & RegionInput,
+  DeleteRetrievalInstructionResponse,
+  DeleteRetrievalInstructionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1600, __c50, 0) as any as S.Schema<DeleteRetrievalInstructionRequest>,
+  output: __S(1601, __c50, 1) as any as S.Schema<DeleteRetrievalInstructionResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DeleteRetrievalInstruction",
+  telemetry: TELEMETRY,
+  span: "DeleteRetrievalInstruction",
+}));
+
 export type DeleteVpcConfigurationError =
   | AccessDeniedException
   | ConflictException
@@ -5053,13 +5320,13 @@ export type DeleteVpcConfigurationError =
  * Deletes a VPC configuration. This operation is asynchronous: it returns status `DELETING`. Poll `GetVpcConfiguration` until it returns a `ResourceNotFoundException`, indicating the configuration is deleted. Delete requests are idempotent and safe to retry.
  */
 export const deleteVpcConfiguration: API.OperationMethod<
-  DeleteVpcConfigurationRequest,
+  DeleteVpcConfigurationRequest & RegionInput,
   DeleteVpcConfigurationResponse,
   DeleteVpcConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c46, 0) as any as S.Schema<DeleteVpcConfigurationRequest>,
-  output: __S(928, __c29, 0) as any as S.Schema<DeleteVpcConfigurationResponse>,
+  input: __S(1632, __c51, 0) as any as S.Schema<DeleteVpcConfigurationRequest>,
+  output: __S(1056, __c33, 0) as any as S.Schema<DeleteVpcConfigurationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5087,12 +5354,12 @@ export type DisassociateAgentCollaboratorError =
  * Disassociates an agent collaborator.
  */
 export const disassociateAgentCollaborator: API.OperationMethod<
-  DisassociateAgentCollaboratorRequest,
+  DisassociateAgentCollaboratorRequest & RegionInput,
   DisassociateAgentCollaboratorResponse,
   DisassociateAgentCollaboratorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<DisassociateAgentCollaboratorRequest>,
+  input: __S(1664, __c52, 0) as any as S.Schema<DisassociateAgentCollaboratorRequest>,
   output: __S(192, __c6, 0) as any as S.Schema<DisassociateAgentCollaboratorResponse>,
   errors: [
     AccessDeniedException,
@@ -5121,12 +5388,12 @@ export type DisassociateAgentKnowledgeBaseError =
  * Disassociates a knowledge base from an agent.
  */
 export const disassociateAgentKnowledgeBase: API.OperationMethod<
-  DisassociateAgentKnowledgeBaseRequest,
+  DisassociateAgentKnowledgeBaseRequest & RegionInput,
   DisassociateAgentKnowledgeBaseResponse,
   DisassociateAgentKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<DisassociateAgentKnowledgeBaseRequest>,
+  input: __S(1696, __c53, 0) as any as S.Schema<DisassociateAgentKnowledgeBaseRequest>,
   output: __S(192, __c6, 0) as any as S.Schema<DisassociateAgentKnowledgeBaseResponse>,
   errors: [
     AccessDeniedException,
@@ -5154,13 +5421,13 @@ export type GetAgentError =
  * Gets information about an agent.
  */
 export const getAgent: API.OperationMethod<
-  GetAgentRequest,
+  GetAgentRequest & RegionInput,
   GetAgentResponse,
   GetAgentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<GetAgentRequest>,
-  output: __S(3651, __c114, 3) as any as S.Schema<GetAgentResponse>,
+  input: __S(1728, __c54, 0) as any as S.Schema<GetAgentRequest>,
+  output: __S(3843, __c120, 3) as any as S.Schema<GetAgentResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5186,12 +5453,12 @@ export type GetAgentActionGroupError =
  * Gets information about an action group for an agent.
  */
 export const getAgentActionGroup: API.OperationMethod<
-  GetAgentActionGroupRequest,
+  GetAgentActionGroupRequest & RegionInput,
   GetAgentActionGroupResponse,
   GetAgentActionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<GetAgentActionGroupRequest>,
+  input: __S(1760, __c55, 0) as any as S.Schema<GetAgentActionGroupRequest>,
   output: __S(41, __c1, 9) as any as S.Schema<GetAgentActionGroupResponse>,
   errors: [
     AccessDeniedException,
@@ -5218,12 +5485,12 @@ export type GetAgentAliasError =
  * Gets information about an alias of an agent.
  */
 export const getAgentAlias: API.OperationMethod<
-  GetAgentAliasRequest,
+  GetAgentAliasRequest & RegionInput,
   GetAgentAliasResponse,
   GetAgentAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<GetAgentAliasRequest>,
+  input: __S(1792, __c56, 0) as any as S.Schema<GetAgentAliasRequest>,
   output: __S(131, __c4, 3) as any as S.Schema<GetAgentAliasResponse>,
   errors: [
     AccessDeniedException,
@@ -5250,13 +5517,13 @@ export type GetAgentCollaboratorError =
  * Retrieves information about an agent's collaborator.
  */
 export const getAgentCollaborator: API.OperationMethod<
-  GetAgentCollaboratorRequest,
+  GetAgentCollaboratorRequest & RegionInput,
   GetAgentCollaboratorResponse,
   GetAgentCollaboratorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<GetAgentCollaboratorRequest>,
-  output: __S(2881, __c90, 1) as any as S.Schema<GetAgentCollaboratorResponse>,
+  input: __S(1824, __c57, 0) as any as S.Schema<GetAgentCollaboratorRequest>,
+  output: __S(2945, __c92, 1) as any as S.Schema<GetAgentCollaboratorResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5282,13 +5549,13 @@ export type GetAgentKnowledgeBaseError =
  * Gets information about a knowledge base associated with an agent.
  */
 export const getAgentKnowledgeBase: API.OperationMethod<
-  GetAgentKnowledgeBaseRequest,
+  GetAgentKnowledgeBaseRequest & RegionInput,
   GetAgentKnowledgeBaseResponse,
   GetAgentKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<GetAgentKnowledgeBaseRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<GetAgentKnowledgeBaseResponse>,
+  input: __S(1856, __c58, 0) as any as S.Schema<GetAgentKnowledgeBaseRequest>,
+  output: __S(3329, __c104, 1) as any as S.Schema<GetAgentKnowledgeBaseResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5314,13 +5581,13 @@ export type GetAgentVersionError =
  * Gets details about a version of an agent.
  */
 export const getAgentVersion: API.OperationMethod<
-  GetAgentVersionRequest,
+  GetAgentVersionRequest & RegionInput,
   GetAgentVersionResponse,
   GetAgentVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<GetAgentVersionRequest>,
-  output: __S(1730, __c54, 2) as any as S.Schema<GetAgentVersionResponse>,
+  input: __S(1888, __c59, 0) as any as S.Schema<GetAgentVersionRequest>,
+  output: __S(1890, __c59, 2) as any as S.Schema<GetAgentVersionResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5346,12 +5613,12 @@ export type GetDataSourceError =
  * Gets information about a data source.
  */
 export const getDataSource: API.OperationMethod<
-  GetDataSourceRequest,
+  GetDataSourceRequest & RegionInput,
   GetDataSourceResponse,
   GetDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<GetDataSourceRequest>,
+  input: __S(1920, __c60, 0) as any as S.Schema<GetDataSourceRequest>,
   output: __S(401, __c12, 17) as any as S.Schema<GetDataSourceResponse>,
   errors: [
     AccessDeniedException,
@@ -5378,13 +5645,13 @@ export type GetFlowError =
  * Retrieves information about a flow. For more information, see Manage a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const getFlow: API.OperationMethod<
-  GetFlowRequest,
+  GetFlowRequest & RegionInput,
   GetFlowResponse,
   GetFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<GetFlowRequest>,
-  output: __S(1793, __c56, 1) as any as S.Schema<GetFlowResponse>,
+  input: __S(1952, __c61, 0) as any as S.Schema<GetFlowRequest>,
+  output: __S(1953, __c61, 1) as any as S.Schema<GetFlowResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5410,12 +5677,12 @@ export type GetFlowAliasError =
  * Retrieves information about a flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const getFlowAlias: API.OperationMethod<
-  GetFlowAliasRequest,
+  GetFlowAliasRequest & RegionInput,
   GetFlowAliasResponse,
   GetFlowAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<GetFlowAliasRequest>,
+  input: __S(2016, __c63, 0) as any as S.Schema<GetFlowAliasRequest>,
   output: __S(611, __c19, 3) as any as S.Schema<GetFlowAliasResponse>,
   errors: [
     AccessDeniedException,
@@ -5442,12 +5709,12 @@ export type GetFlowVersionError =
  * Retrieves information about a version of a flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const getFlowVersion: API.OperationMethod<
-  GetFlowVersionRequest,
+  GetFlowVersionRequest & RegionInput,
   GetFlowVersionResponse,
   GetFlowVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<GetFlowVersionRequest>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetFlowVersionRequest>,
   output: __S(672, __c21, 0) as any as S.Schema<GetFlowVersionResponse>,
   errors: [
     AccessDeniedException,
@@ -5474,13 +5741,13 @@ export type GetIngestionJobError =
  * Gets information about a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data.
  */
 export const getIngestionJob: API.OperationMethod<
-  GetIngestionJobRequest,
+  GetIngestionJobRequest & RegionInput,
   GetIngestionJobResponse,
   GetIngestionJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<GetIngestionJobRequest>,
-  output: __S(1985, __c62, 1) as any as S.Schema<GetIngestionJobResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<GetIngestionJobRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<GetIngestionJobResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5506,13 +5773,13 @@ export type GetKnowledgeBaseError =
  * Gets information about a knowledge base.
  */
 export const getKnowledgeBase: API.OperationMethod<
-  GetKnowledgeBaseRequest,
+  GetKnowledgeBaseRequest & RegionInput,
   GetKnowledgeBaseResponse,
   GetKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<GetKnowledgeBaseRequest>,
-  output: __S(780, __c24, 12) as any as S.Schema<GetKnowledgeBaseResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<GetKnowledgeBaseRequest>,
+  output: __S(782, __c24, 14) as any as S.Schema<GetKnowledgeBaseResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5539,13 +5806,13 @@ export type GetKnowledgeBaseDocumentsError =
  * Retrieves specific documents from a data source that is connected to a knowledge base. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
  */
 export const getKnowledgeBaseDocuments: API.OperationMethod<
-  GetKnowledgeBaseDocumentsRequest,
+  GetKnowledgeBaseDocumentsRequest & RegionInput,
   GetKnowledgeBaseDocumentsResponse,
   GetKnowledgeBaseDocumentsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<GetKnowledgeBaseDocumentsRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<GetKnowledgeBaseDocumentsResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<GetKnowledgeBaseDocumentsRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<GetKnowledgeBaseDocumentsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5572,12 +5839,12 @@ export type GetPromptError =
  * Retrieves information about the working draft (`DRAFT` version) of a prompt or a version of it, depending on whether you include the `promptVersion` field or not. For more information, see View information about prompts using Prompt management and View information about a version of your prompt in the Amazon Bedrock User Guide.
  */
 export const getPrompt: API.OperationMethod<
-  GetPromptRequest,
+  GetPromptRequest & RegionInput,
   GetPromptResponse,
   GetPromptError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<GetPromptRequest>,
+  input: __S(2240, __c70, 0) as any as S.Schema<GetPromptRequest>,
   output: __S(838, __c26, 6) as any as S.Schema<GetPromptResponse>,
   errors: [
     AccessDeniedException,
@@ -5604,13 +5871,13 @@ export type GetResourcePolicyError =
  * Retrieves the resource policy associated with a knowledge base.
  */
 export const getResourcePolicy: API.OperationMethod<
-  GetResourcePolicyRequest,
+  GetResourcePolicyRequest & RegionInput,
   GetResourcePolicyResponse,
   GetResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<GetResourcePolicyRequest>,
-  output: __S(2113, __c66, 1) as any as S.Schema<GetResourcePolicyResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<GetResourcePolicyRequest>,
+  output: __S(2273, __c71, 1) as any as S.Schema<GetResourcePolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5625,6 +5892,38 @@ export const getResourcePolicy: API.OperationMethod<
   span: "GetResourcePolicy",
 }));
 
+export type GetRetrievalInstructionError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Gets a retrieval instruction. Also used to poll the terminal reporting of an asynchronous create or update.
+ */
+export const getRetrievalInstruction: API.OperationMethod<
+  GetRetrievalInstructionRequest & RegionInput,
+  GetRetrievalInstructionResponse,
+  GetRetrievalInstructionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2304, __c72, 0) as any as S.Schema<GetRetrievalInstructionRequest>,
+  output: __S(2307, __c72, 3) as any as S.Schema<GetRetrievalInstructionResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetRetrievalInstruction",
+  telemetry: TELEMETRY,
+  span: "GetRetrievalInstruction",
+}));
+
 export type GetVpcConfigurationError =
   | AccessDeniedException
   | InternalServerException
@@ -5636,13 +5935,13 @@ export type GetVpcConfigurationError =
  * Returns the details and current status of a single VPC configuration. Use this operation to poll for the outcome of an asynchronous create or delete.
  */
 export const getVpcConfiguration: API.OperationMethod<
-  GetVpcConfigurationRequest,
+  GetVpcConfigurationRequest & RegionInput,
   GetVpcConfigurationResponse,
   GetVpcConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<GetVpcConfigurationRequest>,
-  output: __S(2146, __c67, 2) as any as S.Schema<GetVpcConfigurationResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<GetVpcConfigurationRequest>,
+  output: __S(2338, __c73, 2) as any as S.Schema<GetVpcConfigurationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5669,13 +5968,13 @@ export type IngestKnowledgeBaseDocumentsError =
  * Ingests documents directly into the knowledge base that is connected to the data source. The `dataSourceType` specified in the content for each document must match the type of the data source that you specify in the header. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
  */
 export const ingestKnowledgeBaseDocuments: API.OperationMethod<
-  IngestKnowledgeBaseDocumentsRequest,
+  IngestKnowledgeBaseDocumentsRequest & RegionInput,
   IngestKnowledgeBaseDocumentsResponse,
   IngestKnowledgeBaseDocumentsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2190, __c68, 14) as any as S.Schema<IngestKnowledgeBaseDocumentsRequest>,
-  output: __S(1344, __c42, 0) as any as S.Schema<IngestKnowledgeBaseDocumentsResponse>,
+  input: __S(2382, __c74, 14) as any as S.Schema<IngestKnowledgeBaseDocumentsRequest>,
+  output: __S(1472, __c46, 0) as any as S.Schema<IngestKnowledgeBaseDocumentsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5702,14 +6001,14 @@ export type ListAgentActionGroupsError =
  * Lists the action groups for an agent and information about each one.
  */
 export const listAgentActionGroups: API.PaginatedOperationMethod<
-  ListAgentActionGroupsRequest,
+  ListAgentActionGroupsRequest & RegionInput,
   ListAgentActionGroupsResponse,
   ListAgentActionGroupsError,
   Credentials | HttpClient.HttpClient,
   ActionGroupSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<ListAgentActionGroupsRequest>,
-  output: __S(2211, __c69, 3) as any as S.Schema<ListAgentActionGroupsResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<ListAgentActionGroupsRequest>,
+  output: __S(2403, __c75, 3) as any as S.Schema<ListAgentActionGroupsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5741,14 +6040,14 @@ export type ListAgentAliasesError =
  * Lists the aliases of an agent and information about each one.
  */
 export const listAgentAliases: API.PaginatedOperationMethod<
-  ListAgentAliasesRequest,
+  ListAgentAliasesRequest & RegionInput,
   ListAgentAliasesResponse,
   ListAgentAliasesError,
   Credentials | HttpClient.HttpClient,
   AgentAliasSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<ListAgentAliasesRequest>,
-  output: __S(2243, __c70, 3) as any as S.Schema<ListAgentAliasesResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<ListAgentAliasesRequest>,
+  output: __S(2435, __c76, 3) as any as S.Schema<ListAgentAliasesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5780,14 +6079,14 @@ export type ListAgentCollaboratorsError =
  * Retrieve a list of an agent's collaborators.
  */
 export const listAgentCollaborators: API.PaginatedOperationMethod<
-  ListAgentCollaboratorsRequest,
+  ListAgentCollaboratorsRequest & RegionInput,
   ListAgentCollaboratorsResponse,
   ListAgentCollaboratorsError,
   Credentials | HttpClient.HttpClient,
   AgentCollaboratorSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ListAgentCollaboratorsRequest>,
-  output: __S(2275, __c71, 3) as any as S.Schema<ListAgentCollaboratorsResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<ListAgentCollaboratorsRequest>,
+  output: __S(2467, __c77, 3) as any as S.Schema<ListAgentCollaboratorsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5819,14 +6118,14 @@ export type ListAgentKnowledgeBasesError =
  * Lists knowledge bases associated with an agent and information about each one.
  */
 export const listAgentKnowledgeBases: API.PaginatedOperationMethod<
-  ListAgentKnowledgeBasesRequest,
+  ListAgentKnowledgeBasesRequest & RegionInput,
   ListAgentKnowledgeBasesResponse,
   ListAgentKnowledgeBasesError,
   Credentials | HttpClient.HttpClient,
   AgentKnowledgeBaseSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ListAgentKnowledgeBasesRequest>,
-  output: __S(2307, __c72, 3) as any as S.Schema<ListAgentKnowledgeBasesResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<ListAgentKnowledgeBasesRequest>,
+  output: __S(2499, __c78, 3) as any as S.Schema<ListAgentKnowledgeBasesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5857,14 +6156,14 @@ export type ListAgentsError =
  * Lists the agents belonging to an account and information about each agent.
  */
 export const listAgents: API.PaginatedOperationMethod<
-  ListAgentsRequest,
+  ListAgentsRequest & RegionInput,
   ListAgentsResponse,
   ListAgentsError,
   Credentials | HttpClient.HttpClient,
   AgentSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<ListAgentsRequest>,
-  output: __S(2339, __c73, 3) as any as S.Schema<ListAgentsResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<ListAgentsRequest>,
+  output: __S(2563, __c80, 3) as any as S.Schema<ListAgentsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5895,14 +6194,14 @@ export type ListAgentVersionsError =
  * Lists the versions of an agent and information about each version.
  */
 export const listAgentVersions: API.PaginatedOperationMethod<
-  ListAgentVersionsRequest,
+  ListAgentVersionsRequest & RegionInput,
   ListAgentVersionsResponse,
   ListAgentVersionsError,
   Credentials | HttpClient.HttpClient,
   AgentVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<ListAgentVersionsRequest>,
-  output: __S(2371, __c74, 3) as any as S.Schema<ListAgentVersionsResponse>,
+  input: __S(2592, __c81, 0) as any as S.Schema<ListAgentVersionsRequest>,
+  output: __S(2595, __c81, 3) as any as S.Schema<ListAgentVersionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5934,14 +6233,14 @@ export type ListDataSourcesError =
  * Lists the data sources in a knowledge base and information about each one.
  */
 export const listDataSources: API.PaginatedOperationMethod<
-  ListDataSourcesRequest,
+  ListDataSourcesRequest & RegionInput,
   ListDataSourcesResponse,
   ListDataSourcesError,
   Credentials | HttpClient.HttpClient,
   DataSourceSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<ListDataSourcesRequest>,
-  output: __S(2403, __c75, 3) as any as S.Schema<ListDataSourcesResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<ListDataSourcesRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<ListDataSourcesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5973,14 +6272,14 @@ export type ListFlowAliasesError =
  * Returns a list of aliases for a flow.
  */
 export const listFlowAliases: API.PaginatedOperationMethod<
-  ListFlowAliasesRequest,
+  ListFlowAliasesRequest & RegionInput,
   ListFlowAliasesResponse,
   ListFlowAliasesError,
   Credentials | HttpClient.HttpClient,
   FlowAliasSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<ListFlowAliasesRequest>,
-  output: __S(2434, __c76, 2) as any as S.Schema<ListFlowAliasesResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<ListFlowAliasesRequest>,
+  output: __S(2658, __c83, 2) as any as S.Schema<ListFlowAliasesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -6011,14 +6310,14 @@ export type ListFlowsError =
  * Returns a list of flows and information about each flow. For more information, see Manage a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const listFlows: API.PaginatedOperationMethod<
-  ListFlowsRequest,
+  ListFlowsRequest & RegionInput,
   ListFlowsResponse,
   ListFlowsError,
   Credentials | HttpClient.HttpClient,
   FlowSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<ListFlowsRequest>,
-  output: __S(2499, __c78, 3) as any as S.Schema<ListFlowsResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<ListFlowsRequest>,
+  output: __S(2691, __c84, 3) as any as S.Schema<ListFlowsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -6049,14 +6348,14 @@ export type ListFlowVersionsError =
  * Returns a list of information about each flow. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const listFlowVersions: API.PaginatedOperationMethod<
-  ListFlowVersionsRequest,
+  ListFlowVersionsRequest & RegionInput,
   ListFlowVersionsResponse,
   ListFlowVersionsError,
   Credentials | HttpClient.HttpClient,
   FlowVersionSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<ListFlowVersionsRequest>,
-  output: __S(2531, __c79, 3) as any as S.Schema<ListFlowVersionsResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<ListFlowVersionsRequest>,
+  output: __S(2723, __c85, 3) as any as S.Schema<ListFlowVersionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -6088,14 +6387,14 @@ export type ListIngestionJobsError =
  * Lists the data ingestion jobs for a data source. The list also includes information about each job.
  */
 export const listIngestionJobs: API.PaginatedOperationMethod<
-  ListIngestionJobsRequest,
+  ListIngestionJobsRequest & RegionInput,
   ListIngestionJobsResponse,
   ListIngestionJobsError,
   Credentials | HttpClient.HttpClient,
   IngestionJobSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2563, __c80, 3) as any as S.Schema<ListIngestionJobsRequest>,
-  output: __S(2566, __c80, 6) as any as S.Schema<ListIngestionJobsResponse>,
+  input: __S(2755, __c86, 3) as any as S.Schema<ListIngestionJobsRequest>,
+  output: __S(2758, __c86, 6) as any as S.Schema<ListIngestionJobsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -6128,14 +6427,14 @@ export type ListKnowledgeBaseDocumentsError =
  * Retrieves all the documents contained in a data source that is connected to a knowledge base. For more information, see Ingest changes directly into a knowledge base in the Amazon Bedrock User Guide.
  */
 export const listKnowledgeBaseDocuments: API.PaginatedOperationMethod<
-  ListKnowledgeBaseDocumentsRequest,
+  ListKnowledgeBaseDocumentsRequest & RegionInput,
   ListKnowledgeBaseDocumentsResponse,
   ListKnowledgeBaseDocumentsError,
   Credentials | HttpClient.HttpClient,
   KnowledgeBaseDocumentDetail
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<ListKnowledgeBaseDocumentsRequest>,
-  output: __S(2593, __c81, 1) as any as S.Schema<ListKnowledgeBaseDocumentsResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<ListKnowledgeBaseDocumentsRequest>,
+  output: __S(2785, __c87, 1) as any as S.Schema<ListKnowledgeBaseDocumentsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -6167,14 +6466,14 @@ export type ListKnowledgeBasesError =
  * Lists the knowledge bases in an account. The list also includesinformation about each knowledge base.
  */
 export const listKnowledgeBases: API.PaginatedOperationMethod<
-  ListKnowledgeBasesRequest,
+  ListKnowledgeBasesRequest & RegionInput,
   ListKnowledgeBasesResponse,
   ListKnowledgeBasesError,
   Credentials | HttpClient.HttpClient,
   KnowledgeBaseSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<ListKnowledgeBasesRequest>,
-  output: __S(2627, __c82, 3) as any as S.Schema<ListKnowledgeBasesResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<ListKnowledgeBasesRequest>,
+  output: __S(2819, __c88, 3) as any as S.Schema<ListKnowledgeBasesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -6205,14 +6504,14 @@ export type ListPromptsError =
  * Returns either information about the working draft (`DRAFT` version) of each prompt in an account, or information about of all versions of a prompt, depending on whether you include the `promptIdentifier` field or not. For more information, see View information about prompts using Prompt management in the Amazon Bedrock User Guide.
  */
 export const listPrompts: API.PaginatedOperationMethod<
-  ListPromptsRequest,
+  ListPromptsRequest & RegionInput,
   ListPromptsResponse,
   ListPromptsError,
   Credentials | HttpClient.HttpClient,
   PromptSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<ListPromptsRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<ListPromptsResponse>,
+  input: __S(2848, __c89, 0) as any as S.Schema<ListPromptsRequest>,
+  output: __S(2851, __c89, 3) as any as S.Schema<ListPromptsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -6233,6 +6532,82 @@ export const listPrompts: API.PaginatedOperationMethod<
   span: "ListPrompts",
 })) as any;
 
+export type ListRetrievalInstructionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the retrieval instructions in the caller's account. Results are paginated. Use the nextToken parameter to retrieve additional results.
+ */
+export const listRetrievalInstructions: API.PaginatedOperationMethod<
+  ListRetrievalInstructionsRequest & RegionInput,
+  ListRetrievalInstructionsResponse,
+  ListRetrievalInstructionsError,
+  Credentials | HttpClient.HttpClient,
+  RetrievalInstructionSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(2976, __c93, 0) as any as S.Schema<ListRetrievalInstructionsRequest>,
+  output: __S(2979, __c93, 3) as any as S.Schema<ListRetrievalInstructionsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListRetrievalInstructions",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "retrievalInstructionSummaries",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListRetrievalInstructions",
+})) as any;
+
+export type ListRetrievalInstructionVersionsError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the numbered versions of a retrieval instruction, newest first. DRAFT is not listed; read it with GetRetrievalInstruction without retrievalInstructionVersion. Results are paginated. Use the nextToken parameter to retrieve additional results.
+ */
+export const listRetrievalInstructionVersions: API.PaginatedOperationMethod<
+  ListRetrievalInstructionVersionsRequest & RegionInput,
+  ListRetrievalInstructionVersionsResponse,
+  ListRetrievalInstructionVersionsError,
+  Credentials | HttpClient.HttpClient,
+  RetrievalInstructionVersionSummary
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(3008, __c94, 0) as any as S.Schema<ListRetrievalInstructionVersionsRequest>,
+  output: __S(3011, __c94, 3) as any as S.Schema<ListRetrievalInstructionVersionsResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListRetrievalInstructionVersions",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "retrievalInstructionVersionSummaries",
+    pageSize: "maxResults",
+  } as const,
+  telemetry: TELEMETRY,
+  span: "ListRetrievalInstructionVersions",
+})) as any;
+
 export type ListTagsForResourceError =
   | AccessDeniedException
   | InternalServerException
@@ -6244,13 +6619,13 @@ export type ListTagsForResourceError =
  * List all the tags for the resource you specify.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(2689, __c84, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(3041, __c95, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -6276,14 +6651,14 @@ export type ListVpcConfigurationsError =
  * Returns a paginated list of the VPC configurations for a knowledge base. You can optionally filter by status. Use the `nextToken` parameter to retrieve additional results.
  */
 export const listVpcConfigurations: API.PaginatedOperationMethod<
-  ListVpcConfigurationsRequest,
+  ListVpcConfigurationsRequest & RegionInput,
   ListVpcConfigurationsResponse,
   ListVpcConfigurationsError,
   Credentials | HttpClient.HttpClient,
   VpcConfigurationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<ListVpcConfigurationsRequest>,
-  output: __S(2723, __c85, 3) as any as S.Schema<ListVpcConfigurationsResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<ListVpcConfigurationsRequest>,
+  output: __S(3075, __c96, 3) as any as S.Schema<ListVpcConfigurationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -6317,13 +6692,13 @@ export type PrepareAgentError =
  * Creates a `DRAFT` version of the agent that can be used for internal testing.
  */
 export const prepareAgent: API.OperationMethod<
-  PrepareAgentRequest,
+  PrepareAgentRequest & RegionInput,
   PrepareAgentResponse,
   PrepareAgentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<PrepareAgentRequest>,
-  output: __S(2753, __c86, 1) as any as S.Schema<PrepareAgentResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<PrepareAgentRequest>,
+  output: __S(3105, __c97, 1) as any as S.Schema<PrepareAgentResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6353,13 +6728,13 @@ export type PrepareFlowError =
  * Prepares the `DRAFT` version of a flow so that it can be invoked. For more information, see Test a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const prepareFlow: API.OperationMethod<
-  PrepareFlowRequest,
+  PrepareFlowRequest & RegionInput,
   PrepareFlowResponse,
   PrepareFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<PrepareFlowRequest>,
-  output: __S(2785, __c87, 1) as any as S.Schema<PrepareFlowResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<PrepareFlowRequest>,
+  output: __S(3137, __c98, 1) as any as S.Schema<PrepareFlowResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6388,13 +6763,13 @@ export type PutResourcePolicyError =
  * Associates a resource policy with a knowledge base. A resource policy allows other AWS accounts to access the knowledge base. For more information, see Cross-account access for knowledge bases.
  */
 export const putResourcePolicy: API.OperationMethod<
-  PutResourcePolicyRequest,
+  PutResourcePolicyRequest & RegionInput,
   PutResourcePolicyResponse,
   PutResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<PutResourcePolicyRequest>,
-  output: __S(2913, __c91, 1) as any as S.Schema<PutResourcePolicyResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<PutResourcePolicyRequest>,
+  output: __S(3169, __c99, 1) as any as S.Schema<PutResourcePolicyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6423,13 +6798,13 @@ export type StartIngestionJobError =
  * Begins a data ingestion job. Data sources are ingested into your knowledge base so that Large Language Models (LLMs) can use your data.
  */
 export const startIngestionJob: API.OperationMethod<
-  StartIngestionJobRequest,
+  StartIngestionJobRequest & RegionInput,
   StartIngestionJobResponse,
   StartIngestionJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<StartIngestionJobRequest>,
-  output: __S(1985, __c62, 1) as any as S.Schema<StartIngestionJobResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<StartIngestionJobRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<StartIngestionJobResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6458,13 +6833,13 @@ export type StopIngestionJobError =
  * Stops a currently running data ingestion job. You can send a `StartIngestionJob` request again to ingest the rest of your data when you are ready.
  */
 export const stopIngestionJob: API.OperationMethod<
-  StopIngestionJobRequest,
+  StopIngestionJobRequest & RegionInput,
   StopIngestionJobResponse,
   StopIngestionJobError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<StopIngestionJobRequest>,
-  output: __S(1985, __c62, 1) as any as S.Schema<StopIngestionJobResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<StopIngestionJobRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<StopIngestionJobResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6492,12 +6867,12 @@ export type TagResourceError =
  * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<TagResourceRequest>,
+  input: __S(3264, __c102, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(192, __c6, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
@@ -6525,12 +6900,12 @@ export type UntagResourceError =
  * Remove tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<UntagResourceRequest>,
+  input: __S(3360, __c105, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(192, __c6, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
@@ -6559,13 +6934,13 @@ export type UpdateAgentError =
  * Updates the configuration of an agent.
  */
 export const updateAgent: API.OperationMethod<
-  UpdateAgentRequest,
+  UpdateAgentRequest & RegionInput,
   UpdateAgentResponse,
   UpdateAgentError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<UpdateAgentRequest>,
-  output: __S(3651, __c114, 3) as any as S.Schema<UpdateAgentResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<UpdateAgentRequest>,
+  output: __S(3843, __c120, 3) as any as S.Schema<UpdateAgentResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6595,12 +6970,12 @@ export type UpdateAgentActionGroupError =
  * Updates the configuration for an action group for an agent.
  */
 export const updateAgentActionGroup: API.OperationMethod<
-  UpdateAgentActionGroupRequest,
+  UpdateAgentActionGroupRequest & RegionInput,
   UpdateAgentActionGroupResponse,
   UpdateAgentActionGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<UpdateAgentActionGroupRequest>,
+  input: __S(3424, __c107, 0) as any as S.Schema<UpdateAgentActionGroupRequest>,
   output: __S(41, __c1, 9) as any as S.Schema<UpdateAgentActionGroupResponse>,
   errors: [
     AccessDeniedException,
@@ -6631,12 +7006,12 @@ export type UpdateAgentAliasError =
  * Updates configurations for an alias of an agent.
  */
 export const updateAgentAlias: API.OperationMethod<
-  UpdateAgentAliasRequest,
+  UpdateAgentAliasRequest & RegionInput,
   UpdateAgentAliasResponse,
   UpdateAgentAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<UpdateAgentAliasRequest>,
+  input: __S(3456, __c108, 0) as any as S.Schema<UpdateAgentAliasRequest>,
   output: __S(131, __c4, 3) as any as S.Schema<UpdateAgentAliasResponse>,
   errors: [
     AccessDeniedException,
@@ -6667,13 +7042,13 @@ export type UpdateAgentCollaboratorError =
  * Updates an agent's collaborator.
  */
 export const updateAgentCollaborator: API.OperationMethod<
-  UpdateAgentCollaboratorRequest,
+  UpdateAgentCollaboratorRequest & RegionInput,
   UpdateAgentCollaboratorResponse,
   UpdateAgentCollaboratorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<UpdateAgentCollaboratorRequest>,
-  output: __S(2881, __c90, 1) as any as S.Schema<UpdateAgentCollaboratorResponse>,
+  input: __S(3488, __c109, 0) as any as S.Schema<UpdateAgentCollaboratorRequest>,
+  output: __S(2945, __c92, 1) as any as S.Schema<UpdateAgentCollaboratorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6702,13 +7077,13 @@ export type UpdateAgentKnowledgeBaseError =
  * Updates the configuration for a knowledge base that has been associated with an agent.
  */
 export const updateAgentKnowledgeBase: API.OperationMethod<
-  UpdateAgentKnowledgeBaseRequest,
+  UpdateAgentKnowledgeBaseRequest & RegionInput,
   UpdateAgentKnowledgeBaseResponse,
   UpdateAgentKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<UpdateAgentKnowledgeBaseRequest>,
-  output: __S(3265, __c102, 1) as any as S.Schema<UpdateAgentKnowledgeBaseResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<UpdateAgentKnowledgeBaseRequest>,
+  output: __S(3329, __c104, 1) as any as S.Schema<UpdateAgentKnowledgeBaseResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6738,12 +7113,12 @@ export type UpdateDataSourceError =
  * You can't change the `chunkingConfiguration` after you create the data source connector. Specify the existing `chunkingConfiguration`.
  */
 export const updateDataSource: API.OperationMethod<
-  UpdateDataSourceRequest,
+  UpdateDataSourceRequest & RegionInput,
   UpdateDataSourceResponse,
   UpdateDataSourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3296, __c103, 0) as any as S.Schema<UpdateDataSourceRequest>,
+  input: __S(3552, __c111, 0) as any as S.Schema<UpdateDataSourceRequest>,
   output: __S(401, __c12, 17) as any as S.Schema<UpdateDataSourceResponse>,
   errors: [
     AccessDeniedException,
@@ -6773,12 +7148,12 @@ export type UpdateFlowError =
  * Modifies a flow. Include both fields that you want to keep and fields that you want to change. For more information, see How it works and Create a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const updateFlow: API.OperationMethod<
-  UpdateFlowRequest,
+  UpdateFlowRequest & RegionInput,
   UpdateFlowResponse,
   UpdateFlowError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<UpdateFlowRequest>,
+  input: __S(3584, __c112, 0) as any as S.Schema<UpdateFlowRequest>,
   output: __S(544, __c17, 0) as any as S.Schema<UpdateFlowResponse>,
   errors: [
     AccessDeniedException,
@@ -6809,12 +7184,12 @@ export type UpdateFlowAliasError =
  * Modifies the alias of a flow. Include both fields that you want to keep and ones that you want to change. For more information, see Deploy a flow in Amazon Bedrock in the Amazon Bedrock User Guide.
  */
 export const updateFlowAlias: API.OperationMethod<
-  UpdateFlowAliasRequest,
+  UpdateFlowAliasRequest & RegionInput,
   UpdateFlowAliasResponse,
   UpdateFlowAliasError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<UpdateFlowAliasRequest>,
+  input: __S(3616, __c113, 0) as any as S.Schema<UpdateFlowAliasRequest>,
   output: __S(611, __c19, 3) as any as S.Schema<UpdateFlowAliasResponse>,
   errors: [
     AccessDeniedException,
@@ -6854,13 +7229,13 @@ export type UpdateKnowledgeBaseError =
  * You can't change the `knowledgeBaseConfiguration` or `storageConfiguration` fields, so you must specify the same configurations as when you created the knowledge base. You can send a GetKnowledgeBase request and copy the same configurations.
  */
 export const updateKnowledgeBase: API.OperationMethod<
-  UpdateKnowledgeBaseRequest,
+  UpdateKnowledgeBaseRequest & RegionInput,
   UpdateKnowledgeBaseResponse,
   UpdateKnowledgeBaseError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<UpdateKnowledgeBaseRequest>,
-  output: __S(780, __c24, 12) as any as S.Schema<UpdateKnowledgeBaseResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<UpdateKnowledgeBaseRequest>,
+  output: __S(782, __c24, 14) as any as S.Schema<UpdateKnowledgeBaseResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6889,12 +7264,12 @@ export type UpdatePromptError =
  * Modifies a prompt in your prompt library. Include both fields that you want to keep and fields that you want to replace. For more information, see Prompt management in Amazon Bedrock and Edit prompts in your prompt library in the Amazon Bedrock User Guide.
  */
 export const updatePrompt: API.OperationMethod<
-  UpdatePromptRequest,
+  UpdatePromptRequest & RegionInput,
   UpdatePromptResponse,
   UpdatePromptError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<UpdatePromptRequest>,
+  input: __S(3872, __c121, 0) as any as S.Schema<UpdatePromptRequest>,
   output: __S(838, __c26, 6) as any as S.Schema<UpdatePromptResponse>,
   errors: [
     AccessDeniedException,
@@ -6912,6 +7287,40 @@ export const updatePrompt: API.OperationMethod<
   span: "UpdatePrompt",
 }));
 
+export type UpdateRetrievalInstructionError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Updates the content of a retrieval instruction. The update is processed asynchronously; the stored content is a candidate until content review passes, and the served content does not change while the update is in flight. The service rejects the request with ConflictException while lastTransitionStatus is CREATING or UPDATING.
+ */
+export const updateRetrievalInstruction: API.OperationMethod<
+  UpdateRetrievalInstructionRequest & RegionInput,
+  UpdateRetrievalInstructionResponse,
+  UpdateRetrievalInstructionError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3904, __c122, 0) as any as S.Schema<UpdateRetrievalInstructionRequest>,
+  output: __S(960, __c30, 0) as any as S.Schema<UpdateRetrievalInstructionResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UpdateRetrievalInstruction",
+  telemetry: TELEMETRY,
+  span: "UpdateRetrievalInstruction",
+}));
+
 export type ValidateFlowDefinitionError =
   | AccessDeniedException
   | InternalServerException
@@ -6922,13 +7331,13 @@ export type ValidateFlowDefinitionError =
  * Validates the definition of a flow.
  */
 export const validateFlowDefinition: API.OperationMethod<
-  ValidateFlowDefinitionRequest,
+  ValidateFlowDefinitionRequest & RegionInput,
   ValidateFlowDefinitionResponse,
   ValidateFlowDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<ValidateFlowDefinitionRequest>,
-  output: __S(3457, __c108, 1) as any as S.Schema<ValidateFlowDefinitionResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<ValidateFlowDefinitionRequest>,
+  output: __S(3937, __c123, 1) as any as S.Schema<ValidateFlowDefinitionResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -6954,7 +7363,7 @@ function __c0(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           description: S.optional(S.String),
           parentActionGroupSignature: S.optional(S.String),
-          parentActionGroupSignatureParams: S.optional(__S(3520, __c110, 0)),
+          parentActionGroupSignatureParams: S.optional(__S(3712, __c116, 0)),
           actionGroupExecutor: S.optional(__S(32, __c1, 0)),
           apiSchema: S.optional(__S(34, __c1, 2)),
           actionGroupState: S.optional(S.String),
@@ -7026,7 +7435,7 @@ function __c1(j: number): any {
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           parentActionSignature: S.optional(S.String),
-          parentActionGroupSignatureParams: S.optional(__S(3520, __c110, 0)),
+          parentActionGroupSignatureParams: S.optional(__S(3712, __c116, 0)),
           actionGroupExecutor: S.optional(__S(32, __c1, 0)),
           apiSchema: S.optional(__S(34, __c1, 2)),
           functionSchema: S.optional(__S(39, __c1, 7)),
@@ -7049,7 +7458,7 @@ function __c2(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           description: S.optional(S.String),
           routingConfiguration: S.optional(__S(97, __c3, 1)),
-          tags: S.optional(__S(3520, __c110, 0)),
+          tags: S.optional(__S(3712, __c116, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/agents/{agentId}/agentaliases/" }),
@@ -7102,7 +7511,7 @@ function __c4(j: number): any {
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           agentAliasHistoryEvents: S.optional(__S(129, __c4, 1)),
           agentAliasStatus: S.String,
-          failureReasons: S.optional(__S(3552, __c111, 0)),
+          failureReasons: S.optional(__S(3744, __c117, 0)),
           aliasInvocationState: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentAlias" });
@@ -7331,7 +7740,7 @@ function __c11(j: number): any {
         S.Struct({
           tenantId: S.optional(S.String),
           domain: S.String,
-          siteUrls: __S(3552, __c111, 0),
+          siteUrls: __S(3744, __c117, 0),
           hostType: S.String,
           authType: S.String,
           credentialsSecretArn: S.String,
@@ -7467,7 +7876,7 @@ function __c12(j: number): any {
           dataDeletionPolicy: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          failureReasons: S.optional(__S(3552, __c111, 0)),
+          failureReasons: S.optional(__S(3744, __c117, 0)),
         }),
       ).annotate({ identifier: "DataSource" });
     case 17:
@@ -7487,7 +7896,7 @@ function __c13(j: number): any {
           customerEncryptionKeyArn: S.optional(S.String),
           definition: S.optional(__S(519, __c16, 7)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(3520, __c110, 0)),
+          tags: S.optional(__S(3712, __c116, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/flows/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateFlowRequest" });
   }
@@ -7500,7 +7909,7 @@ function __c14(j: number): any {
           temperature: S.optional(S.Number),
           topP: S.optional(S.Number),
           maxTokens: S.optional(S.Number),
-          stopSequences: S.optional(__S(3552, __c111, 0)),
+          stopSequences: S.optional(__S(3744, __c117, 0)),
         }),
       ).annotate({ identifier: "PromptModelInferenceConfiguration" });
     case 1:
@@ -7647,7 +8056,7 @@ function __c15(j: number): any {
         S.Struct({
           knowledgeBaseId: S.String,
           modelId: S.optional(S.String),
-          guardrailConfiguration: S.optional(__S(3584, __c112, 0)),
+          guardrailConfiguration: S.optional(__S(3776, __c118, 0)),
           numberOfResults: S.optional(S.Number),
           promptTemplate: S.optional(__S(480, __c15, 0)),
           inferenceConfiguration: S.optional(__S(449, __c14, 1)),
@@ -7692,7 +8101,7 @@ function __c15(j: number): any {
       return S.suspend(() =>
         S.Struct({
           sourceConfiguration: __S(498, __c15, 18),
-          guardrailConfiguration: S.optional(__S(3584, __c112, 0)),
+          guardrailConfiguration: S.optional(__S(3776, __c118, 0)),
         }),
       ).annotate({ identifier: "PromptFlowNodeConfiguration" });
     case 20:
@@ -7858,7 +8267,7 @@ function __c18(j: number): any {
           concurrencyConfiguration: S.optional(__S(610, __c19, 2)),
           flowIdentifier: S.String.pipe(T.HttpLabel("flowIdentifier")),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(3520, __c110, 0)),
+          tags: S.optional(__S(3712, __c116, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/flows/{flowIdentifier}/aliases" }),
@@ -7951,7 +8360,7 @@ function __c22(j: number): any {
           roleArn: S.String,
           knowledgeBaseConfiguration: __S(766, __c23, 30),
           storageConfiguration: S.optional(__S(778, __c24, 10)),
-          tags: S.optional(__S(3520, __c110, 0)),
+          tags: S.optional(__S(3712, __c116, 0)),
         }).pipe(
           T.all(T.Http({ method: "PUT", uri: "/knowledgebases/" }), svc, auth, proto, ver, rules),
         ),
@@ -8017,7 +8426,7 @@ function __c23(j: number): any {
         identifier: "KendraKnowledgeBaseConfiguration",
       });
     case 11:
-      return S.suspend(() => S.Struct({ tableNames: __S(3552, __c111, 0) })).annotate({
+      return S.suspend(() => S.Struct({ tableNames: __S(3744, __c117, 0) })).annotate({
         identifier: "RedshiftQueryEngineAwsDataCatalogStorageConfiguration",
       });
     case 12:
@@ -8233,6 +8642,12 @@ function __c24(j: number): any {
       ).annotate({ identifier: "StorageConfiguration" });
     case 11:
       return S.suspend(() =>
+        S.Struct({ name: SensitiveString, type: S.String, searchability: S.String }),
+      ).annotate({ identifier: "MetadataConfiguration" });
+    case 12:
+      return S.Array(__S(779, __c24, 11));
+    case 13:
+      return S.suspend(() =>
         S.Struct({
           knowledgeBaseId: S.String,
           name: S.String,
@@ -8244,11 +8659,12 @@ function __c24(j: number): any {
           status: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          failureReasons: S.optional(__S(3552, __c111, 0)),
+          failureReasons: S.optional(__S(3744, __c117, 0)),
+          metadataConfigurations: S.optional(__S(780, __c24, 12)),
         }),
       ).annotate({ identifier: "KnowledgeBase" });
-    case 12:
-      return S.suspend(() => S.Struct({ knowledgeBase: __S(779, __c24, 11) })).annotate({
+    case 14:
+      return S.suspend(() => S.Struct({ knowledgeBase: __S(781, __c24, 13) })).annotate({
         identifier: "CreateKnowledgeBaseResponse",
       });
   }
@@ -8264,7 +8680,7 @@ function __c25(j: number): any {
           defaultVariant: S.optional(S.String),
           variants: S.optional(__S(837, __c26, 5)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(3520, __c110, 0)),
+          tags: S.optional(__S(3712, __c116, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/prompts/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreatePromptRequest" });
   }
@@ -8323,7 +8739,7 @@ function __c27(j: number): any {
           promptIdentifier: S.String.pipe(T.HttpLabel("promptIdentifier")),
           description: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          tags: S.optional(__S(3520, __c110, 0)),
+          tags: S.optional(__S(3712, __c116, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/prompts/{promptIdentifier}/versions" }),
@@ -8342,10 +8758,97 @@ function __c28(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          name: SensitiveString,
+          instruction: __S(928, __c29, 0),
+          description: S.optional(SensitiveString),
+          customerEncryptionKeyArn: S.optional(S.String),
+          tags: S.optional(__S(3712, __c116, 0)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/retrievalinstructions/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateRetrievalInstructionRequest" });
+  }
+}
+function __c29(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          retrievalGuidance: S.optional(SensitiveString),
+          persona: S.optional(SensitiveString),
+          answerFormat: S.optional(SensitiveString),
+          answerPolicy: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "RetrievalInstructionContent" });
+  }
+}
+function __c30(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          retrievalInstructionId: S.String,
+          retrievalInstructionArn: S.String,
+          name: SensitiveString,
+          status: S.String,
+          lastTransitionStatus: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "CreateRetrievalInstructionResponse" });
+  }
+}
+function __c31(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          retrievalInstructionId: S.String.pipe(T.HttpLabel("retrievalInstructionId")),
+          description: S.optional(SensitiveString),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "POST",
+              uri: "/retrievalinstructions/{retrievalInstructionId}/versions",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "CreateRetrievalInstructionVersionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          retrievalInstructionId: S.String,
+          retrievalInstructionArn: S.String,
+          version: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          description: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "CreateRetrievalInstructionVersionResponse" });
+  }
+}
+function __c32(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           vpcId: S.String,
-          subnetIds: __S(3552, __c111, 0),
+          subnetIds: __S(3744, __c117, 0),
           resourceTarget: S.String,
           port: S.Number,
           protocol: S.String,
@@ -8367,7 +8870,7 @@ function __c28(j: number): any {
       ).annotate({ identifier: "CreateVpcConfigurationRequest" });
   }
 }
-function __c29(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ vpcConfigurationId: S.String, status: S.String })).annotate(
@@ -8375,7 +8878,7 @@ function __c29(j: number): any {
       );
   }
 }
-function __c30(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8399,7 +8902,7 @@ function __c30(j: number): any {
       });
   }
 }
-function __c31(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8424,7 +8927,7 @@ function __c31(j: number): any {
       ).annotate({ identifier: "DeleteAgentActionGroupRequest" });
   }
 }
-function __c32(j: number): any {
+function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8448,7 +8951,7 @@ function __c32(j: number): any {
       ).annotate({ identifier: "DeleteAgentAliasResponse" });
   }
 }
-function __c33(j: number): any {
+function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8473,7 +8976,7 @@ function __c33(j: number): any {
       ).annotate({ identifier: "DeleteAgentVersionResponse" });
   }
 }
-function __c34(j: number): any {
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8500,7 +9003,7 @@ function __c34(j: number): any {
       ).annotate({ identifier: "DeleteDataSourceResponse" });
   }
 }
-function __c35(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8520,7 +9023,7 @@ function __c35(j: number): any {
       ).annotate({ identifier: "DeleteFlowRequest" });
   }
 }
-function __c36(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ id: S.String })).annotate({
@@ -8528,7 +9031,7 @@ function __c36(j: number): any {
       });
   }
 }
-function __c37(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8552,7 +9055,7 @@ function __c37(j: number): any {
       });
   }
 }
-function __c38(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8577,7 +9080,7 @@ function __c38(j: number): any {
       });
   }
 }
-function __c39(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8598,7 +9101,7 @@ function __c39(j: number): any {
       });
   }
 }
-function __c40(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8606,7 +9109,7 @@ function __c40(j: number): any {
           knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
           dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          documentIdentifiers: __S(1312, __c41, 0),
+          documentIdentifiers: __S(1440, __c45, 0),
         }).pipe(
           T.all(
             T.Http({
@@ -8623,28 +9126,28 @@ function __c40(j: number): any {
       ).annotate({ identifier: "DeleteKnowledgeBaseDocumentsRequest" });
   }
 }
-function __c41(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1376, __c43, 0));
+      return S.Array(__S(1504, __c47, 0));
   }
 }
-function __c42(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ documentDetails: S.optional(__S(1378, __c43, 2)) }),
+        S.Struct({ documentDetails: S.optional(__S(1506, __c47, 2)) }),
       ).annotate({ identifier: "DeleteKnowledgeBaseDocumentsResponse" });
   }
 }
-function __c43(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           dataSourceType: S.String,
           s3: S.optional(__S(256, __c8, 0)),
-          custom: S.optional(__S(1152, __c36, 0)),
+          custom: S.optional(__S(1280, __c40, 0)),
         }),
       ).annotate({ identifier: "DocumentIdentifier" });
     case 1:
@@ -8653,16 +9156,16 @@ function __c43(j: number): any {
           knowledgeBaseId: S.String,
           dataSourceId: S.String,
           status: S.String,
-          identifier: __S(1376, __c43, 0),
+          identifier: __S(1504, __c47, 0),
           statusReason: S.optional(S.String),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "KnowledgeBaseDocumentDetail" });
     case 2:
-      return S.Array(__S(1377, __c43, 1));
+      return S.Array(__S(1505, __c47, 1));
   }
 }
-function __c44(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8686,7 +9189,7 @@ function __c44(j: number): any {
       });
   }
 }
-function __c45(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8710,7 +9213,37 @@ function __c45(j: number): any {
       ).annotate({ identifier: "DeleteResourcePolicyResponse" });
   }
 }
-function __c46(j: number): any {
+function __c50(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          retrievalInstructionId: S.String.pipe(T.HttpLabel("retrievalInstructionId")),
+          retrievalInstructionVersion: S.optional(S.String).pipe(
+            T.HttpQuery("retrievalInstructionVersion"),
+          ),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/retrievalinstructions/{retrievalInstructionId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "DeleteRetrievalInstructionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          retrievalInstructionId: S.String,
+          retrievalInstructionArn: S.String,
+          version: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "DeleteRetrievalInstructionResponse" });
+  }
+}
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8733,7 +9266,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "DeleteVpcConfigurationRequest" });
   }
 }
-function __c47(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8757,7 +9290,7 @@ function __c47(j: number): any {
       ).annotate({ identifier: "DisassociateAgentCollaboratorRequest" });
   }
 }
-function __c48(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8781,7 +9314,7 @@ function __c48(j: number): any {
       ).annotate({ identifier: "DisassociateAgentKnowledgeBaseRequest" });
   }
 }
-function __c49(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8791,7 +9324,7 @@ function __c49(j: number): any {
       ).annotate({ identifier: "GetAgentRequest" });
   }
 }
-function __c50(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8815,7 +9348,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "GetAgentActionGroupRequest" });
   }
 }
-function __c51(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8835,7 +9368,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "GetAgentAliasRequest" });
   }
 }
-function __c52(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8859,7 +9392,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "GetAgentCollaboratorRequest" });
   }
 }
-function __c53(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8883,7 +9416,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "GetAgentKnowledgeBaseRequest" });
   }
 }
-function __c54(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8917,21 +9450,21 @@ function __c54(j: number): any {
           customerEncryptionKeyArn: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          failureReasons: S.optional(__S(3552, __c111, 0)),
-          recommendedActions: S.optional(__S(3552, __c111, 0)),
-          promptOverrideConfiguration: S.optional(__S(3619, __c113, 3)),
-          guardrailConfiguration: S.optional(__S(3584, __c112, 0)),
-          memoryConfiguration: S.optional(__S(3622, __c113, 6)),
+          failureReasons: S.optional(__S(3744, __c117, 0)),
+          recommendedActions: S.optional(__S(3744, __c117, 0)),
+          promptOverrideConfiguration: S.optional(__S(3811, __c119, 3)),
+          guardrailConfiguration: S.optional(__S(3776, __c118, 0)),
+          memoryConfiguration: S.optional(__S(3814, __c119, 6)),
           agentCollaboration: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgentVersion" });
     case 2:
-      return S.suspend(() => S.Struct({ agentVersion: __S(1729, __c54, 1) })).annotate({
+      return S.suspend(() => S.Struct({ agentVersion: __S(1889, __c59, 1) })).annotate({
         identifier: "GetAgentVersionResponse",
       });
   }
 }
-function __c55(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8954,7 +9487,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "GetDataSourceRequest" });
   }
 }
-function __c56(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8986,12 +9519,12 @@ function __c56(j: number): any {
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           version: S.String,
           definition: S.optional(__S(519, __c16, 7)),
-          validations: S.optional(__S(1839, __c57, 15)),
+          validations: S.optional(__S(1999, __c62, 15)),
         }),
       ).annotate({ identifier: "GetFlowResponse" });
   }
 }
-function __c57(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ connection: S.String })).annotate({
@@ -9051,54 +9584,54 @@ function __c57(j: number): any {
       ).annotate({ identifier: "InvalidLoopBoundaryFlowValidationDetails" });
     case 13:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ cyclicConnection: __S(1824, __c57, 0) }),
-        /*@__PURE__*/ S.Struct({ duplicateConnections: __S(1825, __c57, 1) }),
-        /*@__PURE__*/ S.Struct({ duplicateConditionExpression: __S(1826, __c57, 2) }),
-        /*@__PURE__*/ S.Struct({ unreachableNode: __S(1827, __c57, 3) }),
-        /*@__PURE__*/ S.Struct({ unknownConnectionSource: __S(1824, __c57, 0) }),
-        /*@__PURE__*/ S.Struct({ unknownConnectionSourceOutput: __S(1824, __c57, 0) }),
-        /*@__PURE__*/ S.Struct({ unknownConnectionTarget: __S(1824, __c57, 0) }),
-        /*@__PURE__*/ S.Struct({ unknownConnectionTargetInput: __S(1824, __c57, 0) }),
-        /*@__PURE__*/ S.Struct({ unknownConnectionCondition: __S(1824, __c57, 0) }),
-        /*@__PURE__*/ S.Struct({ malformedConditionExpression: __S(1828, __c57, 4) }),
-        /*@__PURE__*/ S.Struct({ malformedNodeInputExpression: __S(1829, __c57, 5) }),
-        /*@__PURE__*/ S.Struct({ mismatchedNodeInputType: __S(1830, __c57, 6) }),
-        /*@__PURE__*/ S.Struct({ mismatchedNodeOutputType: __S(1831, __c57, 7) }),
-        /*@__PURE__*/ S.Struct({ incompatibleConnectionDataType: __S(1824, __c57, 0) }),
-        /*@__PURE__*/ S.Struct({ missingConnectionConfiguration: __S(1824, __c57, 0) }),
-        /*@__PURE__*/ S.Struct({ missingDefaultCondition: __S(1827, __c57, 3) }),
+        /*@__PURE__*/ S.Struct({ cyclicConnection: __S(1984, __c62, 0) }),
+        /*@__PURE__*/ S.Struct({ duplicateConnections: __S(1985, __c62, 1) }),
+        /*@__PURE__*/ S.Struct({ duplicateConditionExpression: __S(1986, __c62, 2) }),
+        /*@__PURE__*/ S.Struct({ unreachableNode: __S(1987, __c62, 3) }),
+        /*@__PURE__*/ S.Struct({ unknownConnectionSource: __S(1984, __c62, 0) }),
+        /*@__PURE__*/ S.Struct({ unknownConnectionSourceOutput: __S(1984, __c62, 0) }),
+        /*@__PURE__*/ S.Struct({ unknownConnectionTarget: __S(1984, __c62, 0) }),
+        /*@__PURE__*/ S.Struct({ unknownConnectionTargetInput: __S(1984, __c62, 0) }),
+        /*@__PURE__*/ S.Struct({ unknownConnectionCondition: __S(1984, __c62, 0) }),
+        /*@__PURE__*/ S.Struct({ malformedConditionExpression: __S(1988, __c62, 4) }),
+        /*@__PURE__*/ S.Struct({ malformedNodeInputExpression: __S(1989, __c62, 5) }),
+        /*@__PURE__*/ S.Struct({ mismatchedNodeInputType: __S(1990, __c62, 6) }),
+        /*@__PURE__*/ S.Struct({ mismatchedNodeOutputType: __S(1991, __c62, 7) }),
+        /*@__PURE__*/ S.Struct({ incompatibleConnectionDataType: __S(1984, __c62, 0) }),
+        /*@__PURE__*/ S.Struct({ missingConnectionConfiguration: __S(1984, __c62, 0) }),
+        /*@__PURE__*/ S.Struct({ missingDefaultCondition: __S(1987, __c62, 3) }),
         /*@__PURE__*/ S.Struct({ missingEndingNodes: __S(192, __c6, 0) }),
-        /*@__PURE__*/ S.Struct({ missingNodeConfiguration: __S(1827, __c57, 3) }),
-        /*@__PURE__*/ S.Struct({ missingNodeInput: __S(1832, __c57, 8) }),
-        /*@__PURE__*/ S.Struct({ missingNodeOutput: __S(1833, __c57, 9) }),
+        /*@__PURE__*/ S.Struct({ missingNodeConfiguration: __S(1987, __c62, 3) }),
+        /*@__PURE__*/ S.Struct({ missingNodeInput: __S(1992, __c62, 8) }),
+        /*@__PURE__*/ S.Struct({ missingNodeOutput: __S(1993, __c62, 9) }),
         /*@__PURE__*/ S.Struct({ missingStartingNodes: __S(192, __c6, 0) }),
-        /*@__PURE__*/ S.Struct({ multipleNodeInputConnections: __S(1832, __c57, 8) }),
-        /*@__PURE__*/ S.Struct({ unfulfilledNodeInput: __S(1832, __c57, 8) }),
-        /*@__PURE__*/ S.Struct({ unsatisfiedConnectionConditions: __S(1824, __c57, 0) }),
+        /*@__PURE__*/ S.Struct({ multipleNodeInputConnections: __S(1992, __c62, 8) }),
+        /*@__PURE__*/ S.Struct({ unfulfilledNodeInput: __S(1992, __c62, 8) }),
+        /*@__PURE__*/ S.Struct({ unsatisfiedConnectionConditions: __S(1984, __c62, 0) }),
         /*@__PURE__*/ S.Struct({ unspecified: __S(192, __c6, 0) }),
-        /*@__PURE__*/ S.Struct({ unknownNodeInput: __S(1832, __c57, 8) }),
-        /*@__PURE__*/ S.Struct({ unknownNodeOutput: __S(1833, __c57, 9) }),
-        /*@__PURE__*/ S.Struct({ missingLoopInputNode: __S(1834, __c57, 10) }),
-        /*@__PURE__*/ S.Struct({ missingLoopControllerNode: __S(1834, __c57, 10) }),
-        /*@__PURE__*/ S.Struct({ multipleLoopInputNodes: __S(1834, __c57, 10) }),
-        /*@__PURE__*/ S.Struct({ multipleLoopControllerNodes: __S(1834, __c57, 10) }),
-        /*@__PURE__*/ S.Struct({ loopIncompatibleNodeType: __S(1835, __c57, 11) }),
-        /*@__PURE__*/ S.Struct({ invalidLoopBoundary: __S(1836, __c57, 12) }),
+        /*@__PURE__*/ S.Struct({ unknownNodeInput: __S(1992, __c62, 8) }),
+        /*@__PURE__*/ S.Struct({ unknownNodeOutput: __S(1993, __c62, 9) }),
+        /*@__PURE__*/ S.Struct({ missingLoopInputNode: __S(1994, __c62, 10) }),
+        /*@__PURE__*/ S.Struct({ missingLoopControllerNode: __S(1994, __c62, 10) }),
+        /*@__PURE__*/ S.Struct({ multipleLoopInputNodes: __S(1994, __c62, 10) }),
+        /*@__PURE__*/ S.Struct({ multipleLoopControllerNodes: __S(1994, __c62, 10) }),
+        /*@__PURE__*/ S.Struct({ loopIncompatibleNodeType: __S(1995, __c62, 11) }),
+        /*@__PURE__*/ S.Struct({ invalidLoopBoundary: __S(1996, __c62, 12) }),
       ]);
     case 14:
       return S.suspend(() =>
         S.Struct({
           message: S.String,
           severity: S.String,
-          details: S.optional(__S(1837, __c57, 13)),
+          details: S.optional(__S(1997, __c62, 13)),
           type: S.optional(S.String),
         }),
       ).annotate({ identifier: "FlowValidation" });
     case 15:
-      return S.Array(__S(1838, __c57, 14));
+      return S.Array(__S(1998, __c62, 14));
   }
 }
-function __c58(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9118,7 +9651,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetFlowAliasRequest" });
   }
 }
-function __c59(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9139,7 +9672,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "GetFlowVersionRequest" });
   }
 }
-function __c60(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9163,7 +9696,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "GetIngestionJobRequest" });
   }
 }
-function __c61(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9180,7 +9713,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "IngestionJobStatistics" });
   }
 }
-function __c62(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9190,20 +9723,20 @@ function __c62(j: number): any {
           ingestionJobId: S.String,
           description: S.optional(S.String),
           status: S.String,
-          statistics: S.optional(__S(1952, __c61, 0)),
-          failureReasons: S.optional(__S(3552, __c111, 0)),
+          statistics: S.optional(__S(2112, __c66, 0)),
+          failureReasons: S.optional(__S(3744, __c117, 0)),
           startedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           textReadyAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "IngestionJob" });
     case 1:
-      return S.suspend(() => S.Struct({ ingestionJob: __S(1984, __c62, 0) })).annotate({
+      return S.suspend(() => S.Struct({ ingestionJob: __S(2144, __c67, 0) })).annotate({
         identifier: "GetIngestionJobResponse",
       });
   }
 }
-function __c63(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9220,14 +9753,14 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GetKnowledgeBaseRequest" });
   }
 }
-function __c64(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
           dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
-          documentIdentifiers: __S(1312, __c41, 0),
+          documentIdentifiers: __S(1440, __c45, 0),
         }).pipe(
           T.all(
             T.Http({
@@ -9244,7 +9777,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetKnowledgeBaseDocumentsRequest" });
   }
 }
-function __c65(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9265,7 +9798,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GetPromptRequest" });
   }
 }
-function __c66(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9286,7 +9819,53 @@ function __c66(j: number): any {
       ).annotate({ identifier: "GetResourcePolicyResponse" });
   }
 }
-function __c67(j: number): any {
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          retrievalInstructionId: S.String.pipe(T.HttpLabel("retrievalInstructionId")),
+          retrievalInstructionVersion: S.optional(S.String).pipe(
+            T.HttpQuery("retrievalInstructionVersion"),
+          ),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/retrievalinstructions/{retrievalInstructionId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetRetrievalInstructionRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ fieldName: S.optional(S.String), code: S.String, message: S.String }),
+      ).annotate({ identifier: "RetrievalInstructionFailureReason" });
+    case 2:
+      return S.Array(__S(2305, __c72, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          retrievalInstructionId: S.String,
+          retrievalInstructionArn: S.String,
+          name: SensitiveString,
+          status: S.String,
+          lastTransitionStatus: S.String,
+          instruction: S.optional(__S(928, __c29, 0)),
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          description: S.optional(SensitiveString),
+          customerEncryptionKeyArn: S.optional(S.String),
+          lastTransitionStatusReasons: S.optional(__S(2306, __c72, 2)),
+          version: S.optional(S.String),
+          latestVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GetRetrievalInstructionResponse" });
+  }
+}
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9314,7 +9893,7 @@ function __c67(j: number): any {
           status: S.String,
           statusMessage: S.optional(S.String),
           vpcId: S.String,
-          subnetIds: __S(3552, __c111, 0),
+          subnetIds: __S(3744, __c117, 0),
           resourceTarget: S.String,
           port: S.Number,
           protocol: S.String,
@@ -9328,12 +9907,12 @@ function __c67(j: number): any {
         }),
       ).annotate({ identifier: "VpcConfiguration" });
     case 2:
-      return S.suspend(() => S.Struct({ vpcConfiguration: __S(2145, __c67, 1) })).annotate({
+      return S.suspend(() => S.Struct({ vpcConfiguration: __S(2337, __c73, 1) })).annotate({
         identifier: "GetVpcConfigurationResponse",
       });
   }
 }
-function __c68(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9347,10 +9926,10 @@ function __c68(j: number): any {
       ).annotate({ identifier: "MetadataAttributeValue" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ key: SensitiveString, value: __S(2176, __c68, 0) }),
+        S.Struct({ key: SensitiveString, value: __S(2368, __c74, 0) }),
       ).annotate({ identifier: "MetadataAttribute" });
     case 2:
-      return S.Array(__S(2177, __c68, 1));
+      return S.Array(__S(2369, __c74, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({ uri: S.String, bucketOwnerAccountId: S.optional(S.String) }),
@@ -9360,14 +9939,14 @@ function __c68(j: number): any {
         S.Struct({ name: S.String, type: S.String, access: S.String }),
       ).annotate({ identifier: "DocumentAccessControlEntry" });
     case 5:
-      return S.Array(__S(2180, __c68, 4));
+      return S.Array(__S(2372, __c74, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          inlineAttributes: S.optional(__S(2178, __c68, 2)),
-          s3Location: S.optional(__S(2179, __c68, 3)),
-          accessControlList: S.optional(__S(2181, __c68, 5)),
+          inlineAttributes: S.optional(__S(2370, __c74, 2)),
+          s3Location: S.optional(__S(2371, __c74, 3)),
+          accessControlList: S.optional(__S(2373, __c74, 5)),
         }),
       ).annotate({ identifier: "DocumentMetadata" });
     case 7:
@@ -9382,40 +9961,40 @@ function __c68(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.String,
-          byteContent: S.optional(__S(2183, __c68, 7)),
-          textContent: S.optional(__S(2184, __c68, 8)),
+          byteContent: S.optional(__S(2375, __c74, 7)),
+          textContent: S.optional(__S(2376, __c74, 8)),
         }),
       ).annotate({ identifier: "InlineContent" });
     case 10:
       return S.suspend(() =>
         S.Struct({
-          customDocumentIdentifier: __S(1152, __c36, 0),
+          customDocumentIdentifier: __S(1280, __c40, 0),
           sourceType: S.String,
-          s3Location: S.optional(__S(2179, __c68, 3)),
-          inlineContent: S.optional(__S(2185, __c68, 9)),
+          s3Location: S.optional(__S(2371, __c74, 3)),
+          inlineContent: S.optional(__S(2377, __c74, 9)),
         }),
       ).annotate({ identifier: "CustomContent" });
     case 11:
       return S.suspend(() =>
         S.Struct({
           dataSourceType: S.String,
-          custom: S.optional(__S(2186, __c68, 10)),
+          custom: S.optional(__S(2378, __c74, 10)),
           s3: S.optional(__S(321, __c10, 1)),
         }),
       ).annotate({ identifier: "DocumentContent" });
     case 12:
       return S.suspend(() =>
-        S.Struct({ metadata: S.optional(__S(2182, __c68, 6)), content: __S(2187, __c68, 11) }),
+        S.Struct({ metadata: S.optional(__S(2374, __c74, 6)), content: __S(2379, __c74, 11) }),
       ).annotate({ identifier: "KnowledgeBaseDocument" });
     case 13:
-      return S.Array(__S(2188, __c68, 12));
+      return S.Array(__S(2380, __c74, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
           knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
           dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          documents: __S(2189, __c68, 13),
+          documents: __S(2381, __c74, 13),
         }).pipe(
           T.all(
             T.Http({
@@ -9432,7 +10011,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "IngestKnowledgeBaseDocumentsRequest" });
   }
 }
-function __c69(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9466,14 +10045,14 @@ function __c69(j: number): any {
         }),
       ).annotate({ identifier: "ActionGroupSummary" });
     case 2:
-      return S.Array(__S(2209, __c69, 1));
+      return S.Array(__S(2401, __c75, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ actionGroupSummaries: __S(2210, __c69, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ actionGroupSummaries: __S(2402, __c75, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAgentActionGroupsResponse" });
   }
 }
-function __c70(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9506,14 +10085,14 @@ function __c70(j: number): any {
         }),
       ).annotate({ identifier: "AgentAliasSummary" });
     case 2:
-      return S.Array(__S(2241, __c70, 1));
+      return S.Array(__S(2433, __c76, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ agentAliasSummaries: __S(2242, __c70, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ agentAliasSummaries: __S(2434, __c76, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAgentAliasesResponse" });
   }
 }
-function __c71(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9542,7 +10121,7 @@ function __c71(j: number): any {
           agentId: S.String,
           agentVersion: S.String,
           collaboratorId: S.String,
-          agentDescriptor: __S(2848, __c89, 0),
+          agentDescriptor: __S(2912, __c91, 0),
           collaborationInstruction: SensitiveString,
           relayConversationHistory: S.String,
           collaboratorName: S.String,
@@ -9551,17 +10130,17 @@ function __c71(j: number): any {
         }),
       ).annotate({ identifier: "AgentCollaboratorSummary" });
     case 2:
-      return S.Array(__S(2273, __c71, 1));
+      return S.Array(__S(2465, __c77, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          agentCollaboratorSummaries: __S(2274, __c71, 2),
+          agentCollaboratorSummaries: __S(2466, __c77, 2),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAgentCollaboratorsResponse" });
   }
 }
-function __c72(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9594,17 +10173,27 @@ function __c72(j: number): any {
         }),
       ).annotate({ identifier: "AgentKnowledgeBaseSummary" });
     case 2:
-      return S.Array(__S(2305, __c72, 1));
+      return S.Array(__S(2497, __c78, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          agentKnowledgeBaseSummaries: __S(2306, __c72, 2),
+          agentKnowledgeBaseSummaries: __S(2498, __c78, 2),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListAgentKnowledgeBasesResponse" });
   }
 }
-function __c73(j: number): any {
+function __c79(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
+        identifier: "ValidationExceptionField",
+      });
+    case 1:
+      return S.Array(__S(2528, __c79, 0));
+  }
+}
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9621,18 +10210,18 @@ function __c73(j: number): any {
           description: S.optional(S.String),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           latestAgentVersion: S.optional(S.String),
-          guardrailConfiguration: S.optional(__S(3584, __c112, 0)),
+          guardrailConfiguration: S.optional(__S(3776, __c118, 0)),
         }),
       ).annotate({ identifier: "AgentSummary" });
     case 2:
-      return S.Array(__S(2337, __c73, 1));
+      return S.Array(__S(2561, __c80, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ agentSummaries: __S(2338, __c73, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ agentSummaries: __S(2562, __c80, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAgentsResponse" });
   }
 }
-function __c74(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9660,18 +10249,18 @@ function __c74(j: number): any {
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           description: S.optional(S.String),
-          guardrailConfiguration: S.optional(__S(3584, __c112, 0)),
+          guardrailConfiguration: S.optional(__S(3776, __c118, 0)),
         }),
       ).annotate({ identifier: "AgentVersionSummary" });
     case 2:
-      return S.Array(__S(2369, __c74, 1));
+      return S.Array(__S(2593, __c81, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ agentVersionSummaries: __S(2370, __c74, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ agentVersionSummaries: __S(2594, __c81, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAgentVersionsResponse" });
   }
 }
-function __c75(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9702,14 +10291,14 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "DataSourceSummary" });
     case 2:
-      return S.Array(__S(2401, __c75, 1));
+      return S.Array(__S(2625, __c82, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ dataSourceSummaries: __S(2402, __c75, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ dataSourceSummaries: __S(2626, __c82, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListDataSourcesResponse" });
   }
 }
-function __c76(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9732,21 +10321,11 @@ function __c76(j: number): any {
       return S.Array(__S(611, __c19, 3));
     case 2:
       return S.suspend(() =>
-        S.Struct({ flowAliasSummaries: __S(2433, __c76, 1), nextToken: S.optional(S.String) }),
+        S.Struct({ flowAliasSummaries: __S(2657, __c83, 1), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListFlowAliasesResponse" });
   }
 }
-function __c77(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
-        identifier: "ValidationExceptionField",
-      });
-    case 1:
-      return S.Array(__S(2464, __c77, 0));
-  }
-}
-function __c78(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9769,14 +10348,14 @@ function __c78(j: number): any {
         }),
       ).annotate({ identifier: "FlowSummary" });
     case 2:
-      return S.Array(__S(2497, __c78, 1));
+      return S.Array(__S(2689, __c84, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ flowSummaries: __S(2498, __c78, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ flowSummaries: __S(2690, __c84, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListFlowsResponse" });
   }
 }
-function __c79(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9806,21 +10385,21 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "FlowVersionSummary" });
     case 2:
-      return S.Array(__S(2529, __c79, 1));
+      return S.Array(__S(2721, __c85, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ flowVersionSummaries: __S(2530, __c79, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ flowVersionSummaries: __S(2722, __c85, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListFlowVersionsResponse" });
   }
 }
-function __c80(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ attribute: S.String, operator: S.String, values: __S(3552, __c111, 0) }),
+        S.Struct({ attribute: S.String, operator: S.String, values: __S(3744, __c117, 0) }),
       ).annotate({ identifier: "IngestionJobFilter" });
     case 1:
-      return S.Array(__S(2560, __c80, 0));
+      return S.Array(__S(2752, __c86, 0));
     case 2:
       return S.suspend(() => S.Struct({ attribute: S.String, order: S.String })).annotate({
         identifier: "IngestionJobSortBy",
@@ -9830,8 +10409,8 @@ function __c80(j: number): any {
         S.Struct({
           knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
           dataSourceId: S.String.pipe(T.HttpLabel("dataSourceId")),
-          filters: S.optional(__S(2561, __c80, 1)),
-          sortBy: S.optional(__S(2562, __c80, 2)),
+          filters: S.optional(__S(2753, __c86, 1)),
+          sortBy: S.optional(__S(2754, __c86, 2)),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
         }).pipe(
@@ -9859,18 +10438,18 @@ function __c80(j: number): any {
           startedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           textReadyAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          statistics: S.optional(__S(1952, __c61, 0)),
+          statistics: S.optional(__S(2112, __c66, 0)),
         }),
       ).annotate({ identifier: "IngestionJobSummary" });
     case 5:
-      return S.Array(__S(2564, __c80, 4));
+      return S.Array(__S(2756, __c86, 4));
     case 6:
       return S.suspend(() =>
-        S.Struct({ ingestionJobSummaries: __S(2565, __c80, 5), nextToken: S.optional(S.String) }),
+        S.Struct({ ingestionJobSummaries: __S(2757, __c86, 5), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListIngestionJobsResponse" });
   }
 }
-function __c81(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9895,11 +10474,11 @@ function __c81(j: number): any {
       ).annotate({ identifier: "ListKnowledgeBaseDocumentsRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ documentDetails: __S(1378, __c43, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ documentDetails: __S(1506, __c47, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListKnowledgeBaseDocumentsResponse" });
   }
 }
-function __c82(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9918,14 +10497,14 @@ function __c82(j: number): any {
         }),
       ).annotate({ identifier: "KnowledgeBaseSummary" });
     case 2:
-      return S.Array(__S(2625, __c82, 1));
+      return S.Array(__S(2817, __c88, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ knowledgeBaseSummaries: __S(2626, __c82, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ knowledgeBaseSummaries: __S(2818, __c88, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListKnowledgeBasesResponse" });
   }
 }
-function __c83(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9948,14 +10527,156 @@ function __c83(j: number): any {
         }),
       ).annotate({ identifier: "PromptSummary" });
     case 2:
-      return S.Array(__S(2657, __c83, 1));
+      return S.Array(__S(2849, __c89, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ promptSummaries: __S(2658, __c83, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ promptSummaries: __S(2850, __c89, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListPromptsResponse" });
   }
 }
-function __c84(j: number): any {
+function __c90(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          agentId: S.String.pipe(T.HttpLabel("agentId")),
+          agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
+          agentDescriptor: __S(2912, __c91, 0),
+          collaboratorName: S.String,
+          collaborationInstruction: SensitiveString,
+          relayConversationHistory: S.optional(S.String),
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PUT",
+              uri: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AssociateAgentCollaboratorRequest" });
+  }
+}
+function __c91(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ aliasArn: S.optional(S.String) })).annotate({
+        identifier: "AgentDescriptor",
+      });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          agentId: S.String,
+          agentVersion: S.String,
+          agentDescriptor: __S(2912, __c91, 0),
+          collaboratorId: S.String,
+          collaborationInstruction: SensitiveString,
+          collaboratorName: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          relayConversationHistory: S.optional(S.String),
+          clientToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AgentCollaborator" });
+    case 1:
+      return S.suspend(() => S.Struct({ agentCollaborator: __S(2944, __c92, 0) })).annotate({
+        identifier: "AssociateAgentCollaboratorResponse",
+      });
+  }
+}
+function __c93(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          status: S.optional(S.String).pipe(T.HttpQuery("status")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "GET", uri: "/retrievalinstructions/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListRetrievalInstructionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          retrievalInstructionId: S.String,
+          retrievalInstructionArn: S.String,
+          name: SensitiveString,
+          status: S.String,
+          lastTransitionStatus: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          description: S.optional(SensitiveString),
+        }),
+      ).annotate({ identifier: "RetrievalInstructionSummary" });
+    case 2:
+      return S.Array(__S(2977, __c93, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          retrievalInstructionSummaries: __S(2978, __c93, 2),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListRetrievalInstructionsResponse" });
+  }
+}
+function __c94(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          retrievalInstructionId: S.String.pipe(T.HttpLabel("retrievalInstructionId")),
+          maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+          nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "GET",
+              uri: "/retrievalinstructions/{retrievalInstructionId}/versions",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListRetrievalInstructionVersionsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          version: S.String,
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+        }),
+      ).annotate({ identifier: "RetrievalInstructionVersionSummary" });
+    case 2:
+      return S.Array(__S(3009, __c94, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          retrievalInstructionVersionSummaries: __S(3010, __c94, 2),
+          nextToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListRetrievalInstructionVersionsResponse" });
+  }
+}
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9971,12 +10692,12 @@ function __c84(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(3520, __c110, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(3712, __c116, 0)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
 }
-function __c85(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10015,14 +10736,14 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "VpcConfigurationSummary" });
     case 2:
-      return S.Array(__S(2721, __c85, 1));
+      return S.Array(__S(3073, __c96, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ items: __S(2722, __c85, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ items: __S(3074, __c96, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListVpcConfigurationsResponse" });
   }
 }
-function __c86(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10048,7 +10769,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "PrepareAgentResponse" });
   }
 }
-function __c87(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10069,66 +10790,7 @@ function __c87(j: number): any {
       });
   }
 }
-function __c88(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          agentId: S.String.pipe(T.HttpLabel("agentId")),
-          agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
-          agentDescriptor: __S(2848, __c89, 0),
-          collaboratorName: S.String,
-          collaborationInstruction: SensitiveString,
-          relayConversationHistory: S.optional(S.String),
-          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PUT",
-              uri: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "AssociateAgentCollaboratorRequest" });
-  }
-}
-function __c89(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ aliasArn: S.optional(S.String) })).annotate({
-        identifier: "AgentDescriptor",
-      });
-  }
-}
-function __c90(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          agentId: S.String,
-          agentVersion: S.String,
-          agentDescriptor: __S(2848, __c89, 0),
-          collaboratorId: S.String,
-          collaborationInstruction: SensitiveString,
-          collaboratorName: S.String,
-          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          relayConversationHistory: S.optional(S.String),
-          clientToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "AgentCollaborator" });
-    case 1:
-      return S.suspend(() => S.Struct({ agentCollaborator: __S(2880, __c90, 0) })).annotate({
-        identifier: "AssociateAgentCollaboratorResponse",
-      });
-  }
-}
-function __c91(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10153,7 +10815,7 @@ function __c91(j: number): any {
       });
   }
 }
-function __c92(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10178,7 +10840,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "StartIngestionJobRequest" });
   }
 }
-function __c93(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10202,13 +10864,13 @@ function __c93(j: number): any {
       ).annotate({ identifier: "StopIngestionJobRequest" });
   }
 }
-function __c94(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: __S(3520, __c110, 0),
+          tags: __S(3712, __c116, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/tags/{resourceArn}" }),
@@ -10222,162 +10884,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c95(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(3552, __c111, 0).pipe(T.HttpQuery("tagKeys")),
-        }).pipe(
-          T.all(
-            T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UntagResourceRequest" });
-  }
-}
-function __c96(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          agentId: S.String.pipe(T.HttpLabel("agentId")),
-          agentName: S.String,
-          instruction: S.optional(SensitiveString),
-          foundationModel: S.optional(S.String),
-          description: S.optional(S.String),
-          orchestrationType: S.optional(S.String),
-          customOrchestration: S.optional(__S(3649, __c114, 1)),
-          idleSessionTTLInSeconds: S.optional(S.Number),
-          agentResourceRoleArn: S.String,
-          customerEncryptionKeyArn: S.optional(S.String),
-          promptOverrideConfiguration: S.optional(__S(3619, __c113, 3)),
-          guardrailConfiguration: S.optional(__S(3584, __c112, 0)),
-          memoryConfiguration: S.optional(__S(3622, __c113, 6)),
-          agentCollaboration: S.optional(S.String),
-        }).pipe(
-          T.all(T.Http({ method: "PUT", uri: "/agents/{agentId}/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "UpdateAgentRequest" });
-  }
-}
-function __c97(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          agentId: S.String.pipe(T.HttpLabel("agentId")),
-          agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
-          actionGroupId: S.String.pipe(T.HttpLabel("actionGroupId")),
-          actionGroupName: S.String,
-          description: S.optional(S.String),
-          parentActionGroupSignature: S.optional(S.String),
-          parentActionGroupSignatureParams: S.optional(__S(3520, __c110, 0)),
-          actionGroupExecutor: S.optional(__S(32, __c1, 0)),
-          actionGroupState: S.optional(S.String),
-          apiSchema: S.optional(__S(34, __c1, 2)),
-          functionSchema: S.optional(__S(39, __c1, 7)),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PUT",
-              uri: "/agents/{agentId}/agentversions/{agentVersion}/actiongroups/{actionGroupId}/",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateAgentActionGroupRequest" });
-  }
-}
-function __c98(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          agentId: S.String.pipe(T.HttpLabel("agentId")),
-          agentAliasId: S.String.pipe(T.HttpLabel("agentAliasId")),
-          agentAliasName: S.String,
-          description: S.optional(S.String),
-          routingConfiguration: S.optional(__S(97, __c3, 1)),
-          aliasInvocationState: S.optional(S.String),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PUT", uri: "/agents/{agentId}/agentaliases/{agentAliasId}/" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateAgentAliasRequest" });
-  }
-}
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          agentId: S.String.pipe(T.HttpLabel("agentId")),
-          agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
-          collaboratorId: S.String.pipe(T.HttpLabel("collaboratorId")),
-          agentDescriptor: __S(2848, __c89, 0),
-          collaboratorName: S.String,
-          collaborationInstruction: SensitiveString,
-          relayConversationHistory: S.optional(S.String),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PUT",
-              uri: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/{collaboratorId}/",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateAgentCollaboratorRequest" });
-  }
-}
-function __c100(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          agentId: S.String.pipe(T.HttpLabel("agentId")),
-          agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
-          knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
-          description: S.optional(S.String),
-          knowledgeBaseState: S.optional(S.String),
-        }).pipe(
-          T.all(
-            T.Http({
-              method: "PUT",
-              uri: "/agents/{agentId}/agentversions/{agentVersion}/knowledgebases/{knowledgeBaseId}/",
-            }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateAgentKnowledgeBaseRequest" });
-  }
-}
-function __c101(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10403,7 +10910,7 @@ function __c101(j: number): any {
       ).annotate({ identifier: "AssociateAgentKnowledgeBaseRequest" });
   }
 }
-function __c102(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10418,12 +10925,167 @@ function __c102(j: number): any {
         }),
       ).annotate({ identifier: "AgentKnowledgeBase" });
     case 1:
-      return S.suspend(() => S.Struct({ agentKnowledgeBase: __S(3264, __c102, 0) })).annotate({
+      return S.suspend(() => S.Struct({ agentKnowledgeBase: __S(3328, __c104, 0) })).annotate({
         identifier: "AssociateAgentKnowledgeBaseResponse",
       });
   }
 }
-function __c103(j: number): any {
+function __c105(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tagKeys: __S(3744, __c117, 0).pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c106(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          agentId: S.String.pipe(T.HttpLabel("agentId")),
+          agentName: S.String,
+          instruction: S.optional(SensitiveString),
+          foundationModel: S.optional(S.String),
+          description: S.optional(S.String),
+          orchestrationType: S.optional(S.String),
+          customOrchestration: S.optional(__S(3841, __c120, 1)),
+          idleSessionTTLInSeconds: S.optional(S.Number),
+          agentResourceRoleArn: S.String,
+          customerEncryptionKeyArn: S.optional(S.String),
+          promptOverrideConfiguration: S.optional(__S(3811, __c119, 3)),
+          guardrailConfiguration: S.optional(__S(3776, __c118, 0)),
+          memoryConfiguration: S.optional(__S(3814, __c119, 6)),
+          agentCollaboration: S.optional(S.String),
+        }).pipe(
+          T.all(T.Http({ method: "PUT", uri: "/agents/{agentId}/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "UpdateAgentRequest" });
+  }
+}
+function __c107(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          agentId: S.String.pipe(T.HttpLabel("agentId")),
+          agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
+          actionGroupId: S.String.pipe(T.HttpLabel("actionGroupId")),
+          actionGroupName: S.String,
+          description: S.optional(S.String),
+          parentActionGroupSignature: S.optional(S.String),
+          parentActionGroupSignatureParams: S.optional(__S(3712, __c116, 0)),
+          actionGroupExecutor: S.optional(__S(32, __c1, 0)),
+          actionGroupState: S.optional(S.String),
+          apiSchema: S.optional(__S(34, __c1, 2)),
+          functionSchema: S.optional(__S(39, __c1, 7)),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PUT",
+              uri: "/agents/{agentId}/agentversions/{agentVersion}/actiongroups/{actionGroupId}/",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateAgentActionGroupRequest" });
+  }
+}
+function __c108(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          agentId: S.String.pipe(T.HttpLabel("agentId")),
+          agentAliasId: S.String.pipe(T.HttpLabel("agentAliasId")),
+          agentAliasName: S.String,
+          description: S.optional(S.String),
+          routingConfiguration: S.optional(__S(97, __c3, 1)),
+          aliasInvocationState: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/agents/{agentId}/agentaliases/{agentAliasId}/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateAgentAliasRequest" });
+  }
+}
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          agentId: S.String.pipe(T.HttpLabel("agentId")),
+          agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
+          collaboratorId: S.String.pipe(T.HttpLabel("collaboratorId")),
+          agentDescriptor: __S(2912, __c91, 0),
+          collaboratorName: S.String,
+          collaborationInstruction: SensitiveString,
+          relayConversationHistory: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PUT",
+              uri: "/agents/{agentId}/agentversions/{agentVersion}/agentcollaborators/{collaboratorId}/",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateAgentCollaboratorRequest" });
+  }
+}
+function __c110(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          agentId: S.String.pipe(T.HttpLabel("agentId")),
+          agentVersion: S.String.pipe(T.HttpLabel("agentVersion")),
+          knowledgeBaseId: S.String.pipe(T.HttpLabel("knowledgeBaseId")),
+          description: S.optional(S.String),
+          knowledgeBaseState: S.optional(S.String),
+        }).pipe(
+          T.all(
+            T.Http({
+              method: "PUT",
+              uri: "/agents/{agentId}/agentversions/{agentVersion}/knowledgebases/{knowledgeBaseId}/",
+            }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateAgentKnowledgeBaseRequest" });
+  }
+}
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10452,7 +11114,7 @@ function __c103(j: number): any {
       ).annotate({ identifier: "UpdateDataSourceRequest" });
   }
 }
-function __c104(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10476,7 +11138,7 @@ function __c104(j: number): any {
       ).annotate({ identifier: "UpdateFlowRequest" });
   }
 }
-function __c105(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10500,7 +11162,7 @@ function __c105(j: number): any {
       ).annotate({ identifier: "UpdateFlowAliasRequest" });
   }
 }
-function __c106(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10511,6 +11173,7 @@ function __c106(j: number): any {
           roleArn: S.String,
           knowledgeBaseConfiguration: __S(766, __c23, 30),
           storageConfiguration: S.optional(__S(778, __c24, 10)),
+          metadataConfigurations: S.optional(__S(780, __c24, 12)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/knowledgebases/{knowledgeBaseId}" }),
@@ -10524,7 +11187,146 @@ function __c106(j: number): any {
       ).annotate({ identifier: "UpdateKnowledgeBaseRequest" });
   }
 }
-function __c107(j: number): any {
+function __c115(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          agentName: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+          instruction: S.optional(SensitiveString),
+          foundationModel: S.optional(S.String),
+          description: S.optional(S.String),
+          orchestrationType: S.optional(S.String),
+          customOrchestration: S.optional(__S(3841, __c120, 1)),
+          idleSessionTTLInSeconds: S.optional(S.Number),
+          agentResourceRoleArn: S.optional(S.String),
+          customerEncryptionKeyArn: S.optional(S.String),
+          tags: S.optional(__S(3712, __c116, 0)),
+          promptOverrideConfiguration: S.optional(__S(3811, __c119, 3)),
+          guardrailConfiguration: S.optional(__S(3776, __c118, 0)),
+          memoryConfiguration: S.optional(__S(3814, __c119, 6)),
+          agentCollaboration: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "PUT", uri: "/agents/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "CreateAgentRequest" });
+  }
+}
+function __c116(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c117(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c118(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          guardrailIdentifier: S.optional(S.String),
+          guardrailVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "GuardrailConfiguration" });
+  }
+}
+function __c119(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          temperature: S.optional(S.Number),
+          topP: S.optional(S.Number),
+          topK: S.optional(S.Number),
+          maximumLength: S.optional(S.Number),
+          stopSequences: S.optional(__S(3744, __c117, 0)),
+        }),
+      ).annotate({ identifier: "InferenceConfiguration" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          promptType: S.optional(S.String),
+          promptCreationMode: S.optional(S.String),
+          promptState: S.optional(S.String),
+          basePromptTemplate: S.optional(SensitiveString),
+          inferenceConfiguration: S.optional(__S(3808, __c119, 0)),
+          parserMode: S.optional(S.String),
+          foundationModel: S.optional(S.String),
+          additionalModelRequestFields: S.optional(S.Any),
+        }),
+      ).annotate({ identifier: "PromptConfiguration" });
+    case 2:
+      return S.Array(__S(3809, __c119, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          promptConfigurations: __S(3810, __c119, 2),
+          overrideLambda: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PromptOverrideConfiguration" });
+    case 4:
+      return S.Array(S.String);
+    case 5:
+      return S.suspend(() => S.Struct({ maxRecentSessions: S.optional(S.Number) })).annotate({
+        identifier: "SessionSummaryConfiguration",
+      });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          enabledMemoryTypes: __S(3812, __c119, 4),
+          storageDays: S.optional(S.Number),
+          sessionSummaryConfiguration: S.optional(__S(3813, __c119, 5)),
+        }),
+      ).annotate({ identifier: "MemoryConfiguration" });
+  }
+}
+function __c120(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([/*@__PURE__*/ S.Struct({ lambda: S.String })]);
+    case 1:
+      return S.suspend(() => S.Struct({ executor: S.optional(__S(3840, __c120, 0)) })).annotate({
+        identifier: "CustomOrchestration",
+      });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          agentId: S.String,
+          agentName: S.String,
+          agentArn: S.String,
+          agentVersion: S.optional(S.String),
+          clientToken: S.optional(S.String),
+          instruction: S.optional(SensitiveString),
+          agentStatus: S.String,
+          foundationModel: S.optional(S.String),
+          description: S.optional(S.String),
+          orchestrationType: S.optional(S.String),
+          customOrchestration: S.optional(__S(3841, __c120, 1)),
+          idleSessionTTLInSeconds: S.Number,
+          agentResourceRoleArn: S.String,
+          customerEncryptionKeyArn: S.optional(S.String),
+          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          preparedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          failureReasons: S.optional(__S(3744, __c117, 0)),
+          recommendedActions: S.optional(__S(3744, __c117, 0)),
+          promptOverrideConfiguration: S.optional(__S(3811, __c119, 3)),
+          guardrailConfiguration: S.optional(__S(3776, __c118, 0)),
+          memoryConfiguration: S.optional(__S(3814, __c119, 6)),
+          agentCollaboration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Agent" });
+    case 3:
+      return S.suspend(() => S.Struct({ agent: __S(3842, __c120, 2) })).annotate({
+        identifier: "CreateAgentResponse",
+      });
+  }
+}
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10548,7 +11350,28 @@ function __c107(j: number): any {
       ).annotate({ identifier: "UpdatePromptRequest" });
   }
 }
-function __c108(j: number): any {
+function __c122(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          retrievalInstructionId: S.String.pipe(T.HttpLabel("retrievalInstructionId")),
+          instruction: __S(928, __c29, 0),
+          description: S.optional(SensitiveString),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/retrievalinstructions/{retrievalInstructionId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateRetrievalInstructionRequest" });
+  }
+}
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10564,147 +11387,8 @@ function __c108(j: number): any {
         ),
       ).annotate({ identifier: "ValidateFlowDefinitionRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ validations: __S(1839, __c57, 15) })).annotate({
+      return S.suspend(() => S.Struct({ validations: __S(1999, __c62, 15) })).annotate({
         identifier: "ValidateFlowDefinitionResponse",
-      });
-  }
-}
-function __c109(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          agentName: S.String,
-          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          instruction: S.optional(SensitiveString),
-          foundationModel: S.optional(S.String),
-          description: S.optional(S.String),
-          orchestrationType: S.optional(S.String),
-          customOrchestration: S.optional(__S(3649, __c114, 1)),
-          idleSessionTTLInSeconds: S.optional(S.Number),
-          agentResourceRoleArn: S.optional(S.String),
-          customerEncryptionKeyArn: S.optional(S.String),
-          tags: S.optional(__S(3520, __c110, 0)),
-          promptOverrideConfiguration: S.optional(__S(3619, __c113, 3)),
-          guardrailConfiguration: S.optional(__S(3584, __c112, 0)),
-          memoryConfiguration: S.optional(__S(3622, __c113, 6)),
-          agentCollaboration: S.optional(S.String),
-        }).pipe(T.all(T.Http({ method: "PUT", uri: "/agents/" }), svc, auth, proto, ver, rules)),
-      ).annotate({ identifier: "CreateAgentRequest" });
-  }
-}
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
-  }
-}
-function __c111(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c112(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          guardrailIdentifier: S.optional(S.String),
-          guardrailVersion: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "GuardrailConfiguration" });
-  }
-}
-function __c113(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          temperature: S.optional(S.Number),
-          topP: S.optional(S.Number),
-          topK: S.optional(S.Number),
-          maximumLength: S.optional(S.Number),
-          stopSequences: S.optional(__S(3552, __c111, 0)),
-        }),
-      ).annotate({ identifier: "InferenceConfiguration" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          promptType: S.optional(S.String),
-          promptCreationMode: S.optional(S.String),
-          promptState: S.optional(S.String),
-          basePromptTemplate: S.optional(SensitiveString),
-          inferenceConfiguration: S.optional(__S(3616, __c113, 0)),
-          parserMode: S.optional(S.String),
-          foundationModel: S.optional(S.String),
-          additionalModelRequestFields: S.optional(S.Any),
-        }),
-      ).annotate({ identifier: "PromptConfiguration" });
-    case 2:
-      return S.Array(__S(3617, __c113, 1));
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          promptConfigurations: __S(3618, __c113, 2),
-          overrideLambda: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "PromptOverrideConfiguration" });
-    case 4:
-      return S.Array(S.String);
-    case 5:
-      return S.suspend(() => S.Struct({ maxRecentSessions: S.optional(S.Number) })).annotate({
-        identifier: "SessionSummaryConfiguration",
-      });
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          enabledMemoryTypes: __S(3620, __c113, 4),
-          storageDays: S.optional(S.Number),
-          sessionSummaryConfiguration: S.optional(__S(3621, __c113, 5)),
-        }),
-      ).annotate({ identifier: "MemoryConfiguration" });
-  }
-}
-function __c114(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ lambda: S.String })]);
-    case 1:
-      return S.suspend(() => S.Struct({ executor: S.optional(__S(3648, __c114, 0)) })).annotate({
-        identifier: "CustomOrchestration",
-      });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          agentId: S.String,
-          agentName: S.String,
-          agentArn: S.String,
-          agentVersion: S.optional(S.String),
-          clientToken: S.optional(S.String),
-          instruction: S.optional(SensitiveString),
-          agentStatus: S.String,
-          foundationModel: S.optional(S.String),
-          description: S.optional(S.String),
-          orchestrationType: S.optional(S.String),
-          customOrchestration: S.optional(__S(3649, __c114, 1)),
-          idleSessionTTLInSeconds: S.Number,
-          agentResourceRoleArn: S.String,
-          customerEncryptionKeyArn: S.optional(S.String),
-          createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          preparedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          failureReasons: S.optional(__S(3552, __c111, 0)),
-          recommendedActions: S.optional(__S(3552, __c111, 0)),
-          promptOverrideConfiguration: S.optional(__S(3619, __c113, 3)),
-          guardrailConfiguration: S.optional(__S(3584, __c112, 0)),
-          memoryConfiguration: S.optional(__S(3622, __c113, 6)),
-          agentCollaboration: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "Agent" });
-    case 3:
-      return S.suspend(() => S.Struct({ agent: __S(3650, __c114, 2) })).annotate({
-        identifier: "CreateAgentResponse",
       });
   }
 }

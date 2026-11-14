@@ -113,8 +113,8 @@ export interface CreateFinetuneRequest {
   accountId: string;
   model: string;
   name: string;
-  description?: string;
-  public?: boolean;
+  description?: string | undefined;
+  public?: boolean | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateFinetuneResponse {
@@ -124,7 +124,7 @@ export interface CreateFinetuneResponse {
   modifiedAt: string;
   name: string;
   public: boolean;
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export interface CreateFinetuneAssetRequest {
   accountId: string;
@@ -160,16 +160,16 @@ export interface ListAuthorsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AuthorsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListFinetunePublicsRequest {
   accountId: string;
   /** Pagination Limit. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination Offset. */
-  offset?: number;
+  offset?: number | undefined;
   /** Order By Column Name. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export interface FinetunesPublicListResultItem {
   id: string;
@@ -178,14 +178,14 @@ export interface FinetunesPublicListResultItem {
   modifiedAt: string;
   name: string;
   public: boolean;
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export type FinetunesPublicListResultList = Array<FinetunesPublicListResultItem>;
 export interface ListFinetunePublicsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: FinetunesPublicListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListFinetunesRequest {
   accountId: string;
@@ -197,27 +197,27 @@ export interface ListFinetunesResponse {
   model: string;
   modifiedAt: string;
   name: string;
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export type ModelsListRequestFormat = "openrouter";
 export interface ListModelsRequest {
   accountId: string;
   /** Filter by Author. */
-  author?: string;
+  author?: string | undefined;
   /** If set, return models in the requested marketplace format instead of the default response. */
-  format?: ModelsListRequestFormat | (string & {});
+  format?: ModelsListRequestFormat | (string & {}) | undefined;
   /** Filter to hide experimental models. */
-  hideExperimental?: boolean;
+  hideExperimental?: boolean | undefined;
   /** If true, include models for up to three months after their deprecation date. Defaults to false. */
-  includeDeprecated?: boolean;
-  page?: number;
-  perPage?: number;
+  includeDeprecated?: boolean | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
   /** Search. */
-  search?: string;
+  search?: string | undefined;
   /** Filter by Source Id. */
-  source?: number;
+  source?: number | undefined;
   /** Filter by Task Name. */
-  task?: string;
+  task?: string | undefined;
 }
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface ListModelsResponse {}
@@ -229,7 +229,7 @@ export interface ListTasksResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: TasksListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type RunRequestTextTextEmbeddingsCase1List = Array<string>;
 export type RunRequestTextTextEmbeddings = string | RunRequestTextTextEmbeddingsCase1List;
@@ -244,14 +244,14 @@ export type RunRequestMaskList = Array<number>;
 export type RunRequestAudioList = Array<number>;
 export type RunRequestResponseFormatType = "json_object" | "json_schema";
 export interface RunRequestResponseFormat {
-  jsonSchema?: unknown;
-  type?: RunRequestResponseFormatType | (string & {});
+  jsonSchema?: unknown | undefined;
+  type?: RunRequestResponseFormatType | (string & {}) | undefined;
 }
 export interface RunRequestMessagesTextGenerationItemContentCase1Item {
   /** Text content */
-  text?: string;
+  text?: string | undefined;
   /** Type of the content (text) */
-  type?: string;
+  type?: string | undefined;
 }
 export type RunRequestMessagesTextGenerationItemContentCase1List =
   Array<RunRequestMessagesTextGenerationItemContentCase1Item>;
@@ -273,9 +273,9 @@ export interface RunRequestMessagesImageTextToTextItemContentCase1Item {
   /** Type of the content part (e.g. 'text', 'image_url'). */
   type: string;
   /** Image URL object (when type is 'image_url'). */
-  imageUrl?: RunRequestMessagesImageTextToTextItemContentCase1ItemImageUrl;
+  imageUrl?: RunRequestMessagesImageTextToTextItemContentCase1ItemImageUrl | undefined;
   /** Text content (when type is 'text'). */
-  text?: string;
+  text?: string | undefined;
 }
 export type RunRequestMessagesImageTextToTextItemContentCase1List =
   Array<RunRequestMessagesImageTextToTextItemContentCase1Item>;
@@ -313,7 +313,7 @@ export interface RunRequestToolsItemCase0Parameters {
   /** The type of the parameters object (usually 'object'). */
   type: string;
   /** List of required parameter names. */
-  required?: RunRequestToolsItemCase0ParametersRequiredList;
+  required?: RunRequestToolsItemCase0ParametersRequiredList | undefined;
 }
 export interface RunRequestToolsItemCase0 {
   /** A brief description of what the tool does. */
@@ -335,7 +335,7 @@ export interface RunRequestToolsItemFunctionFunctionParameters {
   /** The type of the parameters object (usually 'object'). */
   type: string;
   /** List of required parameter names. */
-  required?: RunRequestToolsItemFunctionFunctionParametersRequiredList;
+  required?: RunRequestToolsItemFunctionFunctionParametersRequiredList | undefined;
 }
 export interface RunRequestToolsItemFunctionFunction {
   /** A brief description of what the function does. */
@@ -359,164 +359,164 @@ export interface RunAiRequest {
   /** Workers AI model identifier, including its namespace and model name. */
   modelName: string;
   /** The text that you want to classify */
-  text?: RunRequestText;
+  text?: RunRequestText | undefined;
   /** A text description of the image you want to generate */
-  prompt?: string;
+  prompt?: string | undefined;
   /** Controls how closely the generated image should adhere to the prompt; higher values make the image more aligned with the prompt */
-  guidance?: number;
+  guidance?: number | undefined;
   /** The height of the generated image in pixels */
-  height?: number;
+  height?: number | undefined;
   /** For use with img2img tasks. An array of integers that represent the image data constrained to 8-bit unsigned integer values */
-  image?: RunRequestImage;
+  image?: RunRequestImage | undefined;
   /** For use with img2img tasks. A base64-encoded string of the input image */
-  imageB64?: string;
+  imageB64?: string | undefined;
   /** An array representing An array of integers that represent mask image data for inpainting constrained to 8-bit unsigned integer values */
-  mask?: RunRequestMaskList;
+  mask?: RunRequestMaskList | undefined;
   /** Text describing elements to avoid in the generated image */
-  negativePrompt?: string;
+  negativePrompt?: string | undefined;
   /** The number of diffusion steps; higher values can improve quality but take longer */
-  numSteps?: number;
+  numSteps?: number | undefined;
   /** Random seed for reproducibility of the image generation */
-  seed?: number;
+  seed?: number | undefined;
   /** A value between 0 and 1 indicating how strongly to apply the transformation during img2img tasks; lower values make the output closer to the input image */
-  strength?: number;
+  strength?: number | undefined;
   /** The width of the generated image in pixels */
-  width?: number;
+  width?: number | undefined;
   /** The speech language (e.g., 'en' for English, 'fr' for French). Defaults to 'en' if not specified */
-  lang?: string;
+  lang?: string | undefined;
   /** An array of integers that represent the audio data constrained to 8-bit unsigned integer values */
-  audio?: RunRequestAudioList;
+  audio?: RunRequestAudioList | undefined;
   /** The language of the recorded audio */
-  sourceLang?: string;
+  sourceLang?: string | undefined;
   /** The language to translate the transcription into. Currently only English is supported. */
-  targetLang?: string;
+  targetLang?: string | undefined;
   /** Decreases the likelihood of the model repeating the same lines verbatim. */
-  frequencyPenalty?: number;
+  frequencyPenalty?: number | undefined;
   /** Name of the LoRA (Low-Rank Adaptation) model to fine-tune the base model. */
-  lora?: string;
+  lora?: string | undefined;
   /** The maximum number of tokens to generate in the response. */
-  maxTokens?: number;
+  maxTokens?: number | undefined;
   /** Increases the likelihood of the model introducing new topics. */
-  presencePenalty?: number;
+  presencePenalty?: number | undefined;
   /** If true, a chat template is not applied and you must adhere to the specific model's expected formatting. */
-  raw?: boolean;
+  raw?: boolean | undefined;
   /** Penalty for repeated tokens; higher values discourage repetition. */
-  repetitionPenalty?: number;
-  responseFormat?: RunRequestResponseFormat;
+  repetitionPenalty?: number | undefined;
+  responseFormat?: RunRequestResponseFormat | undefined;
   /** If true, the response will be streamed back incrementally using SSE, Server Sent Events. */
-  stream?: boolean;
+  stream?: boolean | undefined;
   /** Controls the randomness of the output; higher values produce more random results. */
-  temperature?: number;
+  temperature?: number | undefined;
   /** Limits the AI to choose from the top 'k' most probable words. Lower values make responses more focused; higher values introduce more variety and potential surprises. */
-  topK?: number;
+  topK?: number | undefined;
   /** Adjusts the creativity of the AI's responses by controlling how many possible words it considers. Lower values make outputs more predictable; higher values allow for more varied and creative responses. */
-  topP?: number;
+  topP?: number | undefined;
   /** An array of message objects representing the conversation history. */
-  messages?: RunRequestMessages;
-  functions?: RunRequestFunctionsList;
+  messages?: RunRequestMessages | undefined;
+  functions?: RunRequestFunctionsList | undefined;
   /** A list of tools available for the assistant to use. */
-  tools?: RunRequestToolsList;
+  tools?: RunRequestToolsList | undefined;
   /** The text that you want the model to summarize */
-  inputText?: string;
+  inputText?: string | undefined;
   /** The maximum length of the generated summary in tokens */
-  maxLength?: number;
+  maxLength?: number | undefined;
   /** Whether to ignore the EOS token and continue generating tokens after the EOS token is generated. */
-  ignoreEos?: boolean;
+  ignoreEos?: boolean | undefined;
 }
 export interface RunResultTextClassificationItem {
   /** The classification label assigned to the text (e.g., 'POSITIVE' or 'NEGATIVE') */
-  label?: string | null;
+  label?: string | null | undefined;
   /** Confidence score indicating the likelihood that the text belongs to the specified label */
-  score?: number | null;
+  score?: number | null | undefined;
 }
 export type RunResultTextClassificationList = Array<RunResultTextClassificationItem>;
 export interface RunResultAudio {
   /** The generated audio in MP3 format, base64-encoded */
-  audio?: string | null;
+  audio?: string | null | undefined;
 }
 export type RunResultTextEmbeddingsDataItemList = Array<number>;
 export type RunResultTextEmbeddingsDataList = Array<RunResultTextEmbeddingsDataItemList>;
 export type RunResultTextEmbeddingsShapeList = Array<number>;
 export interface RunResultTextEmbeddings {
   /** Embeddings of the requested text values */
-  data?: RunResultTextEmbeddingsDataList | null;
-  shape?: RunResultTextEmbeddingsShapeList | null;
+  data?: RunResultTextEmbeddingsDataList | null | undefined;
+  shape?: RunResultTextEmbeddingsShapeList | null | undefined;
 }
 export interface RunResultAutomaticSpeechRecognitionWordsItem {
   /** The ending second when the word completes */
-  end?: number | null;
+  end?: number | null | undefined;
   /** The second this word begins in the recording */
-  start?: number | null;
-  word?: string | null;
+  start?: number | null | undefined;
+  word?: string | null | undefined;
 }
 export type RunResultAutomaticSpeechRecognitionWordsList =
   Array<RunResultAutomaticSpeechRecognitionWordsItem>;
 export interface RunResultAutomaticSpeechRecognition {
   /** The transcription */
   text: string;
-  vtt?: string | null;
-  wordCount?: number | null;
-  words?: RunResultAutomaticSpeechRecognitionWordsList | null;
+  vtt?: string | null | undefined;
+  wordCount?: number | null | undefined;
+  words?: RunResultAutomaticSpeechRecognitionWordsList | null | undefined;
 }
 export interface RunResultImageClassificationItem {
   /** The predicted category or class for the input image based on analysis */
-  label?: string | null;
+  label?: string | null | undefined;
   /** A confidence value, between 0 and 1, indicating how certain the model is about the predicted label */
-  score?: number | null;
+  score?: number | null | undefined;
 }
 export type RunResultImageClassificationList = Array<RunResultImageClassificationItem>;
 export interface RunResultObjectDetectionItemBox {
   /** The x-coordinate of the bottom-right corner of the bounding box */
-  xmax?: number | null;
+  xmax?: number | null | undefined;
   /** The x-coordinate of the top-left corner of the bounding box */
-  xmin?: number | null;
+  xmin?: number | null | undefined;
   /** The y-coordinate of the bottom-right corner of the bounding box */
-  ymax?: number | null;
+  ymax?: number | null | undefined;
   /** The y-coordinate of the top-left corner of the bounding box */
-  ymin?: number | null;
+  ymin?: number | null | undefined;
 }
 export interface RunResultObjectDetectionItem {
   /** Coordinates defining the bounding box around the detected object */
-  box?: RunResultObjectDetectionItemBox | null;
+  box?: RunResultObjectDetectionItemBox | null | undefined;
   /** The class label or name of the detected object */
-  label?: string | null;
+  label?: string | null | undefined;
   /** Confidence score indicating the likelihood that the detection is correct */
-  score?: number | null;
+  score?: number | null | undefined;
 }
 export type RunResultObjectDetectionList = Array<RunResultObjectDetectionItem>;
 export interface RunResultCase8ToolCallsItem {
   /** The arguments passed to be passed to the tool call request */
-  arguments?: unknown | null;
+  arguments?: unknown | null | undefined;
   /** The name of the tool to be called */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type RunResultCase8ToolCallsList = Array<RunResultCase8ToolCallsItem>;
 export interface RunResultCase8Usage {
   /** Total number of tokens in output */
-  completionTokens?: number | null;
+  completionTokens?: number | null | undefined;
   /** Total number of tokens in input */
-  promptTokens?: number | null;
+  promptTokens?: number | null | undefined;
   /** Total number of input and output tokens */
-  totalTokens?: number | null;
+  totalTokens?: number | null | undefined;
 }
 export interface RunResultCase8 {
   /** The generated text response from the model */
   response: string;
   /** An array of tool calls requests made during the response generation */
-  toolCalls?: RunResultCase8ToolCallsList | null;
+  toolCalls?: RunResultCase8ToolCallsList | null | undefined;
   /** Usage statistics for the inference request */
-  usage?: RunResultCase8Usage | null;
+  usage?: RunResultCase8Usage | null | undefined;
 }
 export interface RunResultTranslation {
   /** The translated text in the target language */
-  translatedText?: string | null;
+  translatedText?: string | null | undefined;
 }
 export interface RunResultSummarization {
   /** The summarized version of the input text */
-  summary?: string | null;
+  summary?: string | null | undefined;
 }
 export interface RunResultImageToText {
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export type RunResultImageTextToText = RunResultImageToText;
 export type RunResultMultimodalEmbeddingsDataItemList = Array<number>;
@@ -524,8 +524,8 @@ export type RunResultMultimodalEmbeddingsDataList =
   Array<RunResultMultimodalEmbeddingsDataItemList>;
 export type RunResultMultimodalEmbeddingsShapeList = Array<number>;
 export interface RunResultMultimodalEmbeddings {
-  data?: RunResultMultimodalEmbeddingsDataList | null;
-  shape?: RunResultMultimodalEmbeddingsShapeList | null;
+  data?: RunResultMultimodalEmbeddingsDataList | null | undefined;
+  shape?: RunResultMultimodalEmbeddingsShapeList | null | undefined;
 }
 export type RunResult =
   | string
@@ -555,7 +555,7 @@ export interface SupportedToMarkdownResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ToMarkdownSupportedResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ToMarkdownTransformRequestFileFilesList = Array<string>;
 export interface ToMarkdownTransformRequestFile {

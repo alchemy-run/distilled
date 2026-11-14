@@ -33,7 +33,7 @@ export interface BulkDeleteRequest {
   datastore: string;
   /** IDs of items to be deleted */
   ids: BulkDeleteRequestIdsList;
-  app_id?: string;
+  app_id?: string | undefined;
 }
 /** attribute names and values of the items that failed to be processed */
 export type BulkDeleteResponseFailedItemsList = Array<string>;
@@ -41,7 +41,7 @@ export interface BulkDeleteResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** attribute names and values of the items that failed to be processed */
-  failed_items?: BulkDeleteResponseFailedItemsList;
+  failed_items?: BulkDeleteResponseFailedItemsList | undefined;
 }
 /** items' ids */
 export type BulkGetRequestIdsList = Array<string>;
@@ -50,7 +50,7 @@ export interface BulkGetRequest {
   datastore: string;
   /** items' ids */
   ids: BulkGetRequestIdsList;
-  app_id?: string;
+  app_id?: string | undefined;
 }
 export type BulkGetResponseItemsItemMap = { [key: string]: unknown | undefined };
 /** array of attribute names and values of each item */
@@ -61,9 +61,9 @@ export interface BulkGetResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** array of attribute names and values of each item */
-  items?: BulkGetResponseItemsList;
+  items?: BulkGetResponseItemsList | undefined;
   /** attribute names and values of the items that failed to be processed */
-  failed_items?: BulkGetResponseFailedItemsList;
+  failed_items?: BulkGetResponseFailedItemsList | undefined;
 }
 export type BulkPutRequestItemsItemMap = { [key: string]: unknown | undefined };
 /** attribute names and values of the items; limit of 25 */
@@ -73,7 +73,7 @@ export interface BulkPutRequest {
   datastore: string;
   /** attribute names and values of the items; limit of 25 */
   items: BulkPutRequestItemsList;
-  app_id?: string;
+  app_id?: string | undefined;
 }
 export type BulkPutResponseFailedItemsItemMap = { [key: string]: unknown | undefined };
 /** attribute names and values of the items that failed to be processed */
@@ -82,9 +82,9 @@ export interface BulkPutResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** name of the datastore */
-  datastore?: string;
+  datastore?: string | undefined;
   /** attribute names and values of the items that failed to be processed */
-  failed_items?: BulkPutResponseFailedItemsList;
+  failed_items?: BulkPutResponseFailedItemsList | undefined;
 }
 export interface ConnectionsOpenRequest {}
 export interface ConnectionsOpenResponse {
@@ -97,25 +97,25 @@ export interface CreateManifestRequest {
   /** A JSON app manifest encoded as a string. This manifest **must** use a valid [app manifest schema - read our guide to creating one](/app-manifests/configuring-apps-with-app-manifests#fields). */
   manifest: string;
   /** When called with an org token, which specific team to create app on */
-  team_id?: string;
+  team_id?: string | undefined;
 }
 export interface CreateManifestResponseCredentials {
-  client_id?: string;
-  client_secret?: string | Redacted.Redacted<string>;
-  verification_token?: string;
-  signing_secret?: string | Redacted.Redacted<string>;
+  client_id?: string | undefined;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
+  verification_token?: string | undefined;
+  signing_secret?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CreateManifestResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   app_id: string;
   credentials: CreateManifestResponseCredentials;
-  oauth_authorize_url?: string;
+  oauth_authorize_url?: string | undefined;
   /** The team ID where the app was created on */
-  team_id?: string;
+  team_id?: string | undefined;
   /** The team domain where the app was created on */
-  team_domain?: string;
-  app_token?: string;
+  team_domain?: string | undefined;
+  app_token?: string | undefined;
 }
 /** A map of attributes referenced in expression */
 export type DatastoreCountRequestExpressionAttributesMap = { [key: string]: unknown | undefined };
@@ -125,21 +125,21 @@ export interface DatastoreCountRequest {
   /** Name of the datastore */
   datastore: string;
   /** A query filter expression */
-  expression?: string;
+  expression?: string | undefined;
   /** A map of attributes referenced in expression */
-  expression_attributes?: DatastoreCountRequestExpressionAttributesMap;
+  expression_attributes?: DatastoreCountRequestExpressionAttributesMap | undefined;
   /** A map of values referenced in expression */
-  expression_values?: DatastoreCountRequestExpressionValuesMap;
+  expression_values?: DatastoreCountRequestExpressionValuesMap | undefined;
   /** Required if calling with user token */
-  app_id?: string;
+  app_id?: string | undefined;
 }
 export interface DatastoreCountResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** name of the datastore */
-  datastore?: string;
+  datastore?: string | undefined;
   /** number of matching items */
-  count?: number;
+  count?: number | undefined;
 }
 /** A map of attributes referenced in expression */
 export type DatastoreQueryRequestExpressionAttributesMap = { [key: string]: unknown | undefined };
@@ -149,17 +149,17 @@ export interface DatastoreQueryRequest {
   /** Name of the datastore */
   datastore: string;
   /** A query filter expression */
-  expression?: string;
+  expression?: string | undefined;
   /** A map of attributes referenced in expression */
-  expression_attributes?: DatastoreQueryRequestExpressionAttributesMap;
+  expression_attributes?: DatastoreQueryRequestExpressionAttributesMap | undefined;
   /** A map of values referenced in expression */
-  expression_values?: DatastoreQueryRequestExpressionValuesMap;
+  expression_values?: DatastoreQueryRequestExpressionValuesMap | undefined;
   /** Required if calling with user token */
-  app_id?: string;
+  app_id?: string | undefined;
   /** Set `cursor` to `next_cursor` returned by the previous call to list items in the next page */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to evaluate for a given request (not necessarily the number of matching items). If the given request dataset size exceeds 1 MB before reaching the limit, the returned item count will likely be less than the limit. In any case where there are more items available beyond an imposed limit, a `next_cursor` value will be provided for use in subsequent requests. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type DatastoreQueryResponseItemsItemMap = { [key: string]: unknown | undefined };
 /** attribute names and values of the items */
@@ -167,25 +167,25 @@ export type DatastoreQueryResponseItemsList = Array<DatastoreQueryResponseItemsI
 /** Pagination metadata. An empty `next_cursor` means the last page. */
 export interface DatastoreQueryResponseResponseMetadata {
   /** Cursor for the next page -- pass as `cursor` on the next call. */
-  next_cursor?: string;
+  next_cursor?: string | undefined;
 }
 export interface DatastoreQueryResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** name of the datastore */
-  datastore?: string;
+  datastore?: string | undefined;
   /** attribute names and values of the items */
   items: DatastoreQueryResponseItemsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: DatastoreQueryResponseResponseMetadata;
+  response_metadata?: DatastoreQueryResponseResponseMetadata | undefined;
 }
 export interface DeleteAuthExternalRequest {
   /** The id of the app whose tokens you want to delete */
-  app_id?: string;
+  app_id?: string | undefined;
   /** The provider key of the provider whose tokens you want to delete */
-  provider_key?: string;
+  provider_key?: string | undefined;
   /** The id of the token that you want to delete */
-  external_token_id?: string;
+  external_token_id?: string | undefined;
 }
 export interface DeleteAuthExternalResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -196,7 +196,7 @@ export interface DeleteDatastoreRequest {
   datastore: string;
   /** item id */
   id: string;
-  app_id?: string;
+  app_id?: string | undefined;
 }
 export interface DeleteDatastoreResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -223,7 +223,7 @@ export interface GetAuthExternalRequest {
   /** The id of the token you want to get the token for */
   external_token_id: string;
   /** Always refresh existing token before returning even when the token has not expired */
-  force_refresh?: boolean;
+  force_refresh?: boolean | undefined;
 }
 export interface GetAuthExternalResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -236,7 +236,7 @@ export interface GetDatastoreRequest {
   datastore: string;
   /** item id */
   id: string;
-  app_id?: string;
+  app_id?: string | undefined;
 }
 /** attribute names and values of the item */
 export type GetDatastoreResponseItemMap = { [key: string]: unknown | undefined };
@@ -244,9 +244,9 @@ export interface GetDatastoreResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** name of the datastore */
-  datastore?: string;
+  datastore?: string | undefined;
   /** attribute names and values of the item */
-  item?: GetDatastoreResponseItemMap;
+  item?: GetDatastoreResponseItemMap | undefined;
 }
 /** The direction you want the data sorted by (always by timestamp) */
 export type ListActivitiesRequestSortDirection = "asc" | "desc";
@@ -254,29 +254,29 @@ export interface ListActivitiesRequest {
   /** The id of the app to get activities from. */
   app_id: string;
   /** The team who owns this log. */
-  team_id?: string;
+  team_id?: string | undefined;
   /** Paginate through collections of data by setting the `cursor` parameter to a `next_cursor` attribute returned by a previous request's `response_metadata`. See [pagination](/apis/web-api/pagination) for more detail. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** The maximum number of items to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** The minimum log level of the log events to be returned. Defaults to 'info'. Acceptable values (in order of relative importance from smallest to largest) are ('trace', 'debug', 'info', 'warn', 'error', 'fatal'). */
-  min_log_level?: string;
+  min_log_level?: string | undefined;
   /** The event type of log events to be returned. */
-  log_event_type?: string;
+  log_event_type?: string | undefined;
   /** The source of log events to be returned. Acceptable values are ('slack', 'developer'). */
-  source?: string;
+  source?: string | undefined;
   /** The component type of log events to be returned. Acceptable values are ('events_api', 'workflows', 'functions', 'tables'). */
-  component_type?: string;
+  component_type?: string | undefined;
   /** The component id of log events to be returned. Will be 'FnXXXXXX' for functions, and 'WfXXXXXX' for workflows */
-  component_id?: string;
+  component_id?: string | undefined;
   /** The trace id of log events to be returned. */
-  trace_id?: string;
+  trace_id?: string | undefined;
   /** The earliest timestamp of the log to retrieve (epoch microseconds). */
-  min_date_created?: number;
+  min_date_created?: number | undefined;
   /** The latest timestamp of the log to retrieve (epoch microseconds). */
-  max_date_created?: number;
+  max_date_created?: number | undefined;
   /** The direction you want the data sorted by (always by timestamp) */
-  sort_direction?: ListActivitiesRequestSortDirection | (string & {});
+  sort_direction?: ListActivitiesRequestSortDirection | (string & {}) | undefined;
 }
 export type ListActivitiesResponseActivitiesList = Array<unknown>;
 /** Pagination metadata. An empty `next_cursor` means the last page. */
@@ -286,12 +286,12 @@ export interface ListActivitiesResponse {
   ok: boolean;
   activities: ListActivitiesResponseActivitiesList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: DatastoreQueryResponseResponseMetadata;
+  response_metadata?: DatastoreQueryResponseResponseMetadata | undefined;
 }
 export interface ListEventAuthorizationsRequest {
   event_context: string;
-  cursor?: string;
-  limit?: number;
+  cursor?: string | undefined;
+  limit?: number | undefined;
 }
 export interface ListEventAuthorizationsResponseAuthorizationsItem {
   enterprise_id: string | null;
@@ -309,10 +309,10 @@ export interface ListEventAuthorizationsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** The next cursor for use in [pagination](/apis/web-api/pagination). If present, pass this in subsequent calls to get additional results */
-  cursor_next?: string;
+  cursor_next?: string | undefined;
   authorizations: ListEventAuthorizationsResponseAuthorizationsList;
   /** Pagination metadata. An empty `next_cursor` means the last page. */
-  response_metadata?: DatastoreQueryResponseResponseMetadata;
+  response_metadata?: DatastoreQueryResponseResponseMetadata | undefined;
 }
 /** attribute names and values of the item */
 export type PutDatastoreRequestItemMap = { [key: string]: unknown | undefined };
@@ -321,7 +321,7 @@ export interface PutDatastoreRequest {
   datastore: string;
   /** attribute names and values of the item */
   item: PutDatastoreRequestItemMap;
-  app_id?: string;
+  app_id?: string | undefined;
 }
 /** attribute names and values of the item */
 export type PutDatastoreResponseItemMap = { [key: string]: unknown | undefined };
@@ -329,17 +329,17 @@ export interface PutDatastoreResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** name of the datastore */
-  datastore?: string;
+  datastore?: string | undefined;
   /** attribute names and values of the item */
-  item?: PutDatastoreResponseItemMap;
+  item?: PutDatastoreResponseItemMap | undefined;
 }
 export interface SetIconRequest {
   /** The ID of the app whose icon you want to set. */
   app_id: string;
   /** File contents via `multipart/form-data` */
-  file?: unknown;
+  file?: unknown | undefined;
   /** URL of a publicly hosted image */
-  url?: string;
+  url?: string | undefined;
 }
 export interface SetIconResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -375,7 +375,7 @@ export interface UpdateDatastoreRequest {
   datastore: string;
   /** attribute names and values to be updated */
   item: UpdateDatastoreRequestItemMap;
-  app_id?: string;
+  app_id?: string | undefined;
 }
 /** attribute names and values of the item, including those updated */
 export type UpdateDatastoreResponseItemMap = { [key: string]: unknown | undefined };
@@ -383,9 +383,9 @@ export interface UpdateDatastoreResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   /** name of the datastore */
-  datastore?: string;
+  datastore?: string | undefined;
   /** attribute names and values of the item, including those updated */
-  item?: UpdateDatastoreResponseItemMap;
+  item?: UpdateDatastoreResponseItemMap | undefined;
 }
 export interface UpdateManifestRequest {
   /** A JSON app manifest encoded as a string. This manifest **must** use a valid [app manifest schema - read our guide to creating one](/app-manifests/configuring-apps-with-app-manifests#fields). As this method entirely _replaces_ any previous configuration, manifest must contain both unmodified and modified fields. */
@@ -397,7 +397,7 @@ export interface UpdateManifestResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
   app_id: string;
-  permissions_updated?: boolean;
+  permissions_updated?: boolean | undefined;
 }
 /** The status that should be set for the user. */
 export type UpdateUserConnectionRequestStatus = "connected" | "disconnected";
@@ -415,13 +415,13 @@ export interface ValidateManifestRequest {
   /** The manifest to be validated. Will be validated against the [app manifest schema - read our guide](/app-manifests/configuring-apps-with-app-manifests#fields). */
   manifest: string;
   /** The ID of the app whose configuration you want to validate. */
-  app_id?: string;
+  app_id?: string | undefined;
 }
 export type ValidateManifestResponseErrorsList = Array<string>;
 export interface ValidateManifestResponseWarningsItem {
   code: string;
   message: string;
-  pointer?: string;
+  pointer?: string | undefined;
 }
 /** Non-blocking warnings from app manifest validation. */
 export type ValidateManifestResponseWarningsList = Array<ValidateManifestResponseWarningsItem>;
@@ -430,7 +430,7 @@ export interface ValidateManifestResponse {
   ok: boolean;
   errors: ValidateManifestResponseErrorsList;
   /** Non-blocking warnings from app manifest validation. */
-  warnings?: ValidateManifestResponseWarningsList;
+  warnings?: ValidateManifestResponseWarningsList | undefined;
 }
 export type BulkDeleteError = SlackOpError;
 /** Delete items from a datastore in bulk Required scopes -- bot: `datastore:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `invalid_arguments` -- The request is missing required arguments. - `invalid_datastore` -- The provided datastore is invalid. - `invalid_auth` -- Not authorized to create datastore items. - `app_not_hosted` -- The app developer is not using a Slack-hosted environment. App datastores are exclusively available for Slack-hosted apps. - `datastore_error` -- Datastore error - `access_denied` -- Not authorized to access the datastore. - `invalid_app_id` -- The app_id provided is not valid for team and user. - `free_team_not_allowed` -- Datastore put not allowed on a free team. - `team_quota_exceeded` -- Total number of requests exceeded team quota. - `datastore_migration_in_progress` -- The datastore is currently unavailable due to an in progress Enterprise org migration. - `unknown_method` -- This method does not exist - `partial_failure` -- some items failed to be deleted - `restricted_plan_level` -- Feature is not available on this team See https://docs.slack.dev/reference/methods/apps.datastore.bulkDelete */
@@ -665,7 +665,7 @@ export const getDatastore: API.OperationMethod<
 }));
 
 export type ListActivitiesError = SlackOpError;
-/** Get logs for a specified app Required scopes -- user: `hosting:read` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `internal_error` -- Something went wrong on our end, please try again. - `invalid_app_id` -- App ID provided is not valid. - `invalid_app` -- App ID provided is not valid for team and user. - `invalid_args` -- Required arguments either were not provided or contain invalid values. - `invalid_cursor` -- Value passed for `cursor` was not valid or is no longer valid. - `free_team_not_allowed` -- Feature is only available on a paid team. - `restricted_plan_level` -- Feature is not available on this team See https://docs.slack.dev/reference/methods/apps.activities.list */
+/** Get logs for a specified app Required scopes -- user: `hosting:read` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `internal_error` -- Something went wrong on our end, please try again. - `invalid_app_id` -- App ID provided is not valid. - `invalid_app` -- App ID provided is not valid for team and user. - `invalid_args` -- Required arguments either were not provided or contain invalid values. - `invalid_cursor` -- Value passed for `cursor` was not valid or is no longer valid. - `free_team_not_allowed` -- Feature is only available on a paid team. - `restricted_plan_level` -- Feature is not available on this team - `feature_disabled_for_lite_sandbox` -- Lite sandboxes cannot use Slack-hosted infrastructure See https://docs.slack.dev/reference/methods/apps.activities.list */
 export const listActivities: API.PaginatedOperationMethod<
   ListActivitiesRequest,
   ListActivitiesResponse,
@@ -738,7 +738,7 @@ export const putDatastore: API.OperationMethod<
 }));
 
 export type SetIconError = SlackOpError;
-/** Sets the app icon Required scopes -- user: `app_configurations:write` Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `app_not_owned_by_manager_app` -- The specified app is not managed by the calling manager app. A manager app can only set icons for apps that it originally created via apps.manifest.create. - `error_bad_format` -- Icon must be a valid image file. - `internal_error` -- Internal error. - `icon_not_accessible` -- The icon URL is not accessible or returned an error (e.g. 404 Not Found). Please verify the URL is publicly reachable and returns a valid image. - `invalid_app` -- App does not exist. - `invalid_app_id` -- App ID is not valid. - `invalid_icon_size` -- Icon dimensions must be between 512x512px and 2000x2000px. - `invalid_parameters` -- Only one of `URL` or `file` can be defined. - `missing_arguments` -- One of `URL` or `file` must be provided. - `no_permission` -- User does not have required permissions for app. - `unable_to_open_file` -- Error with file upload. See https://docs.slack.dev/reference/methods/apps.icon.set */
+/** Sets the app icon Required scopes -- user: `app_configurations:write` Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `app_not_owned_by_manager_app` -- The specified app is not managed by the calling manager app. A manager app can only set icons for apps that it originally created via apps.manifest.create. - `error_bad_format` -- Icon must be a valid image file. - `internal_error` -- Internal error. - `icon_not_accessible` -- The icon URL is not accessible or returned an error (e.g. 404 Not Found). Please verify the URL is publicly reachable and returns a valid image. - `invalid_app` -- App does not exist. - `invalid_app_id` -- App ID is not valid. - `invalid_icon_size` -- Icon dimensions must be between 512x512px and 2000x2000px. - `invalid_parameters` -- Only one of `URL` or `file` can be defined. - `missing_arguments` -- One of `URL` or `file` must be provided. - `no_permission` -- User does not have required permissions for app. - `unable_to_open_file` -- Error with file upload. - `app_edit_disabled` -- The app cannot be edited. See https://docs.slack.dev/reference/methods/apps.icon.set */
 export const setIcon: API.OperationMethod<
   SetIconRequest,
   SetIconResponse,
@@ -755,7 +755,7 @@ export const setIcon: API.OperationMethod<
 }));
 
 export type SetManagedPermissionsError = SlackOpError;
-/** Set who can interact with a managed app. Lets the builder who created a managed app on a partner platform configure the app's permissions as themselves, using a user token from the manager app. Permissions can only be set before the app is installed: if the app is already installed, this method makes no change and returns the app's current permissions. Required scopes -- configuration: `app_configurations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_auth` -- Invalid authorization token. - `access_denied` -- The token was not issued to a manager app that is eligible to configure managed apps. - `manager_app_not_eligible` -- The manager app the token was issued to is not eligible to configure app permissions. - `feature_not_enabled` -- This method is not enabled for the manager app's organization. - `app_not_found` -- This app does not exist. - `app_not_managed` -- The specified app is not currently managed by any manager app. - `app_not_owned_by_manager_app` -- The specified app is not managed by the calling manager app. A manager app can only set permissions for apps that it originally created and currently manages. - `app_owner_not_found` -- The app's owner could not be resolved, so app_owner cannot be applied. - `enterprise_only_feature` -- App permissions are only available on Enterprise Grid plans. Upgrade the app's org to configure who can interact with it. - `internal_error` -- The app's current installations could not be determined, so permissions were not changed. Retry the request. See https://docs.slack.dev/reference/methods/apps.managed.permissions.set */
+/** Set who can interact with a managed app. Lets the builder who created a managed app on a partner platform configure the app's permissions, using a user token or bot token from the manager app. Permissions can only be set before the app is installed: if the app is already installed, this method makes no change and returns the app's current permissions. Required scopes -- configuration: `app_configurations:write` Rate limit tier: 2 Method-specific errors (the `error` slug on the SlackError): - `invalid_auth` -- Invalid authorization token. - `access_denied` -- The token was not issued to a manager app that is eligible to configure managed apps. - `manager_app_not_eligible` -- The manager app the token was issued to is not eligible to configure app permissions, for example because it no longer has `app_configurations:write` in its configuration. - `feature_not_enabled` -- This method is not enabled for the manager app's organization, or bot tokens are not enabled for it. - `app_not_found` -- This app does not exist. - `app_not_managed` -- The specified app is not currently managed by any manager app. - `app_not_owned_by_manager_app` -- The specified app is not managed by the calling manager app. A manager app can only set permissions for apps that it originally created and currently manages. - `app_owner_not_found` -- The app's owner could not be resolved, so app_owner cannot be applied. - `enterprise_only_feature` -- App permissions are only available on Enterprise Grid plans. Upgrade the app's org to configure who can interact with it. - `internal_error` -- The app's current installations could not be determined, so permissions were not changed. Retry the request. See https://docs.slack.dev/reference/methods/apps.managed.permissions.set */
 export const setManagedPermissions: API.OperationMethod<
   SetManagedPermissionsRequest,
   SetManagedPermissionsResponse,
@@ -806,7 +806,7 @@ export const updateDatastore: API.OperationMethod<
 }));
 
 export type UpdateManifestError = SlackOpError;
-/** Update an app from an app manifest. When called with a manager app token, this method can only update apps that were created by that manager app. Required scopes -- configuration: `app_configurations:write` Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `app_not_eligible` -- The specified app is not eligible for this API. - `app_not_found` -- The specified app was not found or has been deleted. - `failed_adding_collaborator` -- Failed writing a collaborator record for this new app - `failed_creating_app` -- Failed to create the app model - `failed_datastore_operation` -- Failed while managing datastore infrastructure - `internal_error` -- Internal error. - `invalid_app` -- An app created from the provided manifest would not be valid. - `invalid_app_id` -- The app id passed is invalid. - `invalid_manifest` -- The provided manifest file does not validate against schema. - `no_permission` -- User does not have permission to update app - `unknown_method` -- Unknown method - `dynamic_client_registration_invalid_redirect_uri` -- The remote server rejected Slack's redirect URI during Dynamic Client Registration. The server must allowlist https://oauth2.slack.com/external/auth/callback as a valid redirect URI. - `app_not_owned_by_manager_app` -- The specified app is not managed by the calling manager app. A manager app can only update apps that it originally created via apps.manifest.create. It cannot modify apps created by other manager apps or apps created manually, even if the same user owns both. - `ratelimited` -- Too many calls in succession to update endpoint during a short period of time. - `dynamic_client_registration_failed` -- Dynamic client registration failed for an MCP server that requires OAuth authentication. - `oauth_metadata_not_found` -- Could not discover OAuth metadata for the MCP server. Ensure the server exposes a .well-known/oauth-authorization-server or .well-known/openid-configuration endpoint. - `dynamic_client_registration_not_supported` -- The MCP server's OAuth metadata does not include a registration endpoint. The server may not support Dynamic Client Registration. - `dynamic_client_registration_missing_oauth_endpoints` -- The MCP server's OAuth metadata is missing a required authorization or token endpoint. - `dynamic_client_registration_rejected` -- The MCP server rejected the Dynamic Client Registration request. - `dynamic_client_registration_invalid_response` -- The MCP server returned an invalid response during Dynamic Client Registration. See https://docs.slack.dev/reference/methods/apps.manifest.update */
+/** Update an app from an app manifest. When called with a manager app token, this method can only update apps that were created by that manager app. Required scopes -- configuration: `app_configurations:write` Rate limit tier: 1 Method-specific errors (the `error` slug on the SlackError): - `app_not_eligible` -- The specified app is not eligible for this API. - `app_not_found` -- The specified app was not found or has been deleted. - `failed_adding_collaborator` -- Failed writing a collaborator record for this new app - `failed_creating_app` -- Failed to create the app model - `failed_datastore_operation` -- Failed while managing datastore infrastructure - `internal_error` -- Internal error. - `invalid_app` -- An app created from the provided manifest would not be valid. - `invalid_app_id` -- The app id passed is invalid. - `invalid_manifest` -- The provided manifest file does not validate against schema. - `no_permission` -- User does not have permission to update app - `unknown_method` -- Unknown method - `dynamic_client_registration_invalid_redirect_uri` -- The remote server rejected Slack's redirect URI during Dynamic Client Registration. The server must allowlist https://oauth2.slack.com/external/auth/callback as a valid redirect URI. - `app_not_owned_by_manager_app` -- The specified app is not managed by the calling manager app. A manager app can only update apps that it originally created via apps.manifest.create. It cannot modify apps created by other manager apps or apps created manually, even if the same user owns both. - `ratelimited` -- Too many calls in succession to update endpoint during a short period of time. - `dynamic_client_registration_failed` -- Dynamic client registration failed for an MCP server that requires OAuth authentication. - `oauth_metadata_not_found` -- Could not discover OAuth metadata for the MCP server. Ensure the server exposes a .well-known/oauth-authorization-server or .well-known/openid-configuration endpoint. - `dynamic_client_registration_not_supported` -- The MCP server's OAuth metadata does not include a registration endpoint. The server may not support Dynamic Client Registration. - `dynamic_client_registration_missing_oauth_endpoints` -- The MCP server's OAuth metadata is missing a required authorization or token endpoint. - `dynamic_client_registration_rejected` -- The MCP server rejected the Dynamic Client Registration request. - `dynamic_client_registration_invalid_response` -- The MCP server returned an invalid response during Dynamic Client Registration. - `app_edit_disabled` -- The app cannot be edited. See https://docs.slack.dev/reference/methods/apps.manifest.update */
 export const updateManifest: API.OperationMethod<
   UpdateManifestRequest,
   UpdateManifestResponse,
@@ -840,7 +840,7 @@ export const updateUserConnection: API.OperationMethod<
 }));
 
 export type ValidateManifestError = SlackOpError;
-/** Validate an app manifest Required scopes -- configuration: `app_configurations:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `app_not_eligible` -- The specified app is not eligible for this API. - `invalid_app` -- An app created from the provided manifest would not be valid. - `invalid_app_id` -- The app id passed is invalid. - `invalid_manifest` -- The provided manifest file does not validate against schema. - `failed_adding_collaborator` -- Failed writing a collaborator record for this new app - `failed_creating_app` -- Failed to create the app model - `unknown_method` -- Unknown method - `no_permission` -- User described by the used token does not have proper permissions to take this action. - `app_not_owned_by_manager_app` -- The specified app is not managed by the calling manager app. A manager app can only validate apps that it originally created via apps.manifest.create. See https://docs.slack.dev/reference/methods/apps.manifest.validate */
+/** Validate an app manifest Required scopes -- configuration: `app_configurations:write` Rate limit tier: 3 Method-specific errors (the `error` slug on the SlackError): - `app_not_eligible` -- The specified app is not eligible for this API. - `invalid_app` -- An app created from the provided manifest would not be valid. - `invalid_app_id` -- The app id passed is invalid. - `invalid_manifest` -- The provided manifest file does not validate against schema. - `failed_adding_collaborator` -- Failed writing a collaborator record for this new app - `failed_creating_app` -- Failed to create the app model - `unknown_method` -- Unknown method - `no_permission` -- User described by the used token does not have proper permissions to take this action. - `app_not_owned_by_manager_app` -- The specified app is not managed by the calling manager app. A manager app can only validate apps that it originally created via apps.manifest.create. - `app_edit_disabled` -- The app cannot be edited. See https://docs.slack.dev/reference/methods/apps.manifest.validate */
 export const validateManifest: API.OperationMethod<
   ValidateManifestRequest,
   ValidateManifestResponse,

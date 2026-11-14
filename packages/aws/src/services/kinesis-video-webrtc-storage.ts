@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -178,7 +179,7 @@ export type JoinStorageSessionError =
  * - **Concurrent calls** - Concurrent calls are allowed. An offer is sent once per each call.
  */
 export const joinStorageSession: API.OperationMethod<
-  JoinStorageSessionInput,
+  JoinStorageSessionInput & RegionInput,
   JoinStorageSessionResponse,
   JoinStorageSessionError,
   Credentials | HttpClient.HttpClient
@@ -224,7 +225,7 @@ export type JoinStorageSessionAsViewerError =
  * `clientId` that's found in the join session request, the new request takes precedence.
  */
 export const joinStorageSessionAsViewer: API.OperationMethod<
-  JoinStorageSessionAsViewerInput,
+  JoinStorageSessionAsViewerInput & RegionInput,
   JoinStorageSessionAsViewerResponse,
   JoinStorageSessionAsViewerError,
   Credentials | HttpClient.HttpClient

@@ -1,0 +1,48 @@
+{
+  "description": "Type the 403 the BYOC infrastructure operations answer for an organization that is not a BYOC organization: {\"status\": 403, \"error\": \"FORBIDDEN: Not a byoc organization\"}. The spec types it only as the shared envelope, so it surfaced as the generic Forbidden, which is also what a missing permission answers. Observed live 2026-11-12 on POST /v1/organizations/{organizationId}/byocInfrastructure/validate (a preflight that creates nothing; request id 63deed08-cd37-4987-a1cd-2eed37faf8d2) and on POST .../byocInfrastructure (271876ef-1706-4343-bfb2-a910e9c7058e). The get, progress, tag, update and delete operations answer 404 for an unknown id and carry no error.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.organization#FeatureUnavailable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "The feature is not available to this organization or service: its plan does not include it, it is not enabled for the organization, or it is not set up. The message says which.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "Not a byoc organization"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.organization#OrganizationByocInfrastructureValidate/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.organization#FeatureUnavailable"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.clickhouse.cloud.organization#OrganizationByocInfrastructureCreate/errors",
+      "value": [
+        {
+          "target": "com.clickhouse.cloud.organization#FeatureUnavailable"
+        }
+      ]
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import { inspect } from "node:util";
 import * as ResponseValidation from "@distilled.cloud/core/response-validation";
 import * as Duration from "effect/Duration";
 import * as Effect from "effect/Effect";
@@ -235,9 +236,17 @@ describe("response validation", () => {
     expect(error).toBeInstanceOf(ZeroSslParseError);
   });
 
-  test("a non-JSON 2xx body: lenient returns the text, strict fails", async () => {
-    expect((await succeed({ body: "not json" })) as unknown).toBe("not json");
-    expect(await failWith({ body: "not json" }, strict)).toBeInstanceOf(ZeroSslParseError);
+  // generateEabCredentials returns the sensitive `eab_hmac_key`, and a non-JSON
+  // body may be one cut off mid-secret, so lenient mode fails it too.
+  test("a non-JSON 2xx body fails in both modes without exposing it", async () => {
+    const secret = "sentinel-secret-7f3a";
+    const body = `{"success":true,"eab_kid":"kid-1","eab_hmac_key":"${secret}`;
+    for (const operation of [mint(), strict]) {
+      const error = await failWith({ body }, operation);
+      expect(error).toBeInstanceOf(ZeroSslParseError);
+      expect(error).toMatchObject({ body: "[REDACTED]" });
+      expect(inspect(error, { depth: Infinity })).not.toContain(secret);
+    }
   });
 
   test("a non-object JSON 2xx body: lenient returns it, strict fails", async () => {

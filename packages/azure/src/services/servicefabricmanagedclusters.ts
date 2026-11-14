@@ -65,9 +65,9 @@ export interface ApplicationHealthPolicy {
   /** The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100. The percentage represents the maximum tolerated percentage of deployed applications that can be unhealthy before the application is considered in error. This is calculated by dividing the number of unhealthy deployed applications over the number of nodes where the application is currently deployed on in the cluster. The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero. */
   maxPercentUnhealthyDeployedApplications: number;
   /** The health policy used by default to evaluate the health of a service type. */
-  defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicy;
+  defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicy | undefined;
   /** The map with service type health policy per service type name. The map is empty by default. */
-  serviceTypeHealthPolicyMap?: ApplicationHealthPolicyServiceTypeHealthPolicyMapMap;
+  serviceTypeHealthPolicyMap?: ApplicationHealthPolicyServiceTypeHealthPolicyMapMap | undefined;
 }
 /** The compensating action to perform when a Monitored upgrade encounters monitoring policy or health policy violations. Invalid indicates the failure action is invalid. Rollback specifies that the upgrade will start rolling back automatically. Manual indicates that the upgrade will switch to UnmonitoredManual upgrade mode. */
 export type FailureAction = "Rollback" | "Manual";
@@ -91,30 +91,30 @@ export type RollingUpgradeMode = "Monitored" | "UnmonitoredAuto";
 /** Describes the policy for a monitored application upgrade. */
 export interface ApplicationUpgradePolicy {
   /** Defines a health policy used to evaluate the health of an application or one of its children entities. */
-  applicationHealthPolicy?: ApplicationHealthPolicy;
+  applicationHealthPolicy?: ApplicationHealthPolicy | undefined;
   /** If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data). */
-  forceRestart?: boolean;
+  forceRestart?: boolean | undefined;
   /** The policy used for monitoring the application upgrade */
-  rollingUpgradeMonitoringPolicy?: RollingUpgradeMonitoringPolicy;
+  rollingUpgradeMonitoringPolicy?: RollingUpgradeMonitoringPolicy | undefined;
   /** Duration in seconds, to wait before a stateless instance is closed, to allow the active requests to drain gracefully. This would be effective when the instance is closing during the application/cluster upgrade, only for those instances which have a non-zero delay duration configured in the service description. */
-  instanceCloseDelayDuration?: number;
+  instanceCloseDelayDuration?: number | undefined;
   /** The mode used to monitor health during a rolling upgrade. The values are Monitored, and UnmonitoredAuto. */
-  upgradeMode?: RollingUpgradeMode | (string & {});
+  upgradeMode?: RollingUpgradeMode | (string & {}) | undefined;
   /** The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. Valid values are between 0 and 42949672925 inclusive. (unsigned 32-bit integer). Unit is in seconds. */
-  upgradeReplicaSetCheckTimeout?: number;
+  upgradeReplicaSetCheckTimeout?: number | undefined;
   /** Determines whether the application should be recreated on update. If value=true, the rest of the upgrade policy parameters are not allowed. */
-  recreateApplication?: boolean;
+  recreateApplication?: boolean | undefined;
 }
 /** The application resource properties. */
 export interface ApplicationResourcePropertiesInput {
   /** List of user assigned identities for the application, each mapped to a friendly name. */
-  managedIdentities?: ApplicationResourcePropertiesInputManagedIdentitiesList;
+  managedIdentities?: ApplicationResourcePropertiesInputManagedIdentitiesList | undefined;
   /** The version of the application type as defined in the application manifest. This name must be the full Arm Resource ID for the referenced application type version. */
-  version?: string;
+  version?: string | undefined;
   /** List of application parameters with overridden values from their default values specified in the application manifest. */
-  parameters?: ApplicationResourcePropertiesInputParametersMap;
+  parameters?: ApplicationResourcePropertiesInputParametersMap | undefined;
   /** Describes the policy for a monitored application upgrade. */
-  upgradePolicy?: ApplicationUpgradePolicy;
+  upgradePolicy?: ApplicationUpgradePolicy | undefined;
 }
 /** Resource tags. */
 export type ApplicationsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -133,9 +133,9 @@ export type ManagedIdentityInputUserAssignedIdentitiesMap = {
 /** Describes the managed identities for an Azure resource. */
 export interface ManagedIdentityInput {
   /** The type of managed identity for the resource. */
-  type?: ManagedIdentityType | (string & {});
+  type?: ManagedIdentityType | (string & {}) | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: ManagedIdentityInputUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ManagedIdentityInputUserAssignedIdentitiesMap | undefined;
 }
 export interface ApplicationsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -147,13 +147,13 @@ export interface ApplicationsCreateOrUpdateRequest {
   /** The name of the application resource. */
   applicationName: string;
   /** The application resource properties. */
-  properties?: ApplicationResourcePropertiesInput;
+  properties?: ApplicationResourcePropertiesInput | undefined;
   /** Resource tags. */
-  tags?: ApplicationsCreateOrUpdateRequestTagsMap;
+  tags?: ApplicationsCreateOrUpdateRequestTagsMap | undefined;
   /** Describes the managed identities for an Azure resource. */
-  identity?: ManagedIdentityInput;
+  identity?: ManagedIdentityInput | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -162,17 +162,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** List of user assigned identities for the application, each mapped to a friendly name. */
 export type ApplicationResourcePropertiesManagedIdentitiesList =
@@ -182,24 +182,24 @@ export type ApplicationResourcePropertiesParametersMap = { [key: string]: string
 /** The application resource properties. */
 export interface ApplicationResourceProperties {
   /** List of user assigned identities for the application, each mapped to a friendly name. */
-  managedIdentities?: ApplicationResourcePropertiesManagedIdentitiesList;
+  managedIdentities?: ApplicationResourcePropertiesManagedIdentitiesList | undefined;
   /** The current deployment or provisioning state, which only appears in the response */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The version of the application type as defined in the application manifest. This name must be the full Arm Resource ID for the referenced application type version. */
-  version?: string;
+  version?: string | undefined;
   /** List of application parameters with overridden values from their default values specified in the application manifest. */
-  parameters?: ApplicationResourcePropertiesParametersMap;
+  parameters?: ApplicationResourcePropertiesParametersMap | undefined;
   /** Describes the policy for a monitored application upgrade. */
-  upgradePolicy?: ApplicationUpgradePolicy;
+  upgradePolicy?: ApplicationUpgradePolicy | undefined;
 }
 /** Resource tags. */
 export type ApplicationsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 /** User assigned identity. */
 export interface UserAssignedIdentity {
   /** The principal id of user assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client id of user assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
 export type ManagedIdentityUserAssignedIdentitiesMap = {
@@ -208,35 +208,35 @@ export type ManagedIdentityUserAssignedIdentitiesMap = {
 /** Describes the managed identities for an Azure resource. */
 export interface ManagedIdentity {
   /** The principal id of the managed identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant id of the managed identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The type of managed identity for the resource. */
-  type?: ManagedIdentityType;
+  type?: ManagedIdentityType | undefined;
   /** The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: ManagedIdentityUserAssignedIdentitiesMap;
+  userAssignedIdentities?: ManagedIdentityUserAssignedIdentitiesMap | undefined;
 }
 export interface ApplicationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The application resource properties. */
-  properties?: ApplicationResourceProperties;
+  properties?: ApplicationResourceProperties | undefined;
   /** Resource tags. */
-  tags?: ApplicationsCreateOrUpdateResponseTagsMap;
+  tags?: ApplicationsCreateOrUpdateResponseTagsMap | undefined;
   /** Describes the managed identities for an Azure resource. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** The application type name properties */
 export type ApplicationTypeResourcePropertiesInput = UserAssignedIdentityInput;
@@ -252,34 +252,34 @@ export interface ApplicationTypesCreateOrUpdateRequest {
   /** The name of the application type name resource. */
   applicationTypeName: string;
   /** The application type name properties */
-  properties?: UserAssignedIdentityInput;
+  properties?: UserAssignedIdentityInput | undefined;
   /** Resource tags. */
-  tags?: ApplicationTypesCreateOrUpdateRequestTagsMap;
+  tags?: ApplicationTypesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The application type name properties */
 export interface ApplicationTypeResourceProperties {
   /** The current deployment or provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 /** Resource tags. */
 export type ApplicationTypesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ApplicationTypesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The application type name properties */
-  properties?: ApplicationTypeResourceProperties;
+  properties?: ApplicationTypeResourceProperties | undefined;
   /** Resource tags. */
-  tags?: ApplicationTypesCreateOrUpdateResponseTagsMap;
+  tags?: ApplicationTypesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The properties of the application type version resource. */
 export interface ApplicationTypeVersionResourcePropertiesInput {
@@ -302,16 +302,16 @@ export interface ApplicationTypeVersionsCreateOrUpdateRequest {
   /** The application type version. */
   version: string;
   /** The properties of the application type version resource. */
-  properties?: ApplicationTypeVersionResourcePropertiesInput;
+  properties?: ApplicationTypeVersionResourcePropertiesInput | undefined;
   /** Resource tags. */
-  tags?: ApplicationTypeVersionsCreateOrUpdateRequestTagsMap;
+  tags?: ApplicationTypeVersionsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The properties of the application type version resource. */
 export interface ApplicationTypeVersionResourceProperties {
   /** The current deployment or provisioning state, which only appears in the response */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The URL to the application package */
   appPackageUrl: string;
 }
@@ -321,23 +321,23 @@ export type ApplicationTypeVersionsCreateOrUpdateResponseTagsMap = {
 };
 export interface ApplicationTypeVersionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the application type version resource. */
-  properties?: ApplicationTypeVersionResourceProperties;
+  properties?: ApplicationTypeVersionResourceProperties | undefined;
   /** Resource tags. */
-  tags?: ApplicationTypeVersionsCreateOrUpdateResponseTagsMap;
+  tags?: ApplicationTypeVersionsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export interface DeleteApplicationRequest {
   /** The ID of the target subscription. */
@@ -351,9 +351,9 @@ export interface DeleteApplicationRequest {
 }
 export interface DeleteApplicationResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteApplicationTypeRequest {
   /** The ID of the target subscription. */
@@ -367,9 +367,9 @@ export interface DeleteApplicationTypeRequest {
 }
 export interface DeleteApplicationTypeResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteApplicationTypeVersionRequest {
   /** The ID of the target subscription. */
@@ -385,9 +385,9 @@ export interface DeleteApplicationTypeVersionRequest {
 }
 export interface DeleteApplicationTypeVersionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteManagedClusterRequest {
   /** The ID of the target subscription. */
@@ -399,9 +399,9 @@ export interface DeleteManagedClusterRequest {
 }
 export interface DeleteManagedClusterResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteNodeTypeRequest {
   /** The ID of the target subscription. */
@@ -415,9 +415,9 @@ export interface DeleteNodeTypeRequest {
 }
 export interface DeleteNodeTypeResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** List of node names from the node type. */
 export type DeleteNodeTypeNodeRequestNodesList = Array<string>;
@@ -433,17 +433,17 @@ export interface DeleteNodeTypeNodeRequest {
   /** The name of the node type. */
   nodeTypeName: string;
   /** List of node names from the node type. */
-  nodes?: DeleteNodeTypeNodeRequestNodesList;
+  nodes?: DeleteNodeTypeNodeRequestNodesList | undefined;
   /** Force the action to go through. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Specifies the way the operation will be performed. */
-  updateType?: UpdateType | (string & {});
+  updateType?: UpdateType | (string & {}) | undefined;
 }
 export interface DeleteNodeTypeNodeResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface DeleteServiceRequest {
   /** The ID of the target subscription. */
@@ -459,9 +459,9 @@ export interface DeleteServiceRequest {
 }
 export interface DeleteServiceResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Enum for filtering health events. */
 export type HealthFilter = "Default" | "None" | "Ok" | "Warning" | "Error" | "All";
@@ -475,21 +475,21 @@ export interface FetchApplicationHealthRequest {
   /** The name of the application resource. */
   applicationName: string;
   /** Allows filtering of the health events returned in the response based on health state. */
-  eventsHealthStateFilter?: HealthFilter | (string & {});
+  eventsHealthStateFilter?: HealthFilter | (string & {}) | undefined;
   /** Allows filtering of the deployed applications health state objects returned in the result of application health query based on their health state. */
-  deployedApplicationsHealthStateFilter?: HealthFilter | (string & {});
+  deployedApplicationsHealthStateFilter?: HealthFilter | (string & {}) | undefined;
   /** Allows filtering of the services health state objects returned in the result of services health query based on their health state. */
-  servicesHealthStateFilter?: HealthFilter | (string & {});
+  servicesHealthStateFilter?: HealthFilter | (string & {}) | undefined;
   /** Indicates whether the health statistics should be returned as part of the query result. False by default. The statistics show the number of children entities in health state Ok, Warning, and Error. */
-  excludeHealthStatistics?: boolean;
+  excludeHealthStatistics?: boolean | undefined;
   /** Request timeout for the health query in seconds. The default value is 60 seconds. */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 export interface FetchApplicationHealthResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetApplicationRequest {
   /** The ID of the target subscription. */
@@ -505,21 +505,21 @@ export interface GetApplicationRequest {
 export type GetApplicationResponseTagsMap = { [key: string]: string | undefined };
 export interface GetApplicationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The application resource properties. */
-  properties?: ApplicationResourceProperties;
+  properties?: ApplicationResourceProperties | undefined;
   /** Resource tags. */
-  tags?: GetApplicationResponseTagsMap;
+  tags?: GetApplicationResponseTagsMap | undefined;
   /** Describes the managed identities for an Azure resource. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetApplicationTypeRequest {
   /** The ID of the target subscription. */
@@ -535,19 +535,19 @@ export interface GetApplicationTypeRequest {
 export type GetApplicationTypeResponseTagsMap = { [key: string]: string | undefined };
 export interface GetApplicationTypeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The application type name properties */
-  properties?: ApplicationTypeResourceProperties;
+  properties?: ApplicationTypeResourceProperties | undefined;
   /** Resource tags. */
-  tags?: GetApplicationTypeResponseTagsMap;
+  tags?: GetApplicationTypeResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetApplicationTypeVersionRequest {
   /** The ID of the target subscription. */
@@ -565,19 +565,19 @@ export interface GetApplicationTypeVersionRequest {
 export type GetApplicationTypeVersionResponseTagsMap = { [key: string]: string | undefined };
 export interface GetApplicationTypeVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the application type version resource. */
-  properties?: ApplicationTypeVersionResourceProperties;
+  properties?: ApplicationTypeVersionResourceProperties | undefined;
   /** Resource tags. */
-  tags?: GetApplicationTypeVersionResponseTagsMap;
+  tags?: GetApplicationTypeVersionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetManagedAzResiliencyStatusRequest {
   /** The ID of the target subscription. */
@@ -590,22 +590,22 @@ export interface GetManagedAzResiliencyStatusRequest {
 /** Describes Az Resiliency status of Base resources */
 export interface ResourceAzStatus {
   /** VM Size properties. */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** VM Size id. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** VM Size name. */
-  isZoneResilient?: boolean;
+  isZoneResilient?: boolean | undefined;
   /** Zone resiliency status details for the resource. */
-  details?: string;
+  details?: string | undefined;
 }
 /** List of Managed VM Sizes for Service Fabric Managed Clusters. */
 export type ManagedAzResiliencyStatusBaseResourceStatusList = Array<ResourceAzStatus>;
 /** Describes the result of the request to list Managed VM Sizes for Service Fabric Managed Clusters. */
 export interface ManagedAzResiliencyStatus {
   /** List of Managed VM Sizes for Service Fabric Managed Clusters. */
-  baseResourceStatus?: ManagedAzResiliencyStatusBaseResourceStatusList;
+  baseResourceStatus?: ManagedAzResiliencyStatusBaseResourceStatusList | undefined;
   /** URL to get the next set of Managed VM Sizes if there are any. */
-  isClusterZoneResilient?: boolean;
+  isClusterZoneResilient?: boolean | undefined;
 }
 export interface GetManagedClusterRequest {
   /** The ID of the target subscription. */
@@ -640,13 +640,13 @@ export interface LoadBalancingRule {
   /** The reference to the transport protocol used by the load balancing rule. */
   protocol: Protocol | (string & {});
   /** The prob port used by the load balancing rule. Acceptable values are between 1 and 65535. */
-  probePort?: number;
+  probePort?: number | undefined;
   /** the reference to the load balancer probe used by the load balancing rule. */
   probeProtocol: ProbeProtocol | (string & {});
   /** The probe request path. Only supported for HTTP/HTTPS probes. */
-  probeRequestPath?: string;
+  probeRequestPath?: string | undefined;
   /** The load distribution policy for this rule. */
-  loadDistribution?: string;
+  loadDistribution?: string | undefined;
 }
 /** Load balancing rules that are applied to the public load balancer of the cluster. */
 export type ManagedClusterPropertiesLoadBalancingRulesList = Array<LoadBalancingRule>;
@@ -669,25 +669,25 @@ export interface NetworkSecurityRule {
   /** Network security rule name. */
   name: string;
   /** Network security rule description. */
-  description?: string;
+  description?: string | undefined;
   /** Network protocol this rule applies to. */
   protocol: NsgProtocol | (string & {});
   /** The CIDR or source IP ranges. */
-  sourceAddressPrefixes?: NetworkSecurityRuleSourceAddressPrefixesList;
+  sourceAddressPrefixes?: NetworkSecurityRuleSourceAddressPrefixesList | undefined;
   /** The destination address prefixes. CIDR or destination IP ranges. */
-  destinationAddressPrefixes?: NetworkSecurityRuleDestinationAddressPrefixesList;
+  destinationAddressPrefixes?: NetworkSecurityRuleDestinationAddressPrefixesList | undefined;
   /** The source port ranges. */
-  sourcePortRanges?: NetworkSecurityRuleSourcePortRangesList;
+  sourcePortRanges?: NetworkSecurityRuleSourcePortRangesList | undefined;
   /** The destination port ranges. */
-  destinationPortRanges?: NetworkSecurityRuleDestinationPortRangesList;
+  destinationPortRanges?: NetworkSecurityRuleDestinationPortRangesList | undefined;
   /** The CIDR or source IP range. Asterisk '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. If this is an ingress rule, specifies where network traffic originates from. */
-  sourceAddressPrefix?: string;
+  sourceAddressPrefix?: string | undefined;
   /** The destination address prefix. CIDR or destination IP range. Asterisk '*' can also be used to match all source IPs. Default tags such as 'VirtualNetwork', 'AzureLoadBalancer' and 'Internet' can also be used. */
-  destinationAddressPrefix?: string;
+  destinationAddressPrefix?: string | undefined;
   /** The source port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match all ports. */
-  sourcePortRange?: string;
+  sourcePortRange?: string | undefined;
   /** he destination port or range. Integer or range between 0 and 65535. Asterisk '*' can also be used to match all ports. */
-  destinationPortRange?: string;
+  destinationPortRange?: string | undefined;
   /** The network traffic is allowed or denied. */
   access: Access | (string & {});
   /** The priority of the rule. The value can be in the range 1000 to 3000. Values outside this range are reserved for Service Fabric ManagerCluster Resource Provider. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule. */
@@ -702,22 +702,22 @@ export interface ClientCertificate {
   /** Indicates if the client certificate has admin access to the cluster. Non admin clients can perform only read only operations on the cluster. */
   isAdmin: boolean;
   /** Certificate thumbprint. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Certificate common name. */
-  commonName?: string;
+  commonName?: string | undefined;
   /** Issuer thumbprint for the certificate. Only used together with CommonName. */
-  issuerThumbprint?: string;
+  issuerThumbprint?: string | undefined;
 }
 /** Client certificates that are allowed to manage the cluster. */
 export type ManagedClusterPropertiesClientsList = Array<ClientCertificate>;
 /** The settings to enable AAD authentication on the cluster. */
 export interface AzureActiveDirectory {
   /** Azure active directory tenant id. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Azure active directory cluster application id. */
-  clusterApplication?: string;
+  clusterApplication?: string | undefined;
   /** Azure active directory client application id. */
-  clientApplication?: string;
+  clientApplication?: string | undefined;
 }
 /** Describes a parameter in fabric settings of the cluster. */
 export interface SettingsParameterDescription {
@@ -783,13 +783,13 @@ export interface Subnet {
   /** Subnet name. */
   name: string;
   /** Indicates wether to enable Ipv6 or not. If not provided, it will take the same configuration as the cluster. */
-  enableIpv6?: boolean;
+  enableIpv6?: boolean | undefined;
   /** Enable or Disable apply network policies on private end point in the subnet. */
-  privateEndpointNetworkPolicies?: PrivateEndpointNetworkPolicies | (string & {});
+  privateEndpointNetworkPolicies?: PrivateEndpointNetworkPolicies | (string & {}) | undefined;
   /** Enable or Disable apply network policies on private link service in the subnet. */
-  privateLinkServiceNetworkPolicies?: PrivateLinkServiceNetworkPolicies | (string & {});
+  privateLinkServiceNetworkPolicies?: PrivateLinkServiceNetworkPolicies | (string & {}) | undefined;
   /** Full resource id for the network security group. */
-  networkSecurityGroupId?: string;
+  networkSecurityGroupId?: string | undefined;
 }
 /** Auxiliary subnets for the cluster. */
 export type ManagedClusterPropertiesAuxiliarySubnetsList = Array<Subnet>;
@@ -800,9 +800,9 @@ export interface ServiceEndpoint {
   /** The type of the endpoint service. */
   service: string;
   /** A list of locations. */
-  locations?: ServiceEndpointLocationsList;
+  locations?: ServiceEndpointLocationsList | undefined;
   /** Specifies the resource id of the service endpoint to be used in the cluster. */
-  networkIdentifier?: string;
+  networkIdentifier?: string | undefined;
 }
 /** Service endpoints for subnets in the cluster. */
 export type ManagedClusterPropertiesServiceEndpointsList = Array<ServiceEndpoint>;
@@ -820,9 +820,9 @@ export interface ClusterUpgradeDeltaHealthPolicy {
   /** The maximum allowed percentage of nodes health degradation allowed during cluster upgrades. The delta is measured between the state of the nodes at the beginning of upgrade and the state of the nodes at the time of the health evaluation. The check is performed after every upgrade domain upgrade completion to make sure the global state of the cluster is within tolerated limits. */
   maxPercentDeltaUnhealthyNodes: number;
   /** The maximum allowed percentage of upgrade domain nodes health degradation allowed during cluster upgrades. The delta is measured between the state of the upgrade domain nodes at the beginning of upgrade and the state of the upgrade domain nodes at the time of the health evaluation. The check is performed after every upgrade domain upgrade completion for all completed upgrade domains to make sure the state of the upgrade domains is within tolerated limits. */
-  maxPercentUpgradeDomainDeltaUnhealthyNodes?: number;
+  maxPercentUpgradeDomainDeltaUnhealthyNodes?: number | undefined;
   /** The maximum allowed percentage of applications health degradation allowed during cluster upgrades. The delta is measured between the state of the applications at the beginning of upgrade and the state of the applications at the time of the health evaluation. The check is performed after every upgrade domain upgrade completion to make sure the global state of the cluster is within tolerated limits. System services are not included in this. NOTE: This value will overwrite the value specified in properties.UpgradeDescription.HealthPolicy.MaxPercentUnhealthyApplications */
-  maxPercentDeltaUnhealthyApplications?: number;
+  maxPercentDeltaUnhealthyApplications?: number | undefined;
 }
 /** Describes the monitoring policies for the cluster upgrade. */
 export interface ClusterMonitoringPolicy {
@@ -840,15 +840,15 @@ export interface ClusterMonitoringPolicy {
 /** Describes the policy used when upgrading the cluster. */
 export interface ClusterUpgradePolicy {
   /** If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data). */
-  forceRestart?: boolean;
+  forceRestart?: boolean | undefined;
   /** The cluster health policy defines a health policy used to evaluate the health of the cluster during a cluster upgrade. */
-  healthPolicy?: ClusterHealthPolicy;
+  healthPolicy?: ClusterHealthPolicy | undefined;
   /** The cluster delta health policy defines a health policy used to evaluate the health of the cluster during a cluster upgrade. */
-  deltaHealthPolicy?: ClusterUpgradeDeltaHealthPolicy;
+  deltaHealthPolicy?: ClusterUpgradeDeltaHealthPolicy | undefined;
   /** The cluster monitoring policy describes the parameters for monitoring an upgrade in Monitored mode. */
-  monitoringPolicy?: ClusterMonitoringPolicy;
+  monitoringPolicy?: ClusterMonitoringPolicy | undefined;
   /** The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. The timeout can be in either hh:mm:ss or in d.hh:mm:ss.ms format. This value must be between 00:00:00 and 49710.06:28:15 (unsigned 32 bit integer for seconds) */
-  upgradeReplicaSetCheckTimeout?: string;
+  upgradeReplicaSetCheckTimeout?: string | undefined;
 }
 /** This enum is the entrypoint to using a certificate from a public CA for your cluster. This property was introduced to solve the domain squatting problem with new domains. A domain name will be generated in the following format: {clustername}.{hash}.{regionname}.sfmcdomain. The hash portion comes from Azure DNS' Deterministic Name Library. The library creates a hash using the cluster's Tenant, Subscription, Resource Group and Resource Name using the AutoGeneratedDomainNameLabelScope/reuse policy chosen. */
 export type AutoGeneratedDomainNameLabelScope =
@@ -861,91 +861,93 @@ export interface ManagedClusterProperties {
   /** The cluster dns name. */
   dnsName: string;
   /** The fully qualified domain name associated with the public load balancer of the cluster. */
-  fqdn?: string;
+  fqdn?: string | undefined;
   /** The IPv4 address associated with the public load balancer of the cluster. */
-  ipv4Address?: string;
+  ipv4Address?: string | undefined;
   /** A service generated unique identifier for the cluster resource. */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** The current state of the cluster. */
-  clusterState?: ClusterState;
+  clusterState?: ClusterState | undefined;
   /** List of thumbprints of the cluster certificates. */
-  clusterCertificateThumbprints?: ManagedClusterPropertiesClusterCertificateThumbprintsList;
+  clusterCertificateThumbprints?:
+    | ManagedClusterPropertiesClusterCertificateThumbprintsList
+    | undefined;
   /** The port used for client connections to the cluster. */
-  clientConnectionPort?: number;
+  clientConnectionPort?: number | undefined;
   /** The port used for HTTP connections to the cluster. */
-  httpGatewayConnectionPort?: number;
+  httpGatewayConnectionPort?: number | undefined;
   /** VM admin user name. */
   adminUserName: string;
   /** VM admin user password. */
-  adminPassword?: string | Redacted.Redacted<string>;
+  adminPassword?: string | Redacted.Redacted<string> | undefined;
   /** Load balancing rules that are applied to the public load balancer of the cluster. */
-  loadBalancingRules?: ManagedClusterPropertiesLoadBalancingRulesList;
+  loadBalancingRules?: ManagedClusterPropertiesLoadBalancingRulesList | undefined;
   /** Setting this to true enables RDP access to the VM. The default NSG rule opens RDP port to Internet which can be overridden with custom Network Security Rules. The default value for this setting is false. */
-  allowRdpAccess?: boolean;
+  allowRdpAccess?: boolean | undefined;
   /** Custom Network Security Rules that are applied to the Virtual Network of the cluster. */
-  networkSecurityRules?: ManagedClusterPropertiesNetworkSecurityRulesList;
+  networkSecurityRules?: ManagedClusterPropertiesNetworkSecurityRulesList | undefined;
   /** Client certificates that are allowed to manage the cluster. */
-  clients?: ManagedClusterPropertiesClientsList;
+  clients?: ManagedClusterPropertiesClientsList | undefined;
   /** The AAD authentication settings of the cluster. */
-  azureActiveDirectory?: AzureActiveDirectory;
+  azureActiveDirectory?: AzureActiveDirectory | undefined;
   /** The list of custom fabric settings to configure the cluster. */
-  fabricSettings?: ManagedClusterPropertiesFabricSettingsList;
+  fabricSettings?: ManagedClusterPropertiesFabricSettingsList | undefined;
   /** The provisioning state of the managed cluster resource. */
-  provisioningState?: ManagedResourceProvisioningState;
+  provisioningState?: ManagedResourceProvisioningState | undefined;
   /** The Service Fabric runtime version of the cluster. This property is required when **clusterUpgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](./ClusterVersion.md). To get the list of available version for existing clusters use **availableClusterVersions**. */
-  clusterCodeVersion?: string;
+  clusterCodeVersion?: string | undefined;
   /** The upgrade mode of the cluster when new Service Fabric runtime version is available. */
-  clusterUpgradeMode?: ManagedClusterPropertiesClusterUpgradeMode;
+  clusterUpgradeMode?: ManagedClusterPropertiesClusterUpgradeMode | undefined;
   /** Indicates when new cluster runtime version upgrades will be applied after they are released. By default is Wave0. Only applies when **clusterUpgradeMode** is set to 'Automatic'. */
-  clusterUpgradeCadence?: ClusterUpgradeCadence;
+  clusterUpgradeCadence?: ClusterUpgradeCadence | undefined;
   /** List of add-on features to enable on the cluster. */
-  addonFeatures?: ManagedClusterPropertiesAddonFeaturesList;
+  addonFeatures?: ManagedClusterPropertiesAddonFeaturesList | undefined;
   /** Enables automatic OS upgrade for node types created using OS images with version 'latest'. The default value for this setting is false. */
-  enableAutoOSUpgrade?: boolean;
+  enableAutoOSUpgrade?: boolean | undefined;
   /** Indicates if the cluster has zone resiliency. */
-  zonalResiliency?: boolean;
+  zonalResiliency?: boolean | undefined;
   /** The policy used to clean up unused versions. */
-  applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy;
+  applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy | undefined;
   /** Setting this to true creates IPv6 address space for the default VNet used by the cluster. This setting cannot be changed once the cluster is created. The default value for this setting is false. */
-  enableIpv6?: boolean;
+  enableIpv6?: boolean | undefined;
   /** If specified, the node types for the cluster are created in this subnet instead of the default VNet. The **networkSecurityRules** specified for the cluster are also applied to this subnet. This setting cannot be changed once the cluster is created. */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** The list of IP tags associated with the default public IP address of the cluster. */
-  ipTags?: ManagedClusterPropertiesIpTagsList;
+  ipTags?: ManagedClusterPropertiesIpTagsList | undefined;
   /** IPv6 address for the cluster if IPv6 is enabled. */
-  ipv6Address?: string;
+  ipv6Address?: string | undefined;
   /** Setting this to true will link the IPv4 address as the ServicePublicIP of the IPv6 address. It can only be set to True if IPv6 is enabled on the cluster. */
-  enableServicePublicIP?: boolean;
+  enableServicePublicIP?: boolean | undefined;
   /** Auxiliary subnets for the cluster. */
-  auxiliarySubnets?: ManagedClusterPropertiesAuxiliarySubnetsList;
+  auxiliarySubnets?: ManagedClusterPropertiesAuxiliarySubnetsList | undefined;
   /** Service endpoints for subnets in the cluster. */
-  serviceEndpoints?: ManagedClusterPropertiesServiceEndpointsList;
+  serviceEndpoints?: ManagedClusterPropertiesServiceEndpointsList | undefined;
   /** Indicates the update mode for Cross Az clusters. */
-  zonalUpdateMode?: ZonalUpdateMode;
+  zonalUpdateMode?: ZonalUpdateMode | undefined;
   /** For new clusters, this parameter indicates that it uses Bring your own VNet, but the subnet is specified at node type level; and for such clusters, the subnetId property is required for node types. */
-  useCustomVnet?: boolean;
+  useCustomVnet?: boolean | undefined;
   /** Specify the resource id of a public IPv4 prefix that the load balancer will allocate a public IPv4 address from. This setting cannot be changed once the cluster is created. */
-  publicIPPrefixId?: string;
+  publicIPPrefixId?: string | undefined;
   /** Specify the resource id of a public IPv6 prefix that the load balancer will allocate a public IPv6 address from. This setting cannot be changed once the cluster is created. */
-  publicIPv6PrefixId?: string;
+  publicIPv6PrefixId?: string | undefined;
   /** Specify the resource id of a DDoS network protection plan that will be associated with the virtual network of the cluster. */
-  ddosProtectionPlanId?: string;
+  ddosProtectionPlanId?: string | undefined;
   /** The policy to use when upgrading the cluster. */
-  upgradeDescription?: ClusterUpgradePolicy;
+  upgradeDescription?: ClusterUpgradePolicy | undefined;
   /** The port used for token-auth based HTTPS connections to the cluster. Cannot be set to the same port as HttpGatewayEndpoint. */
-  httpGatewayTokenAuthConnectionPort?: number;
+  httpGatewayTokenAuthConnectionPort?: number | undefined;
   /** If true, token-based authentication is not allowed on the HttpGatewayEndpoint. This is required to support TLS versions 1.3 and above. If token-based authentication is used, HttpGatewayTokenAuthConnectionPort must be defined. */
-  enableHttpGatewayExclusiveAuthMode?: boolean;
+  enableHttpGatewayExclusiveAuthMode?: boolean | undefined;
   /** This property is the entry point to using a public CA cert for your cluster cert. It specifies the level of reuse allowed for the custom FQDN created, matching the subject of the public CA cert. */
-  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope;
+  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope | undefined;
   /** The number of outbound ports allocated for SNAT for each node in the backend pool of the default load balancer. The default value is 0 which provides dynamic port allocation based on pool size. */
-  allocatedOutboundPorts?: number;
+  allocatedOutboundPorts?: number | undefined;
   /** The VM image the node types are configured with. This property controls the Service Fabric component packages to be used for the cluster. Allowed values are: 'Windows'. The default value is 'Windows'. */
-  VMImage?: string;
+  VMImage?: string | undefined;
   /** Enable the creation of node types with only outbound traffic enabled. If set, a separate load balancer backend pool will be created for node types with inbound traffic enabled. Can only be set at the time of cluster creation. */
-  enableOutboundOnlyNodeTypes?: boolean;
+  enableOutboundOnlyNodeTypes?: boolean | undefined;
   /** Determines whether to skip the assignment of the managed network security group (SF-NSG) to the cluster subnet when using a bring-your-own virtual network (BYOVNET) configuration. The default value is false. */
-  skipManagedNsgAssignment?: boolean;
+  skipManagedNsgAssignment?: boolean | undefined;
 }
 /** Sku Name. */
 export type SkuName = "Basic" | "Standard";
@@ -956,21 +958,21 @@ export interface Sku {
 }
 export interface GetManagedClusterResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetManagedClusterResponseTagsMap;
+  tags?: GetManagedClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The managed cluster resource properties */
-  properties?: ManagedClusterProperties;
+  properties?: ManagedClusterProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.", */
-  etag?: string;
+  etag?: string | undefined;
   /** The sku of the managed cluster */
   sku: Sku;
 }
@@ -987,22 +989,22 @@ export type OsType = "Windows";
 /** The detail of the Service Fabric runtime version result */
 export interface ManagedClusterVersionDetails {
   /** The Service Fabric runtime version of the cluster. */
-  clusterCodeVersion?: string;
+  clusterCodeVersion?: string | undefined;
   /** The date of expiry of support of the version. */
-  supportExpiryUtc?: string;
+  supportExpiryUtc?: string | undefined;
   /** Cluster operating system, the default will be Windows */
-  osType?: OsType;
+  osType?: OsType | undefined;
 }
 /** The result of the Service Fabric runtime versions */
 export interface ManagedClusterCodeVersionResult {
   /** The identification of the result */
-  id?: string;
+  id?: string | undefined;
   /** The name of the result */
-  name?: string;
+  name?: string | undefined;
   /** The result resource type */
-  type?: string;
+  type?: string | undefined;
   /** The detail of the Service Fabric runtime version result */
-  properties?: ManagedClusterVersionDetails;
+  properties?: ManagedClusterVersionDetails | undefined;
 }
 export type GetManagedClusterVersionByEnvironmentRequestEnvironment = "Windows";
 export interface GetManagedClusterVersionByEnvironmentRequest {
@@ -1026,19 +1028,19 @@ export interface GetManagedMaintenanceWindowStatusRequest {
 /** Describes the maintenance window status of the Service Fabric Managed Cluster. */
 export interface ManagedMaintenanceWindowStatus {
   /** If maintenance window is enabled on this cluster. */
-  isWindowEnabled?: boolean;
+  isWindowEnabled?: boolean | undefined;
   /** Indicates if the region is ready to configure maintenance windows. */
-  isRegionReady?: boolean;
+  isRegionReady?: boolean | undefined;
   /** If maintenance window is active. */
-  isWindowActive?: boolean;
+  isWindowActive?: boolean | undefined;
   /** If updates can be applied. */
-  canApplyUpdates?: boolean;
+  canApplyUpdates?: boolean | undefined;
   /** Last window update time in UTC. */
-  lastWindowStatusUpdateAtUTC?: string;
+  lastWindowStatusUpdateAtUTC?: string | undefined;
   /** Last window start time in UTC. */
-  lastWindowStartTimeUTC?: string;
+  lastWindowStartTimeUTC?: string | undefined;
   /** Last window end time in UTC. */
-  lastWindowEndTimeUTC?: string;
+  lastWindowEndTimeUTC?: string | undefined;
 }
 export interface GetManagedUnsupportedVMSizRequest {
   /** The ID of the target subscription. */
@@ -1051,18 +1053,18 @@ export interface GetManagedUnsupportedVMSizRequest {
 /** VM Sizes properties. */
 export interface VMSize {
   /** VM Size name. */
-  size?: string;
+  size?: string | undefined;
 }
 /** Describes a VM Sizes. */
 export interface ManagedVMSize {
   /** VM Size properties. */
-  properties?: VMSize;
+  properties?: VMSize | undefined;
   /** VM Size id. */
-  id?: string;
+  id?: string | undefined;
   /** VM Size name. */
-  name?: string;
+  name?: string | undefined;
   /** VM Size type. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface GetNodeTypeRequest {
   /** The ID of the target subscription. */
@@ -1096,7 +1098,7 @@ export interface EndpointRangeDescription {
 /** Azure resource identifier. */
 export interface SubResource {
   /** Azure resource identifier. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM. */
 export interface VaultCertificate {
@@ -1131,21 +1133,21 @@ export interface VMSSExtensionProperties {
   /** Specifies the version of the script handler. */
   typeHandlerVersion: string;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
-  autoUpgradeMinorVersion?: boolean;
+  autoUpgradeMinorVersion?: boolean | undefined;
   /** Json formatted public settings for the extension. */
-  settings?: unknown;
+  settings?: unknown | undefined;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: unknown;
+  protectedSettings?: unknown | undefined;
   /** If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed. */
-  forceUpdateTag?: string;
+  forceUpdateTag?: string | undefined;
   /** Collection of extension names after which this extension needs to be provisioned. */
-  provisionAfterExtensions?: VMSSExtensionPropertiesProvisionAfterExtensionsList;
+  provisionAfterExtensions?: VMSSExtensionPropertiesProvisionAfterExtensionsList | undefined;
   /** The provisioning state, which only appears in the response. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
-  enableAutomaticUpgrade?: boolean;
+  enableAutomaticUpgrade?: boolean | undefined;
   /** Indicates the setup order for the extension. */
-  setupOrder?: VMSSExtensionPropertiesSetupOrderList;
+  setupOrder?: VMSSExtensionPropertiesSetupOrderList | undefined;
 }
 /** Specifies set of extensions that should be installed onto the virtual machines. */
 export interface VMSSExtension {
@@ -1161,20 +1163,20 @@ export type VmManagedIdentityUserAssignedIdentitiesList = Array<string>;
 /** Identities for the virtual machine scale set under the node type. */
 export interface VmManagedIdentity {
   /** The list of user identities associated with the virtual machine scale set under the node type. Each entry will be an ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'. */
-  userAssignedIdentities?: VmManagedIdentityUserAssignedIdentitiesList;
+  userAssignedIdentities?: VmManagedIdentityUserAssignedIdentitiesList | undefined;
 }
 /** The IP address type of this frontend configuration. If omitted the default value is IPv4. */
 export type FrontendConfigurationIpAddressType = "IPv4" | "IPv6";
 /** Describes the frontend configurations for the node type. */
 export interface FrontendConfiguration {
   /** The IP address type of this frontend configuration. If omitted the default value is IPv4. */
-  ipAddressType?: FrontendConfigurationIpAddressType | (string & {});
+  ipAddressType?: FrontendConfigurationIpAddressType | (string & {}) | undefined;
   /** The resource Id of the Load Balancer backend address pool that the VM instances of the node type are associated with. The format of the resource Id is '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}'. */
-  loadBalancerBackendAddressPoolId?: string;
+  loadBalancerBackendAddressPoolId?: string | undefined;
   /** The resource Id of the Load Balancer inbound NAT pool that the VM instances of the node type are associated with. The format of the resource Id is '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/inboundNatPools/{inboundNatPoolName}'. */
-  loadBalancerInboundNatPoolId?: string;
+  loadBalancerInboundNatPoolId?: string | undefined;
   /** The resource Id of application gateway backend address pool. The format of the resource Id is '/subscriptions/<subscriptionId>/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/backendAddressPools/{backendAddressPoolName}'. */
-  applicationGatewayBackendAddressPoolId?: string;
+  applicationGatewayBackendAddressPoolId?: string | undefined;
 }
 /** Indicates the node type uses its own frontend configurations instead of the default one for the cluster. This setting can only be specified for non-primary node types and can not be added or removed after the node type is created. */
 export type NodeTypePropertiesFrontendConfigurationsList = Array<FrontendConfiguration>;
@@ -1216,24 +1218,24 @@ export type SecurityEncryptionType = "DiskWithVMGuestState" | "VMGuestStateOnly"
 /** Provides information about NAT configuration on the default public Load Balancer for the node type. */
 export interface NodeTypeNatConfig {
   /** The internal port for the NAT configuration. */
-  backendPort?: number;
+  backendPort?: number | undefined;
   /** The port range start for the external endpoint. */
-  frontendPortRangeStart?: number;
+  frontendPortRangeStart?: number | undefined;
   /** The port range end for the external endpoint. */
-  frontendPortRangeEnd?: number;
+  frontendPortRangeEnd?: number | undefined;
 }
 /** Specifies the NAT configuration on default public Load Balancer for the node type. This is only supported for node types use the default public Load Balancer. */
 export type NodeTypePropertiesNatConfigurationsList = Array<NodeTypeNatConfig>;
 /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click Want to deploy programmatically, Get Started. Enter any required information and then click Save. */
 export interface VmImagePlan {
   /** The plan ID. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the product of the image from the marketplace. This is the same value as Offer under the imageReference element. */
-  product?: string;
+  product?: string | undefined;
   /** The promotion code. */
-  promotionCode?: string;
+  promotionCode?: string | undefined;
   /** The publisher ID. */
-  publisher?: string;
+  publisher?: string | undefined;
 }
 /** Specifies an array of references to backend address pools of application gateways. A node type can reference backend address pools of multiple application gateways. Multiple node types cannot use the same application gateway. */
 export type IpConfigurationApplicationGatewayBackendAddressPoolsList = Array<SubResource>;
@@ -1252,26 +1254,31 @@ export interface PublicIPAddressConfiguration {
   /** Name of the network interface. */
   name: string;
   /** Specifies the list of IP tags associated with the public IP address. */
-  ipTags?: PublicIPAddressConfigurationIpTagsList;
+  ipTags?: PublicIPAddressConfigurationIpTagsList | undefined;
   /** Specifies whether the IP configuration's public IP is IPv4 or IPv6. Default is IPv4. */
-  publicIPAddressVersion?: PublicIPAddressConfigurationPublicIPAddressVersion | (string & {});
+  publicIPAddressVersion?:
+    | PublicIPAddressConfigurationPublicIPAddressVersion
+    | (string & {})
+    | undefined;
 }
 /** Specifies an IP configuration of the network interface. */
 export interface IpConfiguration {
   /** Name of the network interface. */
   name: string;
   /** Specifies an array of references to backend address pools of application gateways. A node type can reference backend address pools of multiple application gateways. Multiple node types cannot use the same application gateway. */
-  applicationGatewayBackendAddressPools?: IpConfigurationApplicationGatewayBackendAddressPoolsList;
+  applicationGatewayBackendAddressPools?:
+    | IpConfigurationApplicationGatewayBackendAddressPoolsList
+    | undefined;
   /** Specifies an array of references to backend address pools of load balancers. A node type can reference backend address pools of one public and one internal load balancer. Multiple node types cannot use the same basic sku load balancer. */
-  loadBalancerBackendAddressPools?: IpConfigurationLoadBalancerBackendAddressPoolsList;
+  loadBalancerBackendAddressPools?: IpConfigurationLoadBalancerBackendAddressPoolsList | undefined;
   /** Specifies an array of references to inbound Nat pools of the load balancers. A node type can reference inbound nat pools of one public and one internal load balancer. Multiple node types cannot use the same basic sku load balancer. */
-  loadBalancerInboundNatPools?: IpConfigurationLoadBalancerInboundNatPoolsList;
+  loadBalancerInboundNatPools?: IpConfigurationLoadBalancerInboundNatPoolsList | undefined;
   /** Specifies the subnet of the network interface. */
-  subnet?: SubResource;
+  subnet?: SubResource | undefined;
   /** Specifies whether the IP configuration's private IP is IPv4 or IPv6. Default is IPv4. */
-  privateIPAddressVersion?: IpConfigurationPrivateIPAddressVersion | (string & {});
+  privateIPAddressVersion?: IpConfigurationPrivateIPAddressVersion | (string & {}) | undefined;
   /** The public IP address configuration of the network interface. */
-  publicIPAddressConfiguration?: PublicIPAddressConfiguration;
+  publicIPAddressConfiguration?: PublicIPAddressConfiguration | undefined;
 }
 /** Specifies the IP configurations of the network interface. */
 export type AdditionalNetworkInterfaceConfigurationIpConfigurationsList = Array<IpConfiguration>;
@@ -1280,9 +1287,9 @@ export interface AdditionalNetworkInterfaceConfiguration {
   /** Name of the network interface. */
   name: string;
   /** Specifies whether the network interface is accelerated networking-enabled. */
-  enableAcceleratedNetworking?: boolean;
+  enableAcceleratedNetworking?: boolean | undefined;
   /** Specifies the DSCP configuration to apply to the network interface. */
-  dscpConfiguration?: SubResource;
+  dscpConfiguration?: SubResource | undefined;
   /** Specifies the IP configurations of the network interface. */
   ipConfigurations: AdditionalNetworkInterfaceConfigurationIpConfigurationsList;
 }
@@ -1292,17 +1299,17 @@ export type NodeTypePropertiesAdditionalNetworkInterfaceConfigurationsList =
 /** Specifies the gallery application that should be made available to the underlying VMSS. */
 export interface VmApplication {
   /** Optional, Specifies the uri to an azure blob that will replace the default configuration for the package if provided. */
-  configurationReference?: string;
+  configurationReference?: string | undefined;
   /** If set to true, when a new Gallery Application version is available in PIR/SIG, it will be automatically updated for the underlying VMSS. */
-  enableAutomaticUpgrade?: boolean;
+  enableAutomaticUpgrade?: boolean | undefined;
   /** Optional, Specifies the order in which the packages have to be installed. */
-  order?: number;
+  order?: number | undefined;
   /** Specifies the GalleryApplicationVersion resource id on the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/applications/{application}/versions/{version}. */
   packageReferenceId: string;
   /** Optional, Specifies a passthrough value for more generic context. Accepts a JSON-formatted string e.g. '{"Tag1":"Value1","Tag2":"Value2"}'. */
-  vmGalleryTags?: string;
+  vmGalleryTags?: string | undefined;
   /** Optional, If true, any failure for any operation in the VmApplication will fail the deployment. */
-  treatFailureAsDeploymentFailure?: boolean;
+  treatFailureAsDeploymentFailure?: boolean | undefined;
 }
 /** Specifies the gallery applications that should be made available to the underlying VMSS. */
 export type NodeTypePropertiesVmApplicationsList = Array<VmApplication>;
@@ -1313,136 +1320,138 @@ export interface NodeTypeProperties {
   /** The number of nodes in the node type. **Values:** -1 - Use when auto scale rules are configured or sku.capacity is defined 0 - Not supported >0 - Use for manual scale. */
   vmInstanceCount: number;
   /** Disk size for the managed disk attached to the vms on the node type in GBs. */
-  dataDiskSizeGB?: number;
+  dataDiskSizeGB?: number | undefined;
   /** Managed data disk type. Specifies the storage account type for the managed disk */
-  dataDiskType?: NodeTypePropertiesDataDiskType;
+  dataDiskType?: NodeTypePropertiesDataDiskType | undefined;
   /** Managed data disk letter. It can not use the reserved letter C or D and it can not change after created. */
-  dataDiskLetter?: string;
+  dataDiskLetter?: string | undefined;
   /** The placement tags applied to nodes in the node type, which can be used to indicate where certain services (workload) should run. */
-  placementProperties?: NodeTypePropertiesPlacementPropertiesMap;
+  placementProperties?: NodeTypePropertiesPlacementPropertiesMap | undefined;
   /** The capacity tags applied to the nodes in the node type, the cluster resource manager uses these tags to understand how much resource a node has. */
-  capacities?: NodeTypePropertiesCapacitiesMap;
+  capacities?: NodeTypePropertiesCapacitiesMap | undefined;
   /** The range of ports from which cluster assigned port to Service Fabric applications. */
-  applicationPorts?: EndpointRangeDescription;
+  applicationPorts?: EndpointRangeDescription | undefined;
   /** The range of ephemeral ports that nodes in this node type should be configured with. */
-  ephemeralPorts?: EndpointRangeDescription;
+  ephemeralPorts?: EndpointRangeDescription | undefined;
   /** The size of virtual machines in the pool. All virtual machines in a pool are the same size. For example, Standard_D3. */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** The publisher of the Azure Virtual Machines Marketplace image. For example, Canonical or MicrosoftWindowsServer. */
-  vmImagePublisher?: string;
+  vmImagePublisher?: string | undefined;
   /** The offer type of the Azure Virtual Machines Marketplace image. For example, UbuntuServer or WindowsServer. */
-  vmImageOffer?: string;
+  vmImageOffer?: string | undefined;
   /** The SKU of the Azure Virtual Machines Marketplace image. For example, 14.04.0-LTS or 2012-R2-Datacenter. */
-  vmImageSku?: string;
+  vmImageSku?: string | undefined;
   /** The version of the Azure Virtual Machines Marketplace image. A value of 'latest' can be specified to select the latest version of an image. If omitted, the default is 'latest'. */
-  vmImageVersion?: string;
+  vmImageVersion?: string | undefined;
   /** The secrets to install in the virtual machines. */
-  vmSecrets?: NodeTypePropertiesVmSecretsList;
+  vmSecrets?: NodeTypePropertiesVmSecretsList | undefined;
   /** Set of extensions that should be installed onto the virtual machines. */
-  vmExtensions?: NodeTypePropertiesVmExtensionsList;
+  vmExtensions?: NodeTypePropertiesVmExtensionsList | undefined;
   /** Identities to assign to the virtual machine scale set under the node type. */
-  vmManagedIdentity?: VmManagedIdentity;
+  vmManagedIdentity?: VmManagedIdentity | undefined;
   /** Indicates if the node type can only host Stateless workloads. */
-  isStateless?: boolean;
+  isStateless?: boolean | undefined;
   /** Indicates if scale set associated with the node type can be composed of multiple placement groups. */
-  multiplePlacementGroups?: boolean;
+  multiplePlacementGroups?: boolean | undefined;
   /** Indicates the node type uses its own frontend configurations instead of the default one for the cluster. This setting can only be specified for non-primary node types and can not be added or removed after the node type is created. */
-  frontendConfigurations?: NodeTypePropertiesFrontendConfigurationsList;
+  frontendConfigurations?: NodeTypePropertiesFrontendConfigurationsList | undefined;
   /** The Network Security Rules for this node type. This setting can only be specified for node types that are configured with frontend configurations. */
-  networkSecurityRules?: NodeTypePropertiesNetworkSecurityRulesList;
+  networkSecurityRules?: NodeTypePropertiesNetworkSecurityRulesList | undefined;
   /** Additional managed data disks. */
-  additionalDataDisks?: NodeTypePropertiesAdditionalDataDisksList;
+  additionalDataDisks?: NodeTypePropertiesAdditionalDataDisksList | undefined;
   /** Enable or disable the Host Encryption for the virtual machines on the node type. This will enable the encryption for all the disks including Resource/Temp disk at host itself. Default: The Encryption at host will be disabled unless this property is set to true for the resource. */
-  enableEncryptionAtHost?: boolean;
+  enableEncryptionAtHost?: boolean | undefined;
   /** The provisioning state of the node type resource. */
-  provisioningState?: ManagedResourceProvisioningState;
+  provisioningState?: ManagedResourceProvisioningState | undefined;
   /** Specifies whether the network interface is accelerated networking-enabled. */
-  enableAcceleratedNetworking?: boolean;
+  enableAcceleratedNetworking?: boolean | undefined;
   /** Specifies whether the use public load balancer. If not specified and the node type doesn't have its own frontend configuration, it will be attached to the default load balancer. If the node type uses its own Load balancer and useDefaultPublicLoadBalancer is true, then the frontend has to be an Internal Load Balancer. If the node type uses its own Load balancer and useDefaultPublicLoadBalancer is false or not set, then the custom load balancer must include a public load balancer to provide outbound connectivity. */
-  useDefaultPublicLoadBalancer?: boolean;
+  useDefaultPublicLoadBalancer?: boolean | undefined;
   /** Specifies whether to use the temporary disk for the service fabric data root, in which case no managed data disk will be attached and the temporary disk will be used. It is only allowed for stateless node types. */
-  useTempDataDisk?: boolean;
+  useTempDataDisk?: boolean | undefined;
   /** Specifies whether the node type should be overprovisioned. It is only allowed for stateless node types. */
-  enableOverProvisioning?: boolean;
+  enableOverProvisioning?: boolean | undefined;
   /** Specifies the availability zones where the node type would span across. If the cluster is not spanning across availability zones, initiates az migration for the cluster. */
-  zones?: NodeTypePropertiesZonesList;
+  zones?: NodeTypePropertiesZonesList | undefined;
   /** Indicates whether the node type will be Spot Virtual Machines. Azure will allocate the VMs if there is capacity available and the VMs can be evicted at any time. */
-  isSpotVM?: boolean;
+  isSpotVM?: boolean | undefined;
   /** Specifies the full host group resource Id. This property is used for deploying on azure dedicated hosts. */
-  hostGroupId?: string;
+  hostGroupId?: string | undefined;
   /** Indicates whether to use ephemeral os disk. The sku selected on the vmSize property needs to support this feature. */
-  useEphemeralOSDisk?: boolean;
+  useEphemeralOSDisk?: boolean | undefined;
   /** Indicates the time duration after which the platform will not try to restore the VMSS SPOT instances specified as ISO 8601. */
-  spotRestoreTimeout?: string;
+  spotRestoreTimeout?: string | undefined;
   /** Specifies the eviction policy for virtual machines in a SPOT node type. Default is Delete. */
-  evictionPolicy?: EvictionPolicyType;
+  evictionPolicy?: EvictionPolicyType | undefined;
   /** Indicates the resource id of the vm image. This parameter is used for custom vm image. */
-  vmImageResourceId?: string;
+  vmImageResourceId?: string | undefined;
   /** Indicates the resource id of the subnet for the node type. */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** Specifies the actions to be performed on the vms before bootstrapping the service fabric runtime. */
-  vmSetupActions?: NodeTypePropertiesVmSetupActionsList;
+  vmSetupActions?: NodeTypePropertiesVmSetupActionsList | undefined;
   /** Specifies the security type of the nodeType. Supported values include Standard, TrustedLaunch and ConfidentialVM. */
-  securityType?: SecurityType;
+  securityType?: SecurityType | undefined;
   /** Specifies the EncryptionType of the managed disk. It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob and VMGuestStateOnly for encryption of just the VMGuestState blob. Note: It can be set for only Confidential VMs. */
-  securityEncryptionType?: SecurityEncryptionType;
+  securityEncryptionType?: SecurityEncryptionType | undefined;
   /** Specifies whether secure boot should be enabled on the nodeType. Can only be used with TrustedLaunch and ConfidentialVM SecurityType. */
-  secureBootEnabled?: boolean;
+  secureBootEnabled?: boolean | undefined;
   /** Specifies whether each node is allocated its own public IPv4 address. This is only supported on secondary node types with custom Load Balancers. */
-  enableNodePublicIP?: boolean;
+  enableNodePublicIP?: boolean | undefined;
   /** Specifies whether each node is allocated its own public IPv6 address. This is only supported on secondary node types with custom Load Balancers. */
-  enableNodePublicIPv6?: boolean;
+  enableNodePublicIPv6?: boolean | undefined;
   /** Indicates the resource id of the vm shared galleries image. This parameter is used for custom vm image. */
-  vmSharedGalleryImageId?: string;
+  vmSharedGalleryImageId?: string | undefined;
   /** Specifies the resource id of a NAT Gateway to attach to the subnet of this node type. Node type must use custom load balancer. */
-  natGatewayId?: string;
+  natGatewayId?: string | undefined;
   /** Specifies the NAT configuration on default public Load Balancer for the node type. This is only supported for node types use the default public Load Balancer. */
-  natConfigurations?: NodeTypePropertiesNatConfigurationsList;
+  natConfigurations?: NodeTypePropertiesNatConfigurationsList | undefined;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click Want to deploy programmatically, Get Started ->. Enter any required information and then click Save. */
-  vmImagePlan?: VmImagePlan;
+  vmImagePlan?: VmImagePlan | undefined;
   /** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. */
-  serviceArtifactReferenceId?: string;
+  serviceArtifactReferenceId?: string | undefined;
   /** Specifies the resource id of the DSCP configuration to apply to the node type network interface. */
-  dscpConfigurationId?: string;
+  dscpConfigurationId?: string | undefined;
   /** Specifies the settings for any additional secondary network interfaces to attach to the node type. */
-  additionalNetworkInterfaceConfigurations?: NodeTypePropertiesAdditionalNetworkInterfaceConfigurationsList;
+  additionalNetworkInterfaceConfigurations?:
+    | NodeTypePropertiesAdditionalNetworkInterfaceConfigurationsList
+    | undefined;
   /** Specifies the computer name prefix. Limited to 9 characters. If specified, allows for a longer name to be specified for the node type name. */
-  computerNamePrefix?: string;
+  computerNamePrefix?: string | undefined;
   /** Specifies the gallery applications that should be made available to the underlying VMSS. */
-  vmApplications?: NodeTypePropertiesVmApplicationsList;
+  vmApplications?: NodeTypePropertiesVmApplicationsList | undefined;
   /** Setting this to true allows stateless node types to scale out without equal distribution across zones. */
-  zoneBalance?: boolean;
+  zoneBalance?: boolean | undefined;
   /** Specifies the node type should be configured for only outbound traffic and not inbound traffic. */
-  isOutboundOnly?: boolean;
+  isOutboundOnly?: boolean | undefined;
   /** Specifies whether the node type should use a resilient ephemeral OS disk when using a supported SKU size. A resilient ephemeral OS disk provides improved reliability for ephemeral OS disks by enabling full caching. */
-  enableResilientEphemeralOsDisk?: boolean;
+  enableResilientEphemeralOsDisk?: boolean | undefined;
 }
 /** Resource tags. */
 export type GetNodeTypeResponseTagsMap = { [key: string]: string | undefined };
 /** Describes a node type sku. */
 export interface NodeTypeSku {
   /** The sku name. Name is internally generated and is used in auto-scale scenarios. Property does not allow to be changed to other values than generated. To avoid deployment errors please omit the property. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the tier of the node type. Possible Values: **Standard** */
-  tier?: string;
+  tier?: string | undefined;
   /** The number of nodes in the node type. If present in request it will override properties.vmInstanceCount. */
   capacity: number;
 }
 export interface GetNodeTypeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The node type properties */
-  properties?: NodeTypeProperties;
+  properties?: NodeTypeProperties | undefined;
   /** Resource tags. */
-  tags?: GetNodeTypeResponseTagsMap;
+  tags?: GetNodeTypeResponseTagsMap | undefined;
   /** The node type sku. */
-  sku?: NodeTypeSku;
+  sku?: NodeTypeSku | undefined;
 }
 export interface GetOperationResultRequest {
   /** The ID of the target subscription. */
@@ -1454,7 +1463,7 @@ export interface GetOperationResultRequest {
 }
 export interface GetOperationResultResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetOperationStatusRequest {
   /** The ID of the target subscription. */
@@ -1467,24 +1476,24 @@ export interface GetOperationStatusRequest {
 /** The error details. */
 export interface ErrorModelError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Long running operation result. */
 export interface LongRunningOperationResult {
   /** The name of the operation. */
-  name?: string;
+  name?: string | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The completion percentage of the operation. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The status of the operation. */
-  status?: string;
+  status?: string | undefined;
   /** The operation error. */
-  error?: ErrorModelError;
+  error?: ErrorModelError | undefined;
 }
 export interface GetServiceRequest {
   /** The ID of the target subscription. */
@@ -1516,13 +1525,13 @@ export interface ServiceLoadMetric {
   /** The name of the metric. If the service chooses to report load during runtime, the load metric name should match the name that is specified in Name exactly. Note that metric names are case sensitive. */
   name: string;
   /** The service load metric relative weight, compared to other metrics configured for this service, as a number. */
-  weight?: ServiceLoadMetricWeight | (string & {});
+  weight?: ServiceLoadMetricWeight | (string & {}) | undefined;
   /** Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Primary replica. */
-  primaryDefaultLoad?: number;
+  primaryDefaultLoad?: number | undefined;
   /** Used only for Stateful services. The default amount of load, as a number, that this service creates for this metric when it is a Secondary replica. */
-  secondaryDefaultLoad?: number;
+  secondaryDefaultLoad?: number | undefined;
   /** Used only for Stateless services. The default amount of load, as a number, that this service creates for this metric. */
-  defaultLoad?: number;
+  defaultLoad?: number | undefined;
 }
 /** The service load metrics is given as an array of ServiceLoadMetric objects. */
 export type ServiceResourcePropertiesServiceLoadMetricsList = Array<ServiceLoadMetric>;
@@ -1574,32 +1583,32 @@ export type PartitionNamesList = Array<string>;
 export interface Partition {
   partitionScheme: PartitionScheme | (string & {});
   /** Number of partitions (UniformInt64Range / Named). */
-  count?: number;
+  count?: number | undefined;
   /** Lower bound of the partition key range (UniformInt64Range). */
-  lowKey?: number;
+  lowKey?: number | undefined;
   /** Upper bound of the partition key range (UniformInt64Range). */
-  highKey?: number;
+  highKey?: number | undefined;
   /** Partition names (Named). */
-  names?: PartitionNamesList;
+  names?: PartitionNamesList | undefined;
 }
 /** The activation Mode of the service package */
 export type ServicePackageActivationMode = "SharedProcess" | "ExclusiveProcess";
 /** The service resource properties. */
 export interface ServiceResourceProperties {
   /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
-  placementConstraints?: string;
+  placementConstraints?: string | undefined;
   /** A list that describes the correlation of the service with other services. */
-  correlationScheme?: ServiceResourcePropertiesCorrelationSchemeList;
+  correlationScheme?: ServiceResourcePropertiesCorrelationSchemeList | undefined;
   /** The service load metrics is given as an array of ServiceLoadMetric objects. */
-  serviceLoadMetrics?: ServiceResourcePropertiesServiceLoadMetricsList;
+  serviceLoadMetrics?: ServiceResourcePropertiesServiceLoadMetricsList | undefined;
   /** A list that describes the correlation of the service with other services. */
-  servicePlacementPolicies?: ServiceResourcePropertiesServicePlacementPoliciesList;
+  servicePlacementPolicies?: ServiceResourcePropertiesServicePlacementPoliciesList | undefined;
   /** Specifies the move cost for the service. */
-  defaultMoveCost?: MoveCost;
+  defaultMoveCost?: MoveCost | undefined;
   /** Scaling policies for this service. */
-  scalingPolicies?: ServiceResourcePropertiesScalingPoliciesList;
+  scalingPolicies?: ServiceResourcePropertiesScalingPoliciesList | undefined;
   /** The current deployment or provisioning state, which only appears in the response */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** The kind of service (Stateless or Stateful). */
   serviceKind: ServiceKind;
   /** The name of the service type */
@@ -1607,47 +1616,47 @@ export interface ServiceResourceProperties {
   /** Describes how the service is partitioned. */
   partitionDescription: Partition;
   /** The activation Mode of the service package */
-  servicePackageActivationMode?: ServicePackageActivationMode;
+  servicePackageActivationMode?: ServicePackageActivationMode | undefined;
   /** Dns name used for the service. If this is specified, then the DNS name can be used to return the IP addresses of service endpoints for application layer protocols (e.g., HTTP). When updating serviceDnsName, old name may be temporarily resolvable. However, rely on new name. When removing serviceDnsName, removed name may temporarily be resolvable. Do not rely on the name being unresolvable. */
-  serviceDnsName?: string;
+  serviceDnsName?: string | undefined;
   /** Stateless: instance count per partition (-1 = every node). */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
   /** Stateless: minimum instance count. */
-  minInstanceCount?: number;
+  minInstanceCount?: number | undefined;
   /** Stateless: minimum instance percentage. */
-  minInstancePercentage?: number;
+  minInstancePercentage?: number | undefined;
   /** Stateful: target replica set size. */
-  targetReplicaSetSize?: number;
+  targetReplicaSetSize?: number | undefined;
   /** Stateful: minimum replica set size. */
-  minReplicaSetSize?: number;
+  minReplicaSetSize?: number | undefined;
   /** Stateful: whether the service persists state on disk. */
-  hasPersistedState?: boolean;
+  hasPersistedState?: boolean | undefined;
   /** Stateful: ISO 8601 replica restart wait duration. */
-  replicaRestartWaitDuration?: string;
+  replicaRestartWaitDuration?: string | undefined;
   /** Stateful: ISO 8601 quorum loss wait duration. */
-  quorumLossWaitDuration?: string;
+  quorumLossWaitDuration?: string | undefined;
   /** Stateful: ISO 8601 standby replica keep duration. */
-  standByReplicaKeepDuration?: string;
+  standByReplicaKeepDuration?: string | undefined;
   /** Stateful: ISO 8601 service placement time limit. */
-  servicePlacementTimeLimit?: string;
+  servicePlacementTimeLimit?: string | undefined;
 }
 /** Resource tags. */
 export type GetServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface GetServiceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The service resource properties. */
-  properties?: ServiceResourceProperties;
+  properties?: ServiceResourceProperties | undefined;
   /** Resource tags. */
-  tags?: GetServiceResponseTagsMap;
+  tags?: GetServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface ListApplicationsRequest {
   /** The ID of the target subscription. */
@@ -1662,21 +1671,21 @@ export type ApplicationResourceTagsMap = { [key: string]: string | undefined };
 /** The application resource. */
 export interface ApplicationResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The application resource properties. */
-  properties?: ApplicationResourceProperties;
+  properties?: ApplicationResourceProperties | undefined;
   /** Resource tags. */
-  tags?: ApplicationResourceTagsMap;
+  tags?: ApplicationResourceTagsMap | undefined;
   /** Describes the managed identities for an Azure resource. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The ApplicationResource items on this page */
 export type ApplicationResourceListValueList = Array<ApplicationResource>;
@@ -1685,7 +1694,7 @@ export interface ApplicationResourceList {
   /** The ApplicationResource items on this page */
   value: ApplicationResourceListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApplicationTypesRequest {
   /** The ID of the target subscription. */
@@ -1700,19 +1709,19 @@ export type ApplicationTypeResourceTagsMap = { [key: string]: string | undefined
 /** The application type name resource */
 export interface ApplicationTypeResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The application type name properties */
-  properties?: ApplicationTypeResourceProperties;
+  properties?: ApplicationTypeResourceProperties | undefined;
   /** Resource tags. */
-  tags?: ApplicationTypeResourceTagsMap;
+  tags?: ApplicationTypeResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The ApplicationTypeResource items on this page */
 export type ApplicationTypeResourceListValueList = Array<ApplicationTypeResource>;
@@ -1721,7 +1730,7 @@ export interface ApplicationTypeResourceList {
   /** The ApplicationTypeResource items on this page */
   value: ApplicationTypeResourceListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListApplicationTypeVersionByApplicationTypesRequest {
   /** The ID of the target subscription. */
@@ -1738,19 +1747,19 @@ export type ApplicationTypeVersionResourceTagsMap = { [key: string]: string | un
 /** An application type version resource for the specified application type name resource. */
 export interface ApplicationTypeVersionResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the application type version resource. */
-  properties?: ApplicationTypeVersionResourceProperties;
+  properties?: ApplicationTypeVersionResourceProperties | undefined;
   /** Resource tags. */
-  tags?: ApplicationTypeVersionResourceTagsMap;
+  tags?: ApplicationTypeVersionResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The ApplicationTypeVersionResource items on this page */
 export type ApplicationTypeVersionResourceListValueList = Array<ApplicationTypeVersionResource>;
@@ -1759,7 +1768,7 @@ export interface ApplicationTypeVersionResourceList {
   /** The ApplicationTypeVersionResource items on this page */
   value: ApplicationTypeVersionResourceListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedClusterByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1772,21 +1781,21 @@ export type ManagedClusterTagsMap = { [key: string]: string | undefined };
 /** The managed cluster resource */
 export interface ManagedCluster {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ManagedClusterTagsMap;
+  tags?: ManagedClusterTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The managed cluster resource properties */
-  properties?: ManagedClusterProperties;
+  properties?: ManagedClusterProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.", */
-  etag?: string;
+  etag?: string | undefined;
   /** The sku of the managed cluster */
   sku: Sku;
 }
@@ -1797,7 +1806,7 @@ export interface ManagedClusterListResult {
   /** The ManagedCluster items on this page */
   value: ManagedClusterListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListManagedClusterBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -1837,7 +1846,7 @@ export interface ManagedVMSizesResult {
   /** The ManagedVMSize items on this page */
   value: ManagedVMSizesResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNodeTypeByManagedClustersRequest {
   /** The ID of the target subscription. */
@@ -1852,19 +1861,19 @@ export type NodeTypeTagsMap = { [key: string]: string | undefined };
 /** Describes a node type in the cluster, each node type represents sub set of nodes in the cluster. */
 export interface NodeType {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The node type properties */
-  properties?: NodeTypeProperties;
+  properties?: NodeTypeProperties | undefined;
   /** Resource tags. */
-  tags?: NodeTypeTagsMap;
+  tags?: NodeTypeTagsMap | undefined;
   /** The node type sku. */
-  sku?: NodeTypeSku;
+  sku?: NodeTypeSku | undefined;
 }
 /** The NodeType items on this page */
 export type NodeTypeListResultValueList = Array<NodeType>;
@@ -1873,7 +1882,7 @@ export interface NodeTypeListResult {
   /** The NodeType items on this page */
   value: NodeTypeListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNodeTypeSkusRequest {
   /** The ID of the target subscription. */
@@ -1888,31 +1897,31 @@ export interface ListNodeTypeSkusRequest {
 /** Describes a node type supported sku. */
 export interface NodeTypeSupportedSku {
   /** The sku name. */
-  name?: string;
+  name?: string | undefined;
   /** Specifies the tier of the node type. Possible Values: **Standard** */
-  tier?: string;
+  tier?: string | undefined;
 }
 /** Node type capacity scale type. */
 export type NodeTypeSkuCapacityScaleType = "None" | "Manual" | "Automatic";
 /** Provides information about how node type can be scaled. */
 export interface NodeTypeSkuCapacity {
   /** Lowest permitted node count in a node type. */
-  minimum?: number;
+  minimum?: number | undefined;
   /** Highest permitted node count in a node type. */
-  maximum?: number;
+  maximum?: number | undefined;
   /** Default node count in a node type. */
-  default?: number;
+  default?: number | undefined;
   /** Node type capacity scale type. */
-  scaleType?: NodeTypeSkuCapacityScaleType;
+  scaleType?: NodeTypeSkuCapacityScaleType | undefined;
 }
 /** Defines the type of sku available for a node type */
 export interface NodeTypeAvailableSku {
   /** The type of resource the sku applies to. Value: Microsoft.ServiceFabric/managedClusters/nodeTypes. */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** The supported SKU for a for node type. */
-  sku?: NodeTypeSupportedSku;
+  sku?: NodeTypeSupportedSku | undefined;
   /** Provides information about how the node count can be scaled. */
-  capacity?: NodeTypeSkuCapacity;
+  capacity?: NodeTypeSkuCapacity | undefined;
 }
 /** The NodeTypeAvailableSku items on this page */
 export type NodeTypeListSkuResultValueList = Array<NodeTypeAvailableSku>;
@@ -1921,32 +1930,32 @@ export interface NodeTypeListSkuResult {
   /** The NodeTypeAvailableSku items on this page */
   value: NodeTypeListSkuResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Operation supported by the Service Fabric resource provider */
 export interface AvailableOperationDisplay {
   /** The name of the provider. */
-  provider?: string;
+  provider?: string | undefined;
   /** The resource on which the operation is performed */
-  resource?: string;
+  resource?: string | undefined;
   /** The operation that can be performed. */
-  operation?: string;
+  operation?: string | undefined;
   /** Operation description */
-  description?: string;
+  description?: string | undefined;
 }
 /** Available operation list result */
 export interface OperationResult {
   /** The name of the operation. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** The object that represents the operation. */
-  display?: AvailableOperationDisplay;
+  display?: AvailableOperationDisplay | undefined;
   /** Origin result */
-  origin?: string;
+  origin?: string | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** The OperationResult items on this page */
 export type OperationListResultValueList = Array<OperationResult>;
@@ -1955,7 +1964,7 @@ export interface OperationListResult {
   /** The OperationResult items on this page */
   value: OperationListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServiceByApplicationsRequest {
   /** The ID of the target subscription. */
@@ -1972,19 +1981,19 @@ export type ServiceResourceTagsMap = { [key: string]: string | undefined };
 /** The service resource. */
 export interface ServiceResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The service resource properties. */
-  properties?: ServiceResourceProperties;
+  properties?: ServiceResourceProperties | undefined;
   /** Resource tags. */
-  tags?: ServiceResourceTagsMap;
+  tags?: ServiceResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The ServiceResource items on this page */
 export type ServiceResourceListValueList = Array<ServiceResource>;
@@ -1993,7 +2002,7 @@ export interface ServiceResourceList {
   /** The ServiceResource items on this page */
   value: ServiceResourceListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type ManagedClustersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2022,77 +2031,77 @@ export interface ManagedClusterPropertiesInput {
   /** The cluster dns name. */
   dnsName: string;
   /** The port used for client connections to the cluster. */
-  clientConnectionPort?: number;
+  clientConnectionPort?: number | undefined;
   /** The port used for HTTP connections to the cluster. */
-  httpGatewayConnectionPort?: number;
+  httpGatewayConnectionPort?: number | undefined;
   /** VM admin user name. */
   adminUserName: string;
   /** VM admin user password. */
-  adminPassword?: string | Redacted.Redacted<string>;
+  adminPassword?: string | Redacted.Redacted<string> | undefined;
   /** Load balancing rules that are applied to the public load balancer of the cluster. */
-  loadBalancingRules?: ManagedClusterPropertiesInputLoadBalancingRulesList;
+  loadBalancingRules?: ManagedClusterPropertiesInputLoadBalancingRulesList | undefined;
   /** Setting this to true enables RDP access to the VM. The default NSG rule opens RDP port to Internet which can be overridden with custom Network Security Rules. The default value for this setting is false. */
-  allowRdpAccess?: boolean;
+  allowRdpAccess?: boolean | undefined;
   /** Custom Network Security Rules that are applied to the Virtual Network of the cluster. */
-  networkSecurityRules?: ManagedClusterPropertiesInputNetworkSecurityRulesList;
+  networkSecurityRules?: ManagedClusterPropertiesInputNetworkSecurityRulesList | undefined;
   /** Client certificates that are allowed to manage the cluster. */
-  clients?: ManagedClusterPropertiesInputClientsList;
+  clients?: ManagedClusterPropertiesInputClientsList | undefined;
   /** The AAD authentication settings of the cluster. */
-  azureActiveDirectory?: AzureActiveDirectory;
+  azureActiveDirectory?: AzureActiveDirectory | undefined;
   /** The list of custom fabric settings to configure the cluster. */
-  fabricSettings?: ManagedClusterPropertiesInputFabricSettingsList;
+  fabricSettings?: ManagedClusterPropertiesInputFabricSettingsList | undefined;
   /** The Service Fabric runtime version of the cluster. This property is required when **clusterUpgradeMode** is set to 'Manual'. To get list of available Service Fabric versions for new clusters use [ClusterVersion API](./ClusterVersion.md). To get the list of available version for existing clusters use **availableClusterVersions**. */
-  clusterCodeVersion?: string;
+  clusterCodeVersion?: string | undefined;
   /** The upgrade mode of the cluster when new Service Fabric runtime version is available. */
-  clusterUpgradeMode?: ManagedClusterPropertiesInputClusterUpgradeMode | (string & {});
+  clusterUpgradeMode?: ManagedClusterPropertiesInputClusterUpgradeMode | (string & {}) | undefined;
   /** Indicates when new cluster runtime version upgrades will be applied after they are released. By default is Wave0. Only applies when **clusterUpgradeMode** is set to 'Automatic'. */
-  clusterUpgradeCadence?: ClusterUpgradeCadence | (string & {});
+  clusterUpgradeCadence?: ClusterUpgradeCadence | (string & {}) | undefined;
   /** List of add-on features to enable on the cluster. */
-  addonFeatures?: ManagedClusterPropertiesInputAddonFeaturesList;
+  addonFeatures?: ManagedClusterPropertiesInputAddonFeaturesList | undefined;
   /** Enables automatic OS upgrade for node types created using OS images with version 'latest'. The default value for this setting is false. */
-  enableAutoOSUpgrade?: boolean;
+  enableAutoOSUpgrade?: boolean | undefined;
   /** Indicates if the cluster has zone resiliency. */
-  zonalResiliency?: boolean;
+  zonalResiliency?: boolean | undefined;
   /** The policy used to clean up unused versions. */
-  applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy;
+  applicationTypeVersionsCleanupPolicy?: ApplicationTypeVersionsCleanupPolicy | undefined;
   /** Setting this to true creates IPv6 address space for the default VNet used by the cluster. This setting cannot be changed once the cluster is created. The default value for this setting is false. */
-  enableIpv6?: boolean;
+  enableIpv6?: boolean | undefined;
   /** If specified, the node types for the cluster are created in this subnet instead of the default VNet. The **networkSecurityRules** specified for the cluster are also applied to this subnet. This setting cannot be changed once the cluster is created. */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** The list of IP tags associated with the default public IP address of the cluster. */
-  ipTags?: ManagedClusterPropertiesInputIpTagsList;
+  ipTags?: ManagedClusterPropertiesInputIpTagsList | undefined;
   /** Setting this to true will link the IPv4 address as the ServicePublicIP of the IPv6 address. It can only be set to True if IPv6 is enabled on the cluster. */
-  enableServicePublicIP?: boolean;
+  enableServicePublicIP?: boolean | undefined;
   /** Auxiliary subnets for the cluster. */
-  auxiliarySubnets?: ManagedClusterPropertiesInputAuxiliarySubnetsList;
+  auxiliarySubnets?: ManagedClusterPropertiesInputAuxiliarySubnetsList | undefined;
   /** Service endpoints for subnets in the cluster. */
-  serviceEndpoints?: ManagedClusterPropertiesInputServiceEndpointsList;
+  serviceEndpoints?: ManagedClusterPropertiesInputServiceEndpointsList | undefined;
   /** Indicates the update mode for Cross Az clusters. */
-  zonalUpdateMode?: ZonalUpdateMode | (string & {});
+  zonalUpdateMode?: ZonalUpdateMode | (string & {}) | undefined;
   /** For new clusters, this parameter indicates that it uses Bring your own VNet, but the subnet is specified at node type level; and for such clusters, the subnetId property is required for node types. */
-  useCustomVnet?: boolean;
+  useCustomVnet?: boolean | undefined;
   /** Specify the resource id of a public IPv4 prefix that the load balancer will allocate a public IPv4 address from. This setting cannot be changed once the cluster is created. */
-  publicIPPrefixId?: string;
+  publicIPPrefixId?: string | undefined;
   /** Specify the resource id of a public IPv6 prefix that the load balancer will allocate a public IPv6 address from. This setting cannot be changed once the cluster is created. */
-  publicIPv6PrefixId?: string;
+  publicIPv6PrefixId?: string | undefined;
   /** Specify the resource id of a DDoS network protection plan that will be associated with the virtual network of the cluster. */
-  ddosProtectionPlanId?: string;
+  ddosProtectionPlanId?: string | undefined;
   /** The policy to use when upgrading the cluster. */
-  upgradeDescription?: ClusterUpgradePolicy;
+  upgradeDescription?: ClusterUpgradePolicy | undefined;
   /** The port used for token-auth based HTTPS connections to the cluster. Cannot be set to the same port as HttpGatewayEndpoint. */
-  httpGatewayTokenAuthConnectionPort?: number;
+  httpGatewayTokenAuthConnectionPort?: number | undefined;
   /** If true, token-based authentication is not allowed on the HttpGatewayEndpoint. This is required to support TLS versions 1.3 and above. If token-based authentication is used, HttpGatewayTokenAuthConnectionPort must be defined. */
-  enableHttpGatewayExclusiveAuthMode?: boolean;
+  enableHttpGatewayExclusiveAuthMode?: boolean | undefined;
   /** This property is the entry point to using a public CA cert for your cluster cert. It specifies the level of reuse allowed for the custom FQDN created, matching the subject of the public CA cert. */
-  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope | (string & {});
+  autoGeneratedDomainNameLabelScope?: AutoGeneratedDomainNameLabelScope | (string & {}) | undefined;
   /** The number of outbound ports allocated for SNAT for each node in the backend pool of the default load balancer. The default value is 0 which provides dynamic port allocation based on pool size. */
-  allocatedOutboundPorts?: number;
+  allocatedOutboundPorts?: number | undefined;
   /** The VM image the node types are configured with. This property controls the Service Fabric component packages to be used for the cluster. Allowed values are: 'Windows'. The default value is 'Windows'. */
-  VMImage?: string;
+  VMImage?: string | undefined;
   /** Enable the creation of node types with only outbound traffic enabled. If set, a separate load balancer backend pool will be created for node types with inbound traffic enabled. Can only be set at the time of cluster creation. */
-  enableOutboundOnlyNodeTypes?: boolean;
+  enableOutboundOnlyNodeTypes?: boolean | undefined;
   /** Determines whether to skip the assignment of the managed network security group (SF-NSG) to the cluster subnet when using a bring-your-own virtual network (BYOVNET) configuration. The default value is false. */
-  skipManagedNsgAssignment?: boolean;
+  skipManagedNsgAssignment?: boolean | undefined;
 }
 export interface ManagedClustersCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -2102,11 +2111,11 @@ export interface ManagedClustersCreateOrUpdateRequest {
   /** The name of the cluster resource. */
   clusterName: string;
   /** Resource tags. */
-  tags?: ManagedClustersCreateOrUpdateRequestTagsMap;
+  tags?: ManagedClustersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The managed cluster resource properties */
-  properties?: ManagedClusterPropertiesInput;
+  properties?: ManagedClusterPropertiesInput | undefined;
   /** The sku of the managed cluster */
   sku: Sku;
 }
@@ -2114,27 +2123,27 @@ export interface ManagedClustersCreateOrUpdateRequest {
 export type ManagedClustersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ManagedClustersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ManagedClustersCreateOrUpdateResponseTagsMap;
+  tags?: ManagedClustersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The managed cluster resource properties */
-  properties?: ManagedClusterProperties;
+  properties?: ManagedClusterProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.", */
-  etag?: string;
+  etag?: string | undefined;
   /** The sku of the managed cluster */
   sku: Sku;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Managed data disk type. Specifies the storage account type for the managed disk */
 export type NodeTypePropertiesInputDataDiskType =
@@ -2165,19 +2174,19 @@ export interface VMSSExtensionPropertiesInput {
   /** Specifies the version of the script handler. */
   typeHandlerVersion: string;
   /** Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true. */
-  autoUpgradeMinorVersion?: boolean;
+  autoUpgradeMinorVersion?: boolean | undefined;
   /** Json formatted public settings for the extension. */
-  settings?: unknown;
+  settings?: unknown | undefined;
   /** The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all. */
-  protectedSettings?: unknown;
+  protectedSettings?: unknown | undefined;
   /** If a value is provided and is different from the previous value, the extension handler will be forced to update even if the extension configuration has not changed. */
-  forceUpdateTag?: string;
+  forceUpdateTag?: string | undefined;
   /** Collection of extension names after which this extension needs to be provisioned. */
-  provisionAfterExtensions?: VMSSExtensionPropertiesInputProvisionAfterExtensionsList;
+  provisionAfterExtensions?: VMSSExtensionPropertiesInputProvisionAfterExtensionsList | undefined;
   /** Indicates whether the extension should be automatically upgraded by the platform if there is a newer version of the extension available. */
-  enableAutomaticUpgrade?: boolean;
+  enableAutomaticUpgrade?: boolean | undefined;
   /** Indicates the setup order for the extension. */
-  setupOrder?: VMSSExtensionPropertiesInputSetupOrderList;
+  setupOrder?: VMSSExtensionPropertiesInputSetupOrderList | undefined;
 }
 /** Specifies set of extensions that should be installed onto the virtual machines. */
 export interface VMSSExtensionInput {
@@ -2212,107 +2221,109 @@ export interface NodeTypePropertiesInput {
   /** The number of nodes in the node type. **Values:** -1 - Use when auto scale rules are configured or sku.capacity is defined 0 - Not supported >0 - Use for manual scale. */
   vmInstanceCount: number;
   /** Disk size for the managed disk attached to the vms on the node type in GBs. */
-  dataDiskSizeGB?: number;
+  dataDiskSizeGB?: number | undefined;
   /** Managed data disk type. Specifies the storage account type for the managed disk */
-  dataDiskType?: NodeTypePropertiesInputDataDiskType | (string & {});
+  dataDiskType?: NodeTypePropertiesInputDataDiskType | (string & {}) | undefined;
   /** Managed data disk letter. It can not use the reserved letter C or D and it can not change after created. */
-  dataDiskLetter?: string;
+  dataDiskLetter?: string | undefined;
   /** The placement tags applied to nodes in the node type, which can be used to indicate where certain services (workload) should run. */
-  placementProperties?: NodeTypePropertiesInputPlacementPropertiesMap;
+  placementProperties?: NodeTypePropertiesInputPlacementPropertiesMap | undefined;
   /** The capacity tags applied to the nodes in the node type, the cluster resource manager uses these tags to understand how much resource a node has. */
-  capacities?: NodeTypePropertiesInputCapacitiesMap;
+  capacities?: NodeTypePropertiesInputCapacitiesMap | undefined;
   /** The range of ports from which cluster assigned port to Service Fabric applications. */
-  applicationPorts?: EndpointRangeDescription;
+  applicationPorts?: EndpointRangeDescription | undefined;
   /** The range of ephemeral ports that nodes in this node type should be configured with. */
-  ephemeralPorts?: EndpointRangeDescription;
+  ephemeralPorts?: EndpointRangeDescription | undefined;
   /** The size of virtual machines in the pool. All virtual machines in a pool are the same size. For example, Standard_D3. */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** The publisher of the Azure Virtual Machines Marketplace image. For example, Canonical or MicrosoftWindowsServer. */
-  vmImagePublisher?: string;
+  vmImagePublisher?: string | undefined;
   /** The offer type of the Azure Virtual Machines Marketplace image. For example, UbuntuServer or WindowsServer. */
-  vmImageOffer?: string;
+  vmImageOffer?: string | undefined;
   /** The SKU of the Azure Virtual Machines Marketplace image. For example, 14.04.0-LTS or 2012-R2-Datacenter. */
-  vmImageSku?: string;
+  vmImageSku?: string | undefined;
   /** The version of the Azure Virtual Machines Marketplace image. A value of 'latest' can be specified to select the latest version of an image. If omitted, the default is 'latest'. */
-  vmImageVersion?: string;
+  vmImageVersion?: string | undefined;
   /** The secrets to install in the virtual machines. */
-  vmSecrets?: NodeTypePropertiesInputVmSecretsList;
+  vmSecrets?: NodeTypePropertiesInputVmSecretsList | undefined;
   /** Set of extensions that should be installed onto the virtual machines. */
-  vmExtensions?: NodeTypePropertiesInputVmExtensionsList;
+  vmExtensions?: NodeTypePropertiesInputVmExtensionsList | undefined;
   /** Identities to assign to the virtual machine scale set under the node type. */
-  vmManagedIdentity?: VmManagedIdentity;
+  vmManagedIdentity?: VmManagedIdentity | undefined;
   /** Indicates if the node type can only host Stateless workloads. */
-  isStateless?: boolean;
+  isStateless?: boolean | undefined;
   /** Indicates if scale set associated with the node type can be composed of multiple placement groups. */
-  multiplePlacementGroups?: boolean;
+  multiplePlacementGroups?: boolean | undefined;
   /** Indicates the node type uses its own frontend configurations instead of the default one for the cluster. This setting can only be specified for non-primary node types and can not be added or removed after the node type is created. */
-  frontendConfigurations?: NodeTypePropertiesInputFrontendConfigurationsList;
+  frontendConfigurations?: NodeTypePropertiesInputFrontendConfigurationsList | undefined;
   /** The Network Security Rules for this node type. This setting can only be specified for node types that are configured with frontend configurations. */
-  networkSecurityRules?: NodeTypePropertiesInputNetworkSecurityRulesList;
+  networkSecurityRules?: NodeTypePropertiesInputNetworkSecurityRulesList | undefined;
   /** Additional managed data disks. */
-  additionalDataDisks?: NodeTypePropertiesInputAdditionalDataDisksList;
+  additionalDataDisks?: NodeTypePropertiesInputAdditionalDataDisksList | undefined;
   /** Enable or disable the Host Encryption for the virtual machines on the node type. This will enable the encryption for all the disks including Resource/Temp disk at host itself. Default: The Encryption at host will be disabled unless this property is set to true for the resource. */
-  enableEncryptionAtHost?: boolean;
+  enableEncryptionAtHost?: boolean | undefined;
   /** Specifies whether the network interface is accelerated networking-enabled. */
-  enableAcceleratedNetworking?: boolean;
+  enableAcceleratedNetworking?: boolean | undefined;
   /** Specifies whether the use public load balancer. If not specified and the node type doesn't have its own frontend configuration, it will be attached to the default load balancer. If the node type uses its own Load balancer and useDefaultPublicLoadBalancer is true, then the frontend has to be an Internal Load Balancer. If the node type uses its own Load balancer and useDefaultPublicLoadBalancer is false or not set, then the custom load balancer must include a public load balancer to provide outbound connectivity. */
-  useDefaultPublicLoadBalancer?: boolean;
+  useDefaultPublicLoadBalancer?: boolean | undefined;
   /** Specifies whether to use the temporary disk for the service fabric data root, in which case no managed data disk will be attached and the temporary disk will be used. It is only allowed for stateless node types. */
-  useTempDataDisk?: boolean;
+  useTempDataDisk?: boolean | undefined;
   /** Specifies whether the node type should be overprovisioned. It is only allowed for stateless node types. */
-  enableOverProvisioning?: boolean;
+  enableOverProvisioning?: boolean | undefined;
   /** Specifies the availability zones where the node type would span across. If the cluster is not spanning across availability zones, initiates az migration for the cluster. */
-  zones?: NodeTypePropertiesInputZonesList;
+  zones?: NodeTypePropertiesInputZonesList | undefined;
   /** Indicates whether the node type will be Spot Virtual Machines. Azure will allocate the VMs if there is capacity available and the VMs can be evicted at any time. */
-  isSpotVM?: boolean;
+  isSpotVM?: boolean | undefined;
   /** Specifies the full host group resource Id. This property is used for deploying on azure dedicated hosts. */
-  hostGroupId?: string;
+  hostGroupId?: string | undefined;
   /** Indicates whether to use ephemeral os disk. The sku selected on the vmSize property needs to support this feature. */
-  useEphemeralOSDisk?: boolean;
+  useEphemeralOSDisk?: boolean | undefined;
   /** Indicates the time duration after which the platform will not try to restore the VMSS SPOT instances specified as ISO 8601. */
-  spotRestoreTimeout?: string;
+  spotRestoreTimeout?: string | undefined;
   /** Specifies the eviction policy for virtual machines in a SPOT node type. Default is Delete. */
-  evictionPolicy?: EvictionPolicyType | (string & {});
+  evictionPolicy?: EvictionPolicyType | (string & {}) | undefined;
   /** Indicates the resource id of the vm image. This parameter is used for custom vm image. */
-  vmImageResourceId?: string;
+  vmImageResourceId?: string | undefined;
   /** Indicates the resource id of the subnet for the node type. */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** Specifies the actions to be performed on the vms before bootstrapping the service fabric runtime. */
-  vmSetupActions?: NodeTypePropertiesInputVmSetupActionsList;
+  vmSetupActions?: NodeTypePropertiesInputVmSetupActionsList | undefined;
   /** Specifies the security type of the nodeType. Supported values include Standard, TrustedLaunch and ConfidentialVM. */
-  securityType?: SecurityType | (string & {});
+  securityType?: SecurityType | (string & {}) | undefined;
   /** Specifies the EncryptionType of the managed disk. It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob and VMGuestStateOnly for encryption of just the VMGuestState blob. Note: It can be set for only Confidential VMs. */
-  securityEncryptionType?: SecurityEncryptionType | (string & {});
+  securityEncryptionType?: SecurityEncryptionType | (string & {}) | undefined;
   /** Specifies whether secure boot should be enabled on the nodeType. Can only be used with TrustedLaunch and ConfidentialVM SecurityType. */
-  secureBootEnabled?: boolean;
+  secureBootEnabled?: boolean | undefined;
   /** Specifies whether each node is allocated its own public IPv4 address. This is only supported on secondary node types with custom Load Balancers. */
-  enableNodePublicIP?: boolean;
+  enableNodePublicIP?: boolean | undefined;
   /** Specifies whether each node is allocated its own public IPv6 address. This is only supported on secondary node types with custom Load Balancers. */
-  enableNodePublicIPv6?: boolean;
+  enableNodePublicIPv6?: boolean | undefined;
   /** Indicates the resource id of the vm shared galleries image. This parameter is used for custom vm image. */
-  vmSharedGalleryImageId?: string;
+  vmSharedGalleryImageId?: string | undefined;
   /** Specifies the resource id of a NAT Gateway to attach to the subnet of this node type. Node type must use custom load balancer. */
-  natGatewayId?: string;
+  natGatewayId?: string | undefined;
   /** Specifies the NAT configuration on default public Load Balancer for the node type. This is only supported for node types use the default public Load Balancer. */
-  natConfigurations?: NodeTypePropertiesInputNatConfigurationsList;
+  natConfigurations?: NodeTypePropertiesInputNatConfigurationsList | undefined;
   /** Specifies information about the marketplace image used to create the virtual machine. This element is only used for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic use. In the Azure portal, find the marketplace image that you want to use and then click Want to deploy programmatically, Get Started ->. Enter any required information and then click Save. */
-  vmImagePlan?: VmImagePlan;
+  vmImagePlan?: VmImagePlan | undefined;
   /** Specifies the service artifact reference id used to set same image version for all virtual machines in the scale set when using 'latest' image version. */
-  serviceArtifactReferenceId?: string;
+  serviceArtifactReferenceId?: string | undefined;
   /** Specifies the resource id of the DSCP configuration to apply to the node type network interface. */
-  dscpConfigurationId?: string;
+  dscpConfigurationId?: string | undefined;
   /** Specifies the settings for any additional secondary network interfaces to attach to the node type. */
-  additionalNetworkInterfaceConfigurations?: NodeTypePropertiesInputAdditionalNetworkInterfaceConfigurationsList;
+  additionalNetworkInterfaceConfigurations?:
+    | NodeTypePropertiesInputAdditionalNetworkInterfaceConfigurationsList
+    | undefined;
   /** Specifies the computer name prefix. Limited to 9 characters. If specified, allows for a longer name to be specified for the node type name. */
-  computerNamePrefix?: string;
+  computerNamePrefix?: string | undefined;
   /** Specifies the gallery applications that should be made available to the underlying VMSS. */
-  vmApplications?: NodeTypePropertiesInputVmApplicationsList;
+  vmApplications?: NodeTypePropertiesInputVmApplicationsList | undefined;
   /** Setting this to true allows stateless node types to scale out without equal distribution across zones. */
-  zoneBalance?: boolean;
+  zoneBalance?: boolean | undefined;
   /** Specifies the node type should be configured for only outbound traffic and not inbound traffic. */
-  isOutboundOnly?: boolean;
+  isOutboundOnly?: boolean | undefined;
   /** Specifies whether the node type should use a resilient ephemeral OS disk when using a supported SKU size. A resilient ephemeral OS disk provides improved reliability for ephemeral OS disks by enabling full caching. */
-  enableResilientEphemeralOsDisk?: boolean;
+  enableResilientEphemeralOsDisk?: boolean | undefined;
 }
 /** Resource tags. */
 export type NodeTypesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2326,33 +2337,33 @@ export interface NodeTypesCreateOrUpdateRequest {
   /** The name of the node type. */
   nodeTypeName: string;
   /** The node type properties */
-  properties?: NodeTypePropertiesInput;
+  properties?: NodeTypePropertiesInput | undefined;
   /** Resource tags. */
-  tags?: NodeTypesCreateOrUpdateRequestTagsMap;
+  tags?: NodeTypesCreateOrUpdateRequestTagsMap | undefined;
   /** The node type sku. */
-  sku?: NodeTypeSku;
+  sku?: NodeTypeSku | undefined;
 }
 /** Resource tags. */
 export type NodeTypesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface NodeTypesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The node type properties */
-  properties?: NodeTypeProperties;
+  properties?: NodeTypeProperties | undefined;
   /** Resource tags. */
-  tags?: NodeTypesCreateOrUpdateResponseTagsMap;
+  tags?: NodeTypesCreateOrUpdateResponseTagsMap | undefined;
   /** The node type sku. */
-  sku?: NodeTypeSku;
+  sku?: NodeTypeSku | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** List of node names from the node type. */
 export type NodeTypesDeallocateRequestNodesList = Array<string>;
@@ -2366,17 +2377,17 @@ export interface NodeTypesDeallocateRequest {
   /** The name of the node type. */
   nodeTypeName: string;
   /** List of node names from the node type. */
-  nodes?: NodeTypesDeallocateRequestNodesList;
+  nodes?: NodeTypesDeallocateRequestNodesList | undefined;
   /** Force the action to go through. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Specifies the way the operation will be performed. */
-  updateType?: UpdateType | (string & {});
+  updateType?: UpdateType | (string & {}) | undefined;
 }
 export interface NodeTypesDeallocateResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** List of node names from the node type. */
 export type NodeTypesReimageRequestNodesList = Array<string>;
@@ -2390,17 +2401,17 @@ export interface NodeTypesReimageRequest {
   /** The name of the node type. */
   nodeTypeName: string;
   /** List of node names from the node type. */
-  nodes?: NodeTypesReimageRequestNodesList;
+  nodes?: NodeTypesReimageRequestNodesList | undefined;
   /** Force the action to go through. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Specifies the way the operation will be performed. */
-  updateType?: UpdateType | (string & {});
+  updateType?: UpdateType | (string & {}) | undefined;
 }
 export interface NodeTypesReimageResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface PostManagedApplyMaintenanceWindowRequest {
   /** The ID of the target subscription. */
@@ -2423,9 +2434,9 @@ export interface ReadApplicationUpgradeRequest {
 }
 export interface ReadApplicationUpgradeResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** List of node names from the node type. */
 export type RedeployNodeTypeRequestNodesList = Array<string>;
@@ -2439,17 +2450,17 @@ export interface RedeployNodeTypeRequest {
   /** The name of the node type. */
   nodeTypeName: string;
   /** List of node names from the node type. */
-  nodes?: RedeployNodeTypeRequestNodesList;
+  nodes?: RedeployNodeTypeRequestNodesList | undefined;
   /** Force the action to go through. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Specifies the way the operation will be performed. */
-  updateType?: UpdateType | (string & {});
+  updateType?: UpdateType | (string & {}) | undefined;
 }
 export interface RedeployNodeTypeResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface RestartApplicationDeployedCodePackageRequest {
   /** The ID of the target subscription. */
@@ -2469,13 +2480,13 @@ export interface RestartApplicationDeployedCodePackageRequest {
   /** The instance ID for currently running entry point. For a code package setup entry point (if specified) runs first and after it finishes main entry point is started. Each time entry point executable is run, its instance ID will change. If 0 is passed in as the code package instance ID, the API will restart the code package with whatever instance ID it is currently running. If an instance ID other than 0 is passed in, the API will restart the code package only if the current Instance ID matches the passed in instance ID. Note, passing in the exact instance ID (not 0) in the API is safer, because if ensures at most one restart of the code package. */
   codePackageInstanceId: string;
   /** The activation id of a deployed service package. If ServicePackageActivationMode specified at the time of creating the service is 'SharedProcess' (or if it is not specified, in which case it defaults to 'SharedProcess'), then value of ServicePackageActivationId is always an empty string. */
-  servicePackageActivationId?: string;
+  servicePackageActivationId?: string | undefined;
 }
 export interface RestartApplicationDeployedCodePackageResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** List of node names from the node type. */
 export type RestartNodeTypeRequestNodesList = Array<string>;
@@ -2489,17 +2500,17 @@ export interface RestartNodeTypeRequest {
   /** The name of the node type. */
   nodeTypeName: string;
   /** List of node names from the node type. */
-  nodes?: RestartNodeTypeRequestNodesList;
+  nodes?: RestartNodeTypeRequestNodesList | undefined;
   /** Force the action to go through. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Specifies the way the operation will be performed. */
-  updateType?: UpdateType | (string & {});
+  updateType?: UpdateType | (string & {}) | undefined;
 }
 export interface RestartNodeTypeResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** The IDs of the replicas to be restarted. */
 export type RestartServiceReplicaRequestReplicaIdsList = Array<number>;
@@ -2523,15 +2534,15 @@ export interface RestartServiceReplicaRequest {
   /** The kind of restart to perform. */
   restartKind: RestartKind | (string & {});
   /** If true, the restart operation will be forced. Use this option with care, as it may cause data loss. */
-  forceRestart?: boolean;
+  forceRestart?: boolean | undefined;
   /** The server timeout for performing the operation in seconds. This timeout specifies the time duration that the client is willing to wait for the requested operation to complete. The default value for this parameter is 60 seconds. */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 export interface RestartServiceReplicaResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface ResumeApplicationUpgradeRequest {
   /** The ID of the target subscription. */
@@ -2543,13 +2554,13 @@ export interface ResumeApplicationUpgradeRequest {
   /** The name of the application resource. */
   applicationName: string;
   /** The upgrade domain name. Expected to be the next upgrade domain if the application is upgrading. */
-  upgradeDomainName?: string;
+  upgradeDomainName?: string | undefined;
 }
 export interface ResumeApplicationUpgradeResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** A list that describes the correlation of the service with other services. */
 export type ServiceResourcePropertiesInputCorrelationSchemeList = Array<ServiceCorrelation>;
@@ -2563,17 +2574,17 @@ export type ServiceResourcePropertiesInputScalingPoliciesList = Array<ScalingPol
 /** The service resource properties. */
 export interface ServiceResourcePropertiesInput {
   /** The placement constraints as a string. Placement constraints are boolean expressions on node properties and allow for restricting a service to particular nodes based on the service requirements. For example, to place a service on nodes where NodeType is blue specify the following: "NodeColor == blue)". */
-  placementConstraints?: string;
+  placementConstraints?: string | undefined;
   /** A list that describes the correlation of the service with other services. */
-  correlationScheme?: ServiceResourcePropertiesInputCorrelationSchemeList;
+  correlationScheme?: ServiceResourcePropertiesInputCorrelationSchemeList | undefined;
   /** The service load metrics is given as an array of ServiceLoadMetric objects. */
-  serviceLoadMetrics?: ServiceResourcePropertiesInputServiceLoadMetricsList;
+  serviceLoadMetrics?: ServiceResourcePropertiesInputServiceLoadMetricsList | undefined;
   /** A list that describes the correlation of the service with other services. */
-  servicePlacementPolicies?: ServiceResourcePropertiesInputServicePlacementPoliciesList;
+  servicePlacementPolicies?: ServiceResourcePropertiesInputServicePlacementPoliciesList | undefined;
   /** Specifies the move cost for the service. */
-  defaultMoveCost?: MoveCost | (string & {});
+  defaultMoveCost?: MoveCost | (string & {}) | undefined;
   /** Scaling policies for this service. */
-  scalingPolicies?: ServiceResourcePropertiesInputScalingPoliciesList;
+  scalingPolicies?: ServiceResourcePropertiesInputScalingPoliciesList | undefined;
   /** The kind of service (Stateless or Stateful). */
   serviceKind: ServiceKind | (string & {});
   /** The name of the service type */
@@ -2581,29 +2592,29 @@ export interface ServiceResourcePropertiesInput {
   /** Describes how the service is partitioned. */
   partitionDescription: Partition;
   /** The activation Mode of the service package */
-  servicePackageActivationMode?: ServicePackageActivationMode | (string & {});
+  servicePackageActivationMode?: ServicePackageActivationMode | (string & {}) | undefined;
   /** Dns name used for the service. If this is specified, then the DNS name can be used to return the IP addresses of service endpoints for application layer protocols (e.g., HTTP). When updating serviceDnsName, old name may be temporarily resolvable. However, rely on new name. When removing serviceDnsName, removed name may temporarily be resolvable. Do not rely on the name being unresolvable. */
-  serviceDnsName?: string;
+  serviceDnsName?: string | undefined;
   /** Stateless: instance count per partition (-1 = every node). */
-  instanceCount?: number;
+  instanceCount?: number | undefined;
   /** Stateless: minimum instance count. */
-  minInstanceCount?: number;
+  minInstanceCount?: number | undefined;
   /** Stateless: minimum instance percentage. */
-  minInstancePercentage?: number;
+  minInstancePercentage?: number | undefined;
   /** Stateful: target replica set size. */
-  targetReplicaSetSize?: number;
+  targetReplicaSetSize?: number | undefined;
   /** Stateful: minimum replica set size. */
-  minReplicaSetSize?: number;
+  minReplicaSetSize?: number | undefined;
   /** Stateful: whether the service persists state on disk. */
-  hasPersistedState?: boolean;
+  hasPersistedState?: boolean | undefined;
   /** Stateful: ISO 8601 replica restart wait duration. */
-  replicaRestartWaitDuration?: string;
+  replicaRestartWaitDuration?: string | undefined;
   /** Stateful: ISO 8601 quorum loss wait duration. */
-  quorumLossWaitDuration?: string;
+  quorumLossWaitDuration?: string | undefined;
   /** Stateful: ISO 8601 standby replica keep duration. */
-  standByReplicaKeepDuration?: string;
+  standByReplicaKeepDuration?: string | undefined;
   /** Stateful: ISO 8601 service placement time limit. */
-  servicePlacementTimeLimit?: string;
+  servicePlacementTimeLimit?: string | undefined;
 }
 /** Resource tags. */
 export type ServicesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2619,33 +2630,33 @@ export interface ServicesCreateOrUpdateRequest {
   /** The name of the service resource in the format of {applicationName}~{serviceName}. */
   serviceName: string;
   /** The service resource properties. */
-  properties?: ServiceResourcePropertiesInput;
+  properties?: ServiceResourcePropertiesInput | undefined;
   /** Resource tags. */
-  tags?: ServicesCreateOrUpdateRequestTagsMap;
+  tags?: ServicesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Resource tags. */
 export type ServicesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ServicesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The service resource properties. */
-  properties?: ServiceResourceProperties;
+  properties?: ServiceResourceProperties | undefined;
   /** Resource tags. */
-  tags?: ServicesCreateOrUpdateResponseTagsMap;
+  tags?: ServicesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export interface StartApplicationRollbackRequest {
   /** The ID of the target subscription. */
@@ -2659,9 +2670,9 @@ export interface StartApplicationRollbackRequest {
 }
 export interface StartApplicationRollbackResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** List of node names from the node type. */
 export type StartNodeTypeRequestNodesList = Array<string>;
@@ -2675,17 +2686,17 @@ export interface StartNodeTypeRequest {
   /** The name of the node type. */
   nodeTypeName: string;
   /** List of node names from the node type. */
-  nodes?: StartNodeTypeRequestNodesList;
+  nodes?: StartNodeTypeRequestNodesList | undefined;
   /** Force the action to go through. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Specifies the way the operation will be performed. */
-  updateType?: UpdateType | (string & {});
+  updateType?: UpdateType | (string & {}) | undefined;
 }
 export interface StartNodeTypeResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Application update parameters */
 export type UpdateApplicationRequestTagsMap = { [key: string]: string | undefined };
@@ -2696,7 +2707,7 @@ export type ApplicationUpdateParametersPropertiesParametersMap = {
 /** Properties for application update request. */
 export interface ApplicationUpdateParametersProperties {
   /** List of application parameters with overridden values from their default values specified in the application manifest. */
-  parameters?: ApplicationUpdateParametersPropertiesParametersMap;
+  parameters?: ApplicationUpdateParametersPropertiesParametersMap | undefined;
 }
 export interface UpdateApplicationRequest {
   /** The ID of the target subscription. */
@@ -2708,33 +2719,33 @@ export interface UpdateApplicationRequest {
   /** The name of the application resource. */
   applicationName: string;
   /** Application update parameters */
-  tags?: UpdateApplicationRequestTagsMap;
+  tags?: UpdateApplicationRequestTagsMap | undefined;
   /** Application update parameters properties. */
-  properties?: ApplicationUpdateParametersProperties;
+  properties?: ApplicationUpdateParametersProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateApplicationResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateApplicationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The application resource properties. */
-  properties?: ApplicationResourceProperties;
+  properties?: ApplicationResourceProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateApplicationResponseTagsMap;
+  tags?: UpdateApplicationResponseTagsMap | undefined;
   /** Describes the managed identities for an Azure resource. */
-  identity?: ManagedIdentity;
+  identity?: ManagedIdentity | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Application type update parameters */
 export type UpdateApplicationTypeRequestTagsMap = { [key: string]: string | undefined };
@@ -2748,25 +2759,25 @@ export interface UpdateApplicationTypeRequest {
   /** The name of the application type name resource. */
   applicationTypeName: string;
   /** Application type update parameters */
-  tags?: UpdateApplicationTypeRequestTagsMap;
+  tags?: UpdateApplicationTypeRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateApplicationTypeResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateApplicationTypeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The application type name properties */
-  properties?: ApplicationTypeResourceProperties;
+  properties?: ApplicationTypeResourceProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateApplicationTypeResponseTagsMap;
+  tags?: UpdateApplicationTypeResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Application type version update parameters */
 export type UpdateApplicationTypeVersionRequestTagsMap = { [key: string]: string | undefined };
@@ -2782,25 +2793,25 @@ export interface UpdateApplicationTypeVersionRequest {
   /** The application type version. */
   version: string;
   /** Application type version update parameters */
-  tags?: UpdateApplicationTypeVersionRequestTagsMap;
+  tags?: UpdateApplicationTypeVersionRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateApplicationTypeVersionResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateApplicationTypeVersionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The properties of the application type version resource. */
-  properties?: ApplicationTypeVersionResourceProperties;
+  properties?: ApplicationTypeVersionResourceProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateApplicationTypeVersionResponseTagsMap;
+  tags?: UpdateApplicationTypeVersionResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** Cluster level definition for the kind of upgrade. */
 export type RuntimeUpgradeKind = "Rolling";
@@ -2817,9 +2828,11 @@ export interface RuntimeApplicationHealthPolicy {
   /** The maximum allowed percentage of unhealthy deployed applications. Allowed values are Byte values from zero to 100. The percentage represents the maximum tolerated percentage of deployed applications that can be unhealthy before the application is considered in error. This is calculated by dividing the number of unhealthy deployed applications over the number of nodes where the application is currently deployed on in the cluster. The computation rounds up to tolerate one failure on small numbers of nodes. Default percentage is zero. */
   maxPercentUnhealthyDeployedApplications: number;
   /** The health policy used by default to evaluate the health of a service type. */
-  defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicy;
+  defaultServiceTypeHealthPolicy?: ServiceTypeHealthPolicy | undefined;
   /** The map with service type health policy per service type name. The map is empty by default. */
-  serviceTypeHealthPolicyMap?: RuntimeApplicationHealthPolicyServiceTypeHealthPolicyMapMap;
+  serviceTypeHealthPolicyMap?:
+    | RuntimeApplicationHealthPolicyServiceTypeHealthPolicyMapMap
+    | undefined;
 }
 /** Cluster level definition for the mode used to monitor health during a rolling upgrade. */
 export type RuntimeRollingUpgradeMode = "UnmonitoredAuto" | "UnmonitoredManual" | "Monitored";
@@ -2830,23 +2843,23 @@ export interface RuntimeRollingUpgradeUpdateMonitoringPolicy {
   /** The mode used to monitor health during a rolling upgrade. */
   rollingUpgradeMode: RuntimeRollingUpgradeMode | (string & {});
   /** If true, then processes are forcefully restarted during upgrade even when the code version has not changed (the upgrade only changes configuration or data). */
-  forceRestart?: boolean;
+  forceRestart?: boolean | undefined;
   /** The maximum amount of time to block processing of an upgrade domain and prevent loss of availability when there are unexpected issues. When this timeout expires, processing of the upgrade domain will proceed regardless of availability loss issues. The timeout is reset at the start of each upgrade domain. Valid values are between 0 and 42949672925 inclusive. (unsigned 32-bit integer). */
-  replicaSetCheckTimeoutInMilliseconds?: number;
+  replicaSetCheckTimeoutInMilliseconds?: number | undefined;
   /** The compensating action to perform when a Monitored upgrade encounters monitoring policy or health policy violations. Invalid indicates the failure action is invalid. Rollback specifies that the upgrade will start rolling back automatically. Manual indicates that the upgrade will switch to UnmonitoredManual upgrade mode */
-  failureAction?: RuntimeFailureAction | (string & {});
+  failureAction?: RuntimeFailureAction | (string & {}) | undefined;
   /** The amount of time to wait after completing an upgrade domain before applying health policies. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
-  healthCheckWaitDurationInMilliseconds?: string;
+  healthCheckWaitDurationInMilliseconds?: string | undefined;
   /** The amount of time that the application or cluster must remain healthy before the upgrade proceeds to the next upgrade domain. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
-  healthCheckStableDurationInMilliseconds?: string;
+  healthCheckStableDurationInMilliseconds?: string | undefined;
   /** The amount of time to retry health evaluation when the application or cluster is unhealthy before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
-  healthCheckRetryTimeoutInMilliseconds?: string;
+  healthCheckRetryTimeoutInMilliseconds?: string | undefined;
   /** The amount of time the overall upgrade has to complete before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
-  upgradeTimeoutInMilliseconds?: string;
+  upgradeTimeoutInMilliseconds?: string | undefined;
   /** The amount of time each upgrade domain has to complete before FailureAction is executed. It is first interpreted as a string representing an ISO 8601 duration. If that fails, then it is interpreted as a number representing the total number of milliseconds. */
-  upgradeDomainTimeoutInMilliseconds?: string;
+  upgradeDomainTimeoutInMilliseconds?: string | undefined;
   /** Duration in seconds, to wait before a stateless instance is closed, to allow the active requests to drain gracefully. This would be effective when the instance is closing during the application/cluster upgrade, only for those instances which have a non-zero delay duration configured in the service description. */
-  instanceCloseDelayDurationInSeconds?: number;
+  instanceCloseDelayDurationInSeconds?: number | undefined;
 }
 export interface UpdateApplicationUpgradeRequest {
   /** The ID of the target subscription. */
@@ -2862,15 +2875,15 @@ export interface UpdateApplicationUpgradeRequest {
   /** The kind of the upgrade. */
   upgradeKind: RuntimeUpgradeKind | (string & {});
   /** Defines a health policy used to evaluate the health of an application or one of its children entities. */
-  applicationHealthPolicy?: RuntimeApplicationHealthPolicy;
+  applicationHealthPolicy?: RuntimeApplicationHealthPolicy | undefined;
   /** Describes the parameters for updating a rolling upgrade of application or cluster and a monitoring policy. */
-  updateDescription?: RuntimeRollingUpgradeUpdateMonitoringPolicy;
+  updateDescription?: RuntimeRollingUpgradeUpdateMonitoringPolicy | undefined;
 }
 export interface UpdateApplicationUpgradeResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Managed cluster update parameters */
 export type UpdateManagedClusterRequestTagsMap = { [key: string]: string | undefined };
@@ -2882,33 +2895,33 @@ export interface UpdateManagedClusterRequest {
   /** The name of the cluster resource. */
   clusterName: string;
   /** Managed cluster update parameters */
-  tags?: UpdateManagedClusterRequestTagsMap;
+  tags?: UpdateManagedClusterRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateManagedClusterResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateManagedClusterResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateManagedClusterResponseTagsMap;
+  tags?: UpdateManagedClusterResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The managed cluster resource properties */
-  properties?: ManagedClusterProperties;
+  properties?: ManagedClusterProperties | undefined;
   /** If eTag is provided in the response body, it may also be provided as a header per the normal etag convention. Entity tags are used for comparing two or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range (section 14.27) header fields.", */
-  etag?: string;
+  etag?: string | undefined;
   /** The sku of the managed cluster */
   sku: Sku;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 /** Node type update parameters */
 export type UpdateNodeTypeRequestTagsMap = { [key: string]: string | undefined };
@@ -2922,31 +2935,31 @@ export interface UpdateNodeTypeRequest {
   /** The name of the node type. */
   nodeTypeName: string;
   /** Node type update parameters */
-  tags?: UpdateNodeTypeRequestTagsMap;
+  tags?: UpdateNodeTypeRequestTagsMap | undefined;
   /** The node type sku. */
-  sku?: NodeTypeSku;
+  sku?: NodeTypeSku | undefined;
 }
 /** Resource tags. */
 export type UpdateNodeTypeResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateNodeTypeResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The node type properties */
-  properties?: NodeTypeProperties;
+  properties?: NodeTypeProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateNodeTypeResponseTagsMap;
+  tags?: UpdateNodeTypeResponseTagsMap | undefined;
   /** The node type sku. */
-  sku?: NodeTypeSku;
+  sku?: NodeTypeSku | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** Service update parameters */
 export type UpdateServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -2962,25 +2975,25 @@ export interface UpdateServiceRequest {
   /** The name of the service resource in the format of {applicationName}~{serviceName}. */
   serviceName: string;
   /** Service update parameters */
-  tags?: UpdateServiceRequestTagsMap;
+  tags?: UpdateServiceRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateServiceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateServiceResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** The service resource properties. */
-  properties?: ServiceResourceProperties;
+  properties?: ServiceResourceProperties | undefined;
   /** Resource tags. */
-  tags?: UpdateServiceResponseTagsMap;
+  tags?: UpdateServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export type ApplicationsCreateOrUpdateError = AzureOpError;
 /** Create or update a Service Fabric managed application resource with the specified name. */

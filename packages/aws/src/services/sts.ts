@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials as Creds } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -302,7 +303,7 @@ export class SessionDurationEscalationException
 export type ArnType = string;
 export type RoleSessionNameType = string;
 export interface PolicyDescriptorType {
-  arn?: string;
+  arn?: string | undefined;
 }
 export type PolicyDescriptorListType = PolicyDescriptorType[];
 export type UnrestrictedSessionPolicyDocumentType = string;
@@ -321,25 +322,25 @@ export type TokenCodeType = string;
 export type SourceIdentityType = string;
 export type ContextAssertionType = string;
 export interface ProvidedContext {
-  ProviderArn?: string;
-  ContextAssertion?: string;
+  ProviderArn?: string | undefined;
+  ContextAssertion?: string | undefined;
 }
 export type ProvidedContextsListType = ProvidedContext[];
 export type MinimumSessionTokenSizeType = number;
 export interface AssumeRoleRequest {
   RoleArn: string;
   RoleSessionName: string;
-  PolicyArns?: PolicyDescriptorType[];
-  Policy?: string;
-  DurationSeconds?: number;
-  Tags?: Tag[];
-  TransitiveTagKeys?: string[];
-  ExternalId?: string;
-  SerialNumber?: string;
-  TokenCode?: string;
-  SourceIdentity?: string;
-  ProvidedContexts?: ProvidedContext[];
-  MinimumSessionTokenSize?: number;
+  PolicyArns?: PolicyDescriptorType[] | undefined;
+  Policy?: string | undefined;
+  DurationSeconds?: number | undefined;
+  Tags?: Tag[] | undefined;
+  TransitiveTagKeys?: string[] | undefined;
+  ExternalId?: string | undefined;
+  SerialNumber?: string | undefined;
+  TokenCode?: string | undefined;
+  SourceIdentity?: string | undefined;
+  ProvidedContexts?: ProvidedContext[] | undefined;
+  MinimumSessionTokenSize?: number | undefined;
 }
 export type AccessKeyIdType = string;
 export type AccessKeySecretType = string | redacted.Redacted<string>;
@@ -359,12 +360,12 @@ export type NonNegativeIntegerType = number;
 export type SessionTokenUtilizationType = number;
 export type SessionTokenSizeType = number;
 export interface AssumeRoleResponse {
-  Credentials?: Credentials;
-  AssumedRoleUser?: AssumedRoleUser;
-  PackedPolicySize?: number;
-  SourceIdentity?: string;
-  SessionTokenUtilization?: number;
-  SessionTokenSize?: number;
+  Credentials?: Credentials | undefined;
+  AssumedRoleUser?: AssumedRoleUser | undefined;
+  PackedPolicySize?: number | undefined;
+  SourceIdentity?: string | undefined;
+  SessionTokenUtilization?: number | undefined;
+  SessionTokenSize?: number | undefined;
 }
 export type SAMLAssertionType = string | redacted.Redacted<string>;
 export type SessionPolicyDocumentType = string;
@@ -372,10 +373,10 @@ export interface AssumeRoleWithSAMLRequest {
   RoleArn: string;
   PrincipalArn: string;
   SAMLAssertion: string | redacted.Redacted<string>;
-  PolicyArns?: PolicyDescriptorType[];
-  Policy?: string;
-  DurationSeconds?: number;
-  MinimumSessionTokenSize?: number;
+  PolicyArns?: PolicyDescriptorType[] | undefined;
+  Policy?: string | undefined;
+  DurationSeconds?: number | undefined;
+  MinimumSessionTokenSize?: number | undefined;
 }
 export type Subject = string;
 export type SubjectType = string;
@@ -383,17 +384,17 @@ export type Issuer = string;
 export type Audience = string;
 export type NameQualifier = string;
 export interface AssumeRoleWithSAMLResponse {
-  Credentials?: Credentials;
-  AssumedRoleUser?: AssumedRoleUser;
-  PackedPolicySize?: number;
-  Subject?: string;
-  SubjectType?: string;
-  Issuer?: string;
-  Audience?: string;
-  NameQualifier?: string;
-  SourceIdentity?: string;
-  SessionTokenUtilization?: number;
-  SessionTokenSize?: number;
+  Credentials?: Credentials | undefined;
+  AssumedRoleUser?: AssumedRoleUser | undefined;
+  PackedPolicySize?: number | undefined;
+  Subject?: string | undefined;
+  SubjectType?: string | undefined;
+  Issuer?: string | undefined;
+  Audience?: string | undefined;
+  NameQualifier?: string | undefined;
+  SourceIdentity?: string | undefined;
+  SessionTokenUtilization?: number | undefined;
+  SessionTokenSize?: number | undefined;
 }
 export type ClientTokenType = string | redacted.Redacted<string>;
 export type UrlType = string;
@@ -401,37 +402,37 @@ export interface AssumeRoleWithWebIdentityRequest {
   RoleArn: string;
   RoleSessionName: string;
   WebIdentityToken: string | redacted.Redacted<string>;
-  ProviderId?: string;
-  PolicyArns?: PolicyDescriptorType[];
-  Policy?: string;
-  DurationSeconds?: number;
-  MinimumSessionTokenSize?: number;
+  ProviderId?: string | undefined;
+  PolicyArns?: PolicyDescriptorType[] | undefined;
+  Policy?: string | undefined;
+  DurationSeconds?: number | undefined;
+  MinimumSessionTokenSize?: number | undefined;
 }
 export type WebIdentitySubjectType = string;
 export interface AssumeRoleWithWebIdentityResponse {
-  Credentials?: Credentials;
-  SubjectFromWebIdentityToken?: string;
-  AssumedRoleUser?: AssumedRoleUser;
-  PackedPolicySize?: number;
-  Provider?: string;
-  Audience?: string;
-  SourceIdentity?: string;
-  SessionTokenUtilization?: number;
-  SessionTokenSize?: number;
+  Credentials?: Credentials | undefined;
+  SubjectFromWebIdentityToken?: string | undefined;
+  AssumedRoleUser?: AssumedRoleUser | undefined;
+  PackedPolicySize?: number | undefined;
+  Provider?: string | undefined;
+  Audience?: string | undefined;
+  SourceIdentity?: string | undefined;
+  SessionTokenUtilization?: number | undefined;
+  SessionTokenSize?: number | undefined;
 }
 export type TargetPrincipalType = string;
 export type RootDurationSecondsType = number;
 export interface AssumeRootRequest {
   TargetPrincipal: string;
   TaskPolicyArn: PolicyDescriptorType;
-  DurationSeconds?: number;
-  MinimumSessionTokenSize?: number;
+  DurationSeconds?: number | undefined;
+  MinimumSessionTokenSize?: number | undefined;
 }
 export interface AssumeRootResponse {
-  Credentials?: Credentials;
-  SourceIdentity?: string;
-  SessionTokenUtilization?: number;
-  SessionTokenSize?: number;
+  Credentials?: Credentials | undefined;
+  SourceIdentity?: string | undefined;
+  SessionTokenUtilization?: number | undefined;
+  SessionTokenSize?: number | undefined;
 }
 export type EncodedMessageType = string;
 export interface DecodeAuthorizationMessageRequest {
@@ -439,40 +440,40 @@ export interface DecodeAuthorizationMessageRequest {
 }
 export type DecodedMessageType = string;
 export interface DecodeAuthorizationMessageResponse {
-  DecodedMessage?: string;
+  DecodedMessage?: string | undefined;
 }
 export interface GetAccessKeyInfoRequest {
   AccessKeyId: string;
 }
 export type AccountType = string;
 export interface GetAccessKeyInfoResponse {
-  Account?: string;
+  Account?: string | undefined;
 }
 export interface GetCallerIdentityRequest {}
 export type UserIdType = string;
 export interface GetCallerIdentityResponse {
-  UserId?: string;
-  Account?: string;
-  Arn?: string;
+  UserId?: string | undefined;
+  Account?: string | undefined;
+  Arn?: string | undefined;
 }
 export type TradeInTokenType = string | redacted.Redacted<string>;
 export interface GetDelegatedAccessTokenRequest {
   TradeInToken: string | redacted.Redacted<string>;
 }
 export interface GetDelegatedAccessTokenResponse {
-  Credentials?: Credentials;
-  PackedPolicySize?: number;
-  AssumedPrincipal?: string;
+  Credentials?: Credentials | undefined;
+  PackedPolicySize?: number | undefined;
+  AssumedPrincipal?: string | undefined;
 }
 export type UserNameType = string;
 export type DurationSecondsType = number;
 export interface GetFederationTokenRequest {
   Name: string;
-  Policy?: string;
-  PolicyArns?: PolicyDescriptorType[];
-  DurationSeconds?: number;
-  Tags?: Tag[];
-  MinimumSessionTokenSize?: number;
+  Policy?: string | undefined;
+  PolicyArns?: PolicyDescriptorType[] | undefined;
+  DurationSeconds?: number | undefined;
+  Tags?: Tag[] | undefined;
+  MinimumSessionTokenSize?: number | undefined;
 }
 export type FederatedIdType = string;
 export interface FederatedUser {
@@ -480,22 +481,22 @@ export interface FederatedUser {
   Arn: string;
 }
 export interface GetFederationTokenResponse {
-  Credentials?: Credentials;
-  FederatedUser?: FederatedUser;
-  PackedPolicySize?: number;
-  SessionTokenUtilization?: number;
-  SessionTokenSize?: number;
+  Credentials?: Credentials | undefined;
+  FederatedUser?: FederatedUser | undefined;
+  PackedPolicySize?: number | undefined;
+  SessionTokenUtilization?: number | undefined;
+  SessionTokenSize?: number | undefined;
 }
 export interface GetSessionTokenRequest {
-  DurationSeconds?: number;
-  SerialNumber?: string;
-  TokenCode?: string;
-  MinimumSessionTokenSize?: number;
+  DurationSeconds?: number | undefined;
+  SerialNumber?: string | undefined;
+  TokenCode?: string | undefined;
+  MinimumSessionTokenSize?: number | undefined;
 }
 export interface GetSessionTokenResponse {
-  Credentials?: Credentials;
-  SessionTokenUtilization?: number;
-  SessionTokenSize?: number;
+  Credentials?: Credentials | undefined;
+  SessionTokenUtilization?: number | undefined;
+  SessionTokenSize?: number | undefined;
 }
 export type WebIdentityTokenAudienceStringType = string;
 export type WebIdentityTokenAudienceListType = string[];
@@ -503,14 +504,14 @@ export type WebIdentityTokenDurationSecondsType = number;
 export type JwtAlgorithmType = string;
 export interface GetWebIdentityTokenRequest {
   Audience: string[];
-  DurationSeconds?: number;
+  DurationSeconds?: number | undefined;
   SigningAlgorithm: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type WebIdentityTokenType = string | redacted.Redacted<string>;
 export interface GetWebIdentityTokenResponse {
-  WebIdentityToken?: string | redacted.Redacted<string>;
-  Expiration?: Date;
+  WebIdentityToken?: string | redacted.Redacted<string> | undefined;
+  Expiration?: Date | undefined;
 }
 export type ExpiredIdentityTokenMessage = string;
 export type MalformedPolicyDocumentMessage = string;
@@ -626,7 +627,7 @@ export type AssumeRoleError =
  * produces.
  */
 export const assumeRole: API.OperationMethod<
-  AssumeRoleRequest,
+  AssumeRoleRequest & RegionInput,
   AssumeRoleResponse,
   AssumeRoleError,
   Creds | HttpClient.HttpClient
@@ -781,7 +782,7 @@ export type AssumeRoleWithSAMLError =
  * *IAM User Guide*.
  */
 export const assumeRoleWithSAML: API.OperationMethod<
-  AssumeRoleWithSAMLRequest,
+  AssumeRoleWithSAMLRequest & RegionInput,
   AssumeRoleWithSAMLResponse,
   AssumeRoleWithSAMLError,
   Creds | HttpClient.HttpClient
@@ -933,7 +934,7 @@ export type AssumeRoleWithWebIdentityError =
  * security credentials.
  */
 export const assumeRoleWithWebIdentity: API.OperationMethod<
-  AssumeRoleWithWebIdentityRequest,
+  AssumeRoleWithWebIdentityRequest & RegionInput,
   AssumeRoleWithWebIdentityResponse,
   AssumeRoleWithWebIdentityError,
   Creds | HttpClient.HttpClient
@@ -981,7 +982,7 @@ export type AssumeRootError = ExpiredTokenException | RegionDisabledException | 
  * Guide for more information on SCPs.
  */
 export const assumeRoot: API.OperationMethod<
-  AssumeRootRequest,
+  AssumeRootRequest & RegionInput,
   AssumeRootResponse,
   AssumeRootError,
   Creds | HttpClient.HttpClient
@@ -1031,7 +1032,7 @@ export type DecodeAuthorizationMessageError = InvalidAuthorizationMessageExcepti
  * - The values of condition keys in the context of the user's request.
  */
 export const decodeAuthorizationMessage: API.OperationMethod<
-  DecodeAuthorizationMessageRequest,
+  DecodeAuthorizationMessageRequest & RegionInput,
   DecodeAuthorizationMessageResponse,
   DecodeAuthorizationMessageError,
   Creds | HttpClient.HttpClient
@@ -1070,7 +1071,7 @@ export type GetAccessKeyInfoError = CommonErrors;
  * Providing a deleted access key might return an error that the key doesn't exist.
  */
 export const getAccessKeyInfo: API.OperationMethod<
-  GetAccessKeyInfoRequest,
+  GetAccessKeyInfoRequest & RegionInput,
   GetAccessKeyInfoResponse,
   GetAccessKeyInfoError,
   Creds | HttpClient.HttpClient
@@ -1098,7 +1099,7 @@ export type GetCallerIdentityError = CommonErrors;
  * *IAM User Guide*.
  */
 export const getCallerIdentity: API.OperationMethod<
-  GetCallerIdentityRequest,
+  GetCallerIdentityRequest & RegionInput,
   GetCallerIdentityResponse,
   GetCallerIdentityError,
   Creds | HttpClient.HttpClient
@@ -1125,7 +1126,7 @@ export type GetDelegatedAccessTokenError =
  * resources.
  */
 export const getDelegatedAccessToken: API.OperationMethod<
-  GetDelegatedAccessTokenRequest,
+  GetDelegatedAccessTokenRequest & RegionInput,
   GetDelegatedAccessTokenResponse,
   GetDelegatedAccessTokenError,
   Creds | HttpClient.HttpClient
@@ -1239,7 +1240,7 @@ export type GetFederationTokenError =
  * the request takes precedence over the user tag.
  */
 export const getFederationToken: API.OperationMethod<
-  GetFederationTokenRequest,
+  GetFederationTokenRequest & RegionInput,
   GetFederationTokenResponse,
   GetFederationTokenError,
   Creds | HttpClient.HttpClient
@@ -1317,7 +1318,7 @@ export type GetSessionTokenError = RegionDisabledException | CommonErrors;
  * *IAM User Guide*.
  */
 export const getSessionToken: API.OperationMethod<
-  GetSessionTokenRequest,
+  GetSessionTokenRequest & RegionInput,
   GetSessionTokenResponse,
   GetSessionTokenError,
   Creds | HttpClient.HttpClient
@@ -1345,7 +1346,7 @@ export type GetWebIdentityTokenError =
  * The `GetWebIdentityToken` API is not available on the STS Global endpoint.
  */
 export const getWebIdentityToken: API.OperationMethod<
-  GetWebIdentityTokenRequest,
+  GetWebIdentityTokenRequest & RegionInput,
   GetWebIdentityTokenResponse,
   GetWebIdentityTokenError,
   Creds | HttpClient.HttpClient

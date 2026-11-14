@@ -55,7 +55,7 @@ export interface CreateWarehouseSavedQueryFolderRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Display name for the folder used to organize saved queries in the SQL editor sidebar. */
-  name?: string;
+  name?: string | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -72,26 +72,26 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** Mixin for serializers to add user access control fields */
 export interface DataWarehouseSavedQueryFolder {
-  id?: string;
+  id?: string | undefined;
   /** Display name for the folder used to organize saved queries in the SQL editor sidebar. */
-  name?: string;
-  created_at?: string;
-  created_by?: UserBasic | null;
-  view_count?: number;
+  name?: string | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  view_count?: number | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
 }
 export interface GetWarehouseSavedQueryFolderRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -111,7 +111,7 @@ export interface UpdateWarehouseSavedQueryFoldersPartialRequest {
   /** A UUID string identifying this data warehouse saved query folder. */
   id: string;
   /** Display name for the folder used to organize saved queries in the SQL editor sidebar. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface WarehouseSavedQueryFoldersDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */

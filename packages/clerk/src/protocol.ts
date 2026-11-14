@@ -1,6 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ClerkProtocol -- hand-written.
  *
@@ -37,7 +42,8 @@ export type ClerkOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | ClerkParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Clerk operation. */
 export type ClerkOpContext = Credentials | HttpClient.HttpClient;
@@ -81,11 +87,6 @@ export const ClerkProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRestPr
     "Clerk-API-Version": creds.apiVersion,
   }),
   errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownClerkError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownClerkError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new ClerkParseError({ body, cause }),
 });

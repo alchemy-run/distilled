@@ -36,19 +36,19 @@ const TELEMETRY = {
 /** Specifies that the scope of the extension is Cluster */
 export interface ScopeCluster {
   /** Namespace where the extension Release must be placed, for a Cluster scoped extension. If this namespace does not exist, it will be created */
-  releaseNamespace?: string;
+  releaseNamespace?: string | undefined;
 }
 /** Specifies that the scope of the extension is Namespace */
 export interface ScopeNamespace {
   /** Namespace where the extension will be created for an Namespace scoped extension. If this namespace does not exist, it will be created */
-  targetNamespace?: string;
+  targetNamespace?: string | undefined;
 }
 /** Scope of the extension. It can be either Cluster or Namespace; but not both. */
 export interface Scope {
   /** Specifies that the scope of the extension is Cluster */
-  cluster?: ScopeCluster | null;
+  cluster?: ScopeCluster | null | undefined;
   /** Specifies that the scope of the extension is Namespace */
-  namespace?: ScopeNamespace | null;
+  namespace?: ScopeNamespace | null | undefined;
 }
 /** Configuration settings, as name-value pairs for configuring this extension. */
 export type ExtensionPropertiesInputConfigurationSettingsMap = {
@@ -63,15 +63,15 @@ export type ExtensionStatusLevel = "Error" | "Warning" | "Information";
 /** Status from the extension. */
 export interface ExtensionStatus {
   /** Status code provided by the Extension */
-  code?: string;
+  code?: string | undefined;
   /** Short description of status of the extension. */
-  displayStatus?: string;
+  displayStatus?: string | undefined;
   /** Level of the status. */
-  level?: ExtensionStatusLevel | (string & {});
+  level?: ExtensionStatusLevel | (string & {}) | undefined;
   /** Detailed message of the status from the Extension. */
-  message?: string;
+  message?: string | undefined;
   /** DateLiteral (per ISO8601) noting the time of installation status. */
-  time?: string;
+  time?: string | undefined;
 }
 /** Status from this extension. */
 export type ExtensionPropertiesInputStatusesList = Array<ExtensionStatus>;
@@ -82,13 +82,13 @@ export type AKSIdentityType = "SystemAssigned" | "UserAssigned" | "Workload";
 /** Identity of the Extension resource in an AKS cluster */
 export interface ExtensionPropertiesAksAssignedIdentityInput {
   /** The identity type. */
-  type?: AKSIdentityType | (string & {});
+  type?: AKSIdentityType | (string & {}) | undefined;
   /** The object ID of resource identity. */
-  objectId?: string;
+  objectId?: string | undefined;
   /** The client ID of resource identity. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The ID of the resource identity. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** The upgrade mode for auto upgrade. The default is "compatible". */
 export type ExtensionPropertiesInputAutoUpgradeMode = "none" | "patch" | "compatible";
@@ -97,65 +97,68 @@ export type AccessDetailAllowedActionsList = Array<string>;
 /** Metadata about the access details of the managing entity of the extension */
 export interface AccessDetail {
   /** The entity to which the access details apply */
-  entity?: string;
+  entity?: string | undefined;
   /** The list of allowed actions for the entity */
-  allowedActions?: AccessDetailAllowedActionsList;
+  allowedActions?: AccessDetailAllowedActionsList | undefined;
   /** The description of the entity */
-  description?: string;
+  description?: string | undefined;
 }
 /** The list of access details of the managing entity */
 export type ManagementDetailsAccessDetailsList = Array<AccessDetail>;
 /** Metadata about the managing entity of the extension and the permitted operations. */
 export interface ManagementDetails {
   /** The category of the managing entity */
-  category?: string;
+  category?: string | undefined;
   /** The list of access details of the managing entity */
-  accessDetails?: ManagementDetailsAccessDetailsList;
+  accessDetails?: ManagementDetailsAccessDetailsList | undefined;
 }
 /** Additional details provided by the publisher of the extension. */
 export interface AdditionalDetails {
   /** Documentation for the extension. */
-  docs?: string;
+  docs?: string | undefined;
   /** Release Notes of the extension. */
-  releaseNotes?: string;
+  releaseNotes?: string | undefined;
   /** Troubleshooting guide for the extension. */
-  troubleshootingGuide?: string;
+  troubleshootingGuide?: string | undefined;
 }
 /** Properties of an Extension resource */
 export interface ExtensionPropertiesInput {
   /** Type of the Extension, of which this resource is an instance of. It must be one of the Extension Types registered with Microsoft.KubernetesConfiguration by the Extension publisher. */
-  extensionType?: string;
+  extensionType?: string | undefined;
   /** Flag to note if this extension participates in auto upgrade of minor version, or not. */
-  autoUpgradeMinorVersion?: boolean;
+  autoUpgradeMinorVersion?: boolean | undefined;
   /** ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) - only if autoUpgradeMinorVersion is 'true'. */
-  releaseTrain?: string;
+  releaseTrain?: string | undefined;
   /** User-specified version of the extension for this extension to 'pin'. To use 'version', autoUpgradeMinorVersion must be 'false'. */
-  version?: string | null;
+  version?: string | null | undefined;
   /** Scope at which the extension is installed. */
-  scope?: Scope;
+  scope?: Scope | undefined;
   /** Configuration settings, as name-value pairs for configuring this extension. */
-  configurationSettings?: ExtensionPropertiesInputConfigurationSettingsMap | null;
+  configurationSettings?: ExtensionPropertiesInputConfigurationSettingsMap | null | undefined;
   /** Configuration settings that are sensitive, as name-value pairs for configuring this extension. */
-  configurationProtectedSettings?: ExtensionPropertiesInputConfigurationProtectedSettingsMap | null;
+  configurationProtectedSettings?:
+    | ExtensionPropertiesInputConfigurationProtectedSettingsMap
+    | null
+    | undefined;
   /** Status from this extension. */
-  statuses?: ExtensionPropertiesInputStatusesList | null;
+  statuses?: ExtensionPropertiesInputStatusesList | null | undefined;
   /** The error detail. */
-  errorInfo?: ExtensionPropertiesInputErrorInfo;
+  errorInfo?: ExtensionPropertiesInputErrorInfo | undefined;
   /** Identity of the Extension resource in an AKS cluster */
-  aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentityInput | null;
+  aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentityInput | null | undefined;
   /** The upgrade mode for auto upgrade. The default is "compatible". */
-  autoUpgradeMode?: ExtensionPropertiesInputAutoUpgradeMode | (string & {});
+  autoUpgradeMode?: ExtensionPropertiesInputAutoUpgradeMode | (string & {}) | undefined;
   /** Management details of the extension */
-  managementDetails?: ManagementDetails;
+  managementDetails?: ManagementDetails | undefined;
   /** Additional details provided by the publisher of the extension. */
-  additionalDetails?: AdditionalDetails;
+  additionalDetails?: AdditionalDetails | undefined;
 }
 /** The identity type. */
 export type CreateExtensionRequestIdentityType = "SystemAssigned";
 /** Identity for the resource. */
 export interface CreateExtensionRequestIdentity {
   /** The identity type. */
-  type?: CreateExtensionRequestIdentityType | (string & {});
+  type?: CreateExtensionRequestIdentityType | (string & {}) | undefined;
 }
 /** Plan for the resource. */
 export interface CreateExtensionRequestPlan {
@@ -166,9 +169,9 @@ export interface CreateExtensionRequestPlan {
   /** The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID specified for the artifact at the time of Data Market onboarding. */
   product: string;
   /** A publisher provided promotion code as provisioned in Data Market for the said product/artifact. */
-  promotionCode?: string;
+  promotionCode?: string | undefined;
   /** The version of the desired product/artifact. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface CreateExtensionRequest {
   /** The ID of the target subscription. */
@@ -184,13 +187,13 @@ export interface CreateExtensionRequest {
   /** Name of the Extension. */
   extensionName: string;
   /** Properties of an Extension resource */
-  properties?: ExtensionPropertiesInput;
+  properties?: ExtensionPropertiesInput | undefined;
   /** Identity for the resource. */
-  identity?: CreateExtensionRequestIdentity;
+  identity?: CreateExtensionRequestIdentity | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Plan for the resource. */
-  plan?: CreateExtensionRequestPlan;
+  plan?: CreateExtensionRequestPlan | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -199,17 +202,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Configuration settings, as name-value pairs for configuring this extension. */
 export type ExtensionPropertiesConfigurationSettingsMap = { [key: string]: string | undefined };
@@ -232,24 +235,24 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The error details. */
 export type ExtensionPropertiesErrorInfoDetailsList = Array<ErrorDetail>;
@@ -258,110 +261,113 @@ export type ExtensionPropertiesErrorInfoAdditionalInfoList = Array<ErrorAddition
 /** The error detail. */
 export interface ExtensionPropertiesErrorInfo {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ExtensionPropertiesErrorInfoDetailsList;
+  details?: ExtensionPropertiesErrorInfoDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ExtensionPropertiesErrorInfoAdditionalInfoList;
+  additionalInfo?: ExtensionPropertiesErrorInfoAdditionalInfoList | undefined;
 }
 /** Custom Location settings properties. */
 export type ExtensionPropertiesCustomLocationSettingsMap = { [key: string]: string | undefined };
 /** Identity of the Extension resource in an AKS cluster */
 export interface ExtensionPropertiesAksAssignedIdentity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: AKSIdentityType;
+  type?: AKSIdentityType | undefined;
   /** The object ID of resource identity. */
-  objectId?: string;
+  objectId?: string | undefined;
   /** The client ID of resource identity. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The ID of the resource identity. */
-  resourceId?: string;
+  resourceId?: string | undefined;
 }
 /** The upgrade mode for auto upgrade. The default is "compatible". */
 export type ExtensionPropertiesAutoUpgradeMode = "none" | "patch" | "compatible";
 /** Properties of an Extension resource */
 export interface ExtensionProperties {
   /** Type of the Extension, of which this resource is an instance of. It must be one of the Extension Types registered with Microsoft.KubernetesConfiguration by the Extension publisher. */
-  extensionType?: string;
+  extensionType?: string | undefined;
   /** Flag to note if this extension participates in auto upgrade of minor version, or not. */
-  autoUpgradeMinorVersion?: boolean;
+  autoUpgradeMinorVersion?: boolean | undefined;
   /** ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) - only if autoUpgradeMinorVersion is 'true'. */
-  releaseTrain?: string;
+  releaseTrain?: string | undefined;
   /** User-specified version of the extension for this extension to 'pin'. To use 'version', autoUpgradeMinorVersion must be 'false'. */
-  version?: string | null;
+  version?: string | null | undefined;
   /** Scope at which the extension is installed. */
-  scope?: Scope;
+  scope?: Scope | undefined;
   /** Configuration settings, as name-value pairs for configuring this extension. */
-  configurationSettings?: ExtensionPropertiesConfigurationSettingsMap | null;
+  configurationSettings?: ExtensionPropertiesConfigurationSettingsMap | null | undefined;
   /** Configuration settings that are sensitive, as name-value pairs for configuring this extension. */
-  configurationProtectedSettings?: ExtensionPropertiesConfigurationProtectedSettingsMap | null;
+  configurationProtectedSettings?:
+    | ExtensionPropertiesConfigurationProtectedSettingsMap
+    | null
+    | undefined;
   /** Currently installed version of the extension. */
-  currentVersion?: string | null;
+  currentVersion?: string | null | undefined;
   /** Status of installation of this extension. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Status from this extension. */
-  statuses?: ExtensionPropertiesStatusesList | null;
+  statuses?: ExtensionPropertiesStatusesList | null | undefined;
   /** The error detail. */
-  errorInfo?: ExtensionPropertiesErrorInfo;
+  errorInfo?: ExtensionPropertiesErrorInfo | undefined;
   /** Custom Location settings properties. */
-  customLocationSettings?: ExtensionPropertiesCustomLocationSettingsMap | null;
+  customLocationSettings?: ExtensionPropertiesCustomLocationSettingsMap | null | undefined;
   /** Uri of the Helm package */
-  packageUri?: string | null;
+  packageUri?: string | null | undefined;
   /** Identity of the Extension resource in an AKS cluster */
-  aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentity | null;
+  aksAssignedIdentity?: ExtensionPropertiesAksAssignedIdentity | null | undefined;
   /** Flag to note if this extension is a system extension */
-  isSystemExtension?: boolean;
+  isSystemExtension?: boolean | undefined;
   /** The upgrade mode for auto upgrade. The default is "compatible". */
-  autoUpgradeMode?: ExtensionPropertiesAutoUpgradeMode;
+  autoUpgradeMode?: ExtensionPropertiesAutoUpgradeMode | undefined;
   /** Management details of the extension */
-  managementDetails?: ManagementDetails;
+  managementDetails?: ManagementDetails | undefined;
   /** Additional details provided by the publisher of the extension. */
-  additionalDetails?: AdditionalDetails;
+  additionalDetails?: AdditionalDetails | undefined;
   /** State of the extension on the cluster. */
-  extensionState?: string;
+  extensionState?: string | undefined;
 }
 /** The identity type. */
 export type CreateExtensionResponseIdentityType = "SystemAssigned";
 /** Identity for the resource. */
 export interface CreateExtensionResponseIdentity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: CreateExtensionResponseIdentityType;
+  type?: CreateExtensionResponseIdentityType | undefined;
 }
 /** Plan for the resource. */
 export type CreateExtensionResponsePlan = CreateExtensionRequestPlan;
 export interface CreateExtensionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an Extension resource */
-  properties?: ExtensionProperties;
+  properties?: ExtensionProperties | undefined;
   /** Identity for the resource. */
-  identity?: CreateExtensionResponseIdentity;
+  identity?: CreateExtensionResponseIdentity | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Plan for the resource. */
-  plan?: CreateExtensionRequestPlan;
+  plan?: CreateExtensionRequestPlan | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteExtensionRequest {
   /** The ID of the target subscription. */
@@ -377,13 +383,13 @@ export interface DeleteExtensionRequest {
   /** Name of the Extension. */
   extensionName: string;
   /** Delete the extension resource in Azure - not the normal asynchronous delete. */
-  forceDelete?: boolean;
+  forceDelete?: boolean | undefined;
 }
 export interface DeleteExtensionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFluxConfigurationRequest {
   /** The ID of the target subscription. */
@@ -399,13 +405,13 @@ export interface DeleteFluxConfigurationRequest {
   /** Name of the Flux Configuration. */
   fluxConfigurationName: string;
   /** Delete the extension resource in Azure - not the normal asynchronous delete. */
-  forceDelete?: boolean;
+  forceDelete?: boolean | undefined;
 }
 export interface DeleteFluxConfigurationResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSourceControlConfigurationRequest {
   /** The ID of the target subscription. */
@@ -433,166 +439,166 @@ export type FluxConfigurationPropertiesInputSourceKind =
 /** The source reference for the GitRepository object. */
 export interface RepositoryRefDefinition {
   /** The git repository branch name to checkout. */
-  branch?: string | null;
+  branch?: string | null | undefined;
   /** The git repository tag name to checkout. This takes precedence over branch. */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** The semver range used to match against git repository tags. This takes precedence over tag. */
-  semver?: string | null;
+  semver?: string | null | undefined;
   /** The commit SHA to checkout. This value must be combined with the branch name to be valid. This takes precedence over semver. */
-  commit?: string | null;
+  commit?: string | null | undefined;
 }
 /** Name of the provider used for authentication. */
 export type ProviderType = "Azure" | "GitHub" | "Generic";
 /** Parameters to reconcile to the GitRepository source kind type. */
 export interface GitRepositoryDefinition {
   /** The URL to sync for the flux configuration git repository. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The maximum time to attempt to reconcile the cluster git repository source with the remote. */
-  timeoutInSeconds?: number | null;
+  timeoutInSeconds?: number | null | undefined;
   /** The interval at which to re-reconcile the cluster git repository source with the remote. */
-  syncIntervalInSeconds?: number | null;
+  syncIntervalInSeconds?: number | null | undefined;
   /** The source reference for the GitRepository object. */
-  repositoryRef?: RepositoryRefDefinition;
+  repositoryRef?: RepositoryRefDefinition | undefined;
   /** Base64-encoded known_hosts value containing public SSH keys required to access private git repositories over SSH */
-  sshKnownHosts?: string | null;
+  sshKnownHosts?: string | null | undefined;
   /** Plaintext HTTPS username used to access private git repositories over HTTPS */
-  httpsUser?: string | null;
+  httpsUser?: string | null | undefined;
   /** Base64-encoded HTTPS certificate authority contents used to access git private git repositories over HTTPS */
-  httpsCACert?: string | null;
+  httpsCACert?: string | null | undefined;
   /** Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets. */
-  localAuthRef?: string | null;
+  localAuthRef?: string | null | undefined;
   /** Name of the provider used for authentication. */
-  provider?: ProviderType | (string & {}) | null;
+  provider?: ProviderType | (string & {}) | null | undefined;
 }
 /** Parameters to reconcile to the Bucket source kind type. */
 export interface BucketDefinition {
   /** The URL to sync for the flux configuration S3 bucket. */
-  url?: string;
+  url?: string | undefined;
   /** The bucket name to sync from the url endpoint for the flux configuration. */
-  bucketName?: string;
+  bucketName?: string | undefined;
   /** Specify whether to use insecure communication when puling data from the S3 bucket. */
-  insecure?: boolean;
+  insecure?: boolean | undefined;
   /** The maximum time to attempt to reconcile the cluster bucket source with the remote. */
-  timeoutInSeconds?: number | null;
+  timeoutInSeconds?: number | null | undefined;
   /** The interval at which to re-reconcile the cluster bucket source with the remote. */
-  syncIntervalInSeconds?: number | null;
+  syncIntervalInSeconds?: number | null | undefined;
   /** Plaintext access key used to securely access the S3 bucket */
-  accessKey?: string | null;
+  accessKey?: string | null | undefined;
   /** Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets. */
-  localAuthRef?: string | null;
+  localAuthRef?: string | null | undefined;
 }
 /** Parameters to authenticate using Service Principal. */
 export interface ServicePrincipalDefinition {
   /** The client Id for authenticating a Service Principal. */
-  clientId?: string | null;
+  clientId?: string | null | undefined;
   /** The tenant Id for authenticating a Service Principal */
-  tenantId?: string | null;
+  tenantId?: string | null | undefined;
   /** The client secret for authenticating a Service Principal */
-  clientSecret?: string | Redacted.Redacted<string> | null;
+  clientSecret?: string | Redacted.Redacted<string> | null | undefined;
   /** Base64-encoded certificate used to authenticate a Service Principal */
-  clientCertificate?: string | null;
+  clientCertificate?: string | null | undefined;
   /** The password for the certificate used to authenticate a Service Principal */
-  clientCertificatePassword?: string | Redacted.Redacted<string> | null;
+  clientCertificatePassword?: string | Redacted.Redacted<string> | null | undefined;
   /** Specifies whether to include x5c header in client claims when acquiring a token to enable subject name / issuer based authentication for the Client Certificate */
-  clientCertificateSendChain?: boolean;
+  clientCertificateSendChain?: boolean | undefined;
 }
 /** Parameters to authenticate using a Managed Identity. */
 export interface ManagedIdentityDefinition {
   /** The client Id for authenticating a Managed Identity. */
-  clientId?: string | null;
+  clientId?: string | null | undefined;
 }
 /** Parameters to reconcile to the AzureBlob source kind type. */
 export interface AzureBlobDefinition {
   /** The URL to sync for the flux configuration Azure Blob storage account. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The Azure Blob container name to sync from the url endpoint for the flux configuration. */
-  containerName?: string | null;
+  containerName?: string | null | undefined;
   /** The maximum time to attempt to reconcile the cluster Azure Blob source with the remote. */
-  timeoutInSeconds?: number | null;
+  timeoutInSeconds?: number | null | undefined;
   /** The interval at which to re-reconcile the cluster Azure Blob source with the remote. */
-  syncIntervalInSeconds?: number | null;
+  syncIntervalInSeconds?: number | null | undefined;
   /** Parameters to authenticate using Service Principal. */
-  servicePrincipal?: ServicePrincipalDefinition;
+  servicePrincipal?: ServicePrincipalDefinition | undefined;
   /** The account key (shared key) to access the storage account */
-  accountKey?: string | null;
+  accountKey?: string | null | undefined;
   /** The Shared Access token to access the storage container */
-  sasToken?: string | null;
+  sasToken?: string | null | undefined;
   /** Parameters to authenticate using a Managed Identity. */
-  managedIdentity?: ManagedIdentityDefinition;
+  managedIdentity?: ManagedIdentityDefinition | undefined;
   /** Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets. */
-  localAuthRef?: string | null;
+  localAuthRef?: string | null | undefined;
 }
 /** The source reference for the OCIRepository object. */
 export interface OCIRepositoryRefDefinition {
   /** The OCI repository image tag name to pull. This defaults to 'latest'. */
-  tag?: string | null;
+  tag?: string | null | undefined;
   /** The semver range used to match against OCI repository tags. This takes precedence over tag. */
-  semver?: string | null;
+  semver?: string | null | undefined;
   /** The image digest to pull from OCI repository, the value should be in the format 'sha256:'. This takes precedence over semver. */
-  digest?: string | null;
+  digest?: string | null | undefined;
 }
 /** The operation to be performed on the selected layer. The default value is 'extract', but it can be set to 'copy'. */
 export type OperationType = "extract" | "copy";
 /** Parameters to specify which layer to pull from the OCI artifact. By default, the first layer in the artifact is pulled. */
 export interface LayerSelectorDefinition {
   /** The first layer matching the specified media type will be used. */
-  mediaType?: string | null;
+  mediaType?: string | null | undefined;
   /** The operation to be performed on the selected layer. The default value is 'extract', but it can be set to 'copy'. */
-  operation?: OperationType | (string & {}) | null;
+  operation?: OperationType | (string & {}) | null | undefined;
 }
 /** An object containing trusted public keys of trusted authors. */
 export type VerifyDefinitionVerificationConfigMap = { [key: string]: string | undefined };
 /** MatchOIDCIdentity defines the criteria for matching the identity while verifying an OCI artifact. */
 export interface MatchOidcIdentityDefinition {
   /** The regex pattern to match against to verify the OIDC issuer. */
-  issuer?: string;
+  issuer?: string | undefined;
   /** The regex pattern to match against to verify the identity subject. */
-  subject?: string;
+  subject?: string | undefined;
 }
 /** Array defining the criteria for matching the identity while verifying an OCI artifact. */
 export type VerifyDefinitionMatchOidcIdentityList = Array<MatchOidcIdentityDefinition>;
 /** Parameters to verify the authenticity of an OCI Artifact. */
 export interface VerifyDefinition {
   /** Verification provider name. */
-  provider?: string;
+  provider?: string | undefined;
   /** An object containing trusted public keys of trusted authors. */
-  verificationConfig?: VerifyDefinitionVerificationConfigMap | null;
+  verificationConfig?: VerifyDefinitionVerificationConfigMap | null | undefined;
   /** Array defining the criteria for matching the identity while verifying an OCI artifact. */
-  matchOidcIdentity?: VerifyDefinitionMatchOidcIdentityList | null;
+  matchOidcIdentity?: VerifyDefinitionMatchOidcIdentityList | null | undefined;
 }
 /** Parameters to authenticate using TLS config for OCI repository. */
 export interface TlsConfigDefinition {
   /** Base64-encoded certificate used to authenticate a client with the OCI repository. */
-  clientCertificate?: string | null;
+  clientCertificate?: string | null | undefined;
   /** Base64-encoded private key used to authenticate a client with the OCI repository. */
-  privateKey?: string | Redacted.Redacted<string> | null;
+  privateKey?: string | Redacted.Redacted<string> | null | undefined;
   /** Base64-encoded CA certificate used to verify the server. */
-  caCertificate?: string | null;
+  caCertificate?: string | null | undefined;
 }
 /** Parameters to reconcile to the OCIRepository source kind type. */
 export interface OCIRepositoryDefinition {
   /** The URL to sync for the flux configuration OCI repository. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The maximum time to attempt to reconcile the cluster OCI repository source with the remote. */
-  timeoutInSeconds?: number | null;
+  timeoutInSeconds?: number | null | undefined;
   /** The interval at which to re-reconcile the cluster OCI repository source with the remote. */
-  syncIntervalInSeconds?: number | null;
+  syncIntervalInSeconds?: number | null | undefined;
   /** The source reference for the OCIRepository object. */
-  repositoryRef?: OCIRepositoryRefDefinition;
+  repositoryRef?: OCIRepositoryRefDefinition | undefined;
   /** The layer to be pulled from the OCI artifact. */
-  layerSelector?: LayerSelectorDefinition;
+  layerSelector?: LayerSelectorDefinition | undefined;
   /** Verification of the authenticity of an OCI Artifact. */
-  verify?: VerifyDefinition;
+  verify?: VerifyDefinition | undefined;
   /** Specify whether to allow connecting to a non-TLS HTTP container registry. */
-  insecure?: boolean;
+  insecure?: boolean | undefined;
   /** Specifies whether to use Workload Identity to authenticate with the OCI repository. */
-  useWorkloadIdentity?: boolean;
+  useWorkloadIdentity?: boolean | undefined;
   /** The service account name to authenticate with the OCI repository. */
-  serviceAccountName?: string | null;
+  serviceAccountName?: string | null | undefined;
   /** Parameters to authenticate using TLS config for OCI repository. */
-  tlsConfig?: TlsConfigDefinition;
+  tlsConfig?: TlsConfigDefinition | undefined;
   /** Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets. */
-  localAuthRef?: string | null;
+  localAuthRef?: string | null | undefined;
 }
 /** Specifies other Kustomizations that this Kustomization depends on. This Kustomization will not reconcile until all dependencies have completed their reconciliation. */
 export type KustomizationDefinitionInputDependsOnList = Array<string>;
@@ -601,41 +607,41 @@ export type PostBuildDefinitionSubstituteMap = { [key: string]: string | undefin
 /** Array of ConfigMaps/Secrets from which the variables are substituted for this Kustomization. */
 export interface SubstituteFromDefinition {
   /** Define whether it is ConfigMap or Secret that holds the variables to be used in substitution. */
-  kind?: string;
+  kind?: string | undefined;
   /** Name of the ConfigMap/Secret that holds the variables to be used in substitution. */
-  name?: string;
+  name?: string | undefined;
   /** Set to True to proceed without ConfigMap/Secret, if it is not present. */
-  optional?: boolean;
+  optional?: boolean | undefined;
 }
 /** Array of ConfigMaps/Secrets from which the variables are substituted for this Kustomization. */
 export type PostBuildDefinitionSubstituteFromList = Array<SubstituteFromDefinition>;
 /** The postBuild definitions defining variable substitutions for this Kustomization after kustomize build. */
 export interface PostBuildDefinition {
   /** Key/value pairs holding the variables to be substituted in this Kustomization. */
-  substitute?: PostBuildDefinitionSubstituteMap | null;
+  substitute?: PostBuildDefinitionSubstituteMap | null | undefined;
   /** Array of ConfigMaps/Secrets from which the variables are substituted for this Kustomization. */
-  substituteFrom?: PostBuildDefinitionSubstituteFromList;
+  substituteFrom?: PostBuildDefinitionSubstituteFromList | undefined;
 }
 /** The Kustomization defining how to reconcile the artifact pulled by the source type on the cluster. */
 export interface KustomizationDefinitionInput {
   /** The path in the source reference to reconcile on the cluster. */
-  path?: string;
+  path?: string | undefined;
   /** Specifies other Kustomizations that this Kustomization depends on. This Kustomization will not reconcile until all dependencies have completed their reconciliation. */
-  dependsOn?: KustomizationDefinitionInputDependsOnList | null;
+  dependsOn?: KustomizationDefinitionInputDependsOnList | null | undefined;
   /** The maximum time to attempt to reconcile the Kustomization on the cluster. */
-  timeoutInSeconds?: number | null;
+  timeoutInSeconds?: number | null | undefined;
   /** The interval at which to re-reconcile the Kustomization on the cluster. */
-  syncIntervalInSeconds?: number | null;
+  syncIntervalInSeconds?: number | null | undefined;
   /** The interval at which to re-reconcile the Kustomization on the cluster in the event of failure on reconciliation. */
-  retryIntervalInSeconds?: number | null;
+  retryIntervalInSeconds?: number | null | undefined;
   /** Enable/disable garbage collections of Kubernetes objects created by this Kustomization. */
-  prune?: boolean;
+  prune?: boolean | undefined;
   /** Enable/disable re-creating Kubernetes resources on the cluster when patching fails due to an immutable field change. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Enable/disable health check for all Kubernetes objects created by this Kustomization. */
-  wait?: boolean;
+  wait?: boolean | undefined;
   /** Used for variable substitution for this Kustomization after kustomize build. */
-  postBuild?: PostBuildDefinition | null;
+  postBuild?: PostBuildDefinition | null | undefined;
 }
 /** Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster. */
 export type FluxConfigurationPropertiesInputKustomizationsMap = {
@@ -648,29 +654,32 @@ export type FluxConfigurationPropertiesInputConfigurationProtectedSettingsMap = 
 /** Properties to create a Flux Configuration resource */
 export interface FluxConfigurationPropertiesInput {
   /** Scope at which the operator will be installed. */
-  scope?: FluxConfigurationPropertiesInputScope | (string & {});
+  scope?: FluxConfigurationPropertiesInputScope | (string & {}) | undefined;
   /** The namespace to which this configuration is installed to. Maximum of 253 lower case alphanumeric characters, hyphen and period only. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Source Kind to pull the configuration data from. */
-  sourceKind?: FluxConfigurationPropertiesInputSourceKind | (string & {});
+  sourceKind?: FluxConfigurationPropertiesInputSourceKind | (string & {}) | undefined;
   /** Whether this configuration should suspend its reconciliation of its kustomizations and sources. */
-  suspend?: boolean;
+  suspend?: boolean | undefined;
   /** Parameters to reconcile to the GitRepository source kind type. */
-  gitRepository?: GitRepositoryDefinition;
+  gitRepository?: GitRepositoryDefinition | undefined;
   /** Parameters to reconcile to the Bucket source kind type. */
-  bucket?: BucketDefinition;
+  bucket?: BucketDefinition | undefined;
   /** Parameters to reconcile to the AzureBlob source kind type. */
-  azureBlob?: AzureBlobDefinition;
+  azureBlob?: AzureBlobDefinition | undefined;
   /** Parameters to reconcile to the OCIRepository source kind type. */
-  ociRepository?: OCIRepositoryDefinition;
+  ociRepository?: OCIRepositoryDefinition | undefined;
   /** Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster. */
-  kustomizations?: FluxConfigurationPropertiesInputKustomizationsMap | null;
+  kustomizations?: FluxConfigurationPropertiesInputKustomizationsMap | null | undefined;
   /** Key-value pairs of protected configuration settings for the configuration */
-  configurationProtectedSettings?: FluxConfigurationPropertiesInputConfigurationProtectedSettingsMap | null;
+  configurationProtectedSettings?:
+    | FluxConfigurationPropertiesInputConfigurationProtectedSettingsMap
+    | null
+    | undefined;
   /** Whether flux configuration deployment should wait for cluster to reconcile the kustomizations. */
-  waitForReconciliation?: boolean | null;
+  waitForReconciliation?: boolean | null | undefined;
   /** Maximum duration to wait for flux configuration reconciliation. E.g PT1H, PT5M, P1D */
-  reconciliationWaitDuration?: string | null;
+  reconciliationWaitDuration?: string | null | undefined;
 }
 export interface FluxConfigurationsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -686,7 +695,7 @@ export interface FluxConfigurationsCreateOrUpdateRequest {
   /** Name of the Flux Configuration. */
   fluxConfigurationName: string;
   /** Properties to create a Flux Configuration resource */
-  properties?: FluxConfigurationPropertiesInput;
+  properties?: FluxConfigurationPropertiesInput | undefined;
 }
 /** Scope at which the operator will be installed. */
 export type FluxConfigurationPropertiesScope = "cluster" | "namespace";
@@ -701,25 +710,25 @@ export type KustomizationDefinitionDependsOnList = Array<string>;
 /** The Kustomization defining how to reconcile the artifact pulled by the source type on the cluster. */
 export interface KustomizationDefinition {
   /** Name of the Kustomization, matching the key in the Kustomizations object map. */
-  name?: string;
+  name?: string | undefined;
   /** The path in the source reference to reconcile on the cluster. */
-  path?: string;
+  path?: string | undefined;
   /** Specifies other Kustomizations that this Kustomization depends on. This Kustomization will not reconcile until all dependencies have completed their reconciliation. */
-  dependsOn?: KustomizationDefinitionDependsOnList | null;
+  dependsOn?: KustomizationDefinitionDependsOnList | null | undefined;
   /** The maximum time to attempt to reconcile the Kustomization on the cluster. */
-  timeoutInSeconds?: number | null;
+  timeoutInSeconds?: number | null | undefined;
   /** The interval at which to re-reconcile the Kustomization on the cluster. */
-  syncIntervalInSeconds?: number | null;
+  syncIntervalInSeconds?: number | null | undefined;
   /** The interval at which to re-reconcile the Kustomization on the cluster in the event of failure on reconciliation. */
-  retryIntervalInSeconds?: number | null;
+  retryIntervalInSeconds?: number | null | undefined;
   /** Enable/disable garbage collections of Kubernetes objects created by this Kustomization. */
-  prune?: boolean;
+  prune?: boolean | undefined;
   /** Enable/disable re-creating Kubernetes resources on the cluster when patching fails due to an immutable field change. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Enable/disable health check for all Kubernetes objects created by this Kustomization. */
-  wait?: boolean;
+  wait?: boolean | undefined;
   /** Used for variable substitution for this Kustomization after kustomize build. */
-  postBuild?: PostBuildDefinition | null;
+  postBuild?: PostBuildDefinition | null | undefined;
 }
 /** Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster. */
 export type FluxConfigurationPropertiesKustomizationsMap = {
@@ -739,54 +748,54 @@ export type ObjectStatusDefinitionComplianceState =
 /** Object reference to a Kubernetes object on a cluster */
 export interface ObjectReferenceDefinition {
   /** Name of the object */
-  name?: string;
+  name?: string | undefined;
   /** Namespace of the object */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 /** Status condition of Kubernetes object */
 export interface ObjectStatusConditionDefinition {
   /** Last time this status condition has changed */
-  lastTransitionTime?: string;
+  lastTransitionTime?: string | undefined;
   /** A more verbose description of the object status condition */
-  message?: string;
+  message?: string | undefined;
   /** Reason for the specified status condition type status */
-  reason?: string;
+  reason?: string | undefined;
   /** Status of the Kubernetes object condition type */
-  status?: string;
+  status?: string | undefined;
   /** Object status condition type for this object */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of Kubernetes object status conditions present on the cluster */
 export type ObjectStatusDefinitionStatusConditionsList = Array<ObjectStatusConditionDefinition>;
 /** Properties for HelmRelease objects */
 export interface HelmReleasePropertiesDefinition {
   /** The revision number of the last released object change */
-  lastRevisionApplied?: number | null;
+  lastRevisionApplied?: number | null | undefined;
   /** The reference to the HelmChart object used as the source to this HelmRelease */
-  helmChartRef?: ObjectReferenceDefinition;
+  helmChartRef?: ObjectReferenceDefinition | undefined;
   /** Total number of times that the HelmRelease failed to install or upgrade */
-  failureCount?: number | null;
+  failureCount?: number | null | undefined;
   /** Number of times that the HelmRelease failed to install */
-  installFailureCount?: number | null;
+  installFailureCount?: number | null | undefined;
   /** Number of times that the HelmRelease failed to upgrade */
-  upgradeFailureCount?: number | null;
+  upgradeFailureCount?: number | null | undefined;
 }
 /** Statuses of objects deployed by the user-specified kustomizations from the git repository. */
 export interface ObjectStatusDefinition {
   /** Name of the applied object */
-  name?: string;
+  name?: string | undefined;
   /** Namespace of the applied object */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Kind of the applied object */
-  kind?: string;
+  kind?: string | undefined;
   /** Compliance state of the applied object showing whether the applied object has come into a ready state on the cluster. */
-  complianceState?: ObjectStatusDefinitionComplianceState;
+  complianceState?: ObjectStatusDefinitionComplianceState | undefined;
   /** Object reference to the Kustomization that applied this object */
-  appliedBy?: ObjectReferenceDefinition | null;
+  appliedBy?: ObjectReferenceDefinition | null | undefined;
   /** List of Kubernetes object status conditions present on the cluster */
-  statusConditions?: ObjectStatusDefinitionStatusConditionsList | null;
+  statusConditions?: ObjectStatusDefinitionStatusConditionsList | null | undefined;
   /** Additional properties that are provided from objects of the HelmRelease kind */
-  helmReleaseProperties?: HelmReleasePropertiesDefinition;
+  helmReleaseProperties?: HelmReleasePropertiesDefinition | undefined;
 }
 /** Statuses of the Flux Kubernetes resources created by the fluxConfiguration or created by the managed objects provisioned by the fluxConfiguration. */
 export type FluxConfigurationPropertiesStatusesList = Array<ObjectStatusDefinition>;
@@ -800,61 +809,64 @@ export type FluxConfigurationPropertiesComplianceState =
 /** Properties to create a Flux Configuration resource */
 export interface FluxConfigurationProperties {
   /** Scope at which the operator will be installed. */
-  scope?: FluxConfigurationPropertiesScope;
+  scope?: FluxConfigurationPropertiesScope | undefined;
   /** The namespace to which this configuration is installed to. Maximum of 253 lower case alphanumeric characters, hyphen and period only. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Source Kind to pull the configuration data from. */
-  sourceKind?: FluxConfigurationPropertiesSourceKind;
+  sourceKind?: FluxConfigurationPropertiesSourceKind | undefined;
   /** Whether this configuration should suspend its reconciliation of its kustomizations and sources. */
-  suspend?: boolean;
+  suspend?: boolean | undefined;
   /** Parameters to reconcile to the GitRepository source kind type. */
-  gitRepository?: GitRepositoryDefinition;
+  gitRepository?: GitRepositoryDefinition | undefined;
   /** Parameters to reconcile to the Bucket source kind type. */
-  bucket?: BucketDefinition;
+  bucket?: BucketDefinition | undefined;
   /** Parameters to reconcile to the AzureBlob source kind type. */
-  azureBlob?: AzureBlobDefinition;
+  azureBlob?: AzureBlobDefinition | undefined;
   /** Parameters to reconcile to the OCIRepository source kind type. */
-  ociRepository?: OCIRepositoryDefinition;
+  ociRepository?: OCIRepositoryDefinition | undefined;
   /** Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster. */
-  kustomizations?: FluxConfigurationPropertiesKustomizationsMap | null;
+  kustomizations?: FluxConfigurationPropertiesKustomizationsMap | null | undefined;
   /** Key-value pairs of protected configuration settings for the configuration */
-  configurationProtectedSettings?: FluxConfigurationPropertiesConfigurationProtectedSettingsMap | null;
+  configurationProtectedSettings?:
+    | FluxConfigurationPropertiesConfigurationProtectedSettingsMap
+    | null
+    | undefined;
   /** Statuses of the Flux Kubernetes resources created by the fluxConfiguration or created by the managed objects provisioned by the fluxConfiguration. */
-  statuses?: FluxConfigurationPropertiesStatusesList | null;
+  statuses?: FluxConfigurationPropertiesStatusesList | null | undefined;
   /** Public Key associated with this fluxConfiguration (either generated within the cluster or provided by the user). */
-  repositoryPublicKey?: string | null;
+  repositoryPublicKey?: string | null | undefined;
   /** Branch and/or SHA of the source commit synced with the cluster. */
-  sourceSyncedCommitId?: string | null;
+  sourceSyncedCommitId?: string | null | undefined;
   /** Datetime the fluxConfiguration synced its source on the cluster. */
-  sourceUpdatedAt?: string | null;
+  sourceUpdatedAt?: string | null | undefined;
   /** Datetime the fluxConfiguration synced its status on the cluster with Azure. */
-  statusUpdatedAt?: string | null;
+  statusUpdatedAt?: string | null | undefined;
   /** Whether flux configuration deployment should wait for cluster to reconcile the kustomizations. */
-  waitForReconciliation?: boolean | null;
+  waitForReconciliation?: boolean | null | undefined;
   /** Maximum duration to wait for flux configuration reconciliation. E.g PT1H, PT5M, P1D */
-  reconciliationWaitDuration?: string | null;
+  reconciliationWaitDuration?: string | null | undefined;
   /** Combined status of the Flux Kubernetes resources created by the fluxConfiguration or created by the managed objects. */
-  complianceState?: FluxConfigurationPropertiesComplianceState;
+  complianceState?: FluxConfigurationPropertiesComplianceState | undefined;
   /** Status of the creation of the fluxConfiguration. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Error message returned to the user in the case of provisioning failure. */
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
 }
 export interface FluxConfigurationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create a Flux Configuration resource */
-  properties?: FluxConfigurationProperties;
+  properties?: FluxConfigurationProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetExtensionRequest {
   /** The ID of the target subscription. */
@@ -875,31 +887,31 @@ export type GetExtensionResponseIdentityType = "SystemAssigned";
 /** Identity for the resource. */
 export interface GetExtensionResponseIdentity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: GetExtensionResponseIdentityType;
+  type?: GetExtensionResponseIdentityType | undefined;
 }
 /** Plan for the resource. */
 export type GetExtensionResponsePlan = CreateExtensionRequestPlan;
 export interface GetExtensionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an Extension resource */
-  properties?: ExtensionProperties;
+  properties?: ExtensionProperties | undefined;
   /** Identity for the resource. */
-  identity?: GetExtensionResponseIdentity;
+  identity?: GetExtensionResponseIdentity | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Plan for the resource. */
-  plan?: CreateExtensionRequestPlan;
+  plan?: CreateExtensionRequestPlan | undefined;
 }
 export interface GetFluxConfigOperationStatusRequest {
   /** The ID of the target subscription. */
@@ -925,28 +937,28 @@ export type OperationStatusResultErrorAdditionalInfoList = Array<ErrorAdditional
 /** The error detail. */
 export interface OperationStatusResultError {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: OperationStatusResultErrorDetailsList;
+  details?: OperationStatusResultErrorDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: OperationStatusResultErrorAdditionalInfoList;
+  additionalInfo?: OperationStatusResultErrorAdditionalInfoList | undefined;
 }
 /** The current status of an async operation. */
 export interface OperationStatusResult_2 {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Additional information, if available. */
-  properties?: OperationStatusResultPropertiesMap;
+  properties?: OperationStatusResultPropertiesMap | undefined;
   /** The error detail. */
-  error?: OperationStatusResultError;
+  error?: OperationStatusResultError | undefined;
 }
 export interface GetFluxConfigurationRequest {
   /** The ID of the target subscription. */
@@ -964,15 +976,15 @@ export interface GetFluxConfigurationRequest {
 }
 export interface GetFluxConfigurationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create a Flux Configuration resource */
-  properties?: FluxConfigurationProperties;
+  properties?: FluxConfigurationProperties | undefined;
 }
 export interface GetOperationStatusRequest {
   /** The ID of the target subscription. */
@@ -992,15 +1004,15 @@ export interface GetOperationStatusRequest {
 /** The current status of an async operation. */
 export interface OperationStatusResult {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Additional information, if available. */
-  properties?: OperationStatusResultPropertiesMap | null;
+  properties?: OperationStatusResultPropertiesMap | null | undefined;
   /** The error detail. */
-  error?: OperationStatusResultError;
+  error?: OperationStatusResultError | undefined;
 }
 export interface GetSourceControlConfigurationRequest {
   /** The ID of the target subscription. */
@@ -1025,9 +1037,9 @@ export type OperatorScopeDefinition = "cluster" | "namespace";
 /** Properties for Helm operator. */
 export interface HelmOperatorProperties {
   /** Version of the operator Helm chart. */
-  chartVersion?: string;
+  chartVersion?: string | undefined;
   /** Values override for the operator Helm chart. */
-  chartValues?: string;
+  chartValues?: string | undefined;
 }
 /** The provisioning state of the resource provider. */
 export type GetSourceControlConfigurationResponsePropertiesProvisioningState =
@@ -1048,42 +1060,42 @@ export type ComplianceStatusMessageLevel = "Error" | "Warning" | "Information";
 /** Compliance Status details */
 export interface ComplianceStatus {
   /** The compliance state of the configuration. */
-  complianceState?: ComplianceStatusComplianceState;
+  complianceState?: ComplianceStatusComplianceState | undefined;
   /** Datetime the configuration was last applied. */
-  lastConfigApplied?: string;
+  lastConfigApplied?: string | undefined;
   /** Message from when the configuration was applied. */
-  message?: string;
+  message?: string | undefined;
   /** Level of the message. */
-  messageLevel?: ComplianceStatusMessageLevel;
+  messageLevel?: ComplianceStatusMessageLevel | undefined;
 }
 /** Properties to create a Source Control Configuration resource */
 export interface GetSourceControlConfigurationResponseProperties {
   /** Url of the SourceControl Repository. */
-  repositoryUrl?: string;
+  repositoryUrl?: string | undefined;
   /** The namespace to which this operator is installed to. Maximum of 253 lower case alphanumeric characters, hyphen and period only. */
-  operatorNamespace?: string;
+  operatorNamespace?: string | undefined;
   /** Instance name of the operator - identifying the specific configuration. */
-  operatorInstanceName?: string;
+  operatorInstanceName?: string | undefined;
   /** Type of the operator */
-  operatorType?: OperatorTypeDefinition;
+  operatorType?: OperatorTypeDefinition | undefined;
   /** Any Parameters for the Operator instance in string format. */
-  operatorParams?: string;
+  operatorParams?: string | undefined;
   /** Name-value pairs of protected configuration settings for the configuration */
-  configurationProtectedSettings?: ConfigurationProtectedSettings;
+  configurationProtectedSettings?: ConfigurationProtectedSettings | undefined;
   /** Scope at which the operator will be installed. */
-  operatorScope?: OperatorScopeDefinition;
+  operatorScope?: OperatorScopeDefinition | undefined;
   /** Public Key associated with this SourceControl configuration (either generated within the cluster or provided by the user). */
-  repositoryPublicKey?: string;
+  repositoryPublicKey?: string | undefined;
   /** Base64-encoded known_hosts contents containing public SSH keys required to access private Git instances */
-  sshKnownHostsContents?: string;
+  sshKnownHostsContents?: string | undefined;
   /** Option to enable Helm Operator for this git configuration. */
-  enableHelmOperator?: boolean;
+  enableHelmOperator?: boolean | undefined;
   /** Properties for Helm operator. */
-  helmOperatorProperties?: HelmOperatorProperties;
+  helmOperatorProperties?: HelmOperatorProperties | undefined;
   /** The provisioning state of the resource provider. */
-  provisioningState?: GetSourceControlConfigurationResponsePropertiesProvisioningState;
+  provisioningState?: GetSourceControlConfigurationResponsePropertiesProvisioningState | undefined;
   /** Compliance Status of the Configuration */
-  complianceStatus?: ComplianceStatus;
+  complianceStatus?: ComplianceStatus | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetSourceControlConfigurationResponseSystemDataCreatedByType =
@@ -1100,29 +1112,31 @@ export type GetSourceControlConfigurationResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetSourceControlConfigurationResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetSourceControlConfigurationResponseSystemDataCreatedByType;
+  createdByType?: GetSourceControlConfigurationResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetSourceControlConfigurationResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | GetSourceControlConfigurationResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface GetSourceControlConfigurationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties to create a Source Control Configuration resource */
-  properties?: GetSourceControlConfigurationResponseProperties;
+  properties?: GetSourceControlConfigurationResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetSourceControlConfigurationResponseSystemData;
+  systemData?: GetSourceControlConfigurationResponseSystemData | undefined;
 }
 export interface ListExtensionsRequest {
   /** The ID of the target subscription. */
@@ -1141,32 +1155,32 @@ export type ExtensionIdentityType = "SystemAssigned";
 /** Identity for the resource. */
 export interface ExtensionIdentity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: ExtensionIdentityType;
+  type?: ExtensionIdentityType | undefined;
 }
 /** Plan for the resource. */
 export type ExtensionPlan = CreateExtensionRequestPlan;
 /** The Extension object. */
 export interface Extension {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an Extension resource */
-  properties?: ExtensionProperties;
+  properties?: ExtensionProperties | undefined;
   /** Identity for the resource. */
-  identity?: ExtensionIdentity;
+  identity?: ExtensionIdentity | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Plan for the resource. */
-  plan?: CreateExtensionRequestPlan;
+  plan?: CreateExtensionRequestPlan | undefined;
 }
 /** The Extension items on this page */
 export type ExtensionsListValueList = Array<Extension>;
@@ -1175,7 +1189,7 @@ export interface ExtensionsList {
   /** The Extension items on this page */
   value: ExtensionsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFluxConfigurationsRequest {
   /** The ID of the target subscription. */
@@ -1192,15 +1206,15 @@ export interface ListFluxConfigurationsRequest {
 /** The Flux Configuration object returned in Get & Put response. */
 export interface FluxConfiguration {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create a Flux Configuration resource */
-  properties?: FluxConfigurationProperties;
+  properties?: FluxConfigurationProperties | undefined;
 }
 /** The FluxConfiguration items on this page */
 export type FluxConfigurationsListValueList = Array<FluxConfiguration>;
@@ -1209,38 +1223,38 @@ export interface FluxConfigurationsList {
   /** The FluxConfiguration items on this page */
   value: FluxConfigurationsListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Display metadata associated with the operation. */
 export interface ResourceProviderOperationDisplay {
   /** Resource provider: Microsoft KubernetesConfiguration. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** Type of operation: get, read, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of this operation. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Supported operation of this resource provider. */
 export interface ResourceProviderOperation {
   /** Operation name, in format of {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** Display metadata associated with the operation. */
-  display?: ResourceProviderOperationDisplay;
+  display?: ResourceProviderOperationDisplay | undefined;
   /** The flag that indicates whether the operation applies to data plane. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Origin of the operation */
-  origin?: string;
+  origin?: string | undefined;
 }
 /** List of operations supported by this resource provider. */
 export type ListOperationsResponseValueList = Array<ResourceProviderOperation>;
 export interface ListOperationsResponse {
   /** List of operations supported by this resource provider. */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to the next set of results, if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationStatusRequest {
   /** The ID of the target subscription. */
@@ -1258,9 +1272,9 @@ export interface ListOperationStatusRequest {
 export type ListOperationStatusResponseValueList = Array<OperationStatusResult>;
 export interface ListOperationStatusResponse {
   /** List of async operations in progress, in the cluster. */
-  value?: ListOperationStatusResponseValueList;
+  value?: ListOperationStatusResponseValueList | undefined;
   /** URL to get the next set of Operation Result objects, if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSourceControlConfigurationsRequest {
   /** The ID of the target subscription. */
@@ -1284,31 +1298,31 @@ export type SourceControlConfigurationPropertiesProvisioningState =
 /** Properties to create a Source Control Configuration resource */
 export interface SourceControlConfigurationProperties {
   /** Url of the SourceControl Repository. */
-  repositoryUrl?: string;
+  repositoryUrl?: string | undefined;
   /** The namespace to which this operator is installed to. Maximum of 253 lower case alphanumeric characters, hyphen and period only. */
-  operatorNamespace?: string;
+  operatorNamespace?: string | undefined;
   /** Instance name of the operator - identifying the specific configuration. */
-  operatorInstanceName?: string;
+  operatorInstanceName?: string | undefined;
   /** Type of the operator */
-  operatorType?: OperatorTypeDefinition;
+  operatorType?: OperatorTypeDefinition | undefined;
   /** Any Parameters for the Operator instance in string format. */
-  operatorParams?: string;
+  operatorParams?: string | undefined;
   /** Name-value pairs of protected configuration settings for the configuration */
-  configurationProtectedSettings?: ConfigurationProtectedSettings;
+  configurationProtectedSettings?: ConfigurationProtectedSettings | undefined;
   /** Scope at which the operator will be installed. */
-  operatorScope?: OperatorScopeDefinition;
+  operatorScope?: OperatorScopeDefinition | undefined;
   /** Public Key associated with this SourceControl configuration (either generated within the cluster or provided by the user). */
-  repositoryPublicKey?: string;
+  repositoryPublicKey?: string | undefined;
   /** Base64-encoded known_hosts contents containing public SSH keys required to access private Git instances */
-  sshKnownHostsContents?: string;
+  sshKnownHostsContents?: string | undefined;
   /** Option to enable Helm Operator for this git configuration. */
-  enableHelmOperator?: boolean;
+  enableHelmOperator?: boolean | undefined;
   /** Properties for Helm operator. */
-  helmOperatorProperties?: HelmOperatorProperties;
+  helmOperatorProperties?: HelmOperatorProperties | undefined;
   /** The provisioning state of the resource provider. */
-  provisioningState?: SourceControlConfigurationPropertiesProvisioningState;
+  provisioningState?: SourceControlConfigurationPropertiesProvisioningState | undefined;
   /** Compliance Status of the Configuration */
-  complianceStatus?: ComplianceStatus;
+  complianceStatus?: ComplianceStatus | undefined;
 }
 /** The type of identity that created the resource. */
 export type SourceControlConfigurationSystemDataCreatedByType =
@@ -1325,62 +1339,62 @@ export type SourceControlConfigurationSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SourceControlConfigurationSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SourceControlConfigurationSystemDataCreatedByType;
+  createdByType?: SourceControlConfigurationSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SourceControlConfigurationSystemDataLastModifiedByType;
+  lastModifiedByType?: SourceControlConfigurationSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The SourceControl Configuration object returned in Get & Put response. */
 export interface SourceControlConfiguration {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties to create a Source Control Configuration resource */
-  properties?: SourceControlConfigurationProperties;
+  properties?: SourceControlConfigurationProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SourceControlConfigurationSystemData;
+  systemData?: SourceControlConfigurationSystemData | undefined;
 }
 /** List of Source Control Configurations within a Kubernetes cluster. */
 export type SourceControlConfigurationListValueList = Array<SourceControlConfiguration>;
 /** Result of the request to list Source Control Configurations. It contains a list of SourceControlConfiguration objects and a URL link to get the next set of results. */
 export interface SourceControlConfigurationList {
   /** List of Source Control Configurations within a Kubernetes cluster. */
-  value?: SourceControlConfigurationListValueList;
+  value?: SourceControlConfigurationListValueList | undefined;
   /** URL to get the next set of configuration objects, if any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Properties to create a Source Control Configuration resource */
 export interface SourceControlConfigurationsCreateOrUpdateRequestProperties {
   /** Url of the SourceControl Repository. */
-  repositoryUrl?: string;
+  repositoryUrl?: string | undefined;
   /** The namespace to which this operator is installed to. Maximum of 253 lower case alphanumeric characters, hyphen and period only. */
-  operatorNamespace?: string;
+  operatorNamespace?: string | undefined;
   /** Instance name of the operator - identifying the specific configuration. */
-  operatorInstanceName?: string;
+  operatorInstanceName?: string | undefined;
   /** Type of the operator */
-  operatorType?: OperatorTypeDefinition | (string & {});
+  operatorType?: OperatorTypeDefinition | (string & {}) | undefined;
   /** Any Parameters for the Operator instance in string format. */
-  operatorParams?: string;
+  operatorParams?: string | undefined;
   /** Name-value pairs of protected configuration settings for the configuration */
-  configurationProtectedSettings?: ConfigurationProtectedSettings;
+  configurationProtectedSettings?: ConfigurationProtectedSettings | undefined;
   /** Scope at which the operator will be installed. */
-  operatorScope?: OperatorScopeDefinition | (string & {});
+  operatorScope?: OperatorScopeDefinition | (string & {}) | undefined;
   /** Base64-encoded known_hosts contents containing public SSH keys required to access private Git instances */
-  sshKnownHostsContents?: string;
+  sshKnownHostsContents?: string | undefined;
   /** Option to enable Helm Operator for this git configuration. */
-  enableHelmOperator?: boolean;
+  enableHelmOperator?: boolean | undefined;
   /** Properties for Helm operator. */
-  helmOperatorProperties?: HelmOperatorProperties;
+  helmOperatorProperties?: HelmOperatorProperties | undefined;
 }
 export interface SourceControlConfigurationsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -1396,7 +1410,7 @@ export interface SourceControlConfigurationsCreateOrUpdateRequest {
   /** Name of the Source Control Configuration. */
   sourceControlConfigurationName: string;
   /** Properties to create a Source Control Configuration resource */
-  properties?: SourceControlConfigurationsCreateOrUpdateRequestProperties;
+  properties?: SourceControlConfigurationsCreateOrUpdateRequestProperties | undefined;
 }
 /** The provisioning state of the resource provider. */
 export type SourceControlConfigurationsCreateOrUpdateResponsePropertiesProvisioningState =
@@ -1408,31 +1422,33 @@ export type SourceControlConfigurationsCreateOrUpdateResponsePropertiesProvision
 /** Properties to create a Source Control Configuration resource */
 export interface SourceControlConfigurationsCreateOrUpdateResponseProperties {
   /** Url of the SourceControl Repository. */
-  repositoryUrl?: string;
+  repositoryUrl?: string | undefined;
   /** The namespace to which this operator is installed to. Maximum of 253 lower case alphanumeric characters, hyphen and period only. */
-  operatorNamespace?: string;
+  operatorNamespace?: string | undefined;
   /** Instance name of the operator - identifying the specific configuration. */
-  operatorInstanceName?: string;
+  operatorInstanceName?: string | undefined;
   /** Type of the operator */
-  operatorType?: OperatorTypeDefinition;
+  operatorType?: OperatorTypeDefinition | undefined;
   /** Any Parameters for the Operator instance in string format. */
-  operatorParams?: string;
+  operatorParams?: string | undefined;
   /** Name-value pairs of protected configuration settings for the configuration */
-  configurationProtectedSettings?: ConfigurationProtectedSettings;
+  configurationProtectedSettings?: ConfigurationProtectedSettings | undefined;
   /** Scope at which the operator will be installed. */
-  operatorScope?: OperatorScopeDefinition;
+  operatorScope?: OperatorScopeDefinition | undefined;
   /** Public Key associated with this SourceControl configuration (either generated within the cluster or provided by the user). */
-  repositoryPublicKey?: string;
+  repositoryPublicKey?: string | undefined;
   /** Base64-encoded known_hosts contents containing public SSH keys required to access private Git instances */
-  sshKnownHostsContents?: string;
+  sshKnownHostsContents?: string | undefined;
   /** Option to enable Helm Operator for this git configuration. */
-  enableHelmOperator?: boolean;
+  enableHelmOperator?: boolean | undefined;
   /** Properties for Helm operator. */
-  helmOperatorProperties?: HelmOperatorProperties;
+  helmOperatorProperties?: HelmOperatorProperties | undefined;
   /** The provisioning state of the resource provider. */
-  provisioningState?: SourceControlConfigurationsCreateOrUpdateResponsePropertiesProvisioningState;
+  provisioningState?:
+    | SourceControlConfigurationsCreateOrUpdateResponsePropertiesProvisioningState
+    | undefined;
   /** Compliance Status of the Configuration */
-  complianceStatus?: ComplianceStatus;
+  complianceStatus?: ComplianceStatus | undefined;
 }
 /** The type of identity that created the resource. */
 export type SourceControlConfigurationsCreateOrUpdateResponseSystemDataCreatedByType =
@@ -1449,29 +1465,33 @@ export type SourceControlConfigurationsCreateOrUpdateResponseSystemDataLastModif
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SourceControlConfigurationsCreateOrUpdateResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SourceControlConfigurationsCreateOrUpdateResponseSystemDataCreatedByType;
+  createdByType?:
+    | SourceControlConfigurationsCreateOrUpdateResponseSystemDataCreatedByType
+    | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SourceControlConfigurationsCreateOrUpdateResponseSystemDataLastModifiedByType;
+  lastModifiedByType?:
+    | SourceControlConfigurationsCreateOrUpdateResponseSystemDataLastModifiedByType
+    | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface SourceControlConfigurationsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties to create a Source Control Configuration resource */
-  properties?: SourceControlConfigurationsCreateOrUpdateResponseProperties;
+  properties?: SourceControlConfigurationsCreateOrUpdateResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SourceControlConfigurationsCreateOrUpdateResponseSystemData;
+  systemData?: SourceControlConfigurationsCreateOrUpdateResponseSystemData | undefined;
 }
 /** The upgrade mode for auto upgrade. The default is "compatible". */
 export type PatchExtensionPropertiesAutoUpgradeMode = "none" | "patch" | "compatible";
@@ -1486,17 +1506,20 @@ export type PatchExtensionPropertiesConfigurationProtectedSettingsMap = {
 /** Updatable properties of an Extension Patch Request */
 export interface PatchExtensionProperties {
   /** Flag to note if this extension participates in auto upgrade of minor version, or not. */
-  autoUpgradeMinorVersion?: boolean;
+  autoUpgradeMinorVersion?: boolean | undefined;
   /** The upgrade mode for auto upgrade. The default is "compatible". */
-  autoUpgradeMode?: PatchExtensionPropertiesAutoUpgradeMode | (string & {});
+  autoUpgradeMode?: PatchExtensionPropertiesAutoUpgradeMode | (string & {}) | undefined;
   /** ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) - only if autoUpgradeMinorVersion is 'true'. */
-  releaseTrain?: string;
+  releaseTrain?: string | undefined;
   /** Version of the extension for this extension, if it is 'pinned' to a specific version. autoUpgradeMinorVersion must be 'false'. */
-  version?: string | null;
+  version?: string | null | undefined;
   /** Configuration settings, as name-value pairs for configuring this extension. */
-  configurationSettings?: PatchExtensionPropertiesConfigurationSettingsMap | null;
+  configurationSettings?: PatchExtensionPropertiesConfigurationSettingsMap | null | undefined;
   /** Configuration settings that are sensitive, as name-value pairs for configuring this extension. */
-  configurationProtectedSettings?: PatchExtensionPropertiesConfigurationProtectedSettingsMap | null;
+  configurationProtectedSettings?:
+    | PatchExtensionPropertiesConfigurationProtectedSettingsMap
+    | null
+    | undefined;
 }
 export interface UpdateExtensionRequest {
   /** The ID of the target subscription. */
@@ -1512,42 +1535,42 @@ export interface UpdateExtensionRequest {
   /** Name of the Extension. */
   extensionName: string;
   /** Updatable properties of an Extension Patch Request */
-  properties?: PatchExtensionProperties;
+  properties?: PatchExtensionProperties | undefined;
 }
 /** The identity type. */
 export type UpdateExtensionResponseIdentityType = "SystemAssigned";
 /** Identity for the resource. */
 export interface UpdateExtensionResponseIdentity {
   /** The principal ID of resource identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of resource. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The identity type. */
-  type?: UpdateExtensionResponseIdentityType;
+  type?: UpdateExtensionResponseIdentityType | undefined;
 }
 /** Plan for the resource. */
 export type UpdateExtensionResponsePlan = CreateExtensionRequestPlan;
 export interface UpdateExtensionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an Extension resource */
-  properties?: ExtensionProperties;
+  properties?: ExtensionProperties | undefined;
   /** Identity for the resource. */
-  identity?: UpdateExtensionResponseIdentity;
+  identity?: UpdateExtensionResponseIdentity | undefined;
   /** The fully qualified resource ID of the resource that manages this resource. Indicates if this resource is managed by another Azure resource. If this is present, complete mode deployment will not delete the resource if it is removed from the template since it is managed by another resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** Plan for the resource. */
-  plan?: CreateExtensionRequestPlan;
+  plan?: CreateExtensionRequestPlan | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Source Kind to pull the configuration data from. */
 export type SourceKindType = "GitRepository" | "Bucket" | "AzureBlob" | "OCIRepository";
@@ -1556,57 +1579,57 @@ export type GitRepositoryPatchDefinition = GitRepositoryDefinition;
 /** Parameters to reconcile to the Bucket source kind type. */
 export interface BucketPatchDefinition {
   /** The URL to sync for the flux configuration S3 bucket. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The bucket name to sync from the url endpoint for the flux configuration. */
-  bucketName?: string | null;
+  bucketName?: string | null | undefined;
   /** Specify whether to use insecure communication when puling data from the S3 bucket. */
-  insecure?: boolean | null;
+  insecure?: boolean | null | undefined;
   /** The maximum time to attempt to reconcile the cluster bucket source with the remote. */
-  timeoutInSeconds?: number | null;
+  timeoutInSeconds?: number | null | undefined;
   /** The interval at which to re-reconcile the cluster bucket source with the remote. */
-  syncIntervalInSeconds?: number | null;
+  syncIntervalInSeconds?: number | null | undefined;
   /** Plaintext access key used to securely access the S3 bucket */
-  accessKey?: string | null;
+  accessKey?: string | null | undefined;
   /** Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets. */
-  localAuthRef?: string | null;
+  localAuthRef?: string | null | undefined;
 }
 /** Parameters to authenticate using Service Principal. */
 export interface ServicePrincipalPatchDefinition {
   /** The client Id for authenticating a Service Principal. */
-  clientId?: string | null;
+  clientId?: string | null | undefined;
   /** The tenant Id for authenticating a Service Principal */
-  tenantId?: string | null;
+  tenantId?: string | null | undefined;
   /** The client secret for authenticating a Service Principal */
-  clientSecret?: string | Redacted.Redacted<string> | null;
+  clientSecret?: string | Redacted.Redacted<string> | null | undefined;
   /** Base64-encoded certificate used to authenticate a Service Principal */
-  clientCertificate?: string;
+  clientCertificate?: string | undefined;
   /** The password for the certificate used to authenticate a Service Principal */
-  clientCertificatePassword?: string | Redacted.Redacted<string> | null;
+  clientCertificatePassword?: string | Redacted.Redacted<string> | null | undefined;
   /** Specifies whether to include x5c header in client claims when acquiring a token to enable subject name / issuer based authentication for the Client Certificate */
-  clientCertificateSendChain?: boolean;
+  clientCertificateSendChain?: boolean | undefined;
 }
 /** Parameters to authenticate using a Managed Identity. */
 export type ManagedIdentityPatchDefinition = ManagedIdentityDefinition;
 /** Parameters to reconcile to the AzureBlob source kind type. */
 export interface AzureBlobPatchDefinition {
   /** The URL to sync for the flux configuration Azure Blob storage account. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The Azure Blob container name to sync from the url endpoint for the flux configuration. */
-  containerName?: string | null;
+  containerName?: string | null | undefined;
   /** The maximum time to attempt to reconcile the cluster Azure Blob source with the remote. */
-  timeoutInSeconds?: number | null;
+  timeoutInSeconds?: number | null | undefined;
   /** The interval at which to re-reconcile the cluster Azure Blob source with the remote. */
-  syncIntervalInSeconds?: number | null;
+  syncIntervalInSeconds?: number | null | undefined;
   /** Parameters to authenticate using Service Principal. */
-  servicePrincipal?: ServicePrincipalPatchDefinition;
+  servicePrincipal?: ServicePrincipalPatchDefinition | undefined;
   /** The account key (shared key) to access the storage account */
-  accountKey?: string | null;
+  accountKey?: string | null | undefined;
   /** The Shared Access token to access the storage container */
-  sasToken?: string | null;
+  sasToken?: string | null | undefined;
   /** Parameters to authenticate using a Managed Identity. */
-  managedIdentity?: ManagedIdentityDefinition;
+  managedIdentity?: ManagedIdentityDefinition | undefined;
   /** Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets. */
-  localAuthRef?: string | null;
+  localAuthRef?: string | null | undefined;
 }
 /** The source reference for the OCIRepository object. */
 export type OCIRepositoryRefPatchDefinition = OCIRepositoryRefDefinition;
@@ -1621,38 +1644,38 @@ export type VerifyPatchDefinitionMatchOidcIdentityList = Array<MatchOidcIdentity
 /** Parameters to verify the authenticity of an OCI Artifact. */
 export interface VerifyPatchDefinition {
   /** Verification provider name. */
-  provider?: string;
+  provider?: string | undefined;
   /** An object containing trusted public keys of trusted authors. */
-  verificationConfig?: VerifyPatchDefinitionVerificationConfigMap | null;
+  verificationConfig?: VerifyPatchDefinitionVerificationConfigMap | null | undefined;
   /** Array defining the criteria for matching the OIDC identity while verifying an OCI artifact. */
-  matchOidcIdentity?: VerifyPatchDefinitionMatchOidcIdentityList | null;
+  matchOidcIdentity?: VerifyPatchDefinitionMatchOidcIdentityList | null | undefined;
 }
 /** Parameters to authenticate using TLS config for OCI repository. */
 export type TlsConfigPatchDefinition = TlsConfigDefinition;
 /** Parameters to reconcile to the OCIRepository source kind type. */
 export interface OCIRepositoryPatchDefinition {
   /** The URL to sync for the flux configuration OCI repository. */
-  url?: string | null;
+  url?: string | null | undefined;
   /** The maximum time to attempt to reconcile the cluster OCI repository source with the remote. */
-  timeoutInSeconds?: number | null;
+  timeoutInSeconds?: number | null | undefined;
   /** The interval at which to re-reconcile the cluster OCI repository source with the remote. */
-  syncIntervalInSeconds?: number | null;
+  syncIntervalInSeconds?: number | null | undefined;
   /** The source reference for the OCIRepository object. */
-  repositoryRef?: OCIRepositoryRefDefinition;
+  repositoryRef?: OCIRepositoryRefDefinition | undefined;
   /** The layer to be pulled from the OCI artifact. */
-  layerSelector?: LayerSelectorDefinition;
+  layerSelector?: LayerSelectorDefinition | undefined;
   /** Verification of the authenticity of an OCI Artifact. */
-  verify?: VerifyPatchDefinition;
+  verify?: VerifyPatchDefinition | undefined;
   /** Specify whether to allow connecting to a non-TLS HTTP container registry. */
-  insecure?: boolean;
+  insecure?: boolean | undefined;
   /** Specifies whether to use Workload Identity to authenticate with the OCI repository. */
-  useWorkloadIdentity?: boolean;
+  useWorkloadIdentity?: boolean | undefined;
   /** The service account name to authenticate with the OCI repository. */
-  serviceAccountName?: string | null;
+  serviceAccountName?: string | null | undefined;
   /** Parameters to authenticate using TLS config for OCI repository. */
-  tlsConfig?: TlsConfigDefinition;
+  tlsConfig?: TlsConfigDefinition | undefined;
   /** Name of a local secret on the Kubernetes cluster to use as the authentication secret rather than the managed or user-provided configuration secrets. */
-  localAuthRef?: string | null;
+  localAuthRef?: string | null | undefined;
 }
 /** Specifies other Kustomizations that this Kustomization depends on. This Kustomization will not reconcile until all dependencies have completed their reconciliation. */
 export type KustomizationPatchDefinitionDependsOnList = Array<string>;
@@ -1665,30 +1688,30 @@ export type PostBuildPatchDefinitionSubstituteFromList = Array<SubstituteFromDef
 /** The postBuild definitions defining variable substitutions for this Kustomization after kustomize build. */
 export interface PostBuildPatchDefinition {
   /** Key/value pairs holding the variables to be substituted in this Kustomization. */
-  substitute?: PostBuildPatchDefinitionSubstituteMap | null;
+  substitute?: PostBuildPatchDefinitionSubstituteMap | null | undefined;
   /** Array of ConfigMaps/Secrets from which the variables are substituted for this Kustomization. */
-  substituteFrom?: PostBuildPatchDefinitionSubstituteFromList | null;
+  substituteFrom?: PostBuildPatchDefinitionSubstituteFromList | null | undefined;
 }
 /** The Kustomization defining how to reconcile the artifact pulled by the source type on the cluster. */
 export interface KustomizationPatchDefinition {
   /** The path in the source reference to reconcile on the cluster. */
-  path?: string | null;
+  path?: string | null | undefined;
   /** Specifies other Kustomizations that this Kustomization depends on. This Kustomization will not reconcile until all dependencies have completed their reconciliation. */
-  dependsOn?: KustomizationPatchDefinitionDependsOnList | null;
+  dependsOn?: KustomizationPatchDefinitionDependsOnList | null | undefined;
   /** The maximum time to attempt to reconcile the Kustomization on the cluster. */
-  timeoutInSeconds?: number | null;
+  timeoutInSeconds?: number | null | undefined;
   /** The interval at which to re-reconcile the Kustomization on the cluster. */
-  syncIntervalInSeconds?: number | null;
+  syncIntervalInSeconds?: number | null | undefined;
   /** The interval at which to re-reconcile the Kustomization on the cluster in the event of failure on reconciliation. */
-  retryIntervalInSeconds?: number | null;
+  retryIntervalInSeconds?: number | null | undefined;
   /** Enable/disable garbage collections of Kubernetes objects created by this Kustomization. */
-  prune?: boolean | null;
+  prune?: boolean | null | undefined;
   /** Enable/disable re-creating Kubernetes resources on the cluster when patching fails due to an immutable field change. */
-  force?: boolean | null;
+  force?: boolean | null | undefined;
   /** Enable/disable health check for all Kubernetes objects created by this Kustomization. */
-  wait?: boolean | null;
+  wait?: boolean | null | undefined;
   /** Used for variable substitution for this Kustomization after kustomize build. */
-  postBuild?: PostBuildPatchDefinition | null;
+  postBuild?: PostBuildPatchDefinition | null | undefined;
 }
 /** Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster. */
 export type FluxConfigurationPatchPropertiesKustomizationsMap = {
@@ -1701,21 +1724,23 @@ export type FluxConfigurationPatchPropertiesConfigurationProtectedSettingsMap = 
 /** Updatable properties of an Flux Configuration Patch Request */
 export interface FluxConfigurationPatchProperties {
   /** Source Kind to pull the configuration data from. */
-  sourceKind?: SourceKindType | (string & {});
+  sourceKind?: SourceKindType | (string & {}) | undefined;
   /** Whether this configuration should suspend its reconciliation of its kustomizations and sources. */
-  suspend?: boolean;
+  suspend?: boolean | undefined;
   /** Parameters to reconcile to the GitRepository source kind type. */
-  gitRepository?: GitRepositoryDefinition;
+  gitRepository?: GitRepositoryDefinition | undefined;
   /** Parameters to reconcile to the Bucket source kind type. */
-  bucket?: BucketPatchDefinition;
+  bucket?: BucketPatchDefinition | undefined;
   /** Parameters to reconcile to the AzureBlob source kind type. */
-  azureBlob?: AzureBlobPatchDefinition;
+  azureBlob?: AzureBlobPatchDefinition | undefined;
   /** Parameters to reconcile to the OCIRepository source kind type. */
-  ociRepository?: OCIRepositoryPatchDefinition;
+  ociRepository?: OCIRepositoryPatchDefinition | undefined;
   /** Array of kustomizations used to reconcile the artifact pulled by the source type on the cluster. */
-  kustomizations?: FluxConfigurationPatchPropertiesKustomizationsMap;
+  kustomizations?: FluxConfigurationPatchPropertiesKustomizationsMap | undefined;
   /** Key-value pairs of protected configuration settings for the configuration */
-  configurationProtectedSettings?: FluxConfigurationPatchPropertiesConfigurationProtectedSettingsMap;
+  configurationProtectedSettings?:
+    | FluxConfigurationPatchPropertiesConfigurationProtectedSettingsMap
+    | undefined;
 }
 export interface UpdateFluxConfigurationRequest {
   /** The ID of the target subscription. */
@@ -1731,23 +1756,23 @@ export interface UpdateFluxConfigurationRequest {
   /** Name of the Flux Configuration. */
   fluxConfigurationName: string;
   /** Updatable properties of an Flux Configuration Patch Request */
-  properties?: FluxConfigurationPatchProperties;
+  properties?: FluxConfigurationPatchProperties | undefined;
 }
 export interface UpdateFluxConfigurationResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties to create a Flux Configuration resource */
-  properties?: FluxConfigurationProperties;
+  properties?: FluxConfigurationProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type CreateExtensionError = AzureOpError;
 /** Create a new Kubernetes Cluster Extension. */

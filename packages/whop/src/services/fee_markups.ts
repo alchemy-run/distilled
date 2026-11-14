@@ -81,13 +81,13 @@ export interface CreateFeeMarkupRequest {
   /** The type of fee this markup applies to, such as processing or platform fees. */
   fee_type: FeeMarkupTypes | (string & {});
   /** The fixed fee amount in USD to charge per transaction. Must be between 0 and 50. */
-  fixed_fee_usd?: number | null;
+  fixed_fee_usd?: number | null | undefined;
   /** Custom key-value metadata to attach to this fee markup. */
-  metadata?: CreateFeeMarkupRequestMetadataMap | null;
+  metadata?: CreateFeeMarkupRequestMetadataMap | null | undefined;
   /** Internal notes about this fee markup for record-keeping purposes. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** The percentage fee to charge per transaction. Must be between 0 and 25. */
-  percentage_fee?: number | null;
+  percentage_fee?: number | null | undefined;
 }
 /** A fee markup configuration that defines additional charges applied to transactions for a platform's connected accounts. */
 export interface FeeMarkup {
@@ -112,10 +112,10 @@ export interface DeleteFeeMarkupRequest {
 }
 export type DeleteFeeMarkupResponse = boolean;
 export interface ListFeeMarkupRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
   account_id: string;
 }
 /** A fee markup configuration that defines additional charges applied to transactions for a platform's connected accounts. */

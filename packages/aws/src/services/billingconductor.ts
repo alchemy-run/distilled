@@ -8,6 +8,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
@@ -217,7 +218,7 @@ export interface AssociateAccountsInput {
   AccountIds: string[];
 }
 export interface AssociateAccountsOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type PricingPlanArn = string;
 export type PricingRuleArn = string;
@@ -227,7 +228,7 @@ export interface AssociatePricingRulesInput {
   PricingRuleArns: string[];
 }
 export interface AssociatePricingRulesOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type CustomLineItemArn = string;
 export type CustomLineItemAssociationElement = string;
@@ -235,12 +236,12 @@ export type CustomLineItemBatchAssociationsList = string[];
 export type BillingPeriod = string;
 export interface CustomLineItemBillingPeriodRange {
   InclusiveStartBillingPeriod: string;
-  ExclusiveEndBillingPeriod?: string;
+  ExclusiveEndBillingPeriod?: string | undefined;
 }
 export interface BatchAssociateResourcesToCustomLineItemInput {
   TargetArn: string;
   ResourceArns: string[];
-  BillingPeriodRange?: CustomLineItemBillingPeriodRange;
+  BillingPeriodRange?: CustomLineItemBillingPeriodRange | undefined;
 }
 export type AssociateResourceErrorReason =
   | "INVALID_ARN"
@@ -250,40 +251,40 @@ export type AssociateResourceErrorReason =
   | "INVALID_BILLING_PERIOD_RANGE"
   | (string & {});
 export interface AssociateResourceError {
-  Message?: string;
-  Reason?: AssociateResourceErrorReason;
+  Message?: string | undefined;
+  Reason?: AssociateResourceErrorReason | undefined;
 }
 export interface AssociateResourceResponseElement {
-  Arn?: string;
-  Error?: AssociateResourceError;
+  Arn?: string | undefined;
+  Error?: AssociateResourceError | undefined;
 }
 export type AssociateResourcesResponseList = AssociateResourceResponseElement[];
 export interface BatchAssociateResourcesToCustomLineItemOutput {
-  SuccessfullyAssociatedResources?: AssociateResourceResponseElement[];
-  FailedAssociatedResources?: AssociateResourceResponseElement[];
+  SuccessfullyAssociatedResources?: AssociateResourceResponseElement[] | undefined;
+  FailedAssociatedResources?: AssociateResourceResponseElement[] | undefined;
 }
 export type CustomLineItemBatchDisassociationsList = string[];
 export interface BatchDisassociateResourcesFromCustomLineItemInput {
   TargetArn: string;
   ResourceArns: string[];
-  BillingPeriodRange?: CustomLineItemBillingPeriodRange;
+  BillingPeriodRange?: CustomLineItemBillingPeriodRange | undefined;
 }
 export interface DisassociateResourceResponseElement {
-  Arn?: string;
-  Error?: AssociateResourceError;
+  Arn?: string | undefined;
+  Error?: AssociateResourceError | undefined;
 }
 export type DisassociateResourcesResponseList = DisassociateResourceResponseElement[];
 export interface BatchDisassociateResourcesFromCustomLineItemOutput {
-  SuccessfullyDisassociatedResources?: DisassociateResourceResponseElement[];
-  FailedDisassociatedResources?: DisassociateResourceResponseElement[];
+  SuccessfullyDisassociatedResources?: DisassociateResourceResponseElement[] | undefined;
+  FailedDisassociatedResources?: DisassociateResourceResponseElement[] | undefined;
 }
 export type ClientToken = string;
 export type BillingGroupName = string | redacted.Redacted<string>;
 export type ResponsibilityTransferArn = string;
 export interface AccountGrouping {
-  LinkedAccountIds?: string[];
-  AutoAssociate?: boolean;
-  ResponsibilityTransferArn?: string;
+  LinkedAccountIds?: string[] | undefined;
+  AutoAssociate?: boolean | undefined;
+  ResponsibilityTransferArn?: string | undefined;
 }
 export type PricingPlanFullArn = string;
 export interface ComputationPreference {
@@ -294,16 +295,16 @@ export type TagKey = string;
 export type TagValue = string;
 export type TagMap = { [key: string]: string | undefined };
 export interface CreateBillingGroupInput {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   Name: string | redacted.Redacted<string>;
   AccountGrouping: AccountGrouping;
   ComputationPreference: ComputationPreference;
-  PrimaryAccountId?: string;
-  Description?: string | redacted.Redacted<string>;
-  Tags?: { [key: string]: string | undefined };
+  PrimaryAccountId?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateBillingGroupOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type CustomLineItemName = string | redacted.Redacted<string>;
 export type CustomLineItemDescription = string | redacted.Redacted<string>;
@@ -315,7 +316,7 @@ export type CustomLineItemPercentageChargeValue = number;
 export type CustomLineItemAssociationsList = string[];
 export interface CustomLineItemPercentageChargeDetails {
   PercentageValue: number;
-  AssociatedValues?: string[];
+  AssociatedValues?: string[] | undefined;
 }
 export type CustomLineItemType = "CREDIT" | "FEE" | (string & {});
 export type LineItemFilterAttributeName = "LINE_ITEM_TYPE" | "SERVICE" | (string & {});
@@ -327,15 +328,15 @@ export type AttributeValueList = string[];
 export interface LineItemFilter {
   Attribute: LineItemFilterAttributeName;
   MatchOption: MatchOption;
-  Values?: LineItemFilterValue[];
-  AttributeValues?: string[];
+  Values?: LineItemFilterValue[] | undefined;
+  AttributeValues?: string[] | undefined;
 }
 export type LineItemFiltersList = LineItemFilter[];
 export interface CustomLineItemChargeDetails {
-  Flat?: CustomLineItemFlatChargeDetails;
-  Percentage?: CustomLineItemPercentageChargeDetails;
+  Flat?: CustomLineItemFlatChargeDetails | undefined;
+  Percentage?: CustomLineItemPercentageChargeDetails | undefined;
   Type: CustomLineItemType;
-  LineItemFilters?: LineItemFilter[];
+  LineItemFilters?: LineItemFilter[] | undefined;
 }
 export type ComputationRuleEnum = "ITEMIZED" | "CONSOLIDATED" | (string & {});
 export type Service = string;
@@ -343,32 +344,32 @@ export interface PresentationObject {
   Service: string;
 }
 export interface CreateCustomLineItemInput {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   Name: string | redacted.Redacted<string>;
   Description: string | redacted.Redacted<string>;
   BillingGroupArn: string;
-  BillingPeriodRange?: CustomLineItemBillingPeriodRange;
-  Tags?: { [key: string]: string | undefined };
+  BillingPeriodRange?: CustomLineItemBillingPeriodRange | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
   ChargeDetails: CustomLineItemChargeDetails;
-  AccountId?: string;
-  ComputationRule?: ComputationRuleEnum;
-  PresentationDetails?: PresentationObject;
+  AccountId?: string | undefined;
+  ComputationRule?: ComputationRuleEnum | undefined;
+  PresentationDetails?: PresentationObject | undefined;
 }
 export interface CreateCustomLineItemOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type PricingPlanName = string | redacted.Redacted<string>;
 export type PricingPlanDescription = string | redacted.Redacted<string>;
 export type PricingRuleArnsInput = string[];
 export interface CreatePricingPlanInput {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   Name: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  PricingRuleArns?: string[];
-  Tags?: { [key: string]: string | undefined };
+  Description?: string | redacted.Redacted<string> | undefined;
+  PricingRuleArns?: string[] | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreatePricingPlanOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export type PricingRuleName = string | redacted.Redacted<string>;
 export type PricingRuleDescription = string | redacted.Redacted<string>;
@@ -385,71 +386,71 @@ export type CustomTierEndRangeExclusive = number;
 export type CustomTierRateValue = number;
 export interface CustomTier {
   BeginRangeInclusive: number;
-  EndRangeExclusive?: number;
+  EndRangeExclusive?: number | undefined;
   RateValue: number;
 }
 export type CustomTiersList = CustomTier[];
 export interface CreateTieringInput {
-  FreeTier?: CreateFreeTierConfig;
-  CustomTiers?: CustomTier[];
+  FreeTier?: CreateFreeTierConfig | undefined;
+  CustomTiers?: CustomTier[] | undefined;
 }
 export type UsageType = string;
 export type Operation = string;
 export interface CreatePricingRuleInput {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   Name: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
+  Description?: string | redacted.Redacted<string> | undefined;
   Scope: PricingRuleScope;
   Type: PricingRuleType;
-  ModifierPercentage?: number;
-  Service?: string;
-  Tags?: { [key: string]: string | undefined };
-  BillingEntity?: string;
-  Tiering?: CreateTieringInput;
-  UsageType?: string;
-  Operation?: string;
+  ModifierPercentage?: number | undefined;
+  Service?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  BillingEntity?: string | undefined;
+  Tiering?: CreateTieringInput | undefined;
+  UsageType?: string | undefined;
+  Operation?: string | undefined;
 }
 export interface CreatePricingRuleOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface DeleteBillingGroupInput {
   Arn: string;
 }
 export interface DeleteBillingGroupOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface DeleteCustomLineItemInput {
   Arn: string;
-  BillingPeriodRange?: CustomLineItemBillingPeriodRange;
+  BillingPeriodRange?: CustomLineItemBillingPeriodRange | undefined;
 }
 export interface DeleteCustomLineItemOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface DeletePricingPlanInput {
   Arn: string;
 }
 export interface DeletePricingPlanOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface DeletePricingRuleInput {
   Arn: string;
 }
 export interface DeletePricingRuleOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface DisassociateAccountsInput {
   Arn: string;
   AccountIds: string[];
 }
 export interface DisassociateAccountsOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface DisassociatePricingRulesInput {
   Arn: string;
   PricingRuleArns: string[];
 }
 export interface DisassociatePricingRulesOutput {
-  Arn?: string;
+  Arn?: string | undefined;
 }
 export interface BillingPeriodRange {
   InclusiveStartBillingPeriod: string;
@@ -461,10 +462,10 @@ export type MaxBillingGroupCostReportResults = number;
 export type Token = string;
 export interface GetBillingGroupCostReportInput {
   Arn: string;
-  BillingPeriodRange?: BillingPeriodRange;
-  GroupBy?: GroupByAttributeName[];
-  MaxResults?: number;
-  NextToken?: string;
+  BillingPeriodRange?: BillingPeriodRange | undefined;
+  GroupBy?: GroupByAttributeName[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AWSCost = string;
 export type ProformaCost = string;
@@ -472,85 +473,85 @@ export type Margin = string;
 export type MarginPercentage = string;
 export type Currency = string;
 export interface Attribute {
-  Key?: string;
-  Value?: string;
+  Key?: string | undefined;
+  Value?: string | undefined;
 }
 export type AttributesList = Attribute[];
 export interface BillingGroupCostReportResultElement {
-  Arn?: string;
-  AWSCost?: string;
-  ProformaCost?: string;
-  Margin?: string;
-  MarginPercentage?: string;
-  Currency?: string;
-  Attributes?: Attribute[];
+  Arn?: string | undefined;
+  AWSCost?: string | undefined;
+  ProformaCost?: string | undefined;
+  Margin?: string | undefined;
+  MarginPercentage?: string | undefined;
+  Currency?: string | undefined;
+  Attributes?: Attribute[] | undefined;
 }
 export type BillingGroupCostReportResultsList = BillingGroupCostReportResultElement[];
 export interface GetBillingGroupCostReportOutput {
-  BillingGroupCostReportResults?: BillingGroupCostReportResultElement[];
-  NextToken?: string;
+  BillingGroupCostReportResults?: BillingGroupCostReportResultElement[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface GetBillingTransferPreferenceInput {
   ResponsibilityTransferArn: string;
 }
 export interface AutoTransferBillingGroupCreationPreference {
   Enabled: boolean;
-  PricingPlanArn?: string;
+  PricingPlanArn?: string | undefined;
 }
 export type Instant = number;
 export interface GetBillingTransferPreferenceOutput {
   ResponsibilityTransferArn: string;
   AutoBillingTransferBillingGroupCreation: AutoTransferBillingGroupCreationPreference;
-  LastModifiedTime?: number;
+  LastModifiedTime?: number | undefined;
 }
 export type Association = string;
 export type AccountIdFilterList = string[];
 export interface ListAccountAssociationsFilter {
-  Association?: string;
-  AccountId?: string;
-  AccountIds?: string[];
+  Association?: string | undefined;
+  AccountId?: string | undefined;
+  AccountIds?: string[] | undefined;
 }
 export interface ListAccountAssociationsInput {
-  BillingPeriod?: string;
-  Filters?: ListAccountAssociationsFilter;
-  NextToken?: string;
+  BillingPeriod?: string | undefined;
+  Filters?: ListAccountAssociationsFilter | undefined;
+  NextToken?: string | undefined;
 }
 export type AccountName = string | redacted.Redacted<string>;
 export type AccountEmail = string | redacted.Redacted<string>;
 export interface AccountAssociationsListElement {
-  AccountId?: string;
-  BillingGroupArn?: string;
-  AccountName?: string | redacted.Redacted<string>;
-  AccountEmail?: string | redacted.Redacted<string>;
+  AccountId?: string | undefined;
+  BillingGroupArn?: string | undefined;
+  AccountName?: string | redacted.Redacted<string> | undefined;
+  AccountEmail?: string | redacted.Redacted<string> | undefined;
 }
 export type AccountAssociationsList = AccountAssociationsListElement[];
 export interface ListAccountAssociationsOutput {
-  LinkedAccounts?: AccountAssociationsListElement[];
-  NextToken?: string;
+  LinkedAccounts?: AccountAssociationsListElement[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxBillingGroupResults = number;
 export type BillingGroupArnList = string[];
 export interface ListBillingGroupCostReportsFilter {
-  BillingGroupArns?: string[];
+  BillingGroupArns?: string[] | undefined;
 }
 export interface ListBillingGroupCostReportsInput {
-  BillingPeriod?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: ListBillingGroupCostReportsFilter;
+  BillingPeriod?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: ListBillingGroupCostReportsFilter | undefined;
 }
 export interface BillingGroupCostReportElement {
-  Arn?: string;
-  AWSCost?: string;
-  ProformaCost?: string;
-  Margin?: string;
-  MarginPercentage?: string;
-  Currency?: string;
+  Arn?: string | undefined;
+  AWSCost?: string | undefined;
+  ProformaCost?: string | undefined;
+  Margin?: string | undefined;
+  MarginPercentage?: string | undefined;
+  Currency?: string | undefined;
 }
 export type BillingGroupCostReportList = BillingGroupCostReportElement[];
 export interface ListBillingGroupCostReportsOutput {
-  BillingGroupCostReports?: BillingGroupCostReportElement[];
-  NextToken?: string;
+  BillingGroupCostReports?: BillingGroupCostReportElement[] | undefined;
+  NextToken?: string | undefined;
 }
 export type BillingGroupStatus = "ACTIVE" | "PRIMARY_ACCOUNT_MISSING" | "PENDING" | (string & {});
 export type BillingGroupStatusList = BillingGroupStatus[];
@@ -566,60 +567,60 @@ export interface StringSearch {
 export type StringSearches = StringSearch[];
 export type ResponsibilityTransferArnsList = string[];
 export interface ListBillingGroupsFilter {
-  Arns?: string[];
-  PricingPlan?: string;
-  Statuses?: BillingGroupStatus[];
-  AutoAssociate?: boolean;
-  PrimaryAccountIds?: string[];
-  BillingGroupTypes?: BillingGroupType[];
-  Names?: StringSearch[];
-  ResponsibilityTransferArns?: string[];
+  Arns?: string[] | undefined;
+  PricingPlan?: string | undefined;
+  Statuses?: BillingGroupStatus[] | undefined;
+  AutoAssociate?: boolean | undefined;
+  PrimaryAccountIds?: string[] | undefined;
+  BillingGroupTypes?: BillingGroupType[] | undefined;
+  Names?: StringSearch[] | undefined;
+  ResponsibilityTransferArns?: string[] | undefined;
 }
 export interface ListBillingGroupsInput {
-  BillingPeriod?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: ListBillingGroupsFilter;
+  BillingPeriod?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: ListBillingGroupsFilter | undefined;
 }
 export type NumberOfAccounts = number;
 export type BillingGroupStatusReason = string;
 export interface ListBillingGroupAccountGrouping {
-  AutoAssociate?: boolean;
-  ResponsibilityTransferArn?: string;
+  AutoAssociate?: boolean | undefined;
+  ResponsibilityTransferArn?: string | undefined;
 }
 export interface BillingGroupListElement {
-  Name?: string | redacted.Redacted<string>;
-  Arn?: string;
-  Description?: string | redacted.Redacted<string>;
-  PrimaryAccountId?: string;
-  ComputationPreference?: ComputationPreference;
-  Size?: number;
-  CreationTime?: number;
-  LastModifiedTime?: number;
-  Status?: BillingGroupStatus;
-  StatusReason?: string;
-  AccountGrouping?: ListBillingGroupAccountGrouping;
-  BillingGroupType?: BillingGroupType;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Arn?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  PrimaryAccountId?: string | undefined;
+  ComputationPreference?: ComputationPreference | undefined;
+  Size?: number | undefined;
+  CreationTime?: number | undefined;
+  LastModifiedTime?: number | undefined;
+  Status?: BillingGroupStatus | undefined;
+  StatusReason?: string | undefined;
+  AccountGrouping?: ListBillingGroupAccountGrouping | undefined;
+  BillingGroupType?: BillingGroupType | undefined;
 }
 export type BillingGroupList = BillingGroupListElement[];
 export interface ListBillingGroupsOutput {
-  BillingGroups?: BillingGroupListElement[];
-  NextToken?: string;
+  BillingGroups?: BillingGroupListElement[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxCustomLineItemResults = number;
 export type CustomLineItemNameList = (string | redacted.Redacted<string>)[];
 export type CustomLineItemArns = string[];
 export interface ListCustomLineItemsFilter {
-  Names?: (string | redacted.Redacted<string>)[];
-  BillingGroups?: string[];
-  Arns?: string[];
-  AccountIds?: string[];
+  Names?: (string | redacted.Redacted<string>)[] | undefined;
+  BillingGroups?: string[] | undefined;
+  Arns?: string[] | undefined;
+  AccountIds?: string[] | undefined;
 }
 export interface ListCustomLineItemsInput {
-  BillingPeriod?: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: ListCustomLineItemsFilter;
+  BillingPeriod?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: ListCustomLineItemsFilter | undefined;
 }
 export interface ListCustomLineItemFlatChargeDetails {
   ChargeValue: number;
@@ -628,190 +629,190 @@ export interface ListCustomLineItemPercentageChargeDetails {
   PercentageValue: number;
 }
 export interface ListCustomLineItemChargeDetails {
-  Flat?: ListCustomLineItemFlatChargeDetails;
-  Percentage?: ListCustomLineItemPercentageChargeDetails;
+  Flat?: ListCustomLineItemFlatChargeDetails | undefined;
+  Percentage?: ListCustomLineItemPercentageChargeDetails | undefined;
   Type: CustomLineItemType;
-  LineItemFilters?: LineItemFilter[];
+  LineItemFilters?: LineItemFilter[] | undefined;
 }
 export type CurrencyCode = "USD" | "CNY" | (string & {});
 export type CustomLineItemProductCode = string;
 export type NumberOfAssociations = number;
 export interface CustomLineItemListElement {
-  Arn?: string;
-  Name?: string | redacted.Redacted<string>;
-  ChargeDetails?: ListCustomLineItemChargeDetails;
-  CurrencyCode?: CurrencyCode;
-  Description?: string | redacted.Redacted<string>;
-  ProductCode?: string;
-  BillingGroupArn?: string;
-  CreationTime?: number;
-  LastModifiedTime?: number;
-  AssociationSize?: number;
-  AccountId?: string;
-  ComputationRule?: ComputationRuleEnum;
-  PresentationDetails?: PresentationObject;
+  Arn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  ChargeDetails?: ListCustomLineItemChargeDetails | undefined;
+  CurrencyCode?: CurrencyCode | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  ProductCode?: string | undefined;
+  BillingGroupArn?: string | undefined;
+  CreationTime?: number | undefined;
+  LastModifiedTime?: number | undefined;
+  AssociationSize?: number | undefined;
+  AccountId?: string | undefined;
+  ComputationRule?: ComputationRuleEnum | undefined;
+  PresentationDetails?: PresentationObject | undefined;
 }
 export type CustomLineItemList = CustomLineItemListElement[];
 export interface ListCustomLineItemsOutput {
-  CustomLineItems?: CustomLineItemListElement[];
-  NextToken?: string;
+  CustomLineItems?: CustomLineItemListElement[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListCustomLineItemVersionsBillingPeriodRangeFilter {
-  StartBillingPeriod?: string;
-  EndBillingPeriod?: string;
+  StartBillingPeriod?: string | undefined;
+  EndBillingPeriod?: string | undefined;
 }
 export interface ListCustomLineItemVersionsFilter {
-  BillingPeriodRange?: ListCustomLineItemVersionsBillingPeriodRangeFilter;
+  BillingPeriodRange?: ListCustomLineItemVersionsBillingPeriodRangeFilter | undefined;
 }
 export interface ListCustomLineItemVersionsInput {
   Arn: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: ListCustomLineItemVersionsFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: ListCustomLineItemVersionsFilter | undefined;
 }
 export interface CustomLineItemVersionListElement {
-  Name?: string | redacted.Redacted<string>;
-  ChargeDetails?: ListCustomLineItemChargeDetails;
-  CurrencyCode?: CurrencyCode;
-  Description?: string | redacted.Redacted<string>;
-  ProductCode?: string;
-  BillingGroupArn?: string;
-  CreationTime?: number;
-  LastModifiedTime?: number;
-  AssociationSize?: number;
-  StartBillingPeriod?: string;
-  EndBillingPeriod?: string;
-  Arn?: string;
-  StartTime?: number;
-  AccountId?: string;
-  ComputationRule?: ComputationRuleEnum;
-  PresentationDetails?: PresentationObject;
+  Name?: string | redacted.Redacted<string> | undefined;
+  ChargeDetails?: ListCustomLineItemChargeDetails | undefined;
+  CurrencyCode?: CurrencyCode | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  ProductCode?: string | undefined;
+  BillingGroupArn?: string | undefined;
+  CreationTime?: number | undefined;
+  LastModifiedTime?: number | undefined;
+  AssociationSize?: number | undefined;
+  StartBillingPeriod?: string | undefined;
+  EndBillingPeriod?: string | undefined;
+  Arn?: string | undefined;
+  StartTime?: number | undefined;
+  AccountId?: string | undefined;
+  ComputationRule?: ComputationRuleEnum | undefined;
+  PresentationDetails?: PresentationObject | undefined;
 }
 export type CustomLineItemVersionList = CustomLineItemVersionListElement[];
 export interface ListCustomLineItemVersionsOutput {
-  CustomLineItemVersions?: CustomLineItemVersionListElement[];
-  NextToken?: string;
+  CustomLineItemVersions?: CustomLineItemVersionListElement[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PricingPlanArns = string[];
 export interface ListPricingPlansFilter {
-  Arns?: string[];
+  Arns?: string[] | undefined;
 }
 export type MaxPricingPlanResults = number;
 export interface ListPricingPlansInput {
-  BillingPeriod?: string;
-  Filters?: ListPricingPlansFilter;
-  MaxResults?: number;
-  NextToken?: string;
+  BillingPeriod?: string | undefined;
+  Filters?: ListPricingPlansFilter | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type NumberOfAssociatedPricingRules = number;
 export interface PricingPlanListElement {
-  Name?: string | redacted.Redacted<string>;
-  Arn?: string;
-  Description?: string | redacted.Redacted<string>;
-  Size?: number;
-  CreationTime?: number;
-  LastModifiedTime?: number;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Arn?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Size?: number | undefined;
+  CreationTime?: number | undefined;
+  LastModifiedTime?: number | undefined;
 }
 export type PricingPlanList = PricingPlanListElement[];
 export interface ListPricingPlansOutput {
-  BillingPeriod?: string;
-  PricingPlans?: PricingPlanListElement[];
-  NextToken?: string;
+  BillingPeriod?: string | undefined;
+  PricingPlans?: PricingPlanListElement[] | undefined;
+  NextToken?: string | undefined;
 }
 export type MaxPricingRuleResults = number;
 export interface ListPricingPlansAssociatedWithPricingRuleInput {
-  BillingPeriod?: string;
+  BillingPeriod?: string | undefined;
   PricingRuleArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPricingPlansAssociatedWithPricingRuleOutput {
-  BillingPeriod?: string;
-  PricingRuleArn?: string;
-  PricingPlanArns?: string[];
-  NextToken?: string;
+  BillingPeriod?: string | undefined;
+  PricingRuleArn?: string | undefined;
+  PricingPlanArns?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type PricingRuleArns = string[];
 export interface ListPricingRulesFilter {
-  Arns?: string[];
+  Arns?: string[] | undefined;
 }
 export interface ListPricingRulesInput {
-  BillingPeriod?: string;
-  Filters?: ListPricingRulesFilter;
-  MaxResults?: number;
-  NextToken?: string;
+  BillingPeriod?: string | undefined;
+  Filters?: ListPricingRulesFilter | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type NumberOfPricingPlansAssociatedWith = number;
 export interface FreeTierConfig {
   Activated: boolean;
 }
 export interface Tiering {
-  FreeTier?: FreeTierConfig;
-  CustomTiers?: CustomTier[];
+  FreeTier?: FreeTierConfig | undefined;
+  CustomTiers?: CustomTier[] | undefined;
 }
 export interface PricingRuleListElement {
-  Name?: string | redacted.Redacted<string>;
-  Arn?: string;
-  Description?: string | redacted.Redacted<string>;
-  Scope?: PricingRuleScope;
-  Type?: PricingRuleType;
-  ModifierPercentage?: number;
-  Service?: string;
-  AssociatedPricingPlanCount?: number;
-  CreationTime?: number;
-  LastModifiedTime?: number;
-  BillingEntity?: string;
-  Tiering?: Tiering;
-  UsageType?: string;
-  Operation?: string;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Arn?: string | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Scope?: PricingRuleScope | undefined;
+  Type?: PricingRuleType | undefined;
+  ModifierPercentage?: number | undefined;
+  Service?: string | undefined;
+  AssociatedPricingPlanCount?: number | undefined;
+  CreationTime?: number | undefined;
+  LastModifiedTime?: number | undefined;
+  BillingEntity?: string | undefined;
+  Tiering?: Tiering | undefined;
+  UsageType?: string | undefined;
+  Operation?: string | undefined;
 }
 export type PricingRuleList = PricingRuleListElement[];
 export interface ListPricingRulesOutput {
-  BillingPeriod?: string;
-  PricingRules?: PricingRuleListElement[];
-  NextToken?: string;
+  BillingPeriod?: string | undefined;
+  PricingRules?: PricingRuleListElement[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPricingRulesAssociatedToPricingPlanInput {
-  BillingPeriod?: string;
+  BillingPeriod?: string | undefined;
   PricingPlanArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPricingRulesAssociatedToPricingPlanOutput {
-  BillingPeriod?: string;
-  PricingPlanArn?: string;
-  PricingRuleArns?: string[];
-  NextToken?: string;
+  BillingPeriod?: string | undefined;
+  PricingPlanArn?: string | undefined;
+  PricingRuleArns?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type CustomLineItemRelationship = "PARENT" | "CHILD" | (string & {});
 export interface ListResourcesAssociatedToCustomLineItemFilter {
-  Relationship?: CustomLineItemRelationship;
+  Relationship?: CustomLineItemRelationship | undefined;
 }
 export interface ListResourcesAssociatedToCustomLineItemInput {
-  BillingPeriod?: string;
+  BillingPeriod?: string | undefined;
   Arn: string;
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: ListResourcesAssociatedToCustomLineItemFilter;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: ListResourcesAssociatedToCustomLineItemFilter | undefined;
 }
 export interface ListResourcesAssociatedToCustomLineItemResponseElement {
-  Arn?: string;
-  Relationship?: CustomLineItemRelationship;
-  EndBillingPeriod?: string;
+  Arn?: string | undefined;
+  Relationship?: CustomLineItemRelationship | undefined;
+  EndBillingPeriod?: string | undefined;
 }
 export type ListResourcesAssociatedToCustomLineItemResponseList =
   ListResourcesAssociatedToCustomLineItemResponseElement[];
 export interface ListResourcesAssociatedToCustomLineItemOutput {
-  Arn?: string;
-  AssociatedResources?: ListResourcesAssociatedToCustomLineItemResponseElement[];
-  NextToken?: string;
+  Arn?: string | undefined;
+  AssociatedResources?: ListResourcesAssociatedToCustomLineItemResponseElement[] | undefined;
+  NextToken?: string | undefined;
 }
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -825,31 +826,31 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface UpdateBillingGroupAccountGrouping {
-  AutoAssociate?: boolean;
-  ResponsibilityTransferArn?: string;
+  AutoAssociate?: boolean | undefined;
+  ResponsibilityTransferArn?: string | undefined;
 }
 export interface UpdateBillingGroupInput {
   Arn: string;
-  Name?: string | redacted.Redacted<string>;
-  Status?: BillingGroupStatus;
-  ComputationPreference?: ComputationPreference;
-  Description?: string | redacted.Redacted<string>;
-  AccountGrouping?: UpdateBillingGroupAccountGrouping;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Status?: BillingGroupStatus | undefined;
+  ComputationPreference?: ComputationPreference | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  AccountGrouping?: UpdateBillingGroupAccountGrouping | undefined;
 }
 export interface UpdateBillingGroupOutput {
-  Arn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  PrimaryAccountId?: string;
-  PricingPlanArn?: string;
-  Size?: number;
-  LastModifiedTime?: number;
-  Status?: BillingGroupStatus;
-  StatusReason?: string;
-  AccountGrouping?: UpdateBillingGroupAccountGrouping;
+  Arn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  PrimaryAccountId?: string | undefined;
+  PricingPlanArn?: string | undefined;
+  Size?: number | undefined;
+  LastModifiedTime?: number | undefined;
+  Status?: BillingGroupStatus | undefined;
+  StatusReason?: string | undefined;
+  AccountGrouping?: UpdateBillingGroupAccountGrouping | undefined;
 }
 export interface UpdateBillingTransferPreferenceInput {
-  ClientToken?: string;
+  ClientToken?: string | undefined;
   ResponsibilityTransferArn: string;
   AutoBillingTransferBillingGroupCreation: AutoTransferBillingGroupCreationPreference;
 }
@@ -865,68 +866,68 @@ export interface UpdateCustomLineItemPercentageChargeDetails {
   PercentageValue: number;
 }
 export interface UpdateCustomLineItemChargeDetails {
-  Flat?: UpdateCustomLineItemFlatChargeDetails;
-  Percentage?: UpdateCustomLineItemPercentageChargeDetails;
-  LineItemFilters?: LineItemFilter[];
+  Flat?: UpdateCustomLineItemFlatChargeDetails | undefined;
+  Percentage?: UpdateCustomLineItemPercentageChargeDetails | undefined;
+  LineItemFilters?: LineItemFilter[] | undefined;
 }
 export interface UpdateCustomLineItemInput {
   Arn: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  ChargeDetails?: UpdateCustomLineItemChargeDetails;
-  BillingPeriodRange?: CustomLineItemBillingPeriodRange;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  ChargeDetails?: UpdateCustomLineItemChargeDetails | undefined;
+  BillingPeriodRange?: CustomLineItemBillingPeriodRange | undefined;
 }
 export type BillingGroupFullArn = string;
 export interface UpdateCustomLineItemOutput {
-  Arn?: string;
-  BillingGroupArn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  ChargeDetails?: ListCustomLineItemChargeDetails;
-  LastModifiedTime?: number;
-  AssociationSize?: number;
+  Arn?: string | undefined;
+  BillingGroupArn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  ChargeDetails?: ListCustomLineItemChargeDetails | undefined;
+  LastModifiedTime?: number | undefined;
+  AssociationSize?: number | undefined;
 }
 export interface UpdatePricingPlanInput {
   Arn: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdatePricingPlanOutput {
-  Arn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  Size?: number;
-  LastModifiedTime?: number;
+  Arn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Size?: number | undefined;
+  LastModifiedTime?: number | undefined;
 }
 export interface UpdateFreeTierConfig {
   Activated: boolean;
 }
 export interface UpdateTieringInput {
-  FreeTier?: UpdateFreeTierConfig;
-  CustomTiers?: CustomTier[];
+  FreeTier?: UpdateFreeTierConfig | undefined;
+  CustomTiers?: CustomTier[] | undefined;
 }
 export interface UpdatePricingRuleInput {
   Arn: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  Type?: PricingRuleType;
-  ModifierPercentage?: number;
-  Tiering?: UpdateTieringInput;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Type?: PricingRuleType | undefined;
+  ModifierPercentage?: number | undefined;
+  Tiering?: UpdateTieringInput | undefined;
 }
 export interface UpdatePricingRuleOutput {
-  Arn?: string;
-  Name?: string | redacted.Redacted<string>;
-  Description?: string | redacted.Redacted<string>;
-  Scope?: PricingRuleScope;
-  Type?: PricingRuleType;
-  ModifierPercentage?: number;
-  Service?: string;
-  AssociatedPricingPlanCount?: number;
-  LastModifiedTime?: number;
-  BillingEntity?: string;
-  Tiering?: UpdateTieringInput;
-  UsageType?: string;
-  Operation?: string;
+  Arn?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  Description?: string | redacted.Redacted<string> | undefined;
+  Scope?: PricingRuleScope | undefined;
+  Type?: PricingRuleType | undefined;
+  ModifierPercentage?: number | undefined;
+  Service?: string | undefined;
+  AssociatedPricingPlanCount?: number | undefined;
+  LastModifiedTime?: number | undefined;
+  BillingEntity?: string | undefined;
+  Tiering?: UpdateTieringInput | undefined;
+  UsageType?: string | undefined;
+  Operation?: string | undefined;
 }
 export type ConflictExceptionReason =
   | "RESOURCE_NAME_CONFLICT"
@@ -1023,7 +1024,7 @@ export type AssociateAccountsError =
  * Connects an array of account IDs in a consolidated billing family to a predefined billing group. The account IDs must be a part of the consolidated billing family during the current month, and not already associated with another billing group. The maximum number of accounts that can be associated in one call is 30.
  */
 export const associateAccounts: API.OperationMethod<
-  AssociateAccountsInput,
+  AssociateAccountsInput & RegionInput,
   AssociateAccountsOutput,
   AssociateAccountsError,
   Credentials | HttpClient.HttpClient
@@ -1059,7 +1060,7 @@ export type AssociatePricingRulesError =
  * Connects an array of `PricingRuleArns` to a defined `PricingPlan`. The maximum number `PricingRuleArn` that can be associated in one call is 30.
  */
 export const associatePricingRules: API.OperationMethod<
-  AssociatePricingRulesInput,
+  AssociatePricingRulesInput & RegionInput,
   AssociatePricingRulesOutput,
   AssociatePricingRulesError,
   Credentials | HttpClient.HttpClient
@@ -1095,7 +1096,7 @@ export type BatchAssociateResourcesToCustomLineItemError =
  * Associates a batch of resources to a percentage custom line item.
  */
 export const batchAssociateResourcesToCustomLineItem: API.OperationMethod<
-  BatchAssociateResourcesToCustomLineItemInput,
+  BatchAssociateResourcesToCustomLineItemInput & RegionInput,
   BatchAssociateResourcesToCustomLineItemOutput,
   BatchAssociateResourcesToCustomLineItemError,
   Credentials | HttpClient.HttpClient
@@ -1130,7 +1131,7 @@ export type BatchDisassociateResourcesFromCustomLineItemError =
  * Disassociates a batch of resources from a percentage custom line item.
  */
 export const batchDisassociateResourcesFromCustomLineItem: API.OperationMethod<
-  BatchDisassociateResourcesFromCustomLineItemInput,
+  BatchDisassociateResourcesFromCustomLineItemInput & RegionInput,
   BatchDisassociateResourcesFromCustomLineItemOutput,
   BatchDisassociateResourcesFromCustomLineItemError,
   Credentials | HttpClient.HttpClient
@@ -1164,7 +1165,7 @@ export type CreateBillingGroupError =
  * Creates a billing group that resembles a consolidated billing family that Amazon Web Services charges, based off of the predefined pricing plan computation.
  */
 export const createBillingGroup: API.OperationMethod<
-  CreateBillingGroupInput,
+  CreateBillingGroupInput & RegionInput,
   CreateBillingGroupOutput,
   CreateBillingGroupError,
   Credentials | HttpClient.HttpClient
@@ -1198,7 +1199,7 @@ export type CreateCustomLineItemError =
  * Creates a custom line item that can be used to create a one-time fixed charge that can be applied to a single billing group for the current or previous billing period. The one-time fixed charge is either a fee or discount.
  */
 export const createCustomLineItem: API.OperationMethod<
-  CreateCustomLineItemInput,
+  CreateCustomLineItemInput & RegionInput,
   CreateCustomLineItemOutput,
   CreateCustomLineItemError,
   Credentials | HttpClient.HttpClient
@@ -1233,7 +1234,7 @@ export type CreatePricingPlanError =
  * Creates a pricing plan that is used for computing Amazon Web Services charges for billing groups.
  */
 export const createPricingPlan: API.OperationMethod<
-  CreatePricingPlanInput,
+  CreatePricingPlanInput & RegionInput,
   CreatePricingPlanOutput,
   CreatePricingPlanError,
   Credentials | HttpClient.HttpClient
@@ -1268,7 +1269,7 @@ export type CreatePricingRuleError =
  * Creates a pricing rule can be associated to a pricing plan, or a set of pricing plans.
  */
 export const createPricingRule: API.OperationMethod<
-  CreatePricingRuleInput,
+  CreatePricingRuleInput & RegionInput,
   CreatePricingRuleOutput,
   CreatePricingRuleError,
   Credentials | HttpClient.HttpClient
@@ -1300,7 +1301,7 @@ export type DeleteBillingGroupError =
  * Deletes a billing group.
  */
 export const deleteBillingGroup: API.OperationMethod<
-  DeleteBillingGroupInput,
+  DeleteBillingGroupInput & RegionInput,
   DeleteBillingGroupOutput,
   DeleteBillingGroupError,
   Credentials | HttpClient.HttpClient
@@ -1331,7 +1332,7 @@ export type DeleteCustomLineItemError =
  * Deletes the custom line item identified by the given ARN in the current, or previous billing period.
  */
 export const deleteCustomLineItem: API.OperationMethod<
-  DeleteCustomLineItemInput,
+  DeleteCustomLineItemInput & RegionInput,
   DeleteCustomLineItemOutput,
   DeleteCustomLineItemError,
   Credentials | HttpClient.HttpClient
@@ -1363,7 +1364,7 @@ export type DeletePricingPlanError =
  * Deletes a pricing plan. The pricing plan must not be associated with any billing groups to delete successfully.
  */
 export const deletePricingPlan: API.OperationMethod<
-  DeletePricingPlanInput,
+  DeletePricingPlanInput & RegionInput,
   DeletePricingPlanOutput,
   DeletePricingPlanError,
   Credentials | HttpClient.HttpClient
@@ -1395,7 +1396,7 @@ export type DeletePricingRuleError =
  * Deletes the pricing rule that's identified by the input Amazon Resource Name (ARN).
  */
 export const deletePricingRule: API.OperationMethod<
-  DeletePricingRuleInput,
+  DeletePricingRuleInput & RegionInput,
   DeletePricingRuleOutput,
   DeletePricingRuleError,
   Credentials | HttpClient.HttpClient
@@ -1428,7 +1429,7 @@ export type DisassociateAccountsError =
  * Removes the specified list of account IDs from the given billing group.
  */
 export const disassociateAccounts: API.OperationMethod<
-  DisassociateAccountsInput,
+  DisassociateAccountsInput & RegionInput,
   DisassociateAccountsOutput,
   DisassociateAccountsError,
   Credentials | HttpClient.HttpClient
@@ -1462,7 +1463,7 @@ export type DisassociatePricingRulesError =
  * Disassociates a list of pricing rules from a pricing plan.
  */
 export const disassociatePricingRules: API.OperationMethod<
-  DisassociatePricingRulesInput,
+  DisassociatePricingRulesInput & RegionInput,
   DisassociatePricingRulesOutput,
   DisassociatePricingRulesError,
   Credentials | HttpClient.HttpClient
@@ -1495,7 +1496,7 @@ export type GetBillingGroupCostReportError =
  * Retrieves the margin summary report, which includes the Amazon Web Services cost and charged amount (pro forma cost) by Amazon Web Services service for a specific billing group.
  */
 export const getBillingGroupCostReport: API.PaginatedOperationMethod<
-  GetBillingGroupCostReportInput,
+  GetBillingGroupCostReportInput & RegionInput,
   GetBillingGroupCostReportOutput,
   GetBillingGroupCostReportError,
   Credentials | HttpClient.HttpClient,
@@ -1534,7 +1535,7 @@ export type GetBillingTransferPreferenceError =
  * Retrieves the auto billing group creation preference for a billing transfer.
  */
 export const getBillingTransferPreference: API.OperationMethod<
-  GetBillingTransferPreferenceInput,
+  GetBillingTransferPreferenceInput & RegionInput,
   GetBillingTransferPreferenceOutput,
   GetBillingTransferPreferenceError,
   Credentials | HttpClient.HttpClient
@@ -1566,7 +1567,7 @@ export type ListAccountAssociationsError =
  * This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.
  */
 export const listAccountAssociations: API.PaginatedOperationMethod<
-  ListAccountAssociationsInput,
+  ListAccountAssociationsInput & RegionInput,
   ListAccountAssociationsOutput,
   ListAccountAssociationsError,
   Credentials | HttpClient.HttpClient,
@@ -1604,7 +1605,7 @@ export type ListBillingGroupCostReportsError =
  * A paginated call to retrieve a summary report of actual Amazon Web Services charges and the calculated Amazon Web Services charges based on the associated pricing plan of a billing group.
  */
 export const listBillingGroupCostReports: API.PaginatedOperationMethod<
-  ListBillingGroupCostReportsInput,
+  ListBillingGroupCostReportsInput & RegionInput,
   ListBillingGroupCostReportsOutput,
   ListBillingGroupCostReportsError,
   Credentials | HttpClient.HttpClient,
@@ -1643,7 +1644,7 @@ export type ListBillingGroupsError =
  * A paginated call to retrieve a list of billing groups for the given billing period. If you don't provide a billing group, the current billing period is used.
  */
 export const listBillingGroups: API.PaginatedOperationMethod<
-  ListBillingGroupsInput,
+  ListBillingGroupsInput & RegionInput,
   ListBillingGroupsOutput,
   ListBillingGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1682,7 +1683,7 @@ export type ListCustomLineItemsError =
  * A paginated call to get a list of all custom line items (FFLIs) for the given billing period. If you don't provide a billing period, the current billing period is used.
  */
 export const listCustomLineItems: API.PaginatedOperationMethod<
-  ListCustomLineItemsInput,
+  ListCustomLineItemsInput & RegionInput,
   ListCustomLineItemsOutput,
   ListCustomLineItemsError,
   Credentials | HttpClient.HttpClient,
@@ -1720,7 +1721,7 @@ export type ListCustomLineItemVersionsError =
  * A paginated call to get a list of all custom line item versions.
  */
 export const listCustomLineItemVersions: API.PaginatedOperationMethod<
-  ListCustomLineItemVersionsInput,
+  ListCustomLineItemVersionsInput & RegionInput,
   ListCustomLineItemVersionsOutput,
   ListCustomLineItemVersionsError,
   Credentials | HttpClient.HttpClient,
@@ -1757,7 +1758,7 @@ export type ListPricingPlansError =
  * A paginated call to get pricing plans for the given billing period. If you don't provide a billing period, the current billing period is used.
  */
 export const listPricingPlans: API.PaginatedOperationMethod<
-  ListPricingPlansInput,
+  ListPricingPlansInput & RegionInput,
   ListPricingPlansOutput,
   ListPricingPlansError,
   Credentials | HttpClient.HttpClient,
@@ -1795,7 +1796,7 @@ export type ListPricingPlansAssociatedWithPricingRuleError =
  * A list of the pricing plans that are associated with a pricing rule.
  */
 export const listPricingPlansAssociatedWithPricingRule: API.PaginatedOperationMethod<
-  ListPricingPlansAssociatedWithPricingRuleInput,
+  ListPricingPlansAssociatedWithPricingRuleInput & RegionInput,
   ListPricingPlansAssociatedWithPricingRuleOutput,
   ListPricingPlansAssociatedWithPricingRuleError,
   Credentials | HttpClient.HttpClient,
@@ -1833,7 +1834,7 @@ export type ListPricingRulesError =
  * Describes a pricing rule that can be associated to a pricing plan, or set of pricing plans.
  */
 export const listPricingRules: API.PaginatedOperationMethod<
-  ListPricingRulesInput,
+  ListPricingRulesInput & RegionInput,
   ListPricingRulesOutput,
   ListPricingRulesError,
   Credentials | HttpClient.HttpClient,
@@ -1871,7 +1872,7 @@ export type ListPricingRulesAssociatedToPricingPlanError =
  * Lists the pricing rules that are associated with a pricing plan.
  */
 export const listPricingRulesAssociatedToPricingPlan: API.PaginatedOperationMethod<
-  ListPricingRulesAssociatedToPricingPlanInput,
+  ListPricingRulesAssociatedToPricingPlanInput & RegionInput,
   ListPricingRulesAssociatedToPricingPlanOutput,
   ListPricingRulesAssociatedToPricingPlanError,
   Credentials | HttpClient.HttpClient,
@@ -1910,7 +1911,7 @@ export type ListResourcesAssociatedToCustomLineItemError =
  * List the resources that are associated to a custom line item.
  */
 export const listResourcesAssociatedToCustomLineItem: API.PaginatedOperationMethod<
-  ListResourcesAssociatedToCustomLineItemInput,
+  ListResourcesAssociatedToCustomLineItemInput & RegionInput,
   ListResourcesAssociatedToCustomLineItemOutput,
   ListResourcesAssociatedToCustomLineItemError,
   Credentials | HttpClient.HttpClient,
@@ -1949,7 +1950,7 @@ export type ListTagsForResourceError =
  * A list the tags for a resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1981,7 +1982,7 @@ export type TagResourceError =
  * Associates the specified tags to a resource with the specified `resourceArn`. If existing tags on a resource are not specified in the request parameters, they are not changed.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2013,7 +2014,7 @@ export type UntagResourceError =
  * Deletes specified tags from a resource.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -2046,7 +2047,7 @@ export type UpdateBillingGroupError =
  * This updates an existing billing group.
  */
 export const updateBillingGroup: API.OperationMethod<
-  UpdateBillingGroupInput,
+  UpdateBillingGroupInput & RegionInput,
   UpdateBillingGroupOutput,
   UpdateBillingGroupError,
   Credentials | HttpClient.HttpClient
@@ -2082,7 +2083,7 @@ export type UpdateBillingTransferPreferenceError =
  * Enabling the preference requires the `iam:CreateServiceLinkedRole` permission. While a pricing plan is specified in an enabled preference, you can't delete that pricing plan.
  */
 export const updateBillingTransferPreference: API.OperationMethod<
-  UpdateBillingTransferPreferenceInput,
+  UpdateBillingTransferPreferenceInput & RegionInput,
   UpdateBillingTransferPreferenceOutput,
   UpdateBillingTransferPreferenceError,
   Credentials | HttpClient.HttpClient
@@ -2116,7 +2117,7 @@ export type UpdateCustomLineItemError =
  * Update an existing custom line item in the current or previous billing period.
  */
 export const updateCustomLineItem: API.OperationMethod<
-  UpdateCustomLineItemInput,
+  UpdateCustomLineItemInput & RegionInput,
   UpdateCustomLineItemOutput,
   UpdateCustomLineItemError,
   Credentials | HttpClient.HttpClient
@@ -2150,7 +2151,7 @@ export type UpdatePricingPlanError =
  * This updates an existing pricing plan.
  */
 export const updatePricingPlan: API.OperationMethod<
-  UpdatePricingPlanInput,
+  UpdatePricingPlanInput & RegionInput,
   UpdatePricingPlanOutput,
   UpdatePricingPlanError,
   Credentials | HttpClient.HttpClient
@@ -2184,7 +2185,7 @@ export type UpdatePricingRuleError =
  * Updates an existing pricing rule.
  */
 export const updatePricingRule: API.OperationMethod<
-  UpdatePricingRuleInput,
+  UpdatePricingRuleInput & RegionInput,
   UpdatePricingRuleOutput,
   UpdatePricingRuleError,
   Credentials | HttpClient.HttpClient

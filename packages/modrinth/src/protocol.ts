@@ -1,6 +1,11 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
-import { makeRestProtocol, type RestErrorEnvelope } from "@distilled.cloud/core/protocol-rest";
+import {
+  makeRestProtocol,
+  type RestErrorEnvelope,
+  unknownErrorProps,
+} from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ModrinthProtocol -- hand-written.
  *
@@ -36,7 +41,8 @@ export type ModrinthOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | ModrinthParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Modrinth operation. */
 export type ModrinthOpContext = Credentials | HttpClient.HttpClient;
@@ -74,11 +80,6 @@ export const ModrinthProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeRes
     ...(creds.apiKey ? { Authorization: Redacted.value(creds.apiKey) } : {}),
   }),
   errorEnvelope,
-  unknownError: ({ code, message, body }) =>
-    new UnknownModrinthError({
-      code: typeof code === "string" ? code : code !== undefined ? String(code) : undefined,
-      message,
-      body,
-    }),
+  unknownError: (info) => new UnknownModrinthError(unknownErrorProps(info)),
   parseError: ({ body, cause }) => new ModrinthParseError({ body, cause }),
 });

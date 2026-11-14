@@ -17,7 +17,7 @@ export const DEFAULT_API_BASE_URL = "https://us.infisical.com";
 
 export interface Config {
   /** Absent for the unauthenticated login endpoints (see {@link anonymous}). */
-  readonly apiKey?: Redacted.Redacted<string>;
+  readonly apiKey?: Redacted.Redacted<string> | undefined;
   readonly apiBaseUrl: string;
 }
 
@@ -29,7 +29,7 @@ export class Credentials
 /** Layer from a redacted API key + optional base URL. */
 export const fromApiKey = (config: {
   readonly apiKey: Redacted.Redacted<string>;
-  readonly apiBaseUrl?: string;
+  readonly apiBaseUrl?: string | undefined;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
     Credentials,
@@ -46,7 +46,7 @@ export const fromApiKey = (config: {
  */
 export const anonymous = (
   config: {
-    readonly apiBaseUrl?: string;
+    readonly apiBaseUrl?: string | undefined;
   } = {},
 ): Layer.Layer<Credentials> =>
   Layer.succeed(

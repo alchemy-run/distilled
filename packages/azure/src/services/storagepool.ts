@@ -57,7 +57,7 @@ export interface Sku {
   /** Sku name */
   name: string;
   /** Sku tier */
-  tier?: string;
+  tier?: string | undefined;
 }
 /** Logical zone for Disk Pool resource; example: ["1"]. */
 export type DiskPoolCreatePropertiesAvailabilityZonesList = Array<string>;
@@ -73,13 +73,13 @@ export type DiskPoolCreatePropertiesAdditionalCapabilitiesList = Array<string>;
 /** Properties for Disk Pool create or update request. */
 export interface DiskPoolCreateProperties {
   /** Logical zone for Disk Pool resource; example: ["1"]. */
-  availabilityZones?: DiskPoolCreatePropertiesAvailabilityZonesList;
+  availabilityZones?: DiskPoolCreatePropertiesAvailabilityZonesList | undefined;
   /** List of Azure Managed Disks to attach to a Disk Pool. */
-  disks?: DiskPoolCreatePropertiesDisksList;
+  disks?: DiskPoolCreatePropertiesDisksList | undefined;
   /** Azure Resource ID of a Subnet for the Disk Pool. */
   subnetId: string;
   /** List of additional capabilities for a Disk Pool. */
-  additionalCapabilities?: DiskPoolCreatePropertiesAdditionalCapabilitiesList;
+  additionalCapabilities?: DiskPoolCreatePropertiesAdditionalCapabilitiesList | undefined;
 }
 /** Resource tags. */
 export type DiskPoolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -97,13 +97,13 @@ export interface DiskPoolsCreateOrUpdateRequest {
   /** Properties for Disk Pool create request. */
   properties: DiskPoolCreateProperties;
   /** Resource tags. */
-  tags?: DiskPoolsCreateOrUpdateRequestTagsMap;
+  tags?: DiskPoolsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives. */
   location: string;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** List of Azure resource ids that manage this resource. */
-  managedByExtended?: ManagedByExtended;
+  managedByExtended?: ManagedByExtended | undefined;
 }
 /** Resource tags. */
 export type DiskPoolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -142,11 +142,11 @@ export interface DiskPoolProperties {
   /** Operational status of the Disk Pool. */
   status: OperationalStatus;
   /** List of Azure Managed Disks to attach to a Disk Pool. */
-  disks?: DiskPoolPropertiesDisksList;
+  disks?: DiskPoolPropertiesDisksList | undefined;
   /** Azure Resource ID of a Subnet for the Disk Pool. */
   subnetId: string;
   /** List of additional capabilities for Disk Pool. */
-  additionalCapabilities?: DiskPoolPropertiesAdditionalCapabilitiesList;
+  additionalCapabilities?: DiskPoolPropertiesAdditionalCapabilitiesList | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemMetadataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -155,39 +155,39 @@ export type SystemMetadataLastModifiedByType = "User" | "Application" | "Managed
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemMetadata {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemMetadataCreatedByType;
+  createdByType?: SystemMetadataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemMetadataLastModifiedByType;
+  lastModifiedByType?: SystemMetadataLastModifiedByType | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface DiskPoolsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: DiskPoolsCreateOrUpdateResponseTagsMap;
+  tags?: DiskPoolsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives. */
   location: string;
   /** Determines the SKU of the Disk pool */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Properties of Disk Pool. */
   properties: DiskPoolProperties;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** List of Azure resource ids that manage this resource. */
-  managedByExtended?: ManagedByExtended;
+  managedByExtended?: ManagedByExtended | undefined;
   /** Resource metadata required by ARM RPC */
-  systemData?: SystemMetadata;
+  systemData?: SystemMetadata | undefined;
 }
 export interface DiskPoolsDeallocateRequest {
   /** The ID of the target subscription. */
@@ -219,25 +219,25 @@ export interface GetDiskPoolRequest {
 export type GetDiskPoolResponseTagsMap = { [key: string]: string | undefined };
 export interface GetDiskPoolResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetDiskPoolResponseTagsMap;
+  tags?: GetDiskPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives. */
   location: string;
   /** Determines the SKU of the Disk pool */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Properties of Disk Pool. */
   properties: DiskPoolProperties;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** List of Azure resource ids that manage this resource. */
-  managedByExtended?: ManagedByExtended;
+  managedByExtended?: ManagedByExtended | undefined;
   /** Resource metadata required by ARM RPC */
-  systemData?: SystemMetadata;
+  systemData?: SystemMetadata | undefined;
 }
 export interface GetIscsiTargetRequest {
   /** The ID of the target subscription. */
@@ -269,7 +269,7 @@ export interface IscsiLun {
   /** Azure Resource ID of the Managed Disk. */
   managedDiskAzureResourceId: string;
   /** Specifies the Logical Unit Number of the iSCSI LUN. */
-  lun?: number;
+  lun?: number | undefined;
 }
 /** List of LUNs to be exposed through iSCSI Target. */
 export type IscsiTargetPropertiesLunsList = Array<IscsiLun>;
@@ -282,9 +282,9 @@ export interface IscsiTargetProperties {
   /** Mode for Target connectivity. */
   aclMode: AclMode;
   /** Access Control List (ACL) for an iSCSI Target; defines LUN masking policy */
-  staticAcls?: IscsiTargetPropertiesStaticAclsList;
+  staticAcls?: IscsiTargetPropertiesStaticAclsList | undefined;
   /** List of LUNs to be exposed through iSCSI Target. */
-  luns?: IscsiTargetPropertiesLunsList;
+  luns?: IscsiTargetPropertiesLunsList | undefined;
   /** iSCSI Target IQN (iSCSI Qualified Name); example: "iqn.2005-03.org.iscsi:server". */
   targetIqn: string;
   /** State of the operation on the resource. */
@@ -292,27 +292,27 @@ export interface IscsiTargetProperties {
   /** Operational status of the iSCSI Target. */
   status: OperationalStatus;
   /** List of private IPv4 addresses to connect to the iSCSI Target. */
-  endpoints?: IscsiTargetPropertiesEndpointsList;
+  endpoints?: IscsiTargetPropertiesEndpointsList | undefined;
   /** The port used by iSCSI Target portal group. */
-  port?: number;
+  port?: number | undefined;
   /** List of identifiers for active sessions on the iSCSI target */
-  sessions?: IscsiTargetPropertiesSessionsList;
+  sessions?: IscsiTargetPropertiesSessionsList | undefined;
 }
 export interface GetIscsiTargetResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Properties for iSCSI Target operations. */
   properties: IscsiTargetProperties;
   /** Resource metadata required by ARM RPC */
-  systemData?: SystemMetadata;
+  systemData?: SystemMetadata | undefined;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** List of Azure resource ids that manage this resource. */
-  managedByExtended?: ManagedByExtended;
+  managedByExtended?: ManagedByExtended | undefined;
 }
 /** Access Control List (ACL) for an iSCSI Target; defines LUN masking policy */
 export type IscsiTargetCreatePropertiesInputStaticAclsList = Array<Acl>;
@@ -330,11 +330,11 @@ export interface IscsiTargetCreatePropertiesInput {
   /** Mode for Target connectivity. */
   aclMode: AclMode | (string & {});
   /** iSCSI Target IQN (iSCSI Qualified Name); example: "iqn.2005-03.org.iscsi:server". */
-  targetIqn?: string;
+  targetIqn?: string | undefined;
   /** Access Control List (ACL) for an iSCSI Target; defines LUN masking policy */
-  staticAcls?: IscsiTargetCreatePropertiesInputStaticAclsList;
+  staticAcls?: IscsiTargetCreatePropertiesInputStaticAclsList | undefined;
   /** List of LUNs to be exposed through iSCSI Target. */
-  luns?: IscsiTargetCreatePropertiesInputLunsList;
+  luns?: IscsiTargetCreatePropertiesInputLunsList | undefined;
 }
 export interface IscsiTargetsCreateOrUpdateRequest {
   /** The ID of the target subscription. */
@@ -348,25 +348,25 @@ export interface IscsiTargetsCreateOrUpdateRequest {
   /** Properties for iSCSI Target create request. */
   properties: IscsiTargetCreatePropertiesInput;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** List of Azure resource ids that manage this resource. */
-  managedByExtended?: ManagedByExtended;
+  managedByExtended?: ManagedByExtended | undefined;
 }
 export interface IscsiTargetsCreateOrUpdateResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Properties for iSCSI Target operations. */
   properties: IscsiTargetProperties;
   /** Resource metadata required by ARM RPC */
-  systemData?: SystemMetadata;
+  systemData?: SystemMetadata | undefined;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** List of Azure resource ids that manage this resource. */
-  managedByExtended?: ManagedByExtended;
+  managedByExtended?: ManagedByExtended | undefined;
 }
 export interface ListDiskPoolByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -379,25 +379,25 @@ export type DiskPoolTagsMap = { [key: string]: string | undefined };
 /** Response for Disk Pool request. */
 export interface DiskPool {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: DiskPoolTagsMap;
+  tags?: DiskPoolTagsMap | undefined;
   /** The geo-location where the resource lives. */
   location: string;
   /** Determines the SKU of the Disk pool */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Properties of Disk Pool. */
   properties: DiskPoolProperties;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** List of Azure resource ids that manage this resource. */
-  managedByExtended?: ManagedByExtended;
+  managedByExtended?: ManagedByExtended | undefined;
   /** Resource metadata required by ARM RPC */
-  systemData?: SystemMetadata;
+  systemData?: SystemMetadata | undefined;
 }
 /** An array of Disk pool objects. */
 export type DiskPoolListResultValueList = Array<DiskPool>;
@@ -406,7 +406,7 @@ export interface DiskPoolListResult {
   /** An array of Disk pool objects. */
   value: DiskPoolListResultValueList;
   /** URI to fetch the next section of the paginated response. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDiskPoolBySubscriptionRequest {
   /** The ID of the target subscription. */
@@ -423,31 +423,31 @@ export interface ListDiskPoolOutboundNetworkDependenciesEndpointsRequest {
 /** Current TCP connectivity information from the App Service Environment to a single endpoint. */
 export interface EndpointDetail {
   /** An IP Address that Domain Name currently resolves to. */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
   /** The port an endpoint is connected to. */
-  port?: number;
+  port?: number | undefined;
   /** The time in milliseconds it takes for a TCP connection to be created from the App Service Environment to this IpAddress at this Port. */
-  latency?: number;
+  latency?: number | undefined;
   /** Whether it is possible to create a TCP connection from the App Service Environment to this IpAddress at this Port. */
-  isAccessible?: boolean;
+  isAccessible?: boolean | undefined;
 }
 /** The IP Addresses and Ports used when connecting to DomainName. */
 export type EndpointDependencyEndpointDetailsList = Array<EndpointDetail>;
 /** A domain name that a service is reached at, including details of the current connection status. */
 export interface EndpointDependency {
   /** The domain name of the dependency. */
-  domainName?: string;
+  domainName?: string | undefined;
   /** The IP Addresses and Ports used when connecting to DomainName. */
-  endpointDetails?: EndpointDependencyEndpointDetailsList;
+  endpointDetails?: EndpointDependencyEndpointDetailsList | undefined;
 }
 /** The endpoints that the App Service Environment reaches the service at. */
 export type OutboundEnvironmentEndpointEndpointsList = Array<EndpointDependency>;
 /** Endpoints accessed for a common purpose that the App Service Environment requires outbound network access to. */
 export interface OutboundEnvironmentEndpoint {
   /** The type of service accessed by the App Service Environment, e.g., Azure Storage, Azure SQL Database, and Azure Active Directory. */
-  category?: string;
+  category?: string | undefined;
   /** The endpoints that the App Service Environment reaches the service at. */
-  endpoints?: OutboundEnvironmentEndpointEndpointsList;
+  endpoints?: OutboundEnvironmentEndpointEndpointsList | undefined;
 }
 /** Collection of resources. */
 export type OutboundEnvironmentEndpointListValueList = Array<OutboundEnvironmentEndpoint>;
@@ -456,7 +456,7 @@ export interface OutboundEnvironmentEndpointList {
   /** Collection of resources. */
   value: OutboundEnvironmentEndpointListValueList;
   /** Link to next page of resources. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDiskPoolZonesRequest {
   /** The ID of the target subscription. */
@@ -471,20 +471,20 @@ export type DiskPoolZoneInfoAdditionalCapabilitiesList = Array<string>;
 /** Disk Pool SKU Details */
 export interface DiskPoolZoneInfo {
   /** Logical zone for Disk Pool resource; example: ["1"]. */
-  availabilityZones?: DiskPoolZoneInfoAvailabilityZonesList;
+  availabilityZones?: DiskPoolZoneInfoAvailabilityZonesList | undefined;
   /** List of additional capabilities for Disk Pool. */
-  additionalCapabilities?: DiskPoolZoneInfoAdditionalCapabilitiesList;
+  additionalCapabilities?: DiskPoolZoneInfoAdditionalCapabilitiesList | undefined;
   /** Determines the SKU of VM deployed for Disk Pool */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** The list of Disk Pool Skus. */
 export type DiskPoolZoneListResultValueList = Array<DiskPoolZoneInfo>;
 /** List Disk Pool skus operation response. */
 export interface DiskPoolZoneListResult {
   /** The list of Disk Pool Skus. */
-  value?: DiskPoolZoneListResultValueList;
+  value?: DiskPoolZoneListResultValueList | undefined;
   /** URI to fetch the next section of the paginated response. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListIscsiTargetByDiskPoolRequest {
   /** The ID of the target subscription. */
@@ -497,19 +497,19 @@ export interface ListIscsiTargetByDiskPoolRequest {
 /** Response for iSCSI Target requests. */
 export interface IscsiTarget {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Properties for iSCSI Target operations. */
   properties: IscsiTargetProperties;
   /** Resource metadata required by ARM RPC */
-  systemData?: SystemMetadata;
+  systemData?: SystemMetadata | undefined;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** List of Azure resource ids that manage this resource. */
-  managedByExtended?: ManagedByExtended;
+  managedByExtended?: ManagedByExtended | undefined;
 }
 /** An array of iSCSI Targets in a Disk Pool. */
 export type IscsiTargetListValueList = Array<IscsiTarget>;
@@ -518,7 +518,7 @@ export interface IscsiTargetList {
   /** An array of iSCSI Targets in a Disk Pool. */
   value: IscsiTargetListValueList;
   /** URI to fetch the next section of the paginated response. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Metadata about an operation. */
@@ -539,11 +539,11 @@ export interface StoragePoolRPOperation {
   /** Indicates whether the operation applies to data-plane. */
   isDataAction: boolean;
   /** Indicates the action type. */
-  actionType?: string;
+  actionType?: string | undefined;
   /** Additional metadata about RP operation. */
   display: StoragePoolOperationDisplay;
   /** The intended executor of the operation; governs the display of the operation in the RBAC UX and the audit logs UX. */
-  origin?: string;
+  origin?: string | undefined;
 }
 /** An array of operations supported by the StoragePool RP. */
 export type StoragePoolOperationListResultValueList = Array<StoragePoolRPOperation>;
@@ -552,7 +552,7 @@ export interface StoragePoolOperationListResult {
   /** An array of operations supported by the StoragePool RP. */
   value: StoragePoolOperationListResultValueList;
   /** URI to fetch the next section of the paginated response. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListResourceSkusRequest {
   /** The ID of the target subscription. */
@@ -563,9 +563,9 @@ export interface ListResourceSkusRequest {
 /** Capability a resource SKU has. */
 export interface ResourceSkuCapability {
   /** Capability name */
-  name?: string;
+  name?: string | undefined;
   /** Capability value */
-  value?: string;
+  value?: string | undefined;
 }
 /** List of additional capabilities for StoragePool resource. */
 export type ResourceSkuInfoCapabilitiesList = Array<ResourceSkuCapability>;
@@ -578,20 +578,20 @@ export type ResourceSkuZoneDetailsCapabilitiesList = Array<ResourceSkuCapability
 /** Describes The zonal capabilities of a SKU. */
 export interface ResourceSkuZoneDetails {
   /** The set of zones that the SKU is available in with the specified capabilities. */
-  name?: ResourceSkuZoneDetailsNameList;
+  name?: ResourceSkuZoneDetailsNameList | undefined;
   /** A list of capabilities that are available for the SKU in the specified list of zones. */
-  capabilities?: ResourceSkuZoneDetailsCapabilitiesList;
+  capabilities?: ResourceSkuZoneDetailsCapabilitiesList | undefined;
 }
 /** Details of capabilities available to a SKU in specific zones. */
 export type ResourceSkuLocationInfoZoneDetailsList = Array<ResourceSkuZoneDetails>;
 /** Zone and capability info for resource sku */
 export interface ResourceSkuLocationInfo {
   /** Location of the SKU */
-  location?: string;
+  location?: string | undefined;
   /** List of availability zones where the SKU is supported. */
-  zones?: ResourceSkuLocationInfoZonesList;
+  zones?: ResourceSkuLocationInfoZonesList | undefined;
   /** Details of capabilities available to a SKU in specific zones. */
-  zoneDetails?: ResourceSkuLocationInfoZoneDetailsList;
+  zoneDetails?: ResourceSkuLocationInfoZoneDetailsList | undefined;
 }
 /** The type of restrictions. */
 export type ResourceSkuRestrictionsType = "Location" | "Zone";
@@ -604,50 +604,50 @@ export type ResourceSkuRestrictionInfoZonesList = Array<string>;
 /** Describes an available Compute SKU Restriction Information. */
 export interface ResourceSkuRestrictionInfo {
   /** Locations where the SKU is restricted */
-  locations?: ResourceSkuRestrictionInfoLocationsList;
+  locations?: ResourceSkuRestrictionInfoLocationsList | undefined;
   /** List of availability zones where the SKU is restricted. */
-  zones?: ResourceSkuRestrictionInfoZonesList;
+  zones?: ResourceSkuRestrictionInfoZonesList | undefined;
 }
 /** The reason for restriction. */
 export type ResourceSkuRestrictionsReasonCode = "QuotaId" | "NotAvailableForSubscription";
 /** Describes scaling information of a SKU. */
 export interface ResourceSkuRestrictions {
   /** The type of restrictions. */
-  type?: ResourceSkuRestrictionsType;
+  type?: ResourceSkuRestrictionsType | undefined;
   /** The value of restrictions. If the restriction type is set to location. This would be different locations where the SKU is restricted. */
-  values?: ResourceSkuRestrictionsValuesList;
+  values?: ResourceSkuRestrictionsValuesList | undefined;
   /** The information about the restriction where the SKU cannot be used. */
-  restrictionInfo?: ResourceSkuRestrictionInfo;
+  restrictionInfo?: ResourceSkuRestrictionInfo | undefined;
   /** The reason for restriction. */
-  reasonCode?: ResourceSkuRestrictionsReasonCode;
+  reasonCode?: ResourceSkuRestrictionsReasonCode | undefined;
 }
 /** The restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
 export type ResourceSkuInfoRestrictionsList = Array<ResourceSkuRestrictions>;
 /** Resource SKU Details */
 export interface ResourceSkuInfo {
   /** StoragePool RP API version */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   /** StoragePool resource type */
-  resourceType?: string;
+  resourceType?: string | undefined;
   /** List of additional capabilities for StoragePool resource. */
-  capabilities?: ResourceSkuInfoCapabilitiesList;
+  capabilities?: ResourceSkuInfoCapabilitiesList | undefined;
   /** Zones and zone capabilities in those locations where the SKU is available. */
-  locationInfo?: ResourceSkuLocationInfo;
+  locationInfo?: ResourceSkuLocationInfo | undefined;
   /** Sku name */
-  name?: string;
+  name?: string | undefined;
   /** Sku tier */
-  tier?: string;
+  tier?: string | undefined;
   /** The restrictions because of which SKU cannot be used. This is empty if there are no restrictions. */
-  restrictions?: ResourceSkuInfoRestrictionsList;
+  restrictions?: ResourceSkuInfoRestrictionsList | undefined;
 }
 /** The list of StoragePool resource skus. */
 export type ResourceSkuListResultValueList = Array<ResourceSkuInfo>;
 /** List Disk Pool skus operation response. */
 export interface ResourceSkuListResult {
   /** The list of StoragePool resource skus. */
-  value?: ResourceSkuListResultValueList;
+  value?: ResourceSkuListResultValueList | undefined;
   /** URI to fetch the next section of the paginated response. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface StartDiskPoolRequest {
   /** The ID of the target subscription. */
@@ -663,7 +663,7 @@ export type DiskPoolUpdatePropertiesDisksList = Array<Disk>;
 /** Properties for Disk Pool update request. */
 export interface DiskPoolUpdateProperties {
   /** List of Azure Managed Disks to attach to a Disk Pool. */
-  disks?: DiskPoolUpdatePropertiesDisksList;
+  disks?: DiskPoolUpdatePropertiesDisksList | undefined;
 }
 /** Resource tags. */
 export type UpdateDiskPoolRequestTagsMap = { [key: string]: string | undefined };
@@ -675,39 +675,39 @@ export interface UpdateDiskPoolRequest {
   /** The name of the Disk Pool. */
   diskPoolName: string;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** List of Azure resource ids that manage this resource. */
-  managedByExtended?: ManagedByExtended;
+  managedByExtended?: ManagedByExtended | undefined;
   /** Properties for Disk Pool update request. */
   properties: DiskPoolUpdateProperties;
   /** Determines the SKU of the Disk Pool */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Resource tags. */
-  tags?: UpdateDiskPoolRequestTagsMap;
+  tags?: UpdateDiskPoolRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateDiskPoolResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateDiskPoolResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateDiskPoolResponseTagsMap;
+  tags?: UpdateDiskPoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives. */
   location: string;
   /** Determines the SKU of the Disk pool */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Properties of Disk Pool. */
   properties: DiskPoolProperties;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** List of Azure resource ids that manage this resource. */
-  managedByExtended?: ManagedByExtended;
+  managedByExtended?: ManagedByExtended | undefined;
   /** Resource metadata required by ARM RPC */
-  systemData?: SystemMetadata;
+  systemData?: SystemMetadata | undefined;
 }
 /** Access Control List (ACL) for an iSCSI Target; defines LUN masking policy */
 export type IscsiTargetUpdatePropertiesInputStaticAclsList = Array<Acl>;
@@ -716,9 +716,9 @@ export type IscsiTargetUpdatePropertiesInputLunsList = Array<IscsiLunInput>;
 /** Properties for iSCSI Target update request. */
 export interface IscsiTargetUpdatePropertiesInput {
   /** Access Control List (ACL) for an iSCSI Target; defines LUN masking policy */
-  staticAcls?: IscsiTargetUpdatePropertiesInputStaticAclsList;
+  staticAcls?: IscsiTargetUpdatePropertiesInputStaticAclsList | undefined;
   /** List of LUNs to be exposed through iSCSI Target. */
-  luns?: IscsiTargetUpdatePropertiesInputLunsList;
+  luns?: IscsiTargetUpdatePropertiesInputLunsList | undefined;
 }
 export interface UpdateIscsiTargetRequest {
   /** The ID of the target subscription. */
@@ -732,25 +732,25 @@ export interface UpdateIscsiTargetRequest {
   /** Properties for iSCSI Target update request. */
   properties: IscsiTargetUpdatePropertiesInput;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** List of Azure resource ids that manage this resource. */
-  managedByExtended?: ManagedByExtended;
+  managedByExtended?: ManagedByExtended | undefined;
 }
 export interface UpdateIscsiTargetResponse {
   /** Fully qualified resource Id for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. Ex- Microsoft.Compute/virtualMachines or Microsoft.Storage/storageAccounts. */
-  type?: string;
+  type?: string | undefined;
   /** Properties for iSCSI Target operations. */
   properties: IscsiTargetProperties;
   /** Resource metadata required by ARM RPC */
-  systemData?: SystemMetadata;
+  systemData?: SystemMetadata | undefined;
   /** Azure resource id. Indicates if this resource is managed by another Azure resource. */
-  managedBy?: string;
+  managedBy?: string | undefined;
   /** List of Azure resource ids that manage this resource. */
-  managedByExtended?: ManagedByExtended;
+  managedByExtended?: ManagedByExtended | undefined;
 }
 export type DeleteDiskPoolError = AzureOpError;
 /** Delete a Disk pool; attached disks are not affected. This delete operation can take 10 minutes to complete. This is expected service behavior. */

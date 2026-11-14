@@ -6,11 +6,10 @@ import { runGeneratorCli } from "@distilled.cloud/dev/codegen/cli";
  *   machines.json  → src/services/machines.ts   FlyIoProtocol (Machines REST)
  *   sprites.json   → src/services/sprites.ts    SpritesProtocol (mint from FLY_API_TOKEN)
  *   mpg.json       → src/services/mpg.ts        FlyApiProtocol (api.fly.io REST)
- *   addons.json    → src/services/addons.ts     FlyGraphqlProtocol
- *   builders.json  → src/services/builders.ts   FlyGraphqlProtocol
  *
  * Patches and model stamps apply in scripts/convert.ts. Generate only
- * compiles the already-patched Smithy models.
+ * compiles the already-patched Smithy models. The GraphQL Query SDK
+ * (src/graphql.ts) comes from scripts/generate-graphql.ts, which runs first.
  */
 import { type SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 import {
@@ -18,26 +17,18 @@ import {
   NULLABLE_TRAIT,
   RAW_RESPONSE_TRAIT,
 } from "@distilled.cloud/dev/codegen/openapi";
+import * as Effect from "effect/Effect";
+import { generateGraphQL } from "./generate-graphql.ts";
 
 const CORE_ERROR_CLASSES = [
   "BadRequest",
   "Conflict",
-  "CreateExtensionTosAgreementNotAuthorized",
   "Forbidden",
   "GatewayTimeout",
   "NotFound",
-  "RemoteBuilderAppNotFound",
   "SpritesNotEnabled",
   "UnprocessableEntity",
 ];
-
-const GQL_OP = "com.flyio.graphql#operation";
-const GQL_RESPONSE_PATH = "com.flyio.graphql#responsePath";
-const GQL_NULLABLE = "com.flyio.graphql#nullable";
-const GQL_NULLABLE_ITEMS = "com.flyio.graphql#nullableItems";
-const GQL_PAYLOAD = "com.flyio.graphql#payload";
-
-const PURE = "/*@__PURE__*/ ";
 
 const namespaceOf = (model: any): string => {
   for (const id of Object.keys(model.shapes ?? {})) {
@@ -147,103 +138,6 @@ const restSpec = (opts: {
   },
 });
 
-const graphqlSpec = (model: any, sourceNote: string): SdkSpec => ({
-  nullableTrait: GQL_NULLABLE,
-  sourceNote,
-  structPipes: (ctx) => {
-    const traits = model.shapes?.[ctx.id]?.traits ?? {};
-    const pipes: string[] = [];
-    if (ctx.httpTrait) {
-      pipes.push(`T.Http(${JSON.stringify(ctx.httpTrait)})`);
-    }
-    if (traits[GQL_OP] !== undefined) {
-      pipes.push(`T.GraphQLOp(${JSON.stringify(traits[GQL_OP])})`);
-    }
-    if (traits[GQL_RESPONSE_PATH] !== undefined) {
-      pipes.push(`T.ResponsePath(${JSON.stringify(traits[GQL_RESPONSE_PATH])})`);
-    }
-    return pipes;
-  },
-  shapeOverride: (ctx) => {
-    if (ctx.def.type === "list" && ctx.def.traits?.[GQL_NULLABLE_ITEMS] !== undefined) {
-      const t = ctx.def.member.target;
-      return [
-        `export type ${ctx.name} = (${ctx.tsRef(t)} | null)[];`,
-        `export const ${ctx.name} = ${PURE}S.Array(S.NullOr(${ctx.ref(t, ctx.selfIdx)})) as any as S.Schema<${ctx.name}>;\n`,
-      ];
-    }
-    if (ctx.def.type === "structure") {
-      const entries = Object.entries(ctx.def.members ?? {});
-      if (entries.length === 1) {
-        const [, m] = entries[0]! as [string, any];
-        const mTraits = m.traits ?? {};
-        if (GQL_PAYLOAD in mTraits) {
-          const nullable = GQL_NULLABLE in mTraits;
-          const rp = ctx.def.traits?.[GQL_RESPONSE_PATH];
-          const inner = nullable
-            ? `S.NullOr(${ctx.ref(m.target, ctx.selfIdx)})`
-            : ctx.ref(m.target, ctx.selfIdx);
-          const pipes = [
-            "T.GraphQLPayloadRoot()",
-            ...(rp !== undefined ? [`T.ResponsePath(${JSON.stringify(rp)})`] : []),
-          ];
-          return [
-            `export type ${ctx.name} = ${ctx.tsRef(m.target)}${nullable ? " | null" : ""};`,
-            `export const ${ctx.name} = ${PURE}S.suspend(() =>\n${inner}.pipe(${pipes.join(", ")}),\n).annotate({ identifier: ${JSON.stringify(ctx.name)} }) as any as S.Schema<${ctx.name}>;\n`,
-          ];
-        }
-      }
-    }
-    return undefined;
-  },
-  memberTraitPipes: {
-    "smithy.api#sensitive": "T.SensitiveValue",
-  },
-  memberTsType: (m) =>
-    "smithy.api#sensitive" in (m.traits ?? {})
-      ? `string | Redacted.Redacted<string>${m.nullable ? " | null" : ""}`
-      : undefined,
-  errorMatchersTrait: ERROR_MATCHERS_TRAIT,
-  errors: {
-    override: ({ name }) => (CORE_ERROR_CLASSES.includes(name) ? [] : undefined),
-  },
-  paginationProfiles: {
-    relay: {
-      strategy: "paginateRelay",
-      itemsFallback: "edges.node",
-    },
-  },
-  operationDecl: {
-    contextType: "FlyIoOpContext",
-    commonErrorType: "FlyIoOpError",
-    commonErrorClasses: ["UnknownFlyIoError", "FlyIoParseError"],
-    protocol: "FlyGraphqlProtocol",
-    retry: "Retry.Retry",
-  },
-  postProcess: (code) => {
-    let next = code;
-    if (next.includes("Redacted.Redacted<") && !next.includes('from "effect/Redacted"')) {
-      next = next.replace(
-        `import * as S from "@distilled.cloud/core/schema-lite";\n`,
-        `import * as S from "@distilled.cloud/core/schema-lite";\n` +
-          `import type * as Redacted from "effect/Redacted";\n`,
-      );
-    }
-    // Hand-written error classes from errors.ts that the operations reference.
-    const commonImport = `import { FlyIoParseError, UnknownFlyIoError } from "../errors.ts";`;
-    const typed = CORE_ERROR_CLASSES.filter((n) =>
-      new RegExp(`\\b${n}\\b`).test(next.replace(commonImport, "")),
-    );
-    if (typed.length > 0) {
-      next = next.replace(
-        commonImport,
-        `import { ${[...typed, "FlyIoParseError", "UnknownFlyIoError"].sort().join(", ")} } from "../errors.ts";`,
-      );
-    }
-    return next;
-  },
-});
-
 const machinesSpec = restSpec({
   protocol: "FlyIoProtocol",
   contextType: "FlyIoOpContext",
@@ -257,6 +151,7 @@ runGeneratorCli({
   convert: () => import("./convert.ts"),
   root: `${import.meta.dirname}/..`,
   patchesDir: false,
+  prepare: () => Effect.promise(generateGraphQL),
   spec: (model) => {
     const ns = namespaceOf(model);
     if (ns === "com.flyio.sprites") {
@@ -278,15 +173,6 @@ runGeneratorCli({
         sourceNote: ".generated-specs (mpg UI-EX OpenAPI)",
         sensitiveTs: true,
       });
-    }
-    if (ns === "com.flyio.addons") {
-      return graphqlSpec(model, ".generated-specs (Fly GraphQL add-ons introspection → smithy)");
-    }
-    if (ns === "com.flyio.builders") {
-      return graphqlSpec(
-        model,
-        ".generated-specs (Fly GraphQL remote builders introspection → smithy)",
-      );
     }
     return machinesSpec;
   },

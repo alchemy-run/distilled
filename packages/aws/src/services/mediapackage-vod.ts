@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -128,51 +129,53 @@ export class UnprocessableEntityException
     /*@__PURE__*/ T.HttpError(422),
   ).pipe(C.withBadRequestError) {}
 export interface EgressAccessLogs {
-  LogGroupName?: string;
+  LogGroupName?: string | undefined;
 }
 export interface ConfigureLogsRequest {
-  EgressAccessLogs?: EgressAccessLogs;
+  EgressAccessLogs?: EgressAccessLogs | undefined;
   Id: string;
 }
 export interface Authorization {
-  CdnIdentifierSecret?: string;
-  SecretsRoleArn?: string;
+  CdnIdentifierSecret?: string | undefined;
+  SecretsRoleArn?: string | undefined;
 }
 export type Tags = { [key: string]: string | undefined };
 export interface ConfigureLogsResponse {
-  Arn?: string;
-  Authorization?: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
-  CreatedAt?: string;
-  DomainName?: string;
-  EgressAccessLogs?: EgressAccessLogs;
-  Id?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  Authorization?:
+    | (Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string })
+    | undefined;
+  CreatedAt?: string | undefined;
+  DomainName?: string | undefined;
+  EgressAccessLogs?: EgressAccessLogs | undefined;
+  Id?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateAssetRequest {
-  Id?: string;
-  PackagingGroupId?: string;
-  ResourceId?: string;
-  SourceArn?: string;
-  SourceRoleArn?: string;
-  Tags?: { [key: string]: string | undefined };
+  Id?: string | undefined;
+  PackagingGroupId?: string | undefined;
+  ResourceId?: string | undefined;
+  SourceArn?: string | undefined;
+  SourceRoleArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface EgressEndpoint {
-  PackagingConfigurationId?: string;
-  Status?: string;
-  Url?: string;
+  PackagingConfigurationId?: string | undefined;
+  Status?: string | undefined;
+  Url?: string | undefined;
 }
 export type __listOfEgressEndpoint = EgressEndpoint[];
 const __listOfEgressEndpoint = /*@__PURE__*/ __L.at(__c20, 1);
 export interface CreateAssetResponse {
-  Arn?: string;
-  CreatedAt?: string;
-  EgressEndpoints?: EgressEndpoint[];
-  Id?: string;
-  PackagingGroupId?: string;
-  ResourceId?: string;
-  SourceArn?: string;
-  SourceRoleArn?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreatedAt?: string | undefined;
+  EgressEndpoints?: EgressEndpoint[] | undefined;
+  Id?: string | undefined;
+  PackagingGroupId?: string | undefined;
+  ResourceId?: string | undefined;
+  SourceArn?: string | undefined;
+  SourceRoleArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type PresetSpeke20Audio =
   | "PRESET-AUDIO-1"
@@ -194,20 +197,20 @@ export type PresetSpeke20Video =
   | "UNENCRYPTED"
   | (string & {});
 export interface EncryptionContractConfiguration {
-  PresetSpeke20Audio?: PresetSpeke20Audio;
-  PresetSpeke20Video?: PresetSpeke20Video;
+  PresetSpeke20Audio?: PresetSpeke20Audio | undefined;
+  PresetSpeke20Video?: PresetSpeke20Video | undefined;
 }
 export type __listOf__string = string[];
 const __listOf__string = /*@__PURE__*/ __L.at(__c23, 0);
 export interface SpekeKeyProvider {
-  EncryptionContractConfiguration?: EncryptionContractConfiguration;
-  RoleArn?: string;
-  SystemIds?: string[];
-  Url?: string;
+  EncryptionContractConfiguration?: EncryptionContractConfiguration | undefined;
+  RoleArn?: string | undefined;
+  SystemIds?: string[] | undefined;
+  Url?: string | undefined;
 }
 export interface CmafEncryption {
-  ConstantInitializationVector?: string;
-  SpekeKeyProvider?: SpekeKeyProvider;
+  ConstantInitializationVector?: string | undefined;
+  SpekeKeyProvider?: SpekeKeyProvider | undefined;
 }
 export type AdMarkers = "NONE" | "SCTE35_ENHANCED" | "PASSTHROUGH" | (string & {});
 export type StreamOrder =
@@ -216,41 +219,41 @@ export type StreamOrder =
   | "VIDEO_BITRATE_DESCENDING"
   | (string & {});
 export interface StreamSelection {
-  MaxVideoBitsPerSecond?: number;
-  MinVideoBitsPerSecond?: number;
-  StreamOrder?: StreamOrder;
+  MaxVideoBitsPerSecond?: number | undefined;
+  MinVideoBitsPerSecond?: number | undefined;
+  StreamOrder?: StreamOrder | undefined;
 }
 export interface HlsManifest {
-  AdMarkers?: AdMarkers;
-  IncludeIframeOnlyStream?: boolean;
-  ManifestName?: string;
-  ProgramDateTimeIntervalSeconds?: number;
-  RepeatExtXKey?: boolean;
-  StreamSelection?: StreamSelection;
+  AdMarkers?: AdMarkers | undefined;
+  IncludeIframeOnlyStream?: boolean | undefined;
+  ManifestName?: string | undefined;
+  ProgramDateTimeIntervalSeconds?: number | undefined;
+  RepeatExtXKey?: boolean | undefined;
+  StreamSelection?: StreamSelection | undefined;
 }
 export type __listOfHlsManifest = HlsManifest[];
 const __listOfHlsManifest = /*@__PURE__*/ __L.at(__c22, 5);
 export interface CmafPackage {
-  Encryption?: CmafEncryption;
-  HlsManifests?: HlsManifest[];
-  IncludeEncoderConfigurationInSegments?: boolean;
-  SegmentDurationSeconds?: number;
+  Encryption?: CmafEncryption | undefined;
+  HlsManifests?: HlsManifest[] | undefined;
+  IncludeEncoderConfigurationInSegments?: boolean | undefined;
+  SegmentDurationSeconds?: number | undefined;
 }
 export type ManifestLayout = "FULL" | "COMPACT" | (string & {});
 export type Profile = "NONE" | "HBBTV_1_5" | (string & {});
 export type ScteMarkersSource = "SEGMENTS" | "MANIFEST" | (string & {});
 export interface DashManifest {
-  ManifestLayout?: ManifestLayout;
-  ManifestName?: string;
-  MinBufferTimeSeconds?: number;
-  Profile?: Profile;
-  ScteMarkersSource?: ScteMarkersSource;
-  StreamSelection?: StreamSelection;
+  ManifestLayout?: ManifestLayout | undefined;
+  ManifestName?: string | undefined;
+  MinBufferTimeSeconds?: number | undefined;
+  Profile?: Profile | undefined;
+  ScteMarkersSource?: ScteMarkersSource | undefined;
+  StreamSelection?: StreamSelection | undefined;
 }
 export type __listOfDashManifest = DashManifest[];
 const __listOfDashManifest = /*@__PURE__*/ __L.at(__c22, 8);
 export interface DashEncryption {
-  SpekeKeyProvider?: SpekeKeyProvider;
+  SpekeKeyProvider?: SpekeKeyProvider | undefined;
 }
 export type __PeriodTriggersElement = "ADS" | (string & {});
 const __PeriodTriggersElement = S.String;
@@ -263,127 +266,137 @@ export type SegmentTemplateFormat =
   | "NUMBER_WITH_DURATION"
   | (string & {});
 export interface DashPackage {
-  DashManifests?: DashManifest[];
-  Encryption?: DashEncryption;
-  IncludeEncoderConfigurationInSegments?: boolean;
-  IncludeIframeOnlyStream?: boolean;
-  PeriodTriggers?: __PeriodTriggersElement[];
-  SegmentDurationSeconds?: number;
-  SegmentTemplateFormat?: SegmentTemplateFormat;
+  DashManifests?: DashManifest[] | undefined;
+  Encryption?: DashEncryption | undefined;
+  IncludeEncoderConfigurationInSegments?: boolean | undefined;
+  IncludeIframeOnlyStream?: boolean | undefined;
+  PeriodTriggers?: __PeriodTriggersElement[] | undefined;
+  SegmentDurationSeconds?: number | undefined;
+  SegmentTemplateFormat?: SegmentTemplateFormat | undefined;
 }
 export type EncryptionMethod = "AES_128" | "SAMPLE_AES" | (string & {});
 export interface HlsEncryption {
-  ConstantInitializationVector?: string;
-  EncryptionMethod?: EncryptionMethod;
-  SpekeKeyProvider?: SpekeKeyProvider;
+  ConstantInitializationVector?: string | undefined;
+  EncryptionMethod?: EncryptionMethod | undefined;
+  SpekeKeyProvider?: SpekeKeyProvider | undefined;
 }
 export interface HlsPackage {
-  Encryption?: HlsEncryption;
-  HlsManifests?: HlsManifest[];
-  IncludeDvbSubtitles?: boolean;
-  SegmentDurationSeconds?: number;
-  UseAudioRenditionGroup?: boolean;
+  Encryption?: HlsEncryption | undefined;
+  HlsManifests?: HlsManifest[] | undefined;
+  IncludeDvbSubtitles?: boolean | undefined;
+  SegmentDurationSeconds?: number | undefined;
+  UseAudioRenditionGroup?: boolean | undefined;
 }
 export interface MssEncryption {
-  SpekeKeyProvider?: SpekeKeyProvider;
+  SpekeKeyProvider?: SpekeKeyProvider | undefined;
 }
 export interface MssManifest {
-  ManifestName?: string;
-  StreamSelection?: StreamSelection;
+  ManifestName?: string | undefined;
+  StreamSelection?: StreamSelection | undefined;
 }
 export type __listOfMssManifest = MssManifest[];
 const __listOfMssManifest = /*@__PURE__*/ __L.at(__c22, 15);
 export interface MssPackage {
-  Encryption?: MssEncryption;
-  MssManifests?: MssManifest[];
-  SegmentDurationSeconds?: number;
+  Encryption?: MssEncryption | undefined;
+  MssManifests?: MssManifest[] | undefined;
+  SegmentDurationSeconds?: number | undefined;
 }
 export interface CreatePackagingConfigurationRequest {
-  CmafPackage?: CmafPackage;
-  DashPackage?: DashPackage;
-  HlsPackage?: HlsPackage;
-  Id?: string;
-  MssPackage?: MssPackage;
-  PackagingGroupId?: string;
-  Tags?: { [key: string]: string | undefined };
+  CmafPackage?: CmafPackage | undefined;
+  DashPackage?: DashPackage | undefined;
+  HlsPackage?: HlsPackage | undefined;
+  Id?: string | undefined;
+  MssPackage?: MssPackage | undefined;
+  PackagingGroupId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreatePackagingConfigurationResponse {
-  Arn?: string;
-  CmafPackage?: CmafPackage & {
-    HlsManifests: __listOfHlsManifest;
-    Encryption: CmafEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+  Arn?: string | undefined;
+  CmafPackage?:
+    | (CmafPackage & {
+        HlsManifests: __listOfHlsManifest;
+        Encryption: CmafEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-  };
-  CreatedAt?: string;
-  DashPackage?: DashPackage & {
-    DashManifests: __listOfDashManifest;
-    Encryption: DashEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+      })
+    | undefined;
+  CreatedAt?: string | undefined;
+  DashPackage?:
+    | (DashPackage & {
+        DashManifests: __listOfDashManifest;
+        Encryption: DashEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-  };
-  HlsPackage?: HlsPackage & {
-    HlsManifests: __listOfHlsManifest;
-    Encryption: HlsEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+      })
+    | undefined;
+  HlsPackage?:
+    | (HlsPackage & {
+        HlsManifests: __listOfHlsManifest;
+        Encryption: HlsEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-  };
-  Id?: string;
-  MssPackage?: MssPackage & {
-    MssManifests: __listOfMssManifest;
-    Encryption: MssEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+      })
+    | undefined;
+  Id?: string | undefined;
+  MssPackage?:
+    | (MssPackage & {
+        MssManifests: __listOfMssManifest;
+        Encryption: MssEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-  };
-  PackagingGroupId?: string;
-  Tags?: { [key: string]: string | undefined };
+      })
+    | undefined;
+  PackagingGroupId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreatePackagingGroupRequest {
-  Authorization?: Authorization;
-  EgressAccessLogs?: EgressAccessLogs;
-  Id?: string;
-  Tags?: { [key: string]: string | undefined };
+  Authorization?: Authorization | undefined;
+  EgressAccessLogs?: EgressAccessLogs | undefined;
+  Id?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreatePackagingGroupResponse {
-  Arn?: string;
-  Authorization?: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
-  CreatedAt?: string;
-  DomainName?: string;
-  EgressAccessLogs?: EgressAccessLogs;
-  Id?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  Authorization?:
+    | (Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string })
+    | undefined;
+  CreatedAt?: string | undefined;
+  DomainName?: string | undefined;
+  EgressAccessLogs?: EgressAccessLogs | undefined;
+  Id?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteAssetRequest {
   Id: string;
@@ -401,217 +414,231 @@ export interface DescribeAssetRequest {
   Id: string;
 }
 export interface DescribeAssetResponse {
-  Arn?: string;
-  CreatedAt?: string;
-  EgressEndpoints?: EgressEndpoint[];
-  Id?: string;
-  PackagingGroupId?: string;
-  ResourceId?: string;
-  SourceArn?: string;
-  SourceRoleArn?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreatedAt?: string | undefined;
+  EgressEndpoints?: EgressEndpoint[] | undefined;
+  Id?: string | undefined;
+  PackagingGroupId?: string | undefined;
+  ResourceId?: string | undefined;
+  SourceArn?: string | undefined;
+  SourceRoleArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribePackagingConfigurationRequest {
   Id: string;
 }
 export interface DescribePackagingConfigurationResponse {
-  Arn?: string;
-  CmafPackage?: CmafPackage & {
-    HlsManifests: __listOfHlsManifest;
-    Encryption: CmafEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+  Arn?: string | undefined;
+  CmafPackage?:
+    | (CmafPackage & {
+        HlsManifests: __listOfHlsManifest;
+        Encryption: CmafEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-  };
-  CreatedAt?: string;
-  DashPackage?: DashPackage & {
-    DashManifests: __listOfDashManifest;
-    Encryption: DashEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+      })
+    | undefined;
+  CreatedAt?: string | undefined;
+  DashPackage?:
+    | (DashPackage & {
+        DashManifests: __listOfDashManifest;
+        Encryption: DashEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-  };
-  HlsPackage?: HlsPackage & {
-    HlsManifests: __listOfHlsManifest;
-    Encryption: HlsEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+      })
+    | undefined;
+  HlsPackage?:
+    | (HlsPackage & {
+        HlsManifests: __listOfHlsManifest;
+        Encryption: HlsEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-  };
-  Id?: string;
-  MssPackage?: MssPackage & {
-    MssManifests: __listOfMssManifest;
-    Encryption: MssEncryption & {
-      SpekeKeyProvider: SpekeKeyProvider & {
-        RoleArn: string;
-        SystemIds: __listOf__string;
-        Url: string;
-        EncryptionContractConfiguration: EncryptionContractConfiguration & {
-          PresetSpeke20Audio: PresetSpeke20Audio;
-          PresetSpeke20Video: PresetSpeke20Video;
+      })
+    | undefined;
+  Id?: string | undefined;
+  MssPackage?:
+    | (MssPackage & {
+        MssManifests: __listOfMssManifest;
+        Encryption: MssEncryption & {
+          SpekeKeyProvider: SpekeKeyProvider & {
+            RoleArn: string;
+            SystemIds: __listOf__string;
+            Url: string;
+            EncryptionContractConfiguration: EncryptionContractConfiguration & {
+              PresetSpeke20Audio: PresetSpeke20Audio;
+              PresetSpeke20Video: PresetSpeke20Video;
+            };
+          };
         };
-      };
-    };
-  };
-  PackagingGroupId?: string;
-  Tags?: { [key: string]: string | undefined };
+      })
+    | undefined;
+  PackagingGroupId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribePackagingGroupRequest {
   Id: string;
 }
 export interface DescribePackagingGroupResponse {
-  ApproximateAssetCount?: number;
-  Arn?: string;
-  Authorization?: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
-  CreatedAt?: string;
-  DomainName?: string;
-  EgressAccessLogs?: EgressAccessLogs;
-  Id?: string;
-  Tags?: { [key: string]: string | undefined };
+  ApproximateAssetCount?: number | undefined;
+  Arn?: string | undefined;
+  Authorization?:
+    | (Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string })
+    | undefined;
+  CreatedAt?: string | undefined;
+  DomainName?: string | undefined;
+  EgressAccessLogs?: EgressAccessLogs | undefined;
+  Id?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type MaxResults = number;
 export interface ListAssetsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  PackagingGroupId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  PackagingGroupId?: string | undefined;
 }
 export interface AssetShallow {
-  Arn?: string;
-  CreatedAt?: string;
-  Id?: string;
-  PackagingGroupId?: string;
-  ResourceId?: string;
-  SourceArn?: string;
-  SourceRoleArn?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CreatedAt?: string | undefined;
+  Id?: string | undefined;
+  PackagingGroupId?: string | undefined;
+  ResourceId?: string | undefined;
+  SourceArn?: string | undefined;
+  SourceRoleArn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfAssetShallow = AssetShallow[];
 const __listOfAssetShallow = /*@__PURE__*/ __L.at(__c8, 2);
 export interface ListAssetsResponse {
-  Assets?: AssetShallow[];
-  NextToken?: string;
+  Assets?: AssetShallow[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPackagingConfigurationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  PackagingGroupId?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  PackagingGroupId?: string | undefined;
 }
 export interface PackagingConfiguration {
-  Arn?: string;
-  CmafPackage?: CmafPackage;
-  CreatedAt?: string;
-  DashPackage?: DashPackage;
-  HlsPackage?: HlsPackage;
-  Id?: string;
-  MssPackage?: MssPackage;
-  PackagingGroupId?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  CmafPackage?: CmafPackage | undefined;
+  CreatedAt?: string | undefined;
+  DashPackage?: DashPackage | undefined;
+  HlsPackage?: HlsPackage | undefined;
+  Id?: string | undefined;
+  MssPackage?: MssPackage | undefined;
+  PackagingGroupId?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfPackagingConfiguration = PackagingConfiguration[];
 const __listOfPackagingConfiguration = /*@__PURE__*/ __L.at(__c9, 1);
 export interface ListPackagingConfigurationsResponse {
-  NextToken?: string;
-  PackagingConfigurations?: (PackagingConfiguration & {
-    CmafPackage: CmafPackage & {
-      HlsManifests: __listOfHlsManifest;
-      Encryption: CmafEncryption & {
-        SpekeKeyProvider: SpekeKeyProvider & {
-          RoleArn: string;
-          SystemIds: __listOf__string;
-          Url: string;
-          EncryptionContractConfiguration: EncryptionContractConfiguration & {
-            PresetSpeke20Audio: PresetSpeke20Audio;
-            PresetSpeke20Video: PresetSpeke20Video;
+  NextToken?: string | undefined;
+  PackagingConfigurations?:
+    | (PackagingConfiguration & {
+        CmafPackage: CmafPackage & {
+          HlsManifests: __listOfHlsManifest;
+          Encryption: CmafEncryption & {
+            SpekeKeyProvider: SpekeKeyProvider & {
+              RoleArn: string;
+              SystemIds: __listOf__string;
+              Url: string;
+              EncryptionContractConfiguration: EncryptionContractConfiguration & {
+                PresetSpeke20Audio: PresetSpeke20Audio;
+                PresetSpeke20Video: PresetSpeke20Video;
+              };
+            };
           };
         };
-      };
-    };
-    DashPackage: DashPackage & {
-      DashManifests: __listOfDashManifest;
-      Encryption: DashEncryption & {
-        SpekeKeyProvider: SpekeKeyProvider & {
-          RoleArn: string;
-          SystemIds: __listOf__string;
-          Url: string;
-          EncryptionContractConfiguration: EncryptionContractConfiguration & {
-            PresetSpeke20Audio: PresetSpeke20Audio;
-            PresetSpeke20Video: PresetSpeke20Video;
+        DashPackage: DashPackage & {
+          DashManifests: __listOfDashManifest;
+          Encryption: DashEncryption & {
+            SpekeKeyProvider: SpekeKeyProvider & {
+              RoleArn: string;
+              SystemIds: __listOf__string;
+              Url: string;
+              EncryptionContractConfiguration: EncryptionContractConfiguration & {
+                PresetSpeke20Audio: PresetSpeke20Audio;
+                PresetSpeke20Video: PresetSpeke20Video;
+              };
+            };
           };
         };
-      };
-    };
-    HlsPackage: HlsPackage & {
-      HlsManifests: __listOfHlsManifest;
-      Encryption: HlsEncryption & {
-        SpekeKeyProvider: SpekeKeyProvider & {
-          RoleArn: string;
-          SystemIds: __listOf__string;
-          Url: string;
-          EncryptionContractConfiguration: EncryptionContractConfiguration & {
-            PresetSpeke20Audio: PresetSpeke20Audio;
-            PresetSpeke20Video: PresetSpeke20Video;
+        HlsPackage: HlsPackage & {
+          HlsManifests: __listOfHlsManifest;
+          Encryption: HlsEncryption & {
+            SpekeKeyProvider: SpekeKeyProvider & {
+              RoleArn: string;
+              SystemIds: __listOf__string;
+              Url: string;
+              EncryptionContractConfiguration: EncryptionContractConfiguration & {
+                PresetSpeke20Audio: PresetSpeke20Audio;
+                PresetSpeke20Video: PresetSpeke20Video;
+              };
+            };
           };
         };
-      };
-    };
-    MssPackage: MssPackage & {
-      MssManifests: __listOfMssManifest;
-      Encryption: MssEncryption & {
-        SpekeKeyProvider: SpekeKeyProvider & {
-          RoleArn: string;
-          SystemIds: __listOf__string;
-          Url: string;
-          EncryptionContractConfiguration: EncryptionContractConfiguration & {
-            PresetSpeke20Audio: PresetSpeke20Audio;
-            PresetSpeke20Video: PresetSpeke20Video;
+        MssPackage: MssPackage & {
+          MssManifests: __listOfMssManifest;
+          Encryption: MssEncryption & {
+            SpekeKeyProvider: SpekeKeyProvider & {
+              RoleArn: string;
+              SystemIds: __listOf__string;
+              Url: string;
+              EncryptionContractConfiguration: EncryptionContractConfiguration & {
+                PresetSpeke20Audio: PresetSpeke20Audio;
+                PresetSpeke20Video: PresetSpeke20Video;
+              };
+            };
           };
         };
-      };
-    };
-  })[];
+      })[]
+    | undefined;
 }
 export interface ListPackagingGroupsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface PackagingGroup {
-  ApproximateAssetCount?: number;
-  Arn?: string;
-  Authorization?: Authorization;
-  CreatedAt?: string;
-  DomainName?: string;
-  EgressAccessLogs?: EgressAccessLogs;
-  Id?: string;
-  Tags?: { [key: string]: string | undefined };
+  ApproximateAssetCount?: number | undefined;
+  Arn?: string | undefined;
+  Authorization?: Authorization | undefined;
+  CreatedAt?: string | undefined;
+  DomainName?: string | undefined;
+  EgressAccessLogs?: EgressAccessLogs | undefined;
+  Id?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type __listOfPackagingGroup = PackagingGroup[];
 const __listOfPackagingGroup = /*@__PURE__*/ __L.at(__c10, 1);
 export interface ListPackagingGroupsResponse {
-  NextToken?: string;
-  PackagingGroups?: (PackagingGroup & {
-    Authorization: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
-  })[];
+  NextToken?: string | undefined;
+  PackagingGroups?:
+    | (PackagingGroup & {
+        Authorization: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
+      })[]
+    | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
@@ -619,31 +646,33 @@ export interface ListTagsForResourceRequest {
 export type __mapOf__string = { [key: string]: string | undefined };
 const __mapOf__string = __S(512, __c16, 0) as any as S.Schema<__mapOf__string>;
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdatePackagingGroupRequest {
-  Authorization?: Authorization;
+  Authorization?: Authorization | undefined;
   Id: string;
 }
 export interface UpdatePackagingGroupResponse {
-  ApproximateAssetCount?: number;
-  Arn?: string;
-  Authorization?: Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string };
-  CreatedAt?: string;
-  DomainName?: string;
-  EgressAccessLogs?: EgressAccessLogs;
-  Id?: string;
-  Tags?: { [key: string]: string | undefined };
+  ApproximateAssetCount?: number | undefined;
+  Arn?: string | undefined;
+  Authorization?:
+    | (Authorization & { CdnIdentifierSecret: string; SecretsRoleArn: string })
+    | undefined;
+  CreatedAt?: string | undefined;
+  DomainName?: string | undefined;
+  EgressAccessLogs?: EgressAccessLogs | undefined;
+  Id?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ConfigureLogsError =
   | ForbiddenException
@@ -657,7 +686,7 @@ export type ConfigureLogsError =
  * Changes the packaging group's properities to configure log subscription
  */
 export const configureLogs: API.OperationMethod<
-  ConfigureLogsRequest,
+  ConfigureLogsRequest & RegionInput,
   ConfigureLogsResponse,
   ConfigureLogsError,
   Credentials | HttpClient.HttpClient
@@ -691,7 +720,7 @@ export type CreateAssetError =
  * Creates a new MediaPackage VOD Asset resource.
  */
 export const createAsset: API.OperationMethod<
-  CreateAssetRequest,
+  CreateAssetRequest & RegionInput,
   CreateAssetResponse,
   CreateAssetError,
   Credentials | HttpClient.HttpClient
@@ -725,7 +754,7 @@ export type CreatePackagingConfigurationError =
  * Creates a new MediaPackage VOD PackagingConfiguration resource.
  */
 export const createPackagingConfiguration: API.OperationMethod<
-  CreatePackagingConfigurationRequest,
+  CreatePackagingConfigurationRequest & RegionInput,
   CreatePackagingConfigurationResponse,
   CreatePackagingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -759,7 +788,7 @@ export type CreatePackagingGroupError =
  * Creates a new MediaPackage VOD PackagingGroup resource.
  */
 export const createPackagingGroup: API.OperationMethod<
-  CreatePackagingGroupRequest,
+  CreatePackagingGroupRequest & RegionInput,
   CreatePackagingGroupResponse,
   CreatePackagingGroupError,
   Credentials | HttpClient.HttpClient
@@ -793,7 +822,7 @@ export type DeleteAssetError =
  * Deletes an existing MediaPackage VOD Asset resource.
  */
 export const deleteAsset: API.OperationMethod<
-  DeleteAssetRequest,
+  DeleteAssetRequest & RegionInput,
   DeleteAssetResponse,
   DeleteAssetError,
   Credentials | HttpClient.HttpClient
@@ -827,7 +856,7 @@ export type DeletePackagingConfigurationError =
  * Deletes a MediaPackage VOD PackagingConfiguration resource.
  */
 export const deletePackagingConfiguration: API.OperationMethod<
-  DeletePackagingConfigurationRequest,
+  DeletePackagingConfigurationRequest & RegionInput,
   DeletePackagingConfigurationResponse,
   DeletePackagingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -861,7 +890,7 @@ export type DeletePackagingGroupError =
  * Deletes a MediaPackage VOD PackagingGroup resource.
  */
 export const deletePackagingGroup: API.OperationMethod<
-  DeletePackagingGroupRequest,
+  DeletePackagingGroupRequest & RegionInput,
   DeletePackagingGroupResponse,
   DeletePackagingGroupError,
   Credentials | HttpClient.HttpClient
@@ -895,7 +924,7 @@ export type DescribeAssetError =
  * Returns a description of a MediaPackage VOD Asset resource.
  */
 export const describeAsset: API.OperationMethod<
-  DescribeAssetRequest,
+  DescribeAssetRequest & RegionInput,
   DescribeAssetResponse,
   DescribeAssetError,
   Credentials | HttpClient.HttpClient
@@ -929,7 +958,7 @@ export type DescribePackagingConfigurationError =
  * Returns a description of a MediaPackage VOD PackagingConfiguration resource.
  */
 export const describePackagingConfiguration: API.OperationMethod<
-  DescribePackagingConfigurationRequest,
+  DescribePackagingConfigurationRequest & RegionInput,
   DescribePackagingConfigurationResponse,
   DescribePackagingConfigurationError,
   Credentials | HttpClient.HttpClient
@@ -963,7 +992,7 @@ export type DescribePackagingGroupError =
  * Returns a description of a MediaPackage VOD PackagingGroup resource.
  */
 export const describePackagingGroup: API.OperationMethod<
-  DescribePackagingGroupRequest,
+  DescribePackagingGroupRequest & RegionInput,
   DescribePackagingGroupResponse,
   DescribePackagingGroupError,
   Credentials | HttpClient.HttpClient
@@ -997,7 +1026,7 @@ export type ListAssetsError =
  * Returns a collection of MediaPackage VOD Asset resources.
  */
 export const listAssets: API.PaginatedOperationMethod<
-  ListAssetsRequest,
+  ListAssetsRequest & RegionInput,
   ListAssetsResponse,
   ListAssetsError,
   Credentials | HttpClient.HttpClient,
@@ -1038,7 +1067,7 @@ export type ListPackagingConfigurationsError =
  * Returns a collection of MediaPackage VOD PackagingConfiguration resources.
  */
 export const listPackagingConfigurations: API.PaginatedOperationMethod<
-  ListPackagingConfigurationsRequest,
+  ListPackagingConfigurationsRequest & RegionInput,
   ListPackagingConfigurationsResponse,
   ListPackagingConfigurationsError,
   Credentials | HttpClient.HttpClient,
@@ -1079,7 +1108,7 @@ export type ListPackagingGroupsError =
  * Returns a collection of MediaPackage VOD PackagingGroup resources.
  */
 export const listPackagingGroups: API.PaginatedOperationMethod<
-  ListPackagingGroupsRequest,
+  ListPackagingGroupsRequest & RegionInput,
   ListPackagingGroupsResponse,
   ListPackagingGroupsError,
   Credentials | HttpClient.HttpClient,
@@ -1113,7 +1142,7 @@ export type ListTagsForResourceError = CommonErrors;
  * Returns a list of the tags assigned to the specified resource.
  */
 export const listTagsForResource: API.OperationMethod<
-  ListTagsForResourceRequest,
+  ListTagsForResourceRequest & RegionInput,
   ListTagsForResourceResponse,
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
@@ -1133,7 +1162,7 @@ export type TagResourceError = CommonErrors;
  * Adds tags to the specified resource. You can specify one or more tags to add.
  */
 export const tagResource: API.OperationMethod<
-  TagResourceRequest,
+  TagResourceRequest & RegionInput,
   TagResourceResponse,
   TagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1153,7 +1182,7 @@ export type UntagResourceError = CommonErrors;
  * Removes tags from the specified resource. You can specify one or more tags to remove.
  */
 export const untagResource: API.OperationMethod<
-  UntagResourceRequest,
+  UntagResourceRequest & RegionInput,
   UntagResourceResponse,
   UntagResourceError,
   Credentials | HttpClient.HttpClient
@@ -1180,7 +1209,7 @@ export type UpdatePackagingGroupError =
  * Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes.
  */
 export const updatePackagingGroup: API.OperationMethod<
-  UpdatePackagingGroupRequest,
+  UpdatePackagingGroupRequest & RegionInput,
   UpdatePackagingGroupResponse,
   UpdatePackagingGroupError,
   Credentials | HttpClient.HttpClient

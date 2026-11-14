@@ -69,9 +69,9 @@ export interface CreateInstanceRequest {
   projectId: string;
   /** region id */
   regionId: CreateInstanceRequestRegionId | (string & {});
-  deletedExperimentRetention?: string;
-  description?: string;
-  labels?: Labels;
+  deletedExperimentRetention?: string | undefined;
+  description?: string | undefined;
+  labels?: Labels | undefined;
   name: string;
 }
 export type InstanceState =
@@ -83,20 +83,20 @@ export type InstanceState =
   | "impaired"
   | "reconciling";
 export interface Instance {
-  bucketName?: string;
-  deletedExperimentRetention?: string;
-  description?: string;
-  errorMessage?: string;
+  bucketName?: string | undefined;
+  deletedExperimentRetention?: string | undefined;
+  description?: string | undefined;
+  errorMessage?: string | undefined;
   id: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   name: string;
-  region?: string;
+  region?: string | undefined;
   state: InstanceState;
   url: string;
 }
 export interface CreateInstanceResponse {
   instance: Instance;
-  message?: string;
+  message?: string | undefined;
 }
 export type CreateInstanceTokenRequestRegionId = "eu01";
 export interface CreateInstanceTokenRequest {
@@ -106,26 +106,26 @@ export interface CreateInstanceTokenRequest {
   regionId: CreateInstanceTokenRequestRegionId | (string & {});
   /** instance id */
   instanceId: string;
-  description?: string;
-  labels?: Labels;
+  description?: string | undefined;
+  labels?: Labels | undefined;
   name: string;
   /** time to live duration. Must be valid duration string. Maximum allowed duration is 6 months. If not set, defaults to 6 months. */
-  ttlDuration?: string;
+  ttlDuration?: string | undefined;
 }
 /** The lifecycle state of the token. */
 export type TokenState = "creating" | "active" | "deleting" | "inactive";
 export interface Token {
   content: string;
-  description?: string;
+  description?: string | undefined;
   id: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   name: string;
   region: string;
   state: TokenState;
   validUntil: string;
 }
 export interface CreateInstanceTokenResponse {
-  message?: string;
+  message?: string | undefined;
   token: Token;
 }
 export type DeleteInstanceRequestRegionId = "eu01";
@@ -139,7 +139,7 @@ export interface DeleteInstanceRequest {
 }
 export interface DeleteInstanceResponse {
   instance: Instance;
-  message?: string;
+  message?: string | undefined;
 }
 export type DeleteInstanceTokenRequestRegionId = "eu01";
 export interface DeleteInstanceTokenRequest {
@@ -153,16 +153,16 @@ export interface DeleteInstanceTokenRequest {
   tokenId: string;
 }
 export interface TokenMetadata {
-  description?: string;
+  description?: string | undefined;
   id: string;
-  labels?: Labels;
+  labels?: Labels | undefined;
   name: string;
   region: string;
   state: TokenState;
   validUntil: string;
 }
 export interface DeleteInstanceTokenResponse {
-  message?: string;
+  message?: string | undefined;
   token: TokenMetadata;
 }
 export type GetInstanceRequestRegionId = "eu01";
@@ -176,7 +176,7 @@ export interface GetInstanceRequest {
 }
 export interface GetInstanceResponse {
   instance: Instance;
-  message?: string;
+  message?: string | undefined;
 }
 export type GetInstanceTokenRequestRegionId = "eu01";
 export interface GetInstanceTokenRequest {
@@ -190,7 +190,7 @@ export interface GetInstanceTokenRequest {
   tokenId: string;
 }
 export interface GetInstanceTokenResponse {
-  message?: string;
+  message?: string | undefined;
   token: TokenMetadata;
 }
 export type ListInstancesRequestRegionId = "eu01";
@@ -203,7 +203,7 @@ export interface ListInstancesRequest {
 export type ListInstancesResponseInstancesList = Array<Instance>;
 export interface ListInstancesResponse {
   instances: ListInstancesResponseInstancesList;
-  message?: string;
+  message?: string | undefined;
 }
 export type ListInstanceTokensRequestRegionId = "eu01";
 export interface ListInstanceTokensRequest {
@@ -216,7 +216,7 @@ export interface ListInstanceTokensRequest {
 }
 export type ListInstanceTokensResponseTokensList = Array<TokenMetadata>;
 export interface ListInstanceTokensResponse {
-  message?: string;
+  message?: string | undefined;
   tokens: ListInstanceTokensResponseTokensList;
 }
 export type PartialUpdateInstanceRequestRegionId = "eu01";
@@ -229,14 +229,14 @@ export interface PartialUpdateInstanceRequest {
   regionId: PartialUpdateInstanceRequestRegionId | (string & {});
   /** instance id */
   instanceId: string;
-  deletedExperimentRetention?: string;
-  description?: string;
-  labels?: LabelPatch;
-  name?: string;
+  deletedExperimentRetention?: string | undefined;
+  description?: string | undefined;
+  labels?: LabelPatch | undefined;
+  name?: string | undefined;
 }
 export interface PartialUpdateInstanceResponse {
   instance: Instance;
-  message?: string;
+  message?: string | undefined;
 }
 export type PartialUpdateInstanceTokenRequestRegionId = "eu01";
 export interface PartialUpdateInstanceTokenRequest {
@@ -248,12 +248,12 @@ export interface PartialUpdateInstanceTokenRequest {
   instanceId: string;
   /** token id */
   tokenId: string;
-  description?: string;
-  labels?: LabelPatch;
-  name?: string;
+  description?: string | undefined;
+  labels?: LabelPatch | undefined;
+  name?: string | undefined;
 }
 export interface PartialUpdateInstanceTokenResponse {
-  message?: string;
+  message?: string | undefined;
   token: TokenMetadata;
 }
 export type CreateInstanceError = BadRequest | Forbidden | NotFound | StackitOpError;

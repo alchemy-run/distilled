@@ -7,6 +7,7 @@
  */
 export * from "./credentials.ts";
 export * from "./errors.ts";
+export * as Jurisdiction from "./jurisdiction.ts";
 export * as T from "./traits.ts";
 export {
   CloudflareProtocol,

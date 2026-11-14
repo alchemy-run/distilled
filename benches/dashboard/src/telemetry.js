@@ -13,11 +13,8 @@ const LEVELS = [
   {
     id: "debug",
     label: "debug",
-    how: "Operation, plus an Attempt span for every try (even the first), Effect's HTTP span inside each, and spans for distilled's internals: setup, serialize, sign, deserialize, retry backoff.",
-    enable: [
-      "Effect.provide(TelemetryDebug.layer)",
-      "TelemetryDebug.layerWith({ logRequests: true })",
-    ],
+    how: "Operation, plus an Attempt span for every try (even the first), Effect's HTTP span inside each, and spans for distilled's internals: setup, serialize, sign, deserialize, retry backoff, and the read of a GenAI stream.",
+    enable: ["Effect.provide(TelemetryDebug.layer)"],
   },
 ];
 

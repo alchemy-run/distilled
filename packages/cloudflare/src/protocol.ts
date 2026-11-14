@@ -1,6 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
 import { retryableKey } from "@distilled.cloud/core/category";
-import { debugHttp } from "@distilled.cloud/core/debug";
 import {
   ConfigError,
   Forbidden,
@@ -9,7 +8,7 @@ import {
   InternalServerError,
   TooManyRequests,
   Unauthorized,
-  type InvalidInput,
+  InvalidInput,
 } from "@distilled.cloud/core/errors";
 import {
   buildRequest,
@@ -30,6 +29,7 @@ import {
   SchemaMismatch,
 } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus, parseServerRetryHint } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import * as Telemetry from "@distilled.cloud/core/telemetry";
 import {
   bodySymbol,
@@ -84,11 +84,13 @@ import {
   InvalidRoute,
   UnknownCloudflareError,
 } from "./errors.ts";
+import { Jurisdiction } from "./jurisdiction.ts";
 import {
   binaryResponseBodySymbol,
   envelopePayloadRootSymbol,
   envelopePayloadSymbol,
   hostSymbol,
+  jurisdictionSymbol,
   resultInfoSymbol,
 } from "./traits.ts";
 
@@ -138,7 +140,8 @@ export type CloudflareOpError =
   | CloudflareError
   | CloudflareRateLimited
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Cloudflare operation. */
 export type CloudflareOpContext = Credentials | HttpClient.HttpClient;
@@ -168,7 +171,12 @@ const GLOBAL_RATE_LIMIT_MESSAGE = /\b(rate ?limit(ed|ing)?|throttl(ed|ing) your 
  */
 const GLOBAL_ERROR_CODE_MAP: Record<
   number,
-  (message: string, headers?: Record<string, string | undefined>) => unknown
+  (
+    message: string,
+    headers: Record<string, string | undefined>,
+    status: number,
+    body: unknown,
+  ) => unknown
 > = {
   // "Please wait and consider throttling your request speed" -- returned
   // inside envelopes with arbitrary HTTP status (often 200).
@@ -211,14 +219,14 @@ const GLOBAL_ERROR_CODE_MAP: Record<
   7003: (message) => new InvalidRoute({ code: 7003, message }),
   // Dual-use code 1000: several unrelated conditions, each unambiguous from
   // the message.
-  1000: (message) => {
+  1000: (message, _headers, status, body) => {
     if (/\btimeout\b/i.test(message)) {
       return new GatewayTimeout({ message });
     }
     if (/internal (server )?error/i.test(message)) {
       return new InternalServerError({ message });
     }
-    return new UnknownCloudflareError({ code: 1000, message });
+    return new UnknownCloudflareError({ status, code: 1000, message, body });
   },
 };
 
@@ -273,7 +281,7 @@ const bearerPrefixAuthorization = (name: string, value: string): string =>
  * leaks into the body.
  */
 const hostTemplates = /*@__PURE__*/ new WeakMap<AST.AST, string | null>();
-const hostFor = (input: unknown, inputAst: AST.AST): string | undefined => {
+const hostFor = (input: unknown, inputAst: AST.AST): string | undefined | InvalidInput => {
   let template = hostTemplates.get(inputAst);
   if (template === undefined) {
     template = (getAnn(inputAst, hostSymbol) as string | undefined) ?? null;
@@ -288,10 +296,13 @@ const hostFor = (input: unknown, inputAst: AST.AST): string | undefined => {
     if (value === undefined) continue;
     host = host.replace(`{${nameOf(prop, labelSymbol)}}`, () => encodeURIComponent(String(value)));
   }
-  if (/\{[^}]+\}/.test(host)) {
-    // A required label left unset -- the same codegen/caller bug a missing
-    // path label is, surfaced as a defect by the calling Effect.
-    throw new Error(`operation input is missing a host label for ${template}`);
+  const unset = /\{([^}]+)\}/.exec(host);
+  if (unset) {
+    // A required label left unset: nothing to address the host with.
+    return new InvalidInput({
+      member: unset[1]!,
+      message: `the host label ${unset[1]} is required (host ${template})`,
+    });
   }
   return host;
 };
@@ -304,18 +315,33 @@ const hostFor = (input: unknown, inputAst: AST.AST): string | undefined => {
 // and reintroduced for callers by the generated `CloudflareOpContext`
 // annotations.
 const requestFor = (
+  context: Context.Context<any>,
   creds: ResolvedCredentials,
   input: unknown,
   inputAst: AST.AST,
-): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput> =>
-  buildRequest({
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput | SdkError> => {
+  const headers = formatHeaders(creds);
+  // The `Jurisdiction` layer, for operations marked `T.Jurisdiction()`. A
+  // `jurisdiction` member set on the call is a header too, and wins.
+  const jurisdiction = Context.getOrUndefined(context, Jurisdiction);
+  if (jurisdiction !== undefined && takesJurisdiction(inputAst))
+    headers[JURISDICTION_HEADER] = jurisdiction;
+  const host = hostFor(input, inputAst);
+  if (host instanceof InvalidInput) return Effect.fail(host);
+  return buildRequest({
     input,
     inputAst,
-    baseUrl: hostFor(input, inputAst) ?? creds.apiBaseUrl,
-    headers: formatHeaders(creds),
+    baseUrl: host ?? creds.apiBaseUrl,
+    headers,
     mapMemberHeader: bearerPrefixAuthorization,
     unknownKeyToWire: camelToSnake,
   });
+};
+
+const JURISDICTION_HEADER = "cf-r2-jurisdiction";
+/** Whether an operation's input is marked `T.Jurisdiction()`. */
+const takesJurisdiction = (inputAst: AST.AST): boolean =>
+  getAnn(inputAst, jurisdictionSymbol) !== undefined;
 
 /**
  * The calling fiber's credentials, then `f` on them. The Credentials service
@@ -336,7 +362,7 @@ const withCredentials = <B>(
 const encode = ({ input, inputAst }: { readonly input: unknown; readonly inputAst: AST.AST }) =>
   Effect.withFiber((fiber) =>
     withCredentials(fiber.context as Context.Context<any>, (creds) =>
-      requestFor(creds, input, inputAst),
+      requestFor(fiber.context as Context.Context<any>, creds, input, inputAst),
     ),
   );
 
@@ -460,9 +486,6 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
       onFailure: fail,
       onSuccess: (read): Effect.Effect<unknown> => {
         const text = read ?? "";
-        if (debugHttp()) {
-          console.error(`[distilled] <- ${response.status} ${text.slice(0, 400)}`);
-        }
         let json: Record<string, unknown> = {};
         let nonJson = false;
         if (text.trim().length > 0) {
@@ -526,7 +549,16 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
 
           // 2. Global/infrastructure error codes (any endpoint, any status).
           if (errorCode !== undefined && errorCode in GLOBAL_ERROR_CODE_MAP) {
-            return fail(tagBlip(GLOBAL_ERROR_CODE_MAP[errorCode]!(errorMessage, headers)));
+            return fail(
+              tagBlip(
+                GLOBAL_ERROR_CODE_MAP[errorCode]!(
+                  errorMessage,
+                  headers,
+                  status,
+                  nonJson ? text : json,
+                ),
+              ),
+            );
           }
 
           // 3. Throttling -- 429 or the global rate-limit message (Cloudflare
@@ -561,8 +593,10 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
           // 5. Unknown envelope error.
           return fail(
             new UnknownCloudflareError({
+              status,
               code: errorCode,
               message: errorMessage,
+              body: nonJson ? text : json,
             }),
           );
         }
@@ -671,7 +705,7 @@ const makeProtocol = (options: { readonly resultInfo: boolean }) => {
       const context = fiber.context as Context.Context<any>;
       return withCredentials(context, (creds) => {
         const client = Context.get(context, HttpClient.HttpClient);
-        return Effect.flatMap(requestFor(creds, input, op.inputAst), (request) =>
+        return Effect.flatMap(requestFor(context, creds, input, op.inputAst), (request) =>
           Effect.flatMap(Telemetry.execute(context, client, request), (response) =>
             Telemetry.phase(
               context,

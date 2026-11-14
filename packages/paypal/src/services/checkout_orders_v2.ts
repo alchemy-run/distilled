@@ -74,38 +74,38 @@ export class UnprocessableEntity
 /** The non-portable additional address details include fine-grain address information for Compliance, Risk, and other scenarios. This isn't portable with common third-party and open source applications. This can include data that is redundant with core fields. For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`. */
 export interface CardRequestInputBillingAddressAddressDetails {
   /** The street number. */
-  street_number?: string;
+  street_number?: string | undefined;
   /** The street name. Just `Drury` in `Drury Lane`. */
-  street_name?: string;
+  street_name?: string | undefined;
   /** The street type. For example, avenue, boulevard, road, or expressway. */
-  street_type?: string;
+  street_type?: string | undefined;
   /** The delivery service. Post office box, bag number, or post office name. */
-  delivery_service?: string;
+  delivery_service?: string | undefined;
   /** A named locations that represents the premise. Usually a building name or number or collection of buildings with a common name or number. For example, <code>Craven House</code>. */
-  building_name?: string;
+  building_name?: string | undefined;
   /** The first-order entity below a named building or location that represents the sub-premise. Usually a single building within a collection of buildings with a common name. Can be a flat, story, floor, room, or apartment. */
-  sub_building?: string;
+  sub_building?: string | undefined;
 }
 export interface CardRequestInputBillingAddress {
   /** The first line of the address, such as number and street, for example, `173 Drury Lane`. Needed for data entry, and Compliance and Risk checks. This field needs to pass the full address. */
-  address_line_1?: string;
+  address_line_1?: string | undefined;
   /** The second line of the address, for example, a suite or apartment number. */
-  address_line_2?: string;
+  address_line_2?: string | undefined;
   /** The third line of the address, if needed. Examples include a street complement for Brazil, direction text, such as `next to Walmart`, or a landmark in an Indian address. */
-  address_line_3?: string;
+  address_line_3?: string | undefined;
   /** The neighborhood, ward, or district. This is smaller than `admin_area_level_3` or `sub_locality`. Value is:<ul><li>The postal sorting code that is used in Guernsey and many French territories, such as French Guiana.</li><li>The fine-grained administrative levels in China.</li></ul> */
-  admin_area_4?: string;
+  admin_area_4?: string | undefined;
   /** The sub-locality, suburb, neighborhood, or district. This is smaller than `admin_area_level_2`. Value is:<ul><li>Brazil. Suburb, *bairro*, or neighborhood.</li><li>India. Sub-locality or district. Street name information isn't always available, but a sub-locality or district can be a very small area.</li></ul> */
-  admin_area_3?: string;
+  admin_area_3?: string | undefined;
   /** A city, town, or village. Smaller than `admin_area_level_1`. */
-  admin_area_2?: string;
+  admin_area_2?: string | undefined;
   /** The highest-level sub-division in a country, which is usually a province, state, or ISO-3166-2 subdivision. This data is formatted for postal delivery, for example, `CA` and not `California`. Value, by country, is:<ul><li>UK. A county.</li><li>US. A state.</li><li>Canada. A province.</li><li>Japan. A prefecture.</li><li>Switzerland. A *kanton*.</li></ul> */
-  admin_area_1?: string;
+  admin_area_1?: string | undefined;
   /** The postal code, which is the ZIP code or equivalent. Typically required for countries with a postal code or an equivalent. See [postal code](https://en.wikipedia.org/wiki/Postal_code). */
-  postal_code?: string;
+  postal_code?: string | undefined;
   country_code: string;
   /** The non-portable additional address details include fine-grain address information for Compliance, Risk, and other scenarios. This isn't portable with common third-party and open source applications. This can include data that is redundant with core fields. For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`. */
-  address_details?: CardRequestInputBillingAddressAddressDetails;
+  address_details?: CardRequestInputBillingAddressAddressDetails | undefined;
 }
 /** The phone type. */
 export type PhoneType = "FAX" | "HOME" | "MOBILE" | "OTHER" | "PAGER";
@@ -114,36 +114,36 @@ export interface CardCustomerPhonePhoneNumber {
   national_number: string;
 }
 export interface CardCustomerPhone {
-  phone_type?: PhoneType | (string & {});
+  phone_type?: PhoneType | (string & {}) | undefined;
   phone_number: CardCustomerPhonePhoneNumber;
 }
 export interface CardCustomerName {
   /** The prefix, or title, to the party's name. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** When the party is a person, the party's given, or first, name. */
-  given_name?: string;
+  given_name?: string | undefined;
   /** When the party is a person, the party's surname or family name. Also known as the last name. Required when the party is a person. Use also to store multiple surnames including the matronymic, or mother's, surname. */
-  surname?: string;
+  surname?: string | undefined;
   /** When the party is a person, the party's middle name. Use also to store multiple middle names including the patronymic, or father's, middle name. */
-  middle_name?: string;
+  middle_name?: string | undefined;
   /** The suffix for the party's name. */
-  suffix?: string;
+  suffix?: string | undefined;
   /** When the party is a person, the party's full name. */
-  full_name?: string;
+  full_name?: string | undefined;
 }
 /** The details about a customer in PayPal's system of record. */
 export interface CardCustomer {
-  id?: string;
-  email_address?: unknown;
-  phone?: CardCustomerPhone;
-  name?: CardCustomerName;
+  id?: string | undefined;
+  email_address?: unknown | undefined;
+  phone?: CardCustomerPhone | undefined;
+  name?: CardCustomerName | undefined;
   /** Merchants and partners may already have a data-store where their customer information is persisted. Use merchant_customer_id to associate the PayPal-generated customer.id to your representation of a customer. */
-  merchant_customer_id?: string;
+  merchant_customer_id?: string | undefined;
 }
 /** Defines how and when the payment source gets vaulted. */
 export type StoreInVaultInstruction = "ON_SUCCESS";
 export interface CardRequestInputAttributesVault {
-  store_in_vault?: StoreInVaultInstruction | (string & {});
+  store_in_vault?: StoreInVaultInstruction | (string & {}) | undefined;
 }
 /** The method used for card verification. */
 export type CardRequestInputAttributesVerificationMethod =
@@ -153,12 +153,12 @@ export type CardRequestInputAttributesVerificationMethod =
   | "AVS_CVV";
 export interface CardRequestInputAttributesVerification {
   /** The method used for card verification. */
-  method?: CardRequestInputAttributesVerificationMethod | (string & {});
+  method?: CardRequestInputAttributesVerificationMethod | (string & {}) | undefined;
 }
 export interface CardRequestInputAttributes {
-  customer?: CardCustomer;
-  vault?: CardRequestInputAttributesVault;
-  verification?: CardRequestInputAttributesVerification;
+  customer?: CardCustomer | undefined;
+  vault?: CardRequestInputAttributesVault | undefined;
+  verification?: CardRequestInputAttributesVerification | undefined;
 }
 /** The person or party who initiated or triggered the payment. */
 export type PaymentInitiator = "CUSTOMER" | "MERCHANT";
@@ -169,19 +169,19 @@ export type StoredPaymentSourceUsageType = "FIRST" | "SUBSEQUENT" | "DERIVED";
 /** Reference values used by the card network to identify a transaction. */
 export interface NetworkTransaction {
   /** Transaction reference id returned by the scheme. For Visa and Amex, this is the "Tran id" field in response. For MasterCard, this is the "BankNet reference id" field in response. For Discover, this is the "NRID" field in response. The pattern we expect for this field from Visa/Amex/CB/Discover is numeric, Mastercard/BNPP is alphanumeric and Paysecure is alphanumeric with special character -. */
-  id?: string;
+  id?: string | undefined;
   /** The date that the transaction was authorized by the scheme. This field may not be returned for all networks. MasterCard refers to this field as "BankNet reference date". For some specific networks, such as MasterCard and Discover, this date field is mandatory when the `previous_network_transaction_reference_id` is passed. */
-  date?: string;
-  network?: unknown;
+  date?: string | undefined;
+  network?: unknown | undefined;
   /** Reference ID issued for the card transaction. This ID can be used to track the transaction across processors, card brands and issuing banks. */
-  acquirer_reference_number?: string;
+  acquirer_reference_number?: string | undefined;
 }
 /** Provides additional details to process a payment using a `card` that has been stored or is intended to be stored (also referred to as stored_credential or card-on-file).<br/>Parameter compatibility:<br/><ul><li>`payment_type=ONE_TIME` is compatible only with `payment_initiator=CUSTOMER`.</li><li>`usage=FIRST` is compatible only with `payment_initiator=CUSTOMER`.</li><li>`previous_transaction_reference` or `previous_network_transaction_reference` is compatible only with `payment_initiator=MERCHANT`.</li><li>Only one of the parameters - `previous_transaction_reference` and `previous_network_transaction_reference` - can be present in the request.</li></ul> */
 export interface CardStoredCredential {
   payment_initiator: PaymentInitiator | (string & {});
   payment_type: StoredPaymentSourcePaymentType | (string & {});
-  usage?: StoredPaymentSourceUsageType | (string & {});
-  previous_network_transaction_reference?: NetworkTransaction;
+  usage?: StoredPaymentSourceUsageType | (string & {}) | undefined;
+  previous_network_transaction_reference?: NetworkTransaction | undefined;
 }
 /** Electronic Commerce Indicator (ECI). The ECI value is part of the 2 data elements that indicate the transaction was processed electronically. This should be passed on the authorization transaction to the Gateway/Processor. */
 export type EciFlag =
@@ -196,35 +196,35 @@ export interface CardRequestInputNetworkToken {
   number: string;
   expiry: unknown;
   /** An Encrypted one-time use value that's sent along with Network Token. This field is not required to be present for recurring transactions. */
-  cryptogram?: string;
-  eci_flag?: EciFlag | (string & {});
+  cryptogram?: string | undefined;
+  eci_flag?: EciFlag | (string & {}) | undefined;
   /** A TRID, or a Token Requestor ID, is an identifier used by merchants to request network tokens from card networks. A TRID is a precursor to obtaining a network token for a credit card primary account number (PAN), and will aid in enabling secure card on file (COF) payments and reducing fraud. */
-  token_requestor_id?: string;
+  token_requestor_id?: string | undefined;
 }
 export interface CardRequestInputExperienceContext {
-  return_url?: unknown;
-  cancel_url?: unknown;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 /** The payment card to use to fund a payment. Can be a credit or debit card.<blockquote><strong>Note:</strong> Passing card number, cvv and expiry directly via the API requires <a href="https://www.pcisecuritystandards.org/pci_security/completing_self_assessment"> PCI SAQ D compliance</a>. <br>*PayPal offers a mechanism by which you do not have to take on the <strong>PCI SAQ D</strong> burden by using hosted fields - refer to <a href="https://developer.paypal.com/docs/checkout/advanced/integrate/">this Integration Guide</a>*.</blockquote> */
 export interface CardRequestInput {
-  id?: unknown;
+  id?: unknown | undefined;
   /** The card holder's name as it appears on the card. */
-  name?: string;
+  name?: string | undefined;
   /** The primary account number (PAN) for the payment card. */
-  number?: string;
-  expiry?: unknown;
+  number?: string | undefined;
+  expiry?: unknown | undefined;
   /** The three- or four-digit security code of the card. Also known as the CVV, CVC, CVN, CVE, or CID. This parameter cannot be present in the request when `payment_initiator=MERCHANT`. */
-  security_code?: string;
-  card_type?: unknown;
-  type?: unknown;
-  brand?: unknown;
-  billing_address?: CardRequestInputBillingAddress;
-  attributes?: CardRequestInputAttributes;
-  vault_id?: unknown;
-  single_use_token?: unknown;
-  stored_credential?: CardStoredCredential;
-  network_token?: CardRequestInputNetworkToken;
-  experience_context?: CardRequestInputExperienceContext;
+  security_code?: string | undefined;
+  card_type?: unknown | undefined;
+  type?: unknown | undefined;
+  brand?: unknown | undefined;
+  billing_address?: CardRequestInputBillingAddress | undefined;
+  attributes?: CardRequestInputAttributes | undefined;
+  vault_id?: unknown | undefined;
+  single_use_token?: unknown | undefined;
+  stored_credential?: CardStoredCredential | undefined;
+  network_token?: CardRequestInputNetworkToken | undefined;
+  experience_context?: CardRequestInputExperienceContext | undefined;
 }
 /** The tokenization method that generated the ID. */
 export type TokenType = "BILLING_AGREEMENT";
@@ -276,7 +276,7 @@ export interface AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShipping
   /** The national number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the country calling code (CC) and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN). */
   national_number: string;
   /** The extension number. */
-  extension_number?: string;
+  extension_number?: string | undefined;
 }
 /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
 export type AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingType =
@@ -294,8 +294,10 @@ export interface AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShipping
   id: string;
   /** A description that the payer sees, which helps them choose an appropriate shipping option. For example, `Free Shipping`, `USPS Priority Shipping`, `Expédition prioritaire USPS`, or `USPS yU+014DuxiU+0101n fU+0101 huò`. Localize this description to the payer's locale. */
   label: string;
-  type?: unknown;
-  amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  type?: unknown | undefined;
+  amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** If the API request sets `selected = true`, it represents the shipping option that the payee or merchant expects to be pre-selected for the payer when they first view the `shipping.options` in the PayPal Checkout experience. As part of the response if a `shipping.option` contains `selected=true`, it represents the shipping option that the payer selected during the course of checkout with PayPal. Only one `shipping.option` can be set to `selected=true`. */
   selected: boolean;
 }
@@ -308,14 +310,19 @@ export type AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingAddre
 export type AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingAddress =
   CardRequestInputBillingAddress;
 export interface AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShipping {
-  name?: CardCustomerName;
-  email_address?: unknown;
-  phone_number?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber;
+  name?: CardCustomerName | undefined;
+  email_address?: unknown | undefined;
+  phone_number?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber
+    | undefined;
   /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
-  type?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingType | (string & {});
+  type?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingType
+    | (string & {})
+    | undefined;
   /** An array of shipping options that the payee or merchant offers to the payer to ship or pick up their items. */
-  options?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsList;
-  address?: CardRequestInputBillingAddress;
+  options?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsList | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
 }
 /** The usage type associated with the PayPal payment token. */
 export type AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultUsageType =
@@ -326,26 +333,28 @@ export type AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultCustomerType 
   | "CONSUMER"
   | "BUSINESS";
 export interface AuthorizeOrderRequestPaymentSourcePaypalAttributesVault {
-  store_in_vault?: StoreInVaultInstruction | (string & {});
+  store_in_vault?: StoreInVaultInstruction | (string & {}) | undefined;
   /** The description displayed to PayPal consumer on the approval flow for PayPal, as well as on the PayPal payment token management experience on PayPal.com. */
-  description?: string;
+  description?: string | undefined;
   /** Expected business/pricing model for the billing agreement. */
   usage_pattern?:
     | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultUsagePattern
-    | (string & {});
-  shipping?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShipping;
+    | (string & {})
+    | undefined;
+  shipping?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShipping | undefined;
   /** The usage type associated with the PayPal payment token. */
   usage_type: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultUsageType | (string & {});
   /** The customer type associated with the PayPal payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer. */
   customer_type?:
     | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultCustomerType
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Create multiple payment tokens for the same payer, merchant/platform combination. Use this when the customer has not logged in at merchant/platform. The payment token thus generated, can then also be used to create the customer account at merchant/platform. Use this also when multiple payment tokens are required for the same payer, different customer at merchant/platform. This helps to identify customers distinctly even though they may share the same PayPal account. This only applies to PayPal payment source. */
-  permit_multiple_payment_tokens?: boolean;
+  permit_multiple_payment_tokens?: boolean | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourcePaypalAttributes {
-  customer?: CardCustomer;
-  vault?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVault;
+  customer?: CardCustomer | undefined;
+  vault?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVault | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type PaypalWalletExperienceContextInputShippingPreference =
@@ -362,11 +371,11 @@ export interface NativeAppContextInput {}
 /** Buyer's mobile web browser context to app switch to the PayPal consumer app. */
 export interface MobileWebContextInput {
   /** User agent from the request originating from the buyer's device. This will be used to identify the buyer's operating system and browser versions. NOTE: Merchants must not alter or modify the buyer's device user agent. */
-  buyer_user_agent?: string;
+  buyer_user_agent?: string | undefined;
 }
 export interface PaypalWalletExperienceContextInputAppSwitchContext {
-  native_app?: NativeAppContextInput;
-  mobile_web?: MobileWebContextInput;
+  native_app?: NativeAppContextInput | undefined;
+  mobile_web?: MobileWebContextInput | undefined;
 }
 /** The type of landing page to show on the PayPal site for customer checkout. */
 export type PaypalWalletExperienceContextInputLandingPage =
@@ -397,24 +406,33 @@ export interface PaypalWalletExperienceContextInputOrderUpdateCallbackConfig {
 /** Customizes the payer experience during the approval process for payment with PayPal.<blockquote><strong>Note:</strong> Partners and Marketplaces might configure <code>brand_name</code> and <code>shipping_preference</code> during partner account setup, which overrides the request values.</blockquote> */
 export interface PaypalWalletExperienceContextInput {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
-  shipping_preference?: PaypalWalletExperienceContextInputShippingPreference | (string & {});
+  shipping_preference?:
+    | PaypalWalletExperienceContextInputShippingPreference
+    | (string & {})
+    | undefined;
   /** The preference to display the contact information (buyer's shipping email & phone number) on PayPal's checkout for easy merchant-buyer communication. */
-  contact_preference?: PaypalWalletExperienceContextInputContactPreference | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
-  app_switch_context?: PaypalWalletExperienceContextInputAppSwitchContext;
+  contact_preference?:
+    | PaypalWalletExperienceContextInputContactPreference
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
+  app_switch_context?: PaypalWalletExperienceContextInputAppSwitchContext | undefined;
   /** The type of landing page to show on the PayPal site for customer checkout. */
-  landing_page?: PaypalWalletExperienceContextInputLandingPage | (string & {});
+  landing_page?: PaypalWalletExperienceContextInputLandingPage | (string & {}) | undefined;
   /** Configures a <strong>Continue</strong> or <strong>Pay Now</strong> checkout flow. */
-  user_action?: PaypalWalletExperienceContextInputUserAction | (string & {});
+  user_action?: PaypalWalletExperienceContextInputUserAction | (string & {}) | undefined;
   /** The merchant-preferred payment methods. */
   payment_method_preference?:
     | PaypalWalletExperienceContextInputPaymentMethodPreference
-    | (string & {});
-  order_update_callback_config?: PaypalWalletExperienceContextInputOrderUpdateCallbackConfig;
+    | (string & {})
+    | undefined;
+  order_update_callback_config?:
+    | PaypalWalletExperienceContextInputOrderUpdateCallbackConfig
+    | undefined;
 }
 /** Expected business/pricing model for the billing agreement. */
 export type ChargePattern =
@@ -433,22 +451,22 @@ export type ChargePattern =
 /** Provides additional details to process a payment using the PayPal wallet billing agreement or a vaulted payment method that has been stored or is intended to be stored. */
 export interface PaypalWalletStoredCredential {
   payment_initiator: PaymentInitiator | (string & {});
-  charge_pattern?: unknown;
-  usage_pattern?: ChargePattern | (string & {});
-  usage?: StoredPaymentSourceUsageType | (string & {});
+  charge_pattern?: unknown | undefined;
+  usage_pattern?: ChargePattern | (string & {}) | undefined;
+  usage?: StoredPaymentSourceUsageType | (string & {}) | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourcePaypal {
-  vault_id?: unknown;
-  email_address?: unknown;
-  name?: CardCustomerName;
-  phone?: CardCustomerPhone;
-  birth_date?: unknown;
-  tax_info?: AuthorizeOrderRequestPaymentSourcePaypalTaxInfo;
-  address?: CardRequestInputBillingAddress;
-  attributes?: AuthorizeOrderRequestPaymentSourcePaypalAttributes;
-  experience_context?: PaypalWalletExperienceContextInput;
-  billing_agreement_id?: string;
-  stored_credential?: PaypalWalletStoredCredential;
+  vault_id?: unknown | undefined;
+  email_address?: unknown | undefined;
+  name?: CardCustomerName | undefined;
+  phone?: CardCustomerPhone | undefined;
+  birth_date?: unknown | undefined;
+  tax_info?: AuthorizeOrderRequestPaymentSourcePaypalTaxInfo | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
+  attributes?: AuthorizeOrderRequestPaymentSourcePaypalAttributes | undefined;
+  experience_context?: PaypalWalletExperienceContextInput | undefined;
+  billing_agreement_id?: string | undefined;
+  stored_credential?: PaypalWalletStoredCredential | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type AuthorizeOrderRequestPaymentSourceBancontactExperienceContextShippingPreference =
@@ -457,19 +475,20 @@ export type AuthorizeOrderRequestPaymentSourceBancontactExperienceContextShippin
   | "SET_PROVIDED_ADDRESS";
 export interface AuthorizeOrderRequestPaymentSourceBancontactExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | AuthorizeOrderRequestPaymentSourceBancontactExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceBancontact {
   name: unknown;
   country_code: unknown;
-  experience_context?: AuthorizeOrderRequestPaymentSourceBancontactExperienceContext;
+  experience_context?: AuthorizeOrderRequestPaymentSourceBancontactExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type AuthorizeOrderRequestPaymentSourceBlikExperienceContextShippingPreference =
@@ -478,17 +497,18 @@ export type AuthorizeOrderRequestPaymentSourceBlikExperienceContextShippingPrefe
   | "SET_PROVIDED_ADDRESS";
 export interface AuthorizeOrderRequestPaymentSourceBlikExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | AuthorizeOrderRequestPaymentSourceBlikExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
-  consumer_ip?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
+  consumer_ip?: unknown | undefined;
   /** The payer's User Agent. For example, Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0). */
-  consumer_user_agent?: string;
+  consumer_user_agent?: string | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceBlikLevel0 {
   /** The 6-digit code used to authenticate a consumer within BLIK. */
@@ -496,21 +516,21 @@ export interface AuthorizeOrderRequestPaymentSourceBlikLevel0 {
 }
 export interface AuthorizeOrderRequestPaymentSourceBlikOneClick {
   /** The 6-digit code used to authenticate a consumer within BLIK. */
-  auth_code?: string;
+  auth_code?: string | undefined;
   /** The merchant generated, unique reference serving as a primary identifier for accounts connected between Blik and a merchant. */
   consumer_reference: string;
   /** A bank defined identifier used as a display name to allow the payer to differentiate between multiple registered bank accounts. */
-  alias_label?: string;
+  alias_label?: string | undefined;
   /** A Blik-defined identifier for a specific Blik-enabled bank account that is associated with a given merchant. Used only in conjunction with a Consumer Reference. */
-  alias_key?: string;
+  alias_key?: string | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceBlik {
   name: unknown;
   country_code: unknown;
-  email?: unknown;
-  experience_context?: AuthorizeOrderRequestPaymentSourceBlikExperienceContext;
-  level_0?: AuthorizeOrderRequestPaymentSourceBlikLevel0;
-  one_click?: AuthorizeOrderRequestPaymentSourceBlikOneClick;
+  email?: unknown | undefined;
+  experience_context?: AuthorizeOrderRequestPaymentSourceBlikExperienceContext | undefined;
+  level_0?: AuthorizeOrderRequestPaymentSourceBlikLevel0 | undefined;
+  one_click?: AuthorizeOrderRequestPaymentSourceBlikOneClick | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type AuthorizeOrderRequestPaymentSourceEpsExperienceContextShippingPreference =
@@ -519,19 +539,20 @@ export type AuthorizeOrderRequestPaymentSourceEpsExperienceContextShippingPrefer
   | "SET_PROVIDED_ADDRESS";
 export interface AuthorizeOrderRequestPaymentSourceEpsExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | AuthorizeOrderRequestPaymentSourceEpsExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceEps {
   name: unknown;
   country_code: unknown;
-  experience_context?: AuthorizeOrderRequestPaymentSourceEpsExperienceContext;
+  experience_context?: AuthorizeOrderRequestPaymentSourceEpsExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type AuthorizeOrderRequestPaymentSourceGiropayExperienceContextShippingPreference =
@@ -540,19 +561,20 @@ export type AuthorizeOrderRequestPaymentSourceGiropayExperienceContextShippingPr
   | "SET_PROVIDED_ADDRESS";
 export interface AuthorizeOrderRequestPaymentSourceGiropayExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | AuthorizeOrderRequestPaymentSourceGiropayExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceGiropay {
   name: unknown;
   country_code: unknown;
-  experience_context?: AuthorizeOrderRequestPaymentSourceGiropayExperienceContext;
+  experience_context?: AuthorizeOrderRequestPaymentSourceGiropayExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type AuthorizeOrderRequestPaymentSourceIdealExperienceContextShippingPreference =
@@ -561,20 +583,21 @@ export type AuthorizeOrderRequestPaymentSourceIdealExperienceContextShippingPref
   | "SET_PROVIDED_ADDRESS";
 export interface AuthorizeOrderRequestPaymentSourceIdealExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | AuthorizeOrderRequestPaymentSourceIdealExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceIdeal {
   name: unknown;
   country_code: unknown;
-  bic?: unknown;
-  experience_context?: AuthorizeOrderRequestPaymentSourceIdealExperienceContext;
+  bic?: unknown | undefined;
+  experience_context?: AuthorizeOrderRequestPaymentSourceIdealExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type AuthorizeOrderRequestPaymentSourceMybankExperienceContextShippingPreference =
@@ -583,19 +606,20 @@ export type AuthorizeOrderRequestPaymentSourceMybankExperienceContextShippingPre
   | "SET_PROVIDED_ADDRESS";
 export interface AuthorizeOrderRequestPaymentSourceMybankExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | AuthorizeOrderRequestPaymentSourceMybankExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceMybank {
   name: unknown;
   country_code: unknown;
-  experience_context?: AuthorizeOrderRequestPaymentSourceMybankExperienceContext;
+  experience_context?: AuthorizeOrderRequestPaymentSourceMybankExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type AuthorizeOrderRequestPaymentSourceP24ExperienceContextShippingPreference =
@@ -604,20 +628,21 @@ export type AuthorizeOrderRequestPaymentSourceP24ExperienceContextShippingPrefer
   | "SET_PROVIDED_ADDRESS";
 export interface AuthorizeOrderRequestPaymentSourceP24ExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | AuthorizeOrderRequestPaymentSourceP24ExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceP24 {
   name: unknown;
   email: unknown;
   country_code: unknown;
-  experience_context?: AuthorizeOrderRequestPaymentSourceP24ExperienceContext;
+  experience_context?: AuthorizeOrderRequestPaymentSourceP24ExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type AuthorizeOrderRequestPaymentSourceSofortExperienceContextShippingPreference =
@@ -626,19 +651,20 @@ export type AuthorizeOrderRequestPaymentSourceSofortExperienceContextShippingPre
   | "SET_PROVIDED_ADDRESS";
 export interface AuthorizeOrderRequestPaymentSourceSofortExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | AuthorizeOrderRequestPaymentSourceSofortExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceSofort {
   name: unknown;
   country_code: unknown;
-  experience_context?: AuthorizeOrderRequestPaymentSourceSofortExperienceContext;
+  experience_context?: AuthorizeOrderRequestPaymentSourceSofortExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type AuthorizeOrderRequestPaymentSourceTrustlyExperienceContextShippingPreference =
@@ -647,20 +673,21 @@ export type AuthorizeOrderRequestPaymentSourceTrustlyExperienceContextShippingPr
   | "SET_PROVIDED_ADDRESS";
 export interface AuthorizeOrderRequestPaymentSourceTrustlyExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | AuthorizeOrderRequestPaymentSourceTrustlyExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceTrustly {
   name: unknown;
   country_code: unknown;
   email: unknown;
-  experience_context?: AuthorizeOrderRequestPaymentSourceTrustlyExperienceContext;
+  experience_context?: AuthorizeOrderRequestPaymentSourceTrustlyExperienceContext | undefined;
 }
 export type AuthorizeOrderRequestPaymentSourceApplePayPhoneNumber = CardCustomerPhonePhoneNumber;
 export type AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenTransactionAmount =
@@ -682,27 +709,32 @@ export interface AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenTokeniz
   /** The method used for card verification. */
   method?:
     | AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenTokenizedCardAttributesVerificationMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenTokenizedCardAttributes {
-  customer?: CardCustomer;
-  vault?: CardRequestInputAttributesVault;
-  verification?: AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenTokenizedCardAttributesVerification;
+  customer?: CardCustomer | undefined;
+  vault?: CardRequestInputAttributesVault | undefined;
+  verification?:
+    | AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenTokenizedCardAttributesVerification
+    | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenTokenizedCard {
-  id?: unknown;
+  id?: unknown | undefined;
   /** The card holder's name as it appears on the card. */
-  name?: string;
+  name?: string | undefined;
   /** The primary account number (PAN) for the payment card. */
-  number?: string;
-  expiry?: unknown;
+  number?: string | undefined;
+  expiry?: unknown | undefined;
   /** The three- or four-digit security code of the card. Also known as the CVV, CVC, CVN, CVE, or CID. This parameter cannot be present in the request when `payment_initiator=MERCHANT`. */
-  security_code?: string;
-  card_type?: unknown;
-  type?: unknown;
-  brand?: unknown;
-  billing_address?: CardRequestInputBillingAddress;
-  attributes?: AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenTokenizedCardAttributes;
+  security_code?: string | undefined;
+  card_type?: unknown | undefined;
+  type?: unknown | undefined;
+  brand?: unknown | undefined;
+  billing_address?: CardRequestInputBillingAddress | undefined;
+  attributes?:
+    | AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenTokenizedCardAttributes
+    | undefined;
 }
 /** Indicates the type of payment data passed, in case of Non China the payment data is 3DSECURE and for China it is EMV. */
 export type AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenPaymentDataType =
@@ -710,34 +742,37 @@ export type AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenPaymentDataT
   | "EMV";
 export interface AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenPaymentData {
   /** Online payment cryptogram, as defined by 3D Secure. The pattern is defined by an external party and supports Unicode. */
-  cryptogram?: string;
+  cryptogram?: string | undefined;
   /** ECI indicator, as defined by 3- Secure. The pattern is defined by an external party and supports Unicode. */
-  eci_indicator?: string;
+  eci_indicator?: string | undefined;
   /** Encoded Apple Pay EMV Payment Structure used for payments in China. The pattern is defined by an external party and supports Unicode. */
-  emv_data?: string;
+  emv_data?: string | undefined;
   /** Bank Key encrypted Apple Pay PIN. The pattern is defined by an external party and supports Unicode. */
-  pin?: string;
+  pin?: string | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceApplePayDecryptedToken {
-  transaction_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  transaction_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   tokenized_card: AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenTokenizedCard;
   /** Apple Pay Hex-encoded device manufacturer identifier. The pattern is defined by an external party and supports Unicode. */
-  device_manufacturer_id?: string;
+  device_manufacturer_id?: string | undefined;
   /** Indicates the type of payment data passed, in case of Non China the payment data is 3DSECURE and for China it is EMV. */
   payment_data_type?:
     | AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenPaymentDataType
-    | (string & {});
-  payment_data?: AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenPaymentData;
+    | (string & {})
+    | undefined;
+  payment_data?: AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenPaymentData | undefined;
 }
 export type CustomerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
 export type CustomerPhone = CardCustomerPhone;
 export type CustomerName = CardCustomerName;
 /** This object represents a merchant's customer, allowing them to store contact details, and track all payments associated with the same customer. */
 export interface Customer {
-  id?: string;
-  email_address?: unknown;
-  phone?: CardCustomerPhone;
-  name?: CardCustomerName;
+  id?: string | undefined;
+  email_address?: unknown | undefined;
+  phone?: CardCustomerPhone | undefined;
+  name?: CardCustomerName | undefined;
 }
 /** Base vaulting specification. The object can be extended for specific use cases within each payment_source that supports vaulting. */
 export interface V3VaultInstructionBase {
@@ -745,8 +780,8 @@ export interface V3VaultInstructionBase {
 }
 /** Additional attributes associated with apple pay. */
 export interface ApplePayAttributes {
-  customer?: Customer;
-  vault?: V3VaultInstructionBase;
+  customer?: Customer | undefined;
+  vault?: V3VaultInstructionBase | undefined;
 }
 /** Customizes the payer experience during the approval process for the payment. */
 export interface ApplePayExperienceContext {
@@ -755,19 +790,19 @@ export interface ApplePayExperienceContext {
 }
 export interface AuthorizeOrderRequestPaymentSourceApplePay {
   /** ApplePay transaction identifier, this will be the unique identifier for this transaction provided by Apple. The pattern is defined by an external party and supports Unicode. */
-  id?: string;
-  name?: unknown;
-  email_address?: unknown;
-  phone_number?: CardCustomerPhonePhoneNumber;
-  decrypted_token?: AuthorizeOrderRequestPaymentSourceApplePayDecryptedToken;
-  stored_credential?: CardStoredCredential;
-  vault_id?: unknown;
-  attributes?: ApplePayAttributes;
-  experience_context?: ApplePayExperienceContext;
+  id?: string | undefined;
+  name?: unknown | undefined;
+  email_address?: unknown | undefined;
+  phone_number?: CardCustomerPhonePhoneNumber | undefined;
+  decrypted_token?: AuthorizeOrderRequestPaymentSourceApplePayDecryptedToken | undefined;
+  stored_credential?: CardStoredCredential | undefined;
+  vault_id?: unknown | undefined;
+  attributes?: ApplePayAttributes | undefined;
+  experience_context?: ApplePayExperienceContext | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceGooglePayPhoneNumber {
   /** The country calling code (CC), in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the CC and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN). */
-  country_code?: string;
+  country_code?: string | undefined;
   /** The national number, in its canonical international [E.164 numbering plan format](https://www.itu.int/rec/T-REC-E.164/en). The combined length of the country calling code (CC) and the national number must not be greater than 15 digits. The national number consists of a national destination code (NDC) and subscriber number (SN). */
   national_number: string;
 }
@@ -778,13 +813,13 @@ export type AuthorizeOrderRequestPaymentSourceGooglePayCardBillingAddress =
   CardRequestInputBillingAddress;
 export interface AuthorizeOrderRequestPaymentSourceGooglePayCard {
   /** The card holder's name as it appears on the card. */
-  name?: string;
+  name?: string | undefined;
   /** The primary account number (PAN) for the payment card. */
-  number?: string;
-  expiry?: unknown;
-  type?: unknown;
-  brand?: unknown;
-  billing_address?: CardRequestInputBillingAddress;
+  number?: string | undefined;
+  expiry?: unknown | undefined;
+  type?: unknown | undefined;
+  brand?: unknown | undefined;
+  billing_address?: CardRequestInputBillingAddress | undefined;
 }
 /** The type of the payment credential. Currently, only CARD is supported. */
 export type AuthorizeOrderRequestPaymentSourceGooglePayDecryptedTokenPaymentMethod = "CARD";
@@ -796,13 +831,13 @@ export type AuthorizeOrderRequestPaymentSourceGooglePayDecryptedTokenCardBilling
 /** Google Pay tokenized credit card used to pay. */
 export interface AuthorizeOrderRequestPaymentSourceGooglePayDecryptedTokenCard {
   /** The card holder's name as it appears on the card. */
-  name?: string;
+  name?: string | undefined;
   /** The primary account number (PAN) for the payment card. */
   number: string;
   expiry: unknown;
-  type?: unknown;
-  brand?: unknown;
-  billing_address?: CardRequestInputBillingAddress;
+  type?: unknown | undefined;
+  brand?: unknown | undefined;
+  billing_address?: CardRequestInputBillingAddress | undefined;
 }
 /** Authentication Method which is used for the card transaction. */
 export type AuthorizeOrderRequestPaymentSourceGooglePayDecryptedTokenAuthenticationMethod =
@@ -810,9 +845,9 @@ export type AuthorizeOrderRequestPaymentSourceGooglePayDecryptedTokenAuthenticat
   | "CRYPTOGRAM_3DS";
 export interface AuthorizeOrderRequestPaymentSourceGooglePayDecryptedToken {
   /** A unique ID that identifies the message in case it needs to be revoked or located at a later time. */
-  message_id?: string;
+  message_id?: string | undefined;
   /** Date and time at which the message expires as UTC milliseconds since epoch. Integrators should reject any message that's expired. */
-  message_expiration?: string;
+  message_expiration?: string | undefined;
   /** The type of the payment credential. Currently, only CARD is supported. */
   payment_method:
     | AuthorizeOrderRequestPaymentSourceGooglePayDecryptedTokenPaymentMethod
@@ -824,26 +859,26 @@ export interface AuthorizeOrderRequestPaymentSourceGooglePayDecryptedToken {
     | AuthorizeOrderRequestPaymentSourceGooglePayDecryptedTokenAuthenticationMethod
     | (string & {});
   /** Base-64 cryptographic identifier used by card schemes to validate the token verification result. This is a conditionally required field if authentication_method is CRYPTOGRAM_3DS. */
-  cryptogram?: string;
+  cryptogram?: string | undefined;
   /** Electronic Commerce Indicator may not always be present. It is only returned for tokens on the Visa card network. This value is passed through in the payment authorization request. */
-  eci_indicator?: string;
+  eci_indicator?: string | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceGooglePayAssuranceDetails {
   /** If true, indicates that Cardholder possession validation has been performed on returned payment credential. */
-  account_verified?: boolean;
+  account_verified?: boolean | undefined;
   /** If true, indicates that identification and verifications (ID&V) was performed on the returned payment credential.If false, the same risk-based authentication can be performed as you would for card transactions. This risk-based authentication can include, but not limited to, step-up with 3D Secure protocol if applicable. */
-  card_holder_authenticated?: boolean;
+  card_holder_authenticated?: boolean | undefined;
 }
 /** Customizes the payer experience during the approval process for the payment. */
 export type GooglePayExperienceContext = ApplePayExperienceContext;
 export interface AuthorizeOrderRequestPaymentSourceGooglePay {
-  name?: unknown;
-  email_address?: unknown;
-  phone_number?: AuthorizeOrderRequestPaymentSourceGooglePayPhoneNumber;
-  card?: AuthorizeOrderRequestPaymentSourceGooglePayCard;
-  decrypted_token?: AuthorizeOrderRequestPaymentSourceGooglePayDecryptedToken;
-  assurance_details?: AuthorizeOrderRequestPaymentSourceGooglePayAssuranceDetails;
-  experience_context?: ApplePayExperienceContext;
+  name?: unknown | undefined;
+  email_address?: unknown | undefined;
+  phone_number?: AuthorizeOrderRequestPaymentSourceGooglePayPhoneNumber | undefined;
+  card?: AuthorizeOrderRequestPaymentSourceGooglePayCard | undefined;
+  decrypted_token?: AuthorizeOrderRequestPaymentSourceGooglePayDecryptedToken | undefined;
+  assurance_details?: AuthorizeOrderRequestPaymentSourceGooglePayAssuranceDetails | undefined;
+  experience_context?: ApplePayExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type VenmoWalletExperienceContextShippingPreference =
@@ -869,12 +904,12 @@ export type VenmoWalletExperienceContextUserAction = "CONTINUE" | "PAY_NOW";
 /** Customizes the buyer experience during the approval process for payment with Venmo.<blockquote><strong>Note:</strong> Partners and Marketplaces might configure <code>shipping_preference</code> during partner account setup, which overrides the request values.</blockquote> */
 export interface VenmoWalletExperienceContext {
   /** The business name of the merchant. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
+  brand_name?: string | undefined;
   /** The location from which the shipping address is derived. */
-  shipping_preference?: VenmoWalletExperienceContextShippingPreference | (string & {});
-  order_update_callback_config?: VenmoWalletExperienceContextOrderUpdateCallbackConfig;
+  shipping_preference?: VenmoWalletExperienceContextShippingPreference | (string & {}) | undefined;
+  order_update_callback_config?: VenmoWalletExperienceContextOrderUpdateCallbackConfig | undefined;
   /** Configures a <strong>Continue</strong> or <strong>Pay Now</strong> checkout flow. */
-  user_action?: VenmoWalletExperienceContextUserAction | (string & {});
+  user_action?: VenmoWalletExperienceContextUserAction | (string & {}) | undefined;
 }
 export type VenmoWalletCustomerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
 export type VenmoWalletCustomerPhone = CardCustomerPhone;
@@ -900,42 +935,44 @@ export type AuthorizeOrderRequestPaymentSourceVenmoAttributesVaultCustomerType =
 export interface AuthorizeOrderRequestPaymentSourceVenmoAttributesVault {
   store_in_vault: StoreInVaultInstruction | (string & {});
   /** The description displayed to Venmo consumer on the approval flow for Venmo, as well as on the Venmo payment token management experience on Venmo.com. */
-  description?: string;
+  description?: string | undefined;
   /** Expected business/pricing model for the billing agreement. */
   usage_pattern?:
     | AuthorizeOrderRequestPaymentSourceVenmoAttributesVaultUsagePattern
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The usage type associated with the Venmo payment token. */
   usage_type: AuthorizeOrderRequestPaymentSourceVenmoAttributesVaultUsageType | (string & {});
   /** The customer type associated with the Venmo payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer. */
   customer_type?:
     | AuthorizeOrderRequestPaymentSourceVenmoAttributesVaultCustomerType
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Create multiple payment tokens for the same payer, merchant/platform combination. Use this when the customer has not logged in at merchant/platform. The payment token thus generated, can then also be used to create the customer account at merchant/platform. Use this also when multiple payment tokens are required for the same payer, different customer at merchant/platform. This helps to identify customers distinctly even though they may share the same Venmo account. */
-  permit_multiple_payment_tokens?: boolean;
+  permit_multiple_payment_tokens?: boolean | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceVenmoAttributes {
-  customer?: Customer;
-  vault?: AuthorizeOrderRequestPaymentSourceVenmoAttributesVault;
+  customer?: Customer | undefined;
+  vault?: AuthorizeOrderRequestPaymentSourceVenmoAttributesVault | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceVenmo {
-  vault_id?: unknown;
-  email_address?: unknown;
-  experience_context?: VenmoWalletExperienceContext;
-  attributes?: AuthorizeOrderRequestPaymentSourceVenmoAttributes;
+  vault_id?: unknown | undefined;
+  email_address?: unknown | undefined;
+  experience_context?: VenmoWalletExperienceContext | undefined;
+  attributes?: AuthorizeOrderRequestPaymentSourceVenmoAttributes | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceCryptoName {
   /** The prefix, or title, to the account holder's name. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** When the account holder is a person, the account holder's given, or first, name. */
   given_name: string;
   /** When the account holder is a person, the account holder's surname or family name. Also known as the last name. Required when the account holder is a person. Use also to store multiple surnames including the matronymic, or mother's, surname. */
   surname: string;
   /** When the account holder is a person, the account holder's middle name. Use also to store multiple middle names including the patronymic, or father's, middle name. */
-  middle_name?: string;
+  middle_name?: string | undefined;
 }
 export interface AuthorizeOrderRequestPaymentSourceCryptoExperienceContext {
-  locale?: unknown;
+  locale?: unknown | undefined;
   return_url: unknown;
   cancel_url: unknown;
 }
@@ -945,35 +982,35 @@ export interface AuthorizeOrderRequestPaymentSourceCrypto {
   experience_context: AuthorizeOrderRequestPaymentSourceCryptoExperienceContext;
 }
 export interface AuthorizeOrderRequestPaymentSource {
-  card?: CardRequestInput;
-  token?: Token;
-  paypal?: AuthorizeOrderRequestPaymentSourcePaypal;
-  bancontact?: AuthorizeOrderRequestPaymentSourceBancontact;
-  blik?: AuthorizeOrderRequestPaymentSourceBlik;
-  eps?: AuthorizeOrderRequestPaymentSourceEps;
-  giropay?: AuthorizeOrderRequestPaymentSourceGiropay;
-  ideal?: AuthorizeOrderRequestPaymentSourceIdeal;
-  mybank?: AuthorizeOrderRequestPaymentSourceMybank;
-  p24?: AuthorizeOrderRequestPaymentSourceP24;
-  sofort?: AuthorizeOrderRequestPaymentSourceSofort;
-  trustly?: AuthorizeOrderRequestPaymentSourceTrustly;
-  apple_pay?: AuthorizeOrderRequestPaymentSourceApplePay;
-  google_pay?: AuthorizeOrderRequestPaymentSourceGooglePay;
-  venmo?: AuthorizeOrderRequestPaymentSourceVenmo;
-  crypto?: AuthorizeOrderRequestPaymentSourceCrypto;
+  card?: CardRequestInput | undefined;
+  token?: Token | undefined;
+  paypal?: AuthorizeOrderRequestPaymentSourcePaypal | undefined;
+  bancontact?: AuthorizeOrderRequestPaymentSourceBancontact | undefined;
+  blik?: AuthorizeOrderRequestPaymentSourceBlik | undefined;
+  eps?: AuthorizeOrderRequestPaymentSourceEps | undefined;
+  giropay?: AuthorizeOrderRequestPaymentSourceGiropay | undefined;
+  ideal?: AuthorizeOrderRequestPaymentSourceIdeal | undefined;
+  mybank?: AuthorizeOrderRequestPaymentSourceMybank | undefined;
+  p24?: AuthorizeOrderRequestPaymentSourceP24 | undefined;
+  sofort?: AuthorizeOrderRequestPaymentSourceSofort | undefined;
+  trustly?: AuthorizeOrderRequestPaymentSourceTrustly | undefined;
+  apple_pay?: AuthorizeOrderRequestPaymentSourceApplePay | undefined;
+  google_pay?: AuthorizeOrderRequestPaymentSourceGooglePay | undefined;
+  venmo?: AuthorizeOrderRequestPaymentSourceVenmo | undefined;
+  crypto?: AuthorizeOrderRequestPaymentSourceCrypto | undefined;
 }
 export interface AuthorizeOrderRequest {
   /** The ID of the order for which to authorize. */
   id: string;
   /** The server stores keys for 6 hours. The API callers can request the times to up to 72 hours by speaking to their Account Manager. It is mandatory for all single-step create order calls (E.g. Create Order Request with payment source information like Card, PayPal.vault_id, PayPal.billing_agreement_id, etc). */
-  payPalRequestId?: string;
+  payPalRequestId?: string | undefined;
   /** The preferred server response upon successful completion of the request. Value is:<ul><li><code>return=minimal</code>. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the <code>id</code>, <code>status</code> and HATEOAS links.</li><li><code>return=representation</code>. The server returns a complete resource representation, including the current state of the resource.</li></ul> */
-  prefer?: string;
+  prefer?: string | undefined;
   /** A GUID value originating from Fraudnet and Dyson passed from external API clients via HTTP header. The value is used by Risk decisions to correlate calls which, in turn, might result in lower decline rates.. */
-  payPalClientMetadataId?: string;
+  payPalClientMetadataId?: string | undefined;
   /** Header for an API client-provided JWT assertion that identifies the merchant. Establishing the consent to act-on-behalf of a merchant is a prerequisite for using this header. */
-  payPalAuthAssertion?: string;
-  payment_source?: AuthorizeOrderRequestPaymentSource;
+  payPalAuthAssertion?: string | undefined;
+  payment_source?: AuthorizeOrderRequestPaymentSource | undefined;
 }
 /** Array of brands or networks associated with the card. */
 export type CardResponseAvailableNetworksList = Array<unknown>;
@@ -981,13 +1018,13 @@ export type CardResponseAvailableNetworksList = Array<unknown>;
 export type LiabilityShift = "NO" | "POSSIBLE" | "UNKNOWN";
 /** Results of 3D Secure Authentication. */
 export interface ThreeDSecureAuthenticationResponse {
-  authentication_status?: unknown;
-  enrollment_status?: unknown;
+  authentication_status?: unknown | undefined;
+  enrollment_status?: unknown | undefined;
 }
 /** Results of Authentication such as 3D Secure. */
 export interface AuthenticationResponse {
-  liability_shift?: LiabilityShift;
-  three_d_secure?: ThreeDSecureAuthenticationResponse;
+  liability_shift?: LiabilityShift | undefined;
+  three_d_secure?: ThreeDSecureAuthenticationResponse | undefined;
 }
 /** The vault status. */
 export type CardVaultResponseStatus = "VAULTED" | "CREATED" | "APPROVED";
@@ -1012,39 +1049,39 @@ export type CardVaultResponseLinksItemSchemaLinksList = Array<unknown>;
 /** The media type and context-encoding scheme. */
 export interface CardVaultResponseLinksItemSchemaMedia {
   /** The media type. See [Multipurpose Internet Mail Extensions (MIME) Part Two: Media Types](https://tools.ietf.org/html/rfc2046). */
-  type?: string;
+  type?: string | undefined;
   /** The content-encoding scheme. See [Multipurpose Internet Mail Extensions (MIME) Part One: Format of Internet Message Bodies](https://tools.ietf.org/html/rfc2045). */
-  binaryEncoding?: string;
+  binaryEncoding?: string | undefined;
 }
 export interface CardVaultResponseLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** The dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** The properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CardVaultResponseLinksItemSchemaAllOfList;
+  allOf?: CardVaultResponseLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CardVaultResponseLinksItemSchemaAnyOfList;
+  anyOf?: CardVaultResponseLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CardVaultResponseLinksItemSchemaOneOfList;
+  oneOf?: CardVaultResponseLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CardVaultResponseLinksItemSchemaLinksList;
+  links?: CardVaultResponseLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type CardVaultResponseLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -1058,33 +1095,33 @@ export type CardVaultResponseLinksItemTargetSchemaLinksList = Array<unknown>;
 export type CardVaultResponseLinksItemTargetSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface CardVaultResponseLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** The dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** The properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CardVaultResponseLinksItemTargetSchemaAllOfList;
+  allOf?: CardVaultResponseLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CardVaultResponseLinksItemTargetSchemaAnyOfList;
+  anyOf?: CardVaultResponseLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CardVaultResponseLinksItemTargetSchemaOneOfList;
+  oneOf?: CardVaultResponseLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CardVaultResponseLinksItemTargetSchemaLinksList;
+  links?: CardVaultResponseLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface CardVaultResponseLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -1092,65 +1129,65 @@ export interface CardVaultResponseLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: CardVaultResponseLinksItemMethod;
+  method?: CardVaultResponseLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: CardVaultResponseLinksItemSchema;
-  targetSchema?: CardVaultResponseLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: CardVaultResponseLinksItemSchema | undefined;
+  targetSchema?: CardVaultResponseLinksItemTargetSchema | undefined;
 }
 /** An array of request-related HATEOAS links. */
 export type CardVaultResponseLinksList = Array<CardVaultResponseLinksItem>;
 /** The details about a saved Card payment source. */
 export interface CardVaultResponse {
   /** The PayPal-generated ID for the saved payment source. */
-  id?: string;
+  id?: string | undefined;
   /** The vault status. */
-  status?: CardVaultResponseStatus;
-  customer?: CardCustomer;
+  status?: CardVaultResponseStatus | undefined;
+  customer?: CardCustomer | undefined;
   /** An array of request-related HATEOAS links. */
-  links?: CardVaultResponseLinksList;
+  links?: CardVaultResponseLinksList | undefined;
 }
 /** Additional attributes associated with the use of this card. */
 export interface CardAttributesResponse {
-  vault?: CardVaultResponse;
+  vault?: CardVaultResponse | undefined;
 }
 /** Representation of card details as received in the request. */
 export interface CardFromRequest {
-  expiry?: unknown;
+  expiry?: unknown | undefined;
   /** The last digits of the payment card. */
-  last_digits?: string;
+  last_digits?: string | undefined;
 }
 /** The type of card product assigned to the BIN by the issuer. These values are defined by the issuer and may change over time. Some examples include: PREPAID_GIFT, CONSUMER, CORPORATE. */
 export type CardResponseBinDetailsProductsList = Array<string>;
 export interface CardResponseBinDetails {
   /** The Bank Identification Number (BIN) signifies the number that is being used to identify the granular level details (except the PII information) of the card. */
-  bin?: string;
+  bin?: string | undefined;
   /** The issuer of the card instrument. */
-  issuing_bank?: string;
-  bin_country_code?: unknown;
+  issuing_bank?: string | undefined;
+  bin_country_code?: unknown | undefined;
   /** The type of card product assigned to the BIN by the issuer. These values are defined by the issuer and may change over time. Some examples include: PREPAID_GIFT, CONSUMER, CORPORATE. */
-  products?: CardResponseBinDetailsProductsList;
+  products?: CardResponseBinDetailsProductsList | undefined;
 }
 /** The payment card to use to fund a payment. Card can be a credit or debit card. */
 export interface CardResponse {
   /** The card holder's name as it appears on the card. */
-  name?: string;
+  name?: string | undefined;
   /** The last digits of the payment card. */
-  last_digits?: string;
-  brand?: unknown;
+  last_digits?: string | undefined;
+  brand?: unknown | undefined;
   /** Array of brands or networks associated with the card. */
-  available_networks?: CardResponseAvailableNetworksList;
-  type?: unknown;
-  authentication_result?: AuthenticationResponse;
-  attributes?: CardAttributesResponse;
-  from_request?: CardFromRequest;
-  expiry?: unknown;
-  bin_details?: CardResponseBinDetails;
-  stored_credential?: CardStoredCredential;
+  available_networks?: CardResponseAvailableNetworksList | undefined;
+  type?: unknown | undefined;
+  authentication_result?: AuthenticationResponse | undefined;
+  attributes?: CardAttributesResponse | undefined;
+  from_request?: CardFromRequest | undefined;
+  expiry?: unknown | undefined;
+  bin_details?: CardResponseBinDetails | undefined;
+  stored_credential?: CardStoredCredential | undefined;
 }
 /** The account status indicates whether the buyer has verified the financial details associated with their PayPal account. */
 export type PaypalWalletResponseAccountStatus = "VERIFIED" | "UNVERIFIED";
@@ -1192,33 +1229,33 @@ export type PaypalWalletVaultResponseLinksItemSchemaLinksList = Array<unknown>;
 export type PaypalWalletVaultResponseLinksItemSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface PaypalWalletVaultResponseLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** The dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** The properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: PaypalWalletVaultResponseLinksItemSchemaAllOfList;
+  allOf?: PaypalWalletVaultResponseLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: PaypalWalletVaultResponseLinksItemSchemaAnyOfList;
+  anyOf?: PaypalWalletVaultResponseLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: PaypalWalletVaultResponseLinksItemSchemaOneOfList;
+  oneOf?: PaypalWalletVaultResponseLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: PaypalWalletVaultResponseLinksItemSchemaLinksList;
+  links?: PaypalWalletVaultResponseLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type PaypalWalletVaultResponseLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -1233,33 +1270,33 @@ export type PaypalWalletVaultResponseLinksItemTargetSchemaMedia =
   CardVaultResponseLinksItemSchemaMedia;
 export interface PaypalWalletVaultResponseLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** The dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** The properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: PaypalWalletVaultResponseLinksItemTargetSchemaAllOfList;
+  allOf?: PaypalWalletVaultResponseLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: PaypalWalletVaultResponseLinksItemTargetSchemaAnyOfList;
+  anyOf?: PaypalWalletVaultResponseLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: PaypalWalletVaultResponseLinksItemTargetSchemaOneOfList;
+  oneOf?: PaypalWalletVaultResponseLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: PaypalWalletVaultResponseLinksItemTargetSchemaLinksList;
+  links?: PaypalWalletVaultResponseLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface PaypalWalletVaultResponseLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -1267,50 +1304,52 @@ export interface PaypalWalletVaultResponseLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: PaypalWalletVaultResponseLinksItemMethod;
+  method?: PaypalWalletVaultResponseLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: PaypalWalletVaultResponseLinksItemSchema;
-  targetSchema?: PaypalWalletVaultResponseLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: PaypalWalletVaultResponseLinksItemSchema | undefined;
+  targetSchema?: PaypalWalletVaultResponseLinksItemTargetSchema | undefined;
 }
 /** An array of request-related HATEOAS links. */
 export type PaypalWalletVaultResponseLinksList = Array<PaypalWalletVaultResponseLinksItem>;
 /** The details about a saved PayPal Wallet payment source. */
 export interface PaypalWalletVaultResponse {
   /** The PayPal-generated ID for the saved payment source. */
-  id?: string;
+  id?: string | undefined;
   /** The vault status. */
-  status?: PaypalWalletVaultResponseStatus;
-  customer?: CardCustomer;
+  status?: PaypalWalletVaultResponseStatus | undefined;
+  customer?: CardCustomer | undefined;
   /** An array of request-related HATEOAS links. */
-  links?: PaypalWalletVaultResponseLinksList;
+  links?: PaypalWalletVaultResponseLinksList | undefined;
 }
 /** Array of labels for the cobranded card. */
 export type PaypalWalletAttributesResponseCobrandedCardsItemLabelsList = Array<string>;
 export interface PaypalWalletAttributesResponseCobrandedCardsItemPayee {
-  email_address?: unknown;
-  merchant_id?: unknown;
+  email_address?: unknown | undefined;
+  merchant_id?: unknown | undefined;
 }
 export type PaypalWalletAttributesResponseCobrandedCardsItemAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
 export interface PaypalWalletAttributesResponseCobrandedCardsItem {
   /** Array of labels for the cobranded card. */
-  labels?: PaypalWalletAttributesResponseCobrandedCardsItemLabelsList;
-  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee;
-  amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  labels?: PaypalWalletAttributesResponseCobrandedCardsItemLabelsList | undefined;
+  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee | undefined;
+  amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
 }
 /** An array of merchant cobranded cards used by buyer to complete an order. This array will be present if a merchant has onboarded their cobranded card with PayPal and provided corresponding label(s). */
 export type PaypalWalletAttributesResponseCobrandedCardsList =
   Array<PaypalWalletAttributesResponseCobrandedCardsItem>;
 /** Additional attributes associated with the use of a PayPal Wallet. */
 export interface PaypalWalletAttributesResponse {
-  vault?: PaypalWalletVaultResponse;
+  vault?: PaypalWalletVaultResponse | undefined;
   /** An array of merchant cobranded cards used by buyer to complete an order. This array will be present if a merchant has onboarded their cobranded card with PayPal and provided corresponding label(s). */
-  cobranded_cards?: PaypalWalletAttributesResponseCobrandedCardsList;
+  cobranded_cards?: PaypalWalletAttributesResponseCobrandedCardsList | undefined;
 }
 /** This field indicates the status of PayPal's Checkout experience throughout the order lifecycle. The values reflect the current stage of the checkout process. */
 export type PaypalWalletResponseExperienceStatus =
@@ -1320,81 +1359,81 @@ export type PaypalWalletResponseExperienceStatus =
   | "APPROVED";
 /** The PayPal Wallet response. */
 export interface PaypalWalletResponse {
-  email_address?: unknown;
-  account_id?: unknown;
+  email_address?: unknown | undefined;
+  account_id?: unknown | undefined;
   /** The account status indicates whether the buyer has verified the financial details associated with their PayPal account. */
-  account_status?: PaypalWalletResponseAccountStatus;
-  name?: CardCustomerName;
-  phone_type?: PhoneType;
-  phone_number?: CardCustomerPhonePhoneNumber;
-  birth_date?: unknown;
+  account_status?: PaypalWalletResponseAccountStatus | undefined;
+  name?: CardCustomerName | undefined;
+  phone_type?: PhoneType | undefined;
+  phone_number?: CardCustomerPhonePhoneNumber | undefined;
+  birth_date?: unknown | undefined;
   /** The business name of the PayPal account holder (populated for business accounts only) */
-  business_name?: string;
-  tax_info?: PaypalWalletResponseTaxInfo;
-  address?: CardRequestInputBillingAddress;
-  attributes?: PaypalWalletAttributesResponse;
-  stored_credential?: PaypalWalletStoredCredential;
+  business_name?: string | undefined;
+  tax_info?: PaypalWalletResponseTaxInfo | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
+  attributes?: PaypalWalletAttributesResponse | undefined;
+  stored_credential?: PaypalWalletStoredCredential | undefined;
   /** This field indicates the status of PayPal's Checkout experience throughout the order lifecycle. The values reflect the current stage of the checkout process. */
-  experience_status?: PaypalWalletResponseExperienceStatus;
+  experience_status?: PaypalWalletResponseExperienceStatus | undefined;
 }
 /** Information used to pay Bancontact. */
 export interface Bancontact {
-  name?: unknown;
-  country_code?: unknown;
-  bic?: unknown;
-  iban_last_chars?: string;
+  name?: unknown | undefined;
+  country_code?: unknown | undefined;
+  bic?: unknown | undefined;
+  iban_last_chars?: string | undefined;
   /** The last digits of the card used to fund the Bancontact payment. */
-  card_last_digits?: string;
+  card_last_digits?: string | undefined;
 }
 export interface BlikOneClick {
   /** The merchant generated, unique reference serving as a primary identifier for accounts connected between Blik and a merchant. */
-  consumer_reference?: string;
+  consumer_reference?: string | undefined;
 }
 /** Information used to pay using BLIK. */
 export interface Blik {
-  name?: unknown;
-  country_code?: unknown;
-  email?: unknown;
-  one_click?: BlikOneClick;
+  name?: unknown | undefined;
+  country_code?: unknown | undefined;
+  email?: unknown | undefined;
+  one_click?: BlikOneClick | undefined;
 }
 /** Information used to pay using eps. */
 export interface Eps {
-  name?: unknown;
-  country_code?: unknown;
-  bic?: unknown;
+  name?: unknown | undefined;
+  country_code?: unknown | undefined;
+  bic?: unknown | undefined;
 }
 /** Information needed to pay using giropay. */
 export type Giropay = Eps;
 /** Information used to pay using iDEAL. */
 export interface Ideal {
-  name?: unknown;
-  country_code?: unknown;
-  bic?: unknown;
-  iban_last_chars?: string;
+  name?: unknown | undefined;
+  country_code?: unknown | undefined;
+  bic?: unknown | undefined;
+  iban_last_chars?: string | undefined;
 }
 /** Information used to pay using MyBank. */
 export type Mybank = Ideal;
 /** Information used to pay using P24(Przelewy24). */
 export interface P24 {
-  name?: unknown;
-  email?: unknown;
-  country_code?: unknown;
+  name?: unknown | undefined;
+  email?: unknown | undefined;
+  country_code?: unknown | undefined;
   /** P24 generated payment description. */
-  payment_descriptor?: string;
+  payment_descriptor?: string | undefined;
   /** Numeric identifier of the payment scheme or bank used for the payment. */
-  method_id?: string;
+  method_id?: string | undefined;
   /** Friendly name of the payment scheme or bank used for the payment. */
-  method_description?: string;
+  method_description?: string | undefined;
 }
 /** Information used to pay using Sofort. */
 export type Sofort = Ideal;
 /** Information needed to pay using Trustly. */
 export interface Trustly {
-  name?: unknown;
-  country_code?: unknown;
-  email?: unknown;
-  bic?: unknown;
-  iban_last_chars?: string;
+  name?: unknown | undefined;
+  country_code?: unknown | undefined;
+  email?: unknown | undefined;
+  bic?: unknown | undefined;
+  iban_last_chars?: string | undefined;
 }
 export type ApplePayPhoneNumber =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber;
@@ -1404,47 +1443,47 @@ export type ApplePayCardAvailableNetworksList = Array<unknown>;
 export type ApplePayCardBinDetailsProductsList = Array<string>;
 export interface ApplePayCardBinDetails {
   /** The Bank Identification Number (BIN) signifies the number that is being used to identify the granular level details (except the PII information) of the card. */
-  bin?: string;
+  bin?: string | undefined;
   /** The issuer of the card instrument. */
-  issuing_bank?: string;
-  bin_country_code?: unknown;
+  issuing_bank?: string | undefined;
+  bin_country_code?: unknown | undefined;
   /** The type of card product assigned to the BIN by the issuer. These values are defined by the issuer and may change over time. Some examples include: PREPAID_GIFT, CONSUMER, CORPORATE. */
-  products?: ApplePayCardBinDetailsProductsList;
+  products?: ApplePayCardBinDetailsProductsList | undefined;
 }
 /** The non-portable additional address details include fine-grain address information for Compliance, Risk, and other scenarios. This isn't portable with common third-party and open source applications. This can include data that is redundant with core fields. For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`. */
 export type ApplePayCardBillingAddressAddressDetails = CardRequestInputBillingAddressAddressDetails;
 export type ApplePayCardBillingAddress = CardRequestInputBillingAddress;
 export interface ApplePayCard {
   /** The card holder's name as it appears on the card. */
-  name?: string;
+  name?: string | undefined;
   /** The last digits of the payment card. */
-  last_digits?: string;
-  brand?: unknown;
+  last_digits?: string | undefined;
+  brand?: unknown | undefined;
   /** Array of brands or networks associated with the card. */
-  available_networks?: ApplePayCardAvailableNetworksList;
-  type?: unknown;
-  authentication_result?: AuthenticationResponse;
-  attributes?: CardAttributesResponse;
-  from_request?: CardFromRequest;
-  expiry?: unknown;
-  bin_details?: ApplePayCardBinDetails;
-  stored_credential?: CardStoredCredential;
-  billing_address?: CardRequestInputBillingAddress;
-  country_code?: unknown;
+  available_networks?: ApplePayCardAvailableNetworksList | undefined;
+  type?: unknown | undefined;
+  authentication_result?: AuthenticationResponse | undefined;
+  attributes?: CardAttributesResponse | undefined;
+  from_request?: CardFromRequest | undefined;
+  expiry?: unknown | undefined;
+  bin_details?: ApplePayCardBinDetails | undefined;
+  stored_credential?: CardStoredCredential | undefined;
+  billing_address?: CardRequestInputBillingAddress | undefined;
+  country_code?: unknown | undefined;
 }
 /** The vault status. */
 export type VaultResponseStatus = "VAULTED" | "CREATED" | "APPROVED";
 export type VaultResponseCustomerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
 export interface VaultResponseCustomerPhone {
-  phone_type?: PhoneType;
+  phone_type?: PhoneType | undefined;
   phone_number: CardCustomerPhonePhoneNumber;
 }
 export type VaultResponseCustomerName = CardCustomerName;
 export interface VaultResponseCustomer {
-  id?: string;
-  email_address?: unknown;
-  phone?: VaultResponseCustomerPhone;
-  name?: CardCustomerName;
+  id?: string | undefined;
+  email_address?: unknown | undefined;
+  phone?: VaultResponseCustomerPhone | undefined;
+  name?: CardCustomerName | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type VaultResponseLinksItemMethod =
@@ -1468,33 +1507,33 @@ export type VaultResponseLinksItemSchemaLinksList = Array<unknown>;
 export type VaultResponseLinksItemSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface VaultResponseLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** The dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** The properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: VaultResponseLinksItemSchemaAllOfList;
+  allOf?: VaultResponseLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: VaultResponseLinksItemSchemaAnyOfList;
+  anyOf?: VaultResponseLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: VaultResponseLinksItemSchemaOneOfList;
+  oneOf?: VaultResponseLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: VaultResponseLinksItemSchemaLinksList;
+  links?: VaultResponseLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type VaultResponseLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -1508,33 +1547,33 @@ export type VaultResponseLinksItemTargetSchemaLinksList = Array<unknown>;
 export type VaultResponseLinksItemTargetSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface VaultResponseLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** The dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** The properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: VaultResponseLinksItemTargetSchemaAllOfList;
+  allOf?: VaultResponseLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: VaultResponseLinksItemTargetSchemaAnyOfList;
+  anyOf?: VaultResponseLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: VaultResponseLinksItemTargetSchemaOneOfList;
+  oneOf?: VaultResponseLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: VaultResponseLinksItemTargetSchemaLinksList;
+  links?: VaultResponseLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface VaultResponseLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -1542,43 +1581,45 @@ export interface VaultResponseLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: VaultResponseLinksItemMethod;
+  method?: VaultResponseLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: VaultResponseLinksItemSchema;
-  targetSchema?: VaultResponseLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: VaultResponseLinksItemSchema | undefined;
+  targetSchema?: VaultResponseLinksItemTargetSchema | undefined;
 }
 /** An array of request-related HATEOAS links. */
 export type VaultResponseLinksList = Array<VaultResponseLinksItem>;
 /** The details about a saved payment source. */
 export interface VaultResponse {
   /** The PayPal-generated ID for the saved payment source. */
-  id?: string;
+  id?: string | undefined;
   /** The vault status. */
-  status?: VaultResponseStatus;
-  customer?: VaultResponseCustomer;
+  status?: VaultResponseStatus | undefined;
+  customer?: VaultResponseCustomer | undefined;
   /** An array of request-related HATEOAS links. */
-  links?: VaultResponseLinksList;
+  links?: VaultResponseLinksList | undefined;
 }
 export interface ApplePayAttributes2 {
-  vault?: VaultResponse;
+  vault?: VaultResponse | undefined;
 }
 /** Information needed to pay using ApplePay. */
 export interface ApplePay {
   /** ApplePay transaction identifier, this will be the unique identifier for this transaction provided by Apple. The pattern is defined by an external party and supports Unicode. */
-  id?: string;
+  id?: string | undefined;
   /** Encrypted ApplePay token, containing card information. This token would be base64encoded. The pattern is defined by an external party and supports Unicode. */
-  token?: string;
-  name?: unknown;
-  email_address?: unknown;
-  phone_number?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber;
-  card?: ApplePayCard;
-  attributes?: ApplePayAttributes2;
-  stored_credential?: CardStoredCredential;
+  token?: string | undefined;
+  name?: unknown | undefined;
+  email_address?: unknown | undefined;
+  phone_number?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber
+    | undefined;
+  card?: ApplePayCard | undefined;
+  attributes?: ApplePayAttributes2 | undefined;
+  stored_credential?: CardStoredCredential | undefined;
 }
 export type GooglePayPhoneNumber = AuthorizeOrderRequestPaymentSourceGooglePayPhoneNumber;
 /** The non-portable additional address details include fine-grain address information for Compliance, Risk, and other scenarios. This isn't portable with common third-party and open source applications. This can include data that is redundant with core fields. For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`. */
@@ -1587,20 +1628,20 @@ export type GooglePayCardBillingAddressAddressDetails =
 export type GooglePayCardBillingAddress = CardRequestInputBillingAddress;
 export interface GooglePayCard {
   /** The card holder's name as it appears on the card. */
-  name?: string;
+  name?: string | undefined;
   /** The last digits of the payment card. */
-  last_digits?: string;
-  type?: unknown;
-  brand?: unknown;
-  billing_address?: CardRequestInputBillingAddress;
-  authentication_result?: AuthenticationResponse;
+  last_digits?: string | undefined;
+  type?: unknown | undefined;
+  brand?: unknown | undefined;
+  billing_address?: CardRequestInputBillingAddress | undefined;
+  authentication_result?: AuthenticationResponse | undefined;
 }
 /** Google Pay Wallet payment data. */
 export interface GooglePay {
-  name?: unknown;
-  email_address?: unknown;
-  phone_number?: AuthorizeOrderRequestPaymentSourceGooglePayPhoneNumber;
-  card?: GooglePayCard;
+  name?: unknown | undefined;
+  email_address?: unknown | undefined;
+  phone_number?: AuthorizeOrderRequestPaymentSourceGooglePayPhoneNumber | undefined;
+  card?: GooglePayCard | undefined;
 }
 export type VenmoWalletResponseName = CardCustomerName;
 export type VenmoWalletResponsePhoneNumber = CardCustomerPhonePhoneNumber;
@@ -1637,33 +1678,33 @@ export type VenmoVaultResponseLinksItemSchemaLinksList = Array<unknown>;
 export type VenmoVaultResponseLinksItemSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface VenmoVaultResponseLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** The dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** The properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: VenmoVaultResponseLinksItemSchemaAllOfList;
+  allOf?: VenmoVaultResponseLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: VenmoVaultResponseLinksItemSchemaAnyOfList;
+  anyOf?: VenmoVaultResponseLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: VenmoVaultResponseLinksItemSchemaOneOfList;
+  oneOf?: VenmoVaultResponseLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: VenmoVaultResponseLinksItemSchemaLinksList;
+  links?: VenmoVaultResponseLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type VenmoVaultResponseLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -1677,33 +1718,33 @@ export type VenmoVaultResponseLinksItemTargetSchemaLinksList = Array<unknown>;
 export type VenmoVaultResponseLinksItemTargetSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface VenmoVaultResponseLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** The dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** The properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: VenmoVaultResponseLinksItemTargetSchemaAllOfList;
+  allOf?: VenmoVaultResponseLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: VenmoVaultResponseLinksItemTargetSchemaAnyOfList;
+  anyOf?: VenmoVaultResponseLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: VenmoVaultResponseLinksItemTargetSchemaOneOfList;
+  oneOf?: VenmoVaultResponseLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: VenmoVaultResponseLinksItemTargetSchemaLinksList;
+  links?: VenmoVaultResponseLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface VenmoVaultResponseLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -1711,44 +1752,44 @@ export interface VenmoVaultResponseLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: VenmoVaultResponseLinksItemMethod;
+  method?: VenmoVaultResponseLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: VenmoVaultResponseLinksItemSchema;
-  targetSchema?: VenmoVaultResponseLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: VenmoVaultResponseLinksItemSchema | undefined;
+  targetSchema?: VenmoVaultResponseLinksItemTargetSchema | undefined;
 }
 /** An array of request-related HATEOAS links. */
 export type VenmoVaultResponseLinksList = Array<VenmoVaultResponseLinksItem>;
 /** The details about a saved venmo payment source. */
 export interface VenmoVaultResponse {
   /** The PayPal-generated ID for the saved payment source. */
-  id?: string;
+  id?: string | undefined;
   /** The vault status. */
-  status?: VenmoVaultResponseStatus;
-  customer?: VaultResponseCustomer;
+  status?: VenmoVaultResponseStatus | undefined;
+  customer?: VaultResponseCustomer | undefined;
   /** An array of request-related HATEOAS links. */
-  links?: VenmoVaultResponseLinksList;
+  links?: VenmoVaultResponseLinksList | undefined;
 }
 /** Additional attributes associated with the use of a Venmo Wallet. */
 export interface VenmoWalletAttributesResponse {
-  vault?: VenmoVaultResponse;
+  vault?: VenmoVaultResponse | undefined;
 }
 /** Venmo wallet response. */
 export interface VenmoWalletResponse {
-  email_address?: unknown;
-  account_id?: unknown;
+  email_address?: unknown | undefined;
+  account_id?: unknown | undefined;
   /** The Venmo user name chosen by the user, also know as a Venmo handle. */
-  user_name?: string;
-  name?: CardCustomerName;
-  phone_number?: CardCustomerPhonePhoneNumber;
-  address?: CardRequestInputBillingAddress;
+  user_name?: string | undefined;
+  name?: CardCustomerName | undefined;
+  phone_number?: CardCustomerPhonePhoneNumber | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
   /** Merchant preference on how the buyer can navigate back to merchant website post approving the transaction on the Venmo App. */
-  return_flow?: VenmoWalletResponseReturnFlow;
-  attributes?: VenmoWalletAttributesResponse;
+  return_flow?: VenmoWalletResponseReturnFlow | undefined;
+  attributes?: VenmoWalletAttributesResponse | undefined;
 }
 export type CryptoName = AuthorizeOrderRequestPaymentSourceCryptoName;
 /** The location from which the shipping address is derived. */
@@ -1758,35 +1799,35 @@ export type CryptoExperienceContextShippingPreference =
   | "SET_PROVIDED_ADDRESS";
 export interface CryptoExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
-  shipping_preference?: CryptoExperienceContextShippingPreference;
-  return_url?: unknown;
-  cancel_url?: unknown;
+  shipping_preference?: CryptoExperienceContextShippingPreference | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 /** Pay With Crypto details response object. */
 export interface Crypto {
-  country_code?: unknown;
-  name?: AuthorizeOrderRequestPaymentSourceCryptoName;
-  experience_context?: CryptoExperienceContext;
+  country_code?: unknown | undefined;
+  name?: AuthorizeOrderRequestPaymentSourceCryptoName | undefined;
+  experience_context?: CryptoExperienceContext | undefined;
 }
 export interface AuthorizeOrderResponsePaymentSource {
-  card?: CardResponse;
-  paypal?: PaypalWalletResponse;
-  bancontact?: Bancontact;
-  blik?: Blik;
-  eps?: Eps;
-  giropay?: Eps;
-  ideal?: Ideal;
-  mybank?: Ideal;
-  p24?: P24;
-  sofort?: Ideal;
-  trustly?: Trustly;
-  apple_pay?: ApplePay;
-  google_pay?: GooglePay;
-  venmo?: VenmoWalletResponse;
-  crypto?: Crypto;
+  card?: CardResponse | undefined;
+  paypal?: PaypalWalletResponse | undefined;
+  bancontact?: Bancontact | undefined;
+  blik?: Blik | undefined;
+  eps?: Eps | undefined;
+  giropay?: Eps | undefined;
+  ideal?: Ideal | undefined;
+  mybank?: Ideal | undefined;
+  p24?: P24 | undefined;
+  sofort?: Ideal | undefined;
+  trustly?: Trustly | undefined;
+  apple_pay?: ApplePay | undefined;
+  google_pay?: GooglePay | undefined;
+  venmo?: VenmoWalletResponse | undefined;
+  crypto?: Crypto | undefined;
 }
 /** The intent to either capture payment immediately or authorize a payment for an order after order creation. */
 export type CheckoutPaymentIntent = "CAPTURE" | "AUTHORIZE";
@@ -1806,13 +1847,13 @@ export type PayerAddressAddressDetails = CardRequestInputBillingAddressAddressDe
 export type PayerAddress = CardRequestInputBillingAddress;
 /** The customer who approves and pays for the order. The customer is also known as the payer. */
 export interface Payer {
-  email_address?: unknown;
-  payer_id?: unknown;
-  name?: CardCustomerName;
-  phone?: VaultResponseCustomerPhone;
-  birth_date?: unknown;
-  tax_info?: PayerTaxInfo;
-  address?: CardRequestInputBillingAddress;
+  email_address?: unknown | undefined;
+  payer_id?: unknown | undefined;
+  name?: CardCustomerName | undefined;
+  phone?: VaultResponseCustomerPhone | undefined;
+  birth_date?: unknown | undefined;
+  tax_info?: PayerTaxInfo | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
 }
 export type AmountBreakdownItemTotal =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -1830,20 +1871,34 @@ export type AmountBreakdownDiscount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
 /** The breakdown of the amount. Breakdown provides details such as total item amount, total tax amount, shipping, handling, insurance, and discounts, if any. */
 export interface AmountBreakdown {
-  item_total?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  shipping?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  handling?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  tax_total?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  insurance?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  shipping_discount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  discount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  item_total?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  shipping?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  handling?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  tax_total?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  insurance?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  shipping_discount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  discount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
 }
 /** The total order amount with an optional breakdown that provides details, such as the total item amount, total tax amount, shipping, handling, insurance, and discounts, if any.<br/>If you specify `amount.breakdown`, the amount equals `item_total` plus `tax_total` plus `shipping` plus `handling` plus `insurance` minus `shipping_discount` minus discount.<br/>The amount must be a positive number. For listed of supported currencies and decimal precision, see the PayPal REST APIs <a href="/docs/integration/direct/rest/currency-codes/">Currency Codes</a>. */
 export interface AmountWithBreakdown {
   currency_code: string;
   /** The value, which might be:<ul><li>An integer for currencies like `JPY` that are not typically fractional.</li><li>A decimal fraction for currencies like `TND` that are subdivided into thousandths.</li></ul>For the required number of decimal places for a currency code, see [Currency Codes](/api/rest/reference/currency-codes/). */
   value: string;
-  breakdown?: AmountBreakdown;
+  breakdown?: AmountBreakdown | undefined;
 }
 export type AuthorizeOrderResponsePurchaseUnitsItemPayee =
   PaypalWalletAttributesResponseCobrandedCardsItemPayee;
@@ -1853,19 +1908,19 @@ export type PaymentInstructionPlatformFeesItemPayee =
   PaypalWalletAttributesResponseCobrandedCardsItemPayee;
 export interface PaymentInstructionPlatformFeesItem {
   amount: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee;
+  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee | undefined;
 }
 /** An array of various fees, commissions, tips, or donations. This field is only applicable to merchants that been enabled for PayPal Complete Payments Platform for Marketplaces and Platforms capability. */
 export type PaymentInstructionPlatformFeesList = Array<PaymentInstructionPlatformFeesItem>;
 /** Any additional payment instructions to be consider during payment processing. This processing instruction is applicable for Capturing an order or Authorizing an Order. */
 export interface PaymentInstruction {
   /** An array of various fees, commissions, tips, or donations. This field is only applicable to merchants that been enabled for PayPal Complete Payments Platform for Marketplaces and Platforms capability. */
-  platform_fees?: PaymentInstructionPlatformFeesList;
-  disbursement_mode?: unknown;
+  platform_fees?: PaymentInstructionPlatformFeesList | undefined;
+  disbursement_mode?: unknown | undefined;
   /** This field is only enabled for selected merchants/partners to use and provides the ability to trigger a specific pricing rate/plan for a payment transaction. The list of eligible 'payee_pricing_tier_id' would be provided to you by your Account Manager. Specifying values other than the one provided to you by your account manager would result in an error. */
-  payee_pricing_tier_id?: string;
+  payee_pricing_tier_id?: string | undefined;
   /** FX identifier generated returned by PayPal to be used for payment processing in order to honor FX rate (for eligible integrations) to be used when amount is settled/received into the payee account. */
-  payee_receivable_fx_rate_id?: string;
+  payee_receivable_fx_rate_id?: string | undefined;
 }
 export type AuthorizeOrderResponsePurchaseUnitsItemItemsItemUnitAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -1900,21 +1955,25 @@ export type BillingCyclePricingSchemePricingModel = "FIXED" | "VARIABLE" | "AUTO
 export type BillingCyclePricingSchemeReloadThresholdAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
 export interface BillingCyclePricingScheme {
-  price?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  price?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** The pricing model for the billing cycle. */
   pricing_model: BillingCyclePricingSchemePricingModel | (string & {});
-  reload_threshold_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  reload_threshold_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
 }
 /** The billing cycle providing details of the billing frequency, amount, duration and if the billing cycle is a free, discounted or regular billing cycle. The sequence of the billing cycle will be in the following order - free trial billing cycle(s), discounted trial billing cycle(s), regular billing cycle(s). */
 export interface BillingCycle {
   /** The tenure type of the billing cycle identifies if the billing cycle is a trial(free or discounted) or regular billing cycle. */
   tenure_type: BillingCycleTenureType | (string & {});
-  pricing_scheme?: BillingCyclePricingScheme;
+  pricing_scheme?: BillingCyclePricingScheme | undefined;
   /** The number of times this billing cycle gets executed. Trial billing cycles can only be executed a finite number of times (value between <code>1</code> and <code>999</code> for <code>total_cycles</code>). Regular billing cycles can be executed infinite times (value of <code>0</code> for <code>total_cycles</code>) or a finite number of times (value between <code>1</code> and <code>999</code> for <code>total_cycles</code>). */
-  total_cycles?: number;
+  total_cycles?: number | undefined;
   /** The order in which this cycle is to run among other billing cycles. For example, a trial billing cycle has a `sequence` of `1` while a regular billing cycle has a `sequence` of `2`, so that trial cycle runs before the regular cycle. */
-  sequence?: number;
-  start_date?: unknown;
+  sequence?: number | undefined;
+  start_date?: unknown | undefined;
 }
 /** An array of billing cycles for trial billing and regular billing. A plan can have at most two trial cycles and only one regular cycle. */
 export type OrderBillingPlanBillingCyclesList = Array<BillingCycle>;
@@ -1924,29 +1983,33 @@ export type OrderBillingPlanSetupFee =
 export interface OrderBillingPlan {
   /** An array of billing cycles for trial billing and regular billing. A plan can have at most two trial cycles and only one regular cycle. */
   billing_cycles: OrderBillingPlanBillingCyclesList;
-  setup_fee?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  setup_fee?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** Name of the recurring plan. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface AuthorizeOrderResponsePurchaseUnitsItemItemsItem {
   /** The item name or title. */
   name: string;
   unit_amount: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  tax?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  tax?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** The item quantity. Must be a whole number. */
   quantity: string;
   /** The detailed item description. */
-  description?: string;
+  description?: string | undefined;
   /** The stock keeping unit (SKU) for the item. */
-  sku?: string;
+  sku?: string | undefined;
   /** The URL to the item being purchased. Visible to buyer and used in buyer experiences. */
-  url?: string;
+  url?: string | undefined;
   /** The item category type. */
-  category?: AuthorizeOrderResponsePurchaseUnitsItemItemsItemCategory;
+  category?: AuthorizeOrderResponsePurchaseUnitsItemItemsItemCategory | undefined;
   /** The URL of the item's image. File type and size restrictions apply. An image that violates these restrictions will not be honored. */
-  image_url?: string;
-  upc?: AuthorizeOrderResponsePurchaseUnitsItemItemsItemUpc;
-  billing_plan?: OrderBillingPlan;
+  image_url?: string | undefined;
+  upc?: AuthorizeOrderResponsePurchaseUnitsItemItemsItemUpc | undefined;
+  billing_plan?: OrderBillingPlan | undefined;
 }
 /** An array of items that the customer purchases from the merchant. */
 export type AuthorizeOrderResponsePurchaseUnitsItemItemsList =
@@ -1990,16 +2053,16 @@ export interface TrackerItemsItemUpc {
 }
 export interface TrackerItemsItem {
   /** The item name or title. */
-  name?: string;
+  name?: string | undefined;
   /** The item quantity. Must be a whole number. */
-  quantity?: string;
+  quantity?: string | undefined;
   /** The stock keeping unit (SKU) for the item. This can contain unicode characters. */
-  sku?: string;
+  sku?: string | undefined;
   /** The URL to the item being purchased. Visible to buyer and used in buyer experiences. */
-  url?: string;
+  url?: string | undefined;
   /** The URL of the item's image. File type and size restrictions apply. An image that violates these restrictions will not be honored. */
-  image_url?: string;
-  upc?: TrackerItemsItemUpc;
+  image_url?: string | undefined;
+  upc?: TrackerItemsItemUpc | undefined;
 }
 /** An array of details of items in the shipment. */
 export type TrackerItemsList = Array<TrackerItemsItem>;
@@ -2025,33 +2088,33 @@ export type TrackerLinksItemSchemaLinksList = Array<unknown>;
 export type TrackerLinksItemSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface TrackerLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: TrackerLinksItemSchemaAllOfList;
+  allOf?: TrackerLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: TrackerLinksItemSchemaAnyOfList;
+  anyOf?: TrackerLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: TrackerLinksItemSchemaOneOfList;
+  oneOf?: TrackerLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: TrackerLinksItemSchemaLinksList;
+  links?: TrackerLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type TrackerLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -2065,33 +2128,33 @@ export type TrackerLinksItemTargetSchemaLinksList = Array<unknown>;
 export type TrackerLinksItemTargetSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface TrackerLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: TrackerLinksItemTargetSchemaAllOfList;
+  allOf?: TrackerLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: TrackerLinksItemTargetSchemaAnyOfList;
+  anyOf?: TrackerLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: TrackerLinksItemTargetSchemaOneOfList;
+  oneOf?: TrackerLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: TrackerLinksItemTargetSchemaLinksList;
+  links?: TrackerLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface TrackerLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -2099,51 +2162,55 @@ export interface TrackerLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: TrackerLinksItemMethod;
+  method?: TrackerLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: TrackerLinksItemSchema;
-  targetSchema?: TrackerLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: TrackerLinksItemSchema | undefined;
+  targetSchema?: TrackerLinksItemTargetSchema | undefined;
 }
 /** An array of request-related HATEOAS links. */
 export type TrackerLinksList = Array<TrackerLinksItem>;
 /** The tracking response on creation of tracker. */
 export interface Tracker {
   /** The tracker id. */
-  id?: string;
-  status?: TrackerStatus;
+  id?: string | undefined;
+  status?: TrackerStatus | undefined;
   /** An array of details of items in the shipment. */
-  items?: TrackerItemsList;
+  items?: TrackerItemsList | undefined;
   /** An array of request-related HATEOAS links. */
-  links?: TrackerLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
+  links?: TrackerLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
 }
 /** An array of trackers for a transaction. */
 export type AuthorizeOrderResponsePurchaseUnitsItemShippingTrackersList = Array<Tracker>;
 export interface AuthorizeOrderResponsePurchaseUnitsItemShipping {
-  name?: CardCustomerName;
-  email_address?: unknown;
-  phone_number?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber;
+  name?: CardCustomerName | undefined;
+  email_address?: unknown | undefined;
+  phone_number?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber
+    | undefined;
   /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
-  type?: AuthorizeOrderResponsePurchaseUnitsItemShippingType;
+  type?: AuthorizeOrderResponsePurchaseUnitsItemShippingType | undefined;
   /** An array of shipping options that the payee or merchant offers to the payer to ship or pick up their items. */
-  options?: AuthorizeOrderResponsePurchaseUnitsItemShippingOptionsList;
-  address?: CardRequestInputBillingAddress;
+  options?: AuthorizeOrderResponsePurchaseUnitsItemShippingOptionsList | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
   /** An array of trackers for a transaction. */
-  trackers?: AuthorizeOrderResponsePurchaseUnitsItemShippingTrackersList;
+  trackers?: AuthorizeOrderResponsePurchaseUnitsItemShippingTrackersList | undefined;
 }
 export type Level2CardProcessingDataTaxTotal =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
 /** The level 2 card processing data collections. If your merchant account has been configured for Level 2 processing this field will be passed to the processor on your behalf. Please contact your PayPal Technical Account Manager to define level 2 data for your business. */
 export interface Level2CardProcessingData {
   /** Use this field to pass a purchase identification value of up to 127 ASCII characters. The length of this field will be adjusted to meet network specifications (25chars for Visa and Mastercard, 17chars for Amex), and the original invoice ID will still be displayed in your existing reports. */
-  invoice_id?: string;
-  tax_total?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  invoice_id?: string | undefined;
+  tax_total?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
 }
 export type Level3CardProcessingDataShippingAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -2184,51 +2251,65 @@ export interface Level3CardProcessingDataLineItemsItem {
   /** The item quantity. Must be a whole number. */
   quantity: string;
   /** The detailed item description. */
-  description?: string;
+  description?: string | undefined;
   /** The stock keeping unit (SKU) for the item. */
-  sku?: string;
+  sku?: string | undefined;
   /** The URL to the item being purchased. Visible to buyer and used in buyer experiences. */
-  url?: string;
+  url?: string | undefined;
   /** The URL of the item's image. File type and size restrictions apply. An image that violates these restrictions will not be honored. */
-  image_url?: string;
-  upc?: Level3CardProcessingDataLineItemsItemUpc;
-  billing_plan?: OrderBillingPlan;
-  unit_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  tax?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  image_url?: string | undefined;
+  upc?: Level3CardProcessingDataLineItemsItemUpc | undefined;
+  billing_plan?: OrderBillingPlan | undefined;
+  unit_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  tax?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** Code used to classify items purchased and track the total amount spent across various categories of products and services. Different corporate purchasing organizations may use different standards, but the United Nations Standard Products and Services Code (UNSPSC) is frequently used. */
-  commodity_code?: string;
-  discount_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  total_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  commodity_code?: string | undefined;
+  discount_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  total_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** Unit of measure is a standard used to express the magnitude of a quantity in international trade. Most commonly used (but not limited to) examples are: Acre (ACR), Ampere (AMP), Centigram (CGM), Centimetre (CMT), Cubic inch (INQ), Cubic metre (MTQ), Fluid ounce (OZA), Foot (FOT), Hour (HUR), Item (ITM), Kilogram (KGM), Kilometre (KMT), Kilowatt (KWT), Liquid gallon (GLL), Liter (LTR), Pounds (LBS), Square foot (FTK). */
-  unit_of_measure?: string;
+  unit_of_measure?: string | undefined;
 }
 /** A list of the items that were purchased with this payment. If your merchant account has been configured for Level 3 processing this field will be passed to the processor on your behalf. */
 export type Level3CardProcessingDataLineItemsList = Array<Level3CardProcessingDataLineItemsItem>;
 /** The level 3 card processing data collections, If your merchant account has been configured for Level 3 processing this field will be passed to the processor on your behalf. Please contact your PayPal Technical Account Manager to define level 3 data for your business. */
 export interface Level3CardProcessingData {
-  shipping_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  duty_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  discount_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  shipping_address?: CardRequestInputBillingAddress;
+  shipping_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  duty_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  discount_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  shipping_address?: CardRequestInputBillingAddress | undefined;
   /** Use this field to specify the postal code of the shipping location. */
-  ships_from_postal_code?: string;
+  ships_from_postal_code?: string | undefined;
   /** A list of the items that were purchased with this payment. If your merchant account has been configured for Level 3 processing this field will be passed to the processor on your behalf. */
-  line_items?: Level3CardProcessingDataLineItemsList;
+  line_items?: Level3CardProcessingDataLineItemsList | undefined;
 }
 export interface AuthorizeOrderResponsePurchaseUnitsItemSupplementaryDataCard {
-  level_2?: Level2CardProcessingData;
-  level_3?: Level3CardProcessingData;
+  level_2?: Level2CardProcessingData | undefined;
+  level_3?: Level3CardProcessingData | undefined;
 }
 /** Profile information of the sender or receiver. */
 export interface ParticipantMetadata {
-  ip_address?: unknown;
+  ip_address?: unknown | undefined;
 }
 export interface AuthorizeOrderResponsePurchaseUnitsItemSupplementaryDataRisk {
-  customer?: ParticipantMetadata;
+  customer?: ParticipantMetadata | undefined;
 }
 export interface AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData {
-  card?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryDataCard;
-  risk?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryDataRisk;
+  card?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryDataCard | undefined;
+  risk?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryDataRisk | undefined;
 }
 /** The status for the authorized payment. */
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatus =
@@ -2244,7 +2325,9 @@ export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSta
   | "DECLINED_BY_RISK_FRAUD_FILTERS";
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails {
   /** The reason why the authorized status is `PENDING`. */
-  reason?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetailsReason;
+  reason?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetailsReason
+    | undefined;
 }
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemAmount =
   AmountWithBreakdown;
@@ -2262,9 +2345,13 @@ export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSel
   Array<AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesItem>;
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection {
   /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
-  status?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionStatus;
+  status?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionStatus
+    | undefined;
   /** An array of conditions that are covered for the transaction. */
-  dispute_categories?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesList;
+  dispute_categories?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesList
+    | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod =
@@ -2293,33 +2380,41 @@ export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLin
   CardVaultResponseLinksItemSchemaMedia;
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAllOfList;
+  allOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAnyOfList;
+  anyOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaOneOfList;
+  oneOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaLinksList;
+  links?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList =
@@ -2338,33 +2433,41 @@ export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLin
   CardVaultResponseLinksItemSchemaMedia;
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaLinksList;
+  links?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -2372,15 +2475,21 @@ export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsIt
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod;
+  method?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod
+    | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema;
-  targetSchema?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema
+    | undefined;
+  targetSchema?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList =
@@ -2602,33 +2711,47 @@ export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemPro
   | "43";
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse {
   /** The address verification code for Visa, Discover, Mastercard, or American Express transactions. */
-  avs_code?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseAvsCode;
+  avs_code?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseAvsCode
+    | undefined;
   /** The card verification value code for for Visa, Discover, Mastercard, or American Express. */
-  cvv_code?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseCvvCode;
+  cvv_code?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseCvvCode
+    | undefined;
   /** Processor response code for the non-PayPal payment processor errors. */
-  response_code?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseResponseCode;
+  response_code?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseResponseCode
+    | undefined;
   /** The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes. */
-  payment_advice_code?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponsePaymentAdviceCode;
+  payment_advice_code?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponsePaymentAdviceCode
+    | undefined;
 }
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItem {
   /** The status for the authorized payment. */
-  status?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatus;
-  status_details?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails;
+  status?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatus | undefined;
+  status_details?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails
+    | undefined;
   /** The PayPal-generated ID for the authorized payment. */
-  id?: string;
-  amount?: AmountWithBreakdown;
+  id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
-  network_transaction_reference?: NetworkTransaction;
-  seller_protection?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection;
-  expiration_time?: unknown;
+  custom_id?: string | undefined;
+  network_transaction_reference?: NetworkTransaction | undefined;
+  seller_protection?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection
+    | undefined;
+  expiration_time?: unknown | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
-  processor_response?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse;
+  links?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
+  processor_response?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse
+    | undefined;
 }
 /** An array of authorized payments for a purchase unit. A purchase unit can have zero or more authorized payments. */
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsList =
@@ -2657,7 +2780,9 @@ export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDet
   | "DECLINED_BY_RISK_FRAUD_FILTERS";
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails {
   /** The reason why the captured payment status is `PENDING` or `DENIED`. */
-  reason?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetailsReason;
+  reason?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetailsReason
+    | undefined;
 }
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemAmount = AmountWithBreakdown;
 /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
@@ -2674,9 +2799,13 @@ export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerPro
   Array<AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesItem>;
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection {
   /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
-  status?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionStatus;
+  status?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionStatus
+    | undefined;
   /** An array of conditions that are covered for the transaction. */
-  dispute_categories?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesList;
+  dispute_categories?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesList
+    | undefined;
 }
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownGrossAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -2689,10 +2818,10 @@ export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerRec
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownReceivableAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownExchangeRate {
-  source_currency?: unknown;
-  target_currency?: unknown;
+  source_currency?: unknown | undefined;
+  target_currency?: unknown | undefined;
   /** The target currency amount. Equivalent to one unit of the source currency. Formatted as integer or decimal value with one to 15 digits to the right of the decimal point. */
-  value?: string;
+  value?: string | undefined;
 }
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownPlatformFeesItemAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -2705,13 +2834,25 @@ export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerRec
   Array<PaymentInstructionPlatformFeesItem>;
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown {
   gross_amount: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  receivable_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  exchange_rate?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownExchangeRate;
+  paypal_fee?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  receivable_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  exchange_rate?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownExchangeRate
+    | undefined;
   /** An array of platform or partner fees, commissions, or brokerage fees that associated with the captured payment. */
-  platform_fees?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownPlatformFeesList;
+  platform_fees?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownPlatformFeesList
+    | undefined;
 }
 /** The funds that are held on behalf of the merchant. */
 export type DisbursementMode = "INSTANT" | "DELAYED";
@@ -2742,33 +2883,41 @@ export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItem
   CardVaultResponseLinksItemSchemaMedia;
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAllOfList;
+  allOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAnyOfList;
+  anyOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaOneOfList;
+  oneOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaLinksList;
+  links?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList =
@@ -2787,33 +2936,41 @@ export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItem
   CardVaultResponseLinksItemSchemaMedia;
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaLinksList;
+  links?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -2821,15 +2978,17 @@ export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLink
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemMethod;
+  method?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema;
-  targetSchema?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema | undefined;
+  targetSchema?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksList =
@@ -3051,36 +3210,52 @@ export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessor
   | "43";
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse {
   /** The address verification code for Visa, Discover, Mastercard, or American Express transactions. */
-  avs_code?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseAvsCode;
+  avs_code?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseAvsCode
+    | undefined;
   /** The card verification value code for for Visa, Discover, Mastercard, or American Express. */
-  cvv_code?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseCvvCode;
+  cvv_code?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseCvvCode
+    | undefined;
   /** Processor response code for the non-PayPal payment processor errors. */
-  response_code?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseResponseCode;
+  response_code?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseResponseCode
+    | undefined;
   /** The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes. */
-  payment_advice_code?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponsePaymentAdviceCode;
+  payment_advice_code?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponsePaymentAdviceCode
+    | undefined;
 }
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItem {
   /** The status of the captured payment. */
-  status?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatus;
-  status_details?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails;
+  status?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatus | undefined;
+  status_details?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails
+    | undefined;
   /** The PayPal-generated ID for the captured payment. */
-  id?: string;
-  amount?: AmountWithBreakdown;
+  id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
-  network_transaction_reference?: NetworkTransaction;
-  seller_protection?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection;
+  custom_id?: string | undefined;
+  network_transaction_reference?: NetworkTransaction | undefined;
+  seller_protection?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection
+    | undefined;
   /** Indicates whether you can make additional captures against the authorized payment. Set to `true` if you do not intend to capture additional payments against the authorization. Set to `false` if you intend to capture additional payments against the authorization. */
-  final_capture?: boolean;
-  seller_receivable_breakdown?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown;
-  disbursement_mode?: DisbursementMode;
+  final_capture?: boolean | undefined;
+  seller_receivable_breakdown?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown
+    | undefined;
+  disbursement_mode?: DisbursementMode | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksList;
-  processor_response?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse;
-  create_time?: unknown;
-  update_time?: unknown;
+  links?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksList | undefined;
+  processor_response?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse
+    | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
 }
 /** An array of captured payments for a purchase unit. A purchase unit can have zero or more captured payments. */
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesList =
@@ -3096,7 +3271,9 @@ export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDeta
   "ECHECK";
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails {
   /** The reason why the refund has the `PENDING` or `FAILED` status. */
-  reason?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetailsReason;
+  reason?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetailsReason
+    | undefined;
 }
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -3126,9 +3303,15 @@ export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPaya
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownNetAmountBreakdownItemExchangeRate =
   AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownExchangeRate;
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownNetAmountBreakdownItem {
-  payable_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  converted_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  exchange_rate?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownExchangeRate;
+  payable_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  converted_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  exchange_rate?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownExchangeRate
+    | undefined;
 }
 /** An array of breakdown values for the net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the payee holds their funds. */
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownNetAmountBreakdownList =
@@ -3137,16 +3320,32 @@ export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPaya
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
 /** The breakdown of the refund. */
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown {
-  gross_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  gross_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** An array of platform or partner fees, commissions, or brokerage fees for the refund. */
-  platform_fees?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownPlatformFeesList;
+  platform_fees?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownPlatformFeesList
+    | undefined;
   /** An array of breakdown values for the net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the payee holds their funds. */
-  net_amount_breakdown?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownNetAmountBreakdownList;
-  total_refunded_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  net_amount_breakdown?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownNetAmountBreakdownList
+    | undefined;
+  total_refunded_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
 }
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemPayer =
   PaypalWalletAttributesResponseCobrandedCardsItemPayee;
@@ -3177,33 +3376,41 @@ export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemS
   CardVaultResponseLinksItemSchemaMedia;
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAllOfList;
+  allOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAnyOfList;
+  anyOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaOneOfList;
+  oneOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaLinksList;
+  links?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList =
@@ -3222,33 +3429,41 @@ export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemT
   CardVaultResponseLinksItemSchemaMedia;
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaLinksList;
+  links?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -3256,74 +3471,82 @@ export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinks
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemMethod;
+  method?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema;
-  targetSchema?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema | undefined;
+  targetSchema?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksList =
   Array<AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItem>;
 export interface AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItem {
   /** The status of the refund. */
-  status?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatus;
-  status_details?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails;
+  status?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatus | undefined;
+  status_details?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails
+    | undefined;
   /** The PayPal-generated ID for the refund. */
-  id?: string;
-  amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  id?: string | undefined;
+  amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** Reference ID issued for the card transaction. This ID can be used to track the transaction across processors, card brands and issuing banks. */
-  acquirer_reference_number?: string;
+  acquirer_reference_number?: string | undefined;
   /** The reason for the refund. Appears in both the payer's transaction history and the emails that the payer receives. */
-  note_to_payer?: string;
+  note_to_payer?: string | undefined;
   /** The breakdown of the refund. */
-  seller_payable_breakdown?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown;
-  payer?: PaypalWalletAttributesResponseCobrandedCardsItemPayee;
+  seller_payable_breakdown?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown
+    | undefined;
+  payer?: PaypalWalletAttributesResponseCobrandedCardsItemPayee | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
+  links?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
 }
 /** An array of refunds for a purchase unit. A purchase unit can have zero or more refunds. */
 export type AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsList =
   Array<AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsItem>;
 export interface AuthorizeOrderResponsePurchaseUnitsItemPayments {
   /** An array of authorized payments for a purchase unit. A purchase unit can have zero or more authorized payments. */
-  authorizations?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsList;
+  authorizations?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsAuthorizationsList | undefined;
   /** An array of captured payments for a purchase unit. A purchase unit can have zero or more captured payments. */
-  captures?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesList;
+  captures?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesList | undefined;
   /** An array of refunds for a purchase unit. A purchase unit can have zero or more refunds. */
-  refunds?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsList;
+  refunds?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsRefundsList | undefined;
 }
 export interface AuthorizeOrderResponsePurchaseUnitsItem {
   /** The API caller-provided external ID for the purchase unit. Required for multiple purchase units when you must update the order through `PATCH`. If you omit this value and the order contains only one purchase unit, PayPal sets this value to `default`. <blockquote><strong>Note:</strong> If there are multiple purchase units, <code>reference_id</code> is required for each purchase unit.</blockquote> */
-  reference_id?: string;
-  amount?: AmountWithBreakdown;
-  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee;
-  payment_instruction?: PaymentInstruction;
+  reference_id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
+  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee | undefined;
+  payment_instruction?: PaymentInstruction | undefined;
   /** The purchase description. */
-  description?: string;
+  description?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** The API caller-provided external invoice ID for this order. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The PayPal-generated ID for the purchase unit. This ID appears in both the payer's transaction history and the emails that the payer receives. In addition, this ID is available in transaction and settlement reports that merchants and API callers can use to reconcile transactions. This ID is only available when an order is saved by calling <code>v2/checkout/orders/id/save</code>. */
-  id?: string;
+  id?: string | undefined;
   /** The payment descriptor on account transactions on the customer's credit card statement, that PayPal sends to processors. The maximum length of the soft descriptor information that you can pass in the API field is 22 characters, in the following format:<code>22 - len(PAYPAL * (8)) - len(<var>Descriptor in Payment Receiving Preferences of Merchant account</var> + 1)</code>The PAYPAL prefix uses 8 characters.<br/><br/>The soft descriptor supports the following ASCII characters:<ul><li>Alphanumeric characters</li><li>Dashes</li><li>Asterisks</li><li>Periods (.)</li><li>Spaces</li></ul>For Wallet payments marketplace integrations:<ul><li>The merchant descriptor in the Payment Receiving Preferences must be the marketplace name.</li><li>You can't use the remaining space to show the customer service number.</li><li>The remaining spaces can be a combination of seller name and country.</li></ul><br/>For unbranded payments (Direct Card) marketplace integrations, use a combination of the seller name and phone number. */
-  soft_descriptor?: string;
+  soft_descriptor?: string | undefined;
   /** An array of items that the customer purchases from the merchant. */
-  items?: AuthorizeOrderResponsePurchaseUnitsItemItemsList;
-  shipping?: AuthorizeOrderResponsePurchaseUnitsItemShipping;
-  supplementary_data?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData;
-  payments?: AuthorizeOrderResponsePurchaseUnitsItemPayments;
+  items?: AuthorizeOrderResponsePurchaseUnitsItemItemsList | undefined;
+  shipping?: AuthorizeOrderResponsePurchaseUnitsItemShipping | undefined;
+  supplementary_data?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData | undefined;
+  payments?: AuthorizeOrderResponsePurchaseUnitsItemPayments | undefined;
 }
 /** An array of purchase units. Each purchase unit establishes a contract between a customer and merchant. Each purchase unit represents either a full or partial order that the customer intends to purchase from the merchant. */
 export type AuthorizeOrderResponsePurchaseUnitsList =
@@ -3350,33 +3573,33 @@ export type AuthorizeOrderResponseLinksItemSchemaLinksList = Array<unknown>;
 export type AuthorizeOrderResponseLinksItemSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface AuthorizeOrderResponseLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: AuthorizeOrderResponseLinksItemSchemaAllOfList;
+  allOf?: AuthorizeOrderResponseLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: AuthorizeOrderResponseLinksItemSchemaAnyOfList;
+  anyOf?: AuthorizeOrderResponseLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: AuthorizeOrderResponseLinksItemSchemaOneOfList;
+  oneOf?: AuthorizeOrderResponseLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: AuthorizeOrderResponseLinksItemSchemaLinksList;
+  links?: AuthorizeOrderResponseLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type AuthorizeOrderResponseLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -3391,33 +3614,33 @@ export type AuthorizeOrderResponseLinksItemTargetSchemaMedia =
   CardVaultResponseLinksItemSchemaMedia;
 export interface AuthorizeOrderResponseLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: AuthorizeOrderResponseLinksItemTargetSchemaAllOfList;
+  allOf?: AuthorizeOrderResponseLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: AuthorizeOrderResponseLinksItemTargetSchemaAnyOfList;
+  anyOf?: AuthorizeOrderResponseLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: AuthorizeOrderResponseLinksItemTargetSchemaOneOfList;
+  oneOf?: AuthorizeOrderResponseLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: AuthorizeOrderResponseLinksItemTargetSchemaLinksList;
+  links?: AuthorizeOrderResponseLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface AuthorizeOrderResponseLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -3425,31 +3648,31 @@ export interface AuthorizeOrderResponseLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: AuthorizeOrderResponseLinksItemMethod;
+  method?: AuthorizeOrderResponseLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: AuthorizeOrderResponseLinksItemSchema;
-  targetSchema?: AuthorizeOrderResponseLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: AuthorizeOrderResponseLinksItemSchema | undefined;
+  targetSchema?: AuthorizeOrderResponseLinksItemTargetSchema | undefined;
 }
 /** An array of request-related HATEOAS links. To complete payer approval, use the `approve` link to redirect the payer. The API caller has 6 hours (default setting, this which can be changed by your account manager to 24/48/72 hours to accommodate your use case) from the time the order is created, to redirect your payer. Once redirected, the API caller has 6 hours for the payer to approve the order and either authorize or capture the order. If you are not using the PayPal JavaScript SDK to initiate PayPal Checkout (in context) ensure that you include `application_context.return_url` is specified or you will get "We're sorry, Things don't appear to be working at the moment" after the payer approves the payment. */
 export type AuthorizeOrderResponseLinksList = Array<AuthorizeOrderResponseLinksItem>;
 export interface AuthorizeOrderResponse {
-  create_time?: unknown;
-  update_time?: unknown;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
   /** The ID of the order. */
-  id?: string;
-  payment_source?: AuthorizeOrderResponsePaymentSource;
-  intent?: CheckoutPaymentIntent;
-  payer?: Payer;
+  id?: string | undefined;
+  payment_source?: AuthorizeOrderResponsePaymentSource | undefined;
+  intent?: CheckoutPaymentIntent | undefined;
+  payer?: Payer | undefined;
   /** An array of purchase units. Each purchase unit establishes a contract between a customer and merchant. Each purchase unit represents either a full or partial order that the customer intends to purchase from the merchant. */
-  purchase_units?: AuthorizeOrderResponsePurchaseUnitsList;
-  status?: unknown;
+  purchase_units?: AuthorizeOrderResponsePurchaseUnitsList | undefined;
+  status?: unknown | undefined;
   /** An array of request-related HATEOAS links. To complete payer approval, use the `approve` link to redirect the payer. The API caller has 6 hours (default setting, this which can be changed by your account manager to 24/48/72 hours to accommodate your use case) from the time the order is created, to redirect your payer. Once redirected, the API caller has 6 hours for the payer to approve the order and either authorize or capture the order. If you are not using the PayPal JavaScript SDK to initiate PayPal Checkout (in context) ensure that you include `application_context.return_url` is specified or you will get "We're sorry, Things don't appear to be working at the moment" after the payer approves the payment. */
-  links?: AuthorizeOrderResponseLinksList;
+  links?: AuthorizeOrderResponseLinksList | undefined;
 }
 export type CaptureOrderRequestPaymentSourcePaypalName = CardCustomerName;
 export type CaptureOrderRequestPaymentSourcePaypalPhonePhoneNumber = CardCustomerPhonePhoneNumber;
@@ -3502,14 +3725,19 @@ export type CaptureOrderRequestPaymentSourcePaypalAttributesVaultShippingAddress
 export type CaptureOrderRequestPaymentSourcePaypalAttributesVaultShippingAddress =
   CardRequestInputBillingAddress;
 export interface CaptureOrderRequestPaymentSourcePaypalAttributesVaultShipping {
-  name?: CardCustomerName;
-  email_address?: unknown;
-  phone_number?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber;
+  name?: CardCustomerName | undefined;
+  email_address?: unknown | undefined;
+  phone_number?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber
+    | undefined;
   /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
-  type?: CaptureOrderRequestPaymentSourcePaypalAttributesVaultShippingType | (string & {});
+  type?:
+    | CaptureOrderRequestPaymentSourcePaypalAttributesVaultShippingType
+    | (string & {})
+    | undefined;
   /** An array of shipping options that the payee or merchant offers to the payer to ship or pick up their items. */
-  options?: CaptureOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsList;
-  address?: CardRequestInputBillingAddress;
+  options?: CaptureOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsList | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
 }
 /** The usage type associated with the PayPal payment token. */
 export type CaptureOrderRequestPaymentSourcePaypalAttributesVaultUsageType =
@@ -3520,35 +3748,41 @@ export type CaptureOrderRequestPaymentSourcePaypalAttributesVaultCustomerType =
   | "CONSUMER"
   | "BUSINESS";
 export interface CaptureOrderRequestPaymentSourcePaypalAttributesVault {
-  store_in_vault?: StoreInVaultInstruction | (string & {});
+  store_in_vault?: StoreInVaultInstruction | (string & {}) | undefined;
   /** The description displayed to PayPal consumer on the approval flow for PayPal, as well as on the PayPal payment token management experience on PayPal.com. */
-  description?: string;
+  description?: string | undefined;
   /** Expected business/pricing model for the billing agreement. */
-  usage_pattern?: CaptureOrderRequestPaymentSourcePaypalAttributesVaultUsagePattern | (string & {});
-  shipping?: CaptureOrderRequestPaymentSourcePaypalAttributesVaultShipping;
+  usage_pattern?:
+    | CaptureOrderRequestPaymentSourcePaypalAttributesVaultUsagePattern
+    | (string & {})
+    | undefined;
+  shipping?: CaptureOrderRequestPaymentSourcePaypalAttributesVaultShipping | undefined;
   /** The usage type associated with the PayPal payment token. */
   usage_type: CaptureOrderRequestPaymentSourcePaypalAttributesVaultUsageType | (string & {});
   /** The customer type associated with the PayPal payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer. */
-  customer_type?: CaptureOrderRequestPaymentSourcePaypalAttributesVaultCustomerType | (string & {});
+  customer_type?:
+    | CaptureOrderRequestPaymentSourcePaypalAttributesVaultCustomerType
+    | (string & {})
+    | undefined;
   /** Create multiple payment tokens for the same payer, merchant/platform combination. Use this when the customer has not logged in at merchant/platform. The payment token thus generated, can then also be used to create the customer account at merchant/platform. Use this also when multiple payment tokens are required for the same payer, different customer at merchant/platform. This helps to identify customers distinctly even though they may share the same PayPal account. This only applies to PayPal payment source. */
-  permit_multiple_payment_tokens?: boolean;
+  permit_multiple_payment_tokens?: boolean | undefined;
 }
 export interface CaptureOrderRequestPaymentSourcePaypalAttributes {
-  customer?: CardCustomer;
-  vault?: CaptureOrderRequestPaymentSourcePaypalAttributesVault;
+  customer?: CardCustomer | undefined;
+  vault?: CaptureOrderRequestPaymentSourcePaypalAttributesVault | undefined;
 }
 export interface CaptureOrderRequestPaymentSourcePaypal {
-  vault_id?: unknown;
-  email_address?: unknown;
-  name?: CardCustomerName;
-  phone?: CardCustomerPhone;
-  birth_date?: unknown;
-  tax_info?: CaptureOrderRequestPaymentSourcePaypalTaxInfo;
-  address?: CardRequestInputBillingAddress;
-  attributes?: CaptureOrderRequestPaymentSourcePaypalAttributes;
-  experience_context?: PaypalWalletExperienceContextInput;
-  billing_agreement_id?: string;
-  stored_credential?: PaypalWalletStoredCredential;
+  vault_id?: unknown | undefined;
+  email_address?: unknown | undefined;
+  name?: CardCustomerName | undefined;
+  phone?: CardCustomerPhone | undefined;
+  birth_date?: unknown | undefined;
+  tax_info?: CaptureOrderRequestPaymentSourcePaypalTaxInfo | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
+  attributes?: CaptureOrderRequestPaymentSourcePaypalAttributes | undefined;
+  experience_context?: PaypalWalletExperienceContextInput | undefined;
+  billing_agreement_id?: string | undefined;
+  stored_credential?: PaypalWalletStoredCredential | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type CaptureOrderRequestPaymentSourceBancontactExperienceContextShippingPreference =
@@ -3557,19 +3791,20 @@ export type CaptureOrderRequestPaymentSourceBancontactExperienceContextShippingP
   | "SET_PROVIDED_ADDRESS";
 export interface CaptureOrderRequestPaymentSourceBancontactExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | CaptureOrderRequestPaymentSourceBancontactExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface CaptureOrderRequestPaymentSourceBancontact {
   name: unknown;
   country_code: unknown;
-  experience_context?: CaptureOrderRequestPaymentSourceBancontactExperienceContext;
+  experience_context?: CaptureOrderRequestPaymentSourceBancontactExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type CaptureOrderRequestPaymentSourceBlikExperienceContextShippingPreference =
@@ -3578,17 +3813,18 @@ export type CaptureOrderRequestPaymentSourceBlikExperienceContextShippingPrefere
   | "SET_PROVIDED_ADDRESS";
 export interface CaptureOrderRequestPaymentSourceBlikExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | CaptureOrderRequestPaymentSourceBlikExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
-  consumer_ip?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
+  consumer_ip?: unknown | undefined;
   /** The payer's User Agent. For example, Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0). */
-  consumer_user_agent?: string;
+  consumer_user_agent?: string | undefined;
 }
 export type CaptureOrderRequestPaymentSourceBlikLevel0 =
   AuthorizeOrderRequestPaymentSourceBlikLevel0;
@@ -3597,10 +3833,10 @@ export type CaptureOrderRequestPaymentSourceBlikOneClick =
 export interface CaptureOrderRequestPaymentSourceBlik {
   name: unknown;
   country_code: unknown;
-  email?: unknown;
-  experience_context?: CaptureOrderRequestPaymentSourceBlikExperienceContext;
-  level_0?: AuthorizeOrderRequestPaymentSourceBlikLevel0;
-  one_click?: AuthorizeOrderRequestPaymentSourceBlikOneClick;
+  email?: unknown | undefined;
+  experience_context?: CaptureOrderRequestPaymentSourceBlikExperienceContext | undefined;
+  level_0?: AuthorizeOrderRequestPaymentSourceBlikLevel0 | undefined;
+  one_click?: AuthorizeOrderRequestPaymentSourceBlikOneClick | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type CaptureOrderRequestPaymentSourceEpsExperienceContextShippingPreference =
@@ -3609,19 +3845,20 @@ export type CaptureOrderRequestPaymentSourceEpsExperienceContextShippingPreferen
   | "SET_PROVIDED_ADDRESS";
 export interface CaptureOrderRequestPaymentSourceEpsExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | CaptureOrderRequestPaymentSourceEpsExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface CaptureOrderRequestPaymentSourceEps {
   name: unknown;
   country_code: unknown;
-  experience_context?: CaptureOrderRequestPaymentSourceEpsExperienceContext;
+  experience_context?: CaptureOrderRequestPaymentSourceEpsExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type CaptureOrderRequestPaymentSourceGiropayExperienceContextShippingPreference =
@@ -3630,19 +3867,20 @@ export type CaptureOrderRequestPaymentSourceGiropayExperienceContextShippingPref
   | "SET_PROVIDED_ADDRESS";
 export interface CaptureOrderRequestPaymentSourceGiropayExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | CaptureOrderRequestPaymentSourceGiropayExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface CaptureOrderRequestPaymentSourceGiropay {
   name: unknown;
   country_code: unknown;
-  experience_context?: CaptureOrderRequestPaymentSourceGiropayExperienceContext;
+  experience_context?: CaptureOrderRequestPaymentSourceGiropayExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type CaptureOrderRequestPaymentSourceIdealExperienceContextShippingPreference =
@@ -3651,20 +3889,21 @@ export type CaptureOrderRequestPaymentSourceIdealExperienceContextShippingPrefer
   | "SET_PROVIDED_ADDRESS";
 export interface CaptureOrderRequestPaymentSourceIdealExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | CaptureOrderRequestPaymentSourceIdealExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface CaptureOrderRequestPaymentSourceIdeal {
   name: unknown;
   country_code: unknown;
-  bic?: unknown;
-  experience_context?: CaptureOrderRequestPaymentSourceIdealExperienceContext;
+  bic?: unknown | undefined;
+  experience_context?: CaptureOrderRequestPaymentSourceIdealExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type CaptureOrderRequestPaymentSourceMybankExperienceContextShippingPreference =
@@ -3673,19 +3912,20 @@ export type CaptureOrderRequestPaymentSourceMybankExperienceContextShippingPrefe
   | "SET_PROVIDED_ADDRESS";
 export interface CaptureOrderRequestPaymentSourceMybankExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | CaptureOrderRequestPaymentSourceMybankExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface CaptureOrderRequestPaymentSourceMybank {
   name: unknown;
   country_code: unknown;
-  experience_context?: CaptureOrderRequestPaymentSourceMybankExperienceContext;
+  experience_context?: CaptureOrderRequestPaymentSourceMybankExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type CaptureOrderRequestPaymentSourceP24ExperienceContextShippingPreference =
@@ -3694,20 +3934,21 @@ export type CaptureOrderRequestPaymentSourceP24ExperienceContextShippingPreferen
   | "SET_PROVIDED_ADDRESS";
 export interface CaptureOrderRequestPaymentSourceP24ExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | CaptureOrderRequestPaymentSourceP24ExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface CaptureOrderRequestPaymentSourceP24 {
   name: unknown;
   email: unknown;
   country_code: unknown;
-  experience_context?: CaptureOrderRequestPaymentSourceP24ExperienceContext;
+  experience_context?: CaptureOrderRequestPaymentSourceP24ExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type CaptureOrderRequestPaymentSourceSofortExperienceContextShippingPreference =
@@ -3716,19 +3957,20 @@ export type CaptureOrderRequestPaymentSourceSofortExperienceContextShippingPrefe
   | "SET_PROVIDED_ADDRESS";
 export interface CaptureOrderRequestPaymentSourceSofortExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | CaptureOrderRequestPaymentSourceSofortExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface CaptureOrderRequestPaymentSourceSofort {
   name: unknown;
   country_code: unknown;
-  experience_context?: CaptureOrderRequestPaymentSourceSofortExperienceContext;
+  experience_context?: CaptureOrderRequestPaymentSourceSofortExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type CaptureOrderRequestPaymentSourceTrustlyExperienceContextShippingPreference =
@@ -3737,20 +3979,21 @@ export type CaptureOrderRequestPaymentSourceTrustlyExperienceContextShippingPref
   | "SET_PROVIDED_ADDRESS";
 export interface CaptureOrderRequestPaymentSourceTrustlyExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | CaptureOrderRequestPaymentSourceTrustlyExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface CaptureOrderRequestPaymentSourceTrustly {
   name: unknown;
   country_code: unknown;
   email: unknown;
-  experience_context?: CaptureOrderRequestPaymentSourceTrustlyExperienceContext;
+  experience_context?: CaptureOrderRequestPaymentSourceTrustlyExperienceContext | undefined;
 }
 export type CaptureOrderRequestPaymentSourceApplePayPhoneNumber = CardCustomerPhonePhoneNumber;
 export type CaptureOrderRequestPaymentSourceApplePayDecryptedTokenTransactionAmount =
@@ -3772,27 +4015,32 @@ export interface CaptureOrderRequestPaymentSourceApplePayDecryptedTokenTokenized
   /** The method used for card verification. */
   method?:
     | CaptureOrderRequestPaymentSourceApplePayDecryptedTokenTokenizedCardAttributesVerificationMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface CaptureOrderRequestPaymentSourceApplePayDecryptedTokenTokenizedCardAttributes {
-  customer?: CardCustomer;
-  vault?: CardRequestInputAttributesVault;
-  verification?: CaptureOrderRequestPaymentSourceApplePayDecryptedTokenTokenizedCardAttributesVerification;
+  customer?: CardCustomer | undefined;
+  vault?: CardRequestInputAttributesVault | undefined;
+  verification?:
+    | CaptureOrderRequestPaymentSourceApplePayDecryptedTokenTokenizedCardAttributesVerification
+    | undefined;
 }
 export interface CaptureOrderRequestPaymentSourceApplePayDecryptedTokenTokenizedCard {
-  id?: unknown;
+  id?: unknown | undefined;
   /** The card holder's name as it appears on the card. */
-  name?: string;
+  name?: string | undefined;
   /** The primary account number (PAN) for the payment card. */
-  number?: string;
-  expiry?: unknown;
+  number?: string | undefined;
+  expiry?: unknown | undefined;
   /** The three- or four-digit security code of the card. Also known as the CVV, CVC, CVN, CVE, or CID. This parameter cannot be present in the request when `payment_initiator=MERCHANT`. */
-  security_code?: string;
-  card_type?: unknown;
-  type?: unknown;
-  brand?: unknown;
-  billing_address?: CardRequestInputBillingAddress;
-  attributes?: CaptureOrderRequestPaymentSourceApplePayDecryptedTokenTokenizedCardAttributes;
+  security_code?: string | undefined;
+  card_type?: unknown | undefined;
+  type?: unknown | undefined;
+  brand?: unknown | undefined;
+  billing_address?: CardRequestInputBillingAddress | undefined;
+  attributes?:
+    | CaptureOrderRequestPaymentSourceApplePayDecryptedTokenTokenizedCardAttributes
+    | undefined;
 }
 /** Indicates the type of payment data passed, in case of Non China the payment data is 3DSECURE and for China it is EMV. */
 export type CaptureOrderRequestPaymentSourceApplePayDecryptedTokenPaymentDataType =
@@ -3801,27 +4049,30 @@ export type CaptureOrderRequestPaymentSourceApplePayDecryptedTokenPaymentDataTyp
 export type CaptureOrderRequestPaymentSourceApplePayDecryptedTokenPaymentData =
   AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenPaymentData;
 export interface CaptureOrderRequestPaymentSourceApplePayDecryptedToken {
-  transaction_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  transaction_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   tokenized_card: CaptureOrderRequestPaymentSourceApplePayDecryptedTokenTokenizedCard;
   /** Apple Pay Hex-encoded device manufacturer identifier. The pattern is defined by an external party and supports Unicode. */
-  device_manufacturer_id?: string;
+  device_manufacturer_id?: string | undefined;
   /** Indicates the type of payment data passed, in case of Non China the payment data is 3DSECURE and for China it is EMV. */
   payment_data_type?:
     | CaptureOrderRequestPaymentSourceApplePayDecryptedTokenPaymentDataType
-    | (string & {});
-  payment_data?: AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenPaymentData;
+    | (string & {})
+    | undefined;
+  payment_data?: AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenPaymentData | undefined;
 }
 export interface CaptureOrderRequestPaymentSourceApplePay {
   /** ApplePay transaction identifier, this will be the unique identifier for this transaction provided by Apple. The pattern is defined by an external party and supports Unicode. */
-  id?: string;
-  name?: unknown;
-  email_address?: unknown;
-  phone_number?: CardCustomerPhonePhoneNumber;
-  decrypted_token?: CaptureOrderRequestPaymentSourceApplePayDecryptedToken;
-  stored_credential?: CardStoredCredential;
-  vault_id?: unknown;
-  attributes?: ApplePayAttributes;
-  experience_context?: ApplePayExperienceContext;
+  id?: string | undefined;
+  name?: unknown | undefined;
+  email_address?: unknown | undefined;
+  phone_number?: CardCustomerPhonePhoneNumber | undefined;
+  decrypted_token?: CaptureOrderRequestPaymentSourceApplePayDecryptedToken | undefined;
+  stored_credential?: CardStoredCredential | undefined;
+  vault_id?: unknown | undefined;
+  attributes?: ApplePayAttributes | undefined;
+  experience_context?: ApplePayExperienceContext | undefined;
 }
 export type CaptureOrderRequestPaymentSourceGooglePayPhoneNumber =
   AuthorizeOrderRequestPaymentSourceGooglePayPhoneNumber;
@@ -3848,9 +4099,9 @@ export type CaptureOrderRequestPaymentSourceGooglePayDecryptedTokenAuthenticatio
   | "CRYPTOGRAM_3DS";
 export interface CaptureOrderRequestPaymentSourceGooglePayDecryptedToken {
   /** A unique ID that identifies the message in case it needs to be revoked or located at a later time. */
-  message_id?: string;
+  message_id?: string | undefined;
   /** Date and time at which the message expires as UTC milliseconds since epoch. Integrators should reject any message that's expired. */
-  message_expiration?: string;
+  message_expiration?: string | undefined;
   /** The type of the payment credential. Currently, only CARD is supported. */
   payment_method:
     | CaptureOrderRequestPaymentSourceGooglePayDecryptedTokenPaymentMethod
@@ -3862,20 +4113,20 @@ export interface CaptureOrderRequestPaymentSourceGooglePayDecryptedToken {
     | CaptureOrderRequestPaymentSourceGooglePayDecryptedTokenAuthenticationMethod
     | (string & {});
   /** Base-64 cryptographic identifier used by card schemes to validate the token verification result. This is a conditionally required field if authentication_method is CRYPTOGRAM_3DS. */
-  cryptogram?: string;
+  cryptogram?: string | undefined;
   /** Electronic Commerce Indicator may not always be present. It is only returned for tokens on the Visa card network. This value is passed through in the payment authorization request. */
-  eci_indicator?: string;
+  eci_indicator?: string | undefined;
 }
 export type CaptureOrderRequestPaymentSourceGooglePayAssuranceDetails =
   AuthorizeOrderRequestPaymentSourceGooglePayAssuranceDetails;
 export interface CaptureOrderRequestPaymentSourceGooglePay {
-  name?: unknown;
-  email_address?: unknown;
-  phone_number?: AuthorizeOrderRequestPaymentSourceGooglePayPhoneNumber;
-  card?: AuthorizeOrderRequestPaymentSourceGooglePayCard;
-  decrypted_token?: CaptureOrderRequestPaymentSourceGooglePayDecryptedToken;
-  assurance_details?: AuthorizeOrderRequestPaymentSourceGooglePayAssuranceDetails;
-  experience_context?: ApplePayExperienceContext;
+  name?: unknown | undefined;
+  email_address?: unknown | undefined;
+  phone_number?: AuthorizeOrderRequestPaymentSourceGooglePayPhoneNumber | undefined;
+  card?: AuthorizeOrderRequestPaymentSourceGooglePayCard | undefined;
+  decrypted_token?: CaptureOrderRequestPaymentSourceGooglePayDecryptedToken | undefined;
+  assurance_details?: AuthorizeOrderRequestPaymentSourceGooglePayAssuranceDetails | undefined;
+  experience_context?: ApplePayExperienceContext | undefined;
 }
 /** Expected business/pricing model for the billing agreement. */
 export type CaptureOrderRequestPaymentSourceVenmoAttributesVaultUsagePattern =
@@ -3894,25 +4145,31 @@ export type CaptureOrderRequestPaymentSourceVenmoAttributesVaultCustomerType =
 export interface CaptureOrderRequestPaymentSourceVenmoAttributesVault {
   store_in_vault: StoreInVaultInstruction | (string & {});
   /** The description displayed to Venmo consumer on the approval flow for Venmo, as well as on the Venmo payment token management experience on Venmo.com. */
-  description?: string;
+  description?: string | undefined;
   /** Expected business/pricing model for the billing agreement. */
-  usage_pattern?: CaptureOrderRequestPaymentSourceVenmoAttributesVaultUsagePattern | (string & {});
+  usage_pattern?:
+    | CaptureOrderRequestPaymentSourceVenmoAttributesVaultUsagePattern
+    | (string & {})
+    | undefined;
   /** The usage type associated with the Venmo payment token. */
   usage_type: CaptureOrderRequestPaymentSourceVenmoAttributesVaultUsageType | (string & {});
   /** The customer type associated with the Venmo payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer. */
-  customer_type?: CaptureOrderRequestPaymentSourceVenmoAttributesVaultCustomerType | (string & {});
+  customer_type?:
+    | CaptureOrderRequestPaymentSourceVenmoAttributesVaultCustomerType
+    | (string & {})
+    | undefined;
   /** Create multiple payment tokens for the same payer, merchant/platform combination. Use this when the customer has not logged in at merchant/platform. The payment token thus generated, can then also be used to create the customer account at merchant/platform. Use this also when multiple payment tokens are required for the same payer, different customer at merchant/platform. This helps to identify customers distinctly even though they may share the same Venmo account. */
-  permit_multiple_payment_tokens?: boolean;
+  permit_multiple_payment_tokens?: boolean | undefined;
 }
 export interface CaptureOrderRequestPaymentSourceVenmoAttributes {
-  customer?: Customer;
-  vault?: CaptureOrderRequestPaymentSourceVenmoAttributesVault;
+  customer?: Customer | undefined;
+  vault?: CaptureOrderRequestPaymentSourceVenmoAttributesVault | undefined;
 }
 export interface CaptureOrderRequestPaymentSourceVenmo {
-  vault_id?: unknown;
-  email_address?: unknown;
-  experience_context?: VenmoWalletExperienceContext;
-  attributes?: CaptureOrderRequestPaymentSourceVenmoAttributes;
+  vault_id?: unknown | undefined;
+  email_address?: unknown | undefined;
+  experience_context?: VenmoWalletExperienceContext | undefined;
+  attributes?: CaptureOrderRequestPaymentSourceVenmoAttributes | undefined;
 }
 export type CaptureOrderRequestPaymentSourceCryptoName =
   AuthorizeOrderRequestPaymentSourceCryptoName;
@@ -3920,35 +4177,35 @@ export type CaptureOrderRequestPaymentSourceCryptoExperienceContext =
   AuthorizeOrderRequestPaymentSourceCryptoExperienceContext;
 export type CaptureOrderRequestPaymentSourceCrypto = AuthorizeOrderRequestPaymentSourceCrypto;
 export interface CaptureOrderRequestPaymentSource {
-  card?: CardRequestInput;
-  token?: Token;
-  paypal?: CaptureOrderRequestPaymentSourcePaypal;
-  bancontact?: CaptureOrderRequestPaymentSourceBancontact;
-  blik?: CaptureOrderRequestPaymentSourceBlik;
-  eps?: CaptureOrderRequestPaymentSourceEps;
-  giropay?: CaptureOrderRequestPaymentSourceGiropay;
-  ideal?: CaptureOrderRequestPaymentSourceIdeal;
-  mybank?: CaptureOrderRequestPaymentSourceMybank;
-  p24?: CaptureOrderRequestPaymentSourceP24;
-  sofort?: CaptureOrderRequestPaymentSourceSofort;
-  trustly?: CaptureOrderRequestPaymentSourceTrustly;
-  apple_pay?: CaptureOrderRequestPaymentSourceApplePay;
-  google_pay?: CaptureOrderRequestPaymentSourceGooglePay;
-  venmo?: CaptureOrderRequestPaymentSourceVenmo;
-  crypto?: AuthorizeOrderRequestPaymentSourceCrypto;
+  card?: CardRequestInput | undefined;
+  token?: Token | undefined;
+  paypal?: CaptureOrderRequestPaymentSourcePaypal | undefined;
+  bancontact?: CaptureOrderRequestPaymentSourceBancontact | undefined;
+  blik?: CaptureOrderRequestPaymentSourceBlik | undefined;
+  eps?: CaptureOrderRequestPaymentSourceEps | undefined;
+  giropay?: CaptureOrderRequestPaymentSourceGiropay | undefined;
+  ideal?: CaptureOrderRequestPaymentSourceIdeal | undefined;
+  mybank?: CaptureOrderRequestPaymentSourceMybank | undefined;
+  p24?: CaptureOrderRequestPaymentSourceP24 | undefined;
+  sofort?: CaptureOrderRequestPaymentSourceSofort | undefined;
+  trustly?: CaptureOrderRequestPaymentSourceTrustly | undefined;
+  apple_pay?: CaptureOrderRequestPaymentSourceApplePay | undefined;
+  google_pay?: CaptureOrderRequestPaymentSourceGooglePay | undefined;
+  venmo?: CaptureOrderRequestPaymentSourceVenmo | undefined;
+  crypto?: AuthorizeOrderRequestPaymentSourceCrypto | undefined;
 }
 export interface CaptureOrderRequest {
   /** The ID of the order for which to capture a payment. */
   id: string;
   /** The server stores keys for 6 hours. The API callers can request the times to up to 72 hours by speaking to their Account Manager. It is mandatory for all single-step create order calls (E.g. Create Order Request with payment source information like Card, PayPal.vault_id, PayPal.billing_agreement_id, etc). */
-  payPalRequestId?: string;
+  payPalRequestId?: string | undefined;
   /** The preferred server response upon successful completion of the request. Value is:<ul><li><code>return=minimal</code>. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the <code>id</code>, <code>status</code> and HATEOAS links.</li><li><code>return=representation</code>. The server returns a complete resource representation, including the current state of the resource.</li></ul> */
-  prefer?: string;
+  prefer?: string | undefined;
   /** A GUID value originating from Fraudnet and Dyson passed from external API clients via HTTP header. The value is used by Risk decisions to correlate calls which, in turn, might result in lower decline rates.. */
-  payPalClientMetadataId?: string;
+  payPalClientMetadataId?: string | undefined;
   /** Header for an API client-provided JWT assertion that identifies the merchant. Establishing the consent to act-on-behalf of a merchant is a prerequisite for using this header. */
-  payPalAuthAssertion?: string;
-  payment_source?: CaptureOrderRequestPaymentSource;
+  payPalAuthAssertion?: string | undefined;
+  payment_source?: CaptureOrderRequestPaymentSource | undefined;
 }
 /** The payment source used to fund the payment. */
 export type PaymentSourceResponse = AuthorizeOrderResponsePaymentSource;
@@ -3968,13 +4225,13 @@ export type CaptureOrderResponsePayerAddressAddressDetails =
   CardRequestInputBillingAddressAddressDetails;
 export type CaptureOrderResponsePayerAddress = CardRequestInputBillingAddress;
 export interface CaptureOrderResponsePayer {
-  email_address?: unknown;
-  payer_id?: unknown;
-  name?: CardCustomerName;
-  phone?: VaultResponseCustomerPhone;
-  birth_date?: unknown;
-  tax_info?: CaptureOrderResponsePayerTaxInfo;
-  address?: CardRequestInputBillingAddress;
+  email_address?: unknown | undefined;
+  payer_id?: unknown | undefined;
+  name?: CardCustomerName | undefined;
+  phone?: VaultResponseCustomerPhone | undefined;
+  birth_date?: unknown | undefined;
+  tax_info?: CaptureOrderResponsePayerTaxInfo | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
 }
 export type CaptureOrderResponsePurchaseUnitsItemPayee =
   PaypalWalletAttributesResponseCobrandedCardsItemPayee;
@@ -4006,21 +4263,23 @@ export interface CaptureOrderResponsePurchaseUnitsItemItemsItem {
   /** The item name or title. */
   name: string;
   unit_amount: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  tax?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  tax?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** The item quantity. Must be a whole number. */
   quantity: string;
   /** The detailed item description. */
-  description?: string;
+  description?: string | undefined;
   /** The stock keeping unit (SKU) for the item. */
-  sku?: string;
+  sku?: string | undefined;
   /** The URL to the item being purchased. Visible to buyer and used in buyer experiences. */
-  url?: string;
+  url?: string | undefined;
   /** The item category type. */
-  category?: CaptureOrderResponsePurchaseUnitsItemItemsItemCategory;
+  category?: CaptureOrderResponsePurchaseUnitsItemItemsItemCategory | undefined;
   /** The URL of the item's image. File type and size restrictions apply. An image that violates these restrictions will not be honored. */
-  image_url?: string;
-  upc?: CaptureOrderResponsePurchaseUnitsItemItemsItemUpc;
-  billing_plan?: OrderBillingPlan;
+  image_url?: string | undefined;
+  upc?: CaptureOrderResponsePurchaseUnitsItemItemsItemUpc | undefined;
+  billing_plan?: OrderBillingPlan | undefined;
 }
 /** An array of items that the customer purchases from the merchant. */
 export type CaptureOrderResponsePurchaseUnitsItemItemsList =
@@ -4048,16 +4307,18 @@ export type CaptureOrderResponsePurchaseUnitsItemShippingAddress = CardRequestIn
 /** An array of trackers for a transaction. */
 export type CaptureOrderResponsePurchaseUnitsItemShippingTrackersList = Array<Tracker>;
 export interface CaptureOrderResponsePurchaseUnitsItemShipping {
-  name?: CardCustomerName;
-  email_address?: unknown;
-  phone_number?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber;
+  name?: CardCustomerName | undefined;
+  email_address?: unknown | undefined;
+  phone_number?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber
+    | undefined;
   /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
-  type?: CaptureOrderResponsePurchaseUnitsItemShippingType;
+  type?: CaptureOrderResponsePurchaseUnitsItemShippingType | undefined;
   /** An array of shipping options that the payee or merchant offers to the payer to ship or pick up their items. */
-  options?: CaptureOrderResponsePurchaseUnitsItemShippingOptionsList;
-  address?: CardRequestInputBillingAddress;
+  options?: CaptureOrderResponsePurchaseUnitsItemShippingOptionsList | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
   /** An array of trackers for a transaction. */
-  trackers?: CaptureOrderResponsePurchaseUnitsItemShippingTrackersList;
+  trackers?: CaptureOrderResponsePurchaseUnitsItemShippingTrackersList | undefined;
 }
 export type CaptureOrderResponsePurchaseUnitsItemSupplementaryDataCard =
   AuthorizeOrderResponsePurchaseUnitsItemSupplementaryDataCard;
@@ -4079,7 +4340,9 @@ export type CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatu
   | "DECLINED_BY_RISK_FRAUD_FILTERS";
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails {
   /** The reason why the authorized status is `PENDING`. */
-  reason?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetailsReason;
+  reason?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetailsReason
+    | undefined;
 }
 export type CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemAmount =
   AmountWithBreakdown;
@@ -4097,9 +4360,13 @@ export type CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSelle
   Array<CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesItem>;
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection {
   /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
-  status?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionStatus;
+  status?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionStatus
+    | undefined;
   /** An array of conditions that are covered for the transaction. */
-  dispute_categories?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesList;
+  dispute_categories?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesList
+    | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod =
@@ -4128,33 +4395,41 @@ export type CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinks
   CardVaultResponseLinksItemSchemaMedia;
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAllOfList;
+  allOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAnyOfList;
+  anyOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaOneOfList;
+  oneOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaLinksList;
+  links?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList =
@@ -4173,33 +4448,41 @@ export type CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinks
   CardVaultResponseLinksItemSchemaMedia;
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaLinksList;
+  links?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -4207,15 +4490,21 @@ export interface CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItem
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod;
+  method?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod
+    | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema;
-  targetSchema?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema
+    | undefined;
+  targetSchema?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList =
@@ -4437,33 +4726,47 @@ export type CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProce
   | "43";
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse {
   /** The address verification code for Visa, Discover, Mastercard, or American Express transactions. */
-  avs_code?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseAvsCode;
+  avs_code?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseAvsCode
+    | undefined;
   /** The card verification value code for for Visa, Discover, Mastercard, or American Express. */
-  cvv_code?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseCvvCode;
+  cvv_code?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseCvvCode
+    | undefined;
   /** Processor response code for the non-PayPal payment processor errors. */
-  response_code?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseResponseCode;
+  response_code?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseResponseCode
+    | undefined;
   /** The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes. */
-  payment_advice_code?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponsePaymentAdviceCode;
+  payment_advice_code?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponsePaymentAdviceCode
+    | undefined;
 }
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItem {
   /** The status for the authorized payment. */
-  status?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatus;
-  status_details?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails;
+  status?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatus | undefined;
+  status_details?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails
+    | undefined;
   /** The PayPal-generated ID for the authorized payment. */
-  id?: string;
-  amount?: AmountWithBreakdown;
+  id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
-  network_transaction_reference?: NetworkTransaction;
-  seller_protection?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection;
-  expiration_time?: unknown;
+  custom_id?: string | undefined;
+  network_transaction_reference?: NetworkTransaction | undefined;
+  seller_protection?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection
+    | undefined;
+  expiration_time?: unknown | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
-  processor_response?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse;
+  links?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
+  processor_response?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse
+    | undefined;
 }
 /** An array of authorized payments for a purchase unit. A purchase unit can have zero or more authorized payments. */
 export type CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsList =
@@ -4492,7 +4795,7 @@ export type CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetai
   | "DECLINED_BY_RISK_FRAUD_FILTERS";
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails {
   /** The reason why the captured payment status is `PENDING` or `DENIED`. */
-  reason?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetailsReason;
+  reason?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetailsReason | undefined;
 }
 export type CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemAmount = AmountWithBreakdown;
 /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
@@ -4509,9 +4812,13 @@ export type CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProte
   Array<CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesItem>;
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection {
   /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
-  status?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionStatus;
+  status?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionStatus
+    | undefined;
   /** An array of conditions that are covered for the transaction. */
-  dispute_categories?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesList;
+  dispute_categories?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesList
+    | undefined;
 }
 export type CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownGrossAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -4536,13 +4843,25 @@ export type CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerRecei
   Array<PaymentInstructionPlatformFeesItem>;
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown {
   gross_amount: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  receivable_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  exchange_rate?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownExchangeRate;
+  paypal_fee?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  receivable_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  exchange_rate?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownExchangeRate
+    | undefined;
   /** An array of platform or partner fees, commissions, or brokerage fees that associated with the captured payment. */
-  platform_fees?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownPlatformFeesList;
+  platform_fees?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownPlatformFeesList
+    | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemMethod =
@@ -4571,33 +4890,41 @@ export type CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSc
   CardVaultResponseLinksItemSchemaMedia;
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAllOfList;
+  allOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAnyOfList;
+  anyOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaOneOfList;
+  oneOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaLinksList;
+  links?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList =
@@ -4616,33 +4943,41 @@ export type CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTa
   CardVaultResponseLinksItemSchemaMedia;
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaLinksList;
+  links?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -4650,15 +4985,17 @@ export interface CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksI
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemMethod;
+  method?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema;
-  targetSchema?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema | undefined;
+  targetSchema?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksList =
@@ -4880,36 +5217,52 @@ export type CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorRe
   | "43";
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse {
   /** The address verification code for Visa, Discover, Mastercard, or American Express transactions. */
-  avs_code?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseAvsCode;
+  avs_code?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseAvsCode
+    | undefined;
   /** The card verification value code for for Visa, Discover, Mastercard, or American Express. */
-  cvv_code?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseCvvCode;
+  cvv_code?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseCvvCode
+    | undefined;
   /** Processor response code for the non-PayPal payment processor errors. */
-  response_code?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseResponseCode;
+  response_code?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseResponseCode
+    | undefined;
   /** The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes. */
-  payment_advice_code?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponsePaymentAdviceCode;
+  payment_advice_code?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponsePaymentAdviceCode
+    | undefined;
 }
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItem {
   /** The status of the captured payment. */
-  status?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatus;
-  status_details?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails;
+  status?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatus | undefined;
+  status_details?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails
+    | undefined;
   /** The PayPal-generated ID for the captured payment. */
-  id?: string;
-  amount?: AmountWithBreakdown;
+  id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
-  network_transaction_reference?: NetworkTransaction;
-  seller_protection?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection;
+  custom_id?: string | undefined;
+  network_transaction_reference?: NetworkTransaction | undefined;
+  seller_protection?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection
+    | undefined;
   /** Indicates whether you can make additional captures against the authorized payment. Set to `true` if you do not intend to capture additional payments against the authorization. Set to `false` if you intend to capture additional payments against the authorization. */
-  final_capture?: boolean;
-  seller_receivable_breakdown?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown;
-  disbursement_mode?: DisbursementMode;
+  final_capture?: boolean | undefined;
+  seller_receivable_breakdown?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown
+    | undefined;
+  disbursement_mode?: DisbursementMode | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksList;
-  processor_response?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse;
-  create_time?: unknown;
-  update_time?: unknown;
+  links?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksList | undefined;
+  processor_response?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse
+    | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
 }
 /** An array of captured payments for a purchase unit. A purchase unit can have zero or more captured payments. */
 export type CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesList =
@@ -4924,7 +5277,7 @@ export type CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatus =
 export type CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetailsReason = "ECHECK";
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails {
   /** The reason why the refund has the `PENDING` or `FAILED` status. */
-  reason?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetailsReason;
+  reason?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetailsReason | undefined;
 }
 export type CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -4962,16 +5315,32 @@ export type CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayabl
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
 /** The breakdown of the refund. */
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown {
-  gross_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  gross_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** An array of platform or partner fees, commissions, or brokerage fees for the refund. */
-  platform_fees?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownPlatformFeesList;
+  platform_fees?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownPlatformFeesList
+    | undefined;
   /** An array of breakdown values for the net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the payee holds their funds. */
-  net_amount_breakdown?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownNetAmountBreakdownList;
-  total_refunded_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  net_amount_breakdown?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownNetAmountBreakdownList
+    | undefined;
+  total_refunded_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
 }
 export type CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemPayer =
   PaypalWalletAttributesResponseCobrandedCardsItemPayee;
@@ -5002,33 +5371,41 @@ export type CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSch
   CardVaultResponseLinksItemSchemaMedia;
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAllOfList;
+  allOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAnyOfList;
+  anyOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaOneOfList;
+  oneOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaLinksList;
+  links?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList =
@@ -5047,33 +5424,41 @@ export type CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTar
   CardVaultResponseLinksItemSchemaMedia;
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaLinksList;
+  links?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -5081,74 +5466,82 @@ export interface CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksIt
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemMethod;
+  method?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema;
-  targetSchema?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema | undefined;
+  targetSchema?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksList =
   Array<CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItem>;
 export interface CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItem {
   /** The status of the refund. */
-  status?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatus;
-  status_details?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails;
+  status?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatus | undefined;
+  status_details?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails
+    | undefined;
   /** The PayPal-generated ID for the refund. */
-  id?: string;
-  amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  id?: string | undefined;
+  amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** Reference ID issued for the card transaction. This ID can be used to track the transaction across processors, card brands and issuing banks. */
-  acquirer_reference_number?: string;
+  acquirer_reference_number?: string | undefined;
   /** The reason for the refund. Appears in both the payer's transaction history and the emails that the payer receives. */
-  note_to_payer?: string;
+  note_to_payer?: string | undefined;
   /** The breakdown of the refund. */
-  seller_payable_breakdown?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown;
-  payer?: PaypalWalletAttributesResponseCobrandedCardsItemPayee;
+  seller_payable_breakdown?:
+    | CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown
+    | undefined;
+  payer?: PaypalWalletAttributesResponseCobrandedCardsItemPayee | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
+  links?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
 }
 /** An array of refunds for a purchase unit. A purchase unit can have zero or more refunds. */
 export type CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsList =
   Array<CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsItem>;
 export interface CaptureOrderResponsePurchaseUnitsItemPayments {
   /** An array of authorized payments for a purchase unit. A purchase unit can have zero or more authorized payments. */
-  authorizations?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsList;
+  authorizations?: CaptureOrderResponsePurchaseUnitsItemPaymentsAuthorizationsList | undefined;
   /** An array of captured payments for a purchase unit. A purchase unit can have zero or more captured payments. */
-  captures?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesList;
+  captures?: CaptureOrderResponsePurchaseUnitsItemPaymentsCapturesList | undefined;
   /** An array of refunds for a purchase unit. A purchase unit can have zero or more refunds. */
-  refunds?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsList;
+  refunds?: CaptureOrderResponsePurchaseUnitsItemPaymentsRefundsList | undefined;
 }
 export interface CaptureOrderResponsePurchaseUnitsItem {
   /** The API caller-provided external ID for the purchase unit. Required for multiple purchase units when you must update the order through `PATCH`. If you omit this value and the order contains only one purchase unit, PayPal sets this value to `default`. <blockquote><strong>Note:</strong> If there are multiple purchase units, <code>reference_id</code> is required for each purchase unit.</blockquote> */
-  reference_id?: string;
-  amount?: AmountWithBreakdown;
-  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee;
-  payment_instruction?: PaymentInstruction;
+  reference_id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
+  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee | undefined;
+  payment_instruction?: PaymentInstruction | undefined;
   /** The purchase description. */
-  description?: string;
+  description?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** The API caller-provided external invoice ID for this order. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The PayPal-generated ID for the purchase unit. This ID appears in both the payer's transaction history and the emails that the payer receives. In addition, this ID is available in transaction and settlement reports that merchants and API callers can use to reconcile transactions. This ID is only available when an order is saved by calling <code>v2/checkout/orders/id/save</code>. */
-  id?: string;
+  id?: string | undefined;
   /** The payment descriptor on account transactions on the customer's credit card statement, that PayPal sends to processors. The maximum length of the soft descriptor information that you can pass in the API field is 22 characters, in the following format:<code>22 - len(PAYPAL * (8)) - len(<var>Descriptor in Payment Receiving Preferences of Merchant account</var> + 1)</code>The PAYPAL prefix uses 8 characters.<br/><br/>The soft descriptor supports the following ASCII characters:<ul><li>Alphanumeric characters</li><li>Dashes</li><li>Asterisks</li><li>Periods (.)</li><li>Spaces</li></ul>For Wallet payments marketplace integrations:<ul><li>The merchant descriptor in the Payment Receiving Preferences must be the marketplace name.</li><li>You can't use the remaining space to show the customer service number.</li><li>The remaining spaces can be a combination of seller name and country.</li></ul><br/>For unbranded payments (Direct Card) marketplace integrations, use a combination of the seller name and phone number. */
-  soft_descriptor?: string;
+  soft_descriptor?: string | undefined;
   /** An array of items that the customer purchases from the merchant. */
-  items?: CaptureOrderResponsePurchaseUnitsItemItemsList;
-  shipping?: CaptureOrderResponsePurchaseUnitsItemShipping;
-  supplementary_data?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData;
-  payments?: CaptureOrderResponsePurchaseUnitsItemPayments;
+  items?: CaptureOrderResponsePurchaseUnitsItemItemsList | undefined;
+  shipping?: CaptureOrderResponsePurchaseUnitsItemShipping | undefined;
+  supplementary_data?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData | undefined;
+  payments?: CaptureOrderResponsePurchaseUnitsItemPayments | undefined;
 }
 /** An array of purchase units. Each purchase unit establishes a contract between a customer and merchant. Each purchase unit represents either a full or partial order that the customer intends to purchase from the merchant. */
 export type CaptureOrderResponsePurchaseUnitsList = Array<CaptureOrderResponsePurchaseUnitsItem>;
@@ -5174,33 +5567,33 @@ export type CaptureOrderResponseLinksItemSchemaLinksList = Array<unknown>;
 export type CaptureOrderResponseLinksItemSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface CaptureOrderResponseLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CaptureOrderResponseLinksItemSchemaAllOfList;
+  allOf?: CaptureOrderResponseLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CaptureOrderResponseLinksItemSchemaAnyOfList;
+  anyOf?: CaptureOrderResponseLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CaptureOrderResponseLinksItemSchemaOneOfList;
+  oneOf?: CaptureOrderResponseLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CaptureOrderResponseLinksItemSchemaLinksList;
+  links?: CaptureOrderResponseLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type CaptureOrderResponseLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -5214,33 +5607,33 @@ export type CaptureOrderResponseLinksItemTargetSchemaLinksList = Array<unknown>;
 export type CaptureOrderResponseLinksItemTargetSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface CaptureOrderResponseLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CaptureOrderResponseLinksItemTargetSchemaAllOfList;
+  allOf?: CaptureOrderResponseLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CaptureOrderResponseLinksItemTargetSchemaAnyOfList;
+  anyOf?: CaptureOrderResponseLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CaptureOrderResponseLinksItemTargetSchemaOneOfList;
+  oneOf?: CaptureOrderResponseLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CaptureOrderResponseLinksItemTargetSchemaLinksList;
+  links?: CaptureOrderResponseLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface CaptureOrderResponseLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -5248,31 +5641,31 @@ export interface CaptureOrderResponseLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: CaptureOrderResponseLinksItemMethod;
+  method?: CaptureOrderResponseLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: CaptureOrderResponseLinksItemSchema;
-  targetSchema?: CaptureOrderResponseLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: CaptureOrderResponseLinksItemSchema | undefined;
+  targetSchema?: CaptureOrderResponseLinksItemTargetSchema | undefined;
 }
 /** An array of request-related HATEOAS links. To complete payer approval, use the `approve` link to redirect the payer. The API caller has 6 hours (default setting, this which can be changed by your account manager to 24/48/72 hours to accommodate your use case) from the time the order is created, to redirect your payer. Once redirected, the API caller has 6 hours for the payer to approve the order and either authorize or capture the order. If you are not using the PayPal JavaScript SDK to initiate PayPal Checkout (in context) ensure that you include `application_context.return_url` is specified or you will get "We're sorry, Things don't appear to be working at the moment" after the payer approves the payment. */
 export type CaptureOrderResponseLinksList = Array<CaptureOrderResponseLinksItem>;
 export interface CaptureOrderResponse {
-  create_time?: unknown;
-  update_time?: unknown;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
   /** The ID of the order. */
-  id?: string;
-  payment_source?: AuthorizeOrderResponsePaymentSource;
-  intent?: CheckoutPaymentIntent;
-  payer?: CaptureOrderResponsePayer;
+  id?: string | undefined;
+  payment_source?: AuthorizeOrderResponsePaymentSource | undefined;
+  intent?: CheckoutPaymentIntent | undefined;
+  payer?: CaptureOrderResponsePayer | undefined;
   /** An array of purchase units. Each purchase unit establishes a contract between a customer and merchant. Each purchase unit represents either a full or partial order that the customer intends to purchase from the merchant. */
-  purchase_units?: CaptureOrderResponsePurchaseUnitsList;
-  status?: unknown;
+  purchase_units?: CaptureOrderResponsePurchaseUnitsList | undefined;
+  status?: unknown | undefined;
   /** An array of request-related HATEOAS links. To complete payer approval, use the `approve` link to redirect the payer. The API caller has 6 hours (default setting, this which can be changed by your account manager to 24/48/72 hours to accommodate your use case) from the time the order is created, to redirect your payer. Once redirected, the API caller has 6 hours for the payer to approve the order and either authorize or capture the order. If you are not using the PayPal JavaScript SDK to initiate PayPal Checkout (in context) ensure that you include `application_context.return_url` is specified or you will get "We're sorry, Things don't appear to be working at the moment" after the payer approves the payment. */
-  links?: CaptureOrderResponseLinksList;
+  links?: CaptureOrderResponseLinksList | undefined;
 }
 export type PaymentSourceInputPaypalName = CardCustomerName;
 export type PaymentSourceInputPaypalPhonePhoneNumber = CardCustomerPhonePhoneNumber;
@@ -5324,49 +5717,51 @@ export type PaymentSourceInputPaypalAttributesVaultShippingAddressAddressDetails
   CardRequestInputBillingAddressAddressDetails;
 export type PaymentSourceInputPaypalAttributesVaultShippingAddress = CardRequestInputBillingAddress;
 export interface PaymentSourceInputPaypalAttributesVaultShipping {
-  name?: CardCustomerName;
-  email_address?: unknown;
-  phone_number?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber;
+  name?: CardCustomerName | undefined;
+  email_address?: unknown | undefined;
+  phone_number?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber
+    | undefined;
   /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
-  type?: PaymentSourceInputPaypalAttributesVaultShippingType | (string & {});
+  type?: PaymentSourceInputPaypalAttributesVaultShippingType | (string & {}) | undefined;
   /** An array of shipping options that the payee or merchant offers to the payer to ship or pick up their items. */
-  options?: PaymentSourceInputPaypalAttributesVaultShippingOptionsList;
-  address?: CardRequestInputBillingAddress;
+  options?: PaymentSourceInputPaypalAttributesVaultShippingOptionsList | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
 }
 /** The usage type associated with the PayPal payment token. */
 export type PaymentSourceInputPaypalAttributesVaultUsageType = "MERCHANT" | "PLATFORM";
 /** The customer type associated with the PayPal payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer. */
 export type PaymentSourceInputPaypalAttributesVaultCustomerType = "CONSUMER" | "BUSINESS";
 export interface PaymentSourceInputPaypalAttributesVault {
-  store_in_vault?: StoreInVaultInstruction | (string & {});
+  store_in_vault?: StoreInVaultInstruction | (string & {}) | undefined;
   /** The description displayed to PayPal consumer on the approval flow for PayPal, as well as on the PayPal payment token management experience on PayPal.com. */
-  description?: string;
+  description?: string | undefined;
   /** Expected business/pricing model for the billing agreement. */
-  usage_pattern?: PaymentSourceInputPaypalAttributesVaultUsagePattern | (string & {});
-  shipping?: PaymentSourceInputPaypalAttributesVaultShipping;
+  usage_pattern?: PaymentSourceInputPaypalAttributesVaultUsagePattern | (string & {}) | undefined;
+  shipping?: PaymentSourceInputPaypalAttributesVaultShipping | undefined;
   /** The usage type associated with the PayPal payment token. */
   usage_type: PaymentSourceInputPaypalAttributesVaultUsageType | (string & {});
   /** The customer type associated with the PayPal payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer. */
-  customer_type?: PaymentSourceInputPaypalAttributesVaultCustomerType | (string & {});
+  customer_type?: PaymentSourceInputPaypalAttributesVaultCustomerType | (string & {}) | undefined;
   /** Create multiple payment tokens for the same payer, merchant/platform combination. Use this when the customer has not logged in at merchant/platform. The payment token thus generated, can then also be used to create the customer account at merchant/platform. Use this also when multiple payment tokens are required for the same payer, different customer at merchant/platform. This helps to identify customers distinctly even though they may share the same PayPal account. This only applies to PayPal payment source. */
-  permit_multiple_payment_tokens?: boolean;
+  permit_multiple_payment_tokens?: boolean | undefined;
 }
 export interface PaymentSourceInputPaypalAttributes {
-  customer?: CardCustomer;
-  vault?: PaymentSourceInputPaypalAttributesVault;
+  customer?: CardCustomer | undefined;
+  vault?: PaymentSourceInputPaypalAttributesVault | undefined;
 }
 export interface PaymentSourceInputPaypal {
-  vault_id?: unknown;
-  email_address?: unknown;
-  name?: CardCustomerName;
-  phone?: CardCustomerPhone;
-  birth_date?: unknown;
-  tax_info?: PaymentSourceInputPaypalTaxInfo;
-  address?: CardRequestInputBillingAddress;
-  attributes?: PaymentSourceInputPaypalAttributes;
-  experience_context?: PaypalWalletExperienceContextInput;
-  billing_agreement_id?: string;
-  stored_credential?: PaypalWalletStoredCredential;
+  vault_id?: unknown | undefined;
+  email_address?: unknown | undefined;
+  name?: CardCustomerName | undefined;
+  phone?: CardCustomerPhone | undefined;
+  birth_date?: unknown | undefined;
+  tax_info?: PaymentSourceInputPaypalTaxInfo | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
+  attributes?: PaymentSourceInputPaypalAttributes | undefined;
+  experience_context?: PaypalWalletExperienceContextInput | undefined;
+  billing_agreement_id?: string | undefined;
+  stored_credential?: PaypalWalletStoredCredential | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type PaymentSourceInputBancontactExperienceContextShippingPreference =
@@ -5375,19 +5770,20 @@ export type PaymentSourceInputBancontactExperienceContextShippingPreference =
   | "SET_PROVIDED_ADDRESS";
 export interface PaymentSourceInputBancontactExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | PaymentSourceInputBancontactExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface PaymentSourceInputBancontact {
   name: unknown;
   country_code: unknown;
-  experience_context?: PaymentSourceInputBancontactExperienceContext;
+  experience_context?: PaymentSourceInputBancontactExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type PaymentSourceInputBlikExperienceContextShippingPreference =
@@ -5396,25 +5792,28 @@ export type PaymentSourceInputBlikExperienceContextShippingPreference =
   | "SET_PROVIDED_ADDRESS";
 export interface PaymentSourceInputBlikExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
-  shipping_preference?: PaymentSourceInputBlikExperienceContextShippingPreference | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
-  consumer_ip?: unknown;
+  shipping_preference?:
+    | PaymentSourceInputBlikExperienceContextShippingPreference
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
+  consumer_ip?: unknown | undefined;
   /** The payer's User Agent. For example, Mozilla/5.0 (Macintosh; Intel Mac OS X x.y; rv:42.0). */
-  consumer_user_agent?: string;
+  consumer_user_agent?: string | undefined;
 }
 export type PaymentSourceInputBlikLevel0 = AuthorizeOrderRequestPaymentSourceBlikLevel0;
 export type PaymentSourceInputBlikOneClick = AuthorizeOrderRequestPaymentSourceBlikOneClick;
 export interface PaymentSourceInputBlik {
   name: unknown;
   country_code: unknown;
-  email?: unknown;
-  experience_context?: PaymentSourceInputBlikExperienceContext;
-  level_0?: AuthorizeOrderRequestPaymentSourceBlikLevel0;
-  one_click?: AuthorizeOrderRequestPaymentSourceBlikOneClick;
+  email?: unknown | undefined;
+  experience_context?: PaymentSourceInputBlikExperienceContext | undefined;
+  level_0?: AuthorizeOrderRequestPaymentSourceBlikLevel0 | undefined;
+  one_click?: AuthorizeOrderRequestPaymentSourceBlikOneClick | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type PaymentSourceInputEpsExperienceContextShippingPreference =
@@ -5423,17 +5822,20 @@ export type PaymentSourceInputEpsExperienceContextShippingPreference =
   | "SET_PROVIDED_ADDRESS";
 export interface PaymentSourceInputEpsExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
-  shipping_preference?: PaymentSourceInputEpsExperienceContextShippingPreference | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+  shipping_preference?:
+    | PaymentSourceInputEpsExperienceContextShippingPreference
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface PaymentSourceInputEps {
   name: unknown;
   country_code: unknown;
-  experience_context?: PaymentSourceInputEpsExperienceContext;
+  experience_context?: PaymentSourceInputEpsExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type PaymentSourceInputGiropayExperienceContextShippingPreference =
@@ -5442,19 +5844,20 @@ export type PaymentSourceInputGiropayExperienceContextShippingPreference =
   | "SET_PROVIDED_ADDRESS";
 export interface PaymentSourceInputGiropayExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | PaymentSourceInputGiropayExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface PaymentSourceInputGiropay {
   name: unknown;
   country_code: unknown;
-  experience_context?: PaymentSourceInputGiropayExperienceContext;
+  experience_context?: PaymentSourceInputGiropayExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type PaymentSourceInputIdealExperienceContextShippingPreference =
@@ -5463,18 +5866,21 @@ export type PaymentSourceInputIdealExperienceContextShippingPreference =
   | "SET_PROVIDED_ADDRESS";
 export interface PaymentSourceInputIdealExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
-  shipping_preference?: PaymentSourceInputIdealExperienceContextShippingPreference | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+  shipping_preference?:
+    | PaymentSourceInputIdealExperienceContextShippingPreference
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface PaymentSourceInputIdeal {
   name: unknown;
   country_code: unknown;
-  bic?: unknown;
-  experience_context?: PaymentSourceInputIdealExperienceContext;
+  bic?: unknown | undefined;
+  experience_context?: PaymentSourceInputIdealExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type PaymentSourceInputMybankExperienceContextShippingPreference =
@@ -5483,17 +5889,20 @@ export type PaymentSourceInputMybankExperienceContextShippingPreference =
   | "SET_PROVIDED_ADDRESS";
 export interface PaymentSourceInputMybankExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
-  shipping_preference?: PaymentSourceInputMybankExperienceContextShippingPreference | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+  shipping_preference?:
+    | PaymentSourceInputMybankExperienceContextShippingPreference
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface PaymentSourceInputMybank {
   name: unknown;
   country_code: unknown;
-  experience_context?: PaymentSourceInputMybankExperienceContext;
+  experience_context?: PaymentSourceInputMybankExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type PaymentSourceInputP24ExperienceContextShippingPreference =
@@ -5502,18 +5911,21 @@ export type PaymentSourceInputP24ExperienceContextShippingPreference =
   | "SET_PROVIDED_ADDRESS";
 export interface PaymentSourceInputP24ExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
-  shipping_preference?: PaymentSourceInputP24ExperienceContextShippingPreference | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+  shipping_preference?:
+    | PaymentSourceInputP24ExperienceContextShippingPreference
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface PaymentSourceInputP24 {
   name: unknown;
   email: unknown;
   country_code: unknown;
-  experience_context?: PaymentSourceInputP24ExperienceContext;
+  experience_context?: PaymentSourceInputP24ExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type PaymentSourceInputSofortExperienceContextShippingPreference =
@@ -5522,17 +5934,20 @@ export type PaymentSourceInputSofortExperienceContextShippingPreference =
   | "SET_PROVIDED_ADDRESS";
 export interface PaymentSourceInputSofortExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
-  shipping_preference?: PaymentSourceInputSofortExperienceContextShippingPreference | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+  shipping_preference?:
+    | PaymentSourceInputSofortExperienceContextShippingPreference
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface PaymentSourceInputSofort {
   name: unknown;
   country_code: unknown;
-  experience_context?: PaymentSourceInputSofortExperienceContext;
+  experience_context?: PaymentSourceInputSofortExperienceContext | undefined;
 }
 /** The location from which the shipping address is derived. */
 export type PaymentSourceInputTrustlyExperienceContextShippingPreference =
@@ -5541,20 +5956,21 @@ export type PaymentSourceInputTrustlyExperienceContextShippingPreference =
   | "SET_PROVIDED_ADDRESS";
 export interface PaymentSourceInputTrustlyExperienceContext {
   /** The label that overrides the business name in the PayPal account on the PayPal site. The pattern is defined by an external party and supports Unicode. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The location from which the shipping address is derived. */
   shipping_preference?:
     | PaymentSourceInputTrustlyExperienceContextShippingPreference
-    | (string & {});
-  return_url?: unknown;
-  cancel_url?: unknown;
+    | (string & {})
+    | undefined;
+  return_url?: unknown | undefined;
+  cancel_url?: unknown | undefined;
 }
 export interface PaymentSourceInputTrustly {
   name: unknown;
   country_code: unknown;
   email: unknown;
-  experience_context?: PaymentSourceInputTrustlyExperienceContext;
+  experience_context?: PaymentSourceInputTrustlyExperienceContext | undefined;
 }
 export type PaymentSourceInputApplePayPhoneNumber = CardCustomerPhonePhoneNumber;
 export type PaymentSourceInputApplePayDecryptedTokenTransactionAmount =
@@ -5576,52 +5992,60 @@ export interface PaymentSourceInputApplePayDecryptedTokenTokenizedCardAttributes
   /** The method used for card verification. */
   method?:
     | PaymentSourceInputApplePayDecryptedTokenTokenizedCardAttributesVerificationMethod
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export interface PaymentSourceInputApplePayDecryptedTokenTokenizedCardAttributes {
-  customer?: CardCustomer;
-  vault?: CardRequestInputAttributesVault;
-  verification?: PaymentSourceInputApplePayDecryptedTokenTokenizedCardAttributesVerification;
+  customer?: CardCustomer | undefined;
+  vault?: CardRequestInputAttributesVault | undefined;
+  verification?:
+    | PaymentSourceInputApplePayDecryptedTokenTokenizedCardAttributesVerification
+    | undefined;
 }
 export interface PaymentSourceInputApplePayDecryptedTokenTokenizedCard {
-  id?: unknown;
+  id?: unknown | undefined;
   /** The card holder's name as it appears on the card. */
-  name?: string;
+  name?: string | undefined;
   /** The primary account number (PAN) for the payment card. */
-  number?: string;
-  expiry?: unknown;
+  number?: string | undefined;
+  expiry?: unknown | undefined;
   /** The three- or four-digit security code of the card. Also known as the CVV, CVC, CVN, CVE, or CID. This parameter cannot be present in the request when `payment_initiator=MERCHANT`. */
-  security_code?: string;
-  card_type?: unknown;
-  type?: unknown;
-  brand?: unknown;
-  billing_address?: CardRequestInputBillingAddress;
-  attributes?: PaymentSourceInputApplePayDecryptedTokenTokenizedCardAttributes;
+  security_code?: string | undefined;
+  card_type?: unknown | undefined;
+  type?: unknown | undefined;
+  brand?: unknown | undefined;
+  billing_address?: CardRequestInputBillingAddress | undefined;
+  attributes?: PaymentSourceInputApplePayDecryptedTokenTokenizedCardAttributes | undefined;
 }
 /** Indicates the type of payment data passed, in case of Non China the payment data is 3DSECURE and for China it is EMV. */
 export type PaymentSourceInputApplePayDecryptedTokenPaymentDataType = "3DSECURE" | "EMV";
 export type PaymentSourceInputApplePayDecryptedTokenPaymentData =
   AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenPaymentData;
 export interface PaymentSourceInputApplePayDecryptedToken {
-  transaction_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  transaction_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   tokenized_card: PaymentSourceInputApplePayDecryptedTokenTokenizedCard;
   /** Apple Pay Hex-encoded device manufacturer identifier. The pattern is defined by an external party and supports Unicode. */
-  device_manufacturer_id?: string;
+  device_manufacturer_id?: string | undefined;
   /** Indicates the type of payment data passed, in case of Non China the payment data is 3DSECURE and for China it is EMV. */
-  payment_data_type?: PaymentSourceInputApplePayDecryptedTokenPaymentDataType | (string & {});
-  payment_data?: AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenPaymentData;
+  payment_data_type?:
+    | PaymentSourceInputApplePayDecryptedTokenPaymentDataType
+    | (string & {})
+    | undefined;
+  payment_data?: AuthorizeOrderRequestPaymentSourceApplePayDecryptedTokenPaymentData | undefined;
 }
 export interface PaymentSourceInputApplePay {
   /** ApplePay transaction identifier, this will be the unique identifier for this transaction provided by Apple. The pattern is defined by an external party and supports Unicode. */
-  id?: string;
-  name?: unknown;
-  email_address?: unknown;
-  phone_number?: CardCustomerPhonePhoneNumber;
-  decrypted_token?: PaymentSourceInputApplePayDecryptedToken;
-  stored_credential?: CardStoredCredential;
-  vault_id?: unknown;
-  attributes?: ApplePayAttributes;
-  experience_context?: ApplePayExperienceContext;
+  id?: string | undefined;
+  name?: unknown | undefined;
+  email_address?: unknown | undefined;
+  phone_number?: CardCustomerPhonePhoneNumber | undefined;
+  decrypted_token?: PaymentSourceInputApplePayDecryptedToken | undefined;
+  stored_credential?: CardStoredCredential | undefined;
+  vault_id?: unknown | undefined;
+  attributes?: ApplePayAttributes | undefined;
+  experience_context?: ApplePayExperienceContext | undefined;
 }
 export type PaymentSourceInputGooglePayPhoneNumber =
   AuthorizeOrderRequestPaymentSourceGooglePayPhoneNumber;
@@ -5646,9 +6070,9 @@ export type PaymentSourceInputGooglePayDecryptedTokenAuthenticationMethod =
   | "CRYPTOGRAM_3DS";
 export interface PaymentSourceInputGooglePayDecryptedToken {
   /** A unique ID that identifies the message in case it needs to be revoked or located at a later time. */
-  message_id?: string;
+  message_id?: string | undefined;
   /** Date and time at which the message expires as UTC milliseconds since epoch. Integrators should reject any message that's expired. */
-  message_expiration?: string;
+  message_expiration?: string | undefined;
   /** The type of the payment credential. Currently, only CARD is supported. */
   payment_method: PaymentSourceInputGooglePayDecryptedTokenPaymentMethod | (string & {});
   /** Google Pay tokenized credit card used to pay. */
@@ -5658,20 +6082,20 @@ export interface PaymentSourceInputGooglePayDecryptedToken {
     | PaymentSourceInputGooglePayDecryptedTokenAuthenticationMethod
     | (string & {});
   /** Base-64 cryptographic identifier used by card schemes to validate the token verification result. This is a conditionally required field if authentication_method is CRYPTOGRAM_3DS. */
-  cryptogram?: string;
+  cryptogram?: string | undefined;
   /** Electronic Commerce Indicator may not always be present. It is only returned for tokens on the Visa card network. This value is passed through in the payment authorization request. */
-  eci_indicator?: string;
+  eci_indicator?: string | undefined;
 }
 export type PaymentSourceInputGooglePayAssuranceDetails =
   AuthorizeOrderRequestPaymentSourceGooglePayAssuranceDetails;
 export interface PaymentSourceInputGooglePay {
-  name?: unknown;
-  email_address?: unknown;
-  phone_number?: AuthorizeOrderRequestPaymentSourceGooglePayPhoneNumber;
-  card?: AuthorizeOrderRequestPaymentSourceGooglePayCard;
-  decrypted_token?: PaymentSourceInputGooglePayDecryptedToken;
-  assurance_details?: AuthorizeOrderRequestPaymentSourceGooglePayAssuranceDetails;
-  experience_context?: ApplePayExperienceContext;
+  name?: unknown | undefined;
+  email_address?: unknown | undefined;
+  phone_number?: AuthorizeOrderRequestPaymentSourceGooglePayPhoneNumber | undefined;
+  card?: AuthorizeOrderRequestPaymentSourceGooglePayCard | undefined;
+  decrypted_token?: PaymentSourceInputGooglePayDecryptedToken | undefined;
+  assurance_details?: AuthorizeOrderRequestPaymentSourceGooglePayAssuranceDetails | undefined;
+  experience_context?: ApplePayExperienceContext | undefined;
 }
 /** Expected business/pricing model for the billing agreement. */
 export type PaymentSourceInputVenmoAttributesVaultUsagePattern =
@@ -5688,25 +6112,25 @@ export type PaymentSourceInputVenmoAttributesVaultCustomerType = "CONSUMER" | "B
 export interface PaymentSourceInputVenmoAttributesVault {
   store_in_vault: StoreInVaultInstruction | (string & {});
   /** The description displayed to Venmo consumer on the approval flow for Venmo, as well as on the Venmo payment token management experience on Venmo.com. */
-  description?: string;
+  description?: string | undefined;
   /** Expected business/pricing model for the billing agreement. */
-  usage_pattern?: PaymentSourceInputVenmoAttributesVaultUsagePattern | (string & {});
+  usage_pattern?: PaymentSourceInputVenmoAttributesVaultUsagePattern | (string & {}) | undefined;
   /** The usage type associated with the Venmo payment token. */
   usage_type: PaymentSourceInputVenmoAttributesVaultUsageType | (string & {});
   /** The customer type associated with the Venmo payment token. This is to indicate whether the customer acting on the merchant / platform is either a business or a consumer. */
-  customer_type?: PaymentSourceInputVenmoAttributesVaultCustomerType | (string & {});
+  customer_type?: PaymentSourceInputVenmoAttributesVaultCustomerType | (string & {}) | undefined;
   /** Create multiple payment tokens for the same payer, merchant/platform combination. Use this when the customer has not logged in at merchant/platform. The payment token thus generated, can then also be used to create the customer account at merchant/platform. Use this also when multiple payment tokens are required for the same payer, different customer at merchant/platform. This helps to identify customers distinctly even though they may share the same Venmo account. */
-  permit_multiple_payment_tokens?: boolean;
+  permit_multiple_payment_tokens?: boolean | undefined;
 }
 export interface PaymentSourceInputVenmoAttributes {
-  customer?: Customer;
-  vault?: PaymentSourceInputVenmoAttributesVault;
+  customer?: Customer | undefined;
+  vault?: PaymentSourceInputVenmoAttributesVault | undefined;
 }
 export interface PaymentSourceInputVenmo {
-  vault_id?: unknown;
-  email_address?: unknown;
-  experience_context?: VenmoWalletExperienceContext;
-  attributes?: PaymentSourceInputVenmoAttributes;
+  vault_id?: unknown | undefined;
+  email_address?: unknown | undefined;
+  experience_context?: VenmoWalletExperienceContext | undefined;
+  attributes?: PaymentSourceInputVenmoAttributes | undefined;
 }
 export type PaymentSourceInputCryptoName = AuthorizeOrderRequestPaymentSourceCryptoName;
 export type PaymentSourceInputCryptoExperienceContext =
@@ -5714,47 +6138,47 @@ export type PaymentSourceInputCryptoExperienceContext =
 export type PaymentSourceInputCrypto = AuthorizeOrderRequestPaymentSourceCrypto;
 /** The payment source definition. */
 export interface PaymentSourceInput {
-  card?: CardRequestInput;
-  token?: Token;
-  paypal?: PaymentSourceInputPaypal;
-  bancontact?: PaymentSourceInputBancontact;
-  blik?: PaymentSourceInputBlik;
-  eps?: PaymentSourceInputEps;
-  giropay?: PaymentSourceInputGiropay;
-  ideal?: PaymentSourceInputIdeal;
-  mybank?: PaymentSourceInputMybank;
-  p24?: PaymentSourceInputP24;
-  sofort?: PaymentSourceInputSofort;
-  trustly?: PaymentSourceInputTrustly;
-  apple_pay?: PaymentSourceInputApplePay;
-  google_pay?: PaymentSourceInputGooglePay;
-  venmo?: PaymentSourceInputVenmo;
-  crypto?: AuthorizeOrderRequestPaymentSourceCrypto;
+  card?: CardRequestInput | undefined;
+  token?: Token | undefined;
+  paypal?: PaymentSourceInputPaypal | undefined;
+  bancontact?: PaymentSourceInputBancontact | undefined;
+  blik?: PaymentSourceInputBlik | undefined;
+  eps?: PaymentSourceInputEps | undefined;
+  giropay?: PaymentSourceInputGiropay | undefined;
+  ideal?: PaymentSourceInputIdeal | undefined;
+  mybank?: PaymentSourceInputMybank | undefined;
+  p24?: PaymentSourceInputP24 | undefined;
+  sofort?: PaymentSourceInputSofort | undefined;
+  trustly?: PaymentSourceInputTrustly | undefined;
+  apple_pay?: PaymentSourceInputApplePay | undefined;
+  google_pay?: PaymentSourceInputGooglePay | undefined;
+  venmo?: PaymentSourceInputVenmo | undefined;
+  crypto?: AuthorizeOrderRequestPaymentSourceCrypto | undefined;
 }
 /** Provides additional details to process a payment using a `payment_source` that has been stored or is intended to be stored (also referred to as stored_credential or card-on-file).<br/>Parameter compatibility:<br/><ul><li>`payment_type=ONE_TIME` is compatible only with `payment_initiator=CUSTOMER`.</li><li>`usage=FIRST` is compatible only with `payment_initiator=CUSTOMER`.</li><li>`previous_transaction_reference` or `previous_network_transaction_reference` is compatible only with `payment_initiator=MERCHANT`.</li><li>Only one of the parameters - `previous_transaction_reference` and `previous_network_transaction_reference` - can be present in the request.</li></ul> */
 export type StoredPaymentSource = CardStoredCredential;
 /** Customizes the payer confirmation experience. */
 export interface OrderConfirmApplicationContext {
   /** Label to present to your payer as part of the PayPal hosted web experience. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** The URL where the customer is redirected after the customer approves the payment. */
-  return_url?: string;
+  return_url?: string | undefined;
   /** The URL where the customer is redirected after the customer cancels the payment. */
-  cancel_url?: string;
-  stored_payment_source?: CardStoredCredential;
+  cancel_url?: string | undefined;
+  stored_payment_source?: CardStoredCredential | undefined;
 }
 export interface ConfirmOrderRequest {
   /** The ID of the order for which the payer confirms their intent to pay. */
   id: string;
   /** A GUID value originating from Fraudnet and Dyson passed from external API clients via HTTP header. The value is used by Risk decisions to correlate calls which, in turn, might result in lower decline rates.. */
-  payPalClientMetadataId?: string;
+  payPalClientMetadataId?: string | undefined;
   /** Header for an API client-provided JWT assertion that identifies the merchant. Establishing the consent to act-on-behalf of a merchant is a prerequisite for using this header. */
-  payPalAuthAssertion?: string;
+  payPalAuthAssertion?: string | undefined;
   /** The preferred server response upon successful completion of the request. Value is:<ul><li><code>return=minimal</code>. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the <code>id</code>, <code>status</code> and HATEOAS links.</li><li><code>return=representation</code>. The server returns a complete resource representation, including the current state of the resource.</li></ul> */
-  prefer?: string;
+  prefer?: string | undefined;
   payment_source: PaymentSourceInput;
-  application_context?: OrderConfirmApplicationContext;
+  application_context?: OrderConfirmApplicationContext | undefined;
 }
 export type ConfirmOrderResponsePayerName = CardCustomerName;
 export type ConfirmOrderResponsePayerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
@@ -5772,13 +6196,13 @@ export type ConfirmOrderResponsePayerAddressAddressDetails =
   CardRequestInputBillingAddressAddressDetails;
 export type ConfirmOrderResponsePayerAddress = CardRequestInputBillingAddress;
 export interface ConfirmOrderResponsePayer {
-  email_address?: unknown;
-  payer_id?: unknown;
-  name?: CardCustomerName;
-  phone?: VaultResponseCustomerPhone;
-  birth_date?: unknown;
-  tax_info?: ConfirmOrderResponsePayerTaxInfo;
-  address?: CardRequestInputBillingAddress;
+  email_address?: unknown | undefined;
+  payer_id?: unknown | undefined;
+  name?: CardCustomerName | undefined;
+  phone?: VaultResponseCustomerPhone | undefined;
+  birth_date?: unknown | undefined;
+  tax_info?: ConfirmOrderResponsePayerTaxInfo | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
 }
 export type ConfirmOrderResponsePurchaseUnitsItemPayee =
   PaypalWalletAttributesResponseCobrandedCardsItemPayee;
@@ -5810,21 +6234,23 @@ export interface ConfirmOrderResponsePurchaseUnitsItemItemsItem {
   /** The item name or title. */
   name: string;
   unit_amount: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  tax?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  tax?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** The item quantity. Must be a whole number. */
   quantity: string;
   /** The detailed item description. */
-  description?: string;
+  description?: string | undefined;
   /** The stock keeping unit (SKU) for the item. */
-  sku?: string;
+  sku?: string | undefined;
   /** The URL to the item being purchased. Visible to buyer and used in buyer experiences. */
-  url?: string;
+  url?: string | undefined;
   /** The item category type. */
-  category?: ConfirmOrderResponsePurchaseUnitsItemItemsItemCategory;
+  category?: ConfirmOrderResponsePurchaseUnitsItemItemsItemCategory | undefined;
   /** The URL of the item's image. File type and size restrictions apply. An image that violates these restrictions will not be honored. */
-  image_url?: string;
-  upc?: ConfirmOrderResponsePurchaseUnitsItemItemsItemUpc;
-  billing_plan?: OrderBillingPlan;
+  image_url?: string | undefined;
+  upc?: ConfirmOrderResponsePurchaseUnitsItemItemsItemUpc | undefined;
+  billing_plan?: OrderBillingPlan | undefined;
 }
 /** An array of items that the customer purchases from the merchant. */
 export type ConfirmOrderResponsePurchaseUnitsItemItemsList =
@@ -5852,16 +6278,18 @@ export type ConfirmOrderResponsePurchaseUnitsItemShippingAddress = CardRequestIn
 /** An array of trackers for a transaction. */
 export type ConfirmOrderResponsePurchaseUnitsItemShippingTrackersList = Array<Tracker>;
 export interface ConfirmOrderResponsePurchaseUnitsItemShipping {
-  name?: CardCustomerName;
-  email_address?: unknown;
-  phone_number?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber;
+  name?: CardCustomerName | undefined;
+  email_address?: unknown | undefined;
+  phone_number?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber
+    | undefined;
   /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
-  type?: ConfirmOrderResponsePurchaseUnitsItemShippingType;
+  type?: ConfirmOrderResponsePurchaseUnitsItemShippingType | undefined;
   /** An array of shipping options that the payee or merchant offers to the payer to ship or pick up their items. */
-  options?: ConfirmOrderResponsePurchaseUnitsItemShippingOptionsList;
-  address?: CardRequestInputBillingAddress;
+  options?: ConfirmOrderResponsePurchaseUnitsItemShippingOptionsList | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
   /** An array of trackers for a transaction. */
-  trackers?: ConfirmOrderResponsePurchaseUnitsItemShippingTrackersList;
+  trackers?: ConfirmOrderResponsePurchaseUnitsItemShippingTrackersList | undefined;
 }
 export type ConfirmOrderResponsePurchaseUnitsItemSupplementaryDataCard =
   AuthorizeOrderResponsePurchaseUnitsItemSupplementaryDataCard;
@@ -5883,7 +6311,9 @@ export type ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatu
   | "DECLINED_BY_RISK_FRAUD_FILTERS";
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails {
   /** The reason why the authorized status is `PENDING`. */
-  reason?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetailsReason;
+  reason?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetailsReason
+    | undefined;
 }
 export type ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemAmount =
   AmountWithBreakdown;
@@ -5901,9 +6331,13 @@ export type ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSelle
   Array<ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesItem>;
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection {
   /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
-  status?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionStatus;
+  status?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionStatus
+    | undefined;
   /** An array of conditions that are covered for the transaction. */
-  dispute_categories?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesList;
+  dispute_categories?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesList
+    | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod =
@@ -5932,33 +6366,41 @@ export type ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinks
   CardVaultResponseLinksItemSchemaMedia;
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAllOfList;
+  allOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAnyOfList;
+  anyOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaOneOfList;
+  oneOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaLinksList;
+  links?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList =
@@ -5977,33 +6419,41 @@ export type ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinks
   CardVaultResponseLinksItemSchemaMedia;
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaLinksList;
+  links?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -6011,15 +6461,21 @@ export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItem
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod;
+  method?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod
+    | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema;
-  targetSchema?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema
+    | undefined;
+  targetSchema?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList =
@@ -6241,33 +6697,47 @@ export type ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProce
   | "43";
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse {
   /** The address verification code for Visa, Discover, Mastercard, or American Express transactions. */
-  avs_code?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseAvsCode;
+  avs_code?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseAvsCode
+    | undefined;
   /** The card verification value code for for Visa, Discover, Mastercard, or American Express. */
-  cvv_code?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseCvvCode;
+  cvv_code?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseCvvCode
+    | undefined;
   /** Processor response code for the non-PayPal payment processor errors. */
-  response_code?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseResponseCode;
+  response_code?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseResponseCode
+    | undefined;
   /** The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes. */
-  payment_advice_code?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponsePaymentAdviceCode;
+  payment_advice_code?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponsePaymentAdviceCode
+    | undefined;
 }
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItem {
   /** The status for the authorized payment. */
-  status?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatus;
-  status_details?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails;
+  status?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatus | undefined;
+  status_details?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails
+    | undefined;
   /** The PayPal-generated ID for the authorized payment. */
-  id?: string;
-  amount?: AmountWithBreakdown;
+  id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
-  network_transaction_reference?: NetworkTransaction;
-  seller_protection?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection;
-  expiration_time?: unknown;
+  custom_id?: string | undefined;
+  network_transaction_reference?: NetworkTransaction | undefined;
+  seller_protection?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection
+    | undefined;
+  expiration_time?: unknown | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
-  processor_response?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse;
+  links?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
+  processor_response?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse
+    | undefined;
 }
 /** An array of authorized payments for a purchase unit. A purchase unit can have zero or more authorized payments. */
 export type ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsList =
@@ -6296,7 +6766,7 @@ export type ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetai
   | "DECLINED_BY_RISK_FRAUD_FILTERS";
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails {
   /** The reason why the captured payment status is `PENDING` or `DENIED`. */
-  reason?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetailsReason;
+  reason?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetailsReason | undefined;
 }
 export type ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemAmount = AmountWithBreakdown;
 /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
@@ -6313,9 +6783,13 @@ export type ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProte
   Array<ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesItem>;
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection {
   /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
-  status?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionStatus;
+  status?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionStatus
+    | undefined;
   /** An array of conditions that are covered for the transaction. */
-  dispute_categories?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesList;
+  dispute_categories?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesList
+    | undefined;
 }
 export type ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownGrossAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -6340,13 +6814,25 @@ export type ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerRecei
   Array<PaymentInstructionPlatformFeesItem>;
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown {
   gross_amount: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  receivable_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  exchange_rate?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownExchangeRate;
+  paypal_fee?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  receivable_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  exchange_rate?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownExchangeRate
+    | undefined;
   /** An array of platform or partner fees, commissions, or brokerage fees that associated with the captured payment. */
-  platform_fees?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownPlatformFeesList;
+  platform_fees?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownPlatformFeesList
+    | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemMethod =
@@ -6375,33 +6861,41 @@ export type ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSc
   CardVaultResponseLinksItemSchemaMedia;
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAllOfList;
+  allOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAnyOfList;
+  anyOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaOneOfList;
+  oneOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaLinksList;
+  links?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList =
@@ -6420,33 +6914,41 @@ export type ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTa
   CardVaultResponseLinksItemSchemaMedia;
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaLinksList;
+  links?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -6454,15 +6956,17 @@ export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksI
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemMethod;
+  method?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema;
-  targetSchema?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema | undefined;
+  targetSchema?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksList =
@@ -6684,36 +7188,52 @@ export type ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorRe
   | "43";
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse {
   /** The address verification code for Visa, Discover, Mastercard, or American Express transactions. */
-  avs_code?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseAvsCode;
+  avs_code?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseAvsCode
+    | undefined;
   /** The card verification value code for for Visa, Discover, Mastercard, or American Express. */
-  cvv_code?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseCvvCode;
+  cvv_code?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseCvvCode
+    | undefined;
   /** Processor response code for the non-PayPal payment processor errors. */
-  response_code?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseResponseCode;
+  response_code?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseResponseCode
+    | undefined;
   /** The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes. */
-  payment_advice_code?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponsePaymentAdviceCode;
+  payment_advice_code?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponsePaymentAdviceCode
+    | undefined;
 }
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItem {
   /** The status of the captured payment. */
-  status?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatus;
-  status_details?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails;
+  status?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatus | undefined;
+  status_details?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails
+    | undefined;
   /** The PayPal-generated ID for the captured payment. */
-  id?: string;
-  amount?: AmountWithBreakdown;
+  id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
-  network_transaction_reference?: NetworkTransaction;
-  seller_protection?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection;
+  custom_id?: string | undefined;
+  network_transaction_reference?: NetworkTransaction | undefined;
+  seller_protection?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection
+    | undefined;
   /** Indicates whether you can make additional captures against the authorized payment. Set to `true` if you do not intend to capture additional payments against the authorization. Set to `false` if you intend to capture additional payments against the authorization. */
-  final_capture?: boolean;
-  seller_receivable_breakdown?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown;
-  disbursement_mode?: DisbursementMode;
+  final_capture?: boolean | undefined;
+  seller_receivable_breakdown?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown
+    | undefined;
+  disbursement_mode?: DisbursementMode | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksList;
-  processor_response?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse;
-  create_time?: unknown;
-  update_time?: unknown;
+  links?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksList | undefined;
+  processor_response?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse
+    | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
 }
 /** An array of captured payments for a purchase unit. A purchase unit can have zero or more captured payments. */
 export type ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesList =
@@ -6728,7 +7248,7 @@ export type ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatus =
 export type ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetailsReason = "ECHECK";
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails {
   /** The reason why the refund has the `PENDING` or `FAILED` status. */
-  reason?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetailsReason;
+  reason?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetailsReason | undefined;
 }
 export type ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -6766,16 +7286,32 @@ export type ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayabl
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
 /** The breakdown of the refund. */
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown {
-  gross_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  gross_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** An array of platform or partner fees, commissions, or brokerage fees for the refund. */
-  platform_fees?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownPlatformFeesList;
+  platform_fees?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownPlatformFeesList
+    | undefined;
   /** An array of breakdown values for the net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the payee holds their funds. */
-  net_amount_breakdown?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownNetAmountBreakdownList;
-  total_refunded_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  net_amount_breakdown?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownNetAmountBreakdownList
+    | undefined;
+  total_refunded_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
 }
 export type ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemPayer =
   PaypalWalletAttributesResponseCobrandedCardsItemPayee;
@@ -6806,33 +7342,41 @@ export type ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSch
   CardVaultResponseLinksItemSchemaMedia;
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAllOfList;
+  allOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAnyOfList;
+  anyOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaOneOfList;
+  oneOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaLinksList;
+  links?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList =
@@ -6851,33 +7395,41 @@ export type ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTar
   CardVaultResponseLinksItemSchemaMedia;
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaLinksList;
+  links?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -6885,74 +7437,82 @@ export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksIt
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemMethod;
+  method?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema;
-  targetSchema?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema | undefined;
+  targetSchema?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksList =
   Array<ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItem>;
 export interface ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItem {
   /** The status of the refund. */
-  status?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatus;
-  status_details?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails;
+  status?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatus | undefined;
+  status_details?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails
+    | undefined;
   /** The PayPal-generated ID for the refund. */
-  id?: string;
-  amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  id?: string | undefined;
+  amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** Reference ID issued for the card transaction. This ID can be used to track the transaction across processors, card brands and issuing banks. */
-  acquirer_reference_number?: string;
+  acquirer_reference_number?: string | undefined;
   /** The reason for the refund. Appears in both the payer's transaction history and the emails that the payer receives. */
-  note_to_payer?: string;
+  note_to_payer?: string | undefined;
   /** The breakdown of the refund. */
-  seller_payable_breakdown?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown;
-  payer?: PaypalWalletAttributesResponseCobrandedCardsItemPayee;
+  seller_payable_breakdown?:
+    | ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown
+    | undefined;
+  payer?: PaypalWalletAttributesResponseCobrandedCardsItemPayee | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
+  links?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
 }
 /** An array of refunds for a purchase unit. A purchase unit can have zero or more refunds. */
 export type ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsList =
   Array<ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsItem>;
 export interface ConfirmOrderResponsePurchaseUnitsItemPayments {
   /** An array of authorized payments for a purchase unit. A purchase unit can have zero or more authorized payments. */
-  authorizations?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsList;
+  authorizations?: ConfirmOrderResponsePurchaseUnitsItemPaymentsAuthorizationsList | undefined;
   /** An array of captured payments for a purchase unit. A purchase unit can have zero or more captured payments. */
-  captures?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesList;
+  captures?: ConfirmOrderResponsePurchaseUnitsItemPaymentsCapturesList | undefined;
   /** An array of refunds for a purchase unit. A purchase unit can have zero or more refunds. */
-  refunds?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsList;
+  refunds?: ConfirmOrderResponsePurchaseUnitsItemPaymentsRefundsList | undefined;
 }
 export interface ConfirmOrderResponsePurchaseUnitsItem {
   /** The API caller-provided external ID for the purchase unit. Required for multiple purchase units when you must update the order through `PATCH`. If you omit this value and the order contains only one purchase unit, PayPal sets this value to `default`. <blockquote><strong>Note:</strong> If there are multiple purchase units, <code>reference_id</code> is required for each purchase unit.</blockquote> */
-  reference_id?: string;
-  amount?: AmountWithBreakdown;
-  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee;
-  payment_instruction?: PaymentInstruction;
+  reference_id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
+  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee | undefined;
+  payment_instruction?: PaymentInstruction | undefined;
   /** The purchase description. */
-  description?: string;
+  description?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** The API caller-provided external invoice ID for this order. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The PayPal-generated ID for the purchase unit. This ID appears in both the payer's transaction history and the emails that the payer receives. In addition, this ID is available in transaction and settlement reports that merchants and API callers can use to reconcile transactions. This ID is only available when an order is saved by calling <code>v2/checkout/orders/id/save</code>. */
-  id?: string;
+  id?: string | undefined;
   /** The payment descriptor on account transactions on the customer's credit card statement, that PayPal sends to processors. The maximum length of the soft descriptor information that you can pass in the API field is 22 characters, in the following format:<code>22 - len(PAYPAL * (8)) - len(<var>Descriptor in Payment Receiving Preferences of Merchant account</var> + 1)</code>The PAYPAL prefix uses 8 characters.<br/><br/>The soft descriptor supports the following ASCII characters:<ul><li>Alphanumeric characters</li><li>Dashes</li><li>Asterisks</li><li>Periods (.)</li><li>Spaces</li></ul>For Wallet payments marketplace integrations:<ul><li>The merchant descriptor in the Payment Receiving Preferences must be the marketplace name.</li><li>You can't use the remaining space to show the customer service number.</li><li>The remaining spaces can be a combination of seller name and country.</li></ul><br/>For unbranded payments (Direct Card) marketplace integrations, use a combination of the seller name and phone number. */
-  soft_descriptor?: string;
+  soft_descriptor?: string | undefined;
   /** An array of items that the customer purchases from the merchant. */
-  items?: ConfirmOrderResponsePurchaseUnitsItemItemsList;
-  shipping?: ConfirmOrderResponsePurchaseUnitsItemShipping;
-  supplementary_data?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData;
-  payments?: ConfirmOrderResponsePurchaseUnitsItemPayments;
+  items?: ConfirmOrderResponsePurchaseUnitsItemItemsList | undefined;
+  shipping?: ConfirmOrderResponsePurchaseUnitsItemShipping | undefined;
+  supplementary_data?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData | undefined;
+  payments?: ConfirmOrderResponsePurchaseUnitsItemPayments | undefined;
 }
 /** An array of purchase units. Each purchase unit establishes a contract between a customer and merchant. Each purchase unit represents either a full or partial order that the customer intends to purchase from the merchant. */
 export type ConfirmOrderResponsePurchaseUnitsList = Array<ConfirmOrderResponsePurchaseUnitsItem>;
@@ -6978,33 +7538,33 @@ export type ConfirmOrderResponseLinksItemSchemaLinksList = Array<unknown>;
 export type ConfirmOrderResponseLinksItemSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface ConfirmOrderResponseLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: ConfirmOrderResponseLinksItemSchemaAllOfList;
+  allOf?: ConfirmOrderResponseLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: ConfirmOrderResponseLinksItemSchemaAnyOfList;
+  anyOf?: ConfirmOrderResponseLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: ConfirmOrderResponseLinksItemSchemaOneOfList;
+  oneOf?: ConfirmOrderResponseLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: ConfirmOrderResponseLinksItemSchemaLinksList;
+  links?: ConfirmOrderResponseLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type ConfirmOrderResponseLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -7018,33 +7578,33 @@ export type ConfirmOrderResponseLinksItemTargetSchemaLinksList = Array<unknown>;
 export type ConfirmOrderResponseLinksItemTargetSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface ConfirmOrderResponseLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: ConfirmOrderResponseLinksItemTargetSchemaAllOfList;
+  allOf?: ConfirmOrderResponseLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: ConfirmOrderResponseLinksItemTargetSchemaAnyOfList;
+  anyOf?: ConfirmOrderResponseLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: ConfirmOrderResponseLinksItemTargetSchemaOneOfList;
+  oneOf?: ConfirmOrderResponseLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: ConfirmOrderResponseLinksItemTargetSchemaLinksList;
+  links?: ConfirmOrderResponseLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface ConfirmOrderResponseLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -7052,31 +7612,31 @@ export interface ConfirmOrderResponseLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: ConfirmOrderResponseLinksItemMethod;
+  method?: ConfirmOrderResponseLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: ConfirmOrderResponseLinksItemSchema;
-  targetSchema?: ConfirmOrderResponseLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: ConfirmOrderResponseLinksItemSchema | undefined;
+  targetSchema?: ConfirmOrderResponseLinksItemTargetSchema | undefined;
 }
 /** An array of request-related HATEOAS links. To complete payer approval, use the `approve` link to redirect the payer. The API caller has 6 hours (default setting, this which can be changed by your account manager to 24/48/72 hours to accommodate your use case) from the time the order is created, to redirect your payer. Once redirected, the API caller has 6 hours for the payer to approve the order and either authorize or capture the order. If you are not using the PayPal JavaScript SDK to initiate PayPal Checkout (in context) ensure that you include `application_context.return_url` is specified or you will get "We're sorry, Things don't appear to be working at the moment" after the payer approves the payment. */
 export type ConfirmOrderResponseLinksList = Array<ConfirmOrderResponseLinksItem>;
 export interface ConfirmOrderResponse {
-  create_time?: unknown;
-  update_time?: unknown;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
   /** The ID of the order. */
-  id?: string;
-  payment_source?: AuthorizeOrderResponsePaymentSource;
-  intent?: CheckoutPaymentIntent;
-  payer?: ConfirmOrderResponsePayer;
+  id?: string | undefined;
+  payment_source?: AuthorizeOrderResponsePaymentSource | undefined;
+  intent?: CheckoutPaymentIntent | undefined;
+  payer?: ConfirmOrderResponsePayer | undefined;
   /** An array of purchase units. Each purchase unit establishes a contract between a customer and merchant. Each purchase unit represents either a full or partial order that the customer intends to purchase from the merchant. */
-  purchase_units?: ConfirmOrderResponsePurchaseUnitsList;
-  status?: unknown;
+  purchase_units?: ConfirmOrderResponsePurchaseUnitsList | undefined;
+  status?: unknown | undefined;
   /** An array of request-related HATEOAS links. To complete payer approval, use the `approve` link to redirect the payer. The API caller has 6 hours (default setting, this which can be changed by your account manager to 24/48/72 hours to accommodate your use case) from the time the order is created, to redirect your payer. Once redirected, the API caller has 6 hours for the payer to approve the order and either authorize or capture the order. If you are not using the PayPal JavaScript SDK to initiate PayPal Checkout (in context) ensure that you include `application_context.return_url` is specified or you will get "We're sorry, Things don't appear to be working at the moment" after the payer approves the payment. */
-  links?: ConfirmOrderResponseLinksList;
+  links?: ConfirmOrderResponseLinksList | undefined;
 }
 export type CreateOrderRequestPayerName = CardCustomerName;
 export type CreateOrderRequestPayerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
@@ -7094,13 +7654,13 @@ export type CreateOrderRequestPayerAddressAddressDetails =
   CardRequestInputBillingAddressAddressDetails;
 export type CreateOrderRequestPayerAddress = CardRequestInputBillingAddress;
 export interface CreateOrderRequestPayer {
-  email_address?: unknown;
-  payer_id?: unknown;
-  name?: CardCustomerName;
-  phone?: CardCustomerPhone;
-  birth_date?: unknown;
-  tax_info?: CreateOrderRequestPayerTaxInfo;
-  address?: CardRequestInputBillingAddress;
+  email_address?: unknown | undefined;
+  payer_id?: unknown | undefined;
+  name?: CardCustomerName | undefined;
+  phone?: CardCustomerPhone | undefined;
+  birth_date?: unknown | undefined;
+  tax_info?: CreateOrderRequestPayerTaxInfo | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
 }
 export type CreateOrderRequestPurchaseUnitsItemAmount = AmountWithBreakdown;
 export type CreateOrderRequestPurchaseUnitsItemPayee =
@@ -7133,21 +7693,23 @@ export interface CreateOrderRequestPurchaseUnitsItemItemsItem {
   /** The item name or title. <blockquote>This field supports up to 3000 characters, but <strong>any content beyond 127 characters (including spaces) will be truncated. The 127 character limit is reflected in the response</strong> representation of this field</blockquote>. */
   name: string;
   unit_amount: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  tax?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  tax?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** The item quantity. Must be a whole number. */
   quantity: string;
   /** <blockquote>This field supports up to 4000 characters, but <strong>any content beyond 2048 characters (including spaces) will be truncated. The 2048 character limit is reflected in the response</strong> representation of this field</blockquote>. */
-  description?: string;
+  description?: string | undefined;
   /** The stock keeping unit (SKU) for the item. */
-  sku?: string;
+  sku?: string | undefined;
   /** The URL to the item being purchased. Visible to buyer and used in buyer experiences. */
-  url?: string;
+  url?: string | undefined;
   /** The item category type. */
-  category?: CreateOrderRequestPurchaseUnitsItemItemsItemCategory | (string & {});
+  category?: CreateOrderRequestPurchaseUnitsItemItemsItemCategory | (string & {}) | undefined;
   /** The URL of the item's image. File type and size restrictions apply. An image that violates these restrictions will not be honored. */
-  image_url?: string;
-  upc?: CreateOrderRequestPurchaseUnitsItemItemsItemUpc;
-  billing_plan?: OrderBillingPlan;
+  image_url?: string | undefined;
+  upc?: CreateOrderRequestPurchaseUnitsItemItemsItemUpc | undefined;
+  billing_plan?: OrderBillingPlan | undefined;
 }
 /** An array of items that the customer purchases from the merchant. */
 export type CreateOrderRequestPurchaseUnitsItemItemsList =
@@ -7173,14 +7735,16 @@ export type CreateOrderRequestPurchaseUnitsItemShippingAddressAddressDetails =
   CardRequestInputBillingAddressAddressDetails;
 export type CreateOrderRequestPurchaseUnitsItemShippingAddress = CardRequestInputBillingAddress;
 export interface CreateOrderRequestPurchaseUnitsItemShipping {
-  name?: CardCustomerName;
-  email_address?: unknown;
-  phone_number?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber;
+  name?: CardCustomerName | undefined;
+  email_address?: unknown | undefined;
+  phone_number?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber
+    | undefined;
   /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
-  type?: CreateOrderRequestPurchaseUnitsItemShippingType | (string & {});
+  type?: CreateOrderRequestPurchaseUnitsItemShippingType | (string & {}) | undefined;
   /** An array of shipping options that the payee or merchant offers to the payer to ship or pick up their items. */
-  options?: CreateOrderRequestPurchaseUnitsItemShippingOptionsList;
-  address?: CardRequestInputBillingAddress;
+  options?: CreateOrderRequestPurchaseUnitsItemShippingOptionsList | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
 }
 export type CreateOrderRequestPurchaseUnitsItemSupplementaryDataCard =
   AuthorizeOrderResponsePurchaseUnitsItemSupplementaryDataCard;
@@ -7190,22 +7754,22 @@ export type CreateOrderRequestPurchaseUnitsItemSupplementaryData =
   AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData;
 export interface CreateOrderRequestPurchaseUnitsItem {
   /** The API caller-provided external ID for the purchase unit. Required for multiple purchase units when you must update the order through `PATCH`. If you omit this value and the order contains only one purchase unit, PayPal sets this value to `default`. */
-  reference_id?: string;
+  reference_id?: string | undefined;
   amount: AmountWithBreakdown;
-  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee;
-  payment_instruction?: PaymentInstruction;
+  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee | undefined;
+  payment_instruction?: PaymentInstruction | undefined;
   /** <blockquote>This field supports up to 3,000 characters, but <strong>any content beyond 127 characters (including spaces) will be truncated. The 127 character limit is reflected in the response</strong> representation of this field.</blockquote>The purchase description. The maximum length of the character is dependent on the type of characters used. The character length is specified assuming a US ASCII character. Depending on type of character; (e.g. accented character, Japanese characters) the number of characters that that can be specified as input might not equal the permissible max length. */
-  description?: string;
+  description?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile client transactions with PayPal transactions. Appears in transaction and settlement reports but is not visible to the payer. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. invoice_id values are required to be unique within each merchant account by default. Although the uniqueness validation is configurable, disabling this behavior will remove the account's ability to use invoice_id in other APIs as an identifier. It is highly recommended to keep a unique invoice_id for each Order. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** <blockquote>This field supports up to 127 characters, but <strong>any content beyond 22 characters (including spaces) will be truncated. The 22 character limit is reflected in the response</strong> representation of this field.</blockquote>The soft descriptor is the dynamic text used to construct the statement descriptor that appears on a payer's card statement.<br><br>If an Order is paid using the "PayPal Wallet", the statement descriptor will appear in following format on the payer's card statement: <code><var>PAYPAL_prefix</var>+(space)+<var>merchant_descriptor</var>+(space)+ <var>soft_descriptor</var></code><blockquote><strong>Note:</strong> The merchant descriptor is the descriptor of the merchant's payment receiving preferences which can be seen by logging into the merchant account https://www.sandbox.paypal.com/businessprofile/settings/info/edit</blockquote>The <code>PAYPAL</code> prefix uses 8 characters. Only the first 22 characters will be displayed in the statement. <br>For example, if:<ul><li>The PayPal prefix toggle is <code>PAYPAL *</code>.</li><li>The merchant descriptor in the profile is <code>Janes Gift</code>.</li><li>The soft descriptor is <code>800-123-1234</code>.</li></ul>Then, the statement descriptor on the card is <code>PAYPAL * Janes Gift 80</code>. */
-  soft_descriptor?: string;
+  soft_descriptor?: string | undefined;
   /** An array of items that the customer purchases from the merchant. */
-  items?: CreateOrderRequestPurchaseUnitsItemItemsList;
-  shipping?: CreateOrderRequestPurchaseUnitsItemShipping;
-  supplementary_data?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData;
+  items?: CreateOrderRequestPurchaseUnitsItemItemsList | undefined;
+  shipping?: CreateOrderRequestPurchaseUnitsItemShipping | undefined;
+  supplementary_data?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData | undefined;
 }
 /** An array of purchase units. Each purchase unit establishes a contract between a payer and the payee. Each purchase unit represents either a full or partial order that the payer intends to purchase from the payee. */
 export type CreateOrderRequestPurchaseUnitsList = Array<CreateOrderRequestPurchaseUnitsItem>;
@@ -7227,47 +7791,51 @@ export type CreateOrderRequestApplicationContextPaymentMethodStandardEntryClassC
   | "CCD"
   | "PPD";
 export interface CreateOrderRequestApplicationContextPaymentMethod {
-  payee_preferred?: PayeePaymentMethodPreference | (string & {});
+  payee_preferred?: PayeePaymentMethodPreference | (string & {}) | undefined;
   /** NACHA (the regulatory body governing the ACH network) requires that API callers (merchants, partners) obtain the consumer's explicit authorization before initiating a transaction. To stay compliant, you'll need to make sure that you retain a compliant authorization for each transaction that you originate to the ACH Network using this API. ACH transactions are categorized (using SEC codes) by how you capture authorization from the Receiver (the person whose bank account is being debited or credited). PayPal supports the following SEC codes. */
   standard_entry_class_code?:
     | CreateOrderRequestApplicationContextPaymentMethodStandardEntryClassCode
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 export type CreateOrderRequestApplicationContextStoredPaymentSource = CardStoredCredential;
 export interface CreateOrderRequestApplicationContext {
   /** DEPRECATED. The label that overrides the business name in the PayPal account on the PayPal site. The fields in `application_context` are now available in the `experience_context` object under the `payment_source` which supports them (eg. `payment_source.paypal.experience_context.brand_name`). Please specify this field in the `experience_context` object instead of the `application_context` object. */
-  brand_name?: string;
-  locale?: unknown;
+  brand_name?: string | undefined;
+  locale?: unknown | undefined;
   /** DEPRECATED. DEPRECATED. The type of landing page to show on the PayPal site for customer checkout. The fields in `application_context` are now available in the `experience_context` object under the `payment_source` which supports them (eg. `payment_source.paypal.experience_context.landing_page`). Please specify this field in the `experience_context` object instead of the `application_context` object. <b>DEPRECATED</b><br><table><tr><th>See</th><th>Since Version</th></tr><tr><td>payment_source.paypal.experience_context.landing_page</td><td>2.9</td></tr></table> */
-  landing_page?: CreateOrderRequestApplicationContextLandingPage | (string & {});
+  landing_page?: CreateOrderRequestApplicationContextLandingPage | (string & {}) | undefined;
   /** DEPRECATED. DEPRECATED. The shipping preference:<ul><li>Displays the shipping address to the customer.</li><li>Enables the customer to choose an address on the PayPal site.</li><li>Restricts the customer from changing the address during the payment-approval process.</li></ul>. The fields in `application_context` are now available in the `experience_context` object under the `payment_source` which supports them (eg. `payment_source.paypal.experience_context.shipping_preference`). Please specify this field in the `experience_context` object instead of the `application_context` object. <b>DEPRECATED</b><br><table><tr><th>See</th><th>Since Version</th></tr><tr><td>payment_source.paypal.experience_context.shipping_preference</td><td>2.9</td></tr></table> */
-  shipping_preference?: CreateOrderRequestApplicationContextShippingPreference | (string & {});
+  shipping_preference?:
+    | CreateOrderRequestApplicationContextShippingPreference
+    | (string & {})
+    | undefined;
   /** DEPRECATED. Configures a <strong>Continue</strong> or <strong>Pay Now</strong> checkout flow. The fields in `application_context` are now available in the `experience_context` object under the `payment_source` which supports them (eg. `payment_source.paypal.experience_context.user_action`). Please specify this field in the `experience_context` object instead of the `application_context` object. */
-  user_action?: CreateOrderRequestApplicationContextUserAction | (string & {});
-  payment_method?: CreateOrderRequestApplicationContextPaymentMethod;
+  user_action?: CreateOrderRequestApplicationContextUserAction | (string & {}) | undefined;
+  payment_method?: CreateOrderRequestApplicationContextPaymentMethod | undefined;
   /** DEPRECATED. The URL where the customer is redirected after the customer approves the payment. The fields in `application_context` are now available in the `experience_context` object under the `payment_source` which supports them (eg. `payment_source.paypal.experience_context.return_url`). Please specify this field in the `experience_context` object instead of the `application_context` object. */
-  return_url?: string;
+  return_url?: string | undefined;
   /** DEPRECATED. The URL where the customer is redirected after the customer cancels the payment. The fields in `application_context` are now available in the `experience_context` object under the `payment_source` which supports them (eg. `payment_source.paypal.experience_context.cancel_url`). Please specify this field in the `experience_context` object instead of the `application_context` object. */
-  cancel_url?: string;
-  stored_payment_source?: CardStoredCredential;
+  cancel_url?: string | undefined;
+  stored_payment_source?: CardStoredCredential | undefined;
 }
 export interface CreateOrderRequest {
   /** The server stores keys for 6 hours. The API callers can request the times to up to 72 hours by speaking to their Account Manager. It is mandatory for all single-step create order calls (E.g. Create Order Request with payment source information like Card, PayPal.vault_id, PayPal.billing_agreement_id, etc). */
-  payPalRequestId?: string;
+  payPalRequestId?: string | undefined;
   /** PayPal Partner can send a PayPal-Partner-Attribution-Id request header with the value that they have been assigned by the PayPal Partner program. This value is known as a BN Code. In order to reward such partners (through partner programs), all the activities (including API calls) that they are doing on behalf of the merchants need to be tracked. */
-  payPalPartnerAttributionId?: string;
+  payPalPartnerAttributionId?: string | undefined;
   /** A GUID value originating from Fraudnet and Dyson passed from external API clients via HTTP header. The value is used by Risk decisions to correlate calls which, in turn, might result in lower decline rates.. */
-  payPalClientMetadataId?: string;
+  payPalClientMetadataId?: string | undefined;
   /** The preferred server response upon successful completion of the request. Value is:<ul><li><code>return=minimal</code>. The server returns a minimal response to optimize communication between the API caller and the server. A minimal response includes the <code>id</code>, <code>status</code> and HATEOAS links.</li><li><code>return=representation</code>. The server returns a complete resource representation, including the current state of the resource.</li></ul> */
-  prefer?: string;
+  prefer?: string | undefined;
   /** Header for an API client-provided JWT assertion that identifies the merchant. Establishing the consent to act-on-behalf of a merchant is a prerequisite for using this header. */
-  payPalAuthAssertion?: string;
+  payPalAuthAssertion?: string | undefined;
   intent: CheckoutPaymentIntent | (string & {});
-  payer?: CreateOrderRequestPayer;
+  payer?: CreateOrderRequestPayer | undefined;
   /** An array of purchase units. Each purchase unit establishes a contract between a payer and the payee. Each purchase unit represents either a full or partial order that the payer intends to purchase from the payee. */
   purchase_units: CreateOrderRequestPurchaseUnitsList;
-  payment_source?: PaymentSourceInput;
-  application_context?: CreateOrderRequestApplicationContext;
+  payment_source?: PaymentSourceInput | undefined;
+  application_context?: CreateOrderRequestApplicationContext | undefined;
 }
 export type CreateOrderResponsePayerName = CardCustomerName;
 export type CreateOrderResponsePayerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
@@ -7285,13 +7853,13 @@ export type CreateOrderResponsePayerAddressAddressDetails =
   CardRequestInputBillingAddressAddressDetails;
 export type CreateOrderResponsePayerAddress = CardRequestInputBillingAddress;
 export interface CreateOrderResponsePayer {
-  email_address?: unknown;
-  payer_id?: unknown;
-  name?: CardCustomerName;
-  phone?: VaultResponseCustomerPhone;
-  birth_date?: unknown;
-  tax_info?: CreateOrderResponsePayerTaxInfo;
-  address?: CardRequestInputBillingAddress;
+  email_address?: unknown | undefined;
+  payer_id?: unknown | undefined;
+  name?: CardCustomerName | undefined;
+  phone?: VaultResponseCustomerPhone | undefined;
+  birth_date?: unknown | undefined;
+  tax_info?: CreateOrderResponsePayerTaxInfo | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
 }
 export type CreateOrderResponsePurchaseUnitsItemPayee =
   PaypalWalletAttributesResponseCobrandedCardsItemPayee;
@@ -7323,21 +7891,23 @@ export interface CreateOrderResponsePurchaseUnitsItemItemsItem {
   /** The item name or title. */
   name: string;
   unit_amount: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  tax?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  tax?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** The item quantity. Must be a whole number. */
   quantity: string;
   /** The detailed item description. */
-  description?: string;
+  description?: string | undefined;
   /** The stock keeping unit (SKU) for the item. */
-  sku?: string;
+  sku?: string | undefined;
   /** The URL to the item being purchased. Visible to buyer and used in buyer experiences. */
-  url?: string;
+  url?: string | undefined;
   /** The item category type. */
-  category?: CreateOrderResponsePurchaseUnitsItemItemsItemCategory;
+  category?: CreateOrderResponsePurchaseUnitsItemItemsItemCategory | undefined;
   /** The URL of the item's image. File type and size restrictions apply. An image that violates these restrictions will not be honored. */
-  image_url?: string;
-  upc?: CreateOrderResponsePurchaseUnitsItemItemsItemUpc;
-  billing_plan?: OrderBillingPlan;
+  image_url?: string | undefined;
+  upc?: CreateOrderResponsePurchaseUnitsItemItemsItemUpc | undefined;
+  billing_plan?: OrderBillingPlan | undefined;
 }
 /** An array of items that the customer purchases from the merchant. */
 export type CreateOrderResponsePurchaseUnitsItemItemsList =
@@ -7365,16 +7935,18 @@ export type CreateOrderResponsePurchaseUnitsItemShippingAddress = CardRequestInp
 /** An array of trackers for a transaction. */
 export type CreateOrderResponsePurchaseUnitsItemShippingTrackersList = Array<Tracker>;
 export interface CreateOrderResponsePurchaseUnitsItemShipping {
-  name?: CardCustomerName;
-  email_address?: unknown;
-  phone_number?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber;
+  name?: CardCustomerName | undefined;
+  email_address?: unknown | undefined;
+  phone_number?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber
+    | undefined;
   /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
-  type?: CreateOrderResponsePurchaseUnitsItemShippingType;
+  type?: CreateOrderResponsePurchaseUnitsItemShippingType | undefined;
   /** An array of shipping options that the payee or merchant offers to the payer to ship or pick up their items. */
-  options?: CreateOrderResponsePurchaseUnitsItemShippingOptionsList;
-  address?: CardRequestInputBillingAddress;
+  options?: CreateOrderResponsePurchaseUnitsItemShippingOptionsList | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
   /** An array of trackers for a transaction. */
-  trackers?: CreateOrderResponsePurchaseUnitsItemShippingTrackersList;
+  trackers?: CreateOrderResponsePurchaseUnitsItemShippingTrackersList | undefined;
 }
 export type CreateOrderResponsePurchaseUnitsItemSupplementaryDataCard =
   AuthorizeOrderResponsePurchaseUnitsItemSupplementaryDataCard;
@@ -7396,7 +7968,9 @@ export type CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatus
   | "DECLINED_BY_RISK_FRAUD_FILTERS";
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails {
   /** The reason why the authorized status is `PENDING`. */
-  reason?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetailsReason;
+  reason?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetailsReason
+    | undefined;
 }
 export type CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemAmount =
   AmountWithBreakdown;
@@ -7414,9 +7988,13 @@ export type CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSeller
   Array<CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesItem>;
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection {
   /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
-  status?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionStatus;
+  status?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionStatus
+    | undefined;
   /** An array of conditions that are covered for the transaction. */
-  dispute_categories?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesList;
+  dispute_categories?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesList
+    | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod =
@@ -7445,33 +8023,41 @@ export type CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksI
   CardVaultResponseLinksItemSchemaMedia;
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAllOfList;
+  allOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAnyOfList;
+  anyOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaOneOfList;
+  oneOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaLinksList;
+  links?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList =
@@ -7490,33 +8076,41 @@ export type CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksI
   CardVaultResponseLinksItemSchemaMedia;
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaLinksList;
+  links?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -7524,15 +8118,21 @@ export interface CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemL
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod;
+  method?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod
+    | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema;
-  targetSchema?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema
+    | undefined;
+  targetSchema?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList =
@@ -7754,33 +8354,47 @@ export type CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProces
   | "43";
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse {
   /** The address verification code for Visa, Discover, Mastercard, or American Express transactions. */
-  avs_code?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseAvsCode;
+  avs_code?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseAvsCode
+    | undefined;
   /** The card verification value code for for Visa, Discover, Mastercard, or American Express. */
-  cvv_code?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseCvvCode;
+  cvv_code?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseCvvCode
+    | undefined;
   /** Processor response code for the non-PayPal payment processor errors. */
-  response_code?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseResponseCode;
+  response_code?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseResponseCode
+    | undefined;
   /** The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes. */
-  payment_advice_code?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponsePaymentAdviceCode;
+  payment_advice_code?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponsePaymentAdviceCode
+    | undefined;
 }
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItem {
   /** The status for the authorized payment. */
-  status?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatus;
-  status_details?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails;
+  status?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatus | undefined;
+  status_details?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails
+    | undefined;
   /** The PayPal-generated ID for the authorized payment. */
-  id?: string;
-  amount?: AmountWithBreakdown;
+  id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
-  network_transaction_reference?: NetworkTransaction;
-  seller_protection?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection;
-  expiration_time?: unknown;
+  custom_id?: string | undefined;
+  network_transaction_reference?: NetworkTransaction | undefined;
+  seller_protection?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection
+    | undefined;
+  expiration_time?: unknown | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
-  processor_response?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse;
+  links?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
+  processor_response?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse
+    | undefined;
 }
 /** An array of authorized payments for a purchase unit. A purchase unit can have zero or more authorized payments. */
 export type CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsList =
@@ -7809,7 +8423,7 @@ export type CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetail
   | "DECLINED_BY_RISK_FRAUD_FILTERS";
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails {
   /** The reason why the captured payment status is `PENDING` or `DENIED`. */
-  reason?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetailsReason;
+  reason?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetailsReason | undefined;
 }
 export type CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemAmount = AmountWithBreakdown;
 /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
@@ -7826,9 +8440,13 @@ export type CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtec
   Array<CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesItem>;
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection {
   /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
-  status?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionStatus;
+  status?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionStatus
+    | undefined;
   /** An array of conditions that are covered for the transaction. */
-  dispute_categories?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesList;
+  dispute_categories?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesList
+    | undefined;
 }
 export type CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownGrossAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -7853,13 +8471,25 @@ export type CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceiv
   Array<PaymentInstructionPlatformFeesItem>;
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown {
   gross_amount: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  receivable_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  exchange_rate?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownExchangeRate;
+  paypal_fee?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  receivable_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  exchange_rate?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownExchangeRate
+    | undefined;
   /** An array of platform or partner fees, commissions, or brokerage fees that associated with the captured payment. */
-  platform_fees?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownPlatformFeesList;
+  platform_fees?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownPlatformFeesList
+    | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemMethod =
@@ -7888,33 +8518,41 @@ export type CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSch
   CardVaultResponseLinksItemSchemaMedia;
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAllOfList;
+  allOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAnyOfList;
+  anyOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaOneOfList;
+  oneOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaLinksList;
+  links?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList =
@@ -7933,33 +8571,41 @@ export type CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTar
   CardVaultResponseLinksItemSchemaMedia;
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaLinksList;
+  links?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -7967,15 +8613,17 @@ export interface CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksIt
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemMethod;
+  method?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema;
-  targetSchema?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema | undefined;
+  targetSchema?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksList =
@@ -8197,36 +8845,52 @@ export type CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorRes
   | "43";
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse {
   /** The address verification code for Visa, Discover, Mastercard, or American Express transactions. */
-  avs_code?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseAvsCode;
+  avs_code?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseAvsCode
+    | undefined;
   /** The card verification value code for for Visa, Discover, Mastercard, or American Express. */
-  cvv_code?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseCvvCode;
+  cvv_code?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseCvvCode
+    | undefined;
   /** Processor response code for the non-PayPal payment processor errors. */
-  response_code?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseResponseCode;
+  response_code?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseResponseCode
+    | undefined;
   /** The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes. */
-  payment_advice_code?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponsePaymentAdviceCode;
+  payment_advice_code?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponsePaymentAdviceCode
+    | undefined;
 }
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItem {
   /** The status of the captured payment. */
-  status?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatus;
-  status_details?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails;
+  status?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatus | undefined;
+  status_details?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails
+    | undefined;
   /** The PayPal-generated ID for the captured payment. */
-  id?: string;
-  amount?: AmountWithBreakdown;
+  id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
-  network_transaction_reference?: NetworkTransaction;
-  seller_protection?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection;
+  custom_id?: string | undefined;
+  network_transaction_reference?: NetworkTransaction | undefined;
+  seller_protection?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection
+    | undefined;
   /** Indicates whether you can make additional captures against the authorized payment. Set to `true` if you do not intend to capture additional payments against the authorization. Set to `false` if you intend to capture additional payments against the authorization. */
-  final_capture?: boolean;
-  seller_receivable_breakdown?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown;
-  disbursement_mode?: DisbursementMode;
+  final_capture?: boolean | undefined;
+  seller_receivable_breakdown?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown
+    | undefined;
+  disbursement_mode?: DisbursementMode | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksList;
-  processor_response?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse;
-  create_time?: unknown;
-  update_time?: unknown;
+  links?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksList | undefined;
+  processor_response?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse
+    | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
 }
 /** An array of captured payments for a purchase unit. A purchase unit can have zero or more captured payments. */
 export type CreateOrderResponsePurchaseUnitsItemPaymentsCapturesList =
@@ -8241,7 +8905,7 @@ export type CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatus =
 export type CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetailsReason = "ECHECK";
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails {
   /** The reason why the refund has the `PENDING` or `FAILED` status. */
-  reason?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetailsReason;
+  reason?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetailsReason | undefined;
 }
 export type CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -8279,16 +8943,32 @@ export type CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayable
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
 /** The breakdown of the refund. */
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown {
-  gross_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  gross_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** An array of platform or partner fees, commissions, or brokerage fees for the refund. */
-  platform_fees?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownPlatformFeesList;
+  platform_fees?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownPlatformFeesList
+    | undefined;
   /** An array of breakdown values for the net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the payee holds their funds. */
-  net_amount_breakdown?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownNetAmountBreakdownList;
-  total_refunded_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  net_amount_breakdown?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownNetAmountBreakdownList
+    | undefined;
+  total_refunded_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
 }
 export type CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemPayer =
   PaypalWalletAttributesResponseCobrandedCardsItemPayee;
@@ -8319,33 +8999,41 @@ export type CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSche
   CardVaultResponseLinksItemSchemaMedia;
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAllOfList;
+  allOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAnyOfList;
+  anyOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaOneOfList;
+  oneOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaLinksList;
+  links?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList =
@@ -8364,33 +9052,41 @@ export type CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTarg
   CardVaultResponseLinksItemSchemaMedia;
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaLinksList;
+  links?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -8398,74 +9094,80 @@ export interface CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksIte
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemMethod;
+  method?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema;
-  targetSchema?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema | undefined;
+  targetSchema?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksList =
   Array<CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItem>;
 export interface CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItem {
   /** The status of the refund. */
-  status?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatus;
-  status_details?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails;
+  status?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatus | undefined;
+  status_details?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails | undefined;
   /** The PayPal-generated ID for the refund. */
-  id?: string;
-  amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  id?: string | undefined;
+  amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** Reference ID issued for the card transaction. This ID can be used to track the transaction across processors, card brands and issuing banks. */
-  acquirer_reference_number?: string;
+  acquirer_reference_number?: string | undefined;
   /** The reason for the refund. Appears in both the payer's transaction history and the emails that the payer receives. */
-  note_to_payer?: string;
+  note_to_payer?: string | undefined;
   /** The breakdown of the refund. */
-  seller_payable_breakdown?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown;
-  payer?: PaypalWalletAttributesResponseCobrandedCardsItemPayee;
+  seller_payable_breakdown?:
+    | CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown
+    | undefined;
+  payer?: PaypalWalletAttributesResponseCobrandedCardsItemPayee | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
+  links?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
 }
 /** An array of refunds for a purchase unit. A purchase unit can have zero or more refunds. */
 export type CreateOrderResponsePurchaseUnitsItemPaymentsRefundsList =
   Array<CreateOrderResponsePurchaseUnitsItemPaymentsRefundsItem>;
 export interface CreateOrderResponsePurchaseUnitsItemPayments {
   /** An array of authorized payments for a purchase unit. A purchase unit can have zero or more authorized payments. */
-  authorizations?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsList;
+  authorizations?: CreateOrderResponsePurchaseUnitsItemPaymentsAuthorizationsList | undefined;
   /** An array of captured payments for a purchase unit. A purchase unit can have zero or more captured payments. */
-  captures?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesList;
+  captures?: CreateOrderResponsePurchaseUnitsItemPaymentsCapturesList | undefined;
   /** An array of refunds for a purchase unit. A purchase unit can have zero or more refunds. */
-  refunds?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsList;
+  refunds?: CreateOrderResponsePurchaseUnitsItemPaymentsRefundsList | undefined;
 }
 export interface CreateOrderResponsePurchaseUnitsItem {
   /** The API caller-provided external ID for the purchase unit. Required for multiple purchase units when you must update the order through `PATCH`. If you omit this value and the order contains only one purchase unit, PayPal sets this value to `default`. <blockquote><strong>Note:</strong> If there are multiple purchase units, <code>reference_id</code> is required for each purchase unit.</blockquote> */
-  reference_id?: string;
-  amount?: AmountWithBreakdown;
-  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee;
-  payment_instruction?: PaymentInstruction;
+  reference_id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
+  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee | undefined;
+  payment_instruction?: PaymentInstruction | undefined;
   /** The purchase description. */
-  description?: string;
+  description?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** The API caller-provided external invoice ID for this order. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The PayPal-generated ID for the purchase unit. This ID appears in both the payer's transaction history and the emails that the payer receives. In addition, this ID is available in transaction and settlement reports that merchants and API callers can use to reconcile transactions. This ID is only available when an order is saved by calling <code>v2/checkout/orders/id/save</code>. */
-  id?: string;
+  id?: string | undefined;
   /** The payment descriptor on account transactions on the customer's credit card statement, that PayPal sends to processors. The maximum length of the soft descriptor information that you can pass in the API field is 22 characters, in the following format:<code>22 - len(PAYPAL * (8)) - len(<var>Descriptor in Payment Receiving Preferences of Merchant account</var> + 1)</code>The PAYPAL prefix uses 8 characters.<br/><br/>The soft descriptor supports the following ASCII characters:<ul><li>Alphanumeric characters</li><li>Dashes</li><li>Asterisks</li><li>Periods (.)</li><li>Spaces</li></ul>For Wallet payments marketplace integrations:<ul><li>The merchant descriptor in the Payment Receiving Preferences must be the marketplace name.</li><li>You can't use the remaining space to show the customer service number.</li><li>The remaining spaces can be a combination of seller name and country.</li></ul><br/>For unbranded payments (Direct Card) marketplace integrations, use a combination of the seller name and phone number. */
-  soft_descriptor?: string;
+  soft_descriptor?: string | undefined;
   /** An array of items that the customer purchases from the merchant. */
-  items?: CreateOrderResponsePurchaseUnitsItemItemsList;
-  shipping?: CreateOrderResponsePurchaseUnitsItemShipping;
-  supplementary_data?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData;
-  payments?: CreateOrderResponsePurchaseUnitsItemPayments;
+  items?: CreateOrderResponsePurchaseUnitsItemItemsList | undefined;
+  shipping?: CreateOrderResponsePurchaseUnitsItemShipping | undefined;
+  supplementary_data?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData | undefined;
+  payments?: CreateOrderResponsePurchaseUnitsItemPayments | undefined;
 }
 /** An array of purchase units. Each purchase unit establishes a contract between a customer and merchant. Each purchase unit represents either a full or partial order that the customer intends to purchase from the merchant. */
 export type CreateOrderResponsePurchaseUnitsList = Array<CreateOrderResponsePurchaseUnitsItem>;
@@ -8491,33 +9193,33 @@ export type CreateOrderResponseLinksItemSchemaLinksList = Array<unknown>;
 export type CreateOrderResponseLinksItemSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface CreateOrderResponseLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CreateOrderResponseLinksItemSchemaAllOfList;
+  allOf?: CreateOrderResponseLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CreateOrderResponseLinksItemSchemaAnyOfList;
+  anyOf?: CreateOrderResponseLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CreateOrderResponseLinksItemSchemaOneOfList;
+  oneOf?: CreateOrderResponseLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CreateOrderResponseLinksItemSchemaLinksList;
+  links?: CreateOrderResponseLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type CreateOrderResponseLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -8531,33 +9233,33 @@ export type CreateOrderResponseLinksItemTargetSchemaLinksList = Array<unknown>;
 export type CreateOrderResponseLinksItemTargetSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface CreateOrderResponseLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CreateOrderResponseLinksItemTargetSchemaAllOfList;
+  allOf?: CreateOrderResponseLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CreateOrderResponseLinksItemTargetSchemaAnyOfList;
+  anyOf?: CreateOrderResponseLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CreateOrderResponseLinksItemTargetSchemaOneOfList;
+  oneOf?: CreateOrderResponseLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CreateOrderResponseLinksItemTargetSchemaLinksList;
+  links?: CreateOrderResponseLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface CreateOrderResponseLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -8565,31 +9267,31 @@ export interface CreateOrderResponseLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: CreateOrderResponseLinksItemMethod;
+  method?: CreateOrderResponseLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: CreateOrderResponseLinksItemSchema;
-  targetSchema?: CreateOrderResponseLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: CreateOrderResponseLinksItemSchema | undefined;
+  targetSchema?: CreateOrderResponseLinksItemTargetSchema | undefined;
 }
 /** An array of request-related HATEOAS links. To complete payer approval, use the `approve` link to redirect the payer. The API caller has 6 hours (default setting, this which can be changed by your account manager to 24/48/72 hours to accommodate your use case) from the time the order is created, to redirect your payer. Once redirected, the API caller has 6 hours for the payer to approve the order and either authorize or capture the order. If you are not using the PayPal JavaScript SDK to initiate PayPal Checkout (in context) ensure that you include `application_context.return_url` is specified or you will get "We're sorry, Things don't appear to be working at the moment" after the payer approves the payment. */
 export type CreateOrderResponseLinksList = Array<CreateOrderResponseLinksItem>;
 export interface CreateOrderResponse {
-  create_time?: unknown;
-  update_time?: unknown;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
   /** The ID of the order. */
-  id?: string;
-  payment_source?: AuthorizeOrderResponsePaymentSource;
-  intent?: CheckoutPaymentIntent;
-  payer?: CreateOrderResponsePayer;
+  id?: string | undefined;
+  payment_source?: AuthorizeOrderResponsePaymentSource | undefined;
+  intent?: CheckoutPaymentIntent | undefined;
+  payer?: CreateOrderResponsePayer | undefined;
   /** An array of purchase units. Each purchase unit establishes a contract between a customer and merchant. Each purchase unit represents either a full or partial order that the customer intends to purchase from the merchant. */
-  purchase_units?: CreateOrderResponsePurchaseUnitsList;
-  status?: unknown;
+  purchase_units?: CreateOrderResponsePurchaseUnitsList | undefined;
+  status?: unknown | undefined;
   /** An array of request-related HATEOAS links. To complete payer approval, use the `approve` link to redirect the payer. The API caller has 6 hours (default setting, this which can be changed by your account manager to 24/48/72 hours to accommodate your use case) from the time the order is created, to redirect your payer. Once redirected, the API caller has 6 hours for the payer to approve the order and either authorize or capture the order. If you are not using the PayPal JavaScript SDK to initiate PayPal Checkout (in context) ensure that you include `application_context.return_url` is specified or you will get "We're sorry, Things don't appear to be working at the moment" after the payer approves the payment. */
-  links?: CreateOrderResponseLinksList;
+  links?: CreateOrderResponseLinksList | undefined;
 }
 /** The carrier for the shipment. Some carriers have a global version as well as local subsidiaries. The subsidiaries are repeated over many countries and might also have an entry in the global list. Choose the carrier for your country. If the carrier is not available for your country, choose the global version of the carrier. If your carrier name is not in the list, set `carrier` to `OTHER` and set carrier name in `carrier_name_other`. For allowed values, see <a href="/docs/tracking/reference/carriers/">Carriers</a>. */
 export type ShipmentCarrier =
@@ -10023,16 +10725,16 @@ export interface CreateOrdersTrackRequestItemsItemUpc {
 }
 export interface CreateOrdersTrackRequestItemsItem {
   /** The item name or title. */
-  name?: string;
+  name?: string | undefined;
   /** The item quantity. Must be a whole number. */
-  quantity?: string;
+  quantity?: string | undefined;
   /** The stock keeping unit (SKU) for the item. This can contain unicode characters. */
-  sku?: string;
+  sku?: string | undefined;
   /** The URL to the item being purchased. Visible to buyer and used in buyer experiences. */
-  url?: string;
+  url?: string | undefined;
   /** The URL of the item's image. File type and size restrictions apply. An image that violates these restrictions will not be honored. */
-  image_url?: string;
-  upc?: CreateOrdersTrackRequestItemsItemUpc;
+  image_url?: string | undefined;
+  upc?: CreateOrdersTrackRequestItemsItemUpc | undefined;
 }
 /** An array of details of items in the shipment. */
 export type CreateOrdersTrackRequestItemsList = Array<CreateOrdersTrackRequestItemsItem>;
@@ -10040,18 +10742,18 @@ export interface CreateOrdersTrackRequest {
   /** The ID of the order that the tracking information is associated with. */
   id: string;
   /** Header for an API client-provided JWT assertion that identifies the merchant. Establishing the consent to act-on-behalf of a merchant is a prerequisite for using this header. */
-  payPalAuthAssertion?: string;
+  payPalAuthAssertion?: string | undefined;
   /** The tracking number for the shipment. This property supports Unicode. */
   tracking_number: string;
   carrier: ShipmentCarrier | (string & {});
   /** The name of the carrier for the shipment. Provide this value only if the carrier parameter is OTHER. This property supports Unicode. */
-  carrier_name_other?: string;
+  carrier_name_other?: string | undefined;
   /** The PayPal capture ID. */
   capture_id: string;
   /** If true, PayPal will send an email notification to the payer of the PayPal transaction. The email contains the tracking details provided through the Orders tracking API request. Independent of any value passed for `notify_payer`, the payer may receive tracking notifications within the PayPal app, based on the user's notification preferences. */
-  notify_payer?: boolean;
+  notify_payer?: boolean | undefined;
   /** An array of details of items in the shipment. */
-  items?: CreateOrdersTrackRequestItemsList;
+  items?: CreateOrdersTrackRequestItemsList | undefined;
 }
 export type CreateOrdersTrackResponsePayerName = CardCustomerName;
 export type CreateOrdersTrackResponsePayerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
@@ -10069,13 +10771,13 @@ export type CreateOrdersTrackResponsePayerAddressAddressDetails =
   CardRequestInputBillingAddressAddressDetails;
 export type CreateOrdersTrackResponsePayerAddress = CardRequestInputBillingAddress;
 export interface CreateOrdersTrackResponsePayer {
-  email_address?: unknown;
-  payer_id?: unknown;
-  name?: CardCustomerName;
-  phone?: VaultResponseCustomerPhone;
-  birth_date?: unknown;
-  tax_info?: CreateOrdersTrackResponsePayerTaxInfo;
-  address?: CardRequestInputBillingAddress;
+  email_address?: unknown | undefined;
+  payer_id?: unknown | undefined;
+  name?: CardCustomerName | undefined;
+  phone?: VaultResponseCustomerPhone | undefined;
+  birth_date?: unknown | undefined;
+  tax_info?: CreateOrdersTrackResponsePayerTaxInfo | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
 }
 export type CreateOrdersTrackResponsePurchaseUnitsItemPayee =
   PaypalWalletAttributesResponseCobrandedCardsItemPayee;
@@ -10107,21 +10809,23 @@ export interface CreateOrdersTrackResponsePurchaseUnitsItemItemsItem {
   /** The item name or title. */
   name: string;
   unit_amount: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  tax?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  tax?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** The item quantity. Must be a whole number. */
   quantity: string;
   /** The detailed item description. */
-  description?: string;
+  description?: string | undefined;
   /** The stock keeping unit (SKU) for the item. */
-  sku?: string;
+  sku?: string | undefined;
   /** The URL to the item being purchased. Visible to buyer and used in buyer experiences. */
-  url?: string;
+  url?: string | undefined;
   /** The item category type. */
-  category?: CreateOrdersTrackResponsePurchaseUnitsItemItemsItemCategory;
+  category?: CreateOrdersTrackResponsePurchaseUnitsItemItemsItemCategory | undefined;
   /** The URL of the item's image. File type and size restrictions apply. An image that violates these restrictions will not be honored. */
-  image_url?: string;
-  upc?: CreateOrdersTrackResponsePurchaseUnitsItemItemsItemUpc;
-  billing_plan?: OrderBillingPlan;
+  image_url?: string | undefined;
+  upc?: CreateOrdersTrackResponsePurchaseUnitsItemItemsItemUpc | undefined;
+  billing_plan?: OrderBillingPlan | undefined;
 }
 /** An array of items that the customer purchases from the merchant. */
 export type CreateOrdersTrackResponsePurchaseUnitsItemItemsList =
@@ -10150,16 +10854,18 @@ export type CreateOrdersTrackResponsePurchaseUnitsItemShippingAddress =
 /** An array of trackers for a transaction. */
 export type CreateOrdersTrackResponsePurchaseUnitsItemShippingTrackersList = Array<Tracker>;
 export interface CreateOrdersTrackResponsePurchaseUnitsItemShipping {
-  name?: CardCustomerName;
-  email_address?: unknown;
-  phone_number?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber;
+  name?: CardCustomerName | undefined;
+  email_address?: unknown | undefined;
+  phone_number?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber
+    | undefined;
   /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
-  type?: CreateOrdersTrackResponsePurchaseUnitsItemShippingType;
+  type?: CreateOrdersTrackResponsePurchaseUnitsItemShippingType | undefined;
   /** An array of shipping options that the payee or merchant offers to the payer to ship or pick up their items. */
-  options?: CreateOrdersTrackResponsePurchaseUnitsItemShippingOptionsList;
-  address?: CardRequestInputBillingAddress;
+  options?: CreateOrdersTrackResponsePurchaseUnitsItemShippingOptionsList | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
   /** An array of trackers for a transaction. */
-  trackers?: CreateOrdersTrackResponsePurchaseUnitsItemShippingTrackersList;
+  trackers?: CreateOrdersTrackResponsePurchaseUnitsItemShippingTrackersList | undefined;
 }
 export type CreateOrdersTrackResponsePurchaseUnitsItemSupplementaryDataCard =
   AuthorizeOrderResponsePurchaseUnitsItemSupplementaryDataCard;
@@ -10181,7 +10887,9 @@ export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItem
   | "DECLINED_BY_RISK_FRAUD_FILTERS";
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails {
   /** The reason why the authorized status is `PENDING`. */
-  reason?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetailsReason;
+  reason?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetailsReason
+    | undefined;
 }
 export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemAmount =
   AmountWithBreakdown;
@@ -10199,9 +10907,13 @@ export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItem
   Array<CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesItem>;
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection {
   /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
-  status?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionStatus;
+  status?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionStatus
+    | undefined;
   /** An array of conditions that are covered for the transaction. */
-  dispute_categories?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesList;
+  dispute_categories?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesList
+    | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod =
@@ -10230,33 +10942,41 @@ export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItem
   CardVaultResponseLinksItemSchemaMedia;
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAllOfList;
+  allOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAnyOfList;
+  anyOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaOneOfList;
+  oneOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaLinksList;
+  links?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList =
@@ -10275,33 +10995,41 @@ export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItem
   CardVaultResponseLinksItemSchemaMedia;
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaLinksList;
+  links?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -10309,15 +11037,21 @@ export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorization
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod;
+  method?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod
+    | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema;
-  targetSchema?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema
+    | undefined;
+  targetSchema?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList =
@@ -10539,33 +11273,47 @@ export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItem
   | "43";
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse {
   /** The address verification code for Visa, Discover, Mastercard, or American Express transactions. */
-  avs_code?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseAvsCode;
+  avs_code?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseAvsCode
+    | undefined;
   /** The card verification value code for for Visa, Discover, Mastercard, or American Express. */
-  cvv_code?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseCvvCode;
+  cvv_code?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseCvvCode
+    | undefined;
   /** Processor response code for the non-PayPal payment processor errors. */
-  response_code?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseResponseCode;
+  response_code?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseResponseCode
+    | undefined;
   /** The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes. */
-  payment_advice_code?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponsePaymentAdviceCode;
+  payment_advice_code?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponsePaymentAdviceCode
+    | undefined;
 }
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItem {
   /** The status for the authorized payment. */
-  status?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatus;
-  status_details?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails;
+  status?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatus | undefined;
+  status_details?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails
+    | undefined;
   /** The PayPal-generated ID for the authorized payment. */
-  id?: string;
-  amount?: AmountWithBreakdown;
+  id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
-  network_transaction_reference?: NetworkTransaction;
-  seller_protection?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection;
-  expiration_time?: unknown;
+  custom_id?: string | undefined;
+  network_transaction_reference?: NetworkTransaction | undefined;
+  seller_protection?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection
+    | undefined;
+  expiration_time?: unknown | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
-  processor_response?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse;
+  links?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
+  processor_response?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse
+    | undefined;
 }
 /** An array of authorized payments for a purchase unit. A purchase unit can have zero or more authorized payments. */
 export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsList =
@@ -10594,7 +11342,9 @@ export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemStatus
   | "DECLINED_BY_RISK_FRAUD_FILTERS";
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails {
   /** The reason why the captured payment status is `PENDING` or `DENIED`. */
-  reason?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetailsReason;
+  reason?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetailsReason
+    | undefined;
 }
 export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemAmount =
   AmountWithBreakdown;
@@ -10612,9 +11362,13 @@ export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemSeller
   Array<CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesItem>;
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection {
   /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
-  status?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionStatus;
+  status?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionStatus
+    | undefined;
   /** An array of conditions that are covered for the transaction. */
-  dispute_categories?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesList;
+  dispute_categories?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesList
+    | undefined;
 }
 export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownGrossAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -10639,13 +11393,25 @@ export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemSeller
   Array<PaymentInstructionPlatformFeesItem>;
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown {
   gross_amount: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  receivable_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  exchange_rate?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownExchangeRate;
+  paypal_fee?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  receivable_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  exchange_rate?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownExchangeRate
+    | undefined;
   /** An array of platform or partner fees, commissions, or brokerage fees that associated with the captured payment. */
-  platform_fees?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownPlatformFeesList;
+  platform_fees?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownPlatformFeesList
+    | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemMethod =
@@ -10674,33 +11440,41 @@ export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksI
   CardVaultResponseLinksItemSchemaMedia;
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAllOfList;
+  allOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAnyOfList;
+  anyOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaOneOfList;
+  oneOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaLinksList;
+  links?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList =
@@ -10719,33 +11493,41 @@ export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksI
   CardVaultResponseLinksItemSchemaMedia;
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaLinksList;
+  links?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -10753,15 +11535,21 @@ export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemL
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemMethod;
+  method?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemMethod
+    | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema;
-  targetSchema?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema
+    | undefined;
+  targetSchema?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksList =
@@ -10983,36 +11771,52 @@ export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemProces
   | "43";
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse {
   /** The address verification code for Visa, Discover, Mastercard, or American Express transactions. */
-  avs_code?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseAvsCode;
+  avs_code?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseAvsCode
+    | undefined;
   /** The card verification value code for for Visa, Discover, Mastercard, or American Express. */
-  cvv_code?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseCvvCode;
+  cvv_code?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseCvvCode
+    | undefined;
   /** Processor response code for the non-PayPal payment processor errors. */
-  response_code?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseResponseCode;
+  response_code?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseResponseCode
+    | undefined;
   /** The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes. */
-  payment_advice_code?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponsePaymentAdviceCode;
+  payment_advice_code?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponsePaymentAdviceCode
+    | undefined;
 }
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItem {
   /** The status of the captured payment. */
-  status?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemStatus;
-  status_details?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails;
+  status?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemStatus | undefined;
+  status_details?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails
+    | undefined;
   /** The PayPal-generated ID for the captured payment. */
-  id?: string;
-  amount?: AmountWithBreakdown;
+  id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
-  network_transaction_reference?: NetworkTransaction;
-  seller_protection?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection;
+  custom_id?: string | undefined;
+  network_transaction_reference?: NetworkTransaction | undefined;
+  seller_protection?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection
+    | undefined;
   /** Indicates whether you can make additional captures against the authorized payment. Set to `true` if you do not intend to capture additional payments against the authorization. Set to `false` if you intend to capture additional payments against the authorization. */
-  final_capture?: boolean;
-  seller_receivable_breakdown?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown;
-  disbursement_mode?: DisbursementMode;
+  final_capture?: boolean | undefined;
+  seller_receivable_breakdown?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown
+    | undefined;
+  disbursement_mode?: DisbursementMode | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksList;
-  processor_response?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse;
-  create_time?: unknown;
-  update_time?: unknown;
+  links?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemLinksList | undefined;
+  processor_response?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse
+    | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
 }
 /** An array of captured payments for a purchase unit. A purchase unit can have zero or more captured payments. */
 export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesList =
@@ -11028,7 +11832,9 @@ export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemStatusD
   "ECHECK";
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails {
   /** The reason why the refund has the `PENDING` or `FAILED` status. */
-  reason?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetailsReason;
+  reason?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetailsReason
+    | undefined;
 }
 export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -11066,16 +11872,32 @@ export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemSellerP
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
 /** The breakdown of the refund. */
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown {
-  gross_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  gross_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** An array of platform or partner fees, commissions, or brokerage fees for the refund. */
-  platform_fees?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownPlatformFeesList;
+  platform_fees?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownPlatformFeesList
+    | undefined;
   /** An array of breakdown values for the net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the payee holds their funds. */
-  net_amount_breakdown?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownNetAmountBreakdownList;
-  total_refunded_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  net_amount_breakdown?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownNetAmountBreakdownList
+    | undefined;
+  total_refunded_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
 }
 export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemPayer =
   PaypalWalletAttributesResponseCobrandedCardsItemPayee;
@@ -11106,33 +11928,41 @@ export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksIt
   CardVaultResponseLinksItemSchemaMedia;
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAllOfList;
+  allOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAnyOfList;
+  anyOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaOneOfList;
+  oneOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaLinksList;
+  links?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList =
@@ -11151,33 +11981,41 @@ export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksIt
   CardVaultResponseLinksItemSchemaMedia;
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaLinksList;
+  links?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -11185,74 +12023,82 @@ export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLi
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemMethod;
+  method?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema;
-  targetSchema?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema | undefined;
+  targetSchema?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksList =
   Array<CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksItem>;
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItem {
   /** The status of the refund. */
-  status?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemStatus;
-  status_details?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails;
+  status?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemStatus | undefined;
+  status_details?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails
+    | undefined;
   /** The PayPal-generated ID for the refund. */
-  id?: string;
-  amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  id?: string | undefined;
+  amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** Reference ID issued for the card transaction. This ID can be used to track the transaction across processors, card brands and issuing banks. */
-  acquirer_reference_number?: string;
+  acquirer_reference_number?: string | undefined;
   /** The reason for the refund. Appears in both the payer's transaction history and the emails that the payer receives. */
-  note_to_payer?: string;
+  note_to_payer?: string | undefined;
   /** The breakdown of the refund. */
-  seller_payable_breakdown?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown;
-  payer?: PaypalWalletAttributesResponseCobrandedCardsItemPayee;
+  seller_payable_breakdown?:
+    | CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown
+    | undefined;
+  payer?: PaypalWalletAttributesResponseCobrandedCardsItemPayee | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
+  links?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItemLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
 }
 /** An array of refunds for a purchase unit. A purchase unit can have zero or more refunds. */
 export type CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsList =
   Array<CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsItem>;
 export interface CreateOrdersTrackResponsePurchaseUnitsItemPayments {
   /** An array of authorized payments for a purchase unit. A purchase unit can have zero or more authorized payments. */
-  authorizations?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsList;
+  authorizations?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsAuthorizationsList | undefined;
   /** An array of captured payments for a purchase unit. A purchase unit can have zero or more captured payments. */
-  captures?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesList;
+  captures?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsCapturesList | undefined;
   /** An array of refunds for a purchase unit. A purchase unit can have zero or more refunds. */
-  refunds?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsList;
+  refunds?: CreateOrdersTrackResponsePurchaseUnitsItemPaymentsRefundsList | undefined;
 }
 export interface CreateOrdersTrackResponsePurchaseUnitsItem {
   /** The API caller-provided external ID for the purchase unit. Required for multiple purchase units when you must update the order through `PATCH`. If you omit this value and the order contains only one purchase unit, PayPal sets this value to `default`. <blockquote><strong>Note:</strong> If there are multiple purchase units, <code>reference_id</code> is required for each purchase unit.</blockquote> */
-  reference_id?: string;
-  amount?: AmountWithBreakdown;
-  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee;
-  payment_instruction?: PaymentInstruction;
+  reference_id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
+  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee | undefined;
+  payment_instruction?: PaymentInstruction | undefined;
   /** The purchase description. */
-  description?: string;
+  description?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** The API caller-provided external invoice ID for this order. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The PayPal-generated ID for the purchase unit. This ID appears in both the payer's transaction history and the emails that the payer receives. In addition, this ID is available in transaction and settlement reports that merchants and API callers can use to reconcile transactions. This ID is only available when an order is saved by calling <code>v2/checkout/orders/id/save</code>. */
-  id?: string;
+  id?: string | undefined;
   /** The payment descriptor on account transactions on the customer's credit card statement, that PayPal sends to processors. The maximum length of the soft descriptor information that you can pass in the API field is 22 characters, in the following format:<code>22 - len(PAYPAL * (8)) - len(<var>Descriptor in Payment Receiving Preferences of Merchant account</var> + 1)</code>The PAYPAL prefix uses 8 characters.<br/><br/>The soft descriptor supports the following ASCII characters:<ul><li>Alphanumeric characters</li><li>Dashes</li><li>Asterisks</li><li>Periods (.)</li><li>Spaces</li></ul>For Wallet payments marketplace integrations:<ul><li>The merchant descriptor in the Payment Receiving Preferences must be the marketplace name.</li><li>You can't use the remaining space to show the customer service number.</li><li>The remaining spaces can be a combination of seller name and country.</li></ul><br/>For unbranded payments (Direct Card) marketplace integrations, use a combination of the seller name and phone number. */
-  soft_descriptor?: string;
+  soft_descriptor?: string | undefined;
   /** An array of items that the customer purchases from the merchant. */
-  items?: CreateOrdersTrackResponsePurchaseUnitsItemItemsList;
-  shipping?: CreateOrdersTrackResponsePurchaseUnitsItemShipping;
-  supplementary_data?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData;
-  payments?: CreateOrdersTrackResponsePurchaseUnitsItemPayments;
+  items?: CreateOrdersTrackResponsePurchaseUnitsItemItemsList | undefined;
+  shipping?: CreateOrdersTrackResponsePurchaseUnitsItemShipping | undefined;
+  supplementary_data?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData | undefined;
+  payments?: CreateOrdersTrackResponsePurchaseUnitsItemPayments | undefined;
 }
 /** An array of purchase units. Each purchase unit establishes a contract between a customer and merchant. Each purchase unit represents either a full or partial order that the customer intends to purchase from the merchant. */
 export type CreateOrdersTrackResponsePurchaseUnitsList =
@@ -11279,33 +12125,33 @@ export type CreateOrdersTrackResponseLinksItemSchemaLinksList = Array<unknown>;
 export type CreateOrdersTrackResponseLinksItemSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface CreateOrdersTrackResponseLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CreateOrdersTrackResponseLinksItemSchemaAllOfList;
+  allOf?: CreateOrdersTrackResponseLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CreateOrdersTrackResponseLinksItemSchemaAnyOfList;
+  anyOf?: CreateOrdersTrackResponseLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CreateOrdersTrackResponseLinksItemSchemaOneOfList;
+  oneOf?: CreateOrdersTrackResponseLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CreateOrdersTrackResponseLinksItemSchemaLinksList;
+  links?: CreateOrdersTrackResponseLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type CreateOrdersTrackResponseLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -11320,33 +12166,33 @@ export type CreateOrdersTrackResponseLinksItemTargetSchemaMedia =
   CardVaultResponseLinksItemSchemaMedia;
 export interface CreateOrdersTrackResponseLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: CreateOrdersTrackResponseLinksItemTargetSchemaAllOfList;
+  allOf?: CreateOrdersTrackResponseLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: CreateOrdersTrackResponseLinksItemTargetSchemaAnyOfList;
+  anyOf?: CreateOrdersTrackResponseLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: CreateOrdersTrackResponseLinksItemTargetSchemaOneOfList;
+  oneOf?: CreateOrdersTrackResponseLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: CreateOrdersTrackResponseLinksItemTargetSchemaLinksList;
+  links?: CreateOrdersTrackResponseLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface CreateOrdersTrackResponseLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -11354,39 +12200,39 @@ export interface CreateOrdersTrackResponseLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: CreateOrdersTrackResponseLinksItemMethod;
+  method?: CreateOrdersTrackResponseLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: CreateOrdersTrackResponseLinksItemSchema;
-  targetSchema?: CreateOrdersTrackResponseLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: CreateOrdersTrackResponseLinksItemSchema | undefined;
+  targetSchema?: CreateOrdersTrackResponseLinksItemTargetSchema | undefined;
 }
 /** An array of request-related HATEOAS links. To complete payer approval, use the `approve` link to redirect the payer. The API caller has 6 hours (default setting, this which can be changed by your account manager to 24/48/72 hours to accommodate your use case) from the time the order is created, to redirect your payer. Once redirected, the API caller has 6 hours for the payer to approve the order and either authorize or capture the order. If you are not using the PayPal JavaScript SDK to initiate PayPal Checkout (in context) ensure that you include `application_context.return_url` is specified or you will get "We're sorry, Things don't appear to be working at the moment" after the payer approves the payment. */
 export type CreateOrdersTrackResponseLinksList = Array<CreateOrdersTrackResponseLinksItem>;
 export interface CreateOrdersTrackResponse {
-  create_time?: unknown;
-  update_time?: unknown;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
   /** The ID of the order. */
-  id?: string;
-  payment_source?: AuthorizeOrderResponsePaymentSource;
-  intent?: CheckoutPaymentIntent;
-  payer?: CreateOrdersTrackResponsePayer;
+  id?: string | undefined;
+  payment_source?: AuthorizeOrderResponsePaymentSource | undefined;
+  intent?: CheckoutPaymentIntent | undefined;
+  payer?: CreateOrdersTrackResponsePayer | undefined;
   /** An array of purchase units. Each purchase unit establishes a contract between a customer and merchant. Each purchase unit represents either a full or partial order that the customer intends to purchase from the merchant. */
-  purchase_units?: CreateOrdersTrackResponsePurchaseUnitsList;
-  status?: unknown;
+  purchase_units?: CreateOrdersTrackResponsePurchaseUnitsList | undefined;
+  status?: unknown | undefined;
   /** An array of request-related HATEOAS links. To complete payer approval, use the `approve` link to redirect the payer. The API caller has 6 hours (default setting, this which can be changed by your account manager to 24/48/72 hours to accommodate your use case) from the time the order is created, to redirect your payer. Once redirected, the API caller has 6 hours for the payer to approve the order and either authorize or capture the order. If you are not using the PayPal JavaScript SDK to initiate PayPal Checkout (in context) ensure that you include `application_context.return_url` is specified or you will get "We're sorry, Things don't appear to be working at the moment" after the payer approves the payment. */
-  links?: CreateOrdersTrackResponseLinksList;
+  links?: CreateOrdersTrackResponseLinksList | undefined;
 }
 export interface GetOrderRequest {
   /** The ID of the order for which to show details. */
   id: string;
   /** A comma-separated list of fields that should be returned for the order. Valid filter field is `payment_source`. */
-  fields?: string;
+  fields?: string | undefined;
   /** Header for an API client-provided JWT assertion that identifies the merchant. Establishing the consent to act-on-behalf of a merchant is a prerequisite for using this header. */
-  payPalAuthAssertion?: string;
+  payPalAuthAssertion?: string | undefined;
 }
 export type GetOrderResponsePayerName = CardCustomerName;
 export type GetOrderResponsePayerPhonePhoneNumber = CardCustomerPhonePhoneNumber;
@@ -11404,13 +12250,13 @@ export type GetOrderResponsePayerAddressAddressDetails =
   CardRequestInputBillingAddressAddressDetails;
 export type GetOrderResponsePayerAddress = CardRequestInputBillingAddress;
 export interface GetOrderResponsePayer {
-  email_address?: unknown;
-  payer_id?: unknown;
-  name?: CardCustomerName;
-  phone?: VaultResponseCustomerPhone;
-  birth_date?: unknown;
-  tax_info?: GetOrderResponsePayerTaxInfo;
-  address?: CardRequestInputBillingAddress;
+  email_address?: unknown | undefined;
+  payer_id?: unknown | undefined;
+  name?: CardCustomerName | undefined;
+  phone?: VaultResponseCustomerPhone | undefined;
+  birth_date?: unknown | undefined;
+  tax_info?: GetOrderResponsePayerTaxInfo | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
 }
 export type GetOrderResponsePurchaseUnitsItemPayee =
   PaypalWalletAttributesResponseCobrandedCardsItemPayee;
@@ -11442,21 +12288,23 @@ export interface GetOrderResponsePurchaseUnitsItemItemsItem {
   /** The item name or title. */
   name: string;
   unit_amount: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  tax?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  tax?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** The item quantity. Must be a whole number. */
   quantity: string;
   /** The detailed item description. */
-  description?: string;
+  description?: string | undefined;
   /** The stock keeping unit (SKU) for the item. */
-  sku?: string;
+  sku?: string | undefined;
   /** The URL to the item being purchased. Visible to buyer and used in buyer experiences. */
-  url?: string;
+  url?: string | undefined;
   /** The item category type. */
-  category?: GetOrderResponsePurchaseUnitsItemItemsItemCategory;
+  category?: GetOrderResponsePurchaseUnitsItemItemsItemCategory | undefined;
   /** The URL of the item's image. File type and size restrictions apply. An image that violates these restrictions will not be honored. */
-  image_url?: string;
-  upc?: GetOrderResponsePurchaseUnitsItemItemsItemUpc;
-  billing_plan?: OrderBillingPlan;
+  image_url?: string | undefined;
+  upc?: GetOrderResponsePurchaseUnitsItemItemsItemUpc | undefined;
+  billing_plan?: OrderBillingPlan | undefined;
 }
 /** An array of items that the customer purchases from the merchant. */
 export type GetOrderResponsePurchaseUnitsItemItemsList =
@@ -11484,16 +12332,18 @@ export type GetOrderResponsePurchaseUnitsItemShippingAddress = CardRequestInputB
 /** An array of trackers for a transaction. */
 export type GetOrderResponsePurchaseUnitsItemShippingTrackersList = Array<Tracker>;
 export interface GetOrderResponsePurchaseUnitsItemShipping {
-  name?: CardCustomerName;
-  email_address?: unknown;
-  phone_number?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber;
+  name?: CardCustomerName | undefined;
+  email_address?: unknown | undefined;
+  phone_number?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber
+    | undefined;
   /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
-  type?: GetOrderResponsePurchaseUnitsItemShippingType;
+  type?: GetOrderResponsePurchaseUnitsItemShippingType | undefined;
   /** An array of shipping options that the payee or merchant offers to the payer to ship or pick up their items. */
-  options?: GetOrderResponsePurchaseUnitsItemShippingOptionsList;
-  address?: CardRequestInputBillingAddress;
+  options?: GetOrderResponsePurchaseUnitsItemShippingOptionsList | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
   /** An array of trackers for a transaction. */
-  trackers?: GetOrderResponsePurchaseUnitsItemShippingTrackersList;
+  trackers?: GetOrderResponsePurchaseUnitsItemShippingTrackersList | undefined;
 }
 export type GetOrderResponsePurchaseUnitsItemSupplementaryDataCard =
   AuthorizeOrderResponsePurchaseUnitsItemSupplementaryDataCard;
@@ -11515,7 +12365,9 @@ export type GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDet
   | "DECLINED_BY_RISK_FRAUD_FILTERS";
 export interface GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails {
   /** The reason why the authorized status is `PENDING`. */
-  reason?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetailsReason;
+  reason?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetailsReason
+    | undefined;
 }
 export type GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemAmount = AmountWithBreakdown;
 /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
@@ -11532,9 +12384,13 @@ export type GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerPro
   Array<GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesItem>;
 export interface GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection {
   /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
-  status?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionStatus;
+  status?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionStatus
+    | undefined;
   /** An array of conditions that are covered for the transaction. */
-  dispute_categories?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesList;
+  dispute_categories?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtectionDisputeCategoriesList
+    | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod =
@@ -11563,33 +12419,41 @@ export type GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItem
   CardVaultResponseLinksItemSchemaMedia;
 export interface GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAllOfList;
+  allOf?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAnyOfList;
+  anyOf?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaOneOfList;
+  oneOf?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaLinksList;
+  links?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList =
@@ -11608,33 +12472,41 @@ export type GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItem
   CardVaultResponseLinksItemSchemaMedia;
 export interface GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaLinksList;
+  links?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -11642,15 +12514,17 @@ export interface GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLink
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod;
+  method?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema;
-  targetSchema?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemSchema | undefined;
+  targetSchema?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList =
@@ -11872,33 +12746,47 @@ export type GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessor
   | "43";
 export interface GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse {
   /** The address verification code for Visa, Discover, Mastercard, or American Express transactions. */
-  avs_code?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseAvsCode;
+  avs_code?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseAvsCode
+    | undefined;
   /** The card verification value code for for Visa, Discover, Mastercard, or American Express. */
-  cvv_code?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseCvvCode;
+  cvv_code?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseCvvCode
+    | undefined;
   /** Processor response code for the non-PayPal payment processor errors. */
-  response_code?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseResponseCode;
+  response_code?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponseResponseCode
+    | undefined;
   /** The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes. */
-  payment_advice_code?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponsePaymentAdviceCode;
+  payment_advice_code?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponsePaymentAdviceCode
+    | undefined;
 }
 export interface GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItem {
   /** The status for the authorized payment. */
-  status?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatus;
-  status_details?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails;
+  status?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatus | undefined;
+  status_details?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemStatusDetails
+    | undefined;
   /** The PayPal-generated ID for the authorized payment. */
-  id?: string;
-  amount?: AmountWithBreakdown;
+  id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
-  network_transaction_reference?: NetworkTransaction;
-  seller_protection?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection;
-  expiration_time?: unknown;
+  custom_id?: string | undefined;
+  network_transaction_reference?: NetworkTransaction | undefined;
+  seller_protection?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemSellerProtection
+    | undefined;
+  expiration_time?: unknown | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
-  processor_response?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse;
+  links?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
+  processor_response?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsItemProcessorResponse
+    | undefined;
 }
 /** An array of authorized payments for a purchase unit. A purchase unit can have zero or more authorized payments. */
 export type GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsList =
@@ -11927,7 +12815,7 @@ export type GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetailsRe
   | "DECLINED_BY_RISK_FRAUD_FILTERS";
 export interface GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails {
   /** The reason why the captured payment status is `PENDING` or `DENIED`. */
-  reason?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetailsReason;
+  reason?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetailsReason | undefined;
 }
 export type GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemAmount = AmountWithBreakdown;
 /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
@@ -11944,9 +12832,11 @@ export type GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectio
   Array<GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesItem>;
 export interface GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection {
   /** Indicates whether the transaction is eligible for seller protection. For information, see [PayPal Seller Protection for Merchants](https://www.paypal.com/us/webapps/mpp/security/seller-protection). */
-  status?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionStatus;
+  status?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionStatus | undefined;
   /** An array of conditions that are covered for the transaction. */
-  dispute_categories?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesList;
+  dispute_categories?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtectionDisputeCategoriesList
+    | undefined;
 }
 export type GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownGrossAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -11971,13 +12861,25 @@ export type GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivabl
   Array<PaymentInstructionPlatformFeesItem>;
 export interface GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown {
   gross_amount: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  receivable_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  exchange_rate?: AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownExchangeRate;
+  paypal_fee?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  receivable_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  exchange_rate?:
+    | AuthorizeOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownExchangeRate
+    | undefined;
   /** An array of platform or partner fees, commissions, or brokerage fees that associated with the captured payment. */
-  platform_fees?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownPlatformFeesList;
+  platform_fees?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdownPlatformFeesList
+    | undefined;
 }
 /** The HTTP method required to make the related call. */
 export type GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemMethod =
@@ -12006,33 +12908,33 @@ export type GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema
   CardVaultResponseLinksItemSchemaMedia;
 export interface GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAllOfList;
+  allOf?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAnyOfList;
+  anyOf?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaOneOfList;
+  oneOf?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaLinksList;
+  links?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList =
@@ -12051,33 +12953,41 @@ export type GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTarget
   CardVaultResponseLinksItemSchemaMedia;
 export interface GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaLinksList;
+  links?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -12085,15 +12995,17 @@ export interface GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItem 
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemMethod;
+  method?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema;
-  targetSchema?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemSchema | undefined;
+  targetSchema?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksList =
@@ -12315,36 +13227,50 @@ export type GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorRespon
   | "43";
 export interface GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse {
   /** The address verification code for Visa, Discover, Mastercard, or American Express transactions. */
-  avs_code?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseAvsCode;
+  avs_code?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseAvsCode
+    | undefined;
   /** The card verification value code for for Visa, Discover, Mastercard, or American Express. */
-  cvv_code?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseCvvCode;
+  cvv_code?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseCvvCode
+    | undefined;
   /** Processor response code for the non-PayPal payment processor errors. */
-  response_code?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseResponseCode;
+  response_code?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponseResponseCode
+    | undefined;
   /** The declined payment transactions might have payment advice codes. The card networks, like Visa and Mastercard, return payment advice codes. */
-  payment_advice_code?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponsePaymentAdviceCode;
+  payment_advice_code?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponsePaymentAdviceCode
+    | undefined;
 }
 export interface GetOrderResponsePurchaseUnitsItemPaymentsCapturesItem {
   /** The status of the captured payment. */
-  status?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatus;
-  status_details?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails;
+  status?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatus | undefined;
+  status_details?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemStatusDetails | undefined;
   /** The PayPal-generated ID for the captured payment. */
-  id?: string;
-  amount?: AmountWithBreakdown;
+  id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
-  network_transaction_reference?: NetworkTransaction;
-  seller_protection?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection;
+  custom_id?: string | undefined;
+  network_transaction_reference?: NetworkTransaction | undefined;
+  seller_protection?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerProtection
+    | undefined;
   /** Indicates whether you can make additional captures against the authorized payment. Set to `true` if you do not intend to capture additional payments against the authorization. Set to `false` if you intend to capture additional payments against the authorization. */
-  final_capture?: boolean;
-  seller_receivable_breakdown?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown;
-  disbursement_mode?: DisbursementMode;
+  final_capture?: boolean | undefined;
+  seller_receivable_breakdown?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemSellerReceivableBreakdown
+    | undefined;
+  disbursement_mode?: DisbursementMode | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksList;
-  processor_response?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse;
-  create_time?: unknown;
-  update_time?: unknown;
+  links?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemLinksList | undefined;
+  processor_response?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsCapturesItemProcessorResponse
+    | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
 }
 /** An array of captured payments for a purchase unit. A purchase unit can have zero or more captured payments. */
 export type GetOrderResponsePurchaseUnitsItemPaymentsCapturesList =
@@ -12359,7 +13285,7 @@ export type GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatus =
 export type GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetailsReason = "ECHECK";
 export interface GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails {
   /** The reason why the refund has the `PENDING` or `FAILED` status. */
-  reason?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetailsReason;
+  reason?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetailsReason | undefined;
 }
 export type GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemAmount =
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
@@ -12397,16 +13323,32 @@ export type GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBre
   AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
 /** The breakdown of the refund. */
 export interface GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown {
-  gross_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  paypal_fee_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  net_amount_in_receivable_currency?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  gross_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  paypal_fee_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
+  net_amount_in_receivable_currency?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** An array of platform or partner fees, commissions, or brokerage fees for the refund. */
-  platform_fees?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownPlatformFeesList;
+  platform_fees?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownPlatformFeesList
+    | undefined;
   /** An array of breakdown values for the net amount. Returned when the currency of the refund is different from the currency of the PayPal account where the payee holds their funds. */
-  net_amount_breakdown?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownNetAmountBreakdownList;
-  total_refunded_amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  net_amount_breakdown?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdownNetAmountBreakdownList
+    | undefined;
+  total_refunded_amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
 }
 export type GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemPayer =
   PaypalWalletAttributesResponseCobrandedCardsItemPayee;
@@ -12437,33 +13379,33 @@ export type GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaM
   CardVaultResponseLinksItemSchemaMedia;
 export interface GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAllOfList;
+  allOf?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAnyOfList;
+  anyOf?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaOneOfList;
+  oneOf?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaLinksList;
+  links?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList =
@@ -12482,33 +13424,41 @@ export type GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetS
   CardVaultResponseLinksItemSchemaMedia;
 export interface GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList;
+  allOf?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAllOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAnyOfList;
+  anyOf?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaAnyOfList
+    | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaOneOfList;
+  oneOf?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaOneOfList
+    | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaLinksList;
+  links?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchemaLinksList
+    | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -12516,74 +13466,80 @@ export interface GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemMethod;
+  method?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema;
-  targetSchema?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemSchema | undefined;
+  targetSchema?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItemTargetSchema
+    | undefined;
 }
 /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
 export type GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksList =
   Array<GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksItem>;
 export interface GetOrderResponsePurchaseUnitsItemPaymentsRefundsItem {
   /** The status of the refund. */
-  status?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatus;
-  status_details?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails;
+  status?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatus | undefined;
+  status_details?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemStatusDetails | undefined;
   /** The PayPal-generated ID for the refund. */
-  id?: string;
-  amount?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  id?: string | undefined;
+  amount?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** Reference ID issued for the card transaction. This ID can be used to track the transaction across processors, card brands and issuing banks. */
-  acquirer_reference_number?: string;
+  acquirer_reference_number?: string | undefined;
   /** The reason for the refund. Appears in both the payer's transaction history and the emails that the payer receives. */
-  note_to_payer?: string;
+  note_to_payer?: string | undefined;
   /** The breakdown of the refund. */
-  seller_payable_breakdown?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown;
-  payer?: PaypalWalletAttributesResponseCobrandedCardsItemPayee;
+  seller_payable_breakdown?:
+    | GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemSellerPayableBreakdown
+    | undefined;
+  payer?: PaypalWalletAttributesResponseCobrandedCardsItemPayee | undefined;
   /** An array of related [HATEOAS links](/docs/api/reference/api-responses/#hateoas-links). */
-  links?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksList;
-  create_time?: unknown;
-  update_time?: unknown;
+  links?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsItemLinksList | undefined;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
 }
 /** An array of refunds for a purchase unit. A purchase unit can have zero or more refunds. */
 export type GetOrderResponsePurchaseUnitsItemPaymentsRefundsList =
   Array<GetOrderResponsePurchaseUnitsItemPaymentsRefundsItem>;
 export interface GetOrderResponsePurchaseUnitsItemPayments {
   /** An array of authorized payments for a purchase unit. A purchase unit can have zero or more authorized payments. */
-  authorizations?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsList;
+  authorizations?: GetOrderResponsePurchaseUnitsItemPaymentsAuthorizationsList | undefined;
   /** An array of captured payments for a purchase unit. A purchase unit can have zero or more captured payments. */
-  captures?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesList;
+  captures?: GetOrderResponsePurchaseUnitsItemPaymentsCapturesList | undefined;
   /** An array of refunds for a purchase unit. A purchase unit can have zero or more refunds. */
-  refunds?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsList;
+  refunds?: GetOrderResponsePurchaseUnitsItemPaymentsRefundsList | undefined;
 }
 export interface GetOrderResponsePurchaseUnitsItem {
   /** The API caller-provided external ID for the purchase unit. Required for multiple purchase units when you must update the order through `PATCH`. If you omit this value and the order contains only one purchase unit, PayPal sets this value to `default`. <blockquote><strong>Note:</strong> If there are multiple purchase units, <code>reference_id</code> is required for each purchase unit.</blockquote> */
-  reference_id?: string;
-  amount?: AmountWithBreakdown;
-  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee;
-  payment_instruction?: PaymentInstruction;
+  reference_id?: string | undefined;
+  amount?: AmountWithBreakdown | undefined;
+  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee | undefined;
+  payment_instruction?: PaymentInstruction | undefined;
   /** The purchase description. */
-  description?: string;
+  description?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile API caller-initiated transactions with PayPal transactions. Appears in transaction and settlement reports. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** The API caller-provided external invoice ID for this order. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** The PayPal-generated ID for the purchase unit. This ID appears in both the payer's transaction history and the emails that the payer receives. In addition, this ID is available in transaction and settlement reports that merchants and API callers can use to reconcile transactions. This ID is only available when an order is saved by calling <code>v2/checkout/orders/id/save</code>. */
-  id?: string;
+  id?: string | undefined;
   /** The payment descriptor on account transactions on the customer's credit card statement, that PayPal sends to processors. The maximum length of the soft descriptor information that you can pass in the API field is 22 characters, in the following format:<code>22 - len(PAYPAL * (8)) - len(<var>Descriptor in Payment Receiving Preferences of Merchant account</var> + 1)</code>The PAYPAL prefix uses 8 characters.<br/><br/>The soft descriptor supports the following ASCII characters:<ul><li>Alphanumeric characters</li><li>Dashes</li><li>Asterisks</li><li>Periods (.)</li><li>Spaces</li></ul>For Wallet payments marketplace integrations:<ul><li>The merchant descriptor in the Payment Receiving Preferences must be the marketplace name.</li><li>You can't use the remaining space to show the customer service number.</li><li>The remaining spaces can be a combination of seller name and country.</li></ul><br/>For unbranded payments (Direct Card) marketplace integrations, use a combination of the seller name and phone number. */
-  soft_descriptor?: string;
+  soft_descriptor?: string | undefined;
   /** An array of items that the customer purchases from the merchant. */
-  items?: GetOrderResponsePurchaseUnitsItemItemsList;
-  shipping?: GetOrderResponsePurchaseUnitsItemShipping;
-  supplementary_data?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData;
-  payments?: GetOrderResponsePurchaseUnitsItemPayments;
+  items?: GetOrderResponsePurchaseUnitsItemItemsList | undefined;
+  shipping?: GetOrderResponsePurchaseUnitsItemShipping | undefined;
+  supplementary_data?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData | undefined;
+  payments?: GetOrderResponsePurchaseUnitsItemPayments | undefined;
 }
 /** An array of purchase units. Each purchase unit establishes a contract between a customer and merchant. Each purchase unit represents either a full or partial order that the customer intends to purchase from the merchant. */
 export type GetOrderResponsePurchaseUnitsList = Array<GetOrderResponsePurchaseUnitsItem>;
@@ -12609,33 +13565,33 @@ export type GetOrderResponseLinksItemSchemaLinksList = Array<unknown>;
 export type GetOrderResponseLinksItemSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface GetOrderResponseLinksItemSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: GetOrderResponseLinksItemSchemaAllOfList;
+  allOf?: GetOrderResponseLinksItemSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: GetOrderResponseLinksItemSchemaAnyOfList;
+  anyOf?: GetOrderResponseLinksItemSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: GetOrderResponseLinksItemSchemaOneOfList;
+  oneOf?: GetOrderResponseLinksItemSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: GetOrderResponseLinksItemSchemaLinksList;
+  links?: GetOrderResponseLinksItemSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 /** An array of sub-schemas. The data must validate against all sub-schemas. */
 export type GetOrderResponseLinksItemTargetSchemaAllOfList = Array<unknown>;
@@ -12649,33 +13605,33 @@ export type GetOrderResponseLinksItemTargetSchemaLinksList = Array<unknown>;
 export type GetOrderResponseLinksItemTargetSchemaMedia = CardVaultResponseLinksItemSchemaMedia;
 export interface GetOrderResponseLinksItemTargetSchema {
   /** Any additional items. */
-  additionalItems?: unknown;
+  additionalItems?: unknown | undefined;
   /** Any Dependencies. */
-  dependencies?: unknown;
+  dependencies?: unknown | undefined;
   /** An item. */
-  items?: unknown;
+  items?: unknown | undefined;
   /** Definitions. */
-  definitions?: unknown;
+  definitions?: unknown | undefined;
   /** The pattern properties. */
-  patternProperties?: unknown;
+  patternProperties?: unknown | undefined;
   /** Properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** An array of sub-schemas. The data must validate against all sub-schemas. */
-  allOf?: GetOrderResponseLinksItemTargetSchemaAllOfList;
+  allOf?: GetOrderResponseLinksItemTargetSchemaAllOfList | undefined;
   /** An array of sub-schemas. The data must validate against one or more sub-schemas. */
-  anyOf?: GetOrderResponseLinksItemTargetSchemaAnyOfList;
+  anyOf?: GetOrderResponseLinksItemTargetSchemaAnyOfList | undefined;
   /** An array of sub-schemas. The data must validate against one sub-schema. */
-  oneOf?: GetOrderResponseLinksItemTargetSchemaOneOfList;
+  oneOf?: GetOrderResponseLinksItemTargetSchemaOneOfList | undefined;
   /** Not. */
-  not?: unknown;
+  not?: unknown | undefined;
   /** An array of links. */
-  links?: GetOrderResponseLinksItemTargetSchemaLinksList;
+  links?: GetOrderResponseLinksItemTargetSchemaLinksList | undefined;
   /** The fragment resolution. */
-  fragmentResolution?: string;
+  fragmentResolution?: string | undefined;
   /** The media type and context-encoding scheme. */
-  media?: CardVaultResponseLinksItemSchemaMedia;
+  media?: CardVaultResponseLinksItemSchemaMedia | undefined;
   /** To apply this schema to the instances' URIs, start the URIs with this value. */
-  pathStart?: string;
+  pathStart?: string | undefined;
 }
 export interface GetOrderResponseLinksItem {
   /** The complete target URL. To make the related call, combine the method with this [URI Template-formatted](https://tools.ietf.org/html/rfc6570) link. For pre-processing, include the `$`, `(`, and `)` characters. The `href` is the key HATEOAS component that links a completed call with a subsequent call. */
@@ -12683,31 +13639,31 @@ export interface GetOrderResponseLinksItem {
   /** The [link relation type](https://tools.ietf.org/html/rfc5988#section-4), which serves as an ID for a link that unambiguously describes the semantics of the link. See [Link Relations](https://www.iana.org/assignments/link-relations/link-relations.xhtml). */
   rel: string;
   /** The HTTP method required to make the related call. */
-  method?: GetOrderResponseLinksItemMethod;
+  method?: GetOrderResponseLinksItemMethod | undefined;
   /** The link title. */
-  title?: string;
+  title?: string | undefined;
   /** The media type, as defined by [RFC 2046](https://www.ietf.org/rfc/rfc2046.txt). Describes the link target. */
-  mediaType?: string;
+  mediaType?: string | undefined;
   /** The media type in which to submit the request data. */
-  encType?: string;
-  schema?: GetOrderResponseLinksItemSchema;
-  targetSchema?: GetOrderResponseLinksItemTargetSchema;
+  encType?: string | undefined;
+  schema?: GetOrderResponseLinksItemSchema | undefined;
+  targetSchema?: GetOrderResponseLinksItemTargetSchema | undefined;
 }
 /** An array of request-related HATEOAS links. To complete payer approval, use the `approve` link to redirect the payer. The API caller has 6 hours (default setting, this which can be changed by your account manager to 24/48/72 hours to accommodate your use case) from the time the order is created, to redirect your payer. Once redirected, the API caller has 6 hours for the payer to approve the order and either authorize or capture the order. If you are not using the PayPal JavaScript SDK to initiate PayPal Checkout (in context) ensure that you include `application_context.return_url` is specified or you will get "We're sorry, Things don't appear to be working at the moment" after the payer approves the payment. */
 export type GetOrderResponseLinksList = Array<GetOrderResponseLinksItem>;
 export interface GetOrderResponse {
-  create_time?: unknown;
-  update_time?: unknown;
+  create_time?: unknown | undefined;
+  update_time?: unknown | undefined;
   /** The ID of the order. */
-  id?: string;
-  payment_source?: AuthorizeOrderResponsePaymentSource;
-  intent?: CheckoutPaymentIntent;
-  payer?: GetOrderResponsePayer;
+  id?: string | undefined;
+  payment_source?: AuthorizeOrderResponsePaymentSource | undefined;
+  intent?: CheckoutPaymentIntent | undefined;
+  payer?: GetOrderResponsePayer | undefined;
   /** An array of purchase units. Each purchase unit establishes a contract between a customer and merchant. Each purchase unit represents either a full or partial order that the customer intends to purchase from the merchant. */
-  purchase_units?: GetOrderResponsePurchaseUnitsList;
-  status?: unknown;
+  purchase_units?: GetOrderResponsePurchaseUnitsList | undefined;
+  status?: unknown | undefined;
   /** An array of request-related HATEOAS links. To complete payer approval, use the `approve` link to redirect the payer. The API caller has 6 hours (default setting, this which can be changed by your account manager to 24/48/72 hours to accommodate your use case) from the time the order is created, to redirect your payer. Once redirected, the API caller has 6 hours for the payer to approve the order and either authorize or capture the order. If you are not using the PayPal JavaScript SDK to initiate PayPal Checkout (in context) ensure that you include `application_context.return_url` is specified or you will get "We're sorry, Things don't appear to be working at the moment" after the payer approves the payment. */
-  links?: GetOrderResponseLinksList;
+  links?: GetOrderResponseLinksList | undefined;
 }
 /** The operation. */
 export type PatchRequestItemOp = "add" | "remove" | "replace" | "move" | "copy" | "test";
@@ -12715,11 +13671,11 @@ export interface PatchRequestItem {
   /** The operation. */
   op: PatchRequestItemOp | (string & {});
   /** The <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the target document location at which to complete the operation. */
-  path?: string;
+  path?: string | undefined;
   /** The value to apply. The <code>remove</code>, <code>copy</code>, and <code>move</code> operations do not require a value. Since <a href="https://www.rfc-editor.org/rfc/rfc6902">JSON Patch</a> allows any type for <code>value</code>, the <code>type</code> property is not specified. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** The <a href="https://tools.ietf.org/html/rfc6901">JSON Pointer</a> to the target document location from which to move the value. Required for the <code>move</code> operation. */
-  from?: string;
+  from?: string | undefined;
 }
 /** An array of JSON patch objects to apply partial updates to resources. */
 export type PatchRequest = Array<PatchRequestItem>;
@@ -12727,8 +13683,8 @@ export interface PatchOrderRequest {
   /** The ID of the order to update. */
   id: string;
   /** Header for an API client-provided JWT assertion that identifies the merchant. Establishing the consent to act-on-behalf of a merchant is a prerequisite for using this header. */
-  payPalAuthAssertion?: string;
-  body?: PatchRequest;
+  payPalAuthAssertion?: string | undefined;
+  body?: PatchRequest | undefined;
 }
 export interface PatchOrderResponse {}
 export interface PatchOrdersTrackerRequest {
@@ -12737,8 +13693,8 @@ export interface PatchOrdersTrackerRequest {
   /** The order tracking ID. */
   tracker_id: string;
   /** Header for an API client-provided JWT assertion that identifies the merchant. Establishing the consent to act-on-behalf of a merchant is a prerequisite for using this header. */
-  payPalAuthAssertion?: string;
-  body?: PatchRequest;
+  payPalAuthAssertion?: string | undefined;
+  body?: PatchRequest | undefined;
 }
 export interface PatchOrdersTrackerResponse {}
 /** The non-portable additional address details include fine-grain address information for Compliance, Risk, and other scenarios. This isn't portable with common third-party and open source applications. This can include data that is redundant with core fields. For example, `address_portable.address_line_1` is usually a combination of `address_details.street_number`, `street_name`, and `street_type`. */
@@ -12780,21 +13736,23 @@ export interface ServerCallbackRequestPurchaseUnitsItemItemsItem {
   /** The item name or title. <blockquote>This field supports up to 3000 characters, but <strong>any content beyond 127 characters (including spaces) will be truncated. The 127 character limit is reflected in the response</strong> representation of this field</blockquote>. */
   name: string;
   unit_amount: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
-  tax?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount;
+  tax?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItemAmount
+    | undefined;
   /** The item quantity. Must be a whole number. */
   quantity: string;
   /** <blockquote>This field supports up to 4000 characters, but <strong>any content beyond 2048 characters (including spaces) will be truncated. The 2048 character limit is reflected in the response</strong> representation of this field</blockquote>. */
-  description?: string;
+  description?: string | undefined;
   /** The stock keeping unit (SKU) for the item. */
-  sku?: string;
+  sku?: string | undefined;
   /** The URL to the item being purchased. Visible to buyer and used in buyer experiences. */
-  url?: string;
+  url?: string | undefined;
   /** The item category type. */
-  category?: ServerCallbackRequestPurchaseUnitsItemItemsItemCategory | (string & {});
+  category?: ServerCallbackRequestPurchaseUnitsItemItemsItemCategory | (string & {}) | undefined;
   /** The URL of the item's image. File type and size restrictions apply. An image that violates these restrictions will not be honored. */
-  image_url?: string;
-  upc?: ServerCallbackRequestPurchaseUnitsItemItemsItemUpc;
-  billing_plan?: OrderBillingPlan;
+  image_url?: string | undefined;
+  upc?: ServerCallbackRequestPurchaseUnitsItemItemsItemUpc | undefined;
+  billing_plan?: OrderBillingPlan | undefined;
 }
 /** An array of items that the customer purchases from the merchant. */
 export type ServerCallbackRequestPurchaseUnitsItemItemsList =
@@ -12820,14 +13778,16 @@ export type ServerCallbackRequestPurchaseUnitsItemShippingAddressAddressDetails 
   CardRequestInputBillingAddressAddressDetails;
 export type ServerCallbackRequestPurchaseUnitsItemShippingAddress = CardRequestInputBillingAddress;
 export interface ServerCallbackRequestPurchaseUnitsItemShipping {
-  name?: CardCustomerName;
-  email_address?: unknown;
-  phone_number?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber;
+  name?: CardCustomerName | undefined;
+  email_address?: unknown | undefined;
+  phone_number?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingPhoneNumber
+    | undefined;
   /** A classification for the method of purchase fulfillment (e.g shipping, in-store pickup, etc). Either `type` or `options` may be present, but not both. */
-  type?: ServerCallbackRequestPurchaseUnitsItemShippingType | (string & {});
+  type?: ServerCallbackRequestPurchaseUnitsItemShippingType | (string & {}) | undefined;
   /** An array of shipping options that the payee or merchant offers to the payer to ship or pick up their items. */
-  options?: ServerCallbackRequestPurchaseUnitsItemShippingOptionsList;
-  address?: CardRequestInputBillingAddress;
+  options?: ServerCallbackRequestPurchaseUnitsItemShippingOptionsList | undefined;
+  address?: CardRequestInputBillingAddress | undefined;
 }
 export type ServerCallbackRequestPurchaseUnitsItemSupplementaryDataCard =
   AuthorizeOrderResponsePurchaseUnitsItemSupplementaryDataCard;
@@ -12837,35 +13797,37 @@ export type ServerCallbackRequestPurchaseUnitsItemSupplementaryData =
   AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData;
 export interface ServerCallbackRequestPurchaseUnitsItem {
   /** The API caller-provided external ID for the purchase unit. Required for multiple purchase units when you must update the order through `PATCH`. If you omit this value and the order contains only one purchase unit, PayPal sets this value to `default`. */
-  reference_id?: string;
+  reference_id?: string | undefined;
   amount: AmountWithBreakdown;
-  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee;
-  payment_instruction?: PaymentInstruction;
+  payee?: PaypalWalletAttributesResponseCobrandedCardsItemPayee | undefined;
+  payment_instruction?: PaymentInstruction | undefined;
   /** <blockquote>This field supports up to 3,000 characters, but <strong>any content beyond 127 characters (including spaces) will be truncated. The 127 character limit is reflected in the response</strong> representation of this field.</blockquote>The purchase description. The maximum length of the character is dependent on the type of characters used. The character length is specified assuming a US ASCII character. Depending on type of character; (e.g. accented character, Japanese characters) the number of characters that that can be specified as input might not equal the permissible max length. */
-  description?: string;
+  description?: string | undefined;
   /** The API caller-provided external ID. Used to reconcile client transactions with PayPal transactions. Appears in transaction and settlement reports but is not visible to the payer. */
-  custom_id?: string;
+  custom_id?: string | undefined;
   /** The API caller-provided external invoice number for this order. Appears in both the payer's transaction history and the emails that the payer receives. invoice_id values are required to be unique within each merchant account by default. Although the uniqueness validation is configurable, disabling this behavior will remove the account's ability to use invoice_id in other APIs as an identifier. It is highly recommended to keep a unique invoice_id for each Order. */
-  invoice_id?: string;
+  invoice_id?: string | undefined;
   /** <blockquote>This field supports up to 127 characters, but <strong>any content beyond 22 characters (including spaces) will be truncated. The 22 character limit is reflected in the response</strong> representation of this field.</blockquote>The soft descriptor is the dynamic text used to construct the statement descriptor that appears on a payer's card statement.<br><br>If an Order is paid using the "PayPal Wallet", the statement descriptor will appear in following format on the payer's card statement: <code><var>PAYPAL_prefix</var>+(space)+<var>merchant_descriptor</var>+(space)+ <var>soft_descriptor</var></code><blockquote><strong>Note:</strong> The merchant descriptor is the descriptor of the merchant's payment receiving preferences which can be seen by logging into the merchant account https://www.sandbox.paypal.com/businessprofile/settings/info/edit</blockquote>The <code>PAYPAL</code> prefix uses 8 characters. Only the first 22 characters will be displayed in the statement. <br>For example, if:<ul><li>The PayPal prefix toggle is <code>PAYPAL *</code>.</li><li>The merchant descriptor in the profile is <code>Janes Gift</code>.</li><li>The soft descriptor is <code>800-123-1234</code>.</li></ul>Then, the statement descriptor on the card is <code>PAYPAL * Janes Gift 80</code>. */
-  soft_descriptor?: string;
+  soft_descriptor?: string | undefined;
   /** An array of items that the customer purchases from the merchant. */
-  items?: ServerCallbackRequestPurchaseUnitsItemItemsList;
-  shipping?: ServerCallbackRequestPurchaseUnitsItemShipping;
-  supplementary_data?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData;
+  items?: ServerCallbackRequestPurchaseUnitsItemItemsList | undefined;
+  shipping?: ServerCallbackRequestPurchaseUnitsItemShipping | undefined;
+  supplementary_data?: AuthorizeOrderResponsePurchaseUnitsItemSupplementaryData | undefined;
 }
 /** An array of purchase units. At present only 1 purchase_unit is supported. Each purchase unit establishes a contract between a payer and the payee. Each purchase unit represents either a full or partial order that the payer intends to purchase from the payee. */
 export type ServerCallbackRequestPurchaseUnitsList = Array<ServerCallbackRequestPurchaseUnitsItem>;
 export interface ServerCallbackRequest {
-  shipping_address?: CardRequestInputBillingAddress;
-  shipping_option?: AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItem;
+  shipping_address?: CardRequestInputBillingAddress | undefined;
+  shipping_option?:
+    | AuthorizeOrderRequestPaymentSourcePaypalAttributesVaultShippingOptionsItem
+    | undefined;
   /** An array of purchase units. At present only 1 purchase_unit is supported. Each purchase unit establishes a contract between a payer and the payee. Each purchase unit represents either a full or partial order that the payer intends to purchase from the payee. */
   purchase_units: ServerCallbackRequestPurchaseUnitsList;
 }
 /** Returns the updated shipping options for an order. */
 export interface OrderUpdateCallbackResponse {
   /** The ID of the order. */
-  id?: string;
+  id?: string | undefined;
 }
 export type AuthorizeOrderError =
   | BadRequest

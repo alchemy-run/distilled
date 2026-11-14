@@ -90,15 +90,15 @@ export type EmailProTaskStatusEnum = "cancelled" | "doing" | "done" | "error" | 
 /** Organization task details */
 export interface EmailProTask {
   /** Completion date */
-  finishDate?: string | null;
+  finishDate?: string | null | undefined;
   /** Function name */
-  function?: EmailProTaskFunctionEnum;
+  function?: EmailProTaskFunctionEnum | undefined;
   /** Task id */
-  id?: number;
+  id?: number | undefined;
   /** Task status */
-  status?: EmailProTaskStatusEnum;
+  status?: EmailProTaskStatusEnum | undefined;
   /** Creation date */
-  todoDate?: string;
+  todoDate?: string | undefined;
 }
 export interface CreateEmailMxplanAccountChangePasswordRequest {
   /** The internal name of your mxplan organization */
@@ -132,23 +132,23 @@ export interface CreateEmailMxplanDomainDisclaimerRequest {
   /** Signature, added at the bottom of your organization emails */
   content: string;
   /** Activate the disclaimer only for external emails */
-  outsideOnly?: boolean;
+  outsideOnly?: boolean | undefined;
 }
 export interface CreateEmailMxplanExternalContactRequest {
   /** The internal name of your mxplan organization */
   service: string;
   /** Contact display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Contact email address */
   externalEmailAddress: string;
   /** Contact first name */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Hide the contact in Global Address List */
-  hiddenFromGAL?: boolean;
+  hiddenFromGAL?: boolean | undefined;
   /** Contact initials */
-  initials?: string;
+  initials?: string | undefined;
   /** Contact last name */
-  lastName?: string;
+  lastName?: string | undefined;
 }
 export interface DeleteEmailMxplanAccountRequest {
   /** The internal name of your mxplan organization */
@@ -209,32 +209,32 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Service Offer name */
 export type EmailMxplanServiceOfferEnum = "MXPLAN";
 /** Spam and Antyvirus configuration */
 export interface EmailProSpamAndVirusConfiguration {
   /** Check DKIM of message */
-  checkDKIM?: boolean;
+  checkDKIM?: boolean | undefined;
   /** Check SPF of message */
-  checkSPF?: boolean;
+  checkSPF?: boolean | undefined;
   /** If message is a spam delete it */
-  deleteSpam?: boolean;
+  deleteSpam?: boolean | undefined;
   /** If message is a virus delete it */
-  deleteVirus?: boolean;
+  deleteVirus?: boolean | undefined;
   /** If message is a spam or virus put in junk. Overridden by deleteSpam or deleteVirus */
-  putInJunk?: boolean;
+  putInJunk?: boolean | undefined;
   /** If message is a spam change its subject */
-  tagSpam?: boolean;
+  tagSpam?: boolean | undefined;
   /** If message is a virus change its subject */
-  tagVirus?: boolean;
+  tagVirus?: boolean | undefined;
 }
 /** Service State */
 export type EmailProServiceStateEnum =
@@ -248,45 +248,45 @@ export type EmailProServiceStateEnum =
 /** MXPlan service */
 export interface EmailMxplanServiceWithIAM {
   /** enable policy for strong and secure passwords */
-  complexityEnabled?: boolean;
+  complexityEnabled?: boolean | undefined;
   /** service displayName */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Domain name of your service */
-  domain?: string;
+  domain?: string | undefined;
   /** Hostname of your service */
-  hostname?: string | null;
+  hostname?: string | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** Service use Zimbra as backend */
-  isZimbra?: boolean;
+  isZimbra?: boolean | undefined;
   /** Update date */
-  lastUpdateDate?: string | null;
+  lastUpdateDate?: string | null | undefined;
   /** number of minutes account will remain locked if it occurs */
-  lockoutDuration?: number;
+  lockoutDuration?: number | undefined;
   /** number of minutes that must elapse after a failed logon to reset lockout trigger */
-  lockoutObservationWindow?: number;
+  lockoutObservationWindow?: number | undefined;
   /** number of attempts before account to be locked */
-  lockoutThreshold?: number | null;
+  lockoutThreshold?: number | null | undefined;
   /** maximum number of days that account's password is valid before expiration */
-  maxPasswordAge?: number | null;
+  maxPasswordAge?: number | null | undefined;
   /** Maximum message size that You can receive in MB */
-  maxReceiveSize?: number;
+  maxReceiveSize?: number | undefined;
   /** Maximum message size that You can send in MB */
-  maxSendSize?: number;
+  maxSendSize?: number | undefined;
   /** minimum number of days before able to change account's password */
-  minPasswordAge?: number | null;
+  minPasswordAge?: number | null | undefined;
   /** minimum number of characters password must contain */
-  minPasswordLength?: number | null;
+  minPasswordLength?: number | null | undefined;
   /** Type of your offer */
-  offer?: EmailMxplanServiceOfferEnum;
+  offer?: EmailMxplanServiceOfferEnum | undefined;
   /** Spam and Antivirus configuration */
-  spamAndVirusConfiguration?: EmailProSpamAndVirusConfiguration;
+  spamAndVirusConfiguration?: EmailProSpamAndVirusConfiguration | undefined;
   /** State of your service */
-  state?: EmailProServiceStateEnum;
+  state?: EmailProServiceStateEnum | undefined;
   /** Task pending id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
   /** URL for web interface */
-  webUrl?: string | null;
+  webUrl?: string | null | undefined;
 }
 export interface GetEmailMxplanAccountRequest {
   /** The internal name of your mxplan organization */
@@ -312,61 +312,61 @@ export type EmailProObjectStateEnum =
 /** Mailbox */
 export interface EmailMxplanAccount {
   /** SAM account name */
-  SAMAccountName?: string | null;
+  SAMAccountName?: string | null | undefined;
   /** Indicates if the account is configured */
-  configured?: boolean;
+  configured?: boolean | undefined;
   /** Creation date */
-  creationDate?: string | null;
+  creationDate?: string | null | undefined;
   /** Mailbox usage */
-  currentUsage?: number | null;
+  currentUsage?: number | null | undefined;
   /** delete at expiration */
-  deleteAtExpiration?: boolean | null;
+  deleteAtExpiration?: boolean | null | undefined;
   /** Account display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Email domain */
-  domain?: string;
+  domain?: string | undefined;
   /** expiration date */
-  expirationDate?: string | null;
+  expirationDate?: string | null | undefined;
   /** expiration date */
-  expirationOutlookDate?: string | null;
+  expirationOutlookDate?: string | null | undefined;
   /** Account first name */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Hide account in Global Address List */
-  hiddenFromGAL?: boolean;
+  hiddenFromGAL?: boolean | undefined;
   /** Account id */
-  id?: number;
+  id?: number | undefined;
   /** Account initials */
-  initial?: string | null;
+  initial?: string | null | undefined;
   /** Last logoff */
-  lastLogoffDate?: string | null;
+  lastLogoffDate?: string | null | undefined;
   /** Last logon */
-  lastLogonDate?: string | null;
+  lastLogonDate?: string | null | undefined;
   /** Account last name */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
   /** Last update */
-  lastUpdateDate?: string | null;
+  lastUpdateDate?: string | null | undefined;
   /** Account login */
-  login?: string;
+  login?: string | undefined;
   /** Enable or disable anti-virus and anti-spam */
-  mailingFilter?: EmailMxplanAccountMailingFilterList | null;
+  mailingFilter?: EmailMxplanAccountMailingFilterList | null | undefined;
   /** Time of account's password last update */
-  passwordLastUpdate?: string | Redacted.Redacted<string> | null;
+  passwordLastUpdate?: string | Redacted.Redacted<string> | null | undefined;
   /** Default email for this mailbox */
-  primaryEmailAddress?: string;
+  primaryEmailAddress?: string | undefined;
   /** Account maximum size */
-  quota?: number;
+  quota?: number | undefined;
   /** change the renew period */
-  renewPeriod?: EmailProRenewPeriodEnum | null;
+  renewPeriod?: EmailProRenewPeriodEnum | null | undefined;
   /** Spam and Antivirus configuration */
-  spamAndVirusConfiguration?: EmailProSpamAndVirusConfiguration;
+  spamAndVirusConfiguration?: EmailProSpamAndVirusConfiguration | undefined;
   /** Account was sending spam */
-  spamDetected?: boolean;
+  spamDetected?: boolean | undefined;
   /** Ticket number of spam detection */
-  spamTicketNumber?: number | null;
+  spamTicketNumber?: number | null | undefined;
   /** Account state */
-  state?: EmailProObjectStateEnum;
+  state?: EmailProObjectStateEnum | undefined;
   /** Pending tasks for this account */
-  taskPendingId?: number | null;
+  taskPendingId?: number | null | undefined;
 }
 export interface GetEmailMxplanAccountAliasRequest {
   /** The internal name of your mxplan organization */
@@ -379,11 +379,11 @@ export interface GetEmailMxplanAccountAliasRequest {
 /** Aliases on this mailbox */
 export interface EmailMxplanAccountAlias {
   /** Alias */
-  alias?: string;
+  alias?: string | undefined;
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Pending task id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
 }
 export interface GetEmailMxplanAccountDiagnosticRequest {
   /** The internal name of your mxplan organization */
@@ -394,23 +394,23 @@ export interface GetEmailMxplanAccountDiagnosticRequest {
 /** Account Diagnosis */
 export interface EmailMxplanAccountDiagnosis {
   /** Determines if ingoing message has been received */
-  canReceiveEmail?: boolean;
+  canReceiveEmail?: boolean | undefined;
   /** Determines if outgoing message has been delivered */
-  canSendEmail?: boolean;
+  canSendEmail?: boolean | undefined;
   /** Determines if possible to authenticate with credentials */
-  connectiveWebmail?: boolean;
+  connectiveWebmail?: boolean | undefined;
   /** Determines if account is locked */
-  isLocked?: boolean;
+  isLocked?: boolean | undefined;
   /** Determines if MX record for account's domain is properly set */
-  isMxValid?: boolean;
+  isMxValid?: boolean | undefined;
   /** Determines if account is flagged as spammer */
-  isSpammer?: boolean;
+  isSpammer?: boolean | undefined;
   /** Determines if SRV (autodiscovery) record for account's domain is properly set */
-  isSrvValid?: boolean;
+  isSrvValid?: boolean | undefined;
   /** Determines if account is suspended */
-  isSuspended?: boolean;
+  isSuspended?: boolean | undefined;
   /** Last performed diagnostics date */
-  lastCheck?: string;
+  lastCheck?: string | undefined;
 }
 export interface GetEmailMxplanAccountFullAccessRequest {
   /** The internal name of your mxplan organization */
@@ -423,11 +423,11 @@ export interface GetEmailMxplanAccountFullAccessRequest {
 /** Users having full access on this mailbox */
 export interface EmailMxplanAccountFullAccess {
   /** Account id to give full access */
-  allowedAccountId?: number;
+  allowedAccountId?: number | undefined;
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Pending task id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
 }
 export interface GetEmailMxplanAccountSendAsRequest {
   /** The internal name of your mxplan organization */
@@ -440,11 +440,11 @@ export interface GetEmailMxplanAccountSendAsRequest {
 /** Users authorized to send mails from this mailbox */
 export interface EmailMxplanAccountSendAs {
   /** Account id to give send as */
-  allowedAccountId?: number;
+  allowedAccountId?: number | undefined;
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Pending task id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
 }
 export interface GetEmailMxplanAccountSendOnBehalfToRequest {
   /** The internal name of your mxplan organization */
@@ -457,11 +457,11 @@ export interface GetEmailMxplanAccountSendOnBehalfToRequest {
 /** Get users authorized to Send On Behalf To mails from this mailbox */
 export interface EmailMxplanAccountSendOnBehalfTo {
   /** Account id to give send on behalf to */
-  allowedAccountId?: number;
+  allowedAccountId?: number | undefined;
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Pending task id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
 }
 export interface GetEmailMxplanAccountTaskRequest {
   /** The internal name of your mxplan organization */
@@ -490,33 +490,33 @@ export type EmailProDomainTypeEnum = "authoritative" | "nonAuthoritative";
 /** Domain */
 export interface EmailMxplanDomain {
   /** Cname that will be checked to prove the domain ownership */
-  cnameToCheck?: string | null;
+  cnameToCheck?: string | null | undefined;
   /** List of aliases for this domain */
-  domainAliases?: EmailMxplanDomainDomainAliasesList;
+  domainAliases?: EmailMxplanDomainDomainAliasesList | undefined;
   /** Domain validation status */
-  domainValidated?: boolean;
+  domainValidated?: boolean | undefined;
   /** Expected MX record(s) on this domain */
-  expectedMX?: EmailMxplanDomainExpectedMXList;
+  expectedMX?: EmailMxplanDomainExpectedMXList | undefined;
   /** Indicate if this domain is an alias for another domain */
-  isAliasDomain?: boolean;
+  isAliasDomain?: boolean | undefined;
   /** If true your dns mx configuration is valid */
-  mxIsValid?: boolean;
+  mxIsValid?: boolean | undefined;
   /** Domain MX record configured in DNS */
-  mxRecord?: EmailMxplanDomainMxRecordList;
+  mxRecord?: EmailMxplanDomainMxRecordList | undefined;
   /** If specified, emails to not existing address will be redirected to that domain */
-  mxRelay?: string | null;
+  mxRelay?: string | null | undefined;
   /** Domain name */
-  name?: string;
+  name?: string | undefined;
   /** If true your dns srv record is valid */
-  srvIsValid?: boolean;
+  srvIsValid?: boolean | undefined;
   /** Domain SRV record configured in DNS */
-  srvRecord?: EmailMxplanDomainSrvRecordList;
+  srvRecord?: EmailMxplanDomainSrvRecordList | undefined;
   /** Domain state */
-  state?: EmailProObjectStateEnum;
+  state?: EmailProObjectStateEnum | undefined;
   /** Pending taks id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
   /** Domain type */
-  type?: EmailProDomainTypeEnum;
+  type?: EmailProDomainTypeEnum | undefined;
 }
 export interface GetEmailMxplanDomainDisclaimerRequest {
   /** The internal name of your mxplan organization */
@@ -527,15 +527,15 @@ export interface GetEmailMxplanDomainDisclaimerRequest {
 /** disclaimer */
 export interface EmailProDisclaimer {
   /** Signature, added at the bottom of your organization emails */
-  content?: string;
+  content?: string | undefined;
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Disclaimer name */
-  name?: string;
+  name?: string | undefined;
   /** Activate the disclaimer only for external emails */
-  outsideOnly?: boolean;
+  outsideOnly?: boolean | undefined;
   /** task pending id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
 }
 export interface GetEmailMxplanExternalContactRequest {
   /** The internal name of your mxplan organization */
@@ -546,25 +546,25 @@ export interface GetEmailMxplanExternalContactRequest {
 /** External contact for this mxplan service */
 export interface EmailMxplanExternalContact {
   /** Creation date */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Contact display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Contact email */
-  externalEmailAddress?: string;
+  externalEmailAddress?: string | undefined;
   /** Contact first name */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Hide the contact in Global Address List */
-  hiddenFromGAL?: boolean;
+  hiddenFromGAL?: boolean | undefined;
   /** Contact id */
-  id?: number;
+  id?: number | undefined;
   /** Contact initals */
-  initials?: string | null;
+  initials?: string | null | undefined;
   /** Contact last name */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
   /** Contact state */
-  state?: EmailProObjectStateEnum;
+  state?: EmailProObjectStateEnum | undefined;
   /** Task pending id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
 }
 export interface GetEmailMxplanServerRequest {
   /** The internal name of your mxplan organization */
@@ -575,27 +575,27 @@ export type EmailProServerStateEnum = "configurationPending" | "notConfigured" |
 /** Server */
 export interface EmailMxplanServer {
   /** Current disk usage in MB */
-  currentDiskUsage?: number | null;
+  currentDiskUsage?: number | null | undefined;
   /** Total disk size in MB */
-  diskSize?: number | null;
+  diskSize?: number | null | undefined;
   /** ipV4 */
-  ip?: string;
+  ip?: string | undefined;
   /** ipV6 */
-  ipV6?: string | null;
+  ipV6?: string | null | undefined;
   /** If true your dns A record is valid */
-  isAValid?: boolean;
+  isAValid?: boolean | undefined;
   /** If true your dns AAAA record is valid */
-  isAaaaValid?: boolean;
+  isAaaaValid?: boolean | undefined;
   /** If true your dns ptrV6 record is valid */
-  isPtrV6Valid?: boolean;
+  isPtrV6Valid?: boolean | undefined;
   /** If true your dns ptr record is valid */
-  isPtrValid?: boolean;
+  isPtrValid?: boolean | undefined;
   /** Server state */
-  state?: EmailProServerStateEnum;
+  state?: EmailProServerStateEnum | undefined;
   /** Task pending id */
-  taskPendingId?: number;
+  taskPendingId?: number | undefined;
   /** Server version */
-  version?: number | null;
+  version?: number | null | undefined;
 }
 export interface GetEmailMxplanTaskRequest {
   /** The internal name of your mxplan organization */
@@ -611,7 +611,7 @@ export type ListEmailMxplanRequestIamTagsMap = {
 };
 export interface ListEmailMxplanRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListEmailMxplanRequestIamTagsMap;
+  iamTags?: ListEmailMxplanRequestIamTagsMap | undefined;
 }
 export type ListEmailMxplanResponseBodyList = Array<string>;
 export type ListEmailMxplanResponse = ListEmailMxplanResponseBodyList;
@@ -619,9 +619,9 @@ export interface ListEmailMxplanAccountRequest {
   /** The internal name of your mxplan organization */
   service: string;
   /** Filter the value of id property (like) */
-  id?: number;
+  id?: number | undefined;
   /** Filter the value of primaryEmailAddress property (like) */
-  primaryEmailAddress?: string;
+  primaryEmailAddress?: string | undefined;
 }
 export type ListEmailMxplanAccountResponseBodyList = Array<string>;
 export type ListEmailMxplanAccountResponse = ListEmailMxplanAccountResponseBodyList;
@@ -644,7 +644,7 @@ export type EmailMxplanAccountCapabilitiesQuotasList = Array<number>;
 /** Account capabilities */
 export interface EmailMxplanAccountCapabilities {
   /** List of allowed quotas (no constraint if null) */
-  quotas?: EmailMxplanAccountCapabilitiesQuotasList | null;
+  quotas?: EmailMxplanAccountCapabilitiesQuotasList | null | undefined;
 }
 export interface ListEmailMxplanAccountFullAccessRequest {
   /** The internal name of your mxplan organization */
@@ -684,7 +684,7 @@ export interface ListEmailMxplanDomainRequest {
   /** The internal name of your mxplan organization */
   service: string;
   /** Filter the value of state property (=) */
-  state?: EmailProObjectStateEnum | (string & {});
+  state?: EmailProObjectStateEnum | (string & {}) | undefined;
 }
 export type ListEmailMxplanDomainResponseBodyList = Array<string>;
 export type ListEmailMxplanDomainResponse = ListEmailMxplanDomainResponseBodyList;
@@ -729,15 +729,15 @@ export interface ListEmailMxplanExternalContactRequest {
   /** The internal name of your mxplan organization */
   service: string;
   /** Filter the value of displayName property (like) */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Filter the value of externalEmailAddress property (like) */
-  externalEmailAddress?: string;
+  externalEmailAddress?: string | undefined;
   /** Filter the value of firstName property (like) */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Filter the value of id property (like) */
-  id?: number;
+  id?: number | undefined;
   /** Filter the value of lastName property (like) */
-  lastName?: string;
+  lastName?: string | undefined;
 }
 export type ListEmailMxplanExternalContactResponseBodyList = Array<string>;
 export type ListEmailMxplanExternalContactResponse = ListEmailMxplanExternalContactResponseBodyList;
@@ -751,27 +751,27 @@ export interface PutEmailMxplanRequest {
   /** The internal name of your mxplan organization */
   service: string;
   /** enable policy for strong and secure passwords */
-  complexityEnabled?: boolean;
+  complexityEnabled?: boolean | undefined;
   /** service displayName */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** number of minutes account will remain locked if it occurs */
-  lockoutDuration?: number;
+  lockoutDuration?: number | undefined;
   /** number of minutes that must elapse after a failed logon to reset lockout trigger */
-  lockoutObservationWindow?: number;
+  lockoutObservationWindow?: number | undefined;
   /** number of attempts before account to be locked */
-  lockoutThreshold?: number | null;
+  lockoutThreshold?: number | null | undefined;
   /** maximum number of days that account's password is valid before expiration */
-  maxPasswordAge?: number | null;
+  maxPasswordAge?: number | null | undefined;
   /** Maximum message size that You can receive in MB */
-  maxReceiveSize?: number;
+  maxReceiveSize?: number | undefined;
   /** Maximum message size that You can send in MB */
-  maxSendSize?: number;
+  maxSendSize?: number | undefined;
   /** minimum number of days before able to change account's password */
-  minPasswordAge?: number | null;
+  minPasswordAge?: number | null | undefined;
   /** minimum number of characters password must contain */
-  minPasswordLength?: number | null;
+  minPasswordLength?: number | null | undefined;
   /** Spam and Antivirus configuration */
-  spamAndVirusConfiguration?: EmailProSpamAndVirusConfiguration;
+  spamAndVirusConfiguration?: EmailProSpamAndVirusConfiguration | undefined;
 }
 export interface PutEmailMxplanResponse {}
 /** Enable or disable anti-virus and anti-spam */
@@ -784,29 +784,29 @@ export interface PutEmailMxplanAccountRequest {
   /** Default email for this mailbox */
   email: string;
   /** delete at expiration */
-  deleteAtExpiration?: boolean | null;
+  deleteAtExpiration?: boolean | null | undefined;
   /** Account display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Email domain */
-  domain?: string;
+  domain?: string | undefined;
   /** Account first name */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Hide account in Global Address List */
-  hiddenFromGAL?: boolean;
+  hiddenFromGAL?: boolean | undefined;
   /** Account initials */
-  initial?: string | null;
+  initial?: string | null | undefined;
   /** Account last name */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
   /** Account login */
-  login?: string;
+  login?: string | undefined;
   /** Enable or disable anti-virus and anti-spam */
-  mailingFilter?: PutEmailMxplanAccountRequestMailingFilterList | null;
+  mailingFilter?: PutEmailMxplanAccountRequestMailingFilterList | null | undefined;
   /** Account maximum size */
-  quota?: number;
+  quota?: number | undefined;
   /** change the renew period */
-  renewPeriod?: EmailProRenewPeriodEnum | (string & {}) | null;
+  renewPeriod?: EmailProRenewPeriodEnum | (string & {}) | null | undefined;
   /** Spam and Antivirus configuration */
-  spamAndVirusConfiguration?: EmailProSpamAndVirusConfiguration;
+  spamAndVirusConfiguration?: EmailProSpamAndVirusConfiguration | undefined;
 }
 export interface PutEmailMxplanAccountResponse {}
 export interface PutEmailMxplanDomainRequest {
@@ -815,9 +815,9 @@ export interface PutEmailMxplanDomainRequest {
   /** Domain name */
   domainName: string;
   /** If specified, emails to not existing address will be redirected to that domain */
-  mxRelay?: string | null;
+  mxRelay?: string | null | undefined;
   /** Domain type */
-  type?: EmailProDomainTypeEnum | (string & {});
+  type?: EmailProDomainTypeEnum | (string & {}) | undefined;
 }
 export interface PutEmailMxplanDomainResponse {}
 export interface PutEmailMxplanDomainDisclaimerRequest {
@@ -826,9 +826,9 @@ export interface PutEmailMxplanDomainDisclaimerRequest {
   /** Domain name */
   domainName: string;
   /** Signature, added at the bottom of your organization emails */
-  content?: string;
+  content?: string | undefined;
   /** Activate the disclaimer only for external emails */
-  outsideOnly?: boolean;
+  outsideOnly?: boolean | undefined;
 }
 export interface PutEmailMxplanDomainDisclaimerResponse {}
 export interface PutEmailMxplanExternalContactRequest {
@@ -837,15 +837,15 @@ export interface PutEmailMxplanExternalContactRequest {
   /** Contact email */
   externalEmailAddress: string;
   /** Contact display name */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Contact first name */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** Hide the contact in Global Address List */
-  hiddenFromGAL?: boolean;
+  hiddenFromGAL?: boolean | undefined;
   /** Contact initals */
-  initials?: string | null;
+  initials?: string | null | undefined;
   /** Contact last name */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
 }
 export interface PutEmailMxplanExternalContactResponse {}
 export interface SendEmailMxplanAccountAsRequest {

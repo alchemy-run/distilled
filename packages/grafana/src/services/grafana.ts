@@ -73,43 +73,43 @@ export class UnprocessableEntity
 
 export type AddDataSourceRequestSecureJsonDataMap = { [key: string]: string | undefined };
 export interface AddDataSourceRequest {
-  access?: string;
-  basicAuth?: boolean;
-  basicAuthUser?: string;
-  database?: string;
-  isDefault?: boolean;
-  jsonData?: unknown;
-  name?: string;
-  secureJsonData?: AddDataSourceRequestSecureJsonDataMap;
-  type?: string;
-  uid?: string;
-  url?: string;
-  user?: string;
-  withCredentials?: boolean;
+  access?: string | undefined;
+  basicAuth?: boolean | undefined;
+  basicAuthUser?: string | undefined;
+  database?: string | undefined;
+  isDefault?: boolean | undefined;
+  jsonData?: unknown | undefined;
+  name?: string | undefined;
+  secureJsonData?: AddDataSourceRequestSecureJsonDataMap | undefined;
+  type?: string | undefined;
+  uid?: string | undefined;
+  url?: string | undefined;
+  user?: string | undefined;
+  withCredentials?: boolean | undefined;
 }
 /** Metadata contains user accesses for a given resource Ex: map[string]bool{"create":true, "delete": true} */
 export type Metadata = { [key: string]: boolean | undefined };
 export type DataSourceSecureJsonFieldsMap = { [key: string]: boolean | undefined };
 export interface DataSource {
-  access?: string;
-  accessControl?: Metadata;
-  basicAuth?: boolean;
-  basicAuthUser?: string;
-  database?: string;
-  id?: number;
-  isDefault?: boolean;
-  jsonData?: unknown;
-  name?: string;
-  orgId?: number;
-  readOnly?: boolean;
-  secureJsonFields?: DataSourceSecureJsonFieldsMap;
-  type?: string;
-  typeLogoUrl?: string;
-  uid?: string;
-  url?: string;
-  user?: string;
-  version?: number;
-  withCredentials?: boolean;
+  access?: string | undefined;
+  accessControl?: Metadata | undefined;
+  basicAuth?: boolean | undefined;
+  basicAuthUser?: string | undefined;
+  database?: string | undefined;
+  id?: number | undefined;
+  isDefault?: boolean | undefined;
+  jsonData?: unknown | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  readOnly?: boolean | undefined;
+  secureJsonFields?: DataSourceSecureJsonFieldsMap | undefined;
+  type?: string | undefined;
+  typeLogoUrl?: string | undefined;
+  uid?: string | undefined;
+  url?: string | undefined;
+  user?: string | undefined;
+  version?: number | undefined;
+  withCredentials?: boolean | undefined;
 }
 export interface AddDataSourceResponse {
   datasource: DataSource;
@@ -122,28 +122,28 @@ export interface AddDataSourceResponse {
 }
 export type AddOrgInviteRequestRole = "None" | "Viewer" | "Editor" | "Admin";
 export interface AddOrgInviteRequest {
-  loginOrEmail?: string;
-  name?: string;
-  role?: AddOrgInviteRequestRole | (string & {});
-  sendEmail?: boolean;
+  loginOrEmail?: string | undefined;
+  name?: string | undefined;
+  role?: AddOrgInviteRequestRole | (string & {}) | undefined;
+  sendEmail?: boolean | undefined;
 }
 export interface SuccessResponseBody {
-  message?: string;
+  message?: string | undefined;
 }
 export type AddOrgUserRequestRole = "None" | "Viewer" | "Editor" | "Admin";
 export interface AddOrgUserRequest {
   org_id: number;
-  loginOrEmail?: string;
-  role?: AddOrgUserRequestRole | (string & {});
+  loginOrEmail?: string | undefined;
+  role?: AddOrgUserRequestRole | (string & {}) | undefined;
 }
 export type AddOrgUserToCurrentOrgRequestRole = "None" | "Viewer" | "Editor" | "Admin";
 export interface AddOrgUserToCurrentOrgRequest {
-  loginOrEmail?: string;
-  role?: AddOrgUserToCurrentOrgRequestRole | (string & {});
+  loginOrEmail?: string | undefined;
+  role?: AddOrgUserToCurrentOrgRequestRole | (string & {}) | undefined;
 }
 export interface AddTeamGroupApiRequest {
   teamId: string;
-  groupId?: string;
+  groupId?: string | undefined;
 }
 export interface AddTeamMemberRequest {
   team_id: string;
@@ -151,24 +151,24 @@ export interface AddTeamMemberRequest {
 }
 export interface AddTeamRoleRequest {
   teamId: number;
-  roleUid?: string;
+  roleUid?: string | undefined;
 }
 export interface AddUserRoleRequest {
   userId: number;
-  global?: boolean;
-  roleUid?: string;
+  global?: boolean | undefined;
+  roleUid?: string | undefined;
 }
 export interface AdminCreateUserRequest {
-  email?: string;
-  login?: string;
-  name?: string;
-  orgId?: number;
-  password?: string | Redacted.Redacted<string>;
+  email?: string | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface AdminCreateUserResponse {
-  id?: number;
-  message?: string;
-  uid?: string;
+  id?: number | undefined;
+  message?: string | undefined;
+  uid?: string | undefined;
 }
 export interface AdminDeleteUserRequest {
   user_id: number;
@@ -185,50 +185,50 @@ export type SettingsBag = { [key: string]: SettingsBagValueMap | undefined };
 export type AdminGetSettingsResponse = SettingsBag;
 export interface AdminGetStatsRequest {}
 export interface AdminStats {
-  activeAdmins?: number;
-  activeDevices?: number;
-  activeEditors?: number;
-  activeSessions?: number;
-  activeUsers?: number;
-  activeViewers?: number;
-  admins?: number;
-  alerts?: number;
-  dailyActiveAdmins?: number;
-  dailyActiveEditors?: number;
-  dailyActiveSessions?: number;
-  dailyActiveUsers?: number;
-  dailyActiveViewers?: number;
-  dashboards?: number;
-  datasources?: number;
-  editors?: number;
-  monthlyActiveUsers?: number;
-  orgs?: number;
-  playlists?: number;
-  snapshots?: number;
-  stars?: number;
-  tags?: number;
-  users?: number;
-  viewers?: number;
+  activeAdmins?: number | undefined;
+  activeDevices?: number | undefined;
+  activeEditors?: number | undefined;
+  activeSessions?: number | undefined;
+  activeUsers?: number | undefined;
+  activeViewers?: number | undefined;
+  admins?: number | undefined;
+  alerts?: number | undefined;
+  dailyActiveAdmins?: number | undefined;
+  dailyActiveEditors?: number | undefined;
+  dailyActiveSessions?: number | undefined;
+  dailyActiveUsers?: number | undefined;
+  dailyActiveViewers?: number | undefined;
+  dashboards?: number | undefined;
+  datasources?: number | undefined;
+  editors?: number | undefined;
+  monthlyActiveUsers?: number | undefined;
+  orgs?: number | undefined;
+  playlists?: number | undefined;
+  snapshots?: number | undefined;
+  stars?: number | undefined;
+  tags?: number | undefined;
+  users?: number | undefined;
+  viewers?: number | undefined;
 }
 export interface AdminGetUserAuthTokensRequest {
   user_id: number;
 }
 /** UserToken represents a user token */
 export interface UserToken {
-  AuthToken?: string;
-  AuthTokenSeen?: boolean;
-  ClientIp?: string;
-  CreatedAt?: number;
-  ExternalSessionId?: number;
-  Id?: number;
-  PrevAuthToken?: string;
-  RevokedAt?: number;
-  RotatedAt?: number;
-  SeenAt?: number;
-  UnhashedToken?: string;
-  UpdatedAt?: number;
-  UserAgent?: string;
-  UserId?: number;
+  AuthToken?: string | undefined;
+  AuthTokenSeen?: boolean | undefined;
+  ClientIp?: string | undefined;
+  CreatedAt?: number | undefined;
+  ExternalSessionId?: number | undefined;
+  Id?: number | undefined;
+  PrevAuthToken?: string | undefined;
+  RevokedAt?: number | undefined;
+  RotatedAt?: number | undefined;
+  SeenAt?: number | undefined;
+  UnhashedToken?: string | undefined;
+  UpdatedAt?: number | undefined;
+  UserAgent?: string | undefined;
+  UserId?: number | undefined;
 }
 export type AdminGetUserAuthTokensResponseBodyList = Array<UserToken>;
 export type AdminGetUserAuthTokensResponse = AdminGetUserAuthTokensResponseBodyList;
@@ -242,15 +242,15 @@ export interface AdminProvisioningReloadDatasourcesRequest {}
 export interface AdminProvisioningReloadPluginsRequest {}
 export interface AdminRevokeUserAuthTokenRequest {
   user_id: number;
-  authTokenId?: number;
+  authTokenId?: number | undefined;
 }
 export interface AdminUpdateUserPasswordRequest {
   user_id: number;
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
 }
 export interface AdminUpdateUserPermissionsRequest {
   user_id: number;
-  isGrafanaAdmin?: boolean;
+  isGrafanaAdmin?: boolean | undefined;
 }
 export interface CallDatasourceResourceWithUIDRequest {
   uid: string;
@@ -264,8 +264,8 @@ export interface CancelSnapshotRequest {
 }
 export interface CancelSnapshotResponse {}
 export interface ChangeUserPasswordRequest {
-  newPassword?: string | Redacted.Redacted<string>;
-  oldPassword?: string | Redacted.Redacted<string>;
+  newPassword?: string | Redacted.Redacted<string> | undefined;
+  oldPassword?: string | Redacted.Redacted<string> | undefined;
 }
 export interface CheckDatasourceHealthWithUIDRequest {
   uid: string;
@@ -274,31 +274,31 @@ export interface CleanDataSourceCacheRequest {
   dataSourceUID: string;
 }
 export interface CacheConfigResponse {
-  created?: string;
+  created?: string | undefined;
   /** Fields that can be set by the API caller - read/write */
-  dataSourceID?: number;
-  dataSourceUID?: string;
+  dataSourceID?: number | undefined;
+  dataSourceUID?: string | undefined;
   /** These are returned by the HTTP API, but are managed internally - read-only Note: 'created' and 'updated' are special properties managed automatically by xorm, but we are setting them manually */
-  defaultTTLMs?: number;
-  enabled?: boolean;
-  message?: string;
+  defaultTTLMs?: number | undefined;
+  enabled?: boolean | undefined;
+  message?: string | undefined;
   /** TTL MS, or "time to live", is how long a cached item will stay in the cache before it is removed (in milliseconds) */
-  ttlQueriesMs?: number;
-  ttlResourcesMs?: number;
-  updated?: string;
+  ttlQueriesMs?: number | undefined;
+  ttlResourcesMs?: number | undefined;
+  updated?: string | undefined;
   /** If UseDefaultTTL is enabled, then the TTLQueriesMS and TTLResourcesMS in this object is always sent as the default TTL located in grafana.ini */
-  useDefaultTTL?: boolean;
+  useDefaultTTL?: boolean | undefined;
 }
 export type CreateAnnotationRequestTagsList = Array<string>;
 export interface CreateAnnotationRequest {
-  dashboardId?: number;
-  dashboardUID?: string;
-  data?: unknown;
-  panelId?: number;
-  tags?: CreateAnnotationRequestTagsList;
+  dashboardId?: number | undefined;
+  dashboardUID?: string | undefined;
+  data?: unknown | undefined;
+  panelId?: number | undefined;
+  tags?: CreateAnnotationRequestTagsList | undefined;
   text: string;
-  time?: number;
-  timeEnd?: number;
+  time?: number | undefined;
+  timeEnd?: number | undefined;
 }
 export interface CreateAnnotationResponse {
   /** ID Identifier of the created annotation. */
@@ -308,16 +308,16 @@ export interface CreateAnnotationResponse {
 }
 export interface CreateCloudMigrationTokenRequest {}
 export interface CreateAccessTokenResponseDTO {
-  token?: string;
+  token?: string | undefined;
 }
 /** Target data query */
 export type CorrelationConfigTargetMap = { [key: string]: unknown | undefined };
 export type TransformationType = "regex" | "logfmt";
 export interface Transformation {
-  expression?: string;
-  field?: string;
-  mapValue?: string;
-  type?: TransformationType | (string & {});
+  expression?: string | undefined;
+  field?: string | undefined;
+  mapValue?: string | undefined;
+  type?: TransformationType | (string & {}) | undefined;
 }
 export type Transformations = Array<Transformation>;
 export interface CorrelationConfig {
@@ -325,130 +325,130 @@ export interface CorrelationConfig {
   field: string;
   /** Target data query */
   target: CorrelationConfigTargetMap;
-  transformations?: Transformations;
-  type?: string;
+  transformations?: Transformations | undefined;
+  type?: string | undefined;
 }
 export interface CreateCorrelationRequest {
   sourceUID: string;
-  config?: CorrelationConfig;
+  config?: CorrelationConfig | undefined;
   /** Optional description of the correlation */
-  description?: string;
+  description?: string | undefined;
   /** Optional label identifying the correlation */
-  label?: string;
+  label?: string | undefined;
   /** True if correlation was created with provisioning. This makes it read-only. */
-  provisioned?: boolean;
+  provisioned?: boolean | undefined;
   /** Target data source UID to which the correlation is created. required if type = query */
-  targetUID?: string;
-  type?: string;
+  targetUID?: string | undefined;
+  type?: string | undefined;
 }
 /** Correlation is the model for correlations definitions */
 export interface Correlation {
-  config?: CorrelationConfig;
+  config?: CorrelationConfig | undefined;
   /** Description of the correlation */
-  description?: string;
+  description?: string | undefined;
   /** Label identifying the correlation */
-  label?: string;
+  label?: string | undefined;
   /** OrgID of the data source the correlation originates from */
-  orgId?: number;
+  orgId?: number | undefined;
   /** Provisioned True if the correlation was created during provisioning */
-  provisioned?: boolean;
+  provisioned?: boolean | undefined;
   /** UID of the data source the correlation originates from */
-  sourceUID?: string;
+  sourceUID?: string | undefined;
   /** UID of the data source the correlation points to */
-  targetUID?: string;
-  type?: string;
+  targetUID?: string | undefined;
+  type?: string | undefined;
   /** Unique identifier of the correlation */
-  uid?: string;
+  uid?: string | undefined;
 }
 /** CreateCorrelationResponse is the response struct for CreateCorrelationCommand */
 export interface CreateCorrelationResponseBody {
-  message?: string;
-  result?: Correlation;
+  message?: string | undefined;
+  result?: Correlation | undefined;
 }
 /** Object is a JSON compatible map with string, float, int, bool, []any, or map[string]any children. */
 export type UnstructuredObjectMap = { [key: string]: unknown | undefined };
 /** Unstructured allows objects that do not have Golang structs registered to be manipulated generically. */
 export interface Unstructured {
   /** Object is a JSON compatible map with string, float, int, bool, []any, or map[string]any children. */
-  Object?: UnstructuredObjectMap;
+  Object?: UnstructuredObjectMap | undefined;
 }
 export interface CreateDashboardSnapshotRequest {
   /** APIVersion defines the versioned schema of this representation of an object. Servers should convert recognized schemas to the latest internal value, and may reject unrecognized values. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources */
-  apiVersion?: string;
+  apiVersion?: string | undefined;
   dashboard: Unstructured;
   /** Unique key used to delete the snapshot. It is different from the `key` so that only the creator can delete the snapshot. Required if `external` is `true`. */
-  deleteKey?: string;
+  deleteKey?: string | undefined;
   /** When the snapshot should expire in seconds in seconds. Default is never to expire. */
-  expires?: number;
+  expires?: number | undefined;
   /** these are passed when storing an external snapshot ref Save the snapshot on an external server rather than locally. */
-  external?: boolean;
+  external?: boolean | undefined;
   /** Define the unique key. Required if `external` is `true`. */
-  key?: string;
+  key?: string | undefined;
   /** Kind is a string value representing the REST resource this object represents. Servers may infer this from the endpoint the client submits requests to. Cannot be updated. In CamelCase. More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds */
-  kind?: string;
+  kind?: string | undefined;
   /** Snapshot name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateDashboardSnapshotResponse {
   /** Unique key used to delete the snapshot. It is different from the key so that only the creator can delete the snapshot. */
-  deleteKey?: string;
-  deleteUrl?: string;
+  deleteKey?: string | undefined;
+  deleteUrl?: string | undefined;
   /** Snapshot id */
-  id?: number;
+  id?: number | undefined;
   /** Unique key */
-  key?: string;
-  url?: string;
+  key?: string | undefined;
+  url?: string | undefined;
 }
 /** Kind of element to create, Use 1 for library panels or 2 for c. Description: - 1 - library panels */
 export type CreateLibraryElementRequestKind = 1;
 export interface CreateLibraryElementRequest {
   /** ID of the folder where the library element is stored. Deprecated: use FolderUID instead */
-  folderId?: number;
+  folderId?: number | undefined;
   /** UID of the folder where the library element is stored. */
-  folderUid?: string;
+  folderUid?: string | undefined;
   /** Kind of element to create, Use 1 for library panels or 2 for c. Description: - 1 - library panels */
-  kind?: CreateLibraryElementRequestKind | (number & {});
+  kind?: CreateLibraryElementRequestKind | (number & {}) | undefined;
   /** The JSON model for the library element. */
-  model?: unknown;
+  model?: unknown | undefined;
   /** Name of the library element. */
-  name?: string;
-  uid?: string;
+  name?: string | undefined;
+  uid?: string | undefined;
 }
 export interface LibraryElementDTOMetaUser {
-  avatarUrl?: string;
-  id?: number;
-  name?: string;
+  avatarUrl?: string | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
 }
 export interface LibraryElementDTOMeta {
-  connectedDashboards?: number;
-  created?: string;
-  createdBy?: LibraryElementDTOMetaUser;
-  folderName?: string;
-  folderUid?: string;
-  updated?: string;
-  updatedBy?: LibraryElementDTOMetaUser;
+  connectedDashboards?: number | undefined;
+  created?: string | undefined;
+  createdBy?: LibraryElementDTOMetaUser | undefined;
+  folderName?: string | undefined;
+  folderUid?: string | undefined;
+  updated?: string | undefined;
+  updatedBy?: LibraryElementDTOMetaUser | undefined;
 }
 export interface LibraryElementDTO {
-  description?: string;
+  description?: string | undefined;
   /** Deprecated: use FolderUID instead */
-  folderId?: number;
-  folderUid?: string;
-  id?: number;
-  kind?: number;
-  meta?: LibraryElementDTOMeta;
-  model?: unknown;
-  name?: string;
-  orgId?: number;
-  schemaVersion?: number;
-  type?: string;
-  uid?: string;
-  version?: number;
+  folderId?: number | undefined;
+  folderUid?: string | undefined;
+  id?: number | undefined;
+  kind?: number | undefined;
+  meta?: LibraryElementDTOMeta | undefined;
+  model?: unknown | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  schemaVersion?: number | undefined;
+  type?: string | undefined;
+  uid?: string | undefined;
+  version?: number | undefined;
 }
 export interface LibraryElementResponse {
-  result?: LibraryElementDTO;
+  result?: LibraryElementDTO | undefined;
 }
 export interface CreateOrgRequest {
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateOrgResponse {
   /** Message Message of the created org. */
@@ -458,212 +458,212 @@ export interface CreateOrgResponse {
 }
 export interface CreatePublicDashboardRequest {
   dashboardUid: string;
-  accessToken?: string | Redacted.Redacted<string>;
-  annotationsEnabled?: boolean;
-  isEnabled?: boolean;
-  share?: string;
-  timeSelectionEnabled?: boolean;
-  uid?: string;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
+  annotationsEnabled?: boolean | undefined;
+  isEnabled?: boolean | undefined;
+  share?: string | undefined;
+  timeSelectionEnabled?: boolean | undefined;
+  uid?: string | undefined;
 }
 export interface EmailDTO {
-  recipient?: string;
-  uid?: string;
+  recipient?: string | undefined;
+  uid?: string | undefined;
 }
 export type PublicDashboardRecipientsList = Array<EmailDTO>;
 export interface PublicDashboard {
-  accessToken?: string | Redacted.Redacted<string>;
-  annotationsEnabled?: boolean;
-  createdAt?: string;
-  createdBy?: number;
-  dashboardUid?: string;
-  isEnabled?: boolean;
-  recipients?: PublicDashboardRecipientsList;
-  share?: string;
-  timeSelectionEnabled?: boolean;
-  uid?: string;
-  updatedAt?: string;
-  updatedBy?: number;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
+  annotationsEnabled?: boolean | undefined;
+  createdAt?: string | undefined;
+  createdBy?: number | undefined;
+  dashboardUid?: string | undefined;
+  isEnabled?: boolean | undefined;
+  recipients?: PublicDashboardRecipientsList | undefined;
+  share?: string | undefined;
+  timeSelectionEnabled?: boolean | undefined;
+  uid?: string | undefined;
+  updatedAt?: string | undefined;
+  updatedBy?: number | undefined;
 }
 export interface CreateQueryRequest {
   /** UID of the data source for which are queries stored. */
-  datasourceUid?: string;
+  datasourceUid?: string | undefined;
   queries: unknown;
 }
 export interface QueryHistoryDTO {
-  comment?: string;
-  createdAt?: number;
-  createdBy?: number;
-  datasourceUid?: string;
-  queries?: unknown;
-  starred?: boolean;
-  uid?: string;
+  comment?: string | undefined;
+  createdAt?: number | undefined;
+  createdBy?: number | undefined;
+  datasourceUid?: string | undefined;
+  queries?: unknown | undefined;
+  starred?: boolean | undefined;
+  uid?: string | undefined;
 }
 /** QueryHistoryResponse is a response struct for QueryHistoryDTO */
 export interface QueryHistoryResponse {
-  result?: QueryHistoryDTO;
+  result?: QueryHistoryDTO | undefined;
 }
 export type CreateRecordingRuleRequestQueriesItemMap = { [key: string]: unknown | undefined };
 export type CreateRecordingRuleRequestQueriesList = Array<CreateRecordingRuleRequestQueriesItemMap>;
 export interface CreateRecordingRuleRequest {
-  active?: boolean;
-  count?: boolean;
-  description?: string;
-  dest_data_source_uid?: string;
-  id?: string;
-  interval?: number;
-  name?: string;
-  prom_name?: string;
-  queries?: CreateRecordingRuleRequestQueriesList;
-  range?: number;
-  target_ref_id?: string;
+  active?: boolean | undefined;
+  count?: boolean | undefined;
+  description?: string | undefined;
+  dest_data_source_uid?: string | undefined;
+  id?: string | undefined;
+  interval?: number | undefined;
+  name?: string | undefined;
+  prom_name?: string | undefined;
+  queries?: CreateRecordingRuleRequestQueriesList | undefined;
+  range?: number | undefined;
+  target_ref_id?: string | undefined;
 }
 export type RecordingRuleJSONQueriesItemMap = { [key: string]: unknown | undefined };
 export type RecordingRuleJSONQueriesList = Array<RecordingRuleJSONQueriesItemMap>;
 /** RecordingRuleJSON is the external representation of a recording rule */
 export interface RecordingRuleJSON {
-  active?: boolean;
-  count?: boolean;
-  description?: string;
-  dest_data_source_uid?: string;
-  id?: string;
-  interval?: number;
-  name?: string;
-  prom_name?: string;
-  queries?: RecordingRuleJSONQueriesList;
-  range?: number;
-  target_ref_id?: string;
+  active?: boolean | undefined;
+  count?: boolean | undefined;
+  description?: string | undefined;
+  dest_data_source_uid?: string | undefined;
+  id?: string | undefined;
+  interval?: number | undefined;
+  name?: string | undefined;
+  prom_name?: string | undefined;
+  queries?: RecordingRuleJSONQueriesList | undefined;
+  range?: number | undefined;
+  target_ref_id?: string | undefined;
 }
 export interface CreateRecordingRuleWriteTargetRequest {
-  data_source_uid?: string;
-  id?: string;
-  remote_write_path?: string;
+  data_source_uid?: string | undefined;
+  id?: string | undefined;
+  remote_write_path?: string | undefined;
 }
 export interface PrometheusRemoteWriteTargetJSON {
-  data_source_uid?: string;
-  id?: string;
-  remote_write_path?: string;
+  data_source_uid?: string | undefined;
+  id?: string | undefined;
+  remote_write_path?: string | undefined;
 }
 export interface ReportDashboardID {
-  id?: number;
-  name?: string;
-  uid?: string;
+  id?: number | undefined;
+  name?: string | undefined;
+  uid?: string | undefined;
 }
 export interface ReportTimeRange {
-  from?: string;
-  to?: string;
+  from?: string | undefined;
+  to?: string | undefined;
 }
 export interface ReportDashboard {
-  dashboard?: ReportDashboardID;
-  reportVariables?: unknown;
-  timeRange?: ReportTimeRange;
+  dashboard?: ReportDashboardID | undefined;
+  reportVariables?: unknown | undefined;
+  timeRange?: ReportTimeRange | undefined;
 }
 export type CreateReportRequestDashboardsList = Array<ReportDashboard>;
 export type CreateReportRequestFormatsList = Array<string>;
 export interface ReportOptions {
-  csvEncoding?: string;
-  layout?: string;
-  orientation?: string;
-  pdfCombineOneFile?: boolean;
-  pdfShowTemplateVariables?: boolean;
-  timeRange?: ReportTimeRange;
+  csvEncoding?: string | undefined;
+  layout?: string | undefined;
+  orientation?: string | undefined;
+  pdfCombineOneFile?: boolean | undefined;
+  pdfShowTemplateVariables?: boolean | undefined;
+  timeRange?: ReportTimeRange | undefined;
 }
 export interface ReportSchedule {
-  dayOfMonth?: string;
-  endDate?: string;
-  frequency?: string;
-  intervalAmount?: number;
-  intervalFrequency?: string;
-  startDate?: string;
-  timeZone?: string;
-  workdaysOnly?: boolean;
+  dayOfMonth?: string | undefined;
+  endDate?: string | undefined;
+  frequency?: string | undefined;
+  intervalAmount?: number | undefined;
+  intervalFrequency?: string | undefined;
+  startDate?: string | undefined;
+  timeZone?: string | undefined;
+  workdaysOnly?: boolean | undefined;
 }
 export interface ReportURLItem {
-  title?: string;
-  url?: string;
+  title?: string | undefined;
+  url?: string | undefined;
 }
 export type CreateReportRequestUrlsList = Array<ReportURLItem>;
 export interface CreateReportRequest {
-  dashboards?: CreateReportRequestDashboardsList;
-  enableCsv?: boolean;
-  enableDashboardUrl?: boolean;
-  formats?: CreateReportRequestFormatsList;
-  message?: string;
-  name?: string;
-  options?: ReportOptions;
-  recipients?: string;
-  replyTo?: string;
-  scaleFactor?: number;
-  schedule?: ReportSchedule;
-  state?: string;
-  subject?: string;
-  urls?: CreateReportRequestUrlsList;
+  dashboards?: CreateReportRequestDashboardsList | undefined;
+  enableCsv?: boolean | undefined;
+  enableDashboardUrl?: boolean | undefined;
+  formats?: CreateReportRequestFormatsList | undefined;
+  message?: string | undefined;
+  name?: string | undefined;
+  options?: ReportOptions | undefined;
+  recipients?: string | undefined;
+  replyTo?: string | undefined;
+  scaleFactor?: number | undefined;
+  schedule?: ReportSchedule | undefined;
+  state?: string | undefined;
+  subject?: string | undefined;
+  urls?: CreateReportRequestUrlsList | undefined;
 }
 export interface CreateReportResponse {
-  id?: number;
-  message?: string;
+  id?: number | undefined;
+  message?: string | undefined;
 }
 /** Permission is the model for access control permissions */
 export interface Permission {
-  action?: string;
-  created?: string;
-  scope?: string;
-  updated?: string;
+  action?: string | undefined;
+  created?: string | undefined;
+  scope?: string | undefined;
+  updated?: string | undefined;
 }
 export type CreateRoleRequestPermissionsList = Array<Permission>;
 export interface CreateRoleRequest {
-  description?: string;
-  displayName?: string;
-  global?: boolean;
-  group?: string;
-  hidden?: boolean;
-  name?: string;
-  permissions?: CreateRoleRequestPermissionsList;
-  uid?: string;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  global?: boolean | undefined;
+  group?: string | undefined;
+  hidden?: boolean | undefined;
+  name?: string | undefined;
+  permissions?: CreateRoleRequestPermissionsList | undefined;
+  uid?: string | undefined;
 }
 export type RoleDTOPermissionsList = Array<Permission>;
 export interface RoleDTO {
   created: string;
-  delegatable?: boolean;
+  delegatable?: boolean | undefined;
   description: string;
   displayName: string;
-  global?: boolean;
+  global?: boolean | undefined;
   group: string;
-  hidden?: boolean;
-  mapped?: boolean;
+  hidden?: boolean | undefined;
+  mapped?: boolean | undefined;
   name: string;
-  permissions?: RoleDTOPermissionsList;
+  permissions?: RoleDTOPermissionsList | undefined;
   uid: string;
   updated: string;
   version: number;
 }
 export type CreateServiceAccountRequestRole = "None" | "Viewer" | "Editor" | "Admin";
 export interface CreateServiceAccountRequest {
-  isDisabled?: boolean;
-  name?: string;
-  role?: CreateServiceAccountRequestRole | (string & {});
+  isDisabled?: boolean | undefined;
+  name?: string | undefined;
+  role?: CreateServiceAccountRequestRole | (string & {}) | undefined;
 }
 export type ServiceAccountDTOAccessControlMap = { [key: string]: boolean | undefined };
 export interface ServiceAccountDTO {
-  accessControl?: ServiceAccountDTOAccessControlMap;
-  avatarUrl?: string;
-  id?: number;
-  isDisabled?: boolean;
-  isExternal?: boolean;
-  login?: string;
-  name?: string;
-  orgId?: number;
-  role?: string;
-  tokens?: number;
-  uid?: string;
+  accessControl?: ServiceAccountDTOAccessControlMap | undefined;
+  avatarUrl?: string | undefined;
+  id?: number | undefined;
+  isDisabled?: boolean | undefined;
+  isExternal?: boolean | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  role?: string | undefined;
+  tokens?: number | undefined;
+  uid?: string | undefined;
 }
 export interface CreateSessionRequest {
-  authToken?: string;
+  authToken?: string | undefined;
 }
 export interface CloudMigrationSessionResponseDTO {
-  created?: string;
-  slug?: string;
-  uid?: string;
-  updated?: string;
+  created?: string | undefined;
+  slug?: string | undefined;
+  uid?: string | undefined;
+  updated?: string | undefined;
 }
 export type CreateSnapshotRequestResourceTypesItem =
   | "DASHBOARD"
@@ -683,29 +683,29 @@ export type CreateSnapshotRequestResourceTypesList = Array<
 export interface CreateSnapshotRequest {
   /** UID of a session */
   uid: string;
-  resourceTypes?: CreateSnapshotRequestResourceTypesList;
+  resourceTypes?: CreateSnapshotRequestResourceTypesList | undefined;
 }
 export interface CreateSnapshotResponseDTO {
-  uid?: string;
+  uid?: string | undefined;
 }
 export interface CreateTeamRequest {
-  email?: string;
+  email?: string | undefined;
   name: string;
 }
 export interface CreateTeamResponse {
-  message?: string;
-  teamId?: number;
-  uid?: string;
+  message?: string | undefined;
+  teamId?: number | undefined;
+  uid?: string | undefined;
 }
 export interface CreateTokenRequest {
   serviceAccountId: number;
-  name?: string;
-  secondsToLive?: number;
+  name?: string | undefined;
+  secondsToLive?: number | undefined;
 }
 export interface NewApiKeyResult {
-  id?: number;
-  key?: string;
-  name?: string;
+  id?: number | undefined;
+  key?: string | undefined;
+  name?: string | undefined;
 }
 export interface DatasourceProxyDELETEByUIDcallsRequest {
   uid: string;
@@ -735,7 +735,7 @@ export interface DeleteCorrelationRequest {
   correlationUID: string;
 }
 export interface DeleteCorrelationResponseBody {
-  message?: string;
+  message?: string | undefined;
 }
 export interface DeleteDashboardSnapshotRequest {
   key: string;
@@ -750,7 +750,7 @@ export interface DeleteLibraryElementByUIDRequest {
   library_element_uid: string;
 }
 export interface DeleteLicenseTokenRequest {
-  instance?: string;
+  instance?: string | undefined;
 }
 export interface DeleteLicenseTokenResponse {}
 export interface DeleteOrgRequest {
@@ -765,8 +765,8 @@ export interface DeleteQueryRequest {
 }
 /** QueryHistoryDeleteQueryResponse is the response struct for deleting a query from query history */
 export interface QueryHistoryDeleteQueryResponse {
-  id?: number;
-  message?: string;
+  id?: number | undefined;
+  message?: string | undefined;
 }
 export interface DeleteRecordingRuleRequest {
   recordingRuleID: number;
@@ -774,8 +774,8 @@ export interface DeleteRecordingRuleRequest {
 export interface DeleteRecordingRuleWriteTargetRequest {}
 export interface DeleteRoleRequest {
   roleUID: string;
-  force?: boolean;
-  global?: boolean;
+  force?: boolean | undefined;
+  global?: boolean | undefined;
 }
 export interface DeleteServiceAccountRequest {
   serviceAccountId: number;
@@ -795,101 +795,101 @@ export interface DeleteTokenRequest {
 export interface DisableDataSourceCacheRequest {
   dataSourceUID: string;
   /** Optional datasource type used to disambiguate datasource UID lookups. */
-  dataSourceType?: string;
+  dataSourceType?: string | undefined;
 }
 export interface EnableDataSourceCacheRequest {
   dataSourceUID: string;
   /** Optional datasource type used to disambiguate datasource UID lookups. */
-  dataSourceType?: string;
+  dataSourceType?: string | undefined;
 }
 export interface GetAccessControlStatusRequest {}
 export interface AccessControlStatus {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface GetAnnotationRequest {
   annotation_id: string;
 }
 export type AnnotationTagsList = Array<string>;
 export interface Annotation {
-  alertId?: number;
-  alertName?: string;
-  avatarUrl?: string;
-  created?: number;
+  /** Deprecated. Use alertUID instead. */
+  alertId?: number | undefined;
+  alertName?: string | undefined;
+  alertUID?: string | undefined;
+  avatarUrl?: string | undefined;
+  created?: number | undefined;
   /** Deprecated: Use DashboardUID and OrgID instead */
-  dashboardId?: number;
-  dashboardUID?: string;
-  data?: unknown;
-  email?: string;
-  id?: number;
-  login?: string;
-  newState?: string;
-  panelId?: number;
-  prevState?: string;
-  tags?: AnnotationTagsList;
-  text?: string;
-  time?: number;
-  timeEnd?: number;
-  updated?: number;
-  userId?: number;
-  userUID?: string;
+  dashboardId?: number | undefined;
+  dashboardUID?: string | undefined;
+  data?: unknown | undefined;
+  email?: string | undefined;
+  id?: number | undefined;
+  login?: string | undefined;
+  newState?: string | undefined;
+  panelId?: number | undefined;
+  prevState?: string | undefined;
+  tags?: AnnotationTagsList | undefined;
+  text?: string | undefined;
+  time?: number | undefined;
+  timeEnd?: number | undefined;
+  updated?: number | undefined;
+  userId?: number | undefined;
+  userUID?: string | undefined;
 }
 export type GetAnnotationsRequestTagsList = Array<string>;
 export type GetAnnotationsRequestType = "alert" | "annotation";
 export interface GetAnnotationsRequest {
   /** Find annotations created after specific epoch datetime in milliseconds. */
-  from?: number;
+  from?: number | undefined;
   /** Find annotations created before specific epoch datetime in milliseconds. */
-  to?: number;
+  to?: number | undefined;
   /** Limit response to annotations created by specific user. */
-  userId?: number;
+  userId?: number | undefined;
   /** Limit response to annotations created by a specific user, identified by UID. */
-  userUID?: string;
-  /** Find annotations for a specified alert rule by its ID. deprecated: AlertID is deprecated and will be removed in future versions. Please use AlertUID instead. */
-  alertId?: number;
+  userUID?: string | undefined;
   /** Find annotations for a specified alert rule by its UID. */
-  alertUID?: string;
+  alertUID?: string | undefined;
   /** Find annotations that are scoped to a specific dashboard */
-  dashboardId?: number;
+  dashboardId?: number | undefined;
   /** Find annotations that are scoped to a specific dashboard */
-  dashboardUID?: string;
+  dashboardUID?: string | undefined;
   /** Find annotations that are scoped to a specific panel */
-  panelId?: number;
+  panelId?: number | undefined;
   /** Max limit for results returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Use this to filter organization annotations. Organization annotations are annotations from an annotation data source that are not connected specifically to a dashboard or panel. You can filter by multiple tags. */
-  tags?: GetAnnotationsRequestTagsList;
+  tags?: GetAnnotationsRequestTagsList | undefined;
   /** Return alerts or user created annotations Description: - `alert` - `annotation` */
-  type?: GetAnnotationsRequestType | (string & {});
+  type?: GetAnnotationsRequestType | (string & {}) | undefined;
   /** Match any or all tags */
-  matchAny?: boolean;
+  matchAny?: boolean | undefined;
 }
 export type GetAnnotationsResponseBodyList = Array<Annotation>;
 export type GetAnnotationsResponse = GetAnnotationsResponseBodyList;
 export interface GetAnnotationTagsRequest {
   /** Tag is a string that you can use to filter tags. */
-  tag?: string;
+  tag?: string | undefined;
   /** Max limit for results returned. */
-  limit?: string;
+  limit?: string | undefined;
 }
 export interface TagsDTO {
-  count?: number;
-  tag?: string;
+  count?: number | undefined;
+  tag?: string | undefined;
 }
 export type FindTagsResultTagsList = Array<TagsDTO>;
 export interface FindTagsResult {
-  tags?: FindTagsResultTagsList;
+  tags?: FindTagsResultTagsList | undefined;
 }
 export interface GetAnnotationTagsResponse {
-  result?: FindTagsResult;
+  result?: FindTagsResult | undefined;
 }
 export interface GetCloudMigrationTokenRequest {}
 export interface GetAccessTokenResponseDTO {
-  createdAt?: string;
-  displayName?: string;
-  expiresAt?: string;
-  firstUsedAt?: string;
-  id?: string;
-  lastUsedAt?: string;
+  createdAt?: string | undefined;
+  displayName?: string | undefined;
+  expiresAt?: string | undefined;
+  firstUsedAt?: string | undefined;
+  id?: string | undefined;
+  lastUsedAt?: string | undefined;
 }
 export interface GetCorrelationRequest {
   sourceUID: string;
@@ -898,11 +898,11 @@ export interface GetCorrelationRequest {
 export type GetCorrelationsRequestSourceUIDList = Array<string>;
 export interface GetCorrelationsRequest {
   /** Limit the maximum number of correlations to return per page */
-  limit?: number;
+  limit?: number | undefined;
   /** Page index for starting fetching correlations */
-  page?: number;
+  page?: number | undefined;
   /** Source datasource UID filter to be applied to correlations */
-  sourceUID?: GetCorrelationsRequestSourceUIDList;
+  sourceUID?: GetCorrelationsRequestSourceUIDList | undefined;
 }
 export type GetCorrelationsResponseBodyList = Array<Correlation>;
 export type GetCorrelationsResponse = GetCorrelationsResponseBodyList;
@@ -913,25 +913,25 @@ export type GetCorrelationsBySourceUIDResponseBodyList = Array<Correlation>;
 export type GetCorrelationsBySourceUIDResponse = GetCorrelationsBySourceUIDResponseBodyList;
 export interface GetCurrentOrgRequest {}
 export interface Address {
-  address1?: string;
-  address2?: string;
-  city?: string;
-  country?: string;
-  state?: string;
-  zipCode?: string;
+  address1?: string | undefined;
+  address2?: string | undefined;
+  city?: string | undefined;
+  country?: string | undefined;
+  state?: string | undefined;
+  zipCode?: string | undefined;
 }
 export interface OrgDetailsDTO {
-  address?: Address;
-  id?: number;
-  name?: string;
+  address?: Address | undefined;
+  id?: number | undefined;
+  name?: string | undefined;
 }
 export interface GetCurrentOrgQuotaRequest {}
 export interface QuotaDTO {
-  limit?: number;
-  org_id?: number;
-  target?: string;
-  used?: number;
-  user_id?: number;
+  limit?: number | undefined;
+  org_id?: number | undefined;
+  target?: string | undefined;
+  used?: number | undefined;
+  user_id?: number | undefined;
 }
 export type GetCurrentOrgQuotaResponseBodyList = Array<QuotaDTO>;
 export type GetCurrentOrgQuotaResponse = GetCurrentOrgQuotaResponseBodyList;
@@ -939,45 +939,45 @@ export interface GetDashboardSnapshotRequest {
   key: string;
 }
 export interface AnnotationActions {
-  canAdd?: boolean;
-  canDelete?: boolean;
-  canEdit?: boolean;
+  canAdd?: boolean | undefined;
+  canDelete?: boolean | undefined;
+  canEdit?: boolean | undefined;
 }
 export interface AnnotationPermission {
-  dashboard?: AnnotationActions;
+  dashboard?: AnnotationActions | undefined;
 }
 export interface DashboardMeta {
-  annotationsPermissions?: AnnotationPermission;
-  apiVersion?: string;
-  canAdmin?: boolean;
-  canDelete?: boolean;
-  canEdit?: boolean;
-  canSave?: boolean;
-  canStar?: boolean;
-  created?: string;
-  createdBy?: string;
-  expires?: string;
+  annotationsPermissions?: AnnotationPermission | undefined;
+  apiVersion?: string | undefined;
+  canAdmin?: boolean | undefined;
+  canDelete?: boolean | undefined;
+  canEdit?: boolean | undefined;
+  canSave?: boolean | undefined;
+  canStar?: boolean | undefined;
+  created?: string | undefined;
+  createdBy?: string | undefined;
+  expires?: string | undefined;
   /** Deprecated: use FolderUID instead */
-  folderId?: number;
-  folderTitle?: string;
-  folderUid?: string;
-  folderUrl?: string;
-  hasAcl?: boolean;
-  isFolder?: boolean;
-  isSnapshot?: boolean;
-  provisioned?: boolean;
-  provisionedExternalId?: string;
-  publicDashboardEnabled?: boolean;
-  slug?: string;
-  type?: string;
-  updated?: string;
-  updatedBy?: string;
-  url?: string;
-  version?: number;
+  folderId?: number | undefined;
+  folderTitle?: string | undefined;
+  folderUid?: string | undefined;
+  folderUrl?: string | undefined;
+  hasAcl?: boolean | undefined;
+  isFolder?: boolean | undefined;
+  isSnapshot?: boolean | undefined;
+  provisioned?: boolean | undefined;
+  provisionedExternalId?: string | undefined;
+  publicDashboardEnabled?: boolean | undefined;
+  slug?: string | undefined;
+  type?: string | undefined;
+  updated?: string | undefined;
+  updatedBy?: string | undefined;
+  url?: string | undefined;
+  version?: number | undefined;
 }
 export interface DashboardFullWithMeta {
-  dashboard?: unknown;
-  meta?: DashboardMeta;
+  dashboard?: unknown | undefined;
+  meta?: DashboardMeta | undefined;
 }
 export interface GetDataSourceByUIDRequest {
   uid: string;
@@ -985,35 +985,35 @@ export interface GetDataSourceByUIDRequest {
 export interface GetDataSourceCacheConfigRequest {
   dataSourceUID: string;
   /** Optional datasource type used to disambiguate datasource UID lookups. */
-  dataSourceType?: string;
+  dataSourceType?: string | undefined;
 }
 export interface GetDataSourcesRequest {}
 export interface DataSourceListItemDTO {
-  access?: string;
-  basicAuth?: boolean;
-  database?: string;
-  id?: number;
-  isDefault?: boolean;
-  jsonData?: unknown;
-  name?: string;
-  orgId?: number;
-  readOnly?: boolean;
-  type?: string;
-  typeLogoUrl?: string;
-  typeName?: string;
-  uid?: string;
-  url?: string;
-  user?: string;
+  access?: string | undefined;
+  basicAuth?: boolean | undefined;
+  database?: string | undefined;
+  id?: number | undefined;
+  isDefault?: boolean | undefined;
+  jsonData?: unknown | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  readOnly?: boolean | undefined;
+  type?: string | undefined;
+  typeLogoUrl?: string | undefined;
+  typeName?: string | undefined;
+  uid?: string | undefined;
+  url?: string | undefined;
+  user?: string | undefined;
 }
 export type DataSourceList = Array<DataSourceListItemDTO>;
 export type GetDataSourcesResponse = DataSourceList;
 export interface GetHealthRequest {}
 export interface HealthResponse {
-  apiserver?: string;
-  commit?: string;
-  database?: string;
-  enterpriseCommit?: string;
-  version?: string;
+  apiserver?: string | undefined;
+  commit?: string | undefined;
+  database?: string | undefined;
+  enterpriseCommit?: string | undefined;
+  version?: string | undefined;
 }
 export interface GetJWKSRequest {}
 /** X.509 certificate thumbprint (SHA-1), parsed from `x5t` header. */
@@ -1031,8 +1031,8 @@ export type CertificateExcludedEmailAddressesList = Array<string>;
 /** See type [IPNet] and func [ParseCIDR] for details. */
 export type IPMask = Array<number>;
 export interface IPNet {
-  IP?: string;
-  Mask?: IPMask;
+  IP?: string | undefined;
+  Mask?: IPMask | undefined;
 }
 export type CertificateExcludedIPRangesList = Array<IPNet>;
 export type CertificateExcludedURIDomainsList = Array<string>;
@@ -1041,9 +1041,9 @@ export type ObjectIdentifier = Array<number>;
 export type ExtensionValueList = Array<number>;
 /** Extension represents the ASN.1 structure of the same name. See RFC 5280, section 4.2. */
 export interface Extension {
-  Critical?: boolean;
-  Id?: ObjectIdentifier;
-  Value?: ExtensionValueList;
+  Critical?: boolean | undefined;
+  Id?: ObjectIdentifier | undefined;
+  Value?: ExtensionValueList | undefined;
 }
 /** Extensions contains raw X.509 extensions. When parsing certificates, this can be used to extract non-critical extensions that are not parsed by this package. When marshaling certificates, the Extensions field is ignored, see ExtraExtensions. */
 export type CertificateExtensionsList = Array<Extension>;
@@ -1053,8 +1053,8 @@ export type CertificateIPAddressesList = Array<string>;
 export type NameCountryList = Array<string>;
 /** When parsed as part of a pkix.Name structure in a crypto/x509 type, the Value will be - a string if the ASN.1 type is PrintableString, IA5String, NumericString, BMPString, T61String, or UTF8String; - an int64 if the ASN.1 type is INTEGER; - an asn1.BitString if the ASN.1 type is BIT STRING; - a []byte if the ASN.1 type is OCTET STRING; - an asn1.ObjectIdentifier if the ASN.1 type is OBJECT IDENTIFIER; - a time.Time if the ASN.1 type is UTCTIME or GENERALIZEDTIME; - a bool if the ASN.1 type is BOOLEAN; - nil if the ASN.1 type is NULL; - an asn1.RawValue otherwise. */
 export interface AttributeTypeAndValue {
-  Type?: ObjectIdentifier;
-  Value?: unknown;
+  Type?: ObjectIdentifier | undefined;
+  Value?: unknown | undefined;
 }
 /** ExtraNames contains attributes to be copied, raw, into any marshaled distinguished names. Values override any attributes with the same OID. The ExtraNames field is not populated when parsing, see Names. */
 export type NameExtraNamesList = Array<AttributeTypeAndValue>;
@@ -1068,19 +1068,19 @@ export type NameProvinceList = Array<string>;
 export type NameStreetAddressList = Array<string>;
 /** Name represents an X.509 distinguished name. This only includes the common elements of a DN. Note that Name is only an approximation of the X.509 structure. If an accurate representation is needed, asn1.Unmarshal the raw subject or issuer as an [RDNSequence]. */
 export interface Name {
-  CommonName?: string;
-  Country?: NameCountryList;
+  CommonName?: string | undefined;
+  Country?: NameCountryList | undefined;
   /** ExtraNames contains attributes to be copied, raw, into any marshaled distinguished names. Values override any attributes with the same OID. The ExtraNames field is not populated when parsing, see Names. */
-  ExtraNames?: NameExtraNamesList;
-  Locality?: NameLocalityList;
+  ExtraNames?: NameExtraNamesList | undefined;
+  Locality?: NameLocalityList | undefined;
   /** Names contains all parsed attributes. When parsing distinguished names, this can be used to extract non-standard attributes that are not parsed by this package. When marshaling to RDNSequences, the Names field is ignored, see ExtraNames. */
-  Names?: NameNamesList;
-  Organization?: NameOrganizationList;
-  OrganizationalUnit?: NameOrganizationalUnitList;
-  PostalCode?: NamePostalCodeList;
-  Province?: NameProvinceList;
-  SerialNumber?: string;
-  StreetAddress?: NameStreetAddressList;
+  Names?: NameNamesList | undefined;
+  Organization?: NameOrganizationList | undefined;
+  OrganizationalUnit?: NameOrganizationalUnitList | undefined;
+  PostalCode?: NamePostalCodeList | undefined;
+  Province?: NameProvinceList | undefined;
+  SerialNumber?: string | undefined;
+  StreetAddress?: NameStreetAddressList | undefined;
 }
 export type CertificateIssuingCertificateURLList = Array<string>;
 /** RFC 5280, 4.2.2.1 (Authority Information Access) */
@@ -1095,9 +1095,9 @@ export type CertificatePoliciesList = Array<string>;
 export type CertificatePolicyIdentifiersList = Array<ObjectIdentifier>;
 export interface PolicyMapping {
   /** IssuerDomainPolicy contains a policy OID the issuing certificate considers equivalent to SubjectDomainPolicy in the subject certificate. */
-  IssuerDomainPolicy?: string;
+  IssuerDomainPolicy?: string | undefined;
   /** SubjectDomainPolicy contains a OID the issuing certificate considers equivalent to IssuerDomainPolicy in the subject certificate. */
-  SubjectDomainPolicy?: string;
+  SubjectDomainPolicy?: string | undefined;
 }
 /** PolicyMappings contains a list of policy mappings included in the certificate. */
 export type CertificatePolicyMappingsList = Array<PolicyMapping>;
@@ -1114,102 +1114,102 @@ export type CertificateURIsList = Array<string>;
 export type CertificateUnhandledCriticalExtensionsList = Array<ObjectIdentifier>;
 export type CertificateUnknownExtKeyUsageList = Array<ObjectIdentifier>;
 export interface Certificate {
-  AuthorityKeyId?: CertificateAuthorityKeyIdList;
+  AuthorityKeyId?: CertificateAuthorityKeyIdList | undefined;
   /** BasicConstraintsValid indicates whether IsCA, MaxPathLen, and MaxPathLenZero are valid. */
-  BasicConstraintsValid?: boolean;
+  BasicConstraintsValid?: boolean | undefined;
   /** CRL Distribution Points */
-  CRLDistributionPoints?: CertificateCRLDistributionPointsList;
+  CRLDistributionPoints?: CertificateCRLDistributionPointsList | undefined;
   /** Subject Alternate Name values. (Note that these values may not be valid if invalid values were contained within a parsed certificate. For example, an element of DNSNames may not be a valid DNS domain name.) */
-  DNSNames?: CertificateDNSNamesList;
-  EmailAddresses?: CertificateEmailAddressesList;
-  ExcludedDNSDomains?: CertificateExcludedDNSDomainsList;
-  ExcludedEmailAddresses?: CertificateExcludedEmailAddressesList;
-  ExcludedIPRanges?: CertificateExcludedIPRangesList;
-  ExcludedURIDomains?: CertificateExcludedURIDomainsList;
-  ExtKeyUsage?: CertificateExtKeyUsageList;
+  DNSNames?: CertificateDNSNamesList | undefined;
+  EmailAddresses?: CertificateEmailAddressesList | undefined;
+  ExcludedDNSDomains?: CertificateExcludedDNSDomainsList | undefined;
+  ExcludedEmailAddresses?: CertificateExcludedEmailAddressesList | undefined;
+  ExcludedIPRanges?: CertificateExcludedIPRangesList | undefined;
+  ExcludedURIDomains?: CertificateExcludedURIDomainsList | undefined;
+  ExtKeyUsage?: CertificateExtKeyUsageList | undefined;
   /** Extensions contains raw X.509 extensions. When parsing certificates, this can be used to extract non-critical extensions that are not parsed by this package. When marshaling certificates, the Extensions field is ignored, see ExtraExtensions. */
-  Extensions?: CertificateExtensionsList;
+  Extensions?: CertificateExtensionsList | undefined;
   /** ExtraExtensions contains extensions to be copied, raw, into any marshaled certificates. Values override any extensions that would otherwise be produced based on the other fields. The ExtraExtensions field is not populated when parsing certificates, see Extensions. */
-  ExtraExtensions?: CertificateExtraExtensionsList;
-  IPAddresses?: CertificateIPAddressesList;
+  ExtraExtensions?: CertificateExtraExtensionsList | undefined;
+  IPAddresses?: CertificateIPAddressesList | undefined;
   /** InhibitAnyPolicy and InhibitAnyPolicyZero indicate the presence and value of the inhibitAnyPolicy extension. The value of InhibitAnyPolicy indicates the number of additional certificates in the path after this certificate that may use the anyPolicy policy OID to indicate a match with any other policy. When parsing a certificate, a positive non-zero InhibitAnyPolicy means that the field was specified, -1 means it was unset, and InhibitAnyPolicyZero being true mean that the field was explicitly set to zero. The case of InhibitAnyPolicy==0 with InhibitAnyPolicyZero==false should be treated equivalent to -1 (unset). */
-  InhibitAnyPolicy?: number;
+  InhibitAnyPolicy?: number | undefined;
   /** InhibitAnyPolicyZero indicates that InhibitAnyPolicy==0 should be interpreted as an actual maximum path length of zero. Otherwise, that combination is interpreted as InhibitAnyPolicy not being set. */
-  InhibitAnyPolicyZero?: boolean;
+  InhibitAnyPolicyZero?: boolean | undefined;
   /** InhibitPolicyMapping and InhibitPolicyMappingZero indicate the presence and value of the inhibitPolicyMapping field of the policyConstraints extension. The value of InhibitPolicyMapping indicates the number of additional certificates in the path after this certificate that may use policy mapping. When parsing a certificate, a positive non-zero InhibitPolicyMapping means that the field was specified, -1 means it was unset, and InhibitPolicyMappingZero being true mean that the field was explicitly set to zero. The case of InhibitPolicyMapping==0 with InhibitPolicyMappingZero==false should be treated equivalent to -1 (unset). */
-  InhibitPolicyMapping?: number;
+  InhibitPolicyMapping?: number | undefined;
   /** InhibitPolicyMappingZero indicates that InhibitPolicyMapping==0 should be interpreted as an actual maximum path length of zero. Otherwise, that combination is interpreted as InhibitAnyPolicy not being set. */
-  InhibitPolicyMappingZero?: boolean;
-  IsCA?: boolean;
-  Issuer?: Name;
-  IssuingCertificateURL?: CertificateIssuingCertificateURLList;
-  KeyUsage?: number;
+  InhibitPolicyMappingZero?: boolean | undefined;
+  IsCA?: boolean | undefined;
+  Issuer?: Name | undefined;
+  IssuingCertificateURL?: CertificateIssuingCertificateURLList | undefined;
+  KeyUsage?: number | undefined;
   /** MaxPathLen and MaxPathLenZero indicate the presence and value of the BasicConstraints' "pathLenConstraint". When parsing a certificate, a positive non-zero MaxPathLen means that the field was specified, -1 means it was unset, and MaxPathLenZero being true mean that the field was explicitly set to zero. The case of MaxPathLen==0 with MaxPathLenZero==false should be treated equivalent to -1 (unset). When generating a certificate, an unset pathLenConstraint can be requested with either MaxPathLen == -1 or using the zero value for both MaxPathLen and MaxPathLenZero. */
-  MaxPathLen?: number;
+  MaxPathLen?: number | undefined;
   /** MaxPathLenZero indicates that BasicConstraintsValid==true and MaxPathLen==0 should be interpreted as an actual maximum path length of zero. Otherwise, that combination is interpreted as MaxPathLen not being set. */
-  MaxPathLenZero?: boolean;
-  NotAfter?: string;
-  NotBefore?: string;
+  MaxPathLenZero?: boolean | undefined;
+  NotAfter?: string | undefined;
+  NotBefore?: string | undefined;
   /** RFC 5280, 4.2.2.1 (Authority Information Access) */
-  OCSPServer?: CertificateOCSPServerList;
-  PermittedDNSDomains?: CertificatePermittedDNSDomainsList;
+  OCSPServer?: CertificateOCSPServerList | undefined;
+  PermittedDNSDomains?: CertificatePermittedDNSDomainsList | undefined;
   /** Name constraints */
-  PermittedDNSDomainsCritical?: boolean;
-  PermittedEmailAddresses?: CertificatePermittedEmailAddressesList;
-  PermittedIPRanges?: CertificatePermittedIPRangesList;
-  PermittedURIDomains?: CertificatePermittedURIDomainsList;
+  PermittedDNSDomainsCritical?: boolean | undefined;
+  PermittedEmailAddresses?: CertificatePermittedEmailAddressesList | undefined;
+  PermittedIPRanges?: CertificatePermittedIPRangesList | undefined;
+  PermittedURIDomains?: CertificatePermittedURIDomainsList | undefined;
   /** Policies contains all policy identifiers included in the certificate. See CreateCertificate for context about how this field and the PolicyIdentifiers field interact. In Go 1.22, encoding/gob cannot handle and ignores this field. */
-  Policies?: CertificatePoliciesList;
+  Policies?: CertificatePoliciesList | undefined;
   /** PolicyIdentifiers contains asn1.ObjectIdentifiers, the components of which are limited to int32. If a certificate contains a policy which cannot be represented by asn1.ObjectIdentifier, it will not be included in PolicyIdentifiers, but will be present in Policies, which contains all parsed policy OIDs. See CreateCertificate for context about how this field and the Policies field interact. */
-  PolicyIdentifiers?: CertificatePolicyIdentifiersList;
+  PolicyIdentifiers?: CertificatePolicyIdentifiersList | undefined;
   /** PolicyMappings contains a list of policy mappings included in the certificate. */
-  PolicyMappings?: CertificatePolicyMappingsList;
-  PublicKey?: unknown;
-  PublicKeyAlgorithm?: number;
-  Raw?: CertificateRawList;
-  RawIssuer?: CertificateRawIssuerList;
-  RawSignatureAlgorithm?: CertificateRawSignatureAlgorithmList;
-  RawSubject?: CertificateRawSubjectList;
-  RawSubjectPublicKeyInfo?: CertificateRawSubjectPublicKeyInfoList;
-  RawTBSCertificate?: CertificateRawTBSCertificateList;
+  PolicyMappings?: CertificatePolicyMappingsList | undefined;
+  PublicKey?: unknown | undefined;
+  PublicKeyAlgorithm?: number | undefined;
+  Raw?: CertificateRawList | undefined;
+  RawIssuer?: CertificateRawIssuerList | undefined;
+  RawSignatureAlgorithm?: CertificateRawSignatureAlgorithmList | undefined;
+  RawSubject?: CertificateRawSubjectList | undefined;
+  RawSubjectPublicKeyInfo?: CertificateRawSubjectPublicKeyInfoList | undefined;
+  RawTBSCertificate?: CertificateRawTBSCertificateList | undefined;
   /** RequireExplicitPolicy and RequireExplicitPolicyZero indicate the presence and value of the requireExplicitPolicy field of the policyConstraints extension. The value of RequireExplicitPolicy indicates the number of additional certificates in the path after this certificate before an explicit policy is required for the rest of the path. When an explicit policy is required, each subsequent certificate in the path must contain a required policy OID, or a policy OID which has been declared as equivalent through the policy mapping extension. When parsing a certificate, a positive non-zero RequireExplicitPolicy means that the field was specified, -1 means it was unset, and RequireExplicitPolicyZero being true mean that the field was explicitly set to zero. The case of RequireExplicitPolicy==0 with RequireExplicitPolicyZero==false should be treated equivalent to -1 (unset). */
-  RequireExplicitPolicy?: number;
+  RequireExplicitPolicy?: number | undefined;
   /** RequireExplicitPolicyZero indicates that RequireExplicitPolicy==0 should be interpreted as an actual maximum path length of zero. Otherwise, that combination is interpreted as InhibitAnyPolicy not being set. */
-  RequireExplicitPolicyZero?: boolean;
-  SerialNumber?: number;
-  Signature?: CertificateSignatureList;
-  SignatureAlgorithm?: number;
-  Subject?: Name;
-  SubjectKeyId?: CertificateSubjectKeyIdList;
-  URIs?: CertificateURIsList;
+  RequireExplicitPolicyZero?: boolean | undefined;
+  SerialNumber?: number | undefined;
+  Signature?: CertificateSignatureList | undefined;
+  SignatureAlgorithm?: number | undefined;
+  Subject?: Name | undefined;
+  SubjectKeyId?: CertificateSubjectKeyIdList | undefined;
+  URIs?: CertificateURIsList | undefined;
   /** UnhandledCriticalExtensions contains a list of extension IDs that were not (fully) processed when parsing. Verify will fail if this slice is non-empty, unless verification is delegated to an OS library which understands all the critical extensions. Users can access these extensions using Extensions and can remove elements from this slice if they believe that they have been handled. */
-  UnhandledCriticalExtensions?: CertificateUnhandledCriticalExtensionsList;
-  UnknownExtKeyUsage?: CertificateUnknownExtKeyUsageList;
-  Version?: number;
+  UnhandledCriticalExtensions?: CertificateUnhandledCriticalExtensionsList | undefined;
+  UnknownExtKeyUsage?: CertificateUnknownExtKeyUsageList | undefined;
+  Version?: number | undefined;
 }
 /** X.509 certificate chain, parsed from `x5c` header. */
 export type JSONWebKeyCertificatesList = Array<Certificate>;
 /** JSONWebKey represents a public or private key in JWK format. It can be marshaled into JSON and unmarshaled from JSON. */
 export interface JSONWebKey {
   /** Key algorithm, parsed from `alg` header. */
-  Algorithm?: string;
+  Algorithm?: string | undefined;
   /** X.509 certificate thumbprint (SHA-1), parsed from `x5t` header. */
-  CertificateThumbprintSHA1?: JSONWebKeyCertificateThumbprintSHA1List;
+  CertificateThumbprintSHA1?: JSONWebKeyCertificateThumbprintSHA1List | undefined;
   /** X.509 certificate thumbprint (SHA-256), parsed from `x5t#S256` header. */
-  CertificateThumbprintSHA256?: JSONWebKeyCertificateThumbprintSHA256List;
+  CertificateThumbprintSHA256?: JSONWebKeyCertificateThumbprintSHA256List | undefined;
   /** X.509 certificate chain, parsed from `x5c` header. */
-  Certificates?: JSONWebKeyCertificatesList;
-  CertificatesURL?: string;
+  Certificates?: JSONWebKeyCertificatesList | undefined;
+  CertificatesURL?: string | undefined;
   /** Key is the Go in-memory representation of this key. It must have one of these types: - ed25519.PublicKey - ed25519.PrivateKey - *ecdsa.PublicKey - *ecdsa.PrivateKey - *rsa.PublicKey - *rsa.PrivateKey - []byte (a symmetric key) When marshaling this JSONWebKey into JSON, the "kty" header parameter will be automatically set based on the type of this field. */
-  Key?: unknown;
+  Key?: unknown | undefined;
   /** Key identifier, parsed from `kid` header. */
-  KeyID?: string;
+  KeyID?: string | undefined;
   /** Key use, parsed from `use` header. */
-  Use?: string;
+  Use?: string | undefined;
 }
 export type GetJWKSResponseKeysList = Array<JSONWebKey>;
 export interface GetJWKSResponse {
-  keys?: GetJWKSResponseKeysList;
+  keys?: GetJWKSResponseKeysList | undefined;
 }
 export interface GetLDAPStatusRequest {}
 export interface GetLibraryElementByNameRequest {
@@ -1217,7 +1217,7 @@ export interface GetLibraryElementByNameRequest {
 }
 export type LibraryElementArrayResponseResultList = Array<LibraryElementDTO>;
 export interface LibraryElementArrayResponse {
-  result?: LibraryElementArrayResponseResultList;
+  result?: LibraryElementArrayResponseResultList | undefined;
 }
 export interface GetLibraryElementByUIDRequest {
   library_element_uid: string;
@@ -1226,78 +1226,78 @@ export interface GetLibraryElementConnectionsRequest {
   library_element_uid: string;
 }
 export interface LibraryElementConnectionDTO {
-  connectionId?: number;
-  connectionUid?: string;
-  created?: string;
-  createdBy?: LibraryElementDTOMetaUser;
-  elementId?: number;
+  connectionId?: number | undefined;
+  connectionUid?: string | undefined;
+  created?: string | undefined;
+  createdBy?: LibraryElementDTOMetaUser | undefined;
+  elementId?: number | undefined;
   /** Deprecated: this field will be removed in the future */
-  id?: number;
-  kind?: number;
+  id?: number | undefined;
+  kind?: number | undefined;
 }
 export type LibraryElementConnectionsResponseResultList = Array<LibraryElementConnectionDTO>;
 export interface LibraryElementConnectionsResponse {
-  result?: LibraryElementConnectionsResponseResultList;
+  result?: LibraryElementConnectionsResponseResultList | undefined;
 }
 export type GetLibraryElementsRequestKind = 1;
 export type GetLibraryElementsRequestSortDirection = "alpha-asc" | "alpha-desc";
 export interface GetLibraryElementsRequest {
   /** Part of the name or description searched for. */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Kind of element to search for. Description: - 1 - library panels */
-  kind?: GetLibraryElementsRequestKind | (number & {});
+  kind?: GetLibraryElementsRequestKind | (number & {}) | undefined;
   /** Sort order of elements. Description: - alpha-asc: ascending - alpha-desc: descending */
-  sortDirection?: GetLibraryElementsRequestSortDirection | (string & {});
+  sortDirection?: GetLibraryElementsRequestSortDirection | (string & {}) | undefined;
   /** A comma separated list of types to filter the elements by */
-  typeFilter?: string;
+  typeFilter?: string | undefined;
   /** Element UID to exclude from search results. */
-  excludeUid?: string;
+  excludeUid?: string | undefined;
   /** A comma separated list of folder ID(s) to filter the elements by. Deprecated: Use FolderFilterUIDs instead. */
-  folderFilter?: string;
+  folderFilter?: string | undefined;
   /** A comma separated list of folder UID(s) to filter the elements by. */
-  folderFilterUIDs?: string;
+  folderFilterUIDs?: string | undefined;
   /** The number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** The page for a set of records, given that only perPage records are returned at a time. Numbering starts at 1. */
-  page?: number;
+  page?: number | undefined;
 }
 export type LibraryElementSearchResultElementsList = Array<LibraryElementDTO>;
 export interface LibraryElementSearchResult {
-  elements?: LibraryElementSearchResultElementsList;
-  page?: number;
-  perPage?: number;
-  totalCount?: number;
+  elements?: LibraryElementSearchResultElementsList | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  totalCount?: number | undefined;
 }
 export interface LibraryElementSearchResponse {
-  result?: LibraryElementSearchResult;
+  result?: LibraryElementSearchResult | undefined;
 }
 export interface GetLicenseTokenRequest {}
 export type TokenProdList = Array<string>;
 export interface Token {
-  account?: string;
-  anonymousRatio?: number;
-  company?: string;
-  details_url?: string;
-  exp?: number;
-  iat?: number;
-  included_users?: number;
-  iss?: string;
-  jti?: string;
-  lexp?: number;
-  lic_exp_warn_days?: number;
-  lid?: string;
-  limit_by?: string;
-  max_concurrent_user_sessions?: number;
-  nbf?: number;
-  prod?: TokenProdList;
-  slug?: string;
-  status?: number;
-  sub?: string;
-  tok_exp_warn_days?: number;
-  trial?: boolean;
-  trial_exp?: number;
-  update_days?: number;
-  usage_billing?: boolean;
+  account?: string | undefined;
+  anonymousRatio?: number | undefined;
+  company?: string | undefined;
+  details_url?: string | undefined;
+  exp?: number | undefined;
+  iat?: number | undefined;
+  included_users?: number | undefined;
+  iss?: string | undefined;
+  jti?: string | undefined;
+  lexp?: number | undefined;
+  lic_exp_warn_days?: number | undefined;
+  lid?: string | undefined;
+  limit_by?: string | undefined;
+  max_concurrent_user_sessions?: number | undefined;
+  nbf?: number | undefined;
+  prod?: TokenProdList | undefined;
+  slug?: string | undefined;
+  status?: number | undefined;
+  sub?: string | undefined;
+  tok_exp_warn_days?: number | undefined;
+  trial?: boolean | undefined;
+  trial_exp?: number | undefined;
+  update_days?: number | undefined;
+  usage_billing?: boolean | undefined;
 }
 export interface GetMetadataRequest {}
 export type GetMetadataResponseBodyList = Array<number>;
@@ -1319,60 +1319,60 @@ export interface GetOrgUsersRequest {
 export type OrgUserDTOAccessControlMap = { [key: string]: boolean | undefined };
 export type OrgUserDTOAuthLabelsList = Array<string>;
 export interface OrgUserDTO {
-  accessControl?: OrgUserDTOAccessControlMap;
-  authLabels?: OrgUserDTOAuthLabelsList;
-  avatarUrl?: string;
-  created?: string;
-  email?: string;
-  isDisabled?: boolean;
-  isExternallySynced?: boolean;
-  isProvisioned?: boolean;
-  lastSeenAt?: string;
-  lastSeenAtAge?: string;
-  login?: string;
-  name?: string;
-  orgId?: number;
-  role?: string;
-  uid?: string;
-  userId?: number;
+  accessControl?: OrgUserDTOAccessControlMap | undefined;
+  authLabels?: OrgUserDTOAuthLabelsList | undefined;
+  avatarUrl?: string | undefined;
+  created?: string | undefined;
+  email?: string | undefined;
+  isDisabled?: boolean | undefined;
+  isExternallySynced?: boolean | undefined;
+  isProvisioned?: boolean | undefined;
+  lastSeenAt?: string | undefined;
+  lastSeenAtAge?: string | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  role?: string | undefined;
+  uid?: string | undefined;
+  userId?: number | undefined;
 }
 export type GetOrgUsersResponseBodyList = Array<OrgUserDTO>;
 export type GetOrgUsersResponse = GetOrgUsersResponseBodyList;
 export interface GetOrgUsersForCurrentOrgRequest {
-  query?: string;
-  limit?: number;
+  query?: string | undefined;
+  limit?: number | undefined;
 }
 export type GetOrgUsersForCurrentOrgResponseBodyList = Array<OrgUserDTO>;
 export type GetOrgUsersForCurrentOrgResponse = GetOrgUsersForCurrentOrgResponseBodyList;
 export interface GetOrgUsersForCurrentOrgLookupRequest {
-  query?: string;
-  limit?: number;
+  query?: string | undefined;
+  limit?: number | undefined;
 }
 export interface UserLookupDTO {
-  avatarUrl?: string;
-  login?: string;
-  uid?: string;
-  userId?: number;
+  avatarUrl?: string | undefined;
+  login?: string | undefined;
+  uid?: string | undefined;
+  userId?: number | undefined;
 }
 export type GetOrgUsersForCurrentOrgLookupResponseBodyList = Array<UserLookupDTO>;
 export type GetOrgUsersForCurrentOrgLookupResponse = GetOrgUsersForCurrentOrgLookupResponseBodyList;
 export interface GetPendingOrgInvitesRequest {}
 export type TempUserDTORole = "None" | "Viewer" | "Editor" | "Admin";
 export interface TempUserDTO {
-  code?: string;
-  createdOn?: string;
-  email?: string;
-  emailSent?: boolean;
-  emailSentOn?: string;
-  id?: number;
-  invitedByEmail?: string;
-  invitedByLogin?: string;
-  invitedByName?: string;
-  name?: string;
-  orgId?: number;
-  role?: TempUserDTORole;
-  status?: string;
-  url?: string;
+  code?: string | undefined;
+  createdOn?: string | undefined;
+  email?: string | undefined;
+  emailSent?: boolean | undefined;
+  emailSentOn?: string | undefined;
+  id?: number | undefined;
+  invitedByEmail?: string | undefined;
+  invitedByLogin?: string | undefined;
+  invitedByName?: string | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  role?: TempUserDTORole | undefined;
+  status?: string | undefined;
+  url?: string | undefined;
 }
 export type GetPendingOrgInvitesResponseBodyList = Array<TempUserDTO>;
 export type GetPendingOrgInvitesResponse = GetPendingOrgInvitesResponseBodyList;
@@ -1381,10 +1381,10 @@ export interface GetProviderSettingsRequest {
 }
 export type GetProviderSettingsResponseSettingsMap = { [key: string]: unknown | undefined };
 export interface GetProviderSettingsResponse {
-  id?: string;
-  provider?: string;
-  settings?: GetProviderSettingsResponseSettingsMap;
-  source?: string;
+  id?: string | undefined;
+  provider?: string | undefined;
+  settings?: GetProviderSettingsResponseSettingsMap | undefined;
+  source?: string | undefined;
 }
 export interface GetPublicAnnotationsRequest {
   accessToken: string;
@@ -1392,64 +1392,64 @@ export interface GetPublicAnnotationsRequest {
 /** Ref to a DataSource instance */
 export interface DataSourceRef {
   /** The plugin type-id */
-  type?: string;
+  type?: string | undefined;
   /** Specific datasource instance */
-  uid?: string;
+  uid?: string | undefined;
 }
 /** Panel IDs that should be included or excluded */
 export type AnnotationPanelFilterIdsList = Array<number>;
 export interface AnnotationPanelFilter {
   /** Should the specified panels be included or excluded */
-  exclude?: boolean;
+  exclude?: boolean | undefined;
   /** Panel IDs that should be included or excluded */
-  ids?: AnnotationPanelFilterIdsList;
+  ids?: AnnotationPanelFilterIdsList | undefined;
 }
 /** Only required/valid for the grafana datasource... but code+tests is already depending on it so hard to change */
 export type AnnotationTargetTagsList = Array<string>;
 /** TODO: this should be a regular DataQuery that depends on the selected dashboard these match the properties of the "grafana" datasouce that is default in most dashboards */
 export interface AnnotationTarget {
   /** Only required/valid for the grafana datasource... but code+tests is already depending on it so hard to change */
-  limit?: number;
+  limit?: number | undefined;
   /** Only required/valid for the grafana datasource... but code+tests is already depending on it so hard to change */
-  matchAny?: boolean;
+  matchAny?: boolean | undefined;
   /** Only required/valid for the grafana datasource... but code+tests is already depending on it so hard to change */
-  tags?: AnnotationTargetTagsList;
+  tags?: AnnotationTargetTagsList | undefined;
   /** Only required/valid for the grafana datasource... but code+tests is already depending on it so hard to change */
-  type?: string;
+  type?: string | undefined;
 }
 /** TODO docs FROM: AnnotationQuery in grafana-data/src/types/annotations.ts */
 export interface AnnotationQuery {
   /** Set to 1 for the standard annotation query all dashboards have by default. */
-  builtIn?: number;
-  datasource?: DataSourceRef;
+  builtIn?: number | undefined;
+  datasource?: DataSourceRef | undefined;
   /** When enabled the annotation query is issued with every dashboard refresh */
-  enable?: boolean;
-  filter?: AnnotationPanelFilter;
+  enable?: boolean | undefined;
+  filter?: AnnotationPanelFilter | undefined;
   /** Annotation queries can be toggled on or off at the top of the dashboard. When hide is true, the toggle is not shown in the dashboard. */
-  hide?: boolean;
+  hide?: boolean | undefined;
   /** Color to use for the annotation event markers */
-  iconColor?: string;
+  iconColor?: string | undefined;
   /** Name of annotation. */
-  name?: string;
+  name?: string | undefined;
   /** Placement can be used to display the annotation query somewhere else on the dashboard other than the default location. */
-  placement?: string;
-  target?: AnnotationTarget;
+  placement?: string | undefined;
+  target?: AnnotationTarget | undefined;
   /** TODO -- this should not exist here, it is based on the --grafana-- datasource */
-  type?: string;
+  type?: string | undefined;
 }
 export type AnnotationEventTagsList = Array<string>;
 export interface AnnotationEvent {
-  color?: string;
-  dashboardId?: number;
-  dashboardUID?: string;
-  id?: number;
-  isRegion?: boolean;
-  panelId?: number;
-  source?: AnnotationQuery;
-  tags?: AnnotationEventTagsList;
-  text?: string;
-  time?: number;
-  timeEnd?: number;
+  color?: string | undefined;
+  dashboardId?: number | undefined;
+  dashboardUID?: string | undefined;
+  id?: number | undefined;
+  isRegion?: boolean | undefined;
+  panelId?: number | undefined;
+  source?: AnnotationQuery | undefined;
+  tags?: AnnotationEventTagsList | undefined;
+  text?: string | undefined;
+  time?: number | undefined;
+  timeEnd?: number | undefined;
 }
 export type GetPublicAnnotationsResponseBodyList = Array<AnnotationEvent>;
 export type GetPublicAnnotationsResponse = GetPublicAnnotationsResponseBodyList;
@@ -1462,26 +1462,26 @@ export type ReportDashboardsList = Array<ReportDashboard>;
 export type ReportFormatsList = Array<string>;
 export type ReportUrlsList = Array<ReportURLItem>;
 export interface Report {
-  created?: string;
-  dashboards?: ReportDashboardsList;
-  enableCsv?: boolean;
-  enableDashboardUrl?: boolean;
-  formats?: ReportFormatsList;
-  id?: number;
-  message?: string;
-  name?: string;
-  options?: ReportOptions;
-  orgId?: number;
-  recipients?: string;
-  replyTo?: string;
-  scaleFactor?: number;
-  schedule?: ReportSchedule;
-  state?: string;
-  subject?: string;
-  uid?: string;
-  updated?: string;
-  urls?: ReportUrlsList;
-  userId?: number;
+  created?: string | undefined;
+  dashboards?: ReportDashboardsList | undefined;
+  enableCsv?: boolean | undefined;
+  enableDashboardUrl?: boolean | undefined;
+  formats?: ReportFormatsList | undefined;
+  id?: number | undefined;
+  message?: string | undefined;
+  name?: string | undefined;
+  options?: ReportOptions | undefined;
+  orgId?: number | undefined;
+  recipients?: string | undefined;
+  replyTo?: string | undefined;
+  scaleFactor?: number | undefined;
+  schedule?: ReportSchedule | undefined;
+  state?: string | undefined;
+  subject?: string | undefined;
+  uid?: string | undefined;
+  updated?: string | undefined;
+  urls?: ReportUrlsList | undefined;
+  userId?: number | undefined;
 }
 export type GetReportsResponseBodyList = Array<Report>;
 export type GetReportsResponse = GetReportsResponseBodyList;
@@ -1492,33 +1492,33 @@ export type GetReportsByDashboardUIDResponseBodyList = Array<Report>;
 export type GetReportsByDashboardUIDResponse = GetReportsByDashboardUIDResponseBodyList;
 export interface GetReportSettingsRequest {}
 export interface ReportBrandingOptions {
-  emailFooterLink?: string;
-  emailFooterMode?: string;
-  emailFooterText?: string;
-  emailLogoUrl?: string;
-  reportLogoUrl?: string;
+  emailFooterLink?: string | undefined;
+  emailFooterMode?: string | undefined;
+  emailFooterText?: string | undefined;
+  emailLogoUrl?: string | undefined;
+  reportLogoUrl?: string | undefined;
 }
 export interface FooterItem {
-  color?: string;
-  fontSize?: string;
-  fontStyle?: string;
-  fontWeight?: string;
-  type?: string;
-  value?: string;
+  color?: string | undefined;
+  fontSize?: string | undefined;
+  fontStyle?: string | undefined;
+  fontWeight?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 export type ReportSettingsFooterItemsList = Array<FooterItem>;
 export interface ReportSettings {
-  branding?: ReportBrandingOptions;
-  embeddedImageTheme?: string;
-  footerFontFamily?: string;
-  footerItems?: ReportSettingsFooterItemsList;
-  id?: number;
-  orgId?: number;
-  pdfDashboardTitleEnabled?: boolean;
-  pdfHeaderEnabled?: boolean;
-  pdfTheme?: string;
-  pdfTimeRangeEnabled?: boolean;
-  userId?: number;
+  branding?: ReportBrandingOptions | undefined;
+  embeddedImageTheme?: string | undefined;
+  footerFontFamily?: string | undefined;
+  footerItems?: ReportSettingsFooterItemsList | undefined;
+  id?: number | undefined;
+  orgId?: number | undefined;
+  pdfDashboardTitleEnabled?: boolean | undefined;
+  pdfHeaderEnabled?: boolean | undefined;
+  pdfTheme?: string | undefined;
+  pdfTimeRangeEnabled?: boolean | undefined;
+  userId?: number | undefined;
 }
 export interface GetResourceDependenciesRequest {}
 export type ResourceDependencyDTODependenciesItem =
@@ -1547,26 +1547,26 @@ export type ResourceDependencyDTOResourceType =
   | "MUTE_TIMING"
   | "PLUGIN";
 export interface ResourceDependencyDTO {
-  dependencies?: ResourceDependencyDTODependenciesList;
-  resourceType?: ResourceDependencyDTOResourceType;
+  dependencies?: ResourceDependencyDTODependenciesList | undefined;
+  resourceType?: ResourceDependencyDTOResourceType | undefined;
 }
 export type ResourceDependenciesResponseDTOResourceDependenciesList = Array<ResourceDependencyDTO>;
 export interface ResourceDependenciesResponseDTO {
-  resourceDependencies?: ResourceDependenciesResponseDTOResourceDependenciesList;
+  resourceDependencies?: ResourceDependenciesResponseDTOResourceDependenciesList | undefined;
 }
 export interface GetResourceDescriptionRequest {
   resource: string;
 }
 export interface Assignments {
-  builtInRoles?: boolean;
-  serviceAccounts?: boolean;
-  teams?: boolean;
-  users?: boolean;
+  builtInRoles?: boolean | undefined;
+  serviceAccounts?: boolean | undefined;
+  teams?: boolean | undefined;
+  users?: boolean | undefined;
 }
 export type DescriptionPermissionsList = Array<string>;
 export interface Description {
-  assignments?: Assignments;
-  permissions?: DescriptionPermissionsList;
+  assignments?: Assignments | undefined;
+  permissions?: DescriptionPermissionsList | undefined;
 }
 export interface GetResourcePermissionsRequest {
   resource: string;
@@ -1574,22 +1574,22 @@ export interface GetResourcePermissionsRequest {
 }
 export type ResourcePermissionDTOActionsList = Array<string>;
 export interface ResourcePermissionDTO {
-  actions?: ResourcePermissionDTOActionsList;
-  builtInRole?: string;
-  id?: number;
-  isInherited?: boolean;
-  isManaged?: boolean;
-  isServiceAccount?: boolean;
-  permission?: string;
-  roleName?: string;
-  team?: string;
-  teamAvatarUrl?: string;
-  teamId?: number;
-  teamUid?: string;
-  userAvatarUrl?: string;
-  userId?: number;
-  userLogin?: string;
-  userUid?: string;
+  actions?: ResourcePermissionDTOActionsList | undefined;
+  builtInRole?: string | undefined;
+  id?: number | undefined;
+  isInherited?: boolean | undefined;
+  isManaged?: boolean | undefined;
+  isServiceAccount?: boolean | undefined;
+  permission?: string | undefined;
+  roleName?: string | undefined;
+  team?: string | undefined;
+  teamAvatarUrl?: string | undefined;
+  teamId?: number | undefined;
+  teamUid?: string | undefined;
+  userAvatarUrl?: string | undefined;
+  userId?: number | undefined;
+  userLogin?: string | undefined;
+  userUid?: string | undefined;
 }
 export type GetResourcePermissionsResponseBodyList = Array<ResourcePermissionDTO>;
 export type GetResourcePermissionsResponse = GetResourcePermissionsResponseBodyList;
@@ -1603,10 +1603,10 @@ export type RoleAssignmentsDTOServiceAccountsList = Array<number>;
 export type RoleAssignmentsDTOTeamsList = Array<number>;
 export type RoleAssignmentsDTOUsersList = Array<number>;
 export interface RoleAssignmentsDTO {
-  role_uid?: string;
-  service_accounts?: RoleAssignmentsDTOServiceAccountsList;
-  teams?: RoleAssignmentsDTOTeamsList;
-  users?: RoleAssignmentsDTOUsersList;
+  role_uid?: string | undefined;
+  service_accounts?: RoleAssignmentsDTOServiceAccountsList | undefined;
+  teams?: RoleAssignmentsDTOTeamsList | undefined;
+  users?: RoleAssignmentsDTOUsersList | undefined;
 }
 export interface GetSAMLLogoutRequest {}
 export interface GetSAMLLogoutResponse {}
@@ -1621,7 +1621,7 @@ export interface GetSessionListRequest {}
 export type CloudMigrationSessionListResponseDTOSessionsList =
   Array<CloudMigrationSessionResponseDTO>;
 export interface CloudMigrationSessionListResponseDTO {
-  sessions?: CloudMigrationSessionListResponseDTOSessionsList;
+  sessions?: CloudMigrationSessionListResponseDTOSessionsList | undefined;
 }
 export interface GetSettingsImageRequest {}
 export type GetSettingsImageResponseBodyList = Array<number>;
@@ -1630,11 +1630,11 @@ export interface GetShapshotListRequest {
   /** Session UID of a session */
   uid: string;
   /** Page is used for pagination with limit */
-  page?: number;
+  page?: number | undefined;
   /** Max limit for results returned. */
-  limit?: number;
+  limit?: number | undefined;
   /** Sort with value latest to return results sorted in descending order. */
-  sort?: string;
+  sort?: string | undefined;
 }
 export type SnapshotDTOStatus =
   | "INITIALIZING"
@@ -1649,68 +1649,68 @@ export type SnapshotDTOStatus =
   | "UNKNOWN";
 /** Base snapshot without results */
 export interface SnapshotDTO {
-  created?: string;
-  finished?: string;
-  sessionUid?: string;
-  status?: SnapshotDTOStatus;
-  uid?: string;
+  created?: string | undefined;
+  finished?: string | undefined;
+  sessionUid?: string | undefined;
+  status?: SnapshotDTOStatus | undefined;
+  uid?: string | undefined;
 }
 export type SnapshotListResponseDTOSnapshotsList = Array<SnapshotDTO>;
 export interface SnapshotListResponseDTO {
-  snapshots?: SnapshotListResponseDTOSnapshotsList;
+  snapshots?: SnapshotListResponseDTOSnapshotsList | undefined;
 }
 export interface GetSharingOptionsRequest {}
 export interface GetSharingOptionsResponse {
-  externalEnabled?: boolean;
-  externalSnapshotName?: string;
-  externalSnapshotURL?: string;
+  externalEnabled?: boolean | undefined;
+  externalSnapshotName?: string | undefined;
+  externalSnapshotURL?: string | undefined;
 }
 export interface GetSignedInUserRequest {}
 export type UserProfileDTOAccessControlMap = { [key: string]: boolean | undefined };
 export type UserProfileDTOAuthLabelsList = Array<string>;
 export interface UserProfileDTO {
-  accessControl?: UserProfileDTOAccessControlMap;
-  authLabels?: UserProfileDTOAuthLabelsList;
-  avatarUrl?: string;
-  createdAt?: string;
-  email?: string;
-  id?: number;
-  isDisabled?: boolean;
-  isExternal?: boolean;
-  isExternallySynced?: boolean;
-  isGrafanaAdmin?: boolean;
-  isGrafanaAdminExternallySynced?: boolean;
-  isProvisioned?: boolean;
-  login?: string;
-  name?: string;
-  orgId?: number;
-  theme?: string;
-  uid?: string;
-  updatedAt?: string;
+  accessControl?: UserProfileDTOAccessControlMap | undefined;
+  authLabels?: UserProfileDTOAuthLabelsList | undefined;
+  avatarUrl?: string | undefined;
+  createdAt?: string | undefined;
+  email?: string | undefined;
+  id?: number | undefined;
+  isDisabled?: boolean | undefined;
+  isExternal?: boolean | undefined;
+  isExternallySynced?: boolean | undefined;
+  isGrafanaAdmin?: boolean | undefined;
+  isGrafanaAdminExternallySynced?: boolean | undefined;
+  isProvisioned?: boolean | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  theme?: string | undefined;
+  uid?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export interface GetSignedInUserOrgListRequest {}
 export type UserOrgDTORole = "None" | "Viewer" | "Editor" | "Admin";
 export interface UserOrgDTO {
-  name?: string;
-  orgId?: number;
-  role?: UserOrgDTORole;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  role?: UserOrgDTORole | undefined;
 }
 export type GetSignedInUserOrgListResponseBodyList = Array<UserOrgDTO>;
 export type GetSignedInUserOrgListResponse = GetSignedInUserOrgListResponseBodyList;
 export interface GetSignedInUserTeamListRequest {}
 export type TeamDTOAccessControlMap = { [key: string]: boolean | undefined };
 export interface TeamDTO {
-  accessControl?: TeamDTOAccessControlMap;
-  avatarUrl?: string;
-  email?: string;
-  externalUID?: string;
+  accessControl?: TeamDTOAccessControlMap | undefined;
+  avatarUrl?: string | undefined;
+  email?: string | undefined;
+  externalUID?: string | undefined;
   /** @deprecated Use UID instead */
   id: number;
   isProvisioned: boolean;
   memberCount: number;
   name: string;
   orgId: number;
-  permission?: number;
+  permission?: number | undefined;
   uid: string;
 }
 export type GetSignedInUserTeamListResponseBodyList = Array<TeamDTO>;
@@ -1723,15 +1723,15 @@ export interface GetSnapshotRequest {
   /** UID of a snapshot */
   snapshotUid: string;
   /** ResultPage is used for pagination with ResultLimit */
-  resultPage?: number;
+  resultPage?: number | undefined;
   /** Max limit for snapshot results returned. */
-  resultLimit?: number;
+  resultLimit?: number | undefined;
   /** ResultSortColumn can be used to override the default system sort. Valid values are "name", "resource_type", and "status". */
-  resultSortColumn?: string;
+  resultSortColumn?: string | undefined;
   /** ResultSortOrder is used with ResultSortColumn. Valid values are ASC and DESC. */
-  resultSortOrder?: string;
+  resultSortOrder?: string | undefined;
   /** ErrorsOnly is used to only return resources with error statuses */
-  errorsOnly?: boolean;
+  errorsOnly?: boolean | undefined;
 }
 export type MigrateDataResponseItemDTOErrorCode =
   | "ALERT_RULES_QUOTA_REACHED"
@@ -1761,10 +1761,10 @@ export type MigrateDataResponseItemDTOType =
   | "MUTE_TIMING"
   | "PLUGIN";
 export interface MigrateDataResponseItemDTO {
-  errorCode?: MigrateDataResponseItemDTOErrorCode;
-  message?: string;
-  name?: string;
-  parentName?: string;
+  errorCode?: MigrateDataResponseItemDTOErrorCode | undefined;
+  message?: string | undefined;
+  name?: string | undefined;
+  parentName?: string | undefined;
   refId: string;
   status: MigrateDataResponseItemDTOStatus;
   type: MigrateDataResponseItemDTOType;
@@ -1773,9 +1773,9 @@ export type GetSnapshotResponseDTOResultsList = Array<MigrateDataResponseItemDTO
 export type SnapshotResourceStatsStatusesMap = { [key: string]: number | undefined };
 export type SnapshotResourceStatsTypesMap = { [key: string]: number | undefined };
 export interface SnapshotResourceStats {
-  statuses?: SnapshotResourceStatsStatusesMap;
-  total?: number;
-  types?: SnapshotResourceStatsTypesMap;
+  statuses?: SnapshotResourceStatsStatusesMap | undefined;
+  total?: number | undefined;
+  types?: SnapshotResourceStatsTypesMap | undefined;
 }
 export type GetSnapshotResponseDTOStatus =
   | "INITIALIZING"
@@ -1789,53 +1789,53 @@ export type GetSnapshotResponseDTOStatus =
   | "ERROR"
   | "UNKNOWN";
 export interface GetSnapshotResponseDTO {
-  created?: string;
-  finished?: string;
-  results?: GetSnapshotResponseDTOResultsList;
-  sessionUid?: string;
-  stats?: SnapshotResourceStats;
-  status?: GetSnapshotResponseDTOStatus;
-  uid?: string;
+  created?: string | undefined;
+  finished?: string | undefined;
+  results?: GetSnapshotResponseDTOResultsList | undefined;
+  sessionUid?: string | undefined;
+  stats?: SnapshotResourceStats | undefined;
+  status?: GetSnapshotResponseDTOStatus | undefined;
+  uid?: string | undefined;
 }
 export interface GetStatusRequest {}
 export type GetStatusResponse = boolean;
 export interface GetSyncStatusRequest {}
 /** FailedUser holds the information of an user that failed */
 export interface FailedUser {
-  Error?: string;
-  Login?: string;
+  Error?: string | undefined;
+  Login?: string | undefined;
 }
 export type SyncResultFailedUsersList = Array<FailedUser>;
 export type SyncResultMissingUserIdsList = Array<number>;
 export type SyncResultUpdatedUserIdsList = Array<number>;
 export interface SyncResult {
-  Elapsed?: number;
-  FailedUsers?: SyncResultFailedUsersList;
-  MissingUserIds?: SyncResultMissingUserIdsList;
-  Started?: string;
-  UpdatedUserIds?: SyncResultUpdatedUserIdsList;
+  Elapsed?: number | undefined;
+  FailedUsers?: SyncResultFailedUsersList | undefined;
+  MissingUserIds?: SyncResultMissingUserIdsList | undefined;
+  Started?: string | undefined;
+  UpdatedUserIds?: SyncResultUpdatedUserIdsList | undefined;
 }
 /** ActiveSyncStatusDTO holds the information for LDAP background Sync */
 export interface ActiveSyncStatusDTO {
-  enabled?: boolean;
-  nextSync?: string;
-  prevSync?: SyncResult;
-  schedule?: string;
+  enabled?: boolean | undefined;
+  nextSync?: string | undefined;
+  prevSync?: SyncResult | undefined;
+  schedule?: string | undefined;
 }
 export interface GetTeamRequest {
   team_id: string;
-  accesscontrol?: boolean;
+  accesscontrol?: boolean | undefined;
 }
 export interface GetTeamGroupsApiRequest {
   teamId: string;
 }
 export interface TeamGroupDTO {
-  groupId?: string;
-  orgId?: number;
-  teamId?: number;
-  teamUid?: string;
+  groupId?: string | undefined;
+  orgId?: number | undefined;
+  teamId?: number | undefined;
+  teamUid?: string | undefined;
   /** Deprecated: always empty; no per-entry id. */
-  uid?: string;
+  uid?: string | undefined;
 }
 export type GetTeamGroupsApiResponseBodyList = Array<TeamGroupDTO>;
 export type GetTeamGroupsApiResponse = GetTeamGroupsApiResponseBodyList;
@@ -1844,32 +1844,32 @@ export interface GetTeamLBACRulesApiRequest {
 }
 export type TeamLBACRuleRulesList = Array<string>;
 export interface TeamLBACRule {
-  rules?: TeamLBACRuleRulesList;
-  teamId?: string;
-  teamUid?: string;
+  rules?: TeamLBACRuleRulesList | undefined;
+  teamId?: string | undefined;
+  teamUid?: string | undefined;
 }
 export type TeamLBACRulesRulesList = Array<TeamLBACRule>;
 export interface TeamLBACRules {
-  rules?: TeamLBACRulesRulesList;
+  rules?: TeamLBACRulesRulesList | undefined;
 }
 export interface GetTeamMembersRequest {
   team_id: string;
 }
 export type TeamMemberDTOLabelsList = Array<string>;
 export interface TeamMemberDTO {
-  auth_module?: string;
-  avatarUrl?: string;
-  email?: string;
-  labels?: TeamMemberDTOLabelsList;
-  login?: string;
-  name?: string;
-  orgId?: number;
-  permission?: number;
-  teamId?: number;
-  teamUID?: string;
-  uid?: string;
-  userId?: number;
-  userUID?: string;
+  auth_module?: string | undefined;
+  avatarUrl?: string | undefined;
+  email?: string | undefined;
+  labels?: TeamMemberDTOLabelsList | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  permission?: number | undefined;
+  teamId?: number | undefined;
+  teamUID?: string | undefined;
+  uid?: string | undefined;
+  userId?: number | undefined;
+  userUID?: string | undefined;
 }
 export type GetTeamMembersResponseBodyList = Array<TeamMemberDTO>;
 export type GetTeamMembersResponse = GetTeamMembersResponseBodyList;
@@ -1878,27 +1878,27 @@ export interface GetTeamPreferencesRequest {
 }
 export type PreferencesNavbarPreferenceBookmarkUrlsList = Array<string>;
 export interface PreferencesNavbarPreference {
-  bookmarkUrls?: PreferencesNavbarPreferenceBookmarkUrlsList;
+  bookmarkUrls?: PreferencesNavbarPreferenceBookmarkUrlsList | undefined;
 }
 export interface PreferencesQueryHistoryPreference {
   /** one of: '' | 'query' | 'starred'; */
-  homeTab?: string;
+  homeTab?: string | undefined;
 }
 export interface PreferencesSpec {
-  /** UID for the home dashboard */
-  homeDashboardUID?: string;
+  /** UID for the home dashboard. The reserved value "global-home" is not a dashboard UID: it selects the instance default home (home_page, the configured home dashboard file, or the built-in home page) instead of falling through to lower-precedence preferences. */
+  homeDashboardUID?: string | undefined;
   /** Explicit home URL (NOTE: this can only be modified in the system settings) */
-  homeURL?: string;
+  homeURL?: string | undefined;
   /** Selected language */
-  language?: string;
-  navbar?: PreferencesNavbarPreference;
-  queryHistory?: PreferencesQueryHistoryPreference;
+  language?: string | undefined;
+  navbar?: PreferencesNavbarPreference | undefined;
+  queryHistory?: PreferencesQueryHistoryPreference | undefined;
   /** user interface theme */
-  theme?: string;
+  theme?: string | undefined;
   /** The timezone selection */
-  timezone?: string;
+  timezone?: string | undefined;
   /** day of the week (sunday, monday, etc) */
-  weekStart?: string;
+  weekStart?: string | undefined;
 }
 export interface GetUserRequest {
   user_id: number;
@@ -1932,39 +1932,39 @@ export interface GetUserTeamsRequest {
 export type GetUserTeamsResponseBodyList = Array<TeamDTO>;
 export type GetUserTeamsResponse = GetUserTeamsResponseBodyList;
 export interface ImportDashboardInput {
-  name?: string;
-  pluginId?: string;
-  type?: string;
-  value?: string;
+  name?: string | undefined;
+  pluginId?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
 }
 export type ImportDashboardRequestInputsList = Array<ImportDashboardInput>;
 export interface ImportDashboardRequest {
-  dashboard?: unknown;
+  dashboard?: unknown | undefined;
   /** Deprecated: use FolderUID instead */
-  folderId?: number;
-  folderUid?: string;
-  inputs?: ImportDashboardRequestInputsList;
-  overwrite?: boolean;
-  path?: string;
-  pluginId?: string;
+  folderId?: number | undefined;
+  folderUid?: string | undefined;
+  inputs?: ImportDashboardRequestInputsList | undefined;
+  overwrite?: boolean | undefined;
+  path?: string | undefined;
+  pluginId?: string | undefined;
 }
 export interface ImportDashboardResponse {
-  dashboardId?: number;
-  description?: string;
+  dashboardId?: number | undefined;
+  description?: string | undefined;
   /** Deprecated: use FolderUID instead */
-  folderId?: number;
-  folderUid?: string;
-  imported?: boolean;
-  importedRevision?: number;
-  importedUri?: string;
-  importedUrl?: string;
-  path?: string;
-  pluginId?: string;
-  removed?: boolean;
-  revision?: number;
-  slug?: string;
-  title?: string;
-  uid?: string;
+  folderId?: number | undefined;
+  folderUid?: string | undefined;
+  imported?: boolean | undefined;
+  importedRevision?: number | undefined;
+  importedUri?: string | undefined;
+  importedUrl?: string | undefined;
+  path?: string | undefined;
+  pluginId?: string | undefined;
+  removed?: boolean | undefined;
+  revision?: number | undefined;
+  slug?: string | undefined;
+  title?: string | undefined;
+  uid?: string | undefined;
 }
 export interface InterpolateDashboardRequest {}
 export type InterpolateDashboardResponse = unknown;
@@ -1973,71 +1973,71 @@ export type ListAllProvidersSettingsResponseBodyItemSettingsMap = {
   [key: string]: unknown | undefined;
 };
 export interface ListAllProvidersSettingsResponseBodyItem {
-  id?: string;
-  provider?: string;
-  settings?: ListAllProvidersSettingsResponseBodyItemSettingsMap;
-  source?: string;
+  id?: string | undefined;
+  provider?: string | undefined;
+  settings?: ListAllProvidersSettingsResponseBodyItemSettingsMap | undefined;
+  source?: string | undefined;
 }
 export type ListAllProvidersSettingsResponseBodyList =
   Array<ListAllProvidersSettingsResponseBodyItem>;
 export type ListAllProvidersSettingsResponse = ListAllProvidersSettingsResponseBodyList;
 export interface ListDevicesRequest {}
 export interface DeviceDTO {
-  avatarUrl?: string;
-  clientIp?: string;
-  createdAt?: string;
-  deviceId?: string;
-  lastSeenAt?: string;
-  updatedAt?: string;
-  userAgent?: string;
+  avatarUrl?: string | undefined;
+  clientIp?: string | undefined;
+  createdAt?: string | undefined;
+  deviceId?: string | undefined;
+  lastSeenAt?: string | undefined;
+  updatedAt?: string | undefined;
+  userAgent?: string | undefined;
 }
 export type ListDevicesResponseBodyList = Array<DeviceDTO>;
 export type ListDevicesResponse = ListDevicesResponseBodyList;
 export interface ListPublicDashboardsRequest {}
 export interface PublicDashboardListResponse {
-  accessToken?: string | Redacted.Redacted<string>;
-  dashboardUid?: string;
-  isEnabled?: boolean;
-  slug?: string;
-  title?: string;
-  uid?: string;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
+  dashboardUid?: string | undefined;
+  isEnabled?: boolean | undefined;
+  slug?: string | undefined;
+  title?: string | undefined;
+  uid?: string | undefined;
 }
 export type PublicDashboardListResponseWithPaginationPublicDashboardsList =
   Array<PublicDashboardListResponse>;
 export interface PublicDashboardListResponseWithPagination {
-  page?: number;
-  perPage?: number;
-  publicDashboards?: PublicDashboardListResponseWithPaginationPublicDashboardsList;
-  totalCount?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  publicDashboards?: PublicDashboardListResponseWithPaginationPublicDashboardsList | undefined;
+  totalCount?: number | undefined;
 }
 export interface ListRecordingRulesRequest {}
 export type ListRecordingRulesResponseBodyList = Array<RecordingRuleJSON>;
 export type ListRecordingRulesResponse = ListRecordingRulesResponseBodyList;
 export interface ListRolesRequest {
-  delegatable?: boolean;
-  includeHidden?: boolean;
-  targetOrgId?: number;
+  delegatable?: boolean | undefined;
+  includeHidden?: boolean | undefined;
+  targetOrgId?: number | undefined;
 }
 export type ListRolesResponseBodyList = Array<RoleDTO>;
 export type ListRolesResponse = ListRolesResponseBodyList;
 export interface ListSortOptionsRequest {}
 export interface ListSortOptionsResponse {
-  description?: string;
-  displayName?: string;
-  meta?: string;
-  name?: string;
+  description?: string | undefined;
+  displayName?: string | undefined;
+  meta?: string | undefined;
+  name?: string | undefined;
 }
 export interface ListTeamRolesRequest {
   teamId: number;
-  targetOrgId?: number;
+  targetOrgId?: number | undefined;
 }
 export type ListTeamsRolesRequestTeamIdsList = Array<number>;
 export type ListTeamsRolesRequestUserIdsList = Array<number>;
 export interface ListTeamsRolesRequest {
-  includeHidden?: boolean;
-  orgId?: number;
-  teamIds?: ListTeamsRolesRequestTeamIdsList;
-  userIds?: ListTeamsRolesRequestUserIdsList;
+  includeHidden?: boolean | undefined;
+  orgId?: number | undefined;
+  teamIds?: ListTeamsRolesRequestTeamIdsList | undefined;
+  userIds?: ListTeamsRolesRequestUserIdsList | undefined;
 }
 export type ListTeamsRolesResponseBodyValueList = Array<RoleDTO>;
 export type ListTeamsRolesResponseBodyMap = {
@@ -2048,31 +2048,31 @@ export interface ListTokensRequest {
   serviceAccountId: number;
 }
 export interface TokenDTO {
-  created?: string;
-  expiration?: string;
-  hasExpired?: boolean;
-  id?: number;
-  isRevoked?: boolean;
-  lastUsedAt?: string;
-  name?: string;
-  secondsUntilExpiration?: number;
+  created?: string | undefined;
+  expiration?: string | undefined;
+  hasExpired?: boolean | undefined;
+  id?: number | undefined;
+  isRevoked?: boolean | undefined;
+  lastUsedAt?: string | undefined;
+  name?: string | undefined;
+  secondsUntilExpiration?: number | undefined;
 }
 export type ListTokensResponseBodyList = Array<TokenDTO>;
 export type ListTokensResponse = ListTokensResponseBodyList;
 export interface ListUserRolesRequest {
   userId: number;
-  includeHidden?: boolean;
-  targetOrgId?: number;
+  includeHidden?: boolean | undefined;
+  targetOrgId?: number | undefined;
 }
 export type ListUserRolesResponseBodyList = Array<RoleDTO>;
 export type ListUserRolesResponse = ListUserRolesResponseBodyList;
 export type ListUsersRolesRequestTeamIdsList = Array<number>;
 export type ListUsersRolesRequestUserIdsList = Array<number>;
 export interface ListUsersRolesRequest {
-  includeHidden?: boolean;
-  orgId?: number;
-  teamIds?: ListUsersRolesRequestTeamIdsList;
-  userIds?: ListUsersRolesRequestUserIdsList;
+  includeHidden?: boolean | undefined;
+  orgId?: number | undefined;
+  teamIds?: ListUsersRolesRequestTeamIdsList | undefined;
+  userIds?: ListUsersRolesRequestUserIdsList | undefined;
 }
 export type ListUsersRolesResponseBodyValueList = Array<RoleDTO>;
 export type ListUsersRolesResponseBodyMap = {
@@ -2080,30 +2080,30 @@ export type ListUsersRolesResponseBodyMap = {
 };
 export type ListUsersRolesResponse = ListUsersRolesResponseBodyMap;
 export interface MassDeleteAnnotationsRequest {
-  annotationId?: number;
-  dashboardId?: number;
-  dashboardUID?: string;
-  panelId?: number;
+  annotationId?: number | undefined;
+  dashboardId?: number | undefined;
+  dashboardUID?: string | undefined;
+  panelId?: number | undefined;
 }
 export type PatchProviderSettingsRequestSettingsMap = { [key: string]: unknown | undefined };
 export interface PatchProviderSettingsRequest {
   key: string;
-  settings?: PatchProviderSettingsRequestSettingsMap;
+  settings?: PatchProviderSettingsRequestSettingsMap | undefined;
 }
 export interface PatchQueryCommentRequest {
   query_history_uid: string;
   /** Updated comment */
-  comment?: string;
+  comment?: string | undefined;
 }
 export interface PostACSRequest {
-  RelayState?: string;
+  RelayState?: string | undefined;
 }
 export interface PostACSResponse {}
 export interface PostGraphiteAnnotationRequest {
-  data?: string;
-  tags?: unknown;
-  what?: string;
-  when?: number;
+  data?: string | undefined;
+  tags?: unknown | undefined;
+  what?: string | undefined;
+  when?: number | undefined;
 }
 export interface PostGraphiteAnnotationResponse {
   /** ID Identifier of the created annotation. */
@@ -2112,13 +2112,13 @@ export interface PostGraphiteAnnotationResponse {
   message: string;
 }
 export interface PostLicenseTokenRequest {
-  instance?: string;
+  instance?: string | undefined;
 }
 export interface PostRenewLicenseTokenRequest {}
 export type PostRenewLicenseTokenResponse = boolean;
 export interface PostSLORequest {
-  SAMLRequest?: string;
-  SAMLResponse?: string;
+  SAMLRequest?: string | undefined;
+  SAMLResponse?: string | undefined;
 }
 export interface PostSLOResponse {}
 export interface PostSyncUserWithLDAPRequest {
@@ -2127,7 +2127,7 @@ export interface PostSyncUserWithLDAPRequest {
 /** queries.refId - Specifies an identifier of the query. Is optional and default to "A". queries.datasourceId - Specifies the data source to be queried. Each query in the request must have an unique datasourceId. queries.maxDataPoints - Species maximum amount of data points that dashboard panel can render. Is optional and default to 100. queries.intervalMs - Specifies the time interval in milliseconds of time series. Is optional and defaults to 1000. */
 export type QueryMetricsWithExpressionsRequestQueriesList = Array<unknown>;
 export interface QueryMetricsWithExpressionsRequest {
-  debug?: boolean;
+  debug?: boolean | undefined;
   /** From Start time in epoch timestamps in milliseconds or relative using Grafana time units. */
   from: string;
   /** queries.refId - Specifies an identifier of the query. Is optional and default to "A". queries.datasourceId - Specifies the data source to be queried. Each query in the request must have an unique datasourceId. queries.maxDataPoints - Species maximum amount of data points that dashboard panel can render. Is optional and default to 100. queries.intervalMs - Specifies the time interval in milliseconds of time series. Is optional and defaults to 1000. */
@@ -2142,44 +2142,44 @@ export type FieldConfigCustomMap = { [key: string]: unknown | undefined };
 /** Redefining this to avoid an import cycle */
 export type TimeRange = ReportTimeRange;
 export interface LinkTransformationConfig {
-  expression?: string;
-  field?: string;
-  mapValue?: string;
-  type?: string;
+  expression?: string | undefined;
+  field?: string | undefined;
+  mapValue?: string | undefined;
+  type?: string | undefined;
 }
 export type InternalDataLinkTransformationsList = Array<LinkTransformationConfig>;
 /** InternalDataLink definition to allow Explore links to be constructed in the backend */
 export interface InternalDataLink {
-  datasourceName?: string;
-  datasourceUid?: string;
-  panelsState?: unknown;
-  query?: unknown;
-  timeRange?: ReportTimeRange;
-  transformations?: InternalDataLinkTransformationsList;
+  datasourceName?: string | undefined;
+  datasourceUid?: string | undefined;
+  panelsState?: unknown | undefined;
+  query?: unknown | undefined;
+  timeRange?: ReportTimeRange | undefined;
+  transformations?: InternalDataLinkTransformationsList | undefined;
 }
 /** DataLink define what */
 export interface DataLink {
-  internal?: InternalDataLink;
-  targetBlank?: boolean;
-  title?: string;
-  url?: string;
+  internal?: InternalDataLink | undefined;
+  targetBlank?: boolean | undefined;
+  title?: string | undefined;
+  url?: string | undefined;
 }
 /** The behavior when clicking on a result */
 export type FieldConfigLinksList = Array<DataLink>;
 export type ValueMappings = Array<unknown>;
 /** Threshold a single step on the threshold list */
 export interface Threshold {
-  color?: string;
-  state?: string;
-  value?: number;
+  color?: string | undefined;
+  state?: string | undefined;
+  value?: number | undefined;
 }
 /** Must be sorted by 'value', first value is always -Infinity */
 export type ThresholdsConfigStepsList = Array<Threshold>;
 /** ThresholdsConfig setup thresholds */
 export interface ThresholdsConfig {
-  mode?: string;
+  mode?: string | undefined;
   /** Must be sorted by 'value', first value is always -Infinity */
-  steps?: ThresholdsConfigStepsList;
+  steps?: ThresholdsConfigStepsList | undefined;
 }
 /** Color is the color value for a given index (empty is undefined) */
 export type EnumFieldConfigColorList = Array<string>;
@@ -2192,68 +2192,68 @@ export type EnumFieldConfigTextList = Array<string>;
 /** Enum field config Vector values are used as lookup keys into the enum fields */
 export interface EnumFieldConfig {
   /** Color is the color value for a given index (empty is undefined) */
-  color?: EnumFieldConfigColorList;
+  color?: EnumFieldConfigColorList | undefined;
   /** Description of the enum state */
-  description?: EnumFieldConfigDescriptionList;
+  description?: EnumFieldConfigDescriptionList | undefined;
   /** Icon supports setting an icon for a given index value */
-  icon?: EnumFieldConfigIconList;
+  icon?: EnumFieldConfigIconList | undefined;
   /** Value is the string display value for a given index */
-  text?: EnumFieldConfigTextList;
+  text?: EnumFieldConfigTextList | undefined;
 }
 /** FieldTypeConfig has type specific configs, only one should be active at a time */
 export interface FieldTypeConfig {
-  enum?: EnumFieldConfig;
+  enum?: EnumFieldConfig | undefined;
 }
 export interface FieldConfig {
   /** Map values to a display color NOTE: this interface is under development in the frontend... so simple map for now */
-  color?: FieldConfigColorMap;
+  color?: FieldConfigColorMap | undefined;
   /** Panel Specific Values */
-  custom?: FieldConfigCustomMap;
-  decimals?: number;
+  custom?: FieldConfigCustomMap | undefined;
+  decimals?: number | undefined;
   /** Description is human readable field metadata */
-  description?: string;
+  description?: string | undefined;
   /** DisplayName overrides Grafana default naming, should not be used from a data source */
-  displayName?: string;
+  displayName?: string | undefined;
   /** DisplayNameFromDS overrides Grafana default naming strategy. */
-  displayNameFromDS?: string;
+  displayNameFromDS?: string | undefined;
   /** Filterable indicates if the Field's data can be filtered by additional calls. */
-  filterable?: boolean;
+  filterable?: boolean | undefined;
   /** Interval indicates the expected regular step between values in the series. When an interval exists, consumers can identify "missing" values when the expected value is not present. The grafana timeseries visualization will render disconnected values when missing values are found it the time field. The interval uses the same units as the values. For time.Time, this is defined in milliseconds. */
-  interval?: number;
+  interval?: number | undefined;
   /** The behavior when clicking on a result */
-  links?: FieldConfigLinksList;
-  mappings?: ValueMappings;
-  max?: number;
-  min?: number;
+  links?: FieldConfigLinksList | undefined;
+  mappings?: ValueMappings | undefined;
+  max?: number | undefined;
+  min?: number | undefined;
   /** Alternative to empty string */
-  noValue?: string;
+  noValue?: string | undefined;
   /** Path is an explicit path to the field in the datasource. When the frame meta includes a path, this will default to `${frame.meta.path}/${field.name} When defined, this value can be used as an identifier within the datasource scope, and may be used as an identifier to update values in a subsequent request */
-  path?: string;
-  thresholds?: ThresholdsConfig;
-  type?: FieldTypeConfig;
+  path?: string | undefined;
+  thresholds?: ThresholdsConfig | undefined;
+  type?: FieldTypeConfig | undefined;
   /** Numeric Options */
-  unit?: string;
+  unit?: string | undefined;
   /** Writeable indicates that the datasource knows how to update this value */
-  writeable?: boolean;
+  writeable?: boolean | undefined;
 }
 /** Labels are used to add metadata to an object. The JSON will always be sorted keys */
 export type FrameLabels = { [key: string]: string | undefined };
 /** A Field is essentially a slice of various types with extra properties and methods. See NewField() for supported types. The slice data in the Field is a not exported, so methods on the Field are used to to manipulate its data. */
 export interface Field {
-  config?: FieldConfig;
-  labels?: FrameLabels;
+  config?: FieldConfig | undefined;
+  labels?: FrameLabels | undefined;
   /** Name is default identifier of the field. The name does not have to be unique, but the combination of name and Labels should be unique for proper behavior in all situations. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Fields are the columns of a frame. All Fields must be of the same the length when marshalling the Frame for transmission. There should be no `nil` entries in the Fields slice (making them pointers was a mistake). */
 export type FrameFieldsList = Array<Field>;
 export interface Notice {
-  inspect?: number;
+  inspect?: number | undefined;
   /** Link is an optional link for display in the user interface and can be an absolute URL or a path relative to Grafana's root url. */
-  link?: string;
-  severity?: number;
+  link?: string | undefined;
+  severity?: number | undefined;
   /** Text is freeform descriptive text for the notice. */
-  text?: string;
+  text?: string | undefined;
 }
 /** Notices provide additional information about the data in the Frame that Grafana can display to the user in the user interface. */
 export type FrameMetaNoticesList = Array<Notice>;
@@ -2266,36 +2266,36 @@ export type QueryStatLinksList = Array<DataLink>;
 /** The embedded FieldConfig's display name must be set. It corresponds to the QueryResultMetaStat on the frontend (https://github.com/grafana/grafana/blob/master/packages/grafana-data/src/types/data.ts#L53). */
 export interface QueryStat {
   /** Map values to a display color NOTE: this interface is under development in the frontend... so simple map for now */
-  color?: QueryStatColorMap;
+  color?: QueryStatColorMap | undefined;
   /** Panel Specific Values */
-  custom?: QueryStatCustomMap;
-  decimals?: number;
+  custom?: QueryStatCustomMap | undefined;
+  decimals?: number | undefined;
   /** Description is human readable field metadata */
-  description?: string;
+  description?: string | undefined;
   /** DisplayName overrides Grafana default naming, should not be used from a data source */
-  displayName?: string;
+  displayName?: string | undefined;
   /** DisplayNameFromDS overrides Grafana default naming strategy. */
-  displayNameFromDS?: string;
+  displayNameFromDS?: string | undefined;
   /** Filterable indicates if the Field's data can be filtered by additional calls. */
-  filterable?: boolean;
+  filterable?: boolean | undefined;
   /** Interval indicates the expected regular step between values in the series. When an interval exists, consumers can identify "missing" values when the expected value is not present. The grafana timeseries visualization will render disconnected values when missing values are found it the time field. The interval uses the same units as the values. For time.Time, this is defined in milliseconds. */
-  interval?: number;
+  interval?: number | undefined;
   /** The behavior when clicking on a result */
-  links?: QueryStatLinksList;
-  mappings?: ValueMappings;
-  max?: number;
-  min?: number;
+  links?: QueryStatLinksList | undefined;
+  mappings?: ValueMappings | undefined;
+  max?: number | undefined;
+  min?: number | undefined;
   /** Alternative to empty string */
-  noValue?: string;
+  noValue?: string | undefined;
   /** Path is an explicit path to the field in the datasource. When the frame meta includes a path, this will default to `${frame.meta.path}/${field.name} When defined, this value can be used as an identifier within the datasource scope, and may be used as an identifier to update values in a subsequent request */
-  path?: string;
-  thresholds?: ThresholdsConfig;
-  type?: FieldTypeConfig;
+  path?: string | undefined;
+  thresholds?: ThresholdsConfig | undefined;
+  type?: FieldTypeConfig | undefined;
   /** Numeric Options */
-  unit?: string;
-  value?: number;
+  unit?: string | undefined;
+  value?: number | undefined;
   /** Writeable indicates that the datasource knows how to update this value */
-  writeable?: boolean;
+  writeable?: boolean | undefined;
 }
 /** Stats is an array of query result statistics. */
 export type FrameMetaStatsList = Array<QueryStat>;
@@ -2305,53 +2305,53 @@ export type FrameMetaUniqueRowIdFieldsList = Array<number>;
 /** https://github.com/grafana/grafana/blob/master/packages/grafana-data/src/types/data.ts#L11 NOTE -- in javascript this can accept any `[key: string]: any;` however this interface only exposes the values we want to be exposed */
 export interface FrameMeta {
   /** Channel is the path to a stream in grafana live that has real-time updates for this data. */
-  channel?: string;
+  channel?: string | undefined;
   /** Custom datasource specific values. */
-  custom?: unknown;
-  dataTopic?: string;
+  custom?: unknown | undefined;
+  dataTopic?: string | undefined;
   /** ExecutedQueryString is the raw query sent to the underlying system. All macros and templating have been applied. When metadata contains this value, it will be shown in the query inspector. */
-  executedQueryString?: string;
+  executedQueryString?: string | undefined;
   /** Notices provide additional information about the data in the Frame that Grafana can display to the user in the user interface. */
-  notices?: FrameMetaNoticesList;
+  notices?: FrameMetaNoticesList | undefined;
   /** Path is a browsable path on the datasource. */
-  path?: string;
+  path?: string | undefined;
   /** PathSeparator defines the separator pattern to decode a hierarchy. The default separator is '/'. */
-  pathSeparator?: string;
+  pathSeparator?: string | undefined;
   /** PreferredVisualizationPluginId sets the panel plugin id to use to render the data when using Explore. If the plugin cannot be found will fall back to PreferredVisualization. */
-  preferredVisualisationPluginId?: string;
-  preferredVisualisationType?: string;
+  preferredVisualisationPluginId?: string | undefined;
+  preferredVisualisationType?: string | undefined;
   /** Stats is an array of query result statistics. */
-  stats?: FrameMetaStatsList;
-  type?: string;
-  typeVersion?: FrameTypeVersion;
+  stats?: FrameMetaStatsList | undefined;
+  type?: string | undefined;
+  typeVersion?: FrameTypeVersion | undefined;
   /** Array of field indices which values create a unique id for each row. Ideally this should be globally unique ID but that isn't guarantied. Should help with keeping track and deduplicating rows in visualizations, especially with streaming data with frequent updates. */
-  uniqueRowIdFields?: FrameMetaUniqueRowIdFieldsList;
+  uniqueRowIdFields?: FrameMetaUniqueRowIdFieldsList | undefined;
 }
 /** Each Field is well typed by its FieldType and supports optional Labels. A Frame is a general data container for Grafana. A Frame can be table data or time series data depending on its content and field types. */
 export interface Frame {
   /** Fields are the columns of a frame. All Fields must be of the same the length when marshalling the Frame for transmission. There should be no `nil` entries in the Fields slice (making them pointers was a mistake). */
-  Fields?: FrameFieldsList;
-  Meta?: FrameMeta;
+  Fields?: FrameFieldsList | undefined;
+  Meta?: FrameMeta | undefined;
   /** Name is used in some Grafana visualizations. */
-  Name?: string;
+  Name?: string | undefined;
   /** RefID is a property that can be set to match a Frame to its originating query. */
-  RefID?: string;
+  RefID?: string | undefined;
 }
 /** It is the main data container within a backend.DataResponse. There should be no `nil` entries in the Frames slice (making them pointers was a mistake). */
 export type Frames = Array<Frame>;
 /** A map of RefIDs (unique query identifiers) to this type makes up the Responses property of a QueryDataResponse. The Error property is used to allow for partial success responses from the containing QueryDataResponse. */
 export interface DataResponse {
   /** Error is a property to be set if the corresponding DataQuery has an error. */
-  Error?: string;
-  ErrorSource?: string;
-  Frames?: Frames;
-  Status?: number;
+  Error?: string | undefined;
+  ErrorSource?: string | undefined;
+  Frames?: Frames | undefined;
+  Status?: number | undefined;
 }
 /** The QueryData method the QueryDataHandler method will set the RefId property on the DataResponses' frames based on these RefIDs. */
 export type Responses = { [key: string]: DataResponse | undefined };
 /** It is the return type of a QueryData call. */
 export interface QueryDataResponse {
-  results?: Responses;
+  results?: Responses | undefined;
 }
 export interface QueryPublicDashboardRequest {
   accessToken: string;
@@ -2359,10 +2359,10 @@ export interface QueryPublicDashboardRequest {
 }
 export interface RefreshLicenseStatsRequest {}
 export interface ActiveUserStats {
-  active_admins_and_editors?: number;
-  active_anonymous_devices?: number;
-  active_users?: number;
-  active_viewers?: number;
+  active_admins_and_editors?: number | undefined;
+  active_anonymous_devices?: number | undefined;
+  active_users?: number | undefined;
+  active_viewers?: number | undefined;
 }
 export interface ReloadLDAPCfgRequest {}
 export interface ReloadLDAPCfgResponse {}
@@ -2378,7 +2378,7 @@ export interface RemoveProviderSettingsRequest {
 }
 export interface RemoveTeamGroupApiQueryRequest {
   teamId: string;
-  groupId?: string;
+  groupId?: string | undefined;
 }
 export interface RemoveTeamMemberRequest {
   team_id: string;
@@ -2392,21 +2392,21 @@ export interface RemoveUserRoleRequest {
   userId: number;
   roleUID: string;
   /** A flag indicating if the assignment is global or not. If set to false, the default org ID of the authenticated user will be used from the request to remove assignment. */
-  global?: boolean;
+  global?: boolean | undefined;
 }
 export interface RenderReportCSVsRequest {
-  dashboards?: string;
-  title?: string;
+  dashboards?: string | undefined;
+  title?: string | undefined;
 }
 export type RenderReportCSVsResponseBodyList = Array<number>;
 export type RenderReportCSVsResponse = RenderReportCSVsResponseBodyList;
 export interface RenderReportPDFsRequest {
-  dashboards?: string;
-  orientation?: string;
-  layout?: string;
-  title?: string;
-  scaleFactor?: string;
-  includeTables?: string;
+  dashboards?: string | undefined;
+  orientation?: string | undefined;
+  layout?: string | undefined;
+  title?: string | undefined;
+  scaleFactor?: string | undefined;
+  includeTables?: string | undefined;
 }
 export type RenderReportPDFsResponseBodyList = Array<number>;
 export type RenderReportPDFsResponse = RenderReportPDFsResponseBodyList;
@@ -2414,7 +2414,7 @@ export interface RevokeInviteRequest {
   invitation_code: string;
 }
 export interface RevokeUserAuthTokenRequest {
-  authTokenId?: number;
+  authTokenId?: number | undefined;
 }
 export interface RouteConvertPrometheusCortexDeleteNamespaceRequest {
   NamespaceTitle: string;
@@ -2473,35 +2473,35 @@ export interface RouteExportMuteTimingRequest {
   /** Mute timing name */
   name: string;
   /** Whether to initiate a download of the file or not. */
-  download?: boolean;
+  download?: boolean | undefined;
   /** Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence. */
-  format?: RouteExportMuteTimingRequestFormat | (string & {});
+  format?: RouteExportMuteTimingRequestFormat | (string & {}) | undefined;
 }
 export interface ReceiverExport {
-  disableResolveMessage?: boolean;
-  settings?: unknown;
-  type?: string;
-  uid?: string;
+  disableResolveMessage?: boolean | undefined;
+  settings?: unknown | undefined;
+  type?: string | undefined;
+  uid?: string | undefined;
 }
 export type ContactPointExportReceiversList = Array<ReceiverExport>;
 export interface ContactPointExport {
-  name?: string;
-  orgId?: number;
-  receivers?: ContactPointExportReceiversList;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  receivers?: ContactPointExportReceiversList | undefined;
 }
 export type AlertingFileExportContactPointsList = Array<ContactPointExport>;
 export type AlertRuleExportAnnotationsMap = { [key: string]: string | undefined };
 export type AlertQueryExportModelMap = { [key: string]: unknown | undefined };
 export interface RelativeTimeRangeExport {
-  from?: number;
-  to?: number;
+  from?: number | undefined;
+  to?: number | undefined;
 }
 export interface AlertQueryExport {
-  datasourceUid?: string;
-  model?: AlertQueryExportModelMap;
-  queryType?: string;
-  refId?: string;
-  relativeTimeRange?: RelativeTimeRangeExport;
+  datasourceUid?: string | undefined;
+  model?: AlertQueryExportModelMap | undefined;
+  queryType?: string | undefined;
+  refId?: string | undefined;
+  relativeTimeRange?: RelativeTimeRangeExport | undefined;
 }
 export type AlertRuleExportDataList = Array<AlertQueryExport>;
 export type AlertRuleExportExecErrState = "OK" | "Alerting" | "Error";
@@ -2511,56 +2511,56 @@ export type AlertRuleNotificationSettingsExportActiveTimeIntervalsList = Array<s
 export type AlertRuleNotificationSettingsExportGroupByList = Array<string>;
 export type AlertRuleNotificationSettingsExportMuteTimeIntervalsList = Array<string>;
 export interface AlertRuleNotificationSettingsExport {
-  active_time_intervals?: AlertRuleNotificationSettingsExportActiveTimeIntervalsList;
-  group_by?: AlertRuleNotificationSettingsExportGroupByList;
-  group_interval?: string;
-  group_wait?: string;
-  mute_time_intervals?: AlertRuleNotificationSettingsExportMuteTimeIntervalsList;
-  receiver?: string;
-  repeat_interval?: string;
+  active_time_intervals?: AlertRuleNotificationSettingsExportActiveTimeIntervalsList | undefined;
+  group_by?: AlertRuleNotificationSettingsExportGroupByList | undefined;
+  group_interval?: string | undefined;
+  group_wait?: string | undefined;
+  mute_time_intervals?: AlertRuleNotificationSettingsExportMuteTimeIntervalsList | undefined;
+  receiver?: string | undefined;
+  repeat_interval?: string | undefined;
 }
 export interface AlertRuleRecordExport {
-  from?: string;
-  metric?: string;
-  targetDatasourceUid?: string;
+  from?: string | undefined;
+  metric?: string | undefined;
+  targetDatasourceUid?: string | undefined;
 }
 export interface AlertRuleExport {
-  annotations?: AlertRuleExportAnnotationsMap;
-  condition?: string;
-  dashboardUid?: string;
-  data?: AlertRuleExportDataList;
-  execErrState?: AlertRuleExportExecErrState;
-  for?: number;
-  isPaused?: boolean;
-  keepFiringFor?: number;
-  labels?: AlertRuleExportLabelsMap;
-  missing_series_evals_to_resolve?: number;
-  noDataState?: AlertRuleExportNoDataState;
-  notification_settings?: AlertRuleNotificationSettingsExport;
-  panelId?: number;
-  record?: AlertRuleRecordExport;
-  title?: string;
-  uid?: string;
+  annotations?: AlertRuleExportAnnotationsMap | undefined;
+  condition?: string | undefined;
+  dashboardUid?: string | undefined;
+  data?: AlertRuleExportDataList | undefined;
+  execErrState?: AlertRuleExportExecErrState | undefined;
+  for?: number | undefined;
+  isPaused?: boolean | undefined;
+  keepFiringFor?: number | undefined;
+  labels?: AlertRuleExportLabelsMap | undefined;
+  missing_series_evals_to_resolve?: number | undefined;
+  noDataState?: AlertRuleExportNoDataState | undefined;
+  notification_settings?: AlertRuleNotificationSettingsExport | undefined;
+  panelId?: number | undefined;
+  record?: AlertRuleRecordExport | undefined;
+  title?: string | undefined;
+  uid?: string | undefined;
 }
 export type AlertRuleGroupExportRulesList = Array<AlertRuleExport>;
 export interface AlertRuleGroupExport {
-  folder?: string;
-  interval?: number;
-  name?: string;
-  orgId?: number;
-  rules?: AlertRuleGroupExportRulesList;
+  folder?: string | undefined;
+  interval?: number | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  rules?: AlertRuleGroupExportRulesList | undefined;
 }
 export type AlertingFileExportGroupsList = Array<AlertRuleGroupExport>;
 export type TimeIntervalTimeIntervalsList = Array<TimeInterval>;
 export interface TimeInterval {
-  name?: string;
-  time_intervals?: TimeIntervalTimeIntervalsList;
+  name?: string | undefined;
+  time_intervals?: TimeIntervalTimeIntervalsList | undefined;
 }
 export type MuteTimeIntervalExportTimeIntervalsList = Array<TimeInterval>;
 export interface MuteTimeIntervalExport {
-  name?: string;
-  orgId?: number;
-  time_intervals?: MuteTimeIntervalExportTimeIntervalsList;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  time_intervals?: MuteTimeIntervalExportTimeIntervalsList | undefined;
 }
 export type AlertingFileExportMuteTimesList = Array<MuteTimeIntervalExport>;
 export type NotificationPolicyExportActiveTimeIntervalsList = Array<string>;
@@ -2569,9 +2569,9 @@ export type NotificationPolicyExportGroupByList = Array<string>;
 export type NotificationPolicyExportMatchMap = { [key: string]: string | undefined };
 export type MatchRegexps = { [key: string]: string | undefined };
 export interface Matcher {
-  Name?: string;
-  Type?: number;
-  Value?: string;
+  Name?: string | undefined;
+  Type?: number | undefined;
+  Value?: string | undefined;
 }
 /** Matchers is a slice of Matchers that is sortable, implements Stringer, and provides a Matches method to match a LabelSet against all Matchers in the slice. Note that some users of Matchers might require it to be sorted. */
 export type Matchers = Array<Matcher>;
@@ -2586,111 +2586,111 @@ export type RouteExportMuteTimeIntervalsList = Array<string>;
 export type RouteExportRoutesList = Array<RouteExport>;
 /** RouteExport is the provisioned file export of definitions.Route. This is needed to hide fields that aren't useable in provisioning file format. An alternative would be to define a custom MarshalJSON and MarshalYAML that excludes them. */
 export interface RouteExport {
-  active_time_intervals?: RouteExportActiveTimeIntervalsList;
-  continue?: boolean;
-  group_by?: RouteExportGroupByList;
-  group_interval?: string;
-  group_wait?: string;
+  active_time_intervals?: RouteExportActiveTimeIntervalsList | undefined;
+  continue?: boolean | undefined;
+  group_by?: RouteExportGroupByList | undefined;
+  group_interval?: string | undefined;
+  group_wait?: string | undefined;
   /** Deprecated. Remove before v1.0 release. */
-  match?: RouteExportMatchMap;
-  match_re?: MatchRegexps;
-  matchers?: Matchers;
-  mute_time_intervals?: RouteExportMuteTimeIntervalsList;
-  object_matchers?: ObjectMatchers;
-  receiver?: string;
-  repeat_interval?: string;
-  routes?: RouteExportRoutesList;
+  match?: RouteExportMatchMap | undefined;
+  match_re?: MatchRegexps | undefined;
+  matchers?: Matchers | undefined;
+  mute_time_intervals?: RouteExportMuteTimeIntervalsList | undefined;
+  object_matchers?: ObjectMatchers | undefined;
+  receiver?: string | undefined;
+  repeat_interval?: string | undefined;
+  routes?: RouteExportRoutesList | undefined;
 }
 export type NotificationPolicyExportRoutesList = Array<RouteExport>;
 export interface NotificationPolicyExport {
-  active_time_intervals?: NotificationPolicyExportActiveTimeIntervalsList;
-  continue?: boolean;
-  group_by?: NotificationPolicyExportGroupByList;
-  group_interval?: string;
-  group_wait?: string;
+  active_time_intervals?: NotificationPolicyExportActiveTimeIntervalsList | undefined;
+  continue?: boolean | undefined;
+  group_by?: NotificationPolicyExportGroupByList | undefined;
+  group_interval?: string | undefined;
+  group_wait?: string | undefined;
   /** Deprecated. Remove before v1.0 release. */
-  match?: NotificationPolicyExportMatchMap;
-  match_re?: MatchRegexps;
-  matchers?: Matchers;
-  mute_time_intervals?: NotificationPolicyExportMuteTimeIntervalsList;
-  object_matchers?: ObjectMatchers;
-  orgId?: number;
-  receiver?: string;
-  repeat_interval?: string;
-  routes?: NotificationPolicyExportRoutesList;
+  match?: NotificationPolicyExportMatchMap | undefined;
+  match_re?: MatchRegexps | undefined;
+  matchers?: Matchers | undefined;
+  mute_time_intervals?: NotificationPolicyExportMuteTimeIntervalsList | undefined;
+  object_matchers?: ObjectMatchers | undefined;
+  orgId?: number | undefined;
+  receiver?: string | undefined;
+  repeat_interval?: string | undefined;
+  routes?: NotificationPolicyExportRoutesList | undefined;
 }
 export type AlertingFileExportPoliciesList = Array<NotificationPolicyExport>;
 export interface AlertingFileExport {
-  apiVersion?: number;
-  contactPoints?: AlertingFileExportContactPointsList;
-  groups?: AlertingFileExportGroupsList;
-  muteTimes?: AlertingFileExportMuteTimesList;
-  policies?: AlertingFileExportPoliciesList;
+  apiVersion?: number | undefined;
+  contactPoints?: AlertingFileExportContactPointsList | undefined;
+  groups?: AlertingFileExportGroupsList | undefined;
+  muteTimes?: AlertingFileExportMuteTimesList | undefined;
+  policies?: AlertingFileExportPoliciesList | undefined;
 }
 export type RouteExportMuteTimingsRequestFormat = "yaml" | "json" | "hcl";
 export interface RouteExportMuteTimingsRequest {
   /** Whether to initiate a download of the file or not. */
-  download?: boolean;
+  download?: boolean | undefined;
   /** Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence. */
-  format?: RouteExportMuteTimingsRequestFormat | (string & {});
+  format?: RouteExportMuteTimingsRequestFormat | (string & {}) | undefined;
 }
 export type RouteGetAlertRuleExportRequestFormat = "yaml" | "json" | "hcl";
 export interface RouteGetAlertRuleExportRequest {
   /** Alert rule UID */
   UID: string;
   /** Whether to initiate a download of the file or not. */
-  download?: boolean;
+  download?: boolean | undefined;
   /** Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence. */
-  format?: RouteGetAlertRuleExportRequestFormat | (string & {});
+  format?: RouteGetAlertRuleExportRequestFormat | (string & {}) | undefined;
 }
 export type RouteGetAlertRuleGroupExportRequestFormat = "yaml" | "json" | "hcl";
 export interface RouteGetAlertRuleGroupExportRequest {
   FolderUID: string;
   Group: string;
   /** Whether to initiate a download of the file or not. */
-  download?: boolean;
+  download?: boolean | undefined;
   /** Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence. */
-  format?: RouteGetAlertRuleGroupExportRequestFormat | (string & {});
+  format?: RouteGetAlertRuleGroupExportRequestFormat | (string & {}) | undefined;
 }
 export type RouteGetAlertRulesExportRequestFormat = "yaml" | "json" | "hcl";
 export type RouteGetAlertRulesExportRequestFolderUidList = Array<string>;
 export interface RouteGetAlertRulesExportRequest {
   /** Whether to initiate a download of the file or not. */
-  download?: boolean;
+  download?: boolean | undefined;
   /** Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence. */
-  format?: RouteGetAlertRulesExportRequestFormat | (string & {});
+  format?: RouteGetAlertRulesExportRequestFormat | (string & {}) | undefined;
   /** UIDs of folders from which to export rules */
-  folderUid?: RouteGetAlertRulesExportRequestFolderUidList;
+  folderUid?: RouteGetAlertRulesExportRequestFolderUidList | undefined;
   /** Name of group of rules to export. Must be specified only together with a single folder UID */
-  group?: string;
+  group?: string | undefined;
   /** UID of alert rule to export. If specified, parameters folderUid and group must be empty. */
-  ruleUid?: string;
+  ruleUid?: string | undefined;
 }
 export type RouteGetContactpointsExportRequestFormat = "yaml" | "json" | "hcl";
 export interface RouteGetContactpointsExportRequest {
   /** Whether to initiate a download of the file or not. */
-  download?: boolean;
+  download?: boolean | undefined;
   /** Format of the downloaded file. Supported yaml, json or hcl. Accept header can also be used, but the query parameter will take precedence. */
-  format?: RouteGetContactpointsExportRequestFormat | (string & {});
+  format?: RouteGetContactpointsExportRequestFormat | (string & {}) | undefined;
   /** Whether any contained secure settings should be decrypted or left redacted. Redacted settings will contain RedactedValue instead. Currently, only org admin can view decrypted secure settings. */
-  decrypt?: boolean;
+  decrypt?: boolean | undefined;
   /** Filter by name */
-  name?: string;
+  name?: string | undefined;
 }
 export interface RouteGetPolicyTreeExportRequest {}
 export type SaveReportSettingsRequestFooterItemsList = Array<FooterItem>;
 export interface SaveReportSettingsRequest {
-  branding?: ReportBrandingOptions;
-  embeddedImageTheme?: string;
-  footerFontFamily?: string;
-  footerItems?: SaveReportSettingsRequestFooterItemsList;
-  id?: number;
-  orgId?: number;
-  pdfDashboardTitleEnabled?: boolean;
-  pdfHeaderEnabled?: boolean;
-  pdfTheme?: string;
-  pdfTimeRangeEnabled?: boolean;
-  userId?: number;
+  branding?: ReportBrandingOptions | undefined;
+  embeddedImageTheme?: string | undefined;
+  footerFontFamily?: string | undefined;
+  footerItems?: SaveReportSettingsRequestFooterItemsList | undefined;
+  id?: number | undefined;
+  orgId?: number | undefined;
+  pdfDashboardTitleEnabled?: boolean | undefined;
+  pdfHeaderEnabled?: boolean | undefined;
+  pdfTheme?: string | undefined;
+  pdfTimeRangeEnabled?: boolean | undefined;
+  userId?: number | undefined;
 }
 export type SearchRequestTagList = Array<string>;
 export type SearchRequestType = "dash-folder" | "dash-db";
@@ -2702,332 +2702,334 @@ export type SearchRequestPermission = "Edit" | "View";
 export type SearchRequestSort = "alpha-asc" | "alpha-desc";
 export interface SearchRequest {
   /** Search Query */
-  query?: string;
+  query?: string | undefined;
   /** List of tags to search for */
-  tag?: SearchRequestTagList;
+  tag?: SearchRequestTagList | undefined;
   /** Type to search for, dash-folder or dash-db Description: - `dash-folder` - Search for folder - `dash-db` - Seatch for dashboard */
-  type?: SearchRequestType | (string & {});
+  type?: SearchRequestType | (string & {}) | undefined;
   /** List of dashboard id's to search for This is deprecated: users should use the `dashboardUIDs` query parameter instead */
-  dashboardIds?: SearchRequestDashboardIdsList;
+  dashboardIds?: SearchRequestDashboardIdsList | undefined;
   /** List of dashboard uid's to search for */
-  dashboardUIDs?: SearchRequestDashboardUIDsList;
+  dashboardUIDs?: SearchRequestDashboardUIDsList | undefined;
   /** List of folder id's to search in for dashboards If it's `0` then it will query for the top level folders This is deprecated: users should use the `folderUIDs` query parameter instead Deprecated: use FolderUIDs instead */
-  folderIds?: SearchRequestFolderIdsList;
+  folderIds?: SearchRequestFolderIdsList | undefined;
   /** List of folder UID's to search in for dashboards If it's an empty string then it will query for the top level folders */
-  folderUIDs?: SearchRequestFolderUIDsList;
+  folderUIDs?: SearchRequestFolderUIDsList | undefined;
   /** Flag indicating if only starred Dashboards should be returned */
-  starred?: boolean;
+  starred?: boolean | undefined;
   /** Limit the number of returned results (max 5000) */
-  limit?: number;
+  limit?: number | undefined;
   /** Use this parameter to access hits beyond limit. Numbering starts at 1. limit param acts as page size. Only available in Grafana v6.2+. */
-  page?: number;
+  page?: number | undefined;
   /** Set to `Edit` to return dashboards/folders that the user can edit */
-  permission?: SearchRequestPermission | (string & {});
+  permission?: SearchRequestPermission | (string & {}) | undefined;
   /** Sort method; for listing all the possible sort methods use the search sorting endpoint. */
-  sort?: SearchRequestSort | (string & {});
+  sort?: SearchRequestSort | (string & {}) | undefined;
   /** Flag indicating if only soft deleted Dashboards should be returned */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
 }
 export type HitTagsList = Array<string>;
 export interface Hit {
-  description?: string;
-  folderId?: number;
-  folderTitle?: string;
-  folderUid?: string;
-  folderUrl?: string;
-  id?: number;
-  isDeleted?: boolean;
-  isStarred?: boolean;
-  orgId?: number;
-  permanentlyDeleteDate?: string;
-  slug?: string;
-  sortMeta?: number;
-  sortMetaName?: string;
-  tags?: HitTagsList;
-  title?: string;
-  type?: string;
-  uid?: string;
-  uri?: string;
-  url?: string;
+  description?: string | undefined;
+  folderId?: number | undefined;
+  folderTitle?: string | undefined;
+  folderUid?: string | undefined;
+  folderUrl?: string | undefined;
+  id?: number | undefined;
+  isDeleted?: boolean | undefined;
+  isStarred?: boolean | undefined;
+  orgId?: number | undefined;
+  permanentlyDeleteDate?: string | undefined;
+  slug?: string | undefined;
+  sortMeta?: number | undefined;
+  sortMetaName?: string | undefined;
+  tags?: HitTagsList | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  uid?: string | undefined;
+  uri?: string | undefined;
+  url?: string | undefined;
 }
 export type HitList = Array<Hit>;
 export type SearchResponse = HitList;
 export interface SearchDashboardSnapshotsRequest {
   /** Search Query */
-  query?: string;
+  query?: string | undefined;
   /** Limit the number of returned results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** DashboardSnapshotDTO without dashboard map */
 export interface DashboardSnapshotDTO {
-  created?: string;
-  expires?: string;
-  external?: boolean;
-  externalUrl?: string;
-  key?: string;
-  name?: string;
-  updated?: string;
+  created?: string | undefined;
+  expires?: string | undefined;
+  external?: boolean | undefined;
+  externalUrl?: string | undefined;
+  key?: string | undefined;
+  name?: string | undefined;
+  updated?: string | undefined;
 }
 export type SearchDashboardSnapshotsResponseBodyList = Array<DashboardSnapshotDTO>;
 export type SearchDashboardSnapshotsResponse = SearchDashboardSnapshotsResponseBodyList;
 export interface SearchDevicesRequest {}
 export interface DeviceSearchHitDTO {
-  clientIp?: string;
-  createdAt?: string;
-  deviceId?: string;
-  lastSeenAt?: string;
-  updatedAt?: string;
-  userAgent?: string;
+  clientIp?: string | undefined;
+  createdAt?: string | undefined;
+  deviceId?: string | undefined;
+  lastSeenAt?: string | undefined;
+  updatedAt?: string | undefined;
+  userAgent?: string | undefined;
 }
 export type SearchDeviceQueryResultDevicesList = Array<DeviceSearchHitDTO>;
 export interface SearchDeviceQueryResult {
-  devices?: SearchDeviceQueryResultDevicesList;
-  page?: number;
-  perPage?: number;
-  totalCount?: number;
+  devices?: SearchDeviceQueryResultDevicesList | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  totalCount?: number | undefined;
 }
 export interface SearchOrgsRequest {
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page The totalCount field in the response can be used for pagination list E.g. if totalCount is equal to 100 teams and the perpage parameter is set to 10 then there are 10 pages of teams. */
-  perpage?: number;
-  name?: string;
+  perpage?: number | undefined;
+  name?: string | undefined;
   /** If set it will return results where the query value is contained in the name field. Query values with spaces need to be URL encoded. */
-  query?: string;
+  query?: string | undefined;
 }
 export interface OrgDTO {
-  id?: number;
-  name?: string;
+  id?: number | undefined;
+  name?: string | undefined;
 }
 export type SearchOrgsResponseBodyList = Array<OrgDTO>;
 export type SearchOrgsResponse = SearchOrgsResponseBodyList;
 export interface SearchOrgServiceAccountsWithPagingRequest {
-  Disabled?: boolean;
-  expiredTokens?: boolean;
+  Disabled?: boolean | undefined;
+  expiredTokens?: boolean | undefined;
   /** It will return results where the query value is contained in one of the name. Query values with spaces need to be URL encoded. */
-  query?: string;
+  query?: string | undefined;
   /** The default value is 1000. */
-  perpage?: number;
+  perpage?: number | undefined;
   /** The default value is 1. */
-  page?: number;
+  page?: number | undefined;
 }
 export type SearchOrgServiceAccountsResultServiceAccountsList = Array<ServiceAccountDTO>;
 export interface SearchOrgServiceAccountsResult {
-  page?: number;
-  perPage?: number;
-  serviceAccounts?: SearchOrgServiceAccountsResultServiceAccountsList;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  serviceAccounts?: SearchOrgServiceAccountsResultServiceAccountsList | undefined;
   /** It can be used for pagination of the user list E.g. if totalCount is equal to 100 users and the perpage parameter is set to 10 then there are 10 pages of users. */
-  totalCount?: number;
+  totalCount?: number | undefined;
 }
 export interface SearchOrgUsersRequest {
   org_id: number;
 }
 export type SearchOrgUsersQueryResultOrgUsersList = Array<OrgUserDTO>;
 export interface SearchOrgUsersQueryResult {
-  orgUsers?: SearchOrgUsersQueryResultOrgUsersList;
-  page?: number;
-  perPage?: number;
-  totalCount?: number;
+  orgUsers?: SearchOrgUsersQueryResultOrgUsersList | undefined;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  totalCount?: number | undefined;
 }
 export type SearchQueriesRequestDatasourceUidList = Array<string>;
 export type SearchQueriesRequestSort = "time-desc" | "time-asc";
 export interface SearchQueriesRequest {
   /** List of data source UIDs to search for */
-  datasourceUid?: SearchQueriesRequestDatasourceUidList;
+  datasourceUid?: SearchQueriesRequestDatasourceUidList | undefined;
   /** Text inside query or comments that is searched for */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Flag indicating if only starred queries should be returned */
-  onlyStarred?: boolean;
+  onlyStarred?: boolean | undefined;
   /** Sort method */
-  sort?: SearchQueriesRequestSort | (string & {});
+  sort?: SearchQueriesRequestSort | (string & {}) | undefined;
   /** Use this parameter to access hits beyond limit. Numbering starts at 1. limit param acts as page size. */
-  page?: number;
+  page?: number | undefined;
   /** Limit the number of returned results */
-  limit?: number;
+  limit?: number | undefined;
   /** From range for the query history search */
-  from?: number;
+  from?: number | undefined;
   /** To range for the query history search */
-  to?: number;
+  to?: number | undefined;
 }
 export type QueryHistorySearchResultQueryHistoryList = Array<QueryHistoryDTO>;
 export interface QueryHistorySearchResult {
-  page?: number;
-  perPage?: number;
-  queryHistory?: QueryHistorySearchResultQueryHistoryList;
-  totalCount?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  queryHistory?: QueryHistorySearchResultQueryHistoryList | undefined;
+  totalCount?: number | undefined;
 }
 export interface QueryHistorySearchResponse {
-  result?: QueryHistorySearchResult;
+  result?: QueryHistorySearchResult | undefined;
 }
 export interface SearchTeamGroupsRequest {
   teamId: number;
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page */
-  perpage?: number;
+  perpage?: number | undefined;
   /** If set it will return results where the query value is contained in the name field. Query values with spaces need to be URL encoded. */
-  query?: string;
+  query?: string | undefined;
   /** Filter by exact name match */
-  name?: string;
+  name?: string | undefined;
 }
 export type SearchTeamGroupsQueryResultTeamGroupsList = Array<TeamGroupDTO>;
 export interface SearchTeamGroupsQueryResult {
-  page?: number;
-  perPage?: number;
-  teamGroups?: SearchTeamGroupsQueryResultTeamGroupsList;
-  totalCount?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  teamGroups?: SearchTeamGroupsQueryResultTeamGroupsList | undefined;
+  totalCount?: number | undefined;
 }
 export type SearchTeamGroupsResponseBodyList = Array<SearchTeamGroupsQueryResult>;
 export type SearchTeamGroupsResponse = SearchTeamGroupsResponseBodyList;
 export interface SearchTeamsRequest {
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page The totalCount field in the response can be used for pagination list E.g. if totalCount is equal to 100 teams and the perpage parameter is set to 10 then there are 10 pages of teams. */
-  perpage?: number;
-  name?: string;
+  perpage?: number | undefined;
+  name?: string | undefined;
   /** If set it will return results where the query value is contained in the name field. Query values with spaces need to be URL encoded. */
-  query?: string;
-  accesscontrol?: boolean;
-  sort?: string;
+  query?: string | undefined;
+  accesscontrol?: boolean | undefined;
+  sort?: string | undefined;
 }
 export type SearchTeamQueryResultTeamsList = Array<TeamDTO>;
 export interface SearchTeamQueryResult {
-  page?: number;
-  perPage?: number;
-  teams?: SearchTeamQueryResultTeamsList;
-  totalCount?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  teams?: SearchTeamQueryResultTeamsList | undefined;
+  totalCount?: number | undefined;
 }
 export interface SearchUsersRequest {
   /** Limit the maximum number of users to return per page */
-  perpage?: number;
+  perpage?: number | undefined;
   /** Page index for starting fetching users */
-  page?: number;
+  page?: number | undefined;
 }
 export type UserSearchHitDTOAccessControlMap = { [key: string]: boolean | undefined };
 export type UserSearchHitDTOAuthLabelsList = Array<string>;
 export interface UserSearchHitDTO {
-  accessControl?: UserSearchHitDTOAccessControlMap;
-  authLabels?: UserSearchHitDTOAuthLabelsList;
-  avatarUrl?: string;
-  created?: string;
-  email?: string;
-  id?: number;
-  isAdmin?: boolean;
-  isDisabled?: boolean;
-  isProvisioned?: boolean;
-  lastSeenAt?: string;
-  lastSeenAtAge?: string;
-  login?: string;
-  name?: string;
-  role?: string;
-  uid?: string;
+  accessControl?: UserSearchHitDTOAccessControlMap | undefined;
+  authLabels?: UserSearchHitDTOAuthLabelsList | undefined;
+  avatarUrl?: string | undefined;
+  created?: string | undefined;
+  email?: string | undefined;
+  id?: number | undefined;
+  isAdmin?: boolean | undefined;
+  isDisabled?: boolean | undefined;
+  isProvisioned?: boolean | undefined;
+  lastSeenAt?: string | undefined;
+  lastSeenAtAge?: string | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  role?: string | undefined;
+  uid?: string | undefined;
 }
 export type SearchUsersResponseBodyList = Array<UserSearchHitDTO>;
 export type SearchUsersResponse = SearchUsersResponseBodyList;
 export interface SearchUsersWithPagingRequest {}
 export type SearchUserQueryResultUsersList = Array<UserSearchHitDTO>;
 export interface SearchUserQueryResult {
-  page?: number;
-  perPage?: number;
-  totalCount?: number;
-  users?: SearchUserQueryResultUsersList;
+  page?: number | undefined;
+  perPage?: number | undefined;
+  totalCount?: number | undefined;
+  users?: SearchUserQueryResultUsersList | undefined;
 }
 export interface SendReportRequest {
   /** Comma-separated list of emails to which to send the report to. */
-  emails?: string;
+  emails?: string | undefined;
+  /** Numeric ID of the report. Can send either ID or UID. If both are present, UID takes precedence. */
+  id?: string | undefined;
+  /** UID of the report. Can send either ID or UID. If both are present, UID takes precedence. */
+  uid?: string | undefined;
   /** Send the report to the emails specified in the report. Required if emails is not present. */
-  id?: string;
-  /** Send the report to the emails specified in the report. Required if emails is not present. */
-  useEmailsFromReport?: boolean;
+  useEmailsFromReport?: boolean | undefined;
 }
 export type SendTestEmailRequestDashboardsList = Array<ReportDashboard>;
 export type SendTestEmailRequestFormatsList = Array<string>;
 export type SendTestEmailRequestUrlsList = Array<ReportURLItem>;
 export interface SendTestEmailRequest {
-  dashboards?: SendTestEmailRequestDashboardsList;
-  enableCsv?: boolean;
-  enableDashboardUrl?: boolean;
-  formats?: SendTestEmailRequestFormatsList;
-  message?: string;
-  name?: string;
-  options?: ReportOptions;
-  recipients?: string;
-  replyTo?: string;
-  scaleFactor?: number;
-  schedule?: ReportSchedule;
-  state?: string;
-  subject?: string;
-  urls?: SendTestEmailRequestUrlsList;
+  dashboards?: SendTestEmailRequestDashboardsList | undefined;
+  enableCsv?: boolean | undefined;
+  enableDashboardUrl?: boolean | undefined;
+  formats?: SendTestEmailRequestFormatsList | undefined;
+  message?: string | undefined;
+  name?: string | undefined;
+  options?: ReportOptions | undefined;
+  recipients?: string | undefined;
+  replyTo?: string | undefined;
+  scaleFactor?: number | undefined;
+  schedule?: ReportSchedule | undefined;
+  state?: string | undefined;
+  subject?: string | undefined;
+  urls?: SendTestEmailRequestUrlsList | undefined;
 }
 export interface SetDataSourceCacheConfigRequest {
   dataSourceUID: string;
   /** Optional datasource type used to disambiguate datasource UID lookups. */
-  dataSourceType?: string;
-  dataSourceID?: number;
-  enabled?: boolean;
+  dataSourceType?: string | undefined;
+  dataSourceID?: number | undefined;
+  enabled?: boolean | undefined;
   /** TTL MS, or "time to live", is how long a cached item will stay in the cache before it is removed (in milliseconds) */
-  ttlQueriesMs?: number;
-  ttlResourcesMs?: number;
+  ttlQueriesMs?: number | undefined;
+  ttlResourcesMs?: number | undefined;
   /** If UseDefaultTTL is enabled, then the TTLQueriesMS and TTLResourcesMS in this object is always sent as the default TTL located in grafana.ini */
-  useDefaultTTL?: boolean;
+  useDefaultTTL?: boolean | undefined;
 }
 export interface SetResourcePermissionCommand {
-  builtInRole?: string;
-  permission?: string;
-  teamId?: number;
-  userId?: number;
+  builtInRole?: string | undefined;
+  permission?: string | undefined;
+  teamId?: number | undefined;
+  userId?: number | undefined;
 }
 export type SetResourcePermissionsRequestPermissionsList = Array<SetResourcePermissionCommand>;
 export interface SetResourcePermissionsRequest {
   resource: string;
   resourceID: string;
-  permissions?: SetResourcePermissionsRequestPermissionsList;
+  permissions?: SetResourcePermissionsRequestPermissionsList | undefined;
 }
 export interface SetResourcePermissionsForBuiltInRoleRequest {
   resource: string;
   resourceID: string;
   builtInRole: string;
-  permission?: string;
+  permission?: string | undefined;
 }
 export interface SetResourcePermissionsForTeamRequest {
   resource: string;
   resourceID: string;
   teamID: number;
-  permission?: string;
+  permission?: string | undefined;
 }
 export interface SetResourcePermissionsForUserRequest {
   resource: string;
   resourceID: string;
   userID: number;
-  permission?: string;
+  permission?: string | undefined;
 }
 export type SetRoleAssignmentsRequestServiceAccountsList = Array<number>;
 export type SetRoleAssignmentsRequestTeamsList = Array<number>;
 export type SetRoleAssignmentsRequestUsersList = Array<number>;
 export interface SetRoleAssignmentsRequest {
   roleUID: string;
-  service_accounts?: SetRoleAssignmentsRequestServiceAccountsList;
-  teams?: SetRoleAssignmentsRequestTeamsList;
-  users?: SetRoleAssignmentsRequestUsersList;
+  service_accounts?: SetRoleAssignmentsRequestServiceAccountsList | undefined;
+  teams?: SetRoleAssignmentsRequestTeamsList | undefined;
+  users?: SetRoleAssignmentsRequestUsersList | undefined;
 }
 export type SetTeamMembershipsRequestAdminsList = Array<string>;
 export type SetTeamMembershipsRequestMembersList = Array<string>;
 export interface SetTeamMembershipsRequest {
   team_id: string;
-  admins?: SetTeamMembershipsRequestAdminsList;
-  members?: SetTeamMembershipsRequestMembersList;
+  admins?: SetTeamMembershipsRequestAdminsList | undefined;
+  members?: SetTeamMembershipsRequestMembersList | undefined;
 }
 export type SetTeamRolesRequestRoleUidsList = Array<string>;
 export interface SetTeamRolesRequest {
   teamId: number;
-  targetOrgId?: number;
-  includeHidden?: boolean;
-  roleUids?: SetTeamRolesRequestRoleUidsList;
+  targetOrgId?: number | undefined;
+  includeHidden?: boolean | undefined;
+  roleUids?: SetTeamRolesRequestRoleUidsList | undefined;
 }
 export type SetUserRolesRequestRoleUidsList = Array<string>;
 export interface SetUserRolesRequest {
   userId: number;
-  targetOrgId?: number;
-  global?: boolean;
-  includeHidden?: boolean;
-  roleUids?: SetUserRolesRequestRoleUidsList;
+  targetOrgId?: number | undefined;
+  global?: boolean | undefined;
+  includeHidden?: boolean | undefined;
+  roleUids?: SetUserRolesRequestRoleUidsList | undefined;
 }
 export interface StarQueryRequest {
   query_history_uid: string;
@@ -3036,17 +3038,17 @@ export type TestCreateRecordingRuleRequestQueriesItemMap = { [key: string]: unkn
 export type TestCreateRecordingRuleRequestQueriesList =
   Array<TestCreateRecordingRuleRequestQueriesItemMap>;
 export interface TestCreateRecordingRuleRequest {
-  active?: boolean;
-  count?: boolean;
-  description?: string;
-  dest_data_source_uid?: string;
-  id?: string;
-  interval?: number;
-  name?: string;
-  prom_name?: string;
-  queries?: TestCreateRecordingRuleRequestQueriesList;
-  range?: number;
-  target_ref_id?: string;
+  active?: boolean | undefined;
+  count?: boolean | undefined;
+  description?: string | undefined;
+  dest_data_source_uid?: string | undefined;
+  id?: string | undefined;
+  interval?: number | undefined;
+  name?: string | undefined;
+  prom_name?: string | undefined;
+  queries?: TestCreateRecordingRuleRequestQueriesList | undefined;
+  range?: number | undefined;
+  target_ref_id?: string | undefined;
 }
 export interface UnstarQueryRequest {
   query_history_uid: string;
@@ -3054,22 +3056,22 @@ export interface UnstarQueryRequest {
 export type UpdateAnnotationRequestTagsList = Array<string>;
 export interface UpdateAnnotationRequest {
   annotation_id: string;
-  data?: unknown;
-  id?: number;
-  tags?: UpdateAnnotationRequestTagsList;
-  text?: string;
-  time?: number;
-  timeEnd?: number;
+  data?: unknown | undefined;
+  id?: number | undefined;
+  tags?: UpdateAnnotationRequestTagsList | undefined;
+  text?: string | undefined;
+  time?: number | undefined;
+  timeEnd?: number | undefined;
 }
 export type UpdateAnnotationByAnnotationIdRequestTagsList = Array<string>;
 export interface UpdateAnnotationByAnnotationIdRequest {
   annotation_id: string;
-  data?: unknown;
-  id?: number;
-  tags?: UpdateAnnotationByAnnotationIdRequestTagsList;
-  text?: string;
-  time?: number;
-  timeEnd?: number;
+  data?: unknown | undefined;
+  id?: number | undefined;
+  tags?: UpdateAnnotationByAnnotationIdRequestTagsList | undefined;
+  text?: string | undefined;
+  time?: number | undefined;
+  timeEnd?: number | undefined;
 }
 /** Target data query */
 export type CorrelationConfigUpdateDTOTargetMap = { [key: string]: unknown | undefined };
@@ -3077,54 +3079,54 @@ export type CorrelationConfigUpdateDTOTargetMap = { [key: string]: unknown | und
 export type CorrelationConfigUpdateDTOTransformationsList = Array<Transformation>;
 export interface CorrelationConfigUpdateDTO {
   /** Field used to attach the correlation link */
-  field?: string;
+  field?: string | undefined;
   /** Target data query */
-  target?: CorrelationConfigUpdateDTOTargetMap;
+  target?: CorrelationConfigUpdateDTOTargetMap | undefined;
   /** Source data transformations */
-  transformations?: CorrelationConfigUpdateDTOTransformationsList;
+  transformations?: CorrelationConfigUpdateDTOTransformationsList | undefined;
 }
 export interface UpdateCorrelationRequest {
   sourceUID: string;
   correlationUID: string;
-  config?: CorrelationConfigUpdateDTO;
+  config?: CorrelationConfigUpdateDTO | undefined;
   /** Optional description of the correlation */
-  description?: string;
+  description?: string | undefined;
   /** Optional label identifying the correlation */
-  label?: string;
-  type?: string;
+  label?: string | undefined;
+  type?: string | undefined;
 }
 export interface UpdateCorrelationResponseBody {
-  message?: string;
-  result?: Correlation;
+  message?: string | undefined;
+  result?: Correlation | undefined;
 }
 export interface UpdateCurrentOrgRequest {
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateCurrentOrgAddressRequest {
-  address1?: string;
-  address2?: string;
-  city?: string;
-  country?: string;
-  state?: string;
-  zipcode?: string;
+  address1?: string | undefined;
+  address2?: string | undefined;
+  city?: string | undefined;
+  country?: string | undefined;
+  state?: string | undefined;
+  zipcode?: string | undefined;
 }
 export type UpdateDataSourceByUIDRequestSecureJsonDataMap = { [key: string]: string | undefined };
 export interface UpdateDataSourceByUIDRequest {
   uid: string;
-  access?: string;
-  basicAuth?: boolean;
-  basicAuthUser?: string;
-  database?: string;
-  isDefault?: boolean;
-  jsonData?: unknown;
-  name?: string;
-  secureJsonData?: UpdateDataSourceByUIDRequestSecureJsonDataMap;
-  type?: string;
-  url?: string;
-  user?: string;
+  access?: string | undefined;
+  basicAuth?: boolean | undefined;
+  basicAuthUser?: string | undefined;
+  database?: string | undefined;
+  isDefault?: boolean | undefined;
+  jsonData?: unknown | undefined;
+  name?: string | undefined;
+  secureJsonData?: UpdateDataSourceByUIDRequestSecureJsonDataMap | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
+  user?: string | undefined;
   /** The previous version -- used for optimistic locking */
-  version?: number;
-  withCredentials?: boolean;
+  version?: number | undefined;
+  withCredentials?: boolean | undefined;
 }
 export interface UpdateDataSourceByUIDResponse {
   datasource: DataSource;
@@ -3137,202 +3139,202 @@ export interface UpdateDataSourceByUIDResponse {
 }
 export type DashboardACLUpdateItemRole = "None" | "Viewer" | "Editor" | "Admin";
 export interface DashboardACLUpdateItem {
-  permission?: number;
-  role?: DashboardACLUpdateItemRole | (string & {});
-  teamId?: number;
-  userId?: number;
+  permission?: number | undefined;
+  role?: DashboardACLUpdateItemRole | (string & {}) | undefined;
+  teamId?: number | undefined;
+  userId?: number | undefined;
 }
 export type UpdateFolderPermissionsRequestItemsList = Array<DashboardACLUpdateItem>;
 export interface UpdateFolderPermissionsRequest {
   folder_uid: string;
-  items?: UpdateFolderPermissionsRequestItemsList;
+  items?: UpdateFolderPermissionsRequestItemsList | undefined;
 }
 /** Kind of element to create, Use 1 for library panels or 2 for c. Description: - 1 - library panels */
 export type UpdateLibraryElementRequestKind = 1;
 export interface UpdateLibraryElementRequest {
   library_element_uid: string;
   /** ID of the folder where the library element is stored. Deprecated: use FolderUID instead */
-  folderId?: number;
+  folderId?: number | undefined;
   /** UID of the folder where the library element is stored. */
-  folderUid?: string;
+  folderUid?: string | undefined;
   /** Kind of element to create, Use 1 for library panels or 2 for c. Description: - 1 - library panels */
-  kind?: UpdateLibraryElementRequestKind | (number & {});
+  kind?: UpdateLibraryElementRequestKind | (number & {}) | undefined;
   /** The JSON model for the library element. */
-  model?: unknown;
+  model?: unknown | undefined;
   /** Name of the library element. */
-  name?: string;
-  uid?: string;
+  name?: string | undefined;
+  uid?: string | undefined;
   /** Version of the library element you are updating. */
-  version?: number;
+  version?: number | undefined;
 }
 export interface UpdateOrgRequest {
   org_id: number;
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateOrgAddressRequest {
   org_id: number;
-  address1?: string;
-  address2?: string;
-  city?: string;
-  country?: string;
-  state?: string;
-  zipcode?: string;
+  address1?: string | undefined;
+  address2?: string | undefined;
+  city?: string | undefined;
+  country?: string | undefined;
+  state?: string | undefined;
+  zipcode?: string | undefined;
 }
 export interface UpdateOrgQuotaRequest {
   org_id: number;
   quota_target: string;
-  limit?: number;
-  target?: string;
+  limit?: number | undefined;
+  target?: string | undefined;
 }
 export type UpdateOrgUserRequestRole = "None" | "Viewer" | "Editor" | "Admin";
 export interface UpdateOrgUserRequest {
   org_id: number;
   user_id: number;
-  role?: UpdateOrgUserRequestRole | (string & {});
+  role?: UpdateOrgUserRequestRole | (string & {}) | undefined;
 }
 export type UpdateOrgUserForCurrentOrgRequestRole = "None" | "Viewer" | "Editor" | "Admin";
 export interface UpdateOrgUserForCurrentOrgRequest {
   user_id: number;
-  role?: UpdateOrgUserForCurrentOrgRequestRole | (string & {});
+  role?: UpdateOrgUserForCurrentOrgRequestRole | (string & {}) | undefined;
 }
 export type UpdateProviderSettingsRequestSettingsMap = { [key: string]: unknown | undefined };
 export interface UpdateProviderSettingsRequest {
   key: string;
-  id?: string;
-  provider?: string;
-  settings?: UpdateProviderSettingsRequestSettingsMap;
+  id?: string | undefined;
+  provider?: string | undefined;
+  settings?: UpdateProviderSettingsRequestSettingsMap | undefined;
 }
 export interface UpdatePublicDashboardRequest {
   dashboardUid: string;
   uid: string;
-  accessToken?: string | Redacted.Redacted<string>;
-  annotationsEnabled?: boolean;
-  isEnabled?: boolean;
-  share?: string;
-  timeSelectionEnabled?: boolean;
+  accessToken?: string | Redacted.Redacted<string> | undefined;
+  annotationsEnabled?: boolean | undefined;
+  isEnabled?: boolean | undefined;
+  share?: string | undefined;
+  timeSelectionEnabled?: boolean | undefined;
 }
 export type UpdateRecordingRuleRequestQueriesItemMap = { [key: string]: unknown | undefined };
 export type UpdateRecordingRuleRequestQueriesList = Array<UpdateRecordingRuleRequestQueriesItemMap>;
 export interface UpdateRecordingRuleRequest {
-  active?: boolean;
-  count?: boolean;
-  description?: string;
-  dest_data_source_uid?: string;
-  id?: string;
-  interval?: number;
-  name?: string;
-  prom_name?: string;
-  queries?: UpdateRecordingRuleRequestQueriesList;
-  range?: number;
-  target_ref_id?: string;
+  active?: boolean | undefined;
+  count?: boolean | undefined;
+  description?: string | undefined;
+  dest_data_source_uid?: string | undefined;
+  id?: string | undefined;
+  interval?: number | undefined;
+  name?: string | undefined;
+  prom_name?: string | undefined;
+  queries?: UpdateRecordingRuleRequestQueriesList | undefined;
+  range?: number | undefined;
+  target_ref_id?: string | undefined;
 }
 export type UpdateRoleRequestPermissionsList = Array<Permission>;
 export interface UpdateRoleRequest {
   roleUID: string;
   description: string;
   displayName: string;
-  global?: boolean;
+  global?: boolean | undefined;
   group: string;
-  hidden?: boolean;
-  name?: string;
-  permissions?: UpdateRoleRequestPermissionsList;
+  hidden?: boolean | undefined;
+  name?: string | undefined;
+  permissions?: UpdateRoleRequestPermissionsList | undefined;
 }
 export type UpdateServiceAccountRequestRole = "None" | "Viewer" | "Editor" | "Admin";
 export interface UpdateServiceAccountRequest {
   serviceAccountId: number;
-  isDisabled?: boolean;
-  name?: string;
-  role?: UpdateServiceAccountRequestRole | (string & {});
+  isDisabled?: boolean | undefined;
+  name?: string | undefined;
+  role?: UpdateServiceAccountRequestRole | (string & {}) | undefined;
 }
 export type ServiceAccountProfileDTOAccessControlMap = { [key: string]: boolean | undefined };
 export type ServiceAccountProfileDTOTeamsList = Array<string>;
 export interface ServiceAccountProfileDTO {
-  accessControl?: ServiceAccountProfileDTOAccessControlMap;
-  avatarUrl?: string;
-  createdAt?: string;
-  id?: number;
-  isDisabled?: boolean;
-  isExternal?: boolean;
-  login?: string;
-  name?: string;
-  orgId?: number;
-  requiredBy?: string;
-  role?: string;
-  teams?: ServiceAccountProfileDTOTeamsList;
-  tokens?: number;
-  uid?: string;
-  updatedAt?: string;
+  accessControl?: ServiceAccountProfileDTOAccessControlMap | undefined;
+  avatarUrl?: string | undefined;
+  createdAt?: string | undefined;
+  id?: number | undefined;
+  isDisabled?: boolean | undefined;
+  isExternal?: boolean | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  orgId?: number | undefined;
+  requiredBy?: string | undefined;
+  role?: string | undefined;
+  teams?: ServiceAccountProfileDTOTeamsList | undefined;
+  tokens?: number | undefined;
+  uid?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export interface UpdateServiceAccountResponse {
-  id?: number;
-  message?: string;
-  name?: string;
-  serviceaccount?: ServiceAccountProfileDTO;
+  id?: number | undefined;
+  message?: string | undefined;
+  name?: string | undefined;
+  serviceaccount?: ServiceAccountProfileDTO | undefined;
 }
 export interface UpdateSignedInUserRequest {
-  email?: string;
-  login?: string;
-  name?: string;
-  theme?: string;
+  email?: string | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  theme?: string | undefined;
 }
 export interface UpdateTeamRequest {
   team_id: string;
-  email?: string;
-  name?: string;
+  email?: string | undefined;
+  name?: string | undefined;
 }
 export type UpdateTeamLBACRulesApiRequestRulesList = Array<TeamLBACRule>;
 export interface UpdateTeamLBACRulesApiRequest {
   uid: string;
-  rules?: UpdateTeamLBACRulesApiRequestRulesList;
+  rules?: UpdateTeamLBACRulesApiRequestRulesList | undefined;
 }
 export type UpdateTeamLBACRulesApiResponseRulesList = Array<TeamLBACRule>;
 export interface UpdateTeamLBACRulesApiResponse {
-  id?: number;
-  message?: string;
-  name?: string;
-  rules?: UpdateTeamLBACRulesApiResponseRulesList;
-  uid?: string;
+  id?: number | undefined;
+  message?: string | undefined;
+  name?: string | undefined;
+  rules?: UpdateTeamLBACRulesApiResponseRulesList | undefined;
+  uid?: string | undefined;
 }
 export interface UpdateTeamMemberRequest {
   team_id: string;
   user_id: number;
-  permission?: number;
+  permission?: number | undefined;
 }
 export type NavbarPreferenceBookmarkUrlsList = Array<string>;
 export interface NavbarPreference {
-  bookmarkUrls?: NavbarPreferenceBookmarkUrlsList;
+  bookmarkUrls?: NavbarPreferenceBookmarkUrlsList | undefined;
 }
 export interface QueryHistoryPreference {
-  homeTab?: string;
+  homeTab?: string | undefined;
 }
 export type UpdateTeamPreferencesRequestTheme = "light" | "dark" | "system";
 export interface UpdateTeamPreferencesRequest {
   team_id: string;
   /** The numerical :id of a favorited dashboard Deprecated: Use HomeDashboardUID instead */
-  homeDashboardId?: number;
-  homeDashboardUID?: string;
-  language?: string;
-  navbar?: NavbarPreference;
-  queryHistory?: QueryHistoryPreference;
-  theme?: UpdateTeamPreferencesRequestTheme | (string & {});
+  homeDashboardId?: number | undefined;
+  homeDashboardUID?: string | undefined;
+  language?: string | undefined;
+  navbar?: NavbarPreference | undefined;
+  queryHistory?: QueryHistoryPreference | undefined;
+  theme?: UpdateTeamPreferencesRequestTheme | (string & {}) | undefined;
   /** Any IANA timezone string (e.g. America/New_York), 'utc', 'browser', or empty string */
-  timezone?: string;
-  weekStart?: string;
+  timezone?: string | undefined;
+  weekStart?: string | undefined;
 }
 export interface UpdateUserRequest {
   user_id: number;
-  email?: string;
-  login?: string;
-  name?: string;
-  theme?: string;
+  email?: string | undefined;
+  login?: string | undefined;
+  name?: string | undefined;
+  theme?: string | undefined;
 }
 export interface UpdateUserEmailRequest {}
 export interface UpdateUserEmailResponse {}
 export interface UpdateUserQuotaRequest {
   user_id: number;
   quota_target: string;
-  limit?: number;
-  target?: string;
+  limit?: number | undefined;
+  target?: string | undefined;
 }
 export interface UploadSnapshotRequest {
   /** Session UID of a session */
@@ -4545,7 +4547,7 @@ export const getAnnotation: API.OperationMethod<
   span: "GetAnnotation",
 }));
 
-export type GetAnnotationsError = GrafanaOpError;
+export type GetAnnotationsError = BadRequest | GrafanaOpError;
 /** Find Annotations. Starting in Grafana v6.4 regions annotations are now returned in one entity that now includes the timeEnd property. */
 export const getAnnotations: API.OperationMethod<
   GetAnnotationsRequest,
@@ -4555,7 +4557,7 @@ export const getAnnotations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8704, __c272, 0) as any as S.Schema<GetAnnotationsRequest>,
   output: __S(8706, __c272, 2) as any as S.Schema<GetAnnotationsResponse>,
-  errors: [UnknownGrafanaError],
+  errors: [BadRequest, UnknownGrafanaError],
   protocol: GrafanaProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -10372,6 +10374,7 @@ function __c145(j: number): any {
         S.Struct({
           emails: S.optional(S.String),
           id: S.optional(S.String),
+          uid: S.optional(S.String),
           useEmailsFromReport: S.optional(S.Boolean),
         }).pipe(T.Http({ method: "POST", uri: "/reports/email", code: 200 })),
       ).annotate({ identifier: "SendReportRequest" });
@@ -12319,6 +12322,7 @@ function __c271(j: number): any {
         S.Struct({
           alertId: S.optional(S.Number),
           alertName: S.optional(S.String),
+          alertUID: S.optional(S.String),
           avatarUrl: S.optional(S.String),
           created: S.optional(S.Number),
           dashboardId: S.optional(S.Number),
@@ -12350,7 +12354,6 @@ function __c272(j: number): any {
           to: S.optional(S.Number.pipe(T.Query())),
           userId: S.optional(S.Number.pipe(T.Query())),
           userUID: S.optional(S.String.pipe(T.Query())),
-          alertId: S.optional(S.Number.pipe(T.Query())),
           alertUID: S.optional(S.String.pipe(T.Query())),
           dashboardId: S.optional(S.Number.pipe(T.Query())),
           dashboardUID: S.optional(S.String.pipe(T.Query())),
