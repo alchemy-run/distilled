@@ -11,7 +11,9 @@
     "check": "pnpm run tsc && pnpm run lint && pnpm run fmt:check"
   },
   "dependencies": {
-    "@typescript/native-preview": "latest"
+    "@distilled.cloud/aws": "^1.0.0-rc.18",
+    "@typescript/native-preview": "latest",
+    "effect": "^4.1.2"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

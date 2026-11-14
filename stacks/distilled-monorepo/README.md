@@ -46,11 +46,27 @@ it ever reaching a terminal or a CI log.
 |---|---|---|---|
 | `STACKS_CLOUDFLARE_API_TOKEN` | secret | minted here | submodules stack, website |
 | `STACKS_CLOUDFLARE_ACCOUNT_ID` | secret | the deploying profile | submodules stack, website |
-| `ALCHEMY_GITHUB_TOKEN` | secret | `DISTILLED_REPOS_PAT`, else the deploying profile | submodules stack |
+| `ALCHEMY_GITHUB_TOKEN` | secret | `DISTILLED_REPOS_PAT`, else left as it is | submodules stack |
 | `ALCHEMY_VERSION_BOT_ID` | secret | public app id, default `3107227` | release, website |
 | `ALCHEMY_VERSION_BOT_PRIVATE_KEY` | secret | `ALCHEMY_VERSION_BOT_PRIVATE_KEY` | release, website |
 | `DISCORD_WEBHOOK_URL` | secret | `DISCORD_WEBHOOK_URL` | release |
 | `DISTILLED_REPOS_OWNER` | variable | `DISTILLED_REPOS_OWNER`, default `distilled-mirror` | submodules stack |
+
+One credential goes to a mirror, not to this repository:
+
+| name | kind | repository | source | read by |
+|---|---|---|---|---|
+| `AWS_ACCESS_KEY_ID` | secret | `distilled-mirror/spec-mirror-aws` | minted here | `update-specs.yml` |
+| `AWS_SECRET_ACCESS_KEY` | secret | `distilled-mirror/spec-mirror-aws` | minted here | `update-specs.yml` |
+
+The AWS mirror also mirrors the EventBridge `aws.events` schema registry: the
+schemas of the events AWS services send, such as an SES bounce or complaint.
+The registry is an AWS API and takes signed requests only. The stack creates
+the IAM user `distilled-spec-mirror-aws`, which can call
+`schemas:ListSchemas` and `schemas:DescribeSchema` on `aws.events` and nothing
+else, mints its access key, and writes the key into the mirror's Actions
+secrets. AWS returns the secret half only at creation, so to rotate the key,
+replace the `spec-mirror-aws-key` resource.
 
 The two sourced from the environment cannot be minted through any API, and
 GitHub never hands an existing secret's value back, so the stack treats each as
@@ -132,13 +148,15 @@ over `.env` unless `--env-file` is given, in which case the file wins.
 DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/…
 ```
 
-`DISTILLED_REPOS_PAT` is optional — without it the deploying profile's own
-signed-in GitHub token is stored, which is correct when that profile was signed
-in as the org. It is the one credential that cannot be minted through an API,
-because GitHub has no endpoint for creating PATs.
+`DISTILLED_REPOS_PAT` is optional, like the secrets above: without it the
+repository keeps the `ALCHEMY_GITHUB_TOKEN` it already has. Pass it only to
+rotate that token. GitHub has no endpoint for creating PATs, so the stack
+cannot mint it.
 
 The admin profile needs Cloudflare permission to *create API tokens* — the
 Global API Key, or a token with `User > API Tokens > Write` and
 `Account > API Tokens > Write`. A standard "Edit Cloudflare Workers" token
 cannot mint other tokens. It also needs admin on `alchemy-run/distilled`, to
-converge the repository settings.
+converge the repository settings, and on `distilled-mirror/spec-mirror-aws`,
+to write its secrets. Its AWS credentials need IAM permission to create a user,
+its inline policy and an access key.
